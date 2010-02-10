@@ -1,0 +1,5 @@
+= Welcome to the Scheme Working Groups =
+
+This is the initial starting page for the SWGs. There is little information here. Please populate.
+
+For a complete list of local wiki pages, see TitleIndex.
