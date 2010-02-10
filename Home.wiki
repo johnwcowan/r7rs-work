@@ -3,23 +3,3 @@
 This is the initial starting page for the SWGs. There is little information here. Please populate.
 
 For a complete list of local wiki pages, see TitleIndex.
-
-== Working Group 1 ([[http://www.scheme-reports.org/2009/working-group-1-charter.html|Charter]]) ==
-
-[[MemberPagesWokringGroupOne|Member Page]]
-
-[[WorkingGroupOneProcess|Process]]
-
-'''Issue Summaries and Proposals'''
-
-    * ModuleSystems
-        * ModulesAndPackagesArcfide
-    * CharacterSets
-        * UnicodeCowan
-    * CaseSensitivity
-    * [[ExceptionsErrorsAndConditions|Exceptions, Conditions, and Error handling]]
-
-
-== Working Group 2 ==
-
-[[MemberPagesWorkingGroupTwo|Member Page]]
