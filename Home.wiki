@@ -3,3 +3,11 @@
 This is the initial starting page for the SWGs. There is little information here. Please populate.
 
 For a complete list of local wiki pages, see TitleIndex.
+
+== Working Group 1 ==
+
+MemberPagesWokringGroupOne
+
+== Working Group 2 ==
+
+MemberPagesWorkingGroupTwo
