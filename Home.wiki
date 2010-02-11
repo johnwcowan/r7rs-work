@@ -6,8 +6,9 @@ For a complete list of local wiki pages, see TitleIndex.
 
 == Working Group 1 ==
 
-MemberPagesWokringGroupOne
+[[http://www.scheme-reports.org/2009/working-group-1-charter.html|Working Group 1 Charter]][[BR]]
+[[MemberPagesWokringGroupOne|Member Page]]
 
 == Working Group 2 ==
 
-MemberPagesWorkingGroupTwo
+[[MemberPagesWorkingGroupTwo|Member Page]]
