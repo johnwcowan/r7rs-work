@@ -22,6 +22,7 @@ Below are some common arguments for each side.
     * possibly easier for beginners not expecting case distinctions to be significant
     * allows using different cases as stylistic differences in source
     * prevents using separate identifiers which differ only in case
+    * less confusion when code is read aloud, e.g. variable names
 
 '''Pro-preserving:'''
 
