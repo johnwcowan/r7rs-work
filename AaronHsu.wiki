@@ -1,0 +1,14 @@
+= Aaron W. Hsu Member Page =
+
+== Contact Information ==
+
+Nickname: arcfide[[BR]]
+Email: arcfide@sacrideo.us[[BR]]
+IRC: arcfide {!FreeNode,OFTC,IRCnet}[[BR]]
+Phone: (812) 339-5113
+
+== About Me ==
+
+I'm a Scheme programmer, and have been for quite a while. I'm also a bit of an academic, but I was that way long before I entered the University system. I learned Scheme pretty early on and whenever I came upon some cool language with feature X, I was always kept back because I ended up being able to implement a nicer, cleaner version in Scheme that allowed me to integrate that solution or feature with the other features of other languages. At some point along this arc I became a professional programmer and did contract based programming and consulting. I did almost all of it in Scheme. I still use Scheme in my work, both industry and academic, almost as the sole language. I do have an agenda here, but I believe that the agenda is pretty much in line with the charter: I want to help to evolve Scheme into a language that is not only eminently practical, but also practical in the most elegant sense. I hope that we can avoid the relatively easy pitfall of feature creep and ensure a Scheme that is minimal, while at the same time being intensely practical and effective. When I say minimal, I mean a Scheme that doesn't do more than it should, but doesn't lack where it shouldn't.
+ 
+And that's my little speech. I'm not here to change Scheme. I really just want to standardize the clean and neat evolution of Scheme that we can point to today.
