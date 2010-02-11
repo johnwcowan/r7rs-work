@@ -18,6 +18,7 @@ Below are some common arguments for each side.
 '''Pro-folding:'''
 
     * R[0-5]RS and IEEE Scheme compatible
+    * code from R5RS and before continues to work
     * possibly easier for beginners not expecting case distinctions to be significant
     * allows using different cases as stylistic differences in source
     * prevents using separate identifiers which differ only in case
