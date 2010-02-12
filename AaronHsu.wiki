@@ -13,6 +13,17 @@ I'm a Scheme programmer, and have been for quite a while. I'm also a bit of an a
  
 And that's my little speech. I'm not here to change Scheme. I really just want to standardize the clean and neat evolution of Scheme that we can point to today.
 
+== Some Projects of Mine ==
+
+Descot::
+  A combination of metalanguage, protocol, server, api and other components that forms a framework for the distributing, packaging, sharing, and indexing of code libraries. This includes an SRDF encoding of RDF into s-expressions.
+Arctic Repository::
+  A set of libraries for Chez Scheme, including somewhat portable libraries written by myself.
+Sockets::
+  A portable Sockets Library for Scheme written in R6RS.
+
+Various other miscellaneous libraries of varying usefulness. 
+
 == PGP Key == 
 
 {{{
