@@ -32,3 +32,4 @@ Below are some common arguments for each side.
     * using different cases for the same identifier can be confusing
     * transliterations of math formulae may be easier to read with case distinctions
     * more general - can write a (begin/ci ...) macro to implement the alternative
+    * allows using separate identifiers which differ only in case (for example capitalizing a class but not an instance)
