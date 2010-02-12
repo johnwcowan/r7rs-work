@@ -7,3 +7,4 @@ Working Group Chair: [[:AlexShinn|Alex Shinn]]
 Members:
 
   * [[:AaronHsu|Aaron W. Hsu]]
+  * [[:ArthurGleckler|Arthur A. Gleckler]]
