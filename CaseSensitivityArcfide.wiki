@@ -12,7 +12,7 @@
 
   * (Scheme Core) Case behavior by default is implementation dependent
   * (Scheme Core) Implementations must implement both case folding and case preserving modes
-  * (Scheme Core) Implementations must recognize the flags #!case-fold and #!no-case-fold
+  * (Scheme Core) Implementations must recognize the flags #!fold-case and #!no-fold-case
   * (Scheme Core) Support the `||` case-preserving reader syntax, but do not have them delimit atoms
   * (Scheme Core) Implementations must recognize the parameter `case-sensitive` values `#t` and `#f`
   * (Scheme Core) The module system should provide some means for controlling case sensitivity at a suitable level of granularity
