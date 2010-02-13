@@ -12,10 +12,10 @@
 
   * (Scheme Core) Case behavior by default is implementation dependent
   * (Scheme Core) Implementations must implement both case folding and case preserving modes
-  * (Scheme Core) Implementations must recognize the flags `#!fold-case` and `#!no-fold-case`
-  * (Scheme Core) Support the `||` case-preserving reader syntax, but do not have them delimit atoms
+  * (Scheme Core) Implementations must recognize the flags #!case-fold and #!no-case-fold
   * (Scheme Core) Implementations must recognize the parameter `case-sensitive` values `#t` and `#f`
-  * (Scheme Core) The module system should provide some means for controlling case sensitivity at a suitable level of granularity
+  * (Scheme Corep The module system should provide some means for controlling case sensitivity at a suitable level of granularity
+  * (Scheme 7) Case is preserved by default
   * If the character set used by a Scheme implementation is Unicode, then the official Unicode case folding algorithm should be used
 
 == Clarifications ==
@@ -28,14 +28,10 @@ I would like to avoid creation of "compatibility" layers in Scheme implementatio
 
 The use of a parameter allows for much nicer interactions with the reader at a Scheme Core level without complicating the semantics. It also means that you have more control at run-time of the reader without making this more complex. It permits an acceptable level of control in Scheme Core, while scaling up to phasing levels and procedural macros in Scheme 7. 
 
+Because it makes sense to specify more exactly certain behaviors in Scheme 7 than it does in Scheme Core, Case sensitivity should be enabled by default there, as it provides a more general behavior and is easier to implement. Additionally, it is more suitable in the context of Scheme 7's target audience.
+
 == Issues ==
 
 Should `case-sensitive` interact with the flags? That is, if a reader or load call encounters a flag, should the parameter be altered? Should the parameter's value be altered only in the call or should it persist?
 
-  At the moment I am inclined to think that it is okay for the two to interact, and probably a good thing, provided that the extent of that interaction remains limited by the call. That is, the value of the parameter should be reset to the incoming value on return. This is because the scope of that flag should only extend to the end of the file, and should not have an effect on continuing computation in the environment that made the call. (Aaron W. Hsu)
-
-== Endorsements ==
-
-John Cowan endorses this page, with the following exception:
-
- * The Unicode folding algorithm should be used whether the Scheme is Unicode-based or not, as it's trivial to subset.  It maps about 1000 individual characters to other characters and about 100 more characters to two-character sequences (such as ß to ss).
+  At the moment I am inclined to think that it is okay for the two to interact, and probably a good thing, provided that the extent of that interaction remains limited by the call. That is, the value of the parameter should be reset to the incoming value on return. This is because the scope of that flag should only extend to the end of the file, and should not have an effect on continuing computation in the environment that made the call.
