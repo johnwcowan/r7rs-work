@@ -14,7 +14,8 @@
   * (Scheme Core) Implementations must implement both case folding and case preserving modes
   * (Scheme Core) Implementations must recognize the flags #!case-fold and #!no-case-fold
   * (Scheme Core) Implementations must recognize the parameter `case-sensitive` values `#t` and `#f`
-  * (Scheme Corep The module system should provide some means for controlling case sensitivity at a suitable level of granularity
+  * (Scheme Core) The module system should provide some means for controlling case sensitivity at a suitable level of granularity
+  * (Scheme Core) The || syntax allows for specifying a case sensitive range of characters to the reader, so '|Abc|d|Ef| would evaluate to a symbol whose string representation is "AbcdEf". 
   * (Scheme 7) Case is preserved by default
   * If the character set used by a Scheme implementation is Unicode, then the official Unicode case folding algorithm should be used
 
