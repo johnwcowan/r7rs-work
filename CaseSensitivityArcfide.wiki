@@ -43,4 +43,4 @@ John Cowan endorses this page, with the following exceptions:
 
  * The proposal for Scheme 7 is premature
  * The parameter should be named "fold-case"
- * The Unicode folding algorithm should be used whether the Scheme is Unicode-based or not, as there are no folding algorithms for other codesets and it's trivial to subset the Unicode one.
+ * The Unicode folding algorithm should be used whether the Scheme is Unicode-based or not, as there are no folding algorithms for other coded character sets and it's trivial to subset the Unicode one.
