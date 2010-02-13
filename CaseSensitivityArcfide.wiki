@@ -36,3 +36,11 @@ Because it makes sense to specify more exactly certain behaviors in Scheme 7 tha
 Should `case-sensitive` interact with the flags? That is, if a reader or load call encounters a flag, should the parameter be altered? Should the parameter's value be altered only in the call or should it persist?
 
   At the moment I am inclined to think that it is okay for the two to interact, and probably a good thing, provided that the extent of that interaction remains limited by the call. That is, the value of the parameter should be reset to the incoming value on return. This is because the scope of that flag should only extend to the end of the file, and should not have an effect on continuing computation in the environment that made the call.
+
+== Endorsements ==
+
+John Cowan endorses this page, with the following exceptions:
+
+* The proposal for Scheme 7 is premature
+* The parameter should be named "fold-case"
+* The Unicode folding algorithm should be used whether the Scheme is Unicode-based or not.
