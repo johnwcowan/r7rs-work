@@ -29,7 +29,9 @@ Below are some common arguments for each side.
     * R6RS compatible
     * the popular default in a number of modern implementations
     * easier compatibility with external data (XML, some filesystems, FFIs)
+    * users from other languages usually expect case sensitivity
     * using different cases for the same identifier can be confusing
     * transliterations of math formulae may be easier to read with case distinctions
     * more general - can write a (begin/ci ...) macro to implement the alternative
     * allows using separate identifiers which differ only in case (e.g., capitalizing a class but not an instance)
+    * simpler to implement in the presence of complex character sets
