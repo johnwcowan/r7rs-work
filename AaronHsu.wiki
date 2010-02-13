@@ -1,5 +1,11 @@
 = Aaron W. Hsu Member Page =
 
+== Proposals ==
+
+ModulesAndPackagesArcfide[[BR]]
+CaseSensitivityArcfide[[BR]]
+MacrosArcfide
+
 == Contact Information ==
 
 Nickname: arcfide[[BR]]
