@@ -32,7 +32,7 @@ The use of a parameter allows for much nicer interactions with the reader at a S
 
 Should `case-sensitive` interact with the flags? That is, if a reader or load call encounters a flag, should the parameter be altered? Should the parameter's value be altered only in the call or should it persist?
 
-  At the moment I am inclined to think that it is okay for the two to interact, and probably a good thing, provided that the extent of that interaction remains limited by the call. That is, the value of the parameter should be reset to the incoming value on return. This is because the scope of that flag should only extend to the end of the file, and should not have an effect on continuing computation in the environment that made the call.
+  At the moment I am inclined to think that it is okay for the two to interact, and probably a good thing, provided that the extent of that interaction remains limited by the call. That is, the value of the parameter should be reset to the incoming value on return. This is because the scope of that flag should only extend to the end of the file, and should not have an effect on continuing computation in the environment that made the call. (Aaron W. Hsu)
 
 == Endorsements ==
 
