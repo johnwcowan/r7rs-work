@@ -4,7 +4,7 @@ I am a member of Working Group 1.
 
 My home page is here: http://speechcode.com/
 
-I love Scheme, and I do all my personal programming projects in Scheme.
+I love Scheme, and I do all my personal programming projects in Scheme.  I'm sneaking Scheme in here and there in side projects at work, too.
 
 Here's what I wrote to describe myself when I submitted my name to vote on R6RS:
 
