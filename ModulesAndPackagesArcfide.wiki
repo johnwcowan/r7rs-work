@@ -1,0 +1,67 @@
+= Modules and Packages in Scheme =
+
+'''An analysis by Aaron W. Hsu'''
+
+''Please note that these are just ideas and a tentative proposal. More discussion and debate may reveal a more preferable course of action.''
+
+== Introduction ==
+
+One of the biggest issues I think the Working Groups face is how we deal with modules. Previously I have argued that a syntactic module system is sufficient^[1]^. While some of those arguments may be able to hold far enough to matter, after discussing the issue with some very bright people, I have come to the conclusion that this is not how we should tackle the problem, and it is not suitable either for standardization or for engineering a good Scheme implementation.
+
+== Define Module... ==
+
+Before going further, let me first address what I feel are the two possibly disjoint and antithetical needs that drive a module system. Primarily for the working groups, I believe a module system is meant to provide for a public description of the interface and use of a particular body of code. That is, it is essentially the metadata of that code and how it interacts with its world. In this sense, the module system is neither a part of the language, nor really a module of Scheme code, but rather, a packaging language for portably describing the interactions and properties of a block of Scheme code. However, there is another important reason for modules. While we have procedural abstraction, data abstraction, and syntactic abstraction, we want to also have a concept of modular abstraction. In other words, a module system can also be viewed as either a run-time or compile-time means of abstracting the visibility and scoping of identifiers and their definitions in various ways. The needs of these two systems, which I will call the Packaging and Module systems, respectively, are quite different, and result in different designs.
+
+== Needs of Packaging ==
+
+For a packaging system, portable, stable, yet extensible interaction is better. You want something reliable and predictable, over something very flexible. Portability is the main goal, and this means that having the language outside of the Scheme language is important. You also do not want to parse the Scheme code to understand the metadata. You want to be able to work with the metadata without ever having to handle the code itself. That is, you really want to be able to reason about packages as their own entities, rather than as a form in the Scheme Language.
+
+== Needs of a Syntactic Module ==
+
+For a module system, you really want the opposite. You want something that is very tied to the language, so that you can take advantage of Scheme's extensibility to develop new forms. You want to be able to embed the module forms inside other Scheme code, nest them, and do other things that you really don't want to do with the packaging system. You want this module system to be just another feature of the language, so that you get the most integration. For syntactic modules, you want to be able to generate them from other macros, thus extending the features that you can get, while keeping the initial core simple. For something like run-time modules, you want a procedural interaction that occurs while the code is running, not before.
+
+== Existing Systems ==
+
+Java's packaging format, Scheme48's module system, and R6RS' library format are arguably forms of packaging systems. R6RS however, suffers from requiring evaluation of the source code. PLT has units, and Chez Scheme has its module format, the former being an example of run-time modules (a la ML's functors), and the later being an example of syntactic modules.
+
+Something like Chez's module system can be mostly, or completely, implemented in a proper procedural macro system. PLT's Units requires a little more infrastructure, but I am not familiar enough to comment on those. Something like a packaging system takes a little more effort to implement, but can be written simply as a careful expansion to some other core form. A packaging system would ideally be able to map from itself to many other module systems, meaning that it needs to carry with it enough semantic information to be useful.
+
+== The Working Groups ==
+
+With something like the WGs, we have one group that needs a simple but usable packaging system. The other group would benefit from a more extensive and thorough coverage of module capabilities. The question then, is how to provide both of these in a unified system that doesn't break one or the other. This is why I now believe that a dual-format system is superior to a single format.
+
+Regarding WG1, it is not obvious to me that a syntactic module system serves the purpose of the charter's module system. Instead, it seems that a simplified version of a packaging format suitable for the complexity of the language is in order. Regarding WG2, I believe that we would be remiss to not provide at least both a full and well defined packaging system, as well as a clean and useful syntactic module system. How can we make both of these work?
+
+== Proposal ==
+
+To approach this problem, I will start by suggesting a complete system for WG2, and then outline how this complete system may be simplified to satisfy the needs of WG1. I am still working on some of the details of this project, and that's why I have very little code to show for it at the moment, but I have worked with it enough to be fairly certain that this idea works well.
+
+Some of you may or may not be aware of my work on Descot. Descot, among other things, defines a metalanguage for describing Scheme libraries. It's a fairly extensive system, though the public version currently lacks one essential feature for this task. This metalanguage is written in the language of RDF, and essentially defines a vocabulary for speaking about Scheme code. RDF is really not much more than a set of vocabulary terms and a way of reasoning about them, where the end result is an abstract directed graph that is the metadata of some object or resource. I suggest that we use this as a base. In the WG2 packaging system, there is fairly rigorous semantic definition of what a package is, what is means, and how it works. There is currently an SRDF syntax for describing this information, but it is not suitable for use as a packaging language. I am currently working on a consistent packaging language to go on top of the underlying framework provided by Descot.
+
+This approach as two benefits. The first is that it is straightforward to work with. The consistent abstract concept of packages as metadata graphs makes it easy to work with the packages. The RDF backing gives us a means of easily permitting extensions in a meaningful way that doesn't require rewriting the whole system.
+
+In daily use, these foundations will be no more relevant than the formal semantics of our language definition. However, for implementors and people who care about extending the system, they now have a way to do so reliably and conveniently, without going outside of the specification to do so.
+
+In addition to this, I propose that we implement a simple, easy to use syntactic module system a la Chez's module form. This will pick up where the packaging system leaves off, and fill the gap. I hope to have a version of this out very soon.
+
+We may also want to consider Units a la PLT and determine whether they warrant inclusion here under the heading of module systems or not. I don't know.
+
+Given this, WG2 will have a convenient, extensible language for packaging scheme code that does not require the code to be evaluated before it is examined, and it will have a powerful, expressive syntactic module system that is simple and easy to use. This I believe satisfies the needs of WG2 regarding modules.
+
+Now, obviously, such a system is hardly acceptable as a module system for WG1. However, because the packaging system is formalized in WG2 on the basis of RDF and vocabularies and Schemas, it's easy to get a nice, compatible packaging language for WG1. Simply take the syntax from WG2, and drop a suitable amount of the vocabulary (and hence, most of the syntax). Don't provide or define the RDF foundation, and instead, simply provide a meaning to what the language states about the code. The simplified vocabulary won't require much advanced semantics, and if necessary, a direct transformation can be provided that results in runnable Scheme code.
+
+== Conclusion ==
+
+Again, this is all far too vague to be directly usable at the moment, but I do have enough designed over here that if the syntax over top of the underlying framework can be designed appropriately, I think this is a very viable solution.
+
+== Further Reading ==
+
+Oscar Waddell and R. Kent Dybvig, [[http://www.cs.indiana.edu/~dyb/pubs/popl99.pdf|Extending the scope of syntactic abstraction]]. Conference Record of POPL'99: The 26th ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages. January 1999
+
+  The benefits of module systems and lexically scoped syntactic abstraction (macro) facilities are well-established in the literature. This paper presents a system that seamlessly integrates modules and lexically scoped macros. The system is fully static, permits mutually recursive modules, and supports separate compilation. We show that more dynamic module facilities are easily implemented at the source level in the extended language supported by the system.
+
+-----
+
+== References ==
+
+[1] http://my.opera.com/arcfide/blog/2009/10/14/a-philosophy-on-scheme-modules
