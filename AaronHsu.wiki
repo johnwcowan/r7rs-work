@@ -4,7 +4,8 @@
 
 ModulesAndPackagesArcfide[[BR]]
 CaseSensitivityArcfide[[BR]]
-MacrosArcfide
+MacrosArcfide[[BR]]
+ChezReplSemantics
 
 == Contact Information ==
 
