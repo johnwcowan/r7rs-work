@@ -9,3 +9,4 @@ Members:
   * [[:AaronHsu|Aaron W. Hsu]]
   * [[:ArthurGleckler|Arthur A. Gleckler]]
   * [[:BrianHarvey|Brian Harvey]]
+  * [[:DavidRush|David Rush]]
