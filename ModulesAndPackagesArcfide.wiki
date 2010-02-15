@@ -1,75 +1,58 @@
 = Modules and Packages in Scheme =
 
-'''An proposal by Aaron W. Hsu'''
+'''An analysis by Aaron W. Hsu'''
 
-''I believe that I am settling in one some concepts more definitely, so I would appreciate comments on this proposal.''
+''Please note that these are just ideas and a tentative proposal. More discussion and debate may reveal a more preferable course of action.''
 
 == Introduction ==
 
-One of the biggest issues I think the Working Groups face is how we deal with modules. There are a number of [[ModuleSystems|issues to discuss]] and this proposal introduces a fairly comprehensive proposal that incorporates modules, but also extends to touch on issues which may relate to or be affect by modules.
+One of the biggest issues I think the Working Groups face is how we deal with modules. Previously I have argued that a syntactic module system is sufficient^[1]^. While some of those arguments may be able to hold far enough to matter, after discussing the issue with some very bright people, I have come to the conclusion that this is not how we should tackle the problem, and it is not suitable either for standardization or for engineering a good Scheme implementation.
 
-== Issues ==
+== Define Module... ==
 
-Modules at their core are a means of providing abstraction over bindings. They provide the ability to abstract over more than run time bindings, and allow one to abstract over syntax bindings as well.
+Before going further, let me first address what I feel are the two possibly disjoint and antithetical needs that drive a module system. Primarily for the working groups, I believe a module system is meant to provide for a public description of the interface and use of a particular body of code. That is, it is essentially the metadata of that code and how it interacts with its world. In this sense, the module system is neither a part of the language, nor really a module of Scheme code, but rather, a packaging language for portably describing the interactions and properties of a block of Scheme code. However, there is another important reason for modules. While we have procedural abstraction, data abstraction, and syntactic abstraction, we want to also have a concept of modular abstraction. In other words, a module system can also be viewed as either a run-time or compile-time means of abstracting the visibility and scoping of identifiers and their definitions in various ways. The needs of these two systems, which I will call the Packaging and Module systems, respectively, are quite different, and result in different designs.
 
-However, modules serve another purpose as compilation units. They represents libraries of code, and make it possible to separately compile code and then link them together later. 
+== Needs of Packaging ==
 
-The following proposal hopes to address the following issues:
+For a packaging system, portable, stable, yet extensible interaction is better. You want something reliable and predictable, over something very flexible. Portability is the main goal, and this means that having the language outside of the Scheme language is important. You also do not want to parse the Scheme code to understand the metadata. You want to be able to work with the metadata without ever having to handle the code itself. That is, you really want to be able to reason about packages as their own entities, rather than as a form in the Scheme Language.
 
-  * Creating useful single compilation units for dealing with libraries.
-  * Usefully provide a means of handling syntactic abstraction
-  
+== Needs of a Syntactic Module ==
+
+For a module system, you really want the opposite. You want something that is very tied to the language, so that you can take advantage of Scheme's extensibility to develop new forms. You want to be able to embed the module forms inside other Scheme code, nest them, and do other things that you really don't want to do with the packaging system. You want this module system to be just another feature of the language, so that you get the most integration. For syntactic modules, you want to be able to generate them from other macros, thus extending the features that you can get, while keeping the initial core simple. For something like run-time modules, you want a procedural interaction that occurs while the code is running, not before.
+
 == Existing Systems ==
 
-Java's packaging format, Scheme48's module system, and R6RS' library format are arguably forms of static, out-of-band systems. R6RS however, suffers from requiring evaluation of the source code. PLT has units, and Chez Scheme has its module format, the former being an example of run-time modules (a la ML's functors), and the later being an example of syntactic modules.
+Java's packaging format, Scheme48's module system, and R6RS' library format are arguably forms of packaging systems. R6RS however, suffers from requiring evaluation of the source code. PLT has units, and Chez Scheme has its module format, the former being an example of run-time modules (a la ML's functors), and the later being an example of syntactic modules.
 
-There are three interesting module systems I would like to examine. R6RS and Scheme48 modules are relatively static, while Chez Scheme modules presents a fairly different bent. R6RS libraries are a half-in half-out sort of part of the language. They are not language forms in the sense that any macro may generate them. However, there is not built in standard means of separating a code's implementation from its interface. Thus, in R6RS libraries, you must include the code along with the interface to the code in a single top-level form that has a special meaning to implementations. Scheme48's module system is a little more outside of the system in that it has a separate means of defining interface and implementation of an interface, and is almost a mini-language or packaging system that happens to reference or potentially embed some code. Chez Scheme's module system is a syntactic form that is used by the expander to control visibility of bindings. It support separate compilation, but does not support separate interfaces and implementation by default. However, because Chez Scheme's modules do not suffer from the top-level only status of R6RS libraries, it is possible to extend Chez Scheme's modules to support the separation of interface from implementation. In fact, it is possible to use modules in any sort of macro expansion in many interesting ways.
+Something like Chez's module system can be mostly, or completely, implemented in a proper procedural macro system. PLT's Units requires a little more infrastructure, but I am not familiar enough to comment on those. Something like a packaging system takes a little more effort to implement, but can be written simply as a careful expansion to some other core form. A packaging system would ideally be able to map from itself to many other module systems, meaning that it needs to carry with it enough semantic information to be useful.
 
-Another interesting point of R6RS libraries is their use of implicit exports. Because macro bindings in the `export` form of an R6RS library are not marked as syntax explicitly, it is almost impossible for an implementation to statically analyze what additional bindings must be visible to the outside world in the case that the given exported macro expands to these definitions. This makes it very difficult for implementations to identify certain code in a library as unused, and hence, eliminate it upon compilation, resulting in potentially much smaller compiled files. Implicit exports do not see very widespread support, and indeed, R6RS libraries are the only place where I am aware that they see popular use.
+== The Working Groups ==
+
+With something like the WGs, we have one group that needs a simple but usable packaging system. The other group would benefit from a more extensive and thorough coverage of module capabilities. The question then, is how to provide both of these in a unified system that doesn't break one or the other. This is why I now believe that a dual-format system is superior to a single format.
+
+Regarding WG1, it is not obvious to me that a syntactic module system serves the purpose of the charter's module system. Instead, it seems that a simplified version of a packaging format suitable for the complexity of the language is in order. Regarding WG2, I believe that we would be remiss to not provide at least both a full and well defined packaging system, as well as a clean and useful syntactic module system. How can we make both of these work?
 
 == Proposal ==
 
-Given the above module systems, and given that R6RS has already defined a library system, the goal of this proposal is to address issues in the R6RS library system and hopefully simplify other semantic ambiguities of the language at the same time. To that end, I propose two conceptually different systems be standardized: a library syntax and a module syntax.
+To approach this problem, I will start by suggesting a complete system for WG2, and then outline how this complete system may be simplified to satisfy the needs of WG1. I am still working on some of the details of this project, and that's why I have very little code to show for it at the moment, but I have worked with it enough to be fairly certain that this idea works well.
 
-=== Library Syntax ===
+Some of you may or may not be aware of my work on Descot. Descot, among other things, defines a metalanguage for describing Scheme libraries. It's a fairly extensive system, though the public version currently lacks one essential feature for this task. This metalanguage is written in the language of RDF, and essentially defines a vocabulary for speaking about Scheme code. RDF is really not much more than a set of vocabulary terms and a way of reasoning about them, where the end result is an abstract directed graph that is the metadata of some object or resource. I suggest that we use this as a base. In the WG2 packaging system, there is fairly rigorous semantic definition of what a package is, what is means, and how it works. There is currently an SRDF syntax for describing this information, but it is not suitable for use as a packaging language. I am currently working on a consistent packaging language to go on top of the underlying framework provided by Descot.
 
-The library syntax takes up where R6RS left off, and serves the same purposes as the R6RS library syntax. Specifically, it is meant to manage compilation namespaces and provide a means of grouping together self-contained units of code. This proposal suggests to keep the existing R6RS library form and its semantics with the following changes:
+This approach as two benefits. The first is that it is straightforward to work with. The consistent abstract concept of packages as metadata graphs makes it easy to work with the packages. The RDF backing gives us a means of easily permitting extensions in a meaningful way that doesn't require rewriting the whole system.
 
-  * Disallow implicit exports.
-  * Introduce an `indirect-export` form.
-  * Introduce a `co-export` form.
-  * Allow local imports.
-  * Remove the `for` syntax.
-  * Specify implicit phasing for imports.
+In daily use, these foundations will be no more relevant than the formal semantics of our language definition. However, for implementors and people who care about extending the system, they now have a way to do so reliably and conveniently, without going outside of the specification to do so.
 
-Implicit exports will be replaced by an `indirect-export` form. This form `(indirect-export` ''export'' ''indirect-export'' ...`)` indicates that should the ''export'' be exported, then the ''indirect-export''s will be implicity exports as well. This makes explicit the dependencies that syntax have.
+In addition to this, I propose that we implement a simple, easy to use syntactic module system a la Chez's module form. This will pick up where the packaging system leaves off, and fill the gap. I hope to have a version of this out very soon.
 
-Co-exports allow you to group a series of exports so that they can be exported all at once. This is used, for example, in macros that may define a number of variables to be exported. The form `(co-export` ''primary-export'' ''secondary-exports'' ...`)` indicates that if ''primary-export'' is exported, then all of the ''secondary-exports'' are likewise exported. 
+We may also want to consider Units a la PLT and determine whether they warrant inclusion here under the heading of module systems or not. I don't know.
 
-Local imports integrate with `module`s and permit better control over the visibility of identifiers. 
+Given this, WG2 will have a convenient, extensible language for packaging scheme code that does not require the code to be evaluated before it is examined, and it will have a powerful, expressive syntactic module system that is simple and easy to use. This I believe satisfies the needs of WG2 regarding modules.
 
-Implicit phasing simplifies the syntax of imports and has other benefits documented elsewhere [1].
+Now, obviously, such a system is hardly acceptable as a module system for WG1. However, because the packaging system is formalized in WG2 on the basis of RDF and vocabularies and Schemas, it's easy to get a nice, compatible packaging language for WG1. Simply take the syntax from WG2, and drop a suitable amount of the vocabulary (and hence, most of the syntax). Don't provide or define the RDF foundation, and instead, simply provide a meaning to what the language states about the code. The simplified vocabulary won't require much advanced semantics, and if necessary, a direct transformation can be provided that results in runnable Scheme code.
 
-=== Module Syntax ===
+== Conclusion ==
 
-I propose a module system that is equivalent to the Chez Scheme module system [2], but with the following changes:
-
-  * import specifiers are as in R6Rs library specifiers, and no more.
-    * This removes some of the specifiers from the syntax.
-  * Remove explicit indirect exports from the export forms.
-  * Use `indirect-export` forms, instead.
-  * Obey the use of `co-export`. 
-  
-`module` serves the purpose of providing a lexically context sensitive module form that can be generated by syntax and is simple to use. It allows for controlling syntactic abstraction in powerful ways, and also enables recursive module definitions, and a number of separate module syntaxes to be built on top of it. 
-
-The semantics of `module` are also well defined and easier to specify compared to the other means of local syntax abstraction such as `let-syntax` enabling us to remove these ambiguous and hard to define structures.
-
-=== Additional Proposals ===
-
-A number of things relate directly to this proposal, so I include them here. 
-
-  * Remove `let-syntax` and family.
-  * Provide an `include` form and a `source-directories` parameter.
+Again, this is all far too vague to be directly usable at the moment, but I do have enough designed over here that if the syntax over top of the underlying framework can be designed appropriately, I think this is a very viable solution.
 
 == Further Reading ==
 
@@ -77,18 +60,8 @@ Oscar Waddell and R. Kent Dybvig, [[http://www.cs.indiana.edu/~dyb/pubs/popl99.p
 
   The benefits of module systems and lexically scoped syntactic abstraction (macro) facilities are well-established in the literature. This paper presents a system that seamlessly integrates modules and lexically scoped macros. The system is fully static, permits mutually recursive modules, and supports separate compilation. We show that more dynamic module facilities are easily implemented at the source level in the extended language supported by the system.
 
-Implicit phasing for library dependencies 
-by Ghuloum, Abdulaziz, Ph.D., INDIANA UNIVERSITY, 2008, 161 pages; 3344623
-
-  The main objective of this thesis is a system that integrates a powerful library system and a powerful syntactic abstraction facility without compromising the essential properties of these systems. In this system, a library serves as a building block for language extensions, and its exported definitions can be used anywhere in the importing library without restrictions. The run-time variable definitions and the compile-time syntax definitions provided by a library are unified and can be used in the importing library's run-time and compile-time code alike. As a unified and integrated framework, all run-time facilities are extended to compile time, and all compile-time facilities are similarly available at run time.
-
-  The dependencies between libraries is specified in two parts. For each library, the user specifies only the import dependencies. The compile-time, expand-time, and run-time dependencies between libraries are derived automatically by the system based on the program source code, which is used as an implicit specification for phase dependencies.
-
-  Compared to traditional systems that require that the user explicitly specify phasing dependencies, the implicit phasing system (1) is easier to use, (2) derives more precise dependency information, (3) is efficient, and (4) is straightforward to add on top of existing hygienic syntactic abstraction systems.
-
 -----
 
 == References ==
 
-[1] http://gradworks.umi.com/33/44/3344623.html [[BR]]
-[2] http://www.scheme.com/csug8/syntax.html#./syntax:h5
+[1] http://my.opera.com/arcfide/blog/2009/10/14/a-philosophy-on-scheme-modules
