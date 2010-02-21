@@ -1,6 +1,6 @@
-Principle #1: No small Scheme implementation is required to support any specific Unicode character or repertoire (collection of characters), with the obvious exception of the ASCII repertoire.
+Principle 1: No small Scheme implementation is required to support any specific Unicode character or repertoire (collection of characters), with the obvious exception of the ASCII repertoire.
 
-Principle #2: Unicode is the predominant character standard today, and a small Scheme implementation's treatment of characters must conform to it, insofar as this does not conflict with Principle #1.
+Principle 2: Unicode is the predominant character standard today, and a small Scheme implementation's treatment of characters must conform to it, insofar as this does not conflict with Principle 1.
 
 From these principles I draw the following detailed conclusions (where "Scheme" means "small Scheme, as proposed by me"):
 
