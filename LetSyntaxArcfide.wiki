@@ -1,0 +1,11 @@
+= `let-syntax` Proposal =
+
+By Aaron W. Hsu
+
+== Proposal ==
+
+Remove the `let-syntax` form.
+
+== Rationale ==
+
+`let-syntax` is difficult to specify correctly and can be superseded by the availability of ModulesAndPackagesArcfide. This removes some of the ambiguities and complexities from the R6RS expansion process.
