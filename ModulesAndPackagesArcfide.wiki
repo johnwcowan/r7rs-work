@@ -31,7 +31,9 @@ The following module syntax is mostly based on R6RS with some modifications. The
 ''library-name'' ---> `(`''identifier,,1,,''  ''identifier,,2,,'' ... [''version'']`)` | `()`[[BR]]
 ''version'' ---> `(`''sub-version'' ...`)`[[BR]]
 ''sub-version'' ---> ''exact-non-negative-integer''[[BR]]
-''export-spec'' ---> ''identifier'' | `(syntax` ''identifier'' ...`)` | `(rename` `(`''identifier,,1,,'' ''identifier,,2,,''`)` ...`)`[[BR]]
+''export-spec'' ---> ''identifier'' [[BR]]
+                | `(syntax` ''identifier,,1,,'' ''identifier,,2,,'' ...`)` [[BR]]
+                | `(rename` `(`''identifier,,1,,'' ''identifier,,2,,''`)` ...`)`[[BR]]
 ''import-spec'' ---> ''library-reference'' [[BR]]
                 | `(library` ''library-reference''`)`[[BR]]
                 | `(only` ''import-spec'' ''identifier'' ...`)` [[BR]]
@@ -62,6 +64,10 @@ The following module syntax is mostly based on R6RS with some modifications. The
   * `drop-prefix` import syntax is added
   * `alias` import syntax is added
   * `syntax` is added for exports.
+
+=== Simplifications for WG1 ===
+
+  * Don't use versioning
 
 === Description ===
 
