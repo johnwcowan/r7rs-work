@@ -22,25 +22,66 @@ Another interesting point of R6RS libraries is their use of implicit exports. Be
 
 == Proposal ==
 
-The following proposal is based on the Chez Scheme module form.
+The following module syntax is mostly based on R6RS with some modifications. The semantics have changed considerably. 
 
 === Module Syntax ===
 
-''module'' ---> `(module` [''library-name''] `(` ''export-spec'' ...`)` ''definitions'' ... ''expressions'' ...`)`[[BR]]
+''module'' ---> `(module` ''library-name'' `(export` ''export-spec'' ...`)` ''definitions'' ... ''expressions'' ...`)`[[BR]]
 ''import'' ---> `(`[[`import`|`import-only`]] ''import-spec'' ...`)`[[BR]]
-''library-name'' ---> ''identifier''[[BR]]
-''export-spec'' ---> ''identifier'' | `(`''identifier'' ...`)`[[BR]]
-''import-spec'' ---> ''library-name'' [[BR]]
+''library-name'' ---> `(`''identifier,,1,,''  ''identifier,,2,,'' ... [''version'']`)` | `()`[[BR]]
+''version'' ---> `(`''sub-version'' ...`)`[[BR]]
+''sub-version'' ---> ''exact-non-negative-integer''[[BR]]
+''export-spec'' ---> ''identifier'' | `(syntax` ''identifier'' ...`)` | `(rename` `(`''identifier,,1,,'' ''identifier,,2,,''`)` ...`)`[[BR]]
+''import-spec'' ---> ''library-reference'' [[BR]]
+                | `(library` ''library-reference''`)`[[BR]]
                 | `(only` ''import-spec'' ''identifier'' ...`)` [[BR]]
                 | `(except` ''import-spec'' ''identifier'' ...`)` [[BR]]
-                | `(add-prefix` ''import-spec'' ''identifier''`)` [[BR]]
+                | `(prefix` ''import-spec'' ''identifier''`)` [[BR]]
                 | `(drop-prefix` ''import-spec'' ''identifier''`)`[[BR]]
                 | `(alias` ''import-spec'' `(`''identifier,,1,,'' ''identifier,,2,,''`)` ...`)`[[BR]]
-                | `(rename` ''import-spec'' `(`''identifier,,1,,'' ''identifier,,2,,''`)` ...`)`
+                | `(rename` ''import-spec'' `(`''identifier,,1,,'' ''identifier,,2,,''`)` ...`)`[[BR]]
+''library-reference'' ---> `(`''identifier,,1,,'' ''identifier,,2,,'' ... [''version-reference'']`)`[[BR]]
+''version-reference'' ---> `(`''sub-version-reference,,1,,'' ... ''sub-version-reference,,n,,''`)` [[BR]]
+                | `(and` ''version-reference'' ...`)` [[BR]]
+                | `(or` ''version-reference'' ...`)` [[BR]]
+                | `(not` ''version-reference''`)`[[BR]]
+''sub-version-reference'' ---> ''sub-version'' [[BR]]
+                | `(>=` ''sub-version''`)` [[BR]]
+                | `(<=` ''sub-version''`)` [[BR]]
+                | `(and` ''sub-version-reference'' ...`)` [[BR]]
+                | `(or` ''sub-version-reference'' ...`)` [[BR]]
+                | `(not` ''sub-version-reference''`)`[[BR]]
+
+=== Changes from R6RS ===
+
+  * `module` is now used instead of `library`.
+  * The `for` syntax is obsoleted.
+  * The name of a module can be `()`
+  * `import` is now a separate form
+  * `import-only` is added
+  * `drop-prefix` import syntax is added
+  * `alias` import syntax is added
+  * `syntax` is added for exports.
 
 === Description ===
 
-Please see the [[http://www.scheme.com/csug8/syntax.html#./syntax:h5|Chez Scheme User's Guide Version 8]] for more information about the currently proposed semantics.
+The basic syntax of the module system is the same as R6RS with a few changes. Notably, libraries which do not use `for` import levels are expected to work simply by changing the `library` to `module` in the library form. 
+
+Anonymous modules are now supported by the use of an empty name `()` which indicates that the library should be instantiated at the phase in which the `module` form is found and the bindings exported by the module from should be implicity imported.
+
+The `module` form is syntactic in its nature, and can occur in any place definitions may occur. Named modules have names that are visible in the scope at which they occur. Macros can generate module forms, for example, enabling micro-module programming for the controlling of syntax and scope. 
+
+The import form is now a separate form, and can occur anywhere definitions may occur. It imports the bindings exported by the libraries it specifies into the scope where it occurs. 
+
+The `for` syntax is obsoleted in favor of another proposal to add `meta` which enables import forms to insert definitions into any phasing level without the need for an explicit syntax to do so.
+
+The `import-only` form works like the `import` form except that it cleans the environment of the phase into which it is inserting definitions so that only the bindings imported from the import-only form are visible at the point where it is called. This allows one to create a clean module declaration.
+
+Modules introduce a new lexical scope, but they are within a parent scope, which means that they inherit definitions and bindings that are outside of the module form, unless an `import-only` form is used within the module's new scope.
+
+`syntax` in the export form allows for explicit macro dependencies to be specified. Implicit exports are still permitted, but should an user wish to do so, the `syntax` form allows the user to specify the precise dependencies of a macro that is exported.
+
+`drop-prefix` and `alias` are there for completeness in the import specification. 
 
 === Accompanying Proposals ===
 
@@ -51,13 +92,33 @@ Please see the [[http://www.scheme.com/csug8/syntax.html#./syntax:h5|Chez Scheme
 
 == Rationale ==
 
-The `module` form is significantly simpler than R6RS' module form, but is capable of expressing the same sorts of abstractions. It is easier to compile, extensible, supports separate compilation and phase separation. It is possible for an implementation to support other features that are desirable from other module systems as well, such as evaluating code inside the environment of a module, or grabing the exported environment of a module. 
+=== Name Change ===
 
-== Unanswered Questions ==
+Since modules are syntactic now, it makes sense to give them a name that distinguishes them from the R6RS form of libraries. It is also the more generic, general term, and more clearly indicates the more general nature of the form.
 
-  * How easy is it to convert code using R6RS libraries to this module form?
-  * Should a syntax which supports library versions and list based library names be used?
-  * Should WG2 devise a specific behavior for searching and loading code that enables automatic importing for modules?
+=== Removal of `For` syntax ===
+
+Removing the `for` syntax makes sense in the presence of `meta`, because the `for` syntax would be an otherwise special case of `meta`. Since it is possible to achieve with `meta` what can be achieved with `for`, except more generally, there is no loss.
+
+=== Anonymous Modules ===
+
+Anonymous modules allow us to use modules in a micro manner which gives us important benefits for controlling and abstracting our programs. Moreover, it obsoletes `let-syntax` and serves to make the language simpler.
+
+=== Local imports ===
+
+With a syntactic module system, it makes sense to enable local imports. Local imports give more precise control over the visibility of bindings. They also allow macros to generate import forms without requiring them to general an otherwise useless module form. 
+
+=== Import-only ===
+
+Since modules are now scoped and fully inside the language, this means that without an `import-only` form or the equivalent, it would be impossible to clearly indicate a specific environment, since the module could otherwise inherit any number of environments from its parent scope. 
+
+=== alias and drop-prefix ===
+
+These exist for symmetry and completeness.
+
+=== Explicit Syntax Dependency Exports ===
+
+Implicit exports are a well known inefficiency in R6RS library forms that make it very difficult, and often impossible, to perform certain sorts of optimizations. A module from should enable the production of better code if convenient. The explicit syntax gives the programmer precise control over the bindings that will be visible implicitly in an expansion of the macro call, enabling both better error reporting and better code generation. 
 
 == Further Reading ==
 
