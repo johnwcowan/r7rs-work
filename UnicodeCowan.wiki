@@ -10,7 +10,7 @@ From these principles I draw the following detailed conclusions (where "Scheme" 
 
       An ASCII-only Scheme satisfies this requirement automatically, provided it does not deliberately scramble the natural result.  (Schemes on EBCDIC systems already have ASCII conversion tables readily available.)
 
-      If the implementation supports non-Unicode characters (ones with bucky bits, e.g.), then `char->integer` must return an exact integer greater than `#x10FFFF` when applied to such characters.
+      If the implementation supports non-Unicode characters, then `char->integer` must return an exact integer greater than `#x10FFFF` when applied to such characters.  For example, characters with "bucky bits" could be implemented in this way.
 
    2. The `integer->char` procedure, when applied to an exact integer that `char->integer` returns when applied to some character `c`, must return `c`; that is, `(integer->char (char->integer c)) ==> c` for any character `c`.
 
