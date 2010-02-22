@@ -4,7 +4,7 @@ Principle 2: Unicode is the predominant character standard today, and a small Sc
 
 From these principles I draw the following detailed conclusions (where "Scheme" means "small Scheme, as proposed by me"):
 
-   1. The `char->integer` procedure must return an exact integer between `0` and `#xD7FF` or between `#xE000` and `#x10FFF` when applied to a character supported by the implementation and belonging to the Unicode repertoire.  This integer must be the Unicode scalar value of the character.  Integers between `#xD800` and `#xDFFF` do not correspond to any Unicode character.
+   1. The `char->integer` procedure must return an exact integer between `0` and `#xD7FF` or between `#xE000` and `#x10FFFF` when applied to a character supported by the implementation and belonging to the Unicode repertoire.  This integer must be the Unicode scalar value of the character.  Integers between `#xD800` and `#xDFFF` do not correspond to any Unicode character.
 
       This is independent of the implementation's internal representation.  For example, a Scheme supporting a repertoire of basic Latin and modern Greek characters only might use the ISO 8859-7 encoding internally, in which lower-case lambda is represented as `#xEB`, but char->integer must still return `#x03BB` on that character.
 
