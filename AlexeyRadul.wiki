@@ -1,3 +1,9 @@
+= Alexey Radul's member page =
+
+I am a member of working group 1.
+
+My home page is here: http://web.mit.edu/~axch/www/
+
 I volunteered for this working group because Scheme has made my life
 unbearable.  Scheme is so bad that I can't bear to work in it, and yet
 Scheme is so good that I can't bear to work in anything else either.
