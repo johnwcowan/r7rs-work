@@ -10,3 +10,5 @@ Members:
   * [[:ArthurGleckler|Arthur A. Gleckler]]
   * [[:BrianHarvey|Brian Harvey]]
   * [[:DavidRush|David Rush]]
+  * [[:AlexeyRadul|Alexey Radul]]
+
