@@ -6,9 +6,10 @@ Working Group Chair: [[:AlexShinn|Alex Shinn]]
 
 Members:
 
-  * [[:AaronHsu|Aaron W. Hsu]]
+  * [[:SteveGanz|Steve Ganz]]
   * [[:ArthurGleckler|Arthur A. Gleckler]]
   * [[:BrianHarvey|Brian Harvey]]
-  * [[:DavidRush|David Rush]]
+  * [[:AaronHsu|Aaron W. Hsu]]
   * [[:AlexeyRadul|Alexey Radul]]
+  * [[:DavidRush|David Rush]]
 
