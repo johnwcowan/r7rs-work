@@ -8,7 +8,7 @@ For a complete list of local wiki pages, see TitleIndex.
 
 [[MemberPagesWokringGroupOne|Member Page]]
 
-'''Discussions'''
+'''Issue Summaries'''
 
     * [CaseSensitivity]
 
