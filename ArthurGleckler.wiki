@@ -4,7 +4,9 @@ I am a member of Working Group 1.
 
 My home page is here: http://speechcode.com/
 
-I love Scheme, and I write all my personal programming projects in Scheme.  I'm sneaking Scheme in here and there in side projects at work, too.
+I love Scheme, and I write all my personal programming projects in
+Scheme.  I'm sneaking Scheme in here and there in side projects at
+work, too.
 
 Here's what I wrote to describe myself when I submitted my name to vote on R6RS:
 
@@ -25,4 +27,8 @@ Here's what I wrote to describe myself when I submitted my name to vote on R6RS:
   always been and the practical everyday programming language that we
   have always wanted Scheme to be.
 
-I'm looking forward to making the Scheme standard even better in this round.
+I'm looking forward to making the Scheme standard even better in this
+round.
+
+On EditingTracPagesInEmacs, I describe how to use trac-wiki.el
+to view and edit pages on our Trac site directly from Emacs.
