@@ -4,6 +4,8 @@
 
 ''Please note that these are just ideas and a tentative proposal. More discussion and debate may reveal a more preferable course of action.''
 
+''Ed (Aaron): I still feel like this proposal does not adequately simplify the language, and there are strong issues to deal with regarding problems that I have discovered in the use of Meta and Import. As such, I do not feel that this is a properly representative proposal, but until I have the time to improve it, I will leave it up here.''
+
 == Introduction ==
 
 One of the biggest issues I think the Working Groups face is how we deal with modules. I have argued that a syntactic module system is sufficient^[1]^. While I have gone back and forth on this issue, the more and more I discuss things, the more it seems that making modules syntax instead of a sort of out-of-band library form as R6RS has real merit. Moreover, I believe that all of my previous concerns about packaging system concerns are properly answerable (discussions have yielded convincing enough arguments for their implementability) provided that we agree that all libraries that are useful to use are those which have terminating expansions.
