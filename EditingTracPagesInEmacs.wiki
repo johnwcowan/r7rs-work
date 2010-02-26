@@ -4,4 +4,4 @@ The trac-wiki.el package allows one to view and edit wiki pages in
 Trac directly from Emacs.  I've gotten it working with GNU Emacs
 23.1.1, but I had to patch it first.  Here's what I did:
 
- * I installed http://www.emacswiki.org/emacs/xml-rpc.el xml-rpc.el.
+ * I installed xml-rpc.el, http://www.emacswiki.org/emacs/xml-rpc.el .
