@@ -20,6 +20,8 @@ you are ready.  To use trac-wiki.el, load it, then do:
   RET
   http://trac.sacrideo.us/wg RET
   y
+  <username> RET
+  <password> RET
   WikiStart RET
 }}}
 
