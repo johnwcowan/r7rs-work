@@ -15,11 +15,13 @@ Trac directly from Emacs.  I've gotten it working with GNU Emacs
 Once you've installed xml-rpc.el and the patched trac-wiki.el in your,
 you are ready.  To use trac-wiki.el, load it, then do:
 
+{{{
   M-x trac-wiki RET
   RET
   http://trac.sacrideo.us/wg RET
   y
   WikiStart RET
+}}}
 
 This will take you to the Trac wiki's home page.  Use C-h m for
 details about more commands you can use to get info about pages,
