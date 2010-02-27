@@ -26,7 +26,7 @@ All information taken from Christaian Quiennic's, __Lisp In Small Pieces__, 1994
 ||Reference||x||
 ||Value||x||
 ||Modification||{{{(set! x ...)}}}||
-||Extension||no||
+||Extension||{{{(set! x ...)}}}||
 ||Definition||no, {{{define == set!}}}||
 
 = Hyperstatic Global Environment =
