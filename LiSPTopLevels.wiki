@@ -1,0 +1,11 @@
+{{{
+#!comment
+page in progress
+}}}
+
+All information taken from Christaian Quiennic's, __Lisp In Small Pieces__, 1994 edition.
+
+= Universal Global Environment =
+= Frozen Global Environment =
+= Automatically Extendable Global Environment =
+= Hyperstatic Global Environment =
