@@ -102,6 +102,19 @@ module form must be chosen.  Modulo keyword names, options include:
     the same as above, the shortcut syntax allows the body to have
     only one level of indentation instead of two.
 
+One frequent debate with respect to syntax is whether to
+keep the module declaration and source in one file or to
+split it across separate files.  However, whichever
+module system is used this largely boils down to user
+preference.  The syntaxes which include an implicit body
+suggest a single file, but so long as an (include <file>)
+or similar form is provided, any such system can move the
+body to a separate file.  From the other side, syntaxes
+with no <body> suggest an `include' is required, but all
+such systems provide a way to inline the body in the
+module declaration (`begin' in Scheme48 and `body' in Chibi).
+So this preference shouldn't affect your choice of syntax.
+
 Existing Proposals:
 
   * [[http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-10.html#node_chap_7|R6RS]] (the default choice)
