@@ -6,34 +6,33 @@ implementations and come up with a proposal that can gain widespread
 use.
 
 Module systems serve the purpose of encapsulating code and managing
-namespaces.  Although `lambda` lets us manage local identifiers,
-it doesn't allow us to encapsulate macros, and it wants for a
+namespaces.  Although LAMBDA gives lets us manage local identifiers,
+it does't allow us to encapsulate macros, and it wants for a
 friendlier interface for module-like uses.  Some of the existing
 general strategies for implementations include:
 
   * StaticModules
 
-    Many implementations provide a static module syntax that cannot
-    be extended.  They just provide the basics needed for importing and
+    Many implementations provide a static module syntax which cannot
+    be extended.  It just provide the basics needed for importing and
     exporting (optionally renamed) identifiers from other modules.
-    The module form itself, and any auxiliary forms such as `import`
-    and `export`, may or may not be expandable as syntax.
+    The module form itself, and any auxiliary forms such as `import'
+    and `export' may or may not be expandable as syntax.
 
   * SyntacticModules
 
     A natural approach to creating modules is to build them on top of,
     and allow them to be composed with, macros.  It is relatively easy
     to implement this for variables only (not importing or exporting
-    syntax), and one sample implementation can be found in
-    [[http://mumble.net/~campbell/scheme/lexmod.tar.gz|lexmod]].
+    syntax), and one sample implementation can be found in lexmod.
     Allowing importing and exporting syntax requires non-portable
     extensions.  Chez Scheme uses this approach.
 
   * ConfigModules
 
     An alternative approach to extending a module system is to use a
-    DSL for the module syntax that can extend itself.  Scheme48 and
-    Chibi take this approach, supplying a DSL that is essentially
+    DSL for the module syntax which can extend itself.  Scheme48 and
+    Chibi take this approach, supplying a DSL which is essentially
     Scheme itself.  This allows equivalent extensibility to
     SyntacticModules while keeping the module extensions clearly
     separate from the language they describe, and making it easier to
@@ -41,8 +40,8 @@ general strategies for implementations include:
 
   * FirstClassEnvironments
 
-    First-class environments that can be passed as a second argument
-    to `eval` (or the equivalent) can be used to implement modules
+    First-class environments which can be passed as a second argument
+    to `eval' (or the equivalent) can be used to implement modules
     directly.  If macros are not first-class, the environments would
     need some interface for passing back and forth macro bindings.
     The disadvantage of this approach is that many implementations do
@@ -56,7 +55,7 @@ module form must be chosen.  Modulo keyword names, options include:
     (module <declarations ...)
     <body> ...
 
-    Seen in most other programming languages, the `module` form is
+    Seen in most other programming languages, the `module' form is
     just a single declaration, and the rest of the file contains the
     actual code.  This has the distinct disadvantage that it can't be
     implemented easily in many strategies, or on top of existing
@@ -77,7 +76,7 @@ module form must be chosen.  Modulo keyword names, options include:
     (module (<declarations> ...) <body> ...)
 
     This avoids the issues above, simply by delimiting the
-    declarations with a pair of parentheses so they are all known in
+    declarations with a pair of parenthesis so they are all known in
     advance.  If they are static (can't be expanded from macros), then
     a simple rule of allowing and ignoring any unknown declaration
     keyword allows for easy forward-compatibility and
@@ -98,30 +97,10 @@ module form must be chosen.  Modulo keyword names, options include:
 
     (module <declarations> ... ---- <body> ...)
 
-    where `----` is some arbitrary symbol chosen to act as a delimiter
+    where `----' is some arbitrary symbol chosen to act as a delimiter
     between the declarations and the body of the library.  Otherwise
     the same as above, the shortcut syntax allows the body to have
     only one level of indentation instead of two.
-
-In addition, with all of these syntaxes, some declarations
-that are frequently used may get fixed positions.  The name
-of the module is almost universally the first argument after
-the `module` keyword.  In some systems, such as Chez and
-Chicken, the exports list is given as the second positional
-argument.
-
-One frequent debate with respect to syntax is whether to
-keep the module declaration and source in one file or to
-split them across separate files.  However, whichever
-module system is used this largely boils down to user
-preference.  The syntaxes which include an implicit body
-suggest a single file, but so long as an (include <file>)
-or similar form is provided, any such system can move the
-body to a separate file.  From the other side, syntaxes
-with no <body> suggest an `include` is required, but all
-such systems provide a way to inline the body in the
-module declaration (`begin` in Scheme48 and `body` in Chibi).
-So this preference shouldn't affect your choice of syntax.
 
 Existing Proposals:
 
