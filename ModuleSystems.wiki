@@ -1,0 +1,110 @@
+As the charter states, "the purpose of this work is to facilitate
+sharing of Scheme code."  To this effect, a module system is
+explicitly given as a requirement in the charter.  We need to consider
+all the different types of module systems supported by R5RS and R6RS
+implementations and come up with a proposal that can gain widespread
+use.
+
+Module systems serve the purpose of encapsulating code and managing
+namespaces.  Although LAMBDA gives lets us manage local identifiers,
+it does't allow us to encapsulate macros, and it wants for a
+friendlier interface for module-like uses.  Some of the existing
+general strategies for implementations include:
+
+  * StaticModules
+
+    Many implementations provide a static module syntax which cannot
+    be extended.  It just provide the basics needed for importing and
+    exporting (optionally renamed) identifiers from other modules.
+    The module form itself, and any auxiliary forms such as `import'
+    and `export' may or may not be expandable as syntax.
+
+  * SyntacticModules
+
+    A natural approach to creating modules is to build them on top of,
+    and allow them to be composed with, macros.  It is relatively easy
+    to implement this for variables only (not importing or exporting
+    syntax), and one sample implementation can be found in lexmod.
+    Allowing importing and exporting syntax requires non-portable
+    extensions.  Chez Scheme uses this approach.
+
+  * ConfigModules
+
+    An alternative approach to extending a module system is to use a
+    DSL for the module syntax which can extend itself.  Scheme48 and
+    Chibi take this approach, supplying a DSL which is essentially
+    Scheme itself.  This allows equivalent extensibility to
+    SyntacticModules while keeping the module extensions clearly
+    separate from the language they describe, and making it easier to
+    statically analyze modules.
+
+  * FirstClassEnvironments
+
+    First-class environments which can be passed as a second argument
+    to `eval' (or the equivalent) can be used to implement modules
+    directly.  If macros are not first-class, the environments would
+    need some interface for passing back and forth macro bindings.
+    The disadvantage of this approach is that many implementations do
+    not support first-class environments.
+
+Whatever implementation strategy is used, a syntax for the standard
+module form must be chosen.  Modulo keyword names, options include:
+
+  * Unwrapped:
+
+    (module <declarations ...)
+    <body> ...
+
+    Seen in most other programming languages, the `module' form is
+    just a single declaration, and the rest of the file contains the
+    actual code.  This has the distinct disadvantage that it can't be
+    implemented easily in many strategies, or on top of existing
+    module systems.
+
+  * Simple wrapper:
+
+    (module <declarations> ... <body> ...)
+
+    Used in the R6RS proposal and many Scheme implementations, this is
+    simple but opens questions of whether declarations may be expanded
+    from macros, and if so makes any static analysis of the module
+    impossible without expanding the body.  Sometimes disliked because
+    it requires indenting the body of the module.
+
+  * Delimited wrapper:
+
+    (module (<declarations> ...) <body> ...)
+
+    This avoids the issues above, simply by delimiting the
+    declarations with a pair of parenthesis so they are all known in
+    advance.  If they are static (can't be expanded from macros), then
+    a simple rule of allowing and ignoring any unknown declaration
+    keyword allows for easy forward-compatibility and
+    implementation-specific extensions.
+
+  * Declaration-only:
+
+    (module <declarations> ...)
+
+    The module form only allows declarations - any code needs to be
+    specified with declarations such as (include <file>) or (body
+    <code> ...).  This is the syntax used in Scheme48 and
+    Chibi-Scheme.  It is equivalent in expressiveness to the delimited
+    wrapper approach, trading an additional level of indentation for
+    no extra parens around the declarations.
+
+  * Declaration-only with embedded body shortcut:
+
+    (module <declarations> ... ---- <body> ...)
+
+    where `----' is some arbitrary symbol chosen to act as a delimiter
+    between the declarations and the body of the library.  Otherwise
+    the same as above, the shortcut syntax allows the body to have
+    only one level of indentation instead of two.
+
+Existing Proposals:
+
+  * [[http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-10.html#node_chap_7|R6RS]] (the default choice)
+
+  * ModulesAndPackagesArcfide
+
