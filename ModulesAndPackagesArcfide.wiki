@@ -90,5 +90,5 @@ by Ghuloum, Abdulaziz, Ph.D., INDIANA UNIVERSITY, 2008, 161 pages; 3344623
 
 == References ==
 
-[1] http://gradworks.umi.com/33/44/3344623.html[[BR]]
+[1] http://gradworks.umi.com/33/44/3344623.html [[BR]]
 [2] http://www.scheme.com/csug8/syntax.html#./syntax:h5
