@@ -8,10 +8,13 @@ For a complete list of local wiki pages, see TitleIndex.
 
 [[MemberPagesWokringGroupOne|Member Page]]
 
-'''Issue Summaries'''
+'''Issue Summaries and Proposals'''
 
-    * [ModuleSystems]
-    * [CaseSensitivity]
+    * ModuleSystems
+        * ModulesAndPackagesArcfide
+    * CharacterSets
+        * UnicodeCowan
+    * CaseSensitivity
 
 
 == Working Group 2 ==
