@@ -15,6 +15,7 @@ For a complete list of local wiki pages, see TitleIndex.
     * CharacterSets
         * UnicodeCowan
     * CaseSensitivity
+    * [[ExceptionsErrorsAndConditions|Exceptions, Conditions, and Error handling]]
 
 
 == Working Group 2 ==
