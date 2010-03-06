@@ -1,0 +1,17 @@
+= Exceptions, Errors, and Conditions =
+
+== Introduction ==
+
+Nearly all Scheme implementations provide some notion of error handling. We should consider these systems and their ramifications. This page is meant to serve as an index for proposals as well as summaries of existing systems.
+
+== Proposals ==
+
+''None, yet.''
+
+== R6RS Exception and Condition System ==
+
+== Traditional Chez Scheme Error System ==
+
+== Scheme48 Condition and Error System ==
+
+== PLT Scheme Condition and Error System ==
