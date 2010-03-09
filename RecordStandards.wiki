@@ -71,5 +71,9 @@ Here's a list of the features provided by different kinds of standard record sys
 == (rnrs records inspection 6) is procedural.  It extends (srfi 99 records inspection) as follows: ==
  * Procedures to extract sealedness, opaqueness, and nongenerative id from an RTD; these are optional in SRFI-99
 
+= Issues and Discussions =
+
+  * EfficiencyConcerns
+  * InterfaceComparison
 
 Eventually there should be a companion page for native record systems provided by individual Schemes.
