@@ -12,4 +12,5 @@ Members:
   * [[:AaronHsu|Aaron W. Hsu]]
   * [[:AlexeyRadul|Alexey Radul]]
   * [[:DavidRush|David Rush]]
+  * [[:AlaricSnellPym|Alaric Snell-Pym]]
 
