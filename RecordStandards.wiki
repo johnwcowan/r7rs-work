@@ -1,4 +1,4 @@
-Here's a list of the features provided by different kinds of standard record systems.  The specific syntax of syntax forms and the exact API of procedures is ignored here.
+Here's a list of the features provided by different kinds of standard record systems.  The specific syntax of syntax forms and the exact calling conventions of procedures is ignored here.
   
 = Glossary: =
 
