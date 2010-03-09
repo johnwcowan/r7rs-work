@@ -44,7 +44,7 @@ Here's a list of the features provided by different kinds of standard record sys
  * Natural constructor
  * Auto-generated non-hygienic names
 
-== (rnrs records syntactic 6) is syntactic.  It extends (srfi 99 syntactic) as follows: ==
+== (rnrs records syntactic 6) is syntactic.  It extends (srfi 99 records syntactic) as follows: ==
  * Generalized constructor
  * Sealed RTDs from which other RTDs cannot inherit (optional in SRFI-99)
  * Opaque RTDs that create records that don't satisfy RECORD? (optional in SRFI-99)
