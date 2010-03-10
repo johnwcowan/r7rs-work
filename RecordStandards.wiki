@@ -17,8 +17,8 @@ Here's a list of the features provided by different kinds of standard record sys
  * [[GenerativeRecords|''Generative'']] record types are unique in each definition
  * [[NonGenerativeRecords|''Non-generative'']] record types have a uid (a symbol) and are identical if they share the same symbol
 
- * [[OpaqueRecords|''Opaqueness'']] records internal mechanisms are hidden. Access or modification only through a given interface.
- * [[TranslucentRecords|''Translucency'']] records internal mechanisms are made explicit and examining / modifying directly is allowed.
+ * [[OpaqueRecords|''Opaqueness'']] records' internal mechanisms are hidden. Access or modification only through a given interface.
+ * [[TranslucentRecords|''Translucency'']] records' internal mechanisms are made explicit and examining / modifying directly is allowed.
 
  * A [[NaturalRecordConstructor|''natural constructor'']] is a procedure whose arguments correspond to the fields of the record in the order they were specified when creating the RTD
  * A [[FilteringRecordConstructor|''filtering constructor'']] is a procedure whose arguments correspond to some of the fields of the record in an order which may or may not be the specification order.
