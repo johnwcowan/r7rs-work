@@ -1,10 +1,5 @@
 
-= Natural Record Constructor =
+= Benefits: =
 
-== Benefits: ==
+= Downsides: =
 
-* NaturalRecordConstructorBenefits
-
-== Downsides: ==
-
-* NaturalRecordConstructorDownsides
