@@ -1,5 +1,11 @@
 
-= Benefits: =
+= Label Record Constructor =
 
-= Downsides: =
+== Benefits: ==
+
+* LabelRecordConstructorBenefits
+
+== Downsides: ==
+
+* LAbelRecordConstructorDownsides
 
