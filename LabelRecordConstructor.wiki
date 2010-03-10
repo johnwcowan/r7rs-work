@@ -7,5 +7,5 @@
 
 == Downsides: ==
 
-* LAbelRecordConstructorDownsides
+* LabelRecordConstructorDownsides
 
