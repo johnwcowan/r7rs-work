@@ -1,10 +1,5 @@
 
-= Filtering Constructor =
+= Benefits: =
 
-== Benefits: ==
+= Downsides: =
 
-* FilteringRecordConstructorBenefits
-
-== Downsides: ==
-
-* FilteringRecordConstructorDownsides
