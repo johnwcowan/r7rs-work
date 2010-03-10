@@ -1,5 +1,5 @@
 
-= From SRFI-57 =
+= SRFI-57 =
 
 The traditional practice of instantiating record values with a positional constructor procedure can lead to code that is hard to read and fragile under common operations such as adding, removing, or rearranging field declarations. 
 
