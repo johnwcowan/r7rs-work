@@ -9,16 +9,21 @@ Here's a list of the features provided by different kinds of standard record sys
 
  * An ''RTD'' (record-type-descriptor) is a run-time object representing a record type
 
- * ''Syntactic'' means record types are specified by one or more macros that bind identifiers to record types, constructors, accessors, mutators, and predicates.
- * ''Procedural'' means that record types are created by a procedure which returns an RTD, and that by applying other procedures to the RTD, constructors, accessors, mutators, and predicates are returned
+== Features: ==
 
- * ''Generative'' record types are unique in each definition
- * ''Non-generative'' record types have a uid (a symbol) and are identical if they share the same symbol
+ * [[SyntacticRecords|''Syntactic'']] means record types are specified by one or more macros that bind identifiers to record types, constructors, accessors, mutators, and predicates.
+ * [[ProceduralRecords|''Procedural'']] means that record types are created by a procedure which returns an RTD, and that by applying other procedures to the RTD, constructors, accessors, mutators, and predicates are returned
 
- * A ''natural constructor'' is a procedure whose arguments correspond to the fields of the record in the order they were specified when creating the RTD
- * A ''filtering constructor'' is a procedure whose arguments correspond to some of the fields of the record in an order which may or may not be the specification order.
- * A ''generalized constructor'' is one which applies an arbitrary procedure, called the protocol procedure, that transforms its arguments in any way desired and then calls a natural constructor.
- * A ''label constructor'' is one which maps field labels to values independent of order.
+ * [[GenerativeRecords|''Generative'']] record types are unique in each definition
+ * [[NonGenerativeRecords|''Non-generative'']] record types have a uid (a symbol) and are identical if they share the same symbol
+
+ * [[OpaqueRecords|''Opaque'']]
+ * [[TranslucentRecords|''Translucent'']]
+
+ * A [[NaturalRecordConstructor|''natural constructor'']] is a procedure whose arguments correspond to the fields of the record in the order they were specified when creating the RTD
+ * A [[FilteringRecordConstructor|''filtering constructor'']] is a procedure whose arguments correspond to some of the fields of the record in an order which may or may not be the specification order.
+ * A [[GeneralizedRecordConstructor|''generalized constructor'']] is one which applies an arbitrary procedure, called the protocol procedure, that transforms its arguments in any way desired and then calls a natural constructor.
+ * A [[LabelRecordConstructor|''label constructor'']] is one which maps field labels to values independent of order.
 
 = Standards =
 
