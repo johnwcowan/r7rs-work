@@ -19,8 +19,7 @@ vote, any deviation from R5RS must beat the R5RS option by
 a minimum percentage, yet to be decided but likely in the
 75-90% range.
 
-A detailed example of the voting process can be found
-in the [[SampleVoteYakHandler|Yak Handler]] proposal.
+Details and an example vote to be posted soon.
 
 The hope is that with this system and a more or less balanced
 representation of Scheme implementations and ideals among the
