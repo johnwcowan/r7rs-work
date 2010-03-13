@@ -10,8 +10,8 @@ Members:
   * [[:ArthurGleckler|Arthur A. Gleckler]]
   * [[:BrianHarvey|Brian Harvey]]
   * [[:AaronHsu|Aaron W. Hsu]]
+  * [[:EmmanuelMedernach|Emmanuel Medernach]]
   * [[:AlexeyRadul|Alexey Radul]]
   * [[:DavidRush|David Rush]]
   * [[:AlaricSnellPym|Alaric Snell-Pym]]
-  * [[:EmmanuelMedernach|Emmanuel Medernach]]
 
