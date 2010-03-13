@@ -1,0 +1,16 @@
+= Working Group 1 Member Page =
+
+The following are members of the Working Group One:
+
+Working Group Chair: [[:AlexShinn|Alex Shinn]]
+
+Members:
+
+  * [[:SteveGanz|Steve Ganz]]
+  * [[:ArthurGleckler|Arthur A. Gleckler]]
+  * [[:BrianHarvey|Brian Harvey]]
+  * [[:AaronHsu|Aaron W. Hsu]]
+  * [[:EmmanuelMedernach|Emmanuel Medernach]]
+  * [[:AlexeyRadul|Alexey Radul]]
+  * [[:DavidRush|David Rush]]
+  * [[:AlaricSnellPym|Alaric Snell-Pym]]
