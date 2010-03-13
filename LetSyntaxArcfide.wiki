@@ -12,3 +12,5 @@ Remove the `let-syntax` form.
 
 == Comment ==
 I'd strongly recommend against any change which breaks an R5RS-compliant program.  w.r.
+
+Is it possible to define let-syntax and friends directly in terms of module using syntax-rules?  --JohnCowan
