@@ -7,3 +7,4 @@ Working Group Chair: [[:JohnCowan|John Cowan]]
 Members:
 
   * [[:AaronHsu|Aaron W. Hsu]]
+  * [[:EmmanuelMedernach|Emmanuel Medernach]]
