@@ -13,4 +13,5 @@ Members:
   * [[:AlexeyRadul|Alexey Radul]]
   * [[:DavidRush|David Rush]]
   * [[:AlaricSnellPym|Alaric Snell-Pym]]
+  * [[:EmmanuelMedernach|Emmanuel Medernach]]
 
