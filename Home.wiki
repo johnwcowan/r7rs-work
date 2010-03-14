@@ -8,12 +8,13 @@ For a complete list of local wiki pages, see TitleIndex.
 
 [[MemberPagesWorkingGroupOne|Member Page]]
 
-[[WorkingGroupOneProcess|Process]]
+[[WorkingGroupOneProcess|Process]] ([[SampleVoteYakHandler|Sample Vote]])
 
 '''Issue Summaries and Proposals'''
 
     * ModuleSystems
         * ModulesAndPackagesArcfide
+    * RecordStandards
     * CharacterSets
         * UnicodeCowan
     * CaseSensitivity
