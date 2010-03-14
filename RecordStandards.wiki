@@ -26,7 +26,7 @@ Here's a list of the features provided by different kinds of standard record sys
 
 == (srfi 9) is syntactic.  It provides: ==
  * Distinct types
- * Opaque RTD objects
+ * Opaque RTD bindings (possibly syntactic) with no interface
  * A single filtering constructor
  * Mutable fields
  * Immutable fields
@@ -43,7 +43,7 @@ Here's a list of the features provided by different kinds of standard record sys
 == (srfi 99 records syntactic) is syntactic.  It extends (srfi 9) as follows: ==
  * Record definitions appear where other definitions appear
  * Single inheritance
- * Natural constructor
+ * A default natural constructor when the constructor parameters are unspecified
  * Auto-generated non-hygienic names
 
 == (rnrs records syntactic 6) is syntactic.  It extends (srfi 99 records syntactic) as follows: ==
