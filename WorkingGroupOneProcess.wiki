@@ -2,7 +2,7 @@ This is a rough outline of the process for
 Working Group 1, leading up to the first
 public draft milestone:
 
-  * Introductions and ritual Case-Sensitivity Flame-War (1 month)
+  * Introductions and initial position statements (1 month)
   * Fact-Finding and Issue Cataloging (1 month)
   * Make Proposals, independently or in groups
   * Debate Proposals via email and the wiki
