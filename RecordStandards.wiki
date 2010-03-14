@@ -55,7 +55,7 @@ Here's a list of the features provided by different kinds of standard record sys
  * Opaque RTDs that create records that don't satisfy RECORD? (optional in SRFI-99)
  * Non-generative RTDs (optional in SRFI-99)
 
-== (rnrs records procedural 6) is procedural.  It extends (srfi 99 records syntactic) as follows: ==
+== (srfi 99 records procedural) is procedural.  It extends (srfi 99 records syntactic) as follows: ==
  * RTDs have names (symbols)
  * Procedure to create an RTD
  * Procedure to create natural and filtering constructors from an RTD
