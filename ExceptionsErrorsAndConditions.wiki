@@ -15,7 +15,7 @@ summaries of existing systems.
 
   * [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-8.html#node_chap_7|R6RS Exceptions and Conditions]]
   * [[http://srfi.schemers.org/srfi-12/srfi-12.html|SRFI-12 Exception Handling]] (withdrawn)
-  * [[http://srfi.schemers.org/srfi-18/srfi-18.html|SRFI-18 Threading]] (includes '''condition-case''')
+  * [[http://srfi.schemers.org/srfi-18/srfi-18.html|SRFI-18 Threading]] (includes exceptions)
   * [[http://srfi.schemers.org/srfi-34/srfi-34.html|SRFI-34 Exception Handling]] (used in Scheme48)
   * [[http://scheme.com/tspl4/exceptions.html#./exceptions:h0|Chez Scheme Exceptions]]
   * [[http://download.plt-scheme.org/doc/html/reference/exns.html|PLT Scheme Errors and Conditions]]
