@@ -14,10 +14,10 @@ For voting we will use a preferential voting mechanism,
 so that any number of proposals can be made without detracting
 from each other or forcing an all-or-nothing situation.
 The exact method remains to be decided, but will likely be
-either ranked pairs or Schultz.  In addition to winning the
-vote, any deviation from R5RS must beat the R5RS option by
-a minimum percentage, yet to be decided but likely in the
-75-90% range.
+either ranked pairs or Schultz.  In addition,
+at least a minimum percentage, yet to be decided but likely in the
+75-90% range, of voters must prefer the winning option to the R5RS
+(no-change) option.
 
 A detailed example of the voting process can be found
 in the [[SampleVoteYakHandler|Yak Handler]] proposal.
