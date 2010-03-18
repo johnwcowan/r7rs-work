@@ -147,9 +147,12 @@ proposals Working Group 1 makes, but should hold separate votes if it
 does so - members are likely to vote differently for inclusion in WG2
 than they would for WG1.
 
-
-=== Proposed change ===
-
-In the case of the module proposal or parts thereof, "R5RS" does not make sense,
-because R5RS has no module system, but the Steering Committee mandates that we
-have one.  So the approval-rating rule should not apply.
+There is one special case vote, for the module system we use, in which
+the default option of "R5RS" may not be used because our charter requires
+a module system and R5RS doesn't have one.  An earlier proposal on the
+mailing list suggested taking the R6RS module system (suitably adapted
+to the WG1 standard, and allowing REPL interaction) as the default option,
+since the charter encourages R6RS compatibility (where it makes sense).
+Rather than defaulting to R6RS on a lack of strong consensus to the
+contrary, we may simply want to use the straight-out winner of the
+module system vote.
