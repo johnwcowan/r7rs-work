@@ -1,0 +1,39 @@
+This page talks about various aspects of zero.  Thanks to Alexey Radul for some of the ideas here.
+
+=== Exact division by zero ===
+
+PLT, MIT, Gambit, Chicken, Bigloo, Scheme48/scsh, Guile, SISC, Chez, Ikarus, Larceny, Mosh, Scheme 7, sscm, SXM, VSCM, and Chibi report an error.
+
+Gauche, Kawa, SCM, Scheme 9 return inexact infinity.
+
+=== Inexact division by exact zero ===
+
+PLT, MIT, Gambit, Chicken, Scheme48/scsh, Guile, Scheme 7, SXM, VSCM report an error.
+
+Gauche, Bigloo, Kawa, SISC, Chez, Ikarus, Larceny, Mosh, Scheme 9 return inexact infinity.
+
+SSCM does not handle inexact numbers.
+
+=== Division by inexact zero ===
+
+Chicken, Scheme 7, SXM, VSCM report an error.
+
+PLT, Gauche, Gambit, Bigloo, Scheme48/scsh, Guile, Kawa, SISC, Chez, SCM, Ikarus, Larceny, Mosh, Scheme 9, Chibi return inexact infinity.
+
+SSCM does not handle inexact numbers.
+
+=== Inexact multiplication by exact zero ===
+
+PLT, MIT, Gambit, Guile, Chez, SXM return exact 0.
+
+Gauche, Chicken, Bigloo, Scheme48/scsh, Kawa, SISC, SCM, Ikarus, Larceny, Mosh, Scheme 9, Scheme 7, VSCM, Chibi return inexact 0.0.
+
+SSCM does not handle inexact numbers.
+
+=== Complex numbers with 0.0 imaginary part.
+
+Gauche, MIT-Scheme, Chicken (with the numbers egg), Scheme48/scsh, Guile, Kawa, SISC, SCM, Scheme 7, VSCM consider 3.0+0.0i to be a real number.
+
+PLT, Gambit, Chez, Ikarus, Larceny, Mosh do not.
+
+Bigloo, Scheme 9, SSCM, SXM, Chibi do not implement general complex numbers.
