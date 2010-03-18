@@ -12,4 +12,4 @@ Keywords look like `:foo`, `foo:`, or `#:foo`, depending on the Scheme implement
 
  * Chicken supports `#:foo` always, and also allows either `foo:` or `:foo` depending on the setting of a parameter or a startup option.
 
-MIT, Scheme48/scsh, SISC, Chez, SCM, Ikarus, Larceny, Mosh, Scheme 9, SSCM, SXM, VSCM, Chibi don't support any of them.
+ * MIT, Scheme48/scsh, SISC, Chez, SCM, Ikarus, Larceny, Mosh, Scheme 9, SSCM, SXM, VSCM, Chibi don't support any of them.
