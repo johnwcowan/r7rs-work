@@ -1,4 +1,4 @@
-This page talks about various aspects of zero.  Thanks to Alexey Radul for some of the ideas here.
+This page talks about various aspects of zero.  Thanks to Alexey Radul for the ideas here; the research is mine.
 
 === Exact division by zero ===
 
