@@ -146,3 +146,10 @@ Keep in mind that Working Group 2 is likely to review and consider any
 proposals Working Group 1 makes, but should hold separate votes if it
 does so - members are likely to vote differently for inclusion in WG2
 than they would for WG1.
+
+
+=== Proposed change ===
+
+In the case of the module proposal or parts thereof, "R5RS" does not make sense,
+because R5RS has no module system, but the Steering Committee mandates that we
+have one.  So the approval-rating rule should not apply.
