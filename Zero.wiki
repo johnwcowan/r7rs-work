@@ -30,7 +30,7 @@ Gauche, Chicken, Bigloo, Scheme48/scsh, Kawa, SISC, SCM, Ikarus, Larceny, Mosh, 
 
 SSCM does not handle inexact numbers.
 
-=== Complex numbers with 0.0 imaginary part.
+=== Complex numbers with 0.0 imaginary part. ===
 
 Gauche, MIT-Scheme, Chicken (with the numbers egg), Scheme48/scsh, Guile, Kawa, SISC, SCM, Scheme 7, VSCM consider 3.0+0.0i to be a real number.
 
