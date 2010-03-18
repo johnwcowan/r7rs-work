@@ -20,7 +20,7 @@
 
 == Clarifications ==
 
-The use of parameters in Scheme Core would affect any procedures called that make use of the reader. Specifically `read` would be sensitive to such parameters.
+The use of parameters in Scheme Core would affect any procedures called that make use of the reader. Specifically `read` would be sensitive to such parameters. The term paramter here does not imply that an official standard of parameter need be adopted for this proposal to be useful. Rather it means that the identifiers deemed to be "parameters" are expected to behave like parameters in their public interface; they may or may not be implemented as real parameters in practice. 
 
 == Rationale ==
 
