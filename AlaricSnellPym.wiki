@@ -13,3 +13,7 @@ And that's my personal goal for R7RS (beyond, of course, the implicit goal of MA
 But without harming the jewel-like perfection, nor making it hard to implement efficiently.
 
 More about me can be found at http://www.snell-pym.org.uk/alaric/ - remind me to bring that page more up to date, though.
+
+= Proposals =
+
+ * UniqueTypesSnellPym
