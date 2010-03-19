@@ -15,6 +15,8 @@ And, obviously, any manner of in-memory record abstraction can be implemented wi
 
 Therefore, I propose that WG1 should standardise a primitive mechanism to create disjoint types, allowing portable libraries to implement SRFI-9, SRFI-99, R6RS records, Chicken records, CLOS, persistent databases, remote access to data on servers, and the like; WG2 should probably pick or create a record standard, but that's not my problem (and I'm happy either way, as I can have whatever record system I fancy as a portable library anyway).
 
+It is possible to build arbitrary record-like disjoint types on top of (eg) SRFI-9 records, by exposing the `FOO?` procedure and wrapping the accessors and (where applicable) constructors and mutators, but this gives me a non-jewel-like feeling.
+
 = The meat of the proposal =
 
 The semantics of such a system are fairly simple and obvious, and the syntax used in the Kernel programming language seems as good as any. Slightly altered for Schemier style, here it is:
