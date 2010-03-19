@@ -21,14 +21,14 @@ The semantics of such a system are fairly simple and obvious, and the syntax use
 
 {{{
 (make-encapsulation-type)
-
-Returns three values: procedures e, p? and d. Each call to (make-encapsulation-type) returns different procedures.
-
- * e is a procedure that takes one argument, and returns a fresh encapsulation with that argument as the content. Different calls to e produce encapsulations that are not eq?, but will be equal? if their contents are equal? and they were produced by different calls to the same e.
-
- * p? is a procedure that takes one argument, and returns #t if the argument is an encapsulation that was returned by a call to e, and #f in all other cases.
-
- * d is a procedure that takes one argument. If it is an encapsulation that was returned by a call to e, then the content of the encapsulation is returned. Otherwise, an error is signalled.
 }}}
+
+Returns three values: procedures `e`, `p?` and `d`. Each call to `(make-encapsulation-type)` returns different procedures.
+
+ * `e` is a procedure that takes one argument, and returns a fresh encapsulation with that argument as the content. Different calls to `e` produce encapsulations that are not `eq?`, but will be `equal?` if their contents are equal? and they were both produced by `e`.
+
+ * `p?` is a procedure that takes one argument, and returns `#t` if the argument is an encapsulation that was returned by a call to `e`, and `#f` in all other cases.
+
+ * `d` is a procedure that takes one argument. If it is an encapsulation that was returned by a call to `e`, then the content of the encapsulation is returned. Otherwise, an error is signalled.
 
 I originally proposed that encapsulations should contain a vector, so that `d` would accept a second argument which is an index into the vector, and there be a mutation operation, in order to avoid a double-indirection in the common case of encapsulated vectors - but then I realised that an implementation can probably special-case encapsulated vectors in a number of relatively easy ways, simplifying the specification. However, I am still open to being beaten back on that point.
