@@ -1,0 +1,34 @@
+
+= Background =
+
+I feel that records are too complex and controversial and varied for standardisation in WG1.
+
+We all love records, but there's a number of ways of doing them.
+
+There's widespread consensus that defining a record type FOO with fields X, Y, and Z should result in procedures FOO?, FOO-X, FOO-Y, FOO-Z, MAKE-FOO, and sometimes FOO-X-SET!, FOO-Y-SET! and FOO-Z-SET!; however, there's less consensus about definition forms, let alone more esoteric features like purely functional mutators, constructs that open up a record by creating a lexical environment in which X is bound to (FOO-X <record>) and so on, etc.
+
+Perhaps most importantly, records need to be distinct types. If you implement them in terms of vectors, everything seems to work fine, but a subtle kind of hygiene is broken. If somebody writes a function that dispatches on type for some reason, and they have a case for handling vectors that comes before the case for some record type, then the vector case will be triggered unexpectedly. Oh, noes!
+
+Also, there is potential variation in implementation. It's widely accepted that programming languages should generally support records in the sense of first-class values in memory, but third-party libraries (or the outer reaches of a more sprawling language) may well want to implement a record-like interface - at least FOO? FOO-<field>, FOO-<field>-SET! *and type disjointness* - to things like persistent data in a database, data accessed via some network protocol, and other such forms. Clearly, Thing One will allow the definition of the procedures, and type disjointness is all we need 'extra'.
+
+And, obviously, any manner of in-memory record abstraction can be implemented with suitable macros - if we have a means of forming disjoint types.
+
+Therefore, I propose that WG1 should standardise a primitive mechanism to create disjoint types, allowing portable libraries to implement SRFI-9, SRFI-99, R6RS records, Chicken records, CLOS, persistent databases, remote access to data on servers, and the like; WG2 should probably pick or create a record standard, but that's not my problem (and I'm happy either way, as I can have whatever record system I fancy as a portable library anyway).
+
+= The meat of the proposal =
+
+The semantics of such a system are fairly simple and obvious, and the syntax used in the Kernel programming language seems as good as any. Slightly altered for Schemier style, here it is:
+
+{{{
+(make-encapsulation-type)
+
+Returns three values: procedures e, p? and d. Each call to (make-encapsulation-type) returns different procedures.
+
+ * e is a procedure that takes one argument, and returns a fresh encapsulation with that argument as the content. Different calls to e produce encapsulations that are not eq?, but will be equal? if their contents are equal? and they were produced by different calls to the same e.
+
+ * p? is a procedure that takes one argument, and returns #t if the argument is an encapsulation that was returned by a call to e, and #f in all other cases.
+
+ * d is a procedure that takes one argument. If it is an encapsulation that was returned by a call to e, then the content of the encapsulation is returned. Otherwise, an error is signalled.
+}}}
+
+I originally proposed that encapsulations should contain a vector, so that `d` would accept a second argument which is an index into the vector, and there be a mutation operation, in order to avoid a double-indirection in the common case of encapsulated vectors - but then I realised that an implementation can probably special-case encapsulated vectors in a number of relatively easy ways, simplifying the specification. However, I am still open to being beaten back on that point.
