@@ -22,3 +22,7 @@ Nor would someone writing client code be likely to use them.
 Neither of these things would happen except in fairly unusual
 cases.
 
+=== R6RS ===
+
+In an R6RS context, opaqueness means that you can neither identify the record instance as a record, nor discover its type, nor retrieve its constructors, predicate, accessors, and mutators.  Such opaque records might be used to implement bignums or even conses.
+
