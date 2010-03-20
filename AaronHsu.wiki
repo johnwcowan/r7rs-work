@@ -6,7 +6,7 @@ ModulesAndPackagesArcfide[[BR]]
 CaseSensitivityArcfide[[BR]]
 MacrosArcfide[[BR]]
 ChezReplSemantics[[BR]]
-RecordBindersArcfide
+RecordBindersArcfide[[BR]]
 KeywordArgumentsArcfide
 
 == Contact Information ==
