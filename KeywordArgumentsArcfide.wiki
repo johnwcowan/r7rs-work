@@ -123,6 +123,8 @@ Currently there are a few problems with this version.
 
   * Keyword arguments must come at the end.
   * Keyword definition must come at the end.
+  * Keywords are defined in the run-time space, when they really should be an identifier syntax.
+  * It is possible to send useless optional arguments and they are ignored rather than throwing an error.
 
 Ideally, I would want to be able to put optional arguments anywhere I wanted. Only the relative positions of non-optional arguments matters. This would require more code, however, and would detract from the overall clarity of the approach. I leave it up to the reader to develop this idea further.
 
