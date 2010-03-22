@@ -33,4 +33,10 @@ Returns three values: procedures `e`, `p?` and `d`. Each call to `(make-encapsul
 
  * `d` is a procedure that takes one argument. If it is an encapsulation that was returned by a call to `e`, then the content of the encapsulation is returned. Otherwise, an error is signalled.
 
+{{{
+(make-encapsulation-type <symbol>)
+}}}
+
+As above, but annotates the type with a descriptive symbol. The implementation is free to ignore the symbol, but may use it to aid debugging or providing printable representations of the encapsulated type. However, implementors be warned that the users are in no way obliged to make descriptive symbols be unique, so don't go using it in ways that would assume this.
+
 I originally proposed that encapsulations should contain a vector, so that `d` would accept a second argument which is an index into the vector, and there be a mutation operation, in order to avoid a double-indirection in the common case of encapsulated vectors - but then I realised that an implementation can probably special-case encapsulated vectors in a number of relatively easy ways, simplifying the specification. However, I am still open to being beaten back on that point.
