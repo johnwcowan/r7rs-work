@@ -7,7 +7,8 @@ CaseSensitivityArcfide[[BR]]
 MacrosArcfide[[BR]]
 ChezReplSemantics[[BR]]
 RecordBindersArcfide[[BR]]
-KeywordArgumentsArcfide
+KeywordArgumentsArcfide[[BR]]
+RecordsArcfide
 
 == Contact Information ==
 
