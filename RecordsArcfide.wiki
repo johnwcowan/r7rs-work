@@ -24,14 +24,14 @@ I propose that the WG1 standardize only a syntactic record definition consisting
 
 Where `<name>` is an identifier indicating the record type, and `<constructor>` and `<predicate>` will both be names bound to the record constructor and predicate, respectively. Each `<clause>` is one of the following forms:
 
-`(parent <parent-rtd> ...)`
+`(parent <parent-rtd> ...)`[[BR]]
 `(fields <field-spec> ...)`
 
 For parent clauses, I propose that we permit multiple parents to be defined, but define and specify behavior for only one parent. The `<parent-rtd>` should be an identifier defined by `define-record-type` `<name>`. 
 
 for field clauses, each `<field-spec>` takes one of the following forms:
 
-`(immutable <field-name> <field-accessor>)`
+`(immutable <field-name> <field-accessor>)`[[BR]]
 `(mutable <field-name> <field-accessor> <field-mutator>)`
 
 == Rationale ==
