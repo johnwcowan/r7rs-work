@@ -1,0 +1,40 @@
+= Record Proposal = 
+
+By Aaron W. Hsu
+
+== Overview ==
+
+WG1 is tasked with defining a record form suitable for its language. To that end, I feel that the following features are basic and fundamental to records and should be provided for and enabled in the WG1 record specification:
+
+  * The creation of disjoint types hierarchies, including inheritance
+  * The abstraction over a finite set of data
+  * Efficient implementation in even simple Scheme implementations
+
+To this end, I propose the following WG1 Record specification, which has as its goals the following:
+
+  * Efficiency
+  * Simplicity
+  * Extensibility
+
+== Specification ==
+
+I propose that the WG1 standardize only a syntactic record definition consisting of a subset of R6RS' functionality, which is syntactically compatible therewith.
+
+`(define-record-type (<name> <constructor> <predicate>) <clause> ...)`
+
+Where `<name>` is an identifier indicating the record type, and `<constructor>` and `<predicate>` will both be names bound to the record constructor and predicate, respectively. Each `<clause>` is one of the following forms:
+
+`(parent <parent-rtd> ...)`
+`(fields <field-spec> ...)`
+
+For parent clauses, I propose that we permit multiple parents to be defined, but define and specify behavior for only one parent. The `<parent-rtd>` should be an identifier defined by `define-record-type` `<name>`. 
+
+for field clauses, each `<field-spec>` takes one of the following forms:
+
+`(immutable <field-name> <field-accessor>)`
+`(mutable <field-name> <field-accessor> <field-mutator>)`
+
+== Rationale ==
+
+This is the simplest record type definition that is easily extended to include other features in a nice interface. While it may be attractive to standardize on a procedural interface as the underlying core, it is my belief that the WG1 Charter is for the creation of a practical language, intended to be used in real work, where a small language is desirable, and not as an underlying assembly language for the construction of other forms that are more useful. To this end, it is expected that more people use a syntactic interface, and this represents the basic, largest common set of functionality that people use. particularly, this is a readily usable form, and has the necessary flexibility, and can be readily implemented in an efficient manner.
+
