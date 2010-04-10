@@ -18,7 +18,7 @@ For a complete list of local wiki pages, see TitleIndex.
         * UniqueTypesSnellPym
         * RecordsArcfide
     * CharacterSets
-        * UnicodeCo
+        * UnicodeCowan
     * CaseSensitivity
         * CaseSensitivityArcfide
     * [[ExceptionsErrorsAndConditions|Exceptions, Conditions, and Error handling]]
