@@ -29,7 +29,7 @@ encodings such as UTF-8 and UTF-16 should be allowed.
 
 *The question of which string representation to use does NOT simply boil down to one of a time-space trade-off.*
 Some of the alternate O(1) time access strategies are more compact
-that UTF-8 when using non-ASCII text, and UTF-8 has properties that
+than UTF-8 when using non-ASCII text, and UTF-8 has properties that
 make it faster than the alternatives for many tasks.  We need to
 consider the full range of uses of strings in Scheme, the trade-offs
 involved, and decide whether non-constant time representations are worth
