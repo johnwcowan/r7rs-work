@@ -19,6 +19,7 @@ For a complete list of local wiki pages, see TitleIndex.
         * RecordsArcfide
     * CharacterSets
         * UnicodeCowan
+    * StringRepresentations
     * CaseSensitivity
         * CaseSensitivityArcfide
     * [[ExceptionsErrorsAndConditions|Exceptions, Conditions, and Error handling]]
