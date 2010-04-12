@@ -11,8 +11,10 @@ With the advent of Unicode and other sets of characters too large to
 fit into a single byte, different languages provided different
 approaches to representing strings in memory.  Java adopted Unicode
 early on when 2 bytes per character were enough, and with the advent
-of supplementary characters, Java switched to UTF-16 (and thus I
-believe non-linear access in most implementations?).
+of supplementary characters, Java provided a separate UTF-16-based API,
+while maintaining the existing UCS-2 API; most programs and programmers
+just ignore the issue.
+
 [[http://sbcl-internals.cliki.net/Unicode|SBCL uses a mixed representation]]
 of flat1 and flat4 as discussed below.  The C family forked their
 strings into `char*` and `wchar_t*`, typically encoding UTF-8 in the
