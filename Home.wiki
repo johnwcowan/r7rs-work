@@ -18,7 +18,7 @@ For a complete list of local wiki pages, see TitleIndex.
         * UniqueTypesSnellPym
         * RecordsArcfide
     * BinaryData
-        * BlobsAndSRFI4SnellPym
+        * [wiki:BlobsAndSRFI4SnellPym]
     * CharacterSets
         * UnicodeCowan
     * StringRepresentations
