@@ -33,3 +33,5 @@ It might be useful to provide some low-level tools to copy regions of bytes arou
 C FFIs would naturally map `void *` to/from bytestrings (if it can find a `size_t` length from somewhere...)
 
 It would be possible to efficiently avoid issues with unaligned loads/stores on platforms afflicted with those, by having the procedure that generates an SRFI-4 vector interpretation of a region of a bytestring check the alignment of the base of the vector at creation time, and return either a fast version that does simple loads and stores for aligned subvectors, or returns a slow version that shuffles bytes to extract unaligned elements for unaligned subvectors.
+
+As for a printed representation of bytestrings? I'd say either go with a u8vector interpretation of the bytestring (eg, `#bs(195 12 0 255 ...)`), or base64 for compact representation of what is, after all, likely to be highly human unreadable binary data (eg, `#bs"YXNkZmFzZGYK"`); writing is as a sequence of u8s is potentially misleading, as it implies a structure that may or may not be there.
