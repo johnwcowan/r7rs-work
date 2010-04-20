@@ -1,5 +1,7 @@
 I didn't anticipate this being a WG1 issue, but recent interest in binary I/O on the mailing list has compelled me to write up this proposal, which I originally intended as an implementation proposal for Chicken Scheme. As I said, I don't think this should be in WG1, but it may offer inspiration for whatever aspects of BinaryData we *do* put in WG1.
 
+See ticket #50 for relevant work and decisions in this area.
+
 So I offer it up.
 
 = The Problem =
