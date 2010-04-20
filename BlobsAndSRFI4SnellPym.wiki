@@ -8,7 +8,7 @@ Although you can do anything with just pairs, people like having vectors for eff
 
 And so this logically leads to SRFI-4 homogenous vectors, which again don't let you store any data you couldn't store as an ordinary vector, or even as a linked list of pairs; but does it faster for special cases of homogenous numeric types. This is a feature that languages like C offer natively, and it's heartwarming to see that such things *can* be done in the supposedly efficiency-hostile highly dynamic world of Scheme; even if they weren't useful in their own right, they strike a blow at certain annoying types of argument for using C.
 
-However, one areay where SRFI-4 homogenous vectors come in very handy is in interfacing to the world outside of Scheme. This includes foreign-function interfaces, which often expose a C-like memory model that natively has homogenous numeric vectors, so we need a Scheme interface to them as part of that; but it also, more pedestrianly, includes binary I/O to filesystems, networks, and the like.
+However, one area where SRFI-4 homogenous vectors come in very handy is in interfacing to the world outside of Scheme. This includes foreign-function interfaces, which often expose a C-like memory model that natively has homogenous numeric vectors, so we need a Scheme interface to them as part of that; but it also, more pedestrianly, includes binary I/O to filesystems, networks, and the like.
 
 "Binary I/O" is a vague and overloaded term, but in practice, it generally means communication in terms of a series of eight-bit bytes; that's the fundamental primitive model of POSIX file-descriptor I/O, at least.
 
@@ -20,7 +20,7 @@ But hang on - we often communicate multibyte numbers via binary I/O using some e
 
 This lead me to deduce that a "vague sea of bytes" type is needed *in addition* to the SRFI-4 homogenous vectors. One that states nothing about the interpretation of the bytes within it, but which provides a central rallying point for interpretations to be added.
 
-"blob" is an acceptable name for such a thing, but perhaps already overloaded. I shy away from calling it a "vector" as that implies structure that is not there. Perhaps "bytestring" is a better name, as it implies a basic unit, but with the expectation that larger-scale structures are made of those units, rather than them being independent and orthogonal.
+"Blob" is an acceptable name for such a thing, but perhaps already overloaded. I shy away from calling it a "vector" as that implies structure that is not there. Perhaps "bytestring" is a better name, as it implies a basic unit, but with the expectation that larger-scale structures are made of those units, rather than them being independent and orthogonal.
 
 Binary I/O should read and write bytestrings. Bytestrings provide only a single operation - they can tell you how many bytes are in them.
 
