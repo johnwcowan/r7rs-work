@@ -2,7 +2,7 @@ This is an explanation of what's optional in IEEE and R5RS Scheme, grouped for e
 
 === Not present in IEEE, required in R5RS ===
 
-Laziness: `delay, force, eager`
+Laziness: `delay, force`
 
 Macros: `define-syntax, let-syntax, letrec-syntax`
 
@@ -12,7 +12,7 @@ Strings: `list->string, string->list, string-copy, string-fill!`
 
 Vectors: `list->vector, vector->list, vector-fill!`
 
-Multiple values: `call-with-values, let-values, let*-values, values`
+Multiple values: `call-with-values, values`
 
 Eval: `eval, null-environment, scheme-report-environment`
 
