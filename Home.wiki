@@ -19,6 +19,7 @@ For a complete list of local wiki pages, see TitleIndex.
         * RecordsArcfide
     * BinaryData
         * [wiki:BlobsAndSRFI4SnellPym]
+        * [wiki:BlobAPI] (Cowan)
     * CharacterSets
         * UnicodeCowan
     * StringRepresentations
