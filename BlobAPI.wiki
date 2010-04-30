@@ -1,110 +1,100 @@
-This is a proposal for a WG2 blob (bytevector) API.  Blobs have no native interpretation, but parts of them can be interpreted as one of a variety of binary types.  The conceit is that everything is a separate procedure with minimal arguments; this makes for a lot of procedures, but each one can be easily inlined by even a very dumb compiler, providing high efficiency.
+This is a proposal for a WG2 blob (bytevector) API.  Blobs are a disjoint type.  They have no native interpretation, but parts of them can be interpreted as one of a variety of binary types.  The conceit is that everything is a separate procedure with minimal arguments; this makes for a lot of procedures, but each one can be easily inlined by even a very dumb compiler, providing high efficiency.
 
 === Basic procedures ===
 
-(`blob?` ''obj'')::
+ (`blob?` ''obj''`)`::
   Returns `#t` if ''obj'' is a blob.
-(`make-blob` ''n'')::
+ (`make-blob` ''n''`)`::
   Returns a newly allocated blob containing ''n'' bytes.
-(`blob-length` ''blob'')::
+ (`blob-length` ''blob''`)`::
   Returns the length of ''blob'' in bytes.
-(`copy-blob` ''blob'')::
+ (`copy-blob` ''blob''`)`::
   Returns a newly allocated blob containing the same bytes as ''blob''.
+ (`copy-blob! ''from to''`)`::
+  Copy blob ''from'' on top of blob ''to'', which must not be shorter.
 
 Because there is no preferred way to interpret the data in a blob, there is no `blob` function analogous to `list` or `vector` and no second argument to `make-blob`.
 
 === Numeric procedures ===
 
-(`blob-<type>-ref` ''blob n'')::
+ (`blob-<type><endian>-ref` ''blob n''`)`::
   Returns a Scheme number corresponding to the binary value encoded according to ''type'' beginning at offset ''n'' in ''blob''.
-(`blob-<type>-set!` ''blob n v'')::
+ (`blob-<type><endian>-set!` ''blob n v''`)`::
   Converts ''v'' to a binary value encoded according to ''type'' and places it into ''blob'' beginning at offset ''n''.
 
 The types are:
 
-`u8`::
+ `u8`::
   unsigned 8-bit integer
-`s8`::
+ `s8`::
   signed 8-bit integer
-`u16`::
-  unsigned 16-bit integer in native endianism
-`u16be`::
-  unsigned big-endian 16-bit integer
-`u16le`::
-  unsigned little-endian 16-bit integer
-`u16`::
-  signed 16-bit integer in native endianism
-`s16be`::
-  signed big-endian 16-bit integer
-`s16le`::
-  signed little-endian 16-bit integer
-`u32`::
-  unsigned 32-bit integer in native endianism
-`u32be`::
-  unsigned big-endian 32-bit integer
-`u32le`::
-  unsigned little-endian 32-bit integer
-`s32`::
-  signed 32-bit integer in native endianism
-`s32be`::
-  signed big-endian 32-bit integer
-`s32le`::
-  signed little-endian 32-bit integer
-`u64`::
-  unsigned 64-bit integer in native endianism
-`u64be`::
-  unsigned big-endian 64bit integer
-`u64le`::
-  unsigned little-endian 64-bit integer
-`s64`::
-  signed 64-bit integer in native endianism
-`s64be`::
-  signed big-endian 64bit integer
-`s64le`::
-  signed little-endian 64-bit integer
-`u128`::
-  unsigned 128-bit integer in native endianism
-`u128be`::
-  unsigned big-endian 128-bit integer
-`u128le`::
-  sunigned little-endian 16-bit integer
-`s128`::
-  signed 128-bit integer in native endianism
-`s128be`::
-  signed big-endian 128-bit integer
-`s128le`::
-  signed little-endian 16-bit integer
-`f32`::
-  32-bit float
-`f64`::
-  64-bit float
-`c64`::
-  64-bit complex number (two 32-bit floats)
-`c128`::
-  128-bit complex number (two 64-bit floats)
+ `u16`::
+  unsigned 16-bit integer
+ `s16`::
+  signed 16-bit integer
+ `u32`::
+  unsigned 32-bit integer
+ `s32`::
+  signed 32-bit integer
+ `u64`::
+  unsigned 64-bit integer
+ `s64`::
+  signed 64-bit integer
+ `u128`::
+  unsigned 128-bit integer
+ `s128`::
+  signed 128-bit integer
+ `f32`::
+  32-bit IEEE float
+ `fn32`::
+  32-bit native float (may not be IEEE)
+ `f64`::
+  64-bit IEEE float in native endianism
+ `fn64`::
+  64-bit native float (may not be IEEE)
+ `c64`::
+  64-bit complex number (two 32-bit IEEE floats)
+ `cn64`::
+  64-bit complex number (two 32-bit native floats, may not be IEEE)
+ `c128`::
+  128-bit complex number (two 64-bit IEEE floats)
+ `cn128`::
+  128-bit complex number (two 64-bit native floats, may not be IEEE)
+
+The endianism values are:
+
+ (empty)::
+  Native endianism (system-dependent)
+ `le`::
+  Little-endianism
+ `be`::
+  Big-endianism
+
+Endianism is not applicable to the following types: `s8 u8 fn32 fn64 cn64 cn128`
+
 
 === String procedures ===
 
-(`blob-<encoding>-ref` ''blob n l'')::
+ (`blob-<encoding>-ref` ''blob n l''`)`::
   Returns a Scheme string corresponding to the binary value encoded according to ''encoding'' beginning at offset ''n'' in ''blob'' and continuing for ''l'' bytes.
-(`blob-<encoding>-set!` ''blob n v'')::
+ (`blob-<encoding>-set!` ''blob n v''`)`::
   Converts ''v'' to a binary string encoded according to ''encoding'' and places it into ''blob'' beginning at offset ''n''.  Returns the number of bytes encoded.
 
 The encodings are:
 
-`utf8`::
+ `utf8`::
   UTF-8 encoding
-`utf16`::
+ `utf16`::
   UTF-16 encoding (respects BOM if present, defaults to native encoding otherwise)
-`utf16be`:
+ `utf16be`:
   UTF-16BE encoding (treats BOM as a normal character)
-`utf16le`:
+ `utf16le`:
   UTF-16LE encoding (treats BOM as a normal character)
-`utf32`::
+ `utf32`::
   UTF-32 encoding (respects BOM if present, defaults to native encoding otherwise)
-`utf32be`:
+ `utf32be`:
   UTF-32BE encoding (treats BOM as a normal character)
-`utf32le`:
+ `utf32le`:
   UTF-32LE encoding (treats BOM as a normal character)
 
 === Issues ===
@@ -115,10 +105,8 @@ Pick one:
   1. Offsets are in bytes but must be naturally aligned (divisible by n for an n-byte value)
   1. Offsets are in n-byte sub-blobs (forces natural alignment, SRFI-4 style)
 
-Are blobs required to be disjoint from vectors?
-
-Should the f and c types be forced to be IEEE, or should they be native?  (It doesn't matter on most architectures.)
+Should `blob=?` be provided?
 
 === WG1 ===
 
-I propose that WG1 provide `blob?, make-blob, blob-length, copy-blob, blob-u8-ref, blob-u8-set!` only.
+I propose that WG1 provide `blob?, make-blob, blob-length, copy-blob, copy-blob!, blob-u8-ref, blob-u8-set!` only.
