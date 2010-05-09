@@ -14,6 +14,7 @@ For a complete list of local wiki pages, see TitleIndex.
 
     * ModuleSystems
         * ModulesAndPackagesArcfide
+        * ModulesShinn
     * RecordStandards
         * UniqueTypesSnellPym
         * RecordsArcfide
