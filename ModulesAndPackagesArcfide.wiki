@@ -1,94 +1,224 @@
-= Modules and Packages in Scheme =
+= Title =
 
-'''An proposal by Aaron W. Hsu'''
+WG1 Module Proposal
 
-''I believe that I am settling in one some concepts more definitely, so I would appreciate comments on this proposal.''
+= Authors = 
 
-== Introduction ==
+Aaron W. Hsu [arcfide] <arcfide@sacrideo.us>
 
-One of the biggest issues I think the Working Groups face is how we deal with modules. There are a number of [[ModuleSystems|issues to discuss]] and this proposal introduces a fairly comprehensive proposal that incorporates modules, but also extends to touch on issues which may relate to or be affect by modules.
+= Abstract = 
 
-== Issues ==
+A simple two-level module system is proposed that permits fine grained
+binding control at any level of Scheme code as well as providing
+for the creation of complete packaging units for distribution and code
+management. The system extends the Scheme language without introducing
+any specialized contexts. Rather the system promotes the free use and
+rebinding of these forms anywhere in Scheme code, permitting very
+expressive extensions to the Core Scheme language. 
 
-Modules at their core are a means of providing abstraction over bindings. They provide the ability to abstract over more than run time bindings, and allow one to abstract over syntax bindings as well.
+= Issues = 
 
-However, modules serve another purpose as compilation units. They represents libraries of code, and make it possible to separately compile code and then link them together later. 
+ * Should the import specifications be extended or reduced?
 
-The following proposal hopes to address the following issues:
+= Rationale = 
 
-  * Creating useful single compilation units for dealing with libraries.
-  * Usefully provide a means of handling syntactic abstraction
-  
-== Existing Systems ==
+A simple but expressive module system is needed that enables the
+extension of Scheme without undue complexity. The charter indicates
+that a module system for WG1 should be defined to "promote
+extensibility." Extensibility ranges in more than one direction, and a
+module system ought to address both the issues of packaging as well as
+the issues of binding visibility and scope at all levels of Scheme
+code. 
 
-Java's packaging format, Scheme48's module system, and R6RS' library format are arguably forms of static, out-of-band systems. R6RS however, suffers from requiring evaluation of the source code. PLT has units, and Chez Scheme has its module format, the former being an example of run-time modules (a la ML's functors), and the later being an example of syntactic modules.
+= Specification =
 
-There are three interesting module systems I would like to examine. R6RS and Scheme48 modules are relatively static, while Chez Scheme modules presents a fairly different bent. R6RS libraries are a half-in half-out sort of part of the language. They are not language forms in the sense that any macro may generate them. However, there is not built in standard means of separating a code's implementation from its interface. Thus, in R6RS libraries, you must include the code along with the interface to the code in a single top-level form that has a special meaning to implementations. Scheme48's module system is a little more outside of the system in that it has a separate means of defining interface and implementation of an interface, and is almost a mini-language or packaging system that happens to reference or potentially embed some code. Chez Scheme's module system is a syntactic form that is used by the expander to control visibility of bindings. It support separate compilation, but does not support separate interfaces and implementation by default. However, because Chez Scheme's modules do not suffer from the top-level only status of R6RS libraries, it is possible to extend Chez Scheme's modules to support the separation of interface from implementation. In fact, it is possible to use modules in any sort of macro expansion in many interesting ways.
+This document proposes the following forms: 
 
-Another interesting point of R6RS libraries is their use of implicit exports. Because macro bindings in the `export` form of an R6RS library are not marked as syntax explicitly, it is almost impossible for an implementation to statically analyze what additional bindings must be visible to the outside world in the case that the given exported macro expands to these definitions. This makes it very difficult for implementations to identify certain code in a library as unused, and hence, eliminate it upon compilation, resulting in potentially much smaller compiled files. Implicit exports do not see very widespread support, and indeed, R6RS libraries are the only place where I am aware that they see popular use.
+  * library
+  * module 
+  * import 
+  * export 
+  * co-export
+  * implicit-export 
+  * implicit-export/visible
+  * include
+  * source-directories [parameter]
 
-== Proposal ==
+The following syntax describes their general use.
 
-Given the above module systems, and given that R6RS has already defined a library system, the goal of this proposal is to address issues in the R6RS library system and hopefully simplify other semantic ambiguities of the language at the same time. To that end, I propose two conceptually different systems be standardized: a library syntax and a module syntax.
+{{{
+<library> := (library <library name> <expression> <expression> ...)
+<library name> := (<library name element> <library name element> ...)
+<library name element> := <symbol> | <exact integer>
 
-=== Library Syntax ===
+<module> := (module [<identifier>] <expression> <expression> ...)
 
-The library syntax takes up where R6RS left off, and serves the same purposes as the R6RS library syntax. Specifically, it is meant to manage compilation namespaces and provide a means of grouping together self-contained units of code. This proposal suggests to keep the existing R6RS library form and its semantics with the following changes:
+<export> := (export <export-spec> ...)
+<export-spec> := <identifier> 
+               | (rename (<idientifier_1> <identifier_2>) ...)
 
-  * Disallow implicit exports.
-  * Introduce an `indirect-export` form.
-  * Introduce a `co-export` form.
-  * Allow local imports.
-  * Remove the `for` syntax.
-  * Specify implicit phasing for imports.
+<co-export> := (co-export <identifier> <identifier> ...)
+<implicit-export> := (implicit-export <identifier> <identifier> ...)
+<implicit-export/visible> := (implicit-export/visible <identifier>)
 
-Implicit exports will be replaced by an `indirect-export` form. This form `(indirect-export` ''export'' ''indirect-export'' ...`)` indicates that should the ''export'' be exported, then the ''indirect-export''s will be implicity exports as well. This makes explicit the dependencies that syntax have.
+<import> := (import <import-spec> ...)
+<import-spec> := <identifier>
+               | <library name>
+               | (library <library name>)
+               | (only <import-spec> <identifier> ...)
+               | (except <import-spec> <identifier> ...)
+               | (prefix <import-spec> <identifier>)
+               | (rename <import-spec>
+                         (<identifier_1> <identifier_2>) ...)
 
-Co-exports allow you to group a series of exports so that they can be exported all at once. This is used, for example, in macros that may define a number of variables to be exported. The form `(co-export` ''primary-export'' ''secondary-exports'' ...`)` indicates that if ''primary-export'' is exported, then all of the ''secondary-exports'' are likewise exported. 
+<include> := (include <string>)
+}}}
 
-Local imports integrate with `module`s and permit better control over the visibility of identifiers. 
+A `library` form may only occur at the top-level of a program. The
+`library name` is the unique identifier of the library defined by the
+`library` form. This proposal extends the R6RS naming convention to
+allow for exact integers as well as symbols.
 
-Implicit phasing simplifies the syntax of imports and has other benefits documented elsewhere [1].
+A module form may occur at any definition context. That is, it may
+appear anywhere that a definition may appear. The module form 
+evaluates to an unspecified value. When a module form with the optional
+name element is encountered, the given identifier is visible as a
+valid import for all import forms that occur within the scope where
+the module form occurs. That is, the identifier is bound to a module
+entity that may be imported using an import form. If no optional
+identifier is given, then the exports associated with the module form
+are exported and made visible in the scope where the module form
+occurs. 
 
-=== Module Syntax ===
+Macros may expand into both module and library forms. In the case of
+libraries, the libraries are only legal at the top-level. 
 
-I propose a module system that is equivalent to the Chez Scheme module system [2], but with the following changes:
+Both modules and libraries may have exports associated with them using
+the `export` form. Each export spec indicates one or more identifiers
+that are exports from the library or module. When the export spec is
+simply an identifier, then that identifier is exported. When the
+export spec is a rename form, the latter identifier of each pair is
+exported. 
 
-  * import specifiers are as in R6Rs library specifiers, and no more.
-    * This removes some of the specifiers from the syntax.
-  * Remove explicit indirect exports from the export forms.
-  * Use `indirect-export` forms, instead.
-  * Obey the use of `co-export`. 
-  
-`module` serves the purpose of providing a lexically context sensitive module form that can be generated by syntax and is simple to use. It allows for controlling syntactic abstraction in powerful ways, and also enables recursive module definitions, and a number of separate module syntaxes to be built on top of it. 
+Exports apply to the nearest module or library form where they are
+encountered. That is, if a library form encapsulates a module form
+wherein occurs an export form, that export form applies to the module
+form, rather than the library form which wraps or contains the module
+form. 
 
-The semantics of `module` are also well defined and easier to specify compared to the other means of local syntax abstraction such as `let-syntax` enabling us to remove these ambiguous and hard to define structures.
+Identifiers may be associated with a set of co-exports or implicit
+exports. In the case of co-exports, when an identifier with co-exports
+is exported by an `export` form, then all of the co-exports associated
+with that identifier are also exported. In the case of
+implicit-exports, if a macro is bound to an identifier with
+implicit-exports, if that identifier is exported, then the macro may
+expand into identifiers that are implicitly exported without it being
+an unbound identifier error. This allows bindings to be implicitly
+visible to the outside world without requiring the module or library
+form to explicitly export them. Rather, a macro may expand into them,
+instead. 
 
-=== Additional Proposals ===
+It is sometimes useful for an identifier bound to a macro to
+implicitly export all of the bindings visible at that point. In this
+case, the implicit-export/visible may be used. It has the effect of
+associating an implicit-export of every identifier visible to the
+specified identifier. 
 
-A number of things relate directly to this proposal, so I include them here. 
+The `import` form makes bindings exported by libraries or named
+modules visible at some scope. An import form may occur anywhere a
+definition may occur. The exports associated with the libraries and
+modules referenced by the import form are made visible in the scope
+where the import form occurs. By default, all of the exports are made
+visible. However, the exports may be limited or renamed using only,
+prefix, except, and rename, according to the R6RS rules. The `library`
+form allows for the import of libraries whose names class with those
+of the operations just listed. 
 
-  * Remove `let-syntax` and family.
-  * Provide an `include` form and a `source-directories` parameter.
+It is sometimes useful to separate the source code of a library or
+module from the declaration of that module or library. This can be
+achieved by the use of the 'include' form. The include form expects a
+single string as its only argument. The include form reads in the
+forms that it finds by resolving the string to some location, possibly
+using the `source-directories` parameter to do so. It expands into the
+forms that it reads in, with each form wrapped with as if they had
+been entered where the include occured. That is, the include form
+wraps the incoming forms with its own wraps before expanding into
+those forms. 
 
-== Further Reading ==
+The `source-directories` function behaves as if it had parameter
+semantics, whether or not actual parameters are used to implement this
+procedure.
 
-Oscar Waddell and R. Kent Dybvig, [[http://www.cs.indiana.edu/~dyb/pubs/popl99.pdf|Extending the scope of syntactic abstraction]]. Conference Record of POPL'99: The 26th ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages. January 1999
+Multiple bindings of the same name may not be imported into the same 
+scope. Moreover, the bindings exported by a `library` form are
+considered to be immuatable, whereas the bindings exported by a
+`module` form are immutable or mutable only based on their original
+definition. That is, by default, if a binding is mutable inside the
+module form, then it is also mutable outside of the module form when
+exported and subsequently imported. 
 
-  The benefits of module systems and lexically scoped syntactic abstraction (macro) facilities are well-established in the literature. This paper presents a system that seamlessly integrates modules and lexically scoped macros. The system is fully static, permits mutually recursive modules, and supports separate compilation. We show that more dynamic module facilities are easily implemented at the source level in the extended language supported by the system.
+All module forms are expanded and evaluated once. In this respect they
+are similar to LET forms that export definitions from inside their
+form, and return `(void)` as their value. Bindings are visible in the
+same contexts that they were defined in. 
 
-Implicit phasing for library dependencies 
-by Ghuloum, Abdulaziz, Ph.D., INDIANA UNIVERSITY, 2008, 161 pages; 3344623
+On the other hand, `library` forms may be evaluated many times,
+possibly zero times, if an implementation may determine that the
+library is not needed. Additionally, for forwards compatibility, it is
+expected that exports from a library may be made visible in arbitrary
+contexts, though this has no effect on WG1. 
 
-  The main objective of this thesis is a system that integrates a powerful library system and a powerful syntactic abstraction facility without compromising the essential properties of these systems. In this system, a library serves as a building block for language extensions, and its exported definitions can be used anywhere in the importing library without restrictions. The run-time variable definitions and the compile-time syntax definitions provided by a library are unified and can be used in the importing library's run-time and compile-time code alike. As a unified and integrated framework, all run-time facilities are extended to compile time, and all compile-time facilities are similarly available at run time.
+= Design Decisions =
 
-  The dependencies between libraries is specified in two parts. For each library, the user specifies only the import dependencies. The compile-time, expand-time, and run-time dependencies between libraries are derived automatically by the system based on the program source code, which is used as an implicit specification for phase dependencies.
+This system is explicitly designed to take advantage of and encourage
+the full range of expressive power from syntactic abstractions. To
+this end, the imports and exports are separate forms, rather than
+being tied directly to the library and module forms. Moreover, it is
+recognized that different applications require different semantics for
+their modules, and thus the library and modules forms are defined to
+have clearly distinct semantics that serve two different purposes in
+the language. 
 
-  Compared to traditional systems that require that the user explicitly specify phasing dependencies, the implicit phasing system (1) is easier to use, (2) derives more precise dependency information, (3) is efficient, and (4) is straightforward to add on top of existing hygienic syntactic abstraction systems.
+A number of decisions were taken to allow for the efficient
+implementation and compilation of libraries and modules. Firstly, the
+use of the implicit-export form allows for the optimization of modules
+without require whole program analysis, which is not always possible.
+This encourage more dynamic programming without the associated cost of
+inefficient code. Additionally, the ability for a library to never be
+evaluated is a feature. This allows a more sophisticated
+implementation to determine that a given library will never be used,
+and to ellide it from the final program, potentially eliminating many
+costly evaluations and saving on space. Even on implicit phasing
+systems, this does not cause a problem because it is still possible
+to force the visitation or invokation of a library. 
 
------
+In the end, this system was designed to be both expressive and
+efficient, while remaining as compatible as possible with existing
+systems, and not straying from already well documented and implemented
+semantics. The differences are largely syntactic, and the author is
+not aware of any new semantic work in these forms. 
 
-== References ==
+= Compatibility = 
 
-[1] http://gradworks.umi.com/33/44/3344623.html [[BR]]
-[2] http://www.scheme.com/csug8/syntax.html#./syntax:h5
+== R5RS == 
+
+R5RS does not specify a module system, but some Scheme implementations
+provided their own. The `module` form is similar in construction to
+Chez Scheme's module form.
+
+== R6RS == 
+
+A subset of R6RS libraries will run without modification in this
+system. In particular, though libraries which do not take advantage of
+explicit phasing and/or versioning are expected to run without
+incident. 
+
+== WG2 ==
+
+This proposal allows for the handling of phasing issues, which is not
+currently beging discussed in WG1. Additionally, it permits any sorts
+of extensions to the forms by the creation of new forms in the same
+manner that `export` and `import` are defined. This system is
+compatible with both explicit and implicit phasing provided that the
+system is properly specified and clarified for those semantics. 
+ 
