@@ -147,7 +147,11 @@ those forms.
 
 The `source-directories` function behaves as if it had parameter
 semantics, whether or not actual parameters are used to implement this
-procedure.
+procedure. While other values may be stored, the `source-directories`
+parameter is expected to at least contain a list of strings.
+Implementations must at least support some interpretation of this
+source-directories parameter value, and it is permissible for them to
+ignore it. 
 
 Multiple bindings of the same name may not be imported into the same 
 scope. Moreover, the bindings exported by a `library` form are
