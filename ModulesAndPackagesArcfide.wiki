@@ -209,7 +209,7 @@ Chez Scheme's module form.
 == R6RS == 
 
 A subset of R6RS libraries will run without modification in this
-system. In particular, though libraries which do not take advantage of
+system. In particular, those libraries which do not take advantage of
 explicit phasing and/or versioning are expected to run without
 incident. 
 
