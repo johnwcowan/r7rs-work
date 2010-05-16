@@ -8,6 +8,9 @@ David Rush
 
 == Abstract ==
 
+There is a significant fraction of the Scheme programming community which is looking for more expressive tools for data abstraction. When this desire is brought into contrast with the minimalist facilities of the existing Scheme Reports it can be difficult to reconcile the expectations many programmers have from more mainstream languages. SRFI-9 provides a facility which occupies a low-energy "sweet spot" in terms of semantic complexity and expressiveness, although it is unfortunately still somewhat primitive - lacking primarily in extensibility and integration with other Scheme facilities, most notably READ and WRITE.
+
+Since most type-checking in Scheme is performed at run-time through the evaluation of predicate functions, the issues of type extensibility and integration ultimately come down to the the relationships expressible through those type predicate functions. This leads to an examination of the type structures within Scheme
 
 == Issues ==
 
