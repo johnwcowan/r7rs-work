@@ -1,0 +1,32 @@
+== Title ==
+
+WG1 User Defined Aggregate Types
+
+== Authors ==
+
+David Rush
+
+== Abstract ==
+
+
+== Issues ==
+
+
+== Rationale ==
+
+
+== Specification ==
+
+
+== Top-Level Programs ==
+
+== Implementation ==
+
+== Compatibility ==
+
+=== R5RS ===
+
+=== R6RS ===
+
+=== WG2 ===
+
