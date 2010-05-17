@@ -29,6 +29,7 @@ Scheme provides a variety of primitive types from which program values are all t
 
  * {{{make-aggregate-type}}} <name> => <type-id>
  * {{{make-aggregate}}} <type-id> <slots> => <aggregate>
+ * {{{aggregate-length}}}<aggregate> => <exact integer>
  * {{{aggregate-ref}}} <aggregate> <slot> => <value>
  * {{{aggregate-set!}}} <aggregate> <slot> <value> => *undefined*
 
