@@ -16,6 +16,7 @@ Since most type-checking in Scheme is performed at run-time through the evaluati
 
  * generative vs named
  * opacity of ports
+ * relationship to {{{VALUES}}}
 
 == Rationale ==
 
@@ -23,15 +24,18 @@ Scheme provides a variety of primitive types from which program values are all t
 
 == Specification ==
 
- * make-aggregate-type <name> => <type-id>
- * make-aggregate <type-id> <slots> => <aggregate>
- * aggregate-ref <aggregate> <slot> => <value>
- * aggregate-set! <aggregate> <slot> <value> => *undefined*
+ * {{{atom?}}} => <boolean>
+ * {{{aggregate?}}} => <boolean>
 
- * aggregate-type <pair> => <pair-type-id>
- * aggregate-type <vector> => <vector-type-id>
- * aggregate-type <string> => <string-type-id>
- * aggregate-type <aggregate> => <type-id>
+ * {{{make-aggregate-type}}} <name> => <type-id>
+ * {{{make-aggregate}}} <type-id> <slots> => <aggregate>
+ * {{{aggregate-ref}}} <aggregate> <slot> => <value>
+ * {{{aggregate-set!}}} <aggregate> <slot> <value> => *undefined*
+
+ * {{{aggregate-type}}} <pair> => <pair-type-id>
+ * {{{aggregate-type}}} <vector> => <vector-type-id>
+ * {{{aggregate-type}}} <string> => <string-type-id>
+ * {{{aggregate-type}}} <aggregate> => <type-id>
 
 
 == Top-Level Programs ==
