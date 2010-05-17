@@ -17,6 +17,7 @@ Since most type-checking in Scheme is performed at run-time through the evaluati
  * generative vs named
  * opacity of ports
  * relationship to {{{VALUES}}}
+ * EQ? vs EQV? and extensibility
 
 == Rationale ==
 
@@ -28,6 +29,7 @@ Scheme provides a variety of primitive types from which program values are all t
  * {{{aggregate?}}} => <boolean>
 
  * {{{make-aggregate-type}}} <name> => <type-id>
+ * {{{extend-aggregate-type}}} <type-id> <name> => <type-id>
  * {{{make-aggregate}}} <type-id> <slots> => <aggregate>
  * {{{aggregate-length}}}<aggregate> => <exact integer>
  * {{{aggregate-ref}}} <aggregate> <slot> => <value>
