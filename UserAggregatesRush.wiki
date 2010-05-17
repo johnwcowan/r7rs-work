@@ -10,15 +10,28 @@ David Rush
 
 There is a significant fraction of the Scheme programming community which is looking for more expressive tools for data abstraction. When this desire is brought into contrast with the minimalist facilities of the existing Scheme Reports it can be difficult to reconcile the expectations many programmers have from more mainstream languages. SRFI-9 provides a facility which occupies a low-energy "sweet spot" in terms of semantic complexity and expressiveness, although it is unfortunately still somewhat primitive - lacking primarily in extensibility and integration with other Scheme facilities, most notably READ and WRITE.
 
-Since most type-checking in Scheme is performed at run-time through the evaluation of predicate functions, the issues of type extensibility and integration ultimately come down to the the relationships expressible through those type predicate functions. This leads to an examination of the type structures within Scheme
+Since most type-checking in Scheme is performed at run-time through the evaluation of predicate functions, the issues of type extensibility and integration ultimately come down to the the relationships expressible through those type predicate functions. This leads to an examination of the type structures within Scheme and a slight reorganization of the type predicates to enable a richer data abstraction facility.
 
 == Issues ==
 
+* generative vs named
+* opacity of ports
 
 == Rationale ==
 
+Scheme provides a variety of primitive types from which program values are all taken. The majority (how many?) of them are atomic types, with little or no internal structure. The remaining primitive types aggregate multiple atomically typed values.
 
 == Specification ==
+
+make-aggregate-type <name> => <type-id>
+make-aggregate <type-id> <slots> => <aggregate>
+aggregate-ref <aggregate> <slot> => <value>
+aggregate-set! <aggregate> <slot> <value> => *undefined*
+
+aggregate-type <pair> => <pair-type-id>
+aggregate-type <vector> => <vector-type-id>
+aggregate-type <string> => <string-type-id>
+aggregate-type <aggregate> => <type-id>
 
 
 == Top-Level Programs ==
