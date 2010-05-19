@@ -32,3 +32,5 @@ round.
 
 On EditingTracPagesInEmacs, I describe how to use trac-wiki.el
 to view and edit pages on our Trac site directly from Emacs.
+
+Here's my ballot: WG1BallotGleckler
