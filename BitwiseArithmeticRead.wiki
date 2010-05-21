@@ -1,0 +1,28 @@
+(note this is a work in progress)
+
+== Introduction ==
+
+Bitwise operations are an essential component of computing in binary. They are used in efficient implementations of data structures (sets, hash tables, etc.), in reading and writing wire protocols and file formats, in encryption algorithms and chess-playing programs. However, while previous Scheme standards have provided comprehensive support for numeric types and basic operations over these types, bitwise operations have been curiously missing from the standard until R6RS. This proposal is an attempt to standardize as much of R6RS's bitwise-arithmetic semantics as is useful in a small core language.
+
+Most Schemes that supply bitwise operators do so using one of two conventions. The first is the Common Lisp convention where bitwise arithmetic procedures are named after their Common Lisp counterparts: `logand`, `logior`, etc. The second uses longer names; e.g., `bitwise-and`, `bitwise-or`, etc., and is shared with R6RS. It is this convention which will be specified here.
+
+== The Specification ==
+
+All operations are defined only over the exact integers, and assume the arguments to be semi-infinite-precision two's complement, meaning that any positive argument is considered to be padded on the left by an infinite number of 0 bits; and any negative argument is considered to be padded on the left by an infinite number of 1 bits.
+
+`(bitwise-and int ...)`
+
+Returns the bitwise AND of its arguments. A bit is set in the result if the corresponding bit is set in all of its arguments. If called with no arguments, returns -1 (all 1 bits).
+
+`(bitwise-ior int ...)`
+
+Returns the bitwise inclusive OR of its arguments. A bit is set in the result if the corresponding bit is set in any of its arguments. If called with no arguments, returns 0 (all 0 bits).
+
+
+`(bitwise-xor int ...)`
+
+Returns the bitwise exclusive OR of its arguments. A bit is set in the result if the corresponding bit is set in an odd number of its arguments. If called with no arguments, returns 0 (all 0 bits).
+
+`(bitwise-not int)`
+
+Returns the bitwise NOT, or complement, of its arguments. If a bit is set in the argument, the corresponding bit will be cleared in the result, and vice-versa.
