@@ -26,3 +26,15 @@ Returns the bitwise exclusive OR of its arguments. A bit is set in the result if
 `(bitwise-not int)`
 
 Returns the bitwise NOT, or complement, of its argument. If a bit is set in the argument, the corresponding bit will be cleared in the result, and vice-versa.
+
+`(arithmetic-shift int1 int2)`
+
+Returns ''int1'' shifted to the left by ''int2'' bits (right if ''int2'' is negative).
+
+`(bitwise-bit-set int1 int2)
+
+Returns ''int1'' with bit ''int2'' set. Equivalent to `(or int1 (arithmetic-shift 1 int2))`.
+
+`(bitwise-bit-clear int1 int2)
+
+Returns ''int1'' with bit ''int2'' cleared. Equivalent to `(and int1 (not (arithmetic-shift 1 int2)))`.
