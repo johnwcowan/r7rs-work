@@ -33,8 +33,8 @@ Returns ''int1'' shifted to the left by ''int2'' bits (right if ''int2'' is nega
 
 `(bitwise-bit-set int1 int2)
 
-Returns ''int1'' with bit ''int2'' set. Equivalent to `(or int1 (arithmetic-shift 1 int2))`.
+Returns ''int1'' with bit ''int2'' set. Equivalent to `(bitwise-or int1 (arithmetic-shift 1 int2))`.
 
 `(bitwise-bit-clear int1 int2)
 
-Returns ''int1'' with bit ''int2'' cleared. Equivalent to `(and int1 (not (arithmetic-shift 1 int2)))`.
+Returns ''int1'' with bit ''int2'' cleared. Equivalent to `(bitwise-and int1 (not (arithmetic-shift 1 int2)))`.
