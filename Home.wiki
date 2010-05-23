@@ -8,7 +8,10 @@ For a complete list of local wiki pages, see TitleIndex.
 
 [[MemberPagesWorkingGroupOne|Member Page]]
 
-[[WorkingGroupOneProcess|Process]] ([[SampleVoteYakHandler|Sample Vote]])
+[[WorkingGroupOneProcess|Process]]
+
+    * [[:WG1Ballot|Ballot]]
+    * [[SampleVoteYakHandler|Sample Vote]]
 
 '''Issue Summaries and Proposals'''
 
