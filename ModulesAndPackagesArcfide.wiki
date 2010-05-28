@@ -47,31 +47,31 @@ This document proposes the following forms:
 The following syntax describes their general use.
 
 {{{
-<library> := (library <library name> <expression> <expression> ...)
-<library name> := (<library name element> <library name element> ...)
-<library name element> := <symbol> | <exact integer>
+<library>                 := (library <library name> <expression> <expression> ...)
+<library name>            := (<library name element> <library name element> ...)
+<library name element>    := <symbol> | <exact integer>
 
-<module> := (module [<identifier>] <expression> <expression> ...)
+<module>                  := (module [<identifier>] <expression> <expression> ...)
 
-<export> := (export <export-spec> ...)
-<export-spec> := <identifier>
-               | (rename (<idientifier_1> <identifier_2>) ...)
+<export>                  := (export <export-spec> ...)
+<export-spec>             := <identifier>
+                           | (rename (<idientifier_1> <identifier_2>) ...)
 
-<co-export> := (co-export <identifier> <identifier> ...)
-<implicit-export> := (implicit-export <identifier> <identifier> ...)
+<co-export>               := (co-export <identifier> <identifier> ...)
+<implicit-export>         := (implicit-export <identifier> <identifier> ...)
 <implicit-export/visible> := (implicit-export/visible <identifier>)
 
-<import> := (import <import-spec> ...)
-<import-spec> := <identifier>
-               | <library name>
-               | (library <library name>)
-               | (only <import-spec> <identifier> ...)
-               | (except <import-spec> <identifier> ...)
-               | (prefix <import-spec> <identifier>)
-               | (rename <import-spec>
-                         (<identifier_1> <identifier_2>) ...)
+<import>                  := (import <import-spec> ...)
+<import-spec>             := <identifier>
+                           | <library name>
+                           | (library <library name>)
+                           | (only <import-spec> <identifier> ...)
+                           | (except <import-spec> <identifier> ...)
+                           | (prefix <import-spec> <identifier>)
+                           | (rename <import-spec>
+                                     (<identifier_1> <identifier_2>) ...)
 
-<include> := (include <string>)
+<include>                 := (include <string>)
 }}}
 
 A `library` form may only occur at the top-level of a program. The
