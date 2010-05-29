@@ -221,7 +221,7 @@ compatible. Should we do this?
 
 == WG1 - Exceptions ==
 
-=== 17 error ===
+=== 17 error ===f
 
 Do we support the near ubiquitous SRFI-23 error procedure?
 
@@ -237,7 +237,7 @@ Clarification: I prefer the R6RS error procedure.
 Do we support SRFI-6 string ports, reaffirmed by R6RS?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' yes
+  * '''Preferences:''' r6rs
 
 === 52 read/write cyclic data ===
 
