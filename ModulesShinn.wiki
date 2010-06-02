@@ -183,7 +183,7 @@ in addition to (or in place of) their current syntax.
 === R6RS ===
 
 The syntax is largely a subset of the R6RS `library` form, with the
-except that there is no implicit body.  To support WG1 library forms,
+exception that there is no implicit body.  To support WG1 library forms,
 the core library (e.g. `(rnrs 7)`) should provide two macros,
 `include` and `body`.  `body` can be defined simply as an alias for
 `begin`:
