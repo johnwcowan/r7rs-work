@@ -55,7 +55,7 @@ The following syntax describes their general use.
 
 <export>                  := (export <export-spec> ...)
 <export-spec>             := <identifier>
-                           | (rename (<idientifier_1> <identifier_2>) ...)
+                           | (rename (<identifier_1> <identifier_2>) ...)
 
 <co-export>               := (co-export <identifier> <identifier> ...)
 <implicit-export>         := (implicit-export <identifier> <identifier> ...)
