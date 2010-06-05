@@ -1,7 +1,5 @@
 = WG1 New Ballot Votes by ArthurGleckler =
 
-'''I'm not yet finished filling in my votes.'''
-
 Notes about voting:
 
   * you may list as many of the options as you want in order of preference
@@ -23,7 +21,7 @@ in R6RS.  Do we want to keep them, drop them, or
 move them to a library?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' module,drop,wg2
 
 === 38 letrec* ===
 
@@ -32,7 +30,7 @@ of internal define to be equivalent.  Do we
 want to add this?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided
 
 === 41 Should we adopt the SRFI-1 extension to MAP and FOR-EACH? ===
 
@@ -43,7 +41,7 @@ stops the procedure whenever any of them run out.  R5RS says the lists
 `Yes` to allow unequal length.
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
 
 === 42 Should we adopt the SRFI-1 extension to ASSOC and MEMBER? ===
 
@@ -51,7 +49,7 @@ This extension accepts a third argument, the equality predicate to be
 used.  Alternatively we could use the R6RS predicates ASSP and MEMP.
 
   * '''Options:''' srfi-1,r6rs,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' srfi-1,r6rs
 
 === 40 SRFI vs. R6RS precedence ===
 
@@ -61,7 +59,7 @@ with the choice. For example, a version of syntax-violation
 vs. syntax-error.
 
   * '''Options:''' srfi,r6rs,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided
 
 === 32 user-define types ===
 
@@ -73,14 +71,14 @@ or the R6RS record system?
     * '''snellpym:''' UniqueTypesSnellPym
     * '''hsu:''' RecordsArcfide
   * '''Options:''' snellpym,hsu,srfi-9,no,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' srfi-99,srfi-9,hsu,snellpym
 
 === 33 dynamic-wind ===
 
 New to R5RS, do we reaffirm the sometimes debated dynamic-wind?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes,module,wg2
 
 === 34 multiple values ===
 
@@ -88,7 +86,7 @@ New to R5RS, do we reaffirm multiple values, specifically the
 procedures `call-with-values` and `values`?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes,module,wg2
 
 === 51 support for cyclic structures in primitives ===
 
@@ -102,7 +100,7 @@ Do we want to specify the behavior when these primitives encounter
 cyclic data?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes,wg2
 
 === 54 optional arguments ===
 
@@ -118,7 +116,7 @@ Note the original ticket description mentions `case-lambda`, but this
 is easily provided as a separate module, and will be a separate item.
 
   * '''Options:''' dsssl,srfi-89,no,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' dsssl,wg2
 
 === 57 Simple randomness ===
 
@@ -127,7 +125,7 @@ necessarily of very high quality.  Shall we provide a simple interface
 to a random variables in WG1 Scheme?
 
   * '''Options:''' srfi-27,no,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' wg2,no
 
 === 58 exact-integer-sqrt ===
 
@@ -137,7 +135,7 @@ has different semantics from `sqrt`, as it rounds its argument down to
 the nearest exact square.
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes,module,wg2
 
 === 59 current-error-port ===
 
@@ -146,7 +144,7 @@ current error distinct from current output.  Should this be exposed as
 a Scheme output port?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes,module,wg2
 
 === 60 Simple file operations ===
 
@@ -155,14 +153,14 @@ This provides `delete-file` and `file-exists?`, which are pretty much
 necessities for any file-driven programming.
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' module,yes
 
 === 61 finite? nan? ===
 
 Shall we add these numeric predicates?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided
 
 === 63 call/cc short name ===
 
@@ -170,7 +168,7 @@ Should we allow `call/cc` as an equivalent to
 `call-with-current-continuation`?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' no,module,wg2
 
 === 64 Consistency in sequence procedures ===
 
@@ -181,7 +179,7 @@ string->vector copy-vector vector-map vector-for-each vector->string`,
 all with the obvious interface and semantics.
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' module,wg2,yes
 
 === 65 Precision indicators ===
 
@@ -192,7 +190,7 @@ precision, so this is mostly noise.  Shall we make it an optional
 feature?
 
   * '''Options:''' required,optional,no,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' optional,wg2
 
 === 66 Add EXACT-INTEGER? ===
 
@@ -202,7 +200,7 @@ which requires some hackery or poor pattern matching to optimize in
 existing Scheme implementations.
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided
 
 === 44 Testing function arity ===
 
@@ -210,7 +208,7 @@ We would like a standard for checking function arity.
 SRFI-102 proposes a way to check function arity:
 
   * '''Options:''' srfi-102,no,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' srfi-102,wg2,no
 
 === 53 Implicit BEGIN to implicit LET-NIL ===
 
@@ -219,7 +217,7 @@ change this to an implicit LET-NIL and remain backwards
 compatible. Should we do this?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
 
 == WG1 - Exceptions ==
 
@@ -228,7 +226,7 @@ compatible. Should we do this?
 Do we support the near ubiquitous SRFI-23 error procedure?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes,module,wg2
 
 == WG1 - I/O ===
 
@@ -237,7 +235,7 @@ Do we support the near ubiquitous SRFI-23 error procedure?
 Do we support SRFI-6 string ports, reaffirmed by R6RS?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes,module,wg2
 
 === 52 read/write cyclic data ===
 
@@ -251,7 +249,7 @@ Do we want to add support for this, as an option
 or separate set of procedures?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' no,module,wg2
 
 == WG1 - Libraries ==
 
@@ -263,7 +261,7 @@ some primitives on which efficient hash-tables can
 be implemented?
 
   * '''Options:''' srfi-69,r6rs,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' wg2,r6rs,srfi-69
 
 == WG1 - Macros ==
 
@@ -273,7 +271,7 @@ R6RS adds _ as a wild-card pattern, breaking
 some existing R5RS macros.  Do we keep the _?
 
   * '''Options:''' yes,no,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' no
 
 === 7 (... ...) ellipse escaping in syntax patterns ===
 
@@ -283,7 +281,7 @@ to be an escape for "<templ>".  Do we use this, and
 if so what does (... <t1> <t2>) mean?
 
   * '''Options:''' yes,no,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
 
 === 8 SRFI-46 ellipse specifier in syntax-rules ===
 
@@ -298,7 +296,7 @@ syntax-rules:
 Do we allow this?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' no
 
 === 9 tail patterns in syntax-rules ===
 
@@ -317,7 +315,7 @@ where Px only matches a dotted list.
 Do we allow either or both of these extensions?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided
 
 === 39 syntax-error ===
 
@@ -329,7 +327,7 @@ but it relies on the syntax-rules implementation reporting an
 unmatchable pattern with a complaint that includes the pattern.
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
 
 === 5 syntax-rules ===
 
@@ -340,7 +338,7 @@ it to a standard module, or leave it out entirely
 `Yes` to keep in core, `no` to remove from Scheme entirely.
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes,module,wg2
 
 === 10 identifier syntax ===
 
@@ -352,7 +350,7 @@ types of expanders are provided, do we provide
 a means to specify identifier syntax?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' no
 
 === 47 internal define-syntax ===
 
@@ -361,7 +359,7 @@ in local lexical contexts.  Do we allow
 this as well?
 
   * '''Options:''' yes,no,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
 
 == WG1 - Numerics ==
 
@@ -373,7 +371,7 @@ do we use the same literal syntax and arithmetic
 as in R6RS?
 
   * '''Options:''' yes,no,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
 
 === 21 limited type arithmetic ===
 
@@ -381,7 +379,7 @@ R6RS provides libraries for limited type arithmetic
 on fixnums only and flonums only.  Do we want these?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' module,wg2,yes
 
 === 22 mantissa widths ===
 
@@ -390,7 +388,7 @@ as an alternative to the R5RS #s in numbers.
 Do we want either or both of these?
 
   * '''Options:''' r5rs,r6rs,both,no,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided
 
 == WG1 - Reader Syntax ==
 
@@ -402,7 +400,7 @@ Yes to fold-case (R5RS) no to preserve case (R6RS), additional votes
 to come later from specific proposals.
 
   * '''Options:''' yes,no,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
 
 === 15 #\foo character names ===
 
@@ -411,7 +409,7 @@ as well as allowing #\xNN numeric escapes for characters.
 Do we allow any or all of these names?
 
   * '''Options:''' yes,no,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
 
 === 13 [brackets] as (parens) ===
 
@@ -421,7 +419,7 @@ accept this extension, propose some other use for
 brackets, or leave them unspecified?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' no
 
 === 14 alternate comment syntax ===
 
@@ -430,7 +428,7 @@ and #| ... |# nested block comments.  Do we include
 either or both of these?
 
   * '''Options:''' sexp,block,both,no,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' both
 
 === 16 symbol escapes ===
 
@@ -442,7 +440,7 @@ where nnnn is 1-5 hex digits.  Do we accept this extension?  Do we
 also allow |...| to escape a whole symbol or a part of one?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
 
 === 67 string escapes ===
 
@@ -452,7 +450,7 @@ common control characters. Do we accept either or both of these
 extensions?
 
   * '''Options:''' numeric,mnemonic,both,no,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' numeric,no
 
 == WG1 - Strings and Chars ==
 
@@ -464,7 +462,7 @@ and foldcase) using locale-independent Unicode
 mappings.  Do we provide equivalent mappings?
 
   * '''Options:''' strings,chars,both,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' module,wg2,both
 
 === 26 string normalization ===
 
@@ -474,7 +472,7 @@ normalization forms.  Do we provide any sort
 of string normalization?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' module,wg2,both
 
 === 27 string-ref/set! access time ===
 
@@ -485,7 +483,7 @@ as character arrays.  Do we reaffirm this?
 `Yes` for required constant time.
 
   * '''Options:''' yes,no,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided
 
 === 23 character set ===
 
@@ -496,7 +494,7 @@ character set, or limit the options in any way?
   * '''Proposals:'''
     * '''cowan:''' UnicodeCowan
   * '''Options:''' cowan,r5rs,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' cowan,wg2,r5rs
 
 == Working Group 1 ==
 
@@ -508,4 +506,4 @@ entered this ticket to play with the Trac ticketing system. We can
 finalize the ticket once we have chosen a VCS.
 
   * '''Options:''' bzr,darcs,git,hg,monotone,svn,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' monotone,hg,bzr,git,svn,darcs
