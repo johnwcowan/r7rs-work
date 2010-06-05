@@ -21,7 +21,7 @@ in R6RS.  Do we want to keep them, drop them, or
 move them to a library?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' module,drop,wg2
+  * '''Preferences:''' module,no,wg2
 
 === 38 letrec* ===
 
