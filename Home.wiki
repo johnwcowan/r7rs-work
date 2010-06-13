@@ -11,6 +11,7 @@ For a complete list of local wiki pages, see TitleIndex.
 [[WorkingGroupOneProcess|Process]]
 
     * [[:WG1Ballot|Ballot]]
+    * [[:WG1BallotResults|Ballot Results]]
     * [[SampleVoteYakHandler|Sample Vote]]
 
 '''Issue Summaries and Proposals'''
