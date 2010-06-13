@@ -29,6 +29,8 @@ For a complete list of local wiki pages, see TitleIndex.
     * StringRepresentations
     * CaseSensitivity
         * CaseSensitivityArcfide
+    * Parameters
+        * ParametersSnellPym
     * [[ExceptionsErrorsAndConditions|Exceptions, Conditions, and Error handling]]
 
 
