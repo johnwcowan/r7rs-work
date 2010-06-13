@@ -245,8 +245,8 @@ compatible. Should we do this?
 
 Do we support the near ubiquitous SRFI-23 error procedure?
 
-  * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' yes,module
+  * '''Options:''' srfi-23,r6rs,both,no,module,wg2,undecided 
+  * '''Preferences:''' srfi-23,module
 
 == WG1 - I/O ===
 
@@ -254,8 +254,10 @@ Do we support the near ubiquitous SRFI-23 error procedure?
 
 Do we support SRFI-6 string ports, reaffirmed by R6RS?
 
-  * '''Options:''' yes,no,module,wg2,undecided
+  * '''Options:''' srfi-6,r6rs,no,module,wg2,undecided
   * '''Preferences:''' no
+
+Implementations can provide SRFI-6 through the usual mechanisms, rather than it being put into WG1
 
 === 52 read/write cyclic data ===
 
