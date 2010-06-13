@@ -20,6 +20,9 @@ These were relegated to a compatibility library
 in R6RS.  Do we want to keep them, drop them, or
 move them to a library?
 
+Yes means to keep them in the core, as in R5RS,
+and no means to remove them entirely.
+
   * '''Options:''' yes,no,module,wg2,undecided
   * '''Preferences:''' 
 
@@ -70,7 +73,7 @@ or the R6RS record system?
   * '''Proposals:'''
     * '''snellpym:''' UniqueTypesSnellPym
     * '''hsu:''' RecordsArcfide
-  * '''Options:''' snellpym,hsu,srfi-9,no,wg2,undecided
+  * '''Options:''' snellpym,hsu,srfi-9,srfi-99,no,wg2,undecided
   * '''Preferences:''' 
 
 === 33 dynamic-wind ===
@@ -223,18 +226,21 @@ compatible. Should we do this?
 
 === 17 error ===
 
-Do we support the near ubiquitous SRFI-23 error procedure?
+Do we support the near ubiquitous SRFI-23 error procedure,
+and if so should it use the SRFI-23 signature, R6RS, or
+type-dispatch on the first argument to allow both?
 
-  * '''Options:''' yes,no,module,wg2,undecided
+  * '''Options:''' srfi-23,r6rs,both,no,module,wg2,undecided
   * '''Preferences:''' 
 
 == WG1 - I/O ===
 
 === 30 string ports ===
 
-Do we support SRFI-6 string ports, reaffirmed by R6RS?
+Do we support string ports, as implemented by SRFI-6
+or as by R6RS?
 
-  * '''Options:''' yes,no,module,wg2,undecided
+  * '''Options:''' srfi-6,r6rs,no,module,wg2,undecided
   * '''Preferences:''' 
 
 === 52 read/write cyclic data ===
@@ -265,10 +271,13 @@ be implemented?
 
 == WG1 - Macros ==
 
-=== 6 syntax-rules _ and ... patterns ===
+=== 6 syntax-rules _ patterns ===
 
 R6RS adds _ as a wild-card pattern, breaking
-some existing R5RS macros.  Do we keep the _?
+some existing R5RS macros.  Do we add the _ wildcard,
+or leave it as a normal identifier as in R5RS?
+
+Yes to add, no for R5RS.
 
   * '''Options:''' yes,no,wg2,undecided
   * '''Preferences:''' 
@@ -314,7 +323,7 @@ where Px only matches a dotted list.
 
 Do we allow either or both of these extensions?
 
-  * '''Options:''' yes,no,module,wg2,undecided
+  * '''Options:''' tail,dotted-tail,both,no,module,wg2,undecided
   * '''Preferences:''' 
 
 === 39 syntax-error ===
