@@ -1,0 +1,67 @@
+= Background =
+
+Being able to define a means of catching raised errors is fundamental to reliable programming, that can recover from error cases.
+
+Yes, we can make all primitives return sentinel values in the event of errors, and expect users to explicitly test for them, but that creates a lot of unpleasant "paperwork" (although and-let* helps!), and the resulting error handling paths are difficult to exhaustively test.
+
+I think we should standardise exception raising and catching, rather than allowing different libraries to evolve in the wild, because it's important to have one standard way to catch all raised exceptions/errors/conditions, in order to allow code written by multiple authors to be composed.
+
+So a library might expose a "retry up to five times, then ask the user if we should try and more, and abort if not" procedure (that calls a supplied action thunk as the action to be retried), and it can reliably catch errors thrown by the thunk, rather than needing to cater for a plethora of different catch/throw systems, and without taking the approach of using a dynamic-wind to catch *all* nonlocal exits from the thunk (which would interact badly with tools like (amb)).
+
+= The Proposal =
+
+A current condition handler is defined as a dynamically scoped value (and is thread-local in the presence of threads; eg it has ParametersSnellPym parameter semantics).
+
+The initial value of the handler is a system-specific procedure known as the 'root condition handler' that generally invokes a top-level exit continuation for the whole program, or the current thread (if some concept of threading exists), possibly displaying useful debugging information to some interested parties in some implementation-specific way; implementations are permitted to provide a debugger that interactively lets the programmer perform actions other than invoking the top-level exit continuation, perhaps invoking retries or invoking other arbitrary continuations, but only under interactive control; unattended systems must always invoke the top-level exit continuation.
+
+ * `(raise <datum>)`
+
+This procedure applies the current condition handler to the datum, with a continuation that immediately invokes the root condition handler with the datum `(condition-handler-returned <return value of condition handler>)`.
+
+ * `(abort <datum>)`
+
+This procedure applies the root condition handler to the datum.
+
+ * `(error <datum>)`
+
+This is a shorthand for `(raise (cons 'error <datum>))`, or something along those lines.
+
+ * `(with-condition-handler <thunk> <handler>)`
+
+This procedure captures its current continuation (`k`) then applies the handler to the result of capturing another continuation (`e`) to the result of applying k to the application of the thunk, in a dynamic environment in which the current condition handler is `e`. (I think I got that right. Consider the next paragraph more normative than this...)
+
+In other words, if the thunk raises no conditions, then the return value of the expression is the return value of the thunk; if the thunk raises a condition, then the handler is executed within the dynamic scope of the `with-condition-handler`, rather than within that of `raise`, and the return value of the expression is the return value of the handler.
+
+ * `(with-condition-handler* <thunk> <handler>)`
+
+This procedure captures its current continuation then evaluates to the thunk, within a dynamic scope where the current condition handler is set to a procedure which applies the capture continuation to the application of the supplied handler to the argument of the condition handler.
+
+In other words, if the thunk raises no conditions, then the return value of the expression is the return value of the thunk; if the thunk raises a condition, then the handler is executed within the dynamic scope of the `raise`, rather than within that of `with-condition-handler*`, and the return value of the expression is the return value of the handler.
+
+The ability to re-raise conditions within the scope of the `raise` allows for "restarts", where (for example) a procedure that reads the contents of a file might open the file and perform the I/O within a context with a condition handler that catches special "restart conditions" that do things like restart the operation with a different filename, or just invoke the continuation with an arbitrary string as the returned value, while re-raising any other conditions; then this procedure might be called with a condition handler that responds to a file-not-found condition by raising a restart condition which causes the procedure to return an empty string, thereby causing all nonexistant files to appear to be present but empty.
+
+ * `(with-generalised-condition-handler <thunk> <handler>)`
+
+This procedure captures its current continuation (`k`) then applies the handler to the result of capturing another continuation (`e`) to the result of applying k to the application of the thunk, in a dynamic environment in which the current condition handler is captures the current continuation (`k2`) then invokes the thunk returned from the result of capturing the current continuation (`n`) then invoking `e` to the original condition handler argument and `n`. (I think I probably didn't get that right. Consider the next paragraph more normative than this...)
+
+Note that this definition assumes multiple-valued continuations; if we don't support that, it can be done in terms of passing a vector or other structure around.
+
+In other words, if the thunk raises no conditions, then the return value of the expression is the return value of the thunk; if the thunk raises a condition, then the handler is executed within the dynamic scope of the `raise`, rather than within that of `with-generalised-condition-handler`, and the return value of the expression is the return value of the handler; however, the handler is given two arguments, the first of which is the `raise`d datum, and the second of which is a continuation which, if applied to a thunk, executes that thunk in the scope of the original `raise`, so that conditions can be raised by the handler in either scope.
+
+ * Run-time errors
+
+Any error case in primitives defined by this standard shall be `raise`d as a suitable datum, generally of the form `(<type symbol> <details...>)`
+
+ * Condition values
+
+Some exception systems provide a detailed type system for conditions, generally allowing for inheritance (so that more specific classes of condition may be specified by handlers), and/or allowing for conditions to have "display behaviour" attached so that they can be converted into a human-readable message.
+
+This proposal defines no such system, but implies that system-raised conditions should be of the form `(<type symbol> <args>...)`; hierarchial structure can be expressed by having a subtype symbol as the first argument, repeated as necessary (so we might have `(io file ...)` errors, `(io socket ...)`, and so on).
+
+I'm open to ideas for better conventions!
+
+More complex condition type systems should then recognise that pattern as a "system condition", optionally mapping the type symbol into some more complex hierarchy, and providing a default "display behaviour" along the lines of "An internal error has occurred".
+
+ * Error, exception, or condition?
+
+I'm not quite sure which term is best, but I have a vague hunch that 'condition' is the most general.
