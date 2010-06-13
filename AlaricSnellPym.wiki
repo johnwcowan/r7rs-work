@@ -19,3 +19,5 @@ My ballot: wiki:WG1BallotSnellPym
 = Proposals =
 
  * UniqueTypesSnellPym
+ * ErrorsSnellPym
+ * ParametersSnellPym
