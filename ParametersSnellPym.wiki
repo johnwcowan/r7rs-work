@@ -4,7 +4,7 @@ Parameters, as per [[http://srfi.schemers.org/srfi-39/srfi-39.html|SRFI-39]], ar
 
  1. They can be labour-savers, passing "configuration information" down through complex call stacks without needing explicit parameter passing through functions that do nothing with the parameter other than pass it to all child procedures called, until a lower layer actually uses it
 
- 2. They allow isolation of concerns;.as per the previous point, the intermediate procedures do not need to know what configuration information is sent to which child procedures, which is useful when the child procedures are provided by external libraries, or are arbitrary closures which might invoke arbitrary external libraries.
+ 2. They allow isolation of concerns; as per the previous point, the intermediate procedures do not need to know what configuration information is sent to which child procedures, which is useful when the child procedures are provided by external libraries, or are arbitrary closures which might invoke arbitrary external libraries.
 
  3. They allow dynamically scoped state, for tasks like exception handling and thread-local storage
 
