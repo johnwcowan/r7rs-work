@@ -58,7 +58,6 @@ The following syntax describes their general use.
 
 <co-export> := (co-export <identifier> <identifier> ...)
 <implicit-export> := (implicit-export <identifier> <identifier> ...)
-<implicit-export/visible> := (implicit-export/visible <identifier>)
 
 <import> := (import <import-spec> ...)
 <import-spec> := <identifier>
