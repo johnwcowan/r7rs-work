@@ -48,7 +48,7 @@ can be provided.  The major types of module systems include:
     function application.  Scheme48 takes this approach with a single
     meta module called the `config` module, which is globally extended
     when you want to add new module syntax.  In either of these cases,
-    you obtain the fliexbility to extend the module syntax with new
+    you obtain the flexibility to extend the module syntax with new
     features, but at the same time provide a separation between the
     module meta-info and the actual body of the module itself,
     allowing a certain amount of static analysis without actually
