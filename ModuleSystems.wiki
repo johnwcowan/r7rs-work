@@ -1,3 +1,5 @@
+== Introduction ==
+
 As the charter states, "the purpose of this work is to facilitate
 sharing of Scheme code."  To this effect, a module system is
 explicitly given as a requirement in the charter.  We need to consider
@@ -8,124 +10,70 @@ use.
 Module systems serve the purpose of encapsulating code and managing
 namespaces.  Although `lambda` lets us manage local identifiers,
 it doesn't allow us to encapsulate macros, and it wants for a
-friendlier interface for module-like uses.  Some of the existing
-general strategies for implementations include:
+friendlier interface for module-like uses.
 
-  * StaticModules
-
-    Many implementations provide a static module syntax that cannot
-    be extended.  They just provide the basics needed for importing and
-    exporting (optionally renamed) identifiers from other modules.
-    The module form itself, and any auxiliary forms such as `import`
-    and `export`, may or may not be expandable as syntax.
-
-  * SyntacticModules
-
-    A natural approach to creating modules is to build them on top of,
-    and allow them to be composed with, macros.  It is relatively easy
-    to implement this for variables only (not importing or exporting
-    syntax), and one sample implementation can be found in
-    [[http://mumble.net/~campbell/scheme/lexmod.tar.gz|lexmod]].
-    Allowing importing and exporting syntax requires non-portable
-    extensions.  Chez Scheme uses this approach.
-
-  * ConfigModules
-
-    An alternative approach to extending a module system is to use a
-    DSL for the module syntax that can extend itself.  Scheme48 and
-    Chibi take this approach, supplying a DSL that is essentially
-    Scheme itself.  This allows equivalent extensibility to
-    SyntacticModules while keeping the module extensions clearly
-    separate from the language they describe, and making it easier to
-    statically analyze modules.
+There are a number of fundamentally different ways in which modules
+can be provided.  The major types of module systems include:
 
   * FirstClassEnvironments
 
     First-class environments that can be passed as a second argument
-    to `eval` (or the equivalent) can be used to implement modules
-    directly.  If macros are not first-class, the environments would
-    need some interface for passing back and forth macro bindings.
-    The disadvantage of this approach is that many implementations do
-    not support first-class environments.
+    to `eval` (or the equivalent) can be used as a form of
+    encapsulation, where a module is the set of bindings defined in
+    the environment.  If macros are not first-class, the environments
+    would need some interface for passing back and forth macro
+    bindings between environments.  The disadvantages of this approach
+    are that many implementations do not support such first-class
+    environments, separate compilation and phasing becomes more
+    complicated, and static analysis is almost impossible.
 
-Whatever implementation strategy is used, a syntax for the standard
-module form must be chosen.  Modulo keyword names, options include:
+  * SyntacticModules
 
-  * Unwrapped:
+    Another natural approach to creating modules is to build them on
+    top of, and allow them to be composed with, macros, and allowing
+    import forms to be expanded from macros.  It is relatively easy to
+    implement this for non-syntactic bindings only, and one sample
+    portable implementation can be found in
+    [[http://mumble.net/~campbell/scheme/lexmod.tar.gz|lexmod]].
+    Allowing importing and exporting syntax requires non-portable
+    extensions.  Chez Scheme uses this approach.
 
-    (module <declarations ...)
-    <body> ...
+  * MetaModules
 
-    Seen in most other programming languages, the `module` form is
-    just a single declaration, and the rest of the file contains the
-    actual code.  This has the distinct disadvantage that it can't be
-    implemented easily in many strategies, or on top of existing
-    module systems.
+    An alternative approach to extending a module system is to provide
+    one or more extensible languages in which to compose the modules.
+    Generally, these languages are described within the module itself.
+    PLT takes this approach with multiple languages, which can also
+    modify the read syntax and other features such as the semantics of
+    function application.  Scheme48 takes this approach with a single
+    meta module called the `config` module, which is globally extended
+    when you want to add new module syntax.  In either of these cases,
+    you obtain the fliexbility to extend the module syntax with new
+    features, but at the same time provide a separation between the
+    module meta-info and the actual body of the module itself,
+    allowing a certain amount of static analysis without actually
+    expanding the module.
 
-  * Simple wrapper:
+  * StaticModules
 
-    (module <declarations> ... <body> ...)
+    R6RS provides a simple static module syntax which provides just
+    the basics needed for importing and exporting (optionally renamed)
+    identifiers from other modules.  Neither the module itself nor the
+    import or export forms may be expanded from macros, so the only
+    way to extend the syntax is with future standardization efforts.
+    The primary reason a static module system is desirable is because
+    by specifying only the syntax it can be implemented by any of the
+    above module systems.  Implementations can then extend the syntax
+    as needed when not concerned with portability, but a common ground
+    exists when no advanced features are needed.
 
-    Used in the R6RS proposal and many Scheme implementations, this is
-    simple but opens questions of whether declarations may be expanded
-    from macros, and if so makes any static analysis of the module
-    impossible without expanding the body.  Sometimes disliked because
-    it requires indenting the body of the module.
+== Additional Issues ==
 
-  * Delimited wrapper:
+  * ModuleSyntax
+  * ModuleAdvancedFeatures
 
-    (module (<declarations> ...) <body> ...)
-
-    This avoids the issues above, simply by delimiting the
-    declarations with a pair of parentheses so they are all known in
-    advance.  If they are static (can't be expanded from macros), then
-    a simple rule of allowing and ignoring any unknown declaration
-    keyword allows for easy forward-compatibility and
-    implementation-specific extensions.
-
-  * Declaration-only:
-
-    (module <declarations> ...)
-
-    The module form only allows declarations - any code needs to be
-    specified with declarations such as (include <file>) or (body
-    <code> ...).  This is the syntax used in Scheme48 and
-    Chibi-Scheme.  It is equivalent in expressiveness to the delimited
-    wrapper approach, trading an additional level of indentation for
-    no extra parens around the declarations.
-
-  * Declaration-only with embedded body shortcut:
-
-    (module <declarations> ... ---- <body> ...)
-
-    where `----` is some arbitrary symbol chosen to act as a delimiter
-    between the declarations and the body of the library.  Otherwise
-    the same as above, the shortcut syntax allows the body to have
-    only one level of indentation instead of two.
-
-In addition, with all of these syntaxes, some declarations
-that are frequently used may get fixed positions.  The name
-of the module is almost universally the first argument after
-the `module` keyword.  In some systems, such as Chez and
-Chicken, the exports list is given as the second positional
-argument.
-
-One frequent debate with respect to syntax is whether to
-keep the module declaration and source in one file or to
-split them across separate files.  However, whichever
-module system is used this largely boils down to user
-preference.  The syntaxes which include an implicit body
-suggest a single file, but so long as an (include <file>)
-or similar form is provided, any such system can move the
-body to a separate file.  From the other side, syntaxes
-with no <body> suggest an `include` is required, but all
-such systems provide a way to inline the body in the
-module declaration (`begin` in Scheme48 and `body` in Chibi).
-So this preference shouldn't affect your choice of syntax.
-
-Existing Proposals:
+== Existing Proposals ==
 
   * [[http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-10.html#node_chap_7|R6RS]] (the default choice)
-
   * ModulesAndPackagesArcfide
-
+  * ModulesShinn
