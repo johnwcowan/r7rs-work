@@ -8,7 +8,7 @@ Most Schemes that supply bitwise operators do so using one of two conventions. T
 
 == The Specification ==
 
-All operations are defined only over the exact integers, and assume the arguments to be semi-infinite-precision two's complement, meaning that any positive argument is considered to be padded on the left by an infinite number of 0 bits; and any negative argument is considered to be padded on the left by an infinite number of 1 bits.
+All operations are defined only over the exact integers, and assume the arguments to be semi-infinite-precision two's complement, meaning that any positive argument is considered to be padded on the left by an infinite number of 0 bits; and any negative argument is considered to be padded on the left by an infinite number of 1 bits. These procedures are to be considered optional, and it is yet to be decided whether they belong in the core language or in a module.
 
 `(bitwise-and int ...)`
 
