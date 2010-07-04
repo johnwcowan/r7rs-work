@@ -43,7 +43,7 @@ or other arbitrary continuations.
 
   * `(raise `''object''`)`
 
-This raises the condition <object>.  It never returns normally.
+This raises the condition ''object''.  It never returns normally.
 
   * `(error `''string''` . ` ''objects''`)`
 
