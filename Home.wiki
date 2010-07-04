@@ -33,6 +33,8 @@ For a complete list of local wiki pages, see TitleIndex.
     * Parameters
         * ParametersSnellPym
     * [[ExceptionsErrorsAndConditions|Exceptions, Conditions, and Error handling]]
+        * ErrorsSnellPym
+        * ExceptionHandlingCowan
 
 
 == Working Group 2 ==
