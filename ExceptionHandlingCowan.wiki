@@ -1,0 +1,71 @@
+= Design =
+
+When a problem situation is detected either by the implementation or by a
+user program, a representation of that situation called a ''condition''
+(which can be any Scheme object) is constructed, and the situation
+represented by the condition is announced by an action called ''raising
+the condition''.  This action allows a dynamically established ''handler''
+an opportunity to resolve the problem; the current handler is the value of
+the parameter `condition-handler`.  At any given time, only one handler
+is active.  The current handler is stored in a SRFI 39 parameter.
+
+When a condition is raised, the active handler is called with one
+argument, a condition which represents the situation.  The
+handler function will execute in the dynamic environment of the call to
+`raise`, except that the value of ''condition-handler'' is re­bound
+to match the dynamic handler state that was current at the point that the
+handler function was established as the active handler.  This means that
+handlers are not expected to handle errors in themselves. In order to have
+a handler handle its own errors, the handler may re-­establish itself as
+a handler within its own body by rebinding the current handler to itself.
+
+If a handler returns normally, the dynamically enclosing handler is
+invoked in its place, and so on until the root handler is executed.
+Exiting to non-handler control is performed by calling a captured
+continuation.  For example, a handler may return to the point of raise
+by invoking a continuation stored inside the condition.  Alternatively,
+it may return to the point where it was made active by invoking a
+continuation bound to a variable lexically visible to the handler.
+In anycase, the appropriate current handler will be restored as part of the
+dynamic environment.
+
+There is a system-specific procedure known as the ''root condition
+handler'' that is the initial condition handler.  It generally invokes
+a top-level exit continuation for the whole program, or the current
+thread (if some concept of threading exists), possibly displaying
+useful debugging information to some interested parties in some
+implementation-specific way.  Implementations are permitted to provide
+an interactive debugger that lets the programmer perform actions other
+than invoking the top-level exit continuation, perhaps invoking retries
+or other arbitrary continuations.
+
+= Procedures =
+
+  * `(raise `''object''`)`
+
+This raises the condition <object>.  It never returns normally.
+
+  * `(error `''string''` . ` ''objects''`)`
+
+This constructs a condition using ``string`` and the optional ``objects``
+and raises it.  It is compatible with SRFI 23.
+
+  * `(root-condition-handler)`
+
+This returns the root condition handler.
+
+  * `(condition-handler `[''new-handler'']`)`
+
+This is a parameter representing the current condition handler.
+Its initial value is the root condition handler.  Invoking it with no
+arguments returns the handler; invoking it with one argument sets the
+handler.  Passing it to the `parameterize` syntax form causes it to be
+dynamically rebound to a new handler.
+
+= Thanks =
+
+Thanks to Taylor Campbell, Alaric Snell-Pym as the author of
+ErrorsSnellPym, and Kent Pitman as the author of the ISLisp specification,
+from all of whom I have derived inspiration.  They bear no responsibility
+for infelicities in this proposal.
+
