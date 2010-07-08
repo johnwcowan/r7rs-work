@@ -46,9 +46,9 @@ or other arbitrary continuations.
   * `(condition-handler `[''new-handler'']`)`
 
 This is a SRFI 39 parameter representing the current condition handler.
-Its initial value is the root condition handler.  Invoking it with no
-arguments returns the handler; invoking it with one argument sets the
-handler.  Passing it to the `parameterize` syntax form causes it to be
+Invoking it with no
+arguments returns the current handler; invoking it with one argument sets the
+current handler.  Passing it to the `parameterize` syntax form causes it to be
 dynamically rebound to a new handler.
 
   * `(signal `''object''`)`
