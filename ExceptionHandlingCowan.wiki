@@ -13,9 +13,9 @@ is active.
 When a condition is signaled, the active handler is called with one
 argument, a condition which represents the situation.  The
 handler function will execute in the dynamic environment of the call to
-`signal`, except that the value of ''condition-handler'' is re­bound
-to match the dynamic handler state that was current at the point that the
-handler function was established as the active handler.  This means that
+`signal`, except that the value of `condition-handler` is re­bound
+to match the ''enclosing handler'', which is the handler that was current at the point that the
+current handler function was established as the active handler.  This means that
 handlers are not expected to handle exceptions within themselves, and may
 re-raise an exception by simply calling ''raise'' with the same condition.
 (In order to allow
@@ -23,12 +23,13 @@ a handler to handle its own exceptions, the handler may re-­establish itself as
 a handler within its own body by rebinding `condition-handler` to itself;
 this may create infinite loops if carelessly used.)
 
-If a handler returns normally, the effect is undefined.
-Returning to non-handler control is performed by calling a captured
+If a handler returns normally, its values are discarded, and the condition is passed
+to its enclosing handler until there are no more handlers.
+Escaping from handler control is performed by invoking a captured
 continuation.  For example, a handler may return to the point where it was
 signaled by invoking a continuation stored inside the condition.  Alternatively,
-it may return to the point where it was made active by invoking a
-continuation bound to a variable lexically visible to the handler.
+it may return to the point where it was bound by invoking a
+continuation in a variable that is lexically visible to the handler.
 In any case, the appropriate current handler will be restored as part of the
 dynamic environment.
 
