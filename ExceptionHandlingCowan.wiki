@@ -5,23 +5,17 @@ either by the implementation or by a
 user program, a representation of that situation called a ''condition''
 (which can be any Scheme object) is constructed, and the exception is
 announced by an action called ''signaling
-the condition''.  This action allows a dynamically established ''handler''
-an opportunity to resolve the problem; the current handler is the value of
-the SRFI 39 parameter `condition-handler`.  At any given time, only one handler
+the condition''.  This action allows a dynamically established ''condition handler''
+an opportunity to resolve the problem.  At any given time, only one handler
 is active.
 
 When a condition is signaled, the active handler is called with one
 argument, a condition which represents the situation.  The
 handler function will execute in the dynamic environment of the call to
-`signal`, except that the value of `condition-handler` is re­bound
-to match the ''enclosing handler'', which is the handler that was current at the point that the
+`signal`, except that the current condition handler
+becomes the ''enclosing handler'', which is the handler that was current at the point that the
 current handler function was established as the active handler.  This means that
-handlers are not expected to handle exceptions within themselves, and may
-re-raise an exception by simply calling ''raise'' with the same condition.
-(In order to allow
-a handler to handle its own exceptions, the handler may re-­establish itself as
-a handler within its own body by rebinding `condition-handler` to itself;
-this may create infinite loops if carelessly used.)
+a handler is not expected to handle conditions signaled within its dynamic extent.
 
 If a handler returns normally, its values are discarded, and the condition is passed
 to its enclosing handler until there are no more handlers.
@@ -33,7 +27,7 @@ continuation in a variable that is lexically visible to the handler.
 In any case, the appropriate current handler will be restored as part of the
 dynamic environment.
 
-The initial condition handler is implementation-defined.  It generally invokes
+The outermost condition handler is implementation-defined.  It generally invokes
 a top-level exit continuation for the whole program, or the current
 thread (if some concept of threading exists), possibly displaying
 useful debugging information to some interested parties in some
@@ -42,29 +36,53 @@ an interactive debugger that lets the programmer perform actions other
 than invoking the top-level exit continuation, perhaps invoking retries
 or other arbitrary continuations.
 
+See StandardConditionPredicatesCowan for standard predicates and accessors useful
+with implementation-defined conditions.
+
 = Procedures =
 
-  * `(condition-handler `[''new-handler'']`)`
+ * `(current-condition-handler)`
 
-This is a SRFI 39 parameter representing the current condition handler.
-Invoking it with no
-arguments returns the current handler; invoking it with one argument sets the
-current handler.  Passing it to the `parameterize` syntax form causes it to be
-dynamically rebound to a new handler.
+Returns the current condition handler.
+
+ * `(with-condition-handler `''handler''` `''thunk''`)`
+
+Applies ''thunk'' within a dynamic environment in
+which the current condition handler is ``handler.``  The supplied handler is executed
+in the dynamic environment of the call to `signal` that signals the condition,
+except that the condition handler which was in effect when `with-condition-handler` was called is
+reinstated for the dynamic extent of the handler, so if it signals any conditions without
+explicitly changing to a different dynamic environment through applying continuations,
+they will be passed to the previous handler, not the same one.
 
   * `(signal `''object''`)`
 
-This signals the condition ''object''.  It never returns normally.
+Signals the condition ''object''.  It never returns normally.
 
-  * `(error `''string''` . ` ''objects''`)`
+  * `(error-in `''who''` `''string''`. ` ''irritants''`)`
 
-This constructs a condition using ''string'' and the optional ''objects''
-and signals it.  It is compatible with SRFI 23.
+Constructs a condition and signals it.
+The condition specifies a problem with an object identified by the string or symbol ''who''
+that is described by ''string''.
+The optional ''irritants'' are other objects relevant to the exception.
+The predicates `who-condition`, `message-condition`
+and `irritants-condition` return `#t` on this condition.
+This procedure is compatible with R6RS `error`.
+
+  * `(error `''string''`. ` ''irritants''`)`
+
+Constructs a condition and signals it.
+The condition specifies a problem that is described by ''string''.
+The optional ''irritants'' are other objects relevant to the exception.
+The predicates `message-condition`
+and `irritants-condition` return `#t` on this condition.
+This procedure is compatible with R6RS `error`.
 
 = Thanks =
 
 Thanks to Taylor Campbell, Alaric Snell-Pym as the author of
-ErrorsSnellPym, and Kent Pitman as the author of the ISLisp specification,
-from all of whom I have derived inspiration.  They bear no responsibility
+ErrorsSnellPym, Kent Pitman as the author of the ISLisp specification,
+and the editors of R6RS,
+from all of whom I have derived inspiration and stolen descriptions.  They bear no responsibility
 for infelicities in this proposal.
 
