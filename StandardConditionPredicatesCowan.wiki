@@ -1,0 +1,150 @@
+= Standard predicates and accessors =
+
+Conditions created by the implementations are opaque objects as far as
+this standard is concerned.  However, a variety of predicates and accessors
+are provided in order to help programs 
+examine implementation-specific conditions.
+If a predicate returns #t on a particular condition, the related accessor(s)
+will return information, hopefully meaningful and useful.  Otherwise, calling the accessors
+has undefined effect.
+It is common for more than one predicate to return `#t` on a particular condition.
+
+ * `(message-condition? `''condition''`)`
+
+Returns `#t` iff ''condition'' contains a string message describing the condition to humans.
+
+ * `(condition-message `''message-condition''`)`
+
+Returns the message associated with ''message-condition''.
+
+ * `(who-condition? `''condition''`)`
+
+Returns `#t` iff ''condition'' contains a string or symbol describing the object which is the
+source of the exception.
+
+ * `(condition-who `''who-condition''`)`
+
+Returns the ''who'' object associated with ''who-condition''.
+
+ * `(irritants-condition? `''condition''`)`
+
+Returns `#t` iff ''condition'' contains a list of objects providing additional information
+about the condition.
+
+ * `(condition-irritants `''message-condition''`)`
+
+Returns the list of irritants (possibly empty) associated with ''message-condition''.
+
+ * `(warning-condition? `''condition''`)`
+
+Returns `#t` iff ''condition'' describes an exceptional situation that does not,
+in principle, prohibit immediate continued execution of the program,
+but may interfere with the program’s execution later. 
+
+ * `(serious-condition? `''condition''`)`
+
+Returns `#t` iff ''condition'' describes an exceptional situation that is
+serious enough that it cannot safely be ignored.
+
+ * `(external-condition? `''condition''`)`
+
+Returns `#t` iff ''condition'' describes an exceptional situation that is
+caused by something that has gone wrong in the interaction
+of the program with the external world or the user. 
+
+ * `(violation-condition? `''condition''`)`
+
+Returns `#t` iff ''condition'' describes an exceptional situation that is
+a violation of the language standard or a library standard,
+typically caused by a programming error. 
+
+ * `(invocation-condition? `''condition''`)`
+
+Returns `#t` iff ''condition'' describes an invalid call to a procedure,
+such as passing an invalid number of arguments or passing an argument of the wrong type.
+
+ * `(implementation-restriction-condition? `''condition''`)`
+
+Returns `#t` iff ''condition'' describes a violation of an implementation restriction
+that is allowed by the specification.
+
+ * `(storage-exhausted-condition? `''condition''`)`
+
+Returns `#t` iff ''condition'' is reporting that storage is exhausted.
+
+ * `(parse-condition? `''condition''`)`
+
+Returns `#t` iff ''condition'' describes a lexical syntax error or an error in parsing a datum.
+
+ * `(condition-parse-string `''parse-condition''`)`
+
+Returns the string which could not be parsed.
+
+ * `(syntax-condition? `''condition''`)`
+
+Returns `#t` iff ''condition'' describes a syntax error.
+
+ * `(condition-form `''syntax-condition''`)`
+
+Returns the form containing a syntax error.
+
+ * `(condition-subform `''syntax-condition''`)`
+
+Returns the subform which more precisely locates the syntax error.
+
+ * `(identifier-condition? `''condition''`)`
+
+Returns `#t` iff ''condition'' describes an undefined identifier.
+
+ * `(identifier-condition-identifier `''identifier-condition''`)`
+
+Returns the identifier which is undefined as a symbol.
+
+ * `(port-condition? `''condition''`)`
+
+Returns `#t` iff ''condition'' describes a problem with a port.
+
+ * `(condition-port `''port-condition''`)`
+
+Returns the port associated with ''port-condition''.
+
+ * `(i/o-condition? `''condition''`)`
+
+Returns `#t` iff ''condition'' describes an exceptional situation with I/O.
+
+ * `(read-condition? `''condition''`)`
+
+Returns `#t` iff ''condition'' describes an exceptional situation with input.
+
+ * `(write-condition? `''condition''`)`
+
+Returns `#t` iff ''condition'' describes an exceptional situation with output.
+
+ * `(position-condition? `''condition''`)`
+
+Returns `#t` iff ''condition'' describes an invalid position of a port.
+
+ * `(condition-position `''identifier-condition''`)`
+
+Returns the position specified by the user.
+
+ * `(filename-condition? `''condition''`)`
+
+Returns `#t` iff ''condition'' has a filename associated with it.
+
+ * `(condition-filename `''filename-condition''`)`
+
+Returns the filename associated with ''filename-condition'' as a string.
+
+ * `(file-protection-condition? `''condition''`)`
+
+Returns `#t` iff ''condition'' describes a file protection violation.
+
+ * `(file-existence-condition? `''condition''`)`
+
+Returns `#t` iff ''condition'' describes the existence or nonexistence of a file.
+
+ * `(condition-file-exists? `''file-existence-condition''`)`
+
+Returns #t the filename associated with ''filename-condition'' exists but should not,
+or #f if it does not exist but should.
