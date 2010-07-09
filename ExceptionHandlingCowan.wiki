@@ -17,8 +17,9 @@ becomes the ''enclosing handler'', which is the handler that was current at the 
 current handler function was established as the active handler.  This means that
 a handler is not expected to handle conditions signaled within its dynamic extent.
 
-If a handler returns normally, its values are discarded, and the condition is passed
-to its enclosing handler until there are no more handlers.
+If a handler returns normally, any values it returns are discarded.
+The enclosing handler is invoked on the condition instead, and this
+operation may be repeated until there are no more handlers.
 Escaping from handler control is performed by invoking a captured
 continuation.  For example, a handler may return to the point where it was
 signaled by invoking a continuation stored inside the condition.  Alternatively,
@@ -48,35 +49,37 @@ Returns the current condition handler.
  * `(with-condition-handler `''handler''` `''thunk''`)`
 
 Applies ''thunk'' within a dynamic environment in
-which the current condition handler is ``handler.``  The supplied handler is executed
+which  ``handler`` is the current condition handler.  The supplied handler is executed
 in the dynamic environment of the call to `signal` that signals the condition,
 except that the condition handler which was in effect when `with-condition-handler` was called is
-reinstated for the dynamic extent of the handler, so if it signals any conditions without
+reinstated for the dynamic extent of the handler.  So if it signals any conditions without
 explicitly changing to a different dynamic environment through applying continuations,
 they will be passed to the previous handler, not the same one.
 
   * `(signal `''object''`)`
 
-Signals the condition ''object''.  It never returns normally.
+Signals the condition ''object''.  Never returns normally.
 
-  * `(error-in `''who''` `''string''`. ` ''irritants''`)`
+  * `(error-in `''who''` `''message''`. ` ''irritants''`)`
 
-Constructs a condition and signals it.
-The condition specifies a problem with an object identified by the string or symbol ''who''
-that is described by ''string''.
-The optional ''irritants'' are other objects relevant to the exception.
+Constructs a condition and signals it.  Never returns normally.
+This procedure is compatible with R6RS `error`.
+
+The `who` argument must be a string or a symbol that describes the procedure or operation that detected the exception. The ''message'' argument must be a string that describes the exceptional situation. The ''irritants'' should be the arguments to the operation that detected the operation, but may be any objects relevant to the exception.
+
 The predicates `who-condition`, `message-condition`
 and `irritants-condition` return `#t` on this condition.
-This procedure is compatible with R6RS `error`.
 
-  * `(error `''string''`. ` ''irritants''`)`
+  * `(error `''message''`. ` ''irritants''`)`
 
-Constructs a condition and signals it.
-The condition specifies a problem that is described by ''string''.
-The optional ''irritants'' are other objects relevant to the exception.
+Constructs a condition and signals it.  Never returns normally.
+This procedure is compatible with SRFI 23.
+
+The ''message'' argument must be a string that describes the exceptional situation. The ''irritants'' should be the arguments to the operation that detected the operation, but may be any objects relevant to the exception.
+
 The predicates `message-condition`
 and `irritants-condition` return `#t` on this condition.
-This procedure is compatible with R6RS `error`.
+ 
 
 = Thanks =
 
