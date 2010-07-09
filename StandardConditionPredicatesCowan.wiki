@@ -149,5 +149,5 @@ Returns `#t` iff ''condition'' describes the existence or nonexistence of a file
 
  * `(condition-file-exists? `''file-existence-condition''`)`
 
-Returns `#t` the filename associated with ''file-existence-condition'' exists but should not,
+Returns `#t` if the filename associated with ''file-existence-condition'' exists but should not,
 or `#f` if it does not exist but should.
