@@ -56,7 +56,9 @@ Create a new {{{aggregate?}}} value. The {{{make-aggregate}}} form creates a val
 Returns the number of slots that may be accessed in an aggregate by {{{aggregate-ref}}} and {{{aggregate-set!}}}.
 
  * {{{aggregate-ref}}} <aggregate> <slot> => <value>
- * {{{aggregate-set!}}} <aggregate> <slot> <value> => {{{#undefined}}}
+ * {{{aggregate-set!}}} <aggregate> <slot> <value> => <value>
+
+{{{aggregate-set!}}} return the value that the <slot> held prior to the mutation.
 
  * {{{aggregate-type}}} <pair> => <pair-type-id>
  * {{{aggregate-type}}} <vector> => <vector-type-id>
