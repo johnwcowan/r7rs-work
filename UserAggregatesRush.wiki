@@ -25,6 +25,8 @@ Scheme provides a variety of primitive types from which program values are all t
 
 It is worth noting that lists are not an aggregate type which is addressed by this proposal, as lists are a recursive data type defined in terms of the primitive {{{pair?}}} aggregate type.
 
+The primary goal of this proposal is to ease the writing of type predicates. To that end we provide a minimal algebra on <type-id>s. The algebra only allows sub-typing, as Scheme's top-level union type transparently handles all issues of union or recursive types without need for further machinery. This proposal provides almost no policy and minimal machinery for the use of <type-id>s withing Scheme programs. In effect, <type-id>s are merely a specialized form of GENSYM, but they provide a significant aid to accurately expressing and manipulating the type relationships within Scheme programs.
+
 == Specification ==
 
  * {{{atom?}}} => <boolean>
@@ -37,19 +39,31 @@ These predicates split the type space of Scheme into two essential categories: t
 
 These functions provide access to type identifiers within the implementation. If the <name> parameter is specified, the implementation will provide a unique <type-id> associated with the <name>. When a <name> is not specified the implementation will generate a new unique <type-id>. 
 
-There is effectively a separate name space for any <name>s associated with <type-id>s. The type name space primarily facilitates exploratory programming via a REPL, allowing data structures to remain valid across multiple reloads of the same source code.
+There is effectively a separate name space for any <name>s associated with <type-id>s. The type name space primarily facilitates exploratory programming via a REPL, allowing data structures to remain valid across multiple reloads of the same source code. Generative usage of the type API is also supported by explicitly binding un-named <type-id>s to lexically visible names within Scheme code via the usual mechanisms.
+
+ * {{{type<=?}}} <type-id> <type-id> => <bool>
+ * {{{type>=?}}} <type-id> <type-id> => <bool>
+
+These functions allow programs to easily establish the relationship between two <type-id>s. A <type-id> is considered greater than another <type-id> if it is more specialized (via {{{extend-aggregate-type}}}). Equality of <type-id>s is determined through the usual Scheme predicates.
 
  * {{{make-aggregate}}} <type-id> <slots> => <aggregate>
- * {{{aggregate-length}}}<aggregate> => <exact integer>
+ * {{{aggregate-values}}} <type-id> [[<value>|...]] => <aggregate>
+
+Create a new {{{aggregate?}}} value. The {{{make-aggregate}}} form creates a value where there are the number of slots (specified by <slots>) initialized with {{{#undefined}}}, while the {{{aggregate-values}}} form has a number of slots equal to the number of <value>s provided in the call. The values given zero-relative indices from left to right for access via {{{aggregate-ref}}} and {{{aggregate-set!}}}.
+
+ * {{{aggregate-length}}} <aggregate> => <exact integer>
+
+Returns the number of slots that may be accessed in an aggregate by {{{aggregate-ref}}} and {{{aggregate-set!}}}.
+
  * {{{aggregate-ref}}} <aggregate> <slot> => <value>
- * {{{aggregate-set!}}} <aggregate> <slot> <value> => *undefined*
+ * {{{aggregate-set!}}} <aggregate> <slot> <value> => {{{#undefined}}}
 
  * {{{aggregate-type}}} <pair> => <pair-type-id>
  * {{{aggregate-type}}} <vector> => <vector-type-id>
  * {{{aggregate-type}}} <string> => <string-type-id>
  * {{{aggregate-type}}} <aggregate> => <type-id>
  * {{{aggregate-type}}} <name> => <type-id>
-
+ * {{{aggregate-type}}} <values> => <values-type-id>
 
 == Top-Level Programs ==
 
