@@ -1,0 +1,14 @@
+= Parameters =
+
+This proposal is an alternative to ParametersSnellPym which provides immutable parameter objects.  It is a subset of SRFI 39, with the difference being that passing a non-zero number of arguments to a parameter object has undefined effect rather than assigning a new value to the parameter object.  The effect of SRFI 39 mutable parameters can be emulated by binding a mutable object such as a pair to the parameter.  Binding parameter objects with the `parameterize` form is still provided, of course.
+
+This proposal further specifies that when a parent thread creates a new child thread, the parameter objects in the child thread have ''initial'' values that are the same (in the sense of `eqv?`) as their ''current'' (not initial) values in the parent thread.  Because parameter objects are immutable, it does not matter whether the underlying representation uses copying or sharing.
+
+I take the view that using parameter objects to share information between threads is an improper and unnecessary conflation of two distinct facilities, dynamic variables and thread-shared data.  Instead, some mechanism for exchanging data between threads, such as mailboxes, should be provided as a part of standardizing threads, probably in WG2.
+
+Most implementations that provides SRFI 39 can trivially provide this facility.  The exceptions are cases like Scheme48 which neither copy nor share parameter objects with child threads, but provide freshly initialized objects instead.
+
+Thanks to Taylor Campbell and Alaric Snell-Pym, who as usual are not responsible for this.
+
+
+
