@@ -67,8 +67,8 @@ This procedure is compatible with R6RS `error`.
 
 The `who` argument must be a string or a symbol that describes the procedure or operation that detected the exception. The ''message'' argument must be a string that describes the exceptional situation. The ''irritants'' should be the arguments to the operation that detected the operation, but may be any objects relevant to the exception.
 
-The predicates `who-condition`, `message-condition`
-and `irritants-condition` return `#t` on this condition.
+The predicates `who-condition?`, `message-condition?`
+and `irritants-condition?` return `#t` on this condition.
 
   * `(error `''message''`. ` ''irritants''`)`
 
@@ -77,8 +77,8 @@ This procedure is compatible with SRFI 23.
 
 The ''message'' argument must be a string that describes the exceptional situation. The ''irritants'' should be the arguments to the operation that detected the operation, but may be any objects relevant to the exception.
 
-The predicates `message-condition`
-and `irritants-condition` return `#t` on this condition.
+The predicates `message-condition?`
+and `irritants-condition?` return `#t` on this condition.
  
 
 = Thanks =
