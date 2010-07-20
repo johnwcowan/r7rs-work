@@ -32,6 +32,7 @@ For a complete list of local wiki pages, see TitleIndex.
         * CaseSensitivityArcfide
     * Parameters
         * ParametersSnellPym
+        * ImmutableParametersCowan
     * [[ExceptionsErrorsAndConditions|Exceptions, Conditions, and Error handling]]
         * ErrorsSnellPym
         * ExceptionHandlingCowan
