@@ -31,7 +31,7 @@ The dynamic environment is composed of two parts: the ''local dynamic environmen
 
 Parameter objects are created with the `make-parameter` procedure. The global dynamic environment is updated to associate the newly created parameter object to a value, which can be retrieved by invoking the parameter object as a procedure with no arguments.  The `parameterize` special form, when given parameter objects and corresponding values, binds for the dynamic extent of its body the each parameter object to a new value. The `parameterize` special form behaves analogously to `let` when binding more than one parameter object (that is, the order of evaluation is unspecified and the new bindings are only visible in the dynamic extent of the `parameterize` special form).  However, while `let` requires the user to specify identifiers to be bound, the parameter objects bound by `parameterize` can be specified by arbitrary Scheme expressions.
 
-This poroposal also specifies that `current-input-port` and `current-output-port` are implemented as parameter objects created with `make-parameter`.
+This proposal also specifies that `current-input-port` and `current-output-port` are implemented as parameter objects created with `make-parameter`.
 
 == Procedures and syntax ==
 
