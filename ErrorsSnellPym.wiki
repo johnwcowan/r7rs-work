@@ -1,3 +1,7 @@
+= Newsflash =
+
+I'm throwing my chips in with John! Please see ExceptionHandlingCowan. The below is for historical reference now.
+
 = Background =
 
 Being able to define a means of handling signalled conditions is fundamental to reliable programming, that can recover from error cases.
