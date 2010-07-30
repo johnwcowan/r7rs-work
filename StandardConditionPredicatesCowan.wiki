@@ -36,17 +36,6 @@ about the condition, otherwise `#f`.
 
 Returns the list of irritants (possibly empty) associated with ''message-condition''.
 
- * `(warning-condition? `''condition''`)`
-
-Returns `#t` iff ''condition'' describes an exceptional situation that does not,
-in principle, prohibit immediate continued execution of the program,
-but may interfere with the program’s execution later, otherwise `#f`. 
-
- * `(serious-condition? `''condition''`)`
-
-Returns `#t` iff ''condition'' describes an exceptional situation that is
-serious enough that it cannot safely be ignored, otherwise `#f`.
-
  * `(external-condition? `''condition''`)`
 
 Returns `#t` iff ''condition'' describes an exceptional situation that is
