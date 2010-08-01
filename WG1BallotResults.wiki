@@ -1,6 +1,6 @@
-= WG1 New Ballot Items =
+= WG1 Ballot Results =
 
-Notes about voting:
+Notes about results:
 
   * you may list as many of the options as you want in order of preference
   * options are comma-delimited (ignoring space) and case-insensitive
@@ -11,6 +11,7 @@ Notes about voting:
   * `undecided` means I want to discuss this issue further
   * abstain by leaving the preferences blank
   * items up for final vote will be marked as such (none are final now)
+  * '''Ratios''' show the ratio of the winner to each of the other results, in order
 
 == WG1 - Core ==
 
@@ -24,7 +25,9 @@ Yes means to keep them in the core, as in R5RS,
 and no means to remove them entirely.
 
   * '''Options:''' yes,no,module,wg2,undecided
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
   * '''Results:''' module, no, wg2, yes
+  * '''Ratios:''' 6:2, 7:0, 7:0
 
 === 38 letrec* ===
 
@@ -33,7 +36,9 @@ of internal define to be equivalent.  Do we
 want to add this?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Results:''' yes, module, undecided
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' yes, wg2, module, undecided
+  * '''Ratios:''' 6:0, 5:1, 6:2
 
 === 41 Should we adopt the SRFI-1 extension to MAP and FOR-EACH? ===
 
@@ -44,7 +49,9 @@ stops the procedure whenever any of them run out.  R5RS says the lists
 `Yes` to allow unequal length.
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Results:''' yes, no, module
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' yes, no, module, wg2
+  * '''Ratios:''' 6:2, 6:1, 6:0
 
 === 42 Should we adopt the SRFI-1 extension to ASSOC and MEMBER? ===
 
@@ -52,7 +59,9 @@ This extension accepts a third argument, the equality predicate to be
 used.  Alternatively we could use the R6RS predicates ASSP and MEMP.
 
   * '''Options:''' srfi-1,r6rs,no,module,wg2,undecided
-  * '''Results:''' srfi-1, r6rs
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' srfi-1, r6rs, yes, module, wg2
+  * '''Ratios:''' 5:2, 6:1, 5:2, 5:1
 
 === 40 SRFI vs. R6RS precedence ===
 
@@ -62,7 +71,9 @@ with the choice. For example, a version of syntax-violation
 vs. syntax-error.
 
   * '''Options:''' srfi,r6rs,undecided
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
   * '''Results:''' undecided, srfi, r6rs
+  * '''Ratios:''' 4:3, 4:2
 
 === 32 user-define types ===
 
@@ -74,14 +85,18 @@ or the R6RS record system?
     * '''snellpym:''' UniqueTypesSnellPym
     * '''hsu:''' RecordsArcfide
   * '''Options:''' snellpym,hsu,srfi-9,srfi-99,no,wg2,undecided
-  * '''Results:''' hsu, srfi-99, srfi-9, snellpym, undecided, wg2, no
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' snellpym, srfi-9, hsu, undecided, wg2, no, srfi-99
+  * '''Ratios:''' 3:1, 3:3, 4:1, 4:0, 4:0, 3:1
 
 === 33 dynamic-wind ===
 
 New to R5RS, do we reaffirm the sometimes debated dynamic-wind?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Results:''' yes, module, wg2, undecided, no
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' yes, module, wg2, no, undecided
+  * '''Ratios:''' 5:1, 6:0, 6:0, 6:1
 
 === 34 multiple values ===
 
@@ -89,7 +104,9 @@ New to R5RS, do we reaffirm multiple values, specifically the
 procedures `call-with-values` and `values`?
 
   * '''Options:''' yes,no,module,wg2,undecided
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
   * '''Results:''' yes, module, wg2, no
+  * '''Ratios:''' 6:2, 7:0, 7:0
 
 === 51 support for cyclic structures in primitives ===
 
@@ -103,7 +120,9 @@ Do we want to specify the behavior when these primitives encounter
 cyclic data?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Results:''' yes, no, wg2, undecided, module
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' yes, module, no, undecided, wg2
+  * '''Ratios:''' 3:1, 3:2, 3:2, 3:0
 
 === 54 optional arguments ===
 
@@ -119,7 +138,9 @@ Note the original ticket description mentions `case-lambda`, but this
 is easily provided as a separate module, and will be a separate item.
 
   * '''Options:''' dsssl,srfi-89,no,wg2,undecided
-  * '''Results:''' wg2, no, undecided, dsssl, srfi-89
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' wg2, srfi-89, no, undecided, dsssl
+  * '''Ratios:''' 4:2, 5:1, 5:1, 4:1
 
 === 57 Simple randomness ===
 
@@ -128,7 +149,9 @@ necessarily of very high quality.  Shall we provide a simple interface
 to a random variables in WG1 Scheme?
 
   * '''Options:''' srfi-27,no,wg2,undecided
-  * '''Results:''' wg2, no, undecided, srfi-27
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' wg2, no, srfi-27, module, undecided
+  * '''Ratios:''' 4:1, 3:2, 3:1, 4:1
 
 === 58 exact-integer-sqrt ===
 
@@ -138,7 +161,9 @@ has different semantics from `sqrt`, as it rounds its argument down to
 the nearest exact square.
 
   * '''Options:''' yes,no,module,wg2,undecided
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
   * '''Results:''' yes, module, wg2, undecided
+  * '''Ratios:''' 3:2, 4:0, 4:1
 
 === 59 current-error-port ===
 
@@ -147,7 +172,9 @@ current error distinct from current output.  Should this be exposed as
 a Scheme output port?
 
   * '''Options:''' yes,no,module,wg2,undecided
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
   * '''Results:''' yes, module, wg2
+  * '''Ratios:''' 5:3, 7:0
 
 === 60 Simple file operations ===
 
@@ -156,14 +183,18 @@ This provides `delete-file` and `file-exists?`, which are pretty much
 necessities for any file-driven programming.
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Results:''' module, yes, wg2, no, undecided
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' module, yes, wg2, undecided, no
+  * '''Ratios:''' 6:0, 5:1, 6:1, 5:1
 
 === 61 finite? nan? ===
 
 Shall we add these numeric predicates?
 
   * '''Options:''' yes,no,module,wg2,undecided
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
   * '''Results:''' undecided, yes, module
+  * '''Ratios:''' 4:3, 4:1
 
 === 63 call/cc short name ===
 
@@ -171,7 +202,9 @@ Should we allow `call/cc` as an equivalent to
 `call-with-current-continuation`?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Results:''' no, yes, module, wg2
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' yes, no, module, wg2
+  * '''Ratios:''' 4:4, 4:2, 4:1
 
 === 64 Consistency in sequence procedures ===
 
@@ -182,7 +215,9 @@ string->vector copy-vector vector-map vector-for-each vector->string`,
 all with the obvious interface and semantics.
 
   * '''Options:''' yes,no,module,wg2,undecided
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
   * '''Results:''' yes, module, wg2, undecided
+  * '''Ratios:''' 5:2, 5:1, 6:1
 
 === 65 Precision indicators ===
 
@@ -193,7 +228,9 @@ precision, so this is mostly noise.  Shall we make it an optional
 feature?
 
   * '''Options:''' required,optional,no,wg2,undecided
-  * '''Results:''' optional, no, undecided, wg2
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' optional, wg2, no, undecided
+  * '''Ratios:''' 6:0, 5:1, 6:2
 
 === 66 Add EXACT-INTEGER? ===
 
@@ -203,7 +240,9 @@ which requires some hackery or poor pattern matching to optimize in
 existing Scheme implementations.
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Results:''' yes, no, undecided, module
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' yes, no, module, undecided
+  * '''Ratios:''' 5:1, 5:0, 5:1
 
 === 44 Testing function arity ===
 
@@ -211,7 +250,9 @@ We would like a standard for checking function arity.
 SRFI-102 proposes a way to check function arity:
 
   * '''Options:''' srfi-102,no,wg2,undecided
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
   * '''Results:''' no, srfi-102, wg2, undecided
+  * '''Ratios:''' 4:2, 4:2, 5:2
 
 === 53 Implicit BEGIN to implicit LET-NIL ===
 
@@ -220,7 +261,9 @@ change this to an implicit LET-NIL and remain backwards
 compatible. Should we do this?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Results:''' undecided, yes, no
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' yes, undecided, wg2, no
+  * '''Ratios:''' 3:3, 3:0, 3:1
 
 == WG1 - Exceptions ==
 
@@ -231,9 +274,11 @@ and if so should it use the SRFI-23 signature, R6RS, or
 type-dispatch on the first argument to allow both?
 
   * '''Options:''' srfi-23,r6rs,both,no,module,wg2,undecided
-  * '''Results:''' srfi-23, module, wg2
+  * '''Voters:''' 7: Cowan, Gleckler, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' srfi-23, module, wg2, r6rs
+  * '''Ratios:''' 7:0, 7:0, 6:1
 
-== WG1 - I/O ===
+== WG1 - I/O ==
 
 === 30 string ports ===
 
@@ -241,7 +286,9 @@ Do we support string ports, as implemented by SRFI-6
 or as by R6RS?
 
   * '''Options:''' srfi-6,r6rs,no,module,wg2,undecided
-  * '''Results:''' srfi-6, module, wg2, r6rs, no
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' srfi-6, module, no, r6rs, wg2
+  * '''Ratios:''' 6:0, 6:1, 6:1, 6:0
 
 === 52 read/write cyclic data ===
 
@@ -255,7 +302,9 @@ Do we want to add support for this, as an option
 or separate set of procedures?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Results:''' yes, no, module, wg2, undecided
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' yes, module, no, wg2, undecided
+  * '''Ratios:''' 3:2, 3:2, 3:2, 3:1
 
 == WG1 - Libraries ==
 
@@ -267,7 +316,9 @@ some primitives on which efficient hash-tables can
 be implemented?
 
   * '''Options:''' srfi-69,r6rs,no,module,wg2,undecided
-  * '''Results:''' module, no, wg2, r6rs, srfi-69
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' module, srfi-69, wg2, r6rs, no
+  * '''Ratios:''' 3:2, 4:2, 4:3, 4:1
 
 == WG1 - Macros ==
 
@@ -280,7 +331,9 @@ or leave it as a normal identifier as in R5RS?
 Yes to add, no for R5RS.
 
   * '''Options:''' yes,no,wg2,undecided
-  * '''Results:''' no, yes
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' no, yes, undecided, wg2
+  * '''Ratios:''' 3:2, 3:1, 3:1
 
 === 7 (... ...) ellipse escaping in syntax patterns ===
 
@@ -290,7 +343,9 @@ to be an escape for "<templ>".  Do we use this, and
 if so what does (... <t1> <t2>) mean?
 
   * '''Options:''' yes,no,wg2,undecided
-  * '''Results:''' yes, no
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' yes, wg2, no
+  * '''Ratios:''' 5:1, 5:1
 
 === 8 SRFI-46 ellipse specifier in syntax-rules ===
 
@@ -305,7 +360,9 @@ syntax-rules:
 Do we allow this?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Results:''' yes, no, undecided
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' yes, wg2, no, module, undecided
+  * '''Ratios:''' 3:1, 4:2, 4:0, 4:1
 
 === 9 tail patterns in syntax-rules ===
 
@@ -324,7 +381,9 @@ where Px only matches a dotted list.
 Do we allow either or both of these extensions?
 
   * '''Options:''' tail,dotted-tail,both,no,module,wg2,undecided
-  * '''Results:''' undecided, both
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' both, undecided, wg2, dotted-tail
+  * '''Ratios:''' 3:3, 3:1, 3:1
 
 === 39 syntax-error ===
 
@@ -336,7 +395,9 @@ but it relies on the syntax-rules implementation reporting an
 unmatchable pattern with a complaint that includes the pattern.
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Results:''' yes, undecided, module
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' yes, wg2, module, undecided
+  * '''Ratios:''' 6:0, 6:0, 6:1
 
 === 5 syntax-rules ===
 
@@ -347,7 +408,9 @@ it to a standard module, or leave it out entirely
 `Yes` to keep in core, `no` to remove from Scheme entirely.
 
   * '''Options:''' yes,no,module,wg2,undecided
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
   * '''Results:''' yes, module, wg2
+  * '''Ratios:''' 7:1, 7:0
 
 === 10 identifier syntax ===
 
@@ -359,7 +422,9 @@ types of expanders are provided, do we provide
 a means to specify identifier syntax?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Results:''' no, yes
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' no, module, wg2, yes
+  * '''Ratios:''' 6:0, 6:0, 6:1
 
 === 47 internal define-syntax ===
 
@@ -368,7 +433,9 @@ in local lexical contexts.  Do we allow
 this as well?
 
   * '''Options:''' yes,no,wg2,undecided
-  * '''Results:''' yes, no
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' yes, wg2, no
+  * '''Ratios:''' 6:0, 6:1
 
 == WG1 - Numerics ==
 
@@ -380,7 +447,9 @@ do we use the same literal syntax and arithmetic
 as in R6RS?
 
   * '''Options:''' yes,no,wg2,undecided
-  * '''Results:''' yes, undecided
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' yes, no, wg2, undecided
+  * '''Ratios:''' 6:1, 6:1, 6:1
 
 === 21 limited type arithmetic ===
 
@@ -388,7 +457,9 @@ R6RS provides libraries for limited type arithmetic
 on fixnums only and flonums only.  Do we want these?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Results:''' wg2, module, yes, no
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' module, wg2, no, yes
+  * '''Ratios:''' 4:3, 3:1, 4:0
 
 === 22 mantissa widths ===
 
@@ -397,7 +468,9 @@ as an alternative to the R5RS #s in numbers.
 Do we want either or both of these?
 
   * '''Options:''' r5rs,r6rs,both,no,wg2,undecided
-  * '''Results:''' undecided, no, r5rs
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' undecided, no, r6rs, wg2, r5rs
+  * '''Ratios:''' 4:2, 4:1, 4:1, 4:1
 
 == WG1 - Reader Syntax ==
 
@@ -409,7 +482,9 @@ Yes to fold-case (R5RS) no to preserve case (R6RS), additional votes
 to come later from specific proposals.
 
   * '''Options:''' yes,no,undecided
-  * '''Results:''' undecided, no, yes
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' no, yes, undecided
+  * '''Ratios:''' 3:2, 3:2
 
 === 15 #\foo character names ===
 
@@ -418,7 +493,9 @@ as well as allowing #\xNN numeric escapes for characters.
 Do we allow any or all of these names?
 
   * '''Options:''' yes,no,wg2,undecided
-  * '''Results:''' yes, undecided
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' yes, wg2, undecided
+  * '''Ratios:''' 7:0, 7:1
 
 === 13 [brackets] as (parens) ===
 
@@ -428,7 +505,9 @@ accept this extension, propose some other use for
 brackets, or leave them unspecified?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Results:''' no, yes
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' no, yes, wg2
+  * '''Ratios:''' 5:2, 5:0
 
 === 14 alternate comment syntax ===
 
@@ -437,7 +516,9 @@ and #| ... |# nested block comments.  Do we include
 either or both of these?
 
   * '''Options:''' sexp,block,both,no,wg2,undecided
-  * '''Results:''' both, block, sexp
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' both, sexp, wg2, no, block
+  * '''Ratios:''' 5:2, 5:1, 5:0, 5:1
 
 === 16 symbol escapes ===
 
@@ -449,7 +530,9 @@ where nnnn is 1-5 hex digits.  Do we accept this extension?  Do we
 also allow |...| to escape a whole symbol or a part of one?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Results:''' yes, wg2
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' yes, wg2, no
+  * '''Ratios:''' 6:2, 6:1
 
 === 67 string escapes ===
 
@@ -459,7 +542,9 @@ common control characters. Do we accept either or both of these
 extensions?
 
   * '''Options:''' numeric,mnemonic,both,no,wg2,undecided
-  * '''Results:''' both, numeric, no, yes
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' both, wg2, numeric, mnemonic, yes, no
+  * '''Ratios:''' 6:0, 6:1, 6:0, 6:1, 6:1
 
 == WG1 - Strings and Chars ==
 
@@ -471,7 +556,9 @@ and foldcase) using locale-independent Unicode
 mappings.  Do we provide equivalent mappings?
 
   * '''Options:''' strings,chars,both,no,module,wg2,undecided
-  * '''Results:''' module, wg2, both, undecided, strings, no
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' module, wg2, both, no, strings, undecided
+  * '''Ratios:''' 4:1, 5:1, 4:1, 5:1, 5:1
 
 === 26 string normalization ===
 
@@ -481,7 +568,9 @@ normalization forms.  Do we provide any sort
 of string normalization?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Results:''' no, module, wg2, both, undecided
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' module, wg2, no, undecided, both
+  * '''Ratios:''' 4:1, 4:3, 5:1, 5:0
 
 === 27 string-ref/set! access time ===
 
@@ -492,7 +581,9 @@ as character arrays.  Do we reaffirm this?
 `Yes` for required constant time.
 
   * '''Options:''' yes,no,wg2,undecided
-  * '''Results:''' no, yes, undecided
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' no, undecided, yes
+  * '''Ratios:''' 4:2, 4:2
 
 === 23 character set ===
 
@@ -503,7 +594,9 @@ character set, or limit the options in any way?
   * '''Proposals:'''
     * '''cowan:''' UnicodeCowan
   * '''Options:''' cowan,r5rs,wg2,undecided
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
   * '''Results:''' cowan, wg2, r5rs, undecided
+  * '''Ratios:''' 6:1, 7:0, 7:1
 
 == Working Group 1 ==
 
@@ -515,5 +608,6 @@ entered this ticket to play with the Trac ticketing system. We can
 finalize the ticket once we have chosen a VCS.
 
   * '''Options:''' bzr,darcs,git,hg,monotone,svn,undecided
-  * '''Results:''' monotone, hg, git, bzr, svn, darcs, undecided
-
+  * '''Voters:''' 8: Cowan, Gleckler, Hsu, Lucier, Medernach, Read, Shinn, SnellPym
+  * '''Results:''' git, hg, darcs, undecided, monotone, svn, bzr
+  * '''Ratios:''' 2:2, 4:1, 4:2, 3:2, 4:0, 3:1
