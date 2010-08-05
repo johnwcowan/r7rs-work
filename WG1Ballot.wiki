@@ -28,7 +28,7 @@ take the R6RS module system as-is.
   * '''Proposals:'''
     * '''hsu:''' ModulesAndPackagesArcfide
     * '''shinn:''' ModulesShinn
-  * '''Options:''' hsu, shinn, r6rs, none, undecided
+  * '''Options:''' hsu, shinn, r6rs, undecided
   * '''Preferences:''' 
 
 == WG1 - Core ==
