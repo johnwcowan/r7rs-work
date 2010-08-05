@@ -532,14 +532,11 @@ either or both of these?
 
 === 16 symbol escapes ===
 
-[[This|ticket was originally about string escapes, but commenters have
-been talking about symbol escapes instead.]]
-
 R6RS provides character escapes in symbols of the form `\xnnnn;`,
 where nnnn is 1-5 hex digits.  Do we accept this extension?  Do we
 also allow |...| to escape a whole symbol or a part of one?
 
-  * '''Options:''' yes,no,module,wg2,undecided
+  * '''Options:''' numeric,quoted,both,no,wg2,undecided
   * '''Preferences:''' 
 
 === 67 string escapes ===
