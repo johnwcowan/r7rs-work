@@ -10,6 +10,7 @@ summaries of existing systems.
 == Proposals ==
 
  * ErrorsSnellPym
+ * ExceptionHandlingCowan
 
 == System Summaries ==
 
