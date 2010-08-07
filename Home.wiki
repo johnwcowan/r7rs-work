@@ -34,6 +34,7 @@ For a complete list of local wiki pages, see TitleIndex.
         * ParametersSnellPym
         * ImmutableParametersCowan
     * [[ExceptionsErrorsAndConditions|Exceptions, Conditions, and Error handling]]
+        * ErrorsSnellPym
         * ExceptionHandlingCowan
 
 
