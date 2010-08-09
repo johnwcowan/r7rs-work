@@ -185,7 +185,7 @@ the language.
 A number of decisions were taken to allow for the efficient
 implementation and compilation of libraries and modules. Firstly, the
 use of the implicit-export form allows for the optimization of modules
-without require whole program analysis, which is not always possible.
+without requiring whole program analysis, which is not always possible.
 This encourage more dynamic programming without the associated cost of
 inefficient code. Additionally, the ability for a library to never be
 evaluated is a feature. This allows a more sophisticated
