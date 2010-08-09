@@ -1,6 +1,6 @@
 = WG1 New Ballot Votes by ArthurGleckler =
 
-Notes about voting:
+Notes about results:
 
   * you may list as many of the options as you want in order of preference
   * options are comma-delimited (ignoring space) and case-insensitive
@@ -12,6 +12,269 @@ Notes about voting:
   * abstain by leaving the preferences blank
   * items up for final vote will be marked as such (none are final now)
 
+== WG1 - Modules ==
+
+=== 2 Module System ===
+
+As per the charter, we need a module system
+proposal which allows sharing of code between
+implementations.
+
+This is one issue where we can't default to
+the R5RS, since it has no module system. If
+we can't come to consensus, we will have to
+take the R6RS module system as-is.
+
+  * '''Proposals:'''
+    * '''hsu:''' ModulesAndPackagesArcfide
+    * '''shinn:''' ModulesShinn
+  * '''Options:''' hsu, shinn, r6rs, undecided
+  * '''Preferences:''' hsu, shinn, r6rs
+
+== WG1 - Core ==
+
+=== 50 Byte-Vectors ===
+
+Several SRFIs, R6RS, and most Scheme implementations
+support some sort of uniform packed integer vectors.
+In particular, these are necessary for efficient
+binary I/O, and for memory mapping, so WG2 will
+certainly want them.
+
+Do we provide a syntax and basic API for these in WG1?
+
+  * '''Proposals:'''
+    * '''cowan:''' BlobAPI
+    * '''snellpym:''' BlobsAndSRFI4SnellPym
+  * '''Options:''' cowan, snellpym, wg2, none, undecided
+  * '''Preferences:''' cowan
+
+=== 69 Parameters ===
+
+Most Scheme implementations provide some form of dynamic bindings such
+as those provided by SRFI-39 parameters.
+
+  * '''Proposals:'''
+    * '''cowan:''' ImmutableParametersCowan
+    * '''snellpym:''' ParametersSnellPym
+  * '''Options:''' cowan, snellpym, srfi-39, wg2, none, undecided
+  * '''Preferences:''' cowan, srfi-39, wg2
+
+== WG1 - Exceptions ==
+
+=== 18 Exception System ===
+
+R6RS provided a detailed exception system with
+support for raising and catching exceptions, using
+a hierarchy of exception types.
+
+Do we use this, or parts of it, or a new exception
+system?
+
+  * '''Proposals:'''
+    * '''cowan:''' ExceptionHandlingCowan
+  * '''Options:''' cowan, wg2, none, undecided
+  * '''Preferences:''' cowan, wg2
+
+----
+
+= WG1 Controversial Ballot Items =
+
+== WG1 - Core ==
+
+=== 40 SRFI vs. R6RS precedence ===
+
+Given equal technical merit and compatible extensibility for WG2,
+should WG1 prefer SRFIs or standardized behaviors from R6RS when faced
+with the choice. For example, a version of syntax-violation
+vs. syntax-error.
+
+  * '''Options:''' srfi,r6rs,undecided
+  * '''Preferences:''' undecided
+
+=== 32 user-define types ===
+
+Do we support any means of creating disjoint
+user-defined types, such as in SRFI-9, SRFI-99
+or the R6RS record system?
+
+  * '''Proposals:'''
+    * '''hsu:''' RecordsArcfide
+    * '''rush:''' UserAggregatesRush
+    * '''snellpym:''' UniqueTypesSnellPym
+  * '''Options:''' hsu,rush,snellpym,srfi-9,srfi-99,no,wg2,undecided
+  * '''Preferences:''' srfi-99,srfi-9,hsu,snellpym
+
+=== 51 support for cyclic structures in primitives ===
+
+list?, length, equal? and other fundamental primitives may diverge
+when given cyclic data.  In the former two cases, avoiding this is
+simple and not inefficient, and the equivalents are already provided
+in SRFI-1.  In the latter case a proposal was made and rejected on the
+R6RS list.
+
+Do we want to specify the behavior when these primitives encounter
+cyclic data?
+
+  * '''Options:''' yes,no,module,wg2,undecided
+  * '''Preferences:''' yes,wg2
+
+=== 58 exact-integer-sqrt ===
+
+Should WG1 include `exact-integer-sqrt` from R6RS?  It allows square
+root operations in Schemes that don't provide inexact arithmetic, and
+has different semantics from `sqrt`, as it rounds its argument down to
+the nearest exact square.
+
+  * '''Options:''' yes,no,module,wg2,undecided
+  * '''Preferences:''' yes,module,wg2
+
+=== 61 finite? nan? ===
+
+Shall we add these numeric predicates?
+
+  * '''Options:''' yes,no,module,wg2,undecided
+  * '''Preferences:''' undecided
+
+=== 63 call/cc short name ===
+
+Should we allow `call/cc` as an equivalent to
+`call-with-current-continuation`?
+
+  * '''Options:''' yes,no,module,wg2,undecided
+  * '''Preferences:''' no,module,wg2
+
+=== 53 Implicit BEGIN to implicit LET-NIL ===
+
+In general, in places where an implict BEGIN occurs, it is possible to
+change this to an implicit LET-NIL and remain backwards
+compatible. Should we do this?
+
+  * '''Options:''' yes,no,module,wg2,undecided
+  * '''Preferences:''' yes
+
+== WG1 - I/O ==
+
+=== 52 read/write cyclic data ===
+
+SRFI-38 standardizes the #0=(1 . #0#) shared
+structure notation for read/write.  In the case
+of write, this can be expensive to compute, but
+otherwise the common case of the repl printing
+a cyclic structure results in an infinite loop.
+
+Do we want to add support for this, as an option
+or separate set of procedures?
+
+  * '''Options:''' yes,no,module,wg2,undecided
+  * '''Preferences:''' no,module,wg2
+
+== WG1 - Libraries ==
+
+=== 36 hash-tables ===
+
+R6RS and SRFI-69 both provide hash-table interfaces.
+Do we provide either of these, or try to provide
+some primitives on which efficient hash-tables can
+be implemented?
+
+  * '''Options:''' srfi-69,r6rs,no,module,wg2,undecided
+  * '''Preferences:''' wg2,r6rs,srfi-69
+
+== WG1 - Macros ==
+
+=== 6 syntax-rules _ patterns ===
+
+R6RS adds _ as a wild-card pattern, breaking
+some existing R5RS macros.  Do we add the _ wildcard,
+or leave it as a normal identifier as in R5RS?
+
+Yes to add, no for R5RS.
+
+  * '''Options:''' yes,no,wg2,undecided
+  * '''Preferences:''' no
+
+=== 8 SRFI-46 ellipse specifier in syntax-rules ===
+
+As an alternative to #7, SRFI-46 proposed
+allowing an optional ellipse specified as
+an identifier before the literals list in
+syntax-rules:
+
+  (syntax-rules ::: ()
+     <ellipse now represented as ::: instead of ...>)
+
+Do we allow this?
+
+  * '''Options:''' yes,no,module,wg2,undecided
+  * '''Preferences:''' no
+
+=== 9 tail patterns in syntax-rules ===
+
+SRFI-46 and R6RS both allow a fixed number of
+tail patterns following an ellipsis in a syntax-rules
+pattern:
+
+  (P1 ... Pk Pe <ellipsis> Pm+1 ... Pn)
+
+R6RS further allows dotted tail patterns
+
+  (P1 ... Pk Pe <ellipsis> Pm+1 ... Pn . Px)
+
+where Px only matches a dotted list.
+
+Do we allow either or both of these extensions?
+
+  * '''Options:''' tail,dotted-tail,both,no,module,wg2,undecided
+  * '''Preferences:''' both, tail, wg2
+
+== WG1 - Numerics ==
+
+=== 21 limited type arithmetic ===
+
+R6RS provides libraries for limited type arithmetic
+on fixnums only and flonums only.  Do we want these?
+
+  * '''Options:''' yes,no,module,wg2,undecided
+  * '''Preferences:''' module,wg2,yes
+
+=== 22 mantissa widths ===
+
+R6RS introduced the concept of mantissa widths
+as an alternative to the R5RS #s in numbers.
+Do we want either or both of these?
+
+  * '''Options:''' r5rs,r6rs,both,no,wg2,undecided
+  * '''Preferences:''' undecided
+
+== WG1 - Reader Syntax ==
+
+=== 11 case-sensitivity ===
+
+Does the reader fold case by default, and if so how?
+
+Yes to fold-case (R5RS) no to preserve case (R6RS), additional votes
+to come later from specific proposals.
+
+  * '''Options:''' yes,no,undecided
+  * '''Preferences:''' yes
+
+== Working Group 1 ==
+
+=== 1 Which VCS do we use? ===
+
+There is the question of the right VCS to use. I prefer
+Monotone. Currently we are having an email vote on the list. I have
+entered this ticket to play with the Trac ticketing system. We can
+finalize the ticket once we have chosen a VCS.
+
+  * '''Options:''' bzr,darcs,git,hg,monotone,svn,undecided
+  * '''Preferences:''' monotone,hg,bzr,git,svn,darcs
+
+----
+
+= WG1 Old Items =
+
 == WG1 - Core ==
 
 === 37 transcript-on and transcript-off ===
@@ -19,6 +282,9 @@ Notes about voting:
 These were relegated to a compatibility library
 in R6RS.  Do we want to keep them, drop them, or
 move them to a library?
+
+Yes means to keep them in the core, as in R5RS,
+and no means to remove them entirely.
 
   * '''Options:''' yes,no,module,wg2,undecided
   * '''Preferences:''' module,no,wg2
@@ -51,28 +317,6 @@ used.  Alternatively we could use the R6RS predicates ASSP and MEMP.
   * '''Options:''' srfi-1,r6rs,no,module,wg2,undecided
   * '''Preferences:''' srfi-1,r6rs
 
-=== 40 SRFI vs. R6RS precedence ===
-
-Given equal technical merit and compatible extensibility for WG2,
-should WG1 prefer SRFIs or standardized behaviors from R6RS when faced
-with the choice. For example, a version of syntax-violation
-vs. syntax-error.
-
-  * '''Options:''' srfi,r6rs,undecided
-  * '''Preferences:''' undecided
-
-=== 32 user-define types ===
-
-Do we support any means of creating disjoint
-user-defined types, such as in SRFI-9, SRFI-99
-or the R6RS record system?
-
-  * '''Proposals:'''
-    * '''snellpym:''' UniqueTypesSnellPym
-    * '''hsu:''' RecordsArcfide
-  * '''Options:''' snellpym,hsu,srfi-9,no,wg2,undecided
-  * '''Preferences:''' srfi-99,srfi-9,hsu,snellpym
-
 === 33 dynamic-wind ===
 
 New to R5RS, do we reaffirm the sometimes debated dynamic-wind?
@@ -87,20 +331,6 @@ procedures `call-with-values` and `values`?
 
   * '''Options:''' yes,no,module,wg2,undecided
   * '''Preferences:''' yes,module,wg2
-
-=== 51 support for cyclic structures in primitives ===
-
-list?, length, equal? and other fundamental primitives may diverge
-when given cyclic data.  In the former two cases, avoiding this is
-simple and not inefficient, and the equivalents are already provided
-in SRFI-1.  In the latter case a proposal was made and rejected on the
-R6RS list.
-
-Do we want to specify the behavior when these primitives encounter
-cyclic data?
-
-  * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' yes,wg2
 
 === 54 optional arguments ===
 
@@ -127,16 +357,6 @@ to a random variables in WG1 Scheme?
   * '''Options:''' srfi-27,no,wg2,undecided
   * '''Preferences:''' wg2,no
 
-=== 58 exact-integer-sqrt ===
-
-Should WG1 include `exact-integer-sqrt` from R6RS?  It allows square
-root operations in Schemes that don't provide inexact arithmetic, and
-has different semantics from `sqrt`, as it rounds its argument down to
-the nearest exact square.
-
-  * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' yes,module,wg2
-
 === 59 current-error-port ===
 
 Pretty much all Schemes except embedded ones provide a notion of
@@ -154,21 +374,6 @@ necessities for any file-driven programming.
 
   * '''Options:''' yes,no,module,wg2,undecided
   * '''Preferences:''' module,yes
-
-=== 61 finite? nan? ===
-
-Shall we add these numeric predicates?
-
-  * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' undecided
-
-=== 63 call/cc short name ===
-
-Should we allow `call/cc` as an equivalent to
-`call-with-current-continuation`?
-
-  * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' no,module,wg2
 
 === 64 Consistency in sequence procedures ===
 
@@ -204,74 +409,34 @@ existing Scheme implementations.
 
 === 44 Testing function arity ===
 
-We would like a standard for checking function arity. 
+We would like a standard for checking function arity.
 SRFI-102 proposes a way to check function arity:
 
   * '''Options:''' srfi-102,no,wg2,undecided
   * '''Preferences:''' srfi-102,wg2,no
 
-=== 53 Implicit BEGIN to implicit LET-NIL ===
-
-In general, in places where an implict BEGIN occurs, it is possible to
-change this to an implicit LET-NIL and remain backwards
-compatible. Should we do this?
-
-  * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' yes
-
 == WG1 - Exceptions ==
 
 === 17 error ===
 
-Do we support the near ubiquitous SRFI-23 error procedure?
+Do we support the near ubiquitous SRFI-23 error procedure,
+and if so should it use the SRFI-23 signature, R6RS, or
+type-dispatch on the first argument to allow both?
 
-  * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' yes,module,wg2
+  * '''Options:''' srfi-23,r6rs,both,no,module,wg2,undecided
+  * '''Preferences:''' r6rs,srfi-23,module,wg2
 
 == WG1 - I/O ===
 
 === 30 string ports ===
 
-Do we support SRFI-6 string ports, reaffirmed by R6RS?
+Do we support string ports, as implemented by SRFI-6
+or as by R6RS?
 
-  * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' yes,module,wg2
-
-=== 52 read/write cyclic data ===
-
-SRFI-38 standardizes the #0=(1 . #0#) shared
-structure notation for read/write.  In the case
-of write, this can be expensive to compute, but
-otherwise the common case of the repl printing
-a cyclic structure results in an infinite loop.
-
-Do we want to add support for this, as an option
-or separate set of procedures?
-
-  * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' no,module,wg2
-
-== WG1 - Libraries ==
-
-=== 36 hash-tables ===
-
-R6RS and SRFI-69 both provide hash-table interfaces.
-Do we provide either of these, or try to provide
-some primitives on which efficient hash-tables can
-be implemented?
-
-  * '''Options:''' srfi-69,r6rs,no,module,wg2,undecided
-  * '''Preferences:''' wg2,r6rs,srfi-69
+  * '''Options:''' srfi-6,r6rs,no,module,wg2,undecided
+  * '''Preferences:''' srfi-6,r6rs,module,wg2
 
 == WG1 - Macros ==
-
-=== 6 syntax-rules _ and ... patterns ===
-
-R6RS adds _ as a wild-card pattern, breaking
-some existing R5RS macros.  Do we keep the _?
-
-  * '''Options:''' yes,no,wg2,undecided
-  * '''Preferences:''' no
 
 === 7 (... ...) ellipse escaping in syntax patterns ===
 
@@ -283,48 +448,10 @@ if so what does (... <t1> <t2>) mean?
   * '''Options:''' yes,no,wg2,undecided
   * '''Preferences:''' yes
 
-=== 8 SRFI-46 ellipse specifier in syntax-rules ===
-
-As an alternative to #7, SRFI-46 proposed
-allowing an optional ellipse specified as
-an identifier before the literals list in
-syntax-rules:
-
-  (syntax-rules ::: ()
-     <ellipse now represented as ::: instead of ...>)
-
-Do we allow this?
-
-  * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' no
-
-=== 9 tail patterns in syntax-rules ===
-
-SRFI-46 and R6RS both allow a fixed number of
-tail patterns following an ellipsis in a syntax-rules
-pattern:
-
-  (P1 ... Pk Pe <ellipsis> Pm+1 ... Pn)
-
-R6RS further allows dotted tail patterns
-
-  (P1 ... Pk Pe <ellipsis> Pm+1 ... Pn . Px)
-
-where Px only matches a dotted list.
-
-Do we allow either or both of these extensions?
-
-  * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' undecided
-
 === 39 syntax-error ===
 
 Should we have syntax-error parallel to SRFI-23 error?  This is evoked
 when macros are expanded.
-
-There is a definition in JRM's Syntax-Rules Primer using syntax-rules,
-but it relies on the syntax-rules implementation reporting an
-unmatchable pattern with a complaint that includes the pattern.
 
   * '''Options:''' yes,no,module,wg2,undecided
   * '''Preferences:''' yes
@@ -373,34 +500,7 @@ as in R6RS?
   * '''Options:''' yes,no,wg2,undecided
   * '''Preferences:''' yes
 
-=== 21 limited type arithmetic ===
-
-R6RS provides libraries for limited type arithmetic
-on fixnums only and flonums only.  Do we want these?
-
-  * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' module,wg2,yes
-
-=== 22 mantissa widths ===
-
-R6RS introduced the concept of mantissa widths
-as an alternative to the R5RS #s in numbers.
-Do we want either or both of these?
-
-  * '''Options:''' r5rs,r6rs,both,no,wg2,undecided
-  * '''Preferences:''' undecided
-
 == WG1 - Reader Syntax ==
-
-=== 11 case-sensitivity ===
-
-Does the reader fold case by default, and if so how?
-
-Yes to fold-case (R5RS) no to preserve case (R6RS), additional votes
-to come later from specific proposals.
-
-  * '''Options:''' yes,no,undecided
-  * '''Preferences:''' yes
 
 === 15 #\foo character names ===
 
@@ -432,15 +532,12 @@ either or both of these?
 
 === 16 symbol escapes ===
 
-[[This|ticket was originally about string escapes, but commenters have
-been talking about symbol escapes instead.]]
-
 R6RS provides character escapes in symbols of the form `\xnnnn;`,
 where nnnn is 1-5 hex digits.  Do we accept this extension?  Do we
 also allow |...| to escape a whole symbol or a part of one?
 
-  * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' yes
+  * '''Options:''' numeric,quoted,both,no,wg2,undecided
+  * '''Preferences:''' both,quoted,numeric,no
 
 === 67 string escapes ===
 
@@ -495,15 +592,3 @@ character set, or limit the options in any way?
     * '''cowan:''' UnicodeCowan
   * '''Options:''' cowan,r5rs,wg2,undecided
   * '''Preferences:''' cowan,wg2,r5rs
-
-== Working Group 1 ==
-
-=== 1 Which VCS do we use? ===
-
-There is the question of the right VCS to use. I prefer
-Monotone. Currently we are having an email vote on the list. I have
-entered this ticket to play with the Trac ticketing system. We can
-finalize the ticket once we have chosen a VCS.
-
-  * '''Options:''' bzr,darcs,git,hg,monotone,svn,undecided
-  * '''Preferences:''' monotone,hg,bzr,git,svn,darcs
