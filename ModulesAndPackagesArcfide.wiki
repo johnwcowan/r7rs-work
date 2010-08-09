@@ -190,7 +190,7 @@ This encourage more dynamic programming without the associated cost of
 inefficient code. Additionally, the ability for a library to never be
 evaluated is a feature. This allows a more sophisticated
 implementation to determine that a given library will never be used,
-and to ellide it from the final program, potentially eliminating many
+and to elide it from the final program, potentially eliminating many
 costly evaluations and saving on space. Even on implicit phasing
 systems, this does not cause a problem because it is still possible
 to force the visitation or invokation of a library. 
