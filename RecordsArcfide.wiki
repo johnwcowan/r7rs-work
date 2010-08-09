@@ -29,7 +29,7 @@ Where `<name>` is an identifier indicating the record type, and `<constructor>` 
 
 For parent clauses, I propose that we permit multiple parents to be defined, but define and specify behavior for only one parent. The `<parent-rtd>` should be an identifier defined by `define-record-type` `<name>`. 
 
-for field clauses, each `<field-spec>` takes one of the following forms:
+For field clauses, each `<field-spec>` takes one of the following forms:
 
 `(immutable <field-name> <field-accessor>)`[[BR]]
 `(mutable <field-name> <field-accessor> <field-mutator>)`
