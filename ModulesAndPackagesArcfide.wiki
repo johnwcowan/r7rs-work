@@ -219,7 +219,7 @@ incident.
 == WG2 ==
 
 This proposal allows for the handling of phasing issues, which is not
-currently beging discussed in WG1. Additionally, it permits any sorts
+currently being discussed in WG1. Additionally, it permits any sorts
 of extensions to the forms by the creation of new forms in the same
 manner that `export` and `import` are defined. This system is
 compatible with both explicit and implicit phasing provided that the
