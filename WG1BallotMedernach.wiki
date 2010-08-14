@@ -15,6 +15,74 @@ Notes about voting:
 
 == WG1 - Core ==
 
+== WG1 - Modules ==
+
+=== 2 Module System ===
+
+As per the charter, we need a module system
+proposal which allows sharing of code between
+implementations.
+
+This is one issue where we can't default to
+the R5RS, since it has no module system. If
+we can't come to consensus, we will have to
+take the R6RS module system as-is.
+
+  * '''Proposals:'''
+    * '''hsu:''' ModulesAndPackagesArcfide
+    * '''shinn:''' ModulesShinn
+  * '''Options:''' hsu, shinn, r6rs, undecided
+  * '''Preferences:''' shinn
+
+== WG1 - Core ==
+
+=== 50 Byte-Vectors ===
+
+Several SRFIs, R6RS, and most Scheme implementations
+support some sort of uniform packed integer vectors.
+In particular, these are necessary for efficient
+binary I/O, and for memory mapping, so WG2 will
+certainly want them.
+
+Do we provide a syntax and basic API for these in WG1?
+
+  * '''Proposals:'''
+    * '''cowan:''' BlobAPI
+    * '''snellpym:''' BlobsAndSRFI4SnellPym
+  * '''Options:''' cowan, snellpym, wg2, none, undecided
+  * '''Preferences:''' cowan
+
+=== 69 Parameters ===
+
+Most Scheme implementations provide some form of dynamic bindings such
+as those provided by SRFI-39 parameters.
+
+  * '''Proposals:'''
+    * '''cowan:''' ImmutableParametersCowan
+    * '''snellpym:''' ParametersSnellPym
+  * '''Options:''' cowan, snellpym, srfi-39, wg2, none, undecided
+  * '''Preferences:''' cowan
+
+I completely agree that some other mechanism is better in order to share data between threads and separating concern is needed here.
+
+== WG1 - Exceptions ==
+
+=== 18 Exception System ===
+
+R6RS provided a detailed exception system with
+support for raising and catching exceptions, using
+a hierarchy of exception types.
+
+Do we use this, or parts of it, or a new exception
+system?
+
+  * '''Proposals:'''
+    * '''cowan:''' ExceptionHandlingCowan
+  * '''Options:''' cowan, wg2, none, undecided
+  * '''Preferences:''' undecided
+
+----
+
 === 37 transcript-on and transcript-off ===
 
 These were relegated to a compatibility library
