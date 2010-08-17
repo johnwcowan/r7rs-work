@@ -1,7 +1,7 @@
 = Design =
 
-When a problem situation, or ''exception'', is detected
-either by the implementation or by a
+When a situation calling for exceptional handling is
+detected either by the implementation or by a
 user program, a representation of that situation called a ''condition''
 (which can be any Scheme object) is constructed, and the exception is
 announced by an action called ''signaling
@@ -67,25 +67,19 @@ This procedure is compatible with R6RS `error`.
 
 The `who` argument must be a string or a symbol that describes the procedure or operation that detected the exception. The ''message'' argument must be a string that describes the exceptional situation. The ''irritants'' should be the arguments to the operation that detected the operation, but may be any objects relevant to the exception.
 
-The predicates `who-condition?`, `message-condition?`
-and `irritants-condition?` return `#t` on this condition.
-
   * `(error `''message''`. ` ''irritants''`)`
 
 Constructs a condition and signals it.  Never returns normally.
 This procedure is compatible with SRFI 23.
 
 The ''message'' argument must be a string that describes the exceptional situation. The ''irritants'' should be the arguments to the operation that detected the operation, but may be any objects relevant to the exception.
-
-The predicates `message-condition?`
-and `irritants-condition?` return `#t` on this condition.
  
 
 = Thanks =
 
 Thanks to Taylor Campbell, Alaric Snell-Pym as the author of
 ErrorsSnellPym, Kent Pitman as the author of the ISLisp specification,
-and the editors of R6RS,
+and the editors of R6RS and the ANSI CL standard,
 from all of whom I have derived inspiration and stolen descriptions.  They bear no responsibility
 for infelicities in this proposal.
 
