@@ -1,6 +1,6 @@
 = WG1 New Ballot Items =
 
-Notes about voting:
+Notes about results:
 
   * you may list as many of the options as you want in order of preference
   * options are comma-delimited (ignoring space) and case-insensitive
@@ -12,50 +12,77 @@ Notes about voting:
   * abstain by leaving the preferences blank
   * items up for final vote will be marked as such (none are final now)
 
+== WG1 - Modules ==
+
+=== 2 Module System ===
+
+As per the charter, we need a module system
+proposal which allows sharing of code between
+implementations.
+
+This is one issue where we can't default to
+the R5RS, since it has no module system. If
+we can't come to consensus, we will have to
+take the R6RS module system as-is.
+
+  * '''Proposals:'''
+    * '''hsu:''' ModulesAndPackagesArcfide
+    * '''shinn:''' ModulesShinn
+  * '''Options:''' hsu, shinn, r6rs, undecided
+  * '''Preferences:''' undecided
+
 == WG1 - Core ==
 
-=== 37 transcript-on and transcript-off ===
+=== 50 Byte-Vectors ===
 
-These were relegated to a compatibility library
-in R6RS.  Do we want to keep them, drop them, or
-move them to a library?
+Several SRFIs, R6RS, and most Scheme implementations
+support some sort of uniform packed integer vectors.
+In particular, these are necessary for efficient
+binary I/O, and for memory mapping, so WG2 will
+certainly want them.
 
-  * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' no,module
+Do we provide a syntax and basic API for these in WG1?
 
-=== 38 letrec* ===
+  * '''Proposals:'''
+    * '''cowan:''' BlobAPI
+    * '''snellpym:''' BlobsAndSRFI4SnellPym
+  * '''Options:''' cowan, snellpym, wg2, none, undecided
+  * '''Preferences:''' snellpym, cowan, wg2, none
 
-R6RS added letrec* and defined the semantics
-of internal define to be equivalent.  Do we
-want to add this?
+=== 69 Parameters ===
 
-  * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' module,yes
+Most Scheme implementations provide some form of dynamic bindings such
+as those provided by SRFI-39 parameters.
 
-I don't see letrec* as being a large burden to implementors, and having it available to define internal define in terms of tidies up a few loose ends. However, I'm all for putting it in a module as it's a "library" tool that could be implemented on top of the core as a macro.
+  * '''Proposals:'''
+    * '''cowan:''' ImmutableParametersCowan
+    * '''snellpym:''' ParametersSnellPym
+  * '''Options:''' cowan, snellpym, srfi-39, wg2, none, undecided
+  * '''Preferences:''' cowan, snellpym, srfi-39, wg2
 
-=== 41 Should we adopt the SRFI-1 extension to MAP and FOR-EACH? ===
+Unusually, I prefer the Cowan proposal over my own, as I actually like immutability. However, many people don't, and my proposal is to ensure that (given the concession of mutability), the interaction between threads is handled in a way that lets developers make useful assumptions.
 
-This extension allows the list arguments to be of unequal length, and
-stops the procedure whenever any of them run out.  R5RS says the lists
-''must'' be of the same length, R6RS says they ''should'' be.
+== WG1 - Exceptions ==
 
-`Yes` to allow unequal length.
+=== 18 Exception System ===
 
-  * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' yes,module
+R6RS provided a detailed exception system with
+support for raising and catching exceptions, using
+a hierarchy of exception types.
 
-Shouldn't be a large burden, and removes a 'hole' in the semantics of map/for-each.
+Do we use this, or parts of it, or a new exception
+system?
 
-=== 42 Should we adopt the SRFI-1 extension to ASSOC and MEMBER? ===
+  * '''Proposals:'''
+    * '''cowan:''' ExceptionHandlingCowan
+  * '''Options:''' cowan, wg2, none, undecided
+  * '''Preferences:''' cowan, wg2, none
 
-This extension accepts a third argument, the equality predicate to be
-used.  Alternatively we could use the R6RS predicates ASSP and MEMP.
+----
 
-  * '''Options:''' srfi-1,r6rs,no,module,wg2,undecided
-  * '''Preferences:''' srfi-1,r6rs
+= WG1 Controversial Ballot Items =
 
-The SRFI-1 form just strikes me as neater.
+== WG1 - Core ==
 
 === 40 SRFI vs. R6RS precedence ===
 
@@ -67,8 +94,6 @@ vs. syntax-error.
   * '''Options:''' srfi,r6rs,undecided
   * '''Preferences:''' srfi
 
-I think the SRFI process makes me happier than the R6RS process did.
-
 === 32 user-define types ===
 
 Do we support any means of creating disjoint
@@ -76,27 +101,11 @@ user-defined types, such as in SRFI-9, SRFI-99
 or the R6RS record system?
 
   * '''Proposals:'''
-    * '''snellpym:''' UniqueTypesSnellPym
     * '''hsu:''' RecordsArcfide
-  * '''Options:''' snellpym,hsu,srfi-9,no,wg2,undecided
-  * '''Preferences:''' snellpym,hsu,srfi-9,wg2,no
-
-=== 33 dynamic-wind ===
-
-New to R5RS, do we reaffirm the sometimes debated dynamic-wind?
-
-  * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' yes,module,wg2,no
-
-It's essential for maintaing certain kinds of invariants in the presence of continuation trickery, even though people misunderstand it sometimes.
-
-=== 34 multiple values ===
-
-New to R5RS, do we reaffirm multiple values, specifically the
-procedures `call-with-values` and `values`?
-
-  * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' yes,module,wg2,no
+    * '''rush:''' UserAggregatesRush
+    * '''snellpym:''' UniqueTypesSnellPym
+  * '''Options:''' hsu,rush,snellpym,srfi-9,srfi-99,no,wg2,undecided
+  * '''Preferences:''' snellpym.hsu,srfi-99,srfi-9,wg2,no
 
 === 51 support for cyclic structures in primitives ===
 
@@ -112,61 +121,12 @@ cyclic data?
   * '''Options:''' yes,no,module,wg2,undecided
   * '''Preferences:''' yes,module,wg2,no
 
-If not, it becomes all to easy to inadvertently apply one of these primitives to data from untrusted sources, introducing denial of service attacks.
-
-=== 54 optional arguments ===
-
-Scheme's primitive mechanism of improper lambda-lists allows for
-optional arguments, but only with extra machinery.  CL, DSSSL, and
-some Schemes provide a special word such as `#!optional` in
-lambda-lists, showing that the arguments which follow are optional and
-may have default values.  SRFI-89 provides both optional and keyword
-arguments via `lambda*` and `define*` and without introducing #!foo
-special tokens.
-
-Note the original ticket description mentions `case-lambda`, but this
-is easily provided as a separate module, and will be a separate item.
-
-  * '''Options:''' dsssl,srfi-89,no,wg2,undecided
-  * '''Preferences:''' undecided
-
-=== 57 Simple randomness ===
-
-Student programs often want a small amount of randomness, not
-necessarily of very high quality.  Shall we provide a simple interface
-to a random variables in WG1 Scheme?
-
-  * '''Options:''' srfi-27,no,wg2,undecided
-  * '''Preferences:''' no
-
-srfi-27 can be asked for by name if it's wanted.
-
 === 58 exact-integer-sqrt ===
 
 Should WG1 include `exact-integer-sqrt` from R6RS?  It allows square
 root operations in Schemes that don't provide inexact arithmetic, and
 has different semantics from `sqrt`, as it rounds its argument down to
 the nearest exact square.
-
-  * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' module,yes,wg2
-
-=== 59 current-error-port ===
-
-Pretty much all Schemes except embedded ones provide a notion of
-current error distinct from current output.  Should this be exposed as
-a Scheme output port?
-
-  * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' module,yes,wg2
-
-I vote for 'module' since it's not something that EVERY implementation will have, but many will.
-
-=== 60 Simple file operations ===
-
-Should WG1 provide a module equivalent to the (rnrs files) module?
-This provides `delete-file` and `file-exists?`, which are pretty much
-necessities for any file-driven programming.
 
   * '''Options:''' yes,no,module,wg2,undecided
   * '''Preferences:''' module,yes,wg2
@@ -186,50 +146,6 @@ Should we allow `call/cc` as an equivalent to
   * '''Options:''' yes,no,module,wg2,undecided
   * '''Preferences:''' no,module
 
-People can trivially define it if they want it.
-
-=== 64 Consistency in sequence procedures ===
-
-Should we add the 10 procedures mentioned at CompleteSequenceCowan in
-order to make the Scheme sequence types consistent?  They are
-`make-list copy-list list-set! string-map string-for-each
-string->vector copy-vector vector-map vector-for-each vector->string`,
-all with the obvious interface and semantics.
-
-  * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' yes,module
-
-Consistent sequence types give me a warm feeling of symmetry.
-
-=== 65 Precision indicators ===
-
-R5RS requires that Scheme support five indicators for the precision of
-floating-point values, not only the default `e` but also `s`, `f`,
-`d`, and `l`.  Only a few Schemes actually support more than one
-precision, so this is mostly noise.  Shall we make it an optional
-feature?
-
-  * '''Options:''' required,optional,no,wg2,undecided
-  * '''Preferences:''' optional,no
-
-=== 66 Add EXACT-INTEGER? ===
-
-Should we add an EXACT-INTEGER? predicate? Currently, to determine
-whether a number is both an integer and exact, we must test for both,
-which requires some hackery or poor pattern matching to optimize in
-existing Scheme implementations.
-
-  * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' yes,module
-
-=== 44 Testing function arity ===
-
-We would like a standard for checking function arity. 
-SRFI-102 proposes a way to check function arity:
-
-  * '''Options:''' srfi-102,no,wg2,undecided
-  * '''Preferences:''' undecided
-
 === 53 Implicit BEGIN to implicit LET-NIL ===
 
 In general, in places where an implict BEGIN occurs, it is possible to
@@ -239,25 +155,7 @@ compatible. Should we do this?
   * '''Options:''' yes,no,module,wg2,undecided
   * '''Preferences:''' undecided
 
-== WG1 - Exceptions ==
-
-=== 17 error ===
-
-Do we support the near ubiquitous SRFI-23 error procedure?
-
-  * '''Options:''' srfi-23,r6rs,both,no,module,wg2,undecided 
-  * '''Preferences:''' srfi-23,module
-
-== WG1 - I/O ===
-
-=== 30 string ports ===
-
-Do we support SRFI-6 string ports, reaffirmed by R6RS?
-
-  * '''Options:''' srfi-6,r6rs,no,module,wg2,undecided
-  * '''Preferences:''' no
-
-Implementations can provide SRFI-6 through the usual mechanisms, rather than it being put into WG1
+== WG1 - I/O ==
 
 === 52 read/write cyclic data ===
 
@@ -275,6 +173,7 @@ or separate set of procedures?
 
 Much as it pains me to require more complexity from WG1 implementations, I feel that there is a security issue here that primitives should not diverge on cyclic structures, as it would make it all too easy to introduce unexpected denial of service opportunities.
 
+
 == WG1 - Libraries ==
 
 === 36 hash-tables ===
@@ -291,20 +190,13 @@ I like providing primitives, but wouldn't want to force hash tables to be availa
 
 == WG1 - Macros ==
 
-=== 6 syntax-rules _ and ... patterns ===
+=== 6 syntax-rules _ patterns ===
 
 R6RS adds _ as a wild-card pattern, breaking
-some existing R5RS macros.  Do we keep the _?
+some existing R5RS macros.  Do we add the _ wildcard,
+or leave it as a normal identifier as in R5RS?
 
-  * '''Options:''' yes,no,wg2,undecided
-  * '''Preferences:''' no
-
-=== 7 (... ...) ellipse escaping in syntax patterns ===
-
-A popular extension, formalized in the R6RS,
-is to allow "(... <templ>)" in a syntax-rules template
-to be an escape for "<templ>".  Do we use this, and
-if so what does (... <t1> <t2>) mean?
+Yes to add, no for R5RS.
 
   * '''Options:''' yes,no,wg2,undecided
   * '''Preferences:''' no
@@ -340,22 +232,255 @@ where Px only matches a dotted list.
 
 Do we allow either or both of these extensions?
 
-  * '''Options:''' yes,no,module,wg2,undecided
+  * '''Options:''' tail,dotted-tail,both,no,module,wg2,undecided
   * '''Preferences:''' undecided
+
+== WG1 - Numerics ==
+
+=== 21 limited type arithmetic ===
+
+R6RS provides libraries for limited type arithmetic
+on fixnums only and flonums only.  Do we want these?
+
+  * '''Options:''' yes,no,module,wg2,undecided
+  * '''Preferences:''' no,wg2,module
+
+=== 22 mantissa widths ===
+
+R6RS introduced the concept of mantissa widths
+as an alternative to the R5RS #s in numbers.
+Do we want either or both of these?
+
+  * '''Options:''' r5rs,r6rs,both,no,wg2,undecided
+  * '''Preferences:''' undecided
+
+== WG1 - Reader Syntax ==
+
+=== 11 case-sensitivity ===
+
+Does the reader fold case by default, and if so how?
+
+Yes to fold-case (R5RS) no to preserve case (R6RS), additional votes
+to come later from specific proposals.
+
+  * '''Options:''' yes,no,undecided
+  * '''Preferences:''' no
+
+== Working Group 1 ==
+
+=== 1 Which VCS do we use? ===
+
+There is the question of the right VCS to use. I prefer
+Monotone. Currently we are having an email vote on the list. I have
+entered this ticket to play with the Trac ticketing system. We can
+finalize the ticket once we have chosen a VCS.
+
+  * '''Options:''' bzr,darcs,git,hg,monotone,svn,undecided
+  * '''Preferences:''' git,hg,svn
+
+----
+
+= WG1 Old Items =
+
+== WG1 - Core ==
+
+=== 37 transcript-on and transcript-off ===
+
+These were relegated to a compatibility library
+in R6RS.  Do we want to keep them, drop them, or
+move them to a library?
+
+Yes means to keep them in the core, as in R5RS,
+and no means to remove them entirely.
+
+  * '''Options:''' yes,no,module,wg2,undecided
+  * '''Preferences:''' no,wg2,module
+
+=== 38 letrec* ===
+
+R6RS added letrec* and defined the semantics
+of internal define to be equivalent.  Do we
+want to add this?
+
+  * '''Options:''' yes,no,module,wg2,undecided
+  * '''Preferences:''' module,yes
+
+I don't see letrec* as being a large burden to implementors, and having it available to define internal define in terms of tidies up a few loose ends. However, I'm all for putting it in a module as it's a "library" tool that could be implemented on top of the core as a macro.
+
+=== 41 Should we adopt the SRFI-1 extension to MAP and FOR-EACH? ===
+
+This extension allows the list arguments to be of unequal length, and
+stops the procedure whenever any of them run out.  R5RS says the lists
+''must'' be of the same length, R6RS says they ''should'' be.
+
+`Yes` to allow unequal length.
+
+  * '''Options:''' yes,no,module,wg2,undecided
+  * '''Preferences:''' yes,module
+
+Shouldn't be a large burden, and removes a 'hole' in the semantics of map/for-each.
+
+=== 42 Should we adopt the SRFI-1 extension to ASSOC and MEMBER? ===
+
+This extension accepts a third argument, the equality predicate to be
+used.  Alternatively we could use the R6RS predicates ASSP and MEMP.
+
+  * '''Options:''' srfi-1,r6rs,no,module,wg2,undecided
+  * '''Preferences:''' srfi-1,r6rs
+
+The SRFI-1 form just strikes me as neater.
+
+=== 33 dynamic-wind ===
+
+New to R5RS, do we reaffirm the sometimes debated dynamic-wind?
+
+  * '''Options:''' yes,no,module,wg2,undecided
+  * '''Preferences:''' yes,module,wg2,no
+
+It's essential for maintaining certain kinds of invariants in the presence of continuation trickery, even though people misunderstand it sometimes.
+
+=== 34 multiple values ===
+
+New to R5RS, do we reaffirm multiple values, specifically the
+procedures `call-with-values` and `values`?
+
+  * '''Options:''' yes,no,module,wg2,undecided
+  * '''Preferences:''' yes,module,wg2,no
+
+=== 54 optional arguments ===
+
+Scheme's primitive mechanism of improper lambda-lists allows for
+optional arguments, but only with extra machinery.  CL, DSSSL, and
+some Schemes provide a special word such as `#!optional` in
+lambda-lists, showing that the arguments which follow are optional and
+may have default values.  SRFI-89 provides both optional and keyword
+arguments via `lambda*` and `define*` and without introducing #!foo
+special tokens.
+
+Note the original ticket description mentions `case-lambda`, but this
+is easily provided as a separate module, and will be a separate item.
+
+  * '''Options:''' dsssl,srfi-89,no,wg2,undecided
+  * '''Preferences:''' undecided
+
+=== 57 Simple randomness ===
+
+Student programs often want a small amount of randomness, not
+necessarily of very high quality.  Shall we provide a simple interface
+to a random variables in WG1 Scheme?
+
+  * '''Options:''' srfi-27,no,wg2,undecided
+  * '''Preferences:''' no
+
+=== 59 current-error-port ===
+
+Pretty much all Schemes except embedded ones provide a notion of
+current error distinct from current output.  Should this be exposed as
+a Scheme output port?
+
+  * '''Options:''' yes,no,module,wg2,undecided
+  * '''Preferences:''' module,yes,wg2
+
+I vote for 'module' since it's not something that EVERY implementation will have, but many will.
+
+
+=== 60 Simple file operations ===
+
+Should WG1 provide a module equivalent to the (rnrs files) module?
+This provides `delete-file` and `file-exists?`, which are pretty much
+necessities for any file-driven programming.
+
+  * '''Options:''' yes,no,module,wg2,undecided
+  * '''Preferences:''' module,yes,wg2
+
+=== 64 Consistency in sequence procedures ===
+
+Should we add the 10 procedures mentioned at CompleteSequenceCowan in
+order to make the Scheme sequence types consistent?  They are
+`make-list copy-list list-set! string-map string-for-each
+string->vector copy-vector vector-map vector-for-each vector->string`,
+all with the obvious interface and semantics.
+
+  * '''Options:''' yes,no,module,wg2,undecided
+  * '''Preferences:''' yes,module
+
+Consistent sequence types give me a warm feeling of symmetry.
+
+
+=== 65 Precision indicators ===
+
+R5RS requires that Scheme support five indicators for the precision of
+floating-point values, not only the default `e` but also `s`, `f`,
+`d`, and `l`.  Only a few Schemes actually support more than one
+precision, so this is mostly noise.  Shall we make it an optional
+feature?
+
+  * '''Options:''' required,optional,no,wg2,undecided
+  * '''Preferences:''' optional,no
+
+=== 66 Add EXACT-INTEGER? ===
+
+Should we add an EXACT-INTEGER? predicate? Currently, to determine
+whether a number is both an integer and exact, we must test for both,
+which requires some hackery or poor pattern matching to optimize in
+existing Scheme implementations.
+
+  * '''Options:''' yes,no,module,wg2,undecided
+  * '''Preferences:''' yes, module
+
+=== 44 Testing function arity ===
+
+We would like a standard for checking function arity. 
+SRFI-102 proposes a way to check function arity:
+
+  * '''Options:''' srfi-102,no,wg2,undecided
+  * '''Preferences:''' undecided
+
+== WG1 - Exceptions ==
+
+=== 17 error ===
+
+Do we support the near ubiquitous SRFI-23 error procedure,
+and if so should it use the SRFI-23 signature, R6RS, or
+type-dispatch on the first argument to allow both?
+
+  * '''Options:''' srfi-23,r6rs,both,no,module,wg2,undecided
+  * '''Preferences:''' srfi-23
+
+== WG1 - I/O ==
+
+=== 30 string ports ===
+
+Do we support string ports, as implemented by SRFI-6
+or as by R6RS?
+
+  * '''Options:''' srfi-6,r6rs,no,module,wg2,undecided
+  * '''Preferences:''' no
+
+Implementations can provide SRFI-6 through the usual mechanisms, rather than it being put into WG1
+
+
+== WG1 - Macros ==
+
+=== 7 (... ...) ellipse escaping in syntax patterns ===
+
+A popular extension, formalized in the R6RS,
+is to allow "(... <templ>)" in a syntax-rules template
+to be an escape for "<templ>".  Do we use this, and
+if so what does (... <t1> <t2>) mean?
+
+  * '''Options:''' yes,no,wg2,undecided
+  * '''Preferences:''' no
 
 === 39 syntax-error ===
 
 Should we have syntax-error parallel to SRFI-23 error?  This is evoked
 when macros are expanded.
 
-There is a definition in JRM's Syntax-Rules Primer using syntax-rules,
-but it relies on the syntax-rules implementation reporting an
-unmatchable pattern with a complaint that includes the pattern.
-
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' yes,module
+  * '''Preferences:''' yes,module,wg2
 
-Decent error reporting isn't hard to implement, and makes macro debugging much easier.
+I think it's good to distinguish a syntax error from a coding error in the macro itself, which should call `error`.
 
 === 5 syntax-rules ===
 
@@ -389,8 +514,6 @@ this as well?
   * '''Options:''' yes,no,wg2,undecided
   * '''Preferences:''' yes
 
-For consistency with define.
-
 == WG1 - Numerics ==
 
 === 20 inexact infinities ===
@@ -403,38 +526,7 @@ as in R6RS?
   * '''Options:''' yes,no,wg2,undecided
   * '''Preferences:''' yes
 
-I've encountered many quantities that seem approximately infinite in my daily life, and being able to model these in software would be useful.
-
-=== 21 limited type arithmetic ===
-
-R6RS provides libraries for limited type arithmetic
-on fixnums only and flonums only.  Do we want these?
-
-  * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' no,module
-
-=== 22 mantissa widths ===
-
-R6RS introduced the concept of mantissa widths
-as an alternative to the R5RS #s in numbers.
-Do we want either or both of these?
-
-  * '''Options:''' r5rs,r6rs,both,no,wg2,undecided
-  * '''Preferences:''' undecided
-
 == WG1 - Reader Syntax ==
-
-=== 11 case-sensitivity ===
-
-Does the reader fold case by default, and if so how?
-
-Yes to fold-case (R5RS) no to preserve case (R6RS), additional votes
-to come later from specific proposals.
-
-  * '''Options:''' yes,no,undecided
-  * '''Preferences:''' no
-
-Case folding is hard to implement in the presence of Unicode, and having had a long history of C programming, I instinctively preserve case myself. People should be discouraged from defining symbols that differ only in case, but only by warnings that it may confuse other readers.
 
 === 15 #\foo character names ===
 
@@ -455,8 +547,6 @@ brackets, or leave them unspecified?
   * '''Options:''' yes,no,module,wg2,undecided
   * '''Preferences:''' no
 
-I think there's other things we could do with [], but experimentation is needed before proposing anything.
-
 === 14 alternate comment syntax ===
 
 R6RS provides support for #; nested sexp comments,
@@ -466,19 +556,14 @@ either or both of these?
   * '''Options:''' sexp,block,both,no,wg2,undecided
   * '''Preferences:''' both
 
-They're simple parser extensions, and both very useful, and quite widely implemented anyway.
-
 === 16 symbol escapes ===
-
-[[This|ticket was originally about string escapes, but commenters have
-been talking about symbol escapes instead.]]
 
 R6RS provides character escapes in symbols of the form `\xnnnn;`,
 where nnnn is 1-5 hex digits.  Do we accept this extension?  Do we
 also allow |...| to escape a whole symbol or a part of one?
 
-  * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' yes
+  * '''Options:''' numeric,quoted,both,no,wg2,undecided
+  * '''Preferences:''' both
 
 I think that since string->symbol takes any string, any symbol should be representable in sexprs.
 
@@ -490,7 +575,8 @@ common control characters. Do we accept either or both of these
 extensions?
 
   * '''Options:''' numeric,mnemonic,both,no,wg2,undecided
-  * '''Preferences:''' both,numeric
+  * '''Preferences:''' both, numeric
+
 
 The numeric escapes are very useful (for writing non-ascii literals in ascii sources, for a start); the mnemonics are cheap to implement and are useful.
 
@@ -508,6 +594,7 @@ mappings.  Do we provide equivalent mappings?
 
 Keep explicit dependencies on supporting the entire Unicode stack out of WG1, IMHO
 
+
 === 26 string normalization ===
 
 R6RS provides procedures to explicitly convert
@@ -519,6 +606,7 @@ of string normalization?
   * '''Preferences:''' no,module,wg2
 
 Keep explicit dependencies on supporting the entire Unicode stack out of WG1, IMHO
+
 
 === 27 string-ref/set! access time ===
 
@@ -544,14 +632,3 @@ character set, or limit the options in any way?
 
 John Cowan knows his Unicode.
 
-== Working Group 1 ==
-
-=== 1 Which VCS do we use? ===
-
-There is the question of the right VCS to use. I prefer
-Monotone. Currently we are having an email vote on the list. I have
-entered this ticket to play with the Trac ticketing system. We can
-finalize the ticket once we have chosen a VCS.
-
-  * '''Options:''' bzr,darcs,git,hg,monotone,svn,undecided
-  * '''Preferences:''' git,hg,svn
