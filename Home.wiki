@@ -22,6 +22,7 @@ For a complete list of local wiki pages, see TitleIndex.
     * RecordStandards
         * UniqueTypesSnellPym
         * RecordsArcfide
+        * UserAggregatesRush
     * BinaryData
         * [wiki:BlobsAndSRFI4SnellPym]
         * [wiki:BlobAPI] (Cowan)
