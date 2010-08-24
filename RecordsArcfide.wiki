@@ -18,7 +18,7 @@ To this end, I propose the following WG1 Record specification, which has as its 
 
 == Specification ==
 
-I propose that the WG1 standardize only a syntactic record definition consisting of a subset of R6RS' functionality, which is syntactically compatible therewith.
+'''I propose that the WG1 standardize only a syntactic record definition consisting of a subset of R6RS' functionality, which is syntactically compatible therewith.'''
 
 `(define-record-type (<name> <constructor> <predicate>) <clause> ...)`
 
