@@ -1,5 +1,7 @@
 = Parameters =
 
+''I have replaced this proposal with ParametersCowan, which returns to SRFI 39 semantics.  The trouble with immutable parameters is that the the immutable value may be a mutable object like a cons, a vector, or a box, which reinstates the question "Is it shared?"''
+
 This proposal defines ''parameter objects'', the procedure `make-parameter` to create parameter objects and the `parameterize `special form to dynamically bind parameter objects. In the dynamic environment, each parameter object is bound to a value, which may be any Scheme object. When a procedure is invoked, the called procedure inherits the dynamic environment from the caller. The `parameterize` special form allows the binding of a parameter object to be changed for the dynamic extent of its body.
 
 The proposal is an alternative to ParametersSnellPym, providing immutable parameter objects.  It is a subset of SRFI 39, with the difference being that passing a non-zero number of arguments to a parameter object has undefined effect rather than assigning a new value to the parameter object.  The effect of SRFI 39 mutable parameters can be emulated by binding a mutable object such as a pair to the parameter.
