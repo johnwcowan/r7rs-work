@@ -41,7 +41,7 @@ This proposal also specifies that `current-input-port` and `current-output-port`
 
 Returns a new parameter object which is bound in the global dynamic environment to a cell containing the value returned by the call `(`''converter''` `''init''`)`. If ''converter'' is not specified the identity function is used instead.  The conversion procedure can be used to coerce ''init'' to a suitable type or to signal an error if its type is inappropriate.
 
-Invoking the returned parameter object with no arguments returns the value it currently refers to.  Invoking the returned parameter object with a single argument ''x'' causes it to refer to ''x''.,\
+Invoking the returned parameter object with no arguments returns the value it currently refers to.  Invoking the returned parameter object with a single argument ''x'' causes it to refer to ''x''.
 
 {{{
         (define radix
@@ -95,15 +95,13 @@ The expressions ''expr1'' and ''expr2'' are evaluated in an unspecified order. T
 
 == Interaction with threads ==
 
-SRFI 39 does not specify how parameter objects interact with threads.  ParametersSnellPym provides mutable parameters shared between threads, which threads may safely mutate to share information.  I take the view that using parameter objects in this way is an improper and unnecessary conflation of two distinct facilities, dynamic variables and shared data.  Instead, some mechanism for exchanging data between threads, such as mailboxes, should be provided as a part of standardizing threads, probably in WG2.
+SRFI 39 does not specify how parameter objects interact with threads.  ParametersSnellPym provides mutable parameters shared between threads, which threads may atomically mutate to share information.  I take the view that using parameter objects in this way is an improper and unnecessary conflation of two distinct facilities, dynamic variables and shared data.  Instead, some mechanism for exchanging data between threads, such as mailboxes, should be provided as a part of standardizing threads, probably in WG2.
 
-Therefore, this proposal specifies that when a parent thread creates a new child thread, the parameter objects in the child thread are new objects whose ''initial'' contents are the same  (in the sense of `eqv?`) as their ''current'' (not initial) values in the parent thread.  In this way, parameters in the child thread are initialized sensibly but operate independently of the parent thread.
+Therefore, this proposal specifies that when a parent thread creates a new child thread, the cells inside the parameter objects in the child thread are new objects whose ''initial'' contents are the same  (in the sense of `eqv?`) as their ''current'' (not initial) values in the parent thread.  In this way, parameters in the child thread are initialized sensibly but operate independently of the parent thread.
 
-Most implementations that provides SRFI 39 can trivially provide this facility.  The exceptions are implementations like Scheme48 which neither copy nor share parameter objects with child threads, but provide freshly initialized objects instead.
 
 == Thanks ==
 
 Thanks to Taylor Campbell, Alaric Snell-Pym, and Marc Feeley, who as usual are not responsible for what I did to their ideas and/or prose.
-
 
 
