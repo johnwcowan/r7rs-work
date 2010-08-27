@@ -18,7 +18,7 @@ I have added equivalences to SRFI-69 (Basic hash tables) where they exist.  Name
 
 `(make-table `[''equivalence-function'']` . `''args''`)`
 
-Creates a new table with no associations. ''Equivalence-function'' is a predicate that should accept two keys and return a boolean telling whether they denote the same key value; it defaults to `equal?`.  (SRFI-69 `make-hash-table`)
+Creates a new table with no associations. ''Equivalence-function'' is a predicate that should accept two keys and return a boolean telling whether they denote the same key value; it defaults to `equal?`.  It must be reflexive, symmetrical, and transitive.  (SRFI-69 `make-hash-table`)
 
 
 Implementations MAY use the ''args'' for implementation-specific extensions.
