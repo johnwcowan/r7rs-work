@@ -89,11 +89,11 @@ Semantically equivalent to, but may be implemented more efficiently than, the fo
 
 `(table-map `''table''` `''procedure'' . `''args''`)`
 
-Returns a new table as if by invoking `(make-table . `''args''`).  The new table is the result of mapping ''procedure'', which takes two arguments, over ''table''.  It is applied to the key and value of each association in ''table'', and returns two values, the key and value to be placed in the new table.  (Not in SRFI-69)
+Returns a new table as if by invoking `(make-table . `''args''`).  The new table is the result of mapping ''procedure'', which takes two arguments, over ''table''.  It is applied to the key and value of each association in ''table'', and returns two values, the key and value to be placed in the new table.  f the table is mutated while `table-map` is running, the behavior is unpredictable.  (Not in SRFI-69)
 
 `(table-for-each `''table''` `''procedure''`)`
 
-The same as `table-map`, except that no new table is constructed; returns undefined values.  (SRFI-69 `hash-table-walk`)
+The same as `table-map`, except that no new table is constructed; returns undefined values.  If the table is mutated while `table-for-each` is running, the behavior is unpredictable.  (SRFI-69 `hash-table-walk`)
 
 `(table->list `''table''`)`
 
