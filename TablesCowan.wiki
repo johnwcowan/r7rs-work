@@ -28,6 +28,10 @@ Creates a new table and populates it with the associations based on the successi
 
 Creates a new table which maps the car of every element in ''alist'' to the cdr of the same element.  The ''args'' are interpreted as in `make-table`. If some key occurs multiple times in alist, the value in the first association will take precedence over later ones. 
 
+`(table-copy `''table''`)`
+
+Creates a new table with the same equivalence predicate, associations, and implementation-dependent properties (if any) as ''table''.
+
 == Predicates ==
 
 `(table? `''obj''`)`
@@ -89,7 +93,3 @@ The same as `table-map`, except that no new table is constructed; returns undefi
 `(table->list `''table''`)`
 
 Returns an association list such that the car of each element is a key in ''table'' and the corresponding cdr of is the value associated to the key.  The order of the elements is unspecified.
-
-`(table-copy `''table''`)`
-
-Returns a new table with the same equivalence predicate, associations, and implementation-dependent properties (if any) as ''table''.
