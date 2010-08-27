@@ -1,0 +1,95 @@
+== Tables ==
+
+This proposal defines an interface to tables, which are widely recognized as a fundamental data structure for a wide variety of applications.  A table is a data structure that:
+
+   1. Is disjoint from all other types.
+   1. Provides a mapping from some set of ''keys'' to some set of ''values'' associated to those keys.  Keys and values may be any Scheme objects.
+   1. Provides an ''equivalence function'' which defines when a proposed key is the same as an existing key.  No table may contain more than one value for a given key.
+   1. Supports mutation as the primary means of setting the contents of a table.
+   1. Assumes that keys are immutable; mutating a key leads to unspecified behavior.
+
+No particular implementation such as a-lists, red-black trees, or hash tables is mandated by this proposal.  Implementations SHOULD provide the most efficient implementation in time or space or both possible that is consistent with their larger goals; this may mean different implementations for tables of different lengths.
+
+Incorporating this proposal as a standard feature in WG1 Scheme implementations makes it possible to write efficient and portable programs that use tables.
+
+== Constructors ==
+
+`(make-table `[''equivalence-function'']` . `''args''`)`
+
+Creates a new table with no associations. ''Equivalence-function'' is a predicate that should accept two keys and return a boolean telling whether they denote the same key value; it defaults to `equal?`.
+
+Implementations MAY use the ''args'' for implementation-specific extensions.
+
+`(table `[[''key''|''value'']] ... `)`
+
+Creates a new table and populates it with the associations based on the successive ''key'' and ''value'' arguments.  The implementation may take the arguments into account in deciding which what kind of table to create. 
+
+`(list->`''table''` `''alist'' . `''args''`)`
+
+Creates a new table which maps the car of every element in ''alist'' to the cdr of the same element.  The ''args'' are interpreted as in `make-table`. If some key occurs multiple times in alist, the value in the first association will take precedence over later ones. 
+
+== Predicates ==
+
+`(table? `''obj''`)`
+
+Returns `#t` if ''obj'' is a table.
+
+`(table-exists? `''table''` `''key''`)'
+
+Returns `#t` if there is any association to ''key'' in ''table''.
+
+== Accessors ==
+
+`(table-ref `''table''` `''key'' [[|''thunk'' ]]`)`
+
+Returns the value associated to ''key'' in ''table''. If no value is associated to ''key'' and ''thunk'' is given, it is called with no arguments and its value is returned; if ''thunk'' is not given, an error is signalled.
+
+`(table-length `''table''`)`
+
+Returns the number of associations in table.
+
+`(table-keys `''table''`)`
+
+Returns a list of the keys in ''table''. The order of the keys is unspecified.
+
+`(table-values`''table''`)`
+
+Returns a list of the values in ''table''. The order of the keys is unspecified, and may be inconsistent with the results of `table-keys`.
+
+`(table-equivalence-function `''table`)`
+
+Returns the equivalence function of ''table''.
+
+== Mutators ==
+
+`(table-set! `''table''` `''key''` `''value''`)`
+
+Sets the ''value'' associated to ''key'' in ''table''. The previous association (if any) is removed.
+
+`(table-delete! `''table''` `''key''`)`
+
+Removes any association to ''key'' in ''table''. It is not an error if no association for that ''key'' exists; in this case, nothing is done.
+
+`(table-update! `''table''` `''key''` `''function'' [[|''thunk'' ]]`)`
+
+Semantically equivalent to, but may be implemented more efficiently than, the following code:
+
+`(table-set! `''table''` `''key''` (function (table-ref `''table''` `''key''` `''thunk''`)))`
+
+== Iterators ==
+
+`(table-map `''table''` `''procedure'' . `''args''`)`
+
+Returns a new table as if by invoking `(make-table . `''args''`).  The new table is the result of mapping ''procedure'', which takes two arguments, over ''table''.  It is applied to the key and value of each association in ''table'', and returns two values, the key and value to be placed in the new table.
+
+`(table-for-each `''table''` `''procedure''`)`
+
+The same as `table-map`, except that no new table is constructed; returns undefined values.
+
+`(table->list `''table''`)`
+
+Returns an association list such that the car of each element is a key in ''table'' and the corresponding cdr of is the value associated to the key.  The order of the elements is unspecified.
+
+`(table-copy `''table''`)`
+
+Returns a new table with the same equivalence predicate, associations, and implementation-dependent properties (if any) as ''table''.
