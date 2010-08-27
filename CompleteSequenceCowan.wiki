@@ -10,10 +10,10 @@ The WG1 charter says "Self consistency is an important objective, which may requ
 ||Element mutator||`list-set!` (proposed)||`string-set!`||`vector-set!`||`table-set!`||
 ||Map function||`map`||`string-map` (SRFI 13 extended)||`vector-map` (R6RS)||`table-map`||
 ||Map side effects||`for-each`||`string-for-each` (proposed)||`vector-for-each` (R6RS)||`table-for-each`||
-||Convert to list||---||`string->list`||`vector->list`||`table->list`||
+||Convert to list||---||`string->list`||`vector->list`||`table->alist`||
 ||Convert to string||`list->string`||---||`vector->string` (proposed)||---||
 ||Convert to vector||`list->vector`||`string->vector` (proposed)||---||---||
-||Convert to table||`list->table`||---||---||---||
+||Convert to table||`alist->table`||---||---||---||
 
 In summary: 33 procedures, 23 in R5RS, 2 in R6RS, 2 in SRFI 1, 1 in SRFI 43, 1 in SRFI-13 but extended to take multiple strings, 4 novel but obvious.
 
