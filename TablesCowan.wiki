@@ -7,6 +7,7 @@ This proposal defines an interface to tables, which are widely recognized as a f
    1. Provides an ''equivalence function'' which defines when a proposed key is the same as an existing key.  No table may contain more than one value for a given key.
    1. Supports mutation as the primary means of setting the contents of a table.
    1. Assumes that keys are immutable; mutating a key leads to unspecified behavior.
+   1. May be ''immutable'', meaning that associations may not be added or deleted and that the value associated with a key may not be changed.
 
 No particular implementation such as a-lists, red-black trees, or hash tables is mandated by this proposal.  Implementations SHOULD provide the most efficient implementation in time or space or both possible that is consistent with their larger goals; this may mean different implementations for tables of different lengths.
 
@@ -29,19 +30,28 @@ Creates a new table and populates it with the associations based on the successi
 
 `(immutable-table `[[''key''|''value'']] ... `)`
 
-The same as ``table``, except that the resulting table cannot be mutated either by adding or deleting associations or by changing the values of existing associations.
+The same as ``table``, except that the resulting table is immutable.   (Not in SRFI-69)
+
 
 `(alist->table `''alist''` . `''args''`)`
 
-Creates a new table as if by invoking `(make-table . `''args''`)` which maps the car of every element in ''alist'' to the cdr of the same element.  If some key occurs multiple times in alist, the value in the first association will take precedence over later ones.  (SRFI-69 `alist->hash-table`)
+Creates a new table as if by invoking `(make-table . `''args''`)` which maps the car of every element in ''alist'' to the cdr of the same element.  If some key occurs multiple times in alist, the value in the first association will take precedence over later ones. (SRFI-69 `alist->hash-table`)
 
 `(alist->immutable-table `''alist''` . `''args''`)`
 
-The same as `alist->table`, except that the resulting table cannot be mutated either by adding or deleting associations or by changing the values of existing associations.
+The same as `alist->table`, except that the resulting table is immutable.  (Not in SRFI-69)
+
+
+== Copiers ==
 
 `(table-copy `''table''`)`
 
-Creates a new table with the same equivalence predicate, associations, and implementation-dependent properties (if any) as ''table''. (SRFI-69 `hash-table-copy`)
+Creates a new mutable table with the same equivalence predicate, associations, and implementation-dependent properties (if any) as ''table''. (SRFI-69 `hash-table-copy`)
+
+`(table-immutable-copy `''table''`)`
+
+Returns an immutable table with the same equivalence predicate, associations, and implementation-dependent properties (if any) as ''table''.  If ''table'' is immutable, implementations need not make a new table.  (Not in SRFI-69)
+
 
 == Predicates ==
 
