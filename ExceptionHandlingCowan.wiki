@@ -73,7 +73,10 @@ Constructs a condition and signals it.  Never returns normally.
 This procedure is compatible with SRFI 23.
 
 The ''message'' argument must be a string that describes the exceptional situation. The ''irritants'' should be the arguments to the operation that detected the operation, but may be any objects relevant to the exception.
- 
+
+= Comments and Positions = 
+
+Rather than write out my own exception proposal, I will just put my comments here. This system is very close to R6RS, but does not provide good reasons for deviating from R6RS' in the ways that it does. In the name of backwards compatibility, I see no good reason to not use R6RS' system over this one, given that the system would only change names and introduce only two extra names. This gains backwards compatibility with the most widely implemented exception system (across implementations, if not in total code base), doesn't lose simplicity, gains usability and convenience, maintains expressiveness, and makes life at least no more difficult for those trying to port code from non-R6RS systems. - Aaron W. Hsu (arcfide)
 
 = Thanks =
 
