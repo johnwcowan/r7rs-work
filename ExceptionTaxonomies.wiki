@@ -119,7 +119,23 @@ This page lists the condition/exception system taxonomies for several Scheme imp
       <serious-compound-condition>
 }}}
 
-== GNU/MIT Scheme ==
+== Guile ==
+
+  Guile implements SRFI 18, SRFI 34, and R6RS exceptions.
+
+== Ikarus ==
+
+  Ikarus implements R6RS exceptions.
+
+== Kawa ==
+
+  Kawa gets its taxonomy of exceptions from Java.
+
+== Larceny ==
+
+  Larceny implements R6RS exceptions.
+
+== MIT/GNU Scheme ==
 {{{
   serious-condition
     error
@@ -154,22 +170,6 @@ This page lists the condition/exception system taxonomies for several Scheme imp
     breakpoint
 }}}
 
-== Guile ==
-
-  Guile implements SRFI 18, SRFI 34, and R6RS exceptions.
-
-== Ikarus ==
-
-  Ikarus implements R6RS exceptions.
-
-== Kawa ==
-
-  Kawa gets its taxonomy of exceptions from Java.
-
-== Larceny ==
-
-  Larceny implements R6RS exceptions.
-
 == Racket ==
 {{{
   exn
@@ -201,6 +201,18 @@ This page lists the condition/exception system taxonomies for several Scheme imp
     &message
     &serious
       &error
+        &i/o
+          &i/o-filename
+            &i/o-file-already-exists
+            &i/o-file-does-not-exist
+            &i/o-file-protection
+              &i/o-file-is-read-only
+          &i/o-invalid-position
+          &i/o-port
+            &i/o-decoding
+            &i/o-encoding
+          &i/o-read
+          &i/o-write
       &violation
          &assertion
          &non-continuable
