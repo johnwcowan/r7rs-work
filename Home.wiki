@@ -49,7 +49,7 @@ For a complete list of local wiki pages, see TitleIndex.
 
 == Information on Scheme Implementations ==
 
-[[ExceptionSystemTaxonomies|Catalog of Condition/Exception System Taxonomies]]
+[[ExceptionTaxonomies|Catalog of Condition/Exception Taxonomies]]
 
 
 '''Catalogs of Features'''
