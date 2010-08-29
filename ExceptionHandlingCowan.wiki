@@ -3,11 +3,12 @@
 When a situation calling for exceptional handling is
 detected either by the implementation or by a
 user program, a representation of that situation called a ''condition''
-(which can be any Scheme object) is constructed, and the exception is
+is constructed, and the exception is
 announced by an action called ''signaling
 the condition''.  This action allows a dynamically established ''condition handler''
 an opportunity to resolve the problem.  At any given time, only one handler
-is active.
+is active.  Note that in this proposal, any object may be a condition; the term is not
+reserved for a particular type of Scheme object.
 
 When a condition is signaled, the active handler is called with one
 argument, a condition which represents the situation.  The
@@ -37,7 +38,7 @@ an interactive debugger that lets the programmer perform actions other
 than invoking the top-level exit continuation, perhaps invoking retries
 or other arbitrary continuations.
 
-See StandardConditionPredicatesCowan for standard predicates and accessors useful
+See StandardConditionPredicatesCowan for standard constructors, predicates and accessors useful
 with implementation-defined conditions.
 
 = Procedures =
