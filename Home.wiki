@@ -49,6 +49,9 @@ For a complete list of local wiki pages, see TitleIndex.
 
 == Information on Scheme Implementations ==
 
+[[ExceptionSystemTaxonomies|Catalog of Condition/Exception System Taxonomies]]
+
+
 '''Catalogs of Features'''
 
         * [[http://spreadsheets.google.com/pub?key=tRCHK6jWXuKMABKAfoOwWqw&output=html|Scheme Systems Supporting SRFIs]], by John Cowan
