@@ -4,6 +4,8 @@ This is the initial starting page for the SWGs. There is little information here
 
 For a complete list of local wiki pages, see TitleIndex.
 
+Comments are welcome at the [[http://lists.scheme-reports.org/cgi-bin/mailman/listinfo/scheme-reports|public discussion list]].
+
 == Working Group 1 ([[http://www.scheme-reports.org/2009/working-group-1-charter.html|Charter]]) ==
 
 [[MemberPagesWorkingGroupOne|Member Page]]
