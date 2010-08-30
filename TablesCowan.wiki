@@ -1,5 +1,7 @@
 == Tables ==
 
+'''This proposal is at once too vague and too complex, so I'm withdrawing it.  I may create a replacement later.'''
+
 This proposal defines an interface to tables, which are widely recognized as a fundamental data structure for a wide variety of applications.  A table is a data structure that:
 
    1. Is disjoint from all other types.
