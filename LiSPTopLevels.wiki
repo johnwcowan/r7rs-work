@@ -16,7 +16,7 @@ All information taken from Christaian Quiennic's, __Lisp In Small Pieces__, 1994
 = Frozen Global Environment =
 
 ||Reference||x||
-||Value||{{{x}}}, but {{{x} must exist||
+||Value||{{{x}}}, but {{{x}}} must exist||
 ||Modification||{{{(set! x ...)}}}, but {{{x}}} must exist||
 ||Extension||{{{define}}} (only one time)||
 ||Definition||no||
