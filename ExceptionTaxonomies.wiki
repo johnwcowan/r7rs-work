@@ -57,6 +57,25 @@ This page lists the condition/exception system taxonomies for several Scheme imp
     &who
 }}}
 
+== Chicken ==
+
+Chicken supports SRFI-12.
+
+{{{
+  exn
+    arity
+    type
+    arithmetic
+    i/o)
+      file
+      net
+    bounds
+    runtime
+      limit
+    match
+    syntax
+}}}
+
 == Gambit ==
 
   Gambit doesn't have a hierarchy, but it does have a set of standard
