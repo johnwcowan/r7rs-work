@@ -1,14 +1,15 @@
-= Standard condition predicates and accessors =
+= Standard condition predicates, accessors, and constructors =
 
 Conditions created by an implementation are opaque objects as far as
-this standard is concerned; they may be any Scheme object such as a list, a vector, or a
-record.  However, a variety of predicates and accessors
+this proposal is concerned; they may be any Scheme object such as a list, a vector, or a
+record.  However, a variety of constructors, predicates, and accessors
 are provided in order to help programs 
-examine implementation-specific conditions.
+create and/or examine implementation-specific conditions.
 If a predicate returns `#t` on a particular condition, the related accessor(s)
 will return information, hopefully meaningful and useful.  Otherwise, calling the accessors
 has undefined effect.
 It is common for more than one predicate to return `#t` on a particular condition.
+The constructors allow user programs to create conditions that answer to the related predicates and constructors.
 
  * `(message-condition? `''condition''`)`
 
@@ -36,11 +37,19 @@ about the condition, otherwise `#f`.
 
 Returns the list of irritants (possibly empty) associated with ''message-condition''.
 
+ * `(make-error-condition `''who''` `''message''` . `''irritants''`)`
+
+Creates a condition which answers #t to `who-condition?`, `message-condition?`, and `error-condition?`.
+
  * `(external-condition? `''condition''`)`
 
 Returns `#t` iff ''condition'' describes an exceptional situation that is
 caused by something that has gone wrong in the interaction
-of the program with the external world or the user, otherwise `#f`. 
+of the program with the external world or the user, otherwise `#f`.
+
+ * `(make-external-condition . `''args''`)`
+
+Creates a condition which answers `#t` to `external-condition?`.  The ''args'' have implementation-dependent meaning.
 
  * `(violation-condition? `''condition''`)`
 
@@ -48,19 +57,35 @@ Returns `#t` iff ''condition'' describes an exceptional situation that is
 a violation of the language standard or a library standard,
 typically caused by a programming error, otherwise `#f`. 
 
+ * `(make-violation-condition . `''args''`)`
+
+Creates a condition which answers `#t` to `violation-condition?`.  The ''args'' have implementation-dependent meaning.
+
  * `(invocation-condition? `''condition''`)`
 
 Returns `#t` iff ''condition'' describes an invalid call to a procedure,
 such as passing an invalid number of arguments or passing an argument of the wrong type, otherwise `#f`.
+
+ * `(make-invocation-condition . `''args''`)`
+
+Creates a condition which answers `#t` to `invocation-condition?`.  The ''args'' have implementation-dependent meaning.
 
  * `(implementation-restriction-condition? `''condition''`)`
 
 Returns `#t` iff ''condition'' describes a violation of an implementation restriction
 that is allowed by the specification, otherwise `#f`.
 
+ * `(make-implementation-restriction-condition . `''args''`)`
+
+Creates a condition which answers `#t` to `implementation-restriction-condition?`.  The ''args'' have implementation-dependent meaning.
+
  * `(storage-exhausted-condition? `''condition''`)`
 
 Returns `#t` iff ''condition'' is reporting that storage is exhausted, otherwise `#f`.
+
+ * `(make-storage-exhausted-condition . `''args''`)`
+
+Creates a condition which answers `#t` to `storage-exhausted-condition?`.  The ''args'' have implementation-dependent meaning.
 
  * `(parse-condition? `''condition''`)`
 
@@ -70,6 +95,10 @@ or an error in parsing a datum, otherwise `#f`.
  * `(condition-parse-string `''parse-condition''`)`
 
 Returns the string which could not be parsed.
+
+ * `(make-parse-condition `''parse-string''` . `''args''`)`
+
+Creates a condition which answers `#t` to `parse-condition?`.  ''Parse-string'' is the string which could not be parsed.  The ''args'' have implementation-dependent meaning.
 
  * `(syntax-condition? `''condition''`)`
 
@@ -83,6 +112,10 @@ Returns the form containing a syntax error.
 
 Returns the subform which more precisely locates the syntax error.
 
+ * `(make-syntax-condition `''form''` `''subform''` . `''args''`)`
+
+Creates a condition which answers `#t` to `syntax-condition?`.  The ''args'' have implementation-dependent meaning.  ''Form'' and ''subform'' are the form containing a syntax error and the form containing a syntax error respectively.
+
  * `(identifier-condition? `''condition''`)`
 
 Returns `#t` iff ''condition'' describes an undefined identifier, otherwise `#f`.
@@ -90,6 +123,10 @@ Returns `#t` iff ''condition'' describes an undefined identifier, otherwise `#f`
  * `(condition-identifier `''identifier-condition''`)`
 
 Returns the identifier which is undefined as a symbol.
+
+ * `(make-identifier-condition `''identifier''` . `''args''`)`
+
+Creates a condition which answers `#t` to `identifier-condition?`.  ''Identifier'' is a symbol representing the identifier which is undefined.  The ''args'' have implementation-dependent meaning.
 
  * `(port-condition? `''condition''`)`
 
@@ -99,17 +136,33 @@ Returns `#t` iff ''condition'' describes a problem with a port, otherwise `#f`.
 
 Returns the port associated with ''port-condition''.
 
+ * `(make-port-condition `''port''` . `''args''`)`
+
+Creates a condition which answers `#t` to `port-condition?`.  ''Port'' is the port associated with the condition.  The ''args'' have implementation-dependent meaning.
+
  * `(i/o-condition? `''condition''`)`
 
 Returns `#t` iff ''condition'' describes an exceptional situation with I/O, otherwise `#f`.
+
+ * `(make-i/o-condition `''port''` . `''args''`)`
+
+Creates a condition which answers `#t` to `i/o-condition?`.  ''Port'' is the port associated with the condition.  The ''args'' have implementation-dependent meaning.
 
  * `(read-condition? `''condition''`)`
 
 Returns `#t` iff ''condition'' describes an exceptional situation with input, otherwise `#f`.
 
+ * `(make-read-condition `''port''` . `''args''`)`
+
+Creates a condition which answers `#t` to `read-condition?`.  ''Port'' is the port associated with the condition.  The ''args'' have implementation-dependent meaning.
+
  * `(write-condition? `''condition''`)`
 
 Returns `#t` iff ''condition'' describes an exceptional situation with output, otherwise `#f`.
+
+ * `(make-write-condition `''port''` . `''args''`)`
+
+Creates a condition which answers `#t` to `write-condition?`.  ''Port'' is the port associated with the condition.  The ''args'' have implementation-dependent meaning.
 
  * `(position-condition? `''condition''`)`
 
@@ -120,6 +173,10 @@ to set a port's position invalidly, otherwise `#f`.
 
 Returns the position specified by the user.
 
+ * `(make-position-condition `''port''` . `''args''`)`
+
+Creates a condition which answers `#t` to `position-condition?`.  ''Port'' is the port associated with the condition.  The ''args'' have implementation-dependent meaning.
+
  * `(filename-condition? `''condition''`)`
 
 Returns `#t` iff ''condition'' has a filename associated with it, otherwise `#f`.
@@ -128,9 +185,17 @@ Returns `#t` iff ''condition'' has a filename associated with it, otherwise `#f`
 
 Returns the filename associated with ''filename-condition'' as a string.
 
+ * `(make-filename-condition `''port''` `''filename''` . `''args''`)`
+
+Creates a condition which answers `#t` to `filename-condition?`.  ''Filename'' is the name of the file associated with the condition.  ''Port'' is the port associated with the condition.  The ''args'' have implementation-dependent meaning.
+
  * `(file-protection-condition? `''condition''`)`
 
 Returns `#t` iff ''condition'' describes a file protection violation, otherwise `#f`.
+
+ * `(make-file-protection-condition `''port''` `''filename''` . `''args''`)`
+
+Creates a condition which answers `#t` to `file-protection-condition?`.  ''Filename'' is the name of the file associated with the condition.  ''Port'' is the port associated with the condition.  The ''args'' have implementation-dependent meaning.
 
  * `(file-existence-condition? `''condition''`)`
 
@@ -140,3 +205,8 @@ Returns `#t` iff ''condition'' describes the existence or nonexistence of a file
 
 Returns `#t` if the filename associated with ''file-existence-condition'' exists but should not,
 or `#f` if it does not exist but should.
+
+ * `(make-file-exists-condition `''port''` `''filename''` `''file-exists?''` . `''args''`)`
+
+Creates a condition which answers `#t` to `filename-condition?`.  ''Filename'' is the name of the file associated with the condition.  ''File-exists?'' specifies whether the file exists or not.  ''Port'' is the port associated with the condition.  The ''args'' have implementation-dependent meaning.
+
