@@ -1,0 +1,182 @@
+== Ports ==
+
+Here's my proposal for Thing One ports and I/O facilities.  It's fully upward compatible with R5RS, but takes ideas from R6RS, SRFI-91 and SRFI-6.  Many of the concepts are present in R6RS under other names.
+
+== Port model ==
+
+In this proposal, as in Gambit Scheme and SRFI 91, there are two classes of ports, binary ports and character ports.  Unusually, ''every binary port is automatically a character port.''  This implies that some character encoding must be associated with each binary port so that character I/O can be performed on it.  The only encoding that implementations MUST support is ASCII, so this is relatively cost-free, since for ASCII there need be no separate character buffer or encoding translation table.
+
+This proposal does not specify any way to create a bidirectional port, but allows for their possible existence in an implementation.  Sockets, terminals, and pipes are all examples.
+
+== Filename model ==
+
+In this proposal, a filename may be specified either as a string or as a ''settings list'', which is a (disembodied) property list where every key is a symbol ending in a colon.  For convenience, these symbols are also defined as identifiers.  Implementations MUST support the following keys:
+
+`path:`
+
+Specifies the filename.  The interpretation of filenames is implementation-dependent.  There is no default value; this key MUST be present.
+
+`buffering:`
+
+Specifies what kind of buffering is present.  The value `#f` means there is no buffering; `binary` means that there is a binary buffer but no character buffer; `#t` means there both character and binary buffering.  Other values MAY be specified by an implementation.  Buffer sizes are implementation-dependent.  The default value is implementation-dependent.
+
+`encoding:`
+
+Specifies what character encoding to use on a binary port.  The value `US-ASCII` MUST be supported.  The values `ISO-8859-1`, and `UTF-8` SHOULD be supported if the implementation contains the appropriate repertoire of characters.  Other values MAY be supported.  The default value is implementation-dependent.
+
+If a BOM (Byte Order Mark, U+FEFF) is present at the beginning of input on a port encoded as UTF-8, it is skipped.  A BOM is not automatically written on output.  Implementations MAY provide a way around this.
+
+`newline:`
+
+Specifies how to translate newlines.  The value `#f` means that there is no translation.  Any other value causes all of CR, LF, CR+LF, NEL, CR+NEL, and U+2028 to be translated to `#\newline` on input.  On output, the values `cr`, `lf`, and `crlf` mean that `#\newline` is translated to CR, LF, or CR+LF respectively.  Other values MAY be specified by an implementation.  The default value is implementation-dependent.
+
+`case-sensitive:`
+
+Specifies if Scheme symbols are read from the port case-sensitively or not.  The value `#f` means that upper-case letters in symbols are translated to lower case unless escaped; `#t` means that no translation is done.  The default value is implementation-dependent.
+
+
+== Core module ==
+
+All these procedures are required in a WG1 Scheme system and form part of the core module.
+
+=== Port objects ===
+
+`(input-port? `''port''`)`
+
+`(output-port? `''port''`)`
+
+Same as R5RS, but also return true on input/output ports.
+
+`port?`
+
+Mentioned in R5RS section 3 but not in section 6.6.  Part of R6RS.
+
+`(current-input-port)`
+
+`(current-output-port)`
+
+Same as R5RS.  These are binary ports whose character encoding is implementation-specified.
+
+`(current-error-port)`
+
+From R6RS.  This is a binary port whose character encoding is implementation-specified.
+
+`(force-output ` [[|''output-port'' ]] ` ` [[|''character-only?'' ]]`)`
+
+Drains the character buffer of ''output-port'', if any.  Then, if the port is an output port and the second argument is false, drains the binary buffer, if any.  The default output port is the current output port.
+
+`(close-input-port `''port''`)`
+
+`(close-output-port `''port''`)`
+
+From R5RS.  `Close-output-port` implicitly calls `force-output` first.
+
+`(close-port)`
+
+Closes both sides of a bidirectional port; otherwise the same as `close-input-port` or `close-output-port` as the case may be.
+
+`(eof-object? `''obj''`)`
+
+Same as R5RS.
+
+=== Character I/O ===
+
+`(character-port? `''port''`)`
+
+Returns `#t` if ''port'' is a character port.  SRFI 91 calls this `char-port`.
+
+`(read-char `[[|''input-port'' ]]`)`
+
+`(write-char `[[|''output-port'' ]]`)`
+
+`(newline `[[|''output-port'' ]]`)`
+
+`(peek-char `[[|''input-port'' ]]`)`
+
+`(char-ready? `[[|''input-port'' ]]`)`
+
+Same as R5RS.
+
+`(read-line `[[|''port'' ]]`)`
+
+Same as R6RS.  Reads a line from ''port'' (or the current input port) terminated by a `#\newline` character.  This is a convenience function.
+
+`(open-input-string `''string''`)`
+
+Same as SRFI 6.
+
+`(open-output-string)`
+
+Same as SRFI 6.  String ports are character ports, but not binary ports.
+
+`(get-output-string `''output-string-port''`)`
+
+Same as SRFI 6.
+
+=== Binary I/O ===
+
+`(binary-port? `''port''`)`
+
+Returns `#t` if ''port'' is a binary port.  String ports are character ports, but not binary ports; file ports are both.  SRFI 91 calls this `byte-port`.
+
+`(read-u8 `[[|''binary-input-port'' ]]`)`
+
+`(write-u8 `[[|''binary-output-port'' ]]`)`
+
+`(peek-u8 `[[|''binary-input-port'' ]]`)`
+
+`(u8-ready? `[[|''binary-input-port'' ]]`)`
+
+The direct binary analogues of `read-char`, `write-char`, `newline`, `peek-char`, and `char-ready?` respectively.  They return an exact integer between 0 and 255 rather than a character.  SRFI 91 talks of `byte` rather than `u8`.
+
+
+== File Module ==
+
+This is a separate module because some implementations will not have access to a file system.
+
+`(call-with-input-file `''filename''` `''proc''`)`
+
+`(call-with-output-file `''filename''` `''proc''`)`
+
+`(with-input-from file `''filename''` `''thunk''`)`
+
+`(with-output-to-file `''filename''` `''thunk''`)`
+
+`(open-input-file `''filename''`)`
+
+`(open-output-file `''filename''`)`
+
+Same as R5RS, except that any ''filename'' argument may be a string or a settings list.
+
+`(delete-file `''filename''`)`
+
+`(file-exists? `''filename''`)`
+
+Same as R6RS.  Only string filenames are supported.
+
+
+== Read Module ==
+
+This is a separate module because many systems, especially embedded ones, don't require the ability to read general Scheme objects, and very small implementations may not want the overhead of a Scheme parser.
+
+`(read ` [[|''input-port'' ]]`)`
+
+Same as R5RS.
+
+
+== Write Module ==
+
+This is a separate module for the same reasons as the read module.
+
+`(write `''obj'' [[|''output-port'' ]]`)`
+
+Same as R5RS, but specifies that only ASCII characters may be output (for re-readability).  Non-ASCII characters in symbols, strings, and character literals MUST be escaped.
+
+`(display `''obj'' [[|''port'' ]]`)`
+
+Same as R5RS.  It is an error to output characters not present in the encoding of ''output-port''.
+
+
+== Thanks ==
+
+Thanks to the R5RS and R6RS editors; to Marc Feeley, author of SRFI 91 and Gambit-C; and to Will Clinger, author of SRFI 6.
