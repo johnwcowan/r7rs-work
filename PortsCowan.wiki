@@ -41,7 +41,7 @@ In this proposal, a filename may be specified either as a string or as a ''setti
 
  Specifies if Scheme symbols are read from the port case-sensitively or not.  The value `#f` means that upper-case letters in symbols are translated to lower case unless escaped; `#t` means that no translation is done.  The default value is implementation-dependent.
 
-Implementations MAY support other keys.
+Implementations MAY support other keys, SHOULD warn if they detect keys they do not understand, and MAY signal an error in such cases.
 
 
 == Port object procedures ==
