@@ -1,11 +1,11 @@
 == Ports ==
 
-Here's my proposal for WG1 Scheme ports and I/O facilities.  It's fully upward compatible with R5RS, but takes ideas from R6RS, SRFI-91 and SRFI-6.  Many of the concepts are present in R6RS under other names.
+Here's my proposal for WG1 Scheme ports and I/O facilities.  It's fully upward compatible with R5RS, but takes ideas from R6RS, SRFI 91 and SRFI 6.  Many of the concepts are present in R6RS under other names.
 
 The new features beyond R5RS are:
 
  * partial control of buffering, character encoding, newline translation, and Scheme case sensitivity
- * string ports (SRFI 6 compatible)
+ * string ports (SRFI-6-compatible)
  * binary ports and blob ports (the binary version of string ports)
  * `current-error-port`, `flush-output-port`, `read-line`, `delete-file`, and `file-exists?` from R6RS
 
@@ -50,7 +50,7 @@ Implementations MAY support other keys.
 
 `(output-port? `''obj''`)`
 
-Same as R5RS, but also return true on input/output ports.
+Same as R5RS, but also return `#t` on bidirectional ports if the implementation provides them.
 
 `(port? `''obj''`)`
 
@@ -78,7 +78,7 @@ From R5RS.  `Close-output-port` implicitly calls `flush-output-port` first.
 
 `(close-port)`
 
-Closes both sides of a bidirectional port; otherwise the same as `close-input-port` or `close-output-port` as the case may be.
+Closes both sides of a bidirectional port, if the implementation provides them; otherwise the same as `close-input-port` or `close-output-port` as the case may be.  It is harmless to close a part, or one side of it, if it is already closed.
 
 `(eof-object? `''obj''`)`
 
