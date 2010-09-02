@@ -11,6 +11,11 @@ summaries of existing systems.
 
  * ExceptionHandlingCowan
 
+== References ==
+
+  * ExceptionTaxonomies
+  * ErrorSituations
+
 == System Summaries ==
 
   * [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-8.html#node_chap_7|R6RS Exceptions and Conditions]]
