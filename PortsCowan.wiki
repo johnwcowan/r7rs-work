@@ -2,6 +2,13 @@
 
 Here's my proposal for Thing One ports and I/O facilities.  It's fully upward compatible with R5RS, but takes ideas from R6RS, SRFI-91 and SRFI-6.  Many of the concepts are present in R6RS under other names.
 
+The new features beyond R5RS are:
+
+ * partial control of buffering, character encoding, newline translation, and Scheme case sensitivity
+ * string ports (SRFI 6 compatible)
+ * binary ports and blob ports (the binary version of string ports)
+ * `current-error-port`, `flush-output-port`, `read-line`, `delete-file`, and `file-exists?` from R6RS
+
 == Port model ==
 
 In this proposal, there are two kinds of ports, binary ports and character ports.  Unusually, ''every binary port is automatically a character port'', though not vice versa.  This implies that some character encoding must be associated with each binary port so that character I/O can be performed on it.  The only encoding that implementations MUST support is ASCII, so this is relatively cost-free, since ASCII encoding does not require a separate character buffer or encoding translation table, only a few bits for newline translation and case sensitivity.
@@ -10,29 +17,29 @@ This proposal does not specify any way to create a bidirectional port, but allow
 
 == Filename model ==
 
-In this proposal, a filename may be specified either as a string or as a ''settings list'', which is a (disembodied) property list where every key is a symbol ending in a colon.  For convenience, these symbols are also defined as identifiers.  Implementations MUST support the following keys:
+In this proposal, a filename may be specified either as a string or as a ''settings list'', which is a list of alternating ''keys'' and ''values'' where every key is a symbol ending in a colon.  For convenience, these symbols are also defined as identifiers.  Implementations MUST support the following keys:
 
-`path:`
+ `path:`::
 
-Specifies the filename.  The interpretation of filenames is implementation-dependent.  There is no default value, but implementations MAY accept other keys in lieu of this one for opening non-file ports.
+ Specifies the filename.  The interpretation of filenames is implementation-dependent.  There is no default value, but implementations MAY accept other keys in lieu of this one for opening non-file ports.
 
-`buffering:`
+ `buffering:`::
 
-Specifies what kind of buffering is present.  The value `#f` means there is no buffering; `binary` means that there is a binary buffer but no character buffer; `#t` means there are both character and binary buffering.  Other values MAY be specified by an implementation.  Buffer sizes are implementation-dependent.  The default value is implementation-dependent.
+ Specifies what kind of buffering is present.  The value `#f` means no buffering is employed; `binary` means that there is a binary buffer but no character buffer; `#t` means there are both character and binary buffering.  Other values MAY be specified by an implementation.  Buffer sizes are implementation-dependent.  The default value is implementation-dependent.
 
-`encoding:`
+ `encoding:`::
 
-Specifies what character encoding to use on a binary port.  The value `US-ASCII` MUST be supported.  The values `ISO-8859-1` and `UTF-8` SHOULD be supported if the implementation contains the appropriate repertoire of characters.  Other values MAY be supported.  The default value is implementation-dependent.
+ Specifies what character encoding to use on a binary port.  The value `US-ASCII` MUST be supported.  The values `ISO-8859-1` and `UTF-8` SHOULD be supported if the implementation contains the appropriate repertoire of characters.  Other values MAY be supported, which SHOULD appear in the [[http://www.iana.org/assignments/character-sets|IANA list of encodings]].  The default value is implementation-dependent.
 
-If a BOM (Byte Order Mark, U+FEFF) is present at the beginning of input on a port encoded as UTF-8, it is skipped.  A BOM is not automatically written on output.  Implementations MAY provide a way around this.
+ If a BOM (Byte Order Mark, U+FEFF) is present at the beginning of input on a port encoded as UTF-8, it is skipped.  A BOM is not automatically written on output.  Implementations MAY provide a way around this.
 
-`newline:`
+ `newline:`::
 
-Specifies how to translate newlines.  The value `#f` means that there is no translation.  Any other value causes all of CR, LF, CR+LF, NEL, CR+NEL, and U+2028 to be translated to `#\newline` on input.  On output, the values `cr`, `lf`, and `crlf` mean that `#\newline` is translated to CR, LF, or CR+LF respectively.  Other values MAY be specified by an implementation.  The default value is implementation-dependent.
+ Specifies how to translate newlines.  The value `#f` means that no translation is performed.  Any other value causes all of CR, LF, CR+LF, NEL (U+0085), CR+NEL, and LS (U+2028) to be translated to `#\newline` on input.  On output, the translation is implementation-dependent.  Other values MAY be specified by an implementation.  The default value is implementation-dependent.
 
-`case-sensitive:`
+ `case-sensitive:`::
 
-Specifies if Scheme symbols are read from the port case-sensitively or not.  The value `#f` means that upper-case letters in symbols are translated to lower case unless escaped; `#t` means that no translation is done.  The default value is implementation-dependent.
+ Specifies if Scheme symbols are read from the port case-sensitively or not.  The value `#f` means that upper-case letters in symbols are translated to lower case unless escaped; `#t` means that no translation is done.  The default value is implementation-dependent.
 
 Implementations MAY support other keys.
 
@@ -43,9 +50,9 @@ All these procedures are required in a WG1 Scheme system and form part of the co
 
 === Port objects ===
 
-`(input-port? `''port''`)`
+`(input-port? `''obj''`)`
 
-`(output-port? `''port''`)`
+`(output-port? `''obj''`)`
 
 Same as R5RS, but also return true on input/output ports.
 
@@ -83,9 +90,9 @@ Same as R5RS.
 
 === Character I/O ===
 
-`(character-port? `''port''`)`
+`(character-port? `''obj''`)`
 
-Returns `#t` if ''port'' is a character port.  SRFI 91 calls this `char-port`.  Implementations may define other kinds of character ports.
+Returns `#t` if ''obj'' is a character port.  SRFI 91 calls this `char-port`.  Implementations may define other kinds of character ports.
 
 `(read-char `[[|''character-input-port'' ]]`)`
 
@@ -115,9 +122,9 @@ Same as SRFI 6.
 
 Note that string ports are character ports, but not binary ports, so these procedures do not apply to them.  Implementations MAY support other kinds of binary ports such as process ports or stream socket ports.
 
-`(binary-port? `''port''`)`
+`(binary-port? `''obj''`)`
 
-Returns `#t` if ''port'' is a binary port.  SRFI 91 calls this `byte-port?`.
+Returns `#t` if ''obj'' is a binary port.  SRFI 91 calls this `byte-port?`.
 
 `(read-u8 `[[|''binary-input-port'' ]]`)`
 
