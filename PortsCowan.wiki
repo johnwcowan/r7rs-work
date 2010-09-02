@@ -4,7 +4,7 @@ Here's my proposal for Thing One ports and I/O facilities.  It's fully upward co
 
 == Port model ==
 
-In this proposal, there are two kinds of ports, binary ports and character ports.  Unusually, ''every binary port is automatically a character port'', though not vice versa.  This implies that some character encoding must be associated with each binary port so that character I/O can be performed on it.  The only encoding that implementations MUST support is ASCII, so this is relatively cost-free, since for ASCII there need be no separate character buffer or encoding translation table.
+In this proposal, there are two kinds of ports, binary ports and character ports.  Unusually, ''every binary port is automatically a character port'', though not vice versa.  This implies that some character encoding must be associated with each binary port so that character I/O can be performed on it.  The only encoding that implementations MUST support is ASCII, so this is relatively cost-free, since ASCII encoding does not require a separate character buffer or encoding translation table, only a few bits for newline translation and case sensitivity.
 
 This proposal does not specify any way to create a bidirectional port, but allows for their possible existence in an implementation.  Sockets, terminals, and pipes are all examples.
 
@@ -34,6 +34,8 @@ Specifies how to translate newlines.  The value `#f` means that there is no tran
 
 Specifies if Scheme symbols are read from the port case-sensitively or not.  The value `#f` means that upper-case letters in symbols are translated to lower case unless escaped; `#t` means that no translation is done.  The default value is implementation-dependent.
 
+Implementations MAY support other keys.
+
 
 == Core module ==
 
@@ -61,15 +63,15 @@ Same as R5RS.  These are binary ports whose character encoding is implementation
 
 From R6RS.  This is a binary port whose character encoding is implementation-dependent.
 
-`(force-output ` [[|''output-port'' ]] ` ` [[|''character-only?'' ]]`)`
+`(flush-output-port ` [[|''output-port'' ]] ` ` [[|''character-only?'' ]]`)`
 
-Drains the character buffer of ''output-port'', if any.  Then, if the port is a binary port and the second argument is false, drains the binary buffer, if any.  The default port is the current output port.
+Same as R6RS, except that if the ''output-port'' is omitted, the default port is the current output port.  Drains the character buffer of ''output-port'', if any.  Then, if the port is a binary port, drains the binary buffer, if any.
 
 `(close-input-port `''port''`)`
 
 `(close-output-port `''port''`)`
 
-From R5RS.  `Close-output-port` implicitly calls `force-output` first.
+From R5RS.  `Close-output-port` implicitly calls `flush-output-port` first.
 
 `(close-port)`
 
@@ -83,7 +85,7 @@ Same as R5RS.
 
 `(character-port? `''port''`)`
 
-Returns `#t` if ''port'' is a character port.  SRFI 91 calls this `char-port`.
+Returns `#t` if ''port'' is a character port.  SRFI 91 calls this `char-port`.  Implementations may define other kinds of character ports.
 
 `(read-char `[[|''character-input-port'' ]]`)`
 
@@ -99,7 +101,7 @@ Same as R5RS.  It is an error to output characters not present in the encoding o
 
 `(read-line `[[|''character-input-port'' ]]`)`
 
-Same as R6RS.  Reads a line from ''port'' (or the current input port) terminated by a `#\newline` character (which may be the result of newline conversion in the port).  The default port is the current input port.  This is a convenience function.
+Same as R6RS.  Reads a line from ''port'' (or the current input port) terminated by a `#\newline` character (which may be the result of newline conversion in the port). This is a convenience function.
 
 `(open-input-string `''string''`)`
 
@@ -111,11 +113,11 @@ Same as SRFI 6.
 
 === Binary I/O ===
 
-Note that string ports are character ports, but not binary ports.
+Note that string ports are character ports, but not binary ports, so these procedures do not apply to them.  Implementations MAY support other kinds of binary ports such as process ports or stream socket ports.
 
 `(binary-port? `''port''`)`
 
-Returns `#t` if ''port'' is a binary port.  String ports are character ports but not binary ports; file ports are both.  SRFI 91 calls this `byte-port?`.
+Returns `#t` if ''port'' is a binary port.  SRFI 91 calls this `byte-port?`.
 
 `(read-u8 `[[|''binary-input-port'' ]]`)`
 
@@ -126,6 +128,15 @@ Returns `#t` if ''port'' is a binary port.  String ports are character ports but
 `(u8-ready? `[[|''binary-input-port'' ]]`)`
 
 The direct binary analogues of `read-char`, `write-char`, `newline`, `peek-char`, and `char-ready?` respectively.  They return an exact integer between 0 and 255 rather than a character.  SRFI 91 talks of `byte` rather than `u8`.
+
+`(open-input-blob `''blob''`)`
+
+`(open-output-blob)`
+
+`(get-output-blob `''output-blob-port''`)`
+
+Blobs are (possibly specialized) vectors containing integers from 0 to 255 inclusive.  These procedures are the binary analogues of the SRFI 6 string port procedures.  The term ''blob'' is subject to change.
+
 
 
 == File Module ==
@@ -157,7 +168,7 @@ Same as R6RS.  Only string ''filename''s are supported.
 
 These procedures are not in the core because many systems, especially embedded ones, don't require the ability to read or write general Scheme objects, and very small implementations may not want the overhead of a Scheme parser.  Writing may be useful even when reading is not, which is why there are two modules.
 
-Note that implementations may provide ports that are not character ports, and extend these procedure to work on them.
+Note that implementations may provide ports that are not character ports, such as directory ports or vector ports, and extend these procedure to work on them.
 
 === Read Module ===
 
