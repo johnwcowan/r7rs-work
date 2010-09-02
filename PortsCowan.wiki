@@ -4,7 +4,7 @@ Here's my proposal for Thing One ports and I/O facilities.  It's fully upward co
 
 == Port model ==
 
-In this proposal, as in Gambit Scheme and SRFI 91, there are two classes of ports, binary ports and character ports.  Unusually, ''every binary port is automatically a character port.''  This implies that some character encoding must be associated with each binary port so that character I/O can be performed on it.  The only encoding that implementations MUST support is ASCII, so this is relatively cost-free, since for ASCII there need be no separate character buffer or encoding translation table.
+In this proposal, there are two kinds of ports, binary ports and character ports.  Unusually, ''every binary port is automatically a character port'', though not vice versa.  This implies that some character encoding must be associated with each binary port so that character I/O can be performed on it.  The only encoding that implementations MUST support is ASCII, so this is relatively cost-free, since for ASCII there need be no separate character buffer or encoding translation table.
 
 This proposal does not specify any way to create a bidirectional port, but allows for their possible existence in an implementation.  Sockets, terminals, and pipes are all examples.
 
@@ -14,15 +14,15 @@ In this proposal, a filename may be specified either as a string or as a ''setti
 
 `path:`
 
-Specifies the filename.  The interpretation of filenames is implementation-dependent.  There is no default value; this key MUST be present.
+Specifies the filename.  The interpretation of filenames is implementation-dependent.  There is no default value, but implementations MAY accept other keys in lieu of this one for opening non-file ports.
 
 `buffering:`
 
-Specifies what kind of buffering is present.  The value `#f` means there is no buffering; `binary` means that there is a binary buffer but no character buffer; `#t` means there both character and binary buffering.  Other values MAY be specified by an implementation.  Buffer sizes are implementation-dependent.  The default value is implementation-dependent.
+Specifies what kind of buffering is present.  The value `#f` means there is no buffering; `binary` means that there is a binary buffer but no character buffer; `#t` means there are both character and binary buffering.  Other values MAY be specified by an implementation.  Buffer sizes are implementation-dependent.  The default value is implementation-dependent.
 
 `encoding:`
 
-Specifies what character encoding to use on a binary port.  The value `US-ASCII` MUST be supported.  The values `ISO-8859-1`, and `UTF-8` SHOULD be supported if the implementation contains the appropriate repertoire of characters.  Other values MAY be supported.  The default value is implementation-dependent.
+Specifies what character encoding to use on a binary port.  The value `US-ASCII` MUST be supported.  The values `ISO-8859-1` and `UTF-8` SHOULD be supported if the implementation contains the appropriate repertoire of characters.  Other values MAY be supported.  The default value is implementation-dependent.
 
 If a BOM (Byte Order Mark, U+FEFF) is present at the beginning of input on a port encoded as UTF-8, it is skipped.  A BOM is not automatically written on output.  Implementations MAY provide a way around this.
 
@@ -47,7 +47,7 @@ All these procedures are required in a WG1 Scheme system and form part of the co
 
 Same as R5RS, but also return true on input/output ports.
 
-`port?`
+`(port? `''obj''`)`
 
 Mentioned in R5RS section 3 but not in section 6.6.  Part of R6RS.
 
@@ -55,15 +55,15 @@ Mentioned in R5RS section 3 but not in section 6.6.  Part of R6RS.
 
 `(current-output-port)`
 
-Same as R5RS.  These are binary ports whose character encoding is implementation-specified.
+Same as R5RS.  These are binary ports whose character encoding is implementation-dependent.
 
 `(current-error-port)`
 
-From R6RS.  This is a binary port whose character encoding is implementation-specified.
+From R6RS.  This is a binary port whose character encoding is implementation-dependent.
 
 `(force-output ` [[|''output-port'' ]] ` ` [[|''character-only?'' ]]`)`
 
-Drains the character buffer of ''output-port'', if any.  Then, if the port is an output port and the second argument is false, drains the binary buffer, if any.  The default output port is the current output port.
+Drains the character buffer of ''output-port'', if any.  Then, if the port is a binary port and the second argument is false, drains the binary buffer, if any.  The default port is the current output port.
 
 `(close-input-port `''port''`)`
 
@@ -85,29 +85,25 @@ Same as R5RS.
 
 Returns `#t` if ''port'' is a character port.  SRFI 91 calls this `char-port`.
 
-`(read-char `[[|''input-port'' ]]`)`
+`(read-char `[[|''character-input-port'' ]]`)`
 
-`(write-char `[[|''output-port'' ]]`)`
+`(write-char `[[|''character-output-port'' ]]`)`
 
-`(newline `[[|''output-port'' ]]`)`
+`(newline `[[|''character-output-port'' ]]`)`
 
-`(peek-char `[[|''input-port'' ]]`)`
+`(peek-char `[[|''character-input-port'' ]]`)`
 
-`(char-ready? `[[|''input-port'' ]]`)`
+`(char-ready? `[[|''character-input-port'' ]]`)`
 
-Same as R5RS.
+Same as R5RS.  It is an error to output characters not present in the encoding of a ''character-output-port''.
 
-`(read-line `[[|''port'' ]]`)`
+`(read-line `[[|''character-input-port'' ]]`)`
 
-Same as R6RS.  Reads a line from ''port'' (or the current input port) terminated by a `#\newline` character.  This is a convenience function.
+Same as R6RS.  Reads a line from ''port'' (or the current input port) terminated by a `#\newline` character (which may be the result of newline conversion in the port).  The default port is the current input port.  This is a convenience function.
 
 `(open-input-string `''string''`)`
 
-Same as SRFI 6.
-
 `(open-output-string)`
-
-Same as SRFI 6.  String ports are character ports, but not binary ports.
 
 `(get-output-string `''output-string-port''`)`
 
@@ -115,9 +111,11 @@ Same as SRFI 6.
 
 === Binary I/O ===
 
+Note that string ports are character ports, but not binary ports.
+
 `(binary-port? `''port''`)`
 
-Returns `#t` if ''port'' is a binary port.  String ports are character ports, but not binary ports; file ports are both.  SRFI 91 calls this `byte-port`.
+Returns `#t` if ''port'' is a binary port.  String ports are character ports but not binary ports; file ports are both.  SRFI 91 calls this `byte-port?`.
 
 `(read-u8 `[[|''binary-input-port'' ]]`)`
 
@@ -152,30 +150,30 @@ Same as R5RS, except that any ''filename'' argument may be a string or a setting
 
 `(file-exists? `''filename''`)`
 
-Same as R6RS.  Only string filenames are supported.
+Same as R6RS.  Only string ''filename''s are supported.
 
 
-== Read Module ==
+== Read and Write Modules ==
 
-This is a separate module because many systems, especially embedded ones, don't require the ability to read general Scheme objects, and very small implementations may not want the overhead of a Scheme parser.
+These procedures are not in the core because many systems, especially embedded ones, don't require the ability to read or write general Scheme objects, and very small implementations may not want the overhead of a Scheme parser.  Writing may be useful even when reading is not, which is why there are two modules.
+
+Note that implementations may provide ports that are not character ports, and extend these procedure to work on them.
+
+=== Read Module ===
 
 `(read ` [[|''input-port'' ]]`)`
 
 Same as R5RS.
 
-
-== Write Module ==
-
-This is a separate module for the same reasons as the read module.
+=== Write Module ===
 
 `(write `''obj'' [[|''output-port'' ]]`)`
 
-Same as R5RS, but specifies that only ASCII characters may be output (for re-readability).  Non-ASCII characters in symbols, strings, and character literals MUST be escaped.
+Same as R5RS, but specifies that only ASCII characters may be output (for re-readability).  Non-ASCII characters in symbols, strings, and character literals MUST be escaped.    
 
 `(display `''obj'' [[|''port'' ]]`)`
 
-Same as R5RS.  It is an error to output characters not present in the encoding of ''output-port''.
-
+Same as R5RS.  It is an error to output characters not present in the encoding of ''output-port''. 
 
 == Thanks ==
 
