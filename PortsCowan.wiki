@@ -1,6 +1,6 @@
 == Ports ==
 
-Here's my proposal for Thing One ports and I/O facilities.  It's fully upward compatible with R5RS, but takes ideas from R6RS, SRFI-91 and SRFI-6.  Many of the concepts are present in R6RS under other names.
+Here's my proposal for WG1 Scheme ports and I/O facilities.  It's fully upward compatible with R5RS, but takes ideas from R6RS, SRFI-91 and SRFI-6.  Many of the concepts are present in R6RS under other names.
 
 The new features beyond R5RS are:
 
@@ -44,11 +44,7 @@ In this proposal, a filename may be specified either as a string or as a ''setti
 Implementations MAY support other keys.
 
 
-== Core module ==
-
-All these procedures are required in a WG1 Scheme system and form part of the core module.
-
-=== Port objects ===
+== Port object procedures ==
 
 `(input-port? `''obj''`)`
 
@@ -88,7 +84,7 @@ Closes both sides of a bidirectional port; otherwise the same as `close-input-po
 
 Same as R5RS.
 
-=== Character I/O ===
+== Character I/O procedures ==
 
 `(character-port? `''obj''`)`
 
@@ -118,7 +114,7 @@ Same as R6RS.  Reads a line from ''port'' (or the current input port) terminated
 
 Same as SRFI 6.
 
-=== Binary I/O ===
+== Binary I/O procedures ==
 
 Note that string ports are character ports, but not binary ports, so these procedures do not apply to them.  Implementations MAY support other kinds of binary ports such as process ports or stream socket ports.
 
