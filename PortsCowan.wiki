@@ -21,7 +21,7 @@ In this proposal, a filename may be specified either as a string or as a ''setti
 
  `path:`::
 
- Specifies the filename.  The interpretation of filenames is implementation-dependent.  There is no default value, but implementations MAY accept other keys in lieu of this one for opening non-file ports.
+ Specifies the filename.  The interpretation of filenames is implementation-dependent.  There is no default value, but implementations MAY accept other keys in lieu of this one for opening files or file-like objects that don't have string names.
 
  `buffering:`::
 
@@ -150,7 +150,7 @@ This is a separate module because some implementations will not have access to a
 
 `(call-with-output-file `''filename''` `''proc''`)`
 
-`(with-input-from file `''filename''` `''thunk''`)`
+`(with-input-from-file `''filename''` `''thunk''`)`
 
 `(with-output-to-file `''filename''` `''thunk''`)`
 
