@@ -11,33 +11,37 @@ The new features beyond R5RS are:
 
 == Port model ==
 
-In this proposal, there are two kinds of ports, binary ports and character ports.  Unusually, ''every binary port is automatically a character port'', though not vice versa.  This implies that some character encoding must be associated with each binary port so that character I/O can be performed on it.  The only encoding that implementations MUST support is ASCII, so this is relatively cost-free, since ASCII encoding does not require a separate character buffer or encoding translation table, only a few bits for newline translation and case sensitivity.
+In this proposal, there are two kinds of ports, binary ports and character ports. Unusually, ''every binary port is automatically a character port'', though not vice versa.  Character ports therefore support character I/O operations, and binary ports support both character I/O operations and binary I/O operations.  Indeed, all I/O operations which are valid on a character port are also valid on a binary port.
 
-This proposal does not specify any way to create a bidirectional port, but allows for their possible existence in an implementation.  Sockets, terminals, and pipes are all examples.
+This implies that some character encoding must be associated with each binary port so that character I/O can be performed on it.  The only encoding that implementations MUST support is ASCII, so this is relatively cost-free in the simplest case, since ASCII encoding does not require a separate character buffer or encoding translation table, only a few bits for newline translation and case sensitivity.
+
+However, not all character ports are binary ports.  For example, string ports have no concept of character-to-byte encoding, because they only deal with sequences of characters.  Although not specified in this proposal, a further generalization is ''object ports'', whose fundamental I/O unit is the Scheme object. All character ports are object ports, because there is a standard encoding of (most) Scheme objects to characters.
+
+This proposal does not specify any way to create a bidirectional port, but allows for their possible existence in an implementation.  Sockets, terminals, and pipes are all possible examples.
 
 == Filename model ==
 
-In this proposal, a filename may be specified either as a string or as a ''settings list'', which is a list of alternating ''keys'' and ''values'' where every key is a symbol ending in a colon.  For convenience, these symbols are also defined as identifiers.  Implementations MUST support the following keys:
+In this proposal, a filename may be specified either as a string or as a ''settings list'', which is a list of alternating ''keys'' and ''values'' where every key is a symbol.  Specifying a string is equivalent to specifying the settings list `(path `''string''`)`.  Implementations MUST support the following keys:
 
- `path:`::
+ `path`::
 
  Specifies the filename.  The interpretation of filenames is implementation-dependent.  There is no default value, but implementations MAY accept other keys in lieu of this one for opening files or file-like objects that don't have string names.
 
- `buffering:`::
+ `buffering`::
 
  Specifies what kind of buffering is present.  The value `#f` means no buffering is employed; `binary` means that there is a binary buffer but no character buffer; `#t` means there are both character and binary buffering.  Other values MAY be specified by an implementation.  Buffer sizes are implementation-dependent.  The default value is implementation-dependent.
 
- `encoding:`::
+ `encoding`::
 
  Specifies what character encoding to use on a binary port.  The value `US-ASCII` MUST be supported.  The values `ISO-8859-1` and `UTF-8` SHOULD be supported if the implementation contains the appropriate repertoire of characters.  Other values MAY be supported, which SHOULD appear in the [[http://www.iana.org/assignments/character-sets|IANA list of encodings]].  The default value is implementation-dependent.
 
  If a BOM (Byte Order Mark, U+FEFF) is present at the beginning of input on a port encoded as UTF-8, it is skipped.  A BOM is not automatically written on output.  Implementations MAY provide a way around this.
 
- `newline:`::
+ `newline`::
 
  Specifies how to translate newlines.  The value `#f` means that no translation is performed.  Any other value causes all of CR, LF, CR+LF, NEL (U+0085), CR+NEL, and LS (U+2028) to be translated to `#\newline` on input.  On output, the translation is implementation-dependent.  Other values MAY be specified by an implementation.  The default value is implementation-dependent.
 
- `case-sensitive:`::
+ `case-sensitive`::
 
  Specifies if Scheme symbols are read from the port case-sensitively or not.  The value `#f` means that upper-case letters in symbols are translated to lower case unless escaped; `#t` means that no translation is done.  The default value is implementation-dependent.
 
@@ -84,6 +88,10 @@ Closes both sides of a bidirectional port, if the implementation provides them; 
 
 Same as R5RS.
 
+`(port-settings-list `''port''`)`
+
+Return the settings list of ''port'' as a list in no particular order.  Additional implementation-defined keys or default values may be present.
+
 == Character I/O procedures ==
 
 `(character-port? `''obj''`)`
@@ -116,7 +124,9 @@ Same as SRFI 6.
 
 == Binary I/O procedures ==
 
-Note that string ports are character ports, but not binary ports, so these procedures do not apply to them.  Implementations MAY support other kinds of binary ports such as process ports or stream socket ports.
+String ports are character ports, but not binary ports, so these procedures do not apply to them.  Implementations MAY support other kinds of binary ports such as process ports or stream socket ports.
+
+Mixing binary I/O with character I/O on the same port produces undefined behavior if character buffering is provided on that port.
 
 `(binary-port? `''obj''`)`
 
