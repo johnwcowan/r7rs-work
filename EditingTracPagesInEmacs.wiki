@@ -28,3 +28,6 @@ you are ready.  To use trac-wiki.el, load it, then do:
 This will take you to the Trac wiki's home page.  Use C-h m for
 details about more commands you can use to get info about pages,
 including diffs, and to edit them directly in Emacs.
+
+I'm using Emacs 23.2 on OS X.  I haven't tested this with other
+versions of Emacs.
