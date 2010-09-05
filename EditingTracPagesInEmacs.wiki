@@ -12,7 +12,7 @@ Trac directly from Emacs.  I've gotten it working with GNU Emacs
  this version of xml-rpc.el: TracWikiElPatch.  The resulting file,
  which you can install directly, is TracWikiElWithPatch.
 
-Once you've installed xml-rpc.el and the patched trac-wiki.el in your,
+Once you've installed xml-rpc.el and the patched trac-wiki.el in your load-path,
 you are ready.  To use trac-wiki.el, load it, then do:
 
 {{{
