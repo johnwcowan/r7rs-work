@@ -33,7 +33,7 @@ In this proposal, a filename may be specified either as a string or as a ''setti
 
  `encoding`::
 
- Specifies what character encoding to use on a binary port.  The value `US-ASCII` MUST be supported.  The values `ISO-8859-1` and `UTF-8` SHOULD be supported if the implementation contains the appropriate repertoire of characters.  Other values MAY be supported, which SHOULD appear in the [[http://www.iana.org/assignments/character-sets|IANA list of encodings]].  The default value is implementation-dependent.
+ Specifies what character encoding to use on a binary port.  The (case insensitive) value `US-ASCII` MUST be supported.  The values `ISO-8859-1` and `UTF-8` SHOULD be supported if the implementation contains the appropriate repertoire of characters.  Other values MAY be supported, which SHOULD appear in the [[http://www.iana.org/assignments/character-sets|IANA list of encodings]].  The default value is implementation-dependent.
 
  If a BOM (Byte Order Mark, U+FEFF) is present at the beginning of input on a port encoded as UTF-8, it is skipped.  A BOM is not automatically written on output.  Implementations MAY provide a way around this.
 
@@ -112,7 +112,7 @@ Same as R5RS.  It is an error to output characters not present in the encoding o
 
 `(read-line `[[|''character-input-port'' ]]`)`
 
-Same as R6RS.  Reads a line from ''port'' (or the current input port) terminated by a `#\newline` character (which may be the result of newline conversion in the port). This is a convenience function.
+Same as R6RS.  Reads a line from ''port'' (or the current input port) terminated by a `#\newline` character (which may be the result of newline conversion in the port).   The `#\newline` is not part of the returned string.  This is a convenience function.
 
 `(open-input-string `''string''`)`
 
@@ -126,7 +126,7 @@ Same as SRFI 6.
 
 String ports are character ports, but not binary ports, so these procedures do not apply to them.  Implementations MAY support other kinds of binary ports such as process ports or stream socket ports.
 
-Mixing binary I/O with character I/O on the same port produces undefined behavior if character buffering is provided on that port.
+Mixing binary I/O with character I/O on the same port is safe if there is no character buffering on that port, but produces undefined behavior otherwise.
 
 `(binary-port? `''obj''`)`
 
@@ -181,7 +181,7 @@ Same as R6RS.  Only string ''filename''s are supported.
 
 These procedures are not in the core because many systems, especially embedded ones, don't require the ability to read or write general Scheme objects, and very small implementations may not want the overhead of a Scheme parser.  Writing may be useful even when reading is not, which is why there are two modules.
 
-Note that implementations may provide ports that are not character ports, such as directory ports or vector ports, and extend these procedure to work on them.
+Note that implementations may provide ports that are not character ports, such as directory ports or vector ports, and extend these procedures to work on them.
 
 === Read Module ===
 
