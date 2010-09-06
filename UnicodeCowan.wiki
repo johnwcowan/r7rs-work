@@ -40,8 +40,8 @@ For an ASCII-only Scheme, `string-upcase` is a straightforward application of `s
 
 12. The `string-normalize-nf*` procedures do the normalization operations defined by Unicode.
 
-13. In addition to the identifier characters of the ASCII repertoire specified by R5RS, Scheme implementations may permit any additional repertoire of Unicode characters to be employed in identifiers, provided that each character has a Unicode general category of Lu, Ll, Lt, Lm, Lo, Mn, Mc, Me, Nd, Nl, No, Pd, Pc, Po, Sc, Sm, Sk, So, or Co, or is U+200C or U+200D (the zero-width non-joiner and joiner, respectively, which are needed for correct spelling in Persian, Hindi, and other languages).  No non-Unicode characters may be used in identifiers.
+13. In addition to the identifier characters of the ASCII repertoire specified by R5RS, Scheme implementations may permit any additional repertoire of Unicode characters to be employed in symbols (and therefore identifiers), provided that each such character has a Unicode general category of Lu, Ll, Lt, Lm, Lo, Mn, Mc, Me, Nd, Nl, No, Pd, Pc, Po, Sc, Sm, Sk, So, or Co, or is U+200C or U+200D (the zero-width non-joiner and joiner, respectively, which are needed for correct spelling in Persian, Hindi, and other languages).  No non-Unicode characters may be used in symbols or identifiers.
 
-14. All Scheme implementations shall permit the sequence `\x<hexdigits>;` to appear in Scheme identifiers.  If the character with the given Unicode scalar value is supported by the implementation, identifiers containing such a sequence are equivalent to identifiers containing the corresponding character.
+14. All Scheme implementations shall permit the sequence `\x<hexdigits>;` to appear in Scheme symbols (and therefore identifiers).  If the character with the given Unicode scalar value is supported by the implementation, symbols containing such a sequence are equivalent to symbols containing the corresponding character.
 
 Note that what is said of ASCII also applies to ISO 8859-1 (Latin-1), but not to Windows code page 1252 or other encodings.
