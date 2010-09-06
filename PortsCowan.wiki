@@ -140,7 +140,7 @@ Returns `#t` if ''obj'' is a binary port.  SRFI 91 calls this `byte-port?`.
 
 `(u8-ready? `[[|''binary-input-port'' ]]`)`
 
-The direct binary analogues of `read-char`, `write-char`, `newline`, `peek-char`, and `char-ready?` respectively.  They return an exact integer between 0 and 255 rather than a character.  SRFI 91 talks of `byte` rather than `u8`.
+The direct binary analogues of `read-char`, `write-char`, `peek-char`, and `char-ready?` respectively.  They return an exact integer between 0 and 255 rather than a character.  SRFI 91 talks of `byte` rather than `u8`.
 
 `(open-input-blob `''blob''`)`
 
