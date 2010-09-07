@@ -177,19 +177,19 @@ Same as R5RS, except that any ''filename'' argument may be a string or a setting
 Same as R6RS.  Only string ''filename''s are supported.
 
 
-== Read and Write Modules ==
+== Reader and Writer Modules ==
 
 These procedures are not in the core because many systems, especially embedded ones, don't require the ability to read or write general Scheme objects, and very small implementations may not want the overhead of a Scheme parser.  Writing may be useful even when reading is not, which is why there are two modules.
 
 Note that implementations may provide ports that are not character ports, such as directory ports or vector ports, and extend these procedures to work on them.
 
-=== Read Module ===
+=== Reader Module ===
 
 `(read ` [[|''input-port'' ]]`)`
 
 Same as R5RS.
 
-=== Write Module ===
+=== Writer Module ===
 
 `(write `''obj'' [[|''output-port'' ]]`)`
 
