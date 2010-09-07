@@ -1,6 +1,6 @@
 = Parameters =
 
-''I have replaced this proposal with ParametersCowan, which returns to SRFI 39 semantics.  The trouble with immutable parameters is that the the immutable value may be a mutable object like a cons, a vector, or a box, which reinstates the question "Is it shared between threads?"  So the claim below that sharing is invisible to clients of this API is incorrect.  Since mutability is generally provided, there is no further reason to exclude it.''
+''This is once more my current proposal.''
 
 This proposal defines ''parameter objects'', the procedure `make-parameter` to create parameter objects and the `parameterize `special form to dynamically bind parameter objects. In the dynamic environment, each parameter object is bound to a value, which may be any Scheme object. When a procedure is invoked, the called procedure inherits the dynamic environment from the caller. The `parameterize` special form allows the binding of a parameter object to be changed for the dynamic extent of its body.
 
