@@ -31,6 +31,7 @@ Comments are welcome at the [[http://lists.scheme-reports.org/cgi-bin/mailman/li
     * CharacterSets
         * UnicodeCowan
     * StringRepresentations
+    * StringNormalization
     * CaseSensitivity
         * CaseSensitivityArcfide
     * Parameters
