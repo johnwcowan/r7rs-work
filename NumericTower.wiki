@@ -1,0 +1,18 @@
+== The numeric tower ==
+
+This is an analysis of the R5RS provision that the full numeric tower may be subsetted.  Four boolean feature settings characterize different kinds of numeric towers: `exactness-preserving`, `ratios`, `inexact`, and `complex`, which refer to the closure of exact numbers under rational operations (except `/`), exact non-integer values, inexact rationals, and non-real numbers, respectively.  A priori, any combination of these feature groups might be implemented, except that `ratios` makes no sense without `exactness-preserving`.  I also assume that `complex` makes no sense without either `ratios` or `inexact`: Gaussian integers by themselves are of little use.
+
+So here are ten possible numeric towers.  I use `+` if a feature is present and `-` if it is absent, and give the numeric properties of the tower is.
+
+
+||exactness-preserving||ratios||inexact||complex||Description||
+||-||-||-||-||A "toy" Scheme with fixnums (bounded exact integers) only.  Appropriate where no numerical work will be done.||
+||-||-||+||-||A Scheme where all numbers are real and all arithmetic happens in essentially constant time.  Most non-Lisp languages are like this, except that their fixnums wrap instead of switching to flonums.  Chicken uses this.||
+||-||-||+||+||The complex-number equivalent of the preceding.  Non-real numbers are typically inexact/inexact.||
+||+||-||-||-||Unlimited-precision integers only.  Possibly usable for crypto work.  Fortunately, ratios are fairly cheap given bignums.||
+||+||-||+||-||A good all-round compromise, providing exact integers and inexact real numbers.  ISLisp uses this.  Many people seem to like this design.||
+||+||-||+||+||The same as the preceding, but with inexact/inexact non-real numbers as well.||
+||+||+||-||-||Exact numbers only.  Reasonable for some purposes, but will often run very slowly without inexact support, so unsuitable for scientific-type work.||
+||+||-||+||+||The same as the preceding, but with exact general complex numbers.  Even less suitable for scientific-type work, given that in practice non-real numbers are usually inexact/inexact.||
+||+||+||+||-||Full numeric tower for real numbers only.||
+||+||+||+||+||Full numeric tower.  R6RS requires this.||
