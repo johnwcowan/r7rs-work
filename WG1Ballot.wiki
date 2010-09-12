@@ -628,7 +628,7 @@ as those provided by SRFI-39 parameters.
   * '''Options:''' cowan, snellpym, srfi-39, wg2, none, undecided
   * '''Preferences:''' 
 
-=== #32 user-define types ===
+=== #32 user-defined types ===
 
 Do we support any means of creating disjoint
 user-defined types, such as in SRFI-9, SRFI-99
