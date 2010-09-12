@@ -1,3 +1,5 @@
+'''''Note that these results reflect an earlier version of the ballot.'''''
+
 = WG1 Ballot Results =
 
 Notes about results:
