@@ -32,7 +32,7 @@ These two procedures have the same syntax and semantics as their SRFI 27 counter
 
  Why bother about floating-point numbers at all?::
 
-A proper floating-point implementation of a random number generator is potentially much more efficient that an integer implementation because it can use more powerful arithmetic hardware. If in addition the application needs floating-point random numbers, it would be an intolerable waste to run an integer generator to produce floating point random numbers. A secondary reason is to save the user from the 'not as easy as it seems' task of converting an integer generator into a real generator.
+ A proper floating-point implementation of a random number generator is potentially much more efficient that an integer implementation because it can use more powerful arithmetic hardware. If in addition the application needs floating-point random numbers, it would be an intolerable waste to run an integer generator to produce floating point random numbers. A secondary reason is to save the user from the 'not as easy as it seems' task of converting an integer generator into a real generator.
 
  Why are zero and one excluded from random-real?::
 
