@@ -2,15 +2,15 @@ This is a proposal for a WG2 blob (bytevector) API.  Blobs are a disjoint type. 
 
 === Basic procedures ===
 
- (`blob?` ''obj''`)`::
+ `(blob? `''obj''`)`::
   Returns `#t` if ''obj'' is a blob.
- (`make-blob` ''n''`)`::
+ `(make-blob `''n''`)`::
   Returns a newly allocated blob containing ''n'' bytes.
- (`blob-length` ''blob''`)`::
+ `(blob-length `''blob''`)`::
   Returns the length of ''blob'' in bytes.
- (`copy-blob` ''blob''`)`::
+ `(copy-blob `''blob''`)`::
   Returns a newly allocated blob containing the same bytes as ''blob''.
- (`copy-blob! ''from to''`)`::
+ `(copy-blob! `''from to''`)`::
   Copy blob ''from'' on top of blob ''to'', which must not be shorter.
 
 Because there is no preferred way to interpret the data in a blob, there is no `blob` function analogous to `list` or `vector` and no second argument to `make-blob`.
@@ -86,15 +86,15 @@ The encodings are:
   UTF-8 encoding
  `utf16`::
   UTF-16 encoding (respects BOM if present, defaults to native encoding otherwise)
- `utf16be`:
+ `utf16be`::
   UTF-16BE encoding (treats BOM as a normal character)
- `utf16le`:
+ `utf16le`::
   UTF-16LE encoding (treats BOM as a normal character)
  `utf32`::
   UTF-32 encoding (respects BOM if present, defaults to native encoding otherwise)
- `utf32be`:
+ `utf32be`::
   UTF-32BE encoding (treats BOM as a normal character)
- `utf32le`:
+ `utf32le`::
   UTF-32LE encoding (treats BOM as a normal character)
 
 === Issues ===
