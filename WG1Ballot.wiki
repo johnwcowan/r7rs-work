@@ -103,7 +103,7 @@ used.  Alternatively we could use the R6RS predicates ASSP and MEMP.
 
 New to R5RS, do we reaffirm the sometimes debated dynamic-wind?
 
-Removing this would require a strong rational indicating that it's
+Removing this would require a strong rationale indicating that it's
 fundamentally flawed.
 
   * '''Options:''' yes,no,module,wg2,undecided
@@ -114,7 +114,7 @@ fundamentally flawed.
 New to R5RS, do we reaffirm multiple values, specifically the
 procedures `call-with-values` and `values`?
 
-Removing this would require a strong rational indicating that it's
+Removing this would require a strong rationale indicating that it's
 fundamentally flawed.
 
 Note if these forms are removed or placed in a module, for consistency
