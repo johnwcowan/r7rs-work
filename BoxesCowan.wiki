@@ -1,0 +1,12 @@
+== Boxes ==
+
+This is a trivial module, providing mutable and immutable boxes.  Most Schemes have something like it, sometimes called ''cells''.  Boxes are a disjoint type.
+
+== Procedures ==
+
+ * `box`: constructor
+ * `immutable-box`: constructor
+ * `box?`: predicate
+ * `immutable-box`: predicate
+ * `unbox`: accessor
+ * `set-box!`: mutator
