@@ -1,0 +1,10 @@
+== WG2 Reassigned Docket ==
+
+The following items require a revote by WG2.
+
+Cond and case extensions (SRFIs 61 and 87, case-using): Revote required.
+
+Generalized equality and comparison functions: Revote required.
+
+Generalized getters and setters: Revote required.
+
