@@ -149,7 +149,9 @@ Student programs often want a small amount of randomness, not
 necessarily of very high quality.  Shall we provide a simple interface
 to a random variables in WG1 Scheme?
 
-  * '''Options:''' srfi-27,no,wg2,undecided
+  * '''Proposals:'''
+    * '''cowan:''' RandomCowan
+  * '''Options:''' cowan,srfi-27,no,wg2,undecided
   * '''Preferences:''' 
 
 === #59 current-error-port ===
@@ -290,7 +292,7 @@ system?
 
   * '''Proposals:'''
     * '''cowan:''' ExceptionHandlingCowan
-  * '''Options:''' cowan, wg2, none, undecided
+  * '''Options:''' cowan, r6rs, wg2, none, undecided
   * '''Preferences:''' 
 
 === #17 error ===
@@ -311,6 +313,8 @@ Note ExceptionHandlingCowan currently includes a SRFI-23 compatible
 
 Do we support string ports, as implemented by SRFI-6
 or as by R6RS?
+
+Note that currently PortsCowan provides SRFI-6 string ports.
 
   * '''Options:''' srfi-6,r6rs,no,module,wg2,undecided
   * '''Preferences:''' 
