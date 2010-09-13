@@ -8,7 +8,7 @@ Hash tables: R6RS, SRFI 69
 
 Homogeneous numeric arrays: BlobAPI
 
-Octet vectors, bytevectors, blobs: BlobAPI
+Octet vectors, bytevectors, blobs: BlobAPI BlobAPI
 
 Sorting: SRFI 32, SRFI 95
 
