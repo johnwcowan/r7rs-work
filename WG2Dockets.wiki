@@ -1,6 +1,6 @@
 This is a list of voting dockets for WG2 work items (packages):
 
- * WG2StandardDocket -- items to be discussed and voted on individually.
+ * [[WG2StandardDocket|Standard Docket]] -- items to be discussed and voted on individually.
  * WG2ConsentDocket -- items that will pass using the given specifications unless there is an objection.
  * WG2WG3Docket -- items that WG2 is not working on because it is asking the Steering Committee to assign them to future WGs.
  * WG2RevoteDocket -- items that need to be revoted, either because the votes were equal for WG2 and WG3, or because they were forwarded from WG1.
