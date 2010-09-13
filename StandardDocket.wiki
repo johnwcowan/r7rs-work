@@ -1,18 +1,102 @@
 == WG2 Standard Docket ==
 
-This is a list of work items and proposals.  Nothing goes on here until there is at least one proposal for it.  If no more than one proposal is written, the item may migrate to the ConsentDocket.
+This is a list of work items and proposals.  If no more than one proposal is written for an item, the item may migrate to the ConsentDocket.
+
+
+Binary heap:
+
+Binary search:
 
 Boxes/references: BoxesCowan
+
+Character encoding conversion:
+
+Conditions: R6RS (depends on interaction with WG1)
+
+Date and time arithmetic:
+
+Date-time parser:
+
+Dictionaries (may include hash tables):
+
+Enumerations and enum-sets: R6RS
+
+Environment enquiries:
+
+File system directories:
+
+Gettext (i18n of strings):
 
 Hash tables: R6RS, SRFI 69
 
 Homogeneous numeric arrays: BlobAPI
 
-Octet vectors, bytevectors, blobs: BlobAPI BlobAPI
+Immutable cyclic lists:
+
+Loop syntax:
+
+Mailboxes, channels, synchronized queues:
+
+C89 or C99 <math.h>:
+
+Memoization:
+
+Message digests (CRC, MD5, SHA1, SHA2):
+
+Multi-dimensional general arrays:
+
+Multiple value macros (SRFIs 8, 11, 71, and CL):
+
+Mutexes, condition variables:
+
+Named parameters:
+
+Octet vectors, bytevectors, blobs: BlobAPI
+
+Pathnames:
+
+Pattern matching:
+
+Port functions (concatenate, join, split):
+
+Pretty-printer: fmt
+
+Priority queues:
+
+Processes (system, popen, etc):
+
+Random numbers:
+
+Record introspection: SRFI 99
+
+REPL facilities:
+
+Run-time records: SRFI 99
+
+Sets and bags:
+
+Shift and reset:
+
+Simple Posix:
 
 Sorting: SRFI 32, SRFI 95
 
+SRFI 38: reading and writing shared structure: (depends on interaction with WG1)
 
+TCP protocol:
 
+Thread-local storage:
+
+Threads:
+
+UDP protocol:
+
+Unicode character database:
+
+Unicode normalization:
+
+Weak dictionaries/hashtables:
+
+Weak references (soft, phantom):
 
 
