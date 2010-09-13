@@ -474,7 +474,7 @@ Does the reader fold case by default, and if so how?
 Yes to fold-case (R5RS) no to preserve case (R6RS), additional votes
 to come later from specific proposals.
 
-  * '''Options:''' yes,no,undecided
+  * '''Options:''' yes,no,unspecified,undecided
   * '''Preferences:''' 
 
 === #15 #\foo character names ===
