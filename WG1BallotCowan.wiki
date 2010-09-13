@@ -42,7 +42,7 @@ take the R6RS module system as-is.
     * '''hsu:''' ModulesAndPackagesArcfide
     * '''shinn:''' ModulesShinn
   * '''Options:''' hsu, shinn, r6rs, undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' ModulesShinn
 
 == WG1 - Core ==
 
@@ -573,7 +573,7 @@ Note UnicodeCowan currently provides specific normalization
 procedures.
 
   * '''Options:''' generic,separate,specific,agnostic,no,module,wg2,undecided
-  * '''Preferences:''' specific-in-module
+  * '''Preferences:''' specific/module
 
 === #27 string-ref/set! access time ===
 
@@ -617,7 +617,7 @@ Do we provide a syntax and basic API for these in WG1?
     * '''cowan:''' BlobAPI
     * '''snellpym:''' BlobsAndSRFI4SnellPym
   * '''Options:''' cowan, snellpym, wg2, none, undecided
-  * '''Preferences:''' cowan-wg1-only
+  * '''Preferences:''' cowan
 
 === #69 Parameters ===
 
@@ -641,7 +641,7 @@ or the R6RS record system?
     * '''rush:''' UserAggregatesRush
     * '''snellpym:''' UniqueTypesSnellPym
   * '''Options:''' hsu,rush,snellpym,srfi-9,srfi-99,no,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' hsu
 
 == WG1 - Libraries ==
 
