@@ -1,0 +1,26 @@
+The following items will be approved without a formal vote unless someone objects, in which case they will be moved to another docket.
+
+Note: "Prefix stripping" means that prefixes such as `fx`, `fl`, or `bitwise-` are removed from identifiers exported by this package.  That way, users can add back their own prefixes using the facilities of `import`.
+
+Assertions: The R6RS procedure `assertion-violation` (same as R6RS `error`), with appropriate condition object support dependent on WG1 and WG2 decisions.
+
+Bitwise: The R6RS `arithmetic bitwise` library with prefix stripping.
+
+Explicit renaming macros: Uses the `er-macro-transformer` keyword (bare lambdas are unsupported).  Three arguments are provided to transformers: `form rename compare`.
+
+Fixnum arithmetic: The R6RS `arithmetic fixnum` library with prefix stripping.
+
+Flonum arithmetic: The R6RS `arithmetic flonum` library with prefix stripping.
+
+Format combinators: Alex Shinn's [[http://synthcode.com/scheme/fmt/|fmt library]], with prefix stripping and a touch of renaming.  The C formatting library is excluded.
+
+Getopt/args-fold:  SRFI 37.
+
+Regex (S-exps and strings): Alex Shinn's [[http://synthcode.com/scheme/irregex/|irregex library]], with prefix stripping and a touch of renaming.  Specify full PCRE compatibility even though the irregex implementation doesn't support all of it.
+
+SRFIs 1, 2, 13, 14, 31, 41, 43: Per those SRFIs, with possible prefix stripping (don't want to overdo it).  Some of these procedures may wind up in WG1 Scheme per CompleteSequenceCowan.
+
+When/unless: Part of the R6RS `control` library.
+
+ 
+
