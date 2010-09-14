@@ -12,7 +12,7 @@ We need a VCS to keep track of changes to the standard as we start
 drafting it.
 
   * '''Options:''' bzr,darcs,git,hg,monotone,svn,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' svn, hg, git
 
 == WG1 - Modules ==
 
@@ -31,7 +31,7 @@ take the R6RS module system as-is.
     * '''hsu:''' ModulesAndPackagesArcfide
     * '''shinn:''' ModulesShinn
   * '''Options:''' hsu, shinn, r6rs, undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' ModulesShinn
 
 == WG1 - Core ==
 
@@ -45,7 +45,10 @@ vs. syntax-error.
 This is a meta-item, to be used only as a guideline.
 
   * '''Options:''' srfi,r6rs,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided
+
+It is difficult to decide of a general rule. What matters mainly is what people really use and find most useful.
+
 
 === #37 transcript-on and transcript-off ===
 
@@ -57,7 +60,7 @@ Yes means to keep them in the core, as in R5RS,
 and no means to remove them entirely.
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' module, no
 
 === #38 letrec* ===
 
@@ -69,7 +72,7 @@ Choose `letrec*` just to add the syntax, `define` to change the
 behavior of internal define, or `yes`/`both` for both.
 
   * '''Options:''' both,letrec*,define,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' both, define, wg2
 
 === #41 Should we adopt the SRFI-1 extension to MAP and FOR-EACH? ===
 
@@ -80,7 +83,9 @@ stops the procedure whenever any of them run out.  R5RS says the lists
 `Yes` to allow unequal length.
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' no, module
+
+Silently accepting lists of unequal length is error-prone, especially if argument lists are received in parameters and if we are not sure about their length, it means we need to check at every map / for-each call if lists are on the same length, really not a good idea to my opinion. If one wants a mapping function accepting unequal length lists it is easy to write its own version.
 
 === #42 Should we adopt the SRFI-1 extension to ASSOC and MEMBER? ===
 
@@ -88,7 +93,7 @@ This extension accepts a third argument, the equality predicate to be
 used.  Alternatively we could use the R6RS predicates ASSP and MEMP.
 
   * '''Options:''' srfi-1,r6rs,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes, module
 
 === #33 dynamic-wind ===
 
@@ -98,7 +103,7 @@ Removing this would require a strong rationale indicating that it's
 fundamentally flawed.
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' module, yes, no
 
 === #34 multiple values ===
 
@@ -116,7 +121,7 @@ in R5RS).
 to a module.
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes, module, wg2
 
 === #54 optional arguments ===
 
@@ -132,7 +137,7 @@ Note the original ticket description mentions `case-lambda`, but this
 is easily provided as a separate module, and will be a separate item.
 
   * '''Options:''' dsssl,srfi-89,no,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' srfi-89, wg2
 
 === #57 Simple randomness ===
 
@@ -143,7 +148,7 @@ to a random variables in WG1 Scheme?
   * '''Proposals:'''
     * '''cowan:''' RandomCowan
   * '''Options:''' cowan,srfi-27,no,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' srfi-27, cowan, wg2
 
 === #59 current-error-port ===
 
@@ -152,7 +157,7 @@ current error distinct from current output.  Should this be exposed as
 a Scheme output port?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes,module,wg2
 
 === #60 Simple file operations ===
 
@@ -164,7 +169,7 @@ Note PortsCowan automatically includes these - voting for them here
 guarantees them even if not included by a specific proposal.
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' module,yes,wg2
 
 === #64 Consistency in sequence procedures ===
 
@@ -175,7 +180,7 @@ string->vector copy-vector vector-map vector-for-each vector->string`,
 all with the obvious interface and semantics.
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes,module,wg2
 
 === #65 Precision indicators ===
 
@@ -186,7 +191,7 @@ precision, so this is mostly noise.  Shall we make it an optional
 feature?
 
   * '''Options:''' required,optional,no,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' optional,wg2
 
 === #66 Add EXACT-INTEGER? ===
 
@@ -196,7 +201,7 @@ which requires some hackery or poor pattern matching to optimize in
 existing Scheme implementations.
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided
 
 === #44 Testing function arity ===
 
@@ -204,7 +209,7 @@ We would like a standard for checking function arity.
 SRFI-102 proposes a way to check function arity:
 
   * '''Options:''' srfi-102,no,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' srfi-102,wg2
 
 === #51 support for cyclic structures in primitives ===
 
@@ -225,7 +230,20 @@ input, `r6rs` to specify R6RS behavior for `list?` and `length`,
 and `equal?+r6rs` or `equal?+srfi-1` are options for both.
 
   * '''Options:''' equal?,r6rs,srfi-1,equal?+r6rs,equal?+srfi-1,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' module,srfi-1,r6rs,wg2
+
+    About shared structures I would prefer an alternative parenthesis syntax for declaring this kind of values something like this:
+
+        (make-shared ((a 'foo) (b (1 (a b) c)) (c #(2 b))) (list a b c))
+
+    equivalent to in SRFI-38 external representation:
+
+        ('foo #1=(1 ('foo #1#) #2#) #2=#(2 #1#))
+
+    The rationale behind it is to avoid wild mutations when building shared structures, and a more human readable notation.
+
+    Maybe this has to be discussed in a module for graph-like or circular data ?
+
 
 === #58 exact-integer-sqrt ===
 
@@ -240,7 +258,7 @@ the nearest exact square.
 or `single` to only return `s`.
 
   * '''Options:''' r6rs,list,single,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided
 
 === #61 finite? nan? ===
 
@@ -248,7 +266,7 @@ Shall we add these numeric predicates defined on the IEEE floating
 point values from #20?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided
 
 === #63 call/cc short name ===
 
@@ -256,7 +274,7 @@ Should we allow `call/cc` as an equivalent to
 `call-with-current-continuation`?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
 
 === #53 Implicit BEGIN to implicit LET-NIL ===
 
@@ -268,7 +286,7 @@ This is a meta-item to be used as a guideline, and specific places
 would need to be brought up for review.
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes, wg2
 
 == WG1 - Exceptions ==
 
@@ -284,7 +302,7 @@ system?
   * '''Proposals:'''
     * '''cowan:''' ExceptionHandlingCowan
   * '''Options:''' cowan, r6rs, wg2, none, undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' none,wg2
 
 === #17 error ===
 
@@ -296,7 +314,7 @@ Note ExceptionHandlingCowan currently includes a SRFI-23 compatible
 `error` procedure.
 
   * '''Options:''' srfi-23,r6rs,both,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' srfi-23,wg2
 
 == WG1 - I/O ==
 
@@ -308,7 +326,7 @@ or as by R6RS?
 Note that currently PortsCowan provides SRFI-6 string ports.
 
   * '''Options:''' srfi-6,r6rs,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' srfi-6,module,wg2
 
 === #52 read/write cyclic data ===
 
@@ -325,7 +343,7 @@ or separate set of procedures?
 `write` to handle cyclic notation.
 
   * '''Options:''' srfi-38,native,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' native,srfi-38,module,wg2
 
 == WG1 - Macros ==
 
