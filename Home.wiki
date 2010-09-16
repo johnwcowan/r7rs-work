@@ -45,6 +45,12 @@ Comments are welcome at the [[http://lists.scheme-reports.org/cgi-bin/mailman/li
 
 [[MemberPagesWorkingGroupTwo|Member Page]]
 
+'''Work Item Dockets'''
+    * StandardDocket (main list of WG2 work items)
+    * ConsentDocket (uncontroversial work items)
+    * ReassignedDocket (work items for future WGs)
+    * RevoteDocket (work items that need a WG2 revote)
+
 '''Issue Summaries and Proposals'''
 
     * [[PortIo|Port I/O]]
