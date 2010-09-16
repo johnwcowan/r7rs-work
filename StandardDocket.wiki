@@ -23,7 +23,7 @@ Enumerations and enum-sets: R6RS
 
 Environment enquiries:
 
-File system directories:
+File system directories: DirectoryPortsCowan
 
 Gettext (i18n of strings):
 
@@ -58,8 +58,6 @@ Pathnames:
 Pattern matching:
 
 Port functions (concatenate, join, split):
-
-Pretty-printer: fmt
 
 Priority queues:
 
