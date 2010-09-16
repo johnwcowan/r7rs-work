@@ -16,6 +16,8 @@ Flonum arithmetic: The R6RS `arithmetic flonum` library with prefix stripping.
 
 Format combinators: Alex Shinn's [[http://synthcode.com/scheme/fmt/|fmt library]], with prefix stripping and a touch of renaming.  The C formatting library is excluded.
 
+Pretty-printer: see Format combinators
+
 Getopt/args-fold:  SRFI 37.
 
 Regex (S-exps and strings): Alex Shinn's [[http://synthcode.com/scheme/irregex/|irregex library]], with prefix stripping and a touch of renaming.  Specify full PCRE compatibility even though the irregex implementation doesn't support all of it.
