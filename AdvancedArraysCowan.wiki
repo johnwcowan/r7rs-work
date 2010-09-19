@@ -1,0 +1,9 @@
+This is a continuation of ArraysCowan, put on a separate page for convenience.
+
+== Advanced procedures ==
+
+TBD: ravel, table, reshape, join, enlist, reverse, transpose, catenate, laminate, index-of, member-of, replicate, expand, rotate, dyadic-transpose, take, drop, pick.
+
+== Higher-order procedures ==
+
+TBD: reduce, scan, n-wise-reduce, outer-product, inner-product.
