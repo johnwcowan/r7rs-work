@@ -43,7 +43,7 @@ Memoization:
 
 Message digests (CRC, MD5, SHA1, SHA2):
 
-Multi-dimensional general arrays:
+Multi-dimensional general arrays: ArraysCowan
 
 Multiple value macros (SRFIs 8, 11, 71, and CL):
 
