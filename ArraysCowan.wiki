@@ -1,0 +1,111 @@
+== Arrays ==
+
+This is a proposal for the WG2 multidimensional arrays package.  These arrays are general: that is, the components may be any Scheme object.  The components of arrays may be addressed by subscripts or in row-major order by a single index.
+
+== Terminology ==
+
+Every array has a ''shape'', which is a vector of non-negative exact integers that specify the maximum exclusive values of its dimensions.  Thus an array with shape #(4) is a vector with elements 0 to 3, and an array with shape #(2 7) is a 2 x 7 matrix whose rows range from 0 to 1 and whose columns range from 0 to 6 respectively.  A component of the shape MAY be 0, in which case the vector has no components.  A zero-dimensional vector's shape is #(), and it has exactly one component.  
+
+A array's ''rank'' is the number of dimensions it has, which is also the length of its shape.  Thus vectors have rank 1, matrices rank 2, and so on.
+
+An array's ''size'' is its total number of components.  This is the product of the components of the array's shape, or 1 if the shape has no components.
+
+== Arrays and Vectors ==
+
+It is implementation-defined whether Scheme vectors are the same as one-dimensional arrays or not.  In order to make the difference less visible, wherever a procedure accepts an argument that can be one-dimensional, it MUST accept a Scheme vector as well, and wherever a procedure (other than `array->vector`) returns a result that is a one-dimensional array, it MAY be a Scheme vector.  In this proposal, we will simply speak of vectors without distinction.
+
+== Equality ==
+
+This proposal redefines `equal?` to descend into arrays as well as pairs, vectors, and strings.  However, arrays cannot be `equal?` unless their shapes are the same.
+
+== Basic Procedures ==
+
+`(make-array `''shape''` `[''initial-value'']`)`
+
+Constructs and returns an array of the specified ''shape''.  All the components of the new array are set to  ''initial value'' if it is specified; otherwise their values are undefined.
+
+`(array? `''obj''`)`
+
+Returns `#t` if ''obj'' is an array and `#f` otherwise.  Note that if `(vector? `''obj''`)` returns #t, then `(array? `''obj''`)` MUST return `#t` as well.
+
+`(array `''shape''` `''obj'' ...`)`
+
+Constructs and returns an array whose shape is ''shape''.  Each ''obj'' is used to initialize the contents of the array in row-major order.
+
+`(array-shape `''array''`)`
+
+Returns the shape of ''array''.  This MAY be the same (in the sense of `eqv?`) as other arrays of the same shape.  Modifying the result of this procedure has undefined effects.
+
+`(array-rank `''array''`)`
+
+Returns the rank of ''array''.
+
+`(array-size `''array''`)`
+
+Returns the size of ''array''.
+
+`(array-in-bounds? `''array''` `''subscript'' ...`)`
+
+Returns #t if ''subscripts'', which MUST be exact integers, are valid subscripts for ''array'', and #f otherwise.  A subscript is valid if it is non-negative and less than the corresponding component of the shape.
+
+`(array-ref `''array''` `''subscript'' ...`)`
+
+Returns the component of ''array'' specified by ''subscripts'', which MUST be exact integers.  It is an error to specify an invalid ''subscript''.
+
+`(array-set! `''array''` `''subscript'' ...` `''value''`)`
+
+Sets the component of ''array'' specified by ''subscripts'', which MUST be exact integers, to ''value''.  Returns undefined values.  It is an error to specify an invalid ''subscript''.
+
+`(array-row-major-index `''array''` `''subscript'' ...`)`
+
+Returns the row-major index to ''array'' that corresponds to ''subscripts''.  It is an error to specify an invalid ''subscript''.
+
+`(array-row-major-ref `''array''` `''index`)`
+
+Returns the component of ''array'' specified by the row-major index ''index''.  It is an error to specify an ''index'' that is negative or not less than the size of the array.
+
+`(array-row-major-set! `''array''` ``'index''` `''value''`)`
+
+Sets the component of ''array'' specified by ''index'' to ''value''.  Returns undefined values.  It is an error to specify an ''index'' that is negative or not less than the size of the array.
+
+`(copy-array `''array''`)`
+
+Returns a new array with the same components (in the sense of `eqv?`) and shape as ''array''.
+
+`(array-map `''proc''` `''array'' ...`)`
+
+Applies ''proc'' to each component of the ''arrays'' in an unspecified order.  It constructs and returns a new array with the same shape as ''array'' and containing the results of the applications.  All the ''arrays'' MUST have the same shape.  ''Proc'' MUST accept at least as many arguments as there are arrays.
+
+
+`(array-for-each `''proc''` `''array'' ...`)`
+
+Applies ''proc'' to each component of the ''arrays'' in an unspecified order, discarding the results.  Returns undefined values.  All the ''arrays'' MUST have the same shape.  ''Proc'' MUST accept at least as many arguments as there are arrays.
+
+`(array->vector `''array''`)`
+
+Constructs and returns a Scheme vector containing the components of ''array'' in row-major order.  Note that this procedure MUST return a value of which `vector?` is true.
+
+`(vector->array `[''shape'']` `''vector''`)`
+
+Constructs and returns an array with shape ''shape'' containing the components of ''vector'' in row-major order.  If ''shape'' is omitted, the result has the same shape as ''vector''.
+
+`(array->list `''array''`)`
+
+Returns a nested list containing the components of ''array''.  If ''array'' has rank 1, the result is a list; if the array has rank 2, the result is a list of lists, and so on.  As a special case, if the array has rank 0, the result is its only component.
+
+`(list->array `[''rank'']` `''list''`)`
+
+Returns an array with rank ``rank`` whose components are initialized from the nested list ``list``.    If ''rank'' is omitted, it is given the largest possible value based on the structure of ''list''.
+
+Note that `(list->array 0 '((1 2) (3 4)))` will return a zero-dimensional array whose single component is `((1 2) (3 4))`; `(list->array 1 '((1 2) (3 4)))` will return a vector whose components are `(1 2)` and `(3 4)`; and both `(list->array 2 '((1 2) (3 4)))` and `(list->array '((1 2) (3 4)))` will return a 2 x 2 matrix whose components are `1`, `2`, `3`, and `4`.  It is an error if ''list'' is not rectangular.
+
+
+== Advanced procedures ==
+
+TBD: ravel, index-generator, table, reshape, join, enlist, reverse, transpose, catenate, laminate, index-of, member-of, replicate, expand, rotate, dyadic-transpose, take, drop, pick.
+
+== Higher-order procedures ==
+
+TBD: reduce, scan, n-wise-reduce, outer-product, inner-product.
+
+
