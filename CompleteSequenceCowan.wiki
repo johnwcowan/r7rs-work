@@ -6,7 +6,7 @@ The WG1 charter says "Self consistency is an important objective, which may requ
 ||Copy constructor||`copy-list` (SRFI 1)||`copy-string`||`copy-vector` (SRFI 43)||
 ||Basic predicate||`list?`||`string?`||`vector?`||
 ||Sequence length||`length`||`string-length`||`vector-length`||
-||Element access?||`list-ref`||`string-ref`||`vector-ref`||
+||Element access||`list-ref`||`string-ref`||`vector-ref`||
 ||Element mutator||`list-set!` (proposed)||`string-set!`||`vector-set!`||
 ||Map function||`map`||`string-map` (SRFI 13 extended)||`vector-map` (R6RS)||
 ||Map side effects||`for-each`||`string-for-each` (proposed)||`vector-for-each` (R6RS)||
