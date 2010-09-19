@@ -5,7 +5,7 @@ This is a list of work items and proposals.  If no more than one proposal is wri
 
 Binary heap:
 
-Binary search:
+Binary search: SRFI 43
 
 Boxes/references: BoxesCowan
 
