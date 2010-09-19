@@ -12,7 +12,7 @@ An array's ''size'' is its total number of components.  This is the product of t
 
 == Arrays and Vectors ==
 
-It is implementation-defined whether Scheme vectors are the same as one-dimensional arrays or not.  In order to make the difference less visible, wherever a procedure accepts an argument that can be one-dimensional, it MUST accept a Scheme vector as well, and wherever a procedure (other than `array->vector`) returns a result that is a one-dimensional array, it MAY be a Scheme vector.  In this proposal, we will simply speak of vectors without distinction.
+It is implementation-defined whether Scheme vectors are the same as one-dimensional arrays or not.  In order to make the difference less visible, wherever a procedure accepts an array argument that can be one-dimensional, it MUST accept a Scheme vector as well, and wherever a procedure (other than `array->vector`) returns a result that is a one-dimensional array, it MAY be a Scheme vector.  In this proposal, we will simply speak of vectors without distinction.
 
 == Equality ==
 
@@ -64,7 +64,7 @@ Returns the row-major index to ''array'' that corresponds to ''subscripts''.  It
 
 Returns the component of ''array'' specified by the row-major index ''index''.  It is an error to specify an ''index'' that is negative or not less than the size of the array.
 
-`(array-row-major-set! `''array''` ``'index''` `''value''`)`
+`(array-row-major-set! `''array''` `''index''` `''value''`)`
 
 Sets the component of ''array'' specified by ''index'' to ''value''.  Returns undefined values.  It is an error to specify an ''index'' that is negative or not less than the size of the array.
 
@@ -95,17 +95,21 @@ Returns a nested list containing the components of ''array''.  If ''array'' has 
 
 `(list->array `[''rank'']` `''list''`)`
 
-Returns an array with rank ``rank`` whose components are initialized from the nested list ``list``.    If ''rank'' is omitted, it is given the largest possible value based on the structure of ''list''.
+Returns an array with rank ''rank'' whose components are initialized from the nested list ``list``.    If ''rank'' is omitted, it is given the largest possible value based on the structure of ''list''.  It is an error if ''list'' is not rectangular.  As a special case, if ''rank'' is 0, ''list'' need not be a list.
 
-Note that `(list->array 0 '((1 2) (3 4)))` will return a zero-dimensional array whose single component is `((1 2) (3 4))`; `(list->array 1 '((1 2) (3 4)))` will return a vector whose components are `(1 2)` and `(3 4)`; and both `(list->array 2 '((1 2) (3 4)))` and `(list->array '((1 2) (3 4)))` will return a 2 x 2 matrix whose components are `1`, `2`, `3`, and `4`.  It is an error if ''list'' is not rectangular.
+ Examples::
+
+ `(list->array 0 '((1 2) (3 4))) =>` a zero-dimensional array whose single component is `((1 2) (3 4))`
+
+ `(list->array 1 '((1 2) (3 4))) =>` a vector whose components are `(1 2)` and `(3 4)`
+
+ `(list->array 2 '((1 2) (3 4))) => ` a 2 x 2 matrix with two rows containing `#(1 2)` and `#(3 4)`.
+
+ `(list->array '((1 2) (3 4))) =>` the same.  
 
 
 == Advanced procedures ==
 
-TBD: ravel, index-generator, table, reshape, join, enlist, reverse, transpose, catenate, laminate, index-of, member-of, replicate, expand, rotate, dyadic-transpose, take, drop, pick.
-
-== Higher-order procedures ==
-
-TBD: reduce, scan, n-wise-reduce, outer-product, inner-product.
+See AdvancedArraysCowan.
 
 
