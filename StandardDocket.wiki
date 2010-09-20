@@ -71,7 +71,7 @@ REPL facilities:
 
 Run-time records: SRFI 99
 
-Sets and bags:
+Sets and bags: SetsCowan
 
 Shift and reset:
 
