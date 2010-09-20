@@ -4,7 +4,7 @@ Sets and bags (multisets) are mutable collections that can contain any Scheme ob
 
 Sets and bags (multisets) are intended to be a thin veneer over hashtables, and integer sets are a thin veneer over bit vectors.  Consequently, the `-member?`, `-add!`, and `-remove!` procedures are required to have an amortized cost of O(1).
 
-== Set procedures ==
+== Basic set procedures ==
 
 `(make-set `''proc''`)`
 
@@ -61,6 +61,8 @@ Constructs and returns a new vector containing the elements of ''set'' in unspec
 `(vector->set `''vector''`)`
 
 Constructs and returns a new set containing the elements of ''vector''.
+
+== Advanced set procedures ==
 
 `(set<= `''set'' ...`)`
 
@@ -126,4 +128,6 @@ Constructs and returns a new integer set.  The possible elements of the set are 
 
 The other integer set procedures are the same as those for sets, except that `set` is replaced by `integer-set` in their names.  
 
+== Conversions ==
 
+`set->bag`, `bag->set`, `integer-set->bag`, and `integer-set->set` take one argument and do the obvious thing.  `bag->integer-set` and `set->integer-set` take two arguments, ''n'' and the set or bag, and also do the obvious thing.
