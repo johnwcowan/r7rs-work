@@ -1,0 +1,129 @@
+== Sets, bags, and integer sets ==
+
+Sets and bags (multisets) are mutable collections that can contain any Scheme object.  Integer sets are mutable collections that can contain non-negative integers from 0 to a value ''n'' that is specified when the integer set is created.
+
+Sets and bags (multisets) are intended to be a thin veneer over hashtables, and integer sets are a thin veneer over bit vectors.  Consequently, the `-member?`, `-add!`, and `-remove!` procedures are required to have an amortized cost of O(1).
+
+== Set procedures ==
+
+`(make-set `''proc''`)`
+
+Constructs and returns a new empty set.  ''Proc'' is the equality procedure for the set, which must be consistent with `eq?`.  If ''proc'' is other than `eq?`, `eqv?`, `equal`, or `string-ci=?`, the implementation MAY signal an error.
+
+`(set `''element''` ...)`
+
+Constructs and returns a new set containing the ''elements''.
+
+`(copy-set `''set''`)`
+
+Constructs and returns a new set containing the elements of ''set''.
+
+`(set? `''obj''`)`
+
+Returns `#t` if ''obj'' is a set, and `#f` otherwise.
+
+`(set-length? `''set''`)`
+
+Returns the number of elements in ''set''.
+
+`(set-member? `''set''` `''element''`)`
+
+Returns `#t` if ''element'' is a member of ''set'' and `#f` otherwise.
+
+`(set-add! `''set''` `''element''`)`
+
+Adds ''element'' to ''set'' unless it is already a member.  Returns unspecified values.
+
+`(set-remove! `''set''` `''element''`)`
+
+Removes ''element'' from ''set'' unless it is not a member.  Returns unspecified values.
+
+`(set-map `''proc''` `''set'' ...`)`
+
+Applies ''proc'' to the ''sets'' and constructs and returns a new set containing the values of the applications.
+
+`(set-for-each `''proc''` `''set'' ...`)`
+
+Applies ''proc'' to the ''sets'', discarding the returned values.  Returns unspecified results.
+
+`(set->list `''set''`)`
+
+Constructs and returns a new list containing the members of ''set'' in unspecified order.
+
+`(list->set `''list''`)`
+
+Constructs and returns a new set containing the elements of ''list''.
+
+`(set->vector `''set''`)`
+
+Constructs and returns a new vector containing the elements of ''set'' in unspecified order.
+
+`(vector->set `''vector''`)`
+
+Constructs and returns a new set containing the elements of ''vector''.
+
+`(set<= `''set'' ...`)`
+
+Returns `#t` if each ''set'' other than the last is a subset of the following ''set'', and `#f` otherwise.  All the ''sets'' must share the same equality predicate.
+
+`(set= `''set'' ...`)`
+
+Returns `#t` if each ''set'' contains the same elements.  All the ''sets'' must share the same equality predicate.
+
+`(set-union `''set'' ...`)`
+
+Constructs and returns a new set that is the union of the ''sets''.
+
+`(set-intersection `''set'' ...`)`
+
+Constructs and returns a new set that is the intersection of the ''sets''.
+
+`(set-difference `''set'' ...`)`
+
+Constructs and returns a new set that is the difference of the ''sets''.
+
+`(set-xor `''set'' ...`)`
+
+Constructs and returns a new set that is the xor (symmetric difference) of the ''sets''.
+
+`(set-union! `''set''` `''other-set'' ...`)`
+
+Mutates ''set'' to a new set that is the union of ''set'' and the ''other-sets''.
+
+`(set-intersection! `''set''` `''other-set'' ...`)`
+
+Mutates ''set'' to a new set that is the difference of ''set'' and the ''other-sets''.
+
+`(set-difference! `''set''` `''other-set'' ...`)`
+
+Mutates ''set'' to a new set that is the difference of ''set'' and the ''other-sets''.
+
+`(set-xor! `''set''` `''other-set'' ...`)`
+
+Mutates ''set'' to a new set that is the xor (symmetric difference) of ''set'' and the ''other-sets''.
+
+== Bag procedures ==
+
+The procedures for creating and manipulating bags are the same as those for sets, except that `set` is replaced by `bag` in their names, and that adding an element to a bag is effective even if the bag already contains the element.
+
+== Integer set procedures ==
+
+`(make-integer-set `''n''`)`
+
+Constructs and returns a new empty integer set.  The possible elements of the set are the exact integers from 0 to ''n'' - 1.
+
+`(integer-set `''n''` `''element'' ...`)`
+
+Constructs and returns a new integer set.  The possible elements of the set are the exact integers from 0 to ''n'' - 1. The set is initialized to contain the ''elements''.
+
+`(list->integer-set `''n''` `''list''`)`
+
+Constructs and returns a new integer set.  The possible elements of the set are the exact integers from 0 to ''n'' - 1. The set is initialized to contain the elements of ''list''.
+
+`(vector->integer-set `''n''` `''list''`)`
+
+Constructs and returns a new integer set.  The possible elements of the set are the exact integers from 0 to ''n'' - 1. The set is initialized to contain the elements of ''vector''.
+
+The other integer set procedures are the same as those for sets, except that `set` is replaced by `integer-set` in their names.  
+
+
