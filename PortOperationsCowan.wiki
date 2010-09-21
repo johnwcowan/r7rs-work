@@ -1,0 +1,47 @@
+== Port Operations ==
+
+These is a proposal for the WG2 "port operations" work item.  It provides useful iterators over generic ports, and ways to combine and alias ports.  It is mostly based on Chicken's ports unit and CL's streams facilities.
+
+== Port iterators ==
+
+`(port-for-each `''iterator''` `''reader''` `''port''`)`
+
+Applies ''iterator'' to the successive results of calling ''reader'' on ''port'' until it returns an EOF object (not including the EOF object), discarding the results.  Returns undefined values.
+
+`(port-map `''iterator''` `''reader''` `''port''`)`
+
+Applies ''iterator'' to the successive results of calling ''reader'' on ''port'' until it returns an EOF object (not including the EOF object), returning a list of the collected results.
+
+`(port-fold `''iterator''` `''reader''` `''port''` `''seed'' ...`)`
+
+Applies ''iterator'' to the successive results of calling ''reader'' on ''port'', passing the ''seed'' values as additional arguments to ''iterator''. The results returned by ''iterator'' become the new ''seed'' values. When ''reader'' returns an EOF object, the last results of ''iterator'' are returned.
+
+`(copy-port `''source''` `''sink''` `''reader''` `''writer''`)`
+
+Reads all remaining data from ''source'' using the procedure ''reader'' and writes it to ''sink'' using the procedure ''writer''. ''Reader'' defaults to `read-char` and ''writer'' to `write-char`.  This procedure does not check that ''source'' and ''sink'' are actually ports, so ''reader'' and ''writer'' may perform arbitrary operations as long as they can be invoked as `(`''reader''` `''source''`)` and `(`''writer''` `''value''` `''sink''`)`, respectively.  Returns undefined values.
+
+== Special ports ==
+
+`(make-broadcast-port `''port'' ...`)`
+
+Returns a custom output port that emits everything written into it to the ''ports''.  An operation can only be performed on a broadcast port if it can be performed on all the ''ports''.  Closing the broadcast port does not close any of the ''ports''.  If no ports are specified, the result serves as a sink that discards all its output.
+
+`(broadcast-port? `''obj''`)`
+
+Returns `#t` if ''obj'' is a broadcast port, and `#f` otherwise.
+
+`(make-concatenated-port `''port'' ...`)`
+
+Returns a custom input port that reads its input from each ''port'' until it returns an EOF object, then returns just one EOF object itself.  An operation can only be performed on a concatenated port if it can be performed on all the ''ports''.  Closing the concatenated port does not close any of the ''ports''.  If no ''ports'' are specified, the result serves as an empty source.
+
+`(concatenated-port? `''obj''`)`
+
+Returns `#t` if ''obj'' is a concatenated port, and `#f` otherwise.
+
+`(make-alias-port `''parameter''`)`
+
+Returns a port which passes any port operations invoked on it to the current value of the dynamic variable ''parameter''.
+
+`(alias-port? `''obj''`)`
+
+Returns `#t` if ''obj'' is an alias port, and `#f` otherwise.
