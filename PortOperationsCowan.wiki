@@ -1,6 +1,6 @@
 == Port Operations ==
 
-These is a proposal for the WG2 "port operations" work item.  It provides useful iterators over generic ports, and ways to combine and alias ports.  It is mostly based on Chicken's ports unit and CL's streams facilities.
+This is a proposal for the WG2 "port operations" work item.  It provides useful iterators over generic ports, and ways to combine and alias ports.  It is mostly based on Chicken's ports unit and CL's streams facilities.
 
 == Port iterators ==
 
