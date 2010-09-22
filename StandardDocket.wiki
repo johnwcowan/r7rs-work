@@ -51,13 +51,13 @@ Mutexes, condition variables:
 
 Named parameters:
 
-Octet vectors, bytevectors, blobs: BlobAPI
+Octet vectors, bytevectors, blobs: BlobsCowan
 
 Pathnames:
 
 Pattern matching:
 
-Port functions (concatenate, join, split):
+Port functions (concatenate, join, split): PortOperationsCowan
 
 Priority queues:
 
