@@ -355,7 +355,7 @@ to be an escape for "<templ>".  Do we use this, and
 if so what does (... <t1> <t2>) mean?
 
   * '''Options:''' yes,no,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes,wg2
 
 === #39 syntax-error ===
 
@@ -363,7 +363,7 @@ Should we have syntax-error parallel to SRFI-23 error?  This is evoked
 when macros are expanded.
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes,wg2
 
 === #5 syntax-rules ===
 
@@ -374,7 +374,7 @@ it to a standard module, or leave it out entirely
 `Yes` to keep in core, `no` to remove from Scheme entirely.
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes,module,wg2 
 
 === #10 identifier syntax ===
 
@@ -386,7 +386,7 @@ types of expanders are provided, do we provide
 a means to specify identifier syntax?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' no
 
 === #47 internal define-syntax ===
 
@@ -395,7 +395,7 @@ in local lexical contexts.  Do we allow
 this as well?
 
   * '''Options:''' yes,no,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes,wg2 
 
 === #6 syntax-rules _ patterns ===
 
@@ -406,7 +406,7 @@ or leave it as a normal identifier as in R5RS?
 Yes to add, no for R5RS.
 
   * '''Options:''' yes,no,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
 
 === #8 SRFI-46 ellipse specifier in syntax-rules ===
 
@@ -421,7 +421,7 @@ syntax-rules:
 Do we allow this?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes,module,wg2 
 
 === #9 tail patterns in syntax-rules ===
 
@@ -440,7 +440,7 @@ where Px only matches a dotted list.
 Do we allow either or both of these extensions?
 
   * '''Options:''' tail,dotted-tail,both,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' tail,no
 
 == WG1 - Numerics ==
 
@@ -455,7 +455,7 @@ as in R6RS?
 write in a separate proposal for some other syntax/semantics.
 
   * '''Options:''' yes,no,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' no,wg2 
 
 === #21 limited type arithmetic ===
 
@@ -463,7 +463,7 @@ R6RS provides libraries for limited type arithmetic on fixnums only
 and flonums only (i.e. `fx+`, `fl*` etc.).  Do we want these?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' module,wg2 
 
 === #22 mantissa widths ===
 
@@ -472,7 +472,7 @@ as an alternative to the R5RS #s in numbers.
 Do we want either or both of these?
 
   * '''Options:''' r5rs,r6rs,both,no,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' r6rs,wg2
 
 == WG1 - Reader Syntax ==
 
@@ -484,7 +484,7 @@ Yes to fold-case (R5RS) no to preserve case (R6RS), additional votes
 to come later from specific proposals.
 
   * '''Options:''' yes,no,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
 
 === #15 #\foo character names ===
 
@@ -498,7 +498,7 @@ and `yes`/`both` for both.
 The exact list of added names is to be decided later.
 
   * '''Options:''' mnemonic,numeric,both,no,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' mnemonic,wg2
 
 === #13 [brackets] as (parens) ===
 
@@ -511,7 +511,7 @@ brackets, or leave them unspecified?
 meaning for brackets.
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' no
 
 === #14 alternate comment syntax ===
 
@@ -520,7 +520,7 @@ and #| ... |# nested block comments.  Do we include
 either or both of these?
 
   * '''Options:''' sexp,block,both,no,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' both,wg2,no 
 
 === #16 symbol escapes ===
 
@@ -534,7 +534,7 @@ at least a few implementations where pipes are normal character
 constituents.
 
   * '''Options:''' numeric,quoted,both,no,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' no,wg2 
 
 === #67 string escapes ===
 
@@ -544,7 +544,7 @@ common control characters. Do we accept either or both of these
 extensions?
 
   * '''Options:''' numeric,mnemonic,both,no,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' mnemonic,wg2 
 
 == WG1 - Strings and Chars ==
 
@@ -561,7 +561,7 @@ over the constituent characters.
 Note UnicodeCowan currently provides mappings at both levels.
 
   * '''Options:''' strings,chars,both,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' module,both,wg2 
 
 === #26 string normalization ===
 
@@ -584,7 +584,7 @@ Note UnicodeCowan currently provides specific normalization
 procedures.
 
   * '''Options:''' generic,separate,specific,agnostic,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' module,wg2 
 
 === #27 string-ref/set! access time ===
 
@@ -595,7 +595,7 @@ as character arrays.  Do we reaffirm this?
 `Yes` for required constant time.
 
   * '''Options:''' yes,no,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' no
 
 === #23 character set ===
 
@@ -606,7 +606,7 @@ character set, or limit the options in any way?
   * '''Proposals:'''
     * '''cowan:''' UnicodeCowan
   * '''Options:''' cowan,r5rs,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' wg2,cowan,r5rs 
 
 ----
 
@@ -628,7 +628,7 @@ Do we provide a syntax and basic API for these in WG1?
     * '''cowan:''' BlobAPI
     * '''snellpym:''' BlobsAndSRFI4SnellPym
   * '''Options:''' cowan, snellpym, wg2, none, undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' cowan 
 
 === #69 Parameters ===
 
@@ -639,7 +639,9 @@ as those provided by SRFI-39 parameters.
     * '''cowan:''' ImmutableParametersCowan
     * '''snellpym:''' ParametersSnellPym
   * '''Options:''' cowan, snellpym, srfi-39, wg2, none, undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' cowan 
+
+I completely agree that some other mechanism is better in order to share data between threads and separating concern is needed here. 
 
 === #32 user-defined types ===
 
@@ -652,7 +654,7 @@ or the R6RS record system?
     * '''rush:''' UserAggregatesRush
     * '''snellpym:''' UniqueTypesSnellPym
   * '''Options:''' hsu,rush,snellpym,srfi-9,srfi-99,no,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' rush,snellpym,srfi-9
 
 == WG1 - Libraries ==
 
@@ -664,4 +666,4 @@ some primitives on which efficient hash-tables can
 be implemented?
 
   * '''Options:''' srfi-69,r6rs,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' module,srfi-69,wg2 
