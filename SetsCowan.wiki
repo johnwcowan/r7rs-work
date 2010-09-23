@@ -1,6 +1,6 @@
 == Sets, bags, and integer sets ==
 
-Sets and bags (multisets) are mutable collections that can contain any Scheme object.  Integer sets are mutable collections that can contain non-negative integers from 0 to a value ''n'' that is specified when the integer set is created.
+Sets and bags (multisets) are mutable collections that can contain any Scheme object.  Integer sets are mutable collections that can contain non-negative exact integers from 0 to a maximum value that is specified when the integer set is created.
 
 Sets and bags (multisets) are intended to be a thin veneer over hashtables, and integer sets are a thin veneer over bit vectors.  Consequently, the `-member?`, `-add!`, and `-remove!` procedures are required to have an amortized cost of O(1).
 
@@ -40,13 +40,17 @@ Adds ''element'' to ''set'' unless it is already a member.  Returns unspecified 
 
 Removes ''element'' from ''set'' unless it is not a member.  Returns unspecified values.
 
-`(set-map `''proc''` `''set'' ...`)`
+`(set-map `''proc''` `''set''`)`
 
-Applies ''proc'' to the ''sets'' and constructs and returns a new set containing the values of the applications.
+Applies ''proc'' to each element of ''set'' in arbitrary order and constructs and returns a new set containing the values of the applications.
 
 `(set-for-each `''proc''` `''set'' ...`)`
 
-Applies ''proc'' to the ''sets'', discarding the returned values.  Returns unspecified results.
+Applies ''proc'' to ''set'' in arbitrary order, discarding the returned values.  Returns unspecified results.
+
+`(set-fold `''proc''` `''nil''` `''set''`)`
+
+Invokes ''proc'' on each argument of ''set'' in arbitrary order, passing the result of the previous invocation as a second argument.  For the first invocation, ''nil'' is used as the second argument.  Returns the result of the last invocation.
 
 `(set->list `''set''`)`
 
@@ -74,19 +78,19 @@ Returns `#t` if each ''set'' other than the last is a subset of the following ''
 
 Returns `#t` if each ''set'' contains the same elements.  All the ''sets'' must share the same equality predicate.
 
-`(set-union `''set'' ...`)`
+`(set-union `''set'` `''other-set'' ...`)`
 
-Constructs and returns a new set that is the union of the ''sets''.
+Constructs and returns a new set that is the union of ''set'' and the ''other-sets''.
 
-`(set-intersection `''set'' ...`)`
+`(set-intersection `''set'` `''other-set'' ...`)`
 
-Constructs and returns a new set that is the intersection of the ''sets''.
+Constructs and returns a new set that is the intersection of ''set'' and the ''other-sets''.
 
-`(set-difference `''set'' ...`)`
+`(set-difference `''set'` `''other-set'' ...`)`
 
-Constructs and returns a new set that is the difference of the ''sets''.
+Constructs and returns a new set that is the difference of ''set'' and the ''other-sets''.
 
-`(set-xor `''set'' ...`)`
+`(set-xor `''set'` `''other-set'' ...`)`
 
 Constructs and returns a new set that is the xor (symmetric difference) of the ''sets''.
 
@@ -112,24 +116,24 @@ The procedures for creating and manipulating bags are the same as those for sets
 
 == Integer set procedures ==
 
-`(make-integer-set `''n''`)`
+`(make-integer-set `''limit''`)`
 
-Constructs and returns a new empty integer set.  The possible elements of the set are the exact integers from 0 to ''n'' - 1.
+Constructs and returns a new empty integer set.  The possible elements of the set are the exact integers from 0 to ''limit'' - 1, where ''limit'' is an exact non-negative integer.
 
-`(integer-set `''n''` `''element'' ...`)`
+`(integer-set `''limit''` `''element'' ...`)`
 
-Constructs and returns a new integer set.  The possible elements of the set are the exact integers from 0 to ''n'' - 1. The set is initialized to contain the ''elements''.
+Constructs and returns a new integer set.  The possible elements of the set are the exact integers from 0 to ''limit'' - 1. The set is initialized to contain the ''elements''.
 
-`(list->integer-set `''n''` `''list''`)`
+`(list->integer-set `''limit''` `''list''`)`
 
-Constructs and returns a new integer set.  The possible elements of the set are the exact integers from 0 to ''n'' - 1. The set is initialized to contain the elements of ''list''.
+Constructs and returns a new integer set.  The possible elements of the set are the exact integers from 0 to ''limit'' - 1. The set is initialized to contain the elements of ''list''.
 
-`(vector->integer-set `''n''` `''list''`)`
+`(vector->integer-set `''limit''` `''list''`)`
 
-Constructs and returns a new integer set.  The possible elements of the set are the exact integers from 0 to ''n'' - 1. The set is initialized to contain the elements of ''vector''.
+Constructs and returns a new integer set.  The possible elements of the set are the exact integers from 0 to ''limit'' - 1. The set is initialized to contain the elements of ''vector''.
 
-The other integer set procedures are the same as those for sets, except that `set` is replaced by `integer-set` in their names.  
+The other integer set procedures are the same as those for sets, except that `set` is replaced by `integer-set` in their names.  Wherever a newly constructed integer set is returned, it has the same limit as the source set.
 
 == Conversions ==
 
-`set->bag`, `bag->set`, `integer-set->bag`, and `integer-set->set` take one argument and do the obvious thing.  `bag->integer-set` and `set->integer-set` take two arguments, ''n'' and the set or bag, and also do the obvious thing.
+`set->bag`, `bag->set`, `integer-set->bag`, and `integer-set->set` take one argument and do the obvious thing.  `bag->integer-set` and `set->integer-set` take two arguments, ''limit'' and the set or bag, and also do the obvious thing.
