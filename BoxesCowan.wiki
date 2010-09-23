@@ -7,6 +7,6 @@ This is a trivial module, providing mutable and immutable boxes.  Most Schemes h
  * `box`: constructor
  * `immutable-box`: constructor
  * `box?`: predicate
- * `immutable-box`: predicate
+ * `immutable-box?`: predicate
  * `unbox`: accessor
  * `set-box!`: mutator
