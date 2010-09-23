@@ -10,8 +10,12 @@ This is a proposal for a WG2 blob (bytevector) API.  Blobs are a disjoint type. 
   Returns the length of ''blob'' in bytes.
  `(copy-blob `''blob''`)`::
   Returns a newly allocated blob containing the same bytes as ''blob''.
+ `(subblob `''blob''` `''from''` `''to''`)`::
+  Returns a newly allocated blob containing the bytes in ''blob'' starting at ''start'' (inclusive) and ending at ''end'' (exclusive).
  `(copy-blob! `''from to''`)`::
   Copy blob ''from'' on top of blob ''to'', which must not be shorter.
+ `(copy-partial-blob! `''from''` `''start''` `''end''` `''to''` `''at''`)`::
+  Copy the part of ''from'' starting at ''start'' and ending at ''end'' into ''to'' starting at ''at''.
 
 Because there is no preferred way to interpret the data in a blob, there is no `blob` function analogous to `list` or `vector` and no second argument to `make-blob`.
 
@@ -90,12 +94,6 @@ The encodings are:
   UTF-16BE encoding (treats BOM as a normal character)
  `utf16le`::
   UTF-16LE encoding (treats BOM as a normal character)
- `utf32`::
-  UTF-32 encoding (respects BOM if present, defaults to native encoding otherwise)
- `utf32be`::
-  UTF-32BE encoding (treats BOM as a normal character)
- `utf32le`::
-  UTF-32LE encoding (treats BOM as a normal character)
 
 === Issues ===
 
@@ -107,6 +105,8 @@ Pick one:
 
 Should `blob=?` be provided?
 
+I've trashed the UTF-32 conversions because nobody uses UTF-32.  They can come back if somebody needs them.
+
 === WG1 ===
 
-I propose that WG1 provide `blob?, make-blob, blob-length, copy-blob, copy-blob!, blob-u8-ref, blob-u8-set!` only.
+I propose that WG1 provide `blob?, make-blob, blob-length, copy-blob, copy-blob!, blob-u8-ref, blob-u8-set!`, and possibly `subblob` and `copy-partial-blob!` as well.
