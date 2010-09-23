@@ -44,13 +44,13 @@ Removes ''element'' from ''set'' unless it is not a member.  Returns unspecified
 
 Applies ''proc'' to each element of ''set'' in arbitrary order and constructs and returns a new set containing the values of the applications.
 
-`(set-for-each `''proc''` `''set'' ...`)`
+`(set-for-each `''proc''` `''set''`)`
 
 Applies ''proc'' to ''set'' in arbitrary order, discarding the returned values.  Returns unspecified results.
 
 `(set-fold `''proc''` `''nil''` `''set''`)`
 
-Invokes ''proc'' on each argument of ''set'' in arbitrary order, passing the result of the previous invocation as a second argument.  For the first invocation, ''nil'' is used as the second argument.  Returns the result of the last invocation.
+Invokes ''proc'' on each member of ''set'' in arbitrary order, passing the result of the previous invocation as a second argument.  For the first invocation, ''nil'' is used as the second argument.  Returns the result of the last invocation.
 
 `(set->list `''set''`)`
 
