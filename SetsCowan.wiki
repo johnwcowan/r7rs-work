@@ -4,6 +4,8 @@ Sets and bags (multisets) are mutable collections that can contain any Scheme ob
 
 Sets and bags (multisets) are intended to be a thin veneer over hashtables, and integer sets are a thin veneer over bit vectors.  Consequently, the `-member?`, `-add!`, and `-remove!` procedures are required to have an amortized cost of O(1).
 
+Sets, bags, and integer sets are mutually disjoint and disjoint from other types of Scheme objects.
+
 == Basic set procedures ==
 
 `(make-set `''proc''`)`
