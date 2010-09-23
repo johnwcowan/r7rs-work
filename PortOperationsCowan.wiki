@@ -22,6 +22,8 @@ Reads all remaining data from ''source'' using the procedure ''reader'' and writ
 
 == Special ports ==
 
+Broadcast ports, concatenated ports, and alias ports are mutually disjoint types, and are disjoint from other types of Scheme objects.
+
 `(make-broadcast-port `''port'' ...`)`
 
 Returns a custom output port that emits everything written into it to the ''ports''.  An operation can only be performed on a broadcast port if it can be performed on all the ''ports''.  Closing the broadcast port does not close any of the ''ports''.  If no ports are specified, the result serves as a sink that discards all its output.
