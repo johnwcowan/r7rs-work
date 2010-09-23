@@ -14,6 +14,8 @@ An array's ''size'' is its total number of components.  This is the product of t
 
 It is implementation-defined whether Scheme vectors are the same as one-dimensional arrays or not.  In order to make the difference less visible, wherever a procedure accepts an array argument that can be one-dimensional, it MUST accept a Scheme vector as well, and wherever a procedure (other than `array->vector`) returns a result that is a one-dimensional array, it MAY be a Scheme vector.  In this proposal, we will simply speak of vectors without distinction.
 
+Arrays with zero dimensions or more than one dimension are a disjoint type from arrays and other types of Scheme objects.
+
 == Equality ==
 
 This proposal redefines `equal?` to descend into arrays as well as pairs, vectors, and strings.  However, arrays cannot be `equal?` unless their shapes are the same.
