@@ -1,0 +1,63 @@
+== Datagram channels ==
+
+Datagram channels are a mild abstraction of UDP sockets.  They are a disjoint type.
+
+In the following descriptions, ''interface'' and ''host'' are strings, which may be IPv4 dotted-decimal addresses, IPv6 colon-hexadecimal addresses if supported by the operating system, or host names to be looked up according to whatever operating system conventions exist, if any.  Appropriate strings may refer to broadcast or multicast addresses.
+
+== Procedures ==
+
+`(make-datagram-channel `[[''interface''] ''port'']`)`
+
+Returns a new datagram channel suitable for sending and receiving datagrams.  If ''port'' is omitted, the channel will receive datagrams that are sent to a unused port assigned by the operating system over any local interface.  If ''port'' is present but ''interface'' is omitted, the channel will receive datagrams that are sent to ''port'' over any local interface.  Otherwise, the channel will only receive datagrams sent to the specified interface and port.  (Note that if there is exactly one argument, it is ''port'', as this is the more common case.)
+
+`(make-output-only-datagram-channel)`
+
+Returns a new datagram channel only suitable for sending datagrams.  It is not bound to any port.
+
+`(datagram-channel? `''obj''`)`
+
+Returns `#t` if ''obj'' is a datagram channel and `#f` otherwise.
+
+`(datagram-channel-interface `''channel''`)`
+
+Returns the interface on which ''channel'' receives datagrams, or `#f` if there is none.  The value returned need not be the same as the value passed to `make-i/o-datagram-channel`.
+
+`(datagram-channel-port `''channel''`)`
+
+Returns the port number on which ''channel'' receives datagrams, or `#f` if there is none.
+
+`(datagram-channel-send-to `''channel''` `''host''` `''port''` `''blob''` `[[''start''|[''end'']]]`)`
+
+Send the portion of ''blob'' defined by ''start'' (inclusive) and ''end'' (exclusive) to the endpoint specified by ''host'' and ''port'' using ''channel''.  If ''end'' is omitted, it is the length of ''blob'' plus one; if ''start'' is omitted, it is 0.  Returns undefined values.
+
+`(datagram-channel-receive-from `''channel''` `''blob''` `[[''start''|[''end'']]]`)`
+
+Receives a datagram from ''channel'' into the portion of ''blob'' defined by ''start'' (inclusive) and ''end'' (exclusive).  If ''end'' is omitted, it is the length of ''blob'' plus one; if ''start'' is omitted, it is 0.  Returns three values: the sending host, the sending port, and `#t` if the datagram was complete or `#f` if it was truncated.  It is an error to invoke this procedure on an output-only datagram channel.
+
+`(datagram-channel-connect! `''channel''` `''host''` `''port''`)`
+
+Connects ''channel'' to a remote endpoint specified by ''host'' and ''port''.  Datagrams can be sent to this endpoint using `datagram-channel-send`, but it is still possible to send datagrams to other endpoints using `datagram-channel-send-to`.  When connected, a datagram channel will receive datagrams only from the specified remote endpoint.  Returns undefined values.
+
+`(datagram-channel-disconnect! `''channel''`)`
+
+Disconnects ''channel''.  Returns undefined values.
+
+`(datagram-channel-connected-host `''channel''`)`
+
+Returns the host to which ''channel'' is connected, or `#f` if there is none.  The value returned need not be the same as the value passed to `datagram-channel-connect!`.
+
+`(datagram-channel-connected-port `''channel''`)`
+
+Returns the port to which ''channel'' is connected, or `#f` if there is none.
+
+`(datagram-channel-send `''channel''` `''blob''` `[[''start''|[''end'']]]`)`
+
+Send the portion of ''blob'' defined by ''start'' (inclusive) and ''end'' (exclusive) to the connected endpoint of ''channel''.  If ''end'' is omitted, it is the length of ''blob'' plus one; if ''start'' is omitted, it is 0.  It is an error if ''channel'' is not connected.  Returns undefined values.
+
+== Issues ==
+
+These names are very verbose, but I couldn't think of a better term than `datagram-channel`, which is borrowed from `java.nio.channels.DatagramChannel`.  This API is more powerful than Java's, though.
+
+Should the ''end'' arguments be replaced by ''length'' arguments?
+
+The name "blob" is subject to change.
