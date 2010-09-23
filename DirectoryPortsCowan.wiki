@@ -12,7 +12,7 @@ Returns `#t` if ''filename'' is the name of a directory.  ''Filename'' is a stri
 
 ''Filename'' can be a string or a ''settings list'' as described in PortsCowan.  In addition to the keys `path` and `encoding` specified there, the key `hidden` can have the values `#f` (no hidden files), `#t` (all files), and `dots` (all files except `.` and `..`).  On Posix systems, hidden files have names beginning with `.`; on Windows, hidden files are named `.`, `..`, or have the `hidden` file attribute.
 
-The returned value is an input port, but it is neither a binary port nor a character port, so the only procedure callable on it is `read`, which returns the next available filename as a string (or, when necessary, an implementation-dependent object).  Filenames are returned in arbitrary order.
+The returned value is an input port, but it is neither a binary port nor a character port, so the only procedure callable on it is `read`, which returns the next available filename as a string (or, when necessary, an implementation-dependent object).  Filenames are returned in arbitrary order.  Directory ports are a disjoint type.
 
 `(directory-port? `''obj''`)`
 
