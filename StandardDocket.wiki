@@ -85,7 +85,7 @@ Thread-local storage:
 
 Threads:
 
-UDP protocol:
+UDP protocol:  DatagramChannelCowan
 
 Unicode character database:
 
