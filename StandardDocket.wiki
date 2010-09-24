@@ -55,8 +55,6 @@ Octet vectors, bytevectors, blobs: BlobsCowan
 
 Pathnames:
 
-Pattern matching:
-
 Port functions (concatenate, join, split): PortOperationsCowan
 
 Priority queues:
