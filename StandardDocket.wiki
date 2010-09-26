@@ -59,7 +59,7 @@ Port functions (concatenate, join, split): PortOperationsCowan
 
 Priority queues:
 
-Processes (system, popen, etc):
+Processes (system, popen, etc): SystemCommandCowan + ProcessPortsCowan
 
 Random numbers: SRFI 27, RandomCowan (small subset, may go into WG1)
 
