@@ -1,0 +1,7 @@
+== Circular lists ==
+
+`(encycle! `''list''` `''head-size''` `''cycle-size''`)`
+
+''Head-size'' and ''cycle-size'' MUST be exact non-negative integers. The (possibly improper) ''list'' MUST contain at least ''head-size'' + ''cycle-size'' pairs.  If ''cycle-size'' = 0, does nothing. If ''cycle-size'' > 0, mutates ''list'' to have a cyclic prefix of length ''head-size'' and cycle length ''cycle-size'', by setting the `cdr` of the (''head-size'' + ''cycle-size'')th pair in the list to refer to the (''head-size''+ 1)th pair in the list.  Returns unspecified values.
+
+What else should go here depends on what WG1 decides to do about circular lists generally.
