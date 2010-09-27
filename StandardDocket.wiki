@@ -49,7 +49,7 @@ Multiple value macros (SRFIs 8, 11, 71, and CL):
 
 Mutexes, condition variables:
 
-Named parameters: KeywordArgumentsCowan
+Named parameters: NamedParametersCowan
 
 Octet vectors, bytevectors, blobs: BlobsCowan
 
