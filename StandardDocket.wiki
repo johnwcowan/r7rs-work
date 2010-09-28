@@ -25,7 +25,7 @@ Environment enquiries:
 
 File system directories: DirectoryPortsCowan
 
-Flonum arithmetic:
+Flonum arithmetic: FlonumsCowan
 
 Gettext (i18n of strings):
 
@@ -39,7 +39,7 @@ Loop syntax:
 
 Mailboxes, channels, synchronized queues:
 
-C89 or C99 <math.h>:
+C89 or C99 <math.h>: FlonumsCowan
 
 Memoization:
 
@@ -81,7 +81,7 @@ Sorting: SRFI 32, SRFI 95
 
 SRFI 38: reading and writing shared structure: (depends on interaction with WG1)
 
-TCP protocol:
+TCP protocol: NetworkPortsCowan
 
 Thread-local storage:
 
@@ -89,7 +89,7 @@ Threads:
 
 UDP protocol:  DatagramChannelsCowan
 
-Unicode character database:
+Unicode character database: UcdCowan
 
 Unicode normalization:
 
