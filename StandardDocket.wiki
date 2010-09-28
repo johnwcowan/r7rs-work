@@ -25,6 +25,8 @@ Environment enquiries:
 
 File system directories: DirectoryPortsCowan
 
+Flonum arithmetic:
+
 Gettext (i18n of strings):
 
 Hash tables: R6RS, SRFI 69
