@@ -36,7 +36,7 @@ Receives a datagram from ''channel'' into the portion of ''blob'' defined by ''s
 
 `(datagram-channel-connect! `''channel''` `''host''` `''port''`)`
 
-Connects ''channel'' to a remote endpoint specified by ''host'' and ''port''.  Datagrams can be sent to this endpoint using `datagram-channel-send`, but it is still possible to send datagrams to other endpoints using `datagram-channel-send-to`.  When connected, a datagram channel will receive datagrams only from the specified remote endpoint.  Returns undefined values.
+Connects ''channel'' to a remote endpoint specified by ''host'' and ''port''.  Datagrams can be sent to this endpoint using `datagram-channel-send`, but it is still possible to send datagrams to other endpoints using `datagram-channel-send-to`.  When connected, a datagram channel will ignore datagrams that do not come from the specified remote endpoint.  Returns undefined values.
 
 `(datagram-channel-disconnect! `''channel''`)`
 
@@ -53,6 +53,14 @@ Returns the port to which ''channel'' is connected, or `#f` if there is none.
 `(datagram-channel-send `''channel''` `''blob''` `[[''start''|[''end'']]]`)`
 
 Send the portion of ''blob'' defined by ''start'' (inclusive) and ''end'' (exclusive) to the connected endpoint of ''channel''.  If ''end'' is omitted, it is the length of ''blob'' plus one; if ''start'' is omitted, it is 0.  It is an error if ''channel'' is not connected.  Returns undefined values.
+
+== Example - TFTP ==
+
+TFTP is a simple UDP-based protocol documented in RFC 1350.  For our purposes, all that matters is that the client sends the first datagram and the server sends exactly one response to each datagram (assuming no loss of packets in transmission).
+
+The server uses `(open-datagram-channel 69)` to create a datagram channel listening on UDP port 69 and then uses `(datagram-channel-receive-from `''chan''` `''blob''`)` to obtain an initial datagram.  The server then calls `(open-datagram-channel)` to create a new datagram channel listening on a randomly chosen port.  This datagram channel is then connected with `(datagram-channel-connect! `''client-host''` `''client-port''`)` to the client's host and port, and the initial datagram is processed and replied to.  All further transactions with that client are performed over the newly created channel.
+
+The client starts by using `(open-datagram-channel)` and then `(datagram-channel-connect! `''chan''` `''host''` 69)` to connect to the server.  The initial datagram is sent with `(datagram-channel-send `''blob''`)`.  When the server replies, the channel is reconnected with `(datagram-channel-connect! `''host''` `''server-port''`)` and the remaining datagrams are sent over the channel.
 
 == Issues ==
 
