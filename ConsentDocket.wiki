@@ -12,8 +12,6 @@ Explicit renaming macros: Uses the `er-macro-transformer` keyword (bare lambdas 
 
 Fixnum arithmetic: The R6RS `arithmetic fixnum` library with prefix stripping.
 
-Flonum arithmetic: The R6RS `arithmetic flonum` library with prefix stripping.
-
 Format combinators: Alex Shinn's [[http://synthcode.com/scheme/fmt/|fmt library]], with prefix stripping and a touch of renaming.  The C formatting library is excluded.
 
 Pretty-printer: see Format combinators
