@@ -6,7 +6,7 @@ This module depends on the acceptance of PortsCowan or something like it, as it 
 
 `(directory? `''filename''`)`
 
-Returns `#t` if ''filename'' is the name of a directory.  ''Filename'' is a string or an implementation-dependent object.
+Returns `#t` if ''filename'' is the name of a directory, or #f if it is not or the answer is not determinable.  ''Filename'' is a string or an implementation-dependent object.
 
 `(open-directory `''filename''`)`
 
