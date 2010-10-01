@@ -1,6 +1,6 @@
 == Arrays ==
 
-This is a proposal for the WG2 multidimensional arrays package.  These arrays are general: that is, the components may be any Scheme object.  The components of arrays may be addressed by subscripts or in row-major order using a single index.
+This is a proposal for the WG2 multidimensional arrays package.  These arrays are general: that is, the components may be any Scheme object.  The components of arrays may be addressed either by subscripts or in row-major order using a single index.
 
 == Terminology ==
 
@@ -14,7 +14,7 @@ An array's ''size'' is its total number of components.  This is the product of t
 
 A ''Scheme vector'' is an object on which `vector?` returns `#t`.  It is implementation-defined whether Scheme vectors are the same as rank-1 arrays or not.
 
-In order to make the difference less visible, wherever a procedure accepts an array argument that can or must be rank-1, it MUST also accept a Scheme vector.  Likewise, wherever a procedure other than a procedure that converts arrays to vectors returns a result that is a rank-1 array, the result MAY be a Scheme vector, but there is no requirement for all rank-1 arrays to be Scheme vectors.  However, there is no requirement for `vector?` to return `#t` on every rank-1 array.  In this proposal, we will simply speak of vectors.
+In order to make the difference less visible, wherever a procedure accepts an array argument that can or must be rank-1, it MUST also accept a Scheme vector.  Likewise, wherever a procedure other than `array->vector` and `array->nested-vector` returns a result that is a rank-1 array, the result MAY be a Scheme vector, but there is no requirement for all rank-1 arrays to be Scheme vectors.  However, there is no requirement for `vector?` to return `#t` on every rank-1 array either.  In this proposal, we will simply speak of vectors.
 
 Arrays with ranks other than 1 are a disjoint type from Scheme vectors and other types of Scheme objects.
 
@@ -32,7 +32,7 @@ Constructs and returns an array of the specified ''shape''.  All the components 
 
 `(array? `''obj''`)`
 
-Returns `#t` if ''obj'' is an array and `#f` otherwise.  Note that if `(vector? `''obj''`)` returns #t, then `(array? `''obj''`)` MUST return `#t` as well.
+Returns `#t` if ''obj'' is an array and `#f` otherwise.  Note that if `(vector? `''obj''`)` returns `#t`, then `(array? `''obj''`)` MUST return `#t` as well.
 
 `(array `''shape''` `''obj'' ...`)`
 
@@ -86,9 +86,9 @@ Applies ''proc'' to each corresponding component of the ''arrays'' in row-major 
 
 Applies ''proc'' to each corresponding component of the ''arrays'' in row-major order, discarding the results.  Returns undefined values.  All the ''arrays'' MUST have the same shape.  ''Proc'' MUST accept at least as many arguments as there are arrays.
 
-`(array-fold `''proc''` `''nil''` `''array''`)`
+`(array-fold `''proc''` `''nil''` `''array'' ...`)`
 
-Invokes ''proc'' on each component of ''array'' in row-major order.  Each invocation is passed as arguments the array, the array indices of the components, and the result of the previous invocation in that order.  For the first invocation, ''nil'' is used as the final argument.  Returns the result of the last invocation.
+Invokes ''proc'' on each component of ''arrays'' in row-major order.  Each invocation is passed as arguments the arrays, the array indices of current component, and the result of the previous invocation, in that order.  For the first invocation, ''nil'' is used as the final argument.  Returns the result of the last invocation.  All the ''arrays'' MUST have the same shape.  
 
 == Conversions ==
 
@@ -114,7 +114,7 @@ Constructs and returns an array with shape ''shape'' containing the components o
 
 `(list->array `[''shape'']` `''list''`)`
 
-Constructs and returns an array with shape ''shape'' containing the components of ''list''.  If ''shape'' is omitted, the result has rank 1 and a single axis equal to the length of ''list''.
+Constructs and returns an array with shape ''shape'' containing the components of ''list'' in row-major order.  If ''shape'' is omitted, the result has rank 1 and a single axis equal to the length of ''list''.
 
 `(nested-vector->array `''rank''` `''nested-vector''`)`
 
