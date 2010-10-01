@@ -6,15 +6,15 @@ These procedures are mostly derived in function, and sometimes in name, from ISO
 
 `(array-collapse `''array''` `''j''`)`
 
-Let ''k'' be the rank of ''array''.  This procedure returns an array of rank ''j'', which MUST be less than or equal to ''k'', whose components are arrays of rank ''k''-''j''.  The shape of the returned array is equal to the first ''j'' components of the shape of ''array'', and the shapes of its subarrays are equal to the remaining ''k''-''j'' components.
+Let ''k'' be the rank of ''array''.  This procedure returns an array of rank ''j'', which MUST be less than or equal to ''k'', whose components are arrays of rank ''k'' - ''j''.  The shape of the returned array is equal to the first ''j'' components of the shape of ''array'', and the shapes of its subarrays are equal to the remaining ''k''-''j'' components.
 
 `(array-explode `''array''` `''j''`)`
 
-Let ''k'' be the rank of ''array''.  This procedure constructs and returns an array of rank ''j'', which MUST be greater than or equal to ''k''.  Each component of ''array'' MUST be an array of rank ''k''-''j'', all of which MUST have the same shape.  The shape of the returned array is the shape of ''array'' concatenated with the shape of any of its components, and each component is the corresponding component of the corresponding subarray of ''array''.
+Let ''k'' be the rank of ''array''.  This procedure constructs and returns an array of rank ''j'', which MUST be greater than or equal to ''k''.  Each component of ''array'' MUST be an array of rank ''j'' - ''k'', all of which MUST have the same shape.  The shape of the returned array is the shape of ''array'' concatenated with the shape of any of its components, and each component is the corresponding component of the corresponding subarray of ''array''.
 
 `(array-reshape `''shape''` `''array''`)`
 
-Constructs and returns a new array of shape ''shape'' whose components in row-major order are the components of ''array'' in row-major order.
+Constructs and returns a new array of shape ''shape'' whose components in row-major order are the same (in the sense of `eqv?`) as the components of ''array'' in row-major order.
 
 `(array-reverse `''array''` `''axis''`)`
 
@@ -26,7 +26,7 @@ Overwrites ''array'' with the value of `(array-reverse `''array''` `''axis''`)`,
 
 `(array-compress `''array''` `''booleans''` `''axis''`)`
 
-`(array-expand `''array''` `''booleans''` `''axis''`)`
+`(array-expand `''array''` `''booleans''` `''nil''` `''axis''`)`
 
 `(array-rearrange `''array''` `''vector''` `''axis''`)`
 
