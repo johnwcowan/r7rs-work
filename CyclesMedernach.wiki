@@ -20,6 +20,12 @@ The idea is to make a cycle type disjoint from the other types, only interface i
 
 `(cycle-front `''cycle''`)`
 
+Returns the element in front of the given cycle.
+
+`(cycle-remove-front `''cycle''`)`
+
+''cycle-remove-front'' returns a newly allocated cycle obtained from ''cycle'' where the front element have been removed.
+
 `(cycle-rotate `''cycle''` `''k''`)`
 
 ''cycle-rotate'' returns a cycle obtained from ''cycle'' by a rotation of ''k'', which is an integer.
