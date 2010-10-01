@@ -102,11 +102,11 @@ Constructs and returns a list containing the components of ''array'' in row-majo
 
 `(array->nested-vector `''array''`)`
 
-Constructs and returns a Scheme vector whose components are also newly constructed Scheme vectors, and so on as far down as necessary to cover every axis of the vector.  Bottom-level vectors contain the components of 'array''.  Thus, if ''array'' has rank 1, the result is a vector; if the array has rank 2, the result is a vector of vectors, and so on.  It is an error if ''array'' has rank 0.
+Constructs and returns a Scheme vector whose components are also newly constructed Scheme vectors, and so on as far down as necessary to cover every axis of the vector.  Bottom-level vectors contain the components of ''array''.  Thus, if ''array'' has rank 1, the result is a vector; if the array has rank 2, the result is a vector of vectors, and so on.  It is an error if ''array'' has rank 0.
 
 `(array->nested-list `''array''`)`
 
-Constructs and returns a list whose components are also newly constructed lists, and so on as far down as necessary to cover every axis of ''array''.  Bottom-level lists contain the components of 'array''.  Thus, if ''array'' has rank 1, the result is a list; if the array has rank 2, the result is a list of lists, and so on.    It is an error if ''array'' has rank 0.
+Constructs and returns a list whose components are also newly constructed lists, and so on as far down as necessary to cover every axis of ''array''.  Bottom-level lists contain the components of ''array''.  Thus, if ''array'' has rank 1, the result is a list; if the array has rank 2, the result is a list of lists, and so on.    It is an error if ''array'' has rank 0.
 
 `(vector->array `[''shape'']` `''vector''`)`
 
