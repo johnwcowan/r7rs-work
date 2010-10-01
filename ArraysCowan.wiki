@@ -20,7 +20,9 @@ Arrays with ranks other than 1 are a disjoint type from Scheme vectors and other
 
 == Equality ==
 
-This proposal redefines `equal?` to descend into arrays as well as pairs, vectors, and strings.  However, arrays cannot be `equal?` unless their shapes are the same.
+The values put into arrays are `eqv?` to the values fetched from them.
+
+This proposal redefines `equal?` to descend into arrays as well as pairs, vectors, and strings.  However, arrays cannot be `equal?` unless their shapes are `equal?`.
 
 == Basic Procedures ==
 
