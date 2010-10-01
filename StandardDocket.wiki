@@ -33,7 +33,11 @@ Hash tables: R6RS, SRFI 69
 
 Homogeneous numeric arrays: SRFI 4, BlobsCowan
 
-Immutable cyclic lists: CyclicListsCowan
+Immutable cyclic lists: 
+
+* CyclicListsCowan
+
+* CyclesMedernach
 
 Loop syntax:
 
