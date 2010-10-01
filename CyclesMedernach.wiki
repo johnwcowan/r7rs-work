@@ -1,0 +1,40 @@
+== Cycle type ==
+
+The idea is to make a cycle type disjoint from the other types, only interface is standardized. Scheme implementations are free to use any underlying structure to achieve it.
+
+=== Constructor and type conversion === 
+
+`(make-cycle `''list''`)`
+
+`(cycle->list `''cycle''`)`
+
+=== Predicate ===
+
+`(cycle? `''obj''`)`
+
+''cycle?'' returns #t if obj is a cycle, and otherwise returns #f.
+
+=== Associated procedures ===
+
+`(cycle-length `''cycle''`)`
+
+`(cycle-front `''cycle''`)`
+
+`(cycle-rotate `''cycle''` `''k''`)`
+
+''cycle-rotate'' returns a cycle obtained from ''cycle'' by a rotation of ''k'', which is an integer.
+
+`(cycle-insert `''cycle''` `''obj''`)`
+
+Returns a newly allocated cycle where ''obj'' is put in front in ''cycle''.
+
+`(cycle-map `''proc''` `''cycle1''` `''cycle2''` ...)`
+
+All cycles must have the same length and ''proc'' must be a procedure taking as many arguments as there are cycles in parameter and returning a single value. ''cycle-map'' applies ''proc'' to the elements of the cycle(s) and returns a newly allocated cycle of the corresponding result.
+
+=== External representations ===
+
+The cycle composed of elements 1, 2 and 3 with 1 in front can be written as following:
+
+  #cycle(1 2 3)
+
