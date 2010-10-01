@@ -80,15 +80,15 @@ Returns a new array with the same components (in the sense of `eqv?`) and shape 
 
 `(array-map `''proc''` `''array'' ...`)`
 
-Applies ''proc'' to each component of the ''arrays'' in an unspecified order.  It constructs and returns a new array with the same shape as ''array'' and containing components which are the results of the appropriate applications.  All the ''arrays'' MUST have the same shape.  ''Proc'' MUST accept at least as many arguments as there are arrays.
+Applies ''proc'' to each corresponding component of the ''arrays'' in row-major order.  It constructs and returns a new array with the same shape as ''array'' and containing components which are the results of the appropriate applications.  All the ''arrays'' MUST have the same shape.  ''Proc'' MUST accept at least as many arguments as there are arrays.
 
 `(array-for-each `''proc''` `''array'' ...`)`
 
-Applies ''proc'' to each component of the ''arrays'' in an unspecified order, discarding the results.  Returns undefined values.  All the ''arrays'' MUST have the same shape.  ''Proc'' MUST accept at least as many arguments as there are arrays.
+Applies ''proc'' to each corresponding component of the ''arrays'' in row-major order, discarding the results.  Returns undefined values.  All the ''arrays'' MUST have the same shape.  ''Proc'' MUST accept at least as many arguments as there are arrays.
 
-`(array-fold `''proc''` `''nil''` `''array'' ...`)`
+`(array-fold `''proc''` `''nil''` `''array''`)`
 
-Invokes ''proc'' on each corresponding components of ''arrays'' in row-major order, passing the result of the previous invocation as a final argument.  For the first invocation, ''nil'' is used as the final argument.  Returns the result of the last invocation.
+Invokes ''proc'' on each component of ''array'' in row-major order.  Each invocation is passed as arguments the array, the array indices of the components, and the result of the previous invocation in that order.  For the first invocation, ''nil'' is used as the final argument.  Returns the result of the last invocation.
 
 == Conversions ==
 
