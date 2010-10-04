@@ -46,7 +46,7 @@ This document proposes the following forms:
 The following syntax describes their general use.
 
 {{{
-<library> := (library <library name> <expression> <expression> ...)
+<library> := (library <library name> <export> <import> <expression> ...)
 <library name> := (<library name element> <library name element> ...)
 <library name element> := <symbol> | <exact integer>
 
