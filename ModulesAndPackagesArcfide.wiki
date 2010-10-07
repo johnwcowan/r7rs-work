@@ -216,6 +216,14 @@ system. In particular, those libraries which do not take advantage of
 explicit phasing and/or versioning are expected to run without
 incident. 
 
+== WG1 ==
+
+I currently of the opinion that we should not standardize the full 
+language of this proposal for WG1. Currently, I am proposing that we
+maintain R6RS semantics mentioned above for this system with the addition of `co-export` 
+and `implicit-export`. This means that I am not suggesting the `module` form 
+for WG1.
+
 == WG2 ==
 
 This proposal allows for the handling of phasing issues, which is not
