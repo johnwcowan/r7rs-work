@@ -52,7 +52,7 @@ Returns the size of ''array''.
 
 `(array-in-bounds? `''array''` `''subscript'' ...`)`
 
-Returns #t if ''subscripts'', which MUST be exact integers, are valid subscripts for ''array'', and #f otherwise.  A subscript is valid if it is non-negative and less than the corresponding component of the shape.
+Returns `#t` if ''subscripts'', which MUST be exact integers, are valid subscripts for ''array'', and #f otherwise.  A subscript is valid if it is non-negative and less than the corresponding component of the shape.
 
 `(array-ref `''array''` `''subscript'' ...`)`
 
