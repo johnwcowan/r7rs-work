@@ -144,7 +144,7 @@ form.
 )
 }}}
 
-Notice, it is only necessary to define mon-let ONCE and we can retrieve two versions. 
+Note that it is only necessary to define mon-let once and we can retrieve two versions. 
 
 
 = Other Issues =
