@@ -33,7 +33,7 @@ The following syntax is provided:
                | <identifier>
 
 <export-spec> := <identifier>
-               | ([<module-name>] <identifier> [[(implicit-export|<identifier> ...)]])
+               | (<identifier> [[(implicit-export|<identifier> ...)]])
 
 <include> := (include-module <include-sets> ...)
 
@@ -98,12 +98,6 @@ implicitly exported for that syntax is completely and fully specified by
 the `implicit-export` form. 
 
 
-In that case, the export applies to the nearest module form where they are
-encountered.  That is, if one module form encapsulates another that in turn encapsulates a third that export form, that export form applies to the module
-form, rather than the library form which wraps or contains the module
-form. 
-
-
 = Example Usage =
 
 {{{
@@ -123,7 +117,7 @@ form.
                   [[d|(cdr comp)]])
                (let ([[pr|(recvr a)]])
                  `(,(car pr) . ,(append d (cdr pr))))))))
-   (include monad-common))
+   (include-module monad-common))
 
 (module env-monad (import) (export unit mon-let)
    (define unit
@@ -135,9 +129,9 @@ form.
          (lambda (comp)
             (lambda (env)
                (recvr (comp env))))))
-   (include monad-common))
+   (include-module monad-common))
 
-(include
+(include-module
    (prefix output-list-monad ol-)
    (prefix env-monad env-)
 ...
