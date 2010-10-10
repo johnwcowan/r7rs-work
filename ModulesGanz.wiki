@@ -21,7 +21,7 @@ that a module system for WG1 should be defined to "promote extensibility."  Exte
 This document proposes the following forms that can occur in any context where a definition is allowed (modulo any restrictions on their use in macro definitions) and that evaluate to an unspecified value: 
 
   * module 
-  * include
+  * include-module
 
 The following syntax is provided:
 
@@ -106,6 +106,7 @@ form.
 
 = Example Usage =
 
+{{{
 (module monad-common (import star) (export mon-let)
    (define-syntax mon-let
       (syntax-rules ()
@@ -113,16 +114,16 @@ form.
           ((star (lambda (x) body)) rhs)])))
 
 (module output-list-monad (import) (export unit mon-let)
-    (define unit
+   (define unit
       (lambda (x) `(,x . ())))
-    (define star
+   (define star
       (lambda (recvr)
          (lambda (comp)r
             (let ([[a|(car comp)]]
-                    [[d|(cdr comp)]])
+                  [[d|(cdr comp)]])
                (let ([[pr|(recvr a)]])
                  `(,(car pr) . ,(append d (cdr pr))))))))
-    (include monad-common))
+   (include monad-common))
 
 (module env-monad (import) (export unit mon-let)
    (define unit
@@ -133,15 +134,15 @@ form.
       (lambda (recvr)
          (lambda (comp)
             (lambda (env)
-                (recvr (comp env))))))
+               (recvr (comp env))))))
    (include monad-common))
 
 (include
-    (rename output-list-monad (unit ol-unit) (mon-let ol-mon-let)
-    (rename env-monad (unit env-unit) (mon-let env-mon-let))
-.....
+   (rename output-list-monad (unit ol-unit) (mon-let ol-mon-let)
+   (rename env-monad (unit env-unit) (mon-let env-mon-let))
+...
 )
-
+}}}
 
 Notice, it is only necessary to define mon-let ONCE and we can retrieve two versions. 
 
