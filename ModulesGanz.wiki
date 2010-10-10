@@ -29,7 +29,7 @@ The following syntax is provided:
 <module> := (module [<module-name>] (import <import-spec> ...) (export <export-spec> ...)                 
                <expr> <expr> ...)
 
-<import-spec> := (module <include-sets>)
+<import-spec> := (include-module <include-sets>)
                | <identifier>
 
 <export-spec> := <identifier>
