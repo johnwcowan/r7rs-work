@@ -156,4 +156,4 @@ Also, the precise restrictions on macros, if any, are not specified here.
 
 = Compatibility = 
 
-The forms provided here are not unlike those of Chez's module system, but the flexibility they provide is more like units from PLT Scheme.  Much of the notation for modifying identifier sets is supported by R6RS.
+The forms provided here are not unlike those of Chez's module system, but the flexibility they provide is more like units from PLT Scheme.  Although that flexibility is supported, the more commonly supported "hard-wiring" of modules is also supported here.  Much of the notation for modifying identifier sets is derived from R6RS.
