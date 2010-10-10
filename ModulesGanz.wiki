@@ -138,8 +138,8 @@ form.
    (include monad-common))
 
 (include
-   (rename output-list-monad (unit ol-unit) (mon-let ol-mon-let)
-   (rename env-monad (unit env-unit) (mon-let env-mon-let))
+   (prefix output-list-monad ol-)
+   (prefix env-monad env-)
 ...
 )
 }}}
