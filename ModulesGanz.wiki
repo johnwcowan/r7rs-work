@@ -35,7 +35,7 @@ The following syntax is provided:
 <export-spec> := <identifier>
                | (<identifier> [[(implicit-export|<identifier> ...)]])
 
-<include> := (include-module <include-sets> ...)
+<include> := (include-module <include-sets>)
 
 <include-sets> := <module-name>
                 | (only <include-sets> <export-identifier> ...)
@@ -131,11 +131,9 @@ the `implicit-export` form.
                (recvr (comp env))))))
    (include-module monad-common))
 
-(include-module
-   (prefix output-list-monad ol-)
-   (prefix env-monad env-)
+(include-module (prefix output-list-monad ol-))
+(include-module (prefix env-monad env-))
 ...
-)
 }}}
 
 Note that it is only necessary to define mon-let once and we can retrieve two versions. 
