@@ -36,10 +36,15 @@ the R5RS, since it has no module system. If
 we can't come to consensus, we will have to
 take the R6RS module system as-is.
 
+Note the '''r6rs--''' option is just the
+R6RS module system without versioning or
+phasing.
+
   * '''Proposals:'''
+    * '''ganz:''' ModulesGanz
     * '''hsu:''' ModulesAndPackagesArcfide
     * '''shinn:''' ModulesShinn
-  * '''Options:''' hsu, shinn, r6rs, undecided
+  * '''Options:''' ganz, hsu, shinn, r6rs, r6rs--, undecided
   * '''Preferences:''' 
 
 == WG1 - Core ==
