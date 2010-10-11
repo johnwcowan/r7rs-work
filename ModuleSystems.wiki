@@ -69,6 +69,7 @@ can be provided.  The major types of module systems include:
 
 == Additional Issues ==
 
+  * ModuleSystemSurvey
   * ModuleSyntax
   * ModuleAdvancedFeatures
 
