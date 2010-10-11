@@ -1,7 +1,12 @@
 == Circular lists ==
 
-`(encycle! `''list''` `''head-size''` `''cycle-size''`)`
+I support CyclesMedernach with the following changes:
 
-''Head-size'' and ''cycle-size'' MUST be exact non-negative integers. The (possibly improper) ''list'' MUST contain at least ''head-size'' + ''cycle-size'' pairs.  If ''cycle-size'' = 0, does nothing. If ''cycle-size'' > 0, mutates ''list'' to have a cyclic prefix of length ''head-size'' and cycle length ''cycle-size'', by setting the `cdr` of the (''head-size'' + ''cycle-size'')th pair in the list to refer to the (''head-size''+ 1)th pair in the list.  Returns unspecified values.
+Remove the words "newly allocated".  Since cycles are immutable, there should be no way to tell if they share structure or not.
 
-What else should go here depends on what WG1 decides to do about circular lists generally.
+Clarify in `cycle-rotate` that ''k'' can be positive to rotate forwards (relative to the list passed to `make-cycle`) and negative to rotate backwards.
+
+Add `cycle`, `cycle-ref`, `cycle-for-each`, and `cycle-fold` by analogy with R5RS `list`, `list-ref`, `for-each`, and SRFI 1 `list-fold`.  (I believe that in WG2 we should always have a fold procedure for container data structures.)
+
+Add `cycle=?` which checks that the contents of the cycles are the same (in the sense of `eqv?`) without regard to the current position of the cycle.
+
