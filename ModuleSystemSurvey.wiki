@@ -1,0 +1,15 @@
+= Survey of existing and proposed module systems =
+
+||||[[http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-10.html#node_chap_7|R6RS modules]]||[[:ModulesAndPackagesArcfide|Aaron's proposal]]||[[:ModulesShinn|Alex's proposal]]||PLT Scheme||Chez Scheme||Chicken Scheme||MIT Scheme||
+||documentation||||||||||||||||
+||module system type, according to the <ModuleSystems> wiki page, i.e. FirstClassEnvironments, SyntacticModules, MetaModules, or StaticModules||||||||||||||||
+||whether it supports export of syntax||||||||||||||||
+||whether its forms can be the result of macro expansion||||||||||||||||
+||what sort of static analysis of its forms is possible||||||||||||||||
+||whether renaming is supported||||||||||||||||
+||whether prefix renaming is supported||||||||||||||||
+||whether implicit exports are supported||||||||||||||||
+||whether there is a way to deal with phasing||||||||||||||||
+||whether it is compatible with R6RS libraries, e.g. a strict subset||||||||||||||||
+||what code base has been implemented with it, i.e. has it been tested with a large body of code?||||||||||||||||
+||where an implementation can be found||||||||||||||||
