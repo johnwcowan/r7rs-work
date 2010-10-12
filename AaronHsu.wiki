@@ -8,7 +8,8 @@ MacrosArcfide[[BR]]
 ChezReplSemantics[[BR]]
 RecordBindersArcfide[[BR]]
 KeywordArgumentsArcfide[[BR]]
-RecordsArcfide
+RecordsArcfide[[BR]]
+RandomnessArcfide
 
 == Contact Information ==
 
