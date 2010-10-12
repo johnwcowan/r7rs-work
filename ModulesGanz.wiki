@@ -33,7 +33,7 @@ The following syntax is provided:
                | <identifier>
 
 <export-spec> := <identifier>
-               | (<identifier> [[(implicit-export|<identifier> ...)]])
+               | (<identifier> [[(indirect-export|<identifier> ...)]])
 
 <include> := (include-module <include-sets>)
 
@@ -81,10 +81,7 @@ Macros may be restricted to preclude expanding into module and/or include-module
 
 Finally, there are two forms for exporting identifiers from a module.  The simple form just specifies the identifier.  
 
-The more complex form associates an identifier with a set of implicit exports.
-
-The more complex form allows a specification of implicit exports.  If a macro is bound to an identifier with
-implicit-exports and that identifier is exported, then the macro may
+The more complex form associates an identifier with a set of indirect exports.  If a macro is bound to an identifier with implicit-exports and that identifier is exported, then the macro may
 expand into identifiers that are implicitly exported without it being
 an unbound identifier error. This allows bindings to be implicitly
 visible to the outside world without requiring the module or library
@@ -93,9 +90,9 @@ instead. By default, if no `implicit-export` form indicates the set of
 implicit identifiers associated with a given syntax, and that syntax is
 exported, then all of the definitions and bindings visible to the macro
 are implicitly exported (this corresponds to the R6RS behavior).
-However, if an `implicit-export` form does exist, the set of identifiers
+However, if an `indirect-export` form does exist, the set of identifiers
 implicitly exported for that syntax is completely and fully specified by
-the `implicit-export` form. 
+the `indirect-export` form. 
 
 
 = Example Usage =
