@@ -1,46 +1,80 @@
 == Cycle type ==
 
+Cycles are an immutable container type similar to circular lists.
+
 The idea is to make a cycle type disjoint from the other types, only interface is standardized. Scheme implementations are free to use any underlying structure to achieve it.
 
 === Constructor and type conversion === 
 
 `(make-cycle `''list''`)`
 
+Constructs and returns a new cycle whose elements are the elements of ''list''.
+
+`(cycle `''element'' ...`)`
+
+Constructs and returns a new cycle containing ''elements''.
+
 `(cycle->list `''cycle''`)`
+
+Constructs and returns a list whose elements are those of ''cycle''.
 
 === Predicate ===
 
 `(cycle? `''obj''`)`
 
-''cycle?'' returns #t if obj is a cycle, and otherwise returns #f.
+Returns `#t` if obj is a cycle, and otherwise returns `#f`.
 
 === Associated procedures ===
 
 `(cycle-length `''cycle''`)`
 
+Returns the number of elements in ''cycle''.
+
 `(cycle-front `''cycle''`)`
 
-Returns the element in front of the given cycle.
+Returns the element in front of ''cycle''.
 
 `(cycle-remove-front `''cycle''`)`
 
-''cycle-remove-front'' returns a newly allocated cycle obtained from ''cycle'' where the front element has been removed.
+''cycle-remove-front'' returns a cycle obtained from ''cycle'' where the front element has been removed.
 
 `(cycle-rotate `''cycle''` `''k''`)`
 
-''cycle-rotate'' returns a cycle obtained from ''cycle'' by a rotation of ''k'', which is an integer.
+''cycle-rotate'' returns a cycle obtained from ''cycle'' by a rotation of ''k'', which is an exact integer.  If ''k'' is positive, the rotation is forward; if ''k'' is negative, the rotation is backward; if ''k'' is zero, there is no rotation.
 
 `(cycle-insert `''cycle''` `''obj''`)`
 
-Returns a newly allocated cycle where ''obj'' is put in front in ''cycle''.
+Returns a cycle where ''obj'' is put in front in ''cycle''.
 
-`(cycle-map `''proc''` `''cycle1''` `''cycle2''` ...)`
+`(cycle=? `''cycle1''` `''cycle2''`)`
 
-All cycles must have the same length and ''proc'' must be a procedure taking as many arguments as there are cycles in parameter and returning a single value. ''cycle-map'' applies ''proc'' to the elements of the cycle(s) and returns a newly allocated cycle of the corresponding result.
+Returns `#t` if ''cycle1'' and ''cycle2'' contain the same values (in the sense of `eqv?`) in the same order, independent of their rotations; otherwise returns `#f`.
+
+Example:  `(cycle=? (make-cycle 1 2 3) (make-cycle 3 1 2)) => t`
+
+`(cycle-map `''proc''` `''cycle'' ...`)`
+
+All cycles must have the same length, and ''proc'' must be a procedure taking as many arguments as there are ''cycles'' and returning a single value. `cycle-map` applies ''proc'' to the elements of the cycle(s) and returns a newly allocated cycle of the corresponding results.
+
+`(cycle-for-each `''proc''` `''cycle'' ...`)`
+
+All cycles must have the same length, and ''proc'' must be a procedure taking as many arguments as there are ''cycles''. `cycle-for-each` applies ''proc'' to the elements of the cycle(s) and discards any results.
+
+`(cycle-fold `''proc''` `''nil''` `''cycle'' ...`)`
+
+All cycles must have the same length, and ''proc'' must be a procedure taking as many arguments as there are ''cycles'', plus one additional argument, and returning a single value. `cycle-fold` applies ''proc'' to the elements of the cycle(s) and the value previously returned by ''proc''.  On the first call to ''proc'', the additional argument is ''nil''.  Returns the result of the final call to ''proc''.
+
 
 === External representations ===
 
 The cycle composed of elements 1, 2 and 3 with 1 in front can be written as following:
 
-  #cycle(1 2 3)
+  `#cycle(1 2 3)`
+
+== Endorsements ==
+
+John Cowan endorses this document, except for the external representation section.
+
+John Cowan also proposes adding `cycle-ref` by analogy with `list-ref`, although random access to cycles is normally not a good idea, any more than to lists.
+
 
