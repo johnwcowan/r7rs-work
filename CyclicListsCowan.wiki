@@ -1,12 +1,3 @@
 == Circular lists ==
 
-I support CyclesMedernach with the following changes:
-
-Remove the words "newly allocated".  Since cycles are immutable, there should be no way to tell if they share structure or not.
-
-Clarify in `cycle-rotate` that ''k'' can be positive to rotate forwards (relative to the list passed to `make-cycle`) and negative to rotate backwards.
-
-Add `cycle`, `cycle-ref`, `cycle-for-each`, and `cycle-fold` by analogy with R5RS `list`, `list-ref`, `for-each`, and SRFI 1 `list-fold`.  (I believe that in WG2 we should always have a fold procedure for container data structures.)
-
-Add `cycle=?` which checks that the contents of the cycles are the same (in the sense of `eqv?`) without regard to the current position of the cycle.
-
+Now subsumed by CyclesMedernach.
