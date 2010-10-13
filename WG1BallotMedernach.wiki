@@ -33,6 +33,8 @@ take the R6RS module system as-is.
   * '''Options:''' hsu, shinn, r6rs, undecided
   * '''Preferences:''' ModulesShinn
 
+This is only a preference indication, more work need to be done in this area before deciding a final module system.
+
 == WG1 - Core ==
 
 === #40 SRFI vs. R6RS precedence ===
