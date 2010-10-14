@@ -30,6 +30,8 @@ And that's my little speech. I'm not here to change Scheme. I really just want t
 
 == Some Projects of Mine ==
 
+ChezWEB::
+  A Hygienic Literate Programming environment for Scheme.
 Descot::
   A combination of metalanguage, protocol, server, api and other components that forms a framework for the distributing, packaging, sharing, and indexing of code libraries. This includes an SRDF encoding of RDF into s-expressions.
 Arctic Repository::
