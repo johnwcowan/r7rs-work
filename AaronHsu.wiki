@@ -11,6 +11,10 @@ KeywordArgumentsArcfide[[BR]]
 RecordsArcfide[[BR]]
 RandomnessArcfide
 
+== Ballots ==
+
+[wiki:WG1BallotHsu]
+
 == Contact Information ==
 
 Nickname: arcfide[[BR]]
