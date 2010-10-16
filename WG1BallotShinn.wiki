@@ -28,8 +28,10 @@ take the R6RS module system as-is.
   * '''Proposals:'''
     * '''hsu:''' ModulesAndPackagesArcfide
     * '''shinn:''' ModulesShinn
-  * '''Options:''' hsu, shinn, r6rs, undecided
-  * '''Preferences:''' shinn, r6rs, hsu
+  * '''Options:''' ganz, hsu, shinn, r6rs, r6rs--, undecided
+  * '''Preferences:''' shinn, r6rs--, r6rs, hsu
+
+I think we should extend this item.
 
 == WG1 - Core ==
 
@@ -49,6 +51,8 @@ Do we provide a syntax and basic API for these in WG1?
   * '''Options:''' cowan, snellpym, wg2, none, undecided
   * '''Preferences:''' undecided
 
+I think the proposals need more work.
+
 === 69 Parameters ===
 
 Most Scheme implementations provide some form of dynamic bindings such
@@ -59,6 +63,10 @@ as those provided by SRFI-39 parameters.
     * '''snellpym:''' ParametersSnellPym
   * '''Options:''' cowan, snellpym, srfi-39, wg2, none, undecided
   * '''Preferences:''' undecided
+
+I think we should have SRFI-9, with `parameterize` required
+to be thread-safe and direct mutation unspecified in the context
+of threads.
 
 == WG1 - Exceptions ==
 
@@ -74,7 +82,9 @@ system?
   * '''Proposals:'''
     * '''cowan:''' ExceptionHandlingCowan
   * '''Options:''' cowan, wg2, none, undecided
-  * '''Preferences:''' cowan
+  * '''Preferences:''' undecided
+
+Probably just the core R6RS exception is good here.
 
 ----
 
@@ -90,7 +100,7 @@ with the choice. For example, a version of syntax-violation
 vs. syntax-error.
 
   * '''Options:''' srfi,r6rs,undecided
-  * '''Preferences:''' undecided
+  * '''Preferences:''' srfi
 
 === 32 user-define types ===
 
@@ -105,6 +115,9 @@ or the R6RS record system?
   * '''Options:''' hsu,rush,snellpym,srfi-9,srfi-99,no,wg2,undecided
   * '''Preferences:''' srfi-9, srfi-99
 
+SRFI-9 doesn't extend well, as shown by SRFI-99's ugliness.
+A fully keyword-based approach may be better.
+
 === 51 support for cyclic structures in primitives ===
 
 list?, length, equal? and other fundamental primitives may diverge
@@ -117,7 +130,9 @@ Do we want to specify the behavior when these primitives encounter
 cyclic data?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' no
+  * '''Preferences:''' yes
+
+Definitely or list? and length, equal? might need more consideration.
 
 === 58 exact-integer-sqrt ===
 
@@ -144,6 +159,8 @@ Should we allow `call/cc` as an equivalent to
   * '''Options:''' yes,no,module,wg2,undecided
   * '''Preferences:''' no
 
+Emphatically no.  Aliases do '''not''' belong in a small standard.
+
 === 53 Implicit BEGIN to implicit LET-NIL ===
 
 In general, in places where an implict BEGIN occurs, it is possible to
@@ -152,6 +169,8 @@ compatible. Should we do this?
 
   * '''Options:''' yes,no,module,wg2,undecided
   * '''Preferences:''' no
+
+I'd only consider this on a case-by-case scenario.
 
 == WG1 - I/O ==
 
@@ -167,7 +186,7 @@ Do we want to add support for this, as an option
 or separate set of procedures?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' undecided
+  * '''Preferences:''' module
 
 == WG1 - Libraries ==
 
@@ -179,7 +198,9 @@ some primitives on which efficient hash-tables can
 be implemented?
 
   * '''Options:''' srfi-69,r6rs,no,module,wg2,undecided
-  * '''Preferences:''' r6rs, srfi-69, wg2
+  * '''Preferences:''' r6rs, wg2
+
+SRFI-69 is broken.
 
 == WG1 - Macros ==
 
@@ -227,6 +248,9 @@ Do we allow either or both of these extensions?
 
   * '''Options:''' tail,dotted-tail,both,no,module,wg2,undecided
   * '''Preferences:''' tail
+
+The dotted-tail is useful, but breaks the rule of the
+pattern language where what you see is what you get.
 
 == WG1 - Numerics ==
 
@@ -332,6 +356,9 @@ procedures `call-with-values` and `values`?
   * '''Options:''' yes,no,module,wg2,undecided
   * '''Preferences:''' module, yes
 
+I really hate MV, but would rather preserve backwards
+compatibility by relegating it to a module.
+
 === 54 optional arguments ===
 
 Scheme's primitive mechanism of improper lambda-lists allows for
@@ -348,6 +375,8 @@ is easily provided as a separate module, and will be a separate item.
   * '''Options:''' dsssl,srfi-89,no,wg2,undecided
   * '''Preferences:''' wg2, no
 
+Too much to work out, too many differing opinions, let's leave this to wg2.
+
 === 57 Simple randomness ===
 
 Student programs often want a small amount of randomness, not
@@ -356,6 +385,9 @@ to a random variables in WG1 Scheme?
 
   * '''Options:''' srfi-27,no,wg2,undecided
   * '''Preferences:''' wg2, no
+
+This is actually pretty crucial for simple games, but
+I'd still rather leave it up to wg2.
 
 === 59 current-error-port ===
 
@@ -385,6 +417,10 @@ all with the obvious interface and semantics.
 
   * '''Options:''' yes,no,module,wg2,undecided
   * '''Preferences:''' module, wg2
+
+These should be in a module.  Arguably, the list equivalents like
+map and for-each should be in modules too.  Their extremely useful
+but a loop syntax is generally faster and easier to read.
 
 === 65 Precision indicators ===
 
@@ -425,6 +461,8 @@ type-dispatch on the first argument to allow both?
 
   * '''Options:''' srfi-23,r6rs,both,no,module,wg2,undecided
   * '''Preferences:''' srfi-23
+
+Definitely not the R6RS version, it breaks too much code.
 
 == WG1 - I/O ==
 
@@ -479,6 +517,11 @@ a means to specify identifier syntax?
   * '''Options:''' yes,no,module,wg2,undecided
   * '''Preferences:''' no
 
+Identifier syntax is actually really cool.
+I bash it only because it's a big semantic change,
+and not suitable for a small R5RS-compatible language.
+I would not be overly opposed to it in wg2.
+
 === 47 internal define-syntax ===
 
 R6RS extends define-syntax to be allowed
@@ -486,7 +529,7 @@ in local lexical contexts.  Do we allow
 this as well?
 
   * '''Options:''' yes,no,wg2,undecided
-  * '''Preferences:''' no
+  * '''Preferences:''' yes
 
 == WG1 - Numerics ==
 
@@ -508,8 +551,11 @@ R6RS greatly extends the list of character names,
 as well as allowing #\xNN numeric escapes for characters.
 Do we allow any or all of these names?
 
-  * '''Options:''' yes,no,wg2,undecided
-  * '''Preferences:''' yes
+  * '''Options:''' mnemonic,numeric,both,no,wg2,undecided
+  * '''Preferences:''' both
+
+Conservative in the names - we don't need to specify all
+control characters from 0..31.
 
 === 13 [brackets] as (parens) ===
 
@@ -521,6 +567,8 @@ brackets, or leave them unspecified?
   * '''Options:''' yes,no,module,wg2,undecided
   * '''Preferences:''' no
 
+Over my dead body!
+
 === 14 alternate comment syntax ===
 
 R6RS provides support for #; nested sexp comments,
@@ -529,6 +577,9 @@ either or both of these?
 
   * '''Options:''' sexp,block,both,no,wg2,undecided
   * '''Preferences:''' sexp
+
+I don't like or use the block comments, but I suspect
+I'll get out-voted on this.
 
 === 16 symbol escapes ===
 
@@ -574,6 +625,8 @@ of string normalization?
   * '''Options:''' yes,no,module,wg2,undecided
   * '''Preferences:''' no, wg2
 
+Totally inappropriate for wg1.
+
 === 27 string-ref/set! access time ===
 
 R6RS suggests string-ref and string-set! work
@@ -595,3 +648,7 @@ character set, or limit the options in any way?
     * '''cowan:''' UnicodeCowan
   * '''Options:''' cowan,r5rs,wg2,undecided
   * '''Preferences:''' cowan
+
+Modulo string-normalization, and perhaps some
+details to be worked out later since it's a
+large proposal.
