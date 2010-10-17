@@ -1,10 +1,22 @@
 == WG2 Revote Docket ==
 
-The following items require a revote by WG2.
+The following work items must be revoted because "WG2" and "WG3" received an equal number of votes:
 
 Cond and case extensions (SRFIs 61 and 87, case-using): Revote required.
 
 Generalized equality and comparison functions: Revote required.
 
 Generalized getters and setters: Revote required.
+
+The following items must be revoted by WG2 because WG1 voted to have us to consider them:
+
+#54 Optional arguments (other than by case-lambda): Revote required.
+
+#18 Exception/condition system (this may go away): Revote required.
+
+#21 Limited type arithmetic: Covered by existing work items.
+
+
+
+
 
