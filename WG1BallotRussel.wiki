@@ -506,5 +506,5 @@ entered this ticket to play with the Trac ticketing system. We can
 finalize the ticket once we have chosen a VCS.
 
   * '''Options:''' bzr,darcs,git,hg,monotone,svn,undecided
-  * '''Preferences:''' undecided, but not darcs
+  * '''Preferences:''' undecided, bzr | git | hg | monotone | svn
 
