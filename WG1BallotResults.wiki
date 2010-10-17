@@ -48,8 +48,8 @@ phasing.
     * '''shinn:''' ModulesShinn
   * '''Options:''' ganz, hsu, shinn, r6rs, r6rs--, undecided
   * '''Voters:''' 12: [[:WG1BallotCowan|Cowan]], [[:WG1BallotDurusau|Durusau]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRush|Rush]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
-  * '''Results:''' undecided, r6rs, hsu, modulesshinn, shinn, r6rs--, ganz
-  * '''Ratios:''' 6:4, 6:3, 6:2, 6:2, 6:2, 5:1
+  * '''Results:''' undecided, shinn, r6rs, hsu, r6rs--, ganz
+  * '''Ratios:''' 6:4, 6:4, 6:3, 6:2, 5:1
   * '''Rationales:'''
 
  `Harvey`::
@@ -849,8 +849,8 @@ procedures.
 
   * '''Options:''' generic,separate,specific,agnostic,no,module,wg2,undecided
   * '''Voters:''' 13: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
-  * '''Results:''' module, wg2, no, undecided, specific/module, agnostic, specific, both
-  * '''Ratios:''' 5:4, 6:3, 7:1, 7:1, 7:1, 6:1, 7:0
+  * '''Results:''' undecided, wg2, no, specific/module, agnostic, specific, both
+  * '''Ratios:''' 6:4, 7:3, 8:1, 8:1, 7:1, 8:0
   * '''Rationales:'''
 
  `Shinn`::
