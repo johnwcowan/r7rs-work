@@ -29,8 +29,6 @@ Flonum arithmetic: FlonumsCowan
 
 Gettext (i18n of strings):
 
-Hash tables: R6RS, SRFI 69
-
 Homogeneous numeric arrays: SRFI 4, BlobsCowan
 
 Immutable cyclic lists: CyclesMedernach
