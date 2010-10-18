@@ -1,0 +1,66 @@
+== Binary heaps ==
+
+Binary heaps are mutable collections that can contain any Scheme object provided there exists a total ordering on the objects.  They are intended to be a thin veneer over arrays.  Binary heaps are disjoint from other types of Scheme objects.
+
+== Procedures ==
+
+`(make-heap `''<''`)`
+
+Constructs and returns a new empty heap.  ''Proc'' is the less-than procedure for the heap.
+
+`(heap `''<''` `''element''` ...)`
+
+Constructs and returns a new heap using ''<'' as the less-than procedure, and containing the ''elements''.
+
+`(copy-heap`''heap''`)`
+
+Constructs and returns a new heap containing the elements of ''heap''.
+
+`(heap? `''obj''`)`
+
+Returns `#t` if ''obj'' is a heap, and `#f` otherwise.
+
+`(heap-length? `''set''`)`
+
+Returns the number of elements in ''heap''.
+
+`(heap-member? `''heap''` `''element''`)`
+
+Returns `#t` if ''element'' is a member of ''heap'' and `#f` otherwise.
+
+`(heap-add! `''heap''` `''element''`)`
+
+Adds ''element'' to ''heap''.  Returns unspecified values.
+
+`(heap-remove! `''heap''` `''element''`)`
+
+Removes ''element'' from ''heap'' unless it is not a member.  Returns unspecified values.
+
+`(heap-map `''proc''` `''set''`)`
+
+Applies ''proc'' to each element of ''heap'' in increasing order and constructs and returns a new set containing the values of the applications.
+
+`(heap-for-each `''proc''` `''set''`)`
+
+Applies ''proc'' to ''heap'' in increasing order, discarding the returned values.  Returns unspecified results.
+
+`(heap-fold `''proc''` `''nil''` `''heap''`)`
+
+Invokes ''proc'' on each member of ''set'' in increasing order, passing the result of the previous invocation as a second argument.  For the first invocation, ''nil'' is used as the second argument.  Returns the result of the last invocation.
+
+`(heap->list `''heap''`)`
+
+Constructs and returns a new list containing the members of ''set'' in increasing order.
+
+`(list->heap `''<''` `''list''`)`
+
+Constructs and returns a new set containing the elements of ''list''.  The elements need not be in increasing order.
+
+`(heap->vector `''heap''`)`
+
+Constructs and returns a new vector containing the elements of ''set'' in increasing order.
+
+`(vector->heap `''<''` `''vector''`)`
+
+Constructs and returns a new heap containing the elements of ''vector''.  The elements need not be in increasing order.
+
