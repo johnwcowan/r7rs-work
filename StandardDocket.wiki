@@ -63,7 +63,7 @@ Priority queues:
 
 Processes (system, popen, etc): SystemCommandCowan + ProcessPortsCowan
 
-Random numbers: SRFI 27, RandomCowan (small subset, may go into WG1)
+Random numbers: SRFI 27
 
 Record introspection: SRFI 99
 
