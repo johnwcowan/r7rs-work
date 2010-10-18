@@ -3,7 +3,7 @@
 This is a list of work items that WG2 has voted to work on, and proposals for those work items.  If no more than one proposal gets written for an item, the item may migrate to the ConsentDocket.
 
 
-Binary heap:
+Binary heap: BinaryHeapsCowan
 
 Binary search: SRFI 43
 
