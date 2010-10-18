@@ -47,7 +47,7 @@ Message digests (CRC, MD5, SHA1, SHA2):
 
 Multi-dimensional general arrays: ArraysCowan
 
-Multiple value macros (SRFIs 8, 11, 71, and CL):
+Multiple value macros (SRFIs 8, 11, 71, and CL): MultipleValuesCowan
 
 Mutexes, condition variables:
 
