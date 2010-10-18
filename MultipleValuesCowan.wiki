@@ -6,7 +6,7 @@ Invoke the ''producers'' and pass all values returned by them in order to ''cons
 
 `(let-values ((`''lambda-list''` `''expression''`)` ...`) `''body''`)` 
 
-Each ''lambda-list'' should be a formal arguments list as for a `lambda` expression, cf. section 4.1.4 of the R5RS.
+From SRFI 11.  Each ''lambda-list'' should be a formal arguments list as for a `lambda` expression, cf. section 4.1.4 of the R5RS.
 
 The ''expressions'' are evaluated in the current environment, the variables of the ''lambda-list'' are bound to fresh locations, the return values of the ''expressions'' are stored in the variables, the ''body'' is evaluated in the extended environment, and the values of the last expression of ''body'' are returned. The ''body'' is a tail body, cf. section 3.5 of the R5RS.
 
@@ -24,7 +24,7 @@ The matching of each ''lambda-list'' to values is done in the same way as in a `
 
 `(let*-values ((`''lambda-list''` `''expression''`)` ...`) `''body''`)` 
 
-`let*-values` is similar to `let-values`, but the bindings are performed sequentially from left to right, and the region of a binding indicated by (<formals> <expression>) is the part of the `let*-values` expression to the right of the binding. Thus the second binding is done in an environment in which the first binding is visible, and so on.
+From SRFI 11.  `let*-values` is similar to `let-values`, but the bindings are performed sequentially from left to right, and the region of a binding indicated by (<formals> <expression>) is the part of the `let*-values` expression to the right of the binding. Thus the second binding is done in an environment in which the first binding is visible, and so on.
 
 {{{
              (let ((a 'a) (b 'b) (x 'x) (y 'y))
