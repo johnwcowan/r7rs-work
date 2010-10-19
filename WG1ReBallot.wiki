@@ -9,7 +9,7 @@ Notes about results:
   * `undecided` means I want to discuss this issue further
   * abstain by leaving the preferences blank
 
-= WG1 Ballot Items To Finalize By Nov. 27 =
+= WG1 Ballot Items To Finalize By Oct. 31 =
 
 == Working Group 1 ==
 
