@@ -139,7 +139,7 @@ Note the original ticket description mentions `case-lambda`, but this
 is easily provided as a separate module, and will be a separate item.
 
   * '''Options:''' dsssl,srfi-89,no,wg2,undecided
-  * '''Preferences:''' srfi-89, wg2
+  * '''Preferences:''' wg2, srfi-89, no
 
 === #57 Simple randomness ===
 
@@ -150,7 +150,7 @@ to a random variables in WG1 Scheme?
   * '''Proposals:'''
     * '''cowan:''' RandomCowan
   * '''Options:''' cowan,srfi-27,no,wg2,undecided
-  * '''Preferences:''' srfi-27, cowan, wg2
+  * '''Preferences:''' module, srfi-27, cowan, wg2
 
 === #59 current-error-port ===
 
@@ -232,7 +232,7 @@ input, `r6rs` to specify R6RS behavior for `list?` and `length`,
 and `equal?+r6rs` or `equal?+srfi-1` are options for both.
 
   * '''Options:''' equal?,r6rs,srfi-1,equal?+r6rs,equal?+srfi-1,no,module,wg2,undecided
-  * '''Preferences:''' module,srfi-1,r6rs,wg2
+  * '''Preferences:''' srfi-1,module,r6rs,wg2
 
     About shared structures I would prefer an alternative parenthesis syntax for declaring this kind of values something like this:
 
@@ -442,7 +442,7 @@ where Px only matches a dotted list.
 Do we allow either or both of these extensions?
 
   * '''Options:''' tail,dotted-tail,both,no,module,wg2,undecided
-  * '''Preferences:''' tail,no
+  * '''Preferences:''' tail,wg2,no
 
 == WG1 - Numerics ==
 
@@ -486,7 +486,7 @@ Yes to fold-case (R5RS) no to preserve case (R6RS), additional votes
 to come later from specific proposals.
 
   * '''Options:''' yes,no,undecided
-  * '''Preferences:''' yes
+  * '''Preferences:''' yes,CaseSensitivityArcfide
 
 === #15 #\foo character names ===
 
@@ -563,7 +563,7 @@ over the constituent characters.
 Note UnicodeCowan currently provides mappings at both levels.
 
   * '''Options:''' strings,chars,both,no,module,wg2,undecided
-  * '''Preferences:''' module,both,wg2 
+  * '''Preferences:''' module,both,wg2,no 
 
 === #26 string normalization ===
 
