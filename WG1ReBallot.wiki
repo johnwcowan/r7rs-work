@@ -11,8 +11,6 @@ Notes about results:
 
 = WG1 Ballot Items To Finalize By Oct. 31 =
 
-== Working Group 1 ==
-
 == WG1 - Modules ==
 
 === #2 Module System ===
@@ -48,46 +46,6 @@ to a random variables in WG1 Scheme?
   * '''Proposals:'''
     * '''cowan:''' RandomCowan
   * '''Options:''' cowan/core, cowan/module, srfi-27/core, srfi-27/module, no, wg2, undecided
-  * '''Preferences:''' 
-
-=== #50 Byte-Vectors ===
-
-Several SRFIs, R6RS, and most Scheme implementations
-support some sort of uniform packed integer vectors.
-In particular, these are necessary for efficient
-binary I/O, and for memory mapping, so WG2 will
-certainly want them.
-
-Do we provide a syntax and basic API for these in WG1?
-
-  * '''Proposals:'''
-    * '''cowan:''' BlobAPI
-    * '''snellpym:''' BlobsAndSRFI4SnellPym
-  * '''Options:''' cowan/core, cowan/module, snellpym/core, snellpym/module, wg2, none, undecided
-  * '''Preferences:''' 
-
-=== #69 Parameters ===
-
-Most Scheme implementations provide some form of dynamic bindings such
-as those provided by SRFI-39 parameters.
-
-  * '''Proposals:'''
-    * '''cowan:''' ImmutableParametersCowan
-    * '''snellpym:''' ParametersSnellPym
-  * '''Options:''' cowan/core, cowan/module, snellpym/core, snellpym/module, srfi-39/core, srfi-39/module, wg2, none, undecided
-  * '''Preferences:''' 
-
-=== #32 user-defined types ===
-
-Do we support any means of creating disjoint
-user-defined types, such as in SRFI-9, SRFI-99
-or the R6RS record system?
-
-  * '''Proposals:'''
-    * '''hsu:''' RecordsArcfide
-    * '''rush:''' UserAggregatesRush
-    * '''snellpym:''' UniqueTypesSnellPym
-  * '''Options:''' hsu/core, hsu/module, rush/core, rush/module, snellpym/core, snellpym/module, srfi-9/core, srfi-9/module, srfi-99/core, srfi-99/module, srfi-99-syntax-only/core, srfi-99/syntax-only/module, no, wg2, undecided
   * '''Preferences:''' 
 
 == WG1 - Exceptions ==
@@ -216,6 +174,50 @@ Note UnicodeCowan currently provides specific normalization
 procedures.
 
   * '''Options:''' generic/core, generic/module, separate/core, separate/module, specific/core, specific/module, agnostic/core, agnostic/module, no, wg2, undecided
+  * '''Preferences:''' 
+
+= WG1 Controversial Ballot Items =
+
+== WG1 - Core ==
+
+=== #50 Byte-Vectors ===
+
+Several SRFIs, R6RS, and most Scheme implementations
+support some sort of uniform packed integer vectors.
+In particular, these are necessary for efficient
+binary I/O, and for memory mapping, so WG2 will
+certainly want them.
+
+Do we provide a syntax and basic API for these in WG1?
+
+  * '''Proposals:'''
+    * '''cowan:''' BlobAPI
+    * '''snellpym:''' BlobsAndSRFI4SnellPym
+  * '''Options:''' cowan/core, cowan/module, snellpym/core, snellpym/module, wg2, none, undecided
+  * '''Preferences:''' 
+
+=== #69 Parameters ===
+
+Most Scheme implementations provide some form of dynamic bindings such
+as those provided by SRFI-39 parameters.
+
+  * '''Proposals:'''
+    * '''cowan:''' ImmutableParametersCowan
+    * '''snellpym:''' ParametersSnellPym
+  * '''Options:''' cowan/core, cowan/module, snellpym/core, snellpym/module, srfi-39/core, srfi-39/module, wg2, none, undecided
+  * '''Preferences:''' 
+
+=== #32 user-defined types ===
+
+Do we support any means of creating disjoint
+user-defined types, such as in SRFI-9, SRFI-99
+or the R6RS record system?
+
+  * '''Proposals:'''
+    * '''hsu:''' RecordsArcfide
+    * '''rush:''' UserAggregatesRush
+    * '''snellpym:''' UniqueTypesSnellPym
+  * '''Options:''' hsu/core, hsu/module, rush/core, rush/module, snellpym/core, snellpym/module, srfi-9/core, srfi-9/module, srfi-99/core, srfi-99/module, srfi-99-syntax-only/core, srfi-99/syntax-only/module, no, wg2, undecided
   * '''Preferences:''' 
 
 == WG1 - Libraries ==
