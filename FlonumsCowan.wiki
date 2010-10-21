@@ -1,0 +1,100 @@
+== Flonums package ==
+
+''Flonums'' are a subset of the inexact real numbers provided by a Scheme implementation.  In most Schemes, the flonums and the inexact reals are the same.
+
+The procedures in this package don't have hard-coded prefixes.  The intent is that they be placed in a module.  Users can then import this module with their own prefix such as `fl`, or `ƒ` if their Scheme implementation supports that character, or with no prefix at all if the intent is to override the normal Scheme arithmetic routines.
+
+== Basic procedures ==
+
+`(flonum? `''obj''`)`
+
+Returns #t if obj is a flonum, #f otherwise.
+
+`(real->flonum `''x''`)`
+
+Returns the best flonum representation of x.
+
+== R6RS-compatible procedures ==
+
+The following core Scheme procedures have flonum equivalents:
+
+{{{
+= < <= > >= 
+integer? zero? positive? negative? odd? even? finite? infinite? nan?
++ - * /
+abs numerator denominator floor ceiling truncate round
+exp log sin cos tan asin acos atan
+sqrt expt
+}}}
+
+TODO: need to see about integer division procedures
+
+== C99 <math.h> constants ==
+
+The following constants are defined in terms of the constants of the <math.h> header of ISO/IEC 9899:1999 (C language).
+
+||Scheme name||C name||Comments||
+||e||M_E||Value of e||
+||log2-e||M_LOG2E||Value of log2e||
+||log10-e||M_LOG10E||Value of log10e||
+||ln-2||M_LN2||Value of loge2||
+||ln-10||M_LN10||Value of loge10||
+||pi||M_PI||Value of pi||
+||pi/2||M_PI_2||Value of pi/2||
+||pi/4||M_PI_4||Value of pi/4||
+||one-over-pi||M_1_PI||Value of 1/pi||
+||two-over-pi||M_2_PI||Value of 2/pi||
+||two-over-sqrt-pi||M_2_SQRTPI||Value of 2/sqrt(pi)||
+||sqrt-2||M_SQRT2||Value of sqrt(2)||
+||one-over-sqrt-2||M_SQRT1_2||Value of 1/sqrt(2)||
+||maximum-flonum||HUGE_VAL||+inf.0 or else the largest finite flonum||
+||fast-multiply-add||FP_FAST_FMA, or 0 if not defined||multiply-add is fast||
+||integer-exponent-zero||FP_ILOGB0||what (integer-binary-log 0) returns||
+||integer-exponent-nan||FP_ILOGBNAN||what (integer-binary-log +0.nan) returns||
+
+== C99 <math.h> procedures ==
+
+The following procedures are defined in terms of the functions of the <math.h> header of ISO/IEC 9899:1999 (C language).  In the C signatures, the types "double" and "int" are mapped to Scheme flonums and (suitably bounded) Scheme exact integers respectively.
+
+||Scheme name||C signature||Comments||
+||acosh||double      acosh(double)||hyperbolic arc cosine||
+||asinh||double      asinh(double)||hyperbolic arc sine||
+||atanh||double      atanh(double)||hyperbolic arc tangent||
+||cbrt||double      cbrt(double);||cube root||
+||complementary-error-function||double      erfc(double)||-||
+||copy-sign||double      copysign(double x, double y)||result has magnitude of x and sign of y||
+||cosh||double      cosh(double)||hyperbolic cosine||
+||double      ldexp(double x, int n)||x*2^n
+||error-function||double      erf(double)||-||
+||exp-binary||double      exp2(double)||base-2 exponential||
+||exp-minus-1||double      expm1(double)||exp(x)-1||
+||exponent||double      logb(double x)||the exponent of x, which is the integral part of log_r(|x|), as a signed floating-point value, for non-zero x, where r is the radix of the machine's floating-point arithmetic||
+||first-bessel-order-0||double      j0(double)||bessel function of the first kind, order 0||
+||first-bessel-order-1||double      j1(double)||bessel function of the first kind, order 1||
+||first-bessel||double      jn(int n, double)||bessel function of the first kind, order n||
+||fraction-exponent||double      modf(double, double *)||returns two values, fraction and int exponent||
+||gamma||double      tgamma(double)||-||
+||hypotenuse||double      hypot(double, double)||sqrt(x^2+y^2)||
+||integer-exponent||int         ilogb(double)||binary log as int||
+||log-binary||double      log2(double)||log base 2||
+||log-decimal||double      log10(double)||log base 10||
+||log-gamma||double      lgamma(double)||returns two values, log(|gamma(x)|) and sgn(gamma(x))||
+||log-one-plus||double      log1p(double x)||log (1+x)||
+||multiply-add||double      fma(double a, double b, double c)||a*b+c||
+||next-after||double      nextafter(double, double)||next flonum following x in the direction of y||
+||normalized-fraction-exponent||double      frexp(double, int *)||returns two values, fraction in range [1/2,1) and int exponent||
+||positive-difference||double      fdim(double, double)||-||
+||remquo||double      remquo(double, double, int *)||returns two values, rounded remainder and low-order n bits of the quotient (n is implementation-defined)
+||scalbn||double      scalbn(double x, int y)||x*r^y, where r is the machine float radix||
+||second-bessel-order-0||double      y0(double)||bessel function of the second kind, order 0||
+||second-bessel-order-1||double      y1(double)||bessel function of the second kind, order 1||
+||second-bessel||double      yn(int n, double)||bessel function of the second kind, order n||
+||sinh||double      cosh(double)||hyperbolic sine||
+||tanh||double      cosh(double)||hyperbolic tangent||
+
+== General remarks ==
+
+In the event that these operations do not yield a real result for the given arguments, the result may be a NaN, or may be some unspecified flonum.
+
+Implementations that use IEEE binary floating-point arithmetic should follow the relevant standards for these procedures.
+
