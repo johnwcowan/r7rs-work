@@ -6,7 +6,7 @@ These procedures are mostly derived in function, and sometimes in name, from ISO
 
 `(array-collapse `''array''` `''j''`)`
 
-Let ''k'' be the rank of ''array''.  This procedure returns an array of rank ''j'', which MUST be less than or equal to ''k'', whose components are arrays of rank ''k'' - ''j''.  The shape of the returned array is equal to the first ''j'' components of the shape of ''array'', and the shapes of its subarrays are equal to the remaining ''k''-''j'' components.
+Let ''k'' be the rank of ''array''.  This procedure constructs and returns an array of rank ''j'', which MUST be less than or equal to ''k'', whose components are arrays of rank ''k'' - ''j''.  The shape of the returned array is equal to the first ''j'' components of the shape of ''array'', and the shapes of its subarrays are equal to the remaining ''k''-''j'' components.
 
 `(array-explode `''array''` `''j''`)`
 
@@ -18,7 +18,7 @@ Constructs and returns a new array of shape ''shape'' whose components in row-ma
 
 `(array-reverse `''array''` `''axis''`)`
 
-Constructs and returns a new array with the same shape as ''array'', but whose elements on the specified ''axis'' are reversed.  ''Axis'' must be a non-negative integer less than the rank of ''array''.
+Constructs and returns an array with the same shape as ''array'', but whose elements on the specified ''axis'' are reversed.  ''Axis'' must be a non-negative integer less than the rank of ''array''.
 
 `(array-reverse! `''array''` `''axis''`)`
 
@@ -34,9 +34,11 @@ Overwrites ''array'' with the value of `(array-reverse `''array''` `''axis''`)`,
 
 `(subarray `''array''` `''start-subscripts''` `''end-subscripts''`)`
 
+Constructs and returns a smaller array with the same rank as ''array'' whose elements begin at the "lower left" corner specified by the list ''start-subscripts'' and end at the "upper right" corner specified by the list ''end-subscripts''.
+
 `(array-recursive-ref `''array''` `''subscript'' ...`)`
 
-Apply `array-ref` to the ''array'' using the first ''i'' subscripts, where ''i'' is the rank of ''array''.  If there are more subscripts, the result MUST be an array. Apply `array-ref` to the result using the next ''j'' subscripts, where ''j'' is the rank of the result.  Repeat until there are no more subscripts, returning the last result.
+Applies `array-ref` to the ''array'' using the first ''i'' subscripts, where ''i'' is the rank of ''array''.  If there are more subscripts, the result MUST be an array. Apply `array-ref` to the result using the next ''j'' subscripts, where ''j'' is the rank of the result.  Repeat until there are no more subscripts, returning the last result.
 
 
 == Higher-order procedures ==
@@ -45,19 +47,26 @@ These procedures are mostly derived in function, and sometimes in name, from ISO
 
 `(array-reduce `''proc''` `''array''` `''axis''`)`
 
-Construct and return a new array whose rank is one less than the rank of ''array'', by combining all the elements along ''axis'' using ''proc'', which MUST be a two-argument procedure.  The order and number of invocations of ''proc'' is unspecified.  If there is only one such element, it is unchanged.
+Constructs and returns an array whose rank is one less than the rank of ''array'', by combining all the elements along ''axis'' using ''proc'', which MUST be a two-argument procedure.  The order and number of invocations of ''proc'' is unspecified.  If there is only one such element, it is unchanged.
 
-`(array-reduce-subarrays `''proc''` `''array''` `''axis''` `''n''`)`
+`(array-reduce-by-groups`''proc''` `''array''` `''axis''` `''n''`)`
 
-Construct and return a new array with the same rank as the rank of ''array'', by combining all the groups of elements of length ''n'' along ''axis'' using ''proc'', which MUST be a two-argument procedure.  The order and number of invocations of ''proc'' is unspecified.  If there is only one such group of elements, it is unchanged.
+Constructs and returns an array with the same rank as the rank of ''array'', by combining all the groups of elements of length ''n'' along ''axis'' using ''proc'', which MUST be a two-argument procedure.  The order and number of invocations of ''proc'' is unspecified.  If there is only one such group of elements, it is unchanged.
 
 `(array-scan `''proc''` `''array''` `''axis''`)`
 
-Construct and return a new array whose shape is the same as the shape of ''array''.  Each element along ''axis'' is constructed by reducing (as if by `array-reduce`) successive prefixes of the elements of ''array'' along that axis.
+Constructs and returns an array whose shape is the same as the shape of ''array''.  Each element along ''axis'' is constructed by reducing (as if by `array-reduce`) successive prefixes of the elements of ''array'' along that axis.
 
 `(array-outer-product `''proc''` `''array1''` `''array2''`)`
 
-Construct and return a new array whose shape is the concatenation of the shapes of ''array1'' and ''array2''.  Each component of the new array is the result of applying ''proc'' to every element of ''array1'' and every element of ''array2'' in unspecified order.  The order and number of invocations of ''proc'' is unspecified.
+Constructs and returns an array whose shape is the concatenation of the shapes of ''array1'' and ''array2''.  Each component of the new array is the result of applying ''proc'' to every element of ''array1'' and every element of ''array2''.  The order and number of invocations of ''proc'' is unspecified.
 
 `(array-inner-product `''proc1''` `''proc2''` `''array1''` `''array2''`)`
 
+Constructs and returns an array whose shape is equal to the shape of ''array1'' without its last element concatenated with the shape of ''array2'' without its first element; these elements MUST be numerically equal.  It is an error if both arrays have rank 0.
+
+Each element of the result array results from applying ''proc2'' to the corresponding elements of the last vectors of ''array1'' and the first vectors of ''array2'' and then reducing them with ''proc1'' to a single value.  The order and number of invocations of the procedures is unspecified.
+
+In particular, if both arrays have rank 1, the last and first vectors are the whole of the arrays, and the result has rank 0; if both arrays have rank 2, the last vectors of ''array1'' are the column-wise vectors, and the first vectors of ''array2'' are the row-wise vectors, and the result has rank 2.
+
+Example:  `(array-inner-product + * `''vector1''` `''vector2''`)` computes the usual inner product of ''vector1'' and ''vector2''.
