@@ -99,3 +99,31 @@ In the event that these operations do not yield a real result for the given argu
 
 Implementations that use IEEE binary floating-point arithmetic should follow the relevant standards for these procedures.
 
+== Compnum procedures ==
+
+A ''compnum'' is a complex number encoded rectangularly as a pair of flonums.  The following procedures should be in a different module from the flonum procedures, since they will only be relevant to Schemes that support general complex numbers, and since there are conflicting names.
+
+||Scheme name||C signature||Comments||
+||`abs`||`double cabs(double complex)`||same as magnitude||
+||`acos`||`double complex cacos(double complex)`||-||
+||`acosh`||`double complex cacosh(double complex)`||-||
+||`angle`||`double carg(double complex)`||-||
+||`asin`||`double complex casin(double complex)`||-||
+||`asinh`||`double complex casinh(double complex)`||-||
+||`atan||double complex catan(double complex)`||-||
+||`atanh`||`double complex catanh(double complex)`||-||
+||`conjugate`||`double complex conj(double complex)`||complex conjugate||
+||`cos`||`double complex ccos(double complex)`||-||
+||`cosh`||`double complex ccosh(double complex)`||-||
+||`exp`||`double complex cexp(double complex)`||-||
+||`expt`||`double complex cpow(double complex, double complex)`||-||
+||`imag-part`||`double cimag(double complex)`||-||
+||`log`||`double complex clog(double complex)`||-||
+||`magnitude`||`double cabs(double complex)`||same as abs||
+||`projection`||`double complex  cproj(double complex)`||projects to Riemann sphere
+||`real-part`||`double creal(double complex)`||-||
+||`sin`||`double complex csin(double complex)`||-||
+||`sinh`||`double complex csinh(double complex)`||-||
+||`sqrt`||`double complex csqrt(double complex)`||-||
+||`ctan`||`double complex ctan(double complex)`||-||
+||`ctanh`||`double complex ctanh(double complex)`||-||
