@@ -6,7 +6,7 @@ In the following descriptions, ''interface'' and ''host'' are strings, which may
 
 == Procedures ==
 
-`(make-datagram-channel `[[''interface''] ''port'']`)`
+`(make-datagram-channel `[''interface'']` `[''port'']`)`
 
 Returns a new datagram channel suitable for sending and receiving datagrams.  If ''port'' is omitted, the channel will receive datagrams that are sent to a unused port assigned by the operating system over any local interface.  If ''port'' is present but ''interface'' is omitted, the channel will receive datagrams that are sent to ''port'' over any local interface.  Otherwise, the channel will only receive datagrams sent to the specified interface and port.  (Note that if there is exactly one argument, it is ''port'', as this is the more common case.)
 
