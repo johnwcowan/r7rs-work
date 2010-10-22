@@ -1,0 +1,39 @@
+== Network Ports ==
+
+Network ports are a mild abstraction of TCP sockets. They are a disjoint type.
+
+This module depends on the acceptance of PortsCowan or something like it, as it uses the framework of that proposal.
+
+== Client Procedures ==
+
+The procedures in this section take a specification for a TCP socket and return a binary input/output port (remember, binary ports can do character I/O as well) connected to the socket.
+
+`(open-network-client `''filename''`)`
+
+`(call-with-network-client `''filename''` `''proc''`)`
+
+`(with-input/output-from-network-client `''filename''` `''thunk''`)`
+
+All of these are equivalent to the corresponding R5RS functions on file ports.  If ''filename'' is a string, it consists of `host` and `port` values (see below) separated by a colon.  If ''filename'' is a list, it is a settings list as described in PortsCowan.  Implementations MUST support the keys described in PortsCowan, except for `path`, plus the following additional keys:
+
+ `host`::
+
+ An IPv4 dotted-decimal address, an IPv6 colon-hexadecimal address if supported by the operating system, or a host name.  There is no default value.
+
+ `port`::
+
+ A port number (an exact integer) or service name.
+
+== Server Procedures ==
+
+`(make-network-listener `[''interface'']` `''port''`)`
+
+Returns an opaque ''listener'' that will accept connections to the specified ''port'' and ''interface''.  If ''interface'' is omitted, the listener will accept connections that are made to ''port'' on any local interface.
+
+`(open-network-server `''listener''`)`
+
+`(call-with-network-server `''listener''` `''proc''`)`
+
+`(with-input/output-from-network-server `''listener''` `''thunk''`)`
+
+All of these are equivalent to the corresponding R5RS functions on file ports.  ''Listener'' is a listener returned by a call to `make-network-listener`.
