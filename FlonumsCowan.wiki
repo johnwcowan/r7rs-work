@@ -101,7 +101,7 @@ Implementations that use IEEE binary floating-point arithmetic should follow the
 
 == Compnum procedures ==
 
-A ''compnum'' is a complex number encoded rectangularly as a pair of flonums.  The following procedures should be in a different module from the flonum procedures, since they will only be relevant to Schemes that support general complex numbers, and since there are conflicting names.
+A ''compnum'' is a general complex number whose `real-part` and `imag-part` are both flonums.  The following procedures should be in a different module from the flonum procedures, since they will only be relevant to Schemes that support general complex numbers, and since there are conflicting names.
 
 ||Scheme name||C signature||Comments||
 ||`abs`||`double cabs(double complex)`||same as magnitude||
