@@ -28,7 +28,7 @@ All of these are equivalent to the corresponding R5RS functions on file ports.  
 
 `(make-network-listener `[''interface'']` `''port''`)`
 
-Returns an opaque ''listener'' that will accept connections to the specified ''port'' and ''interface''.  If ''interface'' is omitted, the listener will accept connections that are made to ''port'' on any local interface.
+Returns an opaque ''listener'' object (which may be of any type) that will accept connections to the specified ''port'' and ''interface''.  If ''interface'' is omitted, the listener will accept connections that are made to ''port'' on any local interface.
 
 `(open-network-server `''listener''`)`
 
