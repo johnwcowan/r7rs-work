@@ -9,11 +9,13 @@ This is an attempt to factor ModulesShinn, the `library` and `module` parts of M
 ||Anonymous self-importing modules||No||No||No||Yes||Yes||
 ||File inclusion within module||Yes||Yes||Yes||Yes||No||
 ||Body||Implicit||Explicit||Implicit||Implicit||Implicit||
-||Import single identifiers||???||No||No||Yes||Yes||
 ||Import qualifiers: `only` `except` `rename` `prefix`||Yes||Yes||Yes||Yes||Yes||
 ||Rename on export||Yes||Yes||Yes||Yes||No||
 ||Macros can generate modules||No||No||Unclear||Yes||Unspecified restrictions||
 ||Support for `co-export`||No||No||Yes||Yes||No||
 ||Implicit exports||Automatic||Automatic||Allowed||Allowed||Required||
 ||Import into REPL||No||Yes||Yes||Yes||Yes||
-||Syntactic Tower||Yes||No||No||No||No||
+||Phasing||Yes||No||No||No||No||
+||Versioning||Yes||No||No||No||No||
+
+The difference between R6RS and R6RS-- is that R6RS-- does not have phasing or versioning.
