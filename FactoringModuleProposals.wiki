@@ -3,6 +3,7 @@
 This is an attempt to factor ModulesShinn, the `library` and `module` parts of ModulesAndPackagesArcfide, and ModulesGanz into features that they have or don't have, to make decisions easier.  I have neglected purely syntactic features like the names and ordering constraints of forms and keywords.
 
 ||Feature||r6rs||shinn||hsu-library||hsu-module||ganz||
+||Module Type||static||static||syntactic||syntactic||syntactic||
 ||Top-level only||Yes||Yes||Yes||No||No||
 ||Name||List||List||List||Identifier||Identifier||
 ||Anonymous self-importing modules||No||No||No||Yes||Yes||
@@ -15,4 +16,4 @@ This is an attempt to factor ModulesShinn, the `library` and `module` parts of M
 ||Support for `co-export`||No||No||Yes||Yes||No||
 ||Implicit exports||Automatic||Automatic||Allowed||Allowed||Required||
 ||Import into REPL||No||Yes||Yes||Yes||Yes||
-
+||Syntactic Tower||Yes||No||No||No||No||
