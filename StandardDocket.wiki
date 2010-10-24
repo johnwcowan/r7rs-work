@@ -53,7 +53,7 @@ Named parameters: NamedParametersCowan
 
 Octet vectors, bytevectors, blobs: BlobsCowan
 
-Pathnames:
+Pathnames: PathnamesCowan
 
 Port functions (concatenate, join, split): PortOperationsCowan
 
