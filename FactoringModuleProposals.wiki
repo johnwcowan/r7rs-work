@@ -2,17 +2,17 @@
 
 This is an attempt to factor ModulesShinn, the `library` and `module` parts of ModulesAndPackagesArcfide, and ModulesGanz into features that they have or don't have, to make decisions easier.  I have neglected purely syntactic features like the names and ordering constraints of forms and keywords.
 
-||Feature||shinn||hsu-library||hsu-module||ganz||
-||Top-level only||Yes||Yes||No||No||
-||Name||List||List||Identifier||Identifier||
-||Anonymous self-importing modules||No||No||Yes||Yes||
-||File inclusion within module||Yes||Yes||Yes||No||
-||Body||Explicit||Implicit||Implicit||Implicit||
-||Import single identifiers||No||No||Yes||Yes||
-||Import qualifiers: `only` `except` `rename` `prefix`||Yes||Yes||Yes||Yes||
-||Rename on export||Yes||Yes||Yes||No||
-||Macros can generate modules||No||Unclear||Yes||Unspecified restrictions||
-||Support for `co-export`||No||Yes||Yes||No||
-||Implicit exports||Automatic||Allowed||Allowed||Required||
-||Import into REPL||Yes||Yes||Yes||Yes||
+||Feature||r6rs||shinn||hsu-library||hsu-module||ganz||
+||Top-level only||Yes||Yes||Yes||No||No||
+||Name||List||List||List||Identifier||Identifier||
+||Anonymous self-importing modules||No||No||No||Yes||Yes||
+||File inclusion within module||Yes||Yes||Yes||Yes||No||
+||Body||Implicit||Explicit||Implicit||Implicit||Implicit||
+||Import single identifiers||???||No||No||Yes||Yes||
+||Import qualifiers: `only` `except` `rename` `prefix`||Yes||Yes||Yes||Yes||Yes||
+||Rename on export||Yes||Yes||Yes||Yes||No||
+||Macros can generate modules||No||No||Unclear||Yes||Unspecified restrictions||
+||Support for `co-export`||No||No||Yes||Yes||No||
+||Implicit exports||Automatic||Automatic||Allowed||Allowed||Required||
+||Import into REPL||No||Yes||Yes||Yes||Yes||
 
