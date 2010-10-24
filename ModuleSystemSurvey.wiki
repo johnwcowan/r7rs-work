@@ -1,15 +1,3 @@
 = Survey of existing and proposed module systems =
 
-||||[[http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-10.html#node_chap_7|R6RS modules]]||[[:ModulesAndPackagesArcfide|Aaron's proposal]]||[[:ModulesShinn|Alex's proposal]]||Chez Scheme||Chicken Scheme||MIT Scheme||Racket/PLT Scheme||other implementations...||
-||documentation||||||||||||||||||
-||example implementation||||||||||||||||||
-||module system type, according to ModuleSystems, i.e. FirstClassEnvironments, SyntacticModules, MetaModules, or StaticModules||||||||||||||||||
-||Supports export of syntax?||||||||||||||||||
-||Can its forms can be the result of macro expansion?||||||||||||||||||
-||what sort of static analysis of its forms is possible?||||||||||||||||||
-||Is renaming supported?||||||||||||||||||
-||Is prefix renaming supported?||||||||||||||||||
-||Are implicit exports supported?||||||||||||||||||
-||Is there a way to deal with phasing?||||||||||||||||||
-||Is it a strict subset of R6RS libraries?||||||||||||||||||
-||What code base has been implemented with it, i.e. has it been tested with a large body of code?||||||||||||||||||
+See FactoringModuleProposals.
