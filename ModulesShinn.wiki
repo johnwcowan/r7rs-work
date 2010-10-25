@@ -188,6 +188,24 @@ definition of `include`.
 WG2 will likely need to address phasing issues, and provide the
 equivalent of the R6RS `for` form.
 
+== Example ==
+
+The stack library from the R6RS specification:
+
+{{{
+  (library (stack)
+    (export make push! pop! empty!)
+    (import (rnrs))
+    (body
+     (define (make) (list ’()))
+     (define (push! s v) (set-car! s (cons v (car s))))
+     (define (pop! s)
+       (let ((v (caar s)))
+         (set-car! s (cdar s))
+         v))
+     (define (empty! s) (set-car! s ’()))))
+}}}
+
 == Issues ==
 
   * Phasing is irrelevant in the absense of low-level macros, and is thus
