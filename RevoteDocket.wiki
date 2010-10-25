@@ -1,6 +1,6 @@
 == WG2 Revote Docket ==
 
-This docket contains work items that WG2 has not yet decided whether to work on or not.
+This docket contains work items that WG2 has not yet decided whether to work on or not.    See [[:WG2Dockets|WG2Dockets]] for other dockets.  See [[:WG2Dockets|WG2Dockets]] for other dockets.
 
 
 === Equal number of votes for WG2 and WG3 ===
@@ -21,7 +21,7 @@ Generalized getters and setters: Revote required.
 
 === Omitted from the original work item list in error ===
 
-#46 Interrupt support for scheduling and system programming.
+#46 Interrupt support for scheduling and system programming:  Vote required.
 
 
 
