@@ -1,6 +1,6 @@
 == WG2 Standard Docket ==
 
-This is a list of work items that WG2 has voted to work on, and proposals for those work items.  If no more than one proposal gets written for an item, the item may migrate to the ConsentDocket.
+This is a list of work items that WG2 has voted to work on, and proposals for those work items.  If no more than one proposal gets written for an item, the item may migrate to the ConsentDocket.  See [[:WG2Dockets|WG2Dockets]] for other dockets.
 
 
 Binary heap: BinaryHeapsCowan
