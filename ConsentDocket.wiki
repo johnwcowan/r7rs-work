@@ -1,6 +1,6 @@
 == WG2 Consent Docket ==
 
-The following items will be approved without a formal vote unless someone objects, in which case they will be moved to another docket.
+The following items will be approved without a formal vote unless someone objects, in which case they will be moved to another docket.  See [[:WG2Dockets|WG2Dockets]] for other dockets.
 
 Note: "Prefix stripping" means that prefixes such as `fx`, `fl`, or `bitwise-` are removed from identifiers exported by this package.  That way, users can add back their own prefixes using the facilities of `import`.
 
