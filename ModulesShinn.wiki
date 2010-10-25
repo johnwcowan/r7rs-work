@@ -9,48 +9,10 @@ Alex Shinn
 == Abstract ==
 
 A simple, static module syntax is provided which can easily be
-implemented on top of existing module systems.  Modules have separate
-namespaces, and can import and export variables and macros with
-fine-grained control.  The description of the module is done with a
-Scheme-like DSL, clearly separated from the code of the module for ease
-of static analysis.  Users are free to either include the module code
-directly in the DSL or in separate files or both.
-
-== Issues ==
-
-  * The number of times a module is instantiated is left unspecified.
-
-  * Phasing is irrelevant in the absense of low-level macros, and is thus
-  ignored.
-
-  * Versioning is left out entirely.  This is an important feature for
-  practical application development, not to be ignored lightly, but the
-  author felt that experimentation with it in current Scheme
-  implementations is insufficient for standardization at the current
-  time.
-
-  * The keywords used are open for debate - `library` is chosen for
-  compatibility with R6RS.
-
-  * The body of the library when placed in the same file is indented a
-  single extra character as compared to library forms with implicit
-  bodies.  A separator syntax `---` could remove this extra space.
-
-  * Forwards compatibility of non-essential forms (declarations,
-  optimizations and other meta-info) could be achieved by specifying
-  that any unknown library form simply be ignored.  However this can
-  cause difficulties for extensions that _are_ essential.
-
-  * We still need to choose the default module hierarchy for the WG1 core.
-
-  * With either R5RS or R6RS identifier syntax, it is possible for both
-  a prefix to be a valid identifier, and an export to be a valid
-  identifier, but the resulting concatenation invalid.  For example,
-  `-` is a valid prefix, but prepended to `foo` results in `-foo`
-  which is not a valid literal.  We need to note this in the
-  description of prefix, or modify the symbol syntax so that this
-  can't occur.  This is especially tricky because `i` with a prefix of
-  `-` results in `-i`, a number.
+implemented on top of existing module systems.  It's functionally
+a subset of R6RS, equivalent to the R6RS-- option (i.e. R6RS
+without versioning or phasing), differing by a minor syntactic
+difference.
 
 == Rationale ==
 
@@ -66,16 +28,23 @@ namespaces.  Although `lambda` lets us manage local identifiers, it
 does't allow us to encapsulate macros, and it wants for a friendlier
 interface for typical "module-like" uses.
 
+Anything beyond such a simple static definition of what a module
+"looks like" can be difficult to impossible to implement in existing
+module systems, much less integrate seamlessly with their own
+modules.
+
 == Specification ==
 
 A module definition takes the following form:
 
+{{{
   (library <module-name>
     <module-declarations>)
+}}}
 
 The keyword `library` is used for compatibility with R6RS - except for
-this one keyword, this proposal will refer to modules, reserving the
-option to change terminology at a later date.
+this one keyword, this proposal will refer to modules (reserving the
+option to change terminology at a later date, if the members so vote).
 
 The module name is a list of symbols or exact integers specifying the
 name of the module, for use when importing from other modules.  R6RS
@@ -113,7 +82,7 @@ module.  An <import-set> has one of the following forms:
 By default, all of the bindings in a module's export clause are
 imported with the same names (or the exported names if exported with a
 `rename` form).  The additional <import-set> forms modify this as
-follows.
+identically to R6RS, as follows:
 
   * An `only` form produces a subset of the given <import-set>,
   including only the listed identifiers (after any renaming).  It is a
@@ -150,26 +119,42 @@ form a cyclic import dependency.
 
 == REPL Interaction ==
 
-To load a module into an interactive REPL, a REPL should extend the
-standard environment with an `import` form that works as within a
-module declaration, but importing the bindings directly into the REPL
-environment.
+To load a module into
+an interactive REPL, a REPL should extend the standard environment
+with an import form that works as within a module declaration,
+but importing the bindings directly into the REPL environment.
 
-Multiple imports of the same identifier in the same `import` form is
+This has disadvantages as opposed to an out-of-bounds means
+such as that provided by Scheme48, but is easy to remember,
+allowing users to pick up new implementations quickly, and
+also mirrors the top-level program syntax, allowing cut&paste
+of scripts.
+
+Multiple imports of the same identifier in the same `import` is
 still a syntax error, however identifiers may later be rebound by
-subsequent `import` forms.
+subsequent `import`s.
 
 == Top-Level Programs ==
 
-To be specified.
+Top-level programs function the same as in R6RS - a top-level
+import form is allowed as in the REPL, and the command-line
+arguments are available with the `command-line` procedure.
 
 == Implementation ==
 
-Scheme48 provides a module system compatibile with this, with some
-minor syntactic differences, and using plain identifiers instead of
-lists for module names.  Chibi-Scheme provides a similar module system
-based on the Scheme48 system, removing all keywords and regulating the
-module names, now lists, to a separate namespace.
+This is a trivial syntactic variation of a subset of R6RS.  Any
+static module system (including R6RS) would need to add support
+for the varied syntax.  A syntactic module system could support
+it with a wrapper macro expanding into the native module form.
+A meta module system could support it with a new meta form
+expanding into the native module form.
+
+The syntactic variation was inspired by Scheme48, which removes
+the ugliness of the completely fixed syntax in R6RS (both `export`
+and `import` are required, and their order can't be changed),
+allows room for extensions to be made easily, and even opens
+the possibility of forwards compatible extensions by simply
+ignoring unknown module forms.
 
 == Compatibility ==
 
@@ -188,9 +173,11 @@ the core library (e.g. `(rnrs 7)`) should provide two macros,
 `include` and `body`.  `body` can be defined simply as an alias for
 `begin`:
 
+{{{
   (define-syntax body
     (syntax-rules ()
       ((body x ...) (begin x ...))))
+}}}
 
 `include` can't be defined with `syntax-rules`, but can in a low-level
 macro system.  The R6RS library specification gives a sample
@@ -201,3 +188,45 @@ definition of `include`.
 WG2 will likely need to address phasing issues, and provide the
 equivalent of the R6RS `for` form.
 
+== Issues ==
+
+  * Phasing is irrelevant in the absense of low-level macros, and is thus
+  ignored.
+
+  * Versioning is left out entirely.  This is an important feature for
+  practical application development, not to be ignored lightly, but the
+  author felt that experimentation with it in current Scheme
+  implementations is insufficient for standardization at the current
+  time.
+
+  * The keywords used are open for debate - `library` is chosen for
+  compatibility with R6RS, but I'm happy to take a vote for switching
+  this or any others.
+
+  * The body of the library when placed in the same file is indented a
+  single extra character as compared to library forms with implicit
+  bodies.  A separator syntax `---` could remove this extra space as
+  described in ModuleSyntax.
+
+  * Forwards compatibility of non-essential forms (declarations,
+  optimizations and other meta-info) could be achieved by specifying
+  that any unknown library form simply be ignored.  However this can
+  cause difficulties for extensions that _are_ essential.
+
+  * We still need to choose the default module hierarchy for the WG1 core.
+
+  * With either R5RS or R6RS identifier syntax, it is possible for both
+  a prefix to be a valid identifier, and an export to be a valid
+  identifier, but the resulting concatenation invalid.  For example,
+  `-` is a valid prefix, but prepended to `foo` results in `-foo`
+  which is not a valid literal.  We need to note this in the
+  description of prefix, or modify the symbol syntax so that this
+  can't occur.  This is especially tricky because `i` with a prefix of
+  `-` results in `-i`, a number.
+
+== References ==
+
+  * [[http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-10.html#node_chap_7|R6RS Modules]]
+  * [[http://community.schemewiki.org/?scheme48-module-system|Scheme48 Modules]]
+  * [[http://www.scheme.com/csug/syntax.html|Chez Modules]]
+  * [[http://practical-scheme.net/gauche/man/gauche-refe_32.html|Gauche Modules]]
