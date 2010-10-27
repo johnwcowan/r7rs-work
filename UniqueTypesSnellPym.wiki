@@ -44,3 +44,5 @@ As above, but annotates the type with a descriptive symbol. The implementation i
 I originally specified a single "content item" in the encapsulations, suggesting that users drop a vector in there if they wanted to, but without loss of generality (and only a little loss of simplicity), implementations can easily avoid an extra indirection by providing an embedded vector for free.
 
 I have not specified a mutation operation here, but have allowed for implementation extensions to return extra values from `make-encapsulation-type` to allow for a mutator procedure, or for implementations to provide a separate `make-mutable-encapsulation-type` etc.
+
+I have made the encapsulation types have a hard-coded size when the type is created, in order to avoid requiring implementations to store a type descriptor *and* a length in every instance of that type. Variable-length behaviour can be had by embedding a vector created at instance creation time, if so desired.
