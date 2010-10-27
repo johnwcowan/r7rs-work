@@ -19,5 +19,6 @@ This is an attempt to factor R6RS, ModulesShinn, the `library` and `module` part
 ||Phasing||Yes||No||No||No||No||Partial||Unclear||||||
 ||Versioning||Yes||No||No||No||No||No||No||||||
 ||Strict subset of R6RS||Obviously||Yes||Yes||No||No||No||No||||||
+||Import identifier without regard to module||No||No||No||No||Yes||No||No||
 
 The difference between R6RS and R6RS-- is that R6RS-- does not have phasing or versioning.
