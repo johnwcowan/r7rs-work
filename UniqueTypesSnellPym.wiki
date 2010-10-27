@@ -9,7 +9,7 @@ There's widespread consensus that defining a record type FOO with fields X, Y, a
 
 Perhaps most importantly, records need to be distinct types. If you implement them in terms of vectors, everything seems to work fine, but a subtle kind of hygiene is broken. If somebody writes a function that dispatches on type for some reason, and they have a case for handling vectors that comes before the case for some record type, then the vector case will be triggered unexpectedly. Oh, noes!
 
-Also, there is potential variation in implementation. It's widely accepted that programming languages should generally support records in the sense of first-class values in memory, but third-party libraries (or the outer reaches of a more sprawling language) may well want to implement a record-like interface - at least FOO? FOO-<field>, FOO-<field>-SET! *and type disjointness* - to things like persistent data in a database, data accessed via some network protocol, and other such forms. Clearly, Thing One will allow the definition of the procedures, and type disjointness is all we need 'extra'.
+Also, there is potential variation in implementation. It's widely accepted that programming languages should generally support records in the sense of first-class values in memory, but third-party libraries (or the outer reaches of a more sprawling language) may well want to implement a record-like interface - at least FOO? FOO-<field>, FOO-<field>-SET! *and type disjointness* - to things like persistent data in a database, data accessed via some network protocol, and other such forms. Clearly, Thing One already allows the definition of the procedures, and type disjointness is all we need 'added'.
 
 And, obviously, any manner of in-memory record abstraction can be implemented with suitable macros - if we have a means of forming disjoint types.
 
@@ -22,21 +22,25 @@ It is possible to build arbitrary record-like disjoint types on top of (eg) SRFI
 The semantics of such a system are fairly simple and obvious, and the syntax used in the Kernel programming language seems as good as any. Slightly altered for Schemier style, here it is:
 
 {{{
-(make-encapsulation-type)
+(make-encapsulation-type <size>)
 }}}
 
-Returns three values: procedures `e`, `p?` and `d`. Each call to `(make-encapsulation-type)` returns different procedures.
+Returns three or more values: procedures `e`, `p?` and `d`, and perhaps some implementation-defined extra ones after that. Each call to `(make-encapsulation-type)` returns different procedures.
 
- * `e` is a procedure that takes one argument, and returns a fresh encapsulation with that argument as the content. Different calls to `e` produce encapsulations that are not `eq?`, but will be `equal?` if their contents are equal? and they were both produced by `e`.
+ * `e` is a procedure that takes <size> arguments, and returns a fresh encapsulation with those arguments as the content. Different calls to `e` produce encapsulations that are not `eq?`, but will be `equal?` if their contents are equal? and they were both produced by `e`.
 
  * `p?` is a procedure that takes one argument, and returns `#t` if the argument is an encapsulation that was returned by a call to `e`, and `#f` in all other cases.
 
- * `d` is a procedure that takes one argument. If it is an encapsulation that was returned by a call to `e`, then the content of the encapsulation is returned. Otherwise, an error is signalled.
+ * `d` is a procedure that takes two arguments. If the first is an encapsulation that was returned by a call to `e`, and N is an exact integer more than or equal to zero and less than <size>, then the Nth content of the encapsulation (where N is the second argument) is returned. Otherwise, an error is signalled.
 
 {{{
-(make-encapsulation-type <symbol>)
+(make-encapsulation-type <size> <symbol>)
 }}}
 
 As above, but annotates the type with a descriptive symbol. The implementation is free to ignore the symbol, but may use it to aid debugging or providing printable representations of the encapsulated type. However, implementors be warned that the users are in no way obliged to make descriptive symbols be unique, so don't go using it in ways that would assume this.
 
-I originally proposed that encapsulations should contain a vector, so that `d` would accept a second argument which is an index into the vector, and there be a mutation operation, in order to avoid a double-indirection in the common case of encapsulated vectors - but then I realised that an implementation can probably special-case encapsulated vectors in a number of relatively easy ways, simplifying the specification. However, I am still open to being beaten back on that point.
+= Rationale =
+
+I originally specified a single "content item" in the encapsulations, suggesting that users drop a vector in there if they wanted to, but without loss of generality (and only a little loss of simplicity), implementations can easily avoid an extra indirection by providing an embedded vector for free.
+
+I have not specified a mutation operation here, but have allowed for implementation extensions to return extra values from `make-encapsulation-type` to allow for a mutator procedure, or for implementations to provide a separate `make-mutable-encapsulation-type` etc.
