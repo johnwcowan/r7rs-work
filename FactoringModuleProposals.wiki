@@ -14,7 +14,7 @@ This is an attempt to factor R6RS, ModulesShinn, the `library` and `module` part
 ||Rename on export||Yes||Yes||Yes||Yes||No||No||No||||||
 ||Macros can generate modules||No||No||Unclear||Yes||Unspecified restrictions||Yes||Yes||||||
 ||Support for `co-export`||No||No||Yes||Yes||No||No||No||||||
-||Implicit exports||Automatic||Automatic||Allowed||Allowed||Must be explicit||Must be explicit||???||||||
+||Implicit exports||Automatic||Must be explicit||Automatic/Overridable||Automatic/Overridable||Automatic/Overridable||Must be explicit||???||||||
 ||Import into REPL||No||Yes||Yes||Yes||Yes||Yes||Yes||||||
 ||Phasing||Yes||No||No||No||No||Partial||Unclear||||||
 ||Versioning||Yes||No||No||No||No||No||No||||||
