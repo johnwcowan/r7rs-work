@@ -1,0 +1,85 @@
+Undigested stuff from UAX #42:
+
+5 Blocks
+
+The blocks child of the ucd describes the blocks. It has one child block element per block, with attributes to describe the extent and name of the block.
+
+[[blocks,|46]] =  
+  ucd.content &=
+    element blocks {
+      element block { 
+        attribute first-cp { single-code-point },
+        attribute last-cp { single-code-point },
+        attribute name { text }} + }?
+
+6 Named Sequences
+
+The named-sequences child of the ucd describes the named sequences. It has one child named-sequence element per named sequence, with attributes to describe the name and sequence.
+
+Similarly, the provisional-named-sequences child of the ucd describes the provisional named sequences.
+
+[[named|sequences, 47]] =  
+  ucd.content &=
+    element named-sequences {
+      element named-sequence { 
+        attribute cps { one-or-more-code-points },
+        attribute name { text }} + }?
+
+  ucd.content &=
+    element provisional-named-sequences {
+      element named-sequence { 
+        attribute cps { one-or-more-code-points },
+        attribute name { text }} + }?
+
+7 Normalization Corrections
+
+The normalization-corrections child of the ucd describes the normalization corrections. It has one child normalization-correction element per correction, with attributes to describe the code point affected, its old normalization, its new normalization and the version of Unicode in which the correction was made.
+
+[[normalization|corrections, 48]] =  
+  ucd.content &=
+    element normalization-corrections {
+      element normalization-correction { 
+        attribute cp { single-code-point },
+        attribute old { one-or-more-code-points },
+        attribute new { one-or-more-code-points },
+        attribute version { text }} + }?
+
+8 Standardized Variants
+
+The standardized-variants child of the ucd describes the standardized variant. It has one child element standardized-variant per variant. The attributes on that last element capture the variation sequence, the description of the desired appearance, and the shaping environment under which the appearance is different.
+
+[[standardized|variants, 49]] =  
+  ucd.content &=
+    element standardized-variants {
+      element standardized-variant { 
+        attribute cps { two-code-points },
+        attribute desc { text },
+        attribute when { text }} + }?
+
+9 CJK Radicals
+
+The cjk-radicals child of the ucd describes the CJK radicals. It has one child element cjk-radical per radical. The attributes on that last element capture the radical number, the corresponding CJK radical character, and the corresponding CJK unified ideograph.
+
+[[cjk|radicals, 50]] =  
+  ucd.content &=
+    element cjk-radicals {
+      element cjk-radical { 
+        attribute number { xsd:string {pattern="[0-9]{1,3}'?"}},
+        attribute radical { single-code-point },
+        attribute ideograph { single-code-point }} + }?
+
+10 Emoji sources
+
+The emoji-sources child of the ucd describes the emoji sources.
+
+[[datatype|for code points, 51]] =  
+  jis-code-point = xsd:string { pattern = "[0-9A-F]{4}" }
+
+[[emoji|sources, 52]] =  
+  ucd.content &=
+    element emoji-sources {
+      element emoji-source {
+        attribute unicode { one-or-more-code-points },
+        attribute docomo { jis-code-point? },
+        attribute kddi { jis-code-point? },
+        attribute softbank { jis-code-point? } } + }?
