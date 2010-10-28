@@ -5,13 +5,13 @@ This is a list of work items that WG2 has voted to work on, and proposals for th
 
 Binary heap: BinaryHeapsCowan
 
-Binary search: SRFI 43
+Binary search: [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]]
 
 Boxes/references: BoxesCowan
 
 Character encoding conversion:
 
-Conditions: R6RS (depends on interaction with WG1)
+Conditions: 
 
 Date and time arithmetic:
 
@@ -19,7 +19,7 @@ Date-time parser:
 
 Dictionaries (may include hash tables):
 
-Enumerations and enum-sets: R6RS
+Enumerations and enum-sets: [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-15.html#node_chap_14|R6RS]]
 
 Environment enquiries:
 
@@ -29,11 +29,11 @@ Flonum arithmetic: FlonumsCowan
 
 Gettext (i18n of strings):
 
-Homogeneous numeric arrays: SRFI 4, BlobsCowan
+Homogeneous numeric arrays: [[http://srfi.schemers.org/srfi-4/srfi-4.html|SRFI 4]], BlobsCowan
 
 Immutable cyclic lists: CyclesMedernach
 
-Loop syntax:
+Loop syntax: [[http://www.ccs.neu.edu/home/shivers/papers/loop.pdf|Olin Shivers's loop]], [[http://mumble.net/~campbell/scheme/foof-loop.txt|Taylor Campbell's foof-loop]]
 
 Mailboxes, channels, synchronized queues:
 
@@ -61,13 +61,13 @@ Priority queues:
 
 Processes (system, popen, etc): SystemCommandCowan + ProcessPortsCowan
 
-Random numbers: SRFI 27
+Random numbers: [[http://srfi.schemers.org/srfi-27/srfi-27.html|SRFI 27]]
 
-Record introspection: SRFI 99
+Record introspection: [[http://srfi.schemers.org/srfi-99/srfi-99.html|SRFI 99]]
 
 REPL facilities:
 
-Run-time records: SRFI 99
+Run-time records: [[http://srfi.schemers.org/srfi-99/srfi-99.html|SRFI 99]]
 
 Sets and bags: SetsCowan
 
@@ -75,7 +75,7 @@ Shift and reset:
 
 Simple Posix:
 
-Sorting: SRFI 32, SRFI 95
+Sorting: [[http://srfi.schemers.org/srfi-32/srfi-32.html|SRFI 32]], [[http://srfi.schemers.org/srfi-95/srfi-95.html|SRFI 95]]
 
 SRFI 38: reading and writing shared structure: (depends on interaction with WG1)
 
