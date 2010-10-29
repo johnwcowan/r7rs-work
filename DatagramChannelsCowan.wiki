@@ -20,7 +20,7 @@ Returns `#t` if ''obj'' is a datagram channel and `#f` otherwise.
 
 `(datagram-channel-interface `''channel''`)`
 
-Returns the interface on which ''channel'' receives datagrams, or `#f` if there is none.  The value returned need not be the same as the value passed to `make-i/o-datagram-channel`.
+Returns the interface on which ''channel'' receives datagrams, or `#f` if there is none.  The value returned need not be the same as the value passed to `make-datagram-channel`.
 
 `(datagram-channel-port `''channel''`)`
 
