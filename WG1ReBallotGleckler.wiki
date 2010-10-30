@@ -140,7 +140,7 @@ Yes to fold-case (R5RS) no to preserve case (R6RS), additional votes
 to come later from specific proposals.
 
   * '''Options:''' yes, no, implementation-determined, undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes, implementation-determined
 
 === #14 alternate comment syntax ===
 
