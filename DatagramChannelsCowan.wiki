@@ -2,13 +2,13 @@
 
 Datagram channels are a mild abstraction of UDP sockets.  They are a disjoint type.
 
-In the following descriptions, ''interface'' and ''host'' are strings, which may be IPv4 dotted-decimal addresses, IPv6 colon-hexadecimal addresses if supported by the operating system, or host names to be looked up according to whatever operating system conventions exist, if any.  Appropriate strings may refer to broadcast or multicast addresses.  ''Port'' may be an integer or a string; the meaning of a string is implementation-dependent.
+In the following descriptions, ''host'' and ''local-address'' are strings, which may be IPv4 dotted-decimal addresses, IPv6 colon-hexadecimal addresses if supported by the operating system, or host names to be looked up according to whatever operating system conventions exist, if any.  Appropriate strings may refer to broadcast or multicast addresses.  ''Port'' may be an integer or a string; the meaning of a string is implementation-dependent, but is intended to be a standardized service name.
 
 == Procedures ==
 
-`(make-datagram-channel `[''interface'']` `[''port'']`)`
+`(make-datagram-channel `[''local-address'']` `[''port'']`)`
 
-Returns a new datagram channel suitable for sending and receiving datagrams.  If ''port'' is omitted, the channel will receive datagrams that are sent to a unused port assigned by the operating system over any local interface.  If ''port'' is present but ''interface'' is omitted or has the value `#t`, the channel will receive datagrams that are sent to ''port'' over any local interface.  Otherwise, the channel will only receive datagrams sent to the specified interface and port.  If there is exactly one argument, it is ''port'', as this is the more common case.
+Returns a new datagram channel suitable for sending and receiving datagrams.  If ''port'' is omitted, the channel will receive datagrams that are sent to a unused port assigned by the operating system over any local address.  If ''port'' is present but ''local-address'' is omitted or has the value `#t`, the channel will receive datagrams that are sent to ''port'' over any local address.  Otherwise, the channel will only receive datagrams sent to the specified local address and port.  If there is exactly one argument, it is ''port'', as this is the more common case.
 
 `(make-output-only-datagram-channel)`
 
@@ -18,9 +18,9 @@ Returns a new datagram channel only suitable for sending datagrams.  It is not b
 
 Returns `#t` if ''obj'' is a datagram channel and `#f` otherwise.
 
-`(datagram-channel-interface `''channel''`)`
+`(datagram-channel-local-address`''channel''`)`
 
-Returns the interface on which ''channel'' receives datagrams, or `#t` if datagrams are accepted on all interfaces, or `#f` if there is no interface.  The value returned need not be the same as the value passed to `make-datagram-channel`.
+Returns the local address on which ''channel'' receives datagrams, or `#t` if datagrams are accepted on all local addresses, or `#f` if there is no such local address.  The value returned need not be the same as the value passed to `make-datagram-channel`.
 
 `(datagram-channel-port `''channel''`)`
 
