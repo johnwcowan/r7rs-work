@@ -70,7 +70,7 @@ or separate set of procedures?
 `write` to handle cyclic notation.
 
   * '''Options:''' srfi-38/core, srfi-38/module, native, no, wg2, undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' native, srfi-38/core, srfi-38/module, wg2, undecided, no
 
 == WG1 - Macros ==
 
@@ -87,7 +87,7 @@ syntax-rules:
 Do we allow this?
 
   * '''Options:''' yes/core, yes/module, no, wg2, undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes/core, yes/module, wg2, undecided, no
 
 === #9 tail patterns in syntax-rules ===
 
@@ -106,7 +106,7 @@ where Px only matches a dotted list.
 Do we allow either or both of these extensions?
 
   * '''Options:''' tail/core, tail/module, dotted-tail/core, dotted-tail/module, both/core, both/module, no, wg2, undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' tail/core, tail/module, wg2, no, both/core, both/module, dotted-tail/core, dotted-tail/module, undecided
 
 == WG1 - Numerics ==
 
@@ -117,7 +117,7 @@ as an alternative to the R5RS #s in numbers.
 Do we want either or both of these?
 
   * '''Options:''' r5rs, r6rs, both, no, wg2, undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' r6rs, wg2, r5rs, no, undecided, both
 
 == WG1 - Reader Syntax ==
 
@@ -129,7 +129,7 @@ Yes to fold-case (R5RS) no to preserve case (R6RS), additional votes
 to come later from specific proposals.
 
   * '''Options:''' yes, no, implementation-determined, undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes, implementation-determined, undecided, no
 
 === #14 alternate comment syntax ===
 
@@ -138,7 +138,7 @@ and #| ... |# nested block comments.  Do we include
 either or both of these?
 
   * '''Options:''' sexp, block, both, no, wg2, undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' both, sexp, block, wg2, no, undecided
 
 == WG1 - Strings and Chars ==
 
@@ -163,4 +163,4 @@ Note UnicodeCowan currently provides specific normalization
 procedures.
 
   * '''Options:''' generic/core, generic/module, separate/core, separate/module, specific/core, specific/module, agnostic/core, agnostic/module, no, wg2, undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' agnostic/module, separate/module, specific/module, generic/module, wg2, agnostic/core, separate/core, specific/core, generic/core, undecided, no
