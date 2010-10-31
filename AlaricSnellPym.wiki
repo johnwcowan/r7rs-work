@@ -14,7 +14,7 @@ But without harming the jewel-like perfection, nor making it hard to implement e
 
 More about me can be found at http://www.snell-pym.org.uk/alaric/ - remind me to bring that page more up to date, though.
 
-My ballot: wiki:WG1BallotSnellPym
+My ballots: wiki:WG1BallotSnellPym wiki:WG1ReBallotSnellPym
 
 = Proposals =
 
