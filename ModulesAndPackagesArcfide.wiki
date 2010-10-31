@@ -218,11 +218,8 @@ incident.
 
 == WG1 ==
 
-I currently of the opinion that we should not standardize the full 
-language of this proposal for WG1. Currently, I am proposing that we
-maintain R6RS semantics mentioned above for this system with the addition of `co-export` 
-and `implicit-export`. This means that I am not suggesting the `module` form 
-for WG1.
+Currently, I am in support of R6RS-- as the appropriate subset of this proposal for
+WG1.
 
 == WG2 ==
 
