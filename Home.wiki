@@ -11,10 +11,10 @@ Comments are welcome at the [[http://lists.scheme-reports.org/cgi-bin/mailman/li
 [[http://trac.sacrideo.us/wg/attachment/wiki/WikiStart/scheme-wg1-progress1.pdf|Progress Report]]
 
 [[WorkingGroupOneProcess|Process]]
+  * [[SampleVoteYakHandler|Sample Vote]]
   * First Ballot - Closed
     * [[:WG1Ballot|Ballot]]
     * [[:WG1BallotResults|Ballot Results]]
-    * [[SampleVoteYakHandler|Sample Vote]]
   * First Ballot Revote - Open
     * [[:WG1ReBallot|Ballot]]
 
