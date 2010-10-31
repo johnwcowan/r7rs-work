@@ -104,7 +104,11 @@ or separate set of procedures?
 `write` to handle cyclic notation.
 
   * '''Options:''' srfi-38/core, srfi-38/module, native, no, wg2, undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' srfi-38/module, srfi-38/core, wg2, no, native
+
+SRFI 38 supports this notation, but doesn't require that `read` and
+`write` support it, so writing doesn't have to become more expensive.
+Since many programs won't need this feature, it belongs in a module.
 
 == WG1 - Macros ==
 
