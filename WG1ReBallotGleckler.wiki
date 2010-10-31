@@ -46,7 +46,7 @@ to a random variables in WG1 Scheme?
   * '''Proposals:'''
     * '''cowan:''' RandomCowan
   * '''Options:''' cowan/core, cowan/module, srfi-27/core, srfi-27/module, no, wg2, undecided
-  * '''Preferences:''' wg2,srfi-27/module,srfi-27/core,no,cowan/module
+  * '''Preferences:''' wg2, srfi-27/module, srfi-27/core, no, cowan/module
 
 RandomCowan does not allow control over the seed, so it is of such limited usefulness as to not be worth including.  The API defined by SRFI 27 does allow control of the seed, and makes random sources first class, both of which are good ideas.  However, the API is awkward, especially `random-source-state-ref` and `random-source-state-set!`.  I'd like to see WG2 do a survey of existing implementations and find something better than both of these proposals.
 
@@ -125,7 +125,7 @@ syntax-rules:
 Do we allow this?
 
   * '''Options:''' yes/core, yes/module, no, wg2, undecided
-  * '''Preferences:''' no,wg2,yes/module
+  * '''Preferences:''' no, wg2, yes/module
 
 === #9 tail patterns in syntax-rules ===
 
