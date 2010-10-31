@@ -209,4 +209,8 @@ Note UnicodeCowan currently provides specific normalization
 procedures.
 
   * '''Options:''' generic/core, generic/module, separate/core, separate/module, specific/core, specific/module, agnostic/core, agnostic/module, no, wg2, undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' wg2, specific/module
+
+The complexity of Unicode should be, as much as possible, banished
+from WG1.  If it is included, however, I'll follow John's lead, since
+he is a Unicode expert, and vote for specific/module.
