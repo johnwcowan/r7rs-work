@@ -39,6 +39,16 @@ Returns three or more values: procedures `e`, `p?` and `d`, and perhaps some imp
 
 As above, but annotates the type with a descriptive symbol. The implementation is free to ignore the symbol, but may use it to aid debugging or providing printable representations of the encapsulated type. However, implementors be warned that the users are in no way obliged to make descriptive symbols be unique, so don't go using it in ways that would assume this.
 
+= Written form =
+
+One of the reasons to have a unique type encapsulation system is for security, to prevent access to the contents of an object, and to prevent objects of that type being constructed by arbitrary code.
+
+Therefore, the result of calling `write` on an encapsulation should not reveal the contents of the encapsulation's fields by default, and `read` should be incapable of creating encapsulations by default.
+
+However, mechanisms for attaching `read` and `write` semantics to encapsulations should be addressed by WG2 or an SRFI. My quick proposal is that it should be possible to attach encode/decode procedures to an encapsulation type, which map an instance of the encapsulation type to a list of fields, and the inverse; then `write` should produce syntax something like `#<symbol>(<...list of fields returned by encoder...>)`, where the `<symbol>` is the registered name of the type (and must be unique), and `read` should parse that syntax by calling the decoder function registered under that symbolic name, with the list of parsed fields.
+
+How to maintain uniqueness of type-name symbols globally is left as an exercise for the reader.
+
 = Rationale =
 
 I originally specified a single "content item" in the encapsulations, suggesting that users drop a vector in there if they wanted to, but without loss of generality (and only a little loss of simplicity), implementations can easily avoid an extra indirection by providing an embedded vector for free.
