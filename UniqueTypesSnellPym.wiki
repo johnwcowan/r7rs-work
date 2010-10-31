@@ -49,7 +49,7 @@ However, mechanisms for attaching `read` and `write` semantics to encapsulations
 
 How to maintain uniqueness of type-name symbols globally is left as an exercise for the reader.
 
-= Optional extension: Type Inheritance (please vote as `snellpym+inheritance` instead of `snellpym` if you want this)
+= Optional extension: Type Inheritance (please vote as `snellpym+inheritance` instead of `snellpym` if you want this) =
 
 {{{
 (make-encapsulation-subtype <e> <d> <extra-size> [<symbol>])
