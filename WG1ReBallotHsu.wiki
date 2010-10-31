@@ -1,14 +1,3 @@
-Notes about results:
-
-  * you may list as many of the options as you want in order of preference
-  * you are encouraged to list all options
-  * options are comma-delimited (ignoring space) and case-insensitive
-  * you may write in your own option if you announce it to the list first
-  * everything but the `preferences` line is free-form, and may be used for a rationale
-  * `wg2` means "pass this issue to WG2"
-  * `undecided` means I want to discuss this issue further
-  * abstain by leaving the preferences blank
-
 = WG1 Ballot Items To Finalize By Oct. 31 =
 
 == WG1 - Modules ==
@@ -33,7 +22,9 @@ phasing.
     * '''hsu:''' ModulesAndPackagesArcfide
     * '''shinn:''' ModulesShinn
   * '''Options:''' ganz, hsu, shinn, r6rs, r6rs--, undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' r6rs--, r6rs, hsu, ganz, shinn
+
+Rationale: R6RS-- is our best compromise and the most useful for WG1, but modules should be syntactic entities.
 
 == WG1 - Core ==
 
@@ -45,8 +36,11 @@ to a random variables in WG1 Scheme?
 
   * '''Proposals:'''
     * '''cowan:''' RandomCowan
+    * '''hsu:''' RandomnessArcfide
   * '''Options:''' cowan/core, cowan/module, srfi-27/core, srfi-27/module, no, wg2, undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' hsu/core, hsu/module, wg2, no
+
+Rationale: Randomness without seeds is not useful. We should have a complete, functional, but simple interface rather than one that is over done.
 
 == WG1 - Exceptions ==
 
@@ -62,7 +56,9 @@ system?
   * '''Proposals:'''
     * '''cowan:''' ExceptionHandlingCowan
   * '''Options:''' cowan/core, cowan/module, r6rs/core, r6rs/module, wg2, none, undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' r6rs/core, r6rs/module, wg2, none
+
+Rationale: R6RS does mostly the right thing here with exceptions. The condition system could use more work, but we should leave that to someone else for now.
 
 == WG1 - I/O ==
 
@@ -81,7 +77,9 @@ or separate set of procedures?
 `write` to handle cyclic notation.
 
   * '''Options:''' srfi-38/core, srfi-38/module, native, no, wg2, undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' native, srfi-38/core, srfi-38/module, wg2, no
+
+Rationale: This is a common extension that should be supported, as it makes the programs more reliable. It should be built in, not tacked on, so native is the way to go.
 
 == WG1 - Macros ==
 
@@ -98,7 +96,9 @@ syntax-rules:
 Do we allow this?
 
   * '''Options:''' yes/core, yes/module, no, wg2, undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' yes/core, yes/module, wg2, no
+
+Rationale: So long as this doesn't break backwards compatibility, it is useful, but I question how useful.
 
 === #9 tail patterns in syntax-rules ===
 
@@ -117,7 +117,9 @@ where Px only matches a dotted list.
 Do we allow either or both of these extensions?
 
   * '''Options:''' tail/core, tail/module, dotted-tail/core, dotted-tail/module, both/core, both/module, no, wg2, undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' both/core, both/module, tail/core, tail/module, dotted-tail/core, dotted-tail/module, wg2, no
+
+Rationale: These are very useful.
 
 == WG1 - Numerics ==
 
@@ -128,7 +130,7 @@ as an alternative to the R5RS #s in numbers.
 Do we want either or both of these?
 
   * '''Options:''' r5rs, r6rs, both, no, wg2, undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' both, r6rs, r5rs, wg2, no
 
 == WG1 - Reader Syntax ==
 
@@ -140,7 +142,9 @@ Yes to fold-case (R5RS) no to preserve case (R6RS), additional votes
 to come later from specific proposals.
 
   * '''Options:''' yes, no, implementation-determined, undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' no, implementation-determined, yes
+
+Rationale: Case sensitivity is more popular, let's go with it. Otherwise, let implementations determine it.
 
 === #14 alternate comment syntax ===
 
@@ -149,7 +153,9 @@ and #| ... |# nested block comments.  Do we include
 either or both of these?
 
   * '''Options:''' sexp, block, both, no, wg2, undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' both, block, sexp, wg2, no
+
+Rationale: These are very useful.
 
 == WG1 - Strings and Chars ==
 
@@ -174,4 +180,6 @@ Note UnicodeCowan currently provides specific normalization
 procedures.
 
   * '''Options:''' generic/core, generic/module, separate/core, separate/module, specific/core, specific/module, agnostic/core, agnostic/module, no, wg2, undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' no, wg2, specific/module, specific/core, generic/module, generic/core, separate/module, separate/core, agnostic/module, agnostic/core
+
+Rationale: Keep the complexity of unicode down.
