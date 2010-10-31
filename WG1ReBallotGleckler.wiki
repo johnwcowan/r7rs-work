@@ -100,7 +100,7 @@ syntax-rules:
 Do we allow this?
 
   * '''Options:''' yes/core, yes/module, no, wg2, undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' no,wg2,yes/module
 
 === #9 tail patterns in syntax-rules ===
 
