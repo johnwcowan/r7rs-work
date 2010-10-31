@@ -16,9 +16,9 @@ Returns a procedure of one argument that answers `#t` if its argument is of type
 
 Returns a procedure of one argument that returns the slot numbered ''slotnum'' in its argument, an object of type ''type''.  Slots are numbered starting at 0 in the top-level type.
 
-`(make-getter `''type''` `''slotnum''`)`
+`(make-setter `''type''` `''slotnum''`)`
 
-Returns a procedure of two arguments that sets the slot numbered ''slotnum'' in its first argument, an object of type ''type'' to the value of its second argument.  Slots are numbered starting at 0 in the top-level type.
+Returns a procedure of two arguments that sets the slot numbered ''slotnum'' in its first argument, an object of type ''type'', to the value of its second argument.  Slots are numbered starting at 0 in the top-level type.
 
 == Type Introspection ==
 
