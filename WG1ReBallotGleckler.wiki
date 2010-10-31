@@ -144,7 +144,10 @@ where Px only matches a dotted list.
 Do we allow either or both of these extensions?
 
   * '''Options:''' tail/core, tail/module, dotted-tail/core, dotted-tail/module, both/core, both/module, no, wg2, undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' both, tail, wg2
+
+I don't feel strongly about this issue, but the extensions seem
+harmless.
 
 == WG1 - Numerics ==
 
