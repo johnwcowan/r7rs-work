@@ -33,7 +33,7 @@ phasing.
     * '''hsu:''' ModulesAndPackagesArcfide
     * '''shinn:''' ModulesShinn
   * '''Options:''' ganz, hsu, shinn, r6rs, r6rs--, undecided
-  * '''Preferences:''' shinn, r6rs--, r6rs, hsu
+  * '''Preferences:''' shinn, r6rs--, hsu, r6rs
 
 I've changed my top preference to ModulesShinn for two primary
 reasons: 1) It is a compatible subset of R6RS, with two syntactic
