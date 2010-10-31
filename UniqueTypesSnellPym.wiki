@@ -49,6 +49,14 @@ However, mechanisms for attaching `read` and `write` semantics to encapsulations
 
 How to maintain uniqueness of type-name symbols globally is left as an exercise for the reader.
 
+= Optional extension: Type Inheritance (please vote as `snellpym+inheritance` instead of `snellpym` if you want this)
+
+{{{
+(make-encapsulation-subtype <e> <d> <extra-size> [<symbol>])
+}}}
+
+Creates a subtype T2 of an existing encapsulation type T1. The parent type's `e` and `d` procedures must both be provided to demonstrate the caller's existing ability to construct and deconstruct the parent type (`p?` is really just a convenience, that could be crafted from `d` and a condition handler, so access to it need not be proven). The returned values are as per `make-encapsulation-type`, except that the <size> is equal to the parent's <size> plus <extra-size>; however, the definition of `make-encapsulation-type`s return values (and, therefore, the return values of `make-encapsulation-subtype`) is extended such that `p?` also returns true for encapsulations created by any subtype's `e` procedure, and `d` will work for encapsulations created by subtypes' `e` procedures, and when called on an encapsulation created by a subtype's `e` procedure, will work for indices up to `(+ <parent-size> <extra-size>)`.
+
 = Rationale =
 
 I originally specified a single "content item" in the encapsulations, suggesting that users drop a vector in there if they wanted to, but without loss of generality (and only a little loss of simplicity), implementations can easily avoid an extra indirection by providing an embedded vector for free.
