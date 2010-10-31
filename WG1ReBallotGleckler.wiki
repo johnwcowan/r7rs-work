@@ -158,7 +158,12 @@ as an alternative to the R5RS #s in numbers.
 Do we want either or both of these?
 
   * '''Options:''' r5rs, r6rs, both, no, wg2, undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' both, wg2, r6rs, r5rs
+
+I don't have a good enough understanding of the importance of this
+issue to have a strong opinion, so I'm following GJS, who is of course
+a great mathematician and programmer, and have chosen "both" as my
+first preference.
 
 == WG1 - Reader Syntax ==
 
