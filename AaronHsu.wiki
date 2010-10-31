@@ -13,7 +13,7 @@ RandomnessArcfide
 
 == Ballots ==
 
-[wiki:WG1BallotHsu]
+[wiki:WG1BallotHsu][[BR]]
 [wiki:WG1ReBallotHsu]
 
 == Contact Information ==
