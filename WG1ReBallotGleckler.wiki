@@ -184,7 +184,7 @@ and #| ... |# nested block comments.  Do we include
 either or both of these?
 
   * '''Options:''' sexp, block, both, no, wg2, undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' both, block, wg2, sexp, no
 
 == WG1 - Strings and Chars ==
 
