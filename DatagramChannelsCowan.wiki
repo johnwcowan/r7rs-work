@@ -8,57 +8,57 @@ In the following descriptions, ''host'' and ''local-address'' are strings, which
 
 `(make-datagram-channel `[''local-address'']` `[''port'']`)`
 
-Returns a new datagram channel suitable for sending and receiving datagrams.  If ''port'' is omitted, the channel will receive datagrams that are sent to a unused port assigned by the operating system over any local address.  If ''port'' is present but ''local-address'' is omitted or has the value `#t`, the channel will receive datagrams that are sent to ''port'' over any local address.  Otherwise, the channel will only receive datagrams sent to the specified local address and port.  If there is exactly one argument, it is ''port'', as this is the more common case.
+Returns a new datagram channel suitable for sending and receiving datagrams.  If ''port'' is omitted, the channel will receive datagrams that are sent to a unused port assigned by the operating system over any local address.  If ''port'' is present but ''local-address'' is omitted or has the value `#t`, the channel will receive datagrams that are sent to ''port'' over any local address.  Otherwise, the channel will only receive datagrams sent to the specified local address and port.  If there is exactly one argument, it is ''port'', as this is the more common case.  In Posix terms this is `socket()` followed by `bind()`.
 
 `(make-output-only-datagram-channel)`
 
-Returns a new datagram channel only suitable for sending datagrams.  It is not bound to any port.
+Returns a new datagram channel only suitable for sending datagrams.  It is not bound to any port.  In Posix terms this is `socket()`.
 
 `(datagram-channel? `''obj''`)`
 
 Returns `#t` if ''obj'' is a datagram channel and `#f` otherwise.
 
-`(datagram-channel-local-address`''channel''`)`
+`(datagram-channel-local-address `''channel''`)`
 
-Returns the local address on which ''channel'' receives datagrams, or `#t` if datagrams are accepted on all local addresses, or `#f` if there is no such local address.  The value returned need not be the same as the value passed to `make-datagram-channel`.
+Returns the local address on which ''channel'' receives datagrams, or `#t` if datagrams are accepted on all local addresses, or `#f` if there is no such local address.  The value returned need not be the same as the value passed to `make-datagram-channel`, but must be acceptable to another invocation of `make-datagram-channel`.
 
 `(datagram-channel-port `''channel''`)`
 
-Returns the port number on which ''channel'' receives datagrams, or `#f` if there is none.
+Returns the port number on which ''channel'' receives datagrams, or `#f` if there is none.  The value returned need not be the same as the value passed to `make-datagram-channel`, but must be acceptable to another invocation of `make-datagram-channel`.
 
 `(datagram-channel-send-to `''channel''` `''host''` `''port''` `''blob''` `[[''start''|[''end'']]]`)`
 
-Send the portion of ''blob'' defined by ''start'' (inclusive) and ''end'' (exclusive) to the endpoint specified by ''host'' and ''port'' using ''channel''.  If ''end'' is omitted, it is the length of ''blob'' plus one; if ''start'' is omitted, it is 0.  Returns undefined values.
+Send the portion of ''blob'' defined by ''start'' (inclusive) and ''end'' (exclusive) to the endpoint specified by ''host'' and ''port'' using ''channel''.  If ''end'' is omitted, it is the length of ''blob'' plus one; if ''start'' is omitted, it is 0.  Returns undefined values.  In Posix terms this is `send()`.
 
 `(datagram-channel-receive-from `''channel''` `''blob''` `[[''start''|[''end'']]]`)`
 
-Receives a datagram from ''channel'' into the portion of ''blob'' defined by ''start'' (inclusive) and ''end'' (exclusive).  If ''end'' is omitted, it is the length of ''blob'' plus one; if ''start'' is omitted, it is 0.  Returns three values: the sending host, the sending port, and `#t` if the datagram was complete or `#f` if it was truncated.  It is an error to invoke this procedure on an output-only datagram channel.
+Receives a datagram from ''channel'' into the portion of ''blob'' defined by ''start'' (inclusive) and ''end'' (exclusive).  If ''end'' is omitted, it is the length of ''blob'' plus one; if ''start'' is omitted, it is 0.  Returns three values: the sending host, the sending port, and `#t` if the datagram was complete or `#f` if it was truncated.  It is an error to invoke this procedure on an output-only datagram channel.  In Posix terms this is `recvfrom()`.
 
 `(datagram-channel-connect! `''channel''` `''host''` `''port''`)`
 
-Connects ''channel'' to a remote endpoint specified by ''host'' and ''port''.  Datagrams can be sent to this endpoint using `datagram-channel-send`, but it is still possible to send datagrams to other endpoints using `datagram-channel-send-to`.  When connected, a datagram channel will ignore datagrams that do not come from the specified remote endpoint.  Returns undefined values.
+Connects ''channel'' to a remote endpoint specified by ''host'' and ''port''.  Datagrams can be sent to this endpoint using `datagram-channel-send`, but it is still possible to send datagrams to other endpoints using `datagram-channel-send-to`.  When connected, a datagram channel will ignore datagrams that do not come from the specified remote endpoint.  Returns undefined values.  In Posix terms this is `connect()`.
 
 `(datagram-channel-disconnect! `''channel''`)`
 
-Disconnects ''channel''.  Returns undefined values.
+Disconnects ''channel''.  Returns undefined values.  In Posix terms this is `connect()` with an argument whose address family is `AF_UNSPEC`.
 
 `(datagram-channel-connected-host `''channel''`)`
 
-Returns the host to which ''channel'' is connected, or `#f` if there is none.  The value returned need not be the same as the value passed to `datagram-channel-connect!`.
+Returns the host to which ''channel'' is connected, or `#f` if there is none.  The value returned need not be the same as the value passed to `datagram-channel-connect!`, but must be acceptable to another invocation of `datagram-channel-connect!`.
 
 `(datagram-channel-connected-port `''channel''`)`
 
-Returns the port to which ''channel'' is connected, or `#f` if there is none.
+Returns the port to which ''channel'' is connected, or `#f` if there is none.  The value returned need not be the same as the value passed to `datagram-channel-connect!`, but must be acceptable to another invocation of `datagram-channel-connect!`.
 
 `(datagram-channel-send `''channel''` `''blob''` `[[''start''|[''end'']]]`)`
 
-Send the portion of ''blob'' defined by ''start'' (inclusive) and ''end'' (exclusive) to the connected endpoint of ''channel''.  If ''end'' is omitted, it is the length of ''blob'' plus one; if ''start'' is omitted, it is 0.  It is an error if ''channel'' is not connected.  Returns undefined values.
+Send the portion of ''blob'' defined by ''start'' (inclusive) and ''end'' (exclusive) to the connected endpoint of ''channel''.  If ''end'' is omitted, it is the length of ''blob'' plus one; if ''start'' is omitted, it is 0.  It is an error if ''channel'' is not connected.  Returns undefined values.  In Posix terms this is `send()`.
 
 == Example - TFTP ==
 
 TFTP is a simple UDP-based protocol documented in RFC 1350.  For our purposes, all that matters is that the client sends the first datagram and the server sends exactly one response to each datagram (assuming no loss of packets in transmission).
 
-The server uses `(open-datagram-channel 69)` to create a datagram channel listening on UDP port 69 and then uses `(datagram-channel-receive-from `''chan''` `''blob''`)` to obtain an initial datagram.  The server then calls `(open-datagram-channel)` to create a new datagram channel listening on a randomly chosen port.  This datagram channel is then connected with `(datagram-channel-connect! `''client-host''` `''client-port''`)` to the client's host and port, and the initial datagram is processed and replied to.  All further transactions with that client are performed over the newly created channel.
+The server uses `(make-datagram-channel 69)` to create a datagram channel listening on UDP port 69 and then uses `(datagram-channel-receive-from `''chan''` `''blob''`)` to obtain an initial datagram.  The server then calls `(make-datagram-channel)` to create a new datagram channel listening on a randomly chosen port.  This datagram channel is then connected with `(datagram-channel-connect! `''client-host''` `''client-port''`)` to the client's host and port, and the initial datagram is processed and replied to.  All further transactions with that client are performed over the newly created channel.
 
 The client starts by using `(open-datagram-channel)` and then `(datagram-channel-connect! `''chan''` `''host''` 69)` to connect to the server.  The initial datagram is sent with `(datagram-channel-send `''blob''`)`.  When the server replies, the channel is reconnected with `(datagram-channel-connect! `''host''` `''server-port''`)` and the remaining datagrams are sent over the channel.
 
