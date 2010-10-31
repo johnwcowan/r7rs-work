@@ -16,7 +16,7 @@ Randomness is a common feature to use in education and general programming. Ther
  Returns a random value in the range [0.0, ''real''). When given an exact integer, the values returned must be exact integers; otherwise it will return a real value.
 
  `(random-seed)`::
- A parameter like procedure that allows the seed to be set and accessed. The procedure may be passed a single non-negative exact integer to set a specific seed.
+ A parameter like procedure that allows the seed to be set and accessed. The procedure may be passed a single non-negative exact integer to set a specific seed, and this must be supported on all Schemes, but Schemes may optionally support different seed values.
 
 == Design Rationale ==
 
