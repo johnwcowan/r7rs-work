@@ -33,7 +33,17 @@ phasing.
     * '''hsu:''' ModulesAndPackagesArcfide
     * '''shinn:''' ModulesShinn
   * '''Options:''' ganz, hsu, shinn, r6rs, r6rs--, undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' shinn, r6rs--, r6rs, hsu
+
+I've changed my top preference to ModulesShinn for two primary
+reasons: 1) It is a compatible subset of R6RS, with two syntactic
+differences that should be easy to implement, so it should be easy to
+use R6RS libraries that only make use of its subset of the R6RS module
+system; and 2) it includes the `include` form, allowing code to be
+separated from its library specification, which makes it easy to use
+code that is intended to be loaded at top level, e.g. in R5RS
+implementations, eliminates unnecessary indentation, and feels more
+compatible with interactive development.
 
 == WG1 - Core ==
 
