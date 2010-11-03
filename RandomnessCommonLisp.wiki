@@ -1,0 +1,51 @@
+== Randomness in the style of Common Lisp ==
+
+This proposal for random numbers is not a literal transcription of the Common Lisp interface, but it uses the same concepts, and the text is a heavily edited version of the CLHS.  I have added `make-strong-random-source` to what is in CL.
+
+A ''random-source object'' is an encapsulation of the state information used by a pseudo-random number generator.  Its state, which is implementation-dependent, can be printed out and successfully read back in by the same implementation, but might not function correctly as a random-source state in another implementation.  Random-source objects are a disjoint type.
+
+== Procedures ==
+
+`(make-random-source)`
+
+Constructs and returns a random-source object that has been randomly initialized by some implementation-defined means.
+
+`(make-strong-random-source)`
+
+Constructs and returns a random-source object whose state has been randomly initialized by some implementation-defined means.  This may be the same as `make-random-source`, but should if possible use a truly random source of bits (such as `/dev/random` on certain systems) to initialize its state.
+
+`(make-random-source-from-state `''state''`)`
+
+Constructs and returns a random-source object whose state is a copy of ''state'', so that mutating ''state'' does not affect the random-source object.  It is an error to pass a mutated ''state'' object.  The result will generate the same sequence of random numbers that the original random-source object would have generated as of the time `random-source-state` was invoked on it.
+
+`(random-source-state `''random-source''`)`
+
+Returns an implementation-specific object representing a copy of the state encapsulated by ''random-source''.  This object must be printable and rereadable.  It must also be suitable for passing to `make-random-source-from-state`.  Providing this mechanism makes it possible to save and reconstitute a random-source in a file or database, or to pass it across a network to an equivalent implementation.  Mutating the result of this procedure does not affect ''random-source''.
+
+`(copy-random-source `''random-source''`)`
+
+Constructs and returns a random-source object whose state is an independent copy of the state of ''random-source''.  Calling this procedure is equivalent to `(make-random-source-from-state (random-source-state `''random-source''`)`, but potentially more efficient because it can avoid copying the state twice.  The result and ''random-source'' will henceforth return the same sequence of values, allowing the same series of pseudo-random numbers to be generated many times within a single program.
+
+`(current-random-source `[''random-source'']`)`
+
+A parameter that returns or sets the default random-source object.  Its initial value must be a random-source object, but is implementation-dependent.
+
+`(random `''limit'' [''random-source'']`)`
+
+Returns a pseudo-random number that is a non-negative number less than ''limit''.  ''Limit'' must be an exact integer (in which case `random` returns an exact integer), or an inexact real number (in which case `random` returns an inexact real number).
+
+If the ''random-source'', which is modified by this function, encapsulates the internal state maintained by the random number generator.  If not specified, the value of `(current-random-source)` is used.
+
+An approximately uniform choice distribution is used. If ''limit'' is an integer, each of the possible results occurs with (approximate) probability 1/''limit''.
+
+== Examples ==
+
+
+{{{
+ (<= 0 (random 1000) 1000) =>  true
+ (let ((state1 (copy-random-source (current-random-source)))
+       (state2 (copy-random-source (current-random-source))))
+   (= (random 1000 state1) (random 1000 state2))) =>  true
+}}
+
+
