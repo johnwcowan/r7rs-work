@@ -27,13 +27,9 @@ the R5RS, since it has no module system. If
 we can't come to consensus, we will have to
 take the R6RS module system as-is.
 
-  * '''Proposals:'''
-    * '''hsu:''' ModulesAndPackagesArcfide
-    * '''shinn:''' ModulesShinn
-  * '''Options:''' hsu, shinn, r6rs, undecided
-  * '''Preferences:''' ModulesShinn
+  * '''Preferences:''' shinn, ganz, undecided, r6rs--, hsu, r6rs 
 
-This is only a preference indication, more work need to be done in this area before deciding a final module system.
+This is only a preference indication, more work need to be done in this area before deciding a final module system. 
 
 == WG1 - Core ==
 
@@ -150,7 +146,9 @@ to a random variables in WG1 Scheme?
   * '''Proposals:'''
     * '''cowan:''' RandomCowan
   * '''Options:''' cowan,srfi-27,no,wg2,undecided
-  * '''Preferences:''' module, srfi-27, cowan, wg2
+  * '''Preferences:''' cowan/module, srfi-27/module, wg2, undecided, no, cowan/core, srfi-27/core 
+
+This is really a module issue, let people choose among a set the one which fits the best their needs. Standardize names only for helping code reuse. By the way if one need repeatability why not roll their own random stream from a saved persistent table ? (as good old random number tables for those who knew about it :)
 
 === #59 current-error-port ===
 
@@ -232,7 +230,7 @@ input, `r6rs` to specify R6RS behavior for `list?` and `length`,
 and `equal?+r6rs` or `equal?+srfi-1` are options for both.
 
   * '''Options:''' equal?,r6rs,srfi-1,equal?+r6rs,equal?+srfi-1,no,module,wg2,undecided
-  * '''Preferences:''' srfi-1,module,r6rs,wg2
+  * '''Preferences:''' native, srfi-38/core, srfi-38/module, wg2, undecided, no 
 
     About shared structures I would prefer an alternative parenthesis syntax for declaring this kind of values something like this:
 
@@ -304,7 +302,11 @@ system?
   * '''Proposals:'''
     * '''cowan:''' ExceptionHandlingCowan
   * '''Options:''' cowan, r6rs, wg2, none, undecided
-  * '''Preferences:''' none,wg2
+  * '''Preferences:''' none, wg2, undecided, cowan/module, r6rs/module, cowan/core, r6rs/core 
+
+We already have call-with-current-continuation, don't we ? I feel exceptions as inappropriate for WG1. Especially because of the complex / ad hoc exception taxonomy, mainly because reunifying existing taxonomies leads to over-specifications. 
+However I strive myself for a good interruption system, this is not really continuation: when a process is interrupted it is not waiting for a value, it could be resumed safely only once and it could be interrupted at (quite) any moment. I would like to be able to interrupt a computation because of a timer or because I ran many prediction branch in parallel and want to stop false ones, or just because something from the "outside world" just happens (user requesting a break, hosting machine is shutting down, memory is running out, etc. who knows ?)  IMHO trying to enumerate all exceptional situations (ie having a taxonomy) and standardizing them is not a good design for WG1. This simply has to do with cancelling a transaction or making continuations checkpoints and restart from there requested by something external. Everyone always wants critical programs to fall back consistently. Maybe this has something to do with parallelism, but not only (On a single process I could setup a clock, if I finish before it this is nice else I give the work done so far, latter if needed I could resume the work where I was or from latest checkpoint, etc.) 
+Some really simple and generic interface like: "After an asynchronous call to interrupt (named ?) process the "interruptor" have a checkpoint (continuation-like ie expecting a value) and an interrupted process which could be discarded or resumed." is more flexible, schemish and appealing to me. 
 
 === #17 error ===
 
@@ -357,7 +359,7 @@ to be an escape for "<templ>".  Do we use this, and
 if so what does (... <t1> <t2>) mean?
 
   * '''Options:''' yes,no,wg2,undecided
-  * '''Preferences:''' yes,wg2
+  * '''Preferences:''' yes/core, yes/module, wg2, undecided, no 
 
 === #39 syntax-error ===
 
@@ -442,7 +444,9 @@ where Px only matches a dotted list.
 Do we allow either or both of these extensions?
 
   * '''Options:''' tail,dotted-tail,both,no,module,wg2,undecided
-  * '''Preferences:''' tail,wg2,no
+  * '''Preferences:''' tail/core, tail/module, wg2, no, both/core, both/module, dotted-tail/core, dotted-tail/module, undecided 
+
+I don't grasp the meaning of dotted tail patterns, if we have an ellipsis how to know where to stop ? I mean this looks like not consistent with the dotted lambda notation ?
 
 == WG1 - Numerics ==
 
@@ -474,7 +478,7 @@ as an alternative to the R5RS #s in numbers.
 Do we want either or both of these?
 
   * '''Options:''' r5rs,r6rs,both,no,wg2,undecided
-  * '''Preferences:''' r6rs,wg2
+  * '''Preferences:''' r6rs, wg2, r5rs, no, undecided, both 
 
 == WG1 - Reader Syntax ==
 
@@ -486,7 +490,9 @@ Yes to fold-case (R5RS) no to preserve case (R6RS), additional votes
 to come later from specific proposals.
 
   * '''Options:''' yes,no,undecided
-  * '''Preferences:''' yes,CaseSensitivityArcfide
+  * '''Preferences:''' yes, implementation-determined, undecided, no 
+
+Really I tell you preserving case is error-prone !
 
 === #15 #\foo character names ===
 
@@ -522,7 +528,7 @@ and #| ... |# nested block comments.  Do we include
 either or both of these?
 
   * '''Options:''' sexp,block,both,no,wg2,undecided
-  * '''Preferences:''' both,wg2,no 
+  * '''Preferences:''' both, sexp, block, wg2, no, undecided 
 
 === #16 symbol escapes ===
 
@@ -586,7 +592,7 @@ Note UnicodeCowan currently provides specific normalization
 procedures.
 
   * '''Options:''' generic,separate,specific,agnostic,no,module,wg2,undecided
-  * '''Preferences:''' module,wg2 
+  * '''Preferences:''' agnostic/module, separate/module, specific/module, generic/module, wg2, agnostic/core, separate/core, specific/core, generic/core, undecided, no 
 
 === #27 string-ref/set! access time ===
 
