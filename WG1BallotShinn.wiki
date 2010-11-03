@@ -29,9 +29,10 @@ take the R6RS module system as-is.
     * '''hsu:''' ModulesAndPackagesArcfide
     * '''shinn:''' ModulesShinn
   * '''Options:''' ganz, hsu, shinn, r6rs, r6rs--, undecided
-  * '''Preferences:''' shinn, r6rs--, r6rs, hsu
+  * '''Preferences:''' shinn, r6rs--, r6rs, ganz, hsu
 
-I think we should extend this item.
+Anything beyond a static syntax is specifying too much, and
+would make integration with existing systems difficult to impossible.
 
 == WG1 - Core ==
 
@@ -82,9 +83,11 @@ system?
   * '''Proposals:'''
     * '''cowan:''' ExceptionHandlingCowan
   * '''Options:''' cowan, wg2, none, undecided
-  * '''Preferences:''' undecided
+  * '''Preferences:''' r6rs, cowan, wg2
 
-Probably just the core R6RS exception is good here.
+The core R6RS exception system is fine, it was the
+extensive condition hierarchy and required exception
+situations I had issues with.
 
 ----
 
@@ -188,6 +191,9 @@ or separate set of procedures?
   * '''Options:''' yes,no,module,wg2,undecided
   * '''Preferences:''' module
 
+It's crucial to be able to have control over whether
+or not shared structure is handled on read and write.
+
 == WG1 - Libraries ==
 
 === 36 hash-tables ===
@@ -281,7 +287,12 @@ Yes to fold-case (R5RS) no to preserve case (R6RS), additional votes
 to come later from specific proposals.
 
   * '''Options:''' yes,no,undecided
-  * '''Preferences:''' no
+  * '''Preferences:''' no, yes, unspecified
+
+There are many pros and cons, but all things being equal
+I prefer case-sensitivity if for no other reason than it
+is more expressive - it can be used to write case-folding
+macros.
 
 == Working Group 1 ==
 
@@ -356,8 +367,9 @@ procedures `call-with-values` and `values`?
   * '''Options:''' yes,no,module,wg2,undecided
   * '''Preferences:''' module, yes
 
-I really hate MV, but would rather preserve backwards
-compatibility by relegating it to a module.
+I dislike MV for the complexity it introduces into any
+combinators or higher order utilities, but would rather
+preserve backwards compatibility by relegating it to a module.
 
 === 54 optional arguments ===
 
@@ -387,7 +399,10 @@ to a random variables in WG1 Scheme?
   * '''Preferences:''' wg2, no
 
 This is actually pretty crucial for simple games, but
-I'd still rather leave it up to wg2.
+I'd still rather leave it up to wg2.  Providing just
+`current-seconds` is enough to allow users to implement
+a much better random library than any of the simplified
+interfaces suggested.
 
 === 59 current-error-port ===
 
@@ -567,7 +582,7 @@ brackets, or leave them unspecified?
   * '''Options:''' yes,no,module,wg2,undecided
   * '''Preferences:''' no
 
-Over my dead body!
+Over my dead body! :)
 
 === 14 alternate comment syntax ===
 
