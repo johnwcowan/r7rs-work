@@ -38,11 +38,11 @@ The equivalent of CL `(make-random-state nil)` is `(copy-random-source (current-
 
 `(random `''limit'' [''random-source'']`)`
 
-Returns a pseudo-random number that is a non-negative number less than ''limit''.  ''Limit'' must be an exact integer (in which case `random` returns an exact integer), or an inexact real number (in which case `random` returns an inexact real number).  If ''random-source'' is not specified, the value of `(current-random-source)` is used.
+Returns the next pseudo-random number from ''random-source''.  The result is a non-negative number less than ''limit''.  ''Limit'' must be an exact integer (in which case `random` returns an exact integer), or an inexact real number (in which case `random` returns an inexact real number).  If ''random-source'' is not specified, the value of `(current-random-source)` is used.
 
 An approximately uniform choice distribution is used. If ''limit'' is an integer, each of the possible results occurs with (approximate) probability 1/''limit''.
 
-It's possible to generate truly random rather than pseudo-random numbers by callling `(random-source `''limit''` (make-strong-random-source))`, provided that `make-strong-random-source` actually does return a strong random number source.  Caution must be taken not to overrun the pool of high-quality randomness, however.
+It's possible to generate truly random rather than pseudo-random numbers by callling `(random-source `''limit''` (make-strong-random-source))`, provided that `make-strong-random-source` actually does return a strong random number source.  Caution must be taken not to overrun the system's pool of high-quality randomness, however.
 
 The CL equivalent of this procedure is `random`.
 
