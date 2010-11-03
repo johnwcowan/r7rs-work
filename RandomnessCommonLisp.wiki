@@ -55,6 +55,6 @@ The CL equivalent of this procedure is `random`.
  (let ((state1 (copy-random-source (current-random-source)))
        (state2 (copy-random-source (current-random-source))))
    (= (random 1000 state1) (random 1000 state2))) =>  true
-}}
+}}}
 
 
