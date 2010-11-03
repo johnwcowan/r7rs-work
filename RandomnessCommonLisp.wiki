@@ -12,7 +12,9 @@ Constructs and returns a random-source object that has been randomly initialized
 
 `(make-strong-random-source)`
 
-Constructs and returns a random-source object whose state has been randomly initialized by some implementation-defined means.  This may be the same as `make-random-source`, but should if possible use a truly random source of bits (such as `/dev/random` on certain systems) to initialize its state.  The CL equivalent is `(make-random-state t)`.
+Constructs and returns a random-source object whose state has been initialized using a truly random source of bits (such as `/dev/random` on certain systems) to initialize its state.  If no such truly random source is available to the implementation, an error is signaled.  There is no CL equivalent.
+
+It's possible to use `random` to generate truly random rather than pseudo-random numbers by calling `(random-source `''limit''` (make-strong-random-source))`.  Caution must be taken not to overrun the system's pool of high-quality randomness, however.
 
 `(random-source? `''obj''`)`
 
@@ -41,8 +43,6 @@ The equivalent of CL `(make-random-state nil)` is `(copy-random-source (current-
 Returns the next pseudo-random number from ''random-source''.  The result is a non-negative number less than ''limit''.  ''Limit'' must be an exact integer (in which case `random` returns an exact integer), or an inexact real number (in which case `random` returns an inexact real number).  If ''random-source'' is not specified, the value of `(current-random-source)` is used.
 
 An approximately uniform choice distribution is used. If ''limit'' is an integer, each of the possible results occurs with (approximate) probability 1/''limit''.
-
-It's possible to generate truly random rather than pseudo-random numbers by callling `(random-source `''limit''` (make-strong-random-source))`, provided that `make-strong-random-source` actually does return a strong random number source.  Caution must be taken not to overrun the system's pool of high-quality randomness, however.
 
 The CL equivalent of this procedure is `random`.
 
