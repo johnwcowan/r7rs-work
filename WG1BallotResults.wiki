@@ -21,9 +21,9 @@ We need a VCS to keep track of changes to the standard as we start
 drafting it.
 
   * '''Options:''' bzr,darcs,git,hg,monotone,svn,undecided
-  * '''Voters:''' 13: [[:WG1BallotCowan|Cowan]], [[:WG1BallotDurusau|Durusau]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotShivers|Shivers]], [[:WG1BallotSnellPym|SnellPym]]
+  * '''Voters:''' 14: [[:WG1BallotCowan|Cowan]], [[:WG1BallotDurusau|Durusau]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotShivers|Shivers]], [[:WG1BallotSnellPym|SnellPym]]
   * '''Results:''' hg, git, svn, monotone, darcs, undecided, bzr
-  * '''Ratios:''' 5:4, 6:3, 7:2, 8:2, 8:2, 8:0
+  * '''Ratios:''' 5:5, 6:4, 7:2, 8:2, 8:2, 8:0
 
 == WG1 - Modules ==
 
@@ -47,17 +47,23 @@ phasing.
     * '''hsu:''' ModulesAndPackagesArcfide
     * '''shinn:''' ModulesShinn
   * '''Options:''' ganz, hsu, shinn, r6rs, r6rs--, undecided
-  * '''Voters:''' 12: [[:WG1BallotCowan|Cowan]], [[:WG1BallotDurusau|Durusau]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRush|Rush]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
-  * '''Results:''' undecided, shinn, r6rs, hsu, r6rs--, ganz
-  * '''Ratios:''' 6:4, 6:4, 6:3, 6:2, 5:1
+  * '''Voters:''' 13: [[:WG1BallotCowan|Cowan]], [[:WG1BallotDurusau|Durusau]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Results:''' shinn, r6rs--, ganz, undecided, hsu, r6rs, no
+  * '''Ratios:''' 6:4, 6:4, 8:5, 7:2, 8:2, 9:0
   * '''Rationales:'''
 
+ `Gleckler`::
+   I've changed my top preference to ModulesShinn for two primary reasons: 1) It is a compatible subset of R6RS, with two syntactic differences that should be easy to implement, so it should be easy to use R6RS libraries that only make use of its subset of the R6RS module system; and 2) it includes the `include` form, allowing code to be separated from its library specification, which makes it easy to use code that is intended to be loaded at top level, e.g. in R5RS implementations, eliminates unnecessary indentation, and feels more compatible with interactive development.
  `Harvey`::
-   Honestly, after reading a bazillion emails on this topic, I'm having trouble understanding the differences among these proposals. They all claim not to screw up the REPL, which is the important thing. But if "wg2" were an option it'd definitely be my first choice.
+   Honestly, after reading a bazillion emails on this topic, I'm having trouble understanding the differences among these proposals. They all claim not to screw up the REPL, which is the important thing. But if "wg2" were an option it'd definitely be my first choice. I know there's no NO option, but according to John's excellent chart, the r6rs option is the only one that's way, way, way worse than nothing, because of "phasing: yes." Shinn gets the edge on simplicity: top-level only, explicit exports, etc. Ganz beats out Hsu also on simplicity, since Hsu has two columns in the table with different properties, already way too complicated. I feel compelled to reiterate that none of these proposals strikes me as jewel-like.
+ `Hsu`::
+   Rationale: R6RS-- is our best compromise and the most useful for WG1, but modules should be syntactic entities.
  `Medernach`::
    This is only a preference indication, more work need to be done in this area before deciding a final module system.
+ `Rush`::
+   Seriously. I have not had enough time to digest the various proposals on this topic. And I find it unfortunate that the voting system forces me to express an opinion on topics which I have not fully evaluated just to make sure that i give sufficient weight to my *actual* vote.
  `Shinn`::
-   I think we should extend this item.
+   Anything beyond a static syntax is specifying too much, and would make integration with existing systems difficult to impossible.
 
 == WG1 - Core ==
 
@@ -71,9 +77,9 @@ vs. syntax-error.
 This is a meta-item, to be used only as a guideline.
 
   * '''Options:''' srfi,r6rs,undecided
-  * '''Voters:''' 10: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Voters:''' 11: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
   * '''Results:''' srfi, r6rs, undecided
-  * '''Ratios:''' 6:3, 7:1
+  * '''Ratios:''' 7:3, 8:1
   * '''Rationales:'''
 
  `Ganz`::
@@ -93,9 +99,13 @@ Yes means to keep them in the core, as in R5RS,
 and no means to remove them entirely.
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Voters:''' 15: [[:WG1BallotCowan|Cowan]], [[:WG1BallotDurusau|Durusau]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotShivers|Shivers]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
-  * '''Results:''' no, module, yes, wg2
-  * '''Ratios:''' 7:6, 12:3, 12:0
+  * '''Voters:''' 16: [[:WG1BallotCowan|Cowan]], [[:WG1BallotDurusau|Durusau]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotShivers|Shivers]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Results:''' no, module, wg2, yes
+  * '''Ratios:''' 8:6, 13:0, 13:3
+  * '''Rationales:'''
+
+ `Radul`::
+   When in doubt, dike it out.
 
 === #38 letrec* ===
 
@@ -107,9 +117,9 @@ Choose `letrec*` just to add the syntax, `define` to change the
 behavior of internal define, or `yes`/`both` for both.
 
   * '''Options:''' both,letrec*,define,no,module,wg2,undecided
-  * '''Voters:''' 13: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
-  * '''Results:''' both, letrec*, module, define, wg2, no, undecided
-  * '''Ratios:''' 9:2, 8:3, 9:0, 9:0, 9:1, 9:1
+  * '''Voters:''' 14: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Results:''' both, letrec*, define, module, wg2, no, undecided
+  * '''Ratios:''' 10:2, 10:0, 9:3, 10:0, 10:1, 10:1
   * '''Rationales:'''
 
  `SnellPym`::
@@ -124,9 +134,9 @@ stops the procedure whenever any of them run out.  R5RS says the lists
 `Yes` to allow unequal length.
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Voters:''' 13: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
-  * '''Results:''' yes, no, module, r6rs, wg2
-  * '''Ratios:''' 8:4, 8:1, 8:1, 8:0
+  * '''Voters:''' 14: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Results:''' yes, no, module, wg2, r6rs
+  * '''Ratios:''' 9:4, 9:1, 9:0, 9:1
   * '''Rationales:'''
 
  `Medernach`::
@@ -140,11 +150,13 @@ This extension accepts a third argument, the equality predicate to be
 used.  Alternatively we could use the R6RS predicates ASSP and MEMP.
 
   * '''Options:''' srfi-1,r6rs,no,module,wg2,undecided
-  * '''Voters:''' 14: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotShivers|Shivers]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
-  * '''Results:''' srfi-1, r6rs, yes, module, wg2
-  * '''Ratios:''' 10:2, 11:2, 9:3, 10:1
+  * '''Voters:''' 15: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotShivers|Shivers]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Results:''' srfi-1, r6rs, wg2, yes, module
+  * '''Ratios:''' 11:2, 11:1, 12:2, 10:3
   * '''Rationales:'''
 
+ `Radul`::
+   Either or both.
  `SnellPym`::
    The SRFI-1 form just strikes me as neater.
 
@@ -156,9 +168,9 @@ Removing this would require a strong rationale indicating that it's
 fundamentally flawed.
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Voters:''' 14: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotShivers|Shivers]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Voters:''' 15: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotShivers|Shivers]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
   * '''Results:''' yes, module, wg2, no, undecided
-  * '''Ratios:''' 8:3, 10:1, 10:1, 10:3
+  * '''Ratios:''' 9:3, 11:1, 11:1, 11:3
   * '''Rationales:'''
 
  `SnellPym`::
@@ -180,13 +192,15 @@ in R5RS).
 to a module.
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Voters:''' 14: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotShivers|Shivers]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
-  * '''Results:''' yes, module, wg2, no, undecided
-  * '''Ratios:''' 8:4, 10:2, 10:2, 10:2
+  * '''Voters:''' 15: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotShivers|Shivers]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Results:''' yes, module, wg2, undecided, no
+  * '''Ratios:''' 8:4, 10:2, 10:3, 10:2
   * '''Rationales:'''
 
+ `Radul`::
+   Multiple return values are important, but is seems wrong to do them by introducing a special data type (the frob produced by VALUES) and special implicit destructuring (the lambda list of the receiver argument of CALL-WITH-VALUES) for that purpose alone. Linguistically, it would be much cleaner to just have destructuring in bindings in general, and have VALUES just be a convention for using LIST (or VECTOR). The circumstances where explicit destructuring of returned compounds is difficult are defining (or assigning) multiple names to be the components of the return of a single expression.
  `Shinn`::
-   I really hate MV, but would rather preserve backwards compatibility by relegating it to a module.
+   I dislike MV for the complexity it introduces into any combinators or higher order utilities, but would rather preserve backwards compatibility by relegating it to a module.
  `Sussman`::
    It is important to allow multiple values that can result in multiple definitions and assignments, but it is not apparent to me why we need a special data type to implement them.
 
@@ -204,15 +218,17 @@ Note the original ticket description mentions `case-lambda`, but this
 is easily provided as a separate module, and will be a separate item.
 
   * '''Options:''' dsssl,srfi-89,no,wg2,undecided
-  * '''Voters:''' 15: [[:WG1BallotCowan|Cowan]], [[:WG1BallotDurusau|Durusau]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotShivers|Shivers]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
-  * '''Results:''' wg2, no, undecided, srfi-89, dsssl
-  * '''Ratios:''' 5:4, 5:3, 4:3, 4:2
+  * '''Voters:''' 16: [[:WG1BallotCowan|Cowan]], [[:WG1BallotDurusau|Durusau]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotShivers|Shivers]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Results:''' no, wg2, undecided, srfi-89, dsssl
+  * '''Ratios:''' 5:5, 7:4, 7:3, 8:2
   * '''Rationales:'''
 
  `Ganz`::
    NAMES ARE PRECIOUS: OVERLOAD lambda AND define RATHER THAN RENAMING THEM
  `Harvey`::
    Much as I'd like optional arguments, I can't support srfi-89 because it depends on srfi-88, keywords, which are an incompatible change that will break r5rs programs.
+ `Radul`::
+   This is feature creep. Optional arguments are a subset of the functionality of a good pattern-matching and destructuring mechanism for bindings. I believe that WG2 should consider such a mechanism.
  `Shinn`::
    Too much to work out, too many differing opinions, let's leave this to wg2.
  `Shivers`::
@@ -229,13 +245,23 @@ to a random variables in WG1 Scheme?
   * '''Proposals:'''
     * '''cowan:''' RandomCowan
   * '''Options:''' cowan,srfi-27,no,wg2,undecided
-  * '''Voters:''' 13: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
-  * '''Results:''' cowan, wg2, srfi-27, no, module, hsu
-  * '''Ratios:''' 5:5, 4:4, 5:2, 5:1, 4:1
+  * '''Voters:''' 14: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Results:''' wg2, no, cowan/module, srfi-27/module, cowan/core, srfi-27/core, hsu/core, hsu/module, undecided, srfi/27-core, module
+  * '''Ratios:''' 9:3, 10:3, 9:4, 11:2, 10:3, 10:2, 10:2, 12:0, 12:0, 12:1
   * '''Rationales:'''
 
+ `Gleckler`::
+   RandomCowan does not allow control over the seed, so it is of such limited usefulness as to not be worth including. The API defined by SRFI 27 does allow control of the seed, and makes random sources first class, both of which are good ideas. However, the API is awkward, especially `random-source-state-ref` and `random-source-state-set!`. I'd like to see WG2 do a survey of existing implementations and find something better than both of these proposals.
+ `Hsu`::
+   Rationale: Randomness without seeds is not useful. We should have a complete, functional, but simple interface rather than one that is over done.
+ `Lucier`::
+   If there cannot be a quality, standard random number generator suitable for simulation purposes (which SRFI-27 is, see the mail list discussion of SRFI-27), I'd prefer to leave it to wg2.
+ `Radul`::
+   If you can't do it right, don't do it at all. Unlike a module system, randomness can be retrofit at user level, so Scheme will not shrivel up and die if we wait for perfection.
+ `Rush`::
+   This is essentially a strong *NO* vote. Again, I feel that this voting system here inapropriately conflates two issues: whether we should *have* such an interface, and *if* we should have such an interface, what shape it should have.
  `Shinn`::
-   This is actually pretty crucial for simple games, but I'd still rather leave it up to wg2.
+   This is actually pretty crucial for simple games, but I'd still rather leave it up to wg2. Providing just `current-seconds` is enough to allow users to implement a much better random library than any of the simplified interfaces suggested.
  `Sussman`::
    Do not introduce anything "not necessarily of very high quality" into the language! Don't do anything that Knuth and Kahan would not approve of! If you have good integers and assignment a user can make his own, so this is not essential.
 
@@ -281,13 +307,15 @@ string->vector copy-vector vector-map vector-for-each vector->string`,
 all with the obvious interface and semantics.
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Voters:''' 13: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Voters:''' 14: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
   * '''Results:''' yes, module, wg2, no, undecided
-  * '''Ratios:''' 8:2, 8:1, 8:2, 7:2
+  * '''Ratios:''' 9:2, 9:1, 9:2, 8:2
   * '''Rationales:'''
 
  `Harvey`::
    The whole reason we /have/ more than one sequence type is that each is better at some things than others. I don't think we should make it harder to learn which is which!
+ `Radul`::
+   Except for the string ones. A string is really not a vector of characters --- unicode causes infinite amounts of trouble. But the list and vector manipulations are fine.
  `Shinn`::
    These should be in a module. Arguably, the list equivalents like map and for-each should be in modules too. Their extremely useful but a loop syntax is generally faster and easier to read.
  `SnellPym`::
@@ -304,9 +332,9 @@ precision, so this is mostly noise.  Shall we make it an optional
 feature?
 
   * '''Options:''' required,optional,no,wg2,undecided
-  * '''Voters:''' 13: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Voters:''' 14: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
   * '''Results:''' optional, wg2, required, undecided, yes, no
-  * '''Ratios:''' 7:1, 7:2, 7:2, 7:1, 7:0
+  * '''Ratios:''' 8:1, 8:2, 8:2, 8:1, 8:0
 
 === #66 Add EXACT-INTEGER? ===
 
@@ -316,11 +344,13 @@ which requires some hackery or poor pattern matching to optimize in
 existing Scheme implementations.
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Voters:''' 14: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotShivers|Shivers]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
-  * '''Results:''' yes, undecided, wg2, module, no
-  * '''Ratios:''' 10:2, 11:2, 11:0, 11:1
+  * '''Voters:''' 15: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotShivers|Shivers]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Results:''' yes, no, wg2, undecided, module
+  * '''Ratios:''' 11:2, 11:3, 10:2, 11:0
   * '''Rationales:'''
 
+ `Radul`::
+   Leave the hackery and the pattern matching in the implementation, don't put it into the standard.
  `Sussman`::
    Compiler shoould be able to optimize "(and (integer? x) (exact? x))"
 
@@ -330,15 +360,17 @@ We would like a standard for checking function arity.
 SRFI-102 proposes a way to check function arity:
 
   * '''Options:''' srfi-102,no,wg2,undecided
-  * '''Voters:''' 14: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotShivers|Shivers]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Voters:''' 15: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotShivers|Shivers]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
   * '''Results:''' no, srfi-102, wg2, undecided
-  * '''Ratios:''' 8:3, 8:2, 9:3
+  * '''Ratios:''' 9:3, 9:2, 10:3
   * '''Rationales:'''
 
  `Ganz`::
    THIS WOULD NEED TO BE EXTENDED SOMEHOW FOR KEYWORD ARGUMENTS A LA SRFI-89
  `Harvey`::
    Much as I'd like arity information, this is too complicated for wg1, because of its support for case-lambda.
+ `Radul`::
+   This is feature creep. It is useful, but since it is not closed, it opens the door to an endless pile of additional features that people will want to solve further and further problems. For example, the procedure returned by calling (lambda (f) (lambda args (apply f args))) wants to have the same arity as F. This must then either be deduced (impossible in general) or specified by the programmer (piling feature upon feature). And it doesn't end there. "No reflection" is a reflection sweet spot; we can jump to the next one if we want, and if we know what it is, but we should not wander aimlessly through this space.
 
 === #51 support for cyclic structures in primitives ===
 
@@ -359,9 +391,9 @@ input, `r6rs` to specify R6RS behavior for `list?` and `length`,
 and `equal?+r6rs` or `equal?+srfi-1` are options for both.
 
   * '''Options:''' equal?,r6rs,srfi-1,equal?+r6rs,equal?+srfi-1,no,module,wg2,undecided
-  * '''Voters:''' 12: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
-  * '''Results:''' equal?+srfi-1, no, module, srfi-1, r6rs, wg2, undecided
-  * '''Ratios:''' 4:3, 4:1, 4:3, 4:3, 4:3, 4:1
+  * '''Voters:''' 13: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Results:''' r6rs, wg2, equal?+srfi-1, no, srfi-1, module, undecided
+  * '''Ratios:''' 4:2, 4:4, 4:4, 3:3, 3:2, 4:1
   * '''Rationales:'''
 
  `Harvey`::
@@ -386,9 +418,9 @@ the nearest exact square.
 or `single` to only return `s`.
 
   * '''Options:''' r6rs,list,single,no,module,wg2,undecided
-  * '''Voters:''' 12: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
-  * '''Results:''' r6rs, module, wg2, no, undecided, list, single
-  * '''Ratios:''' 5:4, 7:3, 7:2, 7:2, 6:2, 6:2
+  * '''Voters:''' 13: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Results:''' r6rs, module, wg2, single, no, undecided, list
+  * '''Ratios:''' 6:4, 8:3, 7:2, 8:2, 8:2, 7:2
 
 === #61 finite? nan? ===
 
@@ -396,9 +428,9 @@ Shall we add these numeric predicates defined on the IEEE floating
 point values from #20?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Voters:''' 13: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
-  * '''Results:''' yes, module, undecided, wg2, both
-  * '''Ratios:''' 8:2, 9:2, 9:1, 9:1
+  * '''Voters:''' 14: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Results:''' yes, module, wg2, undecided, both
+  * '''Ratios:''' 9:2, 10:1, 10:2, 10:1
 
 === #63 call/cc short name ===
 
@@ -424,9 +456,9 @@ This is a meta-item to be used as a guideline, and specific places
 would need to be brought up for review.
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Voters:''' 12: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
-  * '''Results:''' yes, undecided, wg2, no
-  * '''Ratios:''' 6:3, 6:1, 6:2
+  * '''Voters:''' 13: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Results:''' yes, wg2, undecided, no
+  * '''Ratios:''' 7:1, 7:3, 7:2
   * '''Rationales:'''
 
  `Shinn`::
@@ -446,15 +478,21 @@ system?
   * '''Proposals:'''
     * '''cowan:''' ExceptionHandlingCowan
   * '''Options:''' cowan, r6rs, wg2, none, undecided
-  * '''Voters:''' 11: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRush|Rush]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
-  * '''Results:''' wg2, cowan, no, undecided, r6rs
-  * '''Ratios:''' 5:3, 4:3, 5:3, 4:2
+  * '''Voters:''' 13: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Results:''' wg2, r6rs/module, r6rs/core, no, cowan/module, undecided, cowan/core, cowan, r6rs
+  * '''Ratios:''' 6:5, 6:5, 7:3, 8:2, 10:1, 8:2, 9:2, 9:1
   * '''Rationales:'''
 
+ `Gleckler`::
+   While the R6RS exception system is not perfect, I'm happy with it. In WG1, it belongs in a module, not in the core. If we don't agree to use the R6RS system, then I'd rather see WG2 refine it instead of including ExceptionHandlingCowan in WG1, since the ExceptionHandlingCowan proposal doesn't explain the rationale for its deviations from R6RS. I've studied the mailing list archive and can't find a convincing argument for ExceptionHandlingCowan, either, so I'm sticking with R6RS or, as a fallback position, WG2. The largest flaw I see with the R6RS condition system is that its condition taxonomy is too coarse and focused on operating-system issues. Compare it with the taxonomy of Gambit or MIT Scheme, for example. (See ExceptionTaxonomies for details of the condition taxonomies of many Scheme implementations.) Some people have proposed taking the R6RS exception system but not its condition taxonomy. If we do, I hope we'll still standardize on some taxonomy rather than none. Without a common taxonomy, it's hard to share code.
  `Hsu`::
-   I propose that we provide exception handling as specified in R6RS without the condition system, or that we consider the condition system separately.
+   I propose that we provide exception handling as specified in R6RS without the condition system, or that we consider the condition system separately. Rationale: R6RS does mostly the right thing here with exceptions. The condition system could use more work, but we should leave that to someone else for now.
+ `Radul`::
+   The only reason I can imagine for wanting exceptions in the core is to specify which conditions various provided procedures (including ERROR) will raise. Leave this to WG2: let them amend the specifications of any WG1 procedures with their behavior in exceptional circumstances.
+ `Rush`::
+   This is essentially a strong *NO* vote. Again, I feel that this voting system here inapropriately conflates two issues: whether we should *have* such an interface, and *if* we should have such an interface, what shape it should have. It is particularly frustrating to express any positive preference over what is essentially a binary issue just to give sufficient weight to my *no* vote.
  `Shinn`::
-   Probably just the core R6RS exception is good here.
+   The core R6RS exception system is fine, it was the extensive condition hierarchy and required exception situations I had issues with.
 
 === #17 error ===
 
@@ -466,9 +504,9 @@ Note ExceptionHandlingCowan currently includes a SRFI-23 compatible
 `error` procedure.
 
   * '''Options:''' srfi-23,r6rs,both,no,module,wg2,undecided
-  * '''Voters:''' 13: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
-  * '''Results:''' srfi-23, r6rs, wg2, both, undecided, module
-  * '''Ratios:''' 7:5, 9:0, 8:2, 9:1, 9:0
+  * '''Voters:''' 14: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Results:''' srfi-23, r6rs, both, wg2, undecided, module
+  * '''Ratios:''' 8:5, 8:3, 10:0, 10:1, 10:0
   * '''Rationales:'''
 
  `Hsu`::
@@ -486,13 +524,15 @@ or as by R6RS?
 Note that currently PortsCowan provides SRFI-6 string ports.
 
   * '''Options:''' srfi-6,r6rs,no,module,wg2,undecided
-  * '''Voters:''' 13: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Voters:''' 14: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
   * '''Results:''' srfi-6, r6rs, module, wg2, undecided, no
-  * '''Ratios:''' 8:2, 9:0, 9:1, 9:1, 9:1
+  * '''Ratios:''' 9:2, 9:1, 10:1, 10:1, 10:1
   * '''Rationales:'''
 
  `Hsu`::
    I like the R6RS version better because it separates the port type returned from `get-string-output-port` and the means of extracting the data. I think this separation is good for a number of reasons, the two primary ones being that we can make it possible for an application to write to an output port without being able to extract the data from the port, easily. Secondly, that the port returned can, if desired, be identical in behavior to a normal textual output port, as opposed to forcing a different port type.
+ `Radul`::
+   Perhaps all the I/O stuff can be hidden off in a module? Maybe except a tiny facade of the most basic things?
  `SnellPym`::
    Implementations can provide SRFI-6 through the usual mechanisms, rather than it being put into WG1
 
@@ -511,13 +551,23 @@ or separate set of procedures?
 `write` to handle cyclic notation.
 
   * '''Options:''' srfi-38,native,no,module,wg2,undecided
-  * '''Voters:''' 12: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
-  * '''Results:''' srfi-38, module, native, wg2, undecided, no
-  * '''Ratios:''' 6:2, 5:3, 6:3, 6:1, 6:1
+  * '''Voters:''' 14: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Results:''' native, srfi-38/core, srfi-38/module, wg2, no, undecided, srfi-38, module
+  * '''Ratios:''' 6:2, 6:2, 5:5, 6:2, 8:1, 8:2, 8:2
   * '''Rationales:'''
 
  `Ganz`::
    SUPPORT AS AN OPTION
+ `Gleckler`::
+   SRFI 38 supports this notation, but doesn't require that `read` and `write` support it, so writing doesn't have to become more expensive. Since many programs won't need this feature, it belongs in a module.
+ `Hsu`::
+   Rationale: This is a common extension that should be supported, as it makes the programs more reliable. It should be built in, not tacked on, so native is the way to go.
+ `Radul`::
+   Some variation on this theme (I would like to see the names for common subexpressions be able to be semantic, and perhaps introduced by an object named something like LET instead of inline) would certainly be good to have around, but it would probably complicate the WG1 language too much.
+ `Rush`::
+   Again with a binary issue including a multi-valued one. In this case, however, I am in favor of the proposal because there should be no way to inadvertantly throw a built-in into an infinite loop.
+ `Shinn`::
+   It's crucial to be able to have control over whether or not shared structure is handled on read and write.
  `SnellPym`::
    Much as it pains me to require more complexity from WG1 implementations, I feel that there is a security issue here that primitives should not diverge on cyclic structures, as it would make it all too easy to introduce unexpected denial of service opportunities.
  `Sussman`::
@@ -578,11 +628,13 @@ types of expanders are provided, do we provide
 a means to specify identifier syntax?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Voters:''' 13: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotShivers|Shivers]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Voters:''' 14: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotShivers|Shivers]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
   * '''Results:''' no, yes, wg2, undecided
-  * '''Ratios:''' 9:3, 9:1, 9:1
+  * '''Ratios:''' 10:3, 10:1, 10:1
   * '''Rationales:'''
 
+ `Radul`::
+   If a thing wants to change how a form is interpreted, the thing should be in the operator position of that form.
  `Shinn`::
    Identifier syntax is actually really cool. I bash it only because it's a big semantic change, and not suitable for a small R5RS-compatible language. I would not be overly opposed to it in wg2.
 
@@ -593,9 +645,9 @@ in local lexical contexts.  Do we allow
 this as well?
 
   * '''Options:''' yes,no,wg2,undecided
-  * '''Voters:''' 13: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotShivers|Shivers]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Voters:''' 14: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotShivers|Shivers]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
   * '''Results:''' yes, wg2, undecided, no
-  * '''Ratios:''' 12:0, 10:2, 12:1
+  * '''Ratios:''' 13:0, 11:2, 13:1
 
 === #6 syntax-rules _ patterns ===
 
@@ -606,9 +658,9 @@ or leave it as a normal identifier as in R5RS?
 Yes to add, no for R5RS.
 
   * '''Options:''' yes,no,wg2,undecided
-  * '''Voters:''' 13: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Voters:''' 14: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
   * '''Results:''' yes, no, wg2, undecided
-  * '''Ratios:''' 7:4, 6:1, 7:2
+  * '''Ratios:''' 8:4, 7:1, 8:2
 
 === #8 SRFI-46 ellipse specifier in syntax-rules ===
 
@@ -624,12 +676,14 @@ Do we allow this?
 
   * '''Options:''' yes,no,module,wg2,undecided
   * '''Voters:''' 13: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
-  * '''Results:''' yes, wg2, no, undecided, module
-  * '''Ratios:''' 4:4, 5:4, 5:2, 5:1
+  * '''Results:''' yes/core, yes/module, wg2, no, undecided, yes
+  * '''Ratios:''' 5:2, 4:4, 5:4, 5:2, 5:1
   * '''Rationales:'''
 
  `Hsu`::
-   This is no longer necessary with the introduction of a proper module system. It is better to do this through the module system than to complicate the syntax of `syntax-rules`.
+   This is no longer necessary with the introduction of a proper module system. It is better to do this through the module system than to complicate the syntax of `syntax-rules`. Rationale: So long as this doesn't break backwards compatibility, it is useful, but I question how useful.
+ `Rush`::
+   The text above seems to incorrectly indicate a #7 from the previous ballot...
  `Sussman`::
    You mean "ellipsis" not "elllipse"! An ellipse is a shape, an ellipsis is a punctuation mark.
 
@@ -650,11 +704,17 @@ where Px only matches a dotted list.
 Do we allow either or both of these extensions?
 
   * '''Options:''' tail,dotted-tail,both,no,module,wg2,undecided
-  * '''Voters:''' 12: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]]
-  * '''Results:''' both, tail, wg2, undecided, dotted-tail, no
-  * '''Ratios:''' 5:4, 5:2, 5:2, 5:1, 5:1
+  * '''Voters:''' 13: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]]
+  * '''Results:''' both/core, both/module, tail/core, tail/module, wg2, dotted-tail/core, dotted-tail/module, no, both, tail, undecided, dotted-tail
+  * '''Ratios:''' 6:1, 5:1, 5:2, 4:5, 6:0, 6:0, 5:2, 6:3, 6:4, 6:1, 6:1
   * '''Rationales:'''
 
+ `Gleckler`::
+   I don't feel strongly about this issue, but the extensions seem harmless.
+ `Hsu`::
+   Rationale: These are very useful.
+ `Rush`::
+   Doesn't dotted-tail == both? It certainly seems so from the syntax used above.
  `Shinn`::
    The dotted-tail is useful, but breaks the rule of the pattern language where what you see is what you get.
 
@@ -671,9 +731,9 @@ as in R6RS?
 write in a separate proposal for some other syntax/semantics.
 
   * '''Options:''' yes,no,wg2,undecided
-  * '''Voters:''' 13: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Voters:''' 14: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
   * '''Results:''' yes, wg2, no, undecided
-  * '''Ratios:''' 11:1, 11:1, 11:1
+  * '''Ratios:''' 12:1, 12:1, 12:1
 
 === #21 limited type arithmetic ===
 
@@ -681,9 +741,9 @@ R6RS provides libraries for limited type arithmetic on fixnums only
 and flonums only (i.e. `fx+`, `fl*` etc.).  Do we want these?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Voters:''' 13: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotShivers|Shivers]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Voters:''' 14: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotShivers|Shivers]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
   * '''Results:''' wg2, module, no, yes, undecided
-  * '''Ratios:''' 7:4, 7:4, 9:1, 8:1
+  * '''Ratios:''' 8:4, 7:5, 10:1, 9:1
 
 === #22 mantissa widths ===
 
@@ -693,8 +753,14 @@ Do we want either or both of these?
 
   * '''Options:''' r5rs,r6rs,both,no,wg2,undecided
   * '''Voters:''' 13: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
-  * '''Results:''' undecided, no, wg2, both, r5rs, r6rs, module
-  * '''Ratios:''' 5:3, 5:3, 5:2, 5:2, 5:1, 5:1
+  * '''Results:''' wg2, both, r6rs, r5rs, no, undecided, module
+  * '''Ratios:''' 5:5, 6:3, 6:4, 6:3, 7:3, 8:0
+  * '''Rationales:'''
+
+ `Gleckler`::
+   I don't have a good enough understanding of the importance of this issue to have a strong opinion, so I'm following GJS, who is of course a great mathematician and programmer, and have chosen "both" as my first preference.
+ `Rush`::
+   Don't break my R5RS code & data files!
 
 == WG1 - Reader Syntax ==
 
@@ -706,13 +772,21 @@ Yes to fold-case (R5RS) no to preserve case (R6RS), additional votes
 to come later from specific proposals.
 
   * '''Options:''' yes,no,unspecified,undecided
-  * '''Voters:''' 14: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotShivers|Shivers]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
-  * '''Results:''' no, yes, unspecified, undecided
-  * '''Ratios:''' 8:5, 8:1, 8:0
+  * '''Voters:''' 15: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotShivers|Shivers]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Results:''' no, yes, implementation-determined, undecided, unspecified
+  * '''Ratios:''' 8:7, 7:4, 8:2, 10:0
   * '''Rationales:'''
 
  `Harvey`::
-   YES!!!!!!!!!!
+   YES!!!!!!!!!! Oh, please yes, let's not adopt all of C's mistakes. As I said before, I can't imagine why people think bug-avoidance important enough to put up with hygienic macros, and yet want such a bug-attractor as making "foo" and "Foo" mean two different things. People have raised Unicode as an argument here, but there is a perfectly good Unicode case-folding standard; they invented it precisely so that programming languages can be international in scope without having to endorse the horror of making semantically identical glyphs turn semantically different.
+ `Hsu`::
+   Rationale: Case sensitivity is more popular, let's go with it. Otherwise, let implementations determine it.
+ `Radul`::
+   Really, the read syntax should be settable by appropriate metadata on the source of the input, and case folding should be just one of many interesting options (e.g. the @-syntax in Racket).
+ `Rush`::
+   There may actually be no good answer to this issue. Usually I am against case-folding, but it *is* useful to have when talking about code, and relying on case to distinguish identifiers is arguably moderately evil.
+ `Shinn`::
+   There are many pros and cons, but all things being equal I prefer case-sensitivity if for no other reason than it is more expressive - it can be used to write case-folding macros.
  `Sussman`::
    This is a default only. The reader syntax should be allowed to be specified as metadata on the source of the input. For example, the PLT reader must be specified at the head of a file. However, for compatability and convenience the traditional default for LISP-based systems should be fold-case.
 
@@ -728,9 +802,9 @@ and `yes`/`both` for both.
 The exact list of added names is to be decided later.
 
   * '''Options:''' mnemonic,numeric,both,no,wg2,undecided
-  * '''Voters:''' 13: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
-  * '''Results:''' both, wg2, undecided, mnemonic, numeric
-  * '''Ratios:''' 11:1, 11:1, 11:1, 11:0
+  * '''Voters:''' 14: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Results:''' both, mnemonic, numeric, wg2, undecided
+  * '''Ratios:''' 12:1, 12:0, 12:1, 12:1
   * '''Rationales:'''
 
  `Ganz`::
@@ -749,13 +823,15 @@ brackets, or leave them unspecified?
 meaning for brackets.
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Voters:''' 14: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotShivers|Shivers]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Voters:''' 15: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotShivers|Shivers]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
   * '''Results:''' no, yes, undecided, wg2, module
-  * '''Ratios:''' 10:3, 10:1, 10:0, 10:0
+  * '''Ratios:''' 11:3, 11:1, 11:0, 11:0
   * '''Rationales:'''
 
+ `Radul`::
+   It would be better to make brackets be reader syntax for some data structure that is distinguishable from lists, and then, if desired, let LAMBDA and friends allow that data structure to be used as a formal parameter "list". See, e.g., Clojure.
  `Shinn`::
-   Over my dead body!
+   Over my dead body! :)
  `Shivers`::
    No no no no no. You can't take something as syntactically precious as one of the two remaining unused balanced-delimiter pairs and *do nothing* with it.
  `Sussman`::
@@ -768,11 +844,15 @@ and #| ... |# nested block comments.  Do we include
 either or both of these?
 
   * '''Options:''' sexp,block,both,no,wg2,undecided
-  * '''Voters:''' 13: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
-  * '''Results:''' both, sexp, wg2, no, yes, block
-  * '''Ratios:''' 6:4, 6:1, 6:2, 6:1, 6:1
+  * '''Voters:''' 14: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Results:''' both, sexp, block, wg2, no, undecided
+  * '''Ratios:''' 10:3, 10:1, 11:1, 11:1, 11:0
   * '''Rationales:'''
 
+ `Harvey`::
+   ... but I don't feel strongly about it, and I wish the voting mechanism gave us a way to say /how much/ we care about things. I'd spend all my votes on case folding and no-r6rs-modules, of the things so far on this ballot, if I could.
+ `Hsu`::
+   Rationale: These are very useful.
  `Shinn`::
    I don't like or use the block comments, but I suspect I'll get out-voted on this.
 
@@ -788,9 +868,9 @@ at least a few implementations where pipes are normal character
 constituents.
 
   * '''Options:''' numeric,quoted,both,no,wg2,undecided
-  * '''Voters:''' 14: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotShivers|Shivers]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
-  * '''Results:''' both, wg2, quoted, no, numeric, yes, undecided
-  * '''Ratios:''' 7:5, 5:2, 7:1, 7:2, 7:2, 7:1
+  * '''Voters:''' 15: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotShivers|Shivers]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Results:''' both, wg2, numeric, quoted, no, yes, undecided
+  * '''Ratios:''' 7:6, 7:3, 5:2, 7:1, 7:2, 7:1
   * '''Rationales:'''
 
  `Shivers`::
@@ -806,9 +886,9 @@ common control characters. Do we accept either or both of these
 extensions?
 
   * '''Options:''' numeric,mnemonic,both,no,wg2,undecided
-  * '''Voters:''' 13: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Voters:''' 14: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
   * '''Results:''' both, mnemonic, numeric, wg2, no
-  * '''Ratios:''' 11:1, 11:1, 11:1, 11:1
+  * '''Ratios:''' 12:1, 12:1, 12:1, 12:1
   * '''Rationales:'''
 
  `SnellPym`::
@@ -829,9 +909,9 @@ over the constituent characters.
 Note UnicodeCowan currently provides mappings at both levels.
 
   * '''Options:''' strings,chars,both,no,module,wg2,undecided
-  * '''Voters:''' 13: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Voters:''' 14: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
   * '''Results:''' module, both, wg2, no, undecided, strings
-  * '''Ratios:''' 6:5, 6:1, 6:1, 7:1, 7:1
+  * '''Ratios:''' 6:5, 6:1, 6:1, 7:2, 7:1
   * '''Rationales:'''
 
  `SnellPym`::
@@ -858,11 +938,17 @@ Note UnicodeCowan currently provides specific normalization
 procedures.
 
   * '''Options:''' generic,separate,specific,agnostic,no,module,wg2,undecided
-  * '''Voters:''' 13: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
-  * '''Results:''' undecided, wg2, no, specific/module, agnostic, specific, both
-  * '''Ratios:''' 6:4, 7:3, 8:1, 8:1, 7:1, 8:0
+  * '''Voters:''' 14: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Results:''' agnostic/module, wg2, specific/module, agnostic/core, specific/core, undecided, generic/module, separate/module, no, generic/core, separate/core, separate/code, agnostic
+  * '''Ratios:''' 5:4, 4:4, 4:2, 5:2, 6:4, 4:2, 4:2, 5:2, 5:1, 5:1, 6:0, 6:1
   * '''Rationales:'''
 
+ `Gleckler`::
+   The complexity of Unicode should be, as much as possible, banished from WG1. If it is included, however, I'll follow John's lead, since he is a Unicode expert, and vote for specific/module.
+ `Hsu`::
+   Rationale: Keep the complexity of unicode down.
+ `Rush`::
+   There are some artificial dichotomies introduced in this ballot item. My preferred solution includes all of the above, actually; with agnostic/core, generic/core, separate/module and specific/module.
  `Shinn`::
    Totally inappropriate for wg1.
  `SnellPym`::
@@ -877,9 +963,9 @@ as character arrays.  Do we reaffirm this?
 `Yes` for required constant time.
 
   * '''Options:''' yes,no,wg2,undecided
-  * '''Voters:''' 14: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotShivers|Shivers]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Voters:''' 15: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotShivers|Shivers]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
   * '''Results:''' no, yes, undecided, wg2
-  * '''Ratios:''' 7:5, 7:3, 7:1
+  * '''Ratios:''' 8:5, 8:3, 8:1
   * '''Rationales:'''
 
  `Harvey`::
@@ -894,9 +980,9 @@ character set, or limit the options in any way?
   * '''Proposals:'''
     * '''cowan:''' UnicodeCowan
   * '''Options:''' cowan,r5rs,wg2,undecided
-  * '''Voters:''' 13: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Voters:''' 14: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
   * '''Results:''' cowan, r5rs, wg2, undecided
-  * '''Ratios:''' 10:1, 9:2, 10:2
+  * '''Ratios:''' 10:1, 9:2, 10:3
   * '''Rationales:'''
 
  `Ganz`::
@@ -928,9 +1014,9 @@ Do we provide a syntax and basic API for these in WG1?
     * '''cowan:''' BlobAPI
     * '''snellpym:''' BlobsAndSRFI4SnellPym
   * '''Options:''' cowan, snellpym, wg2, none, undecided
-  * '''Voters:''' 11: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRush|Rush]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Voters:''' 12: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRush|Rush]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
   * '''Results:''' cowan, wg2, undecided, snellpym, no
-  * '''Ratios:''' 6:3, 7:2, 6:1, 7:0
+  * '''Ratios:''' 6:4, 7:2, 6:1, 7:0
   * '''Rationales:'''
 
  `Harvey`::
@@ -978,9 +1064,9 @@ or the R6RS record system?
     * '''rush:''' UserAggregatesRush
     * '''snellpym:''' UniqueTypesSnellPym
   * '''Options:''' hsu,rush,snellpym,srfi-9,srfi-99,no,wg2,undecided
-  * '''Voters:''' 13: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
-  * '''Results:''' srfi-9, hsu, srfi-99, snellpym, wg2, rush, no, undecided, snellpym.hsu
-  * '''Ratios:''' 7:3, 5:2, 5:3, 7:2, 5:3, 7:1, 6:2, 6:1
+  * '''Voters:''' 14: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Results:''' srfi-9, hsu, srfi-99, snellpym, wg2, rush, undecided, snellpym.hsu, no
+  * '''Ratios:''' 7:3, 5:2, 5:3, 7:2, 5:3, 6:3, 6:1, 7:1
   * '''Rationales:'''
 
  `Shinn`::
@@ -996,13 +1082,15 @@ some primitives on which efficient hash-tables can
 be implemented?
 
   * '''Options:''' srfi-69,r6rs,no,module,wg2,undecided
-  * '''Voters:''' 14: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotShivers|Shivers]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
-  * '''Results:''' module, wg2, no, srfi-69, undecided, r6rs
-  * '''Ratios:''' 7:4, 7:2, 7:2, 7:4, 8:3
+  * '''Voters:''' 15: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRadul|Radul]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotShivers|Shivers]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
+  * '''Results:''' module, undecided, wg2, no, srfi-69, r6rs
+  * '''Ratios:''' 7:5, 7:5, 7:2, 7:2, 8:3
   * '''Rationales:'''
 
  `Ganz`::
    I'D SUGGEST CONSIDERING BALANCED TREES (AS WITH C++ STL), WHICH DO NOT REQUIRE A HASH FUNCTION.
+ `Radul`::
+   If we're going to specify hash tables, we must allow room for holding the keys and/or values weakly. There must be system support for this from the garbage collector --- it cannot be written in user code.
  `Shinn`::
    SRFI-69 is broken.
  `SnellPym`::
