@@ -1,8 +1,8 @@
 == Randomness in the style of Common Lisp ==
 
-This proposal for random numbers is not a literal transcription of the Common Lisp (CL) interface, but it uses the same concepts, and the text is a heavily edited version of the CL Hyperspec.  This facility should not be used where strong randomness is required.
+This proposal for random numbers is not a literal transcription of the Common Lisp (CL) interface, but it uses the same concepts, and the text is a heavily edited version of the CL Hyperspec.
 
-A ''random-source object'' is an encapsulation of the state information used by an implementation-dependent pseudo-random number generator.  The state can be printed out and successfully read back in by the same implementation, but might not function correctly as a state in another implementation.  Random-source objects are a disjoint type.
+A ''random-source object'' is an encapsulation of the state information used by an implementation-dependent pseudo-random number generator.  The state can be printed out and successfully read back in by the same implementation, but might not function correctly as a state in another implementation.  Random-source objects are a disjoint type.  This facility should not be used where strong randomness is required.
 
 == Procedures ==
 
