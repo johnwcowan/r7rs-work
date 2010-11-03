@@ -2,7 +2,7 @@
 
 This proposal for random numbers is not a literal transcription of the Common Lisp interface, but it uses the same concepts, and the text is a heavily edited version of the CLHS.  I have added `make-strong-random-source` to what is in CL.
 
-A ''random-source object'' is an encapsulation of the state information used by a pseudo-random number generator.  Its state, which is implementation-dependent, can be printed out and successfully read back in by the same implementation, but might not function correctly as a random-source state in another implementation.  Random-source objects are a disjoint type.
+A ''random-source object'' is an encapsulation of the state information used by a pseudo-random number generator.  Its state, which is implementation-dependent, can be printed out and successfully read back in by the same implementation, but might not function correctly as a state in another implementation.  Random-source objects are a disjoint type.
 
 == Procedures ==
 
@@ -26,7 +26,7 @@ Returns an implementation-specific object representing a copy of the state encap
 
 Constructs and returns a random-source object whose state is an independent copy of the state of ''random-source''.  Calling this procedure is equivalent to `(make-random-source-from-state (random-source-state `''random-source''`))`, but potentially more efficient because it can avoid copying the state twice.  The result and ''random-source'' will henceforth return the same sequence of values, allowing the same series of pseudo-random numbers to be generated many times within a single program.   The CL equivalent is `make-random-state` with a random-state argument.
 
-`(random-source? `''obj''`)`.
+`(random-source? `''obj''`)`
 
 Returns `#t` if ''obj'' is a random-source object, and `#f` otherwise.  The CL equivalent is `random-state-p`.
 
