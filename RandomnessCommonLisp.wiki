@@ -34,7 +34,7 @@ Constructs and returns a random-source object whose state is an independent copy
 
 A parameter that returns or sets the default random-source object.  Its initial value must be a random-source object, but is implementation-dependent.  The CL equivalent is `*random-state*`.
 
-The equivalent of CL `(make-random-state nil)` is `(copy-random-state (current-random-state))`.
+The equivalent of CL `(make-random-state nil)` is `(copy-random-source (current-random-source))`.
 
 `(random `''limit'' [''random-source'']`)`
 
