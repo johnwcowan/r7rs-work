@@ -1,6 +1,6 @@
 == Randomness in the style of Common Lisp ==
 
-This proposal for random numbers is not a literal transcription of the Common Lisp (CL) interface, but it uses the same concepts, and the text is a heavily edited version of the CL Hyperspec.
+This proposal for random numbers is not a literal transcription of the Common Lisp (CL) interface, but it uses the same concepts and provides the same facilities.  The text is a heavily edited version of the CL Hyperspec.
 
 A ''random-source object'' is an encapsulation of the state information used by an implementation-dependent pseudo-random number generator.  The state can be printed out and successfully read back in by the same implementation, but might not function correctly as a state in another implementation.  Random-source objects are a disjoint type.  This facility should not be used where strong randomness is required.
 
@@ -28,15 +28,13 @@ Constructs and returns a random-source object whose state is an independent copy
 
 `(current-random-source `[''random-source'']`)`
 
-A parameter that returns or sets the default random-source object.  Its initial value must be a random-source object, but is implementation-dependent.  The CL equivalent is `*random-state*`.
+A parameter that returns or sets the default random-source object used by `random`.  Its initial value must be a random-source object, but is implementation-dependent.  The CL equivalent is `*random-state*`.
 
 `(random `''limit'' [''random-source'']`)`
 
-Returns the next pseudo-random number from ''random-source''.  The result is a non-negative number less than ''limit''.  ''Limit'' must be an exact integer (in which case `random` returns an exact integer), or an inexact real number (in which case `random` returns an inexact real number).  If ''random-source'' is not specified, the value of `(current-random-source)` is used.
+Returns the next pseudo-random number from ''random-source''.  The result is a non-negative number less than ''limit''.  ''Limit'' must be an exact integer (in which case `random` returns an exact integer), or an inexact real number (in which case `random` returns an inexact real number).  If ''random-source'' is not specified, the value of `(current-random-source)` is used.  The CL equivalent of this procedure is `random`.
 
 An approximately uniform choice distribution is used. If ''limit'' is an integer, each of the possible results occurs with (approximate) probability 1/''limit''.
-
-The CL equivalent of this procedure is `random`.
 
 Note:  The equivalent of CL `(make-random-state)` and `(make-random-state nil)` is `(copy-random-source (current-random-source))`.
 
