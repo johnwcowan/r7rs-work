@@ -425,7 +425,9 @@ syntax-rules:
 Do we allow this?
 
   * '''Options:''' yes,no,module,wg2,undecided
-  * '''Preferences:''' yes,module,wg2 
+  * '''Preferences:''' yes/core, yes/module, wg2, undecided, no 
+
+As a convenience, for me this is better than (... ...) which makes macros generating macros quite unreadable (to my opinion).
 
 === #9 tail patterns in syntax-rules ===
 
