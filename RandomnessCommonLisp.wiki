@@ -6,7 +6,7 @@ A ''random-source object'' is an encapsulation of the state information used by 
 
 == Procedures ==
 
-`(make-random-source . ''args'')`
+`(make-random-source . `''args''`)`
 
 Constructs and returns a random-source object that has been randomly initialized by some implementation-defined means.  The CL equivalent is `(make-random-state t)`.  If ''args'' are provided, they are used in an implementation-defined way to affect what result is returned.
 
