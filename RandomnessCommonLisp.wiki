@@ -16,7 +16,7 @@ Returns `#t` if ''obj'' is a random-source object, and `#f` otherwise.  The CL e
 
 `(random-source-state `''random-source''`)`
 
-Returns an implementation-specific object representing a copy of the state encapsulated by ''random-source''.  This object must be printable and rereadable.  It must also be suitable for passing to `make-random-source-from-state`.  Providing this mechanism makes it possible to save and reconstitute a random-source in a file or database, or to pass it across a network to an equivalent implementation.  Mutating the result of this procedure does not affect ''random-source''.  There is no CL equivalent of this procedure, because CL `random-state` objects are themselves required to be printable and rereadable (they are typically CL `structs`).
+Returns an implementation-specific object representing a copy of the state encapsulated by ''random-source''.  This object must be printable and rereadable using standard Scheme lexical syntax.  It must also be suitable for passing to `make-random-source-from-state`.  Providing this mechanism makes it possible to save and reconstitute a random-source in a file or database, or to pass it across a network to an equivalent implementation.  Mutating the result of this procedure does not affect ''random-source''.  There is no CL equivalent of this procedure, because CL `random-state` objects are themselves required to be printable and rereadable (they are typically CL `structs`).
 
 `(make-random-source-from-state `''state''`)`
 
