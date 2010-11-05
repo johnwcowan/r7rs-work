@@ -30,13 +30,13 @@ Constructs and returns a random-source object whose state is an independent copy
 
 A parameter that returns or sets the default random-source object used by `random`.  Its initial value MUST be a random-source object, but is implementation-dependent.  The CL equivalent is `*random-state*`.
 
+Note:  The equivalent of CL `(make-random-state)` and `(make-random-state nil)` is `(copy-random-source (current-random-source))`.
+
 `(random `''limit'' [''random-source'']`)`
 
 Returns the next pseudo-random number from ''random-source''.  The result is a non-negative number less than ''limit''.  ''Limit'' MUST be either an exact integer (in which case `random` returns an exact integer), or an inexact real number (in which case `random` returns an inexact real number).  If ''random-source'' is not specified, the value of `(current-random-source)` is used.  The CL equivalent of this procedure is `random`.
 
 An approximately uniform choice distribution is used. If ''limit'' is an integer, each of the possible results occurs with (approximate) probability 1/''limit''.
-
-Note:  The equivalent of CL `(make-random-state)` and `(make-random-state nil)` is `(copy-random-source (current-random-source))`.
 
 == Examples ==
 
