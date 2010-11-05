@@ -16,7 +16,7 @@ Returns `#t` if ''obj'' is a random-source object, and `#f` otherwise.  The CL e
 
 `(random-source-state `''random-source''`)`
 
-Returns an implementation-specific object representing a copy of the state encapsulated by ''random-source''.  This object must be printable and rereadable using standard Scheme lexical syntax.  It must also be suitable for passing to `make-random-source-from-state`.  Providing this mechanism makes it possible to save and reconstitute a random-source in a file or database, or to pass it across a network to an equivalent implementation.  Mutating the result of this procedure does not affect ''random-source''.  There is no CL equivalent of this procedure, because CL `random-state` objects are themselves required to be printable and rereadable (they are typically CL `structs`).
+Returns an implementation-specific object representing a copy of the state encapsulated by ''random-source''.  This object MUST be printable and rereadable using standard Scheme lexical syntax.  It MUST also be suitable for passing to `make-random-source-from-state`.  Providing this mechanism makes it possible to save and reconstitute a random-source in a file or database, or to pass it across a network to an equivalent implementation.  Mutating the result of this procedure does not affect ''random-source''.  There is no CL equivalent of this procedure, because CL `random-state` objects are themselves required to be printable and rereadable (they are typically CL `structs`).
 
 `(make-random-source-from-state `''state''`)`
 
@@ -28,11 +28,11 @@ Constructs and returns a random-source object whose state is an independent copy
 
 `(current-random-source `[''random-source'']`)`
 
-A parameter that returns or sets the default random-source object used by `random`.  Its initial value must be a random-source object, but is implementation-dependent.  The CL equivalent is `*random-state*`.
+A parameter that returns or sets the default random-source object used by `random`.  Its initial value MUST be a random-source object, but is implementation-dependent.  The CL equivalent is `*random-state*`.
 
 `(random `''limit'' [''random-source'']`)`
 
-Returns the next pseudo-random number from ''random-source''.  The result is a non-negative number less than ''limit''.  ''Limit'' must be an exact integer (in which case `random` returns an exact integer), or an inexact real number (in which case `random` returns an inexact real number).  If ''random-source'' is not specified, the value of `(current-random-source)` is used.  The CL equivalent of this procedure is `random`.
+Returns the next pseudo-random number from ''random-source''.  The result is a non-negative number less than ''limit''.  ''Limit'' MUST be either an exact integer (in which case `random` returns an exact integer), or an inexact real number (in which case `random` returns an inexact real number).  If ''random-source'' is not specified, the value of `(current-random-source)` is used.  The CL equivalent of this procedure is `random`.
 
 An approximately uniform choice distribution is used. If ''limit'' is an integer, each of the possible results occurs with (approximate) probability 1/''limit''.
 
