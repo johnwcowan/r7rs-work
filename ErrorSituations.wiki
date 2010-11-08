@@ -40,7 +40,7 @@ by Will Clinger to the R6RS editors list.
     * It is an error if list has fewer than k elements. 
     * It is an error to read from a closed port. (Do we add a closed-port? predicate ?)
     
-== Unknown errors: == 
+== Function domain errors: == 
 
     * It is an error if no possible result makes this expression true. 
     * The error case can occur only when z is not a complex number or is a complex number with a non-rational real or imaginary part.
