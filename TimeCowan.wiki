@@ -15,4 +15,4 @@ See TimeAdvancedCowan.
 
 == Time Durations and Periods (WG2) ==
 
-See TimePeriodsCowan
+See TimePeriodsCowan.
