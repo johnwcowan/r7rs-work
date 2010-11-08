@@ -7,7 +7,7 @@ Returns a rational number representing the current number of milliseconds (exclu
  * The value is an integer.
  * The range of most-efficiently-implemented exact integers in the implementation exceeds the integer range of inexact rationals.
 
-In practice this means that implementations with fixnums greater than 2^53 should return fixnums unless they have time-of-day clocks that provide more than 1 ms precision, and all other implementations should return IEEE 64-bit floats.
+In practice this means that implementations with fixnums greater than 2^53^ should return fixnums unless they have time-of-day clocks that provide more than 1 ms precision, and all other implementations should return IEEE 64-bit floats.
 
 == Advanced Time (WG2) ==
 
