@@ -1,0 +1,18 @@
+== Time ==
+
+`(current-time)`
+
+Returns a rational number representing the current number of milliseconds (excluding milliseconds during a leap second) since the Posix Epoch, which is 00:00:00 on 1 January 1970, Universal Coordinated Time.  Implementations SHOULD return a value that is as precise and accurate as possible.  Implementations MAY return exact or inexact values, and SHOULD return inexact values unless:
+
+ * The value is an integer.
+ * The range of most-efficiently-implemented exact integers in the implementation exceeds the integer range of inexact rationals.
+
+In practice this means that implementations with fixnums greater than 2^53 should return fixnums unless they have time-of-day clocks that provide more than 1 ms precision, and all other implementations should return IEEE 64-bit floats.
+
+== Advanced Time (WG2) ==
+
+See TimeAdvancedCowan.
+
+== Time Durations and Periods (WG2) ==
+
+See TimePeriodsCowan
