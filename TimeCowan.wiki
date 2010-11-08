@@ -1,8 +1,8 @@
 == Time ==
 
-`(current-time)`
+`(current-millisecond)`
 
-Returns a rational number representing the current number of milliseconds (excluding milliseconds during a leap second) since the Posix Epoch, which is 00:00:00 on 1 January 1970, Coordinated Universal Time.  Implementations SHOULD return a value that is as precise and accurate as possible.  Implementations MAY return exact or inexact values, and SHOULD return inexact values unless:
+Returns a rational number representing the current millisecond of the Posix epoch, which began on 00:00:00 on 1 January 1970, Coordinated Universal Time but excludes all leap seconds.  Implementations SHOULD return a value that is as precise and accurate as possible.  Implementations MAY return exact or inexact values, and SHOULD return inexact values unless:
 
  * The value is an integer.
  * The range of most-efficiently-implemented exact integers in the implementation exceeds the integer range of inexact rationals.
