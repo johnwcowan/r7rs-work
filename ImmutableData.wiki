@@ -1,0 +1,22 @@
+
+== Immutable data ==
+
+Why not having a distinct 'immutable' data type, containing a value
+which cannot be mutated, and an associated function which creates copy
+of the immutable data at each call ?
+
+`(make-immutable data)`
+
+  Returns an immutable data containing a copy of data.
+
+`(immutable? obj)`
+
+  Returns #t if obj is an immutable, otherwise returns #f.
+
+`(immutable->copy obj)`
+
+  This is an error if obj is not an immutable, else it returns a copy of the data contained in obj.
+
+=== Note ===
+
+Of course it is impossible to mutate the value contained inside an 'immutable' object, however the 'immutable' object itself could be mutated. For instance it is possible to mutate a variable containing an 'immutable' object, or a list containing 'immutable' objects but not a list contained inside an 'immutable' object.
