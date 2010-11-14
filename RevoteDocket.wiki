@@ -21,8 +21,6 @@ Generalized getters and setters: Revote required.
 
 #57 Simple randomness (this may go away): Vote required.
 
-#18 Exception system (this may go away): Vote required.
-
 #22 Mantissa widths: Vote required.
 
 === Omitted from the original work item list in error ===
