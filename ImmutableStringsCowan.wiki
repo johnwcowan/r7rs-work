@@ -1,0 +1,25 @@
+== Removing `string-set!` from R7RS small Scheme ==
+
+This is a proposal for the removal of `string-set!` (and consequently `string-fill!`) from the R7RS small Scheme language.  I believe that despite the prescription of the WG1 charter that no features of IEEE Scheme (a subset of R4RS) should be removed from R7RS small Scheme, an exception should be made for `string-set!`, for at least the following reasons:
+
+Immutable strings are more purely functional, and allow many optimizations, such as being transparently and freely shareable between procedures and between threads without concern for uncontrolled mutation.  For this and other reasons, the general trend in new languages/runtimes such as Java and C# is toward immutable strings; unfortunately, this is the kind of argument that Schemers usually don't like, so I won't bother mentioning it.  :-)
+
+Algorithms where you want to modify strings in the middle are rare, and many of the classic devices (such as string-upcase!, a procedure that mutates a string in place) are awkward or impossible with string representations such as UTF-8 that make use of characters of variable length.  Programs that work with text generally want either an immutable string or an editable string into which characters can be inserted and deleted, which are not directly possible with classical Scheme strings.  Representations such as gap buffers (based on blobs) or trees of immutable strings serve such programs much better: complex algorithms expressed in terms of string-set! can be rewritten in terms of insert and delete operations with a great increase in clarity.
+
+If strings are immutable, it's possible to have both fast O(1) access to individual characters or substrings, and fairly space-efficient representation of full Unicode strings, by using different representations for strings drawn from different character repertoires.  (Of course, this does not mean that small Scheme implementations must support full Unicode.)  For example, an implementation might use 8-bit code units when all characters are less than `\#x100`, 16-bit code units when all characters are less than `\#x10000`, and 32-bit code units otherwise.
+
+Unfortunately, mutating even a single character in such a representation may require the entire string to be copied, which means that it also requires indirection through a separate header that can be redirected to point to the newly allocated code unit sequence.  Immutable strings can just be their sequences, with a few extra bits indicating the size of the code units, although this design does prevent easy sharing of substrings.
+
+Nothing will give you immutable strings if you don't already have them built into the implementation. On  the other hand, if the core Scheme strings were immutable and an editable strings library were provided on the lines outlined above, existing users of mutable strings could convert to using the latter representation with little effort, and writing programs which require an editable strings representation would be vastly simplified.
+
+Making strings immutable also permits a design in which all strings are Unicode-normalized.  Though this has its own costs (for example, appending two strings may create a new string whose length is different from the lengths of the two source strings), it would be effectively impossible where arbitrary mutation is allowed.
+
+If strings are immutable, there needs to be a way to construct them other than all at once, as make-string and string do.  The Builder pattern serves well here: use a general vector, which is mutable, to assemble the characters in the string one (or a few) at a time, not necessarily in order.  Then use `vector->string` to produce the final result.  The complementary `string->vector` procedure is useful for constructing such build vectors in the first place.  Alternatively string ports can be used as builders; they are unbounded in size, but can only accept appends, not arbitrary mutations.
+
+It is more expensive to use builders rather than using strings directly, but the cost is contained.  In existing Schemes, the mere possibility of applying `string-set!` to any string at any time makes other string operations consume more resources, which reduces their value.  It's a choice between two costs which have different effects for different situations.
+
+As a consequence of removing `string-set!`, `string-fill!` (not in IEEE Scheme) becomes impossible and `string-copy` less useful.  I do not propose to remove `string-copy` for two reasons:
+
+(a) It can eliminate space leaks that are caused by taking a small shared substring of a large existing string: when the larger string should be GC'ed, it winds up being retained as a whole because of the still-live shared substring.  Ideally, garbage collectors should handle this case, but few of them do.  The judicious use of `string-copy` can prevent such leaks.
+
+(b) `String-copy` provides the ability to make a string that is not `eqv?` to any existing string, which is sometimes useful.
