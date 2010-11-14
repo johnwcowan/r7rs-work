@@ -15,13 +15,13 @@ Generalized getters and setters: Revote required.
 
 #54 Optional arguments (other than by case-lambda): Vote required.
 
-#18 Exception/condition system (this may go away): Vote required.
+#22 Mantissa widths: Vote required.
+
+#18 Exception/condition system: Vote may be required (depending on WG1 vote)
+
+#57 Simple randomness: Vote may be required (depending on WG1 vote)
 
 #21 Limited type arithmetic: Covered by existing work items.
-
-#57 Simple randomness (this may go away): Vote required.
-
-#22 Mantissa widths: Vote required.
 
 === Omitted from the original work item list in error ===
 
