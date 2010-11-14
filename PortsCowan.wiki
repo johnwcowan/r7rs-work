@@ -25,7 +25,7 @@ In this proposal, a filename may be specified either as a string or as a ''setti
 
  `path`::
 
- Specifies the filename.  The interpretation of filenames is implementation-dependent.  There is no default value, but implementations MAY accept other keys in lieu of this one for opening files or file-like objects that don't have string names.  In particular, filenames on Posix are really u8-vectors with some u8 values excluded, and filenames on Windows are really u16-vectors with some u16 values disallowed.
+ Specifies the filename.  The interpretation of filenames is implementation-dependent.  There is no default value, but implementations MAY accept other keys in lieu of this one for opening files or file-like objects that don't have string names.  In particular, filenames on Posix are really u8-vectors with some u8 values excluded, and filenames on Windows are really u16-vectors with some u16 values disallowed, and while most names of actual files are representable as strings, some may not be.
 
  `buffering`::
 
