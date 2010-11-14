@@ -6,7 +6,7 @@ From these principles I draw the following detailed conclusions (where "Scheme" 
 
 1. The `char->integer` procedure must return an exact integer between `0` and `#xD7FF` or between `#xE000` and `#x10FFFF` when applied to a character supported by the implementation and belonging to the Unicode repertoire.  This integer must be the Unicode scalar value of the character.  Integers between `#xD800` and `#xDFFF` do not correspond to any Unicode character.
 
-This is independent of the implementation's internal representation.  For example, a Scheme supporting a repertoire of basic Latin and modern Greek characters only might use the ISO 8859-7 encoding internally, in which lower-case lambda is represented as `#xEB`, but `char->integer` must still return `#x03BB` on that character.
+This is independent of the implementation's internal representation.  For example, in order to support a repertoire of basic Latin and modern Greek characters only, a Scheme implementation might use the ISO 8859-7 encoding internally.  In that encoding, λ (lower-case lambda) is represented as `#xEB`; nevertheless, `char->integer` must still return `#x03BB` on that character.
 
 An ASCII-only Scheme satisfies this requirement automatically, provided it does not deliberately scramble the natural mapping.  (Schemes on EBCDIC systems already have ASCII conversion tables readily available.)
 
@@ -40,9 +40,9 @@ For an ASCII-only Scheme, `string-upcase` is a straightforward application of `s
 
 12. The `string-ci*` procedures act as if they applied `string-foldcase` to their arguments before calling the non-`ci` versions.
 
-13. The `string-normalize-nf*` procedures do the normalization operations defined by Unicode.
+13. The `string-ni*` procedures (an extension to R5RS based on the `string-ci*` procedures) do comparisons on the normalized forms of their arguments.  The exact normalization in use is implementation-specified.  For an ASCII-only Scheme, normalization is the identity operation.
 
-14. In addition to the identifier characters of the ASCII repertoire specified by R5RS, Scheme implementations may permit any additional repertoire of Unicode characters to be employed in symbols (and therefore identifiers), provided that each such character has a Unicode general category of Lu, Ll, Lt, Lm, Lo, Mn, Mc, Me, Nd, Nl, No, Pd, Pc, Po, Sc, Sm, Sk, So, or Co, or is U+200C or U+200D (the zero-width non-joiner and joiner, respectively, which are needed for correct spelling in Persian, Hindi, and other languages).  No non-Unicode characters may be used in symbols or identifiers.
+14. In addition to the identifier characters of the ASCII repertoire specified by R5RS, Scheme implementations may permit any additional repertoire of Unicode characters to be employed in symbols (and therefore identifiers), provided that each such character has a Unicode general category of Lu, Ll, Lt, Lm, Lo, Mn, Mc, Me, Nd, Nl, No, Pd, Pc, Po, Sc, Sm, Sk, So, or Co, or is U+200C or U+200D (the zero-width non-joiner and joiner, respectively, which are needed for correct spelling in Persian, Hindi, and other languages).  No non-Unicode characters may be used explicitly (that is, other than by specifying an escape) in symbols or identifiers.
 
 15. All Scheme implementations shall permit the sequence `\x<hexdigits>;` to appear in Scheme symbols (and therefore identifiers).  If the character with the given Unicode scalar value is supported by the implementation, symbols containing such a sequence are equivalent to symbols containing the corresponding character.  The `symbol->string` procedure may return the actual character or the escape sequence at the implementation's option, but any leading zeros must be removed from the escape sequence.
 
