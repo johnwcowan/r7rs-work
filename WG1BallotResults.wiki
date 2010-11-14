@@ -774,7 +774,7 @@ Do we want either or both of these?
   * '''Options:''' r5rs, r6rs, both, no, wg2, undecided
   * '''Default:''' no
   * '''Voters:''' 13: [[:WG1BallotCowan|Cowan]], [[:WG1BallotGanz|Ganz]], [[:WG1BallotGleckler|Gleckler]], [[:WG1BallotHarvey|Harvey]], [[:WG1BallotHsu|Hsu]], [[:WG1BallotLucier|Lucier]], [[:WG1BallotMedernach|Medernach]], [[:WG1BallotRead|Read]], [[:WG1BallotRush|Rush]], [[:WG1BallotRussel|Russel]], [[:WG1BallotShinn|Shinn]], [[:WG1BallotSnellPym|SnellPym]], [[:WG1BallotSussman|Sussman]]
-  * '''Results:''' ''wg2'', both, r6rs, r5rs, '''no''', undecided, module
+  * '''Results:''' ''wg2'', both, r6rs, '''r5rs''', no, undecided, module
   * '''Ratios:''' 5:5, 6:3, 6:4, 6:3, 7:3, 8:0
   * '''Rationales:'''
 
