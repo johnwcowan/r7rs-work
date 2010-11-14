@@ -1,8 +1,12 @@
 == Multiple values macros ==
 
+`(values . `''values''`)`
+
+Returns multiple values.
+
 `(call-with-values `''producer'' ...` `''consumer''`)`
 
-Invoke the ''producers'' and pass all values returned by them in order to ''consumer''.  Equivalent to Common Lisp's `multiple-value-call`.  See #87.
+Invoke the ''producers'' and pass all values returned by them in order to ''consumer''.  This extends R5RS by allowing more than one ''producer''.  Equivalent to Common Lisp's `multiple-value-call`.  See #87.
 
 `(let-values ((`''lambda-list''` `''expression''`)` ...`) `''body''`)` 
 
