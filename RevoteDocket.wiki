@@ -1,6 +1,6 @@
 == WG2 Revote Docket ==
 
-This docket contains work items that WG2 has not yet decided whether to work on or not.    See [[:WG2Dockets|WG2Dockets]] for other dockets.  See [[:WG2Dockets|WG2Dockets]] for other dockets.
+This docket contains work items that WG2 has not yet decided whether to work on or not.    See [[:WG2Dockets|WG2Dockets]] for other dockets.
 
 
 === Equal number of votes for WG2 and WG3 ===
@@ -13,11 +13,17 @@ Generalized getters and setters: Revote required.
 
 === Forwarded from WG1 to WG2 ===
 
-#54 Optional arguments (other than by case-lambda): Revote required.
+#54 Optional arguments (other than by case-lambda): Vote required.
 
-#18 Exception/condition system (this may go away): Revote required.
+#18 Exception/condition system (this may go away): Vote required.
 
 #21 Limited type arithmetic: Covered by existing work items.
+
+#57 Simple randomness (this may go away): Vote required.
+
+#18 Exception system (this may go away): Vote required.
+
+#22 Mantissa widths: Vote required.
 
 === Omitted from the original work item list in error ===
 
