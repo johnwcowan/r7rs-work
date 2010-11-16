@@ -1,3 +1,5 @@
+''' I've replaced this with [[:R6RSExceptionHandlingCowan|R6RSExceptionHandlingCowan]].'''''
+
 = Design =
 
 When a situation calling for exceptional handling is
