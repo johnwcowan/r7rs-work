@@ -40,7 +40,8 @@ Comments are welcome at the [[http://lists.scheme-reports.org/cgi-bin/mailman/li
         * ParametersSnellPym
         * ImmutableParametersCowan (once again supersedes ParametersCowan)
     * [[ExceptionsErrorsAndConditions|Exceptions, Conditions, and Error handling]]
-        * ExceptionHandlingCowan
+        * [[:R6RSExceptionHandlingCowan|R6RSExceptionHandlingCowan]]
+            * (replaces ExceptionHandlingCowan)
     * Random Number Generation
         * RandomCowan
         * RandomnessArcfide
