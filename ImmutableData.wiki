@@ -29,7 +29,7 @@ All data is either a mutable one or an immutable one.
 
 === Notes ===
 
-Copy in both direction is needed in order to avoid side-effect mutation. Of course if data is a literal or is computed "in place" (without sharing a part with another variable) then copy is not needed.
+Copy in both direction is needed in order to avoid side-effect mutation. Of course if data is a literal or is computed "in place" (without content being the same as another variable) then copy is not needed.
 
 Of course it is impossible to mutate the value contained inside an 'immutable' object:
 {{{
