@@ -184,4 +184,9 @@ worldwide, without royalty, in any medium, provided this notice, and
 the copyright notice, are preserved.
 
 This is a draft.  If you wish to derive a work from this article,
-contact the author.  [[This|has been done.  --JohnCowan]]
+contact the author.  [[This|has been done.  --John Cowan]]
+
+== Implementation ==
+
+Code: http://git.savannah.gnu.org/cgit/mit-scheme.git/plain/src/runtime/division.scm
+Tests: http://git.savannah.gnu.org/cgit/mit-scheme.git/plain/tests/runtime/test-division.scm
