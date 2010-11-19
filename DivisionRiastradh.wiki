@@ -1,11 +1,4 @@
-= Proposal for Division Operators in Scheme =
-
-== Abstract ==
-
-This is a proposal for a reasonably complete set of operators to
-compute division yielding integral quotients with remainders.  This
-proposal is undoubtedly excessive, and should not be taken too
-seriously; it is as much a summary of information as it is a proposal.
+= Integral Division and Remainder Operators =
 
 == Rationale ==
 
