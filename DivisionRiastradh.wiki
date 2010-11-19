@@ -1,0 +1,187 @@
+= Proposal for Division Operators in Scheme =
+
+== Abstract ==
+
+This is a proposal for a reasonably complete set of operators to
+compute division yielding integral quotients with remainders.  This
+proposal is undoubtedly excessive, and should not be taken too
+seriously; it is as much a summary of information as it is a proposal.
+
+== Rationale ==
+
+Most programming languages provide at least one operation for division,
+and sometimes related operations for computing integral quotients and
+remainders.  (The author is aware of one (fortunately today defunct)
+programming language that provides addition, subtraction, and division,
+with multiplication notably absent, being expressible as division.)
+Everyone agrees that a pair of operators for computing integral
+quotients q and remainders r from division of dividend a by divisor n,
+should satisfy the relations
+
+  1. ''a'' = ''nq'' + ''r'',
+  1. |''r''| < |''n''|, and
+  1. ''q'' is an integer.
+
+Such a pair of operators will be called a division operator pair.  Many
+programming languages provide only one division operator pair.  Some,
+such as C, leave the semantics unspecified when either or each of the
+dividend and the divisor is negative.  If the dividend and divisor are
+both integers, then the remainder will also be an integer.
+
+To describe the semantics of a division operator pair, it suffices to
+define the integer q, from which r can be uniquely derived by the
+relation
+
+  ''r'' = ''a'' - ''nq'',
+
+provided that this choice of q induce an r satisfying |''r''| < |''n''|.  For
+an extensive discussion of the five division operator pairs proposed
+here, and some broken but standardized operator pairs that fail to
+satisfy properties (1)-(3), see Raymond T. Boute, `The Euclidean
+Definition of the Functions DIV and MOD', ACM TOPLAS 14(2), April 1992,
+pp. 127-144.
+
+Unfortunately, most programming languages give nondescript names such
+as DIV(IDE), QUOT(IENT), MOD(ULO), and REM(AINDER) to these operations.
+The language should make clear to programmers what division operations
+their programs are performing, especially when negative dividends and
+divisors can arise, but perhaps may not often arise during testing.
+
+== Specification ==
+
+For each of five division operator pairs -- floor, ceiling, truncate,
+round, and Euclidean --, there are three procedures: one, named
+`<operator>/`, to compute the division and to return both quotient and
+remainder as multiple return values; one, named `<operator>-quotient`,
+to compute the quotient; and one, named `<operator>-remainder`, to
+compute the remainder.  Each division operator pair is specified by
+defining the quotient ''q'' in terms of the dividend ''a'' and the divisor ''n''.
+Tacitly the remainder ''r'' is as above: ''r'' = ''a'' - ''nq''.  The consequences of
+supplying zero as a divisor to any of these procedures are undefined.
+
+`(floor/ `''dividend''` `''divisor''`)`[[BR]]
+`(floor-quotient `''dividend''` `''divisor''`)`[[BR]]
+`(floor-remainder `''dividend''` `''divisor''`)`[[BR]]
+
+  ''q'' = floor(''a''/''n'')
+
+Thus ''r'' shares the sign of the divisor.
+
+`(ceiling/ `''dividend''` `''divisor''`)`[[BR]]
+`(ceiling-quotient `''dividend''` `''divisor''`)`[[BR]]
+`(ceiling-remainder `''dividend''` `''divisor''`)`[[BR]]
+
+  ''q'' = ceiling(''a''/''n'')
+
+Thus ''r'' has the sign opposite the divisor's.
+
+If ''divisor'' is the number of units in a block, and <dividend> is
+some number of units, then `(ceiling-quotient `''dividend''` `''divisor''`)`
+gives the number of blocks needed to cover ''dividend'' units.  For
+example, ''divisor'' might be the number of bytes in a disk sector, and
+''dividend'' the number of bytes in a file; then the quotient is the
+number of disk sectors needed to store the contents of the file.  For
+another example, ''divisor'' might be the number of octets in the
+output of a cryptographic hash function, and ''dividend'' the number of
+octets desired in a key for a symmetric cipher, to be derived using
+the cryptographic hash function; then the quotient is the number of
+hash values needed to concatenate to make a key.
+
+`(truncate/ `''dividend''` `''divisor''`)`[[BR]]
+`(truncate-quotient `''dividend''` `''divisor''`)`[[BR]]
+`(truncate-remainder `''dividend''` `''divisor''`)`[[BR]]
+
+  ''q'' = truncate(''a''/''n'')
+
+Thus ''r'' shares the sign of the dividend.  However, by any divisor ''n'', the
+quotient of +1, 0, or -1 is 0; that is, three contiguous dividends by
+a common divisor share a common quotient.  None of the other division
+operator pairs exhibits this property.
+
+`(round/ `''dividend''` `''divisor''`)`[[BR]]
+`(round-quotient `''dividend''` `''divisor''`)`[[BR]]
+`(round-remainder `''dividend''` `''divisor''`)`[[BR]]
+
+  ''q'' = round(''a''/''n'')
+
+The round function rounds to the nearest integer,
+breaking ties by choosing the nearest even integer.
+
+`(euclidean/ `''dividend''` `''divisor''`)`[[BR]]
+`(euclidean-quotient `''dividend''` `''divisor''`)`[[BR]]
+`(euclidean-remainder `''dividend''` `''divisor''`)`[[BR]]
+
+  If ''n'' > 0, ''q'' = floor(''a''/''n'');
+  if ''n'' < 0, ''q'' = ceiling(''a''/''n'').
+
+This division operator pair satisfies the slightly stronger property
+
+    2'. 0 <= ''r'' < |''n''|,
+
+used often in mathematics.  Thus, for example,
+`(euclidean-remainder `''dividend''` `''divisor''`)`
+is always a valid index into a vector whose
+length is at least ''divisor''.  This division operator pair is so
+named because it is the subject of the Euclidean division algorithm.
+
+== R5RS ==
+
+The R5RS gives the names `quotient` and `remainder` to the truncating
+division operator pair, and the name `modulo` to the remainder half of
+the flooring division operator pair.  For all these three procedures in
+the R5RS, the dividend may be any integer, and the divisor may be any
+nonzero integer.
+
+== R6RS ==
+
+The R6RS gives the names `div` and `mod` to the Euclidean division operator
+pair, and the names `div0` and `mod0` to a division operator pair not
+listed here that satisfies the peculiar property
+
+   2''. -|n / 2| <= r < |n / 2|.
+
+When ''n'' is a power of 2, say 2^''k''^ for some ''k'', this reduces to
+
+  -2^(''k'' - 1)^ <= ''r'' < 2^(''k'' - 1)^.
+
+Computer scientists will immediately recognize this as the interval of
+integers representable in two's-complement with (''k'' - 1) bits.  What
+useful function this division operator pair serves, however, the author
+does not know.  For all four of these procedures, the dividend may be
+any real number, and the divisor may be any nonzero real number.
+
+Common Lisp provides four integral division functions, `floor`, `ceiling`,
+`truncate`, and `round`; and two remainder functions, `mod` and `rem`.  The
+division functions comprise both the quotient and remainder of a
+division operator pair, and return them as two values, of which the
+latter, the remainder, may be implicitly ignored in Common Lisp.  The
+divisor argument is optional in Common Lisp's integral division
+functions; if omitted, it is taken to be 1.  `mod` is the remainder half
+of the flooring division operator pair; `rem` is the remainder half of
+the truncating division operator pair.  Common Lisp does not provide
+any part of the Euclidean division operator pair.
+
+For all six of these functions in Common Lisp, the dividend may be any
+real number, and the divisor may be any nonzero real number.  Common
+Lisp also provides four extra functions `ffloor`, `fceiling`, `ftruncate`,
+and `fround`, which differ from their `f`-less variants only in floating-
+point contagion rules.
+
+== Issues ==
+
+Zero as a divisor aside, what should the domain of the proposed
+procedures be?  Obviously they should all share a common domain, but
+should the proposed procedures accept any real numbers, or only
+integers, or only exact integers?  If inexact arguments are provided,
+what exactness should the results exhibit?
+
+== Copying ==
+
+Copyright (c) 2009, 2010, Taylor R. Campbell.
+
+Verbatim copying and distribution of this entire article are permitted
+worldwide, without royalty, in any medium, provided this notice, and
+the copyright notice, are preserved.
+
+This is a draft.  If you wish to derive a work from this article,
+contact the author.  [[This|has been done.  --JohnCowan]]
