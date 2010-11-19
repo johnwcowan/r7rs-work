@@ -123,7 +123,9 @@ length is at least the absolute value of ''divisor''.
 This division operator pair is so
 named because it is the subject of the Euclidean division algorithm.
 
-== R5RS ==
+== Related Standards ==
+
+=== R5RS ===
 
 The R5RS gives the names `quotient` and `remainder` to the truncating
 division operator pair, and the name `modulo` to the remainder half of
@@ -131,13 +133,13 @@ the flooring division operator pair.  For all these three procedures in
 the R5RS, the dividend may be any integer, and the divisor may be any
 nonzero integer.
 
-== R6RS ==
+=== R6RS ===
 
 The R6RS gives the names `div` and `mod` to the Euclidean division operator
 pair, and the names `div0` and `mod0` to a division operator pair not
 listed here that satisfies the peculiar property
 
-   2''. -|d/2| <= r < |d/2|.
+  -|d/2| <= r < |d/2|.
 
 When ''d'' is a power of 2, say 2^''k''^ for some ''k'', this reduces to
 
@@ -148,6 +150,8 @@ integers representable in two's-complement with (''k'' - 1) bits.  What
 useful function this division operator pair serves, however, the author
 does not know.  For all four of these procedures, the dividend may be
 any real number, and the divisor may be any nonzero real number.
+
+=== Common Lisp ===
 
 Common Lisp provides four integral division functions, `floor`, `ceiling`,
 `truncate`, and `round`; and two remainder functions, `mod` and `rem`.  The
