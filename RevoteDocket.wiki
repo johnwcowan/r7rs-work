@@ -23,6 +23,8 @@ Generalized getters and setters: Revote required.
 
 #21 Limited type arithmetic: Covered by existing work items.
 
+#2 Extended module system
+
 === Omitted from the original work item list in error ===
 
 #46 Interrupt support for scheduling and system programming:  Vote required.
