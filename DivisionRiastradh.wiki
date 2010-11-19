@@ -166,7 +166,7 @@ Zero as a divisor aside, what should the domain of the proposed
 procedures be?  Obviously they should all share a common domain, but
 should the proposed procedures accept any real numbers, or only
 integers, or only exact integers?  If inexact arguments are provided,
-what exactness should the results exhibit?
+what exactness should the results exhibit?  (See Implementation.)
 
 == Copying ==
 
@@ -183,3 +183,5 @@ contact the author.  [[This|has been done.  --John Cowan]]
 
 Code: http://git.savannah.gnu.org/cgit/mit-scheme.git/plain/src/runtime/division.scm
 Tests: http://git.savannah.gnu.org/cgit/mit-scheme.git/plain/tests/runtime/test-division.scm
+
+The implementation accepts any real numbers as arguments.  It returns inexact values if any argument is inexact, unless the dividend is an exact zero, in which case the quotient and remainder are exact zeros.
