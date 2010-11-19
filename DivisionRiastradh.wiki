@@ -8,11 +8,11 @@ remainders.  (The author is aware of one (fortunately today defunct)
 programming language that provides addition, subtraction, and division,
 with multiplication notably absent, being expressible as division.)
 Everyone agrees that a pair of operators for computing integral
-quotients q and remainders r from division of dividend a by divisor n,
+quotients ''q'' and remainders ''r'' from division of dividend ''n'' by divisor ''d'',
 should satisfy the relations
 
-  1. ''a'' = ''nq'' + ''r'',
-  1. |''r''| < |''n''|, and
+  1. ''n'' = ''dq'' + ''r'',
+  1. |''r''| < |''d''|, and
   1. ''q'' is an integer.
 
 Such a pair of operators will be called a division operator pair.  Many
@@ -22,12 +22,12 @@ dividend and the divisor is negative.  If the dividend and divisor are
 both integers, then the remainder will also be an integer.
 
 To describe the semantics of a division operator pair, it suffices to
-define the integer q, from which r can be uniquely derived by the
+define the integer ''q'', from which ''r'' can be uniquely derived by the
 relation
 
-  ''r'' = ''a'' - ''nq'',
+  ''r'' = ''n'' - ''dq'',
 
-provided that this choice of q induce an r satisfying |''r''| < |''n''|.  For
+provided that this choice of ''q'' induced an ''r'' satisfying |''r''| < |''d''|.  For
 an extensive discussion of the five division operator pairs proposed
 here, and some broken but standardized operator pairs that fail to
 satisfy properties (1)-(3), see Raymond T. Boute, `The Euclidean
@@ -49,24 +49,24 @@ remainder as multiple return values; one, named `<operator>-quotient`,
 to compute the quotient; and one, named `<operator>-remainder`, to
 compute the remainder.  Each division operator pair is specified by
 defining the quotient ''q'' in terms of the dividend ''a'' and the divisor ''n''.
-Tacitly the remainder ''r'' is as above: ''r'' = ''a'' - ''nq''.  The consequences of
+Tacitly the remainder ''r'' is as above: ''r'' = ''n'' - ''dq''.  The consequences of
 supplying zero as a divisor to any of these procedures are undefined.
 
 `(floor/ `''dividend''` `''divisor''`)`[[BR]]
 `(floor-quotient `''dividend''` `''divisor''`)`[[BR]]
 `(floor-remainder `''dividend''` `''divisor''`)`[[BR]]
 
-  ''q'' = floor(''a''/''n'')
+  ''q'' = floor(''n''/''d'')
 
-Thus ''r'' shares the sign of the divisor.
+Thus ''r'' is negative iff ''d'' is negative.
 
 `(ceiling/ `''dividend''` `''divisor''`)`[[BR]]
 `(ceiling-quotient `''dividend''` `''divisor''`)`[[BR]]
 `(ceiling-remainder `''dividend''` `''divisor''`)`[[BR]]
 
-  ''q'' = ceiling(''a''/''n'')
+  ''q'' = ceiling(''n''/''d'')
 
-Thus ''r'' has the sign opposite the divisor's.
+Thus ''r'' is negative iff ''d'' is non-negative.
 
 If ''divisor'' is the number of units in a block, and <dividend> is
 some number of units, then `(ceiling-quotient `''dividend''` `''divisor''`)`
@@ -84,37 +84,43 @@ hash values needed to concatenate to make a key.
 `(truncate-quotient `''dividend''` `''divisor''`)`[[BR]]
 `(truncate-remainder `''dividend''` `''divisor''`)`[[BR]]
 
-  ''q'' = truncate(''a''/''n'')
+  ''q'' = truncate(''n''/''d'')
 
-Thus ''r'' shares the sign of the dividend.  However, by any divisor ''n'', the
+Thus ''r'' is negative iff ''n'' is negative.  However, by any divisor, the
 quotient of +1, 0, or -1 is 0; that is, three contiguous dividends by
-a common divisor share a common quotient.  None of the other division
-operator pairs exhibits this property.
+a common divisor share a common quotient.  Of the other division
+operator pairs, only the round pair exhibits this property.
 
 `(round/ `''dividend''` `''divisor''`)`[[BR]]
 `(round-quotient `''dividend''` `''divisor''`)`[[BR]]
 `(round-remainder `''dividend''` `''divisor''`)`[[BR]]
 
-  ''q'' = round(''a''/''n'')
+  ''q'' = round(''n''/''d'')
 
 The round function rounds to the nearest integer,
 breaking ties by choosing the nearest even integer.
+Nothing general can be said about the sign of r.  Like the truncate
+operator pair, the quotient of +1, 0, or -1 by any divisor is 0, so
+that three contiguous dividends by a common divisor share a common
+quotient.
+
 
 `(euclidean/ `''dividend''` `''divisor''`)`[[BR]]
 `(euclidean-quotient `''dividend''` `''divisor''`)`[[BR]]
 `(euclidean-remainder `''dividend''` `''divisor''`)`[[BR]]
 
-  If ''n'' > 0, ''q'' = floor(''a''/''n'');
-  if ''n'' < 0, ''q'' = ceiling(''a''/''n'').
+  If ''d'' > 0, ''q'' = floor(''n''/''d'');
+  if ''d'' < 0, ''q'' = ceiling(''n''/''d'').
 
-This division operator pair satisfies the slightly stronger property
+This division operator pair satisfies the stronger property
 
-    2'. 0 <= ''r'' < |''n''|,
+    2'. 0 <= ''r'' < |''d''|,
 
 used often in mathematics.  Thus, for example,
 `(euclidean-remainder `''dividend''` `''divisor''`)`
 is always a valid index into a vector whose
-length is at least ''divisor''.  This division operator pair is so
+length is at least the absolute value of ''divisor''.
+This division operator pair is so
 named because it is the subject of the Euclidean division algorithm.
 
 == R5RS ==
@@ -131,9 +137,9 @@ The R6RS gives the names `div` and `mod` to the Euclidean division operator
 pair, and the names `div0` and `mod0` to a division operator pair not
 listed here that satisfies the peculiar property
 
-   2''. -|n / 2| <= r < |n / 2|.
+   2''. -|d/2| <= r < |d/2|.
 
-When ''n'' is a power of 2, say 2^''k''^ for some ''k'', this reduces to
+When ''d'' is a power of 2, say 2^''k''^ for some ''k'', this reduces to
 
   -2^(''k'' - 1)^ <= ''r'' < 2^(''k'' - 1)^.
 
@@ -157,8 +163,7 @@ any part of the Euclidean division operator pair.
 For all six of these functions in Common Lisp, the dividend may be any
 real number, and the divisor may be any nonzero real number.  Common
 Lisp also provides four extra functions `ffloor`, `fceiling`, `ftruncate`,
-and `fround`, which differ from their `f`-less variants only in floating-
-point contagion rules.
+and `fround`, which differ from their `f`-less variants only in floating-point contagion rules.
 
 == Issues ==
 
