@@ -17,10 +17,14 @@ In practice this means that implementations with fixnums greater than 2^53^ shou
 
 If the implementation cannot provide the time when `current-posix-milliseconds` is called (either temporarily or permanently), it MUST return `#f`.
 
-== Advanced Time (WG2) ==
+== Date and Time Arithmetic (WG2) ==
 
 See TimeAdvancedCowan.
 
 == Time Durations and Periods (WG2) ==
 
 See TimePeriodsCowan.
+
+== Time formatting (WG2) ==
+
+See TimeFormattingCowan.
