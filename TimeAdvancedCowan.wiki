@@ -55,7 +55,7 @@ Returns a chronology that uses ''chronology2'' at all times before ''instant'', 
 
 == Date objects ==
 
-A ''date object'' is a member of an immutable disjoint type that specifies information about a date or time with respect to a certain chronology.  For example, with respect to the ISO, Gregorian, or Julian chronologies, a date may represent a specific year, a specific week of a specific year, or an instant in time precise to a millisecond or better.  Date objects have multiple numeric-valued fields such as `year` or `minute-of-day`, whose meanings and possible values are determined by the chronology.
+A ''date object'' is a member of an immutable disjoint type that specifies information about a date or time with respect to a certain chronology.  For example, with respect to the ISO, Gregorian, or Julian chronologies, a date may represent a specific year, a specific week of a specific year, or an instant in time precise to a millisecond or better.  On the other hand, a date object may contain just a particular month.  Date objects have multiple numeric-valued fields such as `year` or `minute-of-day`, whose meanings and possible values are determined by the chronology.
 
 
 == Date procedures ==
@@ -68,7 +68,7 @@ Constructs and returns a date object using ''chronology''.  ''Alist'' is an asso
 
 Returns `#t` if ''obj'' is a date object, and `#f` otherwise.
 
-`(instant->date `''instance''` `''chronology''`)`
+`(instant->date `''instant''` `''chronology''`)`
 
 Constructs and returns a date object using ''chronology'' and corresponding to ''instant''.
 
@@ -76,9 +76,13 @@ Constructs and returns a date object using ''chronology'' and corresponding to '
 
 Return the instant corresponding to ''date'', provided there is enough information in the fields of ''date'' to uniquely determine it.
 
+`(date->alist `''date''`)`
+
+Constructs and returns an alist containing the fields of ''date''.  Implementations SHOULD provide computed fields as well as explicitly set ones.
+
 `(date-field `''date''` `''fieldname''`)`
 
-Returns the value of the field named ''fieldname'' within ''date'', or `#f` if there is no such field.  If the specified field was not provided when ''date'' was constructed, and it is possible to compute its value from the values of fields that were provided, the value is computed and returned.
+Returns the numeric value of the field named ''fieldname'' within ''date'', or `#f` if there is no such field.  If the specified field was not provided when ''date'' was constructed, and it is possible to compute its value from the values of fields that were provided, the value is computed and returned.
 
 `(date-update `''date''` `''fieldname''` `''value''`)`
 
@@ -86,7 +90,7 @@ Constructs and returns a new date object based on ''date'', but with the field n
 
 `(date-increment `''date''` `''fieldname''` `''increment''`)`
 
-Constructs and returns a new date object based on ''date'', but with the field named ''fieldname'' incremented by ''increment''.  This may cause other fields to change as well.  An error is signaled if the field is unknown or the value is out of range, or if an appropriate new date object cannot be constructed due to lack of information in ''date''.
+Constructs and returns a new date object based on ''date'', but with the field named ''fieldname'' incremented by ''increment''.  This may cause other fields to change their values as well.  An error is signaled if the field is unknown or the value is out of range, or if an appropriate new date object cannot be constructed due to lack of information in ''date''.
 
 `(date-chronology `''date''`)`
 
@@ -94,11 +98,9 @@ Returns the chronology associated with ''date''.
 
 `(date-field-maximum `''date''` `''fieldname''`)`
 
-Returns the maximum legal value of the field named ''fieldname'' in the chronology associated with ''date''.  This value is not necessarily the same for all instants.
-
 `(date-field-minimum `''date''` `''fieldname''`)`
 
-Returns the minimum legal value of the field named ''fieldname'' in the chronology associated with ''date''.  This value is not necessarily the same for all instants.
+Returns the maximum or minimum legal value of the field named ''fieldname'' in the chronology associated with ''date''.  This value is not necessarily the same for all instants; for example, 28 is the maximum value of `day-of-month` if `month` has the value 2 (February).
 
 `(date-round `''date''` `''fieldname''`)`
 
@@ -108,12 +110,12 @@ Returns the minimum legal value of the field named ''fieldname'' in the chronolo
 
 `(date-truncate `''date''` `''fieldname''`)`
 
-Constructs and returns a new date object which is the same as ''date'', but adjusted to the nearest integral value of ''fieldname'' using the `round`, `ceiling`, `floor`, or `truncate` functions.
+Constructs and returns a new date object which is the same as ''date'', but adjusted to the nearest integral value of ''fieldname'' using the `round`, `ceiling`, `floor`, or `truncate` functions.  This may cause other fields to change their values as well.  
 
 
 == ISO/Gregorian/Julian date fields ==
 
-Unless otherwise noted, the values of these fields are integers.  These fields may be relevant to other chronologies as well.
+Unless otherwise noted, the values of these fields are exact integers.  These fields may be relevant to other chronologies as well.
 
  `century`::
    The absolute century of the date.  In the ISO chronology, the century of 1965 C.E. is 19 and the century of 43 B.C.E is 0; in the Gregorian and Julian calendars, they are 20 and -1 respectively, and there is no century 0.
