@@ -157,7 +157,9 @@ counter in such cases, providing an accurate notion of time ordering
 but no sense of duration. Finally, it could return `#f` in the absense
 of a clock.
 
-  * '''Options:''' required, optional, counter, return-false, none, wg2, undecided
+  * '''Proposals:'''
+    * '''cowan:''' TimeCowan
+  * '''Options:''' cowan, required, optional, counter, return-false, none, wg2, undecided
   * '''Default:''' none
   * '''Preferences:''' 
 
