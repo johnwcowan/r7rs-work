@@ -1,6 +1,6 @@
 == Time ==
 
-`(current-millisecond)`
+`(current-posix-millisecond)`
 
 Returns a rational number representing the current millisecond of the Posix epoch, which began on 00:00:00 on 1 January 1970, Coordinated Universal Time but excludes all leap seconds.  Implementations SHOULD return a value that is as precise and accurate as possible.  Implementations MAY return exact or inexact values, and SHOULD return inexact values unless:
 
