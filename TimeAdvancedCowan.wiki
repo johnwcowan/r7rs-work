@@ -120,7 +120,7 @@ Unless otherwise noted, the values of these fields are integers.  These fields m
  `clock-hour-of-day`::
    The hour of the date's day in the range 1-24.
 
- `clock-hour-of-halfday`::
+ `clock-hour-of-half-day`::
    The hour of the date's half-day, in the range 1-12.
 
  `day-of-month`::
