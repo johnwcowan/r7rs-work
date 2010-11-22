@@ -23,9 +23,13 @@ Enumerations and enum-sets: [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z
 
 Environment enquiries:
 
+Exceptions:
+
 File system directories: DirectoryPortsCowan
 
 Flonum arithmetic: FlonumsCowan
+
+Generalized getters and setters: 
 
 Gettext (i18n of strings):
 
@@ -52,6 +56,8 @@ Mutexes, condition variables:
 Named parameters: NamedParametersCowan
 
 Octet vectors, bytevectors, blobs: BlobsCowan
+
+Optional arguments (other than by `case-lambda`): 
 
 Pathnames: PathnamesCowan
 
