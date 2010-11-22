@@ -1,0 +1,187 @@
+== Date and time arithmetic ==
+
+This is a WG2 proposal for date and time arithmetic, loosely based on Java's JodaTime functions.  It's possible to implement SRFI 19 on top of it, but it provides much more flexibility.
+
+
+== Instants ==
+
+For the purposes of this proposal, an ''instant'' is a rational number representing a particular millisecond (or fraction thereof) of the Posix epoch, which began on 00:00:00 on 1 January 1970, Coordinated Universal Time but excludes all leap seconds.  See TimeCowan for the `current-posix-millisecond` procedure, which returns the current instant.
+
+
+== Chronologies ==
+
+A ''chronology'' is a disjoint and immutable object that describes a particular calendar, such as the ISO, Gregorian, Julian, Jewish, Islamic, Persian, French Revolutionary, Maya, Chinese, Buddhist, Coptic, or Ethiopic calendar.  Implementations MUST support the ISO chronology, and MAY support any of the other calendars mentioned here, or indeed any calendar not mentioned here.
+
+Chronologies also incorporate the concept of time zone.  An implementation MUST support the UTC (Universal Coordinated Time) timezone and any time zones expressible as a fixed offset in minutes from UTC.  It SHOULD support the historical time zones of the [[http://en.wikipedia.org/wiki/Tz_database|tz database]].
+
+
+== Chronology procedures ==
+
+`(default-chronology)`
+
+Returns the default system-dependent chronology, which may include time zone information.
+
+`(chronology `''symbol''`)`
+
+Return a chronology named by ''symbol''.  The ISO chronology is named `iso`.  If provided, the Gregorian chronology is named `gregorian` and the Julian chronology is named `julian`.  The names of other chronologies are system-dependent.  The chronologies returned by this procedure are in the UTC time zone.
+
+`(chronology-names)`
+
+Returns a list of the symbols naming the chronologies provided by the implementation.  It is an error to modify this list.
+
+`(chronology-name `''chronology''`)`
+
+Returns the symbol that names ''chronology''.
+
+`(chronology? `''obj''`)`
+
+Returns `#t` if ''obj'' is a chronology and `#f` otherwise.
+
+`(chronology-with-time-zone `''chronology''` `''timezone''`)`
+
+Returns a chronology object based on ''chronology'', but with the time zone specified by ''timezone''.  If ''timezone'' is an integer, it represents the number of minutes ahead of UTC.  If the implementation supports the tz database, and ''timezone'' is a time zone name defined by that database, it represents the time zone with that name.  Otherwise, the interpretation of ''timezone'' is implementation-dependent.
+
+`(chronology-time-zone `''chronology''`)`
+
+When ''chronology'' was returned from `chronology`, returns 0.  When ''chronology'' was returned from `chronology-with-time-zone`, returns the time zone specified to that procedure.
+
+`(chronology-standard-time-zone `''chronology''`)`
+
+Returns the standard time zone offset in minutes from UTC corresponding to this chronology.
+
+== Date objects ==
+
+A ''date object'' is a member of an immutable disjoint type that specifies information about a date or time with respect to a certain chronology.  For example, with respect to the ISO, Gregorian, or Julian chronologies, a date may represent a specific year, a specific week of a specific year, or an instant in time precise to a millisecond or better.  Date objects have multiple numeric-valued fields such as `year` or `minute-of-day`, whose meanings and possible values are determined by the chronology.
+
+
+== Date procedures ==
+
+`(make-date `''chronology''` `''alist''`)`
+
+Constructs and returns a date object using ''chronology''.  ''Alist'' is an association list mapping symbols which are names of fields meaningful to ''chronology'' to associated numeric values.  An error is signaled if the field values are invalid or inconsistent.
+
+`(date? `''obj''`)`
+
+Returns `#t` if ''obj'' is a date object, and `#f` otherwise.
+
+`(instant->date `''instance''` `''chronology''`)`
+
+Constructs and returns a date object using ''chronology'' and corresponding to ''instant''.
+
+`(date->instant `''date''`)`
+
+Return the instant corresponding to ''date'', provided there is enough information in the fields of ''date'' to uniquely determine it.
+
+`(date-field `''date''` `''fieldname''`)`
+
+Returns the value of the field named ''fieldname'' within ''date'', or `#f` if there is no such field.  If the specified field was not provided when ''date'' was constructed, and it is possible to compute its value from the values of fields that were provided, the value is computed and returned.
+
+`(date-update `''date''` `''fieldname''` `''value''`)`
+
+Constructs and returns a new date object based on ''date'', but with the field named ''fieldname'' updated to ''value''.  An error is signaled if the field is unknown or the value is out of range.  
+
+`(date-increment `''date''` `''fieldname''` `''increment''`)`
+
+Constructs and returns a new date object based on ''date'', but with the field named ''fieldname'' incremented by ''increment''.  This may cause other fields to change as well.  An error is signaled if the field is unknown or the value is out of range, or if an appropriate new date object cannot be constructed due to lack of information in ''date''.
+
+`(date-chronology `''date''`)`
+
+Returns the chronology associated with ''date''.
+
+`(date-field-maximum `''date''` `''fieldname''`)`
+
+Returns the maximum legal value of the field named ''fieldname'' in the chronology associated with ''date''.  This value is not necessarily the same for all instants.
+
+`(date-field-minimum `''date''` `''fieldname''`)`
+
+Returns the minimum legal value of the field named ''fieldname'' in the chronology associated with ''date''.  This value is not necessarily the same for all instants.
+
+`(date-round `''date''` `''fieldname''`)`
+
+`(date-ceiling `''date''` `''fieldname''`)`
+
+`(date-floor `''date''` `''fieldname''`)`
+
+`(date-truncate `''date''` `''fieldname''`)`
+
+Constructs and returns a new date object which is the same as ''date'', but adjusted to the nearest integral value of ''fieldname'' using the `round`, `ceiling`, `floor`, or `truncate` functions.
+
+
+== ISO/Gregorian/Julian date fields ==
+
+Unless otherwise noted, the values of these fields are integers.  These fields may be relevant to other chronologies as well.
+
+ `century`::
+   The absolute century of the date.  In the ISO chronology, the century of 1965 C.E. is 19 and the century of 43 B.C.E is 0; in the Gregorian and Julian calendars, they are 20 and -1 respectively, and there is no century 0.
+
+ `century-of-era`::
+   The century of the date's era.
+
+ `clock-hour-of-day`::
+   The hour of the date's day in the range 1-24.
+
+ `clock-hour-of-halfday`::
+   The hour of the date's half-day, in the range 1-12.
+
+ `day-of-month`::
+   The day of the date's month, in the range 1-31 (or less in some months).
+
+ `day-of-week`::
+   The day of the date's week.  In the ISO chronology, Monday is day 1 and Sunday is day 7.  In the Julian and Gregorian calendars, Sunday is day 1 and Saturday is day 7.
+
+ `day-of-year`::
+   The day of the date's year, in the range 1-365 in non-leap years and 1-366 in leap years.
+
+ `daylight-saving-time`::
+   1 if daylight saving time (summer time) was in effect, or 0 if not.  This field discriminates between 2:00 A.M. daylight time and 2:00 A.M. daylight time on the day when daylight saving time ends in the U.S. (and the corresponding periods for other daylight saving time regimes).
+
+ `era`::
+   The date's era.  The ISO chronology has no eras.  In the Gregorian and Julian chronologies, C.E. (or A.D.) = 1, B.C.E. (or B.C.) = 0.  By convention, the era containing the Posix epoch is era 1.
+
+ `half-day-of-day`::
+   The half-day (A.M. or P.M.) of this day.  A.M. = 0, P.M. = 1.
+
+ `hour-of-day`::
+   The hour of the date's day, in the range 0-23.
+
+ `hour-of-half-day`::
+   The hour of the date's half-day, in the range 0-11.
+
+ `ms-of-day`::
+   The millisecond of the date's day, in the range 0-86399999
+
+ `ms-of-second`::
+   The millisecond of the date's second, in the range 0-999.  This value need not be an integer.
+
+ `minute-of-day`::
+   The minute of the date's day, in the range 0-1439.
+
+ `minute-of-hour`::
+   The minute of the date's hour, in the range 0-59.
+
+ `month-of-year`::
+   The month of the date's year, in the range 1-12.
+
+ `second-of-day`::
+   The second of the date's day, in the range 0-86399.
+
+ `second-of-minute`::
+   The second of the date's minute, in the range 0-59.  Note that leap seconds aren't represented.
+
+ `week-of-week-year`::
+   The week of the date's week-year, in the range 1-53.
+
+ `week-year`::
+   The date's week-year, which begins on the week that has at least 4 days in the chronological year.
+
+ `week-year-of-century`::
+   The week-year of the date's century.  The range is the same as for `year-of-century`.
+
+ `year`::
+   The absolute year of the date.
+
+ `year-of-century`::
+   The year of the date's century.  In the ISO chronology, the range is 0-99.  In the Gregorian and Julian calendars, the range is 1-100.
+
+ `year-of-era`::
+   The year of the date's era.  In the Gregorian and Julian calendars, the value cannot be 0.
