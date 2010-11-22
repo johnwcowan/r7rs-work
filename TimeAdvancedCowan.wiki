@@ -49,6 +49,10 @@ When ''chronology'' was returned from `chronology`, returns 0.  When ''chronolog
 
 Returns the standard time zone offset in minutes from UTC corresponding to this chronology.
 
+`(make-compound-chronology `''chronology1''` `''chronology2''` `''instant''`)`
+
+Returns a chronology that uses ''chronology2'' at all times before ''instant'', and ''chronology1'' for all times including and following ''instant''.  This is useful for constructing chronologies that transition from Julian to Gregorian at a specified date.
+
 == Date objects ==
 
 A ''date object'' is a member of an immutable disjoint type that specifies information about a date or time with respect to a certain chronology.  For example, with respect to the ISO, Gregorian, or Julian chronologies, a date may represent a specific year, a specific week of a specific year, or an instant in time precise to a millisecond or better.  Date objects have multiple numeric-valued fields such as `year` or `minute-of-day`, whose meanings and possible values are determined by the chronology.
