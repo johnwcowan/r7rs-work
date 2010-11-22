@@ -9,6 +9,8 @@ Returns a rational number representing the current millisecond of the Posix epoc
 
 In practice this means that implementations with fixnums greater than 2^53^ should return fixnums unless they have time-of-day clocks that provide more than 1 ms precision, and all other implementations should return IEEE 64-bit floats.
 
+If the implementation does not have a clock, it should return `#f`.
+
 == Advanced Time (WG2) ==
 
 See TimeAdvancedCowan.
