@@ -2,14 +2,20 @@
 
 `(current-posix-millisecond)`
 
-Returns a rational number representing the current millisecond of the Posix epoch, which began on 00:00:00 on 1 January 1970, Coordinated Universal Time but excludes all leap seconds.  Implementations SHOULD return a value that is as precise and accurate as possible.  Implementations MAY return exact or inexact values, and SHOULD return inexact values unless:
+Returns a rational number representing the current millisecond of the Posix epoch, which began on 00:00:00 on 1 January 1970, Coordinated Universal Time but excludes all leap seconds.  Implementations SHOULD return a value that is:
+
+ * As accurate as reasonably achievable.
+ * Provides at least 1-second precision.
+ * Provides a range of at least 2^31^ seconds before and after the epoch.
+.
+Implementations MAY return exact or inexact values, and SHOULD return inexact values unless:
 
  * The value is an integer.
  * The range of most-efficiently-implemented exact integers in the implementation exceeds the integer range of inexact rationals.
 
 In practice this means that implementations with fixnums greater than 2^53^ should return fixnums unless they have time-of-day clocks that provide more than 1 ms precision, and all other implementations should return IEEE 64-bit floats.
 
-If the implementation does not have a clock, it should return `#f`.
+If the implementation cannot provide the time when `current-posix-milliseconds is called (either temporarily or permanently), it should return `#f`.
 
 == Advanced Time (WG2) ==
 
