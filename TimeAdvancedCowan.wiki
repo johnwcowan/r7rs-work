@@ -43,11 +43,11 @@ Returns a chronology object based on ''chronology'', but with the time zone spec
 
 `(chronology-time-zone `''chronology''`)`
 
-When ''chronology'' was returned from `chronology`, returns 0.  When ''chronology'' was returned from `chronology-with-time-zone`, returns the time zone specified to that procedure.
+When ''chronology'' was returned from `chronology`, returns 0.  When ''chronology'' was returned from `chronology-with-time-zone`, returns the time zone value which was specified to that procedure.
 
 `(chronology-standard-time-zone `''chronology''`)`
 
-Returns the standard time zone offset in minutes from UTC corresponding to this chronology.
+Returns the standard time zone offset in minutes from UTC corresponding to this chronology.  This is always numeric, even if ''chronology'' was created using a named time zone.
 
 `(make-compound-chronology `''chronology1''` `''chronology2''` `''instant''`)`
 
