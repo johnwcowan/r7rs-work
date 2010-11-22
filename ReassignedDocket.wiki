@@ -18,6 +18,8 @@ GC control:  No SC action yet.
 
 Generic type coercion:  No SC action yet.
 
+Interrupt support for scheduling and system programming:  No SC action yet.
+
 Java FFI:  No SC action yet.
 
 Jobs and workers:  No SC action yet.
