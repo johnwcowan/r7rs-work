@@ -2,34 +2,4 @@
 
 This docket contains work items that WG2 has not yet decided whether to work on or not.    See [[:WG2Dockets|WG2Dockets]] for other dockets.
 
-
-=== Equal number of votes for WG2 and WG3 ===
-
-Cond and case extensions (SRFIs 61 and 87, case-using): Revote required.
-
-Generalized equality and comparison functions: Revote required.
-
-Generalized getters and setters: Revote required.
-
-=== Forwarded from WG1 to WG2 ===
-
-#54 Optional arguments (other than by case-lambda): Vote required.
-
-#22 Mantissa widths: Vote required.
-
-#18 Exception/condition system: Vote may be required (depending on WG1 vote)
-
-#57 Simple randomness: Vote may be required (depending on WG1 vote)
-
-#21 Limited type arithmetic: Covered by existing work items.
-
-#2 Extended module system
-
-=== Omitted from the original work item list in error ===
-
-#46 Interrupt support for scheduling and system programming:  Vote required.
-
-
-
-
-
+This docket is currently empty.
