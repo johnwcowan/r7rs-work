@@ -1,6 +1,6 @@
 == Date and time arithmetic ==
 
-This is a WG2 proposal for date and time arithmetic, loosely based on Java's JodaTime functions.  It's possible to implement SRFI 19 on top of it, but it provides much more flexibility.
+This is a WG2 proposal for date and time arithmetic, loosely based on Java's [[http://joda-time.sourceforge.net|Joda Time]] functions.  It's possible to implement SRFI 19 on top of it, but it provides much more flexibility.
 
 
 == Instants ==
@@ -39,7 +39,7 @@ Returns `#t` if ''obj'' is a chronology and `#f` otherwise.
 
 `(chronology-with-time-zone `''chronology''` `''timezone''`)`
 
-Returns a chronology object based on ''chronology'', but with the time zone specified by ''timezone''.  If ''timezone'' is an integer, it represents the number of minutes ahead of UTC.  If the implementation supports the tz database, and ''timezone'' is a time zone name defined by that database, it represents the time zone with that name.  Otherwise, the interpretation of ''timezone'' is implementation-dependent.
+Returns a chronology object based on ''chronology'', but with the time zone specified by ''timezone''.  If ''timezone'' is an integer, it represents the number of minutes ahead of UTC.  If the implementation supports the tz database, and ''timezone'' is a string containing a time zone name defined by that database, it represents the time zone with that name.  Otherwise, the interpretation of ''timezone'' is implementation-dependent.
 
 `(chronology-time-zone `''chronology''`)`
 
@@ -82,7 +82,7 @@ Constructs and returns an alist containing the fields of ''date''.  Implementati
 
 `(date-field `''date''` `''fieldname''`)`
 
-Returns the numeric value of the field named ''fieldname'' within ''date'', or `#f` if there is no such field.  If the specified field was not provided when ''date'' was constructed, and it is possible to compute its value from the values of fields that were provided, the value is computed and returned.
+Returns the numeric value of the field named ''fieldname'' (a symbol) within ''date'', or `#f` if there is no such field.  If the specified field was not provided when ''date'' was constructed, and it is possible to compute its value from the values of fields that were provided, the value is computed and returned.
 
 `(date-update `''date''` `''fieldname''` `''value''`)`
 
