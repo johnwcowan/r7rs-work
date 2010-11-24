@@ -1,0 +1,30 @@
+== Time Durations and Intervals ==
+
+A ''duration'' is an immutable object belonging to a distinct type and representing a period of time according a particular chronology.  In the ISO, Gregorian, and Julian chronologies, it is the sum of
+some number of years, months, weeks, days, hours, minutes, and seconds.
+
+A ''time interval'' is the an immutable object belonging to a distinct type and representing the elapsed time between two instants of time.  See TimeAdvancedCowan for the definition of instants.
+
+== Duration procedures ==
+
+`(make-duration `''chronology''` `''alist''`)`
+
+Constructs and returns a duration based on ''chronology''.  ''Alist'' is an alist mapping duration field names understood by that chronology to their values.  In the ISO, Gregorian, and Julian calendars, the field names are
+`years`, `months`, `weeks`, `days`, `hours`,
+`minutes`, `seconds`, and `ms' (milliseconds).
+The values of each field must be exact integers,
+except that the smallest unit present may be an exact rational number.
+
+`(duration? `''obj''`)`
+
+Returns `#t` if ''obj'' is a duration, and `#f` otherwise.
+
+`(duration-`''unit''` `''duration''`)`
+
+Returns the value associated with ''unit''.  For example, `(duration-weeks d)` returns the number of weeks in duration ''d''.  If the duration was not constructed with a
+particular unit, `#f` is returned instead.
+
+
+== Time interval procedures ==
+
+TODO
