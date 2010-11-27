@@ -17,6 +17,9 @@ In practice this means that implementations with fixnums greater than 2^53^ shou
 
 If the implementation cannot provide the time when `current-posix-milliseconds` is called (either temporarily or permanently), it MUST return `#f`.
 
+Note that there is about a 1 in 10^-8^ probability that a computation of elapsed
+time made by calling this procedure twice will be off by 1 second, given the number of leap seconds between 1972 and 2011.
+
 == Date and Time Arithmetic (WG2) ==
 
 See TimeAdvancedCowan.
