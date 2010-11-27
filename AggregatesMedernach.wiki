@@ -20,7 +20,7 @@ General other record or object features may be build on top of these aggregates.
 Optional: ''<assertion>'' contains an input function assertions (for data consistency).
 
 
-''create-aggregate'' returns 2 functions: 
+''create-aggregate'' returns 2 functions as values:
 
   ''make-<aggregate>'' is a function taking a fixed number ''<number-of-components>'' of arguments, optionally checking its arguments with ''<assertion>'', and returning a new aggregate containing arguments.
 
