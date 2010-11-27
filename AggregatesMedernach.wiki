@@ -1,0 +1,91 @@
+
+= AggregatesMedernach =
+
+== Rationale ==
+
+Generating fixed sized data type disjoint from all other types, called AGGREGATES.
+
+General other record or object features may be build on top of these aggregates.
+
+== Aggregates ( constructor / accessor ) constructor ==
+
+  `(create-aggregate `''<marker>''` `''<number-of-components>''`)`
+
+  `(create-aggregate `''<marker>''` `''<number-of-components>''` `''<assertion>''`)`
+
+''<marker>'' ensures that the call to create-aggregate is functionnal, the same aggregate functions are generated if parameters are the same. Notice that an unique value (such as cons cell) could be provided to obtain unique aggregate type.
+
+''<number-of-components>'' is the fixed number of components of this new aggregate.
+
+Optional: ''<assertion>'' contains an input function assertions (for data consistency).
+
+
+''create-aggregate'' returns 2 functions: 
+
+  ''make-<aggregate>'' is a function taking a fixed number ''<number-of-components>'' of arguments, optionally checking its arguments with ''<assertion>'', and returning a new aggregate containing arguments.
+
+  ''<aggregate>-switch'' is explained below.
+
+== Accessing aggregate components == 
+
+Either
+ 1. Unsafe access procedures must be invoked after a predicate checking data type
+ 2. Or safe access procedure, then a check is performed before accessing and an error is signalled if the data type is not what is expected.
+
+However data are aggregated in order to retrieve many part, not only one, so solution 2. requires to perform redundant check for each accessed field and moreover the error in general is fatal to the program execution. Solution 1. alone is unsatisfactory as if an unsafe access procedure is applied to not of the correct kind data then random and unwanted behaviors may appear.
+
+Another solution is to group together data type checking with accessing in a case analysis function (per aggregate types) :
+
+  `(<aggregate>-switch `''<aggregate-case>''` `''<else-case>''`) = (lambda (`''<obj>''`) ...)`
+
+Two cases are possible: if the data ''<obj>'' is of ''<aggregate>'' kind then ''<aggregate-case>'' function is called with the components of the ''<obj>'' data, else ''<else-case>'' is called with ''<obj>''.
+
+Examples:
+{{{
+  ;; Creating my-null ...
+  
+  (my-null-switch <null-case> <else-case>)
+  
+  ;; Creating my-pair ...
+  
+  (my-pair-switch <pair-case> <else-case>)
+}}}  
+With my-car, my-cdr for instance:
+{{{
+  (define (my-car obj else)
+    ((pair-switch (lambda (first second) first) else)
+     obj))
+  
+  (define (my-cdr obj else)
+    ((pair-switch (lambda (first second) second) else)
+     obj))
+}}}     
+The 'external' composition of aggregates is possible:
+{{{
+  (define (my-list-switch <null-case> <pair-case> <else-case>)
+    (pair-switch <pair-case>
+      (null-switch <null-case>
+        <else-case>)))
+
+  (define (sequential-compose-aggregates switch->case-list <else-case>)
+    (if (null? switch->case-list)
+        <else-case> 
+        (let ((switch->case      (car switch->case-list))
+              (switch->case-list (cdr switch->case-list)))
+          (let ((switch (car  switch->case))
+                (case   (cadr switch->case)))
+             (switch case (sequential-compose-aggregates switch->case-list <else-case>))))))
+}}}
+
+== Issues ==
+
+* Maybe it is better to have instead of create-aggregate a syntactic construct to bind the created functions name ?
+
+* Do we need to define a function or macro to create unions of aggregates ? 
+
+* An orthogonal mechanism is foreseen to allow securing data (like a lock mechanism with capabilities) but this is not the subject of this page.
+
+== References ==
+
+ Jonathan A. Rees. "User-defined data types". Lisp Pointers. 'The Scheme of Things' (column). 1993 
+ 
