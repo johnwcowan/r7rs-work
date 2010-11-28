@@ -103,7 +103,7 @@ Returns the chronology associated with ''date''.
 
 `(date-field-minimum `''date''` `''fieldname''`)`
 
-Returns the maximum or minimum legal value of the field named ''fieldname'' in the chronology associated with ''date''.  This value is not necessarily the same for all instants; for example, 28 is the maximum value of `day-of-month` if `month` has the value 2 (February).
+Returns the maximum or minimum legal value of the field named ''fieldname'' in the chronology associated with ''date''.  This value is not necessarily the same for all instants; for example, 28 is the maximum value of `day-of-month` if `month` has the value 2 (February).  Returns `#f` if the value cannot be determined (there is no maximum or minimum year in the ISO chronology, for example).
 
 `(date-round `''date''` `''fieldname''`)`
 
@@ -118,10 +118,10 @@ Constructs and returns a new date object which is the same as ''date'', but adju
 
 == ISO/Gregorian/Julian date fields ==
 
-Unless otherwise noted, the values of these fields MUST be exact integers.  These fields may be relevant to other chronologies as well.
+Unless otherwise noted, the values of these fields MUST be either exact integers or `#f` if they were not explicitly set and cannot be calculated from the given information.  These fields may be relevant to other chronologies as well.  For interoperability, every chronology must support the `instant` field.
 
  `century`::
-   The absolute century of the date.  In the ISO chronology, the century of 1965 C.E. is 19, the century of 70 C.E. is 0, and the century of 43 B.C.E is -1.  In the Gregorian and Julian calendars, they are 20, 1, and -1 respectively, and there is no century 0.
+   The absolute century of the date.  In the ISO chronology, the century of 1965 C.E. is 19, the century of 70 C.E. is 0, and the century of 43 B.C.E is -1.  In the Gregorian and Julian chronologies, they are 20, 1, and -1 respectively, and there is no century 0.
 
  `century-of-era`::
    The century of the date's era.
@@ -136,7 +136,7 @@ Unless otherwise noted, the values of these fields MUST be exact integers.  Thes
    The day of the date's month, in the range 1-31 (or less in some months).
 
  `day-of-week`::
-   The day of the date's week.  In the ISO chronology, Monday is day 1 and Sunday is day 7.  In the Julian and Gregorian calendars, Sunday is day 1 and Saturday is day 7.
+   The day of the date's week.  In the ISO chronology, Monday is day 1 and Sunday is day 7.  In the Julian and Gregorian chronologies, Sunday is day 1 and Saturday is day 7.
 
  `day-of-year`::
    The day of the date's year, in the range 1-365 in non-leap years and 1-366 in leap years.
@@ -156,6 +156,9 @@ Unless otherwise noted, the values of these fields MUST be exact integers.  Thes
  `hour-of-half-day`::
    The hour of the date's half-day, in the range 0-11.
 
+ `instant`::
+   The instant corresponding to this date.
+
  `local-time-offset`::
    The local time zone offset (standard or daylight saving, as the case may be) in minutes ahead of UTC.
 
@@ -172,7 +175,7 @@ Unless otherwise noted, the values of these fields MUST be exact integers.  Thes
    The second of the date's day.  This value MAY be a non-integer; it MUST be greater than or equal to 0 and less than 86400.
 
  `second-of-minute`::
-   The second of the date's minute.  This value MAY be a non-integer; it MUST be greater than or equal to 0 and less than 86400.
+   The second of the date's minute.  This value MAY be a non-integer; it MUST be greater than or equal to 0 and less than 60.
 
  `standard-time-offset`::
    The standard time zone offset in minutes ahead of UTC.
@@ -190,7 +193,7 @@ Unless otherwise noted, the values of these fields MUST be exact integers.  Thes
    The absolute year of the date.
 
  `year-of-century`::
-   The year of the date's century.  In the ISO chronology, the range is 0-99.  In the Gregorian and Julian calendars, the range is 1-100.
+   The year of the date's century.  In the ISO chronology, the range is 0-99.  In the Gregorian and Julian chronologies, the range is 1-100.
 
  `year-of-era`::
-   The year of the date's era.  In the Gregorian and Julian calendars, the value cannot be 0.
+   The year of the date's era.  In the Gregorian and Julian chronologies, the value cannot be 0.
