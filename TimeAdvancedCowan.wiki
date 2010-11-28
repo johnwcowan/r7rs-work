@@ -43,11 +43,7 @@ Returns a chronology object based on ''chronology'', but with the time zone spec
 
 `(chronology-time-zone `''chronology''`)`
 
-When ''chronology'' was returned from `chronology`, returns 0.  When ''chronology'' was returned from `chronology-with-time-zone`, returns the time zone value which was specified to that procedure.
-
-`(chronology-standard-time-offset `''chronology''`)`
-
-Returns the standard time zone offset in minutes from UTC corresponding to this chronology.  This is always numeric, even if ''chronology'' was created using a non-numeric time zone.
+When ''chronology'' was returned from `default-chronology`, returns an implementation-dependent value.  When ''chronology'' was returned from `chronology`, returns 0.  When ''chronology'' was returned from `chronology-with-time-zone`, returns the time zone value (of whatever type) which was specified to that procedure.
 
 `(make-compound-chronology `''chronology1''` `''chronology2''` `''instant''`)`
 
@@ -125,7 +121,7 @@ Constructs and returns a new date object which is the same as ''date'', but adju
 Unless otherwise noted, the values of these fields MUST be exact integers.  These fields may be relevant to other chronologies as well.
 
  `century`::
-   The absolute century of the date.  In the ISO chronology, the century of 1965 C.E. is 19, the century of 70 A.D. is 0, and the century of 43 B.C.E is -1.  In the Gregorian and Julian calendars, they are 20, 1, and -1 respectively, and there is no century 0.
+   The absolute century of the date.  In the ISO chronology, the century of 1965 C.E. is 19, the century of 70 C.E. is 0, and the century of 43 B.C.E is -1.  In the Gregorian and Julian calendars, they are 20, 1, and -1 respectively, and there is no century 0.
 
  `century-of-era`::
    The century of the date's era.
@@ -160,6 +156,9 @@ Unless otherwise noted, the values of these fields MUST be exact integers.  Thes
  `hour-of-half-day`::
    The hour of the date's half-day, in the range 0-11.
 
+ `local-time-offset`::
+   The local time zone offset (standard or daylight saving, as the case may be) in minutes ahead of UTC.
+
  `minute-of-day`::
    The minute of the date's day, in the range 0-1439.
 
@@ -174,6 +173,9 @@ Unless otherwise noted, the values of these fields MUST be exact integers.  Thes
 
  `second-of-minute`::
    The second of the date's minute.  This value MAY be a non-integer; it MUST be greater than or equal to 0 and less than 86400.
+
+ `standard-time-offset`::
+   The standard time zone offset in minutes ahead of UTC.
 
  `week-of-week-year`::
    The week of the date's week-year, in the range 1-53.
