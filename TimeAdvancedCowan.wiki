@@ -64,14 +64,6 @@ Constructs and returns a date object using ''chronology''.  ''Alist'' is an asso
 
 Returns `#t` if ''obj'' is a date object, and `#f` otherwise.
 
-`(instant->date `''instant''` `''chronology''`)`
-
-Constructs and returns a date object using ''chronology'' and corresponding to ''instant''.
-
-`(date->instant `''date''`)`
-
-Return the instant corresponding to ''date'', provided there is enough information in the fields of ''date'' to uniquely determine it; otherwise return `#f`.
-
 `(date->alist `''date''`)`
 
 Constructs and returns an alist containing the fields of ''date''.  Implementations SHOULD provide computed fields as well as explicitly set ones.
@@ -116,9 +108,9 @@ Returns the maximum or minimum legal value of the field named ''fieldname'' in t
 Constructs and returns a new date object which is the same as ''date'', but adjusted to the nearest integral value of ''fieldname'' using the `round`, `ceiling`, `floor`, or `truncate` functions.  This may cause other fields to change their values as well.  
 
 
-== ISO/Gregorian/Julian date fields ==
+== Date fields ==
 
-Unless otherwise noted, the values of these fields MUST be either exact integers or `#f` if they were not explicitly set and cannot be calculated from the given information.  These fields may be relevant to other chronologies as well.  For interoperability, every chronology must support the `instant` field.
+Unless otherwise noted, the values of these fields MUST be either exact integers or `#f` if they were not explicitly set and cannot be calculated from the given information.  These fields are specified for the ISO, Gregorian, and Julian chronologies, but they may be relevant to other chronologies as well.  For interoperability, every chronology must support the `instant` field.
 
  `century`::
    The absolute century of the date.  In the ISO chronology, the century of 1965 C.E. is 19, the century of 70 C.E. is 0, and the century of 43 B.C.E is -1.  In the Gregorian and Julian chronologies, they are 20, 1, and -1 respectively, and there is no century 0.
