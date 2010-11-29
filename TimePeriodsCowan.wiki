@@ -3,7 +3,7 @@
 A ''duration'' is an immutable object belonging to a distinct type and representing a period of time according a particular chronology.  In the ISO, Gregorian, and Julian chronologies, it is the sum of
 some number of years, months, weeks, days, hours, minutes, and seconds.
 
-A ''time interval'' is the an immutable object belonging to a distinct type and representing the elapsed time between two instants of time.  See TimeAdvancedCowan for the definition of instants.
+A ''time interval'' is an immutable object belonging to a distinct type and representing the elapsed time between two instants of time.  See TimeCowan for the definition of instants; see TimeAdvancedCowan for the definition of date objects.
 
 == Duration procedures ==
 
