@@ -31,9 +31,9 @@ particular unit, `#f` is returned instead.  No conversion is done: a 7-day inter
 
 == Time interval procedures ==
 
-An interval represents the time between two or more instants.  Intervals belong to an immutable disjoint type.
+An interval represents the time between two or more instants, possibly repeated more than once.  Intervals belong to an immutable disjoint type.
 
-`(make-interval `''date-or-duration-1''` `''date-or-duration-2''`)`
+`(make-interval `''date-or-duration-1''` `''date-or-duration-2''` ` [[|''repetition'' ]] `)`
 
 Constructs and returns an interval which:
 
@@ -45,6 +45,8 @@ Constructs and returns an interval which:
 
 An error is signaled if both arguments are durations, or if the arguments do not share the same chronology, or the dates do not have enough fields to specify an instant.
 
+The ''repetition'' argument specifies how many times the interval is repeated, 1 by default.  If the argument is `#t`, the interval is repeated indefinitely.
+
 `(interval? `''obj''`)`
 
 Returns `#t` if ''obj'' is an interval and `#f` otherwise.
@@ -55,12 +57,6 @@ Returns `#t` if ''obj'' is an interval and `#f` otherwise.
 
 `(interval-duration `''interval''`)`
 
-Returns the start date, stop date, and duration of ''interval''.  Depending on how the interval was constructed, at least one of these will have to be calculated.
-
-`(make-repeating-interval `''interval''` `[[|''repetition'' ]]`)`
-
-Constructs and returns a interval from ''interval'' that repeats ''repetition'' times, where ''repetition'' is an exact positive integer.  An error is signaled if ''interval'' is already a repeated interval.  If ''repetition'' is omitted, the new interval is repeated indefinitely often.
-
 `(interval-repetition `''interval''`)`
 
-Returns the repetition count of ''interval''.  If ''interval'' is not a repeated interval, returns 1.
+Returns the start date, stop date, duration, or repetition count of ''interval''.  Depending on how the interval was constructed, at least one of these will have to be calculated.
