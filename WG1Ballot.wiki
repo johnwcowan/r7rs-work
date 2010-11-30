@@ -22,9 +22,10 @@ as in SRFI-9, SRFI-99 or the R6RS record system?
 
   * '''Proposals:'''
     * '''hsu:''' RecordsArcfide
+    * '''medernach:''' AggregatesMedernach
     * '''rush:''' UserAggregatesRush
     * '''snellpym:''' UniqueTypesSnellPym
-  * '''Options:''' hsu, rush, snellpym, srfi-9, srfi-99, none, wg2, undecided
+  * '''Options:''' hsu, medernach, rush, snellpym, srfi-9, srfi-99, none, wg2, undecided
   * '''Default:''' none
   * '''Preferences:''' 
 
@@ -38,9 +39,10 @@ certainly want them.
 Do we provide a syntax and basic API for these in WG1?
 
   * '''Proposals:'''
+    * '''r6rs:''' [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-3.html#node_chap_2|R6RS byte-vectors]]
     * '''cowan:''' BlobAPI
     * '''snellpym:''' BlobsAndSRFI4SnellPym
-  * '''Options:''' cowan, snellpym, wg2, none, undecided
+  * '''Options:''' r6rs, cowan, snellpym, wg2, none, undecided
   * '''Default:''' none
   * '''Preferences:''' 
 
@@ -64,22 +66,23 @@ to `delay` and `force`, not all of the `srfi-45` utilities.  Vote
   * '''Default:''' r5rs
   * '''Preferences:''' 
 
-=== #57 Simple randomness ===
+=== #57 Randomn Numbers ===
 
-Student programs often want a small amount of randomness, not
-necessarily of very high quality.  Shall we provide a simple interface
-to a random variable in WG1 Scheme?
+Random numbers are useful for a wide variety of applications,
+including cryptography, statistics, games, simulations and genetic
+programming.  Do we want to provide an interface to random number
+generation in WG1 Scheme?
 
   * '''Proposals:'''
+    * '''srfi-27:''' [[http://srfi.schemers.org/srfi-27/srfi-27.html|SRFI-27]]
     * '''cl:''' RandomnessCommonLisp
     * '''cowan:''' RandomCowan
     * '''hsu:''' RandomnessArcfide
-    *  '''srfi-27:''' [SRFI-27]
-  * '''Options:''' cl, cowan, hsu, none, wg2, undecided
+  * '''Options:''' srfi-27, cl, cowan, hsu, none, wg2, undecided
   * '''Default:''' none
   * '''Preferences:''' 
 
-=== #62 The calling context ===
+=== #62 Environment Variables ===
 
 Currently, there is no standard way to communicate with the context
 from which a Scheme program was started.  This has become pretty
@@ -129,12 +132,18 @@ Vote `generate` for a `(void)` procedure, `test` for `undefined?`, and
   * '''Default:''' none
   * '''Preferences:''' 
 
-=== #69 SRFI 39 parameters ===
+=== #69 Dynamic Parameters ===
 
-Should we adopt SRFI 39 parameters?  How about a subset of SRFI 39 in
-which parameters are immutable but bindable?
+Old-fashioned Lisps used dynamic extent of variables.  Although Scheme
+has switched to lexical scope, the concept of a dynamic environment
+can be useful in special cases.
+
+Instead of special variables, SRFI-39 provides first-class "parameter"
+objects with dynamic bindings.  Do we want to provide something
+similar?
 
   * '''Proposals:'''
+    * '''srfi-39:''' [[http://srfi.schemers.org/srfi-39/srfi-39.html|SRFI-39]]
     * '''cowan:''' ImmutableParametersCowan
     * '''snellpym:''' ParametersSnellPym
   * '''Options:''' cowan, snellpym, srfi-39, none, wg2, undecided
@@ -159,6 +168,10 @@ of a clock.
 
   * '''Proposals:'''
     * '''cowan:''' TimeCowan
+    * '''required:''' `(current-seconds)` must return seconds since epoch
+    * '''optional:''' `(current-seconds)` is an optional procedure
+    * '''counter:''' `(current-seconds)` may just be a counter, returning 0, 1, 2, ...
+    * '''return-false:''' `(current-seconds)` may return `#f` if unsupported
   * '''Options:''' cowan, required, optional, counter, return-false, none, wg2, undecided
   * '''Default:''' none
   * '''Preferences:''' 
@@ -186,17 +199,6 @@ Shall we require it?
 
   * '''Options:''' yes, no, module, wg2, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
-
-=== #84 Need to decide on a list of named character escapes ===
-
-The WG has voted to have a list of character names.
-
-The list in R5RS and the longer list in R6RS are only informative.  I
-suggest adopting the R6RS list and making it normative.
-
-  * '''Options:''' r5rs, r6rs
-  * '''Default:''' r5rs
   * '''Preferences:''' 
 
 === #87 Allow multiple producers in `call-with-values` ===
@@ -257,7 +259,7 @@ clauses.
 
 === #91 INCLUDE at the REPL ===
 
-Should we allow `(include "`''filename''")` at the REPL?  This is
+Should we allow `(include "''filename''")` at the REPL?  This is
 distinct from `import` in that it just loads code without altering the
 module structure.
 
@@ -303,6 +305,14 @@ In R6RS auxiliary keywords (such as `else` in `cond` and `case` forms)
 are explicitly exported from the `(rnrs base (6))` library.  Do we
 want to bind and export these from the core library?
 
+If `else` is bound in the default module, then it must be imported at
+the call site whenever using it in `cond` or it won't match
+hygienically.
+
+If `else` is '''not''' bound in the default module, then it must not
+be bound or imported at the call site whenever using it in `cond` or
+it won't match hygienically.
+
 Another option is to specify for `cond` and `case` that they match the
 `else` identifier literally, ignoring any hygiene.  This breaks
 compatibility with R5RS and R6RS.
@@ -334,6 +344,64 @@ write in a separate name.
   * '''Default:''' no
   * '''Preferences:''' 
 
+=== #102 module syntax name ===
+
+A bikeshed color issue, we need to choose the
+actual names for the module syntax for the winner
+of #2.
+
+`import`, `export` and `include` are fairly universal
+and no alternate is suggested unless someone wants
+to write in a proposal.
+
+The enclosing syntax can be called either
+`library` as in R6RS, `module` or some other proposal.
+
+  * '''Options:''' library, module, undecided
+  * '''Default:''' library
+  * '''Preferences:''' 
+
+=== #103 module body syntax name ===
+
+Similar to #102, we need to choose a name
+for the form to include Scheme code directly
+in a module form.  This can be `body` as in
+the proposal, `begin` or some other name.
+
+  * '''Options:''' body, begin, scheme, code, undecided
+  * '''Default:''' body
+  * '''Preferences:''' 
+
+=== #105 case-insensitive module includes ===
+
+The `include` module form includes files literally
+with the default case-sensitivity.  An `include-ci`
+form could include files case-insensitively
+without resorting to the reader hacks proposed in
+#92, allowing existing R5RS libraries to be used
+without modification.
+
+  * '''Options:''' yes, no, wg2, undecided
+  * '''Default:''' no
+  * '''Preferences:''' 
+
+=== #106 conditional code selection ===
+
+Users invariably want some way to conditionally select code depending
+on the implementation and/or feature set available.
+[[http://srfi.schemers.org/srfi-0/srfi-0.html|SRFI-0]] provides
+`cond-expand`, [[http://srfi.schemers.org/srfi-103/srfi-103.html|SRFI-103]]
+provides a library naming extension, and numerous other personal hacks exist.
+
+Do we want to include something along these lines in WG1 Scheme?
+
+  * '''Proposals:''' 
+    * '''srfi-0:''' `cond-expand` only defined as a top-level module form
+    * '''srfi-103:''' the search path extension used by R6RS implementations
+  * '''Options:''' srfi-0, srfi-103, none, wg2, undecided
+  * '''Default:''' none
+  * '''Preferences:''' 
+
 == WG1 - Exceptions ==
 
 === #18 exception system ===
@@ -342,10 +410,10 @@ R6RS provided a detailed exception system with support for raising and
 catching exceptions, using a hierarchy of exception types.
 
 Do we use this, or parts of it, or a new exception system?  The `r6rs`
-option is just for the core exception handling, not the conditions
-hierarchy.
+option is just for the core exception handling.
 
   * '''Proposals:'''
+    * '''r6rs:''' [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-8.html#node_sec_7.1|R6RS Exceptions]] - `with-exception-handler`, `guard`, `raise`, `raise-continuable`
     * '''cowan:''' ExceptionHandlingCowan
   * '''Options:''' cowan, r6rs, wg2, none, undecided
   * '''Default:''' none
@@ -396,7 +464,7 @@ aspects will be merged as needed.
     * '''r6rs:''' [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html#node_sec_8.2|R6RS Port I/O]]
     * '''r6rs-simple:''' [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html#node_sec_8.3|R6RS Simple I/O]]
     * '''srfi-91:''' [[http://srfi.schemers.org/srfi-91/srfi-91.html|SRFI-91]]
-    * '''cowan:''' PortsCowan
+    * '''cowan:''' PortsCowan (subset relevant to binary I/O)
   * '''Options:''' r6rs, r6rs-simple, srfi-91, cowan, none, undecided
   * '''Default:''' none
   * '''Preferences:''' 
@@ -410,7 +478,7 @@ Different normalizations?  How are encoding errors handled?
   * '''Proposals:''' 
     * '''r6rs:''' [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html#node_sec_8.2|R6RS Port I/O]]
     * '''srfi-91:''' [[http://srfi.schemers.org/srfi-91/srfi-91.html|SRFI-91]]
-    * '''cowan:''' PortsCowan
+    * '''cowan:''' PortsCowan (subset relevant to port encodings)
   * '''Options:''' r6rs, srfi-91, cowan, none, undecided
   * '''Default:''' none
   * '''Preferences:''' 
@@ -523,6 +591,10 @@ these cases we still need to decide to which module they belong.
 Where specific votes contradict general factoring proposals, the
 specific vote wins.
 
+  * '''Proposals:'''
+    * '''r5rs:''' one single module
+    * '''r6rs:'''
+    * '''cowan:''' #71, #72, #73, #74, #75, #76, #77
   * '''Options:''' r5rs, r6rs, cowan, undecided
   * '''Default:''' r5rs
   * '''Preferences:''' 
@@ -547,17 +619,19 @@ full monty.  Which ones should we allow an implementation to provide?
 R5RS requires only fixnums large enough to handle string and vector
 indexes, while R6RS requires the full numeric tower.
 
-Vote on the minimum level of support you want to require
+Vote on '''the minimum level of support''' you want to '''require'''
 (implementations may of course still provide more than this).  I've
 included only the most likely options below, write in other options if
 needed.
 
-Note ''requiring'' quaternions will ensure very few R7RS
-implementations are ever created :)
+Note quaternions are a fairly rare numeric type, known to be provided
+only by extensions to [[http://www.ccs.neu.edu/home/dorai/squat/squat.html|scm]]
+and [[http://wiki.call-cc.org/eggref/4/quaternions|chicken]], and thus
+may be difficult for other implementations to support if required.
 
   * '''Proposals:'''
-    * '''r5rs:''' fixnum (`inexact?` is always false)
-    * '''inexact-only:''' inexact (`exact?` is the same as `integer?`)
+    * '''r5rs:''' fixnum (`inexact?` may always be false)
+    * '''inexact-only:''' inexact (`exact?` may be the same as `integer?`)
     * '''inexact:''' fixnum, inexact
     * '''rational:''' fixnum, inexact, rational
     * '''complex:''' fixnum, inexact, complex
@@ -604,10 +678,38 @@ removes the special case exceptions, allows constant lookahead, and
 allows extensions to number syntax.
 
   * '''Proposals:'''
-    * '''r5rs:''' symbols may not begin with "-", except for "-" itself
-    * '''r6rs:''' symbols may not begin with "-[^>]"
+    * '''r5rs:''' symbols may not begin with `-`, except for `-` itself
+    * '''r6rs:''' symbols may not begin with `-[^>]`
     * '''cowan:''' symbols are anything that doesn't parse as a number
     * '''shinn:''' symbols may not begin with a number prefix
   * '''Options:''' r5rs, r6rs, cowan, shinn, undecided
+  * '''Default:''' r5rs
+  * '''Preferences:''' 
+
+=== #84 Need to decide on a list of named character escapes ===
+
+The WG has voted to have a list of character names.
+
+The list in R5RS and the longer list in R6RS are only informative.  I
+suggest adopting the R6RS list and making it normative.
+
+  * '''Proposals:'''
+    * '''r5rs:''' space, newline
+    * '''r6rs:''' [[http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-7.html#node_sec_4.2.6|R6RS Characters]]
+    * '''shinn:''' space, tab, newline, return, escape, null, alarm, backspace
+  * '''Options:''' r5rs, r6rs, shinn
+  * '''Default:''' r5rs
+  * '''Preferences:''' 
+
+=== #104 list of mnemonic string escapes ===
+
+Similar to #84, we need to choose a specific list of mnemonic escapes
+like \n and \t to be recognized in strings.
+
+  * '''Proposals:'''
+    * '''r5rs:''' `\\`, `\"`
+    * '''r6rs:''' [[http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-7.html#node_sec_4.2.7|R6RS Strings]]
+    * '''shinn:''' `\\`, `\"`, `\t`, `\n`, `\r`, `\e`, `\a`, `\b`
+  * '''Options:''' r5rs, r6rs, shinn
   * '''Default:''' r5rs
   * '''Preferences:''' 
