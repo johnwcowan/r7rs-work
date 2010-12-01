@@ -1,4 +1,3 @@
-
 = AggregatesMedernach =
 
 == Rationale ==
@@ -13,7 +12,7 @@ General other record or object features may be build on top of these aggregates.
 
   `(create-aggregate `''<marker>''` `''<number-of-components>''` `''<assertion>''`)`
 
-''<marker>'' ensures that the call to create-aggregate is functionnal, the same aggregate functions are generated if parameters are the same. Notice that an unique value (such as cons cell) could be provided to obtain unique aggregate type.
+''<marker>'' ensures that the call to create-aggregate is functional, the same aggregate functions are generated if parameters are the same. Notice that an unique value (such as cons cell) could be provided to obtain unique aggregate type.
 
 ''<number-of-components>'' is the fixed number of components of this new aggregate.
 
