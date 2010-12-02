@@ -84,7 +84,7 @@ earlier if ''increment'' is negative.   Returns `#f` if an appropriate
 date object cannot be constructed due to lack of information in ''date''                                                                                           
 An error is signaled if ''fieldname'' is unknown.
 
-For example, (date-increment date 'day-of-month 7) adds seven days to ''date''
+For example, `(date-increment `''date''` 'day-of-month 7)` adds seven days to ''date''
 (which is typically the same as one week, but may be different in some chronologies).    
 
 `(date-chronology `''date''`)`
