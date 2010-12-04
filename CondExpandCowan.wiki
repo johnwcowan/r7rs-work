@@ -1,6 +1,6 @@
 == Conditional Expansion of Modules ==
 
-This is a proposal for a `cond-expand` facility within the R7RS module language.  The syntax is the same as [[http://srfis.schemers.org/srfi-0/srfi-0.html|SRFI 0]], but the bodies are declarations in the module language (ModulesShinn) rather than Scheme expressions.  This makes it possible, for example, to conditionally include a file of code based on the specific implementation or some feature of the implementation, or to conditionally import a module by name provided that module exists.
+This is a proposal for a `cond-expand` facility within the R7RS module language.  The syntax is the same as [[http://srfis.schemers.org/srfi-0/srfi-0.html|SRFI 0]], but the bodies are declarations in the module language (ModulesShinn) rather than Scheme expressions.  This makes it possible, for example, to conditionally include a file of code based on the specific implementation or some feature of the implementation, or to conditionally import a module by name provided that module exists.  Conditional expansion is done when the module is parsed, and is based only on things already known to the implementation before it even begins compiling or interpreting.
 
 In this version, an implementation or implementation feature is named by a symbol, and a module is named by a list whose first element is not `and`, `or`, or `not`.  The meaning of a module name is "the module with this name is available for import, whether it is currently imported or not".
 
