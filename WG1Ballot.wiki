@@ -388,17 +388,19 @@ without modification.
 === #106 conditional code selection ===
 
 Users invariably want some way to conditionally select code depending
-on the implementation and/or feature set available.
+on the implementation and/or feature set available. CondExpandCowan
+allows conditional expansion in the style of SRFI-0 within the module language.
 [[http://srfi.schemers.org/srfi-0/srfi-0.html|SRFI-0]] provides
 `cond-expand`, [[http://srfi.schemers.org/srfi-103/srfi-103.html|SRFI-103]]
 provides a library naming extension, and numerous other personal hacks exist.
 
 Do we want to include something along these lines in WG1 Scheme?
 
-  * '''Proposals:''' 
+  * '''Proposals:'''
+    * '''cowan:''' CondExpandCowan
     * '''srfi-0:''' `cond-expand` only defined as a top-level module form
     * '''srfi-103:''' the search path extension used by R6RS implementations
-  * '''Options:''' srfi-0, srfi-103, none, wg2, undecided
+  * '''Options:''' cowan, srfi-0, srfi-103, none, wg2, undecided
   * '''Default:''' none
   * '''Preferences:''' 
 
