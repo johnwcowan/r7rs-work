@@ -1,8 +1,8 @@
-== Time ==
+== Calendar Time ==
 
 `(current-posix-second)`
 
-Returns an rational number representing the current second of the Posix epoch, which began on 00:00:00 on 1 January 1970, Coordinated Universal Time but excludes all leap seconds.  Implementations SHOULD return a value that:
+Returns a rational number representing the current second of the Posix epoch, which began on 00:00:00 on 1 January 1970, Coordinated Universal Time but excludes all leap seconds.  Implementations SHOULD return a value that:
 
  * Is as accurate as reasonably achievable.
  * Provides at least 1-second precision.
@@ -11,6 +11,20 @@ Returns an rational number representing the current second of the Posix epoch, w
 If the implementation cannot provide the time when `current-posix-seconds` is called (either temporarily or permanently), it MUST return `#f`.
 
 Assuming the number of leap seconds between 1972 and 2011 was typical (not necessarily a safe assumption), there is about a 1 in 10^-8^ probability that a computation of elapsed time made by calling this procedure twice will be off by 1.
+
+== Elapsed Time ==
+
+`(elapsed-time)`
+
+Returns an exact integer representing the number of jiffies (arbitrary elapsed time units) since an arbitrary epoch, an implementation such as the time the program started running, the operating system was booted, or anything else.  Leap seconds are ''not'' excluded.  Implementations SHOULD return a value that:
+
+ * Is as accurate as reasonably achievable.
+ * Provides at least 1-second precision.
+ * Provides a range of at least 2^31^ seconds before and after the epoch.
+
+`(jiffies-per-second)`
+
+Returns  an exact integer representing the number of jiffies per SI second.  This value is an implementation-specified constant.
 
 == Date and Time Arithmetic (WG2) ==
 
