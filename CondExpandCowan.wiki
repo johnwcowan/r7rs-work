@@ -6,7 +6,7 @@ In this version, an implementation or implementation feature is named by a symbo
 
 == Syntax ==
 
-We add a new type of module declaration, <conditional expansion form>, with the following syntax:
+We add a new type of module declaration, `<conditional expansion form>`, with the following syntax:
 
 {{{
 <conditional expansion form>
@@ -28,7 +28,7 @@ We add a new type of module declaration, <conditional expansion form>, with the 
 
 == Semantics ==
 
-Each implementation maintains a list of feature identifiers which are present, as well as a list of modules which may be imported.  The semantics of a `<feature requirement>` are that if each feature identifier and module name on the implementation's list is replaced by `#t` and all other feature identifiers and module names are replaced by `#f`, and the resulting expression is evaluated as Scheme, then the corresponding <module declarations> are part of the module iff the result of the evaluation is `#t`.
+Each implementation maintains a list of feature identifiers which are present, as well as a list of modules which may be imported.  The semantics of a `<feature requirement>` are that if each feature identifier and module name on the implementation's list is replaced by `#t` and all other feature identifiers and module names are replaced by `#f`, and the resulting expression is evaluated as Scheme, then the corresponding `<module declarations>` are part of the module iff the result of the evaluation is `#t`.
 
 == Standard feature identifiers ==
 
