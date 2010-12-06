@@ -15,17 +15,25 @@
 
 == WG1 - Core ==
 
-=== #32 user-defined types ===
+=== #32 (A) user-defined types (syntactic proposals) ===
 
-Do we support any means of creating disjoint user-defined types, such
-as in SRFI-9, SRFI-99 or the R6RS record system?
+Do we support any means of creating disjoint user-defined types using syntax forms, such as in SRFI-9, SRFI-57, SRFI-99, or the R6RS record system?
 
   * '''Proposals:'''
     * '''hsu:''' RecordsArcfide
+  * '''Options:''' hsu, srfi-9, srfi-57, srfi-99, r6rs, none, wg2, undecided
+  * '''Default:''' none
+  * '''Preferences:''' 
+
+=== #32 (B) user-defined types (procedural proposals) ===
+
+Do we support any means of creating disjoint user-defined types using built-in procedures, such as in SRFI-99 or the R6RS record system?
+
+  * '''Proposals:'''
     * '''medernach:''' AggregatesMedernach
     * '''rush:''' UserAggregatesRush
     * '''snellpym:''' UniqueTypesSnellPym
-  * '''Options:''' hsu, medernach, rush, snellpym, srfi-9, srfi-99, none, wg2, undecided
+  * '''Options:''' medernach, rush, snellpym, srfi-99, r6rs, none, wg2, undecided
   * '''Default:''' none
   * '''Preferences:''' 
 
