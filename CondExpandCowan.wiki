@@ -28,14 +28,14 @@ We add a new type of module declaration, <conditional expansion form>, with the 
 
 == Semantics ==
 
-Each implementation maintains a list of feature identifiers which are present, as well as a list of modules which may be imported.  The semantics of a <feature requirement> are that if each feature identifier and module name on the implementation's list is replaced by `#t` and all other feature identifiers and module names are replaced by `#f`, and the resulting expression is evaluated as Scheme, then the corresponding <module declarations> are part of the module iff the result of the evaluation is `#t`.
+Each implementation maintains a list of feature identifiers which are present, as well as a list of modules which may be imported.  The semantics of a `<feature requirement>` are that if each feature identifier and module name on the implementation's list is replaced by `#t` and all other feature identifiers and module names are replaced by `#f`, and the resulting expression is evaluated as Scheme, then the corresponding <module declarations> are part of the module iff the result of the evaluation is `#t`.
 
 == Standard feature identifiers ==
 
 An implementation MAY provide any or all of these feature identifiers, as well as any others that it chooses, but MUST NOT provide a feature identifier if it does not provide the corresponding feature.
 
 ||Feature identifier||Feature description||
-||`thing-one` (temporary name)||All R7RS Scheme implementations have this feature.||
+||`r7rs` ||All R7RS Scheme implementations have this feature.  Name may be changed.||
 ||`exact-closed`||All rational operations on exact values produce exact values, with the possible exception of /.  If an implementation restriction is reached, an error is signaled.  If this feature identifier is missing, some results may be inexact.||
 ||`ratios`||`/` with exact arguments produces an exact result.||
 ||`ieee-float`||Inexact numbers are IEEE 754 floating point values.  This implies support for `+inf.0`, `-inf.0`, `+nan.0`, and `-0.0`.||
