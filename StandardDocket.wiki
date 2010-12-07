@@ -89,7 +89,7 @@ TCP protocol: NetworkPortsCowan
 
 Thread-local storage:
 
-Threads:
+Threads:  ThreadsCowan
 
 UDP protocol:  DatagramChannelsCowan
 
