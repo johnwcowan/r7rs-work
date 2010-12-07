@@ -1,0 +1,52 @@
+== Threads ==
+
+This is a simple threads proposal based on SRFI-18, but eliminating `thread-terminate!`, which has dodgy semantics: it does not give the thread any chance to recover.  Its Java equivalent, `Thread.destroy()`, is deeply deprecated for the same reason.
+
+== Thread procedures ==
+
+`(current-thread)`
+
+Returns the current thread.
+
+`(thread? `''obj''`)`
+
+Returns `#t` if ''obj'' is a thread, otherwise returns `#f`.
+
+`(make-thread `''thunk''` `[''name'']`)`
+
+Constructs and returns a new thread.  ''Thunk'' is a procedure returning one value; ''name'' can be any Scheme object.
+
+A thread has the following fields: ''name'', ''specific'', ''end-result'', ''end-condition'', and ''mutex-list'', a list of locked/owned mutexes it owns.   The first four fields can contain any Scheme object, and default to an unspecified value.  The ''name'' field is set from the optional ''name'' argument: it is an arbitrary Scheme object which identifies the thread (useful for debugging).
+
+This thread is not automatically made runnable (the procedure `thread-start!` must be used to start it).  A thread's execution consists of a call to ''thunk'' with a continuation that causes the thread to store the value of ''thunk'' in its ''end-result'' field, abandon all mutexes in ''mutex-list'', and finally terminate. The dynamic-wind stack of the initial continuation is empty.
+
+The thread inherits the dynamic environment from the current thread, except that the exception handler is bound to a procedure which causes the thread to store in its ''end-condition'' field a FIXME object, abandon all mutexes on ''mutex-list'', and finally terminate.
+
+
+`(thread-name `''thread''`)`
+
+Returns the content of the ''name'' field  of ''thread''.
+
+`(thread-specific `''thread''`)`
+
+Returns the content of the ''specific'' field of ''thread''.
+
+`(thread-specific-set! `''thread''` `''obj''`)`
+
+Sets ''specific'' field of ''thread'' to ''obj''.  Returns unspecified values.
+
+`(thread-start! `''thread''`)`
+
+Makes ''thread'' (which must be a new thread) runnable.  Returns ''thread''.  Thread creation and thread activation are separated in order to avoid the race condition that would occur if the created thread tries to examine a data structure in which the current thread stores the created thread.
+
+`(thread-yield!)`
+
+The current thread exits the running state as if its quantum had expired. Returns unspecified values.
+
+`(thread-sleep! `''timeout''`)`
+
+The current thread waits until the value of `(elapsed-time)` is greater than or equal to ''timeout''. This blocks the thread only if ''timeout'' represents a point in the future.  Returns unspecified values.
+
+`(thread-join! `''thread'' [[''timeout''|[''timeout-result'']]]`)`
+
+The current thread waits until ''thread'' terminates (normally or not) or until the timeout is reached if ''timeout'' is supplied. If ''timeout'' is reached, returns ''timeout-result'' if it is supplied, otherwise a FIXME exception is raised. If ''thread'' terminated normally, the content of its ''end-result'' field is returned, otherwise the content of the ''end-condition'' field is raised.
