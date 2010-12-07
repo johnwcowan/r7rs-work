@@ -16,11 +16,11 @@ Returns `#t` if ''obj'' is a thread, otherwise returns `#f`.
 
 Constructs and returns a new thread.  ''Thunk'' is a procedure returning one value; ''name'' can be any Scheme object.
 
-A thread has the following fields: ''name'', ''specific'', ''end-result'', ''end-condition'', and ''mutex-list'', a list of locked/owned mutexes it owns.   The first four fields can contain any Scheme object, and default to an unspecified value.  The ''name'' field is set from the optional ''name'' argument: it is an arbitrary Scheme object which identifies the thread (useful for debugging).
+A thread has the following fields: ''name'', ''specific'', ''end-result'', ''end-condition'', and ''resource-list'', a list of communication resources it owns.   The first four fields can contain any Scheme object, and default to an unspecified value.  The ''name'' field is set from the optional ''name'' argument: it is an arbitrary Scheme object which identifies the thread (useful for debugging).
 
-This thread is not automatically made runnable (the procedure `thread-start!` must be used to start it).  A thread's execution consists of a call to ''thunk'' with a continuation that causes the thread to store the value of ''thunk'' in its ''end-result'' field, abandon all mutexes in ''mutex-list'', and finally terminate. The dynamic-wind stack of the initial continuation is empty.
+This thread is not automatically made runnable (the procedure `thread-start!` must be used to start it).  A thread's execution consists of a call to ''thunk'' with a continuation that causes the thread to store the value of ''thunk'' in its ''end-result'' field, abandon all resources in ''resource-list'', and finally terminate. The dynamic-wind stack of the initial continuation is empty.
 
-The thread inherits the dynamic environment from the current thread, except that the exception handler is bound to a procedure which causes the thread to store in its ''end-condition'' field a FIXME object, abandon all mutexes on ''mutex-list'', and finally terminate.
+The thread inherits the dynamic environment from the current thread, except that the exception handler is bound to a procedure which causes the thread to store in its ''end-condition'' field a FIXME object, abandon all resources in ''resource-list'', and finally terminate.
 
 
 `(thread-name `''thread''`)`
