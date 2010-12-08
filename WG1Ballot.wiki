@@ -15,25 +15,17 @@
 
 == WG1 - Core ==
 
-=== #32 (A) user-defined types (syntactic proposals) ===
+=== #32 user-defined types ===
 
-Do we support any means of creating disjoint user-defined types using syntax forms, such as in SRFI-9, SRFI-57, SRFI-99, or the R6RS record system?
+Do we support any means of creating disjoint user-defined types, such
+as in SRFI-9, SRFI-99 or the R6RS record system?
 
   * '''Proposals:'''
     * '''hsu:''' RecordsArcfide
-  * '''Options:''' hsu, srfi-9, srfi-57, srfi-99, r6rs, none, wg2, undecided
-  * '''Default:''' none
-  * '''Preferences:''' 
-
-=== #32 (B) user-defined types (procedural proposals) ===
-
-Do we support any means of creating disjoint user-defined types using built-in procedures, such as in SRFI-99 or the R6RS record system?
-
-  * '''Proposals:'''
     * '''medernach:''' AggregatesMedernach
     * '''rush:''' UserAggregatesRush
     * '''snellpym:''' UniqueTypesSnellPym
-  * '''Options:''' medernach, rush, snellpym, srfi-99, r6rs, none, wg2, undecided
+  * '''Options:''' hsu, medernach, rush, snellpym, srfi-9, srfi-57, srfi-99, r6rs, none, wg2, undecided
   * '''Default:''' none
   * '''Preferences:''' 
 
@@ -184,6 +176,17 @@ of a clock.
   * '''Default:''' none
   * '''Preferences:''' 
 
+=== #109 elapsed time ===
+
+Should we have functions allowing a program to compute elapsed time,
+as distinct from calendar time?
+
+TimeCowan contains a proposal.
+
+  * '''Options:''' cowan, yes, no, wg2, undecided
+  * '''Default:''' no
+  * '''Preferences:''' 
+
 === #78 Should we have case-lambda? ===
 
 Should we provide case-lambda as in SRFI 16 and R6RS?  It provides
@@ -206,6 +209,16 @@ and Chibi currently do not.
 Shall we require it?
 
   * '''Options:''' yes, no, module, wg2, undecided
+  * '''Default:''' no
+  * '''Preferences:''' 
+
+=== #107 port status detection ===
+
+Currently there's no way to determine whether a port is open or
+closed, short of trying to read/write to it and catching an error.
+Do we want to add an interface to this?
+
+  * '''Options:''' port-open?, port-closed?, both, no, wg2, undecided
   * '''Default:''' no
   * '''Preferences:''' 
 
@@ -328,11 +341,11 @@ compatibility with R5RS and R6RS.
   * '''Options:''' bound, unbound, unhygienic, undecided
   * '''Preferences:''' 
 
-=== #101 exactness and equal? ===
+=== #101 exactness and `eqv?`/`equal?` ===
 
-In R5RS `equal?` is in some sense the broadest test for equality,
-comparing structural equality, but also tests for the same exactness,
-so that
+In R5RS `eqv?`/`equal?` are in some sense the broadest tests for
+equality, comparing structural equality, but also tests for the same
+exactness, so that
 
    {{{(equal? 0 0.0) => #f}}}
 
@@ -343,12 +356,13 @@ whereas
 Some users consider this confusing, others sometimes want an `equal?`
 that behaves like `=` for numbers.
 
-Do we want to change `equal?` in this way, or add a separate
-exactness-agnostic procedure?  Vote `yes` to change, `equal=?` for a
-separate procedure of that name, or `no` to leave as is.  Alternately,
-write in a separate name.
+Do we want to change `equal?` and `eqv?` in this way, or add a
+separate exactness-agnostic procedure?  Vote `yes` to change,
+`equal=?` or `inexact-equal?` for separate procedures of those names
+(plus the analogous `eqv=?` or `inexact-eqv?`), or `no` to leave as
+is.  Alternately, write in a separate name.
 
-  * '''Options:''' yes, equal=?, no, wg2, undecided
+  * '''Options:''' yes, equal=?, inexact-equal?, no, wg2, undecided
   * '''Default:''' no
   * '''Preferences:''' 
 
@@ -410,6 +424,38 @@ Do we want to include something along these lines in WG1 Scheme?
     * '''srfi-103:''' the search path extension used by R6RS implementations
   * '''Options:''' cowan, srfi-0, srfi-103, none, wg2, undecided
   * '''Default:''' none
+  * '''Preferences:''' 
+
+=== #108 immutable data interface ===
+
+R5RS specifies literal data in source code as immutable, but otherwise
+provides no way to generate or introspect immutable data.
+
+One proposal is given in ImmutableData, providing `mutable?`,
+`make-immutable` and `immutable->mutable`.
+
+Racket, for which all pairs are immutable in the default language,
+needs some way to generate shared and cyclic data structures at
+runtime, and provides the `shared` syntax for this.  It also has an
+`immutable?` utility as the complement to `mutable?` above.
+
+  * '''Proposals:'''
+    * '''medernach:''' ImmutableData
+    * '''racket:''' `shared`, `immutable?` ([http://docs.racket-lang.org/reference/shared.html])
+  * '''Options:''' medernach, racket, no, undecided
+  * '''Default:''' no
+  * '''Preferences:''' 
+
+=== #111 require `equal?` to return `#t` if `eqv?` does ===
+
+Currently `equal?` is strictly broader than `eqv?` except in the
+pathological case of comparing the same circular list with itself, for
+which `eqv?` returns true and `equal?` may loop infinitely.  We could
+explicitly require `equal?` to check and return `#t` in this case,
+which most implementations do as a performance hack anyway.
+
+  * '''Options:''' yes, no, undecided
+  * '''Default:''' no
   * '''Preferences:''' 
 
 == WG1 - Exceptions ==
