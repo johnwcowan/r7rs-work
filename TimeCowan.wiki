@@ -8,13 +8,11 @@ Returns a rational number representing the current second of the Posix epoch, wh
  * Provides at least 1-second precision.
  * Provides a range of at least 2^31^ seconds before and after the epoch.
 
-If the implementation cannot provide the time when `current-posix-seconds` is called (either temporarily or permanently), it MUST return `#f`.
-
-Assuming the number of leap seconds between 1972 and 2011 was typical (not necessarily a safe assumption), there is about a 1 in 10^-8^ probability that a computation of elapsed time made by calling this procedure twice will be off by 1.
+If the implementation cannot provide such a value, either temporarily or permanently, when `current-posix-seconds` is invoked, it MUST return `#f`.
 
 == Elapsed Time ==
 
-`(elapsed-time)`
+`(current-jiffy)`
 
 Returns an exact integer representing the number of jiffies (arbitrary elapsed time units) since an arbitrary epoch, an implementation such as the time the program started running, the operating system was booted, or anything else.  Leap seconds are ''not'' excluded.  Implementations SHOULD return a value that:
 
@@ -22,9 +20,11 @@ Returns an exact integer representing the number of jiffies (arbitrary elapsed t
  * Provides at least 1-second precision.
  * Provides a range of at least 2^31^ seconds before and after the epoch.
 
+If the implementation cannot provide such a value, either temporarily or permanently, when `current-jiffy` is invoked, it MUST return `#f`.
+
 `(jiffies-per-second)`
 
-Returns  an exact integer representing the number of jiffies per SI second.  This value is an implementation-specified constant.
+Returns an exact integer representing the number of jiffies per SI second.  This value is an implementation-specified constant.
 
 == Date and Time Arithmetic (WG2) ==
 
