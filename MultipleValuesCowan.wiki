@@ -1,8 +1,10 @@
-== Multiple values macros ==
+== Multiple values procedure ==
 
 `(values . `''values''`)`
 
 Returns multiple values.
+
+== Multiple values macros ==
 
 `(call-with-values `''producer'' ...` `''consumer''`)`
 
@@ -43,4 +45,7 @@ The matching of each ''lambda-list'' to values is done in the same way as in a `
 Assigns the values returned by ''expression'' to the variables in ''lambda-list''.
 Returns undefined values.  Equivalent to Common Lisp's `multiple-variable-setq`.
 
- 
+`(define-values (`''var'' ...`) `''expr''`)`
+
+Defines the ''vars'' and binds them to the values of ''expr''.
+
