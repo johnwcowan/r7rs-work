@@ -1,14 +1,14 @@
-== Multiple values procedure ==
+== Multiple values procedures ==
 
 `(values . `''values''`)`
 
 Returns multiple values.
 
-== Multiple values macros ==
-
 `(call-with-values `''producer'' ...` `''consumer''`)`
 
 Invoke the ''producers'' and pass all values returned by them in order to ''consumer''.  This extends R5RS by allowing more than one ''producer''.  Equivalent to Common Lisp's `multiple-value-call`.  See #87.
+
+== Multiple values macros ==
 
 `(let-values ((`''lambda-list''` `''expression''`)` ...`) `''body''`)` 
 
