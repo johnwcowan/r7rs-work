@@ -1,29 +1,41 @@
+
 = AggregatesMedernach =
 
-== Rationale ==
+== Rationale [[see|1]] ==
 
-Generating fixed sized data type disjoint from all other types, called AGGREGATES.
+Declaring and generating fixed sized data type disjoint from all other types, called AGGREGATES.
 
 General other record or object features may be build on top of these aggregates.
 
+== Datatype and associated functions [[see|3]] ==
+
+(make-datatype designation fieldname ...)
+
+Returns a new datatype. fieldname must be symbols. This is not a functional call in order to avoid potential collisions between similar aggregates but of different kind.
+
+(datatype->designation <my-datatype>)
+
+If <my-datatype> is of datatype kind, then returns its designation.
+
+(datatype->fields <my-datatype>)
+
+If <my-datatype> is of datatype kind, then returns corresponding list of fields.
+
+
 == Aggregates ( constructor / accessor ) constructor ==
 
-  `(create-aggregate `''<marker>''` `''<number-of-components>''`)`
+`(create-aggregate `''<datatype>''`)`
 
-  `(create-aggregate `''<marker>''` `''<number-of-components>''` `''<assertion>''`)`
-
-''<marker>'' ensures that the call to create-aggregate is functional, the same aggregate functions are generated if parameters are the same. Notice that an unique value (such as cons cell) could be provided to obtain unique aggregate type.
-
-''<number-of-components>'' is the fixed number of components of this new aggregate.
-
-Optional: ''<assertion>'' contains an input function assertions (for data consistency).
-
+If ''<datatype>'' is of datatype kind, then returns corresponding constructor and switch function (see below). ''<datatype>'' ensures that the call to create-aggregate is functional, the same aggregate functions are generated if applied to the same ''<datatype>''. 
 
 ''create-aggregate'' returns 2 functions as values:
 
-  ''make-<aggregate>'' is a function taking a fixed number ''<number-of-components>'' of arguments, optionally checking its arguments with ''<assertion>'', and returning a new aggregate containing arguments.
+  ''make-<aggregate>'' is a function taking a fixed number of arguments as specified by the ''<datatype>'' and returning a new aggregate containing these arguments as aggregate components.
 
   ''<aggregate>-switch'' is explained below.
+
+  The data created by make-<aggregate> and selected by <aggregate>-switch are required to conform to <my-datatype> properties (currently only arity).
+  
 
 == Accessing aggregate components == 
 
@@ -31,60 +43,155 @@ Either
  1. Unsafe access procedures must be invoked after a predicate checking data type
  2. Or safe access procedure, then a check is performed before accessing and an error is signalled if the data type is not what is expected.
 
-However data are aggregated in order to retrieve many part, not only one, so solution 2. requires to perform redundant check for each accessed field and moreover the error in general is fatal to the program execution. Solution 1. alone is unsatisfactory as if an unsafe access procedure is applied to not of the correct kind data then random and unwanted behaviors may appear.
+However data are aggregated in order to retrieve many part of it and not only one. Solution 2 requires to perform redundant check for each accessed field and moreover the error in general is fatal to the program execution. Solution 1 alone is unsatisfactory as if an unsafe access procedure is applied to not of the correct kind data then random and unwanted behaviors may appear.
 
 Another solution is to group together data type checking with accessing in a case analysis function (per aggregate types) :
 
   `(<aggregate>-switch `''<aggregate-case>''` `''<else-case>''`) = (lambda (`''<obj>''`) ...)`
 
-Two cases are possible: if the data ''<obj>'' is of ''<aggregate>'' kind then ''<aggregate-case>'' function is called with the components of the ''<obj>'' data, else ''<else-case>'' is called with ''<obj>''.
+Two cases are possible: if the data ''<obj>'' is of ''<aggregate>'' corresponding datatype kind then ''<aggregate-case>'' function is called with the components of the ''<obj>'' data, else ''<else-case>'' is called with ''<obj>''.
 
-Examples:
+The idea behind my-datatype-switch function is to open an environment with bindings for corresponding aggregate components.
+
+
+== Variants ==
+
+A data is a variant if it is one kind of a list of aggregates.
+
+For instance, one could view the following classic types as variant:
+
+- List as variant of NULL or CONS
+
+- Tree as variant of LEAF or NODE
+
+Convenience macro for variants may be provided as in [[see|2]]:
 {{{
-  ;; Creating my-null ...
+(define-syntax variant-case
+  (syntax-rules (else)
+    ((variant-case <obj>)
+     (error "variant-case: all case exhausted " <obj>))
+    
+    ((variant-case <obj>
+        (else <body> ...))
+     (begin <body> ...))
+    
+    ((variant-case <obj>
+        (<aggregate-switch> (<var> ...) <body> ...)
+        rest ...)
+     ((<aggregate-switch>
+       (lambda (<var> ...) <body> ...)
+       (lambda (<obj>) (variant-case <obj> rest ...)))
+      <obj>))))
+}}}
   
-  (my-null-switch <null-case> <else-case>)
-  
-  ;; Creating my-pair ...
-  
-  (my-pair-switch <pair-case> <else-case>)
-}}}  
-With my-car, my-cdr for instance:
+
+== Various examples ==
+
 {{{
-  (define (my-car obj else)
-    ((pair-switch (lambda (first second) first) else)
+(define-values (make-null null-switch)
+  (create-aggregate (make-datatype "NULL")))
+
+(define-values (make-pair pair-switch)
+  (create-aggregate (make-datatype "PAIR" 'first 'second)))
+
+;; With my-car, my-cdr for instance:
+
+  (define (my-car obj)
+    ((pair-switch (lambda (first second) first) error)
      obj))
   
-  (define (my-cdr obj else)
-    ((pair-switch (lambda (first second) second) else)
+  (define (my-cdr obj)
+    ((pair-switch (lambda (first second) second) error)
      obj))
 }}}     
-The 'external' composition of aggregates is possible:
-{{{
-  (define (my-list-switch <null-case> <pair-case> <else-case>)
-    (pair-switch <pair-case>
-      (null-switch <null-case>
-        <else-case>)))
 
-  (define (sequential-compose-aggregates switch->case-list <else-case>)
-    (if (null? switch->case-list)
-        <else-case> 
-        (let ((switch->case      (car switch->case-list))
-              (switch->case-list (cdr switch->case-list)))
-          (let ((switch (car  switch->case))
-                (case   (cadr switch->case)))
-             (switch case (sequential-compose-aggregates switch->case-list <else-case>))))))
+{{{
+;; MAYBE data kind maker: either empty or containing some data.
+(define-values (make-empty maybe-switch)
+  (create-aggregate (make-datatype "Empty")))
+
+(maybe-switch <empty-case> <not-empty-case>)
+}}}
+{{{
+;; 3d point example
+(define-values (make-point3d point3d-switch)
+  (create-aggregate (make-datatype "3d point" 'X 'Y 'Z)))
+
+(define (point3d-length x y z)
+  (sqrt (+ (* x x) (* y y) (* z z))))
+
+(define (point3d-scale alpha)
+  (lambda (x y z)
+    (make-point3d (* alpha x) (* alpha y) (* alpha z))))
+
+(define p3d (make-point3d 3 4 5))
+
+((point3d-switch point3d-length error) p3d) ;; 7.07...
+((point3d-switch (point3d-scale -2) error) p3d) ;; [[-6|-8 -10]]
+}}}
+{{{
+;; Binary tree example
+(define-values (make-bin-leaf bin-leaf-switch)
+  (create-aggregate (make-datatype "Binary tree leaf" 'Data)))
+
+(define-values (make-bin-node bin-node-switch)
+  (create-aggregate (make-datatype "Binary tree node" 'Data 'Left 'Right)))
+
+; variant-case example
+(define (map-tree fun bin-tree)
+  (variant-case bin-tree
+    (bin-node-switch (data left right)
+      (make-bin-node (fun data)
+                     (map-tree fun left)
+                     (map-tree fun right)))
+    (bin-leaf-switch (data)
+      (make-bin-leaf (fun data)))
+    (else (error "Not a bin-tree: " bin-tree))))
+}}}  
+{{{
+;; aggregate copy
+(define my-aggregate-copy
+  (<my-aggregate-switch> <make-my-aggregate> error))
+}}}
+{{{  
+;; aggregate to association list converter
+(define my-aggregate->alist
+  (<my-aggregate-switch>
+     (lambda l (map list (datatype->fields <datatype>) l))
+     error))
+}}}
+{{{     
+;; Unforgeable aggregate with built-in assertion checking.
+(define-syntax create-aggregate-with-assertion
+  (syntax-rules ()
+    ((create-aggregate-with-assertion (<datatype-designation> '<field> ...) <assertion>)
+     (let-values ((maker switch)
+                  (create-aggregate (make-datatype (list <datatype-designation>) '<field> ...)))
+       (values (lambda (<field> ...)
+                 (if (<assertion> <field> ...)
+                     (maker <field> ...)
+                     (error "Assertion failed: "
+                            (list <datatype-designation> <field> ...))))
+               switch)))))
 }}}
 
 == Issues ==
 
 * Maybe it is better to have instead of create-aggregate a syntactic construct to bind the created functions name ?
 
-* Do we need to define a function or macro to create unions of aggregates ? 
-
 * An orthogonal mechanism is foreseen to allow securing data (like a lock mechanism with capabilities) but this is not the subject of this page.
 
 == References ==
 
- Jonathan A. Rees. "User-defined data types". Lisp Pointers. 'The Scheme of Things' (column). 1993 
+Disjointness issue raised and proposal:
+
+[1]  Jonathan A. Rees. "User-defined data types". Lisp Pointers. 'The Scheme of Things' (column). 1993 
+
+For variant-case to destructure records:
+
+[2]  Daniel P. Friedman, Mitchell Wand, and Christopher T. Haynes. Essentials of Programming Languages. MIT Press and McGraw-Hill, 1991.
+
+RTD (datatype) functions:
+
+[3]  Jonathan A. Rees, Norman I. Adams IV and James R. Meehan. "The T manual". Yale University Computer Science Department. 1984.
  
