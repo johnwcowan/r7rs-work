@@ -29,6 +29,7 @@ Comments are welcome at the [[http://lists.scheme-reports.org/cgi-bin/mailman/li
         * RecordsArcfide
         * UserAggregatesRush
         * RecordsCowan
+        * AggregatesMedernach
     * BinaryData
         * [wiki:BlobsAndSRFI4SnellPym]
         * [wiki:BlobAPI] (Cowan)
