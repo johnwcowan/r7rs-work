@@ -18,7 +18,7 @@ Pretty-printer: see Format combinators
 
 Getopt/args-fold:  SRFI 37.
 
-Pattern matching: Andrew Wright's match library (Alex Shinn's reformulation)
+Pattern matching: Andrew Wright's match library (Alex Shinn's [[http://synthcode.com/scheme/match.scm|reformulation]])
 
 Regex (S-exps and strings): Alex Shinn's [[http://synthcode.com/scheme/irregex/|irregex library]], with prefix stripping and a touch of renaming.  Specify full PCRE compatibility even though the irregex implementation doesn't support all of it.
 
