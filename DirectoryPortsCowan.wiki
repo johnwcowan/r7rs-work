@@ -1,12 +1,8 @@
 == Directory ports ==
 
-This module depends on the acceptance of PortsCowan or something like it, as it uses the framework of that proposal.
+This module depends on the acceptance of PortsCowan or something like it, as it uses the framework of that proposal.  See DirectoriesCowan for a proposal for creating and destroying directories.
 
 == Procedures ==
-
-`(directory? `''filename''`)`
-
-Returns `#t` if ''filename'' is the name of a directory, or #f if it is not or the answer is not determinable.  ''Filename'' is a string or an implementation-dependent object.
 
 `(open-directory `''filename''`)`
 
