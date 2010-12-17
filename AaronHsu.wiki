@@ -9,6 +9,7 @@ ChezReplSemantics[[BR]]
 RecordBindersArcfide[[BR]]
 KeywordArgumentsArcfide[[BR]]
 RecordsArcfide[[BR]]
+LetSyntaxArcfide[[BR]]
 RandomnessArcfide
 
 == Ballots ==
