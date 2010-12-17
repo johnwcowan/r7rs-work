@@ -50,6 +50,8 @@ Comments are welcome at the [[http://lists.scheme-reports.org/cgi-bin/mailman/li
         * RandomnessArcfide
         * RandomnessCommonLisp
         * [[http://srfi.schemers.org/srfi-27/|SRFI-27]]
+    * Let-syntax
+        * LetSyntaxArcfide
 
 
 == Working Group 2 ==
