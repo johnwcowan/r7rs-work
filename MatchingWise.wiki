@@ -10,9 +10,10 @@ the ML family of languages [[Harper|2008]], as such a facility allows the
 succinct expression of some algorithms in a language very similar to the
 underlying mathematics of the problem set.
 
-The Pattern Matching package can be imported as (rnrs match), and an
-additional library, (rnrs match core) provides a versions of several core
-forms which use the pattern syntax of this library.
+The Pattern Matching package can be imported as `(rnrs match)`, which
+provides new versions of several `(rnrs core)` forms.  Renaming or prefixing
+can be used to make the pattern-matching forms provided by `(rnrs match)`
+available without replacing forms from `(rnrs core)`.
 
 Pattern matching algorithms have been provided as an extension to standard
 Scheme syntax by a number of existing implementations, including Bigloo
@@ -200,7 +201,8 @@ matches the input value, `match` MUST evaluate the corresponding expressions
 MUST return the value of the last corresponding ''<body>'' expression,
 which MUST be evaluated in tail context.
 
-If no pattern ''<pat>'' successfully matches the input value ''<val>'', an error MUST be signaled.
+If no pattern ''<pat>'' successfully matches the input value ''<val>'', an
+error MUST be signaled.
 
 
 == Derived Forms ==
@@ -212,7 +214,7 @@ to make pattern matching appear to be integral to Scheme.
 
       `(lambda ....)`	   	 	syntax
 
-      `(lambda* ....)`	   	 	syntax
+      `(case-lambda ....)`	    	syntax
 
       `(let ....)`	 		syntax
 
@@ -220,47 +222,22 @@ to make pattern matching appear to be integral to Scheme.
 
       `(letrec ....)`	   	 	syntax
 
-`lambda`, which is useful for creating a function of one argument
-which matches that argument against one or more patterns, has the
+`lambda` is used to create a function of zero or more arguments which
+matches those arguments, taken as a list, against a single pattern, has the
 syntax
 
 {{{
-	(lambda
-	  (<pat> <body> <body> ...)
-	  (<pat> <body> <body> ...)
-	  ...)
-}}}
+	(lambda <pat>
+	  <body> <body> ...)
 
-and is equivalent to
-
-{{{
-	(core:lambda (id)
-	  (match
-	    (<pat> <body> <body> ...)
-	    (<pat> <body> <body> ...)
-	    ...))
-}}}
-
-
-`lambda*`, which is useful for creating a function of zero or more
-arguments which matches its arguments taken as a list against one or more
-patterns, has the syntax
-
-{{{
-	(lambda*
-	  (<pat> <body> <body> ...)
-	  (<pat> <body> <body> ...)
-	  ...)
 }}}
 
 and is equivalent to
 
 {{{
 	(core:lambda id
-	  (match
-	    (<pat> <body> <body> ...)
-	    (<pat> <body> <body> ...)
-	    ...))
+	  (match id
+	    (<pat> <body> <body> ...)))
 }}}
 
 Note that it is not required that each pattern ''<pat>'' be a list, but the
@@ -268,6 +245,28 @@ meaning of a non-list pattern ought to be considered carefully.  In
 particular, a pattern consisting of a single symbol will always match, and
 bind the entire list of arguments to that symbol (this can be used in a
 manner similar to the `else` clause in a `cond` form).
+
+
+`case-lambda`, which is useful for creating a function of zero or more
+arguments which matches its arguments taken as a list against one or more
+patterns, has the syntax
+
+{{{
+	(case-lambda
+	  (<pat> <body> <body> ...)
+	  (<pat> <body> <body> ...)
+	  ...)
+}}}
+
+and is equivalent to
+
+{{{
+	(control:case-lambda id
+	  (match id
+	    (<pat> <body> <body> ...)
+	    (<pat> <body> <body> ...)
+	    ...))
+}}}
 
 
 `let`, analogous to core `let`, has the syntax
@@ -331,10 +330,12 @@ bound (in a new environment) to a fresh location prior to the evaluation of
 any expression ''<expr>'', the expressions ''<body>'' are then evaluated (in
 some unspecified order) in this environment.
 
-As with `let`, if any of the patterns ''<pat>'' fail to match the
-value of the corresponding expression <expr>, none of the expressions
-''<body>'' MUST be evaluated, and an error MUST be signaled.  It is not specified which of the expressions '<expr>' have
-already been evaluated when this exception is raised.
+As with `let`, if any of the patterns ''<pat>'' fail to match the value of
+the corresponding expression <expr>, none of the expressions ''<body>'' MUST
+be evaluated, and an error MUST be signaled.  It is not specified which of
+the expressions '<expr>' have already been evaluated when this exception is
+raised.
+
 
 == Notes ==
 
@@ -441,4 +442,3 @@ http://download.plt-scheme.org/doc/103p1/pdf/match.pdf
 == Source ==
 
 This proposal was put together by Jim Wise from postings on the discuss@r6rs.org mailing list, and lightly edited for MUSTard by John Cowan.
-
