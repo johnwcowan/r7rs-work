@@ -206,24 +206,26 @@ If no pattern ''<pat>'' successfully matches the input value ''<val>'', an error
 == Derived Forms ==
 
 For convenience, the following derived forms are also exported by the
-`(rnrs match)` library
+`(rnrs match)` library.  They can be imported with a prefix such as `match-`
+so that they will not collide with the Scheme core, or can be allowed to override it
+to make pattern matching appear to be integral to Scheme.
 
-      `(match-lambda ....)`	   	 	syntax
+      `(lambda ....)`	   	 	syntax
 
-      `(match-lambda* ....)`	   	 	syntax
+      `(lambda* ....)`	   	 	syntax
 
-      `(match-let ....)`	 		syntax
+      `(let ....)`	 		syntax
 
-      `(match-let* ....)`	   	 	syntax
+      `(let* ....)`	   	 	syntax
 
-      `(match-letrec ....)`	   	 	syntax
+      `(letrec ....)`	   	 	syntax
 
-`match-lambda`, which is useful for creating a function of one argument
+`lambda`, which is useful for creating a function of one argument
 which matches that argument against one or more patterns, has the
 syntax
 
 {{{
-	(match-lambda
+	(lambda
 	  (<pat> <body> <body> ...)
 	  (<pat> <body> <body> ...)
 	  ...)
@@ -232,7 +234,7 @@ syntax
 and is equivalent to
 
 {{{
-	(lambda (id)
+	(core:lambda (id)
 	  (match
 	    (<pat> <body> <body> ...)
 	    (<pat> <body> <body> ...)
@@ -240,12 +242,12 @@ and is equivalent to
 }}}
 
 
-`match-lambda*`, which is useful for creating a function of zero or more
+`lambda*`, which is useful for creating a function of zero or more
 arguments which matches its arguments taken as a list against one or more
 patterns, has the syntax
 
 {{{
-	(match-lambda
+	(lambda
 	  (<pat> <body> <body> ...)
 	  (<pat> <body> <body> ...)
 	  ...)
@@ -254,7 +256,7 @@ patterns, has the syntax
 and is equivalent to
 
 {{{
-	(lambda id
+	(core:lambda id
 	  (match
 	    (<pat> <body> <body> ...)
 	    (<pat> <body> <body> ...)
@@ -268,10 +270,10 @@ bind the entire list of arguments to that symbol (this can be used in a
 manner similar to the `else` clause in a `cond` form).
 
 
-`match-let`, analogous to `let`, has the syntax
+`let`, analogous to core `let`, has the syntax
 
 {{{
-	(match-let ((<pat> <expr>) ...)
+	(let ((<pat> <expr>) ...)
 	  <body>
 	  <body>
 	  ...)
@@ -291,16 +293,16 @@ specified which of the expressions '<expr>' will have already been
 evaluated when this exception is raised.
 
 
-`match-let*`, analogous to `let*`, has the syntax
+`let*`, analogous to core `let*`, has the syntax
 
 {{{
-	(match-let* ((<pat> <expr>) ...)
+	(let* ((<pat> <expr>) ...)
 	  <body>
 	  <body>
 	  ...)
 }}}
 
-`match-let* `is similar to `match-let`, except that each `(<pat> <expr>)`
+`let* `is similar to `let`, except that each `(<pat> <expr>)`
 clause MUST be evaluated and then pattern matched sequentially, in
 left-to-right order, and identifiers bound by matching each pattern
 ''<pat>'' match MUST be available in the environment in which each
@@ -312,50 +314,27 @@ corresponding expression <expr>, none of the subsequent expressions
 evaluated, and an error MUST be signaled.
 
 
-`match-letrec`, analogous to `letrec`, has the syntax
+`letrec`, analogous to core `letrec`, has the syntax
 
 {{{
-	(match-letrec ((<pat> <expr>) ...)
+	(letrec ((<pat> <expr>) ...)
 	  <body>
 	  <body>
 	  ...)
 }}}
 
-`match-letrec `is similar to `match-let`, except that each expression
+`letrec `is similar to `let`, except that each expression
 ''<expr>'' clause MUST be evaluated in an environment containing all
 bindings from all patterns ''<pat>''.  As with the core `letrec` form, each
-variable to be bound by a pattern ''<pat>'' of the `match-letrec` form is
+variable to be bound by a pattern ''<pat>'' of the `letrec` form is
 bound (in a new environment) to a fresh location prior to the evaluation of
 any expression ''<expr>'', the expressions ''<body>'' are then evaluated (in
 some unspecified order) in this environment.
 
-As with `match-let`, if any of the patterns ''<pat>'' fail to match the
+As with `let`, if any of the patterns ''<pat>'' fail to match the
 value of the corresponding expression <expr>, none of the expressions
 ''<body>'' MUST be evaluated, and an error MUST be signaled.  It is not specified which of the expressions '<expr>' have
 already been evaluated when this exception is raised.
-
-
-== Pattern Versions of Core RNRS forms ==
-
-The `(rnrs match core)` library module contains no forms of its own, but
-imports and re-exports several forms from the `(rnrs match)` module under
-new names:
-
-	|| `(rnrs match)` form	|| core form
-	|  match-lambda*    	|  lambda
-	|  match-let    	|  let
-	|  match-let*    	|  let*
-	|  match-letrec    	|  letrec
-
-This library module is intended to allow a style of programming where
-`matching` is a core feature of the language, and to allow experimenting
-with wider support of the pattern-matching syntax defined here in a future
-RNRS revision.  Note that the RNRS library ''import spec''
-syntax can be used to select which of these forms to import.
-
-The `(rnrs match core)` library is in no way needed for use of the `(rnrs
-match)` library.
-
 
 == Notes ==
 
