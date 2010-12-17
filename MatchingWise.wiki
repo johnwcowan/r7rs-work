@@ -412,7 +412,8 @@ revisions:
 Wiki, revision 14108, 2009, available at
 http://wiki.call-cc.org/man/3/Pattern%20matching
 
-[[Harper|2008]] Harper Robert, ''Programming in Standard ML'', 2008, Carnegie Melon,
+[[Harper|2008]] Harper Robert, ''Programming in Standard ML'', 2008, Carnegie
+Melon,
 ch. 5, available at http://www.cs.cmu.edu/~rwh/smlbook/
 
 [[Flatt|2010]] Flatt, Matthew and PLT, ''Reference: Racket'', Version 5.0,
@@ -441,4 +442,5 @@ http://download.plt-scheme.org/doc/103p1/pdf/match.pdf
 
 == Source ==
 
-This proposal was put together by Jim Wise from postings on the discuss@r6rs.org mailing list, and lightly edited for MUSTard by John Cowan.
+This proposal was put together by Jim Wise from postings on the
+discuss@r6rs.org mailing list.
