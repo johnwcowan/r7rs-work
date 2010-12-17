@@ -247,7 +247,7 @@ arguments which matches its arguments taken as a list against one or more
 patterns, has the syntax
 
 {{{
-	(lambda
+	(lambda*
 	  (<pat> <body> <body> ...)
 	  (<pat> <body> <body> ...)
 	  ...)
