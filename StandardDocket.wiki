@@ -61,6 +61,8 @@ Optional arguments (other than by `case-lambda`):
 
 Pathnames: PathnamesCowan
 
+Pattern matching: MatchingWise
+
 Port functions (concatenate, join, split): PortOperationsCowan
 
 Priority queues:
