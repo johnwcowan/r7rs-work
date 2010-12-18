@@ -155,6 +155,21 @@ An aggregate pattern can be
     `map` of the `match` operator for that subpattern over each individual
     value matched.
 
+  * a vector of N subpatterns
+
+    examples:
+{{{
+        #(a b c)
+        #(1 b 3)
+        #((a b) (c d))
+}}}
+
+    in this case, any vector value of the same length where each subpattern in
+    the pattern vector matches the corresponding element in the value vector
+    will match, and the bindings corresponding to each subpattern will be
+    carried out.
+
+
   * a vector of N subpatterns with the literal `...` symbol in any position
     except the first
 
