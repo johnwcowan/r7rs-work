@@ -5,7 +5,7 @@ This is a WG2 proposal for date and time arithmetic, loosely based on Java's [[h
 
 == Instants ==
 
-For the purposes of this proposal, an ''instant'' is a rational number representing a particular second (or fraction thereof) of the Posix epoch, which began on 00:00:00 on 1 January 1970, Coordinated Universal Time but excludes all leap seconds.  See TimeCowan for the `current-posix-second` procedure, which returns the current instant.
+For the purposes of this proposal, an ''instant'' is an integer representing a particular second of the Posix epoch, which began on 00:00:00 on 1 January 1970, Coordinated Universal Time, but excludes all leap seconds.  See TimeCowan for the `current-posix-second` procedure, which returns the current instant.
 
 
 == Chronologies ==
@@ -51,7 +51,7 @@ Returns a chronology that uses ''chronology2'' at all times before ''instant'', 
 
 == Date objects ==
 
-A ''date object'' is a member of an immutable disjoint type that specifies information about a date or time with respect to a certain chronology.  For example, with respect to the ISO, Gregorian, or Julian chronologies, a date may represent a specific year, a specific week of a specific year, or an instant in time precise to a second or better.  On the other hand, a date object may contain just a particular month.  Date objects have multiple numeric-valued fields such as `year` or `minute-of-day`, whose meanings and possible values are determined by the chronology.
+A ''date object'' is a member of an immutable disjoint type that specifies information about a date or time with respect to a certain chronology.  For example, with respect to the ISO, Gregorian, or Julian chronologies, a date may represent a specific year, a specific week of a specific year, or an instant in time precise to a second.  On the other hand, a date object may contain just a particular month.  Date objects have multiple numeric-valued fields such as `year` or `minute-of-day`, whose meanings and possible values are determined by the chronology.
 
 
 == Date procedures ==
