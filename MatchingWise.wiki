@@ -1,7 +1,3 @@
-                                                                     
-                                                                     
-                                                                     
-                                             
 == Pattern Matching ==
 
 This is a proposal for a WG2 pattern matching library.  The motivation of
@@ -11,9 +7,10 @@ succinct expression of some algorithms in a language very similar to the
 underlying mathematics of the problem set.
 
 The Pattern Matching package can be imported as `(rnrs match)`, which
-provides new versions of several `(rnrs core)` forms.  Renaming or prefixing
-can be used to make the pattern-matching forms provided by `(rnrs match)`
-available without replacing forms from `(rnrs core)`.
+provides new versions of several forms from the `(rnrs core)` library, and
+one form from the `(rnrs control)` library.  Renaming or prefixing can be
+used to make the pattern-matching forms provided by `(rnrs match)` available
+without replacing forms from `(rnrs core)` and `(rnrs control)`.
 
 Pattern matching algorithms have been provided as an extension to standard
 Scheme syntax by a number of existing implementations, including Bigloo
@@ -33,10 +30,10 @@ by the `DESTRUCTURING-BIND` macro.
 
 Where the above sources for pattern matching come into conflict, this
 proposal attempts to provide compatibility first with the RNRS `syntax-case`
-form, and secondly to the existing implementations.
+form, and secondly to the existing pattern matching implementations.
 
 
-== Patterns ==
+== Matching ==
 
 The forms in this library work by attempting to ''match'' a Scheme value of
 arbitrary complexity against one or more patterns.  If such a match
@@ -51,13 +48,14 @@ match the given value.
 
 A pattern can be
 
-  * a boolean, number, string, character, or byte-vector literal, or the
-    empty list
+  * a boolean, number, string, character, or byte-vector literal, an empty
+    vector literal, or the empty list
 
     examples:
 {{{
 	#\A
 	42
+	#()
 	()
 }}}
 
@@ -101,8 +99,8 @@ required to match, and all symbols bound to a value by any matching
 subpattern are bound for the scope of the body expression or expressions of
 the pattern matching form used.
 
-It is a syntax violation for the same symbol to appear more than once in a
-pattern.
+It is a syntax violation for the same unquoted symbol to appear more than
+once in a pattern, except for the special symbols `_' and `...'.
 
 An aggregate pattern can be
 
@@ -121,7 +119,7 @@ An aggregate pattern can be
     will match, and the bindings corresponding to each subpattern will be
     carried out.
 
-  * an improper list of N subpatterns
+  * an improper list of one or more subpatterns
 
     examples:
 {{{
@@ -136,12 +134,13 @@ An aggregate pattern can be
     or the (possibly empty) remainder of the value list otherwise, and the
     bindings corresponding to each subpattern will be carried out.
 
-  * a proper or improper list of N subpatterns with the literal `...` symbol
-    occurring once or more in any position except either the first position
-    of any list, or the last position of an improper list.
+  * a proper or improper list of one or more subpatterns with the literal
+    `...` symbol occurring once or more in any position except either the
+    first position of any list, or the last position of an improper list.
 
     examples:
 {{{
+	(a ...)
 	(a ... b c)
 	(a (b c) ... d)
 	(a b ... . d)
@@ -155,7 +154,7 @@ An aggregate pattern can be
     `map` of the `match` operator for that subpattern over each individual
     value matched.
 
-  * a vector of N subpatterns
+  * a vector of one or more subpatterns
 
     examples:
 {{{
@@ -175,6 +174,7 @@ An aggregate pattern can be
 
     examples:
 {{{
+	#(a ...)
 	#(a b ... c)
 	#(1 ... b)
 	#((a b) ... (c d))
@@ -216,16 +216,24 @@ matches the input value, `match` MUST evaluate the corresponding expressions
 MUST return the value of the last corresponding ''<body>'' expression,
 which MUST be evaluated in tail context.
 
+Note that it is not required that each pattern ''<pat>'' be an aggregate
+pattern, but the meaning of a simple pattern ought to be considered
+carefully.  In particular, a pattern consisting of a single symbol will
+always match, and bind the entire list of arguments to that symbol (this can
+be used in a manner similar to the `else` clause in a `cond` form), while a
+pattern consisting of the special symbol `_` will always match without
+binding.
+
 If no pattern ''<pat>'' successfully matches the input value ''<val>'', an
 error MUST be signaled.
 
 
 == Derived Forms ==
 
-For convenience, the following derived forms are also exported by the
-`(rnrs match)` library.  They can be imported with a prefix such as `match-`
-so that they will not collide with the Scheme core, or can be allowed to override it
-to make pattern matching appear to be integral to Scheme.
+For convenience, the following derived forms are also exported by the `(rnrs
+match)` library.  They can be imported with a prefix such as `match-` so
+that they will not collide with the Scheme core, or can be allowed to
+override it to make pattern matching appear to be integral to Scheme.
 
       `(lambda ....)`	   	 	syntax
 
@@ -237,7 +245,7 @@ to make pattern matching appear to be integral to Scheme.
 
       `(letrec ....)`	   	 	syntax
 
-`lambda` is used to create a function of zero or more arguments which
+`lambda`, which is used to create a function of zero or more arguments which
 matches those arguments, taken as a list, against a single pattern, has the
 syntax
 
@@ -255,16 +263,9 @@ and is equivalent to
 	    (<pat> <body> <body> ...)))
 }}}
 
-Note that it is not required that each pattern ''<pat>'' be a list, but the
-meaning of a non-list pattern ought to be considered carefully.  In
-particular, a pattern consisting of a single symbol will always match, and
-bind the entire list of arguments to that symbol (this can be used in a
-manner similar to the `else` clause in a `cond` form).
-
-
-`case-lambda`, which is useful for creating a function of zero or more
-arguments which matches its arguments taken as a list against one or more
-patterns, has the syntax
+`case-lambda`, which is used to create a function of zero or more arguments
+which matches those arguments, taken as a list, against one or more patterns,
+has the syntax
 
 {{{
 	(case-lambda
@@ -276,7 +277,7 @@ patterns, has the syntax
 and is equivalent to
 
 {{{
-	(control:case-lambda id
+	(core:lambda id
 	  (match id
 	    (<pat> <body> <body> ...)
 	    (<pat> <body> <body> ...)
@@ -302,9 +303,9 @@ evaluated in tail context, MUST be returned.
 
 If any of the patterns ''<pat>'' fail to match the value of the
 corresponding expression <expr>, the expressions in ''<body>'' MUST NOT be
-evaluated, and an error MUST be signaled.  It is not
-specified which of the expressions '<expr>' will have already been
-evaluated when this exception is raised.
+evaluated, and an error MUST be signaled.  It is not specified which of the
+expressions '<expr>' will have already been evaluated when this exception is
+raised.
 
 
 `let*`, analogous to core `let*`, has the syntax
@@ -337,19 +338,19 @@ evaluated, and an error MUST be signaled.
 	  ...)
 }}}
 
-`letrec `is similar to `let`, except that each expression
-''<expr>'' clause MUST be evaluated in an environment containing all
-bindings from all patterns ''<pat>''.  As with the core `letrec` form, each
-variable to be bound by a pattern ''<pat>'' of the `letrec` form is
-bound (in a new environment) to a fresh location prior to the evaluation of
-any expression ''<expr>'', the expressions ''<body>'' are then evaluated (in
-some unspecified order) in this environment.
+`letrec `is similar to `let`, except that each expression ''<expr>'' clause
+MUST be evaluated in an environment containing all bindings from all
+patterns ''<pat>''.  As with the core `letrec` form, each variable to be
+bound by a pattern ''<pat>'' of the `letrec` form is bound (in a new
+environment) to a fresh location prior to the evaluation of any expression
+''<expr>'', the expressions ''<body>'' are then evaluated (in some
+unspecified order) in this environment.
 
 As with `let`, if any of the patterns ''<pat>'' fail to match the value of
 the corresponding expression <expr>, none of the expressions ''<body>'' MUST
 be evaluated, and an error MUST be signaled.  It is not specified which of
-the expressions '<expr>' have already been evaluated when this exception is
-raised.
+the expressions '<expr>' will have already been evaluated when this
+exception is raised.
 
 
 == Notes ==
@@ -419,6 +420,17 @@ revisions:
 
   * Unifying the syntax used here with that of the core syntax-case form,
     which uses a very similar pattern matching language
+
+  * Vector-based treatment of `...` matches within a vector aggregate
+    pattern.  For consistency with existing implementations, the a pattern
+    such as
+{{{
+	#(a ...)
+}}}
+    the variable `a` to a ''list'' of zero or more matching values.  Once
+    can imagine cases where a ''vector'' of such matches would be useful,
+    but this may be harder to implement, and would differ from historical
+    practice.
 
 
 == Sources ==
