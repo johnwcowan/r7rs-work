@@ -16,7 +16,7 @@ The components of a pathname are ''scheme'', ''host'', ''port'', ''username'', '
 
 ''Port'' is the port part of a URI/IRI.  It is an exact integer.
 
-''Device'' is a Windows device name without a trailing colon.  It is a string, typically but not always a single character.
+''Device'' is a Windows-style device name without a trailing colon.  It is a string, typically but not always a single character.
 
 ''Directory'' is a directory path, which is represented as a list.  The first element is always a symbol, either `absolute` or `relative`, representing pathnames relative to the system root or the current directory respectively.  The root directory is represented by the list `(absolute)`.  A null directory path is represented by the empty list.  The other elements may be strings or the symbol `wild` to represent a wildcard.
 
@@ -48,7 +48,7 @@ Returns the query component as a string.  If it is already a string, the string 
 
 Returns the directory component as a string.  ''Options'' is a list of symbols that may contain `windows`; if it contains other symbols, the result is implementation-specified.  The result consists of the strings in the ''cdr'' of the directory component joined using the path separator, with the separator prepended if the ''car'' is `absolute`.  If `windows` is present in ''options'', the path separator is `\`; otherwise, the path separator is '/'.
 
-It is an error to mutate anything returned by these accessors.
+It is an error to mutate anything returned by any of these accessors.
 
 == Constructors and parsers ==
 
@@ -118,16 +118,16 @@ Constructs and returns a new pathname with the same components as ''pathname1''.
 
 Returns `#t` if there are any `wild` components in ''pathname'', and `#f` otherwise.
 
-`(pathname-absolute? `''pathname''` `''options''`)`
+`(pathname-absolute-filename? `''pathname''` `''options''`)`
 
 Returns `#t` if ''pathname'' specifies an absolute filename.  If `windows` is contained in ''options'', that means the device component must be specified.
 
-`(pathname-absolute? `''pathname''` `''options''`)`
+`(pathname-absolute-uri? `''pathname''` `''options''`)`
 
 Returns `#t` if ''pathname'' specifies an absolute URI.
 
-`(pathname-absolute-uri? `''pathname''` `''options''`)`
+`(pathname-uri? `''pathname''` `''options''`)`
 
-Returns `#t` if ''pathname'' specifies a URI/IRI (that is, the fragment component MUST be `#f`).
+Returns `#t` if ''pathname'' specifies a URI/IRI (that is, ''pathname'' specifies an absolute URI and the fragment component is `#f`).
 
 
