@@ -306,6 +306,18 @@ Vote `per-datum` for the next-datum-only #ci/#cs syntax.
   * '''Default:''' none
   * '''Preferences:''' 
 
+=== #116 Source File Character Encoding ===
+
+The standard currently says nothing about the character encoding
+system of source files.  Do we require this to be a fixed encoding
+such as UTF-8, use an out-of-band specification like the Emacs (and
+Python) `-*- coding: foo -*-` convention, or just leave it
+unspecified?
+
+  * '''Options:''' utf-8, emacs, unspecified, undecided
+  * '''Default:''' none
+  * '''Preferences:''' 
+
 === #93 Removing string mutability ===
 
 R6RS relegated `string-set!` to a module, and many modern languages
@@ -565,6 +577,20 @@ hash-tables can be implemented?
   * '''Default:''' no
   * '''Preferences:''' 
 
+=== #113 directory contents ===
+
+We've decided to add file-exists? and delete-file,
+essential for a large class of scripts, but still
+have no way to get a list of files in a directory.
+Do we want to provide an interface to this?
+
+  * '''Proposals:'''
+    *  '''directory-files:''' return a list of all files in the dir
+    *  '''directory-streams:''' [[http://www.scsh.net/docu/html/man-Z-H-4.html#node_sec_3.3|SCSH directory stream interface]]
+  * '''Options:''' directory-files, directory-streams, no, wg2, undecided
+  * '''Default:''' no
+  * '''Preferences:''' 
+
 == WG1 - Macros ==
 
 === #48 let-syntax ===
@@ -590,13 +616,14 @@ and may be difficult for macro expanders to change, so is left
 unspecified in the proposals below.
 
   * '''Proposals:'''
+    * '''hsu:''' LetSyntaxArcfide
     * '''remove:''' remove both of these forms from the standard
     * '''lexical:''' introduces a new lexical contour
     * '''define:''' allows splicing `define`/`begin`
     * '''syntax:''' allows `define-syntax`
     * '''syntax-body:''' allows `define-syntax` only applying to the body
     * '''syntax-follows:'''  allows `define-syntax` only applying to following forms
-  * '''Options:''' remove, lexical, define, syntax, syntax-body, syntax-follows, unspecified, undecided
+  * '''Options:''' hsu, remove, lexical, define, syntax, syntax-body, syntax-follows, unspecified, undecided
   * '''Default:''' unspecified
   * '''Preferences:''' 
 
