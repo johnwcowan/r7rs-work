@@ -15,4 +15,4 @@ So here are ten possible numeric towers.  I use `+` if a feature is present and 
 ||+||+||-||-||Exact rational numbers only.  Dream provides this.  Reasonable for some purposes, but will often run very slowly without inexact support, so unsuitable for scientific-type work.||
 ||+||-||+||+||The same as the preceding, but with exact general complex numbers.  Even less suitable for scientific-type work, given that in practice non-real numbers are usually inexact/inexact.||
 ||+||+||+||-||Full numeric tower for real numbers only.  Psyche provides this.||
-||+||+||+||+||Full numeric tower.  R6RS and CL require this.  Racket, Gauche, MIT, Gambit, Chicken with the `numbers` package, Scheme48/scsh, Kawa, Chez, STklos provide this.  Guile, SISC provide this, but don't have exact complex numbers.  Many people seem to like this tower.||
+||+||+||+||+||Full numeric tower.  R6RS and CL require this.  Racket, Gauche, MIT, Gambit, Chicken with the `numbers` package, Scheme48/scsh, Kawa, Chez, STklos provide this.  Guile, SISC provide this with inexact/inexact complex numbers only.  Many people seem to like this tower.||
