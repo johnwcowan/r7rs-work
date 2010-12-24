@@ -8,7 +8,7 @@ So here are ten possible numeric towers.  I use `+` if a feature is present and 
 ||exactness-preserving||ratios||inexact||complex||Description||
 ||-||-||-||-||A "toy" tower with fixnums (bounded exact integers) only.  Possibly appropriate where no numerical work will be done.  SSCM, SigScheme provide this.||
 ||-||-||+||-||A Scheme where all numbers are real and all arithmetic happens in essentially constant time.  Chicken provides this unless you import the `numbers` package.  Sixx, Sizzle provide this.  Most non-Lisp languages are like this, except that their fixnums wrap on overflow instead of switching to flonums, producing grossly incorrect results.||
-||-||-||+||+||The complex-number equivalent of the preceding.  Non-real numbers are typically inexact/inexact.||
+||-||-||+||+||The complex-number equivalent of the preceding.  Non-real numbers are typically inexact/inexact. Stalin provides this.||
 ||+||-||-||-||Unlimited-precision integers only.  Possibly usable for crypto work.  Fortunately, ratios are fairly cheap given bignums.||
 ||+||-||+||-||A good all-round compromise, providing exact integers and inexact real numbers.  ISLisp requires this.  Bigloo, Chibi, SCM, Scheme 9 provide this.  Many people seem to like this tower.||
 ||+||-||+||+||The same as the preceding, but with inexact/inexact non-real numbers as well.||
