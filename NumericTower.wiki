@@ -2,7 +2,7 @@
 
 This is an analysis of the R5RS provision that the full numeric tower may be subsetted.  Four boolean feature settings characterize different kinds of numeric towers: `exactness-preserving`, `ratios`, `inexact`, and `complex`, which refer to the closure of exact numbers under rational operations (except `/`), exact non-integer values, inexact rationals, and non-real numbers, respectively.  A priori, any combination of these feature groups might be implemented, except that `ratios` makes no sense without `exactness-preserving`.  I also assume that `complex` makes no sense without either `ratios` or `inexact`: Gaussian integers by themselves are of little use.
 
-So here are ten possible numeric towers.  I use `+` if a feature is present and `-` if it is absent, and give the numeric properties of the tower is.
+So here are ten possible numeric towers.  I use `+` if a feature is present and `-` if it is absent, and give a general description of the resulting tower.
 
 
 ||exactness-preserving||ratios||inexact||complex||Description||
