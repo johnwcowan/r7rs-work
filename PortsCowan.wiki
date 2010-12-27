@@ -21,11 +21,13 @@ This proposal does not specify any way to create a bidirectional port, but allow
 
 == Filename model ==
 
-In this proposal, a filename may be specified either as a string or as a ''settings list'', which is a list of alternating ''keys'' and ''values'' where every key is a symbol.  Specifying a string is equivalent to specifying the settings list `(path `''string''`)`.  Implementations MUST support the following keys:
+In this proposal, a filename may be specified either as a string or as a ''settings list'', which is a list of alternating ''keys'' and ''values'' where every key is a symbol.  Specifying a string is equivalent to specifying the settings list `(path `''string''`)`.  Implementations MUST support the following key:
 
  `path`::
 
  Specifies the filename.  The interpretation of filenames is implementation-dependent.  There is no default value, but implementations MAY accept other keys in lieu of this one for opening files or file-like objects that don't have string names.  In particular, filenames on Posix are really u8-vectors with some u8 values excluded, and filenames on Windows are really u16-vectors with some u16 values disallowed, and while most names of actual files are representable as strings, some may not be.
+
+Implementations SHOULD support the following additional keys (if not, then the implementation-dependent default cannot be changed):
 
  `buffering`::
 
@@ -45,7 +47,7 @@ In this proposal, a filename may be specified either as a string or as a ''setti
 
  Specifies if Scheme symbols are read from the port case-sensitively or not.  The value `#f` means that upper-case letters in symbols are translated to lower case unless escaped; `#t` means that no translation is done.  The default value is implementation-dependent.
 
-Implementations MAY support other keys, SHOULD warn if they detect keys they do not understand, and MAY signal an error in such cases.
+Implementations MAY support other keys, SHOULD warn if they detect keys they do not understand or implement, and MAY signal an error in such cases.
 
 
 == Port object procedures ==
