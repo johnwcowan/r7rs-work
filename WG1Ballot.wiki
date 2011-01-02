@@ -66,7 +66,7 @@ to `delay` and `force`, not all of the `srfi-45` utilities.  Vote
   * '''Default:''' r5rs
   * '''Preferences:''' 
 
-=== #57 Randomn Numbers ===
+=== #57 Random Numbers ===
 
 Random numbers are useful for a wide variety of applications,
 including cryptography, statistics, games, simulations and genetic
