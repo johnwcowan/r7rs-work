@@ -189,7 +189,7 @@ of a clock.
     * '''return-false:''' `(current-seconds)` may return `#f` if unsupported
   * '''Options:''' cowan, required, optional, counter, return-false, none, wg2, undecided
   * '''Default:''' none
-  * '''Preferences:''' <> undecided
+  * '''Preferences:''' optional, return-false, required, cowan, wg2, counter
 
 === #109 elapsed time ===
 
@@ -200,7 +200,7 @@ TimeCowan contains a proposal.
 
   * '''Options:''' cowan, yes, no, wg2, undecided
   * '''Default:''' no
-  * '''Preferences:''' <> undecided
+  * '''Preferences:''' cowan, yes, wg2
 
 === #78 Should we have case-lambda? ===
 
@@ -451,7 +451,7 @@ Do we want to include something along these lines in WG1 Scheme?
     * '''srfi-103:''' the search path extension used by R6RS implementations
   * '''Options:''' cowan, srfi-0, srfi-103, none, wg2, undecided
   * '''Default:''' none
-  * '''Preferences:''' <> undecided
+  * '''Preferences:''' cowan, srfi-0, wg2, none
 
 === #108 immutable data interface ===
 
@@ -599,7 +599,7 @@ ports with various APIs.
     * '''r6rs:''' [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html#node_sec_8.2|R6RS Port I/O]]
   * '''Options:''' r6rs, none
   * '''Default:''' none
-  * '''Preferences:''' <> undecided
+  * '''Preferences:''' none
 
 == WG1 - Libraries ==
 
@@ -729,7 +729,7 @@ inexact rationals are not provided or not imported?
 
   * '''Options:''' yes, no, module, wg2, undecided
   * '''Default:''' no
-  * '''Preferences:''' <> undecided
+  * '''Preferences:''' no, module, wg2
 
 === #81 What numeric tower variants should be supported? ===
 
@@ -758,7 +758,7 @@ may be difficult for other implementations to support if required.
     * '''quaternion:''' fixnum, inexact, rational, complex, quaternion
   * '''Options:''' r5rs, inexact-only, inexact, rational, complex, r6rs, quaternion, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' <> undecided
+  * '''Preferences:''' r5rs, inexact, r6rs
 
 === #100 integral division ===
 
