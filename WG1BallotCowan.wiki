@@ -27,7 +27,8 @@ as in SRFI-9, SRFI-99 or the R6RS record system?
     * '''snellpym:''' UniqueTypesSnellPym
   * '''Options:''' hsu, medernach, rush, snellpym, srfi-9, srfi-57, srfi-99, r6rs, none, wg2, undecided
   * '''Default:''' none
-  * '''Preferences:''' srfi-9, hsu, snellpym+mutable
+  * '''Preferences:''' srfi-9, cowan, hsu, snellpym+mutable
+I had a lot of trouble with this one.  Srfi-9 has lots of existing use and is the nearest thing to a standard we have.  On the other hand, my idea is small and can be more efficient than plain vectors, because it doesn't need a bounds check ''and'' a type check, just a type check.
 
 === #50 byte-vectors ===
 
@@ -65,6 +66,7 @@ to `delay` and `force`, not all of the `srfi-45` utilities.  Vote
   * '''Options:''' r5rs, srfi-45, none, wg2, undecided
   * '''Default:''' r5rs
   * '''Preferences:''' srfi-45, r5rs
+I find the arguments found in SRFI 45 itself compelling: with `lazy`, it becomes possible to mechanically change ordinary eager expressions into lazy ones mechanically.  Using `delay` causes a failure of tail recursion.
 
 === #57 Randomn Numbers ===
 
@@ -81,6 +83,7 @@ generation in WG1 Scheme?
   * '''Options:''' srfi-27, cl, cowan, hsu, none, wg2, undecided
   * '''Default:''' none
   * '''Preferences:''' cl, cowan, srfi-27, hsu
+The CL system has been around for quite a while, and seems to suit.  The implementation gets to pick an appropriate algorithm for its situation.  Srfi-27, with its fixed implementation, makes more sense as a library.  I voted against my own idea here.
 
 === #62 Environment Variables ===
 
@@ -97,6 +100,7 @@ remains if we should add SRFI-98 environment accessors.
   * '''Options:''' srfi-98, none, wg2, undecided
   * '''Default:''' none
   * '''Preferences:''' srfi-98/module, srfi-98
+Most programming environments can supply these, and programs should have easy access to them.  Putting them in a module makes them optional for small Scheme implementations that can't support them.  `Command-line` and `exit` should go in the same module.
 
 === #68 "Undefined value" vs. "undefined values" ===
 
@@ -111,7 +115,8 @@ than `r5rs` would break R5RS (and IEEE) compatibility.
 
   * '''Options:''' r5rs, r6rs, zero, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' r5rs
+  * '''Preferences:''' r5rs'
+R5RS, reluctantly.  I really don't think it would in practice break compatibility, because in practice Scheme implementations are okay with handling multiple values in `begin` forms and the equivalent.
 
 === #49 Undefined value API ===
 
@@ -131,6 +136,7 @@ Vote `generate` for a `(void)` procedure, `test` for `undefined?`, and
   * '''Options:''' generate, test, both, none, wg2, undecided
   * '''Default:''' none
   * '''Preferences:''' none, both, generate, test
+I really don't like this; it encourages people to have such a defined-undefined value, which is semantically bogus.
 
 === #69 Dynamic Parameters ===
 
@@ -197,6 +203,7 @@ after mandatory ones.
   * '''Options:''' yes, no, module, wg2, undecided
   * '''Default:''' no
   * '''Preferences:''' yes
+Overloading by argument count makes the most sense for a dynamically typed language, and it's just a syntax-rules macro.
 
 === #82 missing port? procedure ===
 
@@ -211,6 +218,7 @@ Shall we require it?
   * '''Options:''' yes, no, module, wg2, undecided
   * '''Default:''' no
   * '''Preferences:''' yes
+Yes, do it; what the hell.
 
 === #107 port status detection ===
 
@@ -221,6 +229,7 @@ Do we want to add an interface to this?
   * '''Options:''' port-open?, port-closed?, both, no, wg2, undecided
   * '''Default:''' no
   * '''Preferences:''' port-open?, both, port-closed?
+`Port-open?` is positive, and most of our predicates are in the positive:  `zero?`, for example, not `non-zero?`.
 
 === #87 Allow multiple producers in `call-with-values` ===
 
@@ -238,6 +247,7 @@ Do we add this extension?
   * '''Options:''' yes, no, wg2, undecided
   * '''Default:''' no
   * '''Preferences:''' yes
+My proposal.
 
 === #88 SRFI 87: => in CASE ===
 
@@ -250,6 +260,8 @@ Do we add this extension?
   * '''Options:''' yes, no, wg2, undecided
   * '''Default:''' no
   * '''Preferences:''' yes
+Makes a lot of sense to me when you want to make the default do something outside
+the realm of `case`, like handle lists or vectors.
 
 === #89 SRFI 61: COND => with generator and guard ===
 
@@ -264,6 +276,7 @@ Do we add this extension?
   * '''Options:''' yes, no, wg2, undecided
   * '''Default:''' no
   * '''Preferences:''' yes
+This one also makes a lot of sense to me.
 
 === #90 Multiple values in COND => clauses ===
 
@@ -277,6 +290,7 @@ clauses.
   * '''Options:''' yes, no, wg2, undecided
   * '''Default:''' no
   * '''Preferences:''' yes
+Sure, why not?
 
 === #91 INCLUDE at the REPL ===
 
@@ -287,6 +301,7 @@ module structure.
   * '''Options:''' yes, no, wg2, undecided
   * '''Default:''' no
   * '''Preferences:''' yes
+Absolutely yes.  This is a way of bringing chameleon code into the current context without having to mess with the module system.  Modules are good; ''required'' modules are not so good.
 
 === #92 Case-folding flags ===
 
@@ -305,6 +320,7 @@ Vote `per-datum` for the next-datum-only #ci/#cs syntax.
   * '''Options:''' r6rs, per-datum, none, wg2, undecided
   * '''Default:''' none
   * '''Preferences:''' r6rs
+Next-datum-only is annoying.  However, `include-ci` would subsume this.
 
 === #93 Removing string mutability ===
 
@@ -319,6 +335,7 @@ relegate to a module as in R6RS, or `no` to keep as is.
   * '''Options:''' yes, no, module, undecided
   * '''Default:''' no
   * '''Preferences:''' yes
+See [[https://docs.google.com/View?id=dc46qrdf_21cxkmft28|Removing `string-set!` from R7RS small Scheme]] for my arguments.
 
 === #83 Auxiliary Keywords ===
 
@@ -340,6 +357,7 @@ compatibility with R5RS and R6RS.
 
   * '''Options:''' bound, unbound, unhygienic, undecided
   * '''Preferences:''' bound, unbound
+Binding them is more in line with what people expect.
 
 === #101 exactness and `eqv?`/`equal?` ===
 
@@ -365,6 +383,7 @@ is.  Alternately, write in a separate name.
   * '''Options:''' yes, equal=?, inexact-equal?, no, wg2, undecided
   * '''Default:''' no
   * '''Preferences:''' equal=?, no, yes
+What I really want is to leave `equal?` alone and add `equal=?`, which should do what `equal?` does except for comparing numbers with `=`.
 
 === #102 module syntax name ===
 
@@ -382,6 +401,7 @@ The enclosing syntax can be called either
   * '''Options:''' library, module, undecided
   * '''Default:''' library
   * '''Preferences:''' library, module
+I keep vacillating between "We should use `library` for R6RS compatibility" and "Our modules aren't really R6RS-compatible, using `library` is false advertising."  Reluctantly I think familiarity wins.
 
 === #103 module body syntax name ===
 
@@ -393,6 +413,7 @@ the proposal, `begin` or some other name.
   * '''Options:''' body, begin, scheme, code, undecided
   * '''Default:''' body
   * '''Preferences:''' begin, body
+I prefer `begin` because it's a begin-block anyway.
 
 === #105 case-insensitive module includes ===
 
@@ -406,6 +427,7 @@ without modification.
   * '''Options:''' yes, no, wg2, undecided
   * '''Default:''' no
   * '''Preferences:''' yes
+The best idea yet for mixing case-folding and case-sensitive code.
 
 === #106 conditional code selection ===
 
@@ -445,6 +467,7 @@ runtime, and provides the `shared` syntax for this.  It also has an
   * '''Options:''' medernach, racket, no, undecided
   * '''Default:''' no
   * '''Preferences:''' no
+Too much too soon.
 
 === #111 require `equal?` to return `#t` if `eqv?` does ===
 
@@ -457,6 +480,7 @@ which most implementations do as a performance hack anyway.
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
   * '''Preferences:''' yes
+This was my idea.
 
 == WG1 - Exceptions ==
 
@@ -474,6 +498,7 @@ option is just for the core exception handling.
   * '''Options:''' cowan, r6rs, wg2, none, undecided
   * '''Default:''' none
   * '''Preferences:''' r6rs, cowan
+I now think that r6rs is better than cowan, now that I understand R6RS better, so I'm voting against my own proposal here.
 
 === #19 when to throw an error ===
 
@@ -538,6 +563,7 @@ Different normalizations?  How are encoding errors handled?
   * '''Options:''' r6rs, srfi-91, cowan, none, undecided
   * '''Default:''' none
   * '''Preferences:''' cowan, srfi-91, r6rs
+I've modified cowan here to allow rather than require these facilities.
 
 === #31 custom ports ===
 
@@ -552,6 +578,7 @@ ports with various APIs.
   * '''Options:''' r6rs, none
   * '''Default:''' none
   * '''Preferences:''' none
+Too messy.  A custom port is basically a record of procedures, but there's no principled way to decide what the fields should be.
 
 == WG1 - Libraries ==
 
@@ -564,6 +591,7 @@ hash-tables can be implemented?
   * '''Options:''' r6rs, srfi-69, no, wg2, undecided
   * '''Default:''' no
   * '''Preferences:''' wg2, no, srfi-69, r6rs
+Reluctantly I think we need to push this off on WG2.  This sucks, because I think all languages should have a map datatype.
 
 == WG1 - Macros ==
 
@@ -599,6 +627,7 @@ unspecified in the proposals below.
   * '''Options:''' remove, lexical, define, syntax, syntax-body, syntax-follows, unspecified, undecided
   * '''Default:''' unspecified
   * '''Preferences:''' lexical, syntax-body
+R5RS was lexical under the plain meaning of the text, and I think changing that in R6RS was a mistake.
 
 === #97 syntax-rules special literals ===
 
@@ -619,6 +648,7 @@ by #6. Allowing them as literals fixes these macros.
   * '''Options:''' literal, error, unspecified, undecided
   * '''Default:''' unspecified
   * '''Preferences:''' literal
+Makes sense to me.
 
 == WG1 - Modules ==
 
@@ -667,6 +697,7 @@ inexact rationals are not provided or not imported?
   * '''Options:''' yes, no, module, wg2, undecided
   * '''Default:''' no
   * '''Preferences:''' yes
+My idea.
 
 === #81 What numeric tower variants should be supported? ===
 
@@ -696,6 +727,7 @@ may be difficult for other implementations to support if required.
   * '''Options:''' r5rs, inexact-only, inexact, rational, complex, r6rs, quaternion, undecided
   * '''Default:''' r5rs
   * '''Preferences:''' undecided
+None of these satisfy me at all.  I wish this had been given as "Which NumericTower feature switches should be forced to true, forced to false, or undetermined by the standard?"
 
 === #100 integral division ===
 
@@ -710,6 +742,7 @@ division operator pairs.  We need to choose which API we'll provide.
   * '''Options:''' r5rs, r6rs, riastradh, undecided
   * '''Default:''' r5rs
   * '''Preferences:''' riastradh, r6rs, r5rs
+Riastradh convinces me.
 
 == WG1 - Reader Syntax ==
 
@@ -756,6 +789,7 @@ suggest adopting the R6RS list and making it normative.
   * '''Options:''' r5rs, r6rs, shinn
   * '''Default:''' r5rs
   * '''Preferences:''' r6rs, shinn, r5rs
+My idea.
 
 === #104 list of mnemonic string escapes ===
 
@@ -769,4 +803,5 @@ like \n and \t to be recognized in strings.
   * '''Options:''' r5rs, r6rs, shinn
   * '''Default:''' r5rs
   * '''Preferences:''' r6rs, shinn, r5rs
+My idea.
 
