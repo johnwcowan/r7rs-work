@@ -27,9 +27,7 @@ as in SRFI-9, SRFI-99 or the R6RS record system?
     * '''snellpym:''' UniqueTypesSnellPym
   * '''Options:''' hsu, medernach, rush, snellpym, srfi-9, srfi-57, srfi-99, r6rs, none, wg2, undecided
   * '''Default:''' none
-  * '''Preferences:''' srfi-99,srfi-9,hsu,snellpym
-
-<> NEEDS RECONSIDERATION BECAUSE OF NEW OPTIONS.
+  * '''Preferences:''' srfi-99, srfi-9, hsu, snellpym, wg2
 
 === #50 byte-vectors ===
 
@@ -571,7 +569,7 @@ aspects will be merged as needed.
     * '''cowan:''' PortsCowan (subset relevant to binary I/O)
   * '''Options:''' r6rs, r6rs-simple, srfi-91, cowan, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' <> undecided
+  * '''Preferences:''' cowan, r6rs-simple, undecided
 
 === #29 port encodings ===
 
@@ -585,7 +583,7 @@ Different normalizations?  How are encoding errors handled?
     * '''cowan:''' PortsCowan (subset relevant to port encodings)
   * '''Options:''' r6rs, srfi-91, cowan, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' <> undecided
+  * '''Preferences:''' none, undecided
 
 === #31 custom ports ===
 
@@ -661,7 +659,7 @@ unspecified in the proposals below.
     * '''syntax-follows:'''  allows `define-syntax` only applying to following forms
   * '''Options:''' hsu, remove, lexical, define, syntax, syntax-body, syntax-follows, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' <> undecided
+  * '''Preferences:''' lexical, undecided
 
 === #97 syntax-rules special literals ===
 
@@ -716,7 +714,7 @@ specific vote wins.
     * '''cowan:''' #71, #72, #73, #74, #75, #76, #77
   * '''Options:''' r5rs, r6rs, cowan, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' <> undecided
+  * '''Preferences:''' r6rs, cowan, r5rs
 
 == WG1 - Numerics ==
 
@@ -772,7 +770,7 @@ division operator pairs.  We need to choose which API we'll provide.
     * '''riastradh:''' DivisionRiastradh
   * '''Options:''' r5rs, r6rs, riastradh, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' <> undecided
+  * '''Preferences:''' riastradh, r6rs, r5rs
 
 == WG1 - Reader Syntax ==
 
@@ -803,7 +801,7 @@ allows extensions to number syntax.
     * '''shinn:''' symbols may not begin with a number prefix
   * '''Options:''' r5rs, r6rs, cowan, shinn, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' <> undecided
+  * '''Preferences:''' shinn, r6rs, r5rs, cowan
 
 === #84 Need to decide on a list of named character escapes ===
 
@@ -818,7 +816,7 @@ suggest adopting the R6RS list and making it normative.
     * '''shinn:''' space, tab, newline, return, escape, null, alarm, backspace
   * '''Options:''' r5rs, r6rs, shinn
   * '''Default:''' r5rs
-  * '''Preferences:''' <> undecided
+  * '''Preferences:''' r6rs, shinn, r5rs
 
 === #104 list of mnemonic string escapes ===
 
@@ -831,4 +829,4 @@ like \n and \t to be recognized in strings.
     * '''shinn:''' `\\`, `\"`, `\t`, `\n`, `\r`, `\e`, `\a`, `\b`
   * '''Options:''' r5rs, r6rs, shinn
   * '''Default:''' r5rs
-  * '''Preferences:''' <> undecided
+  * '''Preferences:''' r6rs, shinn, r5rs
