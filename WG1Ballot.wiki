@@ -133,6 +133,31 @@ Vote `generate` for a `(void)` procedure, `test` for `undefined?`, and
   * '''Default:''' none
   * '''Preferences:''' 
 
+=== #51 support for cyclic structures in primitives ===
+
+list?, length, equal? and other fundamental primitives may diverge
+when given cyclic data.  In the former two cases, avoiding this is
+simple and not inefficient, and the equivalents are already provided
+in SRFI-1.  In the latter case a
+[[http://www.r6rs.org/r6rs-editors/2006-February/000969.html|proposal]]
+was made and rejected on the R6RS list.  In the former case, R6RS
+seems to require `list?` return `#f` and `length` raise an error.
+
+Do we want to specify the behavior when these primitives encounter
+cyclic data?
+
+Options are `equal?` to specify `equal?` must terminate on cyclic
+input, `r6rs` to specify R6RS behavior for `list?` and `length`,
+`srfi-1` to specify the SRFI-1 semantics (where `length` returns `#f`)
+and `equal?+r6rs` or `equal?+srfi-1` are options for both.
+
+  * '''Proposals:''' 
+    * '''equal?:''' `equal?` is required to do proper checks for cyclic structure to not diverge
+    * '''r6rs:''' `list?` should return `#f` and `length` raise an error for cyclic lists
+    * '''srfi-1:''' `length` is equivalent to `length+` and returns `#f` for a cyclic list
+  * '''Options:''' equal?,r6rs,srfi-1,equal?+r6rs,equal?+srfi-1,no,module,wg2,undecided
+  * '''Preferences:''' 
+
 === #69 Dynamic Parameters ===
 
 Old-fashioned Lisps used dynamic extent of variables.  Although Scheme
