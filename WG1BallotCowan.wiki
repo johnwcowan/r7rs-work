@@ -825,7 +825,8 @@ allows extensions to number syntax.
     * '''shinn:''' symbols may not begin with a number prefix
   * '''Options:''' r5rs, r6rs, cowan, shinn, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' cowan, shinn, r6rs, r5rs
+  * '''Preferences:''' shinn, r6rs, r5rs, cowan
+I've been convinced by Alex's rationale here: we need a little kick room for extending number syntax in the standard later on.
 
 === #84 Need to decide on a list of named character escapes ===
 
