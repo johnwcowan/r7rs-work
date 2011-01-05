@@ -643,7 +643,8 @@ Do we want to provide an interface to this?
     *  '''directory-streams:''' [[http://www.scsh.net/docu/html/man-Z-H-4.html#node_sec_3.3|SCSH directory stream interface]]
   * '''Options:''' directory-files, directory-streams, no, wg2, undecided
   * '''Default:''' no
-  * '''Preferences:''' cowan, directory-streams, directory-files
+  * '''Preferences:''' directory-streams, cowan, directory-files
+I agree with Gleckler that cowan is too complicated, but directory-files is too simple in a world of very lengthy directories, so I go with directory-streams (just `open-d-s`, `read-d-s`, and `close-d-s`).
 
 == WG1 - Macros ==
 
