@@ -28,7 +28,15 @@ as in SRFI-9, SRFI-99 or the R6RS record system?
     * '''snellpym:''' UniqueTypesSnellPym
   * '''Options:''' srfi-9, srfi-57, srfi-99, r6rs, cowan, hsu, medernach, rush, snellpym, none, wg2, undecided
   * '''Default:''' none
- * '''Preferences:''' srfi-99, srfi-9, hsu, cowan, snellpym, wg2
+ * '''Preferences:''' srfi-99, srfi-9, snellpym+inheritance+mutate, snellpym+mutate, snellpym, hsu, cowan, wg2
+
+SRFI 99 (ERR5RS Records) is an extension of SRFI 9 that is a good
+rationalization of the R6RS system.  As the description says, "This
+entire SRFI is compatible with the procedural and inspection layers of
+the R6RS record system, but offers several worthwhile improvements
+over the R6RS system."  The snellpym proposal is a good distillation
+of the core ideas, so I'm happy with that if SRFI-99 and SRFI-9 don't
+win.
 
 === #50 byte-vectors ===
 
@@ -45,7 +53,7 @@ Do we provide a syntax and basic API for these in WG1?
     * '''snellpym:''' BlobsAndSRFI4SnellPym
   * '''Options:''' r6rs, cowan, snellpym, wg2, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' cowan
+  * '''Preferences:''' r6rs, cowan, undecided
 
 === #55 Lazy evaluation ===
 
@@ -83,7 +91,7 @@ generation in WG1 Scheme?
     * '''hsu:''' RandomnessArcfide
   * '''Options:''' srfi-27, cl, cowan, hsu, none, wg2, undecided
   * '''Default:''' none
-  * '''Preferences:''' wg2, srfi-27/module, srfi-27/core, no, cowan/module
+  * '''Preferences:''' cl, wg2, srfi-27/module, srfi-27/core, no, cowan/module
 
 RandomCowan does not allow control over the seed, so it is of such
 limited usefulness as to not be worth including.  The API defined by
@@ -91,7 +99,8 @@ SRFI 27 does allow control of the seed, and makes random sources first
 class, both of which are good ideas.  However, the API is awkward,
 especially `random-source-state-ref` and `random-source-state-set!`.
 I'd like to see WG2 do a survey of existing implementations and find
-something better than both of these proposals.
+something better than both of these proposals.  The Common Lisp-based
+proposal is the best developed of all of these.
 
 === #62 Environment Variables ===
 
@@ -147,6 +156,34 @@ Undefined should be undefined.  Being able to test for it makes it
 defined.  Implementations should be given freedom to interpret
 undefined in a way that is appropriate and efficient, not constrained
 in this strange and contradictory way.
+
+=== #51 support for cyclic structures in primitives ===
+
+list?, length, equal? and other fundamental primitives may diverge
+when given cyclic data.  In the former two cases, avoiding this is
+simple and not inefficient, and the equivalents are already provided
+in SRFI-1.  In the latter case a
+[[http://www.r6rs.org/r6rs-editors/2006-February/000969.html|proposal]]
+was made and rejected on the R6RS list.  In the former case, R6RS
+seems to require `list?` return `#f` and `length` raise an error.
+
+Do we want to specify the behavior when these primitives encounter
+cyclic data?
+
+Options are `equal?` to specify `equal?` must terminate on cyclic
+input, `r6rs` to specify R6RS behavior for `list?` and `length`,
+`srfi-1` to specify the SRFI-1 semantics (where `length` returns `#f`)
+and `equal?+r6rs` or `equal?+srfi-1` are options for both.
+
+  * '''Proposals:'''
+    * '''equal?:''' `equal?` is required to do proper checks for cyclic structure to not diverge
+    * '''r6rs:''' `list?` should return `#f` and `length` raise an error for cyclic lists
+    * '''srfi-1:''' `length` is equivalent to `length+` and returns `#f` for a cyclic list
+  * '''Options:''' equal?,r6rs,srfi-1,equal?+r6rs,equal?+srfi-1,no,module,wg2,undecided
+  * '''Preferences:''' no
+
+We shouldn't force implementations to be slow in the usual case just
+to handle the possibility that they might encounter cyclic structures.
 
 === #69 Dynamic Parameters ===
 
@@ -474,6 +511,9 @@ runtime, and provides the `shared` syntax for this.  It also has an
   * '''Default:''' no
   * '''Preferences:''' no
 
+I agree with John.  It's just too early for standardization of ideas
+like this.
+
 === #111 require `equal?` to return `#t` if `eqv?` does ===
 
 Currently `equal?` is strictly broader than `eqv?` except in the
@@ -600,7 +640,10 @@ ports with various APIs.
     * '''r6rs:''' [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html#node_sec_8.2|R6RS Port I/O]]
   * '''Options:''' r6rs, none
   * '''Default:''' none
-  * '''Preferences:''' none
+  * '''Preferences:''' none, undecided
+
+Unless we do a comprehensive survey of how existing implementations
+handle this idea, we shouldn't try to standardize it.
 
 == WG1 - Libraries ==
 
@@ -625,9 +668,16 @@ Do we want to provide an interface to this?
     *  '''cowan:''' DirectoryPortsCowan
     *  '''directory-files:''' return a list of all files in the dir
     *  '''directory-streams:''' [[http://www.scsh.net/docu/html/man-Z-H-4.html#node_sec_3.3|SCSH directory stream interface]]
-  * '''Options:''' directory-files, directory-streams, no, wg2, undecided
+  * '''Options:''' directory-files, no, wg2, cowan, directory-streams, undecided
   * '''Default:''' no
-  * '''Preferences:''' directory-files, wg2
+  * '''Preferences:''' directory-files, wg2, no, directory-files, cowan
+
+The directory-files proposal is the only one that is simple but
+useful.  The cowan proposal is too complicated for such a simple
+purpose, and conflates ports with directory reading unnecessarily.
+The directory-streams proposal uses the term "stream" for something
+other than what is conventionally meant in Scheme usage, and it's
+overcomplicated, too.
 
 == WG1 - Macros ==
 
