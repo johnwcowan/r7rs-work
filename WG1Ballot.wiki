@@ -611,6 +611,7 @@ have no way to get a list of files in a directory.
 Do we want to provide an interface to this?
 
   * '''Proposals:'''
+    *  '''cowan:''' DirectoryPortsCowan
     *  '''directory-files:''' return a list of all files in the dir
     *  '''directory-streams:''' [[http://www.scsh.net/docu/html/man-Z-H-4.html#node_sec_3.3|SCSH directory stream interface]]
   * '''Options:''' directory-files, directory-streams, no, wg2, undecided
