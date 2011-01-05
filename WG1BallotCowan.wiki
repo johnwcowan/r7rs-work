@@ -315,7 +315,7 @@ clauses.
   * '''Options:''' yes, no, wg2, undecided
   * '''Default:''' no
   * '''Preferences:''' yes
-Sure, why not?
+I said "Sure, why not?" but Alex convinced me not to, though I don't find all of his rationale convincing.
 
 === #91 INCLUDE at the REPL ===
 
