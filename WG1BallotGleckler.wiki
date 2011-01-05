@@ -65,7 +65,9 @@ to `delay` and `force`, not all of the `srfi-45` utilities.  Vote
 
   * '''Options:''' r5rs, srfi-45, none, wg2, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' srfi-45, wg2, r5rs
+  * '''Preferences:''' wg2, r5rs, srfi-45
+
+As Alex has said in his message [[https://groups.google.com/d/msg/scheme-reports-wg1/qzAeT7395Sk/fTlT-BYTVysJ|item #55 - I'd rather be lazy than eager with new primitives]], there hasn't been enough discussion of or experience with SRFI 45 to justify its inclusion in WG1 Scheme.
 
 === #57 Random Numbers ===
 
