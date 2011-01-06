@@ -24,18 +24,24 @@ If <my-datatype> is of datatype kind, then returns corresponding list of fields.
 
 == Aggregates ( constructor / accessor ) constructor ==
 
-`(create-aggregate `''<datatype>''`)`
+`(create-aggregate-functions `''<datatype>''`)`
 
-If ''<datatype>'' is of datatype kind, then returns corresponding constructor and switch function (see below). ''<datatype>'' ensures that the call to create-aggregate is functional, the same aggregate functions are generated if applied to the same ''<datatype>''. 
+If ''<datatype>'' is of datatype kind, then returns corresponding constructor and switch function (see below). ''<datatype>'' ensures that the call to create-aggregate-functions is functional, the same aggregate functions are generated if applied to the same ''<datatype>''. 
 
-''create-aggregate'' returns 2 functions as values:
+''create-aggregate-functions'' returns 3 functions as values:
 
-  ''make-<aggregate>'' is a function taking a fixed number of arguments as specified by the ''<datatype>'' and returning a new aggregate containing these arguments as aggregate components.
+  ''{{{make-<aggregate>}}}'' is a function taking a fixed number of arguments as specified by the ''<datatype>'' and returning a new aggregate containing these arguments as aggregate components.
 
-  ''<aggregate>-switch'' is explained below.
+  ''{{{<aggregate>-switch}}}'' is explained below.
 
-  The data created by make-<aggregate> and selected by <aggregate>-switch are required to conform to <my-datatype> properties (currently only arity).
+  ''{{{<aggregate>-set!}}}'' is a setter function which takes 3 arguments: 
+  ({{{<aggregate>-set!}}}  ''<fieldname>'' ''<obj>'' ''<val>'') sets field ''<fieldname>'' of ''<obj>'' with ''<val>'', if ''<obj>'' is not of ''<aggregate>'' corresponding datatype kind then an error is signaled.
   
+
+  The data created by make-<aggregate> and selected by <aggregate>-switch are required to conform to ''<my-datatype>'' properties (currently only arity).
+  
+  With modules it is possible not to export the datatype value nor the generic aggregate functions but only functions defined on top of them. This way one could have finer control of aggregate usage. The idea is to allow flexibility by exposing only interface functions via modules exports and that it is impossible to rebuild aggregate functions if corresponding datatype (with unique designation) is not exported.
+
 
 == Accessing aggregate components == 
 
@@ -84,15 +90,59 @@ Convenience macro for variants may be provided as in [[see|2]]:
       <obj>))))
 }}}
   
+== SRFI-9 records interface ==
+{{{
+(define-syntax define-record-type
+  (syntax-rules ()
+    ((define-record-type typename
+       (constructor constructor-tag ...)
+       predicate
+       (field-tag accessor . more) ...)
+     (begin
+       (define type (make-datatype typename field-tag ...))
+       
+       (define-values (type-constructor type-switch type-set!)
+        (create-aggregate-functions type))
+
+       (define constructor
+         (lambda (constructor-tag ...)
+           (type-constructor field-tag ...)))
+       
+       (define predicate
+         (type-switch (lambda (field-tag ...) #t)
+                      (lambda (obj) #f)))
+
+       ;; Macro call for accessors and optional modifiers
+       (define-record-field type-switch (field-tag ...) field-tag accessor . more)
+       ...))))
+
+
+(define-syntax define-record-field
+  (syntax-rules ()
+    ((define-record-field type-switch field-list field-tag accessor)
+     (begin
+       (define accessor
+         (type-switch (lambda field-list field-tag)
+                      (lambda (obj) (error "Invalid type: " obj))))))
+     
+    ((define-record-field type-switch field-list field-tag accessor modifier)
+     (begin
+       (define accessor
+         (type-switch (lambda field-list field-tag)
+                      (lambda (obj) (error "Invalid type: " obj))))
+        
+       (define (modifier obj val)
+         (type-set! field-tag obj val))))))
+}}}
 
 == Various examples ==
 
 {{{
-(define-values (make-null null-switch)
-  (create-aggregate (make-datatype "NULL")))
+(define-values (make-null null-switch null-set!)
+  (create-aggregate-functions (make-datatype "NULL")))
 
-(define-values (make-pair pair-switch)
-  (create-aggregate (make-datatype "PAIR" 'first 'second)))
+(define-values (make-pair pair-switch pair-set!)
+  (create-aggregate-functions (make-datatype "PAIR" 'first 'second)))
 
 ;; With my-car, my-cdr for instance:
 
@@ -107,15 +157,15 @@ Convenience macro for variants may be provided as in [[see|2]]:
 
 {{{
 ;; MAYBE data kind maker: either empty or containing some data.
-(define-values (make-empty maybe-switch)
-  (create-aggregate (make-datatype "Empty")))
+(define-values (make-empty maybe-switch maybe-set!)
+  (create-aggregate-functions (make-datatype "Empty")))
 
 (maybe-switch <empty-case> <not-empty-case>)
 }}}
 {{{
 ;; 3d point example
-(define-values (make-point3d point3d-switch)
-  (create-aggregate (make-datatype "3d point" 'X 'Y 'Z)))
+(define-values (make-point3d point3d-switch point3d-set!)
+  (create-aggregate-functions (make-datatype "3d point" 'X 'Y 'Z)))
 
 (define (point3d-length x y z)
   (sqrt (+ (* x x) (* y y) (* z z))))
@@ -131,11 +181,11 @@ Convenience macro for variants may be provided as in [[see|2]]:
 }}}
 {{{
 ;; Binary tree example
-(define-values (make-bin-leaf bin-leaf-switch)
-  (create-aggregate (make-datatype "Binary tree leaf" 'Data)))
+(define-values (make-bin-leaf bin-leaf-switch bin-leaf-set!)
+  (create-aggregate-functions (make-datatype "Binary tree leaf" 'Data)))
 
-(define-values (make-bin-node bin-node-switch)
-  (create-aggregate (make-datatype "Binary tree node" 'Data 'Left 'Right)))
+(define-values (make-bin-node bin-node-switch bin-node-set!)
+  (create-aggregate-functions (make-datatype "Binary tree node" 'Data 'Left 'Right)))
 
 ; variant-case example
 (define (map-tree fun bin-tree)
@@ -165,8 +215,8 @@ Convenience macro for variants may be provided as in [[see|2]]:
 (define-syntax create-aggregate-with-assertion
   (syntax-rules ()
     ((create-aggregate-with-assertion (<datatype-designation> '<field> ...) <assertion>)
-     (let-values ((maker switch)
-                  (create-aggregate (make-datatype (list <datatype-designation>) '<field> ...)))
+     (let-values ((maker switch setter)
+                  (create-aggregate-functions (make-datatype (list <datatype-designation>) '<field> ...)))
        (values (lambda (<field> ...)
                  (if (<assertion> <field> ...)
                      (maker <field> ...)
@@ -177,7 +227,7 @@ Convenience macro for variants may be provided as in [[see|2]]:
 
 == Issues ==
 
-* Maybe it is better to have instead of create-aggregate a syntactic construct to bind the created functions name ?
+* Maybe it is better to have instead of create-aggregate-functions a syntactic construct to bind the created functions name ?
 
 * An orthogonal mechanism is foreseen to allow securing data (like a lock mechanism with capabilities) but this is not the subject of this page.
 
