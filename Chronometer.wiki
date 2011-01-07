@@ -16,4 +16,4 @@ resets <chronometer> time to zero.
 
 {{{(chronometer-time <chronometer>)}}}
 
-measures the elapsed accumulated time between the starting times and stop times.
+measures the elapsed accumulated time in real number of seconds between the starting times and stop times.
