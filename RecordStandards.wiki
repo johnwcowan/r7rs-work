@@ -79,7 +79,7 @@ Here's a list of the features provided by different kinds of standard and propos
 == AggregatesMedernach is procedural.  It provides: ==
  * Distinct types
  * Natural constructor
- * Immutable fields
+ * Mutable fields
  * Generative records
  * An accessor that applies a procedure to the fields in the record
 
