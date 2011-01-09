@@ -781,7 +781,9 @@ may be difficult for other implementations to support if required.
     * '''quaternion:''' fixnum, inexact, rational, complex, quaternion
   * '''Options:''' r5rs, inexact-only, inexact, rational, complex, r6rs, quaternion, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' 
+  * '''Preferences:''' r5rs, inexact-only, inexact, rational, r6rs, quaternion
+
+I like the idea of having quaternions around, they are essential for a lot of 3d geometry. However they are definitely a wg2 feature!
 
 === #100 integral division ===
 
@@ -795,7 +797,9 @@ division operator pairs.  We need to choose which API we'll provide.
     * '''riastradh:''' DivisionRiastradh
   * '''Options:''' r5rs, r6rs, riastradh, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided, riastradh, r5rs, r6rs
+
+what i would really like id DivisionRiastradh with the use of multiple values replaced by using pairs. In spite of the complexity, this proposal has the kind of small-scale getting-it-right quality that is very Schemely
 
 == WG1 - Reader Syntax ==
 
@@ -826,7 +830,7 @@ allows extensions to number syntax.
     * '''shinn:''' symbols may not begin with a number prefix
   * '''Options:''' r5rs, r6rs, cowan, shinn, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' 
+  * '''Preferences:''' shinn, cowan, r6rs, r5rs
 
 === #84 Need to decide on a list of named character escapes ===
 
@@ -841,7 +845,7 @@ suggest adopting the R6RS list and making it normative.
     * '''shinn:''' space, tab, newline, return, escape, null, alarm, backspace
   * '''Options:''' r5rs, r6rs, shinn
   * '''Default:''' r5rs
-  * '''Preferences:''' 
+  * '''Preferences:''' shinn, r6rs, r5rs
 
 === #104 list of mnemonic string escapes ===
 
@@ -854,4 +858,4 @@ like \n and \t to be recognized in strings.
     * '''shinn:''' `\\`, `\"`, `\t`, `\n`, `\r`, `\e`, `\a`, `\b`
   * '''Options:''' r5rs, r6rs, shinn
   * '''Default:''' r5rs
-  * '''Preferences:''' 
+  * '''Preferences:''' shinn, r6rs, r5rs
