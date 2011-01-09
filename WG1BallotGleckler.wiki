@@ -53,7 +53,25 @@ Do we provide a syntax and basic API for these in WG1?
     * '''snellpym:''' BlobsAndSRFI4SnellPym
   * '''Options:''' r6rs, cowan, snellpym, wg2, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' r6rs, cowan, undecided
+  * '''Preferences:''' cowan, r6rs, wg2, snellpym, undecided
+
+Reviewing the proposals again and taking a look at other people's
+votes, I'm now convinced that the <cowan> proposal is better than
+<r6rs>.  That's primarily because <cowan> makes endianness a property
+of each accessor and mutator procedure rather than a parameter, which
+means that efficiency through inlining is even easier to achieve.
+
+However, I still prefer the term "byte vector" to "blob."
+
+We should specify what Unicode procedures are required, if any, when
+the Scheme implementation doesn't support Unicode.
+
+Once again, though, it would be great if people writing proposals
+specifically justified their design decisions in the text of their
+proposals, particularly when deviating from existing Scheme standards.
+That would make voting much easier.
+
+
 
 === #55 Lazy evaluation ===
 
@@ -91,7 +109,7 @@ generation in WG1 Scheme?
     * '''hsu:''' RandomnessArcfide
   * '''Options:''' srfi-27, cl, cowan, hsu, none, wg2, undecided
   * '''Default:''' none
-  * '''Preferences:''' cl, wg2, srfi-27/module, srfi-27/core, no, cowan/module
+  * '''Preferences:''' cl/module, cl, wg2, srfi-27/module, srfi-27/core, no, cowan/module
 
 RandomCowan does not allow control over the seed, so it is of such
 limited usefulness as to not be worth including.  The API defined by
@@ -116,7 +134,11 @@ remains if we should add SRFI-98 environment accessors.
 
   * '''Options:''' srfi-98, none, wg2, undecided
   * '''Default:''' none
-  * '''Preferences:''' wg2, srfi-98
+  * '''Preferences:''' srfi-98/module, wg2, srfi-98
+
+This shouldn't be included in WG1 Scheme except as a module.
+Environment variables, while common, are operating system specific.
+Embedded systems are unlikely to have them.
 
 === #68 "Undefined value" vs. "undefined values" ===
 
@@ -238,7 +260,7 @@ TimeCowan contains a proposal.
 
   * '''Options:''' cowan, yes, no, wg2, undecided
   * '''Default:''' no
-  * '''Preferences:''' cowan, yes, wg2
+  * '''Preferences:''' cowan/module, cowan, yes, wg2
 
 === #78 Should we have case-lambda? ===
 
@@ -273,7 +295,10 @@ Do we want to add an interface to this?
 
   * '''Options:''' port-open?, port-closed?, both, no, wg2, undecided
   * '''Default:''' no
-  * '''Preferences:''' port-open?, both, port-closed?, wg2
+  * '''Preferences:''' port-open?, port-closed?, both, wg2
+
+There should certainly be some way to test whether a port is opened.
+I prefer to test the positive case, i.e. whether the port is open.
 
 === #87 Allow multiple producers in `call-with-values` ===
 
@@ -318,6 +343,8 @@ Do we add this extension?
   * '''Default:''' no
   * '''Preferences:''' no, wg2
 
+This unnecessarily complicates COND.
+
 === #90 Multiple values in COND => clauses ===
 
 Currently, `=>` clauses in `cond` accept a single value from the
@@ -330,6 +357,11 @@ clauses.
   * '''Options:''' yes, no, wg2, undecided
   * '''Default:''' no
   * '''Preferences:''' no, wg2
+
+This doesn't make any sense.  First, it's the left-hand side that is
+the generator and the right-hand side that is the receiver.  And if
+the left-hand side generates multiple values, which one is tested for
+truth?
 
 === #91 INCLUDE at the REPL ===
 
