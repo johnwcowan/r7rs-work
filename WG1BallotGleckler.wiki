@@ -589,12 +589,10 @@ The largest flaw I see with the R6RS condition system is that its
 condition taxonomy is too coarse and focused on operating-system
 issues.  Compare it with the taxonomy of Gambit or MIT Scheme, for
 example.  (See ExceptionTaxonomies for details of the condition
-taxonomies of many Scheme implementations.)
-
-Some people have proposed taking the R6RS exception system but not its
-condition taxonomy.  If we do, I hope we'll still standardize on some
-taxonomy rather than none.  Without a common taxonomy, it's hard to
-share code.
+taxonomies of many Scheme implementations.)  However, this ballot item
+is only for the core exception handling system, not the taxonomy.  I
+wish we would still standardize on some taxonomy rather than none.
+Without a common exception taxonomy, it's hard to share code.
 
 === #19 when to throw an error ===
 
