@@ -67,7 +67,7 @@ to `delay` and `force`, not all of the `srfi-45` utilities.  Vote
 
   * '''Options:''' r5rs, srfi-45, none, wg2, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' srfi-45,r5rs
+  * '''Preferences:''' undecided,r5rs,srfi-45,wg2,none
 
 === #57 Random Numbers ===
 
