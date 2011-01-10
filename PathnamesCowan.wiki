@@ -26,7 +26,7 @@ The components of a pathname are ''scheme'', ''host'', ''port'', ''username'', '
 
 ''Version'' specifies the version of a file.  It is normally an exact positive integer, where 1 represents the oldest possible version.  The symbols `oldest` and `newest` represent the oldest and newest existing versions.
 
-''Query'' is the query part of a URI/IRI.  It may be an a-list or a simple string.
+''Query'' is the query part of a URI/IRI.  It may be an a-list mapping strings to strings, or a simple string.
 
 ''Fragment'' is the fragment part of an IRI/URI.  It is a string.
 
@@ -82,7 +82,7 @@ The following procedures accept a pathname and construct and return a string cor
 
 `(pathname->filename `''pathname''` `''options''`)`
 
-Constructs and returns a string from ''pathname''.  'Options'' is a list of symbols that may include `windows`, `version` and/or `host`; however, `version` and `host` are ignored.  Other symbols may be present, but the result is implementation-dependent.
+Constructs and returns a string from ''pathname''.  ''Options'' is a list of symbols that may include `windows`, `version` and/or `host`; however, `version` and `host` are ignored.  Other symbols may be present, but the result is implementation-dependent.
 
 If `windows` is not present in ''options'', then the result is constructed using `/` as the component separator from the directory (using `directory-as-string`), name, and type components of ''pathname'', and if the host component is not `#f` or `"localhost"`, then its value and a colon are prepended to the result.  But if `windows` is present, then the result is constructed using `\` as the component separator from the host, device, directory (using `directory-as-string`), name, and type components.
 
