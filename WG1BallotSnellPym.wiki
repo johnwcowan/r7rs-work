@@ -537,7 +537,7 @@ option is just for the core exception handling.
     * '''cowan:''' ExceptionHandlingCowan
   * '''Options:''' cowan, r6rs, wg2, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' cowan, wg2, r6rs, none
+  * '''Preferences:''' r6rs, wg2, cowan, none
 
 === #19 when to throw an error ===
 
