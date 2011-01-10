@@ -28,15 +28,89 @@ as in SRFI-9, SRFI-99 or the R6RS record system?
     * '''snellpym:''' UniqueTypesSnellPym
   * '''Options:''' srfi-9, srfi-57, srfi-99, r6rs, cowan, hsu, medernach, rush, snellpym, none, wg2, undecided
   * '''Default:''' none
- * '''Preferences:''' srfi-99, srfi-9, snellpym+inheritance+mutate, snellpym+mutate, snellpym, hsu, cowan, wg2
+ * '''Preferences:''' cowan, snellpym+inheritance+mutate, medernach | snellpym+mutate, hsu, srfi-9, wg2, srfi-99, r6rs, snellpym
 
-SRFI 99 (ERR5RS Records) is an extension of SRFI 9 that is a good
-rationalization of the R6RS system.  As the description says, "This
-entire SRFI is compatible with the procedural and inspection layers of
-the R6RS record system, but offers several worthwhile improvements
-over the R6RS system."  The snellpym proposal is a good distillation
-of the core ideas, so I'm happy with that if SRFI-99 and SRFI-9 don't
-win.
+I had initially voted for SRFI 99 as my top choice, but I'm now
+convinced that that's just too complicated a system for core Scheme.
+We need something more fundamental upon which other systems can be
+built.
+
+SRFI 9 is widely used and is about the simplest syntactic
+implementation one could hope for.  However, it doesn't support
+inheritance.
+
+RecordsArcfide is also simple and it supports inheritance.  It is a
+syntactic system.
+
+RecordsCowan is also simple and also supports inheritance.
+Furthermore, it's a procedural system, which makes more sense as the
+fundamental approach for WG1, which should be about nailing down
+simple, clean design for the core ideas.
+
+UniqueTypesSnellPym is a good distillation of the core ideas and is
+also procedural.  However, its handling of subtypes (i.e. the
+requirement to pass <e> and <d> procedures rather than the supertype
+itself) and the way that fields are declared to be mutable are both
+awkward.  However, I do agree with the premise stated in the
+Background section, i.e. that we should provide a mechanism on which
+other, more powerful and more widely adopted record systems can be
+built.
+
+AggregatesMedernach is another good distillation of the core ideas.
+However, constructing its aggregate functions is an all-or-nothing
+affair; the type switch mechanism seems to require complete
+destructuring of the record even when not all of the components are
+necessary, e.g. in the SRFI 9 predicate example; and there is no
+inheritance.
+
+SRFI 99 (ERR5RS Records) is an extension of SRFI 9 that is a
+rationalization of the R6RS system, so I'm voting for it ahead of the
+R6RS system.  As the description says, "This entire SRFI is compatible
+with the procedural and inspection layers of the R6RS record system,
+but offers several worthwhile improvements over the R6RS system."
+
+Here is exactly how I came up with the preference order above:
+
+  cowan > snellpym+inheritance+mutate
+
+    because <cowan> is simpler and cleaner
+
+  snellpym+inheritance+mutate > medernach
+  snellpym+inheritance+mutate > snellpym+mutate
+  hsu > srfi-9
+
+    because inheritance is desirable
+
+  medernach > hsu
+  snellpym+inheritance+mutate > hsu
+  snellpym+mutate > hsu
+
+    because procedural is more fundamental than syntactic
+
+  srfi-9 > wg2
+  hsu > wg2
+
+    because WG1 Scheme should have some form of record definition
+    facility
+
+  wg2 > srfi-99
+
+    because of the high complexity of SRFI 99, as well as the problems
+    others have reported
+
+  srfi-99 > r6rs
+
+    because SRFI 99 is a refinement of R6RS records, designed to solve
+    some of their problems
+
+  wg2 > r6rs
+
+    because of the high complexity of R6RS, as well as the problems
+    others have reported
+
+  r6rs > snellpym
+
+    because snellpym doesn't support mutation
 
 === #50 byte-vectors ===
 
