@@ -76,7 +76,7 @@ The following procedures accept a pathname and construct and return a string cor
 
 `(pathname->filename `''pathname''`)`
 
-Constructs and returns a string from ''pathname''.
+Constructs and returns a filename string from ''pathname''.
 
 If `(pathname-syntax)` is `posix`, then the result is constructed using `/` as the component separator from the directory, name, and type components of ''pathname''.
 
@@ -86,15 +86,15 @@ It is an error if the username, password, port, query, and fragment components a
 
 `(pathname->uri `''pathname''`)`
 
-Constructs and returns a string according to RFC 3986 rules.  In addition to required `%`-escaping, non-ASCII characters are converted to UTF-8 byte strings and `%`-escaped.
+Constructs and returns a string according to RFC 3986 rules.  In addition to required `%`-escaping, non-ASCII characters are converted to UTF-8 byte sequences and `%`-escaped.
 
-The scheme, host, port, username, password, directory, name, type, query, and fragment components are used to construct the URI.  It is an error if the device component is not `#f`, or if the directory component is relative.
+The scheme, host, port, username, password, directory, name, type, query, and fragment components are used to construct the URI.  It is an error if the device component is not `#f`, or if the `car` of the directory component is not `absolute`.
 
 `(pathname->iri `''pathname''`)`
 
 Constructs and returns a string according to RFC 3987 rules.  No escaping of non-ASCII characters is done.
 
-The scheme, host, port, username, password, directory, name, type, query, and fragment components are used to construct the URI.  It is an error if the device component is not `#f`, or if the directory component is relative.
+The scheme, host, port, username, password, directory, name, type, query, and fragment components are used to construct the URI.  It is an error if the device component is not `#f`, or if the `car` of the directory component is not `absolute`.
 
 == Other procedures ==
 
@@ -102,15 +102,15 @@ The scheme, host, port, username, password, directory, name, type, query, and fr
 
 Constructs and returns a new pathname with the same components as ''pathname1''.  However, if any component of ''pathname1'' is `#f`, the corresponding component of ''pathname2'' is used instead.  The directory component is handled specially; if the ''pathname1'' component begins with `relative`, the rest of it is appended to the ''pathname2'' component.
 
-`(pathname-absolute-filename? `''pathname''` `''options''`)`
+`(pathname-absolute-filename? `''pathname''`)`
 
 Returns `#t` if ''pathname'' specifies an absolute or UNC filename.  If `(pathname-syntax)` is `windows`, the device component must be specified.
 
-`(pathname-absolute-uri? `''pathname''` `''options''`)`
+`(pathname-absolute-uri? `''pathname''`)`
 
 Returns `#t` if ''pathname'' specifies an absolute URI (the fragment component must be #f).
 
-`(pathname-uri? `''pathname''` `''options''`)`
+`(pathname-uri? `''pathname''`)`
 
 Returns `#t` if ''pathname'' specifies a URI/IRI (that is, an absolute URI with a possible fragment).
 
