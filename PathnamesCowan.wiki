@@ -4,7 +4,7 @@ Pathnames are immutable record-style objects of a disjoint type that represent t
 
 == Components and their accessors ==
 
-The components of a pathname are ''scheme'', ''host'', ''port'', ''username'', ''password'', ''device'', ''directory'', ''name'', ''type'', ''version'', ''query'', and ''fragment''.  
+The components of a pathname are ''scheme'', ''host'', ''port'', ''username'', ''password'', ''device'', ''directory'', ''name'', ''type'', ''query'', and ''fragment''.  
 
 ''Scheme'' is the scheme part of a URI/IRI.  It is a string.
 
@@ -12,25 +12,29 @@ The components of a pathname are ''scheme'', ''host'', ''port'', ''username'', '
 
 ''Password'' is the password associated with a ''username''.  It is a string.
 
-''Host'' is the host part of a URI/IRI, the server part of a UNC name, or the host part of a Berkeley-style host:pathname.  It is a string.
+''Host'' is the host part of a URI/IRI.  It is a string.
 
 ''Port'' is the port part of a URI/IRI.  It is an exact integer.
 
 ''Device'' is a Windows-style device name without a trailing colon.  It is a string, typically but not always a single character.
 
-''Directory'' is a directory path, which is represented as a list.  The first element is always a symbol, either `absolute` or `relative`, representing pathnames relative to the system root or the current directory respectively.  The root directory is represented by the list `(absolute)`.  A null directory path is represented by the empty list.  The other elements are strings.
+''Directory'' is a directory path, which is represented as a list.  The first element is always a symbol, which can be `absolute` or `relative` or `unc`, representing absolute, relative, and UNC directory paths respectively.  The root directory is represented by the list `(absolute)`.  A null directory path is represented by the empty list.  The other elements are strings.
 
 ''Name'' is a simple file name without the associated file type or extension, if any.  It is a string.
 
 ''Type'' is the type or extension of the filename, without any leading period.  It is a string.
 
-''Version'' specifies the version of a file.  It is normally an exact positive integer, where 1 represents the oldest possible version.  The symbols `oldest` and `newest` represent the oldest and newest existing versions.
-
-''Query'' is the query part of a URI/IRI.  It may be an a-list mapping strings to strings, or a simple string.
+''Query'' is the query part of a URI/IRI.  It is a string.
 
 ''Fragment'' is the fragment part of an IRI/URI.  It is a string.
 
-All of these components can also be `#f` to indicate that the component is not present.
+All of these components can also be `#f` to indicate that the component is not present.  In particular, a filename or URI ending in `/` or `\` will result in the file and type components being `#f`.
+
+== The path separator parameter ==
+
+`(pathname-syntax [value]`)
+
+This is a (SRFI 39) parameter whose value is either `windows` or `posix`, and is used to define whether parsing and construction of filenames uses Windows or Posix syntax.  It may have other values, but the result is implementation defined.  The initial value is also implementation-defined.
 
 == Basic procedures ==
 
@@ -38,15 +42,7 @@ The procedures `pathname?` and `pathname=?` do what you expect.  Note that two p
 
 == Accessors ==
 
-There are twelve accessors corresponding to the twelve components of a pathname, which take the form `pathname-*` where `*` is one of the components.
-
-`(pathname-query-as-string `''pathname''`)`
-
-Returns the query component as a string.  If it is already a string, the string is returned.  If it is an a-list, the a-list is converted into a string containing name-value pairs separated by `&` and with `=` between the name and the value.
-
-`(pathname-directory-as-string `''pathname''` `''options''`)`
-
-Returns the directory component as a string.  ''Options'' is a list of symbols that may contain `windows`; if it contains other symbols, the result is implementation-specified.  The result consists of the strings in the ''cdr'' of the directory component joined using the path separator, with the separator prepended if the ''car'' is `absolute`.  If `windows` is present in ''options'', the path separator is `\`; otherwise, the path separator is '/'.
+There are 11 accessors corresponding to the 11 components of a pathname, which take the form `pathname-*` where `*` is one of the components.
 
 It is an error to mutate anything returned by any of these accessors.
 
@@ -58,15 +54,13 @@ Constructs and returns a pathname.  ''Components'' is an a-list mapping componen
 
 The following procedures accept a string and construct and return a pathname corresponding to that string.
 
-`(filename->pathname `''filename''` `''options''`)`
+`(filename->pathname `''filename''`)`
 
-Constructs and returns a pathname.  ''Filename'' is a string to be converted to a filename.  ''Options'' is a list of symbols that may include `windows`, `version` and/or `host`.  Other symbols may be present, but the result is implementation-dependent.
+Constructs and returns a pathname.  ''Filename'' is a string to be converted to a filename.
 
-If `version` is present in `options`, then if ''filename'' ends in `.~`''n''`~`, where ''n'' is a positive integer, then that suffix is stripped off and the version component is set to ''n''.  Otherwise, if ''filename'' ends in `~`, then it is stripped off and the version' component is set to `oldest`.  Otherwise, or if `version` is not present, then the version component is set to `newest`.
+If `(pathname-syntax)` is `posix`, then ''filename'' is parsed using `/` as the component separator, the directory, name, and type components are potentially populated from it, and the device component is set to `#f`.
 
-If `windows` is not present and `host` is present, and there is a colon in ''filename'', then the portion before the colon is stripped off and used to populate the host component.  If `windows` is present and ''filename'' begins with `\\` or `//`, its first portion is stripped off and used to populate the host component.  Otherwise, the host component is set to `"localhost"`.
-
-If `windows` is not present in ''options'', then ''filename'' is parsed using `/` as the component separator, and the directory, name, and type components are potentially populated from it, and the device component is set to `#f`.  But if `windows` is present, then ''filename'' is parsed using both `\` and `/` as component separators, and the device, directory, name, and type components are potentially populated from it.
+If `(pathname-syntax)` is `windows`, then ''filename'' is parsed using both `\` and `/` as component separators, a leading `//` or `\\` results in a directory component beginning with `unc`, and the device, directory, name, and type components are potentially populated from it.
 
 Finally, the scheme component is set to `"file"`, and the username, password, port, query, and fragment components are set to `#f`.
 
@@ -74,50 +68,56 @@ Finally, the scheme component is set to `"file"`, and the username, password, po
 
 Constructs and returns a pathname.  ''Uri'' is a string to be converted to a pathname.  It is parsed according to IRI rules, which are the same as URI rules except that sequences of `%`-hexdigit-hexdigit escapes that represent UTF-8 byte sequences are parsed into characters, provided the requisite characters are supported by the implementation.
 
-The scheme, host, port, username, password, directory, name, type, query, and fragment components are potentially populated from ''uri''.  The device and version components are set to `#f`.  If the query part of the IRI consists of name-value pairs separated by `&` or `;` and with `=` between the name and the value, then the query component will be an a-list of strings; otherwise, it will just be a string.
+The scheme, host, port, username, password, directory, name, type, query, and fragment components are potentially populated from ''uri''.  The device component is set to `#f`.  If the query part of the IRI consists of name-value pairs separated by `&` or `;` and with `=` between the name and the value, then the query component will be an a-list of strings; otherwise, it will just be a string.
 
 == Deconstructors ==
 
 The following procedures accept a pathname and construct and return a string corresponding to that pathname.
 
-`(pathname->filename `''pathname''` `''options''`)`
+`(pathname->filename `''pathname''`)`
 
-Constructs and returns a string from ''pathname''.  ''Options'' is a list of symbols that may include `windows`, `version` and/or `host`; however, `version` and `host` are ignored.  Other symbols may be present, but the result is implementation-dependent.
+Constructs and returns a string from ''pathname''.
 
-If `windows` is not present in ''options'', then the result is constructed using `/` as the component separator from the directory (using `directory-as-string`), name, and type components of ''pathname'', and if the host component is not `#f` or `"localhost"`, then its value and a colon are prepended to the result.  But if `windows` is present, then the result is constructed using `\` as the component separator from the host, device, directory (using `directory-as-string`), name, and type components.
+If `(pathname-syntax)` is `posix`, then the result is constructed using `/` as the component separator from the directory, name, and type components of ''pathname''.
 
-If the version component is an exact positive integer ''n'', then `.~`''n''`~` is appended to the result.  Otherwise, if the version component is `oldest`, then `~` is appended to the result.
+If `(pathname-syntax)` is `windows`, then the result is constructed using `\` as the component separator from the device, directory, name, and type components.
 
-It is an error if the scheme component is not set to `"file"`, or the username, password, port, query, and fragment components are not `#f`.
+It is an error if the username, password, port, query, and fragment components are not `#f`.  It is an error if the scheme component is not `"file"`.
 
 `(pathname->uri `''pathname''`)`
 
 Constructs and returns a string according to RFC 3986 rules.  In addition to required `%`-escaping, non-ASCII characters are converted to UTF-8 byte strings and `%`-escaped.
 
-The scheme, host, port, username, password, directory (using `directory-as-string`), name, type, query (using `query-as-string`), and fragment components are used to construct the URI.  It is an error if the device and version components are not `#f`.
+The scheme, host, port, username, password, directory, name, type, query, and fragment components are used to construct the URI.  It is an error if the device component is not `#f`, or if the directory component is relative.
 
 `(pathname->iri `''pathname''`)`
 
 Constructs and returns a string according to RFC 3987 rules.  No escaping of non-ASCII characters is done.
 
-The scheme, host, port, username, password, directory (using `directory-as-string`), name, type, query (using `query-as-string`), and fragment components are used to construct the URI.  It is an error if the device and version components are not `#f`.
+The scheme, host, port, username, password, directory, name, type, query, and fragment components are used to construct the URI.  It is an error if the device component is not `#f`, or if the directory component is relative.
 
 == Other procedures ==
 
 `(merge-pathnames `''pathname1''` `''pathname2''`)`
 
-Constructs and returns a new pathname with the same components as ''pathname1''.  However, if any component of ''pathname1'' is `#f`, the corresponding component of ''pathname2'' is used instead.  The directory component is handled specially; if the ''pathname1'' component begins with `relative`, the rest of it is appended to the ''pathname2'' component.  Similarly, if the query components are both a-lists, the a-list of ''pathname1'' is prepended to the a-list of ''pathname2''.
+Constructs and returns a new pathname with the same components as ''pathname1''.  However, if any component of ''pathname1'' is `#f`, the corresponding component of ''pathname2'' is used instead.  The directory component is handled specially; if the ''pathname1'' component begins with `relative`, the rest of it is appended to the ''pathname2'' component.
 
 `(pathname-absolute-filename? `''pathname''` `''options''`)`
 
-Returns `#t` if ''pathname'' specifies an absolute filename.  If `windows` is contained in ''options'', that means the device component must be specified.
+Returns `#t` if ''pathname'' specifies an absolute or UNC filename.  If `(pathname-syntax)` is `windows`, the device component must be specified.
 
 `(pathname-absolute-uri? `''pathname''` `''options''`)`
 
-Returns `#t` if ''pathname'' specifies an absolute URI.
+Returns `#t` if ''pathname'' specifies an absolute URI (the fragment component must be #f).
 
 `(pathname-uri? `''pathname''` `''options''`)`
 
-Returns `#t` if ''pathname'' specifies a URI/IRI (that is, ''pathname'' specifies an absolute URI and the fragment component is `#f`).
+Returns `#t` if ''pathname'' specifies a URI/IRI (that is, an absolute URI with a possible fragment).
 
+`(pathname-query->alist `''pathname''`)`
 
+Returns the query component of ''pathname'' as an a-list, where `&` and `;` separate the entries in the alist, and `=` separates the `car` from the `cdr`.
+
+`(pathname-directory->string `''pathname''`)`
+
+Returns the directory component of ''pathname'' as a string.  The result consists of the strings in the ''cdr'' of the directory component joined using the path separator, with the separator prepended if the ''car'' is `absolute`.  If `(pathname-syntax)` is `posix`, the path separator is `/`; if `(pathname-syntax)` is `windows`, the path separator is `\`.
