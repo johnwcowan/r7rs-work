@@ -18,11 +18,11 @@ The components of a pathname are ''scheme'', ''host'', ''port'', ''username'', '
 
 ''Device'' is a Windows-style device name without a trailing colon.  It is a string, typically but not always a single character.
 
-''Directory'' is a directory path, which is represented as a list.  The first element is always a symbol, either `absolute` or `relative`, representing pathnames relative to the system root or the current directory respectively.  The root directory is represented by the list `(absolute)`.  A null directory path is represented by the empty list.  The other elements may be strings or the symbol `wild` to represent a wildcard.
+''Directory'' is a directory path, which is represented as a list.  The first element is always a symbol, either `absolute` or `relative`, representing pathnames relative to the system root or the current directory respectively.  The root directory is represented by the list `(absolute)`.  A null directory path is represented by the empty list.  The other elements are strings.
 
-''Name'' is a simple file name without the associated file type or extension, if any.  It is normally a string, but may also be the symbol `wild`.
+''Name'' is a simple file name without the associated file type or extension, if any.  It is a string.
 
-''Type'' is the type or extension of the filename, without any leading period.  It is normally a string, but may also be the symbol `wild`.
+''Type'' is the type or extension of the filename, without any leading period.  It is a string.
 
 ''Version'' specifies the version of a file.  It is normally an exact positive integer, where 1 represents the oldest possible version.  The symbols `oldest` and `newest` represent the oldest and newest existing versions.
 
@@ -90,15 +90,11 @@ If the version component is an exact positive integer ''n'', then `.~`''n''`~` i
 
 It is an error if the scheme component is not set to `"file"`, or the username, password, port, query, and fragment components are not `#f`.
 
-If `wild` appears anywhere, it is converted to `"*"`.
-
 `(pathname->uri `''pathname''`)`
 
 Constructs and returns a string according to RFC 3986 rules.  In addition to required `%`-escaping, non-ASCII characters are converted to UTF-8 byte strings and `%`-escaped.
 
 The scheme, host, port, username, password, directory (using `directory-as-string`), name, type, query (using `query-as-string`), and fragment components are used to construct the URI.  It is an error if the device and version components are not `#f`.
-
-If `wild` appears anywhere, it is an error.
 
 `(pathname->iri `''pathname''`)`
 
@@ -106,17 +102,11 @@ Constructs and returns a string according to RFC 3987 rules.  No escaping of non
 
 The scheme, host, port, username, password, directory (using `directory-as-string`), name, type, query (using `query-as-string`), and fragment components are used to construct the URI.  It is an error if the device and version components are not `#f`.
 
-If `wild` appears anywhere, it is an error.
-
 == Other procedures ==
 
 `(merge-pathnames `''pathname1''` `''pathname2''`)`
 
 Constructs and returns a new pathname with the same components as ''pathname1''.  However, if any component of ''pathname1'' is `#f`, the corresponding component of ''pathname2'' is used instead.  The directory component is handled specially; if the ''pathname1'' component begins with `relative`, the rest of it is appended to the ''pathname2'' component.  Similarly, if the query components are both a-lists, the a-list of ''pathname1'' is prepended to the a-list of ''pathname2''.
-
-`(pathname-wild? `''pathname''`)`
-
-Returns `#t` if there are any `wild` components in ''pathname'', and `#f` otherwise.
 
 `(pathname-absolute-filename? `''pathname''` `''options''`)`
 
