@@ -10,7 +10,12 @@
 (define-syntax define-datatype
   (syntax-rules ()
     ((define-datatype <designation> (<fieldname-spec> ...))
-     (define-datatype-loop (<designation>) <designation> (<fieldname-spec> ...) () ()))))
+     (begin
+       (define-syntax <info>
+         (syntax-rules (create designate fields)
+           ((<info> designate) <designation>)
+           ((<info> fields) '(<fieldname-spec> ...))))
+       (define-datatype-loop (<designation>) <designation> (<fieldname-spec> ...) () ())))))
 
 (define-syntax define-datatype-loop
   (syntax-rules (mutable)
