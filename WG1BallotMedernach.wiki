@@ -13,12 +13,13 @@ as in SRFI-9, SRFI-99 or the R6RS record system?
     * '''snellpym:''' UniqueTypesSnellPym
   * '''Options:''' srfi-9, srfi-57, srfi-99, r6rs, cowan, hsu, medernach, rush, snellpym, none, wg2, undecided
   * '''Default:''' none
-  * '''Preferences:''' medernach, snellpym, cowan, rush, hsu, srfi-9, wg2, srfi99, r6rs, snellpym+inheritance, snellpym+mutate, snellpym+inheritance+mutate, srfi-57, none, undecided
+  * '''Preferences:''' medernach, snellpym, rush, hsu, srfi-9, cowan, wg2, srfi99, r6rs, snellpym+inheritance, snellpym+mutate, snellpym+inheritance+mutate, srfi-57, none, undecided
 
 IMHO Core Scheme should have the ability to create disjoint kind of data, this is the essence of data types. On top of that capability the various kind of records could be build. I don't think much more is needed inside the core, let other features be for WG2. SRFI9 is nice but I am a bit afraid about its real extension potential to make it part of WG1 standard.
 
 UniqueTypesSnellPym proposal is in the spirit of this, however I dislike to select fields by numbers and the list of flags for mutation looks hairy to me: it means for instance that I have to know the number of fields of the parent type, even worse: adding a field in a parent force to shift all the hierarchy of subtypes, this is too much tight together.  Instead of a list of flags my proposal allow to have all fields mutable and controlling mutability by exporting with a module system only what mutators I allow to use.
 
+Update:  I overtook that RecordsCowan inheritance is based on field numbering. Then there are the same problems than in snellpym+inheritance. However it is a nice and simple proposal but I prefer widespread SRFI-9 over it (no inheritance than number-based inheritance).
 
 
 === #50 byte-vectors ===
@@ -111,10 +112,11 @@ than `r5rs` would break R5RS (and IEEE) compatibility.
 
   * '''Options:''' r5rs, r6rs, zero, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' zero, r5rs, undecided, r6rs
+  * '''Preferences:''' r6rs, zero, r5rs, undecided
 
 What is the rationale behind this ? Is it to allow partial functions returning an <undefined> value and to propagate it ? Then IMHO the best semantic is to return empty value.
 
+Update: I am now convinced that R6RS phrasing is the more flexible option. However I exhort using "(values)" whenever possible.
 
 === #49 Undefined value API ===
 
