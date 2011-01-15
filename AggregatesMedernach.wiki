@@ -11,19 +11,21 @@ General other record or object features may be build on top of these aggregates.
 
 `(define-datatype `''<datatype-name>''` `''<datatype-info>''` `''<designation>''` (`''<fieldname-spec>''` ...))`
 
-Returns a new datatype. designation is a description of the datatype.  (<fieldname-spec> ...) is a list of field specification. A field specification is either:
+''<datatype-name>'' is bound to a new datatype and ''<datatype-info>'' to a description of this datatype. ''<designation>'' describes the datatype.  (<fieldname-spec> ...) is a list of field specification. A field specification is either:
 
   *  <field>
   *  (mutable <field>)   Fields require an explicit indication that it should be mutable. 
 
 It is an error to have duplicated fieldnames. 
 
-Field inheritance is optional and could be provided on top of this proposal with the following syntax:
+Field inheritance is optional and could be provided on top of this proposal with the following proposed syntax:
 
 `(define-inherited-datatype `''<datatype-name>''` `''<datatype-info>''` `''<parent-datatype-info>''` `''<designation>''` (`''<fieldname-spec>''` ...))`
 
 Corresponding testing implementations are available at AggregatesMedernachImplementation and AggregatesMedernachInheritanceImplementation.
 
+
+== Datatype description ==
 
 `(datatype-info->designation `''<datatype-info>''`)`
 
@@ -31,10 +33,10 @@ Corresponding testing implementations are available at AggregatesMedernachImplem
 
 `(datatype-info->fields `''<datatype-info>''`)`
 
- Returns corresponding list of fields of type described by <datatype-info>.
+ Returns corresponding list of fields specification of type described by <datatype-info>.
 
 
-== Aggregates ( constructor / accessor ) constructor ==
+== Aggregates ( constructor / accessor / mutators ) constructor ==
 
 `(create-aggregate-functions `''<datatype>''`)`
 
