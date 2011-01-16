@@ -494,7 +494,7 @@ which most implementations do as a performance hack anyway.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' only if equal? passes on #54
 
 == WG1 - Exceptions ==
 
@@ -511,7 +511,7 @@ option is just for the core exception handling.
     * '''cowan:''' ExceptionHandlingCowan
   * '''Options:''' cowan, r6rs, wg2, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:''' cowan
 
 === #19 when to throw an error ===
 
@@ -601,7 +601,7 @@ hash-tables can be implemented?
 
   * '''Options:''' r6rs, srfi-69, no, wg2, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no
 
 === #113 directory contents ===
 
@@ -672,7 +672,7 @@ by #6. Allowing them as literals fixes these macros.
 
   * '''Options:''' literal, error, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' literal
 
 == WG1 - Modules ==
 
