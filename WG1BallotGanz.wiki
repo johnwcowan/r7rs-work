@@ -28,7 +28,7 @@ as in SRFI-9, SRFI-99 or the R6RS record system?
     * '''snellpym:''' UniqueTypesSnellPym
   * '''Options:''' srfi-9, srfi-57, srfi-99, r6rs, cowan, hsu, medernach, rush, snellpym, none, wg2, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:''' medernach+inheritance
 
 === #50 byte-vectors ===
 
@@ -45,7 +45,7 @@ Do we provide a syntax and basic API for these in WG1?
     * '''snellpym:''' BlobsAndSRFI4SnellPym
   * '''Options:''' r6rs, cowan, snellpym, wg2, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:''' wg2, snellpym/module, cowan/module
 
 === #55 Lazy evaluation ===
 
@@ -65,7 +65,7 @@ to `delay` and `force`, not all of the `srfi-45` utilities.  Vote
 
   * '''Options:''' r5rs, srfi-45, none, wg2, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' 
+  * '''Preferences:''' srfi-45
 
 === #57 Random Numbers ===
 
@@ -81,7 +81,7 @@ generation in WG1 Scheme?
     * '''hsu:''' RandomnessArcfide
   * '''Options:''' srfi-27, cl, cowan, hsu, none, wg2, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:''' srfi-27/module, cowan/module, cowan/core, srfi-27-core, wg2
 
 === #62 Environment Variables ===
 
@@ -97,8 +97,8 @@ remains if we should add SRFI-98 environment accessors.
 
   * '''Options:''' srfi-98, none, wg2, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
-
+  * '''Preferences:''' srfi-98
+Yes, a must-have.
 === #68 "Undefined value" vs. "undefined values" ===
 
 In R5RS, many procedures and syntax forms return an "undefined value".
@@ -112,8 +112,8 @@ than `r5rs` would break R5RS (and IEEE) compatibility.
 
   * '''Options:''' r5rs, r6rs, zero, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' 
-
+  * '''Preferences:''' zero
+This seems much more elegant -- as long as we've got multiple values, use zero of them.
 === #49 Undefined value API ===
 
 Assuming a single "undefined" value (dependent on the result of #68),
@@ -131,8 +131,8 @@ Vote `generate` for a `(void)` procedure, `test` for `undefined?`, and
 
   * '''Options:''' generate, test, both, none, wg2, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
-
+  * '''Preferences:''' generate, both
+But hopefully will be irrelevant based on #68.
 === #51 support for cyclic structures in primitives ===
 
 list?, length, equal? and other fundamental primitives may diverge
@@ -156,7 +156,7 @@ and `equal?+r6rs` or `equal?+srfi-1` are options for both.
     * '''r6rs:''' `list?` should return `#f` and `length` raise an error for cyclic lists
     * '''srfi-1:''' `length` is equivalent to `length+` and returns `#f` for a cyclic list
   * '''Options:''' equal?,r6rs,srfi-1,equal?+r6rs,equal?+srfi-1,no,module,wg2,undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' r6rs, equal?
 
 === #69 Dynamic Parameters ===
 
@@ -174,7 +174,7 @@ similar?
     * '''snellpym:''' ParametersSnellPym
   * '''Options:''' cowan, snellpym, srfi-39, none, wg2, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:''' snellpym
 
 === #70 accessing the system time ===
 
@@ -222,7 +222,7 @@ after mandatory ones.
 
   * '''Options:''' yes, no, module, wg2, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
 
 === #82 missing port? procedure ===
 
@@ -236,7 +236,7 @@ Shall we require it?
 
   * '''Options:''' yes, no, module, wg2, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
 
 === #107 port status detection ===
 
@@ -246,7 +246,7 @@ Do we want to add an interface to this?
 
   * '''Options:''' port-open?, port-closed?, both, no, wg2, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' port-open?, both, port-closed?
 
 === #87 Allow multiple producers in `call-with-values` ===
 
@@ -263,7 +263,7 @@ Do we add this extension?
 
   * '''Options:''' yes, no, wg2, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided
 
 === #88 SRFI 87: => in CASE ===
 
@@ -275,7 +275,7 @@ Do we add this extension?
 
   * '''Options:''' yes, no, wg2, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
 
 === #89 SRFI 61: COND => with generator and guard ===
 
@@ -289,7 +289,7 @@ Do we add this extension?
 
   * '''Options:''' yes, no, wg2, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no
 
 === #90 Multiple values in COND => clauses ===
 
@@ -302,7 +302,7 @@ clauses.
 
   * '''Options:''' yes, no, wg2, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
 
 === #91 INCLUDE at the REPL ===
 
@@ -312,7 +312,7 @@ module structure.
 
   * '''Options:''' yes, no, wg2, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no
 
 === #92 Case-folding flags ===
 
@@ -330,8 +330,8 @@ Vote `per-datum` for the next-datum-only #ci/#cs syntax.
 
   * '''Options:''' r6rs, per-datum, none, wg2, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
-
+  * '''Preferences:''' both, r6rs
+if both, per-datum takes precedence.
 === #116 Source File Character Encoding ===
 
 The standard currently says nothing about the character encoding
@@ -342,7 +342,7 @@ unspecified?
 
   * '''Options:''' utf-8, emacs, unspecified, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:''' unspecified
 
 === #93 Removing string mutability ===
 
@@ -356,7 +356,7 @@ relegate to a module as in R6RS, or `no` to keep as is.
 
   * '''Options:''' yes, no, module, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no
 
 === #83 Auxiliary Keywords ===
 
