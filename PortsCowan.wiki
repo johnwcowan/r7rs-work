@@ -5,9 +5,19 @@ Here's my proposal for WG1 Scheme ports and I/O facilities.  It's fully upward c
 The new features beyond R5RS are:
 
  * partial control of buffering, character encoding, newline translation, and Scheme case sensitivity
+  * Rejected by WG1, see #29 and [[:WG1Ballot2Results|WG1Ballot2Results]]
  * string ports (SRFI-6-compatible)
+  * Accepted by WG1, see #30 and [[:WG1Ballot1Results|WG1Ballot1Results]]
  * binary ports and blob ports (the binary version of string ports)
- * `current-error-port`, `flush-output-port`, `read-line`, `delete-file`, and `file-exists?` from R6RS
+  * Rejected by WG1, see #28 and [[:WG1Ballot2Results|WG1Ballot2Results]]
+ * `current-error-port`
+  * Accepted by WG1, see #59 and [[:WG1Ballot1Results|WG1Ballot1Results]]
+ * `flush-output-port`
+  * Not voted on by WG1, see #133
+ * `read-line`
+  * Not voted on by WG1, see #132
+ * `delete-file`, and `file-exists?` from R6RS
+  * Accepted by WG1, see #60 and [[:WG1Ballot1Results|WG1Ballot1Results]]
 
 == Port model ==
 
