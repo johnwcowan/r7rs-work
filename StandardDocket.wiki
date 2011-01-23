@@ -5,6 +5,8 @@ This is a list of work items that WG2 has voted to work on, and proposals for th
 
 Binary heap: BinaryHeapsCowan
 
+Binary ports: PortsCowanTwo
+
 Binary search: [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]]
 
 Boxes/references: BoxesCowan
