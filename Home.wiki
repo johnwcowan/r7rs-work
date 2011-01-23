@@ -17,7 +17,7 @@ Comments are welcome at the [[http://lists.scheme-reports.org/cgi-bin/mailman/li
     * [[:WG1Ballot1Results|Ballot Results]]
   * Second Ballot - Due Jan. 9th 2011
     * [[:WG1Ballot|Ballot]]
-    * [[:WG1BallotResults|Ballot Results]]
+    * [[:WG1Ballot2Results|Ballot Results]]
 
 '''Issue Summaries and Proposals'''
 
