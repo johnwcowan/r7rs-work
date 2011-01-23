@@ -494,7 +494,8 @@ which most implementations do as a performance hack anyway.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' only if equal? passes on #54
+  * '''Preferences:''' yes
+Only if equal? passes on #54.
 
 == WG1 - Exceptions ==
 
