@@ -25,13 +25,17 @@ Environment enquiries:
 
 Exceptions:
 
-File system directories: DirectoryPortsCowan
+File system directories (reading): [[http://www.scsh.net/docu/html/man-Z-H-4.html#node_sec_3.3|SCSH directory stream interface]], DirectoryPortsCowan, `directory-files` to return a list of all files in the dir (in WG1 vote order)
+
+File system directories (creation, removal):
 
 Flonum arithmetic: FlonumsCowan
 
 Generalized getters and setters: 
 
 Gettext (i18n of strings):
+
+Hash tables: [[http://srfi.schemers.org/srfi-69/srfi-69.html|SRFI 69]], [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-14.html#node_chap_13|R6RS]] (in WG1 vote order)
 
 Homogeneous numeric arrays: [[http://srfi.schemers.org/srfi-4/srfi-4.html|SRFI 4]], BlobsCowan
 
@@ -69,7 +73,7 @@ Priority queues:
 
 Processes (system, popen, etc): SystemCommandCowan + ProcessPortsCowan
 
-Random numbers: [[http://srfi.schemers.org/srfi-27/srfi-27.html|SRFI 27]]
+Random numbers: RandomnessCommonLisp, [[http://srfi.schemers.org/srfi-27/srfi-27.html|SRFI 27]], RandomCowan, RandomnessArcfide (in WG1 vote order)
 
 Record introspection: [[http://srfi.schemers.org/srfi-99/srfi-99.html|SRFI 99]]
 
@@ -84,8 +88,6 @@ Shift and reset:
 Simple Posix:
 
 Sorting: [[http://srfi.schemers.org/srfi-32/srfi-32.html|SRFI 32]], [[http://srfi.schemers.org/srfi-95/srfi-95.html|SRFI 95]]
-
-SRFI 38: reading and writing shared structure: (depends on interaction with WG1)
 
 TCP protocol: NetworkPortsCowan
 
