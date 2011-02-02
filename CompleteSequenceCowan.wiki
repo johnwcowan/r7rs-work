@@ -3,7 +3,7 @@ The WG1 charter says "Self consistency is an important objective, which may requ
 ||Type of procedure||Lists||Strings||Vectors||
 ||Basic constructor||`make-list` (SRFI 1)||`make-string`||`make-vector`||
 ||Variadic constructor||`list`||`string`||`vector`||
-||Copy constructor||`copy-list` (SRFI 1)||`copy-string`||`copy-vector` (SRFI 43)||
+||Copy constructor||`list-copy` (SRFI 1)||`string-copy`||`vector-copy` (SRFI 43)||
 ||Basic predicate||`list?`||`string?`||`vector?`||
 ||Sequence length||`length`||`string-length`||`vector-length`||
 ||Element access||`list-ref`||`string-ref`||`vector-ref`||
