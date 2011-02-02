@@ -10,7 +10,7 @@ This is a proposal for a WG2 blob (bytevector) API.  Blobs are a disjoint type. 
   Returns the length of ''blob'' in bytes.
  `(copy-blob `''blob''`)`::
   Returns a newly allocated blob containing the same bytes as ''blob''.
- `(subblob `''blob''` `''from''` `''to''`)`::
+ `(partial-blob `''blob''` `''from''` `''to''`)`::
   Returns a newly allocated blob containing the bytes in ''blob'' starting at ''start'' (inclusive) and ending at ''end'' (exclusive).
  `(copy-blob! `''from to''`)`::
   Copy blob ''from'' on top of blob ''to'', which must not be shorter.
@@ -109,4 +109,4 @@ I've trashed the UTF-32 conversions because nobody uses UTF-32.  They can come b
 
 === WG1 ===
 
-I propose that WG1 provide `blob?, make-blob, blob-length, copy-blob, copy-blob!, blob-u8-ref, blob-u8-set!`, and possibly `subblob` and `copy-partial-blob!` as well.
+I propose that WG1 provide `blob?, make-blob, blob-length, copy-blob, copy-blob!, blob-u8-ref, blob-u8-set!`, `partial-blob`, `copy-partial-blob!`.
