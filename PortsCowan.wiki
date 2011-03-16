@@ -8,8 +8,10 @@ The new features beyond R5RS are:
   * Rejected by WG1, see #29 and [[:WG1Ballot2Results|WG1Ballot2Results]]
  * string ports (SRFI-6-compatible)
   * Accepted by WG1, see #30 and [[:WG1Ballot1Results|WG1Ballot1Results]]
- * binary ports and blob ports (the binary version of string ports)
-  * Rejected by WG1, see #28 and [[:WG1Ballot2Results|WG1Ballot2Results]]
+ * binary ports
+  * Accepted by WG1, see #28 and [[:WG1Ballot2Results|WG1Ballot2Results]]
+ * blob ports (the binary version of string ports)
+  * Not voted on by WG1, see #149
  * `current-error-port`
   * Accepted by WG1, see #59 and [[:WG1Ballot1Results|WG1Ballot1Results]]
  * `flush-output-port`
