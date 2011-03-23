@@ -30,16 +30,6 @@ The components of a pathname are ''scheme'', ''host'', ''port'', ''username'', '
 
 All of these components can also be `#f` to indicate that the component is not present.  In particular, a filename or URI ending in `/` or `\` will result in the file and type components being `#f`.
 
-== The path separator parameter ==
-
-`(pathname-syntax [value]`)
-
-This is a (SRFI 39) parameter whose value is either `windows` or `posix`, and is used to define whether parsing and construction of filenames uses Windows or Posix syntax.  It may have other values, but the result is implementation defined.  The initial value is also implementation-defined.
-
-== Basic procedures ==
-
-The procedures `pathname?` and `pathname=?` do what you expect.  Note that two pathnames may be different according to `pathname=?` but still access the same resource.  Host components are compared case-insensitively.
-
 == Accessors ==
 
 There are 11 accessors corresponding to the 11 components of a pathname, which take the form `pathname-*` where `*` is one of the components.
@@ -50,39 +40,91 @@ It is an error to mutate anything returned by any of these accessors.
 
 `(make-pathname `''components''`)`
 
-Constructs and returns a pathname.  ''Components'' is an a-list mapping component names to values.  Component names not defined in this specification are allowed, but the results are implementation-specific.  Any component names not appearing in ''components'' are set to `#f`.
+Constructs and returns a pathname.  ''Components'' is an a-list mapping component names (as symbols) to values.  Component names not defined in this specification are allowed, but the results are implementation-specific.  Any component names not appearing in ''components'' are set to `#f`.
+
+ISSUE: Should `make-pathname` accept multiple arguments rather than a single argument which is an a-list?  Variable a-lists can be constructed by quasiquotation.
 
 The following procedures accept a string and construct and return a pathname corresponding to that string.
 
-`(filename->pathname `''filename''`)`
+`(posix-filename->pathname `''filename''`)`
 
-Constructs and returns a pathname.  ''Filename'' is a string to be converted to a filename.
+Constructs and returns a pathname.  ''Filename'' is a string representing a Posix filename.
 
-If `(pathname-syntax)` is `posix`, then ''filename'' is parsed using `/` as the component separator, the directory, name, and type components are potentially populated from it, and the device component is set to `#f`.
+''Filename'' is parsed using `/` as the component separator.  The directory, name, and type components are potentially populated from it, and the device component is set to `#f`.
 
-If `(pathname-syntax)` is `windows`, then ''filename'' is parsed using both `\` and `/` as component separators, a leading `//` or `\\` results in a directory component beginning with `unc`, and the device, directory, name, and type components are potentially populated from it.
+The scheme component is set to `"file"`, and the username, password, port, query, and fragment components are set to `#f`.
 
-Finally, the scheme component is set to `"file"`, and the username, password, port, query, and fragment components are set to `#f`.
+`(posix-dirname->pathname `''dirname''`)`
+
+Constructs and returns a pathname.  ''Dirname'' is a string representing a Posix directory name.
+
+''Filename'' is parsed using `/` as the component separator.  The directory component is potentially populated from it.
+
+The scheme component is set to `"file"`, and the username, password, port, device, name, type, query, and fragment components are set to `#f`.
+
+`(windows-filename->pathname `''filename''`)`
+
+Constructs and returns a pathname.  ''Filename'' is a string representing a Windows filename.
+
+''Filename'' is parsed using both `\` and `/` as component separators, and a leading `//` or `\\` results in a directory component whose ''car'' is `unc`.  The device and directory, name, and type components are potentially populated from it.
+
+The scheme component is set to `"file"`, and the username, password, port, query, and fragment components are set to `#f`.
+
+`(windows-dirname->pathname `''dirname''`)`
+
+Constructs and returns a pathname.  ''Dirname'' is a string representing a Windows directory name.
+
+''Filename'' is parsed using both `\` and `/` as component separators, and a leading `//` or `\\` results in a directory component whose ''car'' is `unc`.  The device and directory components are potentially populated from it.
+
+The scheme component is set to `"file"`, and the username, password, port, name, type, query, and fragment components are set to `#f`.
 
 `(uri->pathname `''uri''`)`
 
 Constructs and returns a pathname.  ''Uri'' is a string to be converted to a pathname.  It is parsed according to IRI rules, which are the same as URI rules except that sequences of `%`-hexdigit-hexdigit escapes that represent UTF-8 byte sequences are parsed into characters, provided the requisite characters are supported by the implementation.
 
-The scheme, host, port, username, password, directory, name, type, query, and fragment components are potentially populated from ''uri''.  The device component is set to `#f`.  If the query part of the IRI consists of name-value pairs separated by `&` or `;` and with `=` between the name and the value, then the query component will be an a-list of strings; otherwise, it will just be a string.
+The scheme, host, port, username, password, directory, name, type, query, and fragment components are potentially populated from ''uri''.  The device component is set to `#f`.
 
 == Deconstructors ==
 
 The following procedures accept a pathname and construct and return a string corresponding to that pathname.
 
-`(pathname->filename `''pathname''`)`
+`(pathname->posix-filename `''pathname''`)`
 
 Constructs and returns a filename string from ''pathname''.
 
-If `(pathname-syntax)` is `posix`, then the result is constructed using `/` as the component separator from the directory, name, and type components of ''pathname''.
+The result is constructed using `/` as the component separator from the directory, name, and type components of ''pathname''.
 
-If `(pathname-syntax)` is `windows`, then the result is constructed using `\` as the component separator from the device, directory, name, and type components.
+It is an error if the username, password, port, query, and fragment components are not `#f`.  It is an error if the scheme component is not `"file"` or `#f`.
 
-It is an error if the username, password, port, query, and fragment components are not `#f`.  It is an error if the scheme component is not `"file"`.
+`(pathname->posix-filename `''pathname''`)`
+
+Constructs and returns a filename string from ''pathname''.
+
+The result is constructed using `\` as the component separator from the device, directory, name, and type components.
+
+It is an error if the username, password, port, query, and fragment components are not `#f`.  It is an error if the scheme component is not `"file"` or `#f`.
+
+`(pathname->iri `''pathname''`)`
+
+Constructs and returns a string according to RFC 3987 rules.  No escaping of non-ASCII characters is done.
+
+The scheme, host, port, username, password, directory, name, type, query, and fragment components are used to construct the URI.  It is an error if the device component is not `#f`, or if the first element of the directory component is not `absolute`.
+
+`(pathname-directory->posix-dirname `''pathname''`)`
+
+Returns ''pathname'' as a Posix directory string.  The result consists of the strings in the ''cdr'' of the directory component joined using `/` with another `/` prepended if the ''car'' is `absolute`.
+ 
+`(pathname-directory->window-dirname `''pathname''`)`
+
+Returns the ''pathname'' as a Windows directory string.  The result consists of the strings in the ''cdr'' of the directory component joined using `\`, prefixed by one of the following:
+
+ * `\` if the ''car'' of the directory component is `absolute`
+
+ * `\\` followed by the host component if the ''car'' of the directory component is `unc`
+
+ * the device followed by `:` if the device component is not `#f`
+
+ * the empty string otherwise
 
 `(pathname->uri `''pathname''`)`
 
@@ -90,13 +132,15 @@ Constructs and returns a string according to RFC 3986 rules.  In addition to req
 
 The scheme, host, port, username, password, directory, name, type, query, and fragment components are used to construct the URI.  It is an error if the device component is not `#f`, or if the `car` of the directory component is not `absolute`.
 
-`(pathname->iri `''pathname''`)`
-
-Constructs and returns a string according to RFC 3987 rules.  No escaping of non-ASCII characters is done.
-
-The scheme, host, port, username, password, directory, name, type, query, and fragment components are used to construct the URI.  It is an error if the device component is not `#f`, or if the `car` of the directory component is not `absolute`.
-
 == Other procedures ==
+
+`(pathname? ''object''`)`
+
+Returns `#t` if ''object'' is a pathname, and `#f` otherwise.
+
+`(pathname=` ''pathname1''` `''pathname2''`)`
+
+Compares ''pathname1'' and ''pathname2'' for equality, component-wise.  Note that two pathnames may be different according to `pathname=?` but still access the same resource.  The host components are compared case-insensitively.
 
 `(merge-pathnames `''pathname1''` `''pathname2''`)`
 
@@ -104,7 +148,7 @@ Constructs and returns a new pathname with the same components as ''pathname1''.
 
 `(pathname-absolute-filename? `''pathname''`)`
 
-Returns `#t` if ''pathname'' specifies an absolute or UNC filename.  If `(pathname-syntax)` is `windows`, the device component must be specified.
+Returns `#t` if ''pathname'' specifies an absolute or UNC filename.
 
 `(pathname-absolute-uri? `''pathname''`)`
 
@@ -118,6 +162,3 @@ Returns `#t` if ''pathname'' specifies a URI/IRI (that is, an absolute URI with 
 
 Returns the query component of ''pathname'' as an a-list, where `&` and `;` separate the entries in the alist, and `=` separates the `car` from the `cdr`.
 
-`(pathname-directory->string `''pathname''`)`
-
-Returns the directory component of ''pathname'' as a string.  The result consists of the strings in the ''cdr'' of the directory component joined using the path separator, with the separator prepended if the ''car'' is `absolute`.  If `(pathname-syntax)` is `posix`, the path separator is `/`; if `(pathname-syntax)` is `windows`, the path separator is `\`.
