@@ -10,6 +10,8 @@ One approach is to say that the implementation of `cond` must match a symbol cal
 
 Problems: See this thread: http://lists.scheme-reports.org/pipermail/scheme-reports/2011-May/000632.html
 
+Particularly, symbolic equality bypasses the normal identifier equality tests used by `syntax-rules`, thereby violating referential transparency and hygiene in some cases.
+
 == Keywords as Bindings ==
 
 Under this scheme, `else` is bound to something (a value? a macro? a pineapple?) along with the definition of `cond`, and we check that the same binding is in place when `else` is used in the wild.
