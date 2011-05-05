@@ -1,5 +1,7 @@
 There seems to be a serious issue with how we handle keywords (by which we mean, things like the `else` in `cond`). R5RS was vague on the matter, and each choice of implementation approach seems to have issues.
 
+ * Is `syntax-rules` a keyword in this sense?  Some Schemes say yes, others no.
+
 The R6RS standard decided to use explicitly exported and defined auxiliary syntax values, where every syntax-rules literals clause matched hygienically using `free-identifier=?`.
 
 Let's summarise the issues with different approaches.
