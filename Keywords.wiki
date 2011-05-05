@@ -28,7 +28,7 @@ This means that if we do:
 
 ...we'll get an error, not 1, as we've rebound `else`; that arm of the `cond` will evaluate `else` and get `#f`, so no arm of the `cond` matches.
 
-However, it has another issue. Andy Wingo, I believe, gave an example of a module that exposes both `compile` (a procedure) and `eval-when` (a macro that uses `compile` as a keyword). It's then impossible to expose `eval-when` into a sandbox, still able to use the `compile` keyword, without then also giving them the `compile` procedure.
+However, it has another issue. Andy Wingo, I believe, gave an example of a module that exposes both `compile` (a procedure) and `eval-when` (a macro that uses `compile` as a keyword). It's then impossible to expose `eval-when` into a sandbox, still able to use the `compile` keyword, without then also giving them the `compile` procedure. In this situation you can use keywords-as-symbols, as arbitrary expressions can never appear there; but in a case like `cond`, it would be impossible to export `cond` and all its functions without also exporting a procedure that happened to also be called `else` or `=>`.
 
 == Any others? ==
 
