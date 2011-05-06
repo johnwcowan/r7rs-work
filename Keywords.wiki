@@ -1,8 +1,13 @@
-There seems to be a serious issue with how we handle keywords (by which we mean, things like the `else` in `cond`). R5RS was vague on the matter, and each choice of implementation approach seems to have issues.
+There seems to be a serious issue with how we handle keywords (by which we mean, things like the `else` and `=>` in `cond`). R5RS was vague on the matter, and each choice of implementation approach seems to have issues.
 
+Thing which need considering:
+
+ * `else` and `=>` in `cond`
+ * `else` in `case`
  * Is `syntax-rules` a keyword in this sense?  Some Schemes say yes, others no.
+ * And how about `unquote` and `unquote-splicing` within `quote`?
 
-The R6RS standard decided to use explicitly exported and defined auxiliary syntax values, where every syntax-rules literals clause matched hygienically using `free-identifier=?`.
+The R6RS standard decided to use explicitly exported and defined auxiliary syntax values, where every syntax-rules literals clause matched hygienically using `free-identifier=?`. This is a particular case of the "Keywords as Bindings" option below.
 
 Let's summarise the issues with different approaches.
 
@@ -16,7 +21,7 @@ Particularly, symbolic equality bypasses the normal identifier equality tests us
 
 == Keywords as Bindings ==
 
-Under this scheme, `else` is bound to something (a value? a macro? a pineapple?) along with the definition of `cond`, and we check that the same binding is in place when `else` is used in the wild.
+Under this scheme, `else` and `=>` are bound to something (a value? a macro? a pineapple?) along with the definition of `cond`, and we check that the same binding is in place when `else` is used in the wild.
 
 This means that if we do:
 
@@ -33,3 +38,12 @@ However, it has another issue. Andy Wingo, I believe, gave an example of a modul
 == Any others? ==
 
 Please add alternative implementation techniques here, and discuss their problems and characteristics.
+
+== Conclusions ==
+
+It looks like the problems can be avoided by:
+
+ * Not allowing the choice of a keyword or an arbitrary expression. `cond` suffers because one might bind a variable called `else` and then attempt to check the truthfulness of its value as a `cond` test. `case`'s `else` appears in a context where that would be impossible.
+ * For cases where keywords and arbitrary expressions (or, more precisely, references to variables) can collide, it looks like "Keywords as Bindings", with the keywords bound to special sentinel syntax values and compared as being the same identifier, is the best approach.
+
+Can anyone refute that?
