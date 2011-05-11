@@ -14,7 +14,9 @@ Custom I/O ports:
 
 Testing function arity:
 
-Identifier syntax:
+Identifier-syntax:
+
+User-specified syntax-transformers:
 
 Immutable data:
 
