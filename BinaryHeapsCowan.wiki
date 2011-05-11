@@ -1,6 +1,6 @@
 == Binary heaps ==
 
-Binary heaps are mutable collections that can contain any Scheme object provided there exists a total ordering on the objects.  They are intended to be a thin veneer over arrays.  Binary heaps are disjoint from other types of Scheme objects.
+Binary heaps are mutable collections that can contain any Scheme object provided there exists a total ordering on the objects expressed by an ''ordering procedure''.  They are intended to be a thin veneer over arrays.  Binary heaps are disjoint from other types of Scheme objects.
 
 == Procedures ==
 
@@ -10,17 +10,17 @@ Constructs and returns a new empty heap.  ''Proc'' is the less-than procedure fo
 
 `(heap `''<''` `''element''` ...)`
 
-Constructs and returns a new heap using ''<'' as the less-than procedure, and containing the ''elements''.
+Constructs and returns a new heap using ''<'' as the ordering procedure, and containing the ''elements''.  This operation should be O(n) in the size of the heap.
 
-`(copy-heap`''heap''`)`
+`(copy-heap` ''heap''`)`
 
-Constructs and returns a new heap containing the elements of ''heap''.
+Constructs and returns a new heap containing the elements of ''heap'' with the same ''<'' procedure.
 
 `(heap? `''obj''`)`
 
 Returns `#t` if ''obj'' is a heap, and `#f` otherwise.
 
-`(heap-length? `''set''`)`
+`(heap-length? `''heap''`)`
 
 Returns the number of elements in ''heap''.
 
@@ -30,37 +30,41 @@ Returns `#t` if ''element'' is a member of ''heap'' and `#f` otherwise.
 
 `(heap-add! `''heap''` `''element''`)`
 
-Adds ''element'' to ''heap''.  Returns unspecified values.
+Adds ''element'' to ''heap''.  Returns an unspecified value.  This operation should be O(log N) in the size of the heap.
 
-`(heap-remove! `''heap''` `''element''`)`
+`(heap-remove-smallest! `''heap''` `''element''`)`
 
-Removes ''element'' from ''heap'' unless it is not a member.  Returns unspecified values.
+Removes the smallest element of the heap (according to the ''<'' function) and returns it.  This operation should be O(log N) in the size of the heap.
 
-`(heap-map `''proc''` `''set''`)`
+`(heap-map `''proc''` `''heap''`)`
 
-Applies ''proc'' to each element of ''heap'' in increasing order and constructs and returns a new set containing the values of the applications.
+Applies ''proc'' to each element of ''heap'' in arbitrary order and constructs and returns a new heap containing the values of the applications.
 
-`(heap-for-each `''proc''` `''set''`)`
+`(heap-for-each `''proc''` `''heap''`)`
 
-Applies ''proc'' to ''heap'' in increasing order, discarding the returned values.  Returns unspecified results.
-
-`(heap-fold `''proc''` `''nil''` `''heap''`)`
-
-Invokes ''proc'' on each member of ''set'' in increasing order, passing the result of the previous invocation as a second argument.  For the first invocation, ''nil'' is used as the second argument.  Returns the result of the last invocation.
+Applies ''proc'' to ''heap'' in arbitrary order, discarding the returned values.  Returns an unspecified value.
 
 `(heap->list `''heap''`)`
 
-Constructs and returns a new list containing the members of ''set'' in increasing order.
+Constructs and returns a new list containing the members of ''heap'' in arbitrary order.
+
+`(heap->list! `''<''` `''heap''`)`
+
+Constructs and returns a new list containing the members of ''heap'' in increasing order.  ''Heap'' may be destroyed in the process.
 
 `(list->heap `''<''` `''list''`)`
 
-Constructs and returns a new set containing the elements of ''list''.  The elements need not be in increasing order.
+Constructs and returns a new heap containing the elements of ''list'' and using ''<'' as the ordering procedure.  This operation should be O(n) in the size of the heap.
 
 `(heap->vector `''heap''`)`
 
-Constructs and returns a new vector containing the elements of ''set'' in increasing order.
+Constructs and returns a new vector containing the elements of ''heap'' in arbitrary order.
+
+`(heap->vector! `''<''` `''heap''`)`
+
+Constructs and returns a new vector containing the elements of ''heap'' in increasing order.  ''Heap'' may be destroyed in the process.
 
 `(vector->heap `''<''` `''vector''`)`
 
-Constructs and returns a new heap containing the elements of ''vector''.  The elements need not be in increasing order.
+Constructs and returns a new heap containing the elements of ''vector'' and using ''<'' as the ordering procedure.  This operation should be O(n) in the size of the heap.
 
