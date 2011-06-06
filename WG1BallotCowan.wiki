@@ -33,7 +33,7 @@ References:
     * '''rush:''' UserAggregatesRush
     * '''snellpym:''' UniqueTypesSnellPym
   * '''Options:''' srfi-9, srfi-57, srfi-99, r6rs, cowan, hsu, medernach, rush, snellpym, none, wg2, undecided
-  * '''Default:''' none
+  * '''Default:''' srfi-9
   * '''Preferences:''' 
 
 === #28 binary I/O ports ===
@@ -65,7 +65,7 @@ WG1 voted weakly in favor of '''cowan''' before.
     * '''cowan:''' PortsCowan (subset relevant to binary I/O)
   * '''Options:''' r6rs, r6rs-simple, srfi-91, cowan, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' undecided
+  * '''Preferences:''' 
 
 === #83 Auxiliary Keywords ===
 
@@ -93,7 +93,7 @@ References:
 
   * '''Options:''' bound, unbound, unhygienic, undecided
   * '''Default:''' unbound
-  * '''Preferences:''' bound, unbound, unhygienic
+  * '''Preferences:''' 
 
 === #3 module naming convention ===
 
@@ -106,11 +106,14 @@ I/O module breakdown in PortsCowan.  There have been various tickets
 proposing changing this, so we are re-opening the ticket.
 
   * '''Proposals:'''
+    * '''draft-1:''' the first draft
     * '''r5rs:''' one single module
-    * '''r6rs:'''
-  * '''Options:''' r5rs, r6rs, undecided
-  * '''Default:''' r5rs
-  * '''Preferences:''' NOT VOTING ON THIS
+    * '''r6rs:''' no proposal yet
+    * '''cowan:''' ModuleFactoringCowan
+    * '''shinn:''' ModuleFactoringShinn
+  * '''Options:''' draft-1, r5rs, r6rs, cowan, shinn, undecided
+  * '''Default:''' draft-1
+  * '''Preferences:''' 
 
 = New Ballot Items =
 
@@ -124,7 +127,7 @@ WG1 proposal used blob (which is therefore the default).
 
   * '''Options:''' blob, bytevector, byte-vector, u8vector, octet-vector, undecided
   * '''Default:''' blob
-  * '''Preferences:''' blob, u8vector
+  * '''Preferences:''' 
 
 === #118 Simple literals must be explicitly delimited. ===
 
@@ -139,7 +142,7 @@ References:
 
   * '''Options:''' delimited, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' delimited
+  * '''Preferences:''' 
 
 === #119 Whether to treat # as a delimiter. ===
 
@@ -149,7 +152,7 @@ followed by the false literal.
 
   * '''Options:'''  delimiter, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' delimiter
+  * '''Preferences:''' 
 
 === #123 Extend unquote and unquote-splicing to multiple arguments ===
 
@@ -773,10 +776,12 @@ It would be useful to allow modules as an argument to eval in addition
 to environments.  This could be done with a special syntax, or just
 the module name as a list.
 
-Need proposals.
+R6RS provides a procedure `environment` which just
+takes a list that looks like an import spec an generates
+the corresponding environment.
 
-  * '''Options:''' 
-  * '''Default:''' 
+  * '''Options:''' r6rs, none, undecided
+  * '''Default:''' r6rs
   * '''Preferences:''' 
 
 === #139 `exit` ===
@@ -942,7 +947,7 @@ dependency)
   * '''Default:''' none
   * '''Preferences:''' 
 
-=== #138 DivisionRiastradh issues ===
+=== #138 DivisionRiastradh domain ===
 
 Zero as a divisor aside, what should the domain of the proposed
 procedures be?
@@ -951,13 +956,17 @@ procedures be?
  1. Integers only?
  1. Exact integers only?
 
+  * '''Options:''' 
+  * '''Default:''' 
+  * '''Preferences:''' 
+
+=== #217 DivisionRiastradh exactness preservation ===
+
 What about exactness preservation?
 
  1. Not exactness preserving
  1. Exactness preserving unless the implementation can prove that an inexact argument can't affect the result (as in the case of an exact zero dividend and an inexact divisor)
  1. Exactness preserving in all cases
-
-Need summary of R5RS, R6RS, and other proposals.
 
   * '''Options:''' 
   * '''Default:''' 
