@@ -34,7 +34,10 @@ References:
     * '''snellpym:''' UniqueTypesSnellPym
   * '''Options:''' srfi-9, srfi-57, srfi-99, r6rs, cowan, hsu, medernach, rush, snellpym, none, wg2, undecided
   * '''Default:''' srfi-9
-  * '''Preferences:''' 
+  * '''Preferences:''' srfi-9
+
+The most important thing about SRFI 9 is how pervasive it is (26 out of 30 implementations I track at http://tinyurl.com/scheme-s5 support it).  Yes,
+it's messy.  Yes, we should keep it.
 
 === #28 binary I/O ports ===
 
@@ -65,7 +68,7 @@ WG1 voted weakly in favor of '''cowan''' before.
     * '''cowan:''' PortsCowan (subset relevant to binary I/O)
   * '''Options:''' r6rs, r6rs-simple, srfi-91, cowan, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided
 
 === #83 Auxiliary Keywords ===
 
@@ -93,7 +96,9 @@ References:
 
   * '''Options:''' bound, unbound, unhygienic, undecided
   * '''Default:''' unbound
-  * '''Preferences:''' 
+  * '''Preferences:''' bound
+
+The arguments for binding this convince me.
 
 === #3 module naming convention ===
 
@@ -113,7 +118,9 @@ proposing changing this, so we are re-opening the ticket.
     * '''shinn:''' ModuleFactoringShinn
   * '''Options:''' draft-1, r5rs, r6rs, cowan, shinn, undecided
   * '''Default:''' draft-1
-  * '''Preferences:''' 
+  * '''Preferences:''' ModuleFactoringCowan
+
+Note that the `(scheme io)` module in the draft was never voted on and doesn't belong there.
 
 = New Ballot Items =
 
@@ -127,7 +134,10 @@ WG1 proposal used blob (which is therefore the default).
 
   * '''Options:''' blob, bytevector, byte-vector, u8vector, octet-vector, undecided
   * '''Default:''' blob
-  * '''Preferences:''' 
+  * '''Preferences:''' blob
+
+I call them blobs because I see them as objects whose size is measured in bytes, not
+specialized vectors of 8-bit unsigned integers.  It's easy to layer such an interpretation, along with many other interpretations, on top of blobs, but blobs should themselves remain simple for WG1.
 
 === #118 Simple literals must be explicitly delimited. ===
 
@@ -142,7 +152,9 @@ References:
 
   * '''Options:''' delimited, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' delimited
+
+Allowing "#true" to mean "#t rue" is just silly.  If implementations want to accept "#true", they should be able to do so.
 
 === #119 Whether to treat # as a delimiter. ===
 
@@ -152,7 +164,9 @@ followed by the false literal.
 
   * '''Options:'''  delimiter, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no
+
+Backward compatibility rules here.  Chicken depends heavily on identifiers with embedded #s.
 
 === #123 Extend unquote and unquote-splicing to multiple arguments ===
 
@@ -165,7 +179,7 @@ References:
 
   * '''Options:''' multiple, single, undecided
   * '''Default:''' single
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided
 
 === #124 Nested quasiquote semantics ===
 
@@ -175,7 +189,9 @@ References:
 
   * '''Options:''' r6rs, r5rs, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' 
+  * '''Preferences:''' r6rs
+
+R6RS is better defined, and we should accept it.  The vagueness in R5RS helps nobody.
 
 === #125 Allow procedures not to be locations (making EQV? unspecified in some additional cases) ===
 
@@ -183,7 +199,10 @@ This is a change also made by R6RS.
 
   * '''Options:''' r6rs, r5rs, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' 
+  * '''Preferences:''' r6rs
+
+Treating procedures as locations distinguishable by `eq?` is a hack nobody ought to depend on.
+
 
 === #126 Partly specify the mutability of the values of quasiquote structures ===
 
@@ -209,7 +228,9 @@ called before or after the dynamic extent is entered or exited.
     * '''inside:''' called inside the dynamic extent
     * '''unspecified:''' R5RS
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' outside
+
+I think ''outside'' was the intention of the R5RS authors and this should be clarified.
 
 === #135 let-values and let*-values ===
 
@@ -219,7 +240,9 @@ opening a new ticket for them.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
+
+Some implementations can optimize these over calls to `call-with-values`, and they are much more convenient most of the time.
 
 === #137 Current-seconds semantics still open ===
 
@@ -242,7 +265,10 @@ character-string names.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' 
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
+
+The issue here is that not all valid filenames are valid character strings: in Posix, filenames are sequences of 8-bit units excluding 0x00 and 0x2F, and on Windows they are sequences of 16-bit units with more exclusions.  Those don't necessarily translate one-to-one UTF-8 and UTF-16 respectively, or any other particular encoding.  The language of file specs used by `open-*-file` and friends allow implementation-specific extensions to cover these problems; `include(-ci)` should allow the same, as should `load`.
+
 
 === #148 Allow include-ci at top level ===
 
@@ -251,7 +277,10 @@ Currently `include-ci` is allowed in a module but not at top level, as
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
+
+That is, allow it and remove the restriction.  The point of `include-ci` is to bring in files of R5RS code that uses case typographically rather than orthographically.
+
 
 === #149 blob ports ===
 
@@ -263,7 +292,9 @@ against in the previous ballot.
 
   * '''Options:''' cowan, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:''' cowan
+
+Blob ports allow the construction and deconstruction of blobs in the same way that string ports allow the construction and deconstruction of strings, and should be provided for the same reasons.
 
 === #150 cond-expand at top level ===
 
@@ -272,7 +303,10 @@ at top level in a program?
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
+
+Scripts need the ability to decided which modules to load based on either the presence of other modules or specific criteria about the implementation, just as modules do.
+
 
 === #153 Renaming blob procedures ===
 
@@ -288,7 +322,10 @@ copy-partial-blob! -> blob-copy-partial!
 
   * '''Options:''' new, original, remove, undecided
   * '''Default:''' original
-  * '''Preferences:''' 
+  * '''Preferences:''' new
+
+The existence of the old names just shows that I didn't consider blobs and CompleteSequenceCowan in the same breath.  Let's fix that while we can.
+
 
 === #154 Physical newline in a string equivalent to \n (that is, U+000A) ===
 
@@ -299,7 +336,10 @@ as equivalent, even if the local representation of line endings is
 
   * '''Options:''' unix, local, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' unix
+
+Note that there is nothing Unix about this except that Unixen have the same convention.  As noted, many other languages prescribe it.
+
 
 === #155 Make recursively defined code an explicit error ===
 
@@ -314,7 +354,9 @@ compilers and interpreters) excessively complicated:
 
   * '''Options:''' error, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' error
+
+This does not mean that the error must be ''signalled'' (raised).  It just means that Scheme programmer shouldn't be allowed to depend on these tricks working, for some value of "working".
 
 === #156 Replace "an error is signalled" with "an implementation-dependent object is raised as if by `raise`" ===
 
@@ -337,7 +379,10 @@ fresh object.
 
   * '''Options:''' signal, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' signal
+
+I am not in favor of forcing Schemes to signal exceptions where they were not required to do so before.  But in those few cases, where implementations already must signal an exception, they should signal it so that it can be caught using the standard exception catcher.  The overhead of doing so should be nearly nil.
+
 
 === #162 Remove DELAY and FORCE altogether ===
 
@@ -350,7 +395,10 @@ means they won't be in a standard module.)
 
   * '''Options:''' remove, keep, undecided
   * '''Default:''' keep
-  * '''Preferences:''' 
+  * '''Preferences:''' remove
+
+I really don't want to standardize something that's known to be broken in existing non-SRFI-45 implementations.  They don't really provide lazy Scheme, and those who want actual Lazy Scheme know where to get it.
+
 
 === #164 Meaning of char-numeric? ===
 
@@ -382,7 +430,9 @@ nonexistent Unicode Numeric property.  That has to be fixed.  Options:
 
   * '''Options:''' any, number, digit, ascii, undecided
   * '''Default:''' ascii
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided
+
+I can't make up my mind here.
 
 === #166 Add predicate and accessors for error objects ===
 
@@ -417,7 +467,9 @@ Returns a list of the irritants of ''object''.
 
   * '''Options:''' manis, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:''' manis
+
+I understand Vincent to mean that `error-object?` returns `#t` if the object ''could'' have been created by `error`, not that it necessarily was.  So what is guaranteed is that objects raised by `error` satisfy `error-object?`, not that nothing else satisfies it.
 
 === #167 Add constructor for error objects ===
 
@@ -451,7 +503,9 @@ anything in WG1. `Error` can be defined as:
 
   * '''Options:''' manis, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:''' none
+
+I agree that developers should document what sort of condition objects their APIs raise, and that raising numbers is a Bad Thing.  But the fact is that existing code and implementations raise all sorts of things as condition objects:  in SRFI 12, they are lists.  Not everything can be stuffed into the message-irritants paradigm.
 
 === #169 Add standard-*-port procedures ===
 
@@ -461,7 +515,7 @@ standard input, output, and error streams.
 
   * '''Options:''' r6rs, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided
 
 === #171 Duplicate identifiers in define-record-type ===
 
@@ -478,7 +532,9 @@ symbolically equivalent but lexically distinct.
 
   * '''Options:''' error, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' error
+
+This makes no sense; it ought to be an error (that is, no conformant Scheme program should rely on what happens in such a case).
 
 === #173 Unifying BEGINs ===
 
@@ -513,7 +569,10 @@ that we unify them for R7RS.
 
   * '''Options:''' cowan, r5rs, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided
+
+I'm no longer sure I believe my own reasoning here.  If such a begin can only be used at the boundary between definitions and expressions, there's little sense in a macro returning it, as such a macro could only be used there either.
+
 
 === #174 Safe uses of multiple values ===
 
@@ -543,7 +602,10 @@ The definition of `begin` would need to change too:
 
   * '''Options:''' safe-values, r5rs, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' 
+  * '''Preferences:''' safe-values
+
+What makes obvious sense, and what almost all implementations permit anyway, should be permitted by the standard.  That is, programmers should be able to rely with confidence on its working, rather than just hoping they don't stumble across an implementation where it happens not to work.
+
 
 === #45 Record-let syntax and semantics ===
 
@@ -568,7 +630,9 @@ a given field ?
 
   * '''Options:''' record-let, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:''' none
+
+This is actually very nice; in particular, it is hygienic, unlike `with` statements in many languages..  However, it is primitive syntax (syntax-rules cannot implement it reliably unless it has access to the accessors of the record) and it is a novelty.  Let's push this to WG2.
 
 === #172 Multiple returns from `map` ===
 
