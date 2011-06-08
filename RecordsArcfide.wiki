@@ -87,7 +87,7 @@ make/use SRFI-9 code:
 {{{
 (define-syntax define-record-type
   (syntax-rules (%)
-    [[(_|% (name constructor predicate) (cargs ...) ((m fn rest ...) ...) ())
+    ((_ % (name constructor predicate) (cargs ...) ((m fn rest ...) ...) ())
      (begin
        (define-disjoint-type (name %constructor predicate)
 	 (fields (m fn rest ...) ...))
@@ -95,27 +95,26 @@ make/use SRFI-9 code:
 	 (let ()
 	   (define-syntax in-field
 	       (syntax-rules (fn ...)
-	       [(_ fn) #t]] ...
-	       [[(_|else) #f]]))
+	       ((_ fn) #t) ...
+	       ((_ else) #f)))
 	   (unless (in-field cargs) 
 	     (error 'define-record-type "no such field" 'cargs))
 	   ...
 	   (lambda (cargs ...)
 	     (define-syntax get-val
 	       (syntax-rules (cargs ...)
-		 [[(_|cargs) cargs]] ...
-		 [[(_|filtered) (if #f #f)]]))
-	     (%constructor (get-val fn) ...)))))]
-    [[(_|% bindings cargs (fcs ...) ((fn fa) rest ...))
+		 ((_ cargs) cargs) ...
+		 ((_ filtered) (if #f #f))))
+	     (%constructor (get-val fn) ...))))))
+    ((_ % bindings cargs (fcs ...) ((fn fa) rest ...))
      (define-record-type % bindings cargs 
-       (fcs ... (immutable fn fa)) (rest ...))]]
-    [[(_|% bindings cargs (fcs ...) ((fn fa fm) rest ...))
+       (fcs ... (immutable fn fa)) (rest ...)))
+    ((_ % bindings cargs (fcs ...) ((fn fa fm) rest ...))
      (define-record-type % bindings cargs 
-       (fcs ... (mutable fn fa fm)) (rest ...))]]
-    [[(_|name (constructor cargs ...) predicate fields ...)
+       (fcs ... (mutable fn fa fm)) (rest ...)))
+    ((_ name (constructor cargs ...) predicate fields ...)
      (define-record-type % (name constructor predicate) 
-       (cargs ...) () (fields ...))]]))
-}}}
+       (cargs ...) () (fields ...)))))}}}
 
 See the rationale notes about the filtering constructor for more 
 discussion about this.
@@ -127,9 +126,9 @@ then the following macro is sufficient:
 {{{
 (define-syntax define-disjoint-type
   (syntax-rules (fields)
-    [[(_|(name constructor predicate) (fields (m fn rest ...) ...))
+    ((_ (name constructor predicate) (fields (m fn rest ...) ...))
      (define-record-type name (constructor fn ...) predicate
-       (fn rest ...) ...)]]))
+       (fn rest ...) ...))))
 }}}
 
 The above assumes that a hygienic implementation of SRFI-9 is available.
@@ -280,7 +279,7 @@ macro quite nicely.
 {{{
 (define-syntax define-disjoint-type
   (syntax-rules (fields)
-    [[(_|(name constructor predicate)
+    ((_ (name constructor predicate)
 	(fields (m fn rest ...) ...))
      (begin
        (define name (cons 'name '()))
@@ -290,23 +289,23 @@ macro quite nicely.
 		 (+ 1 (length '(fn ...))))
 	      (eq? name (vector-ref val 0))))
        (define (constructor fn ...) (vector name fn ...))
-       (define-field-procs* 0 predicate (m fn rest ...) ...))]]))
+       (define-field-procs* 0 predicate (m fn rest ...) ...)))))
 (define-syntax define-field-procs*
   (syntax-rules ()
-    [[(_|counter predicate field-spec) 
-     (define-field-procs counter predicate field-spec)]]
-    [[(_|counter predicate field-spec rest ...)
+    ((_ counter predicate field-spec) 
+     (define-field-procs counter predicate field-spec))
+    ((_ counter predicate field-spec rest ...)
      (begin
        (define-field-procs counter predicate field-spec)
-       (define-field-procs* (+ 1 counter) predicate rest ...))]]))
+       (define-field-procs* (+ 1 counter) predicate rest ...)))))
 (define-syntax define-field-procs
   (syntax-rules (immutable mutable)
-    [[(_|counter predicate (immutable name accessor))
+    ((_ counter predicate (immutable name accessor))
      (define (accessor val)
        (unless (predicate val)
 	 (error 'accessor "invalid record" val))
-       (vector-ref val (+ 1 counter)))]]
-    [[(_|counter predicate (mutable name accessor mutator))
+       (vector-ref val (+ 1 counter))))
+    ((_ counter predicate (mutable name accessor mutator))
      (begin
        (define (accessor val)
 	 (unless (predicate val)
@@ -315,8 +314,7 @@ macro quite nicely.
        (define (mutator rec val)
 	 (unless (predicate rec)
 	   (error 'mutator "invalid record" rec))
-	 (vector-set! rec (+ 1 counter) val)))]]))
-}}}
+	 (vector-set! rec (+ 1 counter) val))))))}}}
 
 Here is a transcript of the expansion and evaluation of the above:
 
@@ -327,38 +325,38 @@ Here is a transcript of the expansion and evaluation of the above:
          (fields (immutable a get-a) (mutable b get-b set-b!)))
        (list (make 3 4) (test? (make 3 4)) 
              (get-a (make 3 4)) (get-b (make 3 4)) 
-             (let ([[v|(make 3 4)]]) (set-b! v 7) (get-b v)))))
-(letrec* ([[test.35|(#2%cons 'test '())]]
-          [[test?.36|(lambda (val.37)
+             (let ((v (make 3 4))) (set-b! v 7) (get-b v)))))
+(letrec* ((test.35 (#2%cons 'test '()))
+          (test?.36 (lambda (val.37)
                       (if (#2%vector? val.37)
                           (if (#2%=
                                 (#2%vector-length val.37)
                                 (#2%+ 1 (#2%length '(a b))))
                               (#2%eq? test.35 (#2%vector-ref val.37 0))
                               #f)
-                          #f))]]
-          [[make.38|(lambda (a.39 b.40) (#2%vector test.35 a.39 b.40))]]
-          [[get-a.41|(lambda (val.42)
+                          #f)))
+          (make.38 (lambda (a.39 b.40) (#2%vector test.35 a.39 b.40)))
+          (get-a.41 (lambda (val.42)
                       (if (#2%not (test?.36 val.42))
                           (#2%error 'get-a "invalid record" val.42)
                           (#2%void))
-                      (#2%vector-ref val.42 (#2%+ 1 0)))]]
-          [[get-b.43|(lambda (val.44)
+                      (#2%vector-ref val.42 (#2%+ 1 0))))
+          (get-b.43 (lambda (val.44)
                       (if (#2%not (test?.36 val.44))
                           (#2%error 'get-b "invalid record" val.44)
                           (#2%void))
-                      (#2%vector-ref val.44 (#2%+ 1 (#2%+ 1 0))))]]
-          [[set-b!.45|(lambda (rec.46 val.47)
+                      (#2%vector-ref val.44 (#2%+ 1 (#2%+ 1 0)))))
+          (set-b!.45 (lambda (rec.46 val.47)
                        (if (#2%not (test?.36 rec.46))
                            (#2%error 'set-b! "invalid record" rec.46)
                            (#2%void))
                        (#2%vector-set!
                          rec.46
                          (#2%+ 1 (#2%+ 1 0))
-                         val.47))]])
+                         val.47))))
   (#2%list (make.38 3 4) (test?.36 (make.38 3 4))
     (get-a.41 (make.38 3 4)) (get-b.43 (make.38 3 4))
-    (let ([[v.48|(make.38 3 4)]])
+    (let ((v.48 (make.38 3 4)))
       (set-b!.45 v.48 7)
       (get-b.43 v.48))))
 > (expand/optimize 
@@ -367,12 +365,12 @@ Here is a transcript of the expansion and evaluation of the above:
          (fields (immutable a get-a) (mutable b get-b set-b!)))
        (list (make 3 4) (test? (make 3 4)) 
              (get-a (make 3 4)) (get-b (make 3 4)) 
-             (let ([[v|(make 3 4)]]) (set-b! v 7) (get-b v)))))
-(let ([[test.49|(#2%cons 'test '())]])
-  (let ([[val.50|(#2%vector test.49 3 4)]])
-    (let ([[val.51|(#2%vector test.49 3 4)]])
-      (let ([[val.52|(#2%vector test.49 3 4)]])
-        (let ([[v.53|(#2%vector test.49 3 4)]])
+             (let ((v (make 3 4))) (set-b! v 7) (get-b v)))))
+(let ((test.49 (#2%cons 'test '())))
+  (let ((val.50 (#2%vector test.49 3 4)))
+    (let ((val.51 (#2%vector test.49 3 4)))
+      (let ((val.52 (#2%vector test.49 3 4)))
+        (let ((v.53 (#2%vector test.49 3 4)))
           (#2%list (#2%vector test.49 3 4)
             (if (#2%vector? val.50)
                 (if (#2%= (#2%vector-length val.50) 3)
@@ -423,6 +421,6 @@ Here is a transcript of the expansion and evaluation of the above:
       (fields (immutable a get-a) (mutable b get-b set-b!)))
     (list (make 3 4) (test? (make 3 4)) 
           (get-a (make 3 4)) (get-b (make 3 4)) 
-          (let ([[v|(make 3 4)]]) (set-b! v 7) (get-b v))))
+          (let ((v (make 3 4))) (set-b! v 7) (get-b v))))
 (#((test) 3 4) #t 3 4 7)
 }}}
