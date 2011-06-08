@@ -265,3 +265,55 @@ record systems will bind the name, and it is important not to let
 user's think that they may in fact bind `name` to something else
 with the same results. This ensures upwards compatibility with 
 an extended record system provided by WG2.
+
+== R5RS Portable Implementation ==
+
+The following is a somewhat faithful portable implementation of the 
+above proposal in R5RS Scheme. Types fail to be disjoint against
+vectors but otherwise the major features of the above are provided.
+I also assume an error reporting mechanism and `when/unless`.
+I would actually prefer to do this all as a single macro, but it 
+works like this. If you are willing to accept common extensions to 
+R5RS such as internal define-syntax then you can do this as one 
+macro quite nicely.
+
+{{{
+(define-syntax define-disjoint-type
+  (syntax-rules (fields)
+    [[(_|(name constructor predicate)
+	(fields (m fn rest ...) ...))
+     (begin
+       (define name (cons 'name '()))
+       (define (predicate val)
+	 (and (vector? val)
+	      (= (vector-length val)
+		 (+ 1 (length '(fn ...))))
+	      (eq? name (vector-ref val 0))))
+       (define (constructor fn ...) (vector name fn ...))
+       (define-field-procs* 0 predicate (m fn rest ...) ...))]]))
+(define-syntax define-field-procs*
+  (syntax-rules ()
+    [[(_|counter predicate field-spec) 
+     (define-field-procs counter predicate field-spec)]]
+    [[(_|counter predicate field-spec rest ...)
+     (begin
+       (define-field-procs counter predicate field-spec)
+       (define-field-procs* (+ 1 counter) predicate rest ...))]]))
+(define-syntax define-field-procs
+  (syntax-rules (immutable mutable)
+    [[(_|counter predicate (immutable name accessor))
+     (define (accessor val)
+       (unless (predicate val)
+	 (error 'accessor "invalid record" val))
+       (vector-ref val (+ 1 counter)))]]
+    [[(_|counter predicate (mutable name accessor mutator))
+     (begin
+       (define (accessor val)
+	 (unless (predicate val)
+	   (error 'accessor "invalid record" val))
+	 (vector-ref val (+ 1 counter)))
+       (define (mutator rec val)
+	 (unless (predicate rec)
+	   (error 'mutator "invalid record" rec))
+	 (vector-set! rec (+ 1 counter) val)))]]))
+}}}
