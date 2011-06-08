@@ -114,7 +114,8 @@ make/use SRFI-9 code:
        (fcs ... (mutable fn fa fm)) (rest ...)))
     ((_ name (constructor cargs ...) predicate fields ...)
      (define-record-type % (name constructor predicate) 
-       (cargs ...) () (fields ...)))))}}}
+       (cargs ...) () (fields ...)))))
+}}}
 
 See the rationale notes about the filtering constructor for more 
 discussion about this.
@@ -314,7 +315,8 @@ macro quite nicely.
        (define (mutator rec val)
 	 (unless (predicate rec)
 	   (error 'mutator "invalid record" rec))
-	 (vector-set! rec (+ 1 counter) val))))))}}}
+	 (vector-set! rec (+ 1 counter) val))))))
+}}}
 
 Here is a transcript of the expansion and evaluation of the above:
 
