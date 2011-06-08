@@ -120,6 +120,23 @@ make/use SRFI-9 code:
 See the rationale notes about the filtering constructor for more 
 discussion about this.
 
+Additionally, if an implementation wishes to implement this records system
+on top of their own (assuming that they have SRFI-9 already implemented), 
+then the following macro is sufficient:
+
+{{{
+(define-syntax define-disjoint-type
+  (syntax-rules (fields)
+    [[(_|(name constructor predicate) (fields (m fn rest ...) ...))
+     (define-record-type name (constructor fn ...) predicate
+       (fn rest ...) ...)]]))
+}}}
+
+The above assumes that a hygienic implementation of SRFI-9 is available.
+Without a hygienic implementation of SRFI-9, the implementor must take 
+care to deal with the cases where the field names are symbolically 
+equal but not hygienically/lexically equivalent.
+
 == Rationale ==
 
 '''Dropping the filtering constructor.'''
