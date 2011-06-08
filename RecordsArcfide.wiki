@@ -317,3 +317,112 @@ macro quite nicely.
 	   (error 'mutator "invalid record" rec))
 	 (vector-set! rec (+ 1 counter) val)))]]))
 }}}
+
+Here is a transcript of the expansion and evaluation of the above:
+
+{{{
+> (expand 
+    '(let () 
+       (define-disjoint-type (test make test?) 
+         (fields (immutable a get-a) (mutable b get-b set-b!)))
+       (list (make 3 4) (test? (make 3 4)) 
+             (get-a (make 3 4)) (get-b (make 3 4)) 
+             (let ([[v|(make 3 4)]]) (set-b! v 7) (get-b v)))))
+(letrec* ([[test.35|(#2%cons 'test '())]]
+          [[test?.36|(lambda (val.37)
+                      (if (#2%vector? val.37)
+                          (if (#2%=
+                                (#2%vector-length val.37)
+                                (#2%+ 1 (#2%length '(a b))))
+                              (#2%eq? test.35 (#2%vector-ref val.37 0))
+                              #f)
+                          #f))]]
+          [[make.38|(lambda (a.39 b.40) (#2%vector test.35 a.39 b.40))]]
+          [[get-a.41|(lambda (val.42)
+                      (if (#2%not (test?.36 val.42))
+                          (#2%error 'get-a "invalid record" val.42)
+                          (#2%void))
+                      (#2%vector-ref val.42 (#2%+ 1 0)))]]
+          [[get-b.43|(lambda (val.44)
+                      (if (#2%not (test?.36 val.44))
+                          (#2%error 'get-b "invalid record" val.44)
+                          (#2%void))
+                      (#2%vector-ref val.44 (#2%+ 1 (#2%+ 1 0))))]]
+          [[set-b!.45|(lambda (rec.46 val.47)
+                       (if (#2%not (test?.36 rec.46))
+                           (#2%error 'set-b! "invalid record" rec.46)
+                           (#2%void))
+                       (#2%vector-set!
+                         rec.46
+                         (#2%+ 1 (#2%+ 1 0))
+                         val.47))]])
+  (#2%list (make.38 3 4) (test?.36 (make.38 3 4))
+    (get-a.41 (make.38 3 4)) (get-b.43 (make.38 3 4))
+    (let ([[v.48|(make.38 3 4)]])
+      (set-b!.45 v.48 7)
+      (get-b.43 v.48))))
+> (expand/optimize 
+    '(let () 
+       (define-disjoint-type (test make test?) 
+         (fields (immutable a get-a) (mutable b get-b set-b!)))
+       (list (make 3 4) (test? (make 3 4)) 
+             (get-a (make 3 4)) (get-b (make 3 4)) 
+             (let ([[v|(make 3 4)]]) (set-b! v 7) (get-b v)))))
+(let ([[test.49|(#2%cons 'test '())]])
+  (let ([[val.50|(#2%vector test.49 3 4)]])
+    (let ([[val.51|(#2%vector test.49 3 4)]])
+      (let ([[val.52|(#2%vector test.49 3 4)]])
+        (let ([[v.53|(#2%vector test.49 3 4)]])
+          (#2%list (#2%vector test.49 3 4)
+            (if (#2%vector? val.50)
+                (if (#2%= (#2%vector-length val.50) 3)
+                    (#2%eq? test.49 (#2%vector-ref val.50 0))
+                    #f)
+                #f)
+            (begin
+              (if (#2%not
+                    (if (#2%vector? val.51)
+                        (if (#2%= (#2%vector-length val.51) 3)
+                            (#2%eq? test.49 (#2%vector-ref val.51 0))
+                            #f)
+                        #f))
+                  (#2%error 'get-a "invalid record" val.51)
+                  (#2%void))
+              (#2%vector-ref val.51 1))
+            (begin
+              (if (#2%not
+                    (if (#2%vector? val.52)
+                        (if (#2%= (#2%vector-length val.52) 3)
+                            (#2%eq? test.49 (#2%vector-ref val.52 0))
+                            #f)
+                        #f))
+                  (#2%error 'get-b "invalid record" val.52)
+                  (#2%void))
+              (#2%vector-ref val.52 2))
+            (begin
+              (if (#2%not
+                    (if (#2%vector? v.53)
+                        (if (#2%= (#2%vector-length v.53) 3)
+                            (#2%eq? test.49 (#2%vector-ref v.53 0))
+                            #f)
+                        #f))
+                  (#2%error 'set-b! "invalid record" v.53)
+                  (#2%void))
+              (#2%vector-set! v.53 2 7)
+              (if (#2%not
+                    (if (#2%vector? v.53)
+                        (if (#2%= (#2%vector-length v.53) 3)
+                            (#2%eq? test.49 (#2%vector-ref v.53 0))
+                            #f)
+                        #f))
+                  (#2%error 'get-b "invalid record" v.53)
+                  (#2%void))
+              (#2%vector-ref v.53 2))))))))
+> (let () 
+    (define-disjoint-type (test make test?) 
+      (fields (immutable a get-a) (mutable b get-b set-b!)))
+    (list (make 3 4) (test? (make 3 4)) 
+          (get-a (make 3 4)) (get-b (make 3 4)) 
+          (let ([[v|(make 3 4)]]) (set-b! v 7) (get-b v))))
+(#((test) 3 4) #t 3 4 7)
+}}}
