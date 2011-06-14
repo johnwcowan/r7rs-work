@@ -174,7 +174,12 @@ References:
   * http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_sec_11.17
   * http://lists.nongnu.org/archive/html/chicken-hackers/2010-12/msg00008.html
 
-  * '''Options:''' r6rs, r5rs, undecided
+  * '''Proposals:'''
+    * '''r5rs:''' unspecified
+    * '''r6rs:''' strict and multiple (implies multiple for #123)
+    * '''chicken:''' strict at level 0 (option 2 in second reference)
+    * '''strict:''' strict at all levels (R6RS with single for #123)
+  * '''Options:''' r5rs, r6rs, chicken, strict, undecided
   * '''Default:''' r5rs
   * '''Preferences:''' 
 
