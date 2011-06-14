@@ -185,7 +185,11 @@ References:
 
 === #125 Allow procedures not to be locations (making EQV? unspecified in some additional cases) ===
 
-This is a change also made by R6RS.
+This is a change also made by R6RS, specifically:
+
+> A quasiquote expression may return either fresh, mutable objects or literal structure
+> for any structure that is constructed at run time during the evaluation of the expression.
+> Portions that do not need to be rebuilt are always literal
 
   * '''Options:''' r6rs, r5rs, undecided
   * '''Default:''' r5rs
