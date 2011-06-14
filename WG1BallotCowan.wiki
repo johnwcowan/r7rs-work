@@ -397,9 +397,10 @@ means they won't be in a standard module.)
 
   * '''Options:''' remove, keep, undecided
   * '''Default:''' keep
-  * '''Preferences:''' remove
+  * '''Preferences:''' lazy, remove
 
-'''Rationale:''' I really don't want to standardize something that's known to be broken in existing non-SRFI-45 implementations.  They don't really provide lazy Scheme, and those who want actual Lazy Scheme know where to get it.
+'''Rationale:''' Alex added lazy (i.e. SRFI 45) back to the ballot, so I voted
+for it.  Failing that, I really don't want to standardize something that's known to be broken in existing non-SRFI-45 implementations.  They don't really provide lazy Scheme, and those who want actual Lazy Scheme know where to get it.
 
 
 === #164 Meaning of char-numeric? ===
@@ -706,16 +707,6 @@ OTOH, it is unclear to me if WG1 allows this or not.
   * '''Preferences:''' undecided
 
 == WG1 - Modules ==
-
-=== #98 Semantics of  REPLs ===
-
-Should we define the semantics of REPLs?  If so, how?
-
-Possibly remove - several items below specify parts of this.
-
-  * '''Options:''' 
-  * '''Default:''' 
-  * '''Preferences:''' 
 
 === #112 REPL redefinitions ===
 
