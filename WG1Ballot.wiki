@@ -214,10 +214,11 @@ R5RS is slightly ambiguous, saying
 without saying clearly whether ''before'' and ''after'' themselves are
 called before or after the dynamic extent is entered or exited.
 
-  * '''Options:''' outside, inside, unspecified, undecided
+  * '''Proposals:'''
     * '''outside:''' called outside the dynamic extent (R6RS)
     * '''inside:''' called inside the dynamic extent
     * '''unspecified:''' R5RS
+  * '''Options:''' outside, inside, unspecified, undecided
   * '''Default:''' unspecified
   * '''Preferences:''' 
 
@@ -227,7 +228,7 @@ These R6RS procedures were part of #77 (modularization of multiple
 values), but were never explicitly voted up or down by WG1, so I'm
 opening a new ticket for them.
 
-  * '''Options:''' yes, no, undecided
+  * '''Options:''' yes, no, module, wg2, undecided
   * '''Default:''' no
   * '''Preferences:''' 
 
@@ -247,17 +248,19 @@ Need proposals.
 
 === #147 Allow literal file spec lists in include and include-ci ===
 
-This will be necessary on implementations where some files don't have
-character-string names.
+This could allow implementation-specific extensions to support files
+don't have character-string names.  On the other hand, such names
+probably shouldn't be used as source files, and there are other ways
+to support this.
 
   * '''Options:''' yes, no, undecided
-  * '''Default:''' 
+  * '''Default:''' no
   * '''Preferences:''' 
 
 === #148 Allow include-ci at top level ===
 
-Currently `include-ci` is allowed in a module but not at top level, as
-`include` is.  That's an arbitrary restriction that should be removed.
+Currently `include-ci` is allowed as a module declaration but not at top level,
+as `include` is.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
@@ -277,8 +280,8 @@ against in the previous ballot.
 
 === #150 cond-expand at top level ===
 
-Currently `cond-expand` is only valid in a module.  Should we allow it
-at top level in a program?
+Currently `cond-expand` is only valid as a module declaration.  Should
+we allow it at top level in a program?
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
@@ -295,6 +298,9 @@ copy-blob! => blob-copy!
 partial-blob => blob-copy-partial
 copy-partial-blob! -> blob-copy-partial!
 }}}
+
+Note this is modulo the choice of "blob" or "bytevector"
+or whichever.
 
   * '''Options:''' new, original, remove, undecided
   * '''Default:''' original
@@ -358,7 +364,10 @@ consider removing them from the standard altogether.  (Of course this
 does not mean compliant implementations can't provide them, it just
 means they won't be in a standard module.)
 
-  * '''Options:''' remove, keep, undecided
+Since the inconsistency was raised and people are going so far as
+to remove these, we can entertain votes for SRFI-45's `lazy` again.
+
+  * '''Options:''' remove, keep, lazy, undecided
   * '''Default:''' keep
   * '''Preferences:''' 
 
@@ -647,21 +656,11 @@ OTOH, it is unclear to me if WG1 allows this or not.
           p)))
 }}}
 
-  * '''Options:''' r6rs, r5rs, undecided
+  * '''Options:''' r6rs, r5rs, tonder, undecided
   * '''Default:''' r5rs
   * '''Preferences:''' 
 
 == WG1 - Modules ==
-
-=== #98 Semantics of  REPLs ===
-
-Should we define the semantics of REPLs?  If so, how?
-
-Possibly remove - several items below specify parts of this.
-
-  * '''Options:''' 
-  * '''Default:''' 
-  * '''Preferences:''' 
 
 === #112 REPL redefinitions ===
 
@@ -669,7 +668,7 @@ R5RS leaves unspecified the semantics of redefining a standard binding
 in the REPL.  Do we want to specify semantics, or some set of allowed
 behavior for this in the WG1 standard?
 
-REPLs may allow redefinition.  The four cases that occur are
+REPLs may allow redefinition.  The sixteen cases that occur are
 redefining to/from syntax/non-syntax locally/imported, and the issue
 is what happens to previous references to the definition.  The general
 possibilities are:
@@ -691,10 +690,12 @@ are feasible:
 Not all 64 combinations necessarily make sense.  The default from R5RS
 is "unspecified", which means all 16 values are unspecified.
 
-  * '''Options:''' override, preserve, common, unspecified, undecided
+  * '''Proposals:'''
     * '''override:''' override for all 16 values (non-syntax to syntax can break closure references)
     * '''preserve:''' preserve for all 16 values (must always create a new definition, not mutate, contrary to most implementations)
     * '''common:''' most common behavior among implementations - override, except preserve for non-syntax to syntax
+    * '''dynamic:''' override, except unspecified for non-syntax to syntax (compatible with all implementations)
+  * '''Options:''' override, preserve, common, dynamic, unspecified, undecided
   * '''Default:''' unspecified
   * '''Preferences:''' 
 
@@ -966,7 +967,7 @@ procedures be?
  1. Integers only?
  1. Exact integers only?
 
-  * '''Options:''' 
+  * '''Options:''' reals, integers, exact-integers
   * '''Default:''' 
   * '''Preferences:''' 
 
@@ -978,7 +979,7 @@ What about exactness preservation?
  1. Exactness preserving unless the implementation can prove that an inexact argument can't affect the result (as in the case of an exact zero dividend and an inexact divisor)
  1. Exactness preserving in all cases
 
-  * '''Options:''' 
+  * '''Options:''' not-exactness-preserving, exactness-preserving, exactness-preserving-unless
   * '''Default:''' 
   * '''Preferences:''' 
 
@@ -1029,8 +1030,10 @@ both the real part and the imaginary part are finite and not `+nan.0`,
 and that `nan?` return `#t` on a non-real value iff either the real or
 the imaginary part is `+nan.0`.
 
-  * '''Options:''' 
-  * '''Default:''' 
+  * '''Proposals:'''
+    * '''cowan:''' the above description
+  * '''Options:''' cowan, unspecified, undecided
+  * '''Default:''' unspecified
   * '''Preferences:''' 
 
 === #152 exact-integer-sqrt inconsistent with multiple values module ===
@@ -1077,7 +1080,7 @@ coming from other languages, as will almost always be the case.  LOOP
 is too big and named-LET too alien.
 
   * '''Options:''' yes, no, undecided
-  * '''Default:''' 
+  * '''Default:''' no
   * '''Preferences:''' 
 
 === #183 Escaped newline removes following whitespace? ===
@@ -1121,7 +1124,7 @@ Gauche, MIT, Chicken, Bigloo, Scheme48/scsh, Kawa, SISC, Chibi,
 STklos, and SSCM don't.
 
   * '''Options:''' yes, no, undecided
-  * '''Default:''' 
+  * '''Default:''' no
   * '''Preferences:''' 
 
 === #185 Add sixth "centered" division operator ===
@@ -1228,8 +1231,8 @@ R6RS provides a `#vu8(...)` read-syntax for bytevectors.  SRFI-4 uses
 Add a note saying that `1@2` and `(make-polar 1 2)` MAY evaluate to an
 inexact complex number.
 
-  * '''Options:''' 
-  * '''Default:''' 
+  * '''Options:''' yes, no, undecided
+  * '''Default:''' no
   * '''Preferences:''' 
 
 === #208 Is || a valid identifier? ===
