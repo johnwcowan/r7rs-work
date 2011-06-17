@@ -920,8 +920,14 @@ References:
 
 This is a change also made by R6RS.
 
-TODO: explain the exact diff, why it is desirable, and whether any
-reasonable alternatives are possible.
+R5RS says:
+
+  Returns z1 raised to the power z2. For z1 /= 0, z1^z2^ = e^z2^ log z1; 0^z^ is 1 if z = 0 and 0 otherwise.
+
+R6RS says:
+
+  Returns z1 raised to the power z2. For nonzero z1, this is e^z2^ log z1. 0.0^z^ is 1.0 if z = 0.0, and 0.0 if (real-part z) is positive. For other cases in which the first argument is zero, either an exception is raised [...] or an unspecified number object is returned.
+
 
   * '''Options:''' r6rs, r5rs, undecided
   * '''Default:''' r5rs
