@@ -179,7 +179,9 @@ References:
 
   * '''Options:''' multiple, single, undecided
   * '''Default:''' single
-  * '''Preferences:''' undecided
+  * '''Preferences:''' single
+
+'''Rationale:''' I'm not convinced this is useful enough.
 
 === #124 Nested quasiquote semantics ===
 
@@ -210,7 +212,9 @@ This is a change also made by R6RS.
 
   * '''Options:''' r6rs, r5rs, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' undecided
+  * '''Preferences:''' r6rs
+
+'''Rationale:''' This is a useful provision and doesn't constrain anyone much.
 
 === #127 Specify the dynamic environment of the ''before'' and ''after'' procedures of dynamic-wind ===
 
@@ -433,7 +437,9 @@ nonexistent Unicode Numeric property.  That has to be fixed.  Options:
 
   * '''Options:''' any, number, digit, ascii, undecided
   * '''Default:''' ascii
-  * '''Preferences:''' undecided
+  * '''Preferences:''' digit
+
+'''Rationale:'''  There is no advantage to allowing U+0660 (Arabic-style 0) to be called non-numeric.  Of course, there is no requirement for an application to support this character, but if it does support it, it should tell the truth about it, just as Arabic letters should be reported as alphabetic.  On the other hand, letter-based numbers, fractions, Roman numerals don't really fit the traditional profile of numeric characters, which is why the expansive ''number'' and ''any'' choices don't seem appropriate.
 
 === #166 Add predicate and accessors for error objects ===
 
@@ -516,7 +522,9 @@ standard input, output, and error streams.
 
   * '''Options:''' r6rs, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' undecided
+  * '''Preferences:''' none
+
+'''Rationale:''' As Alex says, these are tricky to get right, and anyway the description here does ''not'' match R6RS, which requires the `standard-*-port` procedures to return ''fresh'' ports.  Let's not go there.
 
 === #171 Duplicate identifiers in define-record-type ===
 
@@ -642,7 +650,9 @@ are multiple returns from map. Should we include this language?
 
   * '''Options:''' r6rs, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' undecided
+  * '''Preferences:''' r6rs
+
+'''Rationale''':  This prevents an implementation based on directly mutating a string, vector, or list, but I think the results are better.
 
 === #178 Shadowing with internal definitions ===
 
@@ -704,7 +714,9 @@ OTOH, it is unclear to me if WG1 allows this or not.
 
   * '''Options:''' r6rs, r5rs, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' undecided
+  * '''Preferences:''' r6rs
+
+'''Rationale:''' I'm more willing to believe that the R6RS people got this right than that we did.
 
 == WG1 - Modules ==
 
@@ -1005,7 +1017,7 @@ reasonable alternatives are possible.
 
   * '''Options:''' r6rs, r5rs, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' undecided
+  * '''Preferences:''' r6rs
 
 === #122 Make infinity, NaN, and -0.0 semantics (when supported) consistent with IEEE 754 ===
 
@@ -1319,7 +1331,9 @@ to and from lists/vectors/strings.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' undecided
+  * '''Preferences:''' no
+
+'''Rationale:'''  Too much for WG1.
 
 === #205 Roll partial-blob-copy(!) into blob-copy(!) ===
 
