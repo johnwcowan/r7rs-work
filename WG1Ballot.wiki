@@ -111,6 +111,7 @@ proposing changing this, so we are re-opening the ticket.
     * '''r5rs:''' one single module
     * '''r6rs:''' no proposal yet
     * '''cowan:''' ModuleFactoringCowan
+    * '''gleckler:''' ModuleFactoringGleckler
     * '''shinn:''' ModuleFactoringShinn
   * '''Options:''' draft-1, r5rs, r6rs, cowan, shinn, undecided
   * '''Default:''' draft-1
