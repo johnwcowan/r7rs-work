@@ -114,7 +114,8 @@ proposing changing this, so we are re-opening the ticket.
     * '''cowan:''' ModuleFactoringCowan
     * '''gleckler:''' ModuleFactoringGleckler
     * '''shinn:''' ModuleFactoringShinn
-  * '''Options:''' draft-1, r5rs, r6rs, cowan, shinn, undecided
+    * '''medernach:''' ModuleFactoringMedernach
+  * '''Options:''' draft-1, r5rs, r6rs, cowan, shinn, medernach, undecided
   * '''Default:''' draft-1
   * '''Preferences:''' 
 
