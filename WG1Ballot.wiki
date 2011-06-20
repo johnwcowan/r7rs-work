@@ -312,9 +312,10 @@ or whichever.
 R5RS leaves this situation undefined, but R6RS, CL, and most languages
 that allow it (C does not) treat physical newline and escaped newline
 as equivalent, even if the local representation of line endings is
-\r\n or U+0085 or what not.
+\r\n or U+0085 or what not.  Another possibility is to treat string literals
+broken across lines as errors.
 
-  * '''Options:''' unix, local, unspecified, undecided
+  * '''Options:''' unix, local, error, unspecified, undecided
   * '''Default:''' unspecified
   * '''Preferences:''' 
 
