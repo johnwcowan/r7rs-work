@@ -14,8 +14,10 @@ Here's my counterproposal to ModuleFactoringShinn, with rationales:
    * Alex and I agree on this one.  The essence of this module is that it does things which, on a full-Unicode system, require a big table.  Making it a module means that you can have full Unicode without the big table unless specific code requires it.
  * Move `char-alphabetic?`, `char-numeric?`, `char-upper-case?`, `char-lower-case?` and `char-whitespace?` to `(scheme char)`.
    * Alex and I agree on this one; not doing it in the first place was an oversight on my part.
- * Move the normalization procedures to `(scheme normalization)`.
-   * Alex and I basically agree on this one, as normalization requires even bigger tables than the other procedures in `(scheme char)`, except that Alex wants the name to be `(scheme char normalization)`. I prefer to keep the names of WG1 modules simple.
+ * Move the normalization procedures to `(scheme char normalization)`.
+   * I still prefer to keep the names of WG1 modules simple, but okay, fine.
+
+== Not part of the proposal ==
 
 Alex says that depending on discussion, he would consider moving
 the following out of the core:
