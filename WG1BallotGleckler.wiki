@@ -28,6 +28,7 @@ References:
 
   * '''Proposals:'''
     * '''cowan:''' RecordsCowan
+    * '''gleckler:''' RecordsGleckler, which is just RecordsCowan plus RecordsArcfide
     * '''hsu:''' RecordsArcfide
     * '''medernach:''' AggregatesMedernach
     * '''rush:''' UserAggregatesRush
