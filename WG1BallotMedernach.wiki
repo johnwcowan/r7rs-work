@@ -97,12 +97,12 @@ proposing changing this, so we are re-opening the ticket.
     * '''r5rs:''' one single module
     * '''r6rs:''' no proposal yet
     * '''cowan:''' ModuleFactoringCowan
+    * '''gleckler:''' ModuleFactoringGleckler
     * '''shinn:''' ModuleFactoringShinn
-  * '''Options:''' draft-1, r5rs, r6rs, cowan, shinn, undecided
+    * '''medernach:''' ModuleFactoringMedernach
+  * '''Options:''' draft-1, r5rs, r6rs, cowan, gleckler, shinn, medernach, undecided
   * '''Default:''' draft-1
-  * '''Preferences:''' undecided
-
-Would it be possible to break this item in multiple items ?
+  * '''Preferences:''' medernach, gleckler, shinn, cowan, undecided
 
 = New Ballot Items =
 
