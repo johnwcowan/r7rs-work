@@ -2,6 +2,7 @@ Here's my counterproposal to ModuleFactoringShinn, with rationales:
 
  * Move `(scheme io)` back to the base.
    * It provides string-ports and the shared function of all ports, and there is no reason why all Schemes shouldn't provide these.  Note that `(scheme io)` was never actually proposed or voted on, and its presence in the first draft is an error by the editors.
+   * Failing this, I prefer the name `(scheme ports)` from ModuleFactoringMedernach to `(scheme io)`, since by themselves these routines don't actually provide input to or output from the program.
  * Don't provide an umbrella module for I/O.
    * Files, reading Scheme objects, and writing Scheme objects are orthogonal.  Demanding that your implementation provide all of them as a matter of course, across the whole range of Schemes, doesn't make much sense.  We already have a ticket allowing Schemes to pre-import whichever modules they want in the REPL.
  * Leave `interaction-environment` in the `(scheme repl)` module.
