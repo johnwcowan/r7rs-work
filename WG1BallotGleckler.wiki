@@ -35,12 +35,16 @@ References:
     * '''snellpym:''' UniqueTypesSnellPym
   * '''Options:''' srfi-9, srfi-57, srfi-99, r6rs, cowan, hsu, medernach, rush, snellpym, none, wg2, undecided
   * '''Default:''' srfi-9
-  * '''Preferences:''' cowan, snellpym+inheritance+mutate, medernach | snellpym+mutate, hsu, srfi-9, wg2, srfi-99, r6rs, snellpym
+  * '''Preferences:''' gleckler, cowan, snellpym+inheritance+mutate, medernach | snellpym+mutate, hsu, srfi-9, wg2, srfi-99, r6rs, snellpym
 
 I had initially voted for SRFI 99 as my top choice, but I'm now
 convinced that that's just too complicated a system for core Scheme.
 We need something more fundamental upon which other systems can be
 built.
+
+However, I don't want to give up convenient syntax, so I've added a new
+choice, RecordsGleckler, which is simple combination of RecordsCowan
+and RecordsArcfide.  That way, we get both.
 
 SRFI 9 is widely used and is about the simplest syntactic
 implementation one could hope for.  It doesn't support inheritance.
