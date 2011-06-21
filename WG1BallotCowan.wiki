@@ -68,7 +68,7 @@ WG1 voted weakly in favor of '''cowan''' before.
     * '''cowan:''' PortsCowan (subset relevant to binary I/O)
   * '''Options:''' r6rs, r6rs-simple, srfi-91, cowan, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' undecided
+  * '''Preferences:''' cowan, srfi-91, r6rs-simple, r6rs, none
 
 === #83 Auxiliary Keywords ===
 
