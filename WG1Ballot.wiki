@@ -43,8 +43,7 @@ Do we provide any binary input or output ports, and if so how do we
 construct them and operate on them?  Can binary and textual operations
 be mixed on the different port types?
 
-PortsCowan provides binary port operations along with other
-extensions.
+BinaryPortsCowan provides binary port operations, being a mild revision of the relevant parts of PortsCowan.
 
 R6RS provides an entirely new I/O system, as well as a separate
 R5RS-compatible I/O system.
@@ -57,13 +56,13 @@ of I/O systems which are typically specified together by individual
 proposals.  If the same proposal doesn't win for all three, the
 aspects will be merged as needed.
 
-WG1 voted weakly in favor of '''cowan''' before.
+WG1 voted weakly in favor of PortsCowan before.
 
   * '''Proposals:''' 
     * '''r6rs:''' [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html#node_sec_8.2|R6RS Port I/O]]
     * '''r6rs-simple:''' [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html#node_sec_8.3|R6RS Simple I/O]]
     * '''srfi-91:''' [[http://srfi.schemers.org/srfi-91/srfi-91.html|SRFI-91]]
-    * '''cowan:''' PortsCowan (subset relevant to binary I/O)
+    * '''cowan:''' BinaryPortsCowan
   * '''Options:''' r6rs, r6rs-simple, srfi-91, cowan, none, undecided
   * '''Default:''' none
   * '''Preferences:''' 
