@@ -16,12 +16,12 @@ Here are the above rules in tabular form:
 ||`character`||`binary`||`buffer`||returns:||
 ||false||false||false||undefined, no buffering||
 ||false||false||true||undefined||
-||false||true||false||binary port, no buffer||
+||false||true||false||binary port, no buffering||
 ||false||true||true||binary port, may have buffer||
-||true||false||false||character port, no buffer||
+||true||false||false||character port, no buffering||
 ||true||false||true||character port, may have binary buffer and/or character buffer||
 ||true||true||false||character and binary port, no buffering||
-||true||true||true||character and binary port, may have binary port, must not have character buffer||
+||true||true||true||character and binary port, may have binary buffer, must not have character buffer||
 
 == Operations on character and binary ports ==
 
