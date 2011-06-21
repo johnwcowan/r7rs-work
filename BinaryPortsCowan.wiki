@@ -1,0 +1,32 @@
+== Introduction ==
+
+This is my proposal for binary ports in small R7RS.  It assumes, but partly overrides, PortsCowan.  In particular, the version of the `buffering` key described there is replaced by the `buffer` key here.
+
+Under this proposal, it is no longer true that all binary ports are also character ports.  The user may create a file port that is either a character port, a binary port, or both.  String ports are character ports; blob ports are binary ports.
+
+== Opening file ports ==
+
+To open a binary file port, use any of the file-opening operations, passing the `binary` key with a true value.  To open a character file port, use any of the
+file-opening operations, passing the `character` key with a true value.  If either the `character` key or the `binary` key is not present, it is assumed to be false.  However, if the whole file spec takes the form of a string rather than a list, the `character` key is assumed to be true.
+
+If the `buffer` key is false, the port must not be buffered by the implementation.  If the key is true or is not present, the port may be buffered.  Buffered character ports that are ''not'' binary ports may have both a character buffer and a binary buffer, but buffered character ports that ''are'' binary ports must not have a character buffer.  This permits safe interleaving of character and binary operations.
+
+Here are the above rules in tabular form:
+
+||`character`||`binary`||`buffer`||returns:||
+||false||false||false||undefined, no buffering||
+||false||false||true||undefined||
+||false||true||false||binary port, no buffer||
+||false||true||true||binary port, may have buffer||
+||true||false||false||character port, no buffer||
+||true||false||true||character port, may have binary buffer and/or character buffer||
+||true||true||false||character and binary port, no buffering||
+||true||true||true||character and binary port, may have binary port, must not have character buffer||
+
+== Operations on character and binary ports ==
+
+ * Character ports allow the `read-char`, `peek-char`, `char-ready`, and the layered `read`, `write`, and `display` operations; they answer `#t` to `character-port?`.
+
+ * Binary ports allow the `read-u8`, `peek-u8`, and `u8-ready` operations; they answer `#t` to `binary-port?`.
+
+ * Both kinds of ports can be handed to `port?`, `input-port?`, `output-port?`, `character-port`, `binary-port`, `port-open?`, `close-input-port`, and `close-output-port`.
