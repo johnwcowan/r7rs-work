@@ -431,10 +431,13 @@ literals broken across lines as errors.
 
   * '''Options:''' unix, local, error, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' error, unix
+  * '''Preferences:''' unix
 
 What happens when people use ASCII correctly (unlike UNIX) and break
 lines with \r\n?  I hope that \r gets the same treatment as \n.
+
+I originally voted for an error in this case, but it's just too useful to be
+able to include line breaks in strings, so I'm changing my vote.
 
 === #155 Make recursively defined code an explicit error ===
 
