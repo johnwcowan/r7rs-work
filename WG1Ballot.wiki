@@ -745,7 +745,7 @@ Note that there are actually many varying approaches to generating
 moduls at runtime, and Scheme48 and Chibi use an out-of-band REPL
 operation to create new modules, leaving the `module` binding open.
 
-  * '''Options:''' yes, no, undecided
+  * '''Options:''' yes, no, unspecified, undecided
   * '''Default:''' no
   * '''Preferences:''' 
 
