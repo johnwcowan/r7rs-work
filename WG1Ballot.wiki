@@ -264,7 +264,7 @@ changes the name to `current-posix-second`.
     * '''tai-flonum:''' TAI time as an inexact real value
   * '''Options:''' cowan, unspecified, undecided, none
   * '''Default:''' unspecified
-  * '''Preferences:''' tai-flonum, tai-integer, unspecified
+  * '''Preferences:''' 
 
 === #147 Allow literal file spec lists in include and include-ci ===
 
