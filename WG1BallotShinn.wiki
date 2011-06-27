@@ -123,13 +123,14 @@ proposing changing this, so we are re-opening the ticket.
     * '''r5rs:''' one single module
     * '''r6rs:''' no proposal yet
     * '''cowan:''' ModuleFactoringCowan
+    * '''gleckler:''' ModuleFactoringGleckler
+    * '''medernach:''' ModuleFactoringMedernach
     * '''shinn:''' ModuleFactoringShinn
-  * '''Options:''' draft-1, r5rs, r6rs, cowan, shinn, undecided
+  * '''Options:''' draft-1, r5rs, r6rs, cowan, gleckler, medernach, shinn, undecided
   * '''Default:''' draft-1
-  * '''Preferences:''' shinn, cowan, draft-1
+  * '''Preferences:''' medernach, shinn, gleckler, cowan, draft-1
 
-I like my own choice as a good balance of well factored and convenient
-for users.
+I prefer Medernach's proposal to my own here.
 
 = New Ballot Items =
 
@@ -271,14 +272,39 @@ for most cases - they should be in a WG2 module.
 === #137 Current-seconds semantics still open ===
 
 In issue #70, WG1 voted to make `current-seconds` an optional
-procedure, but there is no guidance about what it returns.  The second
-choice, TimeCowan, calls it `current-posix-second` and makes it return
-the integral number of seconds since the Posix epoch, excluding all
-leap seconds.  We need a final decision on name and semantics.
+procedure, but there is no guidance about what it returns.
 
+If we choose to specify this further, the big question is whether or
+not to include leap seconds - i.e. do we specify it as TAI or POSIX
+time (the choice of the epoch itself is less controversial and
+defaults to the POSIX epoch).  TAI time has the advantage that it
+measures real, unambiguous time, and two calls to current-seconds more
+than a second apart are guaranteed to actually differ.  POSIX time has
+the advantage of bug-for-bug compatibility with POSIX systems - the
+times are ambiguous, but they already have to deal with that.
+
+The other issue is whether to return an integral number of seconds and
+lose the ability to specify subsecond real times, or return an inexact
+real (flonum) number of seconds and have to deal with variable
+precision depending on the date.
+
+TimeCowan is equivalent to the `posix-integer` option, and in addition
+changes the name to `current-posix-second`.
+
+  * '''Proposals:'''
+    * '''cowan:''' TimeCowan
+    * '''posix-integer:''' POSIX time as an exact integer value
+    * '''posix-flonum:''' POSIX time as an inexact real value
+    * '''tai-integer:''' TAI time as an exact integer value
+    * '''tai-flonum:''' TAI time as an inexact real value
   * '''Options:''' cowan, unspecified, undecided, none
   * '''Default:''' unspecified
-  * '''Preferences:''' undecided
+  * '''Preferences:''' tai-flonum, tai-integer, unspecified
+
+POSIX is just broken, too horribly to defend.  It can neither reliably
+be used to measure real time (duration) because it shifts, nor can it
+be used to measure absolute time because it is ambiguous.  If we don't
+settle on TAI we can only leave this unspecified.
 
 === #147 Allow literal file spec lists in include and include-ci ===
 
@@ -289,7 +315,10 @@ to support this.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' undecided
+  * '''Preferences:''' no
+
+The file spec list isn't needed here, and can always be added later
+anyway.
 
 === #148 Allow include-ci at top level ===
 
@@ -431,32 +460,36 @@ problems and removing them and breaking R5RS compatibility is extreme.
 The current draft, like R6RS, defines `char-numeric?` according to the
 nonexistent Unicode Numeric property.  That has to be fixed.  Options:
 
- 1. `char-numeric?` returns `#t` if the character's Numeric_Type
- property value is other than `None`.  This means that many hanzi are
- both alphabetic and numeric.
+ 1. '''Any.''' `char-numeric?` returns `#t` if the character's
+ Numeric_Type property value is other than `None`.  This means that
+ many hanzi are both alphabetic and numeric.
 
  2. (Omitted, because it does not preserve IEEE Scheme)
 
- 3. Define `char-numeric?` to return `#t` only for 0, 1, 2, 3, 4, 5,
- 6, 7, 8, and 9.  This retains compatibility witht R5RS, and we can
- still use `char-numeric?` to parse numbers, and safely use `(-
- (char->integer c) (char->integer #\0))` to obtain the digit value the
- character represents.  (Note: R5RS programs that use `char-numeric?`
- to parse numbers will break if we adopt the current draft's
- definition of `char-numeric?`).  Gauche, Gambit, and Chicken (without
- the utf8 egg) work like this.
+ 3. '''ASCII.''' Define `char-numeric?` to return `#t` only for ASCII
+ 0, 1, 2, 3, 4, 5, 6, 7, 8, and 9.  This retains compatibility witht
+ R5RS, and we can still use `char-numeric?` to parse numbers, and
+ safely use `(- (char->integer c) (char->integer #\0))` to obtain the
+ digit value the character represents.  (Note: R5RS programs that use
+ `char-numeric?` to parse numbers will break if we adopt the current
+ draft's definition of `char-numeric?`).  Gauche, Gambit, and Chicken
+ (without the utf8 egg) work like this.
 
- 4. Define `char-numeric?` as equivalent to the Numeric_Digit property
- (general category value of Nd).  Guile 2.0, Kawa, Larceny, Ypsilon,
- Mosh, and IronScheme work like this.
+ 4. '''Digit.''' Define `char-numeric?` as equivalent to the
+ Numeric_Digit property (general category value of Nd).  Guile 2.0,
+ Kawa, Larceny, Ypsilon, Mosh, and IronScheme work like this.
 
- 5. define `char-numeric?` as equivalent to the Number property
- (general category values of Nd, Nl, No).  Scheme48, Chez, and Ikarus
- work like this.
+ 5. '''Number.''' Define `char-numeric?` as equivalent to the Number
+ property (general category values of Nd, Nl, No).  Scheme48, Chez,
+ and Ikarus work like this.
 
   * '''Options:''' any, number, digit, ascii, undecided
   * '''Default:''' ascii
-  * '''Preferences:''' undecided
+  * '''Preferences:''' digit, number, ascii, any
+
+I agree with John's reasoning on this, and second it with `number`
+because I think that's what the R6RS intended, and would prefer to be
+inclusive here.
 
 === #166 Add predicate and accessors for error objects ===
 
@@ -758,18 +791,22 @@ are feasible:
 || define-syntax ||   ?    ||       ?       ||   ?    ||       ?       ||
 
 Not all 64 combinations necessarily make sense.  The default from R5RS
-is "unspecified", which means all 16 values are unspecified.
+is "unspecified", which means all 16 values are unspecified.  Note in
+most implementations there is no such thing as a "reference" to
+existing syntax, since macros are expanded once, but this is not the
+case for SCM or Wraith Scheme.
 
   * '''Proposals:'''
     * '''override:''' override for all 16 values (non-syntax to syntax can break closure references)
     * '''preserve:''' preserve for all 16 values (must always create a new definition, not mutate, contrary to most implementations)
     * '''common:''' most common behavior among implementations - override, except preserve for non-syntax to syntax
-    * '''dynamic:''' override, except unspecified for non-syntax to syntax (compatible with all implementations)
+    * '''simple:''' override, except unspecified for non-syntax to syntax
+    * '''dynamic:''' override, except unspecified for syntax to anything (compatible with SCM/Wraith)
   * '''Options:''' override, preserve, common, dynamic, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' dynamic
+  * '''Preferences:''' common, simple, dynamic
 
-I'm not convinced it's worth forbidding the SCM/Wraith behavior.
+This is largely a de facto standard.
 
 === #132 Imports override previous imports? ===
 
@@ -1032,7 +1069,7 @@ reasonable alternatives are possible.
 
   * '''Options:''' r6rs, r5rs, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' undecided
+  * '''Preferences:''' r6rs
 
 === #122 Make infinity, NaN, and -0.0 semantics (when supported) consistent with IEEE 754 ===
 
@@ -1263,9 +1300,9 @@ STklos, and SSCM don't.
 
 From the Guile manual:
 
-— Scheme Procedure: centered/ x y
-— Scheme Procedure: centered-quotient x y
-— Scheme Procedure: centered-remainder x y
+* Scheme Procedure: centered/ x y
+* Scheme Procedure: centered-quotient x y
+* Scheme Procedure: centered-remainder x y
 
 These procedures accept two real numbers x and y, where the divisor y
 must be non-zero. centered-quotient returns the integer q and
