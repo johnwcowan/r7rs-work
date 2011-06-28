@@ -40,7 +40,7 @@ This is what we voted on before, it's extremely widely supported, and
 I remain unconvinced of the alternatives.  Filtering constructors can
 be a useful convenience (and optimization) in some circumstances.
 
-=== #28 binary I/O ports ===
+=== #28 Binary I/O ports ===
 
 Do we provide any binary input or output ports, and if so how do we
 construct them and operate on them?  Can binary and textual operations
@@ -48,6 +48,9 @@ be mixed on the different port types?
 
 PortsCowan provides binary port operations along with other
 extensions.
+
+PortsShinn provides binary port operations, with similar operations to
+BinaryPortsCowan but keeping the binary/textual ports disjoint.
 
 R6RS provides an entirely new I/O system, as well as a separate
 R5RS-compatible I/O system.
@@ -66,10 +69,11 @@ WG1 voted weakly in favor of '''cowan''' before.
     * '''r6rs:''' [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html#node_sec_8.2|R6RS Port I/O]]
     * '''r6rs-simple:''' [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html#node_sec_8.3|R6RS Simple I/O]]
     * '''srfi-91:''' [[http://srfi.schemers.org/srfi-91/srfi-91.html|SRFI-91]]
-    * '''cowan:''' PortsCowan (subset relevant to binary I/O)
-  * '''Options:''' r6rs, r6rs-simple, srfi-91, cowan, none, undecided
+    * '''cowan:''' BinaryPortsCowan
+    * '''shinn:''' PortsShinn
+  * '''Options:''' r6rs, r6rs-simple, srfi-91, cowan, shinn, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' undecided
+  * '''Preferences:''' shinn, none, undecided
 
 === #83 Auxiliary Keywords ===
 
