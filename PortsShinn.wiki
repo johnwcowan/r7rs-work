@@ -62,11 +62,4 @@ parameterized as such, obviating the need for `with-in/output-port`
 shortcuts.
 }}}
 
-To work with mixed binary/textual I/O, the following R6RS-compatible
-procedures are provided:
-
-  * (read-blob <length> [<input-port>])
-  * (read-blob! <blob> <length> [<input-port>])
-  * (write-blob <blob> [<output-port>])
-  * (utf8->string <blob>)
-  * (string->utf8 <string>)
+See also BlobIoShinn, which is incorporated by reference.
