@@ -4,367 +4,73 @@
     * Options are comma-delimited (ignoring space) and case-insensitive.
     * You can pipe-delimit (|) options you want to give equal weight to.
     * You may write in your own option if you announce it to the list first.
-    * You may specify a variant with option/variant, for example `srfi-1/module` to vote for `srfi-1` but clarify it should be in a separate module. Please also include the `srfi-1` option in this case.
+    * You may specify a variant with option/variant, for example srfi-1/module to vote for srfi-1 but clarify it should be in a separate module. Please also include the srfi-1 option in this case.
     * You can write a free-form rationale after the "preferences" line,
-    * `module` means "yes, but I want it in a separate module",
-    * `wg2` means "no, but I think it should go in WG2".
-    * `undecided` means I want to discuss this issue further.
+    * module means "yes, but I want it in a separate module",
+    * wg2 means "no, but I think it should go in WG2".
+    * undecided means I want to discuss this issue further.
     * Abstain on any item by leaving the preferences blank. 
 
-= WG1 Ballot Items To Finalize By Jan. 9 =
+= WG1 Ballot Items To Finalize by July 1st =
 
-== WG1 - Core ==
+= Previous Undecided and Re-opened Ballot Items =
 
 === #32 user-defined types ===
 
 Do we support any means of creating disjoint user-defined types, such
 as in SRFI-9, SRFI-99 or the R6RS record system?
 
+WG1 voted '''srfi-9''' before.  New arguments against filter
+constructors were raised, so the ticket was re-opened.
+
+References:
+  * https://groups.google.com/d/topic/scheme-reports-wg1/BX2F10MO6_k/discussion
+
   * '''Proposals:'''
     * '''cowan:''' RecordsCowan
+    * '''gleckler:''' RecordsGleckler, which is just RecordsCowan plus RecordsArcfide
     * '''hsu:''' RecordsArcfide
     * '''medernach:''' AggregatesMedernach
     * '''rush:''' UserAggregatesRush
     * '''snellpym:''' UniqueTypesSnellPym
   * '''Options:''' srfi-9, srfi-57, srfi-99, r6rs, cowan, hsu, medernach, rush, snellpym, none, wg2, undecided
-  * '''Default:''' none
-  * '''Preferences:''' hsu,snellpym+mutate+inheritance,cowan,medernach,rush,r6rs,srfi-9
+  * '''Default:''' srfi-9
+  * '''Preferences:''' hsu,gleckler,wg2,none,srfi-9
 
-=== #50 byte-vectors ===
+Rationale: SRFI-9 is flawed by the filtering constructor and a lack of extensibility in its syntax, but represents a good minimal set of features that are found everywhere.
 
-Several SRFIs, R6RS, and most Scheme implementations support some sort
-of uniform packed integer vectors.  In particular, these are necessary
-for efficient binary I/O, and for memory mapping, so WG2 will
-certainly want them.
+=== #28 binary I/O ports ===
 
-Do we provide a syntax and basic API for these in WG1?
+Do we provide any binary input or output ports, and if so how do we
+construct them and operate on them?  Can binary and textual operations
+be mixed on the different port types?
 
-  * '''Proposals:'''
-    * '''r6rs:''' [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-3.html#node_chap_2|R6RS byte-vectors]]
-    * '''cowan:''' BlobAPI
-    * '''snellpym:''' BlobsAndSRFI4SnellPym
-  * '''Options:''' r6rs, cowan, snellpym, wg2, none, undecided
-  * '''Default:''' none
-  * '''Preferences:''' cowan,r6rs,snellpym
+BinaryPortsCowan provides binary port operations, being a mild revision of the relevant parts of PortsCowan.
 
-R6RS has a clumsy interface that is corrected, IMO, by Cowan's proposal.
+R6RS provides an entirely new I/O system, as well as a separate
+R5RS-compatible I/O system.
 
-=== #55 Lazy evaluation ===
+The withdrawn SRFI-91 provides yet another I/O system supporting
+binary ports.
 
-R5RS provides a simple mechanism for easy cases of lazy evaluation.
-It does not support generalized lazy evaluation, because all built-in
-procedures are eager whether they 'need' to be or not.  The relevant
-identifiers are `delay` and `force`; they are not present in IEEE
-Scheme.  SRFI 45 argues that this pair is insufficient for expressing
-common lazy algorithms in a way that preserves tail recursion, and
-adds `lazy` (equivalent to `(delay (force ...))`, but acting
-atomically) and `eager`.  The semantics of `delay` and `force` remain
-downward compatible.
+Note this item as well as #29 and #31 specify semi-orthogonal aspects
+of I/O systems which are typically specified together by individual
+proposals.  If the same proposal doesn't win for all three, the
+aspects will be merged as needed.
 
-Vote `srfi-45` to add just the bindings `lazy` and `eager` in addition
-to `delay` and `force`, not all of the `srfi-45` utilities.  Vote
-`none` to remove `delay` and `force` from the standard.
-
-  * '''Options:''' r5rs, srfi-45, none, wg2, undecided
-  * '''Default:''' r5rs
-  * '''Preferences:''' undecided,r5rs,srfi-45,wg2,none
-
-=== #57 Random Numbers ===
-
-Random numbers are useful for a wide variety of applications,
-including cryptography, statistics, games, simulations and genetic
-programming.  Do we want to provide an interface to random number
-generation in WG1 Scheme?
-
-  * '''Proposals:'''
-    * '''srfi-27:''' [[http://srfi.schemers.org/srfi-27/srfi-27.html|SRFI-27]]
-    * '''cl:''' RandomnessCommonLisp
-    * '''cowan:''' RandomCowan
-    * '''hsu:''' RandomnessArcfide
-  * '''Options:''' srfi-27, cl, cowan, hsu, none, wg2, undecided
-  * '''Default:''' none
-  * '''Preferences:''' cl,hsu,cowan
-
-I tend to think that CL is okay here, but absent that choice, a simpler approach that is flexible is preferable. 
-
-=== #62 Environment Variables ===
-
-Currently, there is no standard way to communicate with the context
-from which a Scheme program was started.  This has become pretty
-standardized over time: a list of strings ("command-line arguments")
-and a map from strings to strings ("environment variables") on input,
-and a small integer or string on output ("exit value").  Scheme should
-recognize these realities.
-
-We have `command-line` and `exit` from ModulesShinn, so the question
-remains if we should add SRFI-98 environment accessors.
-
-  * '''Options:''' srfi-98, none, wg2, undecided
-  * '''Default:''' none
-  * '''Preferences:''' srfi-98
-
-=== #68 "Undefined value" vs. "undefined values" ===
-
-In R5RS, many procedures and syntax forms return an "undefined value".
-In R6RS, the corresponding convention is to return "undefined values",
-meaning an undefined number (including zero) of undefined values.  How
-shall R7RS go?
-
-Vote `r5rs` for a single undefined value, `r6rs` for zero or more
-undefined values, or `zero` for exactly zero values.  Anything other
-than `r5rs` would break R5RS (and IEEE) compatibility.
-
-  * '''Options:''' r5rs, r6rs, zero, undecided
-  * '''Default:''' r5rs
-  * '''Preferences:''' r6rs,r5rs
-
-=== #49 Undefined value API ===
-
-Assuming a single "undefined" value (dependent on the result of #68),
-users sometimes want to test for this value.  If we enforce a unique
-undefined value, one approach is to generate this value explicitly to
-test against, such as `(void)` provided by some implementations.
-Alternately we could provide a test such as `undefined?`.  Either
-approach breaks compatibility with existing extensions, and may be
-prohibitively difficult to implement for compilers lacking a separate
-undefined value type.  Some programmers also consider testing for this
-value sign of a broken design.
-
-Vote `generate` for a `(void)` procedure, `test` for `undefined?`, and
-`both` for both.
-
-  * '''Options:''' generate, test, both, none, wg2, undecided
-  * '''Default:''' none
-  * '''Preferences:''' generate
-
-Testing for this value is bad practice. Likewise, there is no reason that this procedure must return a single value. Systems like Chez Scheme normalize to this void object, but the point of `(void)` is to enable one to explicitly make a procedure return unspecified values. This is valid whether or not we have zero, one, or any number of unspecified values returned (#68). It is useful regardless, and I would like to have it regardless of the outcome of #68.
-
-=== #51 support for cyclic structures in primitives ===
-
-list?, length, equal? and other fundamental primitives may diverge
-when given cyclic data.  In the former two cases, avoiding this is
-simple and not inefficient, and the equivalents are already provided
-in SRFI-1.  In the latter case a
-[[http://www.r6rs.org/r6rs-editors/2006-February/000969.html|proposal]]
-was made and rejected on the R6RS list.  In the former case, R6RS
-seems to require `list?` return `#f` and `length` raise an error.
-
-Do we want to specify the behavior when these primitives encounter
-cyclic data?
-
-Options are `equal?` to specify `equal?` must terminate on cyclic
-input, `r6rs` to specify R6RS behavior for `list?` and `length`,
-`srfi-1` to specify the SRFI-1 semantics (where `length` returns `#f`)
-and `equal?+r6rs` or `equal?+srfi-1` are options for both.
+WG1 voted weakly in favor of PortsCowan before.
 
   * '''Proposals:''' 
-    * '''equal?:''' `equal?` is required to do proper checks for cyclic structure to not diverge
-    * '''r6rs:''' `list?` should return `#f` and `length` raise an error for cyclic lists
-    * '''srfi-1:''' `length` is equivalent to `length+` and returns `#f` for a cyclic list
-  * '''Options:''' equal?,r6rs,srfi-1,equal?+r6rs,equal?+srfi-1,no,module,wg2,undecided
-  * '''Preferences:''' equal?+r6rs,r6rs,equal?,srfi-1
-
-=== #69 Dynamic Parameters ===
-
-Old-fashioned Lisps used dynamic extent of variables.  Although Scheme
-has switched to lexical scope, the concept of a dynamic environment
-can be useful in special cases.
-
-Instead of special variables, SRFI-39 provides first-class "parameter"
-objects with dynamic bindings.  Do we want to provide something
-similar?
-
-  * '''Proposals:'''
-    * '''srfi-39:''' [[http://srfi.schemers.org/srfi-39/srfi-39.html|SRFI-39]]
-    * '''cowan:''' ImmutableParametersCowan
-    * '''snellpym:''' ParametersSnellPym
-  * '''Options:''' cowan, snellpym, srfi-39, none, wg2, undecided
+    * '''r6rs:''' [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html#node_sec_8.2|R6RS Port I/O]]
+    * '''r6rs-simple:''' [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html#node_sec_8.3|R6RS Simple I/O]]
+    * '''srfi-91:''' [[http://srfi.schemers.org/srfi-91/srfi-91.html|SRFI-91]]
+    * '''cowan:''' BinaryPortsCowan
+  * '''Options:''' r6rs, r6rs-simple, srfi-91, cowan, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' srfi-39,snellpym,cowan
+  * '''Preferences:''' undecided
 
-=== #70 accessing the system time ===
-
-Short of a full time and date library, a single procedure
-
-  (current-seconds)
-
-returning the epoch time in seconds, possibly as a real number, would
-be useful and is sufficient to implement a full library (though access
-to the host system's timezone would be desirable in that case).
-
-Since some systems may not have access to a clock, we could make this
-an optional procedure.  Alternately, it could be defined as a simple
-counter in such cases, providing an accurate notion of time ordering
-but no sense of duration. Finally, it could return `#f` in the absense
-of a clock.
-
-  * '''Proposals:'''
-    * '''cowan:''' TimeCowan
-    * '''required:''' `(current-seconds)` must return seconds since epoch
-    * '''optional:''' `(current-seconds)` is an optional procedure
-    * '''counter:''' `(current-seconds)` may just be a counter, returning 0, 1, 2, ...
-    * '''return-false:''' `(current-seconds)` may return `#f` if unsupported
-  * '''Options:''' cowan, required, optional, counter, return-false, none, wg2, undecided
-  * '''Default:''' none
-  * '''Preferences:''' cowan,required,return-false,optional,none
-
-=== #109 elapsed time ===
-
-Should we have functions allowing a program to compute elapsed time,
-as distinct from calendar time?
-
-TimeCowan contains a proposal.
-
-  * '''Options:''' cowan, yes, no, wg2, undecided
-  * '''Default:''' no
-  * '''Preferences:''' cowan,yes
-
-=== #78 Should we have case-lambda? ===
-
-Should we provide case-lambda as in SRFI 16 and R6RS?  It provides
-simple overloading of procedures based on the number of their
-arguments, and does not require that optional arguments appear only
-after mandatory ones.
-
-  * '''Options:''' yes, no, module, wg2, undecided
-  * '''Default:''' no
-  * '''Preferences:''' yes,module
-
-=== #82 missing port? procedure ===
-
-It's not clear whether R5RS requires a PORT? procedure or not.  It's
-listed in Section 3.3.2 under Disjointness of Types, but not under
-section 6.6.1 under Ports.  R6RS requires it.  Racket, Gauche, MIT
-Scheme, Gambit, Chicken, Guile, Chez, SISC support it; Scheme48/scsh, Kawa,
-and Chibi currently do not.
-
-Shall we require it?
-
-  * '''Options:''' yes, no, module, wg2, undecided
-  * '''Default:''' no
-  * '''Preferences:''' yes,module
-
-=== #107 port status detection ===
-
-Currently there's no way to determine whether a port is open or
-closed, short of trying to read/write to it and catching an error.
-Do we want to add an interface to this?
-
-  * '''Options:''' port-open?, port-closed?, both, no, wg2, undecided
-  * '''Default:''' no
-  * '''Preferences:''' port-closed?,port-open?,both
-
-=== #87 Allow multiple producers in `call-with-values` ===
-
-In R5RS and R6RS, `call-with-values` takes two arguments, both
-procedures.  The first is a ''producer'' of multiple values; the
-second is a ''consumer'', to which the multiple values returned by
-''producer'' are passed as arguments.
-
-A possible extension is to allow multiple ''producer'' arguments,
-flattening all the produced values together, analogous to Common
-Lisp's `multiple-value-call`.
-
-Do we add this extension?
-
-  * '''Options:''' yes, no, wg2, undecided
-  * '''Default:''' no
-  * '''Preferences:''' yes
-
-=== #88 SRFI 87: => in CASE ===
-
-SRFI-87 extends `case` with a `=>` clauses, analogous to the use of
-`=>` in `cond` clauses, which allows you to pass the item actually
-matched to a procedure.
-
-Do we add this extension?
-
-  * '''Options:''' yes, no, wg2, undecided
-  * '''Default:''' no
-  * '''Preferences:''' yes
-
-=== #89 SRFI 61: COND => with generator and guard ===
-
-SRFI-61 extends `=>` clauses in `cond` with an optional ''guard''
-form, such that after the value is generated and found to be true,
-it's further checked against the guard.  If the guard returns `#f` the
-clause fails and processing proceeds to the next clause, otherwise the
-clause is accepted as normal.
-
-Do we add this extension?
-
-  * '''Options:''' yes, no, wg2, undecided
-  * '''Default:''' no
-  * '''Preferences:''' yes
-
-This is a good step towards unifying the syntaxes of various dispatch mechanisms, such as syntax-case, match, and cond.
-
-=== #90 Multiple values in COND => clauses ===
-
-Currently, `=>` clauses in `cond` accept a single value from the
-''generator'' (right-hand side) and pass it to the ''receiver''
-(left-hand side).  Shall we allow the generator to return multiple
-values and pass them to the receiver?  If both this ticket and #89
-pass, multiple values would also be allowed for generator/guard `cond`
-clauses.
-
-  * '''Options:''' yes, no, wg2, undecided
-  * '''Default:''' no
-  * '''Preferences:''' yes
-
-=== #91 INCLUDE at the REPL ===
-
-Should we allow `(include "''filename''")` at the REPL?  This is
-distinct from `import` in that it just loads code without altering the
-module structure.
-
-  * '''Options:''' yes, no, wg2, undecided
-  * '''Default:''' no
-  * '''Preferences:''' yes
-
-=== #92 Case-folding flags ===
-
-The default reader in R7RS will default to case-sensitive, but users
-may wish to override this in some situations.  R6RS allows at the
-top-level #!case-fold and #!no-case-fold read syntax to control the
-case-sensitivity of the current file.  Many existing R5RS
-implementations, on the other hand, use #ci and #cs, with the
-difference that they refer to the next datum only.
-
-Note PortsCowan provides a separate means of controlling
-case-sensitivity per-port.
-
-Vote `per-datum` for the next-datum-only #ci/#cs syntax.
-
-  * '''Options:''' r6rs, per-datum, none, wg2, undecided
-  * '''Default:''' none
-  * '''Preferences:''' r6rs
-
-=== #116 Source File Character Encoding ===
-
-The standard currently says nothing about the character encoding
-system of source files.  Do we require this to be a fixed encoding
-such as UTF-8, use an out-of-band specification like the Emacs (and
-Python) `-*- coding: foo -*-` convention, or just leave it
-unspecified?
-
-  * '''Options:''' utf-8, emacs, unspecified, undecided
-  * '''Default:''' none
-  * '''Preferences:''' unspecified
-
-=== #93 Removing string mutability ===
-
-R6RS relegated `string-set!` to a module, and many modern languages
-tend towards making strings immutable.  Removing entirely, however,
-breaks IEEE Scheme compatibility and should only be considered if you
-believe mutable strings are fundamentally broken.
-
-Do we remove `string-set!`?  Vote `yes` to remove, `module` to
-relegate to a module as in R6RS, or `no` to keep as is.
-
-  * '''Options:''' yes, no, module, undecided
-  * '''Default:''' no
-  * '''Preferences:''' no
+Rationale: I think we still need more time on this. R6RS' biggest trouble is its I/O system, 
+and I don't want the same mistake being made again. We need more effort into this domain first by more people.
 
 === #83 Auxiliary Keywords ===
 
@@ -384,472 +90,1501 @@ Another option is to specify for `cond` and `case` that they match the
 `else` identifier literally, ignoring any hygiene.  This breaks
 compatibility with R5RS and R6RS.
 
+WG1 voted '''unbound''' previously.  New issues were brought up on the
+list so the ticket was re-opened.
+
+References:
+  * [wiki:Keywords]
+  * http://lists.scheme-reports.org/pipermail/scheme-reports/2011-April/thread.html
+
   * '''Options:''' bound, unbound, unhygienic, undecided
+  * '''Default:''' unbound
   * '''Preferences:''' bound
 
-=== #101 exactness and `eqv?`/`equal?` ===
-
-In R5RS `eqv?`/`equal?` are in some sense the broadest tests for
-equality, comparing structural equality, but also tests for the same
-exactness, so that
-
-   {{{(equal? 0 0.0) => #f}}}
-
-whereas
-
-   {{{(= 0 0.0) => #t}}}
-
-Some users consider this confusing, others sometimes want an `equal?`
-that behaves like `=` for numbers.
-
-Do we want to change `equal?` and `eqv?` in this way, or add a
-separate exactness-agnostic procedure?  Vote `yes` to change,
-`equal=?` or `inexact-equal?` for separate procedures of those names
-(plus the analogous `eqv=?` or `inexact-eqv?`), or `no` to leave as
-is.  Alternately, write in a separate name.
-
-  * '''Options:''' yes, equal=?, inexact-equal?, no, wg2, undecided
-  * '''Default:''' no
-  * '''Preferences:''' no,equal=?,inexact-equal?
-
-There is no reason to eliminate the extra precision when we have a test `=` that handles the less precise test. We can easily make eqv=? if we want, so let's not muck up the standard with something like this.
-
-=== #102 module syntax name ===
-
-A bikeshed color issue, we need to choose the
-actual names for the module syntax for the winner
-of #2.
-
-`import`, `export` and `include` are fairly universal
-and no alternate is suggested unless someone wants
-to write in a proposal.
-
-The enclosing syntax can be called either
-`library` as in R6RS, `module` or some other proposal.
-
-  * '''Options:''' library, module, undecided
-  * '''Default:''' library
-  * '''Preferences:''' library
-
-I want `module` saved for a purely syntactic entity that doesn't exist at all at runtime. Library is already the closer match from R6RS, so let's use that.
-
-=== #103 module body syntax name ===
-
-Similar to #102, we need to choose a name
-for the form to include Scheme code directly
-in a module form.  This can be `body` as in
-the proposal, `begin` or some other name.
-
-  * '''Options:''' body, begin, scheme, code, undecided
-  * '''Default:''' body
-  * '''Preferences:''' begin,code,body,scheme
-
-=== #105 case-insensitive module includes ===
-
-The `include` module form includes files literally
-with the default case-sensitivity.  An `include-ci`
-form could include files case-insensitively
-without resorting to the reader hacks proposed in
-#92, allowing existing R5RS libraries to be used
-without modification.
-
-  * '''Options:''' yes, no, wg2, undecided
-  * '''Default:''' no
-  * '''Preferences:''' yes
-
-This can be implemented with a reader parameter and unhygienic macros, but absent those, this makes sense, and it is generally useful.
-
-=== #106 conditional code selection ===
-
-Users invariably want some way to conditionally select code depending
-on the implementation and/or feature set available. CondExpandCowan
-allows conditional expansion in the style of SRFI-0 within the module language.
-[[http://srfi.schemers.org/srfi-0/srfi-0.html|SRFI-0]] provides
-`cond-expand`, [[http://srfi.schemers.org/srfi-103/srfi-103.html|SRFI-103]]
-provides a library naming extension, and numerous other personal hacks exist.
-
-Do we want to include something along these lines in WG1 Scheme?
-
-  * '''Proposals:'''
-    * '''cowan:''' CondExpandCowan
-    * '''srfi-0:''' `cond-expand` only defined as a top-level module form
-    * '''srfi-103:''' the search path extension used by R6RS implementations
-  * '''Options:''' cowan, srfi-0, srfi-103, none, wg2, undecided
-  * '''Default:''' none
-  * '''Preferences:''' wg2,none
-
-None of these are good enough to put in a Small Scheme. Let WG2 have it.
-
-=== #108 immutable data interface ===
-
-R5RS specifies literal data in source code as immutable, but otherwise
-provides no way to generate or introspect immutable data.
-
-One proposal is given in ImmutableData, providing `mutable?`,
-`make-immutable` and `immutable->mutable`.
-
-Racket, for which all pairs are immutable in the default language,
-needs some way to generate shared and cyclic data structures at
-runtime, and provides the `shared` syntax for this.  It also has an
-`immutable?` utility as the complement to `mutable?` above.
-
-  * '''Proposals:'''
-    * '''medernach:''' ImmutableData
-    * '''racket:''' `shared`, `immutable?` ([http://docs.racket-lang.org/reference/shared.html])
-  * '''Options:''' medernach, racket, no, undecided
-  * '''Default:''' no
-  * '''Preferences:''' undecided
-
-I think this needs more discussion and proofs.
-
-=== #111 require `equal?` to return `#t` if `eqv?` does ===
-
-Currently `equal?` is strictly broader than `eqv?` except in the
-pathological case of comparing the same circular list with itself, for
-which `eqv?` returns true and `equal?` may loop infinitely.  We could
-explicitly require `equal?` to check and return `#t` in this case,
-which most implementations do as a performance hack anyway.
-
-  * '''Options:''' yes, no, undecided
-  * '''Default:''' no
-  * '''Preferences:''' yes
-
-== WG1 - Exceptions ==
-
-=== #18 exception system ===
-
-R6RS provided a detailed exception system with support for raising and
-catching exceptions, using a hierarchy of exception types.
-
-Do we use this, or parts of it, or a new exception system?  The `r6rs`
-option is just for the core exception handling.
-
-  * '''Proposals:'''
-    * '''r6rs:''' [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-8.html#node_sec_7.1|R6RS Exceptions]] - `with-exception-handler`, `guard`, `raise`, `raise-continuable`
-    * '''cowan:''' ExceptionHandlingCowan
-  * '''Options:''' cowan, r6rs, wg2, none, undecided
-  * '''Default:''' none
-  * '''Preferences:''' r6rs,wg2
-
-Better to go with R6RS than yet another system. Either that, or let WG2 have it.
-
-=== #19 when to throw an error ===
-
-R5RS defines many things as "is an error" without any specification of
-what happens in that situation.  R6RS goes to the opposite extreme and
-specifies as much as possible what exceptions are raised when.
-
-Taking into account the system provided by ticket #18, we need to come
-up with guidelines for when exceptions should be raised, and clarify
-which R5RS "error" situations should raise an exception or be left
-unspecified.
-
-R5RS specifies only 3 situations where an error is required to be
-signalled, leaving most situations unspecified as described in
-ErrorSituations.
-
-  * '''Options:''' r5rs, r6rs, undecided
-  * '''Default:''' r5rs
-  * '''Preferences:''' undecided
-
-== WG1 - I/O ==
-
-=== #28 binary I/O ports ===
-
-Do we provide any binary input or output ports, and if so how do we
-construct them and operate on them?  Can binary and textual operations
-be mixed on the different port types?
-
-PortsCowan provides binary port operations along with other
-extensions.
-
-R6RS provides an entirely new I/O system, as well as a separate
-R5RS-compatible I/O system.
-
-The withdrawn SRFI-91 provides yet another I/O system supporting
-binary ports.
-
-Note this item as well as #29 and #31 specify semi-orthogonal aspects
-of I/O systems which are typically specified together by individual
-proposals.  If the same proposal doesn't win for all three, the
-aspects will be merged as needed.
-
-  * '''Proposals:''' 
-    * '''r6rs:''' [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html#node_sec_8.2|R6RS Port I/O]]
-    * '''r6rs-simple:''' [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html#node_sec_8.3|R6RS Simple I/O]]
-    * '''srfi-91:''' [[http://srfi.schemers.org/srfi-91/srfi-91.html|SRFI-91]]
-    * '''cowan:''' PortsCowan (subset relevant to binary I/O)
-  * '''Options:''' r6rs, r6rs-simple, srfi-91, cowan, none, undecided
-  * '''Default:''' none
-  * '''Preferences:''' undecided
-
-I have not had enough time to read over the history of these things, and I need more time.
-
-=== #29 port encodings ===
-
-Do we support encoding and decoding text from ports with different
-character encoding systems?  Different end-of-line conventions?
-Different normalizations?  How are encoding errors handled?
-
-  * '''Proposals:''' 
-    * '''r6rs:''' [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html#node_sec_8.2|R6RS Port I/O]]
-    * '''srfi-91:''' [[http://srfi.schemers.org/srfi-91/srfi-91.html|SRFI-91]]
-    * '''cowan:''' PortsCowan (subset relevant to port encodings)
-  * '''Options:''' r6rs, srfi-91, cowan, none, undecided
-  * '''Default:''' none
-  * '''Preferences:''' undecided
-
-I need more time for this one.
-
-=== #31 custom ports ===
-
-Do we provide a mechanism for custom ports, on which for instance
-string ports could be created?
-
-R6RS as well as a number of Scheme implementations provide custom
-ports with various APIs.
-
-  * '''Proposals:''' 
-    * '''r6rs:''' [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html#node_sec_8.2|R6RS Port I/O]]
-  * '''Options:''' r6rs, none
-  * '''Default:''' none
-  * '''Preferences:''' r6rs
-
-This needs more discussion. I recall hearing some complaints about the R6RS system, but I do think that custom ports are universal enough to warrant consideration.
-
-== WG1 - Libraries ==
-
-=== #36 hash-tables ===
-
-R6RS and SRFI-69 both provide hash-table interfaces.  Do we provide
-either of these, or try to provide some primitives on which efficient
-hash-tables can be implemented?
-
-  * '''Options:''' r6rs, srfi-69, no, wg2, undecided
-  * '''Default:''' no
-  * '''Preferences:''' r6rs
-
-=== #113 directory contents ===
-
-We've decided to add file-exists? and delete-file,
-essential for a large class of scripts, but still
-have no way to get a list of files in a directory.
-Do we want to provide an interface to this?
-
-  * '''Proposals:'''
-    *  '''cowan:''' DirectoryPortsCowan
-    *  '''directory-files:''' return a list of all files in the dir
-    *  '''directory-streams:''' [[http://www.scsh.net/docu/html/man-Z-H-4.html#node_sec_3.3|SCSH directory stream interface]]
-  * '''Options:''' directory-files, directory-streams, no, wg2, undecided
-  * '''Default:''' no
-  * '''Preferences:''' undecided
-
-== WG1 - Macros ==
-
-=== #48 let-syntax ===
-
-`let-syntax` and `letrec-syntax` has known ambiguities in their
-behavior. We have the option of altering the semantics to correct this
-behavior, defining which behavior we intend, or removing `let-syntax`
-entirely.  We could also leave this ambiguity unspecified.
-
-The question of whether or not to introduce a new lexical scope
-(i.e. whether internal `define`s are visible outside the `let-syntax`)
-is straightforward.
-
-If we don't introduce a new lexical scope, the question arises whether
-or not internal `define-syntax` forms are allowed and whether they
-apply to the body of the `let-syntax`, forms following the
-`let-syntax`, or both.
-
-If internal `define-syntax` applies to the body, we may also wish to
-specify what happens when said `define-syntax` redefines an identifier
-bound by the enclosing `let-syntax`.  This varies by implementation
-and may be difficult for macro expanders to change, so is left
-unspecified in the proposals below.
-
-  * '''Proposals:'''
-    * '''hsu:''' LetSyntaxArcfide
-    * '''remove:''' remove both of these forms from the standard
-    * '''lexical:''' introduces a new lexical contour
-    * '''define:''' allows splicing `define`/`begin`
-    * '''syntax:''' allows `define-syntax`
-    * '''syntax-body:''' allows `define-syntax` only applying to the body
-    * '''syntax-follows:'''  allows `define-syntax` only applying to following forms
-  * '''Options:''' hsu, remove, lexical, define, syntax, syntax-body, syntax-follows, unspecified, undecided
-  * '''Default:''' unspecified
-  * '''Preferences:''' LetSyntaxArcfide,lexical,syntax-follows
-
-I am voting for LetSyntaxArcfide with the understanding that it is proposing a new approach to `let-syntax` functionality rather than being a fully finished product. I believe that `let-syntax` is not very useful if it does not splice, and not very correct if it does, so I don`t like having it around.
-
-=== #97 syntax-rules special literals ===
-
-`...` and with the result of #6 also `_` have special meaning in
-syntax-rules patterns, so they are not treated as pattern variables by
-default.
-
-However their behavior when used in the literals list of
-syntax-rules is ambiguous, and simply breaks in most implementations.
-
-Rather than breaking, it makes sense to go ahead and treat
-them as normal literals, overriding their special meanings.
-
-In particular, there are many existing R5RS macros which
-make use of `_` in the literals and are thus broken outright
-by #6. Allowing them as literals fixes these macros.
-
-  * '''Options:''' literal, error, unspecified, undecided
-  * '''Default:''' unspecified
-  * '''Preferences:''' literal,error
-
-Getting these with special meanings makes sense, but if an user puts them in the literals list, then we should not surprise them by breaking. However, if we do break, then an error should be the result, and not some silent failure.
-
-== WG1 - Modules ==
+Rationale: While there are advantages to being unbound, unbound is still too limited and 
+the advantages do not outweight the disadvantages. Bound has a few disadvantages, 
+but we gain much more flexibility and the advantages just outweigh the disadvantages. 
+Unbound limits what you can do, while Bound presents only some minor inconvenience that 
+sometimes occurs, but that is easily worked around in ways that aren't hacky.
 
 === #3 module naming convention ===
 
 We need a naming convention for the core modules and standard
 libraries of the new module system.
 
-In R5RS everything is effectively in a single module.  R6RS provides a
-much more fine-grained breakdown of modules which could be
-retro-fitted to the bindings we include in our standard.
-
-John Cowan has proposed a number of module factorings in items #71,
-#72, #73, #74, #75, #76, #77, as well as an I/O module breakdown in
-PortsCowan.
-
-Since the naming and breakdown must be internally consistent I'm
-grouping these into a single ballot item.  Members desiring to put
-forth a new proposal should specify where all bindings belong, or
-specify a subset of the bindings and default the rest to some other
-proposal.
-
-Note some ballots specify explicitly whether or not the bindings in
-question are intended to be in a module or the core language.  In
-these cases we still need to decide to which module they belong.
-Where specific votes contradict general factoring proposals, the
-specific vote wins.
+The existing break down is based on John Cowan's earlier proposal of
+factorings in items #71, #72, #73, #74, #75, #76, #77, as well as an
+I/O module breakdown in PortsCowan.  There have been various tickets
+proposing changing this, so we are re-opening the ticket.
 
   * '''Proposals:'''
+    * '''draft-1:''' the first draft
     * '''r5rs:''' one single module
-    * '''r6rs:'''
-    * '''cowan:''' #71, #72, #73, #74, #75, #76, #77
-  * '''Options:''' r5rs, r6rs, cowan, undecided
-  * '''Default:''' r5rs
+    * '''r6rs:''' no proposal yet
+    * '''cowan:''' ModuleFactoringCowan
+    * '''gleckler:''' ModuleFactoringGleckler
+    * '''shinn:''' ModuleFactoringShinn
+    * '''medernach:''' ModuleFactoringMedernach
+  * '''Options:''' draft-1, r5rs, r6rs, cowan, shinn, medernach, undecided
+  * '''Default:''' draft-1
   * '''Preferences:''' undecided
 
-== WG1 - Numerics ==
+Rationale: I have not had enough time to look this over.
 
-=== #79 rational-expt ===
+= New Ballot Items =
 
-Often a rational-only exponentiation function is useful; that is, a
-rational number raised to an integer power.  Should we add this
-procedure to the core so that exponentiation is available even if
-inexact rationals are not provided or not imported?
+== WG1 - Core ==
+
+=== #85 Blobs, bytevectors, byte-vectors, octet-vectors, or something else? ===
+
+Now that we have blobs, we have to decide what to call them.  R6RS
+uses bytevector, SRFI-4 and SRFI-68 uses u8vector, while the original
+WG1 proposal used blob (which is therefore the default).
+
+  * '''Options:''' blob, bytevector, byte-vector, u8vector, octet-vector, undecided
+  * '''Default:''' blob
+  * '''Preferences:''' bytevector,u8vector,octet-vector,byte-vector,blob
+
+Rationale: Blob doesn't give enough information to the reader and feels strange, 
+despite its terseness. Bytevector very accurately describes the data structure we
+are dealing with. No matter how you decide to treat those bytes, we are still 
+dealing with a vector of bytes, not a vector of 3 bits or something else. 
+I disagree that there is confusion on how to use a bytevector just because the 
+word "byte" appears in the name. On the other hand, blob gives no hints on 
+how to use the structure at all, or even what sort of things might be available.
+
+=== #118 Simple literals must be explicitly delimited. ===
+
+In R5RS syntax such as `#t#f` is left unspecified - some readers may
+parse this as the true literal followed by false.  R6RS requires
+identifiers, characters, booleans, number objects, and `.` to be
+terminated with a "delimiter" or by the end of input.
+
+References:
+  * http://scheme-punks.org/wiki/index.php?title=ERR5RS:Lexical_Syntax
+  * http://lists.r6rs.org/pipermail/r6rs-discuss/2007-June/002649.html
+
+  * '''Options:''' delimited, unspecified, undecided
+  * '''Default:''' unspecified
+  * '''Preferences:''' delimited,unspecified
+
+Rationale: I prefer to create less ambiguity here.
+
+=== #119 Whether to treat # as a delimiter. ===
+
+In R5RS `foo#f` is a valid identifier, whereas R6RS requires `#` to
+act as a delimiter, so that this would parse as the identifier `foo`
+followed by the false literal.
+
+  * '''Options:'''  delimiter, no, undecided
+  * '''Default:''' no
+  * '''Preferences:''' delimiter
+
+Rationale: We have ways such as with the vertical bar of enclosing data, 
+so there is no reason to make something like # confusing to the reader. 
+`|foo#f|` is clear, while `foo#f` is not, so let's make # a delimiter.
+
+=== #123 Extend unquote and unquote-splicing to multiple arguments ===
+
+This is a change also made by R6RS (and CL).
+
+References:
+  * http://lists.scheme-reports.org/pipermail/scheme-reports/2011-April/000448.html
+  * http://www.rhinocerus.net/forum/lang-scheme/98742-quasiquote-syntax-rules-macro.html
+  * http://www.mail-archive.com/guile-user@gnu.org/msg03899.html
+
+  * '''Options:''' multiple, single, undecided
+  * '''Default:''' single
+  * '''Preferences:''' multiple
+
+Rationale: Convincing arguments have been made as to why this is a good thing on the 
+mailing list, and there are too many unsolved issues if we leave it as single. 
+
+=== #124 Nested quasiquote semantics ===
+
+References:
+  * http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_sec_11.17
+  * http://lists.nongnu.org/archive/html/chicken-hackers/2010-12/msg00008.html
+
+  * '''Proposals:'''
+    * '''r5rs:''' unspecified
+    * '''r6rs:''' strict and multiple (implies multiple for #123)
+    * '''chicken:''' strict at level 0 (option 2 in second reference)
+    * '''strict:''' strict at all levels (R6RS with single for #123)
+  * '''Options:''' r5rs, r6rs, chicken, strict, undecided
+  * '''Default:''' r5rs
+  * '''Preferences:''' r6rs,strict
+
+Rationale: R6RS makes things much easier to work with in this regard. We should 
+adopt this. I have encountered situations where this makes a great deal of sense,
+especially in macro writing.
+
+=== #125 Allow procedures not to be locations (making EQV? unspecified in some additional cases) ===
+
+This is a change also made by R6RS, specifically:
+
+> A quasiquote expression may return either fresh, mutable objects or literal structure
+> for any structure that is constructed at run time during the evaluation of the expression.
+> Portions that do not need to be rebuilt are always literal
+
+  * '''Options:''' r6rs, r5rs, undecided
+  * '''Default:''' r5rs
+  * '''Preferences:''' r6rs
+
+Rationale: This gives more flexibility to the implementation when dealing with quasiquote.
+
+=== #126 Partly specify the mutability of the values of quasiquote structures ===
+
+This is a change also made by R6RS.
+
+  * '''Options:''' r6rs, r5rs, undecided
+  * '''Default:''' r5rs
+  * '''Preferences:''' r6rs
+
+Rationale: R6RS is an improvement in this regard. 
+
+=== #127 Specify the dynamic environment of the ''before'' and ''after'' procedures of dynamic-wind ===
+
+R5RS is slightly ambiguous, saying
+
+> BEFORE is called whenever execution enters the dynamic extent of the
+> call to THUNK and AFTER is called whenever it exits that dynamic
+> extent.
+
+without saying clearly whether ''before'' and ''after'' themselves are
+called before or after the dynamic extent is entered or exited.
+
+  * '''Proposals:'''
+    * '''outside:''' called outside the dynamic extent (R6RS)
+    * '''inside:''' called inside the dynamic extent
+    * '''unspecified:''' R5RS
+  * '''Options:''' outside, inside, unspecified, undecided
+  * '''Default:''' unspecified
+  * '''Preferences:''' outside,inside,unspecified
+
+Rationale: Making them outside is how I always think of these, and it makes 
+more sense syntactically, visually, and in terms of programming convenience.
+Either way, we should specify one or the other, and not leave this unspecified.
+
+=== #135 let-values and let*-values ===
+
+These R6RS procedures were part of #77 (modularization of multiple
+values), but were never explicitly voted up or down by WG1, so I'm
+opening a new ticket for them.
 
   * '''Options:''' yes, no, module, wg2, undecided
   * '''Default:''' no
+  * '''Preferences:''' yes,wg2,module
+
+Rationale: These are simple and very useful constructs that are in common use 
+throughout. They are an excellent addition to the multiple values abstraction
+and should certainly be included.
+
+=== #137 Current-seconds semantics still open ===
+
+In issue #70, WG1 voted to make `current-seconds` an optional
+procedure, but there is no guidance about what it returns.
+
+If we choose to specify this further, the big question is whether or
+not to include leap seconds - i.e. do we specify it as TAI or POSIX
+time (the choice of the epoch itself is less controversial and
+defaults to the POSIX epoch).  TAI time has the advantage that it
+measures real, unambiguous time, and two calls to current-seconds more
+than a second apart are guaranteed to actually differ.  POSIX time has
+the advantage of bug-for-bug compatibility with POSIX systems - the
+times are ambiguous, but they already have to deal with that.
+
+The other issue is whether to return an integral number of seconds and
+lose the ability to specify subsecond real times, or return an inexact
+real (flonum) number of seconds and have to deal with variable
+precision depending on the date.
+
+TimeCowan is equivalent to the `posix-integer` option, and in addition
+changes the name to `current-posix-second`.
+
+  * '''Proposals:'''
+    * '''cowan:''' TimeCowan
+    * '''posix-integer:''' POSIX time as an exact integer value
+    * '''posix-flonum:''' POSIX time as an inexact real value
+    * '''tai-integer:''' TAI time as an exact integer value
+    * '''tai-flonum:''' TAI time as an inexact real value
+  * '''Options:''' cowan, unspecified, undecided, none
+  * '''Default:''' unspecified
+  * '''Preferences:''' tai-flonum,tai-integer,cowan,posix-flonum,posix-integer
+
+Rationale: We should make it clear when we are dealing in POSIX, and otherwise 
+we should avoid bugs, even if they are common. Floating points are more useful,
+in this case.
+
+=== #147 Allow literal file spec lists in include and include-ci ===
+
+This could allow implementation-specific extensions to support files
+don't have character-string names.  On the other hand, such names
+probably shouldn't be used as source files, and there are other ways
+to support this.
+
+  * '''Options:''' yes, no, undecided
+  * '''Default:''' no
+  * '''Preferences:''' undecided,no,yes
+
+Rationale: We should not prohibit extensions to `include`, but we should only 
+define string based names.
+
+=== #148 Allow include-ci at top level ===
+
+Currently `include-ci` is allowed as a module declaration but not at top level,
+as `include` is.
+
+  * '''Options:''' yes, no, undecided
+  * '''Default:''' no
+  * '''Preferences:''' yes
+
+Rationale: This is an oversight.
+
+=== #149 blob ports ===
+
+We've voted to add string ports, which are character ports backed by
+Scheme strings.  Since we have blobs another potential extension is
+blob ports, which binary ports backed by blobs.  These are described
+in PortsCowan, but it's unclear if they were specifically voted for or
+against in the previous ballot.
+
+  * '''Options:''' cowan, none, undecided
+  * '''Default:''' none
+  * '''Preferences:''' cowan
+
+Rationale: We want a way to get a port abstraction on blobs.
+
+=== #150 cond-expand at top level ===
+
+Currently `cond-expand` is only valid as a module declaration.  Should
+we allow it at top level in a program?
+
+  * '''Options:''' yes, no, undecided
+  * '''Default:''' no
+  * '''Preferences:''' no
+
+Rationale: `cond-expand` is a bad and flawed construct that should not 
+be made available to the user. Its appearance in a module declaration is 
+somewhat forgivable as a static construct, but it's use at anything other 
+than inside of a module declaration is, IMO, very bad. We should not 
+encourage its use. 
+
+=== #153 Renaming blob procedures ===
+
+The blob procedures don't follow the same system as the rest.  I
+propose these changes:
+
+{{{
+copy-blob => blob-copy
+copy-blob! => blob-copy!
+partial-blob => blob-copy-partial
+copy-partial-blob! -> blob-copy-partial!
+}}}
+
+Note this is modulo the choice of "blob" or "bytevector"
+or whichever.
+
+  * '''Options:''' new, original, remove, undecided
+  * '''Default:''' original
+  * '''Preferences:''' new,original
+
+Rationale: Consistent naming is important here, and the hierarchical naming
+policy makes much more sense.
+
+=== #154 Physical newline in a string equivalent to \n (that is, U+000A) ===
+
+R5RS leaves this situation undefined, but R6RS, CL, and most languages
+that allow it (C does not) treat physical newline and escaped newline
+as equivalent, even if the local representation of line endings is
+\r\n or U+0085 or what not.  Another possibility is to treat string literals
+broken across lines as errors.
+
+  * '''Options:''' unix, local, error, unspecified, undecided
+  * '''Default:''' unspecified
+  * '''Preferences:''' unix,unspecified
+
+Rationale: We should not allow the ambiguity that a string may contain 
+different data when loaded on two different operating systems, so the 
+treatment of newlines should be transparent. If an user wants to actually 
+have a string with a CRLF line ending, then we can configure this at a 
+port or output level. We should not do this at the reader level. This is 
+also in keeping with standard practice in other languages, as the ticket 
+mentions. Deviating from this is just confusing.
+
+=== #155 Make recursively defined code an explicit error ===
+
+Allowing examples like these will make code-walkers (including
+compilers and interpreters) excessively complicated:
+
+#1=(begin (display #\x) . #1#)
+
+(lambda #2=(a b c #2#) ...)
+
+(+ . #3=(1 2 3 . #3#))
+
+  * '''Options:''' error, unspecified, undecided
+  * '''Default:''' unspecified
+  * '''Preferences:''' unspecified
+
+Rationale: Making this an error makes things more complicated, not 
+less, and it makes life more difficult on naive implementations. Leave
+this unspecified.
+
+=== #156 Replace "an error is signalled" with "an implementation-dependent object is raised as if by `raise`" ===
+
+The following situations are described in draft 1 (and R5RS) with "an
+error is signalled":
+
+ 1. The ''file-spec'' given to `call-with-input-file`,
+ `call-with-output-file`, `open-input-file`, or `open-output-file`
+ represents a file that cannot be opened.
+
+ 2. An end of file is read from a port by `read` after the beginning
+ of an object's external representation, but the external
+ representation is incomplete and therefore not parsable.
+
+I propose that in both cases the implementation be required to raise
+an exception as if by applying `raise` (that is, non-continuably) to
+an implementation-defined object, which means it can be caught by the
+R7RS exception system.  Note that there is no requirement to create a
+fresh object.
+
+  * '''Options:''' signal, unspecified, undecided
+  * '''Default:''' unspecified
+  * '''Preferences:''' signal
+
+Rationale: Regardless of what is raised, the exception must be capturable by 
+the exception system. I think it makes more sense to put this at the beginning
+and continue to use "an error is signalled," but with a more precise 
+explanation of what this means.
+
+=== #162 Remove DELAY and FORCE altogether ===
+
+They are present in R4RS and R5RS, but not IEEE Scheme (which is our
+baseline).  There are problems with a straightforward implementation
+that SRFI 45 fixes, but we voted down SRFI 45.  Given that, we should
+consider removing them from the standard altogether.  (Of course this
+does not mean compliant implementations can't provide them, it just
+means they won't be in a standard module.)
+
+Since the inconsistency was raised and people are going so far as
+to remove these, we can entertain votes for SRFI-45's `lazy` again.
+
+  * '''Options:''' remove, keep, lazy, undecided
+  * '''Default:''' keep
   * '''Preferences:''' undecided
 
-=== #81 What numeric tower variants should be supported? ===
+Rationale: I think this warrants more work before a final vote.
 
-NumericTower lists a plausible set of ten from fixnums only to the
-full monty.  Which ones should we allow an implementation to provide?
-R5RS requires only fixnums large enough to handle string and vector
-indexes, while R6RS requires the full numeric tower.
+=== #164 Meaning of char-numeric? ===
 
-Vote on '''the minimum level of support''' you want to '''require'''
-(implementations may of course still provide more than this).  I've
-included only the most likely options below, write in other options if
-needed.
+The current draft, like R6RS, defines `char-numeric?` according to the
+nonexistent Unicode Numeric property.  That has to be fixed.  Options:
 
-Note quaternions are a fairly rare numeric type, known to be provided
-only by extensions to [[http://www.ccs.neu.edu/home/dorai/squat/squat.html|scm]]
-and [[http://wiki.call-cc.org/eggref/4/quaternions|chicken]], and thus
-may be difficult for other implementations to support if required.
+ 1. '''Any.''' `char-numeric?` returns `#t` if the character's
+ Numeric_Type property value is other than `None`.  This means that
+ many hanzi are both alphabetic and numeric.
+
+ 2. (Omitted, because it does not preserve IEEE Scheme)
+
+ 3. '''ASCII.''' Define `char-numeric?` to return `#t` only for ASCII
+ 0, 1, 2, 3, 4, 5, 6, 7, 8, and 9.  This retains compatibility witht
+ R5RS, and we can still use `char-numeric?` to parse numbers, and
+ safely use `(- (char->integer c) (char->integer #\0))` to obtain the
+ digit value the character represents.  (Note: R5RS programs that use
+ `char-numeric?` to parse numbers will break if we adopt the current
+ draft's definition of `char-numeric?`).  Gauche, Gambit, and Chicken
+ (without the utf8 egg) work like this.
+
+ 4. '''Digit.''' Define `char-numeric?` as equivalent to the
+ Numeric_Digit property (general category value of Nd).  Guile 2.0,
+ Kawa, Larceny, Ypsilon, Mosh, and IronScheme work like this.
+
+ 5. '''Number.''' Define `char-numeric?` as equivalent to the Number
+ property (general category values of Nd, Nl, No).  Scheme48, Chez,
+ and Ikarus work like this.
+
+  * '''Options:''' any, number, digit, ascii, undecided
+  * '''Default:''' ascii
+  * '''Preferences:''' number,digit,ascii,any
+
+Rationale: Number seems like the better and more general choice.
+
+=== #166 Add predicate and accessors for error objects ===
+
+(Email from Vincent Manis)
+
+Problem: It's impossible to write a portable error handler that writes
+out the ''message'' and ''irritants'' that were passed to `error`.
+
+This comes about because `error` creates an "implementation-defined
+object". I would assume that this hides the whole exception class
+hierarchy a WG2 implementation might provide. Since the ''message''
+and ''irritants'' arguments to `error` are presumably living in this
+implementation-defined object, it should be simple enough to provide
+accessors to extract them, so that the above "portable error handler"
+can be written.
+
+Suggestion: Add the following procedures:
+
+`(error-object? `''object''`)`
+
+Returns `#t` if ''object'' is something created by `error`, `#f`
+otherwise. Any constraints on type disjointness are up to the
+implementation.
+
+`(error-object-message `''object''`)`
+
+Returns the message of ''object''.
+
+`(error-object-irritants `''object''`)`
+
+Returns a list of the irritants of ''object''.
+
+  * '''Options:''' manis, none, undecided
+  * '''Default:''' none
+  * '''Preferences:''' 
+
+=== #167 Add constructor for error objects ===
+
+(Email from Vincent Manis)
+
+Problem: Raising arbitrary objects as exceptions has been found to be
+nasty in some other languages (Python and C++ in particular).
+
+This one is a tad speculative, but I'm reluctant to encourage people
+to write things like `(raise 4)`, because of course it doesn't respect
+any module boundaries. I think the intent with the descriptions of
+`raise` and `raise-continuable` was to allow exception hierarchies to
+be added in WG2 without constraining them here. I would suggest adding
+a new procedure:
+
+`(make-error-object `''message''` `''obj'' ...`)`
+
+to creates the implementation-defined object `error` is supposed to
+create, and adding a sentence to the `raise` and `raise-continuable`
+entries that says "The effect of applying this procedure to an object
+not created via `make-error-object` is implementation-defined." This
+allows WG2 to do what it wants regarding exception objects, and to
+limit the types of exception objects allowed, without breaking
+anything in WG1. `Error` can be defined as:
+
+{{{
+ (define (error message . objs)
+   (raise (apply make-error-object message objs)))
+}}}
+
+
+  * '''Options:''' manis, none, undecided
+  * '''Default:''' none
+  * '''Preferences:''' 
+
+=== #169 Add standard-*-port procedures ===
+
+These return the initial values of the corresponding `current-*-port`
+procedures, and can be used to access the implementation-provided
+standard input, output, and error streams.
+
+  * '''Options:''' r6rs, none, undecided
+  * '''Default:''' none
+  * '''Preferences:''' r6rs
+
+Rationale: These are very common and should be provided.
+
+=== #171 Duplicate identifiers in define-record-type ===
+
+What happens if `define-record-type` is specified with two fields that
+have the same `accessor` identifiers provided for both fields?  More
+generally, we need to say what happens when any two identifiers are
+non-unique.
+
+This ticket deals specifically with the situation where two
+identifiers (accessors or mutators) of two field clauses in a
+`define-record-type` form are identical. This is not meant to address
+field names and what happens or what it means if the field names are
+symbolically equivalent but lexically distinct.
+
+  * '''Options:''' error, unspecified, undecided
+  * '''Default:''' unspecified
+  * '''Preferences:''' error
+
+Rationale: This situation doesn't make sense, so it should be an error.
+
+=== #173 Unifying BEGINs ===
+
+In R5RS, there are three kinds of BEGINs:
+
+1) All subforms are expressions; this can be used wherever an
+expression can be used.  (4.2.3)
+
+2) All subforms are definitions; this can be used wherever an internal
+definition can be used.  (5.2.2)
+
+3) Subforms can be definitions or expressions intermixed in any order;
+this can be used only at top level.  (In R7RS we extend this to module
+top level as well).  (5.1)
+
+In particular,
+
+{{{
+(define (x)
+ (define y 32)
+ (begin
+   (define z 45)
+   (set! y z))
+ y)
+}}}
+
+is not licensed by any of these provisions, and consequently is not
+valid R5RS Scheme.  Nevertheless, all of my usual Schemes accept the
+above definition except Scheme48/scsh and SSCM -- actually, SSCM fails
+when you invoke x rather than when you define it.  So I'm proposing
+that we unify them for R7RS.
+
+  * '''Options:''' cowan, r5rs, undecided
+  * '''Default:''' r5rs
+  * '''Preferences:''' cowan
+
+Rationale: Having three different begins and two of which are not splicing
+while one is, but can only appear at the top-level, is confusing and not 
+in the spirit of Scheme.
+
+=== #174 Safe uses of multiple values ===
+
+Currently, uses of `values` where the values are discarded anyway is
+illegal, but all the usual Schemes except SCM and SSCM accept them (I
+tested with `begin`).  Should we go with something close to the R6RS
+wording?
+
+"The continuations of all non-final expressions within a sequence of
+expressions, such as in `lambda`, `begin`, `let`, `let*`, `letrec`,
+`letrec*`, `case`, and `cond` forms, take an arbitrary number of
+values."
+
+The definition of `begin` would need to change too:
+
+{{{
+(define-syntax begin
+  (syntax-rules ()
+    ((begin exp)
+     exp)
+    ((begin exp1 exp2 ...)
+     (call-with-values
+         (lambda () exp1)
+       (lambda args
+         (begin exp2 ...))))))
+}}}
+
+  * '''Options:''' safe-values, r5rs, undecided
+  * '''Default:''' r5rs
+  * '''Preferences:''' safe-values
+
+Rationale: Most everyone does this, it is pretty much a de facto 
+standard and we should respect it.
+
+=== #45 Record-let syntax and semantics ===
+
+{{{
+(record-let <record-data> ((<variable> <field>) ...)
+  <body>)
+}}}
+
+Where each <variable> is filled with the corresponding data <field>
+from <record-data> as in a <let> expression, then the <body> is
+evaluated with these bindinds added and last expressions is
+returned. It is an error if the <record-data> does not contain
+corresponding <fields>.
+
+Notice that this works directly on the data itself and that the data
+may contain more fields than the one cited in the record-let
+expression allowing code to be reused for inherited records.
+
+Do we need to be able to check at runtime if a given record data has
+a given field ?
+
+
+  * '''Options:''' record-let, none, undecided
+  * '''Default:''' none
+  * '''Preferences:''' record-let,undecided
+
+Rationale: This is underspecified at the moment and should be cleaned up, 
+but I think it should be in here, as it is a common thing to want to do.
+
+=== #172 Multiple returns from `map` ===
+
+R6RS specifies that `map` does not mutate previous results if there
+are multiple returns from map. Should we include this language?
+
+  * '''Options:''' r6rs, unspecified, undecided
+  * '''Default:''' unspecified
+  * '''Preferences:''' r6rs
+
+Rationale: This provides a measure of stability to `map` that we would 
+not otherwise have.
+
+=== #178 Shadowing with internal definitions ===
+
+From Andre Von Tonder:
+
+On p 19, some shadowing problems that would break lexical scope are
+declared to be errors.  However, I believe there are other examples
+that shold be errors that are not covered by the report.
+ 
+In R6RS a more general criterion was used - please see R6RS for
+details.
+ 
+Here is an example that does not violate the WG1 report but should be
+an error becasue it violates lexical scoping.  It does not violate the
+WG1 criterion because the meaning of x is not needed to determine
+whether (foo x p ) is a definition.
+
+{{{
+    (let ((x #f))
+      (let-syntax ((foo (syntax-rules (x)
+                          ((_ x y) (define y 'outer))
+                          ((_ _ y) (define y 'inner)))))
+        (let ()
+          (foo x p)
+          (define x #f) ;; this should be an error because
+                        ;; it shadows the previous line where
+                        ;; x has already been used in its outer sense
+                        ;; during expansion
+          p)))
+}}}
+
+Here is another example that WG1 allows but that would cause violation
+of lexical scoping, because the macro would be evaluated first and
+treat ... as a placeholder in a region where it is shadowed to be the
+variable bound to 1:
+
+{{{
+    (let ()
+      (define-syntax list-macro
+        (syntax-rules ()
+          ((_ x ...) (list x ...))))
+      (define ... 1)    ;; This shadows ... in previously expanded macro
+                        ;; body and will be a violation of lexical scoping
+      (list-macro 1 2)) ;; if the last line evaluates to (1 2)
+}}}
+
+OTOH, it is unclear to me if WG1 allows this or not.
+
+{{{
+    (let ((x #f))
+      (let-syntax ((foo (syntax-rules (x)
+                          ((_ x y) (define y 'outer))
+                          ((_ _ y) (define y 'inner)))))
+        (let ()
+          (define x #f)
+          (foo x p)
+          p)))
+}}}
+
+  * '''Options:''' r6rs, r5rs, tonder, undecided
+  * '''Default:''' r5rs
+  * '''Preferences:''' r6rs,undecided
+
+Rationale: I prefer the R6RS language here, as it scales well and is unambiguous.
+
+== WG1 - Modules ==
+
+=== #112 REPL redefinitions ===
+
+R5RS leaves unspecified the semantics of redefining a standard binding
+in the REPL.  Do we want to specify semantics, or some set of allowed
+behavior for this in the WG1 standard?
+
+REPLs may allow redefinition.  The sixteen cases that occur are
+redefining to/from syntax/non-syntax locally/imported, and the issue
+is what happens to previous references to the definition.  The general
+possibilities are:
+
+  1. redefinition signals an error
+  2. previous references are overridden (generally not possible if it the previous definition was syntax)
+  3. previous references are preserved (indicating a new binding was created, often preferred if replacing non-syntax with syntax to avoid runtime errors)
+  4. the semantics are left unspecified
+
+So all 64 combinations for these 4 values in the following 4x4 matrix
+are feasible:
+
+|| From/To       || import || import syntax || define || define-syntax ||
+|| import        ||   ?    ||       ?       ||   ?    ||       ?       ||
+|| import syntax ||   ?    ||       ?       ||   ?    ||       ?       ||
+|| define        ||   ?    ||       ?       ||   ?    ||       ?       ||
+|| define-syntax ||   ?    ||       ?       ||   ?    ||       ?       ||
+
+Not all 64 combinations necessarily make sense.  The default from R5RS
+is "unspecified", which means all 16 values are unspecified.  Note in
+most implementations there is no such thing as a "reference" to
+existing syntax, since macros are expanded once, but this is not the
+case for SCM or Wraith Scheme.
 
   * '''Proposals:'''
-    * '''r5rs:''' fixnum (`inexact?` may always be false)
-    * '''inexact-only:''' inexact (`exact?` may be the same as `integer?`)
-    * '''inexact:''' fixnum, inexact
-    * '''rational:''' fixnum, inexact, rational
-    * '''complex:''' fixnum, inexact, complex
-    * '''r6rs:''' fixnum, inexact, rational, complex
-    * '''quaternion:''' fixnum, inexact, rational, complex, quaternion
-  * '''Options:''' r5rs, inexact-only, inexact, rational, complex, r6rs, quaternion, undecided
+    * '''override:''' override for all 16 values (non-syntax to syntax can break closure references)
+    * '''preserve:''' preserve for all 16 values (must always create a new definition, not mutate, contrary to most implementations)
+    * '''common:''' most common behavior among implementations - override, except preserve for non-syntax to syntax
+    * '''simple:''' override, except unspecified for non-syntax to syntax
+    * '''dynamic:''' override, except unspecified for syntax to anything (compatible with SCM/Wraith)
+  * '''Options:''' override, preserve, common, dynamic, unspecified, undecided
+  * '''Default:''' unspecified
+  * '''Preferences:''' common,simple,unspecified,undecided
+
+Rationale: We should go with the common case, which I think is overwhelmingly chosen and used. 
+Either that or we can leave things unspecified, but this results in an ambiguous REPL, 
+which I thought the WG1 was trying to avoid as much as possible.
+
+=== #132 Imports override previous imports? ===
+
+The current draft describes importing different bindings for the same
+identifier as "an error."  R6RS explicitly requires this to signal an
+error.  Do we want to change this?
+
+This ticket refers only to modules - the top-level semantics are
+decided in ticket #112.
+
+  * '''Options:''' override, preserve, error, unspecified, undecided
+  * '''Default:''' error
+  * '''Preferences:''' error,undecided
+
+Rationale: Two imports into the same scope is essentially equivalent to two definitions with 
+the same identifier as the target binding. Imports at the same level should be imported to the 
+same scope, rather than introducing some new, implied scope.
+
+=== #160 Interleaving of imports and code in a module ===
+
+Given
+
+{{{
+   (module (name)
+     (begin c1 ...)
+     (import (A))
+     (begin c2 ...)
+     (import (B))
+     (begin c3 ...))
+}}}
+
+the intention, reference implementation, and specification from
+Scheme48 on which the syntax was based say that all imports establish
+the initial environment and then the code is expanded in order, but
+interleaving the imports is conceivable.
+
+  * '''Options:''' shinn, interleave, unspecified, undecided
+  * '''Default:''' shinn
+  * '''Preferences:''' shinn,undecided,interleave
+
+Rationale: Interleaving complicates the semantics. We should keep 
+with imports as being at the top level.
+
+=== #163 Allow modules at the REPL? ===
+
+Should users be allowed to enter a `module` form at the REPL?
+
+Note that there are actually many varying approaches to generating
+moduls at runtime, and Scheme48 and Chibi use an out-of-band REPL
+operation to create new modules, leaving the `module` binding open.
+
+  * '''Options:''' yes, no, unspecified, undecided
+  * '''Default:''' no
+  * '''Preferences:''' yes,undecided,unspecified,no
+
+Rationale: This is something that is very convenient to do, and can be 
+implemented even on implementations that leave the module binding open.
+
+=== #141 What are the semantics of modules with respect to separate compilation? ===
+
+ModulesShinn says that the bodies of libraries are evaluated
+before any of the bodies of the importing library; does that include,
+eg, "at compile time" rather than at "run time"?  It's not clear.
+
+  * '''Options:''' compile-time, unspecified, undecided
+  * '''Default:''' undecided
+  * '''Preferences:''' undecided
+
+Rationale: I think we need to introduce a clearer concept of what happens at 
+compile time and what happens at run time, and understand the differences here.
+As such, I do not think that we should finalize this vote yet.
+
+=== #158 mutating imports ===
+
+Currently the semantics of calling set! or define
+on an imported binding is undefined.  Do we
+want to specifically make this an error?
+
+  * '''Options:''' error, allowed, unspecified, undecided
+  * '''Default:''' unspecified
+  * '''Preferences:''' error,undecided,unspecified
+
+Rationale: Immutable imports is something that we definitely want to have, 
+and is something that many implementations use. We should ensure, at least,
+that we maintain compatibility with those systems that use such semantics.
+
+=== #159 base environments ===
+
+What is the base environment provided by the repl,
+scripts, and the result of (scheme-report-environment 7)?
+
+The intention was the base script environment was empty,
+scheme-report-environment was (scheme base), and repls
+were an implementation-defined superset thereof, but there
+are other options and we need to clarify this.
+
+  * '''Options:''' shinn, undecided
+    * '''shinn:''' intention as described above
+  * '''Default:''' shinn
+  * '''Preferences:''' undecided,shinn
+
+Rationale: We should have more discussion on this.
+
+=== #161 module argument to eval ===
+
+It would be useful to allow modules as an argument to eval in addition
+to environments.  This could be done with a special syntax, or just
+the module name as a list.
+
+R6RS provides a procedure `environment` which just
+takes a list that looks like an import spec an generates
+the corresponding environment.
+
+  * '''Options:''' r6rs, none, undecided
+  * '''Default:''' r6rs
+  * '''Preferences:''' r6rs,undecided,none
+
+Rationale: R6RS' `environment` is extremely useful and works well.
+
+=== #139 `exit` ===
+
+The ballot statement for #62 said we had voted for `exit` when we
+voted for ModulesShinn, but that page doesn't mention `exit`.  So we
+need to vote on it.
+
+  * '''Options:''' yes, no, undecided
+  * '''Default:''' yes
+  * '''Preferences:''' yes,undecided,no
+
+Rationale: Very useful, yes.
+
+=== #144 strip prefix on import ===
+
+I'm thinking that for importing code that defines its external symbols
+as `foo:this`, `foo:that`, and `foo:tother`, there should be a type of
+import clause that strips a specified prefix from imported symbols.
+This is equivalent to renaming on import or renaming on export, but
+less painful, in the same way as the `prefix` import clause does.
+
+Specific proposal: `(strip-prefix <import-set> <prefix-identifier>)`.
+
+  * '''Options:''' yes, no, undecided
+  * '''Default:''' no
+  * '''Preferences:''' yes,undecided,no
+
+Rationale: This is very useful, and a common form among implementation
+module systems.
+
+== WG1 - I/O ==
+
+=== #133 Provide read-line ===
+
+This is an R6RS procedure that was part of PortsCowan, but never
+explicitly voted up or down by WG1.  It reads a single line up to a
+line delimiter from a given port (the current input by default) and
+discards the line delimiter.
+
+  * '''Options:''' yes, no, undecided
+  * '''Default:''' no
+  * '''Preferences:''' yes,undecided,no
+
+Rationale: very common and very useful.
+
+=== #170 Add with-error-to-file procedure ===
+
+Since we now have `current-error-port`, arguably we should have
+`with-error-to-file` for completeness.
+
+  * '''Options:''' yes, no, undecided
+  * '''Default:''' no
+  * '''Preferences:''' yes,undecided,no
+
+Rationale: Useful, and it rounds things out.
+
+=== #176 Are string ports exclusively character ports? ===
+
+From scheme-reports discussion list, by John Cowan:
+
+> Jeronimo Pellegrini scripsit:
+> > According to Section 6.7.1, "Conversely, not all character ports are
+> > binary ports -- for example, the /string ports/ discussed below".  It
+> > is not really clear to wether the document *requires* string ports not
+> > to be binary or if it was just an example of a port that *could* be
+> > character but not binary.
+>
+> I haven't thought about it, but I guess it *could* be the latter, if the
+> environment provides a default encoding for string ports.
+
+  * '''Options:''' character-only, unspecified, undecided
+  * '''Default:''' unspecified
+  * '''Preferences:''' character-only,undecided,unspecified
+
+Rationale: We don't want to confuse binary and character ports. Strings should 
+only have characters (code points) as their underlying subelement, and we 
+should not confuse that with byte vectors or the like.
+
+=== #177 Distinguish file and string ports? ===
+
+Should there exist predicates that identify string and file ports?
+
+  * '''Options:''' string-port?, file-port?, both, neither, undecided
+  * '''Default:''' neither
+  * '''Preferences:''' both,neither,string-port?,file-port?,undecided
+
+Rationale: It makes sense to have them, and we should have both or neither 
+rather than only one or the other, but some systems don't provide these. 
+
+=== #131 Output procedures return value ===
+
+Output procedures (display, write, newline) currently return
+unspecified value, do we wish to make them return something (like in
+case of an error) or not?
+
+Need proposals.
+
+  * '''Options:''' r5rs, undecided
+  * '''Default:''' 
+  * '''Preferences:''' r5rs,undecided
+
+Rationale: We should stick with the unspecified error, there is no good reason 
+to change this.
+
+=== #134 Provide flush-output-port ===
+
+This is an R6RS procedure that was part of PortsCowan, but never
+explicitly voted up or down by WG1.  It flushes implementation output
+buffers on the specified port, the current output port by default.
+
+  * '''Options:''' yes, no, undecided
+  * '''Default:''' no
+  * '''Preferences:''' yes,undecided,no
+
+Rationale: This is an extremely useful procedure and is crucial in some 
+applications.
+
+== WG1 - Numerics ==
+
+=== #117 Real numbers have imaginary part #e0 ===
+
+In R6RS, a complex number with imaginary part 0 is only real if the
+imaginary part is an exact 0.  In R5RS, this was not true, and the
+requirement was simply that `(zero? (imag-part Z))` be true.
+
+  * '''Options:''' exact-only, any-zero, unspecified, undecided
+  * '''Default:''' any-zero
+  * '''Preferences:''' exact-only,any-zero,unspecified,undecided
+
+Rationale: I prefer the exact form.
+
+=== #120 Define the semantics of the transcendental functions more fully ===
+
+R6RS has an extended description of the transcendental functions.  Do
+we want to include this?
+
+TODO: explain the exact diff, why it is desirable, and whether any
+reasonable alternatives are possible.
+
+References:
+  * http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_sec_11.7.3.2
+
+  * '''Options:''' r6rs, r5rs, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' r6rs,rational,inexact,r5rs,complex,inexact-only,quaternion
+  * '''Preferences:''' r6rs,undecided,r5rs
 
-=== #100 integral division ===
+Rationale: We should clear this up and try to improve the descriptions of these things
+where we can, but we should still discuss exactly what we want to include and how/why.
 
-R5RS provides quotient, modulo and remainder for integral
-division. R6RS extended this with div/mod and div0/mod0. A thorough
-analysis of possible division operations is provided in
-DivisionRiastradh, which includes a proposal for five separate
-division operator pairs.  We need to choose which API we'll provide.
+=== #121 The semantics of expt for zero bases has been refined ===
+
+This is a change also made by R6RS.
+
+R5RS says:
+
+  Returns z1 raised to the power z2. For z1 /= 0, z1^z2^ = e^z2^ log z1; 0^z^ is 1 if z = 0 and 0 otherwise.
+
+R6RS says:
+
+  Returns z1 raised to the power z2. For nonzero z1, this is e^z2^ log z1. 0.0^z^ is 1.0 if z = 0.0, and 0.0 if (real-part z) is positive. For other cases in which the first argument is zero, either an exception is raised [...] or an unspecified number object is returned.
+
+
+  * '''Options:''' r6rs, r5rs, undecided
+  * '''Default:''' r5rs
+  * '''Preferences:''' r6rs,undecided,r5rs
+
+Rationale: I prefer the more detailed description.
+
+=== #122 Make infinity, NaN, and -0.0 semantics (when supported) consistent with IEEE 754 ===
+
+R5RS does not explicitly describe these values.  We have to decide
+whether to require that, if an implementation provides any of these
+values, they must be consistent with IEEE 754.
+
+R6RS both requires these values and requires they be consistent with
+IEEE 754.
+
+  * '''Options:''' ieee-754, unspecified, undecided
+  * '''Default:''' unspecified
+  * '''Preferences:''' ieee-754,undecided,unspecified
+
+Rationale: I don't think there is a good reason to deviate here, but I also 
+think that we could benefit from some more discussion on this if there are 
+good examples to why deviating from ieee-754 improves things.
+
+=== #175 Control of significant digits or decimal places in NUMBER->STRING ===
+
+Vincent Manis pleads for a way to write numbers with a specified precision:
+
+http://lists.scheme-reports.org/pipermail/scheme-reports/2011-May/000709.html
+
+I (Alaric Snell-Pym) wondered if this should be done via
+NUMBER->STRING or via an optional extra argument to ROUND etc
+specifying a precision, as a number like `0.01` to get two decimal
+places. How to provide significant figures rather than DP without
+introducing a base-10 dependency is left as an exercise to the reader
+(as is the task of deciding if I'm mad for not wanting a base-10
+dependency)
+
+  * '''Options:''' manis, none, undecided
+  * '''Default:''' none
+  * '''Preferences:''' none,undecided,manis
+
+Rationale: This is better tackled by more complete formatting procedures
+or some additional rounding operation on strings. We should not clutter 
+`number->string` to provide this specific functionality.
+
+=== #138 DivisionRiastradh domain ===
+
+Zero as a divisor aside, what should the domain of the proposed
+procedures be?
+
+ 1. Any real numbers?
+ 1. Integers only?
+ 1. Exact integers only?
+
+  * '''Options:''' reals, integers, exact-integers
+  * '''Default:''' 
+  * '''Preferences:''' undecided
+
+Rationale: I want to see more discussion on this.
+
+=== #217 DivisionRiastradh exactness preservation ===
+
+What about exactness preservation?
+
+ 1. Not exactness preserving
+ 1. Exactness preserving unless the implementation can prove that an inexact argument can't affect the result (as in the case of an exact zero dividend and an inexact divisor)
+ 1. Exactness preserving in all cases
+
+  * '''Options:''' not-exactness-preserving, exactness-preserving, exactness-preserving-unless
+  * '''Default:''' 
+  * '''Preferences:''' undecided
+
+Rationale: I want to see more discussion on this before I make my decision.
+
+=== #140 Removing `quotient`, `remainder`, `modulo` ===
+
+Are we removing the IEEE Scheme functions `quotient`, `remainder`, and
+`modulo` from WG1 Scheme?  If so, we need a special justification, due
+to the charter text:
+
+> Existing features of IEEE Scheme may be removed only if a strong
+> case can be made that they are fundamentally flawed. Insofar as
+> practical, the language should be backwards compatible with the IEEE
+> standard, the R5RS standard, and an appropriate subset of the R6RS
+> standard.
+
+Here's what DivisionRiastradh says:
+
+> Unfortunately, most programming languages give nondescript names
+> such as DIV(IDE), QUOT(IENT), MOD(ULO), and REM(AINDER) to these
+> operations. The language should make clear to programmers what
+> division operations their programs are performing, especially when
+> negative dividends and divisors can arise, but perhaps may not often
+> arise during testing.
+>
+> [...]
+
+> The R5RS gives the names `quotient` and `remainder` to the
+> truncating division operator pair, and the name `modulo` to the
+> remainder half of the flooring division operator pair. For all these
+> three procedures in the R5RS, the dividend may be any integer, and
+> the divisor may be any nonzero integer.
+
+On the other hand, we may prefer relegating them to a
+backward-compatibility module.
+
+Vote "yes" to keep, "no" to remove, and "module" to relegate to a
+module.
+
+  * '''Options:''' yes, no, module, undecided
+  * '''Default:''' yes
+  * '''Preferences:''' module,yes,undecided,no
+
+Rationale: I think we can reasonably relegate these, but I'm hesitant to 
+remove them completely, since they tend to be very commonly used. More 
+discussion is a good thing here.
+
+=== #151 Extend `finite?` and `nan?` to non-real values ===
+
+R6RS specifies the domain of `finite?` and `nan?` as the real numbers
+only.  I propose that `finite?` return `#t` on a non-real value iff
+both the real part and the imaginary part are finite and not `+nan.0`,
+and that `nan?` return `#t` on a non-real value iff either the real or
+the imaginary part is `+nan.0`.
 
   * '''Proposals:'''
-    * '''riastradh:''' DivisionRiastradh
-  * '''Options:''' r5rs, r6rs, riastradh, undecided
-  * '''Default:''' r5rs
-  * '''Preferences:''' riastradh,r6rs,r5rs
+    * '''cowan:''' the above description
+  * '''Options:''' cowan, unspecified, undecided
+  * '''Default:''' unspecified
+  * '''Preferences:''' undecided,cowan,unspecified
 
-== WG1 - Reader Syntax ==
+Rationale: I don't know the ramifications of this, and I would like more 
+discussion on this.
 
-=== #12 symbol literal extensions ===
+=== #152 exact-integer-sqrt inconsistent with multiple values module ===
 
-In R5RS, symbols parsed as any sequence of valid symbol characters
-that does not begin with a character that can begin a number.  The
-three exceptions `+`, `-` and `...` are also provided.  This allows
-parsing with only constant lookahead to determine type.
+R5RS does not actually specify any procedures which return multiple
+values, and so the decision to separate multiple values to a module
+was reasonable.  However, we also voted to make `exact-integer-sqrt`,
+which is in the base module, return multiple values, namely the root
+and the remainder.  That would make the procedure useless unless
+multiple values are provided.
 
-R6RS added additional exceptions for symbols beginning with `->`, a
-common idiom, still allowing parsers to determine type with a constant
-lookahead.
+We can either make multiple values not a module, make
+`exact-integer-sqrt` return a list (or single integer) rather than
+multiple values, relegate `exact-integer-sqrt` to a new module, remove
+it altogether, or do nothing and leave the inconsistency.
 
-John Cowan proposes allowing anything that cannot be parsed as a
-number to be a valid symbol.  This removes the special case
-exceptions, but may require arbitrary lookahead.
+  * '''Options:''' values-in-core, return-list, return-pair, return-root-only, new-module, remove, nothing, undecided
+  * '''Default:''' nothing
+  * '''Preferences:''' values-in-core,new-module,nothing,undecided,return-root-only,remove,return-pair,return-list
 
-Alex Shinn proposes symbols are any sequence of valid symbol
-characters that does not have a prefix which is a valid number.  This
-removes the special case exceptions, allows constant lookahead, and
-allows extensions to number syntax.
+Rationale: I don't want to have any procedure in the language that uses lists/pairs as intermediate 
+container constructs, as I am offended (in some ways) by that sort of conflation of the use 
+of lists. Values should be in the core.
 
-  * '''Proposals:'''
-    * '''r5rs:''' symbols may not begin with `-`, except for `-` itself
-    * '''r6rs:''' symbols may not begin with `-[^>]`
-    * '''cowan:''' symbols are anything that doesn't parse as a number
-    * '''shinn:''' symbols may not begin with a number prefix
-  * '''Options:''' r5rs, r6rs, cowan, shinn, undecided
-  * '''Default:''' r5rs
-  * '''Preferences:''' shinn,r6rs,cowan,r5rs
+=== #180 Make case and cond clauses into bodies ===
 
-=== #84 Need to decide on a list of named character escapes ===
+Andy Wingo suggests: make the clauses in `case` and `cond` forms
+(without `=>`, naturally) be BODY instances, to allow them to have
+definitions.  It is well defined AFAIK, and costs nothing.
 
-The WG has voted to have a list of character names.
+The counter-argument is that it doesn't "look" like the sort of place
+definitions are allowed.
 
-The list in R5RS and the longer list in R6RS are only informative.  I
-suggest adopting the R6RS list and making it normative.
+  * '''Options:''' yes, no, undecided
+  * '''Default:''' no
+  * '''Preferences:''' yes,undecided,no
 
-  * '''Proposals:'''
-    * '''r5rs:''' space, newline
-    * '''r6rs:''' [[http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-7.html#node_sec_4.2.6|R6RS Characters]]
-    * '''shinn:''' space, tab, newline, return, escape, null, alarm, backspace
-  * '''Options:''' r5rs, r6rs, shinn
-  * '''Default:''' r5rs
-  * '''Preferences:''' r6rs,shinn,r5rs
+Rationale: There is no reason not to do this. If you don't like the style, 
+then don't use it, but a standards body should not be in charge of dictating 
+good style.
 
-=== #104 list of mnemonic string escapes ===
+=== #181 Add WHEN and UNLESS to the base module ===
 
-Similar to #84, we need to choose a specific list of mnemonic escapes
-like \n and \t to be recognized in strings.
+  * '''Options:''' yes, no, undecided
+  * '''Default:''' no
+  * '''Preferences:''' yes,undecided,no
 
-  * '''Proposals:'''
-    * '''r5rs:''' `\\`, `\"`
-    * '''r6rs:''' [[http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-7.html#node_sec_4.2.7|R6RS Strings]]
-    * '''shinn:''' `\\`, `\"`, `\t`, `\n`, `\r`, `\e`, `\a`, `\b`
-  * '''Options:''' r5rs, r6rs, shinn
-  * '''Default:''' r5rs
-  * '''Preferences:''' r6rs,shinn,r5rs
+Rationale: These are very useful and help to discourage one-armed `if`s.
+
+=== #182 Add WHILE and UNTIL ===
+
+These trivial syntaxes add familiarity for new Scheme programmers
+coming from other languages, as will almost always be the case.  LOOP
+is too big and named-LET too alien.
+
+  * '''Options:''' yes, no, undecided
+  * '''Default:''' no
+  * '''Preferences:''' no,undecided,yes
+
+Rationale: They are rarely if ever used among non-beginner Scheme 
+programmers, and I know of very few teachers who would encourage its use.
+Thus, they don't provide enough usefulness to the general Scheme community 
+to warrant standardization.
+
+=== #183 Escaped newline removes following whitespace? ===
+
+Andy Wingo suggests the R6RS handling of escaped embedded newlines:
+
+{{{
+    "asdadf \
+    asdfadf"
+}}}
+
+in R6RS has the same meaning as "asdf asdfadf".  It allows you to
+nicely indent strings that you need to line-break for width.  I
+suggest that the production
+
+{{{
+   \ NEWLINE WHITESPACE*
+}}}
+
+within string literals be elided.
+
+Note an alternate method for handling embedded strings with nice
+indentation is scribble syntax.
+
+We voted on various string syntaxes previously but did not
+specifically propose this R6RS extension.  We should have a rationale
+if we don't follow it.
+
+  * '''Options:''' yes, no, undecided
+  * '''Default:''' no
+  * '''Preferences:''' yes,undecided,no
+
+Rationale: This is really useful, but the scribble syntax is also very useful, and 
+we should consider this as a separate ticket.
+
+=== #184 Require CHAR=?, STRING=? etc. to accept arbitrary numbers of arguments? ===
+
+R5RS makes a point of specifying that supporting more than two
+arguments is optional.  (Everything not explicitly mentioned is
+optional, so this may have significance.)  R6RS requires accepting 2
+or more arguments.  Currently Racket, Gambit, Guile, Chez, Ikarus,
+Larceny, Ypsilon, Mosh, and Scheme 9 support the feature, whereas
+Gauche, MIT, Chicken, Bigloo, Scheme48/scsh, Kawa, SISC, Chibi,
+STklos, and SSCM don't.
+
+  * '''Options:''' yes, no, undecided
+  * '''Default:''' no
+  * '''Preferences:''' undecided,yes,no
+
+Rationale: I don't understand why we would limit this. It seems like an strange 
+limitation to enforce on users. I would like to see more rationale on why we might 
+want to vote no, but otherwise I tihnk they should accept multiple numbers of 
+arguments.
+
+=== #185 Add sixth "centered" division operator ===
+
+From the Guile manual:
+
+* Scheme Procedure: centered/ x y
+* Scheme Procedure: centered-quotient x y
+* Scheme Procedure: centered-remainder x y
+
+These procedures accept two real numbers x and y, where the divisor y
+must be non-zero. centered-quotient returns the integer q and
+centered-remainder returns the real number r such that x = q*y + r and
+-|y/2| <= r < |y/2|. centered/ returns both q and r, and is more
+efficient than computing each separately.
+
+Note that centered-quotient returns x/y rounded to the nearest
+integer. When x/y lies exactly half-way between two integers, the tie
+is broken according to the sign of y. If y > 0, ties are rounded
+toward positive infinity, otherwise they are rounded toward negative
+infinity. This is a consequence of the requirement that -|y/2| <= r <
+|y/2|.
+
+Note that these operators are equivalent to the R6RS operators div0,
+mod0, and div0-and-mod0.
+
+--Andy Wingo
+
+Taylor Campbell thinks these are useless.  We should probably have use
+cases for _any_ division operator we include.
+
+  * '''Options:''' yes, no, undecided
+  * '''Default:''' no
+  * '''Preferences:''' undecided
+
+Rationale: I don't understand these well enough to vote on them yet.
+
+=== #195 Editorial: proposed rewording for `begin` ===
+
+The documentation for `begin' specifies that it is a sequential
+construct; but really it splices as well, and also of course it's a
+keyword for the module system currently.  This is inaccurate of the
+spec to say that "begin is for sequencing".
+
+Suggestion: adopt the language of R6RS section 11.4.7.
+
+--Andy Wingo
+
+We should explain somewhere the four kinds of `begin`s: (begin expr
+...), (begin decl ...), top-level begin, and module-top-level begin.
+Note that R7RS like R5RS does not have (begin decl ... expr ...).
+
+Vote `yes` to adopt the R6RS description, modified for differences in
+the language.
+
+  * '''Options:''' yes, no, undecided
+  * '''Default:''' no
+  * '''Preferences:''' yes,undecided,no
+
+Rationale: I think we ought to have a splicing `begin` form, so I don't
+know what else would differ between R6RS and R7RS in this regard.
+
+=== #198 Make it an error for a procedure mapped by MAP and friends to mutate the result list/string/vector ===
+
+This is possibly difficult to enforce, and can break existing R5RS
+programs written in very bad style.
+
+  * '''Options:''' yes, no, undecided
+  * '''Default:''' no
+  * '''Preferences:''' yes,undecided,no
+
+Rationale: We don't have to enforce this, but it does let people write 
+things in a way that they can get away with being slightly lazy. Making it 
+an error is a good thing in this case.
+
+=== #199 Make it an error for a procedure mapped by MAP and friends to return more than once ===
+
+This is possibly difficult to enforce, and can break existing R5RS
+programs.
+
+  * '''Options:''' yes, no, undecided
+  * '''Default:''' no
+  * '''Preferences:''' undecided,yes,no
+
+Rationale: I would like to know the ramifications of this.
+
+=== #200 Completing the blob procedures ===
+
+Add `blob`, `blob-map`, `blob-for-each`, and blob conversion functions
+to and from lists/vectors/strings.
+
+  * '''Options:''' yes, no, undecided
+  * '''Default:''' no
+  * '''Preferences:''' undecided,yes,no
+
+Ratione: I know that these would be useful, but I don't know what they would 
+look like, and they should be in the spirit of blobs and not ad hoc. 
+
+=== #205 Roll partial-blob-copy(!) into blob-copy(!) ===
+
+... with extra arguments.
+
+  * '''Options:''' yes, no, undecided
+  * '''Default:''' no
+  * '''Preferences:''' yes,undecided,no
+
+Rationale: This simplifies the name space and should make things easier. 
+I like this sort of interface better than remembering another name.
+
+=== #206 Provide read-syntax for blobs ===
+
+R6RS provides a `#vu8(...)` read-syntax for bytevectors.  SRFI-4 uses
+`#u8(...)`.
+
+  * '''Options:''' r6rs, srfi-4, none, undecided
+  * '''Default:''' none
+  * '''Preferences:''' r6rs,srfi-4,undecided,none
+
+Rationale: We should have one, regardless of what we pick, and I prefer 
+the more descriptive (slightly) R6RS version more than the SRFI-4 version.
+
+=== #207 Editorial: Polar complex numbers are inexact ===
+
+Add a note saying that `1@2` and `(make-polar 1 2)` MAY evaluate to an
+inexact complex number.
+
+  * '''Options:''' yes, no, undecided
+  * '''Default:''' no
+  * '''Preferences:''' undecided,yes,no
+
+Rationale: I haven't thought enough about this.
+
+=== #208 Is || a valid identifier? ===
+
+The grammar in 7.1.1 allows `||` as an <identifier>. However, page 5
+suggests the `|...|` form is only for convenience (e.g. `|foo bar|` is
+equivalent to `foo\x20;bar`). There's no way to normalise `||` to
+anything without the vertical bars that's a valid identifier. Was that
+intentional, or should the rule be
+
+{{{
+<vertical bar> <symbol element>+ <vertical bar>
+}}}
+
+Vote `remove` to remove the `|...|` syntax altogether.
+
+  * '''Options:''' remove, empty-valid, empty-invalid, undecided
+  * '''Default:''' empty-valid
+  * '''Preferences:''' empty-valid,empty-invalid,undecided,removed
+
+Rationale: There's no reason to limit the bar syntax when || is a perfectly 
+good identifier. We should remove language that suggests it is only for convenience.
+
+=== #191 Include CLOSE-PORT ? ===
+
+Should we include `close-port`, as a generic version of
+`close-input-port` and `close-output-port`?
+
+  * '''Options:''' yes, no, undecided
+  * '''Default:''' no
+  * '''Preferences:''' yes,no
+
+Rationale: It's useful and general, but I'm not attached to it.
+
+=== #188 Clarify wording of `and` and `or` definitions ===
+
+The definitions of `and` and `or` may be slightly confusing. Reword
+them to be more clear. One possible hiccup is that the current
+language permits the return of different false values, while a clearer
+wording may preclude this.
+
+R6RS provides a clearer definition that does not provide wiggle room
+for multiple false values. Should we use that?
+
+  * '''Options:''' yes, no, undecided
+  * '''Default:''' no
+  * '''Preferences:''' yes,undecided,no
+
+Rationale: We should clarify this wording specifically to eliminate this 
+ambiguity about false values.
+
+=== #187 Clarify duplicate bindings in `let*` ===
+
+The language of the standard could clarify that duplicate bindings are
+permitted in the clauses of a `let*`.
+
+  * '''Options:''' yes, no, undecided
+  * '''Default:''' no
+  * '''Preferences:''' yes,undecided,no
+
+Rationale: Arguably this is not necessary, but it does help people who 
+are trying to read the standard. This is an issue that has cropped up 
+from time to time so maybe it makes sense to include language about it 
+in the standard, even at the expense of a bit of verbosity.
+
+=== #215 initial value argument to make-blob ===
+
+`make-blob` should either have an initial value argument, or rationale
+why it is inconsistent with `make-vector` and `make-string`.
+
+Vote `yes` for an initial value argument.
+
+  * '''Options:''' yes, no, undecided
+  * '''Default:''' no
+  * '''Preferences:''' yes,undecided,no
+
+Rationale: I assume that this will be an optional argument, so, yes.
+
+=== #216 Controlling use of reader labels on output ===
+
+There are cases when one does not want to output reader labels for
+shared structure, such as when you don't care (and want the output to
+be more legible), or when you know that the time or space requirements
+to construct the table will be too large.
+
+We could offer a parameter to control this, or have a separate
+procedure (e.g. `write/simple`) which doesn't use the reader labels.
+
+Finer grained control may also let use specify a predicate for which
+values are interesting (e.g. never use labels for strings), or only
+use labels for cycles, etc.
+
+  * '''Options:''' parameter, write/simple, none, undecided
+  * '''Default:''' none
+  * '''Preferences:''' undecided,none,parameter,write/simple
+
+Rationale: Is this is common use? What would this look like? I want more discussion on 
+this, but otherwise, I am not sure it makes sense, so I'm going with none after 
+undecided.
