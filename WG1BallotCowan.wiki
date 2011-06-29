@@ -65,10 +65,10 @@ WG1 voted weakly in favor of '''cowan''' before.
     * '''r6rs:''' [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html#node_sec_8.2|R6RS Port I/O]]
     * '''r6rs-simple:''' [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html#node_sec_8.3|R6RS Simple I/O]]
     * '''srfi-91:''' [[http://srfi.schemers.org/srfi-91/srfi-91.html|SRFI-91]]
-    * '''cowan:''' PortsCowan (subset relevant to binary I/O)
-  * '''Options:''' r6rs, r6rs-simple, srfi-91, cowan, none, undecided
+    * '''shinn:''' PortsShinn
+  * '''Options:''' r6rs, r6rs-simple, srfi-91, shinn, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' cowan, srfi-91, r6rs-simple, r6rs, none
+  * '''Preferences:''' shinn
 
 === #83 Auxiliary Keywords ===
 
