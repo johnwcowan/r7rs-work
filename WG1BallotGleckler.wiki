@@ -1438,7 +1438,11 @@ Should we include `close-port`, as a generic version of
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' no
+  * '''Preferences:''' yes
+
+It seems silly to omit this since it's so useful and common.
+
+I note that the title of this ballot item takes advantage of case-insensitivity.
 
 === #188 Clarify wording of `and` and `or` definitions ===
 
