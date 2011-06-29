@@ -353,16 +353,36 @@ opening a new ticket for them.
 === #137 Current-seconds semantics still open ===
 
 In issue #70, WG1 voted to make `current-seconds` an optional
-procedure, but there is no guidance about what it returns.  The second
-choice, TimeCowan, calls it `current-posix-second` and makes it return
-the integral number of seconds since the Posix epoch, excluding all
-leap seconds.  We need a final decision on name and semantics.
+procedure, but there is no guidance about what it returns.
 
-Need proposals.
+If we choose to specify this further, the big question is whether or
+not to include leap seconds - i.e. do we specify it as TAI or POSIX
+time (the choice of the epoch itself is less controversial and
+defaults to the POSIX epoch).  TAI time has the advantage that it
+measures real, unambiguous time, and two calls to current-seconds more
+than a second apart are guaranteed to actually differ.  POSIX time has
+the advantage of bug-for-bug compatibility with POSIX systems - the
+times are ambiguous, but they already have to deal with that.
 
-  * '''Options:'''
-  * '''Default:'''
-  * '''Preferences:'''
+The other issue is whether to return an integral number of seconds and
+lose the ability to specify subsecond real times, or return an inexact
+real (flonum) number of seconds and have to deal with variable
+precision depending on the date.
+
+TimeCowan is equivalent to the `posix-integer` option, and in addition
+changes the name to `current-posix-second`.
+
+  * '''Proposals:'''
+    * '''cowan:''' TimeCowan
+    * '''posix-integer:''' POSIX time as an exact integer value
+    * '''posix-flonum:''' POSIX time as an inexact real value
+    * '''tai-integer:''' TAI time as an exact integer value
+    * '''tai-flonum:''' TAI time as an inexact real value
+  * '''Options:''' cowan, unspecified, undecided, none
+  * '''Default:''' unspecified
+  * '''Preferences:''' tai-integer, posix-integer, cowan, tai-flonum, posix-flonum
+
+Having a floating point representation seems even worse than using the POSIX representation.  I don't want floating point error in my time.
 
 === #147 Allow literal file spec lists in include and include-ci ===
 
