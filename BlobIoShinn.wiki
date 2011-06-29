@@ -7,4 +7,4 @@ procedures are proposed:
   * (utf8->string <blob>)
   * (string->utf8 <string>)
 
-The `utf8->string` procedure converts invalid bytes into U+FFFD characters.
+It's an error to pass invalid bytes to `utf8->string`.  A plausible recovery strategy is to convert each invalid byte into a U+FFFD character.
