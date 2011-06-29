@@ -30,17 +30,6 @@ need separate procedures for creating new ports anyway, such as for
 TCP/IP ports, and our APIs should be consistent and reflect this.
 }}}
 
-The standard input and output ports which `current-input-port` and
-`current-output-port` are bound to are not opened explicitly, so they
-present some difficulty.  They default to character, but can be
-converted to binary with the following procedures:
-
-  * (standard-input-is-binary!)
-  * (standard-output-is-binary!)
-
-It is an error to call either of these if the corresponding
-`current-in/output-port` is not the original value, or if any I/O has
-been performed on them.
 
 The following operations can be performed on binary ports as in the
 current draft:
@@ -56,10 +45,15 @@ closing the port:
 
   * (call-with-port <port> <proc>)
 
+If we decide not to have `close-port`, which this procedure implicitly depends on, then this proposal will instead provide two procedures:
+
+  * (call-with-input-port <port> <proc>)
+  * (call-with-output-port <port> <proc>)
+
+
 {{{
 Note that `current-in/output-port` are parameters, and can be
 parameterized as such, obviating the need for `with-in/output-port`
 shortcuts.
 }}}
 
-See also BlobIoShinn, which is incorporated by reference.
