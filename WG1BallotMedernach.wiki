@@ -51,7 +51,7 @@ WG1 voted weakly in favor of '''cowan''' before.
     * '''cowan:''' PortsCowan (subset relevant to binary I/O)
   * '''Options:''' r6rs, r6rs-simple, srfi-91, cowan, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided
 
 === #83 Auxiliary Keywords ===
 
@@ -80,7 +80,7 @@ References:
 
   * '''Options:''' bound, unbound, unhygienic, undecided
   * '''Default:''' unbound
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided
 
 === #3 module naming convention ===
 
@@ -154,7 +154,7 @@ References:
 
   * '''Options:''' multiple, single, undecided
   * '''Default:''' single
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided
 
 === #124 Nested quasiquote semantics ===
 
@@ -181,7 +181,7 @@ This is a change also made by R6RS, specifically:
 
   * '''Options:''' r6rs, r5rs, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' 
+  * '''Preferences:''' r6rs
 
 === #126 Partly specify the mutability of the values of quasiquote structures ===
 
@@ -189,7 +189,7 @@ This is a change also made by R6RS.
 
   * '''Options:''' r6rs, r5rs, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided
 
 === #127 Specify the dynamic environment of the ''before'' and ''after'' procedures of dynamic-wind ===
 
@@ -208,7 +208,7 @@ called before or after the dynamic extent is entered or exited.
     * '''unspecified:''' R5RS
   * '''Options:''' outside, inside, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' outside
 
 === #135 let-values and let*-values ===
 
@@ -234,7 +234,7 @@ Need proposals.
 
   * '''Options:''' 
   * '''Default:''' 
-  * '''Preferences:''' 
+  * '''Preferences:''' cowan
 
 === #147 Allow literal file spec lists in include and include-ci ===
 
@@ -245,7 +245,7 @@ to support this.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
 
 === #148 Allow include-ci at top level ===
 
@@ -254,7 +254,7 @@ as `include` is.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
 
 === #149 blob ports ===
 
@@ -266,7 +266,7 @@ against in the previous ballot.
 
   * '''Options:''' cowan, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:''' cowan, undecided
 
 === #150 cond-expand at top level ===
 
@@ -305,7 +305,7 @@ as equivalent, even if the local representation of line endings is
 
   * '''Options:''' unix, local, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' unix
 
 === #155 Make recursively defined code an explicit error ===
 
@@ -391,7 +391,7 @@ nonexistent Unicode Numeric property.  That has to be fixed.  Options:
 
   * '''Options:''' any, number, digit, ascii, undecided
   * '''Default:''' ascii
-  * '''Preferences:''' 
+  * '''Preferences:''' digit, number
 
 === #166 Add predicate and accessors for error objects ===
 
@@ -426,7 +426,7 @@ Returns a list of the irritants of ''object''.
 
   * '''Options:''' manis, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:''' manis
 
 === #167 Add constructor for error objects ===
 
@@ -460,7 +460,7 @@ anything in WG1. `Error` can be defined as:
 
   * '''Options:''' manis, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:''' manis
 
 === #169 Add standard-*-port procedures ===
 
@@ -470,7 +470,7 @@ standard input, output, and error streams.
 
   * '''Options:''' r6rs, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:''' none
 
 === #171 Duplicate identifiers in define-record-type ===
 
@@ -588,7 +588,7 @@ are multiple returns from map. Should we include this language?
 
   * '''Options:''' r6rs, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' r6rs
 
 === #178 Shadowing with internal definitions ===
 
@@ -650,7 +650,7 @@ OTOH, it is unclear to me if WG1 allows this or not.
 
   * '''Options:''' r6rs, r5rs, tonder, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' 
+  * '''Preferences:''' tonder
 
 == WG1 - Modules ==
 
@@ -689,7 +689,7 @@ is "unspecified", which means all 16 values are unspecified.
     * '''dynamic:''' override, except unspecified for non-syntax to syntax (compatible with all implementations)
   * '''Options:''' override, preserve, common, dynamic, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' common, unspecified
 
 === #132 Imports override previous imports? ===
 
@@ -751,7 +751,7 @@ eg, "at compile time" rather than at "run time"?  It's not clear.
 
   * '''Options:''' compile-time, unspecified, undecided
   * '''Default:''' undecided
-  * '''Preferences:''' 
+  * '''Preferences:''' unspecified
 
 === #158 mutating imports ===
 
@@ -776,7 +776,7 @@ are other options and we need to clarify this.
   * '''Options:''' shinn, undecided
     * '''shinn:''' intention as described above
   * '''Default:''' shinn
-  * '''Preferences:''' 
+  * '''Preferences:''' shinn
 
 === #161 module argument to eval ===
 
@@ -790,7 +790,7 @@ the corresponding environment.
 
   * '''Options:''' r6rs, none, undecided
   * '''Default:''' r6rs
-  * '''Preferences:''' 
+  * '''Preferences:''' r6rs
 
 === #139 `exit` ===
 
@@ -854,7 +854,7 @@ From scheme-reports discussion list, by John Cowan:
 
   * '''Options:''' character-only, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' unspecified
 
 === #177 Distinguish file and string ports? ===
 
@@ -862,7 +862,7 @@ Should there exist predicates that identify string and file ports?
 
   * '''Options:''' string-port?, file-port?, both, neither, undecided
   * '''Default:''' neither
-  * '''Preferences:''' 
+  * '''Preferences:''' neither
 
 === #131 Output procedures return value ===
 
@@ -874,7 +874,7 @@ Need proposals.
 
   * '''Options:''' r5rs, undecided
   * '''Default:''' 
-  * '''Preferences:''' 
+  * '''Preferences:''' r5rs
 
 === #134 Provide flush-output-port ===
 
@@ -898,7 +898,7 @@ requirement was simply that `(zero? (imag-part Z))` be true.
 
   * '''Options:''' exact-only, any-zero, unspecified, undecided
   * '''Default:''' any-zero
-  * '''Preferences:''' 
+  * '''Preferences:''' exact-only
 
 === #120 Define the semantics of the transcendental functions more fully ===
 
@@ -913,7 +913,7 @@ References:
 
   * '''Options:''' r6rs, r5rs, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' 
+  * '''Preferences:''' r6rs
 
 === #121 The semantics of expt for zero bases has been refined ===
 
@@ -930,7 +930,10 @@ R6RS says:
 
   * '''Options:''' r6rs, r5rs, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided
+
+Strictly speaking z1^z2^ has no values at z1 = 0.0 and z2 = 0.0 because it is not continuous there.
+
 
 === #122 Make infinity, NaN, and -0.0 semantics (when supported) consistent with IEEE 754 ===
 
@@ -963,7 +966,7 @@ dependency)
 
   * '''Options:''' manis, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:''' manis
 
 === #138 DivisionRiastradh domain ===
 
@@ -976,7 +979,9 @@ procedures be?
 
   * '''Options:''' reals, integers, exact-integers
   * '''Default:''' 
-  * '''Preferences:''' 
+  * '''Preferences:''' reals
+
+One may want "modulo 2pi" with it for instance.
 
 === #217 DivisionRiastradh exactness preservation ===
 
@@ -988,7 +993,7 @@ What about exactness preservation?
 
   * '''Options:''' not-exactness-preserving, exactness-preserving, exactness-preserving-unless
   * '''Default:''' 
-  * '''Preferences:''' 
+  * '''Preferences:''' exactness-preserving-unless, not-exactness-preserving
 
 === #140 Removing `quotient`, `remainder`, `modulo` ===
 
@@ -1044,7 +1049,7 @@ the imaginary part is `+nan.0`.
     * '''cowan:''' the above description
   * '''Options:''' cowan, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' cowan
 
 === #152 exact-integer-sqrt inconsistent with multiple values module ===
 
@@ -1125,7 +1130,7 @@ if we don't follow it.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
 
 === #184 Require CHAR=?, STRING=? etc. to accept arbitrary numbers of arguments? ===
 
@@ -1139,7 +1144,8 @@ STklos, and SSCM don't.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
+
 
 === #185 Add sixth "centered" division operator ===
 
@@ -1203,7 +1209,9 @@ programs written in very bad style.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no
+
+No, but please put a warning about doing it in the report as "shooting yourself in the foot".
 
 === #199 Make it an error for a procedure mapped by MAP and friends to return more than once ===
 
@@ -1212,7 +1220,9 @@ programs.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no
+
+Multiple returns is one Scheme essential feature, let not restrict it, there is no reason here.
 
 === #200 Completing the blob procedures ===
 
@@ -1221,7 +1231,9 @@ to and from lists/vectors/strings.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no
+
+Unappropriate for blobs.
 
 === #205 Roll partial-blob-copy(!) into blob-copy(!) ===
 
@@ -1229,7 +1241,7 @@ to and from lists/vectors/strings.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no
 
 === #206 Provide read-syntax for blobs ===
 
@@ -1238,7 +1250,7 @@ R6RS provides a `#vu8(...)` read-syntax for bytevectors.  SRFI-4 uses
 
   * '''Options:''' r6rs, srfi-4, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:''' none
 
 === #207 Editorial: Polar complex numbers are inexact ===
 
@@ -1247,7 +1259,7 @@ inexact complex number.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
 
 === #208 Is || a valid identifier? ===
 
@@ -1265,7 +1277,7 @@ Vote `remove` to remove the `|...|` syntax altogether.
 
   * '''Options:''' remove, empty-valid, empty-invalid, undecided
   * '''Default:''' empty-valid
-  * '''Preferences:''' 
+  * '''Preferences:''' empty-valid
 
 === #191 Include CLOSE-PORT ? ===
 
@@ -1326,4 +1338,6 @@ use labels for cycles, etc.
 
   * '''Options:''' parameter, write/simple, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:''' write/simple
+
+However write-simple would be a better name (Ok, this is bikeshed)
