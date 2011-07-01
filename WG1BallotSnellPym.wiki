@@ -35,7 +35,7 @@ References:
     * '''snellpym:''' UniqueTypesSnellPym
   * '''Options:''' srfi-9, srfi-57, srfi-99, r6rs, cowan, hsu, medernach, rush, snellpym, none, wg2, undecided
   * '''Default:''' srfi-9
-  * '''Preferences:''' gleckler,cowan,hsu
+  * '''Preferences:''' gleckler,snellpym|cowan,hsu,medernach, rush
 
 === #28 Binary I/O ports ===
 
@@ -121,7 +121,7 @@ proposing changing this, so we are re-opening the ticket.
     * '''medernach:''' ModuleFactoringMedernach
   * '''Options:''' draft-1, r5rs, r6rs, cowan, shinn, medernach, undecided
   * '''Default:''' draft-1
-  * '''Preferences:''' 
+  * '''Preferences:''' cowan,shinn,medernach,r5rs
 
 = New Ballot Items =
 
@@ -177,7 +177,7 @@ References:
 
   * '''Options:''' multiple, single, undecided
   * '''Default:''' single
-  * '''Preferences:''' 
+  * '''Preferences:''' multiple
 
 === #124 Nested quasiquote semantics ===
 
@@ -192,7 +192,7 @@ References:
     * '''strict:''' strict at all levels (R6RS with single for #123)
   * '''Options:''' r5rs, r6rs, chicken, strict, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' 
+  * '''Preferences:''' r6rs
 
 === #125 Allow procedures not to be locations (making EQV? unspecified in some additional cases) ===
 
@@ -204,7 +204,7 @@ This is a change also made by R6RS, specifically:
 
   * '''Options:''' r6rs, r5rs, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' 
+  * '''Preferences:''' r6rs
 
 === #126 Partly specify the mutability of the values of quasiquote structures ===
 
@@ -212,7 +212,7 @@ This is a change also made by R6RS.
 
   * '''Options:''' r6rs, r5rs, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' 
+  * '''Preferences:''' r6rs
 
 === #127 Specify the dynamic environment of the ''before'' and ''after'' procedures of dynamic-wind ===
 
@@ -241,7 +241,7 @@ opening a new ticket for them.
 
   * '''Options:''' yes, no, module, wg2, undecided
   * '''Default:''' no
-  * '''Preferences:''' module,yes,no
+  * '''Preferences:''' yes,no
 
 === #137 Current-seconds semantics still open ===
 
@@ -286,7 +286,9 @@ to support this.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
+
+The way we specify filenames should be consistent across Scheme.
 
 === #148 Allow include-ci at top level ===
 
@@ -433,7 +435,7 @@ nonexistent Unicode Numeric property.  That has to be fixed.  Options:
 
   * '''Options:''' any, number, digit, ascii, undecided
   * '''Default:''' ascii
-  * '''Preferences:''' any,digit|number,ascii
+  * '''Preferences:''' digit,any|number,ascii
 
 === #166 Add predicate and accessors for error objects ===
 
@@ -623,6 +625,10 @@ a given field ?
   * '''Default:''' none
   * '''Preferences:''' none
 
+This can just be a macro that expands: `(record-let foo ((a foo-a) (b foo-b)) (list a b))`
+into `(let ((a (foo-a foo)) (b (foo-b foo))) (list a b))`, can't it? I see no need for magic low-level access to record internals,
+which would unhappily restrict it to actual records anyway (so I'm a bit queasy about the name). `(record-let foo ((a car) (b cdr)) ...)` would be useful in its own right.
+
 === #172 Multiple returns from `map` ===
 
 R6RS specifies that `map` does not mutate previous results if there
@@ -630,7 +636,7 @@ are multiple returns from map. Should we include this language?
 
   * '''Options:''' r6rs, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' unspecified
+  * '''Preferences:''' r6rs
 
 === #178 Shadowing with internal definitions ===
 
@@ -737,7 +743,7 @@ case for SCM or Wraith Scheme.
   * '''Default:''' unspecified
   * '''Preferences:''' unspecified
 
-I think REPL semantics should be left quite open to implementation variation.
+I think REPL semantics should be left quite open to implementation variation. Standardising code written in files is what's needed for portability!
 
 === #132 Imports override previous imports? ===
 
@@ -1027,7 +1033,7 @@ procedures be?
 
   * '''Options:''' reals, integers, exact-integers
   * '''Default:''' 
-  * '''Preferences:''' 
+  * '''Preferences:''' integers,exact-integers
 
 === #217 DivisionRiastradh exactness preservation ===
 
@@ -1039,7 +1045,7 @@ What about exactness preservation?
 
   * '''Options:''' not-exactness-preserving, exactness-preserving, exactness-preserving-unless
   * '''Default:''' 
-  * '''Preferences:''' 
+  * '''Preferences:''' exactness-preserving-unless
 
 === #140 Removing `quotient`, `remainder`, `modulo` ===
 
@@ -1078,7 +1084,9 @@ module.
 
   * '''Options:''' yes, no, module, undecided
   * '''Default:''' yes
-  * '''Preferences:''' module,no,yes
+  * '''Preferences:''' yes
+
+I'd love to see them removed to make Scheme more consistent, but in hindsight, it's a petty incompatibility with existing code.
 
 === #151 Extend `finite?` and `nan?` to non-real values ===
 
@@ -1249,7 +1257,7 @@ programs written in very bad style.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' no
+  * '''Preferences:''' yes
 
 === #199 Make it an error for a procedure mapped by MAP and friends to return more than once ===
 
@@ -1258,7 +1266,7 @@ programs.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' no
+  * '''Preferences:''' yes
 
 === #200 Completing the blob procedures ===
 
@@ -1277,7 +1285,7 @@ Blob's don't have an internal structure to map or for-each over. Sure, we can me
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' yes
+  * '''Preferences:''' no
 
 === #206 Provide read-syntax for blobs ===
 
