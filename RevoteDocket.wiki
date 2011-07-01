@@ -22,4 +22,4 @@ Immutable data:
 
 Port encodings, buffering, line ending control:
 
-
+Evaluator arguments to procedures like `load`.
