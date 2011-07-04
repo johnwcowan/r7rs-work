@@ -167,7 +167,7 @@ WG1 voted weakly in favor of PortsCowan before.
     * '''r6rs-simple:''' [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html#node_sec_8.3|R6RS Simple I/O]]
     * '''srfi-91:''' [[http://srfi.schemers.org/srfi-91/srfi-91.html|SRFI-91]]
     * '''shinn:''' PortsShinn
-  * '''Options:''' r6rs, r6rs-simple, srfi-91, shinn, none, undecided
+  * '''Options:''' shinn, r6rs-simple, r6rs, srfi-91, none, undecided
   * '''Default:''' none
   * '''Preferences:''' shinn, r6rs-simple, undecided
 
