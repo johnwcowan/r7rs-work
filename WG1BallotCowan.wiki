@@ -118,7 +118,7 @@ proposing changing this, so we are re-opening the ticket.
     * '''shinn:''' ModuleFactoringShinn
   * '''Options:''' draft-1, r5rs, r6rs, cowan, shinn, undecided
   * '''Default:''' draft-1
-  * '''Preferences:''' ModuleFactoringCowan
+  * '''Preferences:''' cowan
 
 '''Note:''' The `(scheme io)` module in the draft was never voted on and doesn't belong there.
 
