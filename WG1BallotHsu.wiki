@@ -65,9 +65,10 @@ WG1 voted weakly in favor of PortsCowan before.
     * '''r6rs-simple:''' [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html#node_sec_8.3|R6RS Simple I/O]]
     * '''srfi-91:''' [[http://srfi.schemers.org/srfi-91/srfi-91.html|SRFI-91]]
     * '''cowan:''' BinaryPortsCowan
+    * '''shinn:''' PortsShinn
   * '''Options:''' r6rs, r6rs-simple, srfi-91, cowan, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' undecided
+  * '''Preferences:''' undecided,shinn,cowan,r6rs-simple
 
 Rationale: I think we still need more time on this. R6RS' biggest trouble is its I/O system, 
 and I don't want the same mistake being made again. We need more effort into this domain first by more people.
