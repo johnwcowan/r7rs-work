@@ -10,4 +10,4 @@ This is a list of voting dockets for WG2 work items (packages):
   Items that WG2 is not working on because it is asking the Steering Committee to assign them to future WGs.
 
  RevoteDocket::
-  Items that need to be revoted, either because the number of votes were equal for WG2 and WG3, or because they were forwarded from WG1.
+  Items that need to be revoted, either because the number of votes were equal for WG2 and a future WG, or because they were forwarded from WG1, or because they were thought of after the most recent ballot.
