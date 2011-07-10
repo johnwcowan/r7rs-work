@@ -10,9 +10,8 @@ as in SRFI-9, SRFI-99 or the R6RS record system?
 WG1 voted '''srfi-9''' before.  New arguments against filter
 constructors were raised, so the ticket was re-opened.
 
-References:
-  * https://groups.google.com/d/topic/scheme-reports-wg1/BX2F10MO6_k/discussion
-
+  * '''References:'''
+    * https://groups.google.com/d/topic/scheme-reports-wg1/BX2F10MO6_k/discussion
   * '''Proposals:'''
     * '''cowan:''' RecordsCowan
     * '''gleckler:''' RecordsGleckler, which is just RecordsCowan plus RecordsArcfide
@@ -120,10 +119,9 @@ compatibility with R5RS and R6RS.
 WG1 voted '''unbound''' previously.  New issues were brought up on the
 list so the ticket was re-opened.
 
-References:
-  * [wiki:Keywords]
-  * http://lists.scheme-reports.org/pipermail/scheme-reports/2011-April/thread.html
-
+  * '''References:'''
+    * [wiki:Keywords]
+    * http://lists.scheme-reports.org/pipermail/scheme-reports/2011-April/thread.html
   * '''Options:''' bound, unbound, unhygienic, undecided
   * '''Default:''' unbound
   * '''Voters:''' 
@@ -235,10 +233,9 @@ parse this as the true literal followed by false.  R6RS requires
 identifiers, characters, booleans, number objects, and `.` to be
 terminated with a "delimiter" or by the end of input.
 
-References:
-  * http://scheme-punks.org/wiki/index.php?title=ERR5RS:Lexical_Syntax
-  * http://lists.r6rs.org/pipermail/r6rs-discuss/2007-June/002649.html
-
+  * '''References:'''
+    * http://scheme-punks.org/wiki/index.php?title=ERR5RS:Lexical_Syntax
+    * http://lists.r6rs.org/pipermail/r6rs-discuss/2007-June/002649.html
   * '''Options:''' delimited, unspecified, undecided
   * '''Default:''' unspecified
   * '''Voters:''' 
@@ -297,11 +294,10 @@ followed by the false literal.
 
 This is a change also made by R6RS (and CL).
 
-References:
-  * http://lists.scheme-reports.org/pipermail/scheme-reports/2011-April/000448.html
-  * http://www.rhinocerus.net/forum/lang-scheme/98742-quasiquote-syntax-rules-macro.html
-  * http://www.mail-archive.com/guile-user@gnu.org/msg03899.html
-
+  * '''References:'''
+    * http://lists.scheme-reports.org/pipermail/scheme-reports/2011-April/000448.html
+    * http://www.rhinocerus.net/forum/lang-scheme/98742-quasiquote-syntax-rules-macro.html
+    * http://www.mail-archive.com/guile-user@gnu.org/msg03899.html
   * '''Options:''' multiple, single, undecided
   * '''Default:''' single
   * '''Voters:''' 
@@ -328,10 +324,9 @@ References:
 
 === #124 Nested quasiquote semantics ===
 
-References:
-  * http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_sec_11.17
-  * http://lists.nongnu.org/archive/html/chicken-hackers/2010-12/msg00008.html
-
+  * '''References:'''
+    * http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_sec_11.17
+    * http://lists.nongnu.org/archive/html/chicken-hackers/2010-12/msg00008.html
   * '''Proposals:'''
     * '''r5rs:''' unspecified
     * '''r6rs:''' strict and multiple (implies multiple for #123)
@@ -359,11 +354,7 @@ References:
 
 === #125 Allow procedures not to be locations (making EQV? unspecified in some additional cases) ===
 
-This is a change also made by R6RS, specifically:
-
-> A quasiquote expression may return either fresh, mutable objects or literal structure
-> for any structure that is constructed at run time during the evaluation of the expression.
-> Portions that do not need to be rebuilt are always literal
+This is a change also made by R6RS.
 
   * '''Options:''' r6rs, r5rs, undecided
   * '''Default:''' r5rs
@@ -391,7 +382,11 @@ This is a change also made by R6RS, specifically:
 
 === #126 Partly specify the mutability of the values of quasiquote structures ===
 
-This is a change also made by R6RS.
+This is a change also made by R6RS, specifically:
+
+> A quasiquote expression may return either fresh, mutable objects or literal structure
+> for any structure that is constructed at run time during the evaluation of the expression.
+> Portions that do not need to be rebuilt are always literal
 
   * '''Options:''' r6rs, r5rs, undecided
   * '''Default:''' r5rs
@@ -1926,9 +1921,8 @@ we want to include this?
 TODO: explain the exact diff, why it is desirable, and whether any
 reasonable alternatives are possible.
 
-References:
-  * http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_sec_11.7.3.2
-
+  * '''References:'''
+    * http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_sec_11.7.3.2
   * '''Options:''' r6rs, r5rs, undecided
   * '''Default:''' r5rs
   * '''Voters:''' 
