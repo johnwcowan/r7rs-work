@@ -18,8 +18,9 @@ Comments are welcome at the [[http://lists.scheme-reports.org/cgi-bin/mailman/li
   * Second Ballot - Closed
     * [[:WG1Ballot2|Ballot]]
     * [[:WG1Ballot2Results|Ballot Results]]
-  * Third Ballot - Due July 1st 2011
+  * Third Ballot - Closed
     * [[:WG1Ballot|Ballot]]
+    * [[:WG1Ballot3Results|Ballot Results]]
 
 '''Issue Summaries and Proposals'''
 
