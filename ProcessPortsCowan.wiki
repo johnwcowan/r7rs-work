@@ -11,15 +11,12 @@ This module depends on the acceptance of PortsCowan or something like it, as it 
 
 `(open-output-process `''filename''`)`
 
-`(call-with-input-process `''filename''` `''proc''`)`
 
-`(call-with-output-process `''filename''` `''proc''`)`
+All of these are equivalent to the corresponding R5RS functions on file ports.  If ''filename'' is a string, it is a shell command suitable for passing to `shell-command`.  If it is a list, it is a settings list as described in PortsCowan.  Implementations MUST support the following keys:
 
-`(with-input-from-process `''filename''` `''thunk''`)`
+ `path`::
 
-`(with-output-to-process `''filename''` `''thunk''`)`
-
-All of these are equivalent to the corresponding R5RS functions on file ports.  If ''filename'' is a string, it is a shell command suitable for passing to `shell-command`.  If it is a list, it is a settings list as described in PortsCowan.  Implementations MUST support the keys described in PortsCowan (where `path` is the system command to be executed), plus the following additional keys:
+ The system command to be executed.
 
  `arguments`::
 
@@ -31,11 +28,15 @@ All of these are equivalent to the corresponding R5RS functions on file ports.  
 
  `stdin-redirection`::
 
- A string representing the file to open and pass to the new process as its standard input.  If this key is absent, no redirection is done.
+ A string representing the file to open and pass to the new process as its standard input, or a port (it is an error if the port has no OS-level underpinnings).  If this key is absent, no redirection is done.
 
  `stdout-redirection`::
 
- A string representing the file to open and pass to the new process as its standard output.  If this key is absent, no redirection is done.
+ A string representing the file to open and pass to the new process as its standard output, or a port (it is an error if the port has no OS-level underpinnings).  If this key is absent, no redirection is done.
+
+ `stderr-redirection`::
+
+ A string representing the file to open and pass to the new process as its standard error, or a port (it is an error if the port has no OS-level underpinnings).  If this key is absent, no redirection is done.
 
 
 
