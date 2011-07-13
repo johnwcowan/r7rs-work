@@ -16,7 +16,7 @@ Incorporating this proposal as a standard feature in WG1 Scheme implementations 
 
 I have added equivalences to SRFI 69 and R6RS facilities.  Systems supporting either should be able to support these hash tables trivially; it will be necessary to write `hash-table-fold` for R6RS systems.  I have adopted SRFI 69's term `hash-table` rather than R6RS's `hashtable` because of our decision in #40.  Besides, the word ''hashtable'' obviously means something that can be ... hashted.
 
-The main annoyances of this proposal for SRFI 69 programmers will be remembering to supply a third argument to `hash-table-ref`, and for R6RS programmers will be remembering to insert a hyphen in `hashtable`.
+The main annoyances of this proposal for SRFI 69 programmers will be remembering to supply a third argument to `hash-table-ref`, and for R6RS programmers will be remembering to insert a hyphen in `hashtable`.  Both will have to get used to the new constructors.
 
 == Constructors ==
 
