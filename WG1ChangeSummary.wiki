@@ -1,4 +1,4 @@
-This is a very brief summary of what's changed in WG1 relative to R5RS so far:
+This is a very brief summary of what's changed in WG1 relative to R5RS so far.  It is emphatically '''not''' authoritative, just a quick thing to point people to who haven't been following the process and aren't up for reading through whole drafts.  I may have left out some tickets.
 
  * Modules with `import`, `export`, `begin` (for embedded code), `include`, `include-ci`, and `cond-expand`
  * `Syntax-rules`: ellipsis escaping, SRFI 46, tail patterns, and the `_` wildcard
