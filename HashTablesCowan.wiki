@@ -107,6 +107,8 @@ The following features are '''not''' part of this proposal for various reasons.
 
 `Hash-table-hash-function` always returns the hash function of a hash table in SRFI 69, but returns `#f` in the case of `eq?` (and `eqv?`) hash tables in R6RS.
 
+`Hash-table-equivalence-function` returns the equivalence function, but in R6/R7RS you can't reliably check functions for identity, so you don't know what you've got.
+
 === In R6RS but not in SRFI 69 ===
 
 `Hashtable-clear!`, which removes all associations from a hash table.
@@ -127,6 +129,17 @@ Conversion from a-lists to hash tables and back.
 
 Default values specified in the form of a thunk to call.
 
+=== In Common Lisp but not Scheme ===
+
+The current capacity (as opposed to size) of a hash table.
+
+Rehash size and threshold.
+
+Hash tables based on `equalp` (which is not in Scheme).
+
+`With-hash-table-iterator`, a hash table external iterator implemented as a local macro.
+
+`Sxhash`, a stable hash function.
 
 == R6RS implementation of `hash-table-fold` ==
 
