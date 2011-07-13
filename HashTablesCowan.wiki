@@ -1,0 +1,140 @@
+== Hash tables ==
+
+This proposal defines an interface to hash tables, which are widely recognized as a fundamental data structure for a wide variety of applications.  A hash table is a data structure that:
+
+   * Is disjoint from all other types.
+   * Provides a mapping from some set of ''keys'' to some set of ''values'' associated to those keys.
+     * Keys may be any Scheme objects in some kinds of hash tables, but are restricted in other kinds.
+     * Values may be any Scheme objects.
+   * Has no intrinsic order for the key-value ''associations'' it contains.
+   * Provides an ''equivalence function'' which defines when a proposed key is the same as an existing key.  No table may contain more than one value for a given key.
+   * Supports mutation as the primary means of setting the contents of a table.
+   * Assumes that keys are immutable; mutating a key leads to unspecified behavior.
+   * Provides key lookup and destructive update in amortised constant time.
+
+Incorporating this proposal as a standard feature in WG1 Scheme implementations makes it possible to write efficient and portable programs that use hash tables.  (After reading a paper about SNOBOL and realizing that it had hash tables as a standard feature in 1969, six years before Scheme was born, and that every other modern language now has them, I decided it was intolerable for even WG1 Scheme not to have them.)
+
+I have added equivalences to SRFI 69 and R6RS facilities.  Systems supporting either should be able to support these hash tables trivially; it will be necessary to write `hash-table-fold` for R6RS systems.  I have adopted SRFI 69's term `hash-table` rather than R6RS's `hashtable` because of our decision in #40.  Besides, the word ''hashtable'' obviously means something that can be ... hashted.
+
+The main annoyances of this proposal for SRFI 69 programmers will be remembering to supply a third argument to `hash-table-ref`, and for R6RS programmers will be remembering to insert a hyphen in `hashtable`.
+
+== Constructors ==
+
+These constructors provide suitable hash functions for the equivalence function specified as part of the constructor name.  This proposal does not allow (semi-)arbitrary equivalence and hash functions to be specified.
+
+`(make-eq-hash-table)`
+
+Creates a new table with no associations whose equivalence function is `eq?`.  (SRFI-69 `(make-hash-table eq? hash-by-identity)`; R6RS `(make-eq-hashtable)`)
+
+`(make-equal-hash-table)`
+
+Creates a new table with no associations whose equivalence function is `equal?`.  (SRFI-69 `(make-hash-table equal? hash)`; R6RS `(make-hashtable equal? equal-hash)`)
+
+`(make-string-hash-table)`
+
+Creates a new table with no associations whose equivalence function is `string=?`.  (SRFI-69 `(make-hash-table string=? string-hash)`; R6RS `(make-hashtable string=? string-hash)`)
+
+`(make-string-ci-hash-table)`
+
+Creates a new table with no associations whose equivalence function is `string-ci=?`.  (SRFI-69 `(make-hash-table string-ci=? string-ci-hash)`; R6RS `(make-hashtable string-ci=? string-ci-hash)`)
+
+Note that there are no hash tables whose equivalence function is `eqv?`, because SRFI 69 does not support them.  Users will have to live with `eq?` or `equal?` hash tables as the case may be.
+
+
+== Copiers ==
+
+`(hash-table-copy `''hash-table''`)`
+
+Creates a new hash table with the same equivalence predicate and associations as ''hash-table''. (SRFI-69 `hash-table-copy`; R6RS `(hashtable-copy `''hash-table''` #t)`)
+
+
+== Predicates ==
+
+`(hash-table? `''obj''`)` 
+
+Returns `#t` if ''obj'' is a hash table.  (SRFI-69 `hash-table?`; R6RS `hashtable?`)
+
+`(hash-table-contains? `''hash-table''` `''key''`)`
+
+Returns `#t` if there is any association to ''key'' in ''hash-table''.  Must execute in amortized O(1) time.  (SRFI-69 `hash-table-exists?`; R6RS `hashtable-contains?`)
+
+== Accessors ==
+
+`(hash-table-ref `''hash-table''` `''key'' ''default''`)`
+
+Returns the value associated to ''key'' in ''table''. If no value is associated to ''key'', ''default'' is returned.  Must execute in amortized O(1) time.  (SRFI-69 `hash-table-ref/default`; R6RS `hashtable-ref`)
+
+`(hash-table-size `''table''`)`
+
+Returns the number of associations in ''hash-table''.  Must execute in amortized O(1) time.  (SRFI-69 `hash-table-size`; R6RS `hashtable-size`)
+
+
+== Mutators ==
+
+`(hash-table-set! `''hash-table''` `''key''` `''value''`)`
+
+Creates a new association in ''hash-table'' that associates ''key'' with ''value''. The previous association (if any) is removed.  It is an error if ''table'' is a string or string-ci hash table and ''key'' is not a string.  Must execute in amortized O(1) time.  (SRFI-69 `hash-table-set!`; R6RS `hashtable-set!`)
+
+`(hash-table-delete! `''hash-table''` `''key''`)`
+
+Removes any association to ''key'' in ''hash-table''. It is not an error if no association for that ''key'' exists.    Must execute in amortized O(1) time.  (SRFI-69 `hash-table-delete!`; R6RS `hashtable-delete!`)
+
+`(hash-table-update! `''hash-table''` `''key''` `''procedure'' ''default'' ]`)`
+
+Semantically equivalent to, but may be implemented more efficiently than, the following code:
+
+`(hash-table-set! `''hash-table''` `''key''` (`''procedure'' `(hash-table-ref `''hash-table''` `''key''` `''default''`)))`
+
+Must execute in amortized O(1) time.  (SRFI-69 `hash-table-update!/default`; R6RS `hashtable-update!`)
+
+
+== Iterators ==
+
+`(hash-table-fold `''hash-table''` `''procedure''` `''init''`)`
+
+Calls ''procedure'' for every association in ''hash-table'' with three arguments: the key of the association, the value of the association, and an accumulated value ''val''.  ''Val'' is ''init'' for the first invocation of ''procedure'', and for subsequent invocations of ''procedure'', the return value of the previous invocation.  The value returned by `hash-table-fold` is the return value of the last invocation of f. The order in which ''procedure'' is called for different associations is unspecified.  (SRFI-69 `hash-table-fold; not in R6RS but easily implemented: see below.)
+
+
+== Excluded features ==
+
+The following features are '''not''' part of this proposal for various reasons.
+
+=== Incompatible return values ===
+
+`Hash-table-keys` is present in both SRFI 69 and R6RS, but returns a list of keys in the first, a vector of keys in the second.
+
+`Hash-table-values` returns a list of values in SRFI 69; `hashtable-entries` returns two values, a vector of keys and a vector of values in R6RS.
+
+`Hash-table-hash-function` always returns the hash function of a hash table in SRFI 69, but returns `#f` in the case of `eq?` (and `eqv?`) hash tables in R6RS.
+
+=== In R6RS but not in SRFI 69 ===
+
+`Hashtable-clear!`, which removes all associations from a hash table.
+
+Specifying the initial capacity of a hash table.
+
+Immutable hash tables.
+
+Hash tables based on `eqv?`.
+
+=== In SRFI 69 but not in R6RS ===
+
+`Hash-table-walk`, which is the analogue of `for-each` for hash tables.
+
+Conversion from a-lists to hash tables and back.
+
+`Hash-table-merge`, which destructively adds all associations in a source hash table to a destination hash table.
+
+Default values specified in the form of a thunk to call.
+
+
+== R6RS implementation of `hash-table-fold` ==
+
+{{{
+(define (hash-table-fold h proc init)
+  (let-values (((k v) (hashtable-entries h))
+               ((s) (hashtable-size h)))
+    (do ((i 0 (+ 1 i))
+         (val init (proc (vector-ref k i) (vector-ref v i) val)))
+        ((= i s) val))))
+}}}
