@@ -1,6 +1,6 @@
 = Welcome to the Scheme Working Groups =
 
-For a complete list of local wiki pages, see TitleIndex.
+For a complete list of local wiki pages, see TitleIndex (alphabetic) or RecentChanges (most recent first).
 
 Comments are welcome at the [[http://lists.scheme-reports.org/cgi-bin/mailman/listinfo/scheme-reports|public discussion list]].
 
