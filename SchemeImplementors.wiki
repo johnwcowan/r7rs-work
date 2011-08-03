@@ -15,8 +15,7 @@ This is a list of contact information for Scheme implementations.  It is based o
 || !IronScheme || Llewellyn Pritchard ||
 || Kawa || Per Bothner ||
 || Larceny || Will Clinger ||
-|| MIT Scheme || Chris Hanson ||
-|| || Taylor Campbell ||
+|| MIT Scheme || Chris Hanson, Taylor Campbell ||
 || Mosh || Taro Minowa Higepon ||
 || Racket || Eli Barzilay ||
 || Scheme 48 || Jonathan Rees ||
