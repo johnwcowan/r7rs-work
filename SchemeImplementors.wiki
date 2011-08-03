@@ -1,6 +1,6 @@
 = Scheme Implementors =
 
-This is a list of contact information for Scheme implementations.  It is based on a list originally provided by Raffael Cavallaro.  I was originally going to include the email addresses here, but in order to avoid more scraping of people's addresses, I'm just going to refer people to the original message: http://lists.scheme-reports.org/pipermail/scheme-reports/2011-August/001214.html  Given these names, it should be easy to find people's addresses in the archives.
+This is a list of contact information for Scheme implementations.  It is based on a list originally provided by Raffael Cavallaro.  I was originally going to include the email addresses here, but in order to avoid more scraping of people's addresses, I'm just going to refer people to the original message and the follow-up messages in that thread: http://lists.scheme-reports.org/pipermail/scheme-reports/2011-August/001214.html  Given these names, it should be easy to find people's addresses in the archives.
 
 || '''implementation''' || '''contact person''' ||
 || Bigloo || Manuel Serrano ||
@@ -12,6 +12,7 @@ This is a list of contact information for Scheme implementations.  It is based o
 || Gauche || Shiro Kawai ||
 || Guile || Andy Wingo ||
 || Ikarus || Abdulaziz Ghuloum ||
+|| IronScheme || Llewellyn Pritchard ||
 || Kawa || Per Bothner ||
 || Larceny || Will Clinger ||
 || MIT Scheme || Chris Hanson ||
@@ -19,6 +20,7 @@ This is a list of contact information for Scheme implementations.  It is based o
 || Mosh || Taro Minowa Higepon ||
 || Racket || Eli Barzilay ||
 || Scheme 48 || Jonathan Rees ||
+|| Schemik || Petr Krajča ||
 || Sisc || Scott G. Miller ||
 || Stalin || Jeffrey Mark Siskind ||
 || Wraith || Jay Reynolds Freeman ||
