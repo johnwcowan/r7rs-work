@@ -12,7 +12,7 @@ This is a list of contact information for Scheme implementations.  It is based o
 || Gauche || Shiro Kawai ||
 || Guile || Andy Wingo ||
 || Ikarus || Abdulaziz Ghuloum ||
-|| IronScheme || Llewellyn Pritchard ||
+|| !IronScheme || Llewellyn Pritchard ||
 || Kawa || Per Bothner ||
 || Larceny || Will Clinger ||
 || MIT Scheme || Chris Hanson ||
