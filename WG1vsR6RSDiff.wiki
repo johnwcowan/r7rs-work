@@ -57,12 +57,6 @@ Internal syntax definitions are allowed, but all references to syntax
 must follow the definition -- the even/odd example given is R6RS is not
 allowed.
 
-We added parameters compatible with SRFI 39, but in the interest of
-thread-safety and conflicting behavior among existing implementations
-left the semantics of mutating a parameter (passing it an argument)
-unspecified.  Parameters in the small language are altered only with
-the `parameterize` form.
-
 The R6RS exception system was incorporated as-is, but the condition types
 have been left unspecified.  Specific errors that were required to be
 signalled in R6RS remain "an error" in R7RS, allowing implementations
