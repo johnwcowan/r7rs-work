@@ -1,6 +1,6 @@
 == Hash tables ==
 
-This proposal defines an interface to hash tables, which are widely recognized as a fundamental data structure for a wide variety of applications.  A hash table is a data structure that:
+This WG2 proposal defines an interface to hash tables, which are widely recognized as a fundamental data structure for a wide variety of applications.  A hash table is a data structure that:
 
    * Is disjoint from all other types.
    * Provides a mapping from some set of ''keys'' to some set of ''values'' associated to those keys.
@@ -11,8 +11,6 @@ This proposal defines an interface to hash tables, which are widely recognized a
    * Supports mutation as the primary means of setting the contents of a table.
    * Assumes that keys are immutable; mutating a key leads to unspecified behavior.
    * Provides key lookup and destructive update in amortised constant time.
-
-Incorporating this proposal as a standard feature in WG1 Scheme implementations makes it possible to write efficient and portable programs that use hash tables.  (After reading a paper about SNOBOL and realizing that it had hash tables as a standard feature in 1969, six years before Scheme was born, and that every other modern language now has them, I decided it was intolerable for even WG1 Scheme not to have them.)
 
 I have added equivalences to SRFI 69 and R6RS facilities.  Systems supporting either should be able to support these hash tables trivially; it will be necessary to write `hash-table-fold` for R6RS systems.  I have adopted SRFI 69's term `hash-table` rather than R6RS's `hashtable` because of our decision in #40.  Besides, the word ''hashtable'' obviously means something that can be ... hashted.
 
