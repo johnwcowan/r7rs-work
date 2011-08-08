@@ -108,7 +108,7 @@ that in `cond`.
 == R6RS Library Incompatibilities ==
 
 The low-level macro system and syntax-case were not adopted.  There
-are two general families of macro systems in widepsread use -- the
+are two general families of macro systems in widespread use -- the
 syntax-case family and the syntactic-closures family -- and they have
 neither been shown to be equivalent nor capable of implementing each
 other.  Given this situation we feel we cannot choose one over the
