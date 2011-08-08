@@ -105,6 +105,10 @@ convincing enough examples to allow multiple-argument `unquote` and
 The `case` macro has been extended with a `=>` syntax analogous to
 that in `cond`.
 
+We've kept R5RS `#` inexact "placeholder" digits in the
+interest of backwards compatibility, but not adopted the R6RS
+mantissa widths.
+
 == R6RS Library Incompatibilities ==
 
 The low-level macro system and syntax-case were not adopted.  There
