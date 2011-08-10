@@ -8,17 +8,17 @@ Sets, bags, and integer sets are mutually disjoint and disjoint from other types
 
 == Basic set procedures ==
 
-`(make-set `''proc''`)`
+`(make-set `''=''`)`
 
-Constructs and returns a new empty set.  ''Proc'' is the equality procedure for the set, which must be consistent with `eq?`.  If ''proc'' is other than `eq?`, `eqv?`, `equal`, or `string-ci=?`, the implementation MAY signal an error.
+Constructs and returns a new empty set.  ''='' is the equality procedure for the set, which must be consistent with `eq?`.  If ''='' is other than `eq?`, `equal`, `string=?`, or `string-ci=?`, the implementation MAY signal an error.  '''Issue: possibly add '''`eqv?`''' to this list if hash tables support it.'''
 
-`(set `''element''` ...)`
+`(set `''=''` `''element''` ...)`
 
-Constructs and returns a new set containing the ''elements''.
+Constructs and returns a new set with equality procedure ''='' and containing the ''elements''.
 
-`(copy-set `''set''`)`
+`(set-copy `''set''`)`
 
-Constructs and returns a new set containing the elements of ''set''.
+Constructs and returns a new set containing the elements of ''set'', with the same equality procedure.
 
 `(set? `''obj''`)`
 
@@ -42,7 +42,7 @@ Removes ''element'' from ''set'' unless it is not a member.  Returns unspecified
 
 `(set-map `''proc''` `''set''`)`
 
-Applies ''proc'' to each element of ''set'' in arbitrary order and constructs and returns a new set containing the values of the applications.
+Applies ''proc'' to each element of ''set'' in arbitrary order and constructs and returns a new set with the same equality predicate containing the values of the applications.  '''Issue: Should we provide this at all?  The fold is sufficient.'''
 
 `(set-for-each `''proc''` `''set''`)`
 
@@ -70,13 +70,25 @@ Constructs and returns a new set containing the elements of ''vector''.
 
 == Advanced set procedures ==
 
-`(set<= `''set'' ...`)`
+`(set=? `''set'' ...`)`
 
-Returns `#t` if each ''set'' other than the last is a subset of the following ''set'', and `#f` otherwise.  All the ''sets'' must share the same equality predicate.
+Returns `#t` if each ''set'' contains the same elements.
 
-`(set= `''set'' ...`)`
+`(set<? `''set'' ...`)`
 
-Returns `#t` if each ''set'' contains the same elements.  All the ''sets'' must share the same equality predicate.
+Returns `#t` if each ''set'' other than the last is a proper subset of the following ''set'', and `#f` otherwise.
+
+`(set>? `''set'' ...`)`
+
+Returns `#t` if each ''set'' other than the last is a proper superset of the following ''set'', and `#f` otherwise.
+
+`(set<=? `''set'' ...`)`
+
+Returns `#t` if each ''set'' other than the last is a subset of the following ''set'', and `#f` otherwise.
+
+`(set>=? `''set'' ...`)`
+
+Returns `#t` if each ''set'' other than the last is a superset of the following ''set'', and `#f` otherwise.
 
 `(set-union `''set'` `''other-set'' ...`)`
 
@@ -88,7 +100,7 @@ Constructs and returns a new set that is the intersection of ''set'' and the ''o
 
 `(set-difference `''set'` `''other-set'' ...`)`
 
-Constructs and returns a new set that is the difference of ''set'' and the ''other-sets''.
+Constructs and returns a new set that is the difference of ''set'' and the union of the ''other-sets''.
 
 `(set-xor `''set'` `''other-set'' ...`)`
 
@@ -100,11 +112,11 @@ Mutates ''set'' to a new set that is the union of ''set'' and the ''other-sets''
 
 `(set-intersection! `''set''` `''other-set'' ...`)`
 
-Mutates ''set'' to a new set that is the difference of ''set'' and the ''other-sets''.
+Mutates ''set'' to a new set that is the intersection of ''set'' and the ''other-sets''.
 
 `(set-difference! `''set''` `''other-set'' ...`)`
 
-Mutates ''set'' to a new set that is the difference of ''set'' and the ''other-sets''.
+Mutates ''set'' to a new set that is the difference of ''set'' and the union of the ''other-sets''.
 
 `(set-xor! `''set''` `''other-set'' ...`)`
 
@@ -113,6 +125,10 @@ Mutates ''set'' to a new set that is the xor (symmetric difference) of ''set'' a
 == Bag procedures ==
 
 The procedures for creating and manipulating bags are the same as those for sets, except that `set` is replaced by `bag` in their names, and that adding an element to a bag is effective even if the bag already contains the element.
+
+`(bag-count `''bag''` `''element''`)`
+
+Returns an exact integer representing the number of times that ''element'' appears in ''bag''.
 
 == Integer set procedures ==
 
