@@ -74,7 +74,7 @@ Returns the component of ''array'' specified by the row-major index ''index''.  
 
 Sets the component of ''array'' specified by ''index'' to ''value''.  Returns undefined values.  It is an error to specify an ''index'' that is negative or not less than the size of the array.
 
-`(copy-array `''array''`)`
+`(array-copy `''array''`)`
 
 Returns a new array with the same components (in the sense of `eqv?`) and shape as ''array''.
 
@@ -122,7 +122,7 @@ Returns an array with rank ''rank'' whose components are initialized from ''nest
 
 `(nested-list->array `''rank''` `''nested-list''`)`
 
-Returns an array with rank ''rank'' whose components are initialized from ''nested-list''.  It is an error if ''nested-list'' is not rectangular.  As a special case, if ''rank'' is 0, the sole component is ''list'', which need not be a list.
+Returns an array with rank ''rank'' whose components are initialized from ''nested-list''.  It is an error if ''nested-list'' is not rectangular.  As a special case, if ''rank'' is 0, the sole component is ''nested-list'', which need not be a list.
 
 
 == Advanced procedures ==
