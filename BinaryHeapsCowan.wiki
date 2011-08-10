@@ -70,7 +70,7 @@ Constructs and returns a new vector containing the elements of ''heap'' in arbit
 
 `(heap->sorted-vector! `''<''` `''heap''`)`
 
-Constructs and returns a new vector containing the elements of ''heap'' in increasing order.  ''Heap'' may be destroyed in the process.
+Returns a vector containing the elements of ''heap'' in increasing order.  ''Heap'' may be destroyed in the process.
 
 `(vector->heap `''<''` `''vector''`)`
 
