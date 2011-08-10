@@ -2,38 +2,24 @@
 
 Network ports are a mild abstraction of TCP sockets. They are a disjoint type.
 
-This module depends on the acceptance of PortsCowan or something like it, as it uses the framework of that proposal.
+In the following descriptions, ''host'' and ''local-address'' are strings, which may be IPv4 dotted-decimal addresses, IPv6 colon-hexadecimal addresses if supported by the operating system, or host names to be looked up according to whatever operating system conventions exist, if any. Appropriate strings may refer to broadcast or multicast addresses. ''Port'' may be an integer or a string; the meaning of a string is implementation-dependent, but is intended to be a standardized service name.
+
+''This proposal is not fleshed out, because we don't yet know how to deal with binary vs. character, buffered vs. unbuffered, encoding, line end conventions, etc.''
 
 == Client Procedures ==
 
-The procedures in this section take a specification for a TCP socket and return a binary input/output port (remember, binary ports can do character I/O as well) connected to the socket.
+The procedures in this section take a specification for a TCP socket and return a input/output port connected to the socket.
 
-`(open-network-client `''filename''`)`
+`(open-network-client `''host''` `''port''`)`
 
-`(call-with-network-client `''filename''` `''proc''`)`
-
-`(with-input/output-from-network-client `''filename''` `''thunk''`)`
-
-All of these are equivalent to the corresponding R5RS functions on file ports.  If ''filename'' is a string, it consists of `host` and `port` values (see below) separated by a colon.  If ''filename'' is a list, it is a settings list as described in PortsCowan.  Implementations MUST support the keys described in PortsCowan, except for `path`, plus the following additional keys:
-
- `host`::
-
- An IPv4 dotted-decimal address, an IPv6 colon-hexadecimal address if supported by the operating system, or a host name.  There is no default value.
-
- `port`::
-
- A port number (an exact integer) or service name.
+Returns an input/output port connected to the remote ''host'' and ''port''.
 
 == Server Procedures ==
 
-`(make-network-listener `[''interface'']` `''port''`)`
+`(make-network-listener `[''local-address'']` `''port''`)`
 
-Returns an opaque ''listener'' object (which may be of any type) that will accept connections to the specified ''port'' and ''interface''.  If ''interface'' is omitted, the listener will accept connections that are made to ''port'' on any local interface.
+Returns an opaque ''listener'' object (which may be of any type) that will accept connections to the specified ''port'' and ''local-address''.  If ''local-address'' is omitted, the listener will accept connections that are made to ''port'' on any local address.
 
 `(open-network-server `''listener''`)`
 
-`(call-with-network-server `''listener''` `''proc''`)`
-
-`(with-input/output-from-network-server `''listener''` `''thunk''`)`
-
-All of these are equivalent to the corresponding R5RS functions on file ports.  ''Listener'' is a listener returned by a call to `make-network-listener`.
+Waits for a client to connect to ''listener'', and returns an input/output port connected to that client. 
