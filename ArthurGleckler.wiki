@@ -37,7 +37,7 @@ Here are my ballots:
 
    * [wiki:WG1BallotGleckler]
    * [wiki:WG1Ballot1Gleckler]
-   * [wiki:WG1Ballot3Gleckler] (I didn't archive my second ballot.)
+   * [wiki:WG1Ballot3Gleckler] (This is a copy of my third ballot.  I didn't archive my second ballot.)
    * [wiki:WG1ReBallotGleckler] (obsolete)
 
 Here are my proposals:
