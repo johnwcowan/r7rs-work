@@ -17,6 +17,7 @@ This is a list of contact information for Scheme implementations.  It is based o
 || Larceny || Will Clinger ||
 || MIT Scheme || Chris Hanson, Taylor Campbell ||
 || Mosh || Taro Minowa Higepon ||
+|| Picobit || Vincent St. Amour ||
 || Racket || Eli Barzilay ||
 || Scheme 48 || Jonathan Rees ||
 || Schemik || Petr Krajča ||
