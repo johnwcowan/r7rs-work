@@ -1,6 +1,6 @@
 = Scheme Implementors =
 
-This is a list of contact information for Scheme implementations.  It is based on a list originally provided by Raffael Cavallaro.  I was originally going to include the email addresses here, but in order to avoid more scraping of people's addresses, I'm just going to refer people to the [[http://lists.scheme-reports.org/pipermail/scheme-reports/2011-August/001214.html|original message]] and the follow-up messages in that thread.  Given these names, it should be easy to find people's addresses in the archives.
+This is a list of contact information for Scheme implementations.  It is based on a list originally provided by Raffael Cavallaro.  I was originally going to include the email addresses here, but in order to avoid more scraping of people's addresses, I'm just going to refer people to the [[http://lists.scheme-reports.org/pipermail/scheme-reports/2011-August/001214.html|original message]] and the follow-up messages in that thread.  Given these names, it should be easy to find people's addresses in the archives or elsewhere on the net.
 
 || '''implementation''' || '''contact person''' ||
 || Bigloo || Manuel Serrano ||
@@ -23,5 +23,6 @@ This is a list of contact information for Scheme implementations.  It is based o
 || Schemik || Petr Krajča ||
 || Sisc || Scott G. Miller ||
 || Stalin || Jeffrey Mark Siskind ||
+|| !TinyScheme || Jonathan Shapiro ||
 || Wraith || Jay Reynolds Freeman ||
 || Ypsilon || Yoshikatsu Fujita ||
