@@ -59,7 +59,12 @@ may detect the difference in the event of a conflict.
 
   * '''Options:''' module, library, define-module
   * '''Default:''' module
-  * '''Preferences:''' 
+  * '''Preferences:''' define-library, define-module, module, library
+
+I strongly dislike the term library, but R6RS has chosen it.  We need
+to use something different than the `library' form, though, to avoid
+compatibility problems, so I'm choosing `define-library', which
+appears to have been omitted from the ballot accidentally.
 
 === #145 RFC 2119 compliance ===
 
@@ -74,7 +79,10 @@ needed.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no
+
+This is more trouble than it's worth.  We haven't had this in all the
+previous revisions of the standard and we've been just fine.
 
 === #185 Add sixth "centered" division operator ===
 
@@ -108,7 +116,9 @@ the small language.
 
   * '''Options:''' centered, no, remove, undecided
   * '''Default:''' no
-  * '''Preferences:''' no
+  * '''Preferences:''' centered, no
+
+We should have the complete set, and it's not hard to implement.
 
 === #193 values and procedure arguments ===
 
@@ -125,7 +135,10 @@ detect these cases efficiently.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no
+
+As John points out, there are few places where we require signaling an
+error.  This situation doesn't merit special treatment.
 
 === #202 Semi-Editorial: Should we remove the specific syntaxes from the BNF in section 7? ===
 
@@ -135,7 +148,10 @@ that syntax forms can be changed at will?
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no
+
+Even if they can be changed, it's good to have them enumerated for
+reference.
 
 === #212 Let LOAD take an optional environment argument ===
 
@@ -146,7 +162,9 @@ See also #161.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
+
+This makes `load' much more useful.
 
 === #220 New DIGIT-VALUE procedure ===
 
@@ -231,7 +249,10 @@ CL provides this as `digit-char-p`, which is its substitute for
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
+
+As John points out, this is essential now for implementations that
+support Unicode now that we support non-ASCII digits.
 
 === #221 Editorial: Consolidate and clarify formal-parameter conventions ===
 
@@ -254,7 +275,10 @@ and "char_2" for characters.
     * '''list:''' just add `char` and `string` to the list of conventions
   * '''Options:''' abbrev, list, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:''' list, abbrev
+
+This will make the document clearer.  The abbreviations don't save
+enough space to be worth doing.
 
 === #222 Rename character ports to textual ports ===
 
@@ -262,7 +286,10 @@ The term "textual port" is R6RS compatible.
 
   * '''Options:''' textual, character, undecided
   * '''Default:''' character
-  * '''Preferences:''' 
+  * '''Preferences:''' textual, character
+
+I prefer character, but there's no reason to be different than R6RS
+here.
 
 === #223 Converting current-{input,output}-ports to binary ===
 
@@ -282,7 +309,10 @@ binary.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no
+
+This feels super kludgy.  I'd rather leave it to implementations than
+specify something like this.
 
 === #224 Additional blob I/O ===
 
@@ -292,7 +322,9 @@ strings.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
+
+Yes, but the names should use "bytevector" instead of "blob."
 
 === #226 Remove property-list file specs from WG1 ===
 
@@ -303,7 +335,7 @@ from the current draft, we should vote on this for completeness.
 
   * '''Options:''' remove, keep, undecided
   * '''Default:''' remove
-  * '''Preferences:''' 
+  * '''Preferences:''' remove
 
 === #229 EQV? and NaN ===
 
@@ -339,7 +371,12 @@ make the most sense to leave this `unspecified`.
 
   * '''Options:''' same, different, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' same, unspecified
+
+Let's match R6RS since this is easy to implement.  Otherwise, then
+since implementation differ so much on the semantics, it would better
+to leave this unspecified than to specify something different than
+R6RS.
 
 === #230 Reserve module names for current and future standards ===
 
@@ -351,7 +388,11 @@ Note the name `scheme` may be changed pending the result of #237.
 
   * '''Options:''' scheme, srfi, both, neither, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' both, scheme, neither
+
+Yes, let's keep the way clear for future implementations and SRFIs.
+But if we don't reserve for future implementations, we shouldn't
+reserve for SRFIs.
 
 === #232 define-values ===
 
@@ -362,7 +403,11 @@ Should we have it on WG1 or not?
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
+
+I don't have a strong preference for including it, but since it is
+useful, its definition is tiny, and it is supported by several
+implementations, there's no reason not to.
 
 === #234 Add EAGER from SRFI 45 ===
 
@@ -381,7 +426,9 @@ include this.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
+
+This is a good symmetry.
 
 === #235 Should bytevector constants be self-quoting? ===
 
@@ -392,7 +439,10 @@ Note currently vectors are not self-quoting.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
+
+Let's not be different from R6RS when it's easy not to be and there
+aren't good reasons to be.
 
 === #237 Change "scheme" in module names to "rsn" or "rs11" or something else ===
 
@@ -407,7 +457,10 @@ Feel free to write in a name.
 
   * '''Options:''' scheme, r7rs, scheme2011, undecided
   * '''Default:''' scheme
-  * '''Preferences:''' 
+  * '''Preferences:''' scheme, r7rs, undecided
+
+"Scheme" is just the right term.  I certainly don't want scheme2011,
+which needlessly emphasizes the year.
 
 === #238 Reserve #! for read directives ===
 
@@ -429,7 +482,10 @@ consistent with the existing convention for `!`.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no
+
+As John points out, some implementations already use the "#!" prefix
+for other purposes.
 
 === #240 Rename current-second to current-tai ===
 
@@ -439,7 +495,11 @@ redundant, since the T in TAI stands for Time (or ''Temps'').
 
   * '''Options:''' current-second, current-tai-time, current-tai, undecided
   * '''Default:''' current-second
-  * '''Preferences:''' 
+  * '''Preferences:''' current-second, current-tai
+
+There's no reason that `current-second' is incompatible with returning
+fractional second values.  And we certainly don't want the redundant
+`current-tai-time'.
 
 === #243 Add optional support for -0.0 ===
 
@@ -458,7 +518,9 @@ examples where appropriate.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
+
+Let's be compatible with R6RS.
 
 === #244 Extended "Overview of Scheme" chapter ===
 
@@ -479,7 +541,11 @@ describing the basic syntax and data types.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
+
+We should be certainly include the first section of the Overview of
+Scheme from R6RS, and should include more if possible.  I can help
+adapt the old text.
 
 === #245 Editorial: Case-folding should refer to UAX ===
 
@@ -494,7 +560,7 @@ the implementation.
 
   * '''Options:''' uax-29, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' uax-29
 
 === #248 fill-string and fill-vector: optional start/end arguments? ===
 
@@ -502,7 +568,10 @@ Should we provide the obvious way to fill part of a string or vector?
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
+
+These are easy to implement, useful, and may be faster if the
+implementation provides them.
 
 === #254 Behavior of open-output-file on existing files ===
 
@@ -515,7 +584,9 @@ Vote `overwrite` to truncate and overwrite the existing file, or
 
   * '''Options:''' overwrite, error, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' unspecified, overwrite
+
+Don't break existing programs.
 
 === #262 module factoring (scheme io) ===
 
@@ -531,7 +602,10 @@ writing) be in the core or a separate module?
 
   * '''Options:''' core, separate
   * '''Default:''' core
-  * '''Preferences:''' 
+  * '''Preferences:''' core
+
+These forms have been part of the language for a long time and are a
+fundamental idea.
 
 === #263 module factoring (scheme repl) ===
 
@@ -542,7 +616,10 @@ the `eval` module?
 
   * '''Options:''' core, eval, repl
   * '''Default:''' core
-  * '''Preferences:''' 
+  * '''Preferences:''' repl, core
+
+Embedded implementations, for example, may want a way to avoid
+including that code when they aren't using it.
 
 === #264 module factoring (scheme case-lambda) ===
 
@@ -552,7 +629,10 @@ Should `case-lambda` be in the core or a separate module?
 
   * '''Options:''' core, separate
   * '''Default:''' core
-  * '''Preferences:''' 
+  * '''Preferences:''' separate
+
+`Case-lambda' is new, and some implementations may want to define
+their own extensions and make that clear through loading modules.
 
 === #265 module factoring (scheme multiple-values) ===
 
@@ -563,7 +643,10 @@ module?
 
   * '''Options:''' core, separate
   * '''Default:''' core
-  * '''Preferences:''' 
+  * '''Preferences:''' core
+
+Multiple values have been part of the language for a long time and are
+a fundamental idea.
 
 === #266 module factoring (scheme char normalization) ===
 
@@ -574,7 +657,7 @@ module, or their own separate module?
 
   * '''Options:''' core, char, separate
   * '''Default:''' core
-  * '''Preferences:''' 
+  * '''Preferences:''' separate, char
 
 === #267 module factoring all I/O ===
 
@@ -590,7 +673,9 @@ I/O modules, where `(scheme io)` provides all of:
 
   * '''Options:''' yes, no
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no
+
+It's better to be explicit.
 
 === #268 module factoring (scheme parameter) ===
 
@@ -604,7 +689,10 @@ require the parameter API to be useful as is.
 
   * '''Options:''' core, separate
   * '''Default:''' core
-  * '''Preferences:''' 
+  * '''Preferences:''' core
+
+They're so simple and few in number (two) that there's no reason to
+separate them.
 
 === #269 module factoring (scheme record) ===
 
@@ -614,7 +702,10 @@ Should `define-record-type` be in the core or in its own separate module?
 
   * '''Options:''' core, separate
   * '''Default:''' core
-  * '''Preferences:''' 
+  * '''Preferences:''' separate
+
+Users may want to use more elaborate versions of `define-record-type'
+and make that clear through loading modules.
 
 === #270 module factoring (scheme char) ===
 
@@ -625,7 +716,9 @@ core or their own separate module?
 
   * '''Options:''' core, separate
   * '''Default:''' core
-  * '''Preferences:''' 
+  * '''Preferences:''' separate
+
+This is new.
 
 === #231 WG1/WG2 Scheme naming proposal ===
 
@@ -649,7 +742,11 @@ Note the name for WG2 is beyond the scope of this ballot.
     * '''2011 :''' "Scheme 2011" as in the proposal above
   * '''Options:''' r7rs, 2011, undecided
   * '''Default:''' r7rs
-  * '''Preferences:''' 
+  * '''Preferences:''' r7rs, undecided
+
+Changing the naming convention after all these years is bikeshedding
+and dropping a fun and respected tradition.  Furthermore, we'll have
+to explain the break over and over again.
 
 === #189 List changes from R6RS ===
 
@@ -660,7 +757,10 @@ included in the WG2 document.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
+
+Let's include this directly in the document.  It's important to
+explain this clearly.
 
 === #227 quasiquote and cycles ===
 
@@ -682,7 +782,9 @@ Vote `note` to add a note.
     * '''note:''' make a note
   * '''Options:''' note, nothing, undecided
   * '''Default:''' nothing
-  * '''Preferences:''' 
+  * '''Preferences:''' note
+
+If it's confusing, it's better to be explicit.
 
 == WG1 - Reader Syntax ==
 
@@ -714,7 +816,9 @@ otherwise.
     * '''optional-semi-colon:''' use semi-colon as a terminator if present, otherwise only read the first two hex-digits
   * '''Options:''' semi-colon, brace, brace-or-semi-colon, fixed-two, optional-semi-colon, undecided
   * '''Default:''' semi-colon
-  * '''Preferences:''' 
+  * '''Preferences:''' semi-colon, undecided
+
+Syntax highlighters can be updated.
 
 === #218 infinity/nan syntax ===
 
@@ -737,7 +841,10 @@ names.
     * '''prefix-dotted:''' 0+inf.0, 0-inf.0, 0+nan.0
   * '''Options:''' r6rs, short, dotted, prefix, prefix-dotted, undecided
   * '''Default:''' r6rs
-  * '''Preferences:''' 
+  * '''Preferences:''' r6rs
+
+Ugh.  Let's not be gratuitously incompatible with R6RS just because
+the BNF is cumbersome.
 
 === #219 bring back readable boolean literals ===
 
@@ -756,7 +863,11 @@ kept however we vote.
     * '''bang-long:''' `#!true` and `#!false`
   * '''Options:''' long, bang-long, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:''' none, bang-long, undecided
+
+Let's not do this.  They've been removed.  I don't have trouble
+distinguishing #t from #f.  Anyone who does can define `true' and
+`false'.
 
 === #22 mantissa widths and placeholders ===
 
@@ -775,7 +886,9 @@ Vote `no` to remove the `#` placeholders.
 
   * '''Options:''' r5rs, no, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' 
+  * '''Preferences:''' no
+
+They don't need to be in the standard if no one uses them.
 
 === #68 "Undefined value" vs. "undefined values" ===
 
@@ -801,4 +914,6 @@ We should reconsider this item.
 
   * '''Options:''' r5rs, r6rs, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' 
+  * '''Preferences:''' r5rs
+
+Let's not break existing programs if there isn't widespread agreement.
