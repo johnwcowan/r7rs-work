@@ -57,7 +57,7 @@ possibly requiring a command-line flag for "R7RS mode" or some such.
 TODO: Create a list of existing names used, and ways implementations
 may detect the difference in the event of a conflict.
 
-  * '''Options:''' module, library, define-module
+  * '''Options:''' module, library, define-module, define-library
   * '''Default:''' module
   * '''Preferences:''' 
 
