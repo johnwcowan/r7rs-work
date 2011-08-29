@@ -57,14 +57,13 @@ possibly requiring a command-line flag for "R7RS mode" or some such.
 TODO: Create a list of existing names used, and ways implementations
 may detect the difference in the event of a conflict.
 
-  * '''Options:''' module, library, define-module
+  * '''Options:''' module, library, define-module, define-library
   * '''Default:''' module
   * '''Preferences:''' define-library, define-module, module, library
 
 I strongly dislike the term library, but R6RS has chosen it.  We need
 to use something different than the `library' form, though, to avoid
-compatibility problems, so I'm choosing `define-library', which
-appears to have been omitted from the ballot accidentally.
+compatibility problems, so I'm choosing `define-library'.
 
 === #145 RFC 2119 compliance ===
 
