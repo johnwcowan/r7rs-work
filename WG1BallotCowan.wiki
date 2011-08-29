@@ -719,7 +719,8 @@ Vote `note` to add a note.
     * '''note:''' make a note
   * '''Options:''' note, nothing, undecided
   * '''Default:''' nothing
-  * '''Preferences:''' undecided
+  * '''Preferences:''' note
+  * '''Rationale:''' Let's be explicit, per WG1BallotGleckler.
 
 == WG1 - Reader Syntax ==
 
@@ -842,4 +843,5 @@ We should reconsider this item.
 
   * '''Options:''' r5rs, r6rs, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' undecided
+  * '''Preferences:''' r5rs
+  * '''Rationale:''' It turns out that nobody is actually returning zero values.  Pragmatics rulez.
