@@ -140,7 +140,7 @@ that syntax forms can be changed at will?
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' yes
+  * '''Preferences:''' no
   * '''Rationale:''' There is now a disclaimer that the syntax keywords in 7.2 only "work" if they have not been redefined or shadowed.  Keeping all the syntax in one place is handy enough that we should just leave them there.
 
 === #212 Let LOAD take an optional environment argument ===
