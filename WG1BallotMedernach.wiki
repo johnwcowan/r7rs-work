@@ -391,9 +391,9 @@ include this.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' undecided
+  * '''Preferences:''' yes, no, undecided
 
-  Any use cases for this one ?
+John's example convinced me that this has its place inside the (scheme lazy) module.
 
 === #235 Should bytevector constants be self-quoting? ===
 
@@ -686,7 +686,7 @@ Note the name for WG2 is beyond the scope of this ballot.
   * '''Default:''' r7rs
   * '''Preferences:''' r7rs
 
-Putting the date is a bad idea IMHO, it wrongly makes the language look deprecated some years after.  Just name it something like "Report on the Scheme Core Language" with a subtitle like "2011 edition, 7th revision" (not directly a part of the title).
+Putting the date is a bad idea IMHO, it wrongly makes the language look deprecated some years after.  Just name it something like "Report on the Core Scheme Language" with a subtitle like "2011 edition, 7th revision" (not directly a part of the title).
 
 === #189 List changes from R6RS ===
 
@@ -795,7 +795,9 @@ kept however we vote.
     * '''bang-long:''' `#!true` and `#!false`
   * '''Options:''' long, bang-long, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' none, long, undecided, bang-long
+  * '''Preferences:''' long, none, undecided, bang-long
+
+Alex convinced me that this is more readable (along with keepeing shortened forms for compatibility).
 
 === #22 mantissa widths and placeholders ===
 
