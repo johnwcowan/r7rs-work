@@ -59,10 +59,11 @@ may detect the difference in the event of a conflict.
 
   * '''Options:''' module, library, define-library
   * '''Default:''' module
-  * '''Preferences:''' module, library, define-library
+  * '''Preferences:''' define-library
 
-If the name isn't already being used _anywhere_, it means it's a bad
-name.
+Reversed from my earlier decision, we need
+to avoid conflicts and I haven't seen any better
+names.
 
 === #145 RFC 2119 compliance ===
 
@@ -146,7 +147,7 @@ Vote `yes` to remove them.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' ues
+  * '''Preferences:''' yes
 
 Drop these, they don't belong when describing a language without fixed
 syntax.
@@ -302,9 +303,9 @@ binary.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' yes
+  * '''Preferences:''' no
 
-Ugly, but I want to be able to implement cat(1).
+This needs more thought.
 
 === #224 Additional blob I/O ===
 
@@ -361,7 +362,9 @@ make the most sense to leave this `unspecified`.
 
   * '''Options:''' same, different, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' undecided
+  * '''Preferences:''' unspecified
+
+It is de facto unspecified.
 
 === #230 Reserve module names for current and future standards ===
 
@@ -437,7 +440,12 @@ Feel free to write in a name.
 
   * '''Options:''' scheme, r7rs, scheme2011, undecided
   * '''Default:''' scheme
-  * '''Preferences:''' scheme, r7rs
+  * '''Preferences:''' r7rs, scheme
+
+"r7rs" avoids the issue that we don't have explicit
+versioning capabilities.  When and if we have the
+same modules unchanged across two or more standards,
+we can use the "scheme" name.
 
 === #238 Reserve #! for read directives ===
 
@@ -459,7 +467,9 @@ consistent with the existing convention for `!`.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' yes
+  * '''Preferences:''' no
+
+This conflicts with other uses of "#!".
 
 === #240 Rename current-second to current-tai ===
 
@@ -532,6 +542,8 @@ the implementation.
   * '''Default:''' unspecified
   * '''Preferences:''' undecided, uax-29
 
+We can say "_should_ follow UAX-29" here.
+
 === #248 fill-string and fill-vector: optional start/end arguments? ===
 
 Should we provide the obvious way to fill part of a string or vector?
@@ -598,9 +610,9 @@ This is one of several issues raised by ModuleFactoringSummary.
 
 Should `case-lambda` be in the core or a separate module?
 
-  * '''Options:''' core, separate
+  * '''Options:''' remove, core, separate
   * '''Default:''' core
-  * '''Preferences:''' separate
+  * '''Preferences:''' remove, separate
 
 `case-lambda` is one of the worst things that has ever happened to
 Scheme.  It requires a quadratic explosion in duplicate code to handle
@@ -797,7 +809,9 @@ otherwise.
     * '''optional-semi-colon:''' use semi-colon as a terminator if present, otherwise only read the first two hex-digits
   * '''Options:''' semi-colon, brace, brace-or-semi-colon, fixed-two, optional-semi-colon, undecided
   * '''Default:''' semi-colon
-  * '''Preferences:''' undecided
+  * '''Preferences:''' brace
+
+This is unambiguous and doesn't conflict with existing syntax.
 
 === #218 infinity/nan syntax ===
 
@@ -814,8 +828,8 @@ names.
 
   * '''Proposals:'''
     * '''r6rs:''' +inf.0, -inf.0, +nan.0
-    * '''short:''' 0/1, 0/-1, 0/0
-    * '''dotted:''' 0/1.0, 0/-1.0, 0/0.0
+    * '''short:''' 1/0, -1/0, 0/0
+    * '''dotted:''' 1/0.0, -1/0.0, 0/0.0
     * '''prefix:''' 0+inf, 0-inf, 0+nan
     * '''prefix-dotted:''' 0+inf.0, 0-inf.0, 0+nan.0
   * '''Options:''' r6rs, short, dotted, prefix, prefix-dotted, undecided
@@ -890,4 +904,8 @@ We should reconsider this item.
 
   * '''Options:''' r5rs, r6rs, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' undecided
+  * '''Preferences:''' r5rs
+
+This is the de facto standard.  Although R6RS loosened the
+requirements, existing implementations continue to return
+a single value.
