@@ -1,30 +1,13 @@
-This is a proposal for a WG2 blob (bytevector) API.  Blobs are a disjoint type.  They have no native interpretation, but parts of them can be interpreted as one of a variety of binary types.  The conceit is that everything is a separate procedure with minimal arguments; this makes for a lot of procedures, but each one can be easily inlined by even a very dumb compiler, providing high efficiency.
+This is a proposal for a WG2 bytevector API.  The conceit is that everything is a separate procedure with minimal arguments; this makes for a lot of procedures, but each one can be easily inlined by even a very dumb compiler, providing high efficiency.
 
-=== Basic procedures ===
 
- `(blob? `''obj''`)`::
-  Returns `#t` if ''obj'' is a blob.
- `(make-blob `''n''`)`::
-  Returns a newly allocated blob containing ''n'' bytes.
- `(blob-length `''blob''`)`::
-  Returns the length of ''blob'' in bytes.
- `(copy-blob `''blob''`)`::
-  Returns a newly allocated blob containing the same bytes as ''blob''.
- `(partial-blob `''blob''` `''from''` `''to''`)`::
-  Returns a newly allocated blob containing the bytes in ''blob'' starting at ''start'' (inclusive) and ending at ''end'' (exclusive).
- `(copy-blob! `''from to''`)`::
-  Copy blob ''from'' on top of blob ''to'', which must not be shorter.
- `(copy-partial-blob! `''from''` `''start''` `''end''` `''to''` `''at''`)`::
-  Copy the part of ''from'' starting at ''start'' and ending at ''end'' into ''to'' starting at ''at''.
-
-Because there is no preferred way to interpret the data in a blob, there is no `blob` function analogous to `list` or `vector` and no second argument to `make-blob`.
 
 === Numeric procedures ===
 
- (`blob-<type><endian>-ref` ''blob n''`)`::
-  Returns a Scheme number corresponding to the binary value encoded according to ''type'' beginning at offset ''n'' in ''blob''.
- (`blob-<type><endian>-set!` ''blob n v''`)`::
-  Converts ''v'' to a binary value encoded according to ''type'' and places it into ''blob'' beginning at offset ''n''.
+ (`bytevector-<type><endian>-ref` ''bytevector n''`)`::
+  Returns a Scheme number corresponding to the binary value encoded according to ''type'' beginning at offset ''n'' in ''bytevector''.
+ (`bytevector-<type><endian>-set!` ''bytevector n v''`)`::
+  Converts ''v'' to a binary value encoded according to ''type'' and places it into ''bytevector'' beginning at offset ''n''.
 
 The types are:
 
@@ -79,10 +62,10 @@ Endianism is not applicable to the following types: `s8 u8 fn32 fn64 cn64 cn128`
 
 === String procedures ===
 
- (`blob-<encoding>-ref` ''blob n l''`)`::
-  Returns a Scheme string corresponding to the binary value encoded according to ''encoding'' beginning at offset ''n'' in ''blob'' and continuing for ''l'' bytes.
- (`blob-<encoding>-set!` ''blob n v''`)`::
-  Converts ''v'' to a binary string encoded according to ''encoding'' and places it into ''blob'' beginning at offset ''n''.  Returns the number of bytes encoded.
+ (`bytevector-<encoding>-ref` ''bytevector n l''`)`::
+  Returns a Scheme string corresponding to the binary value encoded according to ''encoding'' beginning at offset ''n'' in ''bytevector'' and continuing for ''l'' bytes.
+ (`bytevector-<encoding>-set!` ''blob n v''`)`::
+  Converts ''v'' to a binary string encoded according to ''encoding'' and places it into ''bytevector'' beginning at offset ''n''.  Returns the number of bytes encoded.
 
 The encodings are:
 
@@ -95,18 +78,19 @@ The encodings are:
  `utf16le`::
   UTF-16LE encoding (treats BOM as a normal character)
 
+=== Map, for-each, fold, unfold ===
+
+'''TBD'''
+
 === Issues ===
 
 Pick one:
 
   1. Offsets are in bytes and can be arbitrary
   1. Offsets are in bytes but must be naturally aligned (divisible by n for an n-byte value)
-  1. Offsets are in n-byte sub-blobs (forces natural alignment, SRFI-4 style)
+  1. Offsets are in n-byte units (forces natural alignment, SRFI-4 style)
 
-Should `blob=?` be provided?
+Should `bytevector=?` be provided?
 
 I've trashed the UTF-32 conversions because nobody uses UTF-32.  They can come back if somebody needs them.
 
-=== WG1 ===
-
-I propose that WG1 provide `blob?, make-blob, blob-length, copy-blob, copy-blob!, blob-u8-ref, blob-u8-set!`, `partial-blob`, `copy-partial-blob!`.
