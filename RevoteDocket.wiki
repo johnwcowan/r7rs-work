@@ -6,8 +6,6 @@ Undefined value API:
 
 Multiple producers in `call-with-values`
 
-`let-values`, `let*-values`:
-
 `equal=?` (like `equal?` but with `=` instead of `eqv?` on numbers):
 
 Custom I/O ports:
@@ -22,4 +20,13 @@ Immutable data:
 
 Port encodings, buffering, line ending control:
 
-Evaluator arguments to procedures like `load`.
+Evaluator arguments to procedures like `load`: under WG1 ballot
+
+Applicable record instances (see http://www.r6rs.org/formal-comments/comment-6.txt):
+
+Random procedures from R6RS (notably `symbol=?` and `boolean=?`): to be spelled out
+
+String positions and slices (see http://www.r6rs.org/formal-comments/comment-235.txt):
+
+Enumerations (R6RS, but see also http://www.r6rs.org/formal-comments/comment-262.txt):
+
