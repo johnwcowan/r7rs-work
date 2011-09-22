@@ -1,0 +1,13 @@
+This is a dumping ground for random R6RS base library procedures that might be wanted in WG2.
+
+`boolean=?` compares booleans for identity.
+
+`symbol=?` compares symbols for identity.
+
+`real-valued?`, `rational-valued?`, and `integer-valued?` test whether a given number object can be coerced to the specified type without loss of numerical accuracy. Specifically, the behavior of these predicates differs from the behavior of `real?`, `rational?`, and `integer?` on complex number objects whose imaginary part is inexact zero.
+
+`infinite?` returns `#t` on `+inf.0` and `-inf.0`
+
+`assert` raises an error if its argument is `#f`.
+
+
