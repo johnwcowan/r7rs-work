@@ -15,20 +15,20 @@ versioning, which we feel is an important feature but deserves more
 experimentation before standardizing.
 
 In addition, the syntax of the module system was deliberately chosen
-to be syntactically different from R6RS, using `module` instead of
+to be syntactically different from R6RS, using `define-library` instead of
 `library` and putting an extra level of indirection around the body,
 for the following reasons:
 
-  * Allow easy disambiguation between R6RS and R7RS modules.
+  * Allows easy disambiguation between R6RS and R7RS modules.
 
-  * Make it easier to `include` separate files, optionally with the
+  * Makes it easier to `include` separate files, optionally with the
     `include-ci` form to case-insensitive files.
 
-  * Provide the `cond-expand` form from SRFI 0, allowing for a more
+  * Provides the `cond-expand` form from SRFI 0, allowing for a more
     deterministic alternative to the R6RS ".impl.sls" file naming
     convention.
 
-  * Allow room for extensibility.  The R6RS syntax provides two
+  * Allows room for extensibility.  The R6RS syntax provides two
     positional forms which must be present and must have the correct
     keywords, `export` and `import`, which does not allow for
     unambiguous extensions.  We think extensibility is important
@@ -76,7 +76,7 @@ mapping of the corresponding character comparisons (an incompatibility
 with R5RS).  Non-Unicode characters are permitted.
 
 The full numeric tower is optional as in R5RS, but support for IEEE
-infinities and NaN were adopted from R6RS.  Most clarifications on
+infinities, NaN, and -0.0 were adopted from R6RS.  Most clarifications on
 numeric results were also adopted, but the new procedures
 `real-valued?`, `rational-valued?`, and `integer-valued?` were not.
 The R5RS names `inexact->exact` for `exact` and `exact->inexact` for
@@ -84,8 +84,8 @@ The R5RS names `inexact->exact` for `exact` and `exact->inexact` for
 historical.
 
 The division operators `div`, `mod`, `div-and-mod`, `div0`, `mod0` and
-`div-and-mod0` have been replaced with a full set of 15 operators
-describing 5 rounding semantics.
+`div-and-mod0` have been replaced with a full set of 18 operators
+describing 6 rounding semantics.
 
 When a result is unspecified, it is still required to be a
 single value, in the interests of R5RS compatibility.  However,
@@ -173,7 +173,7 @@ compile-time errors from syntax-rules macros.
 We added parameters compatible with R6RS (and SRFI 39), but in the
 interest of thread-safety and conflicting behavior among existing
 implementations left the semantics of mutating a parameter (passing it
-an argument) unspecified.  Parameters in the small language are
+an argument) unspecified.  Parameters in the small language can be
 altered only with the `parameterize` form.
 
-`equal?` is required to always terminate.
+`equal?` is required to always terminate, and to be true if `eqv?` is true.
