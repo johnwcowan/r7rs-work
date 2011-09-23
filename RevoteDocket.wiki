@@ -30,3 +30,5 @@ String positions and slices (see http://www.r6rs.org/formal-comments/comment-235
 
 Enumerations (R6RS, but see also http://www.r6rs.org/formal-comments/comment-262.txt):
 
+`Record-let`:
+
