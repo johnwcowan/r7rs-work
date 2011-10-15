@@ -1,3 +1,5 @@
+'''This needs to be integrated with ArraySlicesBreuel, so that the slice is the basic exposed object.'''
+
 == Arrays ==
 
 This is a proposal for the WG2 multidimensional arrays package.  These arrays are general: that is, the components may be any Scheme object.  The components of arrays may be addressed either by subscripts or in row-major order using a single index.
