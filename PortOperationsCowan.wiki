@@ -47,3 +47,7 @@ Returns a port which passes any port operations invoked on it to the current val
 `(alias-port? `''obj''`)`
 
 Returns `#t` if ''obj'' is an alias port, and `#f` otherwise.
+
+== Port fold and unfold operators ==
+
+TBD, but the general idea is that you can fold over an input port and unfold into an output port.
