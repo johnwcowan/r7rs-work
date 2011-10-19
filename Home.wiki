@@ -57,7 +57,7 @@ Comments are welcome at the [[http://lists.scheme-reports.org/cgi-bin/mailman/li
         * LetSyntaxArcfide
 
 
-== Working Group 2 ==
+== Working Group 2 [[http://scheme-reports.org/2010/working-group-2-charter.html|Charter]] ==
 
 [[MemberPagesWorkingGroupTwo|Member Page]]
 
