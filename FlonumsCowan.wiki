@@ -125,5 +125,5 @@ A ''compnum'' is a general complex number whose `real-part` and `imag-part` are 
 ||`sin`||`double complex csin(double complex)`||-||
 ||`sinh`||`double complex csinh(double complex)`||-||
 ||`sqrt`||`double complex csqrt(double complex)`||-||
-||`ctan`||`double complex ctan(double complex)`||-||
-||`ctanh`||`double complex ctanh(double complex)`||-||
+||`tan`||`double complex ctan(double complex)`||-||
+||`tanh`||`double complex ctanh(double complex)`||-||
