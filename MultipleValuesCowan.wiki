@@ -11,7 +11,4 @@ Invoke the ''producers'' and pass all values returned by them in order to ''cons
 Assigns the values returned by ''expression'' to the variables in ''lambda-list''.
 Returns undefined values.  Equivalent to Common Lisp's `multiple-variable-setq`.
 
-`(define-values (`''var'' ...`) `''expr''`)`
-
-Defines the ''vars'' and binds them to the values of ''expr''.  '''May be moved to WG1 language.'''
-
+'''Is this module even worth having any more?  Most of its former content is part of WG1 now.'''
