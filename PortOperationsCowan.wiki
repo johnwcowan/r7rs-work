@@ -4,37 +4,41 @@ This is a proposal for the WG2 "port operations" work item.  It provides useful 
 
 == Port iterators ==
 
-`(port-for-each `''iterator''` `''reader''` `''port''`)`
+`(port-for-each `''iterator''` `''reader''` `''input-port''`)`
 
-Applies ''iterator'' to the successive results of calling ''reader'' on ''port'' until it returns an EOF object (not including the EOF object), discarding the results.  Returns undefined values.
+Applies ''iterator'' to the successive results of calling ''reader'' on ''input-port'' until it returns an EOF object (not including the EOF object), discarding the results.  Returns an undefined value.
 
-`(port-map `''iterator''` `''reader''` `''port''`)`
+`(port-map `''iterator''` `''reader''` `''input-port''`)`
 
-Applies ''iterator'' to the successive results of calling ''reader'' on ''port'' until it returns an EOF object (not including the EOF object), returning a list of the collected results.
+Applies ''iterator'' to the successive results of calling ''reader'' on ''input-port'' until it returns an EOF object (not including the EOF object), returning a list of the collected results.
 
-`(port-fold `''iterator''` `''reader''` `''port''` `''seed'' ...`)`
+`(port-fold `''iterator''` `''reader''` `''input-port''` `''seed'' ...`)`
 
-Applies ''iterator'' to the successive results of calling ''reader'' on ''port'', passing the ''seed'' values as additional arguments to ''iterator''. The results returned by ''iterator'' become the new ''seed'' values. When ''reader'' returns an EOF object, the last results of ''iterator'' are returned.
+Applies ''iterator'' to the successive results of calling ''reader'' on ''input-port'', passing the ''seed'' values as additional arguments to ''iterator''. The results returned by ''iterator'' become the new ''seed'' values. When ''reader'' returns an EOF object, the last results of ''iterator'' are returned.
+
+`(port-unfold `''terminate?''` `''iterator''` `''writer''` `''output-port''` `''seed'' ...`)`
+
+Uses ''iterator'' to generate the sequence of values `seed`, `(iterator seed)`, `(iterator (iterator seed))`, and so on.  Uses ''writer'' to output the values to ''output-port''.  ''Terminate?'' is invoked before calling ''iterator'' each time; if it returns `#f`, the unfolding terminates.  Returns an undefined value.
 
 `(copy-port `''source''` `''sink''` `''reader''` `''writer''`)`
 
-Reads all remaining data from ''source'' using the procedure ''reader'' and writes it to ''sink'' using the procedure ''writer''. ''Reader'' defaults to `read-char` and ''writer'' to `write-char`.  This procedure does not check that ''source'' and ''sink'' are actually ports, so ''reader'' and ''writer'' may perform arbitrary operations as long as they can be invoked as `(`''reader''` `''source''`)` and `(`''writer''` `''value''` `''sink''`)`, respectively.  Returns undefined values.
+Reads all remaining data from ''source'' using the procedure ''reader'' and writes it to ''sink'' using the procedure ''writer''. ''Reader'' defaults to `read-char` and ''writer'' to `write-char`.  This procedure does not check that ''source'' and ''sink'' are actually ports, so ''reader'' and ''writer'' may perform arbitrary operations as long as they can be invoked as `(`''reader''` `''source''`)` and `(`''writer''` `''value''` `''sink''`)`, respectively.  Returns an undefined value.
 
 == Special ports ==
 
 Broadcast ports, concatenated ports, and alias ports are mutually disjoint types, and are disjoint from other types of Scheme objects.
 
-`(make-broadcast-port `''port'' ...`)`
+`(make-broadcast-port `''output-port'' ...`)`
 
-Returns a custom output port that emits everything written into it to the ''ports''.  An operation can only be performed on a broadcast port if it can be performed on all the ''ports''.  Closing the broadcast port does not close any of the ''ports''.  If no ports are specified, the result serves as a sink that discards all its output.
+Returns a custom output port that emits everything written into it to the ''output-ports''.  An operation can only be performed on a broadcast port if it can be performed on all the ''output-ports''.  Closing the broadcast port does not close any of the ''output-ports''.  If no ports are specified, the result serves as a sink that discards all its output.
 
 `(broadcast-port? `''obj''`)`
 
 Returns `#t` if ''obj'' is a broadcast port, and `#f` otherwise.
 
-`(make-concatenated-port `''port'' ...`)`
+`(make-concatenated-port `''input-port'' ...`)`
 
-Returns a custom input port that reads its input from each ''port'' until it returns an EOF object, then returns just one EOF object itself.  An operation can only be performed on a concatenated port if it can be performed on all the ''ports''.  Closing the concatenated port does not close any of the ''ports''.  If no ''ports'' are specified, the result serves as an empty source.
+Returns a custom input port that reads its input from each ''input-port'' until it returns an EOF object, then returns just one EOF object itself.  An operation can only be performed on a concatenated port if it can be performed on all the ''input-ports''.  Closing the concatenated port does not close any of the ''input-ports''.  If no ''input-ports'' are specified, the result serves as an empty source.
 
 `(concatenated-port? `''obj''`)`
 
@@ -48,6 +52,3 @@ Returns a port which passes any port operations invoked on it to the current val
 
 Returns `#t` if ''obj'' is an alias port, and `#f` otherwise.
 
-== Port fold and unfold operators ==
-
-TBD, but the general idea is that you can fold over an input port and unfold into an output port.
