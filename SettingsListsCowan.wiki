@@ -1,0 +1,35 @@
+== Settings lists ==
+
+In this proposal, a filename passed to any of `open-input-file`, `open-binary-input-file`, `open-output-file`, `open-binary-output-file`, `with-input-from-file`, `with-output-from-file`, `call-with-input-file`, and `call-with-output-file` may be specified either as a string (as in R7RS-small) or as a ''settings list'', which is a list of alternating ''keys'' and ''values'' where every key is a symbol.  `Quasiquote` syntax is useful in creating settings lists.  Specifying a string is equivalent to specifying the settings list `(path `''string''`)`.  Implementations MUST support the following keys:
+
+ `path`::
+
+ Specifies the filename.  The interpretation of filenames is implementation-dependent.  There is no default value, but implementations MAY accept other keys in lieu of this one for opening files or file-like objects that don't have string names.  In particular, filenames on Posix are really u8-vectors with some u8 values excluded, and filenames on Windows are really u16-vectors with some u16 values disallowed, and while most names of actual files are representable as strings, some may not be.
+
+ `binary`::
+
+ Specifies binary rather than textual operations.  If the value of this key is `#t`, then a call to `open-input-file` or `open-output-file` is treated as a call to `open-binary-input-file` or `open-binary-output-file` respectively, and a call to `with-input-from-file`, `with-output-from-file`, `call-with-input-file`, or `call-with-output-file` is treated as if the underlying procedure were `open-binary-input-file` or `open-binary-output-file`.  It is an error to specify the value as `#f` on calls to `open-binary-input-file` or `open-binary-output-file`; otherwise, the value `#f` causes the key to be ignored.  
+
+Implementations SHOULD support the following additional keys (if not, then the implementation-dependent default cannot be changed):
+
+ `buffering`::
+
+ Specifies what kind of buffering is present.  The value `#f` means no buffering is employed; `binary` means that there is a binary buffer but no character buffer; `#t` means there are both character and binary buffering.  Other values MAY be specified by an implementation.  Buffer sizes are implementation-dependent.  The default value is implementation-dependent.
+
+ `encoding`::
+
+ Specifies what character encoding to use on a binary port.  The (case insensitive) value `US-ASCII` MUST be supported.  The values `ISO-8859-1` and `UTF-8` SHOULD be supported if the implementation contains the appropriate repertoire of characters.  Other values MAY be supported, which SHOULD appear in the [[http://www.iana.org/assignments/character-sets|IANA list of encodings]].  The default value is implementation-dependent.
+
+ If a BOM (Byte Order Mark, U+FEFF) is present at the beginning of input on a port encoded as UTF-8, it is skipped.  A BOM is not automatically written on output.  Implementations MAY provide a way around this.
+
+ `newline`::
+
+ Specifies how to translate newlines.  The value `#f` means that no translation is performed.  The value `#t` causes all of CR, LF, CR+LF, NEL (U+0085), CR+NEL, and LS (U+2028) to be translated to `#\newline` on input.  On output, the translation is implementation-dependent.  Other values MAY be specified by an implementation.  The default value is implementation-dependent.
+
+ `case-sensitive`::
+
+ Specifies if Scheme symbols are read (as by `read`) from the port case-sensitively or not.  The value `#f` means that upper-case letters in symbols are translated to lower case unless escaped; `#t` means that no translation is done.  The default value is `#t`.
+
+Implementations MAY support other keys, SHOULD warn if they detect keys they do not understand or implement, and MAY signal an error in such cases.
+
+
