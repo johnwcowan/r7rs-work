@@ -86,7 +86,7 @@ The scheme, host, port, username, password, directory, name, type, query, and fr
 
 == Deconstructors ==
 
-The following procedures accept a pathname and construct and return a string corresponding to that pathname.
+The following procedures accept a pathname and construct and return a string corresponding to that pathname according to some appropriate convention.
 
 `(pathname->posix-filename `''pathname''`)`
 
@@ -108,12 +108,12 @@ It is an error if the username, password, port, query, and fragment components a
 
 Constructs and returns a string according to RFC 3987 rules.  No escaping of non-ASCII characters is done.
 
-The scheme, host, port, username, password, directory, name, type, query, and fragment components are used to construct the URI.  It is an error if the device component is not `#f`, or if the first element of the directory component is not `absolute`.
+The scheme, host, port, username, password, directory, name, type, query, and fragment components are used to construct the IRI.  It is an error if the device component is not `#f`, or if the first element of the directory component is not `absolute`.
 
 `(pathname-directory->posix-dirname `''pathname''`)`
 
 Returns ''pathname'' as a Posix directory string.  The result consists of the strings in the ''cdr'' of the directory component joined using `/` with another `/` prepended if the ''car'' is `absolute`.
- 
+
 `(pathname-directory->windows-dirname `''pathname''`)`
 
 Returns the ''pathname'' as a Windows directory string.  The result consists of the strings in the ''cdr'' of the directory component joined using `\`, prefixed by one of the following:
