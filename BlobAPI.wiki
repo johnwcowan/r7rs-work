@@ -1,13 +1,29 @@
-This is a proposal for a WG2 bytevector API.  The conceit is that everything is a separate procedure with minimal arguments; this makes for a lot of procedures, but each one can be easily inlined by even a very dumb compiler, providing high efficiency.
+This is a proposal for a WG2 bytevector API.  The conceit is that everything is a separate procedure with minimal arguments; this makes for a ''lot'' of procedures, but each one can be easily inlined by even a very dumb compiler, providing high efficiency.
 
 
+== Numeric procedures ==
 
-=== Numeric procedures ===
+(`bytevector-<type><endian>-ref` ''bytevector n''`)`
 
- (`bytevector-<type><endian>-ref` ''bytevector n''`)`::
-  Returns a Scheme number corresponding to the binary value encoded according to ''type'' beginning at offset ''n'' in ''bytevector''.
- (`bytevector-<type><endian>-set!` ''bytevector n v''`)`::
-  Converts ''v'' to a binary value encoded according to ''type'' and places it into ''bytevector'' beginning at offset ''n''.
+Returns a Scheme number corresponding to the binary value encoded according to ''type'' beginning at offset ''n'' in ''bytevector''.
+
+(`<type><endian>vector-ref` ''bytevector n''`)`
+
+Returns a Scheme number corresponding to the binary value encoded according to ''type'' beginning at offset ''n'' in ''bytevector'', where ''n'' is first multiplied by a value corresponding to the size of the binary value.
+
+(`bytevector-<type><endian>-set!` ''bytevector n v''`)`
+
+Converts ''v'' to a binary value encoded according to ''type'' and places it into ''bytevector'' beginning at offset ''n''.
+
+(`<type><endian>vector-set!` ''bytevector n v''`)`
+
+Converts ''v'' to a binary value encoded according to ''type'' and places it into ''bytevector'' beginning at offset ''n'', where ''n'' is first multiplied by a value corresponding to the size of the binary value.
+
+(`<type><endian>vector-length` ''bytevector''`)`
+
+Returns a Scheme number corresponding to length of ''bytevector''divided by a value corresponding to the size of the binary value.
+
+== Numeric types ==
 
 The types are:
 
@@ -32,42 +48,34 @@ The types are:
  `s128`::
   signed 128-bit integer
  `f32`::
-  32-bit IEEE float
- `fn32`::
-  32-bit native float (may not be IEEE)
+  32-bit float
  `f64`::
-  64-bit IEEE float in native endianism
- `fn64`::
-  64-bit native float (may not be IEEE)
+  64-bit float
  `c64`::
-  64-bit complex number (two 32-bit IEEE floats)
- `cn64`::
-  64-bit complex number (two 32-bit native floats, may not be IEEE)
+  64-bit complex number (two 32-bit floats, real followed by imaginary)
  `c128`::
-  128-bit complex number (two 64-bit IEEE floats)
- `cn128`::
-  128-bit complex number (two 64-bit native floats, may not be IEEE)
+  128-bit complex number (two 64-bit floats, real followed by imaginary)
 
 The endianism values are:
 
  (empty)::
-  Native endianism (system-dependent)
+  Native representations (system-dependent)
  `le`::
-  Little-endianism
+  Little-endian (for float and complex, IEEE format)
  `be`::
-  Big-endianism
+  Big-endian (for float and complex, IEEE format)
 
-Endianism is not applicable to the following types: `s8 u8 fn32 fn64 cn64 cn128`
+Endianism is not applicable to the `u8` and `s8` types.
 
 
-=== String procedures ===
+== String procedures ==
 
  (`bytevector-<encoding>-ref` ''bytevector n l''`)`::
   Returns a Scheme string corresponding to the binary value encoded according to ''encoding'' beginning at offset ''n'' in ''bytevector'' and continuing for ''l'' bytes.
  (`bytevector-<encoding>-set!` ''blob n v''`)`::
   Converts ''v'' to a binary string encoded according to ''encoding'' and places it into ''bytevector'' beginning at offset ''n''.  Returns the number of bytes encoded.
 
-The encodings are:
+== String encodings ==
 
  `utf8`::
   UTF-8 encoding
@@ -78,19 +86,6 @@ The encodings are:
  `utf16le`::
   UTF-16LE encoding (treats BOM as a normal character)
 
-=== Map, for-each, fold, unfold ===
+=== Equality, map, for-each, fold, unfold ===
 
 '''TBD'''
-
-=== Issues ===
-
-Pick one:
-
-  1. Offsets are in bytes and can be arbitrary
-  1. Offsets are in bytes but must be naturally aligned (divisible by n for an n-byte value)
-  1. Offsets are in n-byte units (forces natural alignment, SRFI-4 style)
-
-Should `bytevector=?` be provided?
-
-I've trashed the UTF-32 conversions because nobody uses UTF-32.  They can come back if somebody needs them.
-
