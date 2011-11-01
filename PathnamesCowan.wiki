@@ -96,7 +96,7 @@ The result is constructed using `/` as the component separator from the director
 
 It is an error if the username, password, port, query, and fragment components are not `#f`.  It is an error if the scheme component is not `"file"` or `#f`.
 
-`(pathname->posix-filename `''pathname''`)`
+`(pathname->windows-filename `''pathname''`)`
 
 Constructs and returns a filename string from ''pathname''.
 
@@ -114,13 +114,13 @@ The scheme, host, port, username, password, directory, name, type, query, and fr
 
 Returns ''pathname'' as a Posix directory string.  The result consists of the strings in the ''cdr'' of the directory component joined using `/` with another `/` prepended if the ''car'' is `absolute`.
  
-`(pathname-directory->window-dirname `''pathname''`)`
+`(pathname-directory->windows-dirname `''pathname''`)`
 
 Returns the ''pathname'' as a Windows directory string.  The result consists of the strings in the ''cdr'' of the directory component joined using `\`, prefixed by one of the following:
 
  * `\` if the ''car'' of the directory component is `absolute`
 
- * `\\` followed by the host component if the ''car'' of the directory component is `unc`
+ * `\\` followed by the host component followed by `\` if the ''car'' of the directory component is `unc`
 
  * the device followed by `:` if the device component is not `#f`
 
