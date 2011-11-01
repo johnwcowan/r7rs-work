@@ -1,18 +1,14 @@
 == Directory ports ==
 
-This module depends on the acceptance of PortsCowan or something like it, as it uses the framework of that proposal.  See DirectoriesCowan for a proposal for creating and destroying directories.
+This proposal depends on SettingsListsCowan.  See DirectoriesCowan for a proposal for creating and destroying directories.
 
 == Procedures ==
 
 `(open-directory `''filename''`)`
 
-''Filename'' can be a string or a ''settings list'' as described in PortsCowan.  In addition to the keys `path` and `encoding` specified there, the key `hidden` can have the values `none` (don't expose hidden files), `all` (expose all files), and `dots` (expose all files except `.` and `..`).  On Posix systems, hidden files have names beginning with `.`; on Windows, hidden files are named `.`, `..`, or have the `hidden` file attribute.
+''Filename'' can be a string or a ''settings list'' as described in SettingsListsCowan.  In addition to the keys `path` and `encoding` specified there, the key `hidden` can have the values `none` (don't expose hidden files), `all` (expose all files), and `dots` (expose all files except `.` and `..`).  On Posix systems, hidden files have names beginning with `.`; on Windows, hidden files are named `.`, `..`, or have the `hidden` file attribute.
 
-The returned value is an input port, but it is neither a binary port nor a character port, so the only standard procedure callable on it is `read`, which returns the next available filename as a string (or, when necessary, an implementation-dependent object).  Filenames are returned in arbitrary order.
-
-`(call-with-input-directory `''filename''` `''proc''`)` 
-
-''Filename'' MUST be an object acceptable to `open-directory`, and ''proc'' MUST be a procedure that accepts one argument. Calls ''proc'' with one argument, the port obtained by opening the specified directory.  If the directory cannot be opened, an error is signalled. If ''proc'' returns, then the port is closed automatically and the value(s) yielded by the ''proc'' is (are) returned.  If ''proc'' does not return, then the port will not be closed automatically unless it is possible to prove that the port will never again be used for a read operation.
+The returned value is an input port, but it is neither a binary port nor a character port.  The only standard procedure callable on it is `read`, which returns the next available filename as a string (or, when necessary, an implementation-dependent object).  Filenames are returned in arbitrary order.
 
 `(directory-port? `''obj''`)`
 
