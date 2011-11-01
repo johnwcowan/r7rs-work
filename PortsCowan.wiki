@@ -1,5 +1,7 @@
 == Ports ==
 
+'''This proposal is obsolete.  Most of it other than settings lists was adopted by WG1.  Settings lists have now become a WG2 proposal at SettingsListsCowan.'''
+
 Here's my proposal for WG1 Scheme ports and I/O facilities.  It's fully upward compatible with R5RS, but takes ideas from R6RS, SRFI 91 and SRFI 6.  Many of the concepts are present in R6RS under other names.
 
 The new features beyond R5RS are:
