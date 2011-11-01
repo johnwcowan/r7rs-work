@@ -76,7 +76,7 @@ Returns the content of the ''specific'' field of ''thread''.
 
 `(thread-specific-set! `''thread''` `''obj''`)`
 
-Sets ''specific'' field of ''thread'' to ''obj''.  Returns unspecified values.
+Sets ''specific'' field of ''thread'' to ''obj''.  Returns an unspecified value.
 
 `(thread-start! `''thread''`)`
 
@@ -84,11 +84,11 @@ Makes ''thread'' (which must be a new thread) runnable.  Returns ''thread''.  Th
 
 `(thread-yield!)`
 
-The current thread exits the running state as if its quantum had expired. Returns unspecified values.
+The current thread exits the running state as if its quantum had expired. Returns an unspecified value.
 
 `(thread-sleep! `''timeout''`)`
 
-The current thread waits until the value of `(elapsed-time)` is greater than or equal to ''timeout''. This blocks the thread only if ''timeout'' represents a point in the future.  Returns unspecified values.
+The current thread waits until the value of `(elapsed-time)` is greater than or equal to ''timeout''. This blocks the thread only if ''timeout'' represents a point in the future.  Returns an unspecified value.
 
 `(thread-join! `''thread'' [[''timeout''|[''timeout-result'']]]`)`
 
