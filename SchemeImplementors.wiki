@@ -21,6 +21,7 @@ This is a list of contact information for Scheme implementations.  It is based o
 || Racket || Eli Barzilay ||
 || Scheme 48 || Jonathan Rees ||
 || Schemik || Petr Krajča ||
+|| SCM, SLIB || Aubrey Jaffer, Radey Shouman ||
 || Sisc || Scott G. Miller ||
 || Stalin || Jeffrey Mark Siskind ||
 || !TinyScheme || Jonathan Shapiro ||
