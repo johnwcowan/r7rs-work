@@ -4,25 +4,27 @@ This is a proposal for the WG2 "port operations" work item.  It provides useful 
 
 == Port iterators ==
 
-`(port-for-each `''iterator''` `''reader''` `''input-port''`)`
+These procedures do not check that ''source'' and ''sink'' are actually ports, so ''reader'' and ''writer'' may perform arbitrary operations as long as they can be invoked as `(`''reader''` `''source''`)` and `(`''writer''` `''value''` `''sink''`)`, respectively.  
 
-Applies ''iterator'' to the successive results of calling ''reader'' on ''input-port'' until it returns an EOF object (not including the EOF object), discarding the results.  Returns an undefined value.
+`(port-for-each `''iterator''` `''reader''` `''source''`)`
 
-`(port-map `''iterator''` `''reader''` `''input-port''`)`
+Applies ''iterator'' to the successive results of calling ''reader'' on ''source'' until it returns an EOF object (not including the EOF object), discarding the results.  Returns an undefined value.
 
-Applies ''iterator'' to the successive results of calling ''reader'' on ''input-port'' until it returns an EOF object (not including the EOF object), returning a list of the collected results.
+`(port-map `''iterator''` `''reader''` `''source''`)`
 
-`(port-fold `''iterator''` `''reader''` `''input-port''` `''seed'' ...`)`
+Applies ''iterator'' to the successive results of calling ''reader'' on ''source'' until it returns an EOF object (not including the EOF object), returning a list of the collected results.
 
-Applies ''iterator'' to the successive results of calling ''reader'' on ''input-port'', passing the ''seed'' values as additional arguments to ''iterator''. The results returned by ''iterator'' become the new ''seed'' values. When ''reader'' returns an EOF object, the last results of ''iterator'' are returned.
+`(port-fold `''iterator''` `''reader''` `''source''` `''seed'' ...`)`
 
-`(port-unfold `''terminate?''` `''iterator''` `''writer''` `''output-port''` `''seed'' ...`)`
+Applies ''iterator'' to the successive results of calling ''reader'' on ''source'', passing the ''seed'' values as additional arguments to ''iterator''. The results returned by ''iterator'' become the new ''seed'' values. When ''reader'' returns an EOF object, the last results of ''iterator'' are returned.
 
-Uses ''iterator'' to generate the sequence of values `seed`, `(iterator seed)`, `(iterator (iterator seed))`, and so on.  Uses ''writer'' to output the values to ''output-port''.  ''Terminate?'' is invoked before calling ''iterator'' each time; if it returns `#f`, the unfolding terminates.  Returns an undefined value.
+`(port-unfold `''terminate?''` `''iterator''` `''writer''` `''sink''` `''seed'' ...`)`
+
+Uses ''iterator'' to generate the sequence of values `seed`, `(iterator seed)`, `(iterator (iterator seed))`, and so on.  Uses ''writer'' to output the values to ''sink''.  ''Terminate?'' is invoked before calling ''iterator'' each time; if it returns `#f`, the unfolding terminates.  Returns an undefined value.
 
 `(copy-port `''source''` `''sink''` `''reader''` `''writer''`)`
 
-Reads all remaining data from ''source'' using the procedure ''reader'' and writes it to ''sink'' using the procedure ''writer''. ''Reader'' defaults to `read-char` and ''writer'' to `write-char`.  This procedure does not check that ''source'' and ''sink'' are actually ports, so ''reader'' and ''writer'' may perform arbitrary operations as long as they can be invoked as `(`''reader''` `''source''`)` and `(`''writer''` `''value''` `''sink''`)`, respectively.  Returns an undefined value.
+Reads all remaining data from ''source'' using the procedure ''reader'' and writes it to ''sink'' using the procedure ''writer''. ''Reader'' defaults to `read-char` and ''writer'' to `write-char`.  Returns an undefined value.
 
 == Special ports ==
 
