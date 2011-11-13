@@ -90,7 +90,7 @@ Must execute in amortized O(1) time.  (SRFI-69 `hash-table-update!/default`; R6R
 
 `(hash-table-fold `''hash-table''` `''procedure''` `''init''`)`
 
-Calls ''procedure'' for every association in ''hash-table'' with three arguments: the key of the association, the value of the association, and an accumulated value ''val''.  ''Val'' is ''init'' for the first invocation of ''procedure'', and for subsequent invocations of ''procedure'', the return value of the previous invocation.  The value returned by `hash-table-fold` is the return value of the last invocation of f. The order in which ''procedure'' is called for different associations is unspecified.  (SRFI-69 `hash-table-fold; not in R6RS but easily implemented: see below.)
+Calls ''procedure'' for every association in ''hash-table'' with three arguments: the key of the association, the value of the association, and an accumulated value ''val''.  ''Val'' is ''init'' for the first invocation of ''procedure'', and for subsequent invocations of ''procedure'', the return value of the previous invocation.  The value returned by `hash-table-fold` is the return value of the last invocation of f. The order in which ''procedure'' is called for different associations is unspecified.  (SRFI-69 `hash-table-fold`; not in R6RS but easily implemented: see below.)
 
 
 == Excluded features ==
