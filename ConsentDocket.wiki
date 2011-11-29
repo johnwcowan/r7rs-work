@@ -22,7 +22,7 @@ Getopt/args-fold:  SRFI 37.
 
 Regex (S-exps and strings): Alex Shinn's [[http://synthcode.com/scheme/irregex/|irregex library]], with prefix stripping and a touch of renaming.  Specify full PCRE compatibility even though the irregex implementation doesn't support all of it.
 
-SRFIs 1, 2, 13, 14, 31, 41, 43: Per those SRFIs, with possible prefix stripping (don't want to overdo it).  Some of these procedures may wind up in WG1 Scheme per CompleteSequenceCowan.
+SRFIs 1, 2, 13, 14, 31, 41, 43: Per those SRFIs, with possible prefix stripping (don't want to overdo it).  Some of these procedures may wind up in WG1 Scheme per CompleteSequenceCowan.  ''Specification bug in SRFI 1: `any`, `every`, and `list-index` should omit the words "and returning a boolean result".
 
 SRFI 38: Already in WG1, so nothing to provide.
 
