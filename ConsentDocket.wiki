@@ -22,7 +22,7 @@ Getopt/args-fold:  [[http://http://srfi.schemers.org/srfi-37/srfi-37.html|SRFI 3
 
 Regex (S-exps and strings): Alex Shinn's [[http://synthcode.com/scheme/irregex/|irregex library]], with prefix stripping and a touch of renaming.  Specify full PCRE compatibility even though the irregex implementation doesn't support all of it.
 
-[[http://http://srfi.schemers.org/srfi-1/srfi-1.html|SRFI 1]], list library: As written, but excluding  `cons`, `pair?`, `null?`, `car`, `cdr`, their combinations, `set-car!`, `set-cdr!`, `list`, `append`, `reverse`, `length, `list-ref` (assuming ticket #308 passes), `map` (assuming ticket #309 passes), `for-each` (assuming ticket #309 passes), `memq`, `memv`, `member`, `assq`, `assv`, `assoc`, which are all in the `(scheme base)` library.  ''Specification bug in SRFI 1: `any`, `every`, and `list-index` should omit the words "and returning a boolean result".
+[[http://http://srfi.schemers.org/srfi-1/srfi-1.html|SRFI 1]], list library: As written, but excluding  `cons`, `pair?`, `null?`, `car`, `cdr`, their combinations, `set-car!`, `set-cdr!`, `list`, `append`, `reverse`, `length`, `list-ref` (assuming ticket #308 passes), `map` (assuming ticket #309 passes), `for-each` (assuming ticket #309 passes), `memq`, `memv`, `member`, `assq`, `assv`, `assoc`, which are all in the `(scheme base)` library.  ''Specification bug in SRFI 1: `any`, `every`, and `list-index` should omit the words "and returning a boolean result".''
 
 [[http://http://srfi.schemers.org/srfi-2/srfi-2.html|SRFI 2]], `and-let*` macro: As written.
 
@@ -34,7 +34,7 @@ Regex (S-exps and strings): Alex Shinn's [[http://synthcode.com/scheme/irregex/|
 
 [[http://http://srfi.schemers.org/srfi-41/srfi-41.html|SRFI 31]], `(streams primitive)` and `(streams derived)` libraries: As written.
 
-[[http://http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]], `(streams primitive)` and `(streams derived)` libraries: As written, but excluding `make-vector`, `vector`, `vector-copy` (assuming ticket #310 ''does not'' pass), `vector?`, `vector-ref`, `vector-length`, `vector-set!`, `list->vector`, which are all in the `(scheme base)` library.  The procedures `vector-copy` (assuming ticket #310 ''does'' pass), `vector->list`, `vector-fill!` are also in `(scheme base)`, but are reimplemented here to accept optional ''start'' and ''end'' arguments.
+[[http://http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]], vector library: As written, but excluding `make-vector`, `vector`, `vector-copy` (assuming ticket #310 ''does not'' pass), `vector?`, `vector-ref`, `vector-length`, `vector-set!`, `list->vector`, which are all in the `(scheme base)` library.  The procedures `vector-copy` (assuming ticket #310 ''does'' pass), `vector->list`, `vector-fill!` are also in `(scheme base)`, but are reimplemented here to accept optional ''start'' and ''end'' arguments.
 
 SRFI 38, circular list read/write support: Already in WG1, so no package.
 
