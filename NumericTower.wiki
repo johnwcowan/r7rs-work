@@ -11,13 +11,13 @@ So here are some possible numeric towers.  I use `+` if a feature is present and
 ||-||+||+||+||-||Limited-range exact and inexact numbers.||Scheme 7||
 ||-||+||+||+||+||Limited-range exact and inexact numbers, including exact non-reals.||Wraith||
 ||+||-||-||-||-||Unlimited-range integers only.  Possibly usable for crypto work.  Fortunately, ratios are fairly cheap given bignums.||None known||
-||+||-||+||-||-||A good all-round compromise, providing exact integers and inexact real numbers.||ISLisp, Bigloo, Scheme 9, Elk||
+||+||-||+||-||-||A good all-round compromise, providing exact integers and inexact real numbers.||Bigloo, Scheme 9, Elk (also ISLisp)||
 ||+||-||+||+||-||The same as the preceding, but with inexact complex numbers as well.||SCM||
 ||+||+||-||-||-||Exact rational numbers only.  Reasonable for some purposes, but will often run very slowly without inexact support, so unsuitable for scientific-type work.||Dream, Owl Lisp||
 ||+||-||+||+||+||The same as the preceding, but with exact non-real numbers.  Even less suitable for scientific-type work, given that in practice non-real numbers are usually inexact.||None known||
-||+||+||+||-||-||Full numeric tower with real numbers only.||Psyche||
+||+||+||+||-||-||Full numeric tower with real numbers only.||Psyche, Ikarus (also Clojure)||
 ||+||+||+||+||-||Full numeric tower with inexact non-reals only.||Gauche, Guile, SISC, KSi, UMB||
-||+||+||+||+||+||Full numeric tower.||All R6RS systems, all CL systems, Racket, MIT, Gambit, Chicken with the `numbers` egg, Scheme48/scsh, Kawa, Chibi, Chez, STklos||
+||+||+||+||+||+||Full numeric tower with both exact and inexact non-reals.||Racket, MIT, Gambit, Chicken with the `numbers` egg, Scheme48/scsh, Kawa, Chibi, Chez, Vicare, Ypsilon, Mosh, !IronScheme, STklos (also Common Lisp)||
 
 == Vincent Manis's comments ==
 
@@ -40,4 +40,4 @@ I therefore think that there are three defensible core towers, namely (a) ----, 
 
 I hope that the Report can be written in such a way that this smaller number of towers is either preferred or required. This maximizes code portability, while still making it possible to build small implementations.  [[That|basically rules out bignums without flonums. --jcowan]]
 
-If the Report does allow multiple towers (which I think is a foregone conclusion), a built-in procedure with a name something like numeric-features should be required, this will allow portable code to verify that it is running on a sufficiently-capable system. numeric-features could return a list of tower criteria that the system supports. The criteria, and their symbol names, should be defined by the Report. [[My|proposal at CondExpandCowan provides this at compile time rather than run time.  --jcowan]]
+If the Report does allow multiple towers (which I think is a foregone conclusion), a built-in procedure with a name something like numeric-features should be required, this will allow portable code to verify that it is running on a sufficiently-capable system. numeric-features could return a list of tower criteria that the system supports. The criteria, and their symbol names, should be defined by the Report. [[`cond-expand`|now provides this at compile time rather than run time.  --jcowan]]
