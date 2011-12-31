@@ -6,14 +6,14 @@ So here are some possible numeric towers.  I use `+` if a feature is present and
 
 ||`exactness-preserving`||`ratios`||`inexact`||`complex`||`exact-complex`||Description||Examples
 ||-||-||-||-||-||A "toy" tower with fixnums (bounded exact integers) only.  Possibly appropriate where no numerical work will be done.||!SigScheme||
-||-||-||+||-||-||A Scheme where all numbers are real and all arithmetic happens in essentially constant time.||Chicken (default), Oaklisp, Sixx, Sizzle||
+||-||-||+||-||-||A Scheme where all numbers are real and all arithmetic happens in essentially constant time.||Chicken (default), RScheme, Oaklisp, VX, Sixx, Sizzle||
 ||-||-||+||+||-||The complex-number equivalent of the preceding.||Stalin||
 ||-||+||+||+||-||Limited-range exact and inexact numbers.||Scheme 7||
 ||-||+||+||+||+||Limited-range exact and inexact numbers, including exact non-reals.||Wraith||
 ||+||-||-||-||-||Unlimited-range integers only.  Possibly usable for crypto work.  Fortunately, ratios are fairly cheap given bignums.||None known||
 ||+||-||+||-||-||A good all-round compromise, providing exact integers and inexact real numbers.||ISLisp, Bigloo, Scheme 9, Elk||
 ||+||-||+||+||-||The same as the preceding, but with inexact complex numbers as well.||SCM||
-||+||+||-||-||-||Exact rational numbers only.  Reasonable for some purposes, but will often run very slowly without inexact support, so unsuitable for scientific-type work.||Dream||
+||+||+||-||-||-||Exact rational numbers only.  Reasonable for some purposes, but will often run very slowly without inexact support, so unsuitable for scientific-type work.||Dream, Owl Lisp||
 ||+||-||+||+||+||The same as the preceding, but with exact non-real numbers.  Even less suitable for scientific-type work, given that in practice non-real numbers are usually inexact.||None known||
 ||+||+||+||-||-||Full numeric tower with real numbers only.||Psyche||
 ||+||+||+||+||-||Full numeric tower with inexact non-reals only.||Gauche, Guile, SISC, KSi, UMB||
