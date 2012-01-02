@@ -1,8 +1,10 @@
 = Environment Enquiries =
 
-This is a proposal for environment enquiries, which provide information about the hardware and software configuration on which a Scheme program is being executed.  They are mostly based on Common Lisp with influence from the Posix `uname()` system call.  The names in this proposal are in the `(scheme enquiries)` module.
+This is a proposal for environment enquiries, which provide information ''at run time'' about the hardware and software configuration on which a Scheme program is being executed.  They are mostly based on Common Lisp with influence from the Posix `uname()` system call.  The names in this proposal are in the `(scheme enquiries)` module.
 
-The following procedures with no arguments return either a string, or `#f` if the implementation cannot determine the answer.  The phrase "a `cond-expand` feature identifier related to" means an identifier used in `cond-expand` clauses which is intended to have the same meaning to a human being as the returned string, but possibly differs in typographical details such as being all lower case or having hyphens instead of spaces.  There is no algorithmic mapping between the string and the identifier.
+The following procedures with no arguments return either a string, or `#f` if the implementation cannot provide an appropriate and relevant result.
+
+The phrase "a `cond-expand` feature identifier related to" means an identifier used in `cond-expand` clauses which is intended to have the same meaning to a human being as the returned string, but possibly differs in typographical details such as being all lower case or having hyphens instead of spaces.  There is no algorithmic mapping between the string and the identifier.
 
 `(implementation-type)`
 
