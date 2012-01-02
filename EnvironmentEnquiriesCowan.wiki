@@ -28,7 +28,7 @@ Returns a name for the particular instance of the system on which the implementa
 
 `(os-type)`
 
-Returns a name for the operating system (or equivalent) on which the implementation is running.  Semi-standard values are `unix, darwin, linux, bsd, freebsd, solaris`.  This procedure corresponds roughly to Common Lisp's `software-type` function.  On Posix systems, the result may be derived from the `sysname` field of the `utsname` structure.  A `cond-expand` feature identifier related to this string is also provided.
+Returns a name for the operating system (or equivalent) on which the implementation is running.  Semi-standard values are `windows, unix, darwin, linux, bsd, freebsd, solaris`.  This procedure corresponds roughly to Common Lisp's `software-type` function.  On Posix systems, the result may be derived from the `sysname` field of the `utsname` structure.  A `cond-expand` feature identifier related to this string is also provided.
 
 `(os-version)`
 
