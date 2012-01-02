@@ -1,0 +1,43 @@
+= Environment Enquiries =
+
+This is a proposal for environment enquiries, which provide information about the hardware and software configuration on which a Scheme program is being executed.  They are mostly based on Common Lisp with influence from the Posix `uname()` system call.  The names in this proposal are in the `(scheme enquiries)` module.
+
+The following procedures with no arguments return either a string, or `#f` if the implementation cannot determine the answer.  The phrase "a `cond-expand` feature identifier related to" means an identifier used in `cond-expand` clauses which is intended to have the same meaning to a human being as the returned string, but possibly differs in typographical details such as being all lower case or having hyphens instead of spaces.  There is no algorithmic mapping between the string and the identifier.
+
+`(implementation-type)`
+
+Returns the name of the Scheme implementation.  This procedure corresponds roughly to Common Lisp's `lisp-implementation-type` function.  A `cond-expand` feature identifier related to this string is also provided.
+
+`(implementation-version)`
+
+Returns the version of the Scheme implementation.  This procedure corresponds roughly to Common Lisp's `lisp-implementation-version` function.  A `cond-expand` feature identifier related to the string returned by `(string-concat (scheme-implementation-type) "-" (scheme-implementation-version))` is also provided.
+
+`(cpu-architecture)`
+
+Returns the CPU architecture, real or virtual, on which this implementation is executing.  Semi-standard values are `i386, x86-64, ppc, sparc, jvm, clr, llvm`.  This procedure corresponds roughly to Common Lisp's `machine-type` function.  On Posix systems, the result may be derived from the `machine` field of the `utsname` structure.  A `cond-expand` feature identifier related to this string is also provided.
+
+`(c-memory-model)`
+
+Returns the C memory model applicable to this implementation.  Semi-standard values are `ilp32, lp64, ilp64`.  A `cond-expand` feature identifier related to this string is also provided.
+
+`(system-instance)`
+
+Returns a name for the particular instance of the system on which the implementation is running.  Possible values are the DNS or WINS host name, the DNS full name, an IP address associated with the system, or a MAC address associated with the system.  On Posix systems, the result may be derived from the `nodename` field of the `utsname` structure.
+
+`(os-type)`
+
+Returns a name for the operating system (or equivalent) on which the implementation is running.  Semi-standard values are `unix, darwin, linux, bsd, freebsd, solaris`.  This procedure corresponds roughly to Common Lisp's `software-type` function.  On Posix systems, the result may be derived from the `sysname` field of the `utsname` structure.  A `cond-expand` feature identifier related to this string is also provided.
+
+`(os-version)`
+
+Returns the version of the operating system (or equivalent) on which the implementation is running.  On Posix systems, the result may be derived from the `release` and/or `version` fields of the `utsname` structure.  This procedure corresponds roughly to Common Lisp's `software-version` function.
+
+The following procedure returns a list of symbols.
+
+`(get-features)`
+
+Returns the symbols which are provided as `cond-expand` feature identifiers by the implementation.
+
+Note: Rough equivalents to the Common Lisp `machine-version`, `short-site-name`, and `long-site-name` are not provided.  They are inconsistently implemented and of doubtful utility.
+
+
