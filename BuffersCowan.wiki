@@ -1,12 +1,19 @@
-= Edit Buffers =
+== Edit Buffers ==
 
 This is a very preliminary description of edit buffers, basically mutable variable-length strings with some pointers into them.  Temporarily, these functions are defined in terms of their [[http://www.gnu.org/software/emacs/manual/html_node/elisp/Buffers.html#Buffers|Emacs Lisp]] equivalents, with the following exceptions:
 
- * There is no notion of the current buffer, so many procedures have the buffer as the first argument.
+ * There is no notion of the current buffer, so most procedures have the buffer as the first argument.
  * Buffers do not have intrinsic names, so ''buffer-or-name'' arguments accept only buffers.
  * Point and markers are zero-based, as is usual in Scheme.
+ * Ranges are min-inclusive and max-exclusive, also as is usual in Scheme.
+
+
 
 == Procedures ==
+
+This list is ''very'' tentative, and may grow to include SRFI 13, or shrink to exclude unnecessary cruft, or both.
+
+=== Whole buffers ===
 
 (buffer? obj) == (bufferp object)
 
@@ -16,13 +23,13 @@ This is a very preliminary description of edit buffers, basically mutable variab
 
 (buffer-unmodified! buffer) == (set-buffer-modified-p nil)
 
-(buffer-read-only? buffer) == buffer-read-only buffer local variable
+=== Constructors ===
 
-(buffer-read-only! buffer) == (toggle-read-only t)
+(make-buffer [size-hint]) == simple constructor, no name provided
 
-(buffer-read-write! buffer) == (toggle-read-only nil)
+(buffer->string buffer) == (buffer-string)
 
-(make-buffer) == simple constructor, no name provided
+=== Point ===
 
 (buffer-point buffer) == (point)
 
@@ -36,16 +43,65 @@ This is a very preliminary description of edit buffers, basically mutable variab
 
 (buffer-skip-chars-backward buffer string) == (skip-chars-forward string)
 
+(buffer-point-at-start? buffer) == (bobp)
+
+(buffer-point-at-end? buffer) == (eobp)
+
+=== Markers ===
+
 (buffer-marker? obj) == (markerp obj)
 
-(make-marker buffer marker-or-integer insertion-type) == (copy-marker marker-or-integer insertion-type)
+(make-marker buffer marker-or-integer advancing?) == (copy-marker marker-or-integer insertion-type)
 
 (marker-position marker) == (marker-position marker)
 
 (marker-buffer marker) == (marker-buffer marker)
 
-(marker-insertion-type marker) == (marker-insertion-type marker)
+(marker-advancing? marker) == (marker-insertion-type marker)
 
-(marker-set-position! marker position) = (set-marker marker position)
+(marker-set-position! marker position) == (set-marker marker position)
 
-More to come....
+=== Accessors ===
+
+(buffer-char-after buffer [position]) == (char-after [position]), returns #f on failure
+
+(buffer-char-before buffer [position]) == (char-before [position]), returns #f on failure
+
+(buffer-substring buffer start end) == (buffer-substring start end)
+
+(buffer->string buffer) == (buffer-string)
+
+=== Comparison ===
+
+No direct Emacs Lisp equivalents, but based on `compare-buffer-substrings`.  Should probably be in a separate module because of its Unicode implications.
+
+(buffer-substring=? buffer1 start1 end1 buffer2 start2 end2)
+
+similarly buffer-substring<?, buffer-substring>?, buffer-substring<=?, buffer-substring>=?, and -ci and -ni analogues.
+
+=== Basic mutators ===
+
+(buffer-insert! buffer . strings) == (buffer-insert . strings)
+
+(buffer-insert-substring! to-buffer from-buffer [[start|[end]]]) == (insert-buffer-substring ...)
+
+(buffer-erase! buffer) == (erase-buffer)
+
+(buffer-delete! buffer start end) == (delete-region start end)
+
+(buffer-extract! buffer start end) == (delete-and-extract-region start end)
+
+(buffer-delete-characters! buffer count) == (delete-char count)
+
+=== Case changes ===
+
+Should probably be in a separate module because of its Unicode implications.
+
+(buffer-downcase! buffer start end) == (upcase-region start end)
+
+(buffer-upcase! buffer start end) == (downcase-region start end)
+
+(buffer-foldcase! buffer start end) = analogous to downcase-region
+
+
+
