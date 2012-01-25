@@ -7,7 +7,7 @@ This is a very preliminary description of edit buffers, basically mutable variab
  * Point and markers are zero-based, as is usual in Scheme.
  * Ranges are min-inclusive and max-exclusive, also as is usual in Scheme.
 
-
+Issue:  Should start and end be made optional everywhere?  May partly depend on ticket #310.
 
 == Procedures ==
 
@@ -39,15 +39,17 @@ This list is ''very'' tentative, and may grow to include SRFI 13, or shrink to e
 
 (buffer-point-increment) == (forward-char integer)
 
-(buffer-skip-chars-forward buffer string) == (skip-chars-forward string)
+(buffer-skip-forward buffer string) == (skip-chars-forward string)
 
-(buffer-skip-chars-backward buffer string) == (skip-chars-forward string)
+(buffer-skip-backward buffer string) == (skip-chars-forward string)
 
 (buffer-point-at-start? buffer) == (bobp)
 
 (buffer-point-at-end? buffer) == (eobp)
 
 === Markers ===
+
+If the ''advancing?'' argument to `make-marker` is true, then if an insertion is done at the marker, the marker will automatically be repositioned to point to the end of the insertion.
 
 (buffer-marker? obj) == (markerp obj)
 
@@ -63,13 +65,15 @@ This list is ''very'' tentative, and may grow to include SRFI 13, or shrink to e
 
 === Accessors ===
 
-(buffer-char-after buffer [position]) == (char-after [position]), returns #f on failure
+(buffer-ref buffer [position]) == (char-after [position]), returns #f on failure
 
-(buffer-char-before buffer [position]) == (char-before [position]), returns #f on failure
+(buffer-set! buffer [position]) == no exact equivalent, does what you expect
 
 (buffer-substring buffer start end) == (buffer-substring start end)
 
 (buffer->string buffer) == (buffer-string)
+
+Depending on #310, possibly consolidate the last two.
 
 === Comparison ===
 
@@ -77,7 +81,7 @@ No direct Emacs Lisp equivalents, but based on `compare-buffer-substrings`.  Sho
 
 (buffer-substring=? buffer1 start1 end1 buffer2 start2 end2)
 
-similarly buffer-substring<?, buffer-substring>?, buffer-substring<=?, buffer-substring>=?, and -ci and -ni analogues.
+similarly `buffer-substring<?`, `buffer-substring>?`, `buffer-substring<=?`, `buffer-substring>=?`, and `-ci` and `-ni` analogues.
 
 === Basic mutators ===
 
