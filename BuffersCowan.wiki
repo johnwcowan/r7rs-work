@@ -1,0 +1,51 @@
+= Edit Buffers =
+
+This is a very preliminary description of edit buffers, basically mutable variable-length strings with some pointers into them.  Temporarily, these functions are defined in terms of their [[http://www.gnu.org/software/emacs/manual/html_node/elisp/Buffers.html#Buffers|Emacs Lisp]] equivalents, with the following exceptions:
+
+ * There is no notion of the current buffer, so many procedures have the buffer as the first argument.
+ * Buffers do not have intrinsic names, so ''buffer-or-name'' arguments accept only buffers.
+ * Point and markers are zero-based, as is usual in Scheme.
+
+== Procedures ==
+
+(buffer? obj) == (bufferp object)
+
+(buffer-modified? buffer) == (buffer-modified-p)
+
+(buffer-modified! buffer) == (restore-buffer-modified-p t)
+
+(buffer-unmodified! buffer) == (set-buffer-modified-p nil)
+
+(buffer-read-only? buffer) == buffer-read-only buffer local variable
+
+(buffer-read-only! buffer) == (toggle-read-only t)
+
+(buffer-read-write! buffer) == (toggle-read-only nil)
+
+(make-buffer) == simple constructor, no name provided
+
+(buffer-point buffer) == (point)
+
+(buffer-length buffer) == (buffer-size buffer)
+
+(buffer-set-point! buffer integer) == (goto-char integer)
+
+(buffer-point-increment) == (forward-char integer)
+
+(buffer-skip-chars-forward buffer string) == (skip-chars-forward string)
+
+(buffer-skip-chars-backward buffer string) == (skip-chars-forward string)
+
+(buffer-marker? obj) == (markerp obj)
+
+(make-marker buffer marker-or-integer insertion-type) == (copy-marker marker-or-integer insertion-type)
+
+(marker-position marker) == (marker-position marker)
+
+(marker-buffer marker) == (marker-buffer marker)
+
+(marker-insertion-type marker) == (marker-insertion-type marker)
+
+(marker-set-position! marker position) = (set-marker marker position)
+
+More to come....
