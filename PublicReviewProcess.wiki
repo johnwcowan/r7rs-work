@@ -1,0 +1,87 @@
+
+== Informal discussion ==
+
+General comments and discussion should be sent to the public
+discussion list scheme-reports@scheme-reports.org.  The WG has
+and will continue to monitor this list, responding and issuing
+tickets for actionable items.
+
+== Formal comments ==
+
+Formal comments should also be sent to the same public discussion
+list, scheme-reports@scheme-reports.org, to encourage timely feedback
+from other members of the community.
+
+To distinguish the post as a formal comment, simply say so in the post
+itself, e.g. by writing "Formal Comment" at the top of the body.
+Formal comments are also subject to the requirements listed below.
+The effect of making the comment formal is to specifically request a
+ticket be issued, and the commenter cc'ed and notified of progress and
+resolution.  A complete list of formal comments and responses will be
+provided when the final draft is submitted for ratification.
+
+== Formal comment requirements ==
+
+A formal comment is valid and will be approved only if:
+
+  * it is submitted to scheme-reports@scheme-reports.org,
+  * it is not obviously spam,
+  * it is not a followup to an earlier post, and
+  * it contains the following required information, clearly marked:
+    * submitter's name
+    * submitter's email address
+    * type of issue (optional):
+      * Defect
+      * Enhancement
+      * Simplification
+   * priority (optional):
+     * Critical
+     * Major
+     * Minor
+     * Trivial
+   * R7RS component (optional):
+     * Arithmetic
+     * Base Library
+     * Concepts
+     * Exceptions
+     * Formal Semantics
+     * Formal Syntax
+     * I/O
+     * Lexical Syntax
+     * Libraries
+     * Macros
+     * Miscellaneous
+     * Presentation
+     * Records
+     * Scripts
+     * Unicode
+     * Other (specify)
+  * version of the report (draft 5, draft 6, etc.)
+  * one-sentence summary of the issue
+  * full description of the issue
+
+Posters should also include, where appropriate:
+
+  * references to relevant specific page numbers
+  * proposals for how to fix the issue
+  * dependencies on other issues
+
+If an editor chooses to reject a formal comment, other than
+obvious spam, the editor will email the submitter with an
+explanation of the problem, at which point the submitter may
+correct the problem and resubmit.
+
+== Formal comment tracking ==
+
+Formal comments will be recorded in the trac ticket system under the
+milestone "Public Review", with the original reporter cc'ed.  The WG
+member recording the ticket should choose an appropriate component and
+priority if not specified.
+
+== Formal response ==
+
+All formal comments will receive a formal response (marked as such)
+from the editors before the R7RS small language is finalized. The
+formal response will describe the action taken and the rationale for
+that action. Individual editors are encouraged to reply informally,
+and such notes are not to be taken as formal responses.
