@@ -47,11 +47,9 @@ The following categorization information should also be provided if at all possi
       * Enhancement
       * Other (specify)
     * The priority of the issue:
-       * Critical
        * Major
        * Minor
-       * Trivial
-     * The R7RS component (optional):
+    * The R7RS component (optional):
        * Arithmetic
        * Base Library
        * Concepts
