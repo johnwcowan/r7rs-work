@@ -2,7 +2,7 @@
 == Informal process ==
 
 General comments and discussion should be sent to the public
-discussion list scheme-reports@scheme-reports.org.  The WG has
+discussion list scheme-reports at scheme-reports.org.  The WG has
 and will continue to monitor this list, responding and issuing
 tickets for actionable items.
 
@@ -15,7 +15,7 @@ a formal comment be filed.
 == Formal comments ==
 
 Formal comments should also be sent to the same public discussion
-list, scheme-reports@scheme-reports.org, to encourage timely feedback
+list, scheme-reports at scheme-reports.org, to encourage timely feedback
 from other members of the community.
 
 To distinguish the post as a formal comment, simply say so in the post
@@ -30,7 +30,7 @@ provided when the final draft is submitted for ratification.
 
 A formal comment is valid and will be approved only if:
 
-  * it is submitted to scheme-reports@scheme-reports.org,
+  * it is submitted to scheme-reports at scheme-reports.org,
   * it is not obviously spam,
   * it is not a followup to an earlier post, and
   * it contains the following required information, clearly marked:
