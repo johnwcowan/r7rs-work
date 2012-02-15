@@ -1,4 +1,4 @@
-These are condensed and anonymized [[http://www.r6rs.org/ratification/results.html|objections to R6RS]] by the people who voted against it, with comments underneath them that show how R7RS meets (or fails to meet) the objection.  Statements about R7RS-large reflect WG votes, but are subject to change.  '''This document is still being edited.'''  All errors and misstatements not present in the original comments are Cowan's responsibility.
+These are condensed and anonymized [[http://www.r6rs.org/ratification/results.html|objections to R6RS]] by the people who voted against it, with comments underneath each that show how R7RS meets (or fails to meet) that objection.  Statements about R7RS-large reflect WG votes, but are subject to change.  '''This document is still being edited.'''  All errors and misstatements not present in the original comments are Cowan's responsibility.
 
 The order of the objections given here follows the order of the R7RS-small report as much as possible, which follows the R5RS report as much as possible.
 
