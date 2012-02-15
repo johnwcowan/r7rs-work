@@ -152,7 +152,7 @@ This document is explicitly a work of R7RS advocacy.  Its purpose is not to atta
     * R7RS-small does not require phase information, because the only macro system is `syntax-rules`, which does not run user-supplied Scheme code at compile time.  (Note that R6RS is not as fully phase-separated as Racket, because while an identifier may be defined or undefined at a given phase, it may not be defined ''differently'' at different phases.)  The R7RS-large library system is not yet specified; certainly implicit phasing will be one of the options considered.
 
  * R6RS library descriptions need to be enclosed in an additional layer of parentheses, as opposed to a single definition at the top of the file.
-    * Still true in R7RS.  Libraries remain a single S-expression in R7RS.
+    * Still true in R7RS.  Libraries remain a single S-expression in R7RS.  However, the =include= form in library declarations makes it possible to load another file inside a module, and that file doesn't require the additional level of parentheses.
 
 == Numbers ==
 
