@@ -310,7 +310,7 @@ This document is explicitly a work of R7RS advocacy.  Its purpose is not to atta
     * The small base library makes conformance straightforward, if not necessarily easy.  The other libraries must be provided in full if they are provided at all, which also makes conformance straightforward.  
 
  * R6RS will likely create a schism between the various scheme implementations, because it ignores the desires of parts of the community, in order to cater to some others. Scheme can't operate under the assumptions of one-size fits all, because the Scheme community is naturally already heavily invested in areas where divergence (to some degree) is encouraged.
-    * The WG agrees.  Hopefully R7RS will see wider take-up among the implementer community.
+    * The WG agrees.  We hope that R7RS will see wider take-up among the implementer community.
 
  * If R6RS fails, the next attempt should be ''in the direction'' of previous revised reports in requiring unanimous consent ''for the core'' (which includes the library mechanism, but precious few libraries).  Therefore the process in the future must continue to require super-majorities for core ratification and maybe even greater ones than the current 60% -- and that helps to properly draw the line between it and the required standard libraries.  Library ratification does not need to be as strict: as long as they are "acceptable" and have nothing dreadfully wrong with them, it is better to have usable standards than no standards at all, and in theory the SFRI process has allowed the community to discover what works in practice and is worth standardizing.
     * This is roughly what the R7RS process is doing.  The current threshold is 85% to ratify R7RS-small, 75% to ratify R7RS-large.
