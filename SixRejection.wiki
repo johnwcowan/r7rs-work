@@ -18,8 +18,8 @@ This document is explicitly a work of R7RS advocacy.  Its purpose is not to atta
  * R6RS has simply suffered considerable feature creep and is vastly overspecified and overcomplex. In a word, it is too ambitious (or presumptuous, depending on your point of view). It will make Scheme too much complicated for a gain not worth it.  We should focus on defining vital SRFIs, and that we all agree on portable extensions of Scheme, to implement, say, TCP/IP, non blocking IOs or bindings to a graphical library.
     * R7RS-large will consist of a series of optional packages, several of which will be closely aligned with existing SRFIs.
 
-  * The standard library report gratuitously eschews important and widely-used existing SRFIs such as the SRFI-1 list library in favor of its equivalent incompatible functionality.
-  * R7RS-small has changed R5RS in small and upward-compatible ways for SRFI-1 compatibility.  SRFI-1 is currently planned to be incorporated into R7RS-large.
+ * The standard library report gratuitously eschews important and widely-used existing SRFIs such as the SRFI-1 list library in favor of its equivalent incompatible functionality.
+    * R7RS-small has changed R5RS in small and upward-compatible ways for SRFI-1 compatibility.  SRFI-1 is currently planned to be incorporated into R7RS-large.
 
  * Why should features such as, say, byte vectors, enumerations and hash tables should even be included in the RnRS reports in the first place?  The SRFI process has proven itself and works better than the committee process being voted on here.
    * Bytevectors are provided because existing code has used strings in the same function, which is unreliable when characters require more than 8 bits.  The other data structures mentioned will be provided in R7RS-large.
@@ -46,7 +46,7 @@ This document is explicitly a work of R7RS advocacy.  Its purpose is not to atta
  * R6RS should be *smaller* than R5RS, where some of the required features get moved to optional.
 
  * R6RS mandates too much.  The editors seem to be concerned that there is too much variety in the Scheme world, and propose to eliminate it by making the rulebook thicker.  That is exactly the wrong approach.  Celebrate the variety, and encourage it, so that Scheme implementations can make their own decisions about what is important to them.
-   * R7RS-small mandates far less; R7RS-large will probably mandate little or nothing.
+    * R7RS-small mandates far less; R7RS-large will probably mandate little or nothing.
 
  * The Scheme community relies in considerable part on the efforts of individual developers, or small teams of developers, who have to implement these reports -- or who would presumably like to do so if it did not take forever.  I think the Scheme community would be better served by a much smaller language, whose features included the minimum necessary so that the language could easily be extended by loading Scheme source code itself (and perhaps compiling it).
     * The smaller base library makes this possible to some extent.  However, Scheme standards have never been about the "minimum necessary", or procedures like `length` and `list` would never have been provided.  What is more, facilities like sockets can't be layered over a "minimum necessary" core unless that core contains an FFI, which is a large and complex feature.  Sometimes the facade pattern is the Right Thing.
@@ -61,7 +61,7 @@ This document is explicitly a work of R7RS advocacy.  Its purpose is not to atta
 == Primitive expression types ==
 
 * Why would one aim to nail down so many boundary conditions without also specifying order of argument evaluation?
-    * Scheme has always provided compilers the freedom to evaluate procedure arguments in any order desired.
+   * Scheme has always provided compilers the freedom to evaluate procedure arguments in any order desired.
 
 == Derived expression types ==
 
@@ -71,29 +71,29 @@ This document is explicitly a work of R7RS advocacy.  Its purpose is not to atta
 == Macros ==
 
  * Scheme can live with the R5RS hygienic macros for a while still.
-   * R7RS-small does live with them.
+    * R7RS-small does live with them.
 
  * Identifier syntax is purely syntactic sugar that complicate the semantics of the language.  Identifiers may no longer be simple variable references, making code potentially more difficult to read.  This breaks R5RS compatibility by eliminating a specific invariant on which R5RS programs and macros can rely, namely that a reference to an identifier has no side effects.  It weakens every macro in the entire language by removing knowledge about the language the macros are expanding.  Code-walking macros become more difficult to write.
-   * Neither R7RS-small nor R7RS-large provides identifier syntax.
+    * Neither R7RS-small nor R7RS-large provides identifier syntax.
 
  * The `syntax-case` macro system is an unfortunate choice.  Both syntactic closures and explicit renaming macros are older, and are simpler and more in the spirit of Scheme.  The description of the mark-antimark for the `syntax-case` algorithm significantly lengthens and increases the complexity of this chapter.
-   * R7RS-small provides only `syntax-rules`.  R7RS-large provides for explicit renaming; additional macro systems may be added.
+    * R7RS-small provides only `syntax-rules`.  R7RS-large provides for explicit renaming; additional macro systems may be added.
 
  * The R6RS treatment of `_` and `...` patterns.  It's unfortunate that R5RS macros can't match `...` as a literal in templates, but with the same restriction on `_` many existing macros will break, and moreover they have no easy workaround, requiring otherwise simple pattern matching macros to be rewritten in much longer and more convoluted low-level code.
-   * R7RS-small adopts these conventions of R5RS, but also adopts SRFI 46.
+    * R7RS-small adopts these conventions of R5RS, but also adopts SRFI 46.
 
  * There is no way of importing `set!` for a single level.  The composite library should not export `define-syntax` and `let[rec]-syntax for level 1`, or syntax-rules for level 0.  In the context of the (rnrs) import, there is nothing one can do with these bindings at those levels.
-   * R7RS-small does not provide phasing, as its only macro system is `syntax-rules`.  The question is still open for R7RS-large.
+    * R7RS-small does not provide phasing, as its only macro system is `syntax-rules`.  The question is still open for R7RS-large.
 
  * R6RS links library instantiation and visitation not to import clauses, but instead to the presence of identifier references in the client, and provides no guarantee of instantiation otherwise.
-   * R7RS requires whatever libraries are imported to be instantiated at least once, but provides no guarantees for or against multiple instantiation.
+    * R7RS requires whatever libraries are imported to be instantiated at least once, but provides no guarantees for or against multiple instantiation.
 
  * The `syntax-case` system implements a term-rewriting system, with limited programmability, to solve a problem for which there are significantly simpler solutions.  This sub-language introduces a new kind of variable that behaves differently from the variables we're used to, and pushes pattern-matching and templating to the center of the macro-writing process.  
 
 == Programs ==
 
  * R6RS utterly neglects the notions of "top-level program" and "top-level environment", which are absolutely fundamental to Scheme as a language and a system.
-   * Both top-level programs and REPLs are part of R7RS, though there is no requirement to provide a REPL.
+    * Both top-level programs and REPLs are part of R7RS, though there is no requirement to provide a REPL.
 
  * R6RS moves away from the ability to be used interactively through a REPL by removing `load` and offering only a static linking model for programs.  It does not explain how this affects program development and debugging using a REPL, which is the bread-and-butter of a large number of Scheme users.
     * REPLs are rather complex beasts, and probably won't be standardized.  However, R7RS does provide minimal REPL semantics.
@@ -108,7 +108,7 @@ This document is explicitly a work of R7RS advocacy.  Its purpose is not to atta
  * The constructor-related parts of the syntactic record layer and of the procedural layer are bewilderingly complex.  The custom constructor design is a good example of premature generalization and piling feature upon feature, and their current API adversely affects other aspects of the design, such as modularity.
 
  * The problem of two record systems that don't quite work together.  See Will Clinger's essay [[http://www.ccs.neu.edu/home/will/R6RS/essay.txt|"Fixing the Syntactic Record Layer"]].
-   * R7RS-large will probably provide SRFI 99 records or something very like them.
+    * R7RS-large will probably provide SRFI 99 records or something very like them.
 
  * You cannot simply take a record value and access one of its fields by name.  See [http://lists.r6rs.org/pipermail/r6rs-discuss/2007-August/thread.html#3145].  We want a container that requires certain behavior of the values it contains while not requiring that theybe on an approved list or inherit from the same ancestor.  Importing the accessors of each type of value we wish to contain makes the container's import list the approved list.
 
@@ -121,13 +121,13 @@ This document is explicitly a work of R7RS advocacy.  Its purpose is not to atta
 == Libraries ==
 
  * Scheme needs a simple module system that can be grasped easily.
-   * Although the R7RS library system has some extensions over the R6RS one, it is also simplified.
+    * Although the R7RS library system has some extensions over the R6RS one, it is also simplified.
 
  * There is no need to embed library versions in import specifications. Matching library versions should be solved outside of the language.  Everything done with versions in the current draft could be added in a backwards compatible manner in future drafts.  Also, the version reference syntax is very complex and rather ugly.
-   * Version numbers are not a feature of R7RS libraries.
+    * Version numbers are not a feature of R7RS libraries.
 
  * The R6RS library mechanism fails to be modular; users must know and exclude from modules any exported redefinitions, whether or not they use those identifiers!
-   * This continues to be a problem in R7RS.  A ticket has been filed to permit ambiguous imports of unused identifiers.
+    * This continues to be a problem in R7RS.  A ticket has been filed to permit ambiguous imports of unused identifiers.
 
  * It is perfectly meaningful to say that if a specific library is implemented, it must meet the entire spec. but ''all'' libraries must be optional in a base language and a base language implemener ''does not'' have to provide all libraries.
     * This is exactly the R7RS approach.
@@ -139,7 +139,7 @@ This document is explicitly a work of R7RS advocacy.  Its purpose is not to atta
     * The R6RS and R7RS library systems are designed for simplicity and portability to all kinds of existing implementations of modules.  For those purposes, a static system is satisfactory, while not disallowing more complex module systems for other purposes.
 
  * Many R6RS features are useful and definitely should be part of the standard, but rather than arbitrarily including them in the language, the should be defined ''on top of the language''.  Only features that are required in order to support the libraries should be carefully added to the language itself.  This approach would lead to a ``core language'' and a set of ``extension libraries'' that is implemented in terms of the core language. These libraries should be optional extensions to the core language.
-   * While it is not always possible to define R7RS-large packages in terms of the R7RS-small language (i.e. a package supporting TCP connections in the large language cannot be written portably), the overall design of core and extension libraries has been adopted for R7RS.  Some libraries are considered part of the small language, though they are technically optional; the rest belong to the large language.
+    * While it is not always possible to define R7RS-large packages in terms of the R7RS-small language (i.e. a package supporting TCP connections in the large language cannot be written portably), the overall design of core and extension libraries has been adopted for R7RS.  Some libraries are considered part of the small language, though they are technically optional; the rest belong to the large language.
 
  * What is the principled reason why `assoc` and `memq` (for example) are exiled to libraries without bringing along the equally derivative `append`, `string-for-each!`, `vector-map`, and so on; the library system fails to delineate a kernel, which I had thought was one of its goals.
     * As noted, the base library is not a kernel.  However, all these procedures are in the R7RS base library.
@@ -157,19 +157,19 @@ This document is explicitly a work of R7RS advocacy.  Its purpose is not to atta
 == Numbers ==
 
  * It is not clear what problem implicit mantissa widths solve, and they are ill-defined.  Explicit mantissa widths are "additional features", the need for which should be eliminated by removing restrictions against non-decimal floating-point values.
-   * Neither implicit nor explicit mantissa widths are provided in R7RS.
+    * Neither implicit nor explicit mantissa widths are provided in R7RS.
 
  * Requiring the full numeric tower works against using Scheme in smaller environments such as embedded systems, where full support conflicts with other implementation priorities.
-   * R7RS-small does not require the full tower.
+    * R7RS-small does not require the full tower.
 
  * Procedures such as `div0-and-mod0`, `exact-integer-sqrt` simply do not belong in a base language.  In fact a lot of the numerical procedures belong in a library.
-   * Integer division has been moved to a library in R7RS, as have the transcendental and complex number procedures (the latter primarily because inexact and non-real numbers are not required in R7RS).
+    * Integer division has been moved to a library in R7RS, as have the transcendental and complex number procedures (the latter primarily because inexact and non-real numbers are not required in R7RS).
 
  * Given that fixnum and flonum types have implementation dependent ranges, there is no need to require fixnum and flonum types in the standard.
-   * These types are not present in R7RS-small.  Flonum and fixnum packages will be provided in R7RS.
+    * These types are not present in R7RS-small.  Flonum and fixnum packages will be provided in R7RS.
 
  * Scheme is best served by retaining its jewel-like character: tiny, beautiful and perfect.  There is no need to expand Scheme as the editors propose -- if I want Common Lisp, I know where to find it. 
-   * It's debatable whether the exact set of procedures provided in R5RS is really so jewel-like or perfect.  Certainly there were many, if small, changes from R2RS to R5RS.  
+    * It's debatable whether the exact set of procedures provided in R5RS is really so jewel-like or perfect.  Certainly there were many, if small, changes from R2RS to R5RS.  
 
 == Pairs ==
 
@@ -179,13 +179,13 @@ This document is explicitly a work of R7RS advocacy.  Its purpose is not to atta
 == Characters ==
 
  * Implementations should be allowed to support characters beyond Unicode.
-   * R7RS permits such characters, though we don't expect to see widespread implementation of them.  
+    * R7RS permits such characters, though we don't expect to see widespread implementation of them.  
 
  * Scheme has been around for a long time, and has seen many encodings come and go - there's no reason to bind it to a single encoding forever.
-   * R7RS does not require more than the ASCII repertoire to be supported, but does require Unicode conformance in case mapping, char-integer conversion, etc.
+    * R7RS does not require more than the ASCII repertoire to be supported, but does require Unicode conformance in case mapping, char-integer conversion, etc.
 
  * Character-level case mappings encourage programmers to write broken algorithms.
-   * Unfortunately, they are an IEEE Scheme feature and can't easily be removed.
+    * Unfortunately, they are an IEEE Scheme feature and can't easily be removed.
 
  * It is perhaps better to remove those features of R5RS that prohibit Unicode implementation (such as `char->integer` and `integer->char`), and rely on extended SRFI-13 and SRFI-14 for Unicode support.
     * Actually those features aren't problematic for Unicode.
@@ -193,18 +193,18 @@ This document is explicitly a work of R7RS advocacy.  Its purpose is not to atta
 == Strings ==
 
  * The normalization procedures handle normalization at the wrong level.  It's inherently an encoding issue, and is best treated as such.  Providing this functionality at the string level forbids the implementation strategy of keeping all strings in the same normalization form - a very appealing strategy on many levels.
-   * R7RS-small provides normalized comparison procedures rather than normalization procedures.
+    * R7RS-small provides normalized comparison procedures rather than normalization procedures.
 
  * O(1) string access suggests that all Schemes should use UCS-4 character vectors for their string representation, discouraging the use of alternate representations such as UTF-8 and ropes or trees.
-   * R7RS does not prescribe O(1) access time for strings.
+    * R7RS does not prescribe O(1) access time for strings.
 
  * There are competing character sets that may be preferable to Unicode in some circumstances, and requiring Unicode would forestall their use.  Unicode necessarily requires more storage space than ASCII, and more complicated runtime support, which may not be desirable in all cases.
-   * Any encoding may be used internally to an implementation, provided that it covers at least the ASCII repertoire.  
+    * Any encoding may be used internally to an implementation, provided that it covers at least the ASCII repertoire.  
 
 == Vectors ==
 
  * There is nothing to indicate that the editors ever considered the inclusion of multidimensional arrays, even though they are the subject of SRFI-25, SRFI-47, SRFI-58, and SRFI-63, and portably supported by SLIB.
-   * R7RS-large will include multidimensional arrays, though the exact form they will take is not yet known.
+    * R7RS-large will include multidimensional arrays, though the exact form they will take is not yet known.
 
 == Bytevectors ==
 
@@ -235,10 +235,10 @@ This document is explicitly a work of R7RS advocacy.  Its purpose is not to atta
 == Errors, exceptions and conditions ==
 
  * Far too much of R6RS appears fixated on defining and punishing syntactic errors.
-   * R7RS sticks with "is an error", as R5RS and earlier versions did.  This allows implementations to choose how to handle syntactic and most other errors.
+    * R7RS sticks with "is an error", as R5RS and earlier versions did.  This allows implementations to choose how to handle syntactic and most other errors.
 
  * The exception system is far too large and over-specified. Implementations should be free to experiment with extensions in these areas.  The division into simple and compound conditions, along with the infrastructure required to manipulate these, is overly complex and may be awkward to use in practice.
-   * R7RS-small provides the R6RS ''exception'' system, but not the ''condition'' system; any Scheme object can be signalled (as is also true in R6RS).
+    * R7RS-small provides the R6RS ''exception'' system, but not the ''condition'' system; any Scheme object can be signalled (as is also true in R6RS).
 
  * The exception/condition functionality ''should'' be part of the core specification - as is shown by the inclusion of a section on exceptions in the formal semantics.
     * R7RS exception signaling and handling are in the base library.
@@ -255,7 +255,7 @@ This document is explicitly a work of R7RS advocacy.  Its purpose is not to atta
 == I/O ==
 
  * The I/O system was totally rewritten for no reason, and all aspects of it are controlled with gratuitous syntactic forms - second class forms which discourage high-level procedures.
-   * R7RS-small provides only R5RS I/O plus a close parallel of it for binary I/O.  R7RS-large will have a more complex I/O package, but its content is not yet defined.
+    * R7RS-small provides only R5RS I/O plus a close parallel of it for binary I/O.  R7RS-large will have a more complex I/O package, but its content is not yet defined.
 
  * R6RS I/O is lacking support for PGM/PPM files, open TCP sockets, and other features.
     * R7RS-large will have a TCP package.
@@ -266,7 +266,7 @@ This document is explicitly a work of R7RS advocacy.  Its purpose is not to atta
 == Enumerations ==
 
  * There's simply no reason for enumerations, since Scheme has traditionally used symbols for the same purpose.  It is an example of premature generalization and piling feature upon feature.
-   * Enumerations are not in R7RS-small; the R7RS-large situation is still open.
+    * Enumerations are not in R7RS-small; the R7RS-large situation is still open.
 
 == FFI ==
 
@@ -292,7 +292,7 @@ This document is explicitly a work of R7RS advocacy.  Its purpose is not to atta
 == Process ==
 
  *  It would be regrettable if something becomes a standard because "we didn't have time to come up with a better [idea] by the last couple of days".
-   * The R7RS process has encouraged continuous feedback throughout the development process, which has taken place entirely in the open.
+    * The R7RS process has encouraged continuous feedback throughout the development process, which has taken place entirely in the open.
 
  * Several features specified in R6RS have been tested in existing implementations of Scheme insufficiently to warrant inclusion in the standard.  Some features of the draft, such as the I/O system and records, are completely new and clearly suffer from feature creep.  The standard is not the place to experiment.
     * The WG agrees in general; almost all the syntax and procedures of R7RS are already widely available in Scheme implementations, with the exception of the library system, which is very close to (but simplified from) the R6RS system. 
