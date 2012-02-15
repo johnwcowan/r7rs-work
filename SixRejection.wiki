@@ -278,7 +278,7 @@ This document is explicitly a work of R7RS advocacy.  Its purpose is not to atta
  * The core specification must not mandate any particular standard for dictionary structures, as the existing implementations vary widely in APIs. A side effect free association list structure may be permitted, but anything more sophisticated must be relegated to a library.
     * R7RS, like R5RS, has the traditional `assoc` and friends, enhanced to allow any equivalence predicate.  Of course, such association lists are not inherently immutable.
 
-  * The standard library report gratuitously eschews important and widely-used existing SRFIs such as tSRFI-69 hash tables in favor of its equivalent incompatible functionality.
+  * The standard library report gratuitously eschews important and widely-used existing SRFIs such as SRFI-69 hash tables in favor of its equivalent incompatible functionality.
     * Partly because the WG could not agree on the appropriate API, R7RS-small does not provide hash tables, though they are present in almost every major Scheme implementation.
 
  * Hash tables, while useful, are not necessary (after all, other equally useful data structures were not added).
