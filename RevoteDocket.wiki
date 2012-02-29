@@ -32,3 +32,5 @@ Enumerations (R6RS, but see also http://www.r6rs.org/formal-comments/comment-262
 
 `Record-let`:
 
+Thread-local storage: 
+
