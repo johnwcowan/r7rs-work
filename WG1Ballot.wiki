@@ -1081,6 +1081,8 @@ The immediate issue here is that a library name may contain
 such names to be portable, there must be a portable range of exact
 integers.
 
+See FixnumInfo to see what 39 existing Schemes do.
+
 Vote `24` to require 24 bits of precision, or `none` to leave this
 entirely unspecified.
 
