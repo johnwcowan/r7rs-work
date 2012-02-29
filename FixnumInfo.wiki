@@ -20,3 +20,7 @@ Answer not easily determined: NexJ, XLisp, rep
 
 
 In Kawa and !IronScheme all exact integers are boxed, but a short range is preallocated, so that `eq?` is satisfied: -100 to 1024 for Kawa, -100 to 999 for !IronScheme.
+
+For 64-bit Schemes:
+
+55 bits: MIT*
