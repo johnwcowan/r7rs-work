@@ -16,4 +16,4 @@ In Kawa and !IronScheme all exact integers are boxed, but a short range is preal
 
 = Fixnum ranges for 64-bit Schemes =
 
-||55 bits||MIT/GNU Scheme*||
+||58 bits||MIT/GNU Scheme*||
