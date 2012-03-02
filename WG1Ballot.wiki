@@ -1075,10 +1075,9 @@ vectors and bytevectors.
 
 R6RS requires systems to support "practically unlimited" size exact
 integers.  It also requires that a subset of these exist, called
-''fixnums'', which must support at least the range -2^23^ to 2^23^-1
-(supposedly this range was chosen because it is the range of fixnums
-in MIT Scheme, and all other practical Schemes have larger ranges for
-their fixnums).  This proposal suggests that we adopt this range as
+''fixnums'', which must support at least the range -2^23^ to 2^23^-1.
+(All practical Schemes have larger ranges for their fixnums).
+This proposal suggests that we adopt this range as
 the minimum range of R7RS exact integers.
 
 The immediate issue here is that a library name may contain
