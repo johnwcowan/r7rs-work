@@ -39,9 +39,9 @@ as an IEEE float without any special handling for it in `eqv?`.
 
 The `unspecified` proposal is to make the results explicitly unspecified.
 
-The following 8 implementations return #t: chez, gambit, guile, ikarus, kawa, larceny, racket, stklos.
+The following 8 implementations return #t: Chez, Gambit, Guile, Ikarus/Vicare, Kawa, Larceny, Racket, STklos.
 
-The following 6 implementations return #f: bigloo, chibi, chicken, gauche, mit-scheme, scheme48.
+The following 6 implementations return #f: Bigloo, Chibi, Chicken, Gauche, MIT Scheme, Scheme48.
 
 SigScheme and Scheme 9 don't have `+nan.0`. SISC currently has a bug
 where `(= nan.0 x)` is true for any `x`.
@@ -56,7 +56,7 @@ where `(= nan.0 x)` is true for any `x`.
 Excluding `-nan.0` was an oversight, and it's gratuitously
 incompatible with R6RS as well as current practice.  Racket, Gauche,
 Chicken, Guile, Chez, Ikarus, Larceny, Ypsilon, STklos all support
-`nan.0` and `+nan.0` as equivalent forms.  MIT, Bigloo, Scheme48/scsh,
+`+nan.0` and `-nan.0` as equivalent forms.  MIT, Bigloo, Scheme48/scsh,
 SISC, SCM, Scheme 9 don't support either form.  Only Gambit and Chibi
 support `+nan.0` but not `-nan.0`.
 
@@ -159,7 +159,7 @@ Vote `yes` to add this procedure.
 `Real-valued?`, `rational-valued?`, and `integer-valued?` test whether
 a given number object can be coerced to the specified type without
 loss of numerical accuracy.  They are equivalent to the versions of
-`real?`, `rational?`, and `integer?` that existed in R5RS.
+`real?`, `rational?`, and `integer?` that exist in R5RS.
 
 Specifically, the behavior of these predicates differs from the
 behavior of `real?`, `rational?`, and `integer?` on complex number
@@ -757,7 +757,7 @@ Vote `yes` to add this library.
 === #330 Add R5RS compatibility library ===
 
 The `(scheme r5rs)` library exports the standard identifiers of R5RS
-Scheme.  By my current reckoning, those identifiers are as follows:
+Scheme other than `transcript-{on,off}`.  By my current reckoning, those identifiers are as follows:
 
 `- * / + < <= = > >= abs acos and angle append apply asin assoc assq
 assv atan begin boolean? call-with-current-continuation
@@ -788,7 +788,8 @@ vector-ref vector-set! vector? with-input-from-file
 with-output-to-file write write-char zero?`
 
 As with any library other than `(scheme base)`, implementations SHOULD
-(rather than MUST) provide this.
+(rather than MUST) provide this.  A disclaimer will be added that the
+semantics may not be exactly the same.
 
 Vote `yes` to add this library.
 
@@ -822,7 +823,9 @@ vector->list vector-fill! vector-for-each vector-length vector-map
 vector-ref vector-set! zero?`
 
 As with any library other than `(scheme base)`, implementations SHOULD
-(rather than MUST) provide this.
+(rather than MUST) provide this.  Full compliance will depend on voting for
+the procedures `*-valued`, `assert`, `boolean=?`, `symbol=?`.  A disclaimer
+will be added that the semantics will not be exactly the same.
 
 Vote `yes` to add this library.
 
@@ -851,7 +854,7 @@ current draft, or `both` to allow both forms.
 It's already a requirement that an eof-object cannot have an external
 representation, which means it cannot be any of the basic types in
 Section 3.2 except procedure or port.  This is very improbable, and in
-fact none of my 40 test schemes returns either a procedure or a port.
+fact none of my 40 test Schemes returns either a procedure or a port.
 
 Doing this would allow `eof-object?` to be added to the list of
 disjoint type predicates in Section 3.2.
@@ -881,7 +884,7 @@ Vote `mixed` for mixed case and `lower` for lower case.
 === #335 Specify behavior of default exception handler ===
 
 If an exception is caught and leaves the current dynamic extent,
-obviously the after thunk must be run, but an uncaught exception has
+obviously the ''after'' thunk must be run, but an uncaught exception has
 no semantics and is basically reverting to "is an error" semantics,
 i.e. nasal demon territory.
 
@@ -913,7 +916,8 @@ The options are the same as in #335 above.
 === #337 Add eof-object procedure ===
 
 `eof-object` returns an object which answers `#t` to `eof-object?`.
-This procedure is present in R6RS.
+This procedure is present in R6RS, where it must return the ''unique''
+end-of-file object; that is not required here.
 
 From Vincent Manis:
 
@@ -1009,7 +1013,7 @@ Returning 0 at EOF instead would make the result always an exact
 integer.  The only ambiguity would be that reading a bytevector of
 length 0 (which is to say, not reading any bytes at all) would not
 report EOF.  The distinction may be useful in future non-blocking
-extensions, where no data may be available but the port still open.
+extensions, where no data may be available but the port is still open.
 
 Vote `zero` to return 0 as in the proposal, and `eof-object` to return
 the eof-object as in the current draft.
@@ -1030,30 +1034,31 @@ the prototype such as the following `map` restrictions:
   It is an error if ''proc'' does not accept as many arguments as
   there are ''lists'' and return a single value.
 
-It has been suggested to move this to the end of the entry, to put
-more emphasis on the initial entry description.  This has the
+It has been suggested to move this to an appropriate later point in the entry,
+to put more emphasis on the initial entry description.  This has the
 disadvantage of splitting the domain into two places, which can more
 easily cause oversights and make quick domain confirmations difficult.
 
 An alternative is to separate the additional domain restrictions from
 the initial description, as a separate short paragraph immediately
-following the prototype and possibly de-emphasized by making smaller
-or italic.  This would keep the domain in one place and still allow
+following the prototype and possibly de-emphasized by making it smaller.
+his would keep the domain in one place and still allow
 let the first line of the description stand out prominently in the
 initial paragraph.
 
 Vote `start` for the status quo, `start-split` for the separate
-de-emphasized option, or `end` to move additional restrictions to the
-end.
+de-emphasized option, or `later` to move additional restrictions to a
+later point.
 
-  * '''Options:''' start, start-split, end undecided
+  * '''Options:''' start, start-split, later, undecided
   * '''Default:''' start
   * '''Preferences:''' 
 
 === #345 Should 0.0 and -0.0 be distinct in the sense of EQV? ===
 
 Currently, the draft report implies that 0.0 and -0.0 must be the same
-in the sense of `eqv?`.
+in the sense of `eqv?`, because `eqv?` defers to `=` for numbers
+(with the possible exception of NaNs).
 
 Vote `same` for the status quo, `different` to change to "must be
 different", or `unspecified` to change to "may be different".
