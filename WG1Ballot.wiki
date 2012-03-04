@@ -178,12 +178,11 @@ Vote `yes` to add these three procedures.
 `Assert` raises an error if its argument is `#f`.  This provides R6RS
 base compatibility.
 
-Other definitions of `assert` have been defined which provide
-friendlier error reporting.
+Vote `basic` to add this syntax.  Vote `optionals` to make `assert` optionally accept, after its
+expression argument, a single `message` argument and zero or more `irritant` arguments
+in the same manner as the `error` procedure.  Vote `no` in order not to add `assert`.
 
-Vote `yes` to add this syntax.
-
-  * '''Options:''' yes, no, undecided
+  * '''Options:''' basic, optionals, no, undecided
   * '''Default:''' no
   * '''Preferences:''' 
 
