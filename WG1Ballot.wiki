@@ -265,11 +265,12 @@ or that `-ni` procedures are always case-insensitive, since the
 details of the normalization are not exposed anyway.
 
   * '''Proposals:'''
-    * '''normalize-ci:''' specify that -ci* procedures normalize their arguments
-    * '''case-fold-ni:''' specify that -ni* procedures case-fold their arguments
-    * '''ci-ni:''' add new -ci-ni* procedures that perform both operations
-    * '''none:''' leave as-is, although -ni* may still fold
-    * '''remove:''' remove the -ni* procedures altogether
+    * '''normalize-ci:''' specify that *-ni procedures normalize their arguments
+    * '''case-fold-ni:''' specify that *-ni procedures case-fold their arguments
+    * '''ci-ni:''' add new *-ci-ni procedures that perform both operations
+    * '''none:''' leave as-is, although *-ni may still fold
+    * '''remove:''' remove the *-ni procedures altogether
+    * '''remove+normalize-ci:''' remove *-ni procedures, allow *-ci procedures to normalize
   * '''Options:''' normalize-ci, case-fold-ni, ci-ni, remove, none
   * '''Default:''' none
   * '''Preferences:''' 
