@@ -1092,3 +1092,27 @@ entirely unspecified.
   * '''Options:''' 24, none, undecided
   * '''Default:''' none
   * '''Preferences:''' 
+
+=== #354 mutating exports ===
+
+We define mutating imports to be an error, however
+the standard currently says nothing about what
+happens when an exported binding is mutated from
+within the library where it's defined.
+In many common library implementations there
+will be no effect (i.e. the import effectively gets
+a copy of the original), whereas in a namespace
+based implementation the change will be reflected,
+so a conservative approach is to add a note saying
+the result is unspecified.
+
+Vote `shared` to force the binding to be shared
+and the change reflected everywhere it's imported,
+`separate` to force the binding to be separate,
+`none` to make no comment, and `unspecified`
+or `error` to add a clarification to the standard
+to that effect.
+
+  * '''Options:''' shared, separate, none, unspecified, error, undecided
+  * '''Default:''' none
+  * '''Preferences:''' 
