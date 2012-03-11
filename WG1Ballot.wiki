@@ -269,7 +269,8 @@ details of the normalization are not exposed anyway.
     * '''case-fold-ni:''' specify that -ni* procedures case-fold their arguments
     * '''ci-ni:''' add new -ci-ni* procedures that perform both operations
     * '''none:''' leave as-is, although -ni* may still fold
-  * '''Options:''' normalize-ci, case-fold-ni, ci-ni, none
+    * '''remove:''' remove the -ni* procedures altogether
+  * '''Options:''' normalize-ci, case-fold-ni, ci-ni, remove, none
   * '''Default:''' none
   * '''Preferences:''' 
 
@@ -1007,15 +1008,17 @@ low-level macros introduced by WG2).
 === #342 Have READ-BYTEVECTOR(!) return 0 at EOF ===
 
 Currently, `read-bytevector` and `read-bytevector!` return an EOF
-object at EOF; otherwise, the number of bytes read is returned.
-Returning 0 at EOF instead would make the result always an exact
-integer.  The only ambiguity would be that reading a bytevector of
-length 0 (which is to say, not reading any bytes at all) would not
-report EOF.  The distinction may be useful in future non-blocking
-extensions, where no data may be available but the port is still open.
+object at EOF; otherwise, `read-bytevector` returns a non-empty
+bytevector and `read-bytevector!` returns the number of bytes read.
+Returning #u8() and 0, respectively, at EOF instead would make the
+results always the same type.  This change would introduce the
+ambiguity that one would not be able to detect EOF when reading a
+bytevector of length 0 (which is to say, not reading any bytes at
+all).
 
-Vote `zero` to return 0 as in the proposal, and `eof-object` to return
-the eof-object as in the current draft.
+Vote `zero` to return #u8() and 0 as in the proposal, and `eof-object`
+to return the eof-object as in the current draft.  Vote `zero!` to
+make the change only for `read-bytevector!`.
 
   * '''Options:''' zero, eof-object, undecided
   * '''Default:''' eof-object
