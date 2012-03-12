@@ -735,6 +735,23 @@ described above.
 Pending a better list, I think many of the features are useful, and
 are actively in use in several implementations.
 
+=== #259 Remove `(library <name>)` cond-expand features ===
+
+The `(library <name>)` feature test which is true if the given library
+is available (at compile time).  This was used because we voted for
+CondExpandCowan, but the original syntax was just `<name>` which is
+ambiguous and therefore invalid.  The switch to `(library <name>)` was
+added editorially, but not officially voted on.
+
+Vote `keep` to keep and `remove` to remove.
+
+  * '''Options:''' keep, remove, wg2, undecided
+  * '''Default:''' keep
+  * '''Preferences:''' keep
+
+I personally don't care if users are forbidden to name libraries `(not ...)`,
+`(and ...)`, or `(or ...)`, but this is a sensible way to avoid a minor problem.
+
 === #324 allow |\ as escape for | within a |-escaped identifier ===
 
 Allow `\|` to represent a vertical bar in an identifier enclosed in
@@ -1292,3 +1309,28 @@ to that effect.
   * '''Preferences:''' unspecified
 
 This was the original intention, and leaving it out was an oversight.
+
+=== #358 change epoch of current-second ===
+
+A formal comment has proposed changing the epoch of current-second to
+1970-01-01 00:00:00 TAI rather than 1970-01-01 00:00:10 TAI (00:00:00
+UTC).
+
+The actual time systems are independent of an epoch - the epoch is
+just convenient for computer systems.
+
+The UTC-centric epoch was chosen (despite the use of TAI time) mostly
+because it is used in popular TAI times such as libtai and Olson's
+time library.
+
+See http://lists.scheme-reports.org/pipermail/scheme-reports/2012-March/001943.html for more details.
+
+Vote `utc` for the current draft's start-of-1970-in-utc epoch, or
+`tai` for the proposed start-of-1970-in-tai epoch.
+
+  * '''Options:''' utc, tai, undecided
+  * '''Default:''' utc
+  * '''Preferences:''' tai
+
+I originally proposed `TAI - 10`, but on reflection I think people implementing this from scratch are less likely to get it wrong if it's based on `TAI - UTC` (34 seconds at present) rather than `TAI - 10 - UTC` (24 seconds).
+
