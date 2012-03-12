@@ -252,7 +252,7 @@ Vote `yes` to add this procedure.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' undecided, no
+  * '''Preferences:''' yes
 
 On the one hand, `(expt x 2)` is the same thing, and should be just as
 easy to optimize.  On the other, we provide `sqrt` as an alias for
@@ -539,7 +539,9 @@ case.
 
   * '''Options:''' remove, keep, undecided
   * '''Default:''' keep
-  * '''Preferences:''' 
+  * '''Preferences:''' remove
+
+Just a nitpick.
 
 === #312 unquoting and identifiers beginning with @ ===
 
@@ -577,6 +579,10 @@ Vote `yes` to add a clause to this effect, and `no` to leave it as legal.
   * '''Options:''' yes, no, undecided
   * '''Default:''' yes
   * '''Preferences:''' yes
+
+Many implementations can represent the null char,
+and at the same time use C strings as the underlying
+string representation, which makes this unspecified.
 
 === #316 R6RS base compatibility: boolean=? ===
 
@@ -716,6 +722,20 @@ described above.
 
 Pending a better list, I think many of the features are useful, and
 are actively in use in several implementations.
+
+=== #259 Remove `(library <name>)` cond-expand features ===
+
+The `(library <name>)` feature test which is true if the given library
+is available (at compile time).  This was used because we voted for
+CondExpandCowan, but the original syntax was just `<name>` which is
+ambiguous and therefore invalid.  The switch to `(library <name>)` was
+added editorially, but not officially voted on.
+
+Vote `keep` to keep and `remove` to remove.
+
+  * '''Options:''' keep, remove, wg2, undecided
+  * '''Default:''' keep
+  * '''Preferences:''' keep
 
 === #324 allow |\ as escape for | within a |-escaped identifier ===
 
@@ -940,7 +960,11 @@ Vote `yes` to add this library.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' yes
+  * '''Preferences:''' no
+
+I don't agree with including all of the R6RS base exports
+in the small language, and the small language has no obligation
+to support R6RS - that's the reason we have a large language.
 
 === #332 Allow multiple name pairs in export renaming ===
 
@@ -1268,3 +1292,26 @@ to that effect.
   * '''Preferences:''' unspecified
 
 This was the original intention, and leaving it out was an oversight.
+
+=== #358 change epoch of current-second ===
+
+A formal comment has proposed changing the epoch of current-second to
+1970-01-01 00:00:00 TAI rather than 1970-01-01 00:00:10 TAI (00:00:00
+UTC).
+
+The actual time systems are independent of an epoch - the epoch is
+just convenient for computer systems.
+
+The UTC-centric epoch was chosen (despite the use of TAI time) mostly
+because it is used in popular TAI times such as libtai and Olson's
+time library.
+
+See http://lists.scheme-reports.org/pipermail/scheme-reports/2012-March/001943.html for more details.
+
+Vote `utc` for the current draft's start-of-1970-in-utc epoch, or
+`tai` for the proposed start-of-1970-in-tai epoch.
+
+  * '''Options:''' utc, tai, undecided
+  * '''Default:''' utc
+  * '''Preferences:''' undecided
+
