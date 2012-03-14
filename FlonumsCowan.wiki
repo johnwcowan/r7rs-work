@@ -35,10 +35,10 @@ The following constants are defined in terms of the constants of the <math.h> he
 
 ||Scheme name||C name||Comments||
 ||`e`||`M_E`||Value of e||
-||`log2-e`||`M_LOG2E`||Value of log2e||
-||`log10-e`||`M_LOG10E`||Value of log10e||
-||`ln-2`||`M_LN2`||Value of loge2||
-||`ln-10`||`M_LN10`||Value of loge10||
+||`log2-e`||`M_LOG2E`||Value of log,,2,, e||
+||`log10-e`||`M_LOG10E`||Value of log,,10,, e||
+||`ln-2`||`M_LN2`||Value of log,,e,, 2||
+||`ln-10`||`M_LN10`||Value of log,,e,, 10||
 ||`pi`||`M_PI`||Value of pi||
 ||`pi/2`||`M_PI_2`||Value of pi/2||
 ||`pi/4`||`M_PI_4`||Value of pi/4||
@@ -47,10 +47,10 @@ The following constants are defined in terms of the constants of the <math.h> he
 ||`two-over-sqrt-pi`||`M_2_SQRTPI`||Value of 2/sqrt(pi)||
 ||`sqrt-2`||`M_SQRT2`||Value of sqrt(2)||
 ||`one-over-sqrt-2`||`M_SQRT1_2`||Value of 1/sqrt(2)||
-||`maximum-flonum`||`HUGE_VAL`||+inf.0 or else the largest finite flonum||
-||`fast-multiply-add`||`FP_FAST_FMA, or 0 if not defined`||multiply-add is fast||
-||`integer-exponent-zero`||`FP_ILOGB0`||what (integer-binary-log 0) returns||
-||`integer-exponent-nan`||`FP_ILOGBNAN`||what (integer-binary-log +0.nan) returns||
+||`maximum-flonum`||`HUGE_VAL`||`+inf.0` or else\\the largest finite flonum||
+||`fast-multiply-add`||`#t` if `FP_FAST_FMA` is 1,\\or `#f` otherwise||multiply-add is fast||
+||`integer-exponent-zero`||`FP_ILOGB0`||what `(integer-binary-log 0)` returns||
+||`integer-exponent-nan`||`FP_ILOGBNAN`||what `(integer-binary-log +0.nan)` returns||
 
 == C99 <math.h> procedures ==
 
@@ -85,10 +85,10 @@ The following procedures are defined in terms of the functions of the <math.h> h
 ||`normalized-fraction-exponent`||`double      frexp(double, int *)`||returns two values, fraction in range [1/2,1) and int exponent||
 ||`positive-difference`||`double      fdim(double, double)`||-||
 ||`remquo`||`double      remquo(double, double, int *)`||returns two values, rounded remainder and low-order ''n'' bits of the quotient (''n'' is implementation-defined)
-||`scalbn`||`double      scalbn(double x, int y)`||x*r^y, where r is the machine float radix||
+||`scalbn`||`double      scalbn(double x, int y)`||x*r^y^, where r is the machine float radix||
 ||`second-bessel-order-0`||`double      y0(double)`||bessel function of the second kind, order 0||
 ||`second-bessel-order-1`||`double      y1(double)`||bessel function of the second kind, order 1||
-||`second-bessel`||`double      yn(int n, double)`||bessel function of the second kind, order n||
+||`second-bessel`||`double      yn(int n, double)`||bessel function of the second kind, order ''n''||
 ||`sinh`||`double      cosh(double)`||hyperbolic sine||
 ||`tanh`||`double      cosh(double)`||hyperbolic tangent||
 
