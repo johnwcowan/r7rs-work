@@ -5,7 +5,7 @@ This is a list of work items that WG2 has voted to work on, and proposals for th
 
 Binary heap: BinaryHeapsCowan
 
-Binary ports: PortsCowanTwo
+Binary ports: present in the small language
 
 Binary search: [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]]
 
@@ -41,7 +41,7 @@ Homogeneous numeric arrays: [[http://srfi.schemers.org/srfi-4/srfi-4.html|SRFI 4
 
 Immutable cyclic lists: CyclesMedernach
 
-Loop syntax: [[http://www.ccs.neu.edu/home/shivers/papers/loop.pdf|Olin Shivers's loop]], [[http://mumble.net/~campbell/scheme/foof-loop.txt|Taylor Campbell's foof-loop]]
+Loop syntax: [[http://www.ccs.neu.edu/home/shivers/papers/loop.pdf|Olin Shivers's loop]], [[http://mumble.net/~campbell/scheme/foof-loop.txt|Taylor Campbell's foof-loop]], eager comprehensions from [[http://srfi.schemers.org/srfi-42/srfi-42.html|SRFI 42]]
 
 Mailboxes, channels, synchronized queues:
 
@@ -104,5 +104,4 @@ Unicode normalization:
 Weak dictionaries/hashtables:
 
 Weak references (soft, phantom):
-
 
