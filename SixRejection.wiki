@@ -89,7 +89,7 @@ This document is explicitly a work of R7RS advocacy.  Its purpose is not to atta
     * R7RS requires whatever libraries are imported to be instantiated at least once, but provides no guarantees for or against multiple instantiation.
 
  * The `syntax-case` system implements a term-rewriting system, with limited programmability, to solve a problem for which there are significantly simpler solutions.  This sub-language introduces a new kind of variable that behaves differently from the variables we're used to, and pushes pattern-matching and templating to the center of the macro-writing process.
-    * R7RS-small does not have `syntax-case`.  It is uncertain whether R7RS-large will have it or not.  
+    * R7RS-small does not have `syntax-case`.  It is uncertain whether R7RS-large will have it.  
 
 == Programs ==
 
@@ -103,12 +103,7 @@ This document is explicitly a work of R7RS advocacy.  Its purpose is not to atta
 
 == Records ==
 
- * 
-    *   R7RS will provide a procedural API, possibly along the lines of SRFI 99.
-
- * T 
-
- * The record system is far too complicated.  he constructor-related parts of the syntactic record layer and of the procedural layer are bewilderingly complex.  The custom constructor design is a good example of premature generalization and piling feature upon feature, and their current API adversely affects other aspects of the design, such as modularity.The problem of two record systems that don't quite work together.  See Will Clinger's essay [[http://www.ccs.neu.edu/home/will/R6RS/essay.txt|"Fixing the Syntactic Record Layer"]].
+ * The record system is far too complicated.  The constructor-related parts of the syntactic record layer and of the procedural layer are bewilderingly complex.  The custom constructor design is a good example of premature generalization and piling feature upon feature, and their current API adversely affects other aspects of the design, such as modularity.The problem of two record systems that don't quite work together.  See Will Clinger's essay [[http://www.ccs.neu.edu/home/will/R6RS/essay.txt|"Fixing the Syntactic Record Layer"]].
     * R7RS-small provides only a SRFI-9-compatible syntactic record layer.  R7RS-large will provide a procedure API, possibly SRFI 99.
 
  * You cannot simply take a record value and access one of its fields by name.  See [http://lists.r6rs.org/pipermail/r6rs-discuss/2007-August/thread.html#3145].  We want a container that requires certain behavior of the values it contains while not requiring that theybe on an approved list or inherit from the same ancestor.  Importing the accessors of each type of value we wish to contain makes the container's import list the approved list.
