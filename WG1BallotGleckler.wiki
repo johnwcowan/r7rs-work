@@ -238,6 +238,14 @@ Vote `yes` to add this procedure.
 I agree that this is needed to complete the set of type-specific
 comparisons.
 
+Since the standard specifically mentions the possibility of uninterned
+symbols, the description of `symbol=?` should say something about what
+it means in implementations with uninterned symbols.  It would
+probably be best to say that its behavior is unspecified when either
+argument is an uninterned symbol.  Normally, we wouldn't have to say
+anything about an extension to the language, but since we already talk
+about this extension, it's justified.
+
 === #286 Numeric *-valued procedures for R5RS and R6RS-base compatibility ===
 
 `Real-valued?`, `rational-valued?`, and `integer-valued?` test whether
