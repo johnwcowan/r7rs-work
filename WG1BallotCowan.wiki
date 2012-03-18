@@ -815,10 +815,9 @@ Vote `yes` to add these destructive operations as proposed.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' no
+  * '''Preferences:''' nolist
 
-`list-copy!` is an abomination, the others are of limited utility and
-best left to more general string/vector libraries.
+I added `list-copy!` to this ballot for uniformity, but on reflection I agree that it's not that useful, whereas `string-copy!` and `vector-copy!` are.
 
 === #327 Specify that read, the program reader, and string->number accept the same syntax ===
 
