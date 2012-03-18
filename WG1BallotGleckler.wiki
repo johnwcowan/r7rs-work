@@ -900,15 +900,14 @@ JC: These would be the five-argument versions based on the current
 `bytevector-copy-partial!`, possibly with renumbering of arguments
 depending on the outcome of #325.
 
-Vote `yes` to add these destructive operations as proposed.
+Vote `yes` to add these destructive operations as proposed, `nolist` to add `string-copy!` and `vector-copy!` only, or `no` for none of them. 
 
-  * '''Options:''' yes, no, undecided
+  * '''Options:''' yes, nolist, no, undecided 
   * '''Default:''' no
-  * '''Preferences:''' no
+  * '''Preferences:''' nolist, no
 
-I agree with others' comments about `list-copy'!.  However, I'm not
-sure how I would vote if we were considering only `string-copy'!  and
-`vector-copy!'.  Should we consider adding that as an option?
+I agree with others' comments about `list-copy!`.  However,
+`string-copy!`  and `vector-copy!` are quite useful and cheap.
 
 === #327 Specify that read, the program reader, and string->number accept the same syntax ===
 
