@@ -4,7 +4,7 @@ This docket contains work items that WG2 has not yet decided whether to work on 
 
 Undefined value API:
 
-Multiple producers in `call-with-values`
+NaN dissector API (sign, quiet/signaling status, and integer tag): 
 
 `equal=?` (like `equal?` but with `=` instead of `eqv?` on numbers):
 
@@ -33,4 +33,3 @@ Enumerations (R6RS, but see also http://www.r6rs.org/formal-comments/comment-262
 `Record-let`:
 
 Thread-local storage: 
-
