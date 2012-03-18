@@ -233,12 +233,10 @@ Vote `yes` to add this procedure.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' undecided, yes
+  * '''Preferences:''' yes
 
 I agree that this is needed to complete the set of type-specific
-comparisons, but the description here doesn't match the description in
-R6RS despite the claim that this ballot item is intended to help with
-this R6RS compatibility.  I've sent a note to list asking for clarification.
+comparisons.
 
 === #286 Numeric *-valued procedures for R5RS and R6RS-base compatibility ===
 
