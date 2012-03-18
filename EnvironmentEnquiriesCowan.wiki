@@ -6,7 +6,7 @@ The following procedures with no arguments return either a string, or `#f` if th
 
 The phrase "a `cond-expand` feature identifier related to" means an identifier used in `cond-expand` clauses which is intended to have the same meaning to a human being as the returned string, but possibly differs in typographical details such as being all lower case or having hyphens instead of spaces.  There is no algorithmic mapping between the string and the identifier.
 
-`(implementation-type)`
+`(implementation-name)`
 
 Returns the name of the Scheme implementation.  This procedure corresponds roughly to Common Lisp's `lisp-implementation-type` function.  A `cond-expand` feature identifier related to this string is also provided.
 
