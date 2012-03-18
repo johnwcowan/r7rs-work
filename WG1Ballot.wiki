@@ -695,9 +695,9 @@ JC: These would be the five-argument versions based on the current
 `bytevector-copy-partial!`, possibly with renumbering of arguments
 depending on the outcome of #325.
 
-Vote `yes` to add these destructive operations as proposed.
+Vote `yes` to add these destructive operations as proposed, `nolist` to add `string-copy!` and `vector-copy!` only, or `no` for none of them.
 
-  * '''Options:''' yes, no, undecided
+  * '''Options:''' yes, nolist, no, undecided
   * '''Default:''' no
   * '''Preferences:''' 
 
