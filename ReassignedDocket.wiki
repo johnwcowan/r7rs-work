@@ -12,7 +12,7 @@ Contracts:  No SC action yet.
 
 DBM interface:  No SC action yet.
 
-Full Berkeley/Posix sockets:  No SC action yet.
+Full !Berkeley/Posix sockets:  No SC action yet.
 
 GC control:  No SC action yet.
 
