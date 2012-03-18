@@ -410,7 +410,7 @@ Vote `yes` to make an explicit error.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:'''
+  * '''Preferences:''' no
 
 Same argument as for #293: this is already clear, and repeating it
 would be redundant.
@@ -425,7 +425,7 @@ Vote `yes` to make an explicit error.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:'''
+  * '''Preferences:''' no
 
 Same argument as for #293: this is already clear, and repeating it
 would be redundant.
