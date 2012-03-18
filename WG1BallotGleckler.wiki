@@ -9,7 +9,7 @@
     * library means "yes, but I want it in a separate library",
     * wg2 means "no, but I think it should go in WG2".
     * undecided means I want to discuss this issue further.
-    * Abstain on any item by leaving the preferences blank. 
+    * Abstain on any item by leaving the preferences blank.
 
 = WG1 Ballot Items To Finalize By Mar. 31 =
 
@@ -49,7 +49,13 @@ where `(= nan.0 x)` is true for any `x`.
 
   * '''Options:''' same, different, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' same, unspecified
+
+I don't see any reason to differ with R6RS here.  It's easy for
+implementations that follow the "different" option to switch to
+supporting the "same" option.  Furthermore, Bradley Lucier and Will
+Clinger appear to have thought about it a lot and have come to the
+same conclusion, so I'm more confident.
 
 === #275 Support -nan.0 as a synonym for +nan.0 ===
 
@@ -66,7 +72,13 @@ Vote `yes` to allow `-nan.0`, `no` to disallow it.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no
+
+I agree with Alex.  There's no point in having this extra identifier.
+It has no meaning.  If the option were option, I'd rather that we
+replaced "+nan.0" (and "-nan.0") with the identifier "NaN" now that
+we're case-sensitive.  It would be unlikely to conflict with existing
+code, and it wouldn't be quite as ugly.
 
 === #278 Shrink division routines to just truncate and floor ===
 
@@ -87,7 +99,66 @@ division operators in the small language.
 
   * '''Options:''' shrink, keep, undecided
   * '''Default:''' keep
-  * '''Preferences:''' 
+  * '''Preferences:''' keep, shrink/core, shrink
+
+I see no new evidence justifying a change from our initial vote.
+
+I encourage people to read the cited paper, "The Euclidean definition
+of the functions div and mod,"
+<http://dl.acm.org/citation.cfm?id=128862>.  Here's an excerpt:
+
+  Indeed, the functions div and mod are very important concepts in
+  discrete mathematics for certain problems  in number theory, in
+  computer science for reasoning about number representation systems, in
+  communications engineering for a variety of issues ranging from coding
+  to sampling and multiplexing, and so on.
+
+  Hence it is unfortunate that the definition of these functions
+  appears to be handled rather casually in the computer science
+  literature and in the design of programming languages, as one might
+  infer from various poor "definitional engineering" decisions down to
+  wrong or erroneous definitions, as in the 1S0 Standard for Pascal
+  [[11,|13]], Algol 68 [[201,|and some other languages.
+
+  In this paper we clarify the differences between the various
+  definitions, in particular those based on division by truncation
+  (T-definition) and on division by flooring (F-definition) as defined
+  by Knuth [14]].  We also propose still another definition, which we
+  call Euclidean because it is based on Euclid’s theorem
+  (E-definition).  This alternative is rarely discussed in the
+  literature, yet on closer analysis it is advantageous in terms of
+  regularity and useful mathematical properties, both theoretically
+  and in practical usage.  The Euclidean definition usually emerged as
+  the most straightforward choice, over a wide variety of
+  representative application areas where we experienced the need for a
+  div-mod function pair.
+
+  Comparison of the various definitions leads to a preference for the
+  E- and F-definitions as the standard convention in mathematics and
+  programming terms of the languages.  Secondary definitions can
+  always primary ones to cater for the exceptional cases.
+
+  At the computer architecture level, the preferred definitions most
+  important number representation and computer arithmetic uniform way
+  [5].  Although this suggests the possibility of simpler hardware
+  realizations than for the other definitions, verifying this requires
+  a thorough study in ALU design that is clearly beyond the scope of
+  this paper.  Difficulties such as the problem with arithmetic
+  shifting pointed out by Steele [17] are also avoided.
+
+The paper goes on to discuss various reasons that the Euclidean option
+is more practical, matches to the underlying hardware better, and
+works better in common applications.
+
+Also, I don't buy the argument that only floor-* and truncate-* have
+an established history in computer programming and mathematics.
+Scheme has a history of pushing the envelope in mathematicaly
+computation, e.g. with exact arithmetic, and this fits with that
+tradition and is not expensive to programs that use the new operators
+nor to ones that don't.
+
+Finally, Common Lisp supports the ceiling, floor, round, and truncate
+options.  Why should we drop ceiling and round?
 
 === #280 Make vectors self-quoting ===
 
@@ -108,7 +179,10 @@ error, or `unspecified` to leave unspecified as in R5RS.
 
   * '''Options:''' yes, no, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' yes, unspecified
+
+It's a small thing, but it's so easy to do, so why not make them
+self-quoting?
 
 === #282 Map and friends should call their procedures in the same dynamic environment ===
 
@@ -123,7 +197,11 @@ Vote `yes` to add the clarification and `no` to leave it out.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no
+
+This is too obvious to be worth specifying.  Furthermore, if we
+specify it here, what are we implying about other procedures like
+this?
 
 === #283 Initial characters in non-ASCII identifiers should exclude digits and combiners ===
 
@@ -140,7 +218,10 @@ implementation-dependent extension for either numbers or symbols).
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
+
+This is an obvious choice for consistency of implementations that
+support Unicode.
 
 === #285 R6RS base compatibility: symbol=? ===
 
@@ -152,7 +233,12 @@ Vote `yes` to add this procedure.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided, yes
+
+I agree that this is needed to complete the set of type-specific
+comparisons, but the description here doesn't match the description in
+R6RS despite the claim that this ballot item is intended to help with
+this R6RS compatibility.  I've sent a note to list asking for clarification.
 
 === #286 Numeric *-valued procedures for R5RS and R6RS-base compatibility ===
 
@@ -171,7 +257,13 @@ Vote `yes` to add these three procedures.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no
+
+These names are awful.  I'll never be able to remember that
+`real-valued?' means something different than `real?', and even if I
+do, I won't remember which one is which.  I'm sure others will have
+the same problem.  If we come up with better names, I might be willing
+to vote yes.
 
 === #287 R6RS base compatibility: assert ===
 
@@ -184,7 +276,12 @@ in the same manner as the `error` procedure.  Vote `no` in order not to add `ass
 
   * '''Options:''' basic, optionals, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' optionals, no
+
+We shouldn't include `assert' without making it at least equal to
+`error' in its ability to describe a problem.  If we can't do that, we
+should wait for implementations to come to agreement rather than
+specifying something anemic.
 
 === #288 R6RS base compatibility: infinite? ===
 
@@ -201,7 +298,9 @@ Vote `yes` to add this procedure.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
+
+Sounds reasonable.
 
 == WG1 - Numerics ==
 
@@ -226,7 +325,9 @@ Vote `yes` to add this procedure.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
+
+I buy the argument from symmetry with `sqrt'.
 
 == WG1 - Core ==
 
@@ -247,7 +348,10 @@ Vote `yes` to require signalling an error if the files cannot be opened.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
+
+Yes, this error shouldn't happen silently.  Since implementations
+already signal it, this change won't be a problem.
 
 === #292 Add case-insensitive normalization-insensitive comparisons ===
 
@@ -273,7 +377,11 @@ details of the normalization are not exposed anyway.
     * '''remove+normalize-ci:''' remove *-ni procedures, allow *-ci procedures to normalize
   * '''Options:''' normalize-ci, case-fold-ni, ci-ni, remove, none
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:''' remove, ci-ni, none, case-fold-ni
+
+I don't feel confident about Unicode decisions, so my inclination is
+to remove these procedures if there's any disagreement.  If we don't
+remove them, we should complete the rectangle.
 
 === #293 Make it an error for <test> values to return other than one value ===
 
@@ -286,7 +394,10 @@ Vote `yes` to make an explicit error.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no
+
+The standard already makes this clear in a general way.  There's no
+way to repeat that information for conditionals in particular.
 
 === #294 Make it an error for the <expression> of a set! to return other than one value ===
 
@@ -299,7 +410,10 @@ Vote `yes` to make an explicit error.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:'''
+
+Same argument as for #293: this is already clear, and repeating it
+would be redundant.
 
 === #295 Make it an error for <init>s in binding forms to return other than one value ===
 
@@ -311,7 +425,10 @@ Vote `yes` to make an explicit error.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:'''
+
+Same argument as for #293: this is already clear, and repeating it
+would be redundant.
 
 === #297 Removing case-folding flags ===
 
@@ -326,7 +443,12 @@ toggle case-folding in the REPL or data files, etc.
 
   * '''Options:''' keep, remove, undecided
   * '''Default:''' keep
-  * '''Preferences:''' 
+  * '''Preferences:''' keep
+
+I'm opposed to making Scheme case sensitive, but have lost that
+argument.  However, even R6RS supported these flags at least
+optionally, and it shouldn't be necessary to construct a module just
+to load old code that depends on case sensitivity.
 
 === #303 "lazy" is a confusing name ===
 
@@ -341,7 +463,9 @@ balance of `delay`s and `force`s.
 
   * '''Options:''' delay-force, lazy, undecided
   * '''Default:''' lazy
-  * '''Preferences:''' 
+  * '''Preferences:''' delay-force
+
+This name makes the purpose clearer.
 
 === #304 symbol literal syntax wastes characters ===
 
@@ -360,14 +484,17 @@ the backslash used in Gambit's infix syntax.  We should
 reconsider if we really need to take up both of these
 characters.
 
-  * '''Proposals:''' 
+  * '''Proposals:'''
     * '''delimited-only:''' |...| syntax with internal escapes, \ outside is undefined, Gambit-compatible
     * '''backslash-only:''' \xNN; only, with | valid in identifiers, SCSH-compatible
     * '''both:''' both as in the current draft
     * '''neither:''' remove both
   * '''Options:''' delimited-only, backslash-only, both, neither, undecided
   * '''Default:''' both
-  * '''Preferences:''' 
+  * '''Preferences:''' delimited-only, neither, backslash-only
+
+As others have said, the |...| syntax is widely implemented.  I don't
+think the backslash-only syntax is widely implemented.
 
 === #305 Should we move the c...r and c....r procedures into a new library? ===
 
@@ -388,7 +515,11 @@ Vote `base` to keep all in the base library or `library` to move the 3- and 4-le
 
   * '''Options:''' base, library, remove, undecided
   * '''Default:''' base
-  * '''Preferences:''' 
+  * '''Preferences:''' library, base
+
+They have a long history and are used in lots of code, so we shouldn't
+remove them.  However, moving them to a library is a good idea.  What
+shall we call it?
 
 === #307 "eager" is a confusing name ===
 
@@ -407,7 +538,12 @@ Vote `eager`, `promise` or `make-promise` to specify the name, or
 
   * '''Options:''' eager, promise, make-promise, remove, undecided
   * '''Default:''' eager
-  * '''Preferences:''' 
+  * '''Preferences:''' make-promise, promise, remove
+
+Names that include the word "promise" are clearer.  I prefer
+`make-promise' to `promise' because, in other `make-foo' vs. `foo'
+cases, e.g. for lists, strings, and vectors, the `foo' name has been
+used for multiple arguments of the same type.
 
 === #308 Allow circular lists in LIST-REF for SRFI-1 compatibility ===
 
@@ -420,7 +556,10 @@ Vote `circular` to explicitly allow circular lists, `error` to add an
 
   * '''Options:''' circular, error, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' circular, unspecified
+
+This is what implementations already do.  We should certainly not make
+it an error, so the second choice is clearly "unspecified."
 
 === #309 Allow circular lists in MAP and FOR-EACH for SRFI-1 compatibility ===
 
@@ -438,7 +577,11 @@ circular list with the corresponding mapped results.
 
   * '''Options:''' circular, error, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' circular, unspecified
+
+This is useful, cheap, and matches R5RS.  I've used an approach like
+this, for example, when constructing HTML with alternating colors for
+rows in a table.
 
 === #310 Rationalize start/end/(fill) arguments in sequence procedures ===
 
@@ -459,7 +602,11 @@ There are four plausible courses of action:
     * ''srfi-plus:''  Same as ''SRFIs'', but also add optional ''start, end, fill'' arguments to `list-copy` and optional ''fill'' argument to `string-copy`.  This provides maximal function, full self-consistency, backward compatibility with R5RS, and backward compatibility with the SRFIs.
   * '''Options:''' nothing, r5rs, srfi, srfi-plus, undecided
   * '''Default:''' nothing
-  * '''Preferences:''' 
+  * '''Preferences:''' srfi-plus, srfi, nothing
+
+This isn't expensive for implementations to provide, and there's
+widespread agreement on what it means.  Let's have complete
+consistency and full power.
 
 === #311 Remove tail call guarantee for guard clauses ===
 
@@ -471,7 +618,10 @@ case.
 
   * '''Options:''' remove, keep, undecided
   * '''Default:''' keep
-  * '''Preferences:''' 
+  * '''Preferences:''' remove
+
+I don't have a strong opinion here, but I buy the argument from lack
+of need for an unbounded number of active exceptions.
 
 === #312 unquoting and identifiers beginning with @ ===
 
@@ -493,7 +643,11 @@ valid syntax.
 
   * '''Options:''' invalid, unquote, unquote-splicing, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' invalid, unquote-splicing
+
+Anything other than invalid would be too confusing.  If we're not
+going to do that, let's do what implementations already do, which is
+the unquote-splicing option.
 
 === #315 null character may not be usable in strings ===
 
@@ -503,7 +657,11 @@ Vote `yes` to add a clause to this effect, and `no` to leave it as legal.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' yes
-  * '''Preferences:''' 
+  * '''Preferences:''' no
+
+Since implementations can already prohibit #\null in strings, there's
+no need to do this.  But the broken semantics of C strings shouldn't
+become part of the Scheme standard.
 
 === #316 R6RS base compatibility: boolean=? ===
 
@@ -515,7 +673,9 @@ Vote `yes` to add these three procedures.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
+
+It's good to complete the set of type-specific comparisons.
 
 === #317 escape from with-input-from-file ===
 
@@ -534,7 +694,11 @@ leave unspecified.
 
   * '''Options:''' parameterize, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' parameterize
+
+This seems completely natural.  I can't think of a reason that the
+behavior of these should be different than if they had been defined
+explicitly in terms of `parameterize'.
 
 === #319 Make special treatment of CAPITAL SIGMA optional ===
 
@@ -550,7 +714,12 @@ Vote `yes` to make optional.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
+
+If John's argument that case folding sigma is AI-complete is even
+partially correct, then this makes sense.  Furthermore, it is strange
+to incorporate this kind of language-specific Unicode-ism into the
+standard.
 
 === #320 Add new cond-expand feature to Appendix B: exact-complex ===
 
@@ -568,15 +737,17 @@ cannot support them.
 
 Existing implementations:
 
-* Exact complex numbers: Racket, MIT, Gambit, Chicken with the `numbers` egg, Scheme48/scsh, Kawa, Chibi, Chez, Vicare, Ypsilon, Mosh, !IronScheme, STklos, Wraith 
-* No exact complex numbers: Gauche, Guile, SISC, SCM, Scheme 7, KSi, UMB, Stalin 
+* Exact complex numbers: Racket, MIT, Gambit, Chicken with the `numbers` egg, Scheme48/scsh, Kawa, Chibi, Chez, Vicare, Ypsilon, Mosh, !IronScheme, STklos, Wraith
+* No exact complex numbers: Gauche, Guile, SISC, SCM, Scheme 7, KSi, UMB, Stalin
 * No complex numbers: Chicken without the `numbers` egg, Bigloo, Ikarus, RScheme, Scheme 9, Oaklisp, Elk, VX, Sixx, Sizzle, Dream, Owl Lisp, Psyche
 
 Vote `yes` to add this feature.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
+
+Feature identifiers are cheap and useful.
 
 === #321 Add get-features from EnvironmentEnquiriesCowan to R7RS-small ===
 
@@ -588,7 +759,14 @@ Vote `yes` to add this procedure.
 
   * '''Options:''' yes, no, wg2, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
+
+I'd like to be able to print the list of features on start-up, for
+example.  This information will certainly be available to the
+implementation, so it should be made available programmatically.
+
+However, this should be called `features' or `feature-list', not
+`get-features'.  The latter sounds like Java.
 
 === #322 Add EnvironmentEnquiriesCowan (other than get-features) to R7RS-small ===
 
@@ -604,7 +782,14 @@ Vote `yes` to add EnvironmentEnquiriesCowan (other than
 
   * '''Options:''' yes, no, wg2, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes, wg2
+
+This information is easy and cheap for any implementation to provide
+inexpensively, and is highly useful.
+
+However, `implementation-type' should be called `implementation-name'.
+After all, the description at EnvironmentEnquiriesCowan starts
+"Returns the name [[not|the type]] of the Scheme implementation."
 
 === #323 Eliminate some cond-expand feature identifiers ===
 
@@ -625,7 +810,12 @@ described above.
 
   * '''Options:''' full, implementation, numerics
   * '''Default:''' full
-  * '''Preferences:''' 
+  * '''Preferences:''' full, numerics
+
+The list is useful.  The argument that the other features identifiers
+can't affect the behavior of strictly conforming programs misses the
+point.  The whole point of those identifiers is dealing with places
+where implementations differ.
 
 === #259 Remove `(library <name>)` cond-expand features ===
 
@@ -639,7 +829,11 @@ Vote `keep` to keep and `remove` to remove.
 
   * '''Options:''' keep, remove, wg2, undecided
   * '''Default:''' keep
-  * '''Preferences:''' 
+  * '''Preferences:''' keep, remove
+
+This avoids ambiguity.  Clashes are unlikely, but that's exactly what
+makes debugging them difficult when they do happen.  This avoids the
+problem entirely.
 
 === #324 allow |\ as escape for | within a |-escaped identifier ===
 
@@ -654,12 +848,15 @@ to leave as is.
 
   * '''Options:''' pipe, string, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:''' string
+
+Consistency makes things easier to remember, and there's no reason not
+to be consistent with strings here.
 
 === #325 Eliminate bytevector-copy! ===
 
 `(bytevector-copy! from to)` is equivalent to
-`(bytevector-copy-partial! from 0 (bytevector-length) to 0)`. 
+`(bytevector-copy-partial! from 0 (bytevector-length) to 0)`.
 
 The proposal is to remove the existing `bytevector-copy!` from the
 small language, and rename `bytevector-copy-partial!` to
@@ -672,7 +869,9 @@ as-is.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
+
+Yes, let's make this consistent.
 
 === #326 Add destructive list-copy!, string-copy!, and vector-copy! ===
 
@@ -699,7 +898,11 @@ Vote `yes` to add these destructive operations as proposed.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no
+
+I agree with others' comments about `list-copy'!.  However, I'm not
+sure how I would vote if we were considering only `string-copy'!  and
+`vector-copy!'.  Should we consider adding that as an option?
 
 === #327 Specify that read, the program reader, and string->number accept the same syntax ===
 
@@ -717,7 +920,11 @@ tower.
     * ''unspecified'': The relationships between lexical syntax for numbers accepted by `string->number` and `read`, as well as the corresponding syntax of literal numbers in programs, is unspecified.
   * '''Options:''' same, run-time, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' same, run-time
+
+I don't understand why we should support having different numerics
+tower at compile time and run time.  That seems like a recipe for
+confusion.  What implementations make this distinction?
 
 === #328 names for inexact->exact and exact->inexact ===
 
@@ -730,7 +937,9 @@ for both.
 
   * '''Options:''' r5rs, r6rs, both, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' 
+  * '''Preferences:''' r6rs, r5rs
+
+It's pointless and confusing to have both.
 
 === #329 Add IEEE compatibility library ===
 
@@ -767,7 +976,10 @@ Vote `yes` to add this library.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no
+
+People don't care much about IEEE Scheme, so we shouldn't force
+implementations to provide this.
 
 === #330 Add R5RS compatibility library ===
 
@@ -810,7 +1022,9 @@ Vote `yes` to add this library.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
+
+This will make using old programs easier.
 
 === #331 Add R6RS base compatibility library ===
 
@@ -846,7 +1060,10 @@ Vote `yes` to add this library.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' r6rs
+
+This might be reasonable for large Scheme, but one of the points of
+small Scheme is to avoid having to support R6RS.
 
 === #332 Allow multiple name pairs in export renaming ===
 
@@ -862,7 +1079,9 @@ current draft, or `both` to allow both forms.
 
   * '''Options:''' r6rs, multiple, both, undecided
   * '''Default:''' r6rs
-  * '''Preferences:''' 
+  * '''Preferences:''' multiple, r6rs
+
+Why not be compatible with `rename'?
 
 === #333 Require eof-objects to be disjoint from basic Scheme types ===
 
@@ -876,9 +1095,12 @@ disjoint type predicates in Section 3.2.
 
 Vote `yes` to explicitly list the eof-object as a separate disjoint type.
 
-  * '''Options:''' 
-  * '''Default:''' 
-  * '''Preferences:''' 
+  * '''Options:'''
+  * '''Default:'''
+  * '''Preferences:''' yes
+
+Now that #f and '() are of distinct, we've been moving toward disjoint
+types in general.
 
 === #334 Use proper case for the feature identifiers in Appendix B ===
 
@@ -894,7 +1116,14 @@ Vote `mixed` for mixed case and `lower` for lower case.
 
   * '''Options:''' lower, mixed, undecided
   * '''Default:''' lower
-  * '''Preferences:''' 
+  * '''Preferences:''' lower
+
+While this was my proposal, I'm voting against it based on the
+argument that some of these feature identifiers are already being used
+in lower case.  It feels illiterate to require case sensitivity but
+then demand that people use case that doesn't match the
+natural-language names, but since feature identifiers exist for purely
+practical purposes, we're struck with this.
 
 === #335 Specify behavior of default exception handler ===
 
@@ -915,7 +1144,11 @@ unwinding, or `unspecified` to leave this as is.
 
   * '''Options:''' unwind, exit, unspecified
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' unspecified
+
+Implementations vary too much in this regard, and it's an area where
+the context of the program and implementation matter a lot, so we
+should leave it up the implementers.
 
 === #344 Should dynamic-wind handlers be invoked from EXIT? ===
 
@@ -926,7 +1159,13 @@ The options are the same as in #335 above.
 
   * '''Options:''' unwind, exit, unspecified
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' unspecified
+
+I'm uncomfortable specifying what should be done here without knowing
+what existing implementations do in general.  For some people, `exit'
+means "get out of here immediately."  I don't want something that
+happens in a dynamic-wind handler to prevent the program from exiting,
+for example, or to delay exit.
 
 === #337 Add eof-object procedure ===
 
@@ -961,7 +1200,13 @@ Vote `eof-object` for a procedure of that name, or `none` to not add any such pr
 
   * '''Options:''' eof-object, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:''' eof-object
+
+I don't buy Vincent's argument from the DBMS example.  After all, a
+DBMS is not a file, so returning an end-of-file object is a strange
+choice.  #f or '() would be equally valid.  However, people do seem to
+create EOF objects for file-related purposes, so why not make it easy
+to construct them in a non-klugerous way?
 
 === #339 Restrict identifiers in library names for compatibility with file system restrictions ===
 
@@ -976,7 +1221,11 @@ Vote `yes` to restrict with ''must not''.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no, unspecified
+
+Operating-system level naming concerns shouldn't be pushed up to the
+library level.  After all, some R7RS small implementations won't have
+a file system at all.
 
 === #340 Include non-normative note about the file-system based implementations of libraries ===
 
@@ -1000,7 +1249,13 @@ Vote `yes` to add such a note or `no` to leave it out.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no
+
+We shouldn't constrain files to contain only single libraries.  Good
+Scheme code includes lots of small procedures and macros, and small
+libraries will be common, too.  Forcing each into a separate file
+unnecessarily constrains the programmer's ability to keep similar
+concepts grouped naturally.
 
 === #341 Permit ambiguous imports of identifiers which are never used ===
 
@@ -1018,7 +1273,10 @@ low-level macros introduced by WG2).
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no
+
+It's better for programmers to address the possible conflict
+explicitly.
 
 === #342 Have READ-BYTEVECTOR(!) return 0 at EOF ===
 
@@ -1037,7 +1295,10 @@ make the change only for `read-bytevector!`.
 
   * '''Options:''' zero, eof-object, undecided
   * '''Default:''' eof-object
-  * '''Preferences:''' 
+  * '''Preferences:''' eof-object
+
+Returning an EOF object allows one to distinguish the zero-byte case,
+which is inmportant.
 
 === #343 Editorial: divide domain explanations to be split before and after descriptions ===
 
@@ -1059,8 +1320,8 @@ easily cause oversights and make quick domain confirmations difficult.
 An alternative is to separate the additional domain restrictions from
 the initial description, as a separate short paragraph immediately
 following the prototype and possibly de-emphasized by making it smaller.
-his would keep the domain in one place and still allow
-let the first line of the description stand out prominently in the
+[T]his would keep the domain in one place and still allow
+let [sic] the first line of the description stand out prominently in the
 initial paragraph.
 
 Vote `start` for the status quo, `start-split` for the separate
@@ -1069,7 +1330,9 @@ later point.
 
   * '''Options:''' start, start-split, later, undecided
   * '''Default:''' start
-  * '''Preferences:''' 
+  * '''Preferences:''' start-split, start
+
+Start-split is a nice compromise.
 
 === #345 Should 0.0 and -0.0 be distinct in the sense of EQV? ===
 
@@ -1082,7 +1345,10 @@ different", or `unspecified` to change to "may be different".
 
   * '''Options:''' same, different, unspecified, undecided
   * '''Default:''' same
-  * '''Preferences:''' 
+  * '''Preferences:''' unspecified
+
+Unless we know that most implementations have chosen to do the same
+thing in this case, we should leave it unspecified.
 
 === #349 Define exact integers to be at least 24 bits ===
 
@@ -1109,7 +1375,11 @@ entirely unspecified.
 
   * '''Options:''' 24, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:''' none
+
+Twenty-four is too many bits to require for tiny implementations.
+Sixteen bits might be okay, but since that's not an option, I say that
+we shouldn't specify a limit.
 
 === #354 mutating exports ===
 
@@ -1133,7 +1403,14 @@ to that effect.
 
   * '''Options:''' shared, separate, none, unspecified, error, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:''' shared, unspecified
+
+I vote "shared" because a library should be able to mutate its own
+binding, particularly when the programmer is making changes in a REPL.
+In addition, "shared" makes importing libraries behave as if they had
+closed over the binding that will be mutated the way that closures do
+over lexically enclosing bindings.  It's easy to share a cell to make
+this work.
 
 === #358 change epoch of current-second ===
 
@@ -1155,4 +1432,8 @@ Vote `utc` for the current draft's start-of-1970-in-utc epoch, or
 
   * '''Options:''' utc, tai, undecided
   * '''Default:''' utc
-  * '''Preferences:''' 
+  * '''Preferences:''' tai
+
+If we're using TAI time, we should use the TAI epoch.  The ten-second
+skew is just random, and leaving it in is just asking for errors in
+code that is already error-prone for other reasons.
