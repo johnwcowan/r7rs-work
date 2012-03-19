@@ -1107,10 +1107,10 @@ integers.
 
 See FixnumInfo to see what 39 existing Schemes do.
 
-Vote `24` to require 24 bits of precision, or `none` to leave this
-entirely unspecified.
+Vote `24` to require 24 bits of precision, `16` to require 16 bits of precision,
+or `none` to leave this entirely unspecified.
 
-  * '''Options:''' 24, none, undecided
+  * '''Options:''' 24, 16, none, undecided
   * '''Default:''' none
   * '''Preferences:''' 
 
