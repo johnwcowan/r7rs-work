@@ -934,7 +934,7 @@ tower.
   * '''Default:''' unspecified
   * '''Preferences:''' same, run-time
 
-I don't understand why we should support having different numerics
+I don't understand why we should support having different numeric
 tower at compile time and run time.  That seems like a recipe for
 confusion.  What implementations make this distinction?
 
