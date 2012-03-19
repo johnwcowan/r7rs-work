@@ -259,17 +259,24 @@ objects whose imaginary part is inexact zero.
 
 These procedures provide R6RS base compatibility as well.
 
-Vote `yes` to add these three procedures.
+  * Vote `yes` to add `*-valued` procedures; 
+  * Vote `no` to leave out the `*-valued` procedures; 
+  * Vote `r5rs` to leave them out ''and'' revert `real?`, `rational?`, and `integer?` to R5RS semantics 
+  * vote `r5rs+strictly` to do what `r5rs` does, and also add `strictly-*?` procedures to provide the R6RS semantics of `real?`, `rational?`, and `integer?`.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' no
+  * '''Preferences:''' r5rs, no, r5rs+strictly
 
 These names are awful.  I'll never be able to remember that
 `real-valued?' means something different than `real?', and even if I
 do, I won't remember which one is which.  I'm sure others will have
 the same problem.  If we come up with better names, I might be willing
 to vote yes.
+
+After John's edit: The "strictly-*" names don't make things any
+less confusing, so I'm voting to revert to r5rs or at least to leave
+out the new names.
 
 === #287 R6RS base compatibility: assert ===
 
