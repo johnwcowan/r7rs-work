@@ -188,7 +188,7 @@ Vote `yes` to add these three procedures.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' yes
+  * '''Preferences:''' r5rs+strictly, r5rs, yes
 
 It's inconsistent to vote for the R6RS-base library without providing
 these.  In addition, the R5RS library can and should export them as real,
@@ -813,9 +813,9 @@ depending on the outcome of #325.
 
 Vote `yes` to add these destructive operations as proposed.
 
-  * '''Options:''' yes, no, undecided
+  * '''Options:''' yes, nolist, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' nolist
+  * '''Preferences:''' nolist, yes
 
 I added `list-copy!` to this ballot for uniformity, but on reflection I agree that it's not that useful, whereas `string-copy!` and `vector-copy!` are.
 
@@ -1271,9 +1271,9 @@ See FixnumInfo to see what 39 existing Schemes do.
 Vote `24` to require 24 bits of precision, or `none` to leave this
 entirely unspecified.
 
-  * '''Options:''' 24, none, undecided
+  * '''Options:''' 24, 16, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' 24
+  * '''Preferences:''' 16, 24
 
 Alex says: "R7RS small does not make the ugly 'fixnum' distinction, and I don't
 see why we should set such arbitrary minimums, or forbid simplistic
