@@ -167,7 +167,10 @@ objects whose imaginary part is inexact zero.
 
 These procedures provide R6RS base compatibility as well.
 
-Vote `yes` to add these three procedures.
+ * Vote `yes` to add `*-valued` procedures;
+ * Vote `no` to leave out the `*-valued` procedures;
+ * Vote `r5rs` to leave them out ''and'' revert `real?`, `rational?`, and `integer?` to R5RS semantics
+ * vote `r5rs+strictly` to do what `r5rs` does, and also add `strictly-*?` procedures to provide the R6RS semantics of `real?`, `rational?`, and `integer?`.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
