@@ -259,9 +259,9 @@ objects whose imaginary part is inexact zero.
 
 These procedures provide R6RS base compatibility as well.
 
-  * Vote `yes` to add `*-valued` procedures; 
-  * Vote `no` to leave out the `*-valued` procedures; 
-  * Vote `r5rs` to leave them out ''and'' revert `real?`, `rational?`, and `integer?` to R5RS semantics 
+  * Vote `yes` to add `*-valued` procedures;
+  * Vote `no` to leave out the `*-valued` procedures;
+  * Vote `r5rs` to leave them out ''and'' revert `real?`, `rational?`, and `integer?` to R5RS semantics
   * vote `r5rs+strictly` to do what `r5rs` does, and also add `strictly-*?` procedures to provide the R6RS semantics of `real?`, `rational?`, and `integer?`.
 
   * '''Options:''' yes, no, undecided
@@ -907,9 +907,9 @@ JC: These would be the five-argument versions based on the current
 `bytevector-copy-partial!`, possibly with renumbering of arguments
 depending on the outcome of #325.
 
-Vote `yes` to add these destructive operations as proposed, `nolist` to add `string-copy!` and `vector-copy!` only, or `no` for none of them. 
+Vote `yes` to add these destructive operations as proposed, `nolist` to add `string-copy!` and `vector-copy!` only, or `no` for none of them.
 
-  * '''Options:''' yes, nolist, no, undecided 
+  * '''Options:''' yes, nolist, no, undecided
   * '''Default:''' no
   * '''Preferences:''' nolist, no
 
@@ -934,7 +934,7 @@ tower.
   * '''Default:''' unspecified
   * '''Preferences:''' same, run-time
 
-I don't understand why we should support having different numeric
+I don't understand why we should support having different numerics
 tower at compile time and run time.  That seems like a recipe for
 confusion.  What implementations make this distinction?
 
@@ -1382,16 +1382,18 @@ integers.
 
 See FixnumInfo to see what 39 existing Schemes do.
 
-Vote `24` to require 24 bits of precision, or `none` to leave this
-entirely unspecified.
+Vote `24` to require 24 bits of precision, `16` to require 16 bits of precision,
+or `none` to leave this entirely unspecified.
 
-  * '''Options:''' 24, none, undecided
+  * '''Options:''' 24, 16, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' none
+  * '''Preferences:''' 16, none
 
-Twenty-four is too many bits to require for tiny implementations.
-Sixteen bits might be okay, but since that's not an option, I say that
-we shouldn't specify a limit.
+Twenty-four is too many bits to require for tiny implementations.  I'm
+nervous about burdening the smallest implementations with even a
+sixteen-bit requirement, but such implementations typically already
+leave out significant language features, so I'm willing to ask for 16
+bits.
 
 === #354 mutating exports ===
 
