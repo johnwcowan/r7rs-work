@@ -1243,7 +1243,7 @@ different", or `unspecified` to change to "may be different".
 
   * '''Options:''' same, different, unspecified, undecided
   * '''Default:''' same
-  * '''Preferences:''' unspecified
+  * '''Preferences:''' unspecified, different, same
 
 We should neither require nor forbid implementations from
 distinguishing -0.0.
