@@ -497,14 +497,22 @@ the backslash used in Gambit's infix syntax.  We should
 reconsider if we really need to take up both of these
 characters.
 
-  * '''Proposals:'''
+We can also consider new sequences, for instance \|...|
+with optional hex escapes inside uses only \, has the
+readability advantages of |...|, and still leaves room for
+other \ escapes since the following | character is required.
+However, such new sequences have no existing support
+among implementations.
+
+  * '''Proposals:''' 
     * '''delimited-only:''' |...| syntax with internal escapes, \ outside is undefined, Gambit-compatible
     * '''backslash-only:''' \xNN; only, with | valid in identifiers, SCSH-compatible
     * '''both:''' both as in the current draft
     * '''neither:''' remove both
-  * '''Options:''' delimited-only, backslash-only, both, neither, undecided
+    * '''backslash-delimited:''' \|...| syntax with internal escapes
+  * '''Options:''' delimited-only, backslash-only, both, neither, backslash-delimited, undecided
   * '''Default:''' both
-  * '''Preferences:''' delimited-only, neither, backslash-only
+  * '''Preferences:''' delimited-only, backslash-delimited, neither, backslash-only
 
 As others have said, the |...| syntax is widely implemented.  I don't
 think the backslash-only syntax is widely implemented.
