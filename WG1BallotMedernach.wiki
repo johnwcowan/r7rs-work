@@ -39,6 +39,9 @@ where `(= nan.0 x)` is true for any `x`.
   * '''Default:''' unspecified
   * '''Preferences:''' same, unspecified
 
+NaNs are provided as a diagnostic tool to help understand errors in number computation. As such we need to have a way to distinguish different NaNs, therefore the 'same' vote.
+
+
 === #275 Support -nan.0 as a synonym for +nan.0 ===
 
 Excluding `-nan.0` was an oversight, and it's gratuitously
@@ -56,7 +59,7 @@ Vote `yes` to allow `-nan.0`, `no` to disallow it.
   * '''Default:''' no
   * '''Preferences:''' yes
 
-  The sign bit of `NaNs` is meaningless in the IEEE Standard 754 floating-point formats, but in order to avoid using it as an identifier we may consider both as synonymous. 
+  The sign bit of `NaNs` is meaningless in the IEEE Standard 754 floating-point formats, but in order to avoid using it as an identifier we may consider both as synonymous. However I really would prefer using `NaN` instead of `+nan.0` or `-nan.0` (as it is not a number but an indication of failure, to help diagnostic, it is neither signed in general, nor exact nor inexact, isn't it ?)
 
 
 === #278 Shrink division routines to just truncate and floor ===
@@ -150,7 +153,7 @@ Vote `yes` to add this procedure.
   * '''Default:''' no
   * '''Preferences:''' no
 
-  This looks unnecessary to provide a trivial composition of `symbol?` and `eq?`
+  I feel that non composed types doesn't need type-specific comparisons functions as we have generic 'eq?' or 'eqv?'. This looks unnecessary to provide a trivial composition of `symbol?` and `eq?`.
 
 === #286 Numeric *-valued procedures for R5RS and R6RS-base compatibility ===
 
@@ -169,7 +172,7 @@ Vote `yes` to add these three procedures.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' yes
+  * '''Preferences:''' r5rs+strictly, r5rs, yes, undecided
 
 === #287 R6RS base compatibility: assert ===
 
@@ -184,7 +187,7 @@ in the same manner as the `error` procedure.  Vote `no` in order not to add `ass
   * '''Default:''' no
   * '''Preferences:''' no
 
-  This is quite superfluous.
+  However I agree that 'assert' is popular, it is superfluous in the WG1 language because it adds little to 'error', and WG2 may come with something more powerful like contracts (a la Eiffel as in "Contracts for Higher-Order Functions" and as provided by Racket).
 
 === #288 R6RS base compatibility: infinite? ===
 
@@ -707,7 +710,7 @@ Vote `yes` to add these destructive operations as proposed.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' no
+  * '''Preferences:''' nolist
 
 === #327 Specify that read, the program reader, and string->number accept the same syntax ===
 
@@ -1036,6 +1039,7 @@ low-level macros introduced by WG2).
   * '''Preferences:''' yes, undecided
 
   What is important is that references are non ambiguous, there are no risks if unused identifiers collide.
+  If an identifier with multiple meanings is not used, there is no ambiguity, nor real conflict. 
 
 === #342 Have READ-BYTEVECTOR(!) return 0 at EOF ===
 
