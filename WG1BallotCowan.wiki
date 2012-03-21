@@ -188,7 +188,7 @@ Vote `yes` to add these three procedures.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' r5rs+strictly, r5rs, yes
+  * '''Preferences:''' undecided
 
 It's inconsistent to vote for the R6RS-base library without providing
 these.  In addition, the R5RS library can and should export them as real,
