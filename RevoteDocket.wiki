@@ -35,3 +35,9 @@ Enumerations (R6RS, but see also http://www.r6rs.org/formal-comments/comment-262
 Thread-local storage: 
 
 Macro expander(s) available at run time: 
+
+`syntax-case`: 
+
+Syntactic closures: 
+
+
