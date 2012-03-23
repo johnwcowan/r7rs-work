@@ -28,7 +28,7 @@ This document is explicitly a work of R7RS advocacy.  Its purpose is not to atta
     * R7RS-small retains the qualities mentioned.
 
  * It is not clear that R6RS even specifies the right things to make Scheme industrial strength.
-    * Probably not, by the standards of Java or Python, which come with huge libraries built-in.  The R7RS-large library will be mostly (or perhaps entirely) optional, but an implementation providing them all should have plenty of industrial strength.  Attributes of industrial-strength languages other than convenient libraries, such as static typing and pervasive object-orientation, are highly controversial, and really would produce a language other than Scheme.
+    * Probably not, by the standards of Java or Python, which come with huge libraries built in.  The R7RS-large library will be mostly (or perhaps entirely) optional, but an implementation providing them all should have plenty of industrial strength.  Attributes of industrial-strength languages other than convenient libraries, such as static typing and pervasive object-orientation, are highly controversial, and really would produce a language other than Scheme.
 
 * Each new large feature (enums, records, conditions, identifier macros, Unicode) are each individually motivated, but all together we end up with a very large ball of mud.  The size of this ball directly impairs one of Scheme's important features from an industrial perspective: its role as a small language suitable for automatic program transformation and other PLT sorts of techniques.
     * The design of R7RS should reduce such coupling: no R7RS-small module depends on any other (except that loading makes little sense with neither I/O nor `eval`), and such dependencies in R7RS-large will be minimized.
@@ -40,6 +40,7 @@ This document is explicitly a work of R7RS advocacy.  Its purpose is not to atta
     * True.  However, this is also true of `syntax-rules`, which has been around since R4RS (though non-normative at the time).
 
  * The effort required to implement a standard-compliant Scheme becomes much larger than before.  This will discourage future implementers, endangering the diversity that is one of Scheme's present strengths.
+    * Simple R7RS systems are easy to put together from scratch: in principle, they can be smaller than small conformant R5RS systems (they need not have files or the Scheme reader and writer, for instance).  It's also expected to be easy to upgrade R5RS systems to R7RS with minimal (or no) code breakage.
 
  * R6RS should be *smaller* than R5RS, where some of the required features get moved to optional.
     * The R7RS base library is smaller than R5RS.
@@ -100,6 +101,7 @@ This document is explicitly a work of R7RS advocacy.  Its purpose is not to atta
     * REPLs are rather complex beasts, and probably won't be standardized.  However, R7RS does provide minimal REPL semantics.
 
  * The draft recognises libraries, a top-level and scripts, three variants of what is basically the same thing (see Queinnec&Padget: ''Modules, Macros and Lisp'') - not the Scheme way.
+    * Minimalism is not always the Scheme way, or we'd have only lists, and only standardize `car, cdr, set-car!, set-cdr!, list?, cons`.
 
 == Records ==
 
@@ -107,12 +109,16 @@ This document is explicitly a work of R7RS advocacy.  Its purpose is not to atta
     * R7RS-small provides only a SRFI-9-compatible syntactic record layer.  R7RS-large will provide a procedure API, possibly SRFI 99.
 
  * You cannot simply take a record value and access one of its fields by name.  See [http://lists.r6rs.org/pipermail/r6rs-discuss/2007-August/thread.html#3145].  We want a container that requires certain behavior of the values it contains while not requiring that theybe on an approved list or inherit from the same ancestor.  Importing the accessors of each type of value we wish to contain makes the container's import list the approved list.
+    * Providing access to fields by name at run-time makes simple fast implementations of records difficult or impossible.  On the other hand, it's easy to build such things on top of a specific implementation of SRFI 9, though not portably.
 
- * Despite the last-minute change in the 5.97 draft that attempted to fix things by piling yet another feature, a parent-rtd clause, on top of the syntactic layer, you ''still'' have to know whether the base record type was defined using the syntactic or record layer, and you ''still'' can't change a record definition from one layer to the other without running the risk of breaking client code.  Record types defined by the syntactic layer are not interchangeable with record types defined by the procedural layer:  in consequence, the code you write for a record type definition that inherits from some base type depends upon whether that base type was defined using the syntactic or procedural layer.
+ * Despite the last-minute change in the 5.97 draft that attempted to fix things by piling yet another feature, a `parent-rtd` clause, on top of the syntactic layer, you ''still'' have to know whether the base record type was defined using the syntactic or record layer, and you ''still'' can't change a record definition from one layer to the other without running the risk of breaking client code.  Record types defined by the syntactic layer are not interchangeable with record types defined by the procedural layer:  in consequence, the code you write for a record type definition that inherits from some base type depends upon whether that base type was defined using the syntactic or procedural layer.
+    * This problem will be solved in R7RS-large.
 
  * Both record-system layers are complex, which makes it hard for a casual reader to understand their relationships.
+    * SRFI 9 is extremely simple, though it takes a little bit of effort to remember exactly what goes where.
 
  * The record procedural layer is the more expressive layer, so the draft's new warnings that try to frighten programmers into preferring the syntactic layer would have limited impact even if they were true.
+    * R7RS will not try to frighten anyone into anything.
 
 == Libraries ==
 
