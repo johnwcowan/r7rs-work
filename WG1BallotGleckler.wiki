@@ -25,19 +25,23 @@ http://lists.scheme-reports.org/pipermail/scheme-reports/2011-September/001507.h
 
 We therefore are re-opening the item, with amended descriptions.
 
-The `same` proposal is what R6RS specifies - that we add a clause to
+The `different` proposal is that we add a single clause requiring
+`(eqv? +nan.0 x)` to return `#f` for any `x`.  This is the behavior
+that results for any R5RS implementation that adds support for +nan.0
+as an IEEE float without any special handling for it in `eqv?`.
+
+The `unspecified` proposal is to make the results explicitly unspecified,
+as specified in R6RS.
+
+The `same` proposal, contrary to both standards, is that we add a clause to
 the definition of `eqv?` saying that if both arguments are NaN
 values with the same bit pattern, `eqv?` must return `#t`.  Thus `eq?`
 implies `eqv?`.  However, if two values both print as `+nan.0` they
 may or may not be `eqv?`.  This also requires additional checks for
 floating point comparisons.
 
-The `different` proposal is that we add a single clause requiring
-`(eqv? +nan.0 x)` to return `#f` for any `x`.  This is the behavior
-that results for any R5RS implementation that adds support for +nan.0
-as an IEEE float without any special handling for it in `eqv?`.
-
-The `unspecified` proposal is to make the results explicitly unspecified.
+Testing with `(equal? (/ 0.0 0.0) (/ 0.0 0.0))` to get the same
+bit pattern but non-object-identity, we get the following results:
 
 The following 8 implementations return #t: Chez, Gambit, Guile, Ikarus/Vicare, Kawa, Larceny, Racket, STklos.
 
