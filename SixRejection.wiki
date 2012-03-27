@@ -101,7 +101,7 @@ This document is explicitly a work of R7RS advocacy.  Its purpose is not to atta
     * REPLs are rather complex beasts, and probably won't be standardized.  However, R7RS does provide some minimal REPL semantics.  In particular, a variable that appears within a lambda-expression may have its value changed with retroactive effect, but changing a syntax keyword is not retroactive.
 
  * The draft recognises libraries, a top-level and scripts, three variants of what is basically the same thing (see Queinnec & Padget: ''Modules, Macros and Lisp'') - not the Scheme way.
-    * Minimalism is not always the Scheme way, or we'd have only lists, and only standardize `car, cdr, set-car!, set-cdr!, list?, cons`.
+    * Minimalism is not always the Scheme way, or we'd have only lists, and only standardize `car, cdr, set-car!, set-cdr!, pair?, cons`.
 
 == Records ==
 
