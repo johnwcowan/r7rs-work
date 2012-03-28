@@ -29,8 +29,6 @@ The following table concisely describes the other Schemes in the test suite.  "S
 ||Elk||no||`(inf -inf -nan.0)`||no||
 ||SISC||no||`(infinity.0 -infinity.0 nan.0)`||no||
 ||BDC||no||`(Infinity -Infinity NaN)`||no||
-||MIT||no||†||no||
+||MIT||no||`(#[+inf] #[-inf] #[NaN])`||no||
 
 [*] Accepts `+inf.0` and `-inf.0` but not `+nan.0` or `-nan.0`
-
-[†] Prints #[+inf] and #[-inf] for infinities.  Will add info on NaNs when I have it. -- ArthurGleckler
