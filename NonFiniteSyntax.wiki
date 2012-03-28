@@ -16,7 +16,7 @@ The following table concisely describes the other Schemes in the test suite.  "S
 ||Elk||no||`(inf -inf -nan.0)`||no||
 ||Inlab||no||`(inf.0 -inf.0 -nan.0)`||no||
 ||KSi||yes||`(+inf.0 -inf.0 nan.0)`||yes||
-||MIT||no||**||yes||
+||MIT||no||+||no||
 ||NexJ||yes||`(Infinity -Infinity NaN)`||no||
 ||Rep||no||`(inf. -inf. -nan.)`||no||
 ||RScheme||no||`(inf. -inf. -nan.)`||no||
@@ -33,4 +33,4 @@ The following table concisely describes the other Schemes in the test suite.  "S
 
 [*] Accepts `+inf.0` and `-inf.0` but not `+nan.0` or `-nan.0`
 
-[**] Prints #[+inf] and #[-inf] for infinities.  Will add info on NaNs when I have it. -- ArthurGleckler
+[+] Prints #[+inf] and #[-inf] for infinities.  Will add info on NaNs when I have it. -- ArthurGleckler
