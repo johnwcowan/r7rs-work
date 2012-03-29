@@ -1,4 +1,4 @@
-MIT Scheme now has support for positive and negative infinities and for signaling (the default) and non-signaling !NaNs.
+MIT Scheme now has support for positive and negative infinities and for signaling (the default) and non-signaling !NaNs.  I'm documenting this here because the MIT Scheme manual doesn't yet describe these features, and having them here might be useful if we discuss this stuff in WG2.
 
 The printed representations are `#[+inf]`, `#[-inf]`, and `#[NaN]`, and are not `read`able.
 
