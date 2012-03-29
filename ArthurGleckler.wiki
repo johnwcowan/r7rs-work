@@ -48,4 +48,4 @@ Here are my proposals:
 
 Here are miscellaneous other pages:
 
-   * [wiki:MitSchemeNonFinite]
+   * [wiki:MitSchemeFloatingPoint]
