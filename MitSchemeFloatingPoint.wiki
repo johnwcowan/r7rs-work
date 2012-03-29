@@ -13,6 +13,8 @@ To disable signaling: `(flo:ignoring-exception-traps `''thunk''`)`.  For example
 
 Different !NaN values are not `eqv?`.
 
+Complex numbers can have one exact part and one inexact part.
+
 These procedures are available for manipulating the floating-point environment:
 {{{
   flo:nan?
