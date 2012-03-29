@@ -11,6 +11,8 @@ To disable signaling: `(flo:ignoring-exception-traps `''thunk''`)`.  For example
   ;Value 13: (#[+inf] #[-inf] #[NaN])
 }}}
 
+Different !NaN values are not `eqv?`.
+
 These procedures are available for manipulating the floating-point environment:
 {{{
   flo:nan?
