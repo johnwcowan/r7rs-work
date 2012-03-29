@@ -45,3 +45,7 @@ Here are my proposals:
 
    * [wiki:ModuleFactoringGleckler]
    * [wiki:RecordsGleckler]
+
+Here are miscellaneous other pages:
+
+   * [wiki:MitSchemeNonFinite]
