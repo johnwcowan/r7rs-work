@@ -320,13 +320,7 @@ Vote `yes` to make an explicit error.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' no
-
-Rationale:  This deviates from potential extensions and with R6RS. 
-Moreover, I believe that this should be tied directly to our definition
-of unspecified values.  The result of `set!` should be unspecified, 
-and whether we define that to be explicitly one value or something 
-else, the two should not be separate.
+  * '''Preferences:''' yes
 
 === #295 Make it an error for <init>s in binding forms to return other than one value ===
 
@@ -338,7 +332,7 @@ Vote `yes` to make an explicit error.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' no
+  * '''Preferences:''' yes
   
 Rationale: This should be tied to our definition of what happens 
 when multiple values are sent to a single valued context.  Specifically,
