@@ -183,10 +183,11 @@ error, or `unspecified` to leave unspecified as in R5RS.
 
   * '''Options:''' yes, no, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' yes, unspecified
+  * '''Preferences:''' no, unspecified
 
-It's a small thing, but it's so easy to do, so why not make them
-self-quoting?
+I originally said yes, but Aaron's argument against precluding other syntactic
+possibilities convinced me otherwise.  After all, wouldn't this preclude support
+for backquoting on vectors?
 
 === #282 Map and friends should call their procedures in the same dynamic environment ===
 
