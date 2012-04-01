@@ -110,6 +110,14 @@ vectors as errors.
 Vote `yes` to make them self-quoting, `no` to make it an explicit
 error, or `unspecified` to leave unspecified as in R5RS.
 
+The only other reasonable alternative semantics for this unspecified
+case would be to treat #(...) as (vector ...) (i.e. in contrast to this proposal
+to evaluate the contents rather than quoting them).  No known
+implementations make this extension, and it is dubious due to the
+fact that it makes what appears to be quoted data to be evaluated,
+and so is not listed as an option.  The possibility of this extension,
+however, could serve as an argument to leave it unspecified.
+
   * '''Options:''' yes, no, unspecified, undecided
   * '''Default:''' unspecified
   * '''Preferences:''' 
