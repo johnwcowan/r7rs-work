@@ -112,13 +112,12 @@ error, or `unspecified` to leave unspecified as in R5RS.
 
   * '''Options:''' yes, no, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' undecided,unspecified,no,yes
+  * '''Preferences:''' undecided,unspecified,yes
 
 Rationale: I am unsure whether I am willing to say that vectors are 
 inherently not meaningful Scheme expressions.  I can imagine an extension 
 that allows one to say something like `#(5 (+ 1 2)) ; => '#(5 3)`. 
-Implicit quoting would disallow this extension and others. Unlike 
-bytevectors, I can see using such an extension. 
+Implicit quoting would disallow this extension and others. 
 
 === #282 Map and friends should call their procedures in the same dynamic environment ===
 
