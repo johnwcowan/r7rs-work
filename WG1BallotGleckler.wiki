@@ -183,11 +183,10 @@ error, or `unspecified` to leave unspecified as in R5RS.
 
   * '''Options:''' yes, no, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' no, unspecified
+  * '''Preferences:''' yes, unspecified
 
-I originally said yes, but Aaron's argument against precluding other syntactic
-possibilities convinced me otherwise.  After all, wouldn't this preclude support
-for backquoting on vectors?
+Alex assured us that this wouldn't make things like `#(1 ,(+ 2 3)) fail,
+so I'm voting yes.
 
 === #282 Map and friends should call their procedures in the same dynamic environment ===
 
