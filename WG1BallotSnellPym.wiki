@@ -53,7 +53,7 @@ where `(= nan.0 x)` is true for any `x`.
 
   * '''Options:''' same, different, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' different, unspecified, same
 
 === #275 Support -nan.0 as a synonym for +nan.0 ===
 
@@ -70,7 +70,7 @@ Vote `yes` to allow `-nan.0`, `no` to disallow it.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes, no
 
 === #278 Shrink division routines to just truncate and floor ===
 
@@ -91,7 +91,7 @@ division operators in the small language.
 
   * '''Options:''' shrink, keep, undecided
   * '''Default:''' keep
-  * '''Preferences:''' 
+  * '''Preferences:''' shrink, keep
 
 === #280 Make vectors self-quoting ===
 
@@ -120,7 +120,7 @@ however, could serve as an argument to leave it unspecified.
 
   * '''Options:''' yes, no, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' yes, no, unspecified
 
 === #282 Map and friends should call their procedures in the same dynamic environment ===
 
@@ -135,7 +135,7 @@ Vote `yes` to add the clarification and `no` to leave it out.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes, no
 
 === #283 Initial characters in non-ASCII identifiers should exclude digits and combiners ===
 
@@ -152,7 +152,9 @@ implementation-dependent extension for either numbers or symbols).
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no, yes
+
+I still feel that any character should be legal in a symbol, if not necessarily possible to represent without quoting, and that any symbol should be legal as an identifier!
 
 === #285 R6RS base compatibility: symbol=? ===
 
@@ -164,7 +166,9 @@ Vote `yes` to add this procedure.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes, no
+
+Consistency is good.
 
 === #286 Numeric *-valued procedures for R5RS and R6RS-base compatibility ===
 
@@ -186,7 +190,7 @@ These procedures provide R6RS base compatibility as well.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' r5rs+strictly, r5rs, yes, no
 
 === #287 R6RS base compatibility: assert ===
 
@@ -199,7 +203,9 @@ in the same manner as the `error` procedure.  Vote `no` in order not to add `ass
 
   * '''Options:''' basic, optionals, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' optionals, basic, no
+
+I vote for the optionals as I think it should provide all the functionality of the inner `error`.
 
 === #288 R6RS base compatibility: infinite? ===
 
@@ -216,7 +222,7 @@ Vote `yes` to add this procedure.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes, no
 
 == WG1 - Numerics ==
 
@@ -241,7 +247,7 @@ Vote `yes` to add this procedure.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided
 
 == WG1 - Core ==
 
@@ -262,7 +268,9 @@ Vote `yes` to require signalling an error if the files cannot be opened.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes, no
+
+Forcing an explicit error signal means that portable code can know how to handle this error case by catching the signalled condition.
 
 === #292 Add case-insensitive normalization-insensitive comparisons ===
 
@@ -280,7 +288,7 @@ or that `-ni` procedures are always case-insensitive, since the
 details of the normalization are not exposed anyway.
 
   * '''Proposals:'''
-    * '''normalize-ci:''' specify that *-ni procedures normalize their arguments
+    * '''normalize-ci:''' specify that *-ci procedures normalize their arguments
     * '''case-fold-ni:''' specify that *-ni procedures case-fold their arguments
     * '''ci-ni:''' add new *-ci-ni procedures that perform both operations
     * '''none:''' leave as-is, although *-ni may still fold
@@ -288,7 +296,9 @@ details of the normalization are not exposed anyway.
     * '''remove+normalize-ci:''' remove *-ni procedures, allow *-ci procedures to normalize
   * '''Options:''' normalize-ci, case-fold-ni, ci-ni, remove, none
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:''' normalize-ci, ci-ni, none, remove+normalize-ci, remove, case-fold-ni
+
+I'm not really sure when I'd want to do a NON-normalising string comparison, to be honest, as it would tend to reflect spurious differences due to the details of Unicode encodings. Whether it's case sensitive or not is the only choice I'd like to make.
 
 === #293 Make it an error for <test> values to return other than one value ===
 
@@ -301,7 +311,9 @@ Vote `yes` to make an explicit error.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no, yes
+
+I'd like it to be explicitly legal, and that the first value is taken; and this should be reflected consistently everywhere N values are expected, that any extra values are ignored and it's an error only to have less than N.
 
 === #294 Make it an error for the <expression> of a set! to return other than one value ===
 
@@ -314,7 +326,9 @@ Vote `yes` to make an explicit error.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no, yes
+
+Same rationale
 
 === #295 Make it an error for <init>s in binding forms to return other than one value ===
 
@@ -326,7 +340,9 @@ Vote `yes` to make an explicit error.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no, yes
+
+Likewise
 
 === #297 Removing case-folding flags ===
 
@@ -341,7 +357,9 @@ toggle case-folding in the REPL or data files, etc.
 
   * '''Options:''' keep, remove, undecided
   * '''Default:''' keep
-  * '''Preferences:''' 
+  * '''Preferences:''' remove, keep
+
+I've never liked these - they just seem inelegant.
 
 === #303 "lazy" is a confusing name ===
 
@@ -356,7 +374,9 @@ balance of `delay`s and `force`s.
 
   * '''Options:''' delay-force, lazy, undecided
   * '''Default:''' lazy
-  * '''Preferences:''' 
+  * '''Preferences:''' delay-force, lazy
+
+I like that reasoning.
 
 === #304 symbol literal syntax wastes characters ===
 
@@ -390,7 +410,7 @@ among implementations.
     * '''backslash-delimited:''' \|...| syntax with internal escapes
   * '''Options:''' delimited-only, backslash-only, both, neither, backslash-delimited, undecided
   * '''Default:''' both
-  * '''Preferences:''' 
+  * '''Preferences:''' delimited-only, backslash-only, both, backslash-delimited, neither 
 
 === #305 Should we move the c...r and c....r procedures into a new library? ===
 
@@ -411,7 +431,9 @@ Vote `base` to keep all in the base library or `library` to move the 3- and 4-le
 
   * '''Options:''' base, library, remove, undecided
   * '''Default:''' base
-  * '''Preferences:''' 
+  * '''Preferences:''' library, remove, base
+
+I concur with the submitted arguments.
 
 === #307 "eager" is a confusing name ===
 
@@ -430,7 +452,9 @@ Vote `eager`, `promise` or `make-promise` to specify the name, or
 
   * '''Options:''' eager, promise, make-promise, remove, undecided
   * '''Default:''' eager
-  * '''Preferences:''' 
+  * '''Preferences:''' remove, make-promise, promise, eager
+
+I've never felt the need for this anyway.
 
 === #308 Allow circular lists in LIST-REF for SRFI-1 compatibility ===
 
@@ -443,7 +467,7 @@ Vote `circular` to explicitly allow circular lists, `error` to add an
 
   * '''Options:''' circular, error, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' circular, error, unspecified
 
 === #309 Allow circular lists in MAP and FOR-EACH for SRFI-1 compatibility ===
 
@@ -461,7 +485,7 @@ circular list with the corresponding mapped results.
 
   * '''Options:''' circular, error, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' circular, error, unspecified
 
 === #310 Rationalize start/end/(fill) arguments in sequence procedures ===
 
@@ -482,7 +506,9 @@ There are four plausible courses of action:
     * ''srfi-plus:''  Same as ''SRFIs'', but also add optional ''start, end, fill'' arguments to `list-copy` and optional ''fill'' argument to `string-copy`.  This provides maximal function, full self-consistency, backward compatibility with R5RS, and backward compatibility with the SRFIs.
   * '''Options:''' nothing, r5rs, srfi, srfi-plus, undecided
   * '''Default:''' nothing
-  * '''Preferences:''' 
+  * '''Preferences:''' srfi-plus, srfi, r5rs, nothing
+
+I think they are relatively minor additions in terms of standard library code bloat, compared to the code bloat of reimplementing them all to provide the extra functionality *in an extra library on top of the core versions*.
 
 === #311 Remove tail call guarantee for guard clauses ===
 
@@ -494,7 +520,7 @@ case.
 
   * '''Options:''' remove, keep, undecided
   * '''Default:''' keep
-  * '''Preferences:''' 
+  * '''Preferences:''' remove, keep
 
 === #312 unquoting and identifiers beginning with @ ===
 
@@ -516,7 +542,9 @@ valid syntax.
 
   * '''Options:''' invalid, unquote, unquote-splicing, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' unquote-splicing, unquote, unspecified, invalid
+
+I think that the syntactic sugar 'operators' should have higher precedence than symbol syntax, as it's easier to quote a funny symbol than to write out `(unquote-splicing ...)` by hand.
 
 === #315 null character may not be usable in strings ===
 
@@ -526,7 +554,9 @@ Vote `yes` to add a clause to this effect, and `no` to leave it as legal.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' yes
-  * '''Preferences:''' 
+  * '''Preferences:''' no, yes
+
+Not that I have any love for the null character, but I don't see a good reason to disallow implementations from supporting it if they want to. Somebody might wish to use Scheme to write test suites for string-processing tools, protocols, etc that might not be as null-transparent as they should be, so generating and examining test strings with nulls in would be a required feature then.
 
 === #316 R6RS base compatibility: boolean=? ===
 
@@ -538,7 +568,9 @@ Vote `yes` to add these three procedures.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes, no
+
+COnsistency is good.
 
 === #317 escape from with-input-from-file ===
 
@@ -557,7 +589,7 @@ leave unspecified.
 
   * '''Options:''' parameterize, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' parameterize, unspecified
 
 === #319 Make special treatment of CAPITAL SIGMA optional ===
 
@@ -573,7 +605,9 @@ Vote `yes` to make optional.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no, yes
+
+I know the full Unicode rules are complex, but if we don't support them properly, then it'll be difficult for users to get hold of full Unicode semantics when they need them - they'll have to implement it from scratch. Which means that, in effect, `string-downcase` is unreliable and can't be trusted and you have to use your own implementation if you care.
 
 === #320 Add new cond-expand feature to Appendix B: exact-complex ===
 
@@ -599,7 +633,9 @@ Vote `yes` to add this feature.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes, no
+
+Failing fast is what cond-expand is for, so let's give it the tools to do the job.
 
 === #321 Add get-features from EnvironmentEnquiriesCowan to R7RS-small ===
 
@@ -611,7 +647,9 @@ Vote `yes` to add this procedure.
 
   * '''Options:''' yes, no, wg2, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' wg2, no, yes
+
+This is useful, but I have a hunch it shouldn't be required as it might be an expensive operation to do on systems that dynamically load features on demand etc.
 
 === #322 Add EnvironmentEnquiriesCowan (other than get-features) to R7RS-small ===
 
@@ -627,7 +665,9 @@ Vote `yes` to add EnvironmentEnquiriesCowan (other than
 
   * '''Options:''' yes, no, wg2, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes, wg2, no
+
+My answer to the previous nonwithstanding, it's good to be able to provide information that the implementation should generally have trivial access to.
 
 === #323 Eliminate some cond-expand feature identifiers ===
 
@@ -648,7 +688,7 @@ described above.
 
   * '''Options:''' full, implementation, numerics
   * '''Default:''' full
-  * '''Preferences:''' 
+  * '''Preferences:''' full, implementation|numerics
 
 === #259 Remove `(library <name>)` cond-expand features ===
 
@@ -662,7 +702,7 @@ Vote `keep` to keep and `remove` to remove.
 
   * '''Options:''' keep, remove, wg2, undecided
   * '''Default:''' keep
-  * '''Preferences:''' 
+  * '''Preferences:''' keep, remove
 
 === #324 allow |\ as escape for | within a |-escaped identifier ===
 
@@ -677,7 +717,7 @@ to leave as is.
 
   * '''Options:''' pipe, string, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:''' string, pipe, none
 
 === #325 Eliminate bytevector-copy! ===
 
@@ -695,7 +735,7 @@ as-is.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes, no
 
 === #326 Add destructive list-copy!, string-copy!, and vector-copy! ===
 
@@ -722,7 +762,9 @@ Vote `yes` to add these destructive operations as proposed, `nolist` to add `str
 
   * '''Options:''' yes, nolist, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' nolist, no, yes
+
+I want cons cells and strings, to be less mutable, but am open to mutability in vectors.
 
 === #327 Specify that read, the program reader, and string->number accept the same syntax ===
 
@@ -740,7 +782,9 @@ tower.
     * ''unspecified'': The relationships between lexical syntax for numbers accepted by `string->number` and `read`, as well as the corresponding syntax of literal numbers in programs, is unspecified.
   * '''Options:''' same, run-time, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' same, unspecified, run-time
+
+Implementations having different numeric towers and compile and run time, I feel, is already a recipe for pain and suffering, so effort spent pandering to it is probably not well spent!
 
 === #328 names for inexact->exact and exact->inexact ===
 
@@ -753,7 +797,9 @@ for both.
 
   * '''Options:''' r5rs, r6rs, both, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' 
+  * '''Preferences:''' r6rs, r5rs, both
+
+I prefer the R6RS names.
 
 === #329 Add IEEE compatibility library ===
 
@@ -790,7 +836,7 @@ Vote `yes` to add this library.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes, no
 
 === #330 Add R5RS compatibility library ===
 
@@ -833,7 +879,7 @@ Vote `yes` to add this library.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes, no
 
 === #331 Add R6RS base compatibility library ===
 
@@ -869,7 +915,7 @@ Vote `yes` to add this library.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes, no
 
 === #332 Allow multiple name pairs in export renaming ===
 
@@ -885,7 +931,9 @@ current draft, or `both` to allow both forms.
 
   * '''Options:''' r6rs, multiple, both, undecided
   * '''Default:''' r6rs
-  * '''Preferences:''' 
+  * '''Preferences:''' multiple, r6rs, both
+
+Consistency with import strikes me as preferable.
 
 === #333 Require eof-objects to be disjoint from basic Scheme types ===
 
@@ -901,7 +949,7 @@ Vote `yes` to explicitly list the eof-object as a separate disjoint type.
 
   * '''Options:''' 
   * '''Default:''' 
-  * '''Preferences:''' 
+  * '''Preferences:''' yes, no
 
 === #334 Use proper case for the feature identifiers in Appendix B ===
 
@@ -917,7 +965,7 @@ Vote `mixed` for mixed case and `lower` for lower case.
 
   * '''Options:''' lower, mixed, undecided
   * '''Default:''' lower
-  * '''Preferences:''' 
+  * '''Preferences:''' lower, mixed
 
 === #335 Specify behavior of default exception handler ===
 
@@ -938,7 +986,11 @@ unwinding, or `unspecified` to leave this as is.
 
   * '''Options:''' unwind, exit, unspecified
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' unwind, exit, unspecified
+
+`unwind` doesn't forbid a debugger, but merely makes it non-compliant. However, as a feature one turns on in an implementation by requesting it, it would be a perfectly valid and useful noncompliance. After all, other debugging facilities, such as randomly changing mutable state at any point in program execution, are clearly also in violation of the spec.
+
+It's disappointing if dynamic-wind is unreliable.
 
 === #344 Should dynamic-wind handlers be invoked from EXIT? ===
 
@@ -949,7 +1001,9 @@ The options are the same as in #335 above.
 
   * '''Options:''' unwind, exit, unspecified
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' unwind, exit, unspecified
+
+Likewise.
 
 === #337 Add eof-object procedure ===
 
@@ -984,7 +1038,7 @@ Vote `eof-object` for a procedure of that name, or `none` to not add any such pr
 
   * '''Options:''' eof-object, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:''' eof-object, none
 
 === #339 Restrict identifiers in library names for compatibility with file system restrictions ===
 
@@ -999,7 +1053,7 @@ Vote `yes` to restrict with ''must not''.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes, no
 
 === #340 Include non-normative note about the file-system based implementations of libraries ===
 
@@ -1023,7 +1077,9 @@ Vote `yes` to add such a note or `no` to leave it out.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes, no
+
+It will help portability.
 
 === #341 Permit ambiguous imports of identifiers which are never used ===
 
@@ -1041,7 +1097,9 @@ low-level macros introduced by WG2).
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no, yes
+
+This sounds too complex a rule for it to be a good idea, surely?
 
 === #342 Have READ-BYTEVECTOR(!) return 0 at EOF ===
 
@@ -1060,7 +1118,9 @@ make the change only for `read-bytevector!`.
 
   * '''Options:''' zero, eof-object, undecided
   * '''Default:''' eof-object
-  * '''Preferences:''' 
+  * '''Preferences:''' eof-object, zero
+
+Sentinel values should be very obviously distinct, to help avoid accidents.
 
 === #343 Editorial: divide domain explanations to be split before and after descriptions ===
 
@@ -1092,7 +1152,9 @@ later point.
 
   * '''Options:''' start, start-split, later, undecided
   * '''Default:''' start
-  * '''Preferences:''' 
+  * '''Preferences:''' start-split, later, start
+
+The extra conditions tend to be "edge cases" anyway, that would deserve a thorough reading of the whole thing before dabbling with!
 
 === #345 Should 0.0 and -0.0 be distinct in the sense of EQV? ===
 
@@ -1105,7 +1167,7 @@ different", or `unspecified` to change to "may be different".
 
   * '''Options:''' same, different, unspecified, undecided
   * '''Default:''' same
-  * '''Preferences:''' 
+  * '''Preferences:''' same, different, unspecified
 
 === #349 Define exact integers to be at least 24 bits ===
 
@@ -1132,7 +1194,7 @@ or `none` to leave this entirely unspecified.
 
   * '''Options:''' 24, 16, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:''' 16, 24, none
 
 === #354 mutating exports ===
 
@@ -1156,7 +1218,7 @@ to that effect.
 
   * '''Options:''' shared, separate, none, unspecified, error, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:''' error, unspecified, none, separate, shared
 
 === #358 change epoch of current-second ===
 
@@ -1178,4 +1240,4 @@ Vote `utc` for the current draft's start-of-1970-in-utc epoch, or
 
   * '''Options:''' utc, tai, undecided
   * '''Default:''' utc
-  * '''Preferences:''' 
+  * '''Preferences:''' utc, tai
