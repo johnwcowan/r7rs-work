@@ -49,7 +49,11 @@ where `(= nan.0 x)` is true for any `x`.
 
   * '''Options:''' same, different, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' unspecified
+  * '''Preferences:''' unspecified, different
+
+We need to handle this directly in the definition of eqv?.
+As the current definition stands, if specified at all it
+must be different.
 
 === #275 Support -nan.0 as a synonym for +nan.0 ===
 
@@ -69,7 +73,7 @@ Vote `yes` to allow `-nan.0`, `no` to disallow it.
   * '''Preferences:''' 
 
 I don't understand the motivation behind this.  NaN can neither be
-positive or negative - the "+" is just a hint that the value is
+positive nor negative - the "+" is just a hint that the value is
 numeric (which is no longer true with the symbol extensions that now
 allow an initial "+").  Thus "-" serves no purpose and does not
 simplify the syntax - if we allow multiple forms, do we also allow
@@ -123,7 +127,8 @@ error, or `unspecified` to leave unspecified as in R5RS.
   * '''Default:''' unspecified
   * '''Preferences:''' yes
 
-There's no reason not to do this.
+This is fairly widely supported and is the only reasonable
+semantics for unquoted vectors.
 
 === #282 Map and friends should call their procedures in the same dynamic environment ===
 
@@ -138,7 +143,7 @@ Vote `yes` to add the clarification and `no` to leave it out.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' undecided, yes
+  * '''Preferences:''' undecided, no
 
 That the semantics are desired is obvious, but I don't see how they
 could be interpreted otherwise and I'm not convinced it's worth
@@ -160,6 +165,9 @@ implementation-dependent extension for either numbers or symbols).
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
   * '''Preferences:''' yes
+
+This makes sense - such identifiers would look like numbers
+which would be misleading.
 
 === #285 R6RS base compatibility: symbol=? ===
 
@@ -193,7 +201,11 @@ Vote `yes` to add these three procedures.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' no
+  * '''Preferences:''' no, undecided
+
+If nothing else the names are too confusing - the
+difference is too small, and I don't think people will
+be able to keep these straight.
 
 === #287 R6RS base compatibility: assert ===
 
@@ -228,6 +240,8 @@ Vote `yes` to add this procedure.
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
   * '''Preferences:''' yes
+
+I more often want to check `infinite?` than `finite?`.
 
 == WG1 - Numerics ==
 
@@ -278,6 +292,8 @@ Vote `yes` to require signalling an error if the files cannot be opened.
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
   * '''Preferences:''' yes
+
+I think R5RS implies this behavior, but it's worth making explicit.
 
 === #292 Add case-insensitive normalization-insensitive comparisons ===
 
@@ -541,7 +557,7 @@ case.
   * '''Default:''' keep
   * '''Preferences:''' remove
 
-Just a nitpick.
+A minor detail, but I think mentioning detracts more than it adds from the standard.
 
 === #312 unquoting and identifiers beginning with @ ===
 
@@ -617,7 +633,7 @@ leave unspecified.
   * '''Default:''' unspecified
   * '''Preferences:''' parameterize
 
-This was just an oversight, and was pretty clearly an oversight in
+This was pretty clearly an oversight in
 R5RS which already had dynamic-wind.
 
 === #319 Make special treatment of CAPITAL SIGMA optional ===
@@ -634,10 +650,11 @@ Vote `yes` to make optional.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' no
+  * '''Preferences:''' undecided, no
 
-There are other complexities in case folding, I don't see why we
-should single out just this case.
+I think this needs more discussion, but if we're defining
+string-*case in terms of an AI-complete word-break operator
+then that's the real problem, not what to do with sigma.
 
 === #320 Add new cond-expand feature to Appendix B: exact-complex ===
 
@@ -664,6 +681,8 @@ Vote `yes` to add this feature.
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
   * '''Preferences:''' yes
+
+This is handy - it is already being used in the Chibi codebase.
 
 === #321 Add get-features from EnvironmentEnquiriesCowan to R7RS-small ===
 
@@ -737,6 +756,8 @@ Vote `keep` to keep and `remove` to remove.
   * '''Default:''' keep
   * '''Preferences:''' keep
 
+A formality - we basically already voted this in.
+
 === #324 allow |\ as escape for | within a |-escaped identifier ===
 
 Allow `\|` to represent a vertical bar in an identifier enclosed in
@@ -798,12 +819,15 @@ depending on the outcome of #325.
 
 Vote `yes` to add these destructive operations as proposed.
 
-  * '''Options:''' yes, no, undecided
+  * '''Options:''' yes, nolist, vector-only, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' no
+  * '''Preferences:''' no, vector-only, nolist
 
-`list-copy!` is an abomination, the others are of limited utility and
-best left to more general string/vector libraries.
+`list-copy!` is very rarely used and usually indicative of a broken
+algorithm.  `string-copy!` is a step away from immutable strings,
+and terrible performance for utf8 implementations.  `vector-copy!`
+is more useful but probably better left to a general vector library,
+though I could be convinced to include just it.
 
 === #327 Specify that read, the program reader, and string->number accept the same syntax ===
 
@@ -880,7 +904,7 @@ Vote `yes` to add this library.
   * '''Default:''' no
   * '''Preferences:''' no
 
-It's easier to provide `(scheme r5rs)`.
+I don't think people would ever want to use this instead of `(scheme r5rs)`.
 
 === #330 Add R5RS compatibility library ===
 
@@ -925,6 +949,8 @@ Vote `yes` to add this library.
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
   * '''Preferences:''' yes
+
+This eases backwards-compatibility greatly.
 
 === #331 Add R6RS base compatibility library ===
 
@@ -982,6 +1008,9 @@ current draft, or `both` to allow both forms.
   * '''Default:''' r6rs
   * '''Preferences:''' r6rs
 
+I like the simplicity of `(length export-list)` indicating the
+number of exports.
+
 === #333 Require eof-objects to be disjoint from basic Scheme types ===
 
 It's already a requirement that an eof-object cannot have an external
@@ -997,6 +1026,8 @@ Vote `yes` to explicitly list the eof-object as a separate disjoint type.
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
   * '''Preferences:''' yes
+
+This is a useful guarantee and a de-facto standard.
 
 === #334 Use proper case for the feature identifiers in Appendix B ===
 
@@ -1162,6 +1193,8 @@ low-level macros introduced by WG2).
   * '''Default:''' no
   * '''Preferences:''' undecided, no
 
+I think this is too difficult to specify and implement.
+
 === #342 Have READ-BYTEVECTOR(!) return 0 at EOF ===
 
 Currently, `read-bytevector` and `read-bytevector!` return an EOF
@@ -1231,10 +1264,11 @@ different", or `unspecified` to change to "may be different".
 
   * '''Options:''' same, different, unspecified, undecided
   * '''Default:''' same
-  * '''Preferences:''' unspecified
+  * '''Preferences:''' undecided, same
 
-We should neither require nor forbid implementations from
-distinguishing -0.0.
+This should fall out naturally from the definition of eqv?,
+which currently makes it clear that they must be the same,
+though we'll be revisiting this.
 
 === #349 Define exact integers to be at least 24 bits ===
 
@@ -1313,5 +1347,6 @@ Vote `utc` for the current draft's start-of-1970-in-utc epoch, or
 
   * '''Options:''' utc, tai, undecided
   * '''Default:''' utc
-  * '''Preferences:''' undecided
+  * '''Preferences:''' undecided, utc
 
+I actually haven't been able to find any libraries which use the TAI epoch.
