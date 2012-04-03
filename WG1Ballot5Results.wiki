@@ -342,7 +342,7 @@ These procedures provide R6RS base compatibility as well.
     * [[:WG1BallotMedernach|Medernach]]: r5rs+strictly, r5rs, yes, undecided
     * [[:WG1BallotShinn|Shinn]]: no, undecided
     * [[:WG1BallotSnellPym|SnellPym]]: r5rs+strictly, r5rs, yes, no
-  * '''Results:''' ''r5rs'', no, r5rs+strictly, yes, undecided
+  * '''Results:''' '''r5rs''', no, r5rs+strictly, yes, undecided
   * '''Ratios:''' 4:2, 2:2, 4:1, 4:2
   * '''Rationales:'''
 
