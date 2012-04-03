@@ -92,7 +92,7 @@ to keep all 18 division operators in the small language.
 
   * '''Options:''' shrink, keep, undecided
   * '''Default:''' keep
-  * '''Preferences:''' keep, shrink/core, shrink
+  * '''Preferences:''' shrink/core, shrink
 
 I think enough justification exists for each of the six operations.  I agree
 that if we do shrink, we should get rid of the division module.
