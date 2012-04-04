@@ -5,8 +5,8 @@ This is an analysis of the R5RS provision that the full numeric tower may be sub
 So here are some numeric towers that have implementations.  I use `+` if a feature is present and `-` if it is absent, and give a general description of the resulting tower.
 
 ||`exactness-preserving`||`ratios`||`inexact`||`complex`||`exact-complex`||Description||Examples
-||-||-||-||-||-||A "toy" tower with fixnums (bounded exact integers) only.  Possibly appropriate where no numerical work will be done.||!SigScheme||
-||-||-||+||-||-||A fixnum-flonum Scheme where all numbers are real and all arithmetic happens in essentially constant time.||Chicken (default numbers), Shoe*, !TinyScheme*, RScheme, BDC*, XLisp*, Schemik*, VX, SXM*, Inlab, Sixx, Sizzle (also Elisp*, C*)||
+||-||-||-||-||-||A "toy" tower with fixnums (bounded exact integers) only.  Possibly appropriate where no numerical work will be done.||!SigScheme*||
+||-||-||+||-||-||A fixnum-flonum Scheme where all numbers are real and all arithmetic happens in essentially constant time.||Chicken without the `numbers` egg, Shoe*, !TinyScheme*, RScheme, BDC*, XLisp*, Schemik*, VX, SXM*, Inlab, Sixx, Sizzle (also Elisp*, C*)||
 ||-||-||+||+||-||The complex-number equivalent of the preceding.||Stalin||
 ||-||+||+||+||-||Limited-range exact and inexact numbers.||Scheme 7||
 ||-||+||+||+||+||Limited-range exact and inexact numbers, including exact non-reals.||Wraith||
@@ -17,7 +17,7 @@ So here are some numeric towers that have implementations.  I use `+` if a featu
 ||+||+||+||+||-||Full numeric tower with inexact complex numbers only.||Gauche, Guile, SISC, KSi, UMB||
 ||+||+||+||+||+||Full numeric tower with both exact and inexact complex numbers.||Racket, MIT, Gambit, Chicken with the `numbers` egg, Scheme48/scsh, Kawa, Chibi, Chez, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, STklos, Spark (also Common Lisp)||
 
-*These systems are technically exactness-preserving but don't return the right answers when their arithmetic overflows.
+*These systems are technically exactness-preserving but don't return the right answers when their arithmetic operations overflow.
 
 See NumericTowerManisComments for Vincent Manis's comments on an earlier version of this page.
 
