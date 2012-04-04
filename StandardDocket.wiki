@@ -21,7 +21,7 @@ Date-time parser:
 
 Dictionaries (may include hash tables):
 
-Enumerations and enum-sets: [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-15.html#node_chap_14|R6RS]]
+Enumerations and enum-sets: SetsCowan, [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-15.html#node_chap_14|R6RS]]
 
 Environment enquiries: EnvironmentEnquiriesCowan
 
