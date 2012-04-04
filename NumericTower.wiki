@@ -20,3 +20,5 @@ So here are some numeric towers that have implementations.  I use `+` if a featu
 *These systems are technically exactness-preserving but don't return the right answers when their arithmetic overflows.
 
 See NumericTowerManisComments for Vincent Manis's comments on an earlier version of this page.
+
+See also ComplexRepresentations.
