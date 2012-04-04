@@ -1,3 +1,7 @@
+= Notes about Results =
+
+See [[:WG1BallotExplanation|WG1BallotExplanation]].
+
 
 == WG1 - Core ==
 
