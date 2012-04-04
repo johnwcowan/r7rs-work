@@ -1,3 +1,7 @@
+= Notes about Results =
+
+See [[:WG1BallotExplanation|WG1BallotExplanation]].
+
 = Instructions =
 
     * You may list as many of the options as you want in order of preference.
