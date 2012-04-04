@@ -10,15 +10,15 @@ Sets, bags, and integer sets are mutually disjoint and disjoint from other types
 
 `(make-set `''=''`)`
 
-Constructs and returns a new empty set.  ''='' is the equality procedure for the set, which must be consistent with `eq?`.  If ''='' is other than `eq?`, `equal`, `string=?`, or `string-ci=?`, the implementation MAY signal an error.  '''Issue: possibly add '''`eqv?`''' to this list if hash tables support it.'''
+Returns a newly allocated empty set.  ''='' is the equality procedure for the set, which must be consistent with `eq?`.  If ''='' is other than `eq?`, `equal`, `string=?`, or `string-ci=?`, the implementation MAY signal an error.  '''Issue: possibly add '''`eqv?`''' to this list if hash tables support it.'''
 
 `(set `''=''` `''element''` ...)`
 
-Constructs and returns a new set with equality procedure ''='' and containing the ''elements''.
+Returns a newly allocated set with equality procedure ''='' and containing the ''elements''.
 
 `(set-copy `''set''`)`
 
-Constructs and returns a new set containing the elements of ''set'', with the same equality procedure.
+Returns a newly allocated set containing the elements of ''set'', with the same equality procedure.
 
 `(set? `''obj''`)`
 
@@ -42,7 +42,7 @@ Removes ''element'' from ''set'' unless it is not a member.  Returns unspecified
 
 `(set-map `''proc''` `''set''`)`
 
-Applies ''proc'' to each element of ''set'' in arbitrary order and constructs and returns a new set with the same equality predicate containing the values of the applications.  '''Issue: Should we provide this at all?  The fold is sufficient.'''
+Applies ''proc'' to each element of ''set'' in arbitrary order and returns a newly allocated set with the same equality predicate containing the values of the applications.  '''Issue: Should we provide this at all?  The fold is sufficient.'''
 
 `(set-for-each `''proc''` `''set''`)`
 
@@ -54,11 +54,11 @@ Invokes ''proc'' on each member of ''set'' in arbitrary order, passing the resul
 
 `(set->list `''set''`)`
 
-Constructs and returns a new list containing the members of ''set'' in unspecified order.
+Returns a newly allocated list containing the members of ''set'' in unspecified order.
 
 `(list->set `''list''`)`
 
-Constructs and returns a new set containing the elements of ''list''.
+Returns a newly allocated set containing the elements of ''list''.
 
 == Advanced set procedures ==
 
@@ -84,19 +84,19 @@ Returns `#t` if each ''set'' other than the last is a superset of the following 
 
 `(set-union `''set'` `''other-set'' ...`)`
 
-Constructs and returns a new set that is the union of ''set'' and the ''other-sets''.
+Returns a newly allocated set that is the union of ''set'' and the ''other-sets''.
 
 `(set-intersection `''set'` `''other-set'' ...`)`
 
-Constructs and returns a new set that is the intersection of ''set'' and the ''other-sets''.
+Returns a newly allocated set that is the intersection of ''set'' and the ''other-sets''.
 
 `(set-difference `''set'` `''other-set'' ...`)`
 
-Constructs and returns a new set that is the difference of ''set'' and the union of the ''other-sets''.
+Returns a newly allocated set that is the difference of ''set'' and the union of the ''other-sets''.
 
 `(set-xor `''set''` `''other-set'' ...`)`
 
-Constructs and returns a new set that is the xor (symmetric difference) of the ''sets''.
+Returns a newly allocated set that is the xor (symmetric difference) of the ''sets''.
 
 `(set-union! `''set''` `''other-set'' ...`)`
 
@@ -128,15 +128,15 @@ Except as noted below, the procedures for creating and manipulating integer sets
 
 `(make-integer-set `''limit''`)`
 
-Constructs and returns a new empty integer set.  The possible elements of the set are the exact integers from 0 to ''limit'' - 1, where ''limit'' is an exact non-negative integer.
+Returns a newly allocated empty integer set.  The possible elements of the set are the exact integers from 0 to ''limit'' - 1, where ''limit'' is an exact non-negative integer.
 
 `(integer-set `''limit''` `''element'' ...`)`
 
-Constructs and returns a new integer set.  The possible elements of the set are the exact integers from 0 to ''limit'' - 1. The set is initialized to contain the ''elements''.
+Returns a newly allocated integer set.  The possible elements of the set are the exact integers from 0 to ''limit'' - 1. The set is initialized to contain the ''elements''.
 
 `(list->integer-set `''limit''` `''list''`)`
 
-Constructs and returns a new integer set.  The possible elements of the set are the exact integers from 0 to ''limit'' - 1. The set is initialized to contain the elements of ''list''.
+Returns a newly allocated integer set.  The possible elements of the set are the exact integers from 0 to ''limit'' - 1. The set is initialized to contain the elements of ''list''.
 
 `(integer-set-complement `''integer-set''`)`
 
