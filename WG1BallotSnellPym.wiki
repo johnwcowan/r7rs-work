@@ -91,7 +91,7 @@ division operators in the small language.
 
   * '''Options:''' shrink, keep, undecided
   * '''Default:''' keep
-  * '''Preferences:''' shrink, keep
+  * '''Preferences:''' shrink/core, shrink, keep
 
 === #280 Make vectors self-quoting ===
 
