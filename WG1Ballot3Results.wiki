@@ -1,5 +1,9 @@
 = WG1 Ballot 3 Results from July 1st =
 
+= Notes about Results =
+
+See [[:WG1BallotExplanation|WG1BallotExplanation]].
+
 = Previous Undecided and Re-opened Ballot Items =
 
 === #32 user-defined types ===
