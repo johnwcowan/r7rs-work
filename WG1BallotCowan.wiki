@@ -209,7 +209,7 @@ in the same manner as the `error` procedure.  Vote `no` in order not to add `ass
 
   * '''Options:''' basic, optionals, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' basic
+  * '''Preferences:''' no
 
 It's inconsistent to vote for r6rs-base without adding this.  People who don't like it are
 free to import the base library without it and define their own.
@@ -524,7 +524,7 @@ There are four plausible courses of action:
     * ''srfi-plus:''  Same as ''SRFIs'', but also add optional ''start, end, fill'' arguments to `list-copy` and optional ''fill'' argument to `string-copy`.  This provides maximal function, full self-consistency, backward compatibility with R5RS, and backward compatibility with the SRFIs.
   * '''Options:''' nothing, r5rs, srfi, srfi-plus, undecided
   * '''Default:''' nothing
-  * '''Preferences:''' r5rs, srfi, srfi-plus
+  * '''Preferences:''' srfi, r5rs, srfi-plus
 
 Simpler is better in the core - people can always competing SRFIs and
 utility libraries.
@@ -974,7 +974,7 @@ Vote `yes` to add this library.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' yes
+  * '''Preferences:''' no
 
 === #332 Allow multiple name pairs in export renaming ===
 
