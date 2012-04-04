@@ -121,9 +121,9 @@ Vote `shrink` to prune to `truncate-*` (R5RS) and `floor-*` (R5RS
 `modulo`), moving the extra operators to the large language, or `keep`
 to keep all 18 division operators in the small language.
 
-  * '''Options:''' shrink, keep, undecided
+  * '''Options:''' shrink, shrink/core, keep, undecided
   * '''Default:''' keep
-  * '''Preferences:''' shrink
+  * '''Preferences:''' shrink/core
 
 I've read Taylor Campbell's reply and I don't find it compelling.  To paraphrase one of his arguments somewhat, I don't find "If we have floor-divide we need ceiling-divide" compelling---we've gotten along reasonably well without either of them so far, but we could get floor-divide from R5RS quotient and modulo from
 
@@ -815,7 +815,7 @@ for both.
 
   * '''Options:''' r5rs, r6rs, both, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' 
+  * '''Preferences:''' r6rs
 
 Actually, I'd prefer ->exact and ->inexact.
 
@@ -854,7 +854,7 @@ Vote `yes` to add this library.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no
 
 === #330 Add R5RS compatibility library ===
 
@@ -897,7 +897,7 @@ Vote `yes` to add this library.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no
 
 === #331 Add R6RS base compatibility library ===
 
@@ -933,7 +933,7 @@ Vote `yes` to add this library.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no
 
 === #332 Allow multiple name pairs in export renaming ===
 
@@ -983,7 +983,7 @@ Vote `mixed` for mixed case and `lower` for lower case.
 
   * '''Options:''' lower, mixed, undecided
   * '''Default:''' lower
-  * '''Preferences:''' 
+  * '''Preferences:''' lower
 
 === #335 Specify behavior of default exception handler ===
 
@@ -1069,7 +1069,7 @@ Vote `yes` to restrict with ''must not''.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no
 
 === #340 Include non-normative note about the file-system based implementations of libraries ===
 
@@ -1093,7 +1093,7 @@ Vote `yes` to add such a note or `no` to leave it out.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no
 
 === #341 Permit ambiguous imports of identifiers which are never used ===
 
@@ -1111,7 +1111,7 @@ low-level macros introduced by WG2).
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no
 
 === #342 Have READ-BYTEVECTOR(!) return 0 at EOF ===
 
@@ -1130,7 +1130,7 @@ make the change only for `read-bytevector!`.
 
   * '''Options:''' zero, eof-object, undecided
   * '''Default:''' eof-object
-  * '''Preferences:''' 
+  * '''Preferences:''' eof-object
 
 === #343 Editorial: divide domain explanations to be split before and after descriptions ===
 
@@ -1162,7 +1162,7 @@ later point.
 
   * '''Options:''' start, start-split, later, undecided
   * '''Default:''' start
-  * '''Preferences:''' 
+  * '''Preferences:''' start
 
 === #345 Should 0.0 and -0.0 be distinct in the sense of EQV? ===
 
