@@ -124,6 +124,8 @@ Returns an exact integer representing the number of times that ''element'' appea
 
 == Integer set procedures ==
 
+Except as noted below, the procedures for creating and manipulating integer sets are the same as those for sets, except that `set` is replaced by `integer-set` in their names.  Wherever a newly constructed integer set is returned, it has the same limit as the source set.
+
 `(make-integer-set `''limit''`)`
 
 Constructs and returns a new empty integer set.  The possible elements of the set are the exact integers from 0 to ''limit'' - 1, where ''limit'' is an exact non-negative integer.
@@ -136,7 +138,14 @@ Constructs and returns a new integer set.  The possible elements of the set are 
 
 Constructs and returns a new integer set.  The possible elements of the set are the exact integers from 0 to ''limit'' - 1. The set is initialized to contain the elements of ''list''.
 
-The other integer set procedures are the same as those for sets, except that `set` is replaced by `integer-set` in their names.  Wherever a newly constructed integer set is returned, it has the same limit as the source set.
+`(integer-set-complement `''integer-set''`)`
+
+Returns a newly allocated integer set that is the complement of ''integer-set''.
+
+`(integer-set-complement! `''integer-set''`)`
+
+Mutates ''integer-set'' to a new set that is the complement of ''integer-set''.
+
 
 == Conversions ==
 
