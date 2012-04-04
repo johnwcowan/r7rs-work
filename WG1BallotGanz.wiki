@@ -79,7 +79,7 @@ division operators in the small language.
 
   * '''Options:''' shrink, keep, undecided
   * '''Default:''' keep
-  * '''Preferences:''' shrink
+  * '''Preferences:''' no-centered, keep, shrink/core, shrink
 
 === #280 Make vectors self-quoting ===
 
