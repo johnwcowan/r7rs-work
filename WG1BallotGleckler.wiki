@@ -98,10 +98,11 @@ have never been used in mathematics or programming (see CL), but small
 Scheme is not supposed to be a kitchen-sink language.)
 
 Vote `shrink` to prune to `truncate-*` (R5RS) and `floor-*` (R5RS `modulo`), moving
-the extra operators to the large language, or `keep` to keep all 18
+the extra operators to the large language; `shrink/core` to do the same as `shrink`
+but move the remaining operators to the core language; or `keep` to keep all 18
 division operators in the small language.
 
-  * '''Options:''' shrink, keep, undecided
+  * '''Options:''' shrink, shrink/core, keep, undecided
   * '''Default:''' keep
   * '''Preferences:''' keep, shrink/core, shrink
 
@@ -1084,7 +1085,7 @@ Vote `yes` to add this library.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' r6rs
+  * '''Preferences:''' no
 
 This might be reasonable for large Scheme, but one of the points of
 small Scheme is to avoid having to support R6RS.
