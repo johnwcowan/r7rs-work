@@ -81,7 +81,7 @@ division operators in the small language.
 
   * '''Options:''' shrink, keep, undecided
   * '''Default:''' keep
-  * '''Preferences:''' shrink/core, shrink
+  * '''Preferences:''' shrink/core, shrink, undecided, keep
 
   Relegate additional operators to the large language and put truncate-* and floor-* back to the core.
      
@@ -467,7 +467,7 @@ There are four plausible courses of action:
     * ''srfi-plus:''  Same as ''SRFIs'', but also add optional ''start, end, fill'' arguments to `list-copy` and optional ''fill'' argument to `string-copy`.  This provides maximal function, full self-consistency, backward compatibility with R5RS, and backward compatibility with the SRFIs.
   * '''Options:''' nothing, r5rs, srfi, srfi-plus, undecided
   * '''Default:''' nothing
-  * '''Preferences:''' srfi, r5rs
+  * '''Preferences:''' srfi, r5rs, srfi-plus, undecided, nothing
 
 === #311 Remove tail call guarantee for guard clauses ===
 
@@ -861,9 +861,9 @@ Vote `yes` to add this library.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' no
+  * '''Preferences:''' wg2, no, undecided, yes
 
-  No but may be provided in WG2
+  Really it makes no  sense to provide all of this in WG1, but may be provided in WG2
 
 === #332 Allow multiple name pairs in export renaming ===
 
@@ -1133,7 +1133,7 @@ entirely unspecified.
 
   * '''Options:''' 24, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' 24
+  * '''Preferences:''' 16, 24, none, undecided
 
   Integers in library names are often used as a practical solution to manage dependencies (even if this is not completely satisfactory IMHO). We should have at least be safe to make comparisons between versions, so a portable range is necessary.
     
