@@ -160,9 +160,9 @@ These macros can be intermixed with generators to control the behavior of genera
 
 The basic approach to extension is to write new comprehensions and generators as syntax-rules macros which invoke an explicit continuation argument.  There are some macros and procedures that assist with this:
 
-`:dispatched` is a macro that invokes a specified dispatch procedure over a list of arbitrary setup arguments.  The dispatch procedure returns either a generator procedure which when invoked repeatedly produces a stream of values, or `#f` meaning that it does not know how to handle the arguments.  This is used to implement the `:` generator.
+`:dispatched` is a generator that invokes a specified dispatch procedure over a list of arbitrary setup arguments.  The dispatch procedure returns either a generator procedure which when invoked repeatedly produces a stream of values, or `#f` meaning that it does not know how to handle the arguments.  This is used to implement the `:` generator.
 
-`:generator-proc` is a macro that wraps a generator, returning a dispatch procedure for it.
+`:generator-proc` is a macro that wraps a generator, returning a dispatch procedure for it. It makes writing procedures for `:dispatched` easier.
 
 `:-dispatch-ref` is a procedure that returns the current global dispatch procedure for the `:` generator.
 
