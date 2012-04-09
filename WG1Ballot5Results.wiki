@@ -88,9 +88,10 @@ Vote `yes` to allow `-nan.0`, `no` to disallow it.
     * [[:WG1BallotHsu|Hsu]]: yes
     * [[:WG1BallotLucier|Lucier]]: yes
     * [[:WG1BallotMedernach|Medernach]]: yes
+    * [[:WG1BallotShinn|Shinn]]: no
     * [[:WG1BallotSnellPym|SnellPym]]: yes, no
   * '''Results:''' '''yes''', no
-  * '''Ratios:''' 6:1
+  * '''Ratios:''' 6:2
   * '''Rationales:'''
 
  `Cowan`::
@@ -101,6 +102,8 @@ Vote `yes` to allow `-nan.0`, `no` to disallow it.
   Eventually, some Scheme should allow one to see all the bits of a NaN (as this is true for all other floating-point numbers). This is a good step in that direction.
  `Medernach`::
   The sign bit of `NaNs` is meaningless in the IEEE Standard 754 floating-point formats, but in order to avoid using it as an identifier we may consider both as synonymous. However I really would prefer using `NaN` instead of `+nan.0` or `-nan.0` (as it is not a number but an indication of failure, to help diagnostic, it is neither signed in general, nor exact nor inexact, isn't it ?)
+ `Shinn`::
+  I don't understand the motivation behind this. NaN can neither be positive nor negative - the "+" is just a hint that the value is numeric (which is no longer true with the symbol extensions that now allow an initial "+"). Thus "-" serves no purpose and does not simplify the syntax - if we allow multiple forms, do we also allow "nan.0", "+nan.", "+nan", "+nan.1", etc.? One is easier to remember than two.
 
 === #278 Shrink division routines to just truncate and floor ===
 
@@ -117,7 +120,7 @@ Scheme is not supposed to be a kitchen-sink language.)
 
 Vote `shrink` to prune to `truncate-*` (R5RS) and `floor-*` (R5RS `modulo`), moving
 the extra operators to the large language; `shrink/core` to do the same as `shrink`
-but move the remaining operators to the core language; or `1` to keep all 18
+but move the remaining operators to the core language; or `keep` to keep all 18
 division operators in the small language.
 
   * '''Options:''' shrink, shrink/core, keep, undecided
