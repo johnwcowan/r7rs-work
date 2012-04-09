@@ -70,7 +70,7 @@ Vote `yes` to allow `-nan.0`, `no` to disallow it.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no
 
 I don't understand the motivation behind this.  NaN can neither be
 positive nor negative - the "+" is just a hint that the value is
