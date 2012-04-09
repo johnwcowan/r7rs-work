@@ -1,15 +1,6 @@
-= Instructions =
+= Notes about Results =
 
-    * You may list as many of the options as you want in order of preference.
-    * Options are comma-delimited (ignoring space) and case-insensitive.
-    * You can pipe-delimit (|) options you want to give equal weight to.
-    * You may write in your own option if you announce it to the list first.
-    * You may specify a variant with option/variant, for example srfi-1/library to vote for srfi-1 but clarify it should be in a separate library.
-    * You can write a free-form rationale after the "preferences" line,
-    * library means "yes, but I want it in a separate library",
-    * wg2 means "no, but I think it should go in WG2".
-    * undecided means I want to discuss this issue further.
-    * Abstain on any item by leaving the preferences blank. 
+See [[:WG1BallotExplanation|WG1BallotExplanation]].
 
 = WG1 Ballot Items To Finalize By Mar. 31 =
 
@@ -125,22 +116,23 @@ have never been used in mathematics or programming (see CL), but small
 Scheme is not supposed to be a kitchen-sink language.)
 
 Vote `shrink` to prune to `truncate-*` (R5RS) and `floor-*` (R5RS `modulo`), moving
-the extra operators to the large language, or `keep` to keep all 18
+the extra operators to the large language; `shrink/core` to do the same as `shrink`
+but move the remaining operators to the core language; or `1` to keep all 18
 division operators in the small language.
 
-  * '''Options:''' shrink, keep, undecided
+  * '''Options:''' shrink, shrink/core, keep, undecided
   * '''Default:''' keep
   * '''Voters:''' 
-    * [[:WG1BallotCowan|Cowan]]: keep, shrink/core, shrink
-    * [[:WG1BallotGanz|Ganz]]: shrink
+    * [[:WG1BallotCowan|Cowan]]: shrink/core, shrink
+    * [[:WG1BallotGanz|Ganz]]: no-centered, keep, shrink/core, shrink
     * [[:WG1BallotGleckler|Gleckler]]: keep, shrink/core, shrink
-    * [[:WG1BallotHsu|Hsu]]: keep, undecided, shrink
-    * [[:WG1BallotLucier|Lucier]]: shrink
-    * [[:WG1BallotMedernach|Medernach]]: shrink/core, shrink
+    * [[:WG1BallotHsu|Hsu]]: keep, undecided, shrink/core, shrink
+    * [[:WG1BallotLucier|Lucier]]: shrink/core, shrink
+    * [[:WG1BallotMedernach|Medernach]]: shrink/core, shrink, undecided, keep
     * [[:WG1BallotShinn|Shinn]]: shrink/core, shrink
-    * [[:WG1BallotSnellPym|SnellPym]]: shrink, keep
-  * '''Results:''' '''shrink''', keep, shrink/core, undecided
-  * '''Ratios:''' 5:3, 4:4, 7:1
+    * [[:WG1BallotSnellPym|SnellPym]]: shrink/core, shrink, keep
+  * '''Results:''' '''shrink/core''', shrink, keep, undecided, no-centered
+  * '''Ratios:''' 8:0, 5:3, 7:1, 7:1
   * '''Rationales:'''
 
  `Cowan`::
@@ -334,7 +326,7 @@ These procedures provide R6RS base compatibility as well.
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
   * '''Voters:''' 
-    * [[:WG1BallotCowan|Cowan]]: undecided
+    * [[:WG1BallotCowan|Cowan]]: r5rs
     * [[:WG1BallotGanz|Ganz]]: r5rs
     * [[:WG1BallotGleckler|Gleckler]]: r5rs, no, r5rs+strictly
     * [[:WG1BallotHsu|Hsu]]: yes
@@ -343,7 +335,7 @@ These procedures provide R6RS base compatibility as well.
     * [[:WG1BallotShinn|Shinn]]: no, undecided
     * [[:WG1BallotSnellPym|SnellPym]]: r5rs+strictly, r5rs, yes, no
   * '''Results:''' '''r5rs''', no, r5rs+strictly, yes, undecided
-  * '''Ratios:''' 4:2, 2:2, 4:1, 4:2
+  * '''Ratios:''' 5:2, 3:2, 5:1, 5:1
   * '''Rationales:'''
 
  `Cowan`::
@@ -367,7 +359,7 @@ in the same manner as the `error` procedure.  Vote `no` in order not to add `ass
   * '''Options:''' basic, optionals, no, undecided
   * '''Default:''' no
   * '''Voters:''' 
-    * [[:WG1BallotCowan|Cowan]]: basic
+    * [[:WG1BallotCowan|Cowan]]: no
     * [[:WG1BallotGanz|Ganz]]: optionals/library, no, optionals
     * [[:WG1BallotGleckler|Gleckler]]: optionals, no
     * [[:WG1BallotHsu|Hsu]]: optionals, basic
@@ -375,7 +367,7 @@ in the same manner as the `error` procedure.  Vote `no` in order not to add `ass
     * [[:WG1BallotShinn|Shinn]]: no
     * [[:WG1BallotSnellPym|SnellPym]]: optionals, basic, no
   * '''Results:''' '''no''', optionals, basic, optionals/library
-  * '''Ratios:''' 3:3, 4:3, 4:1
+  * '''Ratios:''' 4:3, 5:2, 5:1
   * '''Rationales:'''
 
  `Cowan`::
@@ -946,16 +938,16 @@ There are four plausible courses of action:
   * '''Options:''' nothing, r5rs, srfi, srfi-plus, undecided
   * '''Default:''' nothing
   * '''Voters:''' 
-    * [[:WG1BallotCowan|Cowan]]: r5rs, srfi, srfi-plus
+    * [[:WG1BallotCowan|Cowan]]: srfi, r5rs, srfi-plus
     * [[:WG1BallotGanz|Ganz]]: srfi-plus, r5rs
     * [[:WG1BallotGleckler|Gleckler]]: srfi-plus, srfi, nothing
     * [[:WG1BallotHsu|Hsu]]: srfi-plus, srfi
     * [[:WG1BallotLucier|Lucier]]: srfi
-    * [[:WG1BallotMedernach|Medernach]]: srfi, r5rs
+    * [[:WG1BallotMedernach|Medernach]]: srfi, r5rs, srfi-plus, undecided, nothing
     * [[:WG1BallotShinn|Shinn]]: r5rs, srfi, srfi-plus
     * [[:WG1BallotSnellPym|SnellPym]]: srfi-plus, srfi, r5rs, nothing
-  * '''Results:''' '''srfi''', srfi-plus, r5rs, nothing
-  * '''Ratios:''' 4:4, 5:3, 7:0
+  * '''Results:''' '''srfi''', srfi-plus, r5rs, nothing, undecided
+  * '''Ratios:''' 4:4, 6:2, 7:0, 7:0
   * '''Rationales:'''
 
  `Cowan`::
@@ -1530,11 +1522,12 @@ for both.
     * [[:WG1BallotGanz|Ganz]]: r5rs
     * [[:WG1BallotGleckler|Gleckler]]: r6rs, r5rs
     * [[:WG1BallotHsu|Hsu]]: r6rs
+    * [[:WG1BallotLucier|Lucier]]: r6rs
     * [[:WG1BallotMedernach|Medernach]]: r5rs, both, r6rs
     * [[:WG1BallotShinn|Shinn]]: r6rs, both
     * [[:WG1BallotSnellPym|SnellPym]]: r6rs, r5rs, both
   * '''Results:''' '''r6rs''', r5rs, both
-  * '''Ratios:''' 5:2, 5:1
+  * '''Ratios:''' 6:2, 6:1
   * '''Rationales:'''
 
  `Cowan`::
@@ -1543,6 +1536,8 @@ for both.
   The long names seem more consistent with other function names.
  `Gleckler`::
   It's pointless and confusing to have both.
+ `Lucier`::
+  Actually, I'd prefer ->exact and ->inexact.
  `Medernach`::
   I like the long names as it shows clearly that it is conversion procedures. Ok, this is kind of bike-shedding.
  `Shinn`::
@@ -1590,11 +1585,12 @@ Vote `yes` to add this library.
     * [[:WG1BallotGanz|Ganz]]: no
     * [[:WG1BallotGleckler|Gleckler]]: no
     * [[:WG1BallotHsu|Hsu]]: yes
+    * [[:WG1BallotLucier|Lucier]]: no
     * [[:WG1BallotMedernach|Medernach]]: no
     * [[:WG1BallotShinn|Shinn]]: no
     * [[:WG1BallotSnellPym|SnellPym]]: yes, no
   * '''Results:''' '''no''', yes
-  * '''Ratios:''' 5:2
+  * '''Ratios:''' 6:2
   * '''Rationales:'''
 
  `Cowan`::
@@ -1650,11 +1646,12 @@ Vote `yes` to add this library.
     * [[:WG1BallotGanz|Ganz]]: yes
     * [[:WG1BallotGleckler|Gleckler]]: yes
     * [[:WG1BallotHsu|Hsu]]: yes
+    * [[:WG1BallotLucier|Lucier]]: no
     * [[:WG1BallotMedernach|Medernach]]: yes
     * [[:WG1BallotShinn|Shinn]]: yes
     * [[:WG1BallotSnellPym|SnellPym]]: yes, no
   * '''Results:''' '''yes''', no
-  * '''Ratios:''' 7:0
+  * '''Ratios:''' 7:1
   * '''Rationales:'''
 
  `Gleckler`::
@@ -1699,21 +1696,22 @@ Vote `yes` to add this library.
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
   * '''Voters:''' 
-    * [[:WG1BallotCowan|Cowan]]: yes
+    * [[:WG1BallotCowan|Cowan]]: no
     * [[:WG1BallotGanz|Ganz]]: wg2, yes
-    * [[:WG1BallotGleckler|Gleckler]]: r6rs
+    * [[:WG1BallotGleckler|Gleckler]]: no
     * [[:WG1BallotHsu|Hsu]]: yes
-    * [[:WG1BallotMedernach|Medernach]]: no
+    * [[:WG1BallotLucier|Lucier]]: no
+    * [[:WG1BallotMedernach|Medernach]]: wg2, no, undecided, yes
     * [[:WG1BallotShinn|Shinn]]: no
     * [[:WG1BallotSnellPym|SnellPym]]: yes, no
-  * '''Results:''' '''yes''', no, r6rs, wg2
-  * '''Ratios:''' 4:2, 4:1, 3:1
+  * '''Results:''' '''no''', wg2, yes, undecided
+  * '''Ratios:''' 5:2, 5:3, 6:0
   * '''Rationales:'''
 
  `Gleckler`::
   This might be reasonable for large Scheme, but one of the points of small Scheme is to avoid having to support R6RS.
  `Medernach`::
-  No but may be provided in WG2
+  Really it makes no sense to provide all of this in WG1, but may be provided in WG2
  `Shinn`::
   I don't agree with including all of the R6RS base exports in the small language, and the small language has no obligation to support R6RS - that's the reason we have a large language.
 
@@ -1801,11 +1799,12 @@ Vote `mixed` for mixed case and `lower` for lower case.
     * [[:WG1BallotGanz|Ganz]]: lower
     * [[:WG1BallotGleckler|Gleckler]]: lower
     * [[:WG1BallotHsu|Hsu]]: lower
+    * [[:WG1BallotLucier|Lucier]]: lower
     * [[:WG1BallotMedernach|Medernach]]: lower
     * [[:WG1BallotShinn|Shinn]]: lower
     * [[:WG1BallotSnellPym|SnellPym]]: lower, mixed
   * '''Results:''' '''lower''', mixed
-  * '''Ratios:''' 7:0
+  * '''Ratios:''' 8:0
   * '''Rationales:'''
 
  `Cowan`::
@@ -1962,11 +1961,12 @@ Vote `yes` to restrict with ''must not''.
     * [[:WG1BallotGanz|Ganz]]: no
     * [[:WG1BallotGleckler|Gleckler]]: no, unspecified
     * [[:WG1BallotHsu|Hsu]]: no
+    * [[:WG1BallotLucier|Lucier]]: no
     * [[:WG1BallotMedernach|Medernach]]: yes
     * [[:WG1BallotShinn|Shinn]]: yes
     * [[:WG1BallotSnellPym|SnellPym]]: yes, no
-  * '''Results:''' '''yes''', no, unspecified
-  * '''Ratios:''' 4:3, 4:1
+  * '''Results:''' yes, ''no'', unspecified
+  * '''Ratios:''' 4:4, 4:1
   * '''Rationales:'''
 
  `Cowan`::
@@ -2005,11 +2005,12 @@ Vote `yes` to add such a note or `no` to leave it out.
     * [[:WG1BallotGanz|Ganz]]: no
     * [[:WG1BallotGleckler|Gleckler]]: no
     * [[:WG1BallotHsu|Hsu]]: no
+    * [[:WG1BallotLucier|Lucier]]: no
     * [[:WG1BallotMedernach|Medernach]]: no
     * [[:WG1BallotShinn|Shinn]]: no
     * [[:WG1BallotSnellPym|SnellPym]]: yes, no
   * '''Results:''' '''no''', yes
-  * '''Ratios:''' 6:1
+  * '''Ratios:''' 7:1
   * '''Rationales:'''
 
  `Cowan`::
@@ -2042,11 +2043,12 @@ low-level macros introduced by WG2).
     * [[:WG1BallotGanz|Ganz]]: unspecified, no
     * [[:WG1BallotGleckler|Gleckler]]: no
     * [[:WG1BallotHsu|Hsu]]: undecided, no
+    * [[:WG1BallotLucier|Lucier]]: no
     * [[:WG1BallotMedernach|Medernach]]: yes, undecided
     * [[:WG1BallotShinn|Shinn]]: undecided, no
     * [[:WG1BallotSnellPym|SnellPym]]: no, yes
-  * '''Results:''' '''no''', undecided, yes, unspecified
-  * '''Ratios:''' 4:3, 6:1, 5:1
+  * '''Results:''' '''no''', yes, undecided, unspecified
+  * '''Ratios:''' 7:1, 5:3, 6:1
   * '''Rationales:'''
 
  `Cowan`::
@@ -2082,11 +2084,12 @@ make the change only for `read-bytevector!`.
     * [[:WG1BallotGanz|Ganz]]: eof-object
     * [[:WG1BallotGleckler|Gleckler]]: eof-object
     * [[:WG1BallotHsu|Hsu]]: eof-object
+    * [[:WG1BallotLucier|Lucier]]: eof-object
     * [[:WG1BallotMedernach|Medernach]]: eof-object
     * [[:WG1BallotShinn|Shinn]]: eof-object
     * [[:WG1BallotSnellPym|SnellPym]]: eof-object, zero
   * '''Results:''' '''eof-object''', zero
-  * '''Ratios:''' 7:0
+  * '''Ratios:''' 8:0
   * '''Rationales:'''
 
  `Cowan`::
@@ -2135,11 +2138,12 @@ later point.
     * [[:WG1BallotGanz|Ganz]]: start-split, start
     * [[:WG1BallotGleckler|Gleckler]]: start-split, start
     * [[:WG1BallotHsu|Hsu]]: start-split, start
+    * [[:WG1BallotLucier|Lucier]]: start
     * [[:WG1BallotMedernach|Medernach]]: start-split, start, undecided, later
     * [[:WG1BallotShinn|Shinn]]: start-split, start, undecided
     * [[:WG1BallotSnellPym|SnellPym]]: start-split, later, start
   * '''Results:''' '''start-split''', start, undecided, later
-  * '''Ratios:''' 7:0, 7:0, 6:1
+  * '''Ratios:''' 7:1, 7:0, 6:1
   * '''Rationales:'''
 
  `Cowan`::
@@ -2215,11 +2219,11 @@ or `none` to leave this entirely unspecified.
     * [[:WG1BallotGleckler|Gleckler]]: 16, no
     * [[:WG1BallotHsu|Hsu]]: 24
     * [[:WG1BallotLucier|Lucier]]: 16, no
-    * [[:WG1BallotMedernach|Medernach]]: 24
+    * [[:WG1BallotMedernach|Medernach]]: 16, 24, no, undecided
     * [[:WG1BallotShinn|Shinn]]: no
     * [[:WG1BallotSnellPym|SnellPym]]: 16, 24, no
-  * '''Results:''' '''no''', 24, 16
-  * '''Ratios:''' 5:0, 5:0
+  * '''Results:''' '''no''', undecided, 16, 24
+  * '''Ratios:''' 6:0, 6:0, 6:0
   * '''Rationales:'''
 
  `Cowan`::
