@@ -81,7 +81,7 @@ Random numbers: RandomnessCommonLisp, [[http://srfi.schemers.org/srfi-27/srfi-27
 
 Record introspection: [[http://srfi.schemers.org/srfi-99/srfi-99.html|SRFI 99]]
 
-REPL facilities:
+REPL facilities: ReplCowan
 
 Run-time records: [[http://srfi.schemers.org/srfi-99/srfi-99.html|SRFI 99]]
 
