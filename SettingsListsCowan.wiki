@@ -1,10 +1,10 @@
 == Settings lists ==
 
-In this proposal, a filename passed to any of `open-input-file`, `open-binary-input-file`, `open-output-file`, `open-binary-output-file`, `with-input-from-file`, `with-output-from-file`, `call-with-input-file`, and `call-with-output-file` may be specified either as a string (as in R7RS-small) or as a ''settings list'', which is a list of alternating ''keys'' and ''values'' where every key is a symbol.  `Quasiquote` syntax is useful in creating settings lists.  Specifying a string is equivalent to specifying the settings list `(path `''string''`)`.  Implementations MUST support the following keys:
+In this proposal, a filename passed to any of `open-input-file`, `open-binary-input-file`, `open-output-file`, `open-binary-output-file`, `with-input-from-file`, `with-output-from-file`, `call-with-input-file`, and `call-with-output-file` may be specified either as a string (as in R7RS-small) or as a ''settings list'', which is a list of alternating ''keys'' and ''values'' where every key is a symbol.  Quasiquote syntax is useful in creating settings lists.  Specifying a string is equivalent to specifying the settings list `(path `''string''`)`.  Implementations MUST support the following keys:
 
  `path`::
 
- Specifies the filename.  The interpretation of filenames is implementation-dependent.  There is no default value, but implementations MAY accept other keys in lieu of this one for opening files or file-like objects that don't have string names.  In particular, filenames on Posix are really u8-vectors with some u8 values excluded, and filenames on Windows are really u16-vectors with some u16 values disallowed, and while most names of actual files are representable as strings, some may not be.
+ Specifies the filename.  The interpretation of filenames is implementation-dependent.  There is no default value, but implementations MAY accept other keys in lieu of this one for opening files or file-like objects that don't have string names.  In particular, filenames on Posix are really u8-vectors with some u8 values disallowed, and filenames on Windows are really u16-vectors with some u16 values disallowed, and while most names of actual files are representable as strings, some may not be.
 
  `binary`::
 
@@ -14,7 +14,7 @@ Implementations SHOULD support the following additional keys (if not, then the i
 
  `buffering`::
 
- Specifies what kind of buffering is present.  The value `#f` means no buffering is employed; `binary` means that there is a binary buffer but no character buffer; `#t` means there are both character and binary buffering.  Other values MAY be specified by an implementation.  Buffer sizes are implementation-dependent.  The default value is implementation-dependent.
+ Specifies what kind of buffering is present.  The value `#f` means no buffering is employed; the symbol `nochar` means that there is a binary buffer but no character buffer; `#t` means there is both character and binary buffering on a textual port, or binary buffering on a binary port.  Other values MAY be supported by an implementation.  Buffer sizes are implementation-dependent.  The default value is implementation-dependent.
 
  `encoding`::
 
@@ -24,7 +24,7 @@ Implementations SHOULD support the following additional keys (if not, then the i
 
  `newline`::
 
- Specifies how to translate newlines.  The value `#f` means that no translation is performed.  The value `#t` causes all of CR, LF, CR+LF, NEL (U+0085), CR+NEL, and LS (U+2028) to be translated to `#\newline` on input.  On output, the translation is implementation-dependent.  Other values MAY be specified by an implementation.  The default value is implementation-dependent.
+ Specifies how to translate newlines.  The value `#f` means that no translation is performed.  The value `#t` causes all of CR, LF, CR+LF, NEL (U+0085), CR+NEL, and LS (U+2028) to be translated to `#\newline` on input.  If the value is a string, then `#\newline` is translated into that string on output.  Other values MAY be supported by an implementation.  The default value is implementation-dependent.
 
  `case-sensitive`::
 
