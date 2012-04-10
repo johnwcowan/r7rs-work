@@ -2,7 +2,7 @@
 
 The procedures in this proposal start a new operating system process and return a binary port (remember, binary ports can do character I/O as well) connected to either the standard input (for an output port) or the standard output (for an input port) of the new process.  There is no support for input/output process ports, though an implementation could add them as an extension.
 
-This module depends on the acceptance of PortsCowan or something like it, as it uses the framework of that proposal.
+This library depends on the acceptance of SettingsListsCowan.
 
 
 == Procedures ==
