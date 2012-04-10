@@ -10,7 +10,7 @@ By default, ''eval'' is `repl-eval`, ''write'' is `repl-write`, and ''read'' is 
 
 This procedure is implementation-dependent, but has the general effect of reading a datum from the current input port, possibly with some additional features.
 
-`(repl-write)`
+`(repl-write `''obj''`)`
 
 This procedure is implementation-dependent, but has the general effect of writing a datum to the current output port, possibly with some additional features.
 
