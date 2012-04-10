@@ -1,6 +1,6 @@
 == Unicode Character Database ==
 
-The Unicode Character Database (UCD) is a set of properties defined by the Unicode Standard and applicable to characters of the Unicode repertoire.  The exact list of properties varies from version to version of the UCD, so they are not enumerated here.  Instead, each property supported by a particular implementation of this package is represented by a ''property'' object belonging to a unique type.  Given a property (which can be retrieved in a variety of ways) and a character, the fundamental `ucd-get-property-value` procedure returns the value of that property when applied to that character.
+The Unicode Character Database (UCD) is a set of properties defined by the Unicode Standard and applicable to characters of the Unicode repertoire.  The exact list of properties varies from version to version of the UCD, so they are not enumerated here.  Instead, each property supported by a particular implementation of this package is represented by a ''property'' object belonging to a unique type.  Given a property (which can be retrieved in a variety of ways) and a character, the fundamental procedure `ucd-get-property-value` returns the value of that property when applied to that character.
 
 Implementations may implement whatever subset of the UCD properties they choose.
 
@@ -36,6 +36,10 @@ Returns `#t` if ''obj'' is a property, and `#f` otherwise.
 
 Returns a string which is the canonical name of ''prop''.
 
+`(ucd-property-type `''prop''`)`
+
+Returns one of the symbols `numeric`, `string`, `boolean`, `enumerated` or `catalog` to specify the type of ''prop''.
+
 `(ucd-property-aliases `''prop''`)`
 
 Returns a list of strings which are the aliases (including the canonical name) of ''prop''.  Names that merely differ in case or underscores from any of the others are not included.
@@ -47,6 +51,10 @@ Returns the Unicode-defined default value for ''prop'', or `#f` if there is none
 `(ucd-property-syntax `''prop''`)`
 
 Returns a string whose value is a regular expression characterizing the valid syntax of all the values of the the property, or `#f` if no syntax is available.
+
+=== Property predicates ===
+
+There is a group of predicates whose semantics is specified by the Unicode Standard that specify a set of standard characteristics that a Unicode property may have.  They have names of the form `ucd-*-property?`, where `*` may be any of `obsolete deprecated stabilized numeric string binary enumerated catalogued  miscellaneous irg mapping dictionary-index reading dictionary-like radical-stroke variant normative informative contributory provisional`.  In all cases the return value is `#t` or `#f`.
 
 == Enumerated property values ==
 
@@ -86,11 +94,6 @@ Returns a list of strings (with a possible integer) which are the aliases (inclu
 
 Return the boolean, string, number, or enum which represents the value of ''prop'' at ''codepoint'', which can be a character or an exact integer.
 
-== Property predicates ==
-
-There is a group of predicates, whose semantics is specified by the Unicode Standard, that specify a set of standard characteristics that a Unicode property may have.  They have names of the form `ucd-*-property?`, where `*` may be any of `obsolete deprecated stabilized numeric string binary enumerated catalogued  miscellaneous irg mapping dictionary-index reading dictionary-like radical-stroke variant normative informative contributory provisional`.  In all cases the return value is `#t` or `#f`.
-
 == Advanced UCD ==
 
 See AdvancedUcdCowan for blocks, standardized variants, named sequences, CJK radicals, and emoji sources.
-
