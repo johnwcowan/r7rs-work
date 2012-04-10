@@ -186,14 +186,12 @@ Returns a newly allocated enumeration set of the same enumeration type as ''enum
 
 `(define-enumeration `<type-name>` (`<symbol> ...`)` <constructor>`)`
 
-Defines a newly allocated enumeration type and provides macros for constructing its members and sets.  It is a definition and can appear anywhere that other definitions can appear.  The <symbol>s are in the enumeration type.
+Defines a newly allocated enumeration type and provides macros for constructing its members and sets.  It is a definition and can appear anywhere that other definitions can appear.  The <symbol>s are in the enumeration type.  '''Issue: do we need define-enumeration?'''
 
 The identifier <type-name> is bound to a syntax definition which accepts a symbol as its argument and returns the symbol if it is in the enumeration type.  It is a syntax error if the symbol is not in the enumeration type.
 
 The identifier <constructor> is bound to a syntax definition which accepts symbols as its arguments and returns an enumeration set containing those symbols.  It is a syntax error if any of the symbols are not in the enumeration type.
 
-'''Issue: do we need '''`define-enumeration`'''?'''
-
 == Conversions ==
 
-`set->bag`, `set->integer-set`, `set->bag`, `bag->set`, `integer-set->set`, and `enum-set->set` take one argument and do the obvious thing.  `set->integer-set` takes two arguments, ''limit'' and the set.  `set->enum-set also takes two arguments, ''enum-type'' and the set.
+The basic set is used as the pivot between different kinds of specialized sets.  In particular, `set->bag`, `set->integer-set`, `set->bag`, `bag->set`, `integer-set->set`, and `enum-set->set` take one argument and do the obvious thing.  `set->integer-set` takes two arguments, ''limit'' and the set.  `set->enum-set also takes two arguments, ''enum-type'' and the set.
