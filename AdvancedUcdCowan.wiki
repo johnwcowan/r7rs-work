@@ -1,62 +1,104 @@
-Undigested stuff from UAX #42:
+See UcdCowan for basic UCD procedures.
 
-5 Blocks
+It is an error to mutate any objects returned by these procedures.
 
-The blocks child of the ucd describes the blocks. It has one child block element per block, with attributes to describe the extent and name of the block.
+== Blocks ==
 
-[[blocks,|46]] =  
-  ucd.content &=
-    element blocks {
-      element block { 
-        attribute first-cp { single-code-point },
-        attribute last-cp { single-code-point },
-        attribute name { text }} + }?
+''Blocks'' are disjoint objects that represent the allocation blocks into which the Unicode code point space is divided for administrative purposes.  Typically most of a block is allocated at once and contains characters from a single script, but there is often more than one block per script, some blocks contain characters from multiple scripts, and some characters in a block are allocated much later than the rest.  The list of blocks provided is implementation-dependent.  Since it is not possible to create new ones, `eqv?` may be used to compare them.
 
-6 Named Sequences
+`(blocks)`
 
-The named-sequences child of the ucd describes the named sequences. It has one child named-sequence element per named sequence, with attributes to describe the name and sequence.
+Returns a list of all blocks known to the implementation.
 
-Similarly, the provisional-named-sequences child of the ucd describes the provisional named sequences.
+`(block-name `''block''`)`
 
-[[named|sequences, 47]] =  
-  ucd.content &=
-    element named-sequences {
-      element named-sequence { 
-        attribute cps { one-or-more-code-points },
-        attribute name { text }} + }?
+Returns a string naming ''block''.
 
-  ucd.content &=
-    element provisional-named-sequences {
-      element named-sequence { 
-        attribute cps { one-or-more-code-points },
-        attribute name { text }} + }?
+`(block-first `''block''`)`
 
-7 Normalization Corrections
+Returns an exact integer representing the first (smallest) code point in the block.
 
-The normalization-corrections child of the ucd describes the normalization corrections. It has one child normalization-correction element per correction, with attributes to describe the code point affected, its old normalization, its new normalization and the version of Unicode in which the correction was made.
+`(block-last `''block''`)`
 
-[[normalization|corrections, 48]] =  
-  ucd.content &=
-    element normalization-corrections {
-      element normalization-correction { 
-        attribute cp { single-code-point },
-        attribute old { one-or-more-code-points },
-        attribute new { one-or-more-code-points },
-        attribute version { text }} + }?
+Returns an exact integer representing the last (largest) code point in the block.
 
-8 Standardized Variants
+== Named Sequences ==
 
-The standardized-variants child of the ucd describes the standardized variant. It has one child element standardized-variant per variant. The attributes on that last element capture the variation sequence, the description of the desired appearance, and the shaping environment under which the appearance is different.
+Named sequences are disjoint objects which represent a sequence of Unicode code points that has a name specified by the Unicode Standard.  Named sequences may be provisional in one version of the UCD and then non-provisional in later versions.  The list of named sequences provided is implementation-dependent.  Since it is not possible to create new ones, `eqv?` may be used to compare them.
 
-[[standardized|variants, 49]] =  
-  ucd.content &=
-    element standardized-variants {
-      element standardized-variant { 
-        attribute cps { two-code-points },
-        attribute desc { text },
-        attribute when { text }} + }?
+`(named-sequences)`
 
-9 CJK Radicals
+Returns a list of all named sequence objects known to the implementation.
+
+`(named-sequence-name `''named-sequence''`)`
+
+Returns a string naming ''named-sequence''.
+
+`(named-sequence-code-points `''named-sequence''`)`
+
+Returns a list of exact integers representing the code points of the ''named-sequence''.
+
+`(named-sequence-provisional? `''named-sequence''`)`
+
+Returns `#t` if the ''named-sequence'' is provisional, or `#f` if not.
+
+== Normalization corrections ==
+
+''Normalization-corrections'' are disjoint objects that represent official corrections to the UCD normalization tables.  The list of normalization-corrections provided is implementation-dependent.  Since it is not possible to create new ones, `eqv?` may be used to compare them.
+
+`(normalization-corrections)`
+
+Returns a list of all normalization-corrections known to the implementation.
+
+`(normalization-correction-description `''block''`)`
+
+Returns a string describing ''normalization-correction''.  Note that normalization-corrections don't have names.
+
+`(normalization-correction-codepoint `''block''`)`
+
+Returns an exact integer specifying the code point of the character whose normalization is being corrected.
+
+`(normalization-correction-old `''block''`)`
+
+Returns a list of exact integers specifying the normalization of `(normalization-correction-codepoint `''block''`)` before this normalization correction is applied.
+
+`(normalization-correction-new `''normalization-correction''`)`
+
+Returns a list of exact integers specifying the normalization of `(normalization-correction-codepoint `''block''`)` after this normalization correction is applied.
+
+`(normalization-correction-version `''block''`)`
+
+Returns a list of three exact integers specifying the version of the UCD (in the format of `ucd-version`) in which this normalization-correction was applied.
+
+== Standardized variants ==
+
+''Standardized-variants'' are disjoint objects that represent standardized variants of base charactesr.  The list of standardized-variants provided is implementation-dependent.  Since it is not possible to create new ones, `eqv?` may be used to compare them.
+
+`(standardized-variants)`
+
+Returns a list of all standardized-variants known to the implementation.
+
+`(standardized-variants-description `''standardized-variant''`)`
+
+Returns a string describing ''standardized-variant''.  Note that standardized-variants don't have names.
+
+`(standardized-variants-when `''standardized-variant''`)`
+
+Returns a string specifying the shaping environment under which ''standardized-variant'' is applied.
+
+`(standardized-variant-base-codepoint `''block''`)`
+
+Returns an exact integer specifying the code point of the base character of the standardized variant.
+
+`(standardized-variant-variant-codepoint `''block''`)`
+
+Returns an exact integer specifying the code point of the base character of the standardized variant.
+'''Issue: this name is regrettable.'''
+
+== Undigested stuff from UAX #42 ==
+
+
+=== CJK radicals ===
 
 The cjk-radicals child of the ucd describes the CJK radicals. It has one child element cjk-radical per radical. The attributes on that last element capture the radical number, the corresponding CJK radical character, and the corresponding CJK unified ideograph.
 
@@ -68,7 +110,7 @@ The cjk-radicals child of the ucd describes the CJK radicals. It has one child e
         attribute radical { single-code-point },
         attribute ideograph { single-code-point }} + }?
 
-10 Emoji sources
+=== Emoji sources ===
 
 The emoji-sources child of the ucd describes the emoji sources.
 
