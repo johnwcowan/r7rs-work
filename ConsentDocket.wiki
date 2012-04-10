@@ -4,10 +4,6 @@ The following items will be approved without a formal vote unless someone object
 
 Note: "Prefix stripping" means that prefixes such as `fx`, `fl`, or `bitwise-` are removed from identifiers exported by this package.  That way, users can add back their own prefixes using the facilities of `import`.
 
-Assertions: Ticket #287 adds R6RS-compatible `assert` to R7RS-small.  If not, add it here.
-
-Bitwise: The R6RS `arithmetic bitwise` library with prefix stripping.
-
 Explicit renaming macros: Uses the `er-macro-transformer` keyword (bare lambdas are unsupported).  Three arguments are provided to transformers: `form rename compare`.
 
 Fixnum arithmetic: The R6RS `arithmetic fixnum` library with prefix stripping.
@@ -22,7 +18,7 @@ Getopt/args-fold:  [[http://http://srfi.schemers.org/srfi-37/srfi-37.html|SRFI 3
 
 Regex (S-exps and strings): Alex Shinn's [[http://synthcode.com/scheme/irregex/|irregex library]], with prefix stripping and a touch of renaming.  Specify full PCRE compatibility even though the irregex implementation doesn't support all of it.
 
-[[http://http://srfi.schemers.org/srfi-1/srfi-1.html|SRFI 1]], list library: As written, but excluding  `cons`, `pair?`, `null?`, `car`, `cdr`, their combinations, `set-car!`, `set-cdr!`, `list`, `append`, `reverse`, `length`, `list-ref` (assuming ticket #308 passes), `map` (assuming ticket #309 passes), `for-each` (assuming ticket #309 passes), `memq`, `memv`, `member`, `assq`, `assv`, `assoc`, which are all in the `(scheme base)` library.  ''Specification bug in SRFI 1: `any`, `every`, and `list-index` should omit the words "and returning a boolean result".''
+[[http://http://srfi.schemers.org/srfi-1/srfi-1.html|SRFI 1]], list library: As written, but excluding  `cons`, `pair?`, `null?`, `car`, `cdr`, their combinations, `set-car!`, `set-cdr!`, `list`, `append`, `reverse`, `length`, `list-ref`, `map`, `for-each`, `memq`, `memv`, `member`, `assq`, `assv`, `assoc`, which are all in the `(scheme base)` library in a SRFI-1-compatible way.  '''Specification bug in SRFI 1: `any`, `every`, and `list-index` should omit the words "and returning a boolean result".'''
 
 [[http://http://srfi.schemers.org/srfi-2/srfi-2.html|SRFI 2]], `and-let*` macro: As written.
 
