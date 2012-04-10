@@ -3,6 +3,10 @@
 This is a list of work items that WG2 has voted to work on, and proposals for those work items.  If no more than one proposal gets written for an item, the item may migrate to the ConsentDocket.  See [[:WG2Dockets|WG2Dockets]] for other dockets.
 
 
+Assertions: R6RS base library, R6RS with optional message and irritants.
+
+Bitwise: [[http://srfi.schemers.org/srfi-33/srfi-33.html|SRFI 33]], [[http://srfi.schemers.org/srfi-60/srfi-60.html|SRFI 60]], [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.4|R6RS]]
+
 Binary heap: BinaryHeapsCowan
 
 Binary ports: present in the small language
@@ -104,4 +108,3 @@ Unicode normalization:
 Weak dictionaries/hashtables:
 
 Weak references (soft, phantom):
-
