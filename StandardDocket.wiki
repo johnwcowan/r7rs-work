@@ -5,13 +5,13 @@ This is a list of work items that WG2 has voted to work on, and proposals for th
 
 Assertions: R6RS base library, R6RS with optional message and irritants.
 
-Bitwise: [[http://srfi.schemers.org/srfi-33/srfi-33.html|SRFI 33]], [[http://srfi.schemers.org/srfi-60/srfi-60.html|SRFI 60]], [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.4|R6RS]]
-
 Binary heap: BinaryHeapsCowan
 
 Binary ports: present in the small language
 
 Binary search: [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]]
+
+Bitwise arithmetic: [[http://srfi.schemers.org/srfi-33/srfi-33.html|SRFI 33]], [[http://srfi.schemers.org/srfi-60/srfi-60.html|SRFI 60]], [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.4|R6RS]], BitwiseCowan.  See BitwiseComparison for a detailed comparison of names and parameter order.
 
 Boxes/references: BoxesCowan
 
