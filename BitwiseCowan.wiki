@@ -1,1 +1,21 @@
-Until a full spec is written, see the final column of BitwiseComparison.
+= Bitwise arithmetic procedures =
+
+This proposal is based mainly on [[http://srfi.schemers.org/srfi-33/srfi-33.html|SRFI 33]], with some changes and additions from [[http://srfi.schemers.org/srfi-33/mail-archive/msg00023.html|Olin's late revisions to SRFI 33]], which were never consummated, and from [[http://srfi.schemers.org/srfi-60/srfi-60.html|SRFI 60]].  Until a full spec is written, see the final column of the table in BitwiseComparison.
+
+== Reasons for name changes ==
+
+BitwiseCowan retains SRFI 33 names for procedures adopted from SRFI 33, with these exceptions:
+
+* The name `bitwise-merge` is replaced by `bitwise-if`, the name used in SRFI 60 and R6RS.
+
+* The name `extract-bit-field` (`bit-field-extract` in Olin's revisions) is replaced by `bit-field`, the name used in SRFI 60 and R6RS.
+
+* The names `any-bits-set?` and `all-bits-set?` are replaced by `any-bit-set?` and `every-bit-set?`, in accordance with Olin's revisions.
+
+* Because  `copy-bit-field` means different things in SRFI 33 and SRFI 60, I have replaced SRFI 33's names `replace-bit-field` and `copy-bit-field` (`bit-field-replace` and `bit-field-copy` in Olin's revisions) with `bit-field-copy` and `bit-field-copy-same`.
+
+The procedures that do not exist in SRFI 33 have their SRFI 60 names, with these exceptions.
+
+* The procedure `booleans->integer` is a convenient way to specify a bitwise integer in the absence of datum syntax: it accepts an arbitrary number of boolean arguments and returns a non-negative integer.  So I gave it the short name `bits`, roughly analogous to `list`, `string`, and `vector`.
+
+* The names `rotate-bit-field` and `reverse-bit-field` are replaced by `bit-field-rotate` and `bit-field-reverse`, in parallel with Olin's revisions.
