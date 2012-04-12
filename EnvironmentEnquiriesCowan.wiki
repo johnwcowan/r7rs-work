@@ -36,10 +36,12 @@ Returns the version of the operating system (or equivalent) on which the impleme
 
 The following procedure returns a list of symbols.  It is an error to mutate this list.
 
+Note: Rough equivalents to the Common Lisp `machine-version`, `short-site-name`, and `long-site-name` are not provided.  They are inconsistently implemented and of doubtful utility.
+
+== WG1 procedure ==
+
 `(get-features)`
 
-Returns the symbols which are provided as `cond-expand` feature identifiers by the implementation.
-
-Note: Rough equivalents to the Common Lisp `machine-version`, `short-site-name`, and `long-site-name` are not provided.  They are inconsistently implemented and of doubtful utility.
+Returns the symbols which are provided as `cond-expand` feature identifiers by the implementation.  This name is in the `(scheme process-context)` library.
 
 
