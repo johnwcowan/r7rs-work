@@ -5,23 +5,23 @@ This is a proposal for a WG2 bytevector API.  The conceit is that everything is 
 
 (`bytevector-<type><endian>-ref` ''bytevector n''`)`
 
-Returns a Scheme number corresponding to the binary value encoded according to ''type'' beginning at offset ''n'' in ''bytevector''.
+Returns a Scheme number corresponding to the binary value encoded according to ''type'' beginning at offset ''n'' in ''bytevector''.  This procedure treats ''bytevector'' as potentially containing more than one type.
 
 (`<type><endian>vector-ref` ''bytevector n''`)`
 
-Returns a Scheme number corresponding to the binary value encoded according to ''type'' beginning at offset ''n'' in ''bytevector'', where ''n'' is first multiplied by a value corresponding to the size of the binary value.
+Returns a Scheme number corresponding to the binary value encoded according to ''type'' beginning at offset ''n'' in ''bytevector'', where ''n'' is first multiplied by the size of the binary value in bytes.  This procedure treats ''bytevector'' as a uniformly typed vector.
 
 (`bytevector-<type><endian>-set!` ''bytevector n v''`)`
 
-Converts ''v'' to a binary value encoded according to ''type'' and places it into ''bytevector'' beginning at offset ''n''.
+Converts ''v'' to a binary value encoded according to ''type'' and places it into ''bytevector'' beginning at offset ''n''.  This procedure treats ''bytevector'' as potentially containing more than one type.
 
 (`<type><endian>vector-set!` ''bytevector n v''`)`
 
-Converts ''v'' to a binary value encoded according to ''type'' and places it into ''bytevector'' beginning at offset ''n'', where ''n'' is first multiplied by a value corresponding to the size of the binary value.
+Converts ''v'' to a binary value encoded according to ''type'' and places it into ''bytevector'' beginning at offset ''n'', where ''n'' is first multiplied by the size of the binary value in bytes.  This procedure treats ''bytevector'' as a uniformly typed vector.
 
 (`<type><endian>vector-length` ''bytevector''`)`
 
-Returns a Scheme number corresponding to length of ''bytevector''divided by a value corresponding to the size of the binary value.
+Returns a Scheme number corresponding to length of ''bytevector''divided by the size of the binary value in bytes.
 
 == Numeric types ==
 
