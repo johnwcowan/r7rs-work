@@ -25,19 +25,24 @@ The following table compares the names of the bitwise (aka logical) functions of
 ||Find first bit set||---||`first-set-bit`||`log2-binary-factors`, `first-set-bit`||---||`first-set-bit`||
 ||Extract bit field*||`ldb`||`extract-bit-field`||`bit-field`||`bitwise-bit-field`||`bit-field`||
 ||Test bit field*||`ldb-test`||`test-bit-field?`†||---||---||---||
-||Clear bit field||`mask-field`||`clear-bit-field`||---||---||---||
-||Replace bit field*||`dpb`||`replace-bit-field`||`copy-bit-field`||`bitwise-copy-bit-field`||`replace-bit-field`||
-||Replace corresponding bit field||`deposit-field`||`copy-bit-field`||---||---||`replace-same-bit-field`||
-||Rotate bit field||---||---||`rotate-bit-field`||`bitwise-rotate-bit-field`||`rotate-bit-field`||
-||Reverse bit field||---||---||`reverse-bit-field`||`bitwise-reverse-bit-field`||`reverse-bit-field`||
+||Clear bit field||`mask-field`||`clear-bit-field`†||---||---||---||
+||Replace bit field*||`dpb`||`replace-bit-field`†||`copy-bit-field`||`bitwise-copy-bit-field`||`bit-field-replace`||
+||Replace corresponding bit field||`deposit-field`||`copy-bit-field`†||---||---||`bit-field-replace-same`||
+||Rotate bit field||---||---||`rotate-bit-field`||`bitwise-rotate-bit-field`||`bit-field-rotate`||
+||Reverse bit field||---||---||`reverse-bit-field`||`bitwise-reverse-bit-field`||`bit-field-reverse`||
 ||Integer to boolean list||---||---||`integer->list`||---||`integer->list`||
 ||Boolean list to integer||---||---||`list->integer`||---||`list->integer`||
 ||Booleans to integer||---||---||`booleans->integer`||---||`bits`||
 
 *These procedures take a byte-spec object in Common Lisp (which encodes size and position), leading ''size'' and ''position'' arguments in SRFI-33, and trailing ''start'' and ''end'' arguments in SRFI-60, R6RS (where present), and BitwiseCowan.  Consequently, they are not quite compatible across specifications.  Note that `copy-bit-field` corresponds to different procedures in SRFI 33 and SRFI 60.
 
-†In [[http://srfi.schemers.org/srfi-33/mail-archive/msg00023.html|late changes to SRFI 33]] that were never consummated, Olin Shivers changed `any-bits-set?` to `any-bit-set?`, `all-bits-set?` to `every-bit-set?`, and split `test-bit-field?` into `bit-field-any?` and `bit-field-every?`.  BitwiseCowan adopts these changes.
+†These procedures got new names in [[http://srfi.schemers.org/srfi-33/mail-archive/msg00023.html|late changes to SRFI 33]] that were never consummated:
 
-BitwiseCowan adopts the SRFI 33 names for its procedures with a few exceptions.  The name `bitwise-if` used in SRFI 60 and R6RS replaces `bitwise-merge`.  Because of the conflict around `copy-bit-field` noted above, I have introduced the names `replace-bit-field` and `replace-same-bit-field`, which are more explicit.
-
-The procedures that do not exist in SRFI 33 have their SRFI 60 names, with one exception.  The SRFI 60 procedure `booleans->integer` is a convenient way to specify a bitwise integer in the absence of datum syntax (it accepts an arbitrary number of boolean arguments and returns an integer), so I gave it the short name `bits`, roughly analogous to `list`, `string`, and `vector`.
+||`any-bits-set?`||`any-bit-set?`||
+||`all-bits-set?`||`every-bit-set?`||
+||`test-bit-field?`||`bit-field-any?`||
+||---||`bit-field-every?`||
+||`extract-bit-field`||`bit-field-extract`||
+||`clear-bit-field`||`bit-field-clear`||
+||`replace-bit-field`||`bit-field-replace`||
+||`copy-bit-field`||`bit-field-copy`||
