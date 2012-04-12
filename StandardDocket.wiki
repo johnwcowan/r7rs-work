@@ -103,7 +103,7 @@ UDP protocol:  DatagramChannelsCowan
 
 Unicode character database: UcdCowan
 
-Unicode normalization:
+Unicode normalization: [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-2.html#node_idx_58|R6RS]], `string-ni=?` and friends (from earlier R7RS-small drafts).
 
 Weak dictionaries/hashtables:
 
