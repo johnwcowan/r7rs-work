@@ -1,0 +1,21 @@
+This isn't a proposal, just some ideas and discussion points.
+
+The basic interface to memoizing is a variant of `lambda`, perhaps called `lambda/memo` as in Racket, or perhaps something else.  It returns a procedure that ''memoizes'' the results of calls on it in a ''store'', and then pulls the results out of the store on later calls with the same arguments.  (Obviously, you don't want to do this if the procedure is impure.)
+
+It's easy to see how `define/memo` would work as a more convenient version of this.
+
+There are a bunch of issues, though:
+
+ * The most fundamental question is "What counts as the 'same arguments'?"  In Racket, `lambda/memo` uses `eq?` and `lambda/memo*` uses `equal`.  That doesn't seem very flexible.
+
+ * What is the type of the store?  In Racket, hash tables based on `eq?` and `equal?` are available.  But in R7RS-large, there is no guarantee that an implementation that wants to support memoizing will also provide hash tables, so either we closely couple the two packages, or we provide a hook for constructing a store.  If the function accepts only a single argument which belongs to a small range of exact integers, a vector would be a ''much'' better store.
+
+ * If arbitrary stores like a-lists are allowed, how are multiple arguments packaged up as a key for the store?
+
+ * How do we specify the getter and setter for an arbitrary store?
+
+ * How can we provide all this flexibility without compromising convenience for elementary uses?
+
+Adding extra arguments to `lambda/memo` beyond the lambda-list and the body doesn't seem like a win to me (how do you know if the extra arguments are arguments, or part of the body?).  Are dynamic parameters the Right Thing here?  I don't think so, because all these factors should be bound to the static definition of the memoized functions.  Is this a place where we need keyword arguments (which can be implemented directly in R5RS with no new data structures or lambda magic)?
+
+I think we need a record type `memoization-store` that provides a store constructor, comparator, getter, and setter.  But we still have the issue of associating an instance of `memoization-store` with a particular lambda.
