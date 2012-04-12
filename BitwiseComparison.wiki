@@ -23,18 +23,18 @@ The following table compares the names of the bitwise (aka logical) functions of
 ||Find first bit set||---||`first-set-bit`||`log2-binary-factors`, `first-set-bit`||---||`first-set-bit`||
 ||Extract bit field†||`ldb`||`extract-bit-field`††||`bit-field`||`bitwise-bit-field`||`bit-field`||
 ||Test bit field†||`ldb-test`||`test-bit-field?`††||---||---||---||
-||Clear bit field||`mask-field`||`clear-bit-field`††||---||---||---||
+||Clear bit field†||`mask-field`||`clear-bit-field`††||---||---||---||
 ||Replace bit field†||`dpb`||`replace-bit-field`††||`copy-bit-field`||`bitwise-copy-bit-field`||`bit-field-copy`||
-||Replace corresponding bit field||`deposit-field`||`copy-bit-field`††||---||---||`bit-field-copy-same`||
-||Rotate bit field||---||---||`rotate-bit-field`||`bitwise-rotate-bit-field`||`bit-field-rotate`||
-||Reverse bit field||---||---||`reverse-bit-field`||`bitwise-reverse-bit-field`||`bit-field-reverse`||
+||Replace corresponding bit field†||`deposit-field`||`copy-bit-field`††||---||---||`bit-field-copy-same`||
+||Rotate bit field†||---||---||`rotate-bit-field`||`bitwise-rotate-bit-field`||`bit-field-rotate`||
+||Reverse bit field†||---||---||`reverse-bit-field`||`bitwise-reverse-bit-field`||`bit-field-reverse`||
 ||Integer to boolean list||---||---||`integer->list`||---||`integer->list`||
 ||Boolean list to integer||---||---||`list->integer`||---||`list->integer`||
 ||Booleans to integer||---||---||`booleans->integer`||---||`bits`||
 
 *These procedures were made dyadic in [[http://srfi.schemers.org/srfi-33/mail-archive/msg00023.html|late revisions to SRFI 33]] that were never consummated.  BitwiseCowan adopts this change.
 
-†These procedures take a byte-spec object in Common Lisp (which encodes size and position), leading ''size'' and ''position'' arguments in SRFI-33, and trailing ''start'' and ''end'' arguments in SRFI-60, R6RS (where present), and BitwiseCowan.  Consequently, they are not quite compatible across specifications.  Note that `copy-bit-field` corresponds to different procedures in SRFI 33 and SRFI 60.
+†These procedures take a byte-spec object in Common Lisp (which encodes size and position), leading ''size'' and ''position'' arguments in SRFI-33, and trailing ''start'' and ''end'' arguments in SRFI-60, R6RS, and BitwiseCowan.  Consequently, they are not quite compatible across specifications.  Note that `copy-bit-field` corresponds to different procedures in SRFI 33 and SRFI 60.
 
 ††These procedures got new names in Olin's revisions:
 
