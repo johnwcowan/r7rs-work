@@ -50,25 +50,25 @@ Returns `#t` if the ''named-sequence'' is provisional, or `#f` if not.
 
 Returns a list of all normalization-corrections known to the implementation.
 
-`(normalization-correction-description `''block''`)`
+`(normalization-correction-description `''normalization-correction''`)`
 
 Returns a string describing ''normalization-correction''.  Note that normalization-corrections don't have names.
 
-`(normalization-correction-codepoint `''block''`)`
+`(normalization-correction-codepoint `''normalization-correction''`)`
 
 Returns an exact integer specifying the code point of the character whose normalization is being corrected.
 
-`(normalization-correction-old `''block''`)`
+`(normalization-correction-old `''normalization-correction''`)`
 
-Returns a list of exact integers specifying the normalization of `(normalization-correction-codepoint `''block''`)` before this normalization correction is applied.
+Returns a list of exact integers specifying the normalization of `(normalization-correction-codepoint `''block''`)` before ''normalization correction'' is applied.
 
 `(normalization-correction-new `''normalization-correction''`)`
 
-Returns a list of exact integers specifying the normalization of `(normalization-correction-codepoint `''block''`)` after this normalization correction is applied.
+Returns a list of exact integers specifying the normalization of `(normalization-correction-codepoint `''block''`)` after ''normalization correction'' is applied.
 
-`(normalization-correction-version `''block''`)`
+`(normalization-correction-version `''normalization-correction''`)`
 
-Returns a list of three exact integers specifying the version of the UCD (in the format of `ucd-version`) in which this normalization-correction was applied.
+Returns a list of three exact integers specifying the version of the UCD (in the format of `ucd-version`) in which ''normalization-correction'' was applied.
 
 == Standardized variants ==
 
@@ -86,29 +86,37 @@ Returns a string describing ''standardized-variant''.  Note that standardized-va
 
 Returns a string specifying the shaping environment under which ''standardized-variant'' is applied.
 
-`(standardized-variant-base-codepoint `''block''`)`
+`(standardized-variant-base-codepoint `''standardized-variant''`)`
 
 Returns an exact integer specifying the code point of the base character of the standardized variant.
 
-`(standardized-variant-variant-codepoint `''block''`)`
+`(standardized-variant-variant-codepoint `''standardized-variant''`)`
 
 Returns an exact integer specifying the code point of the base character of the standardized variant.
 '''Issue: this name is regrettable.'''
 
-== Undigested stuff from UAX #42 ==
-
-
 === CJK radicals ===
 
-The cjk-radicals child of the ucd describes the CJK radicals. It has one child element cjk-radical per radical. The attributes on that last element capture the radical number, the corresponding CJK radical character, and the corresponding CJK unified ideograph.
+''CJK-radicals'' are disjoint objects that represent the mapping between a radical (which in turn represents the semantic portion of a CJK character) and the ideographic character identical to that radical.  The list of cjk-radicals provided is implementation-dependent.  Since it is not possible to create new ones, `eqv?` may be used to compare them.
 
-[[cjk|radicals, 50]] =  
-  ucd.content &=
-    element cjk-radicals {
-      element cjk-radical { 
-        attribute number { xsd:string {pattern="[0-9]{1,3}'?"}},
-        attribute radical { single-code-point },
-        attribute ideograph { single-code-point }} + }?
+`(cjk-radicals)`
+
+Returns a list of all CJK-radicals known to the implementation.
+
+`(cjk-radical-number `''cjk-radical''`)`
+
+Returns an exact integer identifying ''cjk-radical''.
+
+`(cjk-radical-codepoint `''cjk-radical''`)`
+
+Returns an exact integer representing the codepoint of ''cjk-radical''.
+
+`(cjk-radical-ideograph `''cjk-radical''`)`
+
+Returns an exact integer representing the codepoint of the ideograph equivalent of ''cjk-radical''.
+
+
+== Undigested stuff from UAX #42 ==
 
 === Emoji sources ===
 
