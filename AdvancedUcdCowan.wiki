@@ -16,11 +16,11 @@ Returns a string naming ''block''.
 
 `(block-first `''block''`)`
 
-Returns an exact integer representing the first (smallest) code point in the block.
+Returns an exact integer representing the first (smallest) code point in ''block''.
 
 `(block-last `''block''`)`
 
-Returns an exact integer representing the last (largest) code point in the block.
+Returns an exact integer representing the last (largest) code point in ''block''.
 
 == Named Sequences ==
 
@@ -36,7 +36,7 @@ Returns a string naming ''named-sequence''.
 
 `(named-sequence-code-points `''named-sequence''`)`
 
-Returns a list of exact integers representing the code points of the ''named-sequence''.
+Returns a list of exact integers representing the code points of ''named-sequence''.
 
 `(named-sequence-provisional? `''named-sequence''`)`
 
@@ -88,11 +88,11 @@ Returns a string specifying the shaping environment under which ''standardized-v
 
 `(standardized-variant-base-codepoint `''standardized-variant''`)`
 
-Returns an exact integer specifying the code point of the base character of the standardized variant.
+Returns an exact integer specifying the code point of the base character of ''standardized-variant''.
 
 `(standardized-variant-variant-codepoint `''standardized-variant''`)`
 
-Returns an exact integer specifying the code point of the base character of the standardized variant.
+Returns an exact integer specifying the code point of the base character of ''standardized-variant''.
 '''Issue: this name is regrettable.'''
 
 === CJK radicals ===
@@ -116,20 +116,26 @@ Returns an exact integer representing the codepoint of ''cjk-radical''.
 Returns an exact integer representing the codepoint of the ideograph equivalent of ''cjk-radical''.
 
 
-== Undigested stuff from UAX #42 ==
-
 === Emoji sources ===
 
-The emoji-sources child of the ucd describes the emoji sources.
+''Emoji-sources'' are disjoint objects that represent the mapping between Unicode and the sources of ''emoji'' (emoticon) characters.  Each emoji-source maps one or more Unicode codepoints to an exact integer representing a JIS codepoint as assigned by the !DoCoMo, KDDI, and !SoftBank sources.  The list of emoji-sources provided is implementation-dependent.  Since it is not possible to create new ones, `eqv?` may be used to compare them.
 
-[[datatype|for code points, 51]] =  
-  jis-code-point = xsd:string { pattern = "[0-9A-F]{4}" }
+`(emoji-sources)`
 
-[[emoji|sources, 52]] =  
-  ucd.content &=
-    element emoji-sources {
-      element emoji-source {
-        attribute unicode { one-or-more-code-points },
-        attribute docomo { jis-code-point? },
-        attribute kddi { jis-code-point? },
-        attribute softbank { jis-code-point? } } + }?
+Returns a list of all emoji-sources known to the implementation.
+
+`(emoji-source-codepoints `''emoji-source''`)`
+
+Returns a list of exact integers representing the Unicode codepoints of ''emoji-source''.
+
+`(emoji-source-docomo `''emoji-source''`)`
+
+Returns an exact integer representing the JIS code point as assigned by !DoCoMo in ''emoji-source'', or `#f` if there is none.
+
+`(emoji-source-kddi `''emoji-source''`)`
+
+Returns an exact integer representing the JIS code point as assigned by KDDI in ''emoji-source'', or `#f` if there is none.
+
+`(emoji-source-docomo `''emoji-source''`)`
+
+Returns an exact integer representing the JIS code point as assigned by !SoftBank in ''emoji-source'', or `#f` if there is none.
