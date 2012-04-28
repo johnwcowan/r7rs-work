@@ -8,11 +8,11 @@ In this proposal, a filename passed to any of `open-input-file`, `open-binary-in
 
  `binary`::
 
- Specifies that this port allows binary in addition to textual operations.  If the value of this key is true, then a call to `open-input-file`, `open-output-file`, `with-input-from-file`, `with-output-from-file`, `call-with-input-file`, or `call-with-output-file` allows binary as well as textual input and output operations.  However, a textual operation may not be followed immediately by a binary operation unless the value of the `char-buffer` key is `none`; an intervening call to `set-port-position!` will suffice.  It is an error to specify the value as `#f` on calls to `open-binary-input-file` or `open-binary-output-file`; otherwise, the value `#f` causes the key to be ignored.
+ If the value of this key is true, then a call to `open-input-file`, `open-output-file`, `with-input-from-file`, `with-output-from-file`, `call-with-input-file`, or `call-with-output-file` will respond `#t` to both `textual-port?` and `binary-port?`, and allows binary as well as textual input and output operations.  However, a textual operation may not be followed immediately by a binary operation unless the value of the `char-buffer` key is `none`; an intervening call to `set-port-position!` will suffice.  It is an error to specify the value as `#f` on calls to `open-binary-input-file` or `open-binary-output-file`; otherwise, the value `#f` causes the key to be ignored.
 
  `bidirectional`::
 
- Specifies that the port is both an input port and an output port, and both types of operations are accepted.  However, an input operation may not be followed immediately by an output operation, nor vice versa; an intervening call to `set-port-position!` will suffice.  The input and output side of the port may be closed separately using `close-input-port` and `close-output-port`; `close-port` will close both sides.
+ Specifies that the port will respond `#t` to both `input-port?` and `output-port?`, and both input and output operations are accepted.  However, an input operation may not be followed immediately by an output operation, nor vice versa; an intervening call to `set-port-position!` will suffice.  The input and output side of the port may be closed separately using `close-input-port` and `close-output-port`; `close-port` will close both sides.
 
  `append`::
 
