@@ -18,9 +18,9 @@ User-specified syntax-transformers:
 
 Immutable data:
 
-Port encodings, buffering, line ending control:
+Port encodings, buffering, line ending control:  SettingsListsCowan and FilesAdvancedCowan
 
-Evaluator arguments to procedures like `load`: under WG1 ballot
+Evaluator arguments to procedures like `load`:
 
 Applicable record instances (see http://www.r6rs.org/formal-comments/comment-6.txt):
 
