@@ -32,7 +32,7 @@ In this proposal, a filename passed to any of `open-input-file`, `open-binary-in
 
  `buffer`::
 
- Specifies what kind of binary buffering is present.  The value `none` means there is no buffering; the value 'block' means block buffering is provided.  Buffer sizes are implementation-dependent.  The default value is implementation-dependent.
+ For an output port, the value of this key defines when an output operation flushes a buffer associated with the output port. For an input port, the value defines how much data will be read to satisfy read operations.  The value `none` means there is no buffering; the value 'block' means block buffering is provided.  Buffer sizes are implementation-dependent.  The default value is implementation-dependent.
 
  `char-buffer`::
 
