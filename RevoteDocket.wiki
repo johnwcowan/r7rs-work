@@ -2,42 +2,58 @@
 
 This docket contains work items that WG2 has not yet decided whether to work on or not.    See [[:WG2Dockets|WG2Dockets]] for other dockets.
 
-Undefined value API:
+Applicable record instances (see http://www.r6rs.org/formal-comments/comment-6.txt):
 
-NaN dissector API (sign, quiet/signaling status, and integer tag): 
-
-`equal=?` (like `equal?` but with `=` instead of `eqv?` on numbers):
+`cond` `=>` with guard as well as generator (see #89):  SRFI 61
 
 Custom I/O ports:
 
-Testing function arity:
-
-Identifier-syntax:
-
-User-specified syntax-transformers:
-
-Immutable data:
-
-Port encodings, buffering, line ending control:  SettingsListsCowan and FilesAdvancedCowan
-
-Evaluator arguments to procedures like `load`:
-
-Applicable record instances (see http://www.r6rs.org/formal-comments/comment-6.txt):
-
-Random procedures from R6RS (notably `symbol=?` and `boolean=?`): to be spelled out
-
-String positions and slices (see http://www.r6rs.org/formal-comments/comment-235.txt):
+`drop-prefix` import spec:  
 
 Enumerations (R6RS, but see also http://www.r6rs.org/formal-comments/comment-262.txt):
 
-`Record-let`:
+`equal=?` (like `equal?` but with `=` instead of `eqv?` on numbers):
 
-Thread-local storage: 
+Evaluator arguments to procedures like `load`: #277
+
+Identifier-syntax:
+
+Imaginary inexact zero versions of ''real'', ''rational'', ''integer'': 
+
+Immutable data: ImmutableData
+
+Interrupts, timers, signals: 
 
 Macro expander(s) available at run time: 
 
-`syntax-case`: 
+`make-error-object` constructs error object without raising it: 
+
+Multiple values passed through => in `cond` (see #90): 
+
+NaN dissector API (sign, quiet/signaling status, and integer tag): 
+
+`number->string` control for significant digits: [[http://lists.scheme-reports.org/pipermail/scheme-reports/2011-May/000709.html|Vincent Manis proposal]], R6RS
+
+Port encodings, buffering, line ending control:  SettingsListsCowan and FilesAdvancedCowan
+
+Port type detector:
+
+Random procedures from R6RS (notably `symbol=?` and `boolean=?`): to be spelled out
+
+`Record-let`:
+
+`standard-*-port` routines:  R6RS
+
+String positions and slices (see http://www.r6rs.org/formal-comments/comment-235.txt):
 
 Syntactic closures: 
 
+`syntax-case`: 
 
+Thread-local storage: 
+
+Testing function arity: [[http://srfi.schemes.org/srfi-102/srfi-102.html|SRFI 102]]
+
+Undefined value API (see #49):
+
+User-specified syntax-transformers:
