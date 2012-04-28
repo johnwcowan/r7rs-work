@@ -1,4 +1,9 @@
-This is a WG2 proposal for a `(scheme files advanced)` library providing R6RS-equivalent file I/O operations in an upward compatible way, with the exceptions of custom ports, the `standard-*-port` procedures, and destructively reading characters into existing strings.
+This is a WG2 proposal for a `(scheme files advanced)` library providing R6RS-equivalent file I/O operations in an upward compatible way, with the following exceptions:
+
+ * custom ports
+ * the `standard-*-port` procedures
+ * the ability to change a binary port to textual after it has been used, though the `binary` setting-list key allows mixed textual and binary operations on the same port, with limtations
+ * destructively reading characters into existing strings
 
 == Procedures from files library ==
 
