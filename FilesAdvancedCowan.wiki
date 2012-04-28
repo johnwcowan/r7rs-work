@@ -55,11 +55,11 @@ Reads at most ''n'' characters from ''port'' and returns them as a newly allocat
 
 Reads characters from ''string'' beginning at ''start'' (inclusive) and ending at ''end'' (exclusive) to ''port''.  The default port is the value of `(current-output-port)`.
 
-`(read-bytes-to-eof  ` [''port'']`)`
+`(read-maximal-bytevector ` [''port'']`)`
 
 Returns a bytevector consisting of all the bytes that can be read from ''port'' before an eof-object is returned, or an eof-object if there are none.  The default port is the value of `(current-input-port)`.
 
-`(read-chars-to-eof ` [[|''port'' ]]`)`
+`(read-maximal-string ` [[|''port'' ]]`)`
 
 Returns a string consisting of all the characters that can be read from ''port'' before an eof-object is returned, or an eof-object if there are none.  The default port is the value of `(current-input-port)`.
 
