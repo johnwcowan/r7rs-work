@@ -1,35 +1,55 @@
 == Settings lists ==
 
-In this proposal, a filename passed to any of `open-input-file`, `open-binary-input-file`, `open-output-file`, `open-binary-output-file`, `with-input-from-file`, `with-output-from-file`, `call-with-input-file`, and `call-with-output-file` may be specified either as a string (as in R7RS-small) or as a ''settings list'', which is a list of alternating ''keys'' and ''values'' where every key is a symbol.  Quasiquote syntax is useful in creating settings lists.  Specifying a string is equivalent to specifying the settings list `(path `''string''`)`.  Implementations MUST support the following keys:
+In this proposal, a filename passed to any of `open-input-file`, `open-binary-input-file`, `open-output-file`, `open-binary-output-file`, `with-input-from-file`, `with-output-from-file`, `call-with-input-file`, and `call-with-output-file` may be specified either as a string (as in R7RS-small) or as a ''settings list'', which is a list of alternating ''keys'' and ''values'' where every key is a symbol.  Quasiquote syntax is useful in creating settings lists.  Specifying a string is equivalent to specifying the settings list `(path `''string''`)`.  The following keys are defined by this proposal:
 
  `path`::
 
- Specifies the filename.  The interpretation of filenames is implementation-dependent.  There is no default value, but implementations MAY accept other keys in lieu of this one for opening files or file-like objects that don't have string names.  In particular, filenames on Posix are really u8-vectors with some u8 values disallowed, and filenames on Windows are really u16-vectors with some u16 values disallowed, and while most names of actual files are representable as strings, some may not be.
+ Specifies the filename to be opened.  The interpretation of filenames is implementation-dependent.  There is no default value, but implementations MAY accept other keys in lieu of this one for opening files or file-like objects that don't have string names.  In particular, filenames on Posix are really u8-vectors with some u8 values disallowed, and filenames on Windows are really u16-vectors with some u16 values disallowed, and while most names of actual files are representable as strings, some may not be.
 
  `binary`::
 
- Specifies binary rather than textual operations.  If the value of this key is `#t`, then a call to `open-input-file` or `open-output-file` is treated as a call to `open-binary-input-file` or `open-binary-output-file` respectively, and a call to `with-input-from-file`, `with-output-from-file`, `call-with-input-file`, or `call-with-output-file` is treated as if the underlying procedure were `open-binary-input-file` or `open-binary-output-file`.  It is an error to specify the value as `#f` on calls to `open-binary-input-file` or `open-binary-output-file`; otherwise, the value `#f` causes the key to be ignored.  
+ Specifies that this port allows binary in addition to textual operations.  If the value of this key is true, then a call to `open-input-file`, `open-output-file`, `with-input-from-file`, `with-output-from-file`, `call-with-input-file`, or `call-with-output-file` allows binary as well as textual input and output operations.  However, a textual operation may not be followed immediately by a binary operation unless the value of the `char-buffer` key is `none`; an intervening call to `set-port-position!` will suffice.  It is an error to specify the value as `#f` on calls to `open-binary-input-file` or `open-binary-output-file`; otherwise, the value `#f` causes the key to be ignored.
 
-Implementations SHOULD support the following additional keys (if not, then the implementation-dependent default cannot be changed):
+ `bidirectional`::
 
- `buffering`::
+ Specifies that the port is both an input port and an output port, and both types of operations are accepted.  However, an input operation may not be followed immediately by an output operation, nor vice versa; an intervening call to `set-port-position!` will suffice.  The input and output side of the port may be closed separately using `close-input-port` and `close-output-port`; `close-port` will close both sides.
 
- Specifies what kind of buffering is present.  The value `#f` means no buffering is employed; the symbol `nochar` means that there is a binary buffer but no character buffer; `#t` means there is both character and binary buffering on a textual port, or binary buffering on a binary port.  Other values MAY be supported by an implementation.  Buffer sizes are implementation-dependent.  The default value is implementation-dependent.
+ `append`::
+
+ If the value of this key is true, the file pointer is moved to the end of file before every write operation.  This is POSIX and Win32 O_APPEND.
+
+ `create`::
+
+ If the value of this key is true, and the file specified by `path` does not exist, it will be created.  This is POSIX and Win32 O_CREAT.
+
+ `exclusive`::
+
+ If the value of this key is true, and the file specified by `path` exists, an error is signalled.  This is only effective if the value of the `create` key is also true.  This is POSIX and Win32 O_EXCL.
+
+ `truncate`::
+
+ If the value of this key is true, and the file specified by 'path' exists, it is truncated to zero length.  This is only effective if the file is being opened for output.  This is POSIX and Win32 O_TRUNC.
+
+ `buffer`::
+
+ Specifies what kind of binary buffering is present.  The value `none` means there is no buffering; the value 'block' means block buffering is provided.  Buffer sizes are implementation-dependent.  The default value is implementation-dependent.
+
+ `char-buffer`::
+
+ Specifies what kind of character buffering is present.  Character buffering affects how much translation between characters and bytes is done all at once.  The value `none` means no character buffering is employed; the value `block` means there is a buffer for translation.  The value `line` is the same as `block`, except that on output, the character buffer as well as the binary buffer (if any) is flushed after each newline is output.  Other values MAY be supported by an implementation.  Buffer sizes are implementation-dependent.  The default value is implementation-dependent.
 
  `encoding`::
 
- Specifies what character encoding to use on a binary port.  The (case insensitive) value `US-ASCII` MUST be supported.  The values `ISO-8859-1` and `UTF-8` SHOULD be supported if the implementation contains the appropriate repertoire of characters.  Other values MAY be supported, which SHOULD appear in the [[http://www.iana.org/assignments/character-sets|IANA list of encodings]].  The default value is implementation-dependent.
+ Specifies what character encoding to use on a textual port.  The (case insensitive) value `us-ascii` MUST be supported.  The values `iso-8859-1` and `utf-8` SHOULD be supported if the implementation contains the appropriate repertoire of characters.  Other values MAY be supported; they SHOULD appear in the [[http://www.iana.org/assignments/character-sets|IANA list of encodings]].  The default value is implementation-dependent.
 
  If a BOM (Byte Order Mark, U+FEFF) is present at the beginning of input on a port encoded as UTF-8, it is skipped.  A BOM is not automatically written on output.  Implementations MAY provide a way around this.
 
  `newline`::
 
- Specifies how to translate newlines.  The value `#f` means that no translation is performed.  The value `#t` causes all of CR, LF, CR+LF, NEL (U+0085), CR+NEL, and LS (U+2028) to be translated to `#\newline` on input.  If the value is a string, then `#\newline` is translated into that string on output.  Other values MAY be supported by an implementation.  The default value is implementation-dependent.
+ Specifies how to translate newlines.  The value `none` means that no translation is performed.  The values `cr`, `lf`, and `crlf` cause `#\newline` to be translated to CR, LF, or CR+LF on output; all of them cause all of CR, LF, and CR+LF to be translated to `#\newline` on input.  Other values MAY be supported by an implementation.  The default value is implementation-dependent.
 
- `case-sensitive`::
+ `encoding-error`::
 
- Specifies if Scheme symbols are read (as by `read`) from the port case-sensitively or not.  The value `#f` means that upper-case letters in symbols are translated to lower case unless escaped; `#t` means that no translation is done.  The default value is `#t`.
+ Specifies what action to take if a character cannot be encoded as bytes or a sequence of bytes cannot be decoded as a character in the specified encoding.  The value `ignore` means that the untranslatable byte or character is ignored.  The value `raise` means that an error is signalled.  The value `replace` means that an untranslatable byte is replaced by `#\xFFFD;` if that character is available in the implementation, or `#\?` if not, and an untranslatable character is replaced by the byte encoding of `#xFFFD;` if there is one, or `#\?` if not.  The default value is implementation-dependent.
 
-Implementations MAY support other keys, SHOULD warn if they detect keys they do not understand or implement, and MAY signal an error in such cases.
-
-
+Implementations MAY support other keys, SHOULD warn if they detect keys or values they do not understand or implement, and MAY signal an error in such cases.
