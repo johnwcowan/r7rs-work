@@ -8,6 +8,8 @@ Applicable record instances (see http://www.r6rs.org/formal-comments/comment-6.t
 
 Custom I/O ports:
 
+Division library: DivisionRiastradh
+
 `drop-prefix` import spec:  
 
 Enumerations (R6RS, but see also http://www.r6rs.org/formal-comments/comment-262.txt):
