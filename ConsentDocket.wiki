@@ -28,7 +28,7 @@ Regex (S-exps and strings): Alex Shinn's [[http://synthcode.com/scheme/irregex/|
 
 [[http://http://srfi.schemers.org/srfi-31/srfi-31.html|SRFI 31]], `rec` macro: As written.
 
-[[http://http://srfi.schemers.org/srfi-41/srfi-41.html|SRFI 31]], `(streams primitive)` and `(streams derived)` libraries: As written.
+[[http://http://srfi.schemers.org/srfi-41/srfi-41.html|SRFI 41]], `(streams primitive)` and `(streams derived)` libraries: As written.
 
 [[http://http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]], vector library: As written, but excluding `make-vector`, `vector`,`vector?`, `vector-ref`, `vector-length`, `vector-set!`, `list->vector`, which are all in the `(scheme base)` library.  Depending on ticket #310, `vector-copy`, `vector->list`, `vector-fill!` may also be removed.
 
