@@ -6,7 +6,7 @@ There are therefore 16 possible numeric towers.  Nine of them are known to have 
 
 ||`exactness-preserving`||`ratios`||`inexact`||`complex`||Description||Implementations
 ||-||-||-||-||A "toy" tower with bounded exact integers only (possibly appropriate where no numerical work will be done)||!SigScheme*||
-||-||-||+||-||Fixnums and flonums (all arithmetic runsin essentially constant time)||Plain Chicken, Shoe*, !TinyScheme*, RScheme, BDC*, XLisp*, Schemik*, VX, SXM*, Inlab, Sixx, Sizzle (also Elisp*, C*)||
+||-||-||+||-||Fixnums and flonums (all arithmetic runs in essentially constant time)||Plain Chicken, Shoe*, !TinyScheme*, RScheme, BDC*, XLisp*, Schemik*, VX, SXM*, Inlab, Sixx, Sizzle (also Elisp*, C*)||
 ||-||-||+||+||Fixnums, flonums, and inexact complex numbers (all arithmetic runs in essentially constant time)||Stalin||
 ||-||+||+||+||Limited-range exact and inexact numbers||Scheme 7, Wraith||
 ||+||-||+||-||Exact integers and inexact real numbers (a good all-round compromise)||Bigloo, Scheme 9, Elk (also ISLisp)||
