@@ -1,10 +1,10 @@
 How a variety of Schemes represent complex numbers:
 
-Exact, inexact, and mixed complex number representations: MIT, Gambit, Chibi, Mosh, STklos.
+Exact, inexact, and mixed complex number representations: MIT, Gambit, Chibi, Mosh, STklos.  (Also CLISP.)
 
-Exact and inexact complex number representations only (mixed complex numbers become inexact): Racket, Chicken with the numbers egg, Scheme48/scsh, Kawa, Chez, Vicare, Larceny, Ypsilon, !IronScheme.
+Exact and inexact complex number representations only (mixed complex numbers become inexact): Racket, Chicken with the numbers egg, Scheme48/scsh, Kawa, Chez, Vicare, Larceny, Ypsilon, !IronScheme.  (Also ABCL, Allegro CL, Clozure CL, CMUCL, ECL, GNU CL, LispWorks, SBCL, Scieneer CL.)
 
-Inexact complex number representations only: Gauche, Guile, SISC, SCM, KSi, Scheme 7, UMB.
+Inexact complex number representations only: Gauche, Guile, SISC, SCM, KSi, Scheme 7, UMB, Stalin.
 
 No complex numbers: plain Chicken, Bigloo, Ikarus, NexJ, !SigScheme, Shoe, !TinyScheme, Scheme 9, Dream, RScheme, BDC, XLisp, Rep, Schemik, Elk, VX, Oaklisp, Owl Lisp.
 
