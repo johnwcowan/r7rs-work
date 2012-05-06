@@ -5,13 +5,13 @@ This is an analysis of the R5RS provision that the full numeric tower may be sub
 There are therefore 16 possible numeric towers.  Nine of them are known to have implementations, as shown below.  I write `+` if a feature is present and `-` if it is absent, and give a general description of the resulting tower and some Scheme implementations that provide it.
 
 ||`exactness-preserving`||`ratios`||`inexact`||`complex`||Description||Implementations
-||-||-||-||-||A "toy" tower with bounded exact integers only; possibly appropriate where no numerical work will be done||!SigScheme*||
-||-||-||+||-||A fixnum-flonum Scheme where all numbers are real and all arithmetic happens in essentially constant time||Plain Chicken, Shoe*, !TinyScheme*, RScheme, BDC*, XLisp*, Schemik*, VX, SXM*, Inlab, Sixx, Sizzle (also Elisp*, C*)||
-||-||-||+||+||The complex-number equivalent of the preceding||Stalin||
+||-||-||-||-||A "toy" tower with bounded exact integers only (possibly appropriate where no numerical work will be done)||!SigScheme*||
+||-||-||+||-||Fixnums and flonums (all arithmetic runsin essentially constant time)||Plain Chicken, Shoe*, !TinyScheme*, RScheme, BDC*, XLisp*, Schemik*, VX, SXM*, Inlab, Sixx, Sizzle (also Elisp*, C*)||
+||-||-||+||+||Fixnums, flonums, and inexact complex numbers (all arithmetic runs in essentially constant time)||Stalin||
 ||-||+||+||+||Limited-range exact and inexact numbers||Scheme 7, Wraith||
-||+||-||+||-||Exact integers and inexact real numbers, a good all-round compromise||Bigloo, Scheme 9, Elk (also ISLisp)||
-||+||-||+||+||The same as the preceding, but with inexact complex numbers as well||SCM||
-||+||+||-||-||Exact rational numbers only; reasonable for some purposes, but will often run very slowly without inexact support, so unsuitable for scientific-type work.||Dream, Oaklisp, Owl Lisp||
+||+||-||+||-||Exact integers and inexact real numbers (a good all-round compromise)||Bigloo, Scheme 9, Elk (also ISLisp)||
+||+||-||+||+||Exact integers, inexact real numbers, and inexact complex numbers||SCM||
+||+||+||-||-||Exact rational numbers only (reasonable for some purposes, but will often run very slowly without inexact support, so unsuitable for scientific-type work)||Dream, Oaklisp, Owl Lisp||
 ||+||+||+||-||Real numbers only||Psyche, Ikarus, Rep, Elk (also Clojure)||
 ||+||+||+||+||Full numeric tower||Racket, Gauche, MIT, Gambit, Chicken with the `numbers` egg, Scheme48/scsh, Kawa, SISC, Chibi, Guile, Chez, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, STklos, KSi, UMB, Spark (also Common Lisp, Pure)||
 
