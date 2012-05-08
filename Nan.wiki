@@ -1,0 +1,38 @@
+
+These are the R6RS examples involving !NaNs (already accounted for verbally in the "Implementation extensions" section of R7RS):
+
+{{{
+(number? +nan.0)   => #t ; NaN is real but not rational
+(complex? +nan.0)  => #t
+(real? +nan.0)     => #t
+(rational? +nan.0) => #f
+
+                         ; NaN compares #f to anything
+(= +nan.0 z)       => #f where z numeric
+(< +nan.0 x)       => #f where x real
+(> +nan.0 x)       => #f where x real
+
+(zero? +nan.0)     => #f ; NaN is unsigned
+(positive? +nan.0) => #f
+(negative? +nan.0) => #f
+
+                         ; NaN is mostly sticky
+(* 0 +inf.0)       => 0 or +nan.0
+(* 0 +nan.0)       => 0 or +nan.0
+(+ +nan.0 x)       => +nan.0 where x real
+(* +nan.0 x)       => +nan.0 where x real and not exact 0
+
+                         ; Sum of +inf.0 and -inf.0 is NaN
+(+ +inf.0 -inf.0)  => +nan.0
+(- +inf.0 +inf.0)  => +nan.0
+
+                         ; 0/0 is NaN unless both 0s are exact
+(/ 0 0.0) => +nan.0
+(/ 0.0 0) => +nan.0
+(/ 0.0 0.0) => +nan.0
+
+(round +nan.0)     => +nan.0 ; Nan rounds (etc.) to NaN
+
+(rationalize +inf.0 +inf.0) => +nan.0 ; Rationalizing infinity to nearest infinity is NaN
+}}}
+
