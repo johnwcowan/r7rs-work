@@ -1,0 +1,24 @@
+These are the R6RS examples involving -0.0 (already accounted for verbally in the "Implementation extensions" section of R7RS):
+
+{{{
+(zero? -0.0)  => #t                ; -0.0 is a Scheme zero
+
+(+ 0.0 0.0)   => 0.0               ; Sum is -0.0 only if all arguments are -0.0
+(+ 0.0 -0.0)  => 0.0
+(+ -0.0 0.0)  => 0.0
+(+ -0.0 -0.0) => -0.0
+
+(- 0.0)       => -0.0             ; Negation flips the sign of zero
+(- -0.0)      => 0.0
+
+(- 0.0 -0.0)  => 0.0              ; Negate all arguments but the last and then add
+(- -0.0 0.0)  => -0.0
+(- 0.0 0.0)   => 0.0
+(- -0.0 -0.0) => 0.0
+
+(log -1.0+0.0i) => 0.0+3.141592653589793i ; approximately
+(log -1.0-0.0i) => 0.0-3.141592653589793i ; approximately
+
+(angle -1.0+0.0i) => 3.141592653589793    ; approximately
+(angle -1.0-0.0i) => -3.141592653589793   ; approximately
+}}}
