@@ -24,7 +24,7 @@ KSi, Scheme 9, Femtolisp return an incorrect result.
 
 === Division by inexact zero ===
 
-Plain Chicken, scsh, Shoe, TinyScheme, XLisp, Rep, Schemik, Scheme 7, SXM, Sizzle, Dfsch, Inlab, VSCM report an error.
+Plain Chicken, scsh, Shoe, !TinyScheme, XLisp, Rep, Schemik, Scheme 7, SXM, Sizzle, Dfsch, Inlab, VSCM report an error.
 
 Racket, Gauche, MIT, Gambit, Chicken with the numbers egg, Bigloo, Scheme48, Guile, Kawa, SISC, Chibi, SCM, Chez, SCM, !Ikarus/Vicare, Larceny, Ypsilon, Mosh, !IronScheme, NexJ, STklos, BDC, Elk, UMB, VX, Spark, Femtolisp return inexact infinity.
 
@@ -34,7 +34,7 @@ KSi, Scheme 9 return an incorrect result.
 
 === Inexact multiplication by exact zero ===
 
-Racket, MIT, Gambit, Chez, Ypsilon, TinyScheme, XLisp, Elk, SXM, Sizzle, Spark, Inlab return exact 0.
+Racket, MIT, Gambit, Chez, Ypsilon, !TinyScheme, XLisp, Elk, SXM, Sizzle, Spark, Inlab return exact 0.
 
 Gauche, Chicken, Bigloo, Scheme48/scsh, Guile, Kawa, SISC, Chibi, SCM, !Ikarus/Vicare, Larceny, Mosh, !IronScheme, NexJ, STklos, KSi, Shoe, Scheme 9, Scheme 7, BDC, Rep, Schemik, UMB, VX, Femtolisp, Dfsch, VSCM return inexact 0.0.
 
@@ -44,7 +44,7 @@ Gauche, Chicken, Bigloo, Scheme48/scsh, Guile, Kawa, SISC, Chibi, SCM, !Ikarus/V
 
 Gauche, MIT, Chicken with the numbers egg, Scheme48/scsh, Kawa, SISC, SCM, STklos, KSi, Scheme 7, UMB, Spark, Dfsch, VSCM consider 3.0+0.0i to be a real number.
 
-Racket, Gambit, Guile, Chibi, Chez, Vicare, Larceny, Ypsilon, Mosh, IronScheme do not.
+Racket, Gambit, Guile, Chibi, Chez, Vicare, Larceny, Ypsilon, Mosh, !IronScheme do not.
 
 Bigloo, Ikarus, NexJ, !SigScheme, Shoe, !TinyScheme, Dream, Scheme 9, BDC, XLisp, Rep, Schemik, Elk, VX, Oaklisp, SXM, Sizzle, Femtolisp, Inlab, Owl Lisp do not implement non-real numbers.
 
