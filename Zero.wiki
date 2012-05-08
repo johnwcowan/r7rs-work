@@ -1,39 +1,54 @@
-This page talks about various aspects of zero.  Thanks to Alexey Radul for the ideas here; the research is mine.
+This page talks about how implementations handle various aspects of zero.  Thanks to Alexey Radul for the ideas here; the research is mine.
 
 === Exact division by zero ===
 
-PLT, MIT, Gambit, Chicken, Bigloo, Scheme48/scsh, Guile, SISC, Chez, Ikarus, Larceny, Mosh, Scheme 7, sscm, SXM, VSCM, and Chibi report an error.
+Racket, MIT, Gambit, Chicken, Bigloo, Scheme48/scsh, Chibi, Guile, SISC, Chez, !Ikarus/Vicare, Larceny, Ypsilon, Mosh, !IronScheme, NexJ, STklos, Shoe, Scheme 7, BDC, XLisp, Rep, Schemik, Elk, UMB, !SigScheme, SXM, Sizzle, Spark, Dfsch, Inlab, VSCM report an error.
 
-Gauche, Kawa, SCM, Scheme 9 return inexact infinity.
+Gauche, SCM, KSi, VX return inexact infinity.
+
+Kawa returns exact infinity.
+
+Scheme 9, Femtolisp return an incorrect result.
 
 === Inexact division by exact zero ===
 
-PLT, MIT, Gambit, Chicken, Scheme48/scsh, Guile, Scheme 7, SXM, VSCM report an error.
+Racket, Gambit, Chicken, scsh, Chibi, Guile, Shoe, Scheme 7, BDC, XLisp, Rep, Schemik, Elk, SXM, Sizzle, Spark, Dfsch, Inlab, VSCM report an error.
 
-Gauche, Bigloo, Kawa, SISC, Chez, Ikarus, Larceny, Mosh, Scheme 9 return inexact infinity.
+Gauche, Bigloo, Scheme48, Kawa, SISC, SCM, Chez, !Ikarus/Vicare, Larceny, Ypsilon, Mosh, !IronScheme, NexJ, STklos, UMB, VX return inexact infinity.
 
-SSCM does not handle inexact numbers.
+MIT reports an error unless floating traps are ignored, in which case it returns inexact infinity.
+
+!SigScheme, Dream, Oaklisp, Owl Lisp do not support inexact numbers.
+
+KSi, Scheme 9, Femtolisp return an incorrect result.
 
 === Division by inexact zero ===
 
-Chicken, Scheme 7, SXM, VSCM report an error.
+Plain Chicken, scsh, Shoe, TinyScheme, XLisp, Rep, Schemik, Scheme 7, SXM, Sizzle, Dfsch, Inlab, VSCM report an error.
 
-PLT, Gauche, Gambit, Bigloo, Scheme48/scsh, Guile, Kawa, SISC, Chez, SCM, Ikarus, Larceny, Mosh, Scheme 9, Chibi return inexact infinity.
+Racket, Gauche, MIT, Gambit, Chicken with the numbers egg, Bigloo, Scheme48, Guile, Kawa, SISC, Chibi, SCM, Chez, SCM, !Ikarus/Vicare, Larceny, Ypsilon, Mosh, !IronScheme, NexJ, STklos, BDC, Elk, UMB, VX, Spark, Femtolisp return inexact infinity.
 
-SSCM does not handle inexact numbers.
+!SigScheme, Dream, Oaklisp, Owl Lisp do not support inexact numbers.
+
+KSi, Scheme 9 return an incorrect result.
 
 === Inexact multiplication by exact zero ===
 
-PLT, MIT, Gambit, Guile, Chez, SXM return exact 0.
+Racket, MIT, Gambit, Chez, Ypsilon, TinyScheme, XLisp, Elk, SXM, Sizzle, Spark, Inlab return exact 0.
 
-Gauche, Chicken, Bigloo, Scheme48/scsh, Kawa, SISC, SCM, Ikarus, Larceny, Mosh, Scheme 9, Scheme 7, VSCM, Chibi return inexact 0.0.
+Gauche, Chicken, Bigloo, Scheme48/scsh, Guile, Kawa, SISC, Chibi, SCM, !Ikarus/Vicare, Larceny, Mosh, !IronScheme, NexJ, STklos, KSi, Shoe, Scheme 9, Scheme 7, BDC, Rep, Schemik, UMB, VX, Femtolisp, Dfsch, VSCM return inexact 0.0.
 
-SSCM does not handle inexact numbers.
+!SigScheme, Dream, Oaklisp, Owl Lisp do not support inexact numbers.
 
 === Complex numbers with 0.0 imaginary part. ===
 
-Gauche, MIT-Scheme, Chicken (with the numbers egg), Scheme48/scsh, Guile, Kawa, SISC, SCM, Scheme 7, VSCM consider 3.0+0.0i to be a real number.
+Gauche, MIT, Chicken with the numbers egg, Scheme48/scsh, Kawa, SISC, SCM, STklos, KSi, Scheme 7, UMB, Spark, Dfsch, VSCM consider 3.0+0.0i to be a real number.
 
-PLT, Gambit, Chez, Ikarus, Larceny, Mosh do not.
+Racket, Gambit, Guile, Chibi, Chez, Vicare, Larceny, Ypsilon, Mosh, IronScheme do not.
 
-Bigloo, Scheme 9, SSCM, SXM, Chibi do not implement general complex numbers.
+Bigloo, Ikarus, NexJ, !SigScheme, Shoe, !TinyScheme, Dream, Scheme 9, BDC, XLisp, Rep, Schemik, Elk, VX, Oaklisp, SXM, Sizzle, Femtolisp, Inlab, Owl Lisp do not implement non-real numbers.
+
+== Negative zero ===
+
+Racket, Gambit, Guile, Chez, Vicare, Spark, Femtolisp distinguish between 0.0 and -0.0.
+
