@@ -9,9 +9,8 @@ A ''time interval'' is an immutable object belonging to a distinct type and repr
 
 `(make-duration `[[|''chronology'' ]]` `''alist''`)`
 
-Returns a duration based on ''chronology'', defaulting to the value of `(default-chronology)`.  ''Alist'' is an alist mapping duration field names understood by that chronology to their values.  In the ISO, Gregorian, and Julian calendars, the field names are
-`years`, `months`, `weeks`, `days`, `hours`,
-`minutes`, and `seconds`.
+Returns a duration based on ''chronology'', defaulting to the value of `(current-chronology)`.  ''Alist'' is an alist mapping duration field names understood by that chronology to their values.  In the ISO, Gregorian, and Julian calendars, the field names are
+`years`, `months`, `weeks`, `days`, `hours`, `minutes`, and `seconds`.
 The values of each field must be exact integers,
 except that the smallest unit present may be any rational number.
 
