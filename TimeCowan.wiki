@@ -1,3 +1,5 @@
+'''This proposal is obsolete; its procedures have been incorporated in different form into R7RS-small.'''
+
 == Calendar Time ==
 
 `(current-posix-second)`
