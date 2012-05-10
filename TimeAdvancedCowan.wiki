@@ -1,6 +1,6 @@
 == Date and time arithmetic ==
 
-This is a WG2 proposal for date and time arithmetic, loosely based on Java's [[http://joda-time.sourceforge.net|Joda Time]] functions.  It's possible to implement SRFI 19 on top of it, but it provides much more flexibility.  See also TimePeriodsCowan and TimeFormattingCowan.
+This is a WG2 proposal for date and time arithmetic, loosely based on Java's [[http://joda-time.sourceforge.net|Joda Time]] functions.  It's possible to implement parts of SRFI 19 on top of it, but it provides much more flexibility.  See also TimePeriodsCowan and TimeFormattingCowan.
 
 
 == Instants ==
@@ -16,13 +16,13 @@ Chronologies also incorporate the concept of time zone.  An implementation MUST 
 
 == Chronology procedures ==
 
-`(default-chronology)`
+`(current-chronology)`
 
-Returns an implementation-dependent chronology.  It should normally represent the user's preferred chronology and current time zone.
+A parameter representing a chronology used by default.  Its initial value should normally represent the user's preferred calendar and current time zone.  It can be rebound with `parameterize`.
 
 `(base-chronology `''name''`)`
 
-Returns a base chronology named by the symbol ''name''.  The ISO chronology is named `iso`.  If provided, the Gregorian chronology is named `gregorian`, the Julian chronology is named `julian`, and the TAI chronology is named `tai`.  The names of other chronologies are implementation-dependent.  The chronologies returned by this procedure are in the UTC time zone.  If the name is not known to the implementation, an error is signalled.
+Returns a base chronology named by the symbol ''name''.  The ISO chronology is named `iso`.  If provided, the Gregorian chronology is named `gregorian`, the Julian chronology is named `julian`, and the TAI chronology is named `tai`.  All these chronologies are proleptic (extend into the past before the date they were adopted).  The names and behaviors of other chronologies are implementation-dependent.  The chronologies returned by this procedure are in the UTC time zone, unless they are meant for planets other than Earth, in which case the nearest equivalent is used.  If the name is not known to the implementation, an error is signalled.
 
 `(base-chronology-names)`
 
@@ -36,9 +36,9 @@ Returns the symbol that names ''chronology'', or #f if it is not a base chronolo
 
 Returns `#t` if ''obj'' is a chronology and `#f` otherwise.
 
-`(derive-chronology `''chronology''` `''time-zone''`)`
+`(derive-chronology `[[|''chronology'' ]]` `''time-zone''`)`
 
-Returns a chronology based on ''chronology'', but using the time zone specified by ''timezone''.    In the ISO and Gregorian chronologies, if ''timezone'' is an integer, it represents the number of minutes ahead of UTC, but if the implementation supports the `tz` database, and ''time-zone'' is a string containing a time zone name defined by that database, it represents the time zone with that name.  Otherwise, the interpretation of ''timezone'' is implementation-dependent.  Derived chronologies do not have names.
+Returns a chronology based on ''chronology'', by default the value of `(current-chronology)`, but using the time zone specified by ''timezone''.    In the ISO and Gregorian chronologies, if ''timezone'' is an integer, it represents the number of minutes ahead of UTC, but if the implementation supports the `tz` database, and ''time-zone'' is a string containing a time zone name defined by that database, it represents the time zone with that name.  Otherwise, the interpretation of ''timezone'' is implementation-dependent.  Derived chronologies do not have names.
 
 `(chronology-time-zone `''chronology''`)`
 
@@ -57,7 +57,7 @@ A ''date object'' is a member of an immutable disjoint type that specifies infor
 
 `(make-date `[[|''chronology'' ]]` `''alist''`)`
 
-Returns a date object using ''chronology'', defaulting to the value of `(default-chronology)`.  ''Alist'' is an association list that maps symbols which are field names meaningful to ''chronology'' to associated numeric values.  An error is signaled if the field values are invalid or mutually inconsistent.
+Returns a date object using ''chronology'', defaulting to the value of `(current-chronology)`.  ''Alist'' is an association list that maps symbols which are field names meaningful to ''chronology'' to associated numeric values.  An error is signaled if the field values are invalid or mutually inconsistent.
 
 `(date? `''obj''`)`
 
