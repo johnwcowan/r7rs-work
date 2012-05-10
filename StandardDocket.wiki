@@ -19,7 +19,7 @@ Character encoding conversion:
 
 Conditions: 
 
-Date and time arithmetic:
+Date and time arithmetic: TimeAdvancedCowan plus TimePeriodsCowan
 
 Date-time parser:
 
