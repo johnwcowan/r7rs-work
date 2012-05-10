@@ -72,6 +72,10 @@ Returns a newly allocated alist containing the fields of ''date''.  Implementati
 
 Returns the numeric value of the field named ''fieldname'' (a symbol) within ''date'', or `#f` if there is no such field.  If the specified field was not provided when ''date'' was constructed, and it is possible to compute its value from the values of fields that were provided, the value is computed and returned.
 
+`(convert-date `''chronology''` `''date''`)`
+
+Equivalent to `(make-date `''chronology''` (date->alist `''date''`))`, but potentially much more efficient.
+
 `(date-update `''date''` `''fieldname''` `''value''`)`
 
 Returns a date object based on ''date'', but with the field named ''fieldname'' updated to ''value''.  An error is signaled if the field is unknown or the value is out of range.  
