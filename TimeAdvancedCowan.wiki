@@ -50,7 +50,7 @@ Returns a time-zone value which, when applied to the base chronology of ''chrono
 
 `(make-compound-chronology `''chronology1''` `''chronology2''` `''instant''`)`
 
-Returns a chronology that uses ''chronology2'' at all times before ''instant'', and ''chronology1'' for all times including and following ''instant''.  This is useful for constructing chronologies that transition from Julian to Gregorian or from one timezone to another at a specified date.  Compound chronologies do not have names.
+Returns a chronology that uses ''chronology2'' at all times before ''instant'', and ''chronology1'' for all times including and following ''instant''.  This is useful for constructing chronologies that transition from Julian to Gregorian or from one timezone to another at a specified date.  Compound chronologies do not have names.  The fields available in a compound chronology are the union of those available in the underlying chronologies, but not all fields may be available for all instants.
 
 == Date objects ==
 
