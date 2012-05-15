@@ -50,5 +50,44 @@ Bigloo, Ikarus, NexJ, !SigScheme, Shoe, !TinyScheme, Dream, Scheme 9, BDC, XLisp
 
 === Negative zero ===
 
-Racket, Gambit, Guile, Chez, Vicare, Spark, Femtolisp distinguish between 0.0 and -0.0.
+Racket, Gambit, Guile, Chez, Vicare, Spark, Femtolisp distinguish between 0.0 and -0.0.  Some other implementations may also do so, but I haven't figured out how.
+
+=== Inexact zero raised to a negative real power ===
+
+This situation involves the log of 0, and R6RS and R7RS permit implementations to either raise an exception or return an arbitrary number.
+
++inf.0 Racket, Gauche, Gambit, Chicken, Bigloo, scsh, Kawa, Chibi, SCM, Chez, Ypsilon, Mosh, NexJ, STklos, XLisp, Rep, UMB, SXM, Spark, Dfsch, Inlab return `inf.0`.
+
+Guile, Larceny, Scheme 9 return `+nan.0`.
+
+SISC, !IronScheme return `0.0`.
+
+Elk returns `0`.
+
+Sizzle returns its smallest representable integer (-2^32^).
+
+MIT (ignoring floating point traps), Scheme48, KSi, Scheme 7 raise an exception.
+
+!SigScheme, Dream, Oaklisp, Owl Lisp do not support inexact numbers.
+
+!TinyScheme, Schemik, Femtolisp, BDC either don't provide `expt` or don't provide `log`.
+
+=== Inexact zero raised to a complex power whose real part is negative ===
+
+Racket, Gauche, Gambit, Chicken with the numbers egg, Kawa, Chibi, Ypsilon, Spark return `+nan.0+nan.0i`.
+
+Guile returns `+inf.0+nan.0i`.
+
+SISC, Chez, Vicare, !IronScheme return `0.0`.
+
+SCM, Dfsch return `+inf.0`.
+
+Larceny returns `+nan.0`.
+
+MIT (ignoring floating point traps), Scheme48/scsh, STklos, UMB raise an exception.
+
+Mosh returns its implementation-specific "undefined" value.
+
+Plain Chicken, Bigloo, Ikarus, NexJ, !SigScheme, Shoe, !TinyScheme, Scheme 9, Dream, RScheme, BDC, XLisp, Rep, Schemik, Elk, VX, Oaklisp, Femtolisp, Inlab, Owl Lisp do not support non-real numbers.
+
 
