@@ -50,7 +50,24 @@ Bigloo, Ikarus, NexJ, !SigScheme, Shoe, !TinyScheme, Dream, Scheme 9, BDC, XLisp
 
 === Negative zero ===
 
-Racket, Gambit, Guile, Chez, Vicare, Spark, Femtolisp distinguish between 0.0 and -0.0.  Some other implementations may also do so, but I haven't figured out how.
+I did a full test of:
+
+{{{
+(let* ((minf (* 1.0e200 1.0e2000))
+       (mzero (/ 1.0 minf)))
+  (list minf mzero (eqv? mzero 0.0)))
+}}}
+
+Gauche, Chicken, Bigloo,  Scheme48/scsh, SISC, Chibi, SCM, Ikarus,
+Ypsilon, Mosh, !IronScheme, NexJ, STklos, Shoe, !TinyScheme, RScheme,
+Scheme 7, BDC, XLisp, Schemik, Elk, UMB, VX return some variant of
+(-inf.0 -0.0 #t).
+
+Racket, Gambit, Guile, Kawa, Chez, Vicare, Larceny,
+Rep return some variant of (-inf.0 -0.0 #f).
+
+I wasn't able to generate
+-0.0 on MIT, KSi, !SigScheme, Scheme 9, Dream, Oaklisp, Owl Lisp.
 
 === Inexact zero raised to a negative real power ===
 
@@ -89,5 +106,4 @@ MIT (ignoring floating point traps), Scheme48/scsh, STklos, UMB raise an excepti
 Mosh returns its implementation-specific "undefined" value.
 
 Plain Chicken, Bigloo, Ikarus, NexJ, !SigScheme, Shoe, !TinyScheme, Scheme 9, Dream, RScheme, BDC, XLisp, Rep, Schemik, Elk, VX, Oaklisp, Femtolisp, Inlab, Owl Lisp do not support non-real numbers.
-
 
