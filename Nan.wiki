@@ -1,4 +1,6 @@
 
+== R6RS ==
+
 These are the R6RS examples involving !NaNs (already accounted for verbally in the "Implementation extensions" section of R7RS):
 
 {{{
@@ -36,3 +38,10 @@ These are the R6RS examples involving !NaNs (already accounted for verbally in t
 (rationalize +inf.0 +inf.0) => +nan.0 ; Rationalizing infinity to nearest infinity is NaN
 }}}
 
+== Implementations ==
+
+Racket, Gauche, MIT,
+Chicken, Guile, Chez, Ikarus, Larceny, Ypsilon, STklos all support
+`+nan.0` and `-nan.0` as equivalent forms.  Bigloo, Scheme48/scsh,
+SISC, SCM, Scheme 9 don't support either form.  Gambit and Chibi
+support `+nan.0` but not `-nan.0`.
