@@ -1,0 +1,13 @@
+I asked my
+usual suite of Schemes to evaluate `(+ 1 (values 2 3))`.
+
+Racket, MIT,
+Gambit, Scheme48/scsh, Kawa, SISC, Chibi, Chez, SCM, Ikarus, Ypsilon,
+IronScheme, !SigScheme all report errors, either of the form "Single
+value expected, multiple values received", or else a low-level error
+reflecting how multiple values are represented.
+
+Gauche, Chicken,
+Bigloo, Guile, Larceny, Mosh, STklos reduce the multiple values to a
+single value.  Of these, only Guile fails to convert zero values to the
+implementation-specific "unspecified" value.
