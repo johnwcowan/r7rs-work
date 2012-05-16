@@ -40,6 +40,14 @@ These are the R6RS examples involving !NaNs (already accounted for verbally in t
 
 == Implementations ==
 
+=== `(eqv +nan.0 +nan.0)` ===
+
+The following 8 implementations return #t: Chez, Gambit, Guile, !Ikarus/Vicare, Kawa, Larceny, Racket, STklos.
+
+The following 6 implementations return #f: Bigloo, Chibi, Chicken, Gauche, MIT Scheme, Scheme48.
+
+=== `-nan.0` ===
+
 Racket, Gauche, MIT,
 Chicken, Guile, Chez, Ikarus, Larceny, Ypsilon, STklos all support
 `+nan.0` and `-nan.0` as equivalent forms.  Bigloo, Scheme48/scsh,
