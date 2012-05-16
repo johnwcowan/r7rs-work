@@ -1,0 +1,19 @@
+I tried out
+
+{{{
+(define-syntax foo
+    (syntax-rules ()
+      ((foo) (define x 32))))
+(foo) => ???
+x => ???
+}}}
+
+to see whether I got 32 as the value of x or blew up on an error such
+as invalid syntax (in the define-syntax) or undefined variable.
+
+PLT,
+MIT, Gambit, scsh/Scheme48, Guile, SISC, Chez, Ikarus, Mosh blew up;
+
+
+Gauche, Chicken, Bigloo, Kawa, SCM, Larceny (in R5RS mode), Scheme 9,
+STklos, !SigScheme, SXM, VSCM, Chibi were fine with it and returned 32.
