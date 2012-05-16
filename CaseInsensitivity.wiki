@@ -1,0 +1,4 @@
+Case insensitivity by default is getting to be rare these days.  Of my 40
+implementations, only MIT, Scheme48 (but not scsh), SISC, SCM, STklos,
+!TinyScheme, Scheme 9, Dream, XLISP, Elk, UMB, VX, Oaklisp reply `#t` to
+`(eq? 't 'T)`.
