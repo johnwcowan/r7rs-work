@@ -50,10 +50,10 @@ Bigloo, Ikarus, NexJ, !SigScheme, Shoe, !TinyScheme, Dream, Scheme 9, BDC, XLisp
 
 === Negative zero ===
 
-I did a full test of:
+I did a test of:
 
 {{{
-(let* ((minf (* 1.0e200 1.0e2000))
+(let* ((minf (* 1.0e200 -1.0e200))
        (mzero (/ 1.0 minf)))
   (list minf mzero (eqv? mzero 0.0)))
 }}}
