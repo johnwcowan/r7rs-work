@@ -1,0 +1,6 @@
+Currently Racket, Gauche, MIT, Guile, Kawa, Chibi, SCM, STklos, Scheme
+9, Scheme 7, UMB, VX, Oaklisp treat vectors as self-quoting.
+
+Gambit, Chicken, Bigloo, Scheme48/scsh, SISC, Ikarus, Larceny,
+Ypsilon, !IronScheme, Mosh, KSi, !SigScheme, Elk treat unquoted
+vectors as errors.
