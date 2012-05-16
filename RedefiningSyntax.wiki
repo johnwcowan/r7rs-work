@@ -1,0 +1,30 @@
+I've been poking around the usual list of Schemes, trying to find out
+what the behavior is when an identifier is defined as a value and then
+redefined as syntax.  For example:
+
+{{{
+        (define (noodle) (foodle))
+        (define (foodle) 23)
+        (noodle) => ??
+        
+        (define-syntax foodle (syntax-rules ()
+          ((foodle) 17)))
+        (noodle) => ??
+        
+        (define (noodle) (foodle))
+        (noodle) => ??
+}}}
+
+I tested Racket, Gauche, MIT, Chicken, Bigloo, Scheme48/scsh, Guile 2.0,
+Kawa, SISC, Chibi, Chez, SCM, !IronScheme, Ikarus, Larceny, Ypsilon, Mosh,
+STklos, and Scheme 9.
+
+All the implementations behave the same way on the first and third calls
+to `noodle`, returning 23 and 17 respectively.  The first definition of
+`noodle` refers to `foodle`, which is undefined, and is therefore assumed to
+be a variable.  (Some but not all Schemes print a warning at this point.)
+
+The second definition of `noodle` refers to the current (syntax) definition
+of `foodle`.  All but Guile and Chibi also return 23 on the second call to
+noodle, ignoring the syntax definition.  Guile and Chibi, however, signal
+an error to the effect that a macro was invoked where a function was expected.
