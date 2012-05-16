@@ -1,0 +1,5 @@
+The empty list is self-evaluating in Gauche, MIT, Kawa, SISC, Chibi,
+SCM, NexJ, STklos, !SigScheme, TinyScheme, Scheme 9, Dream, Scheme 7, BDC,
+Xlisp, Rep, Jscheme, Schemik, VX, Oaklisp, Owl Lisp.
+
+Racket, Gambit, Chicken, Bigloo, Guile, Scheme48/scsh, Chez, !Ikarus/Vicare, Larceny, Ypsilon, Mosh, !IronScheme, KSi, Shoe, Elk, RScheme, UMB signal a syntax error.
