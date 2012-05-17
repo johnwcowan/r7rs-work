@@ -4,3 +4,5 @@ implementations, only MIT, Scheme48 (but not scsh), SISC, SCM, STklos,
 `(eq? 't 'T)`.
 
 Arthur says: 13/40 is not rare.  It's almost a third.
+
+John says:  Okay, but between you and me and the bedpost, the only ones that count for much nowadays are the first four, five, or six, depending.
