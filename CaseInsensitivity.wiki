@@ -6,3 +6,5 @@ implementations, only MIT, Scheme48 (but not scsh), SISC, SCM, STklos,
 Arthur says: 13/40 is not rare.  It's almost a third.
 
 John says:  Okay, but between you and me and the bedpost, the only ones that count for much nowadays are the first four, five, or six, depending.
+
+Arthur says: But how many of the case-sensitive implementations count for much?  If we're to compute a ratio, we need a comparable numerator and denominator.
