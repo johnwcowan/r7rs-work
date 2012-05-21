@@ -54,7 +54,7 @@ Returns a chronology that uses ''chronology2'' at all times before ''instant'', 
 
 == Date objects ==
 
-A ''date object'' is an immutable member of a disjoint type that specifies information about a date or time with respect to a certain chronology.  For example, with respect to the ISO, Gregorian, or Julian chronologies, a date may represent a specific year, a specific week of a specific year, or an instant in time precise to a second.  On the other hand, a date object may contain just a particular month.  Date objects have multiple numeric-valued fields such as `year` or `minute-of-day`, whose meanings and possible values are determined by the chronology.
+A ''date object'' is an immutable member of a disjoint type that provides information about a specific date or time with respect to a certain chronology.  For example, at least with respect to the ISO, Gregorian, or Julian chronologies, a date may represent a specific year, a specific week of a specific year, or an instant in time precise to a second.  On the other hand, a date object may contain just a particular month.  Date objects have multiple numeric-valued fields such as `year` or `minute-of-day`, whose meanings and possible values are determined by the chronology.
 
 
 == Date procedures ==
@@ -98,7 +98,7 @@ Returns the chronology associated with ''date''.
 
 `(date-field-minimum `''date''` `''fieldname''`)`
 
-Returns the maximum or minimum legal value of the field named ''fieldname'' in the chronology associated with ''date''.  This value is not necessarily the same for all instants; for example, 28 is the maximum value of `day-of-month` if `month` has the value 2 (February).  Returns `#f` if the value cannot be determined (there is no maximum or minimum year in the ISO chronology, for example).
+Returns the maximum or minimum legal value of the field named ''fieldname'' in the chronology associated with ''date''.  This value is not necessarily the same for all instants; for example, 28 is the maximum value of `day-of-month` if `month` has the value 2 (February) and `year` is not a leap year.  Returns `#f` if the value cannot be determined (there is no maximum or minimum year in the ISO chronology, for example).
 
 `(date-round `''date''` `''fieldname''`)`
 
