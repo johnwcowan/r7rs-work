@@ -18,8 +18,6 @@ Enumerations (R6RS, but see also http://www.r6rs.org/formal-comments/comment-262
 
 Evaluator arguments to procedures like `load`: #277
 
-Raw strings:  <<, """..."""
-
 Identifier-syntax:
 
 Imaginary inexact zero versions of ''real'', ''rational'', ''integer'': 
@@ -45,6 +43,10 @@ Port type detector:
 Random procedures from R6RS (notably `symbol=?` and `boolean=?`): to be spelled out
 
 `Record-let`:
+
+Record external representations: 
+
+Raw strings:  <<, """..."""
 
 `standard-*-port` routines:  R6RS
 
