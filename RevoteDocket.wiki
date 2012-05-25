@@ -18,6 +18,8 @@ Enumerations (R6RS, but see also http://www.r6rs.org/formal-comments/comment-262
 
 Evaluator arguments to procedures like `load`: #277
 
+External representation of records: 
+
 Identifier-syntax:
 
 Imaginary inexact zero versions of ''real'', ''rational'', ''integer'': 
