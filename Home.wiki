@@ -87,6 +87,7 @@ Comments are welcome at the [[http://lists.scheme-reports.org/cgi-bin/mailman/li
         * [[http://spreadsheets.google.com/pub?key=tRCHK6jWXuKMABKAfoOwWqw&output=html|Scheme Systems Supporting SRFIs]], by John Cowan
         * [[http://spreadsheets.google.com/pub?key=tS3XfMIS7TfMSwMTtd8cbaA&output=html|Small Scheme Standard Modules]], by John Cowan (Also contains some proposals.)
         * [[:DSSSLVsScheme|DSSSLVsScheme]] (explains the difference between Scheme and the DSSSL expression language)
+        * ImplementationContrasts (shows what different implementations do in particular circumstances)
 
 '''Catalogs of Implementations'''
 
