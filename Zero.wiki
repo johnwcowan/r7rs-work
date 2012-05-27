@@ -66,6 +66,31 @@ Rep return some variant of `(-inf.0 -0.0 #f)`.
 
 I wasn't able to generate `-0.0` on MIT, KSi, !SigScheme, Scheme 9, Dream, Oaklisp, Owl Lisp.
 
+These are the R6RS examples involving -0.0 (already accounted for verbally in the "Implementation extensions" section of R7RS):
+
+{{{
+(zero? -0.0)  => #t                ; -0.0 is a Scheme zero
+
+(+ 0.0 0.0)   => 0.0               ; Sum is -0.0 only if all arguments are -0.0
+(+ 0.0 -0.0)  => 0.0
+(+ -0.0 0.0)  => 0.0
+(+ -0.0 -0.0) => -0.0
+
+(- 0.0)       => -0.0             ; Negation flips the sign of zero
+(- -0.0)      => 0.0
+
+(- 0.0 -0.0)  => 0.0              ; Negate all arguments but the last and then add
+(- -0.0 0.0)  => -0.0
+(- 0.0 0.0)   => 0.0
+(- -0.0 -0.0) => 0.0
+
+(log -1.0+0.0i) => 0.0+3.141592653589793i ; approximately
+(log -1.0-0.0i) => 0.0-3.141592653589793i ; approximately
+
+(angle -1.0+0.0i) => 3.141592653589793    ; approximately
+(angle -1.0-0.0i) => -3.141592653589793   ; approximately
+}}}
+
 === Inexact zero raised to a negative real power ===
 
 This situation involves the log of 0, and R6RS and R7RS permit implementations to either raise an exception or return an arbitrary number.
@@ -103,4 +128,3 @@ MIT (ignoring floating point traps), Scheme48/scsh, STklos, UMB raise an excepti
 Mosh returns its implementation-specific "undefined" value.
 
 Plain Chicken, Bigloo, Ikarus, NexJ, !SigScheme, Shoe, !TinyScheme, Scheme 9, Dream, RScheme, BDC, XLisp, Rep, Schemik, Elk, VX, Oaklisp, Femtolisp, Inlab, Owl Lisp do not support non-real numbers.
-
