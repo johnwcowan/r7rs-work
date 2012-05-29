@@ -1,26 +1,9 @@
-=== The Cowan-Gleckler Show ===
-
-John says: Case insensitivity by default is getting to be rare these days.  Of my 40
-implementations, only MIT, Scheme48 (but not scsh), SISC, SCM, STklos,
-!TinyScheme, Scheme 9, Dream, XLISP, Elk, UMB, VX, Oaklisp reply `#t` to
-`(eq? 't 'T)`.
-
-Arthur says: 13/40 is not rare.  It's almost a third.
-
-John says:  Okay, but between you and me and the bedpost, the only ones that count for much nowadays are the first four, five, or six, depending.
-
-Arthur says: But how many of the case-sensitive implementations count for much?  If we're to compute a ratio, we need a comparable numerator and denominator.
-
-John says:
-
-Okay, okay.  I reran the test with my current suite of 45 Schemes, with the following results:
+== Symbol case-sensitivity ==
 
 Racket, Gauche, Gambit, Chicken, Bigloo, scsh, Guile, Kawa, Chibi, Chez, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, NexJ, KSi, !SigScheme, Shoe, RScheme, Scheme 7, BDC, Rep, Schemik, Llava, Sizzle, Spark, Femtolisp, Dfsch, Owl Lisp return `#f` to `(eq? 't 'T)`.
 
-MIT, Scheme48, SISC, SCM, STklos, !TinyScheme, Scheme 9, Dream, XLisp, Elk, UMB, VX, Oaklisp, SXM, Inlab return `#f`.
+MIT, Scheme48, SISC, SCM, STklos, !TinyScheme, Scheme 9, Dream, XLisp, Elk, UMB, VX, Oaklisp, SXM, Inlab return `#t`.
 
-So you tell me how big the denominator should be; I make it at least ten.  But you're right, it's not rare.
-
-=== Preferred case is upper case ===
+== Preferred case is upper case ==
 
 I also decided to check the case-insensitive implementations using `(string=? (symbol->string 't) "T")` to see which ones converted symbols to upper case internally.  Only XLisp (which is not really Scheme-compliant) and Oaklisp (which is somewhat R3RS-compliant) did so.
