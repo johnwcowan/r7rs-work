@@ -11,7 +11,7 @@ Binary ports: present in the small language
 
 Binary search: [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]]
 
-Bitwise arithmetic: [[http://srfi.schemers.org/srfi-33/srfi-33.html|SRFI 33]], [[http://srfi.schemers.org/srfi-60/srfi-60.html|SRFI 60]], [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.4|R6RS]], BitwiseCowan.  See BitwiseComparison for a detailed comparison of names and parameter order.
+Bitwise arithmetic: [[http://srfi.schemers.org/srfi-33/srfi-33.html|SRFI 33]], [[http://srfi.schemers.org/srfi-60/srfi-60.html|SRFI 60]], [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.4|R6RS]], BitwiseCowan.  See BitwiseComparison for a detailed comparison of names and parameter order.  See also the incomplete proposal BitwiseArithmeticRead.
 
 Boxes/references: BoxesCowan
 
@@ -29,11 +29,11 @@ Enumerations and enum-sets: SetsCowan, [[http://www.r6rs.org/final/html/r6rs-lib
 
 Environment enquiries: EnvironmentEnquiriesCowan
 
-Exception/condition system:
+Exception system: present in the small language
 
 File system directories (reading): [[http://www.scsh.net/docu/html/man-Z-H-4.html#node_sec_3.3|SCSH directory stream interface]], DirectoryPortsCowan, `directory-files` to return a list of all files in the dir (in WG1 vote order)
 
-File system directories (creation, removal):
+File system directories (creation, removal): 
 
 Flonum arithmetic: FlonumsCowan
 
@@ -89,7 +89,7 @@ Sets and bags: SetsCowan
 
 Shift and reset:
 
-Simple Posix:
+Simple Posix: SimplePosixCowan
 
 Sorting: [[http://srfi.schemers.org/srfi-32/srfi-32.html|SRFI 32]], [[http://srfi.schemers.org/srfi-95/srfi-95.html|SRFI 95]]
 
