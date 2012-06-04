@@ -6,11 +6,14 @@ This proposal depends on SettingsListsCowan.  See DirectoriesCowan for a proposa
 
 `(open-directory `''filename''`)`
 
-''Filename'' can be a string or a ''settings list'' as described in SettingsListsCowan.  In addition to the keys `path` and `encoding` specified there, the key `hidden` can have the values `none` (don't expose hidden files), `all` (expose all files), and `dots` (expose all files except `.` and `..`).  On Posix systems, hidden files have names beginning with `.`; on Windows, hidden files are named `.`, `..`, or have the `hidden` file attribute.
+Returns a ''directory port''. It is not defined whether `port?` and `input-port?` return `#t` or `#f` to a directory port.
 
-The returned value is an input port, but it is neither a binary port nor a character port.  The only standard procedure callable on it is `read`, which returns the next available filename as a string (or, when necessary, an implementation-dependent object).  Filenames are returned in arbitrary order.
+''Filename'' can be a string or a ''settings list'' as described in SettingsListsCowan.  In addition to the keys `path` and `encoding` specified there, the key `hidden` can have the values `none` (don't expose hidden files), `all` (expose all files), and `dots` (expose all files except `.` and `..`).  On Posix systems, hidden files have names beginning with `.`; on Windows, hidden files are named `.`, `..`, or have the `hidden` file attribute.  
 
 `(directory-port? `''obj''`)`
 
 Returns `#t` if ''obj'' is a directory port.  Directory ports are a disjoint type.
 
+`(read-directory `''directory-port''`)`
+
+Returns the next available filename as a string (or, when necessary, an implementation-dependent object).  If no filenames are available, returns an eof-object.  Filenames are returned in arbitrary order.
