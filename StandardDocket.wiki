@@ -33,7 +33,7 @@ Exception system: present in the small language
 
 File system directories (reading): [[http://www.scsh.net/docu/html/man-Z-H-4.html#node_sec_3.3|SCSH directory stream interface]], DirectoryPortsCowan, `directory-files` to return a list of all files in the dir (in WG1 vote order)
 
-File system directories (creation, removal): 
+File system directories (creation, removal): DirectoriesCowan
 
 Flonum arithmetic: FlonumsCowan
 
