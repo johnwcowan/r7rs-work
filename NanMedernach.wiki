@@ -74,3 +74,9 @@ In order to identify wrong usage of uninitialased vectors, one could fill vector
     (error "make-float-vector: negative argument")))
 }}}    
 
+
+== Comments by John Cowan ==
+
+I think the payload should be constrained to be an exact non-negative integer interpreted as a sequence of bits.   In IEEE formats, the sign bit is part of the payload, and should be extractable separately from the payload using `nan-negative?` or some such predicate.  In addition, the sense of the signaling/quiet bit is implementation-dependent (it is always the highest-order bit of the mantissa, but whether 1 is signaling or quiet depends on the hardware), and so `nan-signaling?` should also be added.
+
+In addition, the requirement that `read` invoke `nan` seems pointless to me.  If `read` returns any old NaN, that should be good enough. 
