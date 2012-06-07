@@ -10,12 +10,6 @@ Returns a {{{NaN}}}  with an  implementation-defined chosen  payload.  Implement
 
 Returns a {{{NaN}}} with the given payload as its content.  Valid values for `<payload>` are implementation-dependent.
 
-`(signaling-nan)` 
-
-`(signaling-nan <payload>)` 
-
-Returns a signaling {{{NaN}}} with the same semantic as `nan`. If a signaling {{{NaN}}} is used in an operation an exception must be signaled.
-
 `(nan? <obj>)`
 
 Returns `#t` if `<obj>` is a {{{NaN}}}. 
@@ -82,7 +76,7 @@ In order to identify wrong usage of uninitialased vectors, one could fill vector
       (let loop ((i 0))
         (if (< i N)
             (begin 
-              (vector-set! result i (signaling-nan i))
+              (vector-set! result i (nan i))
               (loop (+ i 1)))
             result )))
     (error "make-float-vector: negative argument")))
