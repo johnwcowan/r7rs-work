@@ -9,7 +9,7 @@ Returns a Scheme number corresponding to the binary value encoded according to '
 
 (`<type><endian>vector-ref` ''bytevector n''`)`
 
-Returns a Scheme number corresponding to the binary value encoded according to ''type'' beginning at offset ''n'' in ''bytevector'', where ''n'' is first multiplied by the size of the binary value in bytes.  This procedure treats ''bytevector'' as a uniformly typed vector.
+Returns a Scheme number corresponding to the binary value encoded according to ''type'' beginning at offset ''n * b'' in ''bytevector'', where ''b'' is the size of the binary value in bytes.  This procedure treats ''bytevector'' as a uniformly typed vector.
 
 (`bytevector-<type><endian>-set!` ''bytevector n v''`)`
 
@@ -17,11 +17,11 @@ Converts ''v'' to a binary value encoded according to ''type'' and places it int
 
 (`<type><endian>vector-set!` ''bytevector n v''`)`
 
-Converts ''v'' to a binary value encoded according to ''type'' and places it into ''bytevector'' beginning at offset ''n'', where ''n'' is first multiplied by the size of the binary value in bytes.  This procedure treats ''bytevector'' as a uniformly typed vector.
+Converts ''v'' to a binary value encoded according to ''type'' and places it into ''bytevector'' beginning at offset ''n * b'', where ''b'' is the size of the binary value in bytes.  This procedure treats ''bytevector'' as a uniformly typed vector.
 
 (`<type><endian>vector-length` ''bytevector''`)`
 
-Returns a Scheme number corresponding to length of ''bytevector''divided by the size of the binary value in bytes.
+Returns a Scheme number corresponding to the length of ''bytevector''divided by the size of the binary value in bytes.
 
 == Numeric types ==
 
