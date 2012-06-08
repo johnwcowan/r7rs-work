@@ -8,11 +8,11 @@ Directories are containers for files.  Directories are named by ''filenames'', w
 
 Returns `#t` if ''filename'' is the name of a directory, or #f if it is not, or the answer is not determinable.
 
-`(make-directory ''filename''`)`
+`(make-directory `''filename''`)`
 
 Creates a directory named ''filename''.  An exception is signaled if this cannot be done.
 
-`(delete-directory ''filename''`)`
+`(delete-directory `''filename''`)`
 
 Deletes a directory named ''filename''.  An exception is signaled if this cannot be done.
 
