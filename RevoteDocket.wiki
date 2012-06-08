@@ -20,6 +20,8 @@ Evaluator arguments to procedures like `load`: #277
 
 External representation of records: 
 
+Futures:  FuturesCowan
+
 Identifier-syntax:
 
 Imaginary inexact zero versions of ''real'', ''rational'', ''integer'': 
