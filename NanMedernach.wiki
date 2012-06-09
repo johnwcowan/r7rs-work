@@ -14,9 +14,9 @@ Returns a {{{NaN}}} with the given payload as its content.  Valid values for `<p
 
 Returns `#t` if `<obj>` is a {{{NaN}}}. 
 
-`(nan-signaling? <obj>)`
+`(nan=? <obj1> <obj2>)`
 
-Returns `#t` if `<obj>` is a signaling {{{NaN}}}.
+Returns #t if <obj1> and <obj2> are {{{NaNs}}} containing the same payload.
 
 `(nan-payload <obj>)`
 
@@ -25,6 +25,10 @@ Returns the payload content of `<obj>` if it is a {{{NaN}}}.
 `(nan-negative? <obj>)`
 
 Returns the sign part of `<obj>` if it is a {{{NaN}}}.
+
+`(nan-signaling? <obj>)`
+
+Returns `#t` if `<obj>` is a signaling {{{NaN}}}.
 
 
 == Rationale ==
