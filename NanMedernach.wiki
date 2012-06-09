@@ -89,4 +89,4 @@ In order to identify wrong usage of uninitialased vectors, one could fill vector
 
 == Comments by John Cowan ==
 
-WG1 still hasn't decided what the behavior of `eqv?` should be when dealing with NaNs.  In both draft 6 and the current head, it is unspecified.  Therefore it makes sense to me to introduce a new `nan=?` predicate for seeing if two !NaNs have the same payload.
+I endorse this proposal.
