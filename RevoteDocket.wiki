@@ -36,7 +36,7 @@ Macro expander(s) available at run time:
 
 Multiple values passed through => in `cond` (see #90): 
 
-NaN dissector API (sign, quiet/signaling status, and integer tag): 
+NaN dissector API (sign, quiet/signaling status, and integer tag): NanMedernach
 
 `number->string` control for significant digits: [[http://lists.scheme-reports.org/pipermail/scheme-reports/2011-May/000709.html|Vincent Manis proposal]], R6RS
 
