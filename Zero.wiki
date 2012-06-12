@@ -38,6 +38,16 @@ Gauche, Chicken, Bigloo, Scheme48/scsh, Guile, Kawa, SISC, Chibi, SCM, !Ikarus/V
 
 !SigScheme, Dream, Oaklisp, Owl Lisp do not support inexact numbers.
 
+=== Dividing exact zero by an inexact number ===
+
+Racket, Gambit, !TinyScheme, Sizzle, Spark return exact `0`.
+
+Gauche, Chicken (with or without the numbers egg), Bigloo, Scheme48/scsh, Guile, Kawa, SISC, Chibi, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, STklos, KSi, Shoe, Scheme 7, BDC, XLisp, Rep, Schemik, UMB, VX, Llava, SXM, Dfsch, Inlab return inexact `0.0`.
+
+!SigScheme, Dream, Oaklisp, Owl Lisp do not support inexact numbers.
+
+Femtolisp returns the wrong answer.
+
 === Complex numbers with 0.0 imaginary part. ===
 
 Gauche, MIT, Chicken with the numbers egg, Scheme48/scsh, Kawa, SISC, SCM, STklos, KSi, Scheme 7, UMB, Spark, Dfsch, VSCM consider `3.0+0.0i` to be a real number.
