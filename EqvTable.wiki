@@ -1,0 +1,27 @@
+This table contains some facts about how `eqv?` works in R5RS, R6RS, and R7RS draft 6, and a '''currently incomplete''' proposal about what we should do for R7RS.
+
+`eqv?` always returns false when two objects have different types, so the rows of this table indicate what it does when both arguments are of the stated type.  Note that "undefined" means either `#t` or `#f`, but no other value.
+
+||Type||R5RS||R6RS||R7RS draft||Proposal||
+||Booleans||Same iff both `#t` or both `#f`||Same iff both `#t` or both `#f` (via `boolean=?`)||Same iff both `#t` or both `#f`||Same iff both `#t` or both `#f` (via `boolean=?`)||
+||Symbols||Same iff names are spelled the same||Same iff names are spelled the same (via `symbol=?`)||Same iff names are spelled the same||Same iff names are spelled the same (via `symbol=?`)||
+||Characters||Same as `char=?`||Same as `char=?`||Same as `char=?`||Same as `char=?`||
+||Mutable pairs||Same iff contain the same locations||Same iff contain the same locations||Same iff contain the same locations||Same iff contain the same locations||
+||Immutable pairs||Same iff contain the same locations||False if contain different locations or return different values to `car` or `cdr`; otherwise true||Same iff contain the same locations||Same iff contain the same locations||
+||Mutable strings||Same iff contain the same locations||Same iff contain the same locations||Same iff contain the same locations||Same iff contain the same locations||
+||Immutable strings||Same iff contain the same locations||False if contain different locations or if any elements are different; otherwise true||Same iff contain the same locations||Same iff contain the same locations||
+||Mutable vectors||Same iff contain the same locations||Same iff contain the same locations||Same iff contain the same locations||Same iff contain the same locations||
+||Immutable vectors||Same iff contain the same locations||False if contain different locations or if any elements are different; otherwise true||Same iff contain the same locations||
+||Mutable bytevectors||Same iff contain the same locations||Same iff contain the same locations||Same iff contain the same locations||Same iff contain the same locations||
+||Immutable bytevectors||Same iff contain the same locations||False if contain different locations or if any elements are different; otherwise true||Same iff contain the same locations||Same iff contain the same locations||
+||Mutable records||Undefined||Same iff contain the same locations||Same iff contain the same locations||Same iff contain the same locations||
+||Immutable records||Undefined||False if contain different locations or if return different values for any accessor; otherwise true||Same iff contain the same locations||Same iff contain the same locations||
+||Procedures that close over different values of free variables||False||False||False||False||
+||All other procedures||Same iff are the same locations||Unspecified||Unspecified||???||
+||Exact rationals||Same as `=`||Same as `=`||Same as `=`||Same as `=`||
+||Exact non-rationals||Same as `=`||True if `=` and not distinguishable by Scheme arithmetic; otherwise false||Same as `=`||Same as `=`||
+||Inexact numbers except !NaNs||Same as `=`||True if `=` and not distinguishable by Scheme arithmetic||Same as `=`||
+||!NaNs||Unspecified||False||Unspecified||???||
+||Ports||Undefined||Same iff contain the same locations||Undefined||Same iff contain the same locations||
+||Empty list||True (only one exists)||True (only one exists)||True (only one exists)||
+||Eof-objects||Unspecified||True (only one exists)||Unspecified||Unspecified||
