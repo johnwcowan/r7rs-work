@@ -32,7 +32,7 @@ In this proposal, a filename passed to any of `open-input-file`, `open-binary-in
 
  `buffer`::
 
- For an output port, the value of this key defines when an output operation flushes a buffer associated with the output port. For an input port, the value defines how much data will be read to satisfy read operations.  The value `none` means there is no buffering; the value 'block' means block buffering is provided.  Buffer sizes are implementation-dependent.  The default value is implementation-dependent.
+ For an output port, the value of this key defines when an output operation flushes a buffer associated with the output port. For an input port, the value defines how much data will be read to satisfy read operations.  The value `none` means there is no buffering; the value `block` means block buffering is provided.  Buffer sizes are implementation-dependent.  The default value is implementation-dependent.
 
  `char-buffer`::
 
@@ -46,10 +46,21 @@ In this proposal, a filename passed to any of `open-input-file`, `open-binary-in
 
  `newline`::
 
- Specifies how to translate newlines.  The value `none` means that no translation is performed.  The values `cr`, `lf`, and `crlf` cause `#\newline` to be translated to CR, LF, or CR+LF on output; all of them cause all of CR, LF, and CR+LF to be translated to `#\newline` on input.  Other values MAY be supported by an implementation.  The default value is implementation-dependent.
+ Specifies how to translate newlines.  The value `none` means that no translation is performed.  The values `cr`, `lf`, and `crlf` cause `#\newline` to be translated to CR, LF, or CR+LF respectively on output; all of them cause all of CR, LF, and CR+LF to be translated to `#\newline` on input.  Other values MAY be supported by an implementation.  The default value is implementation-dependent.
 
  `encoding-error`::
 
  Specifies what action to take if a character cannot be encoded as bytes or a sequence of bytes cannot be decoded as a character in the specified encoding.  The value `ignore` means that the untranslatable byte or character is ignored.  The value `raise` means that an error is signalled.  The value `replace` means that an untranslatable byte is replaced by `#\xFFFD;` if that character is available in the implementation, or `#\?` if not, and an untranslatable character is replaced by the byte encoding of `#xFFFD;` if there is one, or `#\?` if not.  The default value is implementation-dependent.
 
 Implementations MAY support other keys, SHOULD warn if they detect keys or values they do not understand or implement, and MAY signal an error in such cases.
+
+Settings lists are also used by other proposals:  NetworkPortsCowan, DirectoryPortsCowan, ProcessPortsCowan.
+
+== Possible additions ==
+
+ * Readtables
+ * Port input and output timeouts
+ * Output width in columns
+ * Posix permissions
+ * pty (for process ports)
+ * backlog (for network server ports)
