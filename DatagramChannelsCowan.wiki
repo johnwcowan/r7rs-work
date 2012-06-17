@@ -54,6 +54,10 @@ Returns the port to which ''channel'' is connected, or `#f` if there is none.  T
 
 Send the portion of ''bytevector'' defined by ''start'' (inclusive) and ''end'' (exclusive) to the connected endpoint of ''channel''.  If ''end'' is omitted, it is the length of ''bytevector'' plus one; if ''start'' is omitted, it is 0.  It is an error if ''channel'' is not connected.  Returns undefined values.  In Posix terms this is `send()`.
 
+`(datagram-channel-close `''channel''`)`
+
+Close the underlying UDP port and abandon the channel.
+
 == Example: TFTP ==
 
 TFTP is a simple UDP-based protocol documented in RFC 1350.  For our purposes, all that matters is that the client sends the first datagram and the server sends exactly one response to each datagram (assuming no loss of packets in transmission).
@@ -66,4 +70,3 @@ The client starts by using `(make-datagram-channel)` and then `(datagram-channel
 
 These names are very verbose, but I couldn't think of a better term than `datagram-channel`, which is borrowed from `java.nio.channels.DatagramChannel`.  This API is more powerful than Java's, though.
 
-Should the ''end'' arguments be replaced by ''length'' arguments?
