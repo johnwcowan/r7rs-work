@@ -1,9 +1,8 @@
 == Process Ports ==
 
-The procedures in this proposal start a new operating system process and return a binary port (remember, binary ports can do character I/O as well) connected to either the standard input (for an output port) or the standard output (for an input port) of the new process.  There is no support for input/output process ports, though an implementation could add them as an extension.
+The procedures in this proposal start a new operating system process and returns a port connected to either the standard input (for `open-output-process`) or the standard output (for `open-input-process`) of the new process, or both (for `open-input/output-process`).
 
-This library depends on the acceptance of SettingsListsCowan.
-
+This library depends on SettingsListsCowan.
 
 == Procedures ==
 
@@ -11,8 +10,9 @@ This library depends on the acceptance of SettingsListsCowan.
 
 `(open-output-process `''filename''`)`
 
+`(open-input/output-process `''filename''`)`
 
-All of these are equivalent to the corresponding R5RS functions on file ports.  If ''filename'' is a string, it is a shell command suitable for passing to `shell-command`.  If it is a list, it is a settings list as described in PortsCowan.  Implementations MUST support the following keys:
+All of these are equivalent to the corresponding R5RS functions on file ports.  If ''filename'' is a string, it is a shell command suitable for passing to `shell-command`.  If it is a list, it is a settings list as described in SettingsListsCowan.  Implementations MUST support the following keys:
 
  `path`::
 
@@ -28,16 +28,10 @@ All of these are equivalent to the corresponding R5RS functions on file ports.  
 
  `stdin-redirection`::
 
- A string representing the file to open and pass to the new process as its standard input, or a port (it is an error if the port has no OS-level underpinnings).  If this key is absent, no redirection is done.
+ A string representing the file to open and pass to the new process as its standard input, or a port (it is an error if the port has no OS-level underpinnings).  If this key is absent, no redirection is done.  It is an error to use this key in a call to `open-output-process` or `open-input/output-process`.
 
  `stdout-redirection`::
 
- A string representing the file to open and pass to the new process as its standard output, or a port (it is an error if the port has no OS-level underpinnings).  If this key is absent, no redirection is done.
-
- `stderr-redirection`::
-
- A string representing the file to open and pass to the new process as its standard error, or a port (it is an error if the port has no OS-level underpinnings).  If this key is absent, no redirection is done.
-
-
+ A string representing the file to open and pass to the new process as its standard output, or a port (it is an error if the port has no OS-level underpinnings).  If this key is absent, no redirection is done.  It is an error to use this key in a call to `open-input-process` or `open-input/output-process`.
 
  
