@@ -1,6 +1,6 @@
 == Network Ports ==
 
-Network ports are a mild abstraction of TCP sockets. They are a disjoint type.
+Network ports are a mild abstraction of TCP sockets. They are a subtype of ports.
 
 This proposal depends on SettingsListsCowan.  Settings lists passed to procedures in this proposal MUST NOT contain the `path` key, but MAY contain the keys `host` and `port` defined below.  
 
@@ -22,6 +22,10 @@ Returns an opaque ''listener'' object (which may be of any type) that will accep
 `(open-network-server `''listener''`)`
 
 Waits for a client to connect to ''listener'', and returns an input/output port connected to that client.  When the port is closed, this procedure may be invoked again on the same listener.
+
+`(close-network-listener `''listener''`)`
+
+Close ''listener'' and abandon any further attempts to listen for collections.
 
 == Settings-list Keys ==
 
