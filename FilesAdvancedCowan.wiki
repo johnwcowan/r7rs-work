@@ -3,7 +3,7 @@ This is a WG2 proposal for a `(scheme files advanced)` library providing R6RS-eq
  * custom ports
  * the `standard-*-port` procedures
  * the ability to change a binary port to textual after it has been used, though the `binary` setting-list key allows mixed textual and binary operations on the same port, with limtations
- * destructively reading characters into existing strings
+
 
 == Procedures from files library ==
 
@@ -51,17 +51,25 @@ Returns `#t` if the next attempt to read a character from ''port'' would return 
 
 Reads at most ''n'' characters from ''port'' and returns them as a newly allocated string.  If fewer characters can be read, they are returned.  If no characters can be read, an eof-object is returned.  The default port is the value of `(current-input-port)`.
 
+`(read-string! `''n''` `''string''` `''start''` `[[|''port'' ]]`)`
+
+Reads at most ''n'' characters from ''port'' and places them into ''string'' starting at position ''start''.  If there is insufficient room in ''string'', it is filled up and no further characters are read.  If fewer than ''n'' characters can be read from ''port'', they are used.  If no characters at all can be read, an eof-object is returned.  The default port is the value of `(current-input-port)`.
+
 `(write-string `''string''` `''start''` `''end''` `[''port'']`)`
 
 Reads characters from ''string'' beginning at ''start'' (inclusive) and ending at ''end'' (exclusive) to ''port''.  The default port is the value of `(current-output-port)`.
 
-`(read-maximal-bytevector ` [''port'']`)`
+`(read-all-bytes ` [''port'']`)`
 
 Returns a bytevector consisting of all the bytes that can be read from ''port'' before an eof-object is returned, or an eof-object if there are none.  The default port is the value of `(current-input-port)`.
 
-`(read-maximal-string ` [[|''port'' ]]`)`
+`(read-all-chars ` [[|''port'' ]]`)`
 
 Returns a string consisting of all the characters that can be read from ''port'' before an eof-object is returned, or an eof-object if there are none.  The default port is the value of `(current-input-port)`.
+
+`(read-al ` [[|''port'' ]]`)`
+
+Returns a list consisting of all the Scheme objects that can be read from ''port'' as if by `read` before an eof-object is returned, or an eof-object if there are none.  The default port is the value of `(current-input-port)`.
 
 `(port-settings  `''port''`)`
 
