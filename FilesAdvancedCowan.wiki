@@ -2,7 +2,7 @@ This is a WG2 proposal for a `(scheme files advanced)` library providing R6RS-eq
 
  * custom ports
  * the `standard-*-port` procedures
- * the ability to change a binary port to textual after it has been used, though the `binary` setting-list key allows mixed textual and binary operations on the same port, with limtations
+ * the ability to change a binary port to textual after it has been used, though the `binary` setting-list key allows mixed textual and binary operations on the same port, with limitations
 
 
 == Procedures from files library ==
@@ -67,9 +67,9 @@ Returns a bytevector consisting of all the bytes that can be read from ''port'' 
 
 Returns a string consisting of all the characters that can be read from ''port'' before an eof-object is returned, or an eof-object if there are none.  The default port is the value of `(current-input-port)`.
 
-`(read-al ` [[|''port'' ]]`)`
+`(read-all ` [[|''port'' ]]`)`
 
-Returns a list consisting of all the Scheme objects that can be read from ''port'' as if by `read` before an eof-object is returned, or an eof-object if there are none.  The default port is the value of `(current-input-port)`.
+Returns a list consisting of all the Scheme objects that can be read from ''port'' (as if by `read`) before an eof-object is returned, or an eof-object if there are none.  The default port is the value of `(current-input-port)`.
 
 `(port-settings  `''port''`)`
 
@@ -82,3 +82,4 @@ Converts ''string'' to a bytevector using the keys `encoding`, `newline`, `encod
 `(bytevector->string `''bytevector'' [[|''settings-list'' ]]`)`
 
 Converts ''bytevector'' to a string using the keys `encoding`, `newline`, `encoding-error`, and possibly other implementation-specific keys in ''settings-list'', and returns the bytevector.
+
