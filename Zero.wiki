@@ -6,7 +6,7 @@ Racket, MIT, Gambit, Chicken, Bigloo, Scheme48/scsh, Chibi, Guile, SISC, Chez, !
 
 Gauche, SCM, KSi, VX return an inexact infinity.
 
-Kawa returns an ''exact'' infinity.
+Kawa returns one of two ''exact'' infinities depending on the sign of the numerator.  These are notated `1/0` and `-1/0`.  They are the same in the sense of `eqv?`, anomalously so since they are not operationally equivalent.  They are also distinct in the sense of `eqv?` from `+inf.0` and `-inf.0`, but `1/0` and `+inf.0` are the same in the sense of `=`, as are `-1/0` and `-inf.0`.
 
 Scheme 9, Femtolisp return an incorrect result.
 
