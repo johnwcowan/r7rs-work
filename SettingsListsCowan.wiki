@@ -8,7 +8,7 @@ In this proposal, a filename passed to any of `open-input-file`, `open-binary-in
 
  `binary`::
 
- If the value of this key is true, then a call to `open-input-file`, `open-output-file`, `with-input-from-file`, `with-output-from-file`, `call-with-input-file`, or `call-with-output-file` will respond `#t` to both `textual-port?` and `binary-port?`, and allows binary as well as textual input and output operations.  However, a textual operation may not be followed immediately by a binary operation unless the value of the `char-buffer` key is `none`; an intervening call to `set-port-position!` will suffice.  It is an error to specify the value as `#f` on calls to `open-binary-input-file` or `open-binary-output-file`; otherwise, the value `#f` causes the key to be ignored.
+ If the value of this key is true, then a call to `open-input-file`, `open-output-file`, `with-input-from-file`, `with-output-from-file`, `call-with-input-file`, or `call-with-output-file` will respond `#t` to both `textual-port?` and `binary-port?`, and allows binary as well as textual input and output operations.  However, textual and binary operations may not be mixed on an input port unless the value of the `char-buffer` key is `none`.  It is an error to specify the value as `#f` on calls to `open-binary-input-file` or `open-binary-output-file` (which would be self-contradictory); otherwise, the value `#f` causes the key to be ignored.
 
  `bidirectional`::
 
@@ -32,15 +32,15 @@ In this proposal, a filename passed to any of `open-input-file`, `open-binary-in
 
  `buffer`::
 
- For an output port, the value of this key defines when an output operation flushes a buffer associated with the output port. For an input port, the value defines how much data will be read to satisfy read operations.  The value `none` means there is no buffering; the value `block` means block buffering is provided.  Buffer sizes are implementation-dependent.  The default value is implementation-dependent.
+ For an output port, the value of this key defines when an output operation flushes a buffer associated with the output port. For an input port, the value defines how much data will be read to satisfy read operations.  The value `none` means there is no buffering; the value `block` means there is a buffer of an implementation-dependent size.  Buffer sizes are implementation-dependent.  The default value is implementation-dependent.
 
  `char-buffer`::
 
- Specifies what kind of character buffering is present.  Character buffering affects how much translation between characters and bytes is done all at once.  The value `none` means no character buffering is employed; the value `block` means there is a buffer for translation.  The value `line` is the same as `block`, except that on output, the character buffer as well as the binary buffer (if any) is flushed after each newline is output.  Other values MAY be supported by an implementation.  Buffer sizes are implementation-dependent.  The default value is implementation-dependent.
+ Specifies what kind of character buffering is present.  Character buffering affects how much translation between characters and bytes is done all at once.  The value `none` means no character buffering is employed; the value `block` means there is a buffer of an implementation-dependent size for translation.  The value `line` is the same as `block`, except that on output, the character buffer as well as the binary buffer (if any) is flushed after each newline is output.  Other values MAY be supported by an implementation.  Buffer sizes are implementation-dependent.  The default value is implementation-dependent.
 
  `encoding`::
 
- Specifies what character encoding to use on a textual port.  The (case insensitive) value `us-ascii` MUST be supported.  The values `iso-8859-1` and `utf-8` SHOULD be supported if the implementation contains the appropriate repertoire of characters.  Other values MAY be supported; they SHOULD appear in the [[http://www.iana.org/assignments/character-sets|IANA list of encodings]].  The default value is implementation-dependent.
+ Specifies what character encoding to use on a textual port.  The (case insensitive) value `us-ascii` MUST be supported.  The values `iso-8859-1` and `utf-8` SHOULD be supported if the implementation contains the appropriate repertoire of characters.  The value `#f` means that there is no character encoding, and only binary operations are permitted.  Other values MAY be supported; they SHOULD appear in the [[http://www.iana.org/assignments/character-sets|IANA list of encodings]].  The default value is implementation-dependent.
 
  If a BOM (Byte Order Mark, U+FEFF) is present at the beginning of input on a port encoded as UTF-8, it is skipped.  A BOM is not automatically written on output.  Implementations MAY provide a way around this.
 
