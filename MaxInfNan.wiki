@@ -6,4 +6,4 @@ Gambit, Bigloo, Kawa, SISC, Chibi, Chez, Vicare, Larceny, NexJ, UMB, Spark, Femt
 
 My other Schemes throw errors, either because they don't like inexact numbers, they don't like division by 0.0, or they produce cockeyed values of `(/ 1.0 0.0)` and/or `(/ 0.0 0.0)`.
 
-Note that the six R6RS implementations are split 3-3, and that all the Java ones prefer `+nan.0`.
+Note that the six R6RS implementations are split 3-3 (or 4-3 if Guile, which does not fully implement R6RS, is included), and that all the Java ones prefer `+nan.0`, as Java does.
