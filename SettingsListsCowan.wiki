@@ -6,13 +6,17 @@ In this proposal, a filename passed to any of `open-input-file`, `open-binary-in
 
  Specifies the filename to be opened.  The interpretation of filenames is implementation-dependent.  There is no default value, but implementations MAY accept other keys in lieu of this one for opening files or file-like objects that don't have string names.  In particular, filenames on Posix are really u8-vectors with some u8 values disallowed, and filenames on Windows are really u16-vectors with some u16 values disallowed, and while most names of actual files are representable as strings, some may not be.
 
+ `textual`::
+
+ If the value of this key is true, then a call to `open-input-file`, `open-output-file`, `with-input-from-file`, `with-output-from-file`, `call-with-input-file`, or `call-with-output-file` will allow textual operations and respond `#t` to `textual-port?`.  If `binary` is specified as `#t`, binary operations may also be possible.  However, textual and binary operations may not be mixed on a port unless the value of the `char-buffer` key is `none`.  The value `#f` causes the key to be ignored.
+
  `binary`::
 
- If the value of this key is true, then a call to `open-input-file`, `open-output-file`, `with-input-from-file`, `with-output-from-file`, `call-with-input-file`, or `call-with-output-file` will respond `#t` to both `textual-port?` and `binary-port?`, and allows binary as well as textual input and output operations.  However, textual and binary operations may not be mixed on an input port unless the value of the `char-buffer` key is `none`.  It is an error to specify the value as `#f` on calls to `open-binary-input-file` or `open-binary-output-file` (which would be self-contradictory); otherwise, the value `#f` causes the key to be ignored.
+ If the value of this key is true, then a call to `open-input-file`, `open-output-file`, `with-input-from-file`, `with-output-from-file`, `call-with-input-file`, or `call-with-output-file` will allow binary operations and respond `#t` to `binary-port?`.  If `textual` is specified as `#t`, textual operations may also be possible.  However, textual and binary operations may not be mixed on a port unless the value of the `char-buffer` key is `none`.  It is an error to specify the value as `#f` on calls to `open-binary-input-file` or `open-binary-output-file` (which would be self-contradictory); otherwise, the value `#f` causes the key to be ignored.
 
  `bidirectional`::
 
- Specifies that the port will respond `#t` to both `input-port?` and `output-port?`, and both input and output operations are accepted.  However, an input operation may not be followed immediately by an output operation, nor vice versa; an intervening call to `set-port-position!` will suffice.  The input and output side of the port may be closed separately using `close-input-port` and `close-output-port`; `close-port` will close both sides.
+ Specifies that the port will respond `#t` to both `input-port?` and `output-port?`, and both input and output operations are accepted.  However, it is an error to perform an input operation immediately followed by an output operation or vice versa; an intervening call to `set-port-position!` will suffice to separate them.  The input and output side of the port may be closed separately using `close-input-port` and `close-output-port`; `close-port` will close both sides.
 
  `append`::
 
@@ -36,21 +40,21 @@ In this proposal, a filename passed to any of `open-input-file`, `open-binary-in
 
  `char-buffer`::
 
- Specifies what kind of character buffering is present.  Character buffering affects how much translation between characters and bytes is done all at once.  The value `none` means no character buffering is employed; the value `block` means there is a buffer of an implementation-dependent size for translation.  The value `line` is the same as `block`, except that on output, the character buffer as well as the binary buffer (if any) is flushed after each newline is output.  Other values MAY be supported by an implementation.  Buffer sizes are implementation-dependent.  The default value is implementation-dependent.
+ Specifies what kind of character buffering is present on a textual port.  Character buffering affects how much translation between characters and bytes is done all at once.  The value `none` means no character buffering is employed; the value `block` means there is a buffer of an implementation-dependent size for translation.  The value `line` is the same as `block`, except that on output, the character buffer as well as the binary buffer (if any) is flushed after each newline is output.  Other values MAY be supported by an implementation.  Buffer sizes are implementation-dependent.  The default value is implementation-dependent.
 
  `encoding`::
 
- Specifies what character encoding to use on a textual port.  The (case insensitive) value `us-ascii` MUST be supported.  The values `iso-8859-1` and `utf-8` SHOULD be supported if the implementation contains the appropriate repertoire of characters.  The value `#f` means that there is no character encoding, and only binary operations are permitted.  Other values MAY be supported; they SHOULD appear in the [[http://www.iana.org/assignments/character-sets|IANA list of encodings]].  The default value is implementation-dependent.
+ Specifies what character encoding to use on a textual port.  The (case insensitive) value `us-ascii` MUST be supported.  The values `iso-8859-1` and `utf-8` SHOULD be supported if the implementation contains the appropriate repertoire of characters.  Other values MAY be supported; they SHOULD appear in the [[http://www.iana.org/assignments/character-sets|IANA list of encodings]].  The default value is implementation-dependent.
 
  If a BOM (Byte Order Mark, U+FEFF) is present at the beginning of input on a port encoded as UTF-8, it is skipped.  A BOM is not automatically written on output.  Implementations MAY provide a way around this.
 
  `newline`::
 
- Specifies how to translate newlines.  The value `none` means that no translation is performed.  The values `cr`, `lf`, and `crlf` cause `#\newline` to be translated to CR, LF, or CR+LF respectively on output; all of them cause all of CR, LF, and CR+LF to be translated to `#\newline` on input.  Other values MAY be supported by an implementation.  The default value is implementation-dependent.
+ Specifies how to translate newlines on a textual port.  The value `none` means that no translation is performed.  The values `cr`, `lf`, and `crlf` cause `#\newline` to be translated to CR, LF, or CR+LF respectively on output; all of them cause all of CR, LF, and CR+LF to be translated to `#\newline` on input.  Other values MAY be supported by an implementation.  The default value is implementation-dependent.
 
  `encoding-error`::
 
- Specifies what action to take if a character cannot be encoded as bytes or a sequence of bytes cannot be decoded as a character in the specified encoding.  The value `ignore` means that the untranslatable byte or character is ignored.  The value `raise` means that an error is signalled.  The value `replace` means that an untranslatable byte is replaced by `#\xFFFD;` if that character is available in the implementation, or `#\?` if not, and an untranslatable character is replaced by the byte encoding of `#xFFFD;` if there is one, or `#\?` if not.  The default value is implementation-dependent.
+ Specifies what action to take if a character cannot be encoded as bytes or a sequence of bytes cannot be decoded as a character in the specified encoding of a textual port.  The value `ignore` means that the untranslatable byte or character is ignored.  The value `raise` means that an error is signalled.  The value `replace` means that an untranslatable byte is replaced by `#\xFFFD;` if that character is available in the implementation, or `#\?` if not, and an untranslatable character is replaced by the byte encoding of `#xFFFD;` if there is one, or `#\?` if not.  The default value is implementation-dependent.
 
 Implementations MAY support other keys, SHOULD warn if they detect keys or values they do not understand or implement, and MAY signal an error in such cases.
 
