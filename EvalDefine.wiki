@@ -1,0 +1,79 @@
+R5RS does not require `eval` to accept definitions.  It also requires a second argument specifying the evaluation environment; invoking `(interaction-environment)` returns an environment object that represents the REPL environment.  I ran tests on the suite of Schemes to see what was supported where.
+
+
+
+
+
+runallschemes define eval
+****************************************************************************
+*                                                                          *
+*                                                                          *
+*                                                                          *
+*                                                                          *
+*                                                                          *
+*                              RUN ALL SCHEMES                             *
+*                              define eval
+*                                                                          *
+*                                                                          *
+*                                                                          *
+*                                                                          *
+*                                                                          *
+****************************************************************************
+===== RACKET =====
+Welcome to Racket v5.1.3.
+> (eval '(define x 32) (interaction-environment)) x (eval '(define y 55)) y
+reference to undefined identifier: interaction-environment
+
+ === context ===
+/usr/local/lib/racket/collects/racket/private/misc.rkt:85:7
+
+> reference to undefined identifier: x
+
+ === context ===
+/usr/local/lib/racket/collects/racket/private/misc.rkt:85:7
+
+> > 55
+> 
+===== GAUCHE =====
+gosh> (eval '(define x 32) (interaction-environment)) x (eval '(define y 55)) y
+x
+gosh> 32
+gosh> *** ERROR: wrong number of arguments for #<subr eval> (required 2, got 1)
+Stack Trace:
+_______________________________________
+gosh> *** ERROR: unbound variable: y
+Stack Trace:
+_______________________________________
+gosh> ===== MIT =====
+MIT/GNU Scheme running under GNU/Linux
+Type `^C' (control-C) followed by `H' to obtain information about interrupts.
+
+Copyright (C) 2011 Massachusetts Institute of Technology
+This is free software; see the source for copying conditions. There is NO warranty; not even for
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+Image saved on Thursday March 1, 2012 at 1:27:49 AM
+  Release 9.1.1 || Microcode 15.3 || Runtime 15.7 || SF 4.41 || LIAR/i386 4.118 || Edwin 3.116
+
+1 ]=> (eval '(define x 32) (interaction-environment)) x (eval '(define y 55)) y
+
+;Unbound variable: interaction-environment
+;To continue, call RESTART with an option number:
+; (RESTART 3) => Specify a value to use instead of interaction-environment.
+; (RESTART 2) => Define interaction-environment to a given value.
+; (RESTART 1) => Return to read-eval-print level 1.
+
+2 error> 
+;Unbound variable: x
+;To continue, call RESTART with an option number:
+; (RESTART 4) => Specify a value to use instead of x.
+; (RESTART 3) => Define x to a given value.
+; (RESTART 2) => Return to read-eval-print level 2.
+; (RESTART 1) => Return to read-eval-print level 1.
+
+3 error> 
+;The procedure #[[compiled-procedure|11 ("global" #x35) #xf #x2d0dbf]] has been called with 1 argument; it requires exactly 2 arguments.
+;To continue, call RESTART with an option number:
+; (RESTART 3) => Return to read-eval-print level 3.
+; (RESTART 2) => Return to read-eval-print level 2.
+; (RESTART 1) => Return to read-eval-print level 1.
