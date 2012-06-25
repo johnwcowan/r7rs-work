@@ -8,31 +8,34 @@ Racket, Gauche, MIT, Gambit, plain Chicken, Chicken with the numbers egg, Bigloo
 
 Not all these pages have information on all these Schemes.
 
- * NonFiniteNumbers
- * [[:Zero|Zero]]
- * EmptyList
+
  * CaseInsensitivity
- * SyntaxAbuse
- * DefineSyntaxDefines
- * DatumLabels
- * RedefiningSyntax
- * EmbeddedCrLf
- * MultipleValues
- * SelfQuotingVectors
- * PrefixedStringToNumber
- * QuoteDelimiter
- * NumericTower
+ * CommaInIdentifiers
  * ComplexRepresentations
- * SetUndefinedVariable
- * WhatLoadReturns
+ * DatumLabels
+ * DefineSyntaxDefines
+ * EmbeddedCrLf
+ * EmptyDefine
+ * EmptyList
  * EmptyStringsVectors
+ * GuardBehavior
+ * HashQuote
  * ImmediateStringsCoalesced
  * ImproperLists
- * StringSymbolConversion
- * HashQuote
- * VerticalLineSymbols
- * GuardBehavior
- * CommaInIdentifiers
  * MaxInfNan
- * EmptyDefine
+ * MultipleValues
+ * NonFiniteNumbers
+ * NumericTower
+ * PrefixedStringToNumber
+ * QuoteDelimiter
+ * RedefiningSyntax
+ * SelfQuotingVectors
+ * SetUndefinedVariable
+ * SquareBrackets
+ * StringSymbolConversion
+ * SyntaxAbuse
+ * VerticalLineSymbols
+ * WhatLoadReturns
+ * [[:Zero|Zero]]
+
  
