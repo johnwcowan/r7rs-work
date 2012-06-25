@@ -18,6 +18,7 @@ Not all these pages have information on all these Schemes.
  * EmptyDefine
  * EmptyList
  * EmptyStringsVectors
+ * EvalDefine
  * GuardBehavior
  * HashQuote
  * ImmediateStringsCoalesced
@@ -26,6 +27,7 @@ Not all these pages have information on all these Schemes.
  * MultipleValues
  * NonFiniteNumbers
  * NumericTower
+ * OneArgEval
  * PrefixedStringToNumber
  * QuoteDelimiter
  * RedefiningSyntax
