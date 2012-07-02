@@ -3,29 +3,39 @@ This is a proposal for a WG2 bytevector API.  The conceit is that everything is 
 
 == Numeric procedures ==
 
-(`bytevector-<type><endian>-ref` ''bytevector n''`)`
+(`bytevector-<type>-ref` ''bytevector n''`)`
 
 Returns a Scheme number corresponding to the binary value encoded according to ''type'' beginning at offset ''n'' in ''bytevector''.  This procedure treats ''bytevector'' as potentially containing more than one type.
 
-(`<type><endian>vector-ref` ''bytevector n''`)`
+(`<type>vector-ref` ''bytevector n''`)`
 
 Returns a Scheme number corresponding to the binary value encoded according to ''type'' beginning at offset ''n * b'' in ''bytevector'', where ''b'' is the size of the binary value in bytes.  This procedure treats ''bytevector'' as a uniformly typed vector.
 
-(`bytevector-<type><endian>-set!` ''bytevector n v''`)`
+(`bytevector-<type>-set!` ''bytevector n v''`)`
 
 Converts ''v'' to a binary value encoded according to ''type'' and places it into ''bytevector'' beginning at offset ''n''.  This procedure treats ''bytevector'' as potentially containing more than one type.
 
-(`<type><endian>vector-set!` ''bytevector n v''`)`
+(`<type>vector-set!` ''bytevector n v''`)`
 
 Converts ''v'' to a binary value encoded according to ''type'' and places it into ''bytevector'' beginning at offset ''n * b'', where ''b'' is the size of the binary value in bytes.  This procedure treats ''bytevector'' as a uniformly typed vector.
 
-(`<type><endian>vector-length` ''bytevector''`)`
+(`<type>vector-length` ''bytevector''`)`
 
 Returns a Scheme number corresponding to the length of ''bytevector''divided by the size of the binary value in bytes.
 
+(`vector-><type>vector `''vector''`)`
+
+Returns a vector with the same elements as ''<type>vector''.
+
+(`<type>vector->vector `''<type>vector''`)`
+
+Returns a <type>vector with the same elements as ''vector''.  It is an error if an element cannot be accurately converted to `<type>`.
+
 == Numeric types ==
 
-The types are:
+A <type> consists of a <principal type> followed by an <endianism>.
+
+The <principal type> values are:
 
  `u8`::
   unsigned 8-bit integer
@@ -56,7 +66,7 @@ The types are:
  `c128`::
   128-bit complex number (two 64-bit floats, real followed by imaginary)
 
-The endianism values are:
+The <endianism> values are:
 
  (empty)::
   Native representations (system-dependent)
