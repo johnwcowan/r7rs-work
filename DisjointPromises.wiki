@@ -1,0 +1,9 @@
+Testing the usual suite of Schemes to see whether promises returned by `delay` are disjoint from procedures.
+
+Disjoint: Racket, Gauche, MIT, Gambit, Chicken, Guile, Kawa, Chibi, SCM, STklos, !SigScheme, !TinyScheme, XLisp, Elk, UMB, VX, SXM, Sizzle, Spark
+
+Not disjoint: Bigloo, Scheme48/scsh, SISC, Chez, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, NexJ, Scheme 9, Schemik, Inlab, Owl Lisp
+
+`delay` undefined: KSi, Shoe, Scheme 7, Rep, Llava, !FemtoLisp, Dfsch
+
+Buggy implementation: Oaklisp
