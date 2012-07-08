@@ -862,7 +862,7 @@ raise an exception or fail to exit (from #374).
   * '''Proposals:''' 
     * '''boolean:''' Only `#t`/`#f` are as described as above, and all other values are passed (as best as possible) to the OS and therefore implementation-defined
     * '''extended-true:''' `#f` is generic failure, `#t` generic success, and `""` and `0` are generic success if not otherwise understood by the OS
-  * '''Options:''' boolean, extended-false, unspecified, undecided
+  * '''Options:''' boolean, extended-true, unspecified, undecided
   * '''Default:''' unspecified
   * '''Preferences:''' 
 
