@@ -31,6 +31,7 @@ Not all these pages have information on all these Schemes.
  * PrefixedStringToNumber
  * QuoteDelimiter
  * RedefiningSyntax
+ * RoundInf
  * SelfQuotingVectors
  * SetUndefinedVariable
  * SquareBrackets
