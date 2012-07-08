@@ -220,8 +220,8 @@ can assume as the maximum size of an integer.
 Numbers are mostly used for SRFI-based libraries anyway, which are not
 likely to reach either limit.
 
-The option `uint15` for the proposal as stated (0 to 32767), `int16`
-for -32768 to 32767, int24 for -2^23^ to 2^23^-1, etc.
+Vote `uint15` for the proposal as stated (0 to 32767), `uint16`
+for 0 to 65535, uint24 for 0 to 2^23^-1, etc.
 
 Vote `unspecified` to make no explicit requirement on the integers
 allowed in library names.
