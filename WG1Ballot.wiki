@@ -105,7 +105,7 @@ Keep in mind the semantics of `eqv?` also affect `memv`, `assv` and
 Currently, R7RS-small says that when `equal?` is applied to records
 that are not `eqv?` (that were constructed by different calls to the
 record constructor), the result may be `#t` or `#f` at the
-implementation's discretion.  I propose to treat records of the same
+implementation's discretion.  The proposal is to treat records of the same
 type like pairs, strings, vectors, and bytevectors: that is, their
 contents are recursively compared.
 
@@ -164,7 +164,7 @@ left-to-right testing throughout, like `cond`.  The R6RS editors
 thought this was better for machine-generated code, though worse for
 hand-written code.
 
-I suggest a compromise: allow keys to appear in more than one clause,
+The proposal is a compromise: allow keys to appear in more than one clause,
 but behave as if the key appeared only in the first (leftmost) clause.
 This allows hash-table or other non-left-to-right implementations.
 
@@ -176,7 +176,7 @@ This allows hash-table or other non-left-to-right implementations.
 
 === #353 No use before import in libraries ===
 
-For ease of implementation, I think we should make it an error for an
+For ease of implementation, the proposal is to make it an error for an
 imported identifier to be referenced or defined in a library before
 the library declaration that imports it.  This allows strict
 left-to-right processing of library declarations, with no need to
@@ -220,8 +220,8 @@ can assume as the maximum size of an integer.
 Numbers are mostly used for SRFI-based libraries anyway, which are not
 likely to reach either limit.
 
-The option `uint15` for the proposal as stated (0 to 32767), `int16`
-for -32768 to 32767, int24 for -2^23^ to 2^23^-1, etc.
+Vote `uint15` for the proposal as stated (0 to 32767), `uint16`
+for 0 to 65535, uint24 for 0 to 2^23^-1, etc.
 
 Vote `unspecified` to make no explicit requirement on the integers
 allowed in library names.
@@ -344,7 +344,7 @@ is an error according to the draft, but in R6RS it returns `+inf.0`
 (assuming the implementation supports it).  The proposal is to adopt
 the R6RS wording.
 
-I tested `(/ 2.0 0)` in the usual set of Schemes:
+Cowan tested `(/ 2.0 0)` in the usual set of Schemes:
 
  * Racket, Gambit, Chicken (with the numbers egg), Guile, Chibi, Elk, Spark report an error.
  * Gauche, Bigloo, Scheme48/scsh, Kawa, SISC, Chez, SCM, !Ikarus/Vicare, Larceny, Ypsilon, Mosh, !IronScheme, NexJ, STklos, RScheme, BDC, UMB, VX return `+inf.0`.
@@ -766,13 +766,11 @@ The `matrix` proposal requires all 4^3^=64 conversions.
 
 === #444 Add vector-append procedure ===
 
-What the summary says.  This is for completeness with `append` and
+This is for completeness with `append` and
 `string-append`, and is useful for the reconstruction phase of
 divide-and-conquer algorithms on vectors.  See #436 for the Formal
 Comment that triggered this ticket.
 
-This is likely not historically included in Scheme because it
-encourages an inefficient idiom.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
@@ -835,11 +833,11 @@ whether the exception is continuable.
 
 === #373 (exit #t) should be the same as (exit) ===
 
-See Formal Comment #372 for the argument.  I support this proposal.  I
+See Formal Comment #372 for the argument.  Cowan writes: "I support this proposal.  I
 don't support the alternative proposal to just say that any true value
 reports success and only #f reports failure, for there is usually only
 one kind of success (0 on Posix and Windows, "" on Plan 9, 2 on VMS)
-and many kinds of failure.
+and many kinds of failure."
 
 It is reasonable and convenient to use `#t`/`#f` as generic
 success/failure for portable programs, with `(exit)` as a shorthand
@@ -864,7 +862,7 @@ raise an exception or fail to exit (from #374).
   * '''Proposals:''' 
     * '''boolean:''' Only `#t`/`#f` are as described as above, and all other values are passed (as best as possible) to the OS and therefore implementation-defined
     * '''extended-true:''' `#f` is generic failure, `#t` generic success, and `""` and `0` are generic success if not otherwise understood by the OS
-  * '''Options:''' boolean, extended-false, unspecified, undecided
+  * '''Options:''' boolean, extended-true, unspecified, undecided
   * '''Default:''' unspecified
   * '''Preferences:''' 
 
@@ -884,12 +882,14 @@ If you want to write in an alternate name, be sure to include
 
 === #394 Ditching SCHEME-REPORT-ENVIRONMENT and NULL-ENVIRONMENT ===
 
-I have reluctantly come to the same conclusion as the R6RS editors:
+Cowan writes:
+
+"I have reluctantly come to the same conclusion as the R6RS editors:
 that in a Scheme with libraries, `scheme-report-environment` and
 `null-environment` don't make much sense.  They are not in IEEE Scheme
 or R4RS, so there is no formal barrier to removing them.
 
-Semantically, `scheme-report-environment` holds all the identifiers in
+"Semantically, `scheme-report-environment` holds all the identifiers in
 R5RS, excepting any which the implementation doesn't provide, like
 `make-rectangular` if it does not have complex numbers.
 `Null-environment`, on the other hand, contains only the syntax
@@ -897,19 +897,19 @@ keywords with none of the standard procedures: it is not an empty
 environment.  R6RS preserves these procedures only in the R5RS
 compatibility library, where they expose only R5RS content.
 
-When adapting the definition to R7RS, I changed
+"When adapting the definition to R7RS, I changed
 `scheme-report-environment` to contain all the identifiers in all the
 standard libraries that the implementation provides, and
 `null-environment` all the syntax keywords in those libraries.  This
 was the best I thought I could do, but now I think that it provides
 very little utility.
 
-It's possible to construct any specific environment you want by using
+"It's possible to construct any specific environment you want by using
 the `environment` procedure, which turns a sequence of import-specs
 into an environment.  In particular, we now have the `(scheme r5rs)`
 library, which essentially provides what
 `(scheme-environment-procedure 5)` should provide, and there is no
-portable use of any argument other than 5.
+portable use of any argument other than 5."
 
 Vote `remove` to remove these two procedures entirely, or `move` to
 move them from (scheme eval) and provide them only as portability
