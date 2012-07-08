@@ -16,6 +16,7 @@ Not all these pages have information on all these Schemes.
  * ComplexRepresentations
  * DatumLabels
  * DefineSyntaxDefines
+ * DisjointPromises
  * EmbeddedCrLf
  * EmptyDefine
  * EmptyList
