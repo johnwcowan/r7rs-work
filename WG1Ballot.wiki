@@ -226,7 +226,7 @@ for 0 to 65535, uint24 for 0 to 2^23^-1, etc.
 Vote `unspecified` to make no explicit requirement on the integers
 allowed in library names.
 
-  * '''Options:''' uint15, int16, uint16, int24, uint24, unspecified
+  * '''Options:''' uint15, uint16, uint24, unspecified
   * '''Default:''' unspecified
   * '''Preferences:''' 
 
