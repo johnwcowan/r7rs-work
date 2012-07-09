@@ -1,3 +1,4 @@
+
 = Instructions =
 
     * You may list as many of the options as you want in order of preference.
@@ -60,44 +61,70 @@ with the leading minus sign.  Any notation using precision specifiers
 would also has undefined equivalence under the `r6rs` rule, e.g.
 `(eqv? 1e0 1f0)`.
 
-An exception is often desired for `(eqv? +nan.0 +nan.0)`, which would
-naturally return `#f` for `r5rs`.  For the operational semantics in
-`r6rs` this would also return `#f`, because the results are always
-`+nan.0` which would never compare as `=`.  However, R6RS makes an
-exception here and states `(eqv? +nan.0 +nan.0) => unspecified` in
-contradiction to its own rule.  Others have argued that it should in
-fact return `#t`, in contrast to both R5RS and R6RS, on the grounds
-that what they really want to compare is the underlying representation
-(which would be the same for some but not all NaNs).  In this sense we
-have a new option `underlying-implementation`, which should return
-`#t` iff is the arguments are of the same underlying type and bit
-layout (the `same*` option from earlier ballots).  This option is new
-and perhaps unsuitable for a standard.
-
-Since this is so much disagreement and confusion on the `+nan.0` case
-it is reasonable to make it an explicitly unspecified exception, and
-the variant `/unspecified-nan` is provided for all options.  Note
-`r6rs` implies `(eqv? +nan.0 +nan.0) => #f`, and
-`r6rs/unspecified-nan` is the exception case as actually listed in
-R6RS.
-
-The other special case is procedures.  In R3RS, an operational
-equivalence was defined for procedures, and this was subsequently
-removed.  R6RS went the other direction and allowed the exact same
-procedure `x` to return `#f` for `(eqv? x x)`, and R7RS currently
-reaffirms this.  The rationale behind this is for compiler
-optimizations such as inlining local procedures.  Add the variant
-`/eq-procs` to any option to also revert this change.
-
 Keep in mind the semantics of `eqv?` also affect `memv`, `assv` and
-`case`.  The result of this ticket will also answer formal comment
-#423.
+`case`.
 
   * '''References:'''
     * [[https://groups.google.com/d/msg/scheme-reports-wg1/BGvDFtD6A1M/5pHmfXHtvEIJ|eqv? issues summarized]]
     * [[https://groups.google.com/d/msg/scheme-reports-wg1/2Nv6oIND8HI/Z2HXPQMNFooJ|the history of eqv? on numbers]]
-  * '''Options:''' r5rs, r5rs/unspecified-nan, r6rs, r6rs/unspecified-nan, r6rs/all, r6rs/all/unspecified-nan, underlying-implementation
+  * '''Options:''' r5rs, r6rs, r6rs/all
   * '''Default:''' r5rs
+  * '''Preferences:''' 
+
+=== #229 eqv? and NaN ===
+
+As announced previously this is being re-opened due to incorrect
+formulation in the previous ballot, and in response to formal comment
+#423.
+
+Regardless of the result of #460, the semantics implies that `eqv?`
+return `#f` on comparing any two NaN objects.  It is reasonable to
+want to consider any two NaNs as the "same" since they behave the same
+under any operation, even though none of the results are `=`.  In
+deference to this R6RS makes an exception and allows the result to be
+unspecified, and we should consider allowing this exception.
+
+The "same" options from previous ballots have been removed, pending an
+alternate formulation of the semantics of #460 in which this would
+make sense.
+
+The default of `unspecified` still holds from the previous invalidated
+ballot.
+
+  * '''Options:''' different, unspecified, undecided
+  * '''Default:''' unspecified
+  * '''Preferences:''' 
+
+=== #125 Allow procedures not to be locations (making EQV? unspecified in some additional cases) ===
+
+Procedures are another case for contention with `eqv?`.  In R3RS, an
+operational equivalence was defined for procedures, and this was
+subsequently removed.
+
+R6RS went the other direction and allowed the exact same procedure `x`
+to return `#f` for `(eqv? x x)`, and R7RS currently reaffirms this.
+The rationale behind this is for compiler optimizations such as
+inlining local procedures, that is given:
+
+{{{
+(let ((square (lambda (x) (* x x))))
+  (eqv? square square))
+}}}
+
+it is reasonable for a compiler to perform the optimization:
+
+{{{
+(eqv? (lambda (x) (* x x)) (lambda (x) (* x x)))
+}}}
+
+in which case the result would naturally return `#f`.
+
+Vote `yes` to allow the result to be `#f`.
+
+The default of `yes` still holds from the previous invalidated ballot.
+
+  * '''Options:''' yes, no, undecided
+  * '''Default:''' yes
   * '''Preferences:''' 
 
 === #393 Defining record equality ===
@@ -140,9 +167,12 @@ would not be compliant until it was updated with each new standard.
 === #458 Remove the formal semantics from the report ===
 
 There have been a bunch of complaints about the formal semantics: it's
-no longer up to date, it has been incomplete since the beginning, it
-cannot be mechanized with a proof assistant, it doesn't help either
-users or implementers very much, and so on.  See in particular #453.
+incomplete, it cannot be mechanized with a proof assistant, it doesn't
+help either users or implementers very much, and so on.  See in
+particular #453.
+
+The semantics have been updated to include `dynamic-wind`, however the
+other arguments still hold.
 
 This proposal is to remove it from the report altogether, and to urge
 the Steering Committee to create a new WG to produce one, likely in a
@@ -151,7 +181,9 @@ schedule.  Some members of the current WG have expressed interest in
 serving on such a group, and others have expressed their complete lack
 of interest, so a new WG seems the best choice if this is done.
 
-  * '''Options:''' remove, keep, undecided
+Alternately, we can adapt the operational semantics from R6RS.
+
+  * '''Options:''' remove, keep, operational, undecided
   * '''Default:''' keep
   * '''Preferences:''' 
 
@@ -170,6 +202,20 @@ This allows hash-table or other non-left-to-right implementations.
 
   * '''Options:''' r5rs, r6rs, leftmost, unspecified, undecided
   * '''Default:''' r5rs
+  * '''Preferences:''' 
+
+=== #85 Blobs, bytevectors, byte-vectors, octet-vectors, or something else?
+
+Following exactly in the footsteps of R6RS we voted for a `blob` API
+and then changed the name to `bytevector`.
+
+Formal comment #435 argues that `u8vector` is in more common use, so
+this item is being re-opened.  The default is the current draft
+`bytevector`, and for any member leaving the preferences are left
+blank their votes from ballot 3 will be used.
+
+  * '''Options:''' blob, bytevector, byte-vector, u8vector, octet-vector, undecided
+  * '''Default:''' bytevector
   * '''Preferences:''' 
 
 == WG1 - Library System ==
@@ -220,13 +266,13 @@ can assume as the maximum size of an integer.
 Numbers are mostly used for SRFI-based libraries anyway, which are not
 likely to reach either limit.
 
-Vote `uint15` for the proposal as stated (0 to 32767), `uint16`
-for 0 to 65535, uint24 for 0 to 2^23^-1, etc.
+The option `uint15` for the proposal as stated (0 to 32767), `int16`
+for -32768 to 32767, int24 for -2^23^ to 2^23^-1, etc.
 
 Vote `unspecified` to make no explicit requirement on the integers
 allowed in library names.
 
-  * '''Options:''' uint15, uint16, uint24, unspecified
+  * '''Options:''' uint15, int16, uint16, int24, uint24, unspecified, undecided
   * '''Default:''' unspecified
   * '''Preferences:''' 
 
@@ -456,6 +502,56 @@ behavior.
 
   * '''Options:''' overlap, disjoint, unspecified, undecided
   * '''Default:''' overlap
+  * '''Preferences:''' 
+
+=== #364 truncate, floor, ceiling round should return a non-finite argument ===
+
+Currently R7RS is silent on what truncate, floor, ceiling, and round
+do when the argument is `+inf.0`, `-inf.0`, or `+nan.0`. R6RS has them
+return the argument, which seems reasonable.
+
+Tests were made for `(round (* 1.0e200 1.0e200))` on a variety of
+implementations.
+
+Racket, Gauche, Chicken (with and without the numbers egg), Bigloo,
+Guile, Kawa, Chibi, Chez, SCM, Ikarus/Vicare?, Larceny, Ypsilon, Mosh,
+IronScheme, !NexJ, STklos, KSi, Shoe, BDC, Rep, Schemik, Elk, Spark
+all return the argument.
+
+MIT, Gambit, Scheme48/scsh, SISC, Scheme 9, Scheme 7, signal errors.
+
+SigScheme, TinyScheme, Dream, UMB don't work for one or another
+reason.
+
+Oaklisp and Owl Lisp don't do flonums.
+
+XLisp only has fixnums and flonums, and returns the largest or
+smallest fixnum as the case may be.
+
+RScheme returns a variety of slightly strange values: (round +inf.0),
+for example, is 0, but (round -inf.0) is -inf.0.
+
+Vote `input` to return the input, `error` to specify "it is an error",
+and `unspecified` to leave unspecified as in the current draft.
+
+  * '''Options:''' input, error, unspecified, undecided
+  * '''Default:''' unspecified
+  * '''Preferences:''' 
+
+=== #392 Exact positive and non-negative integer predicates ===
+
+There are two useful subsets of the exact numbers, both of which are
+commonly called natural numbers, depending on who's talking.
+Logicians, set theorists, and computer scientists include 0, other
+mathematicians mostly don't.  This proposal adds the predicates
+`exact-positive-integer?` and `exact-non-negative-integer?`, analogous
+to `exact-integer?`.  Because of the ambiguity, the name
+`natural-number?` is not proposed.
+
+Vote `yes` to add these two procedures.
+
+  * '''Options:''' yes, no, wg2, undecided
+  * '''Default:''' no
   * '''Preferences:''' 
 
 == WG1 - Read/Write ==
@@ -766,11 +862,8 @@ The `matrix` proposal requires all 4^3^=64 conversions.
 
 === #444 Add vector-append procedure ===
 
-This is for completeness with `append` and
-`string-append`, and is useful for the reconstruction phase of
-divide-and-conquer algorithms on vectors.  See #436 for the Formal
-Comment that triggered this ticket.
-
+This is for completeness with `append` and `string-append`.  See #436
+for the Formal Comment that triggered this ticket.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
@@ -967,6 +1060,40 @@ Vote `disjoint` to add `promise?` and make it a disjoint type, or
   * '''Default:''' no
   * '''Preferences:''' 
 
+=== #462 end of line definition ===
+
+The definition of read-line allows implementation defined extensions
+to the set of end of line sequences. This is arguably too loose, as an
+implementation could define "a" as and end of line. On the other hand,
+if we do want to leave this in it may make sense to remove "\r", which
+is no longer used in any contemporary OS.
+
+Vote `no-extensions` to forbid implementation defined extensions,
+`no-return` to remove a single return from the list of required end of
+lines, and `none` to leave as-is.
+
+  * '''Options:''' no-extensions, no-return, none, undecided
+  * '''Default:''' none
+  * '''Preferences:''' 
+
+=== #452 provide digit-value support for hex-digits ===
+
+In ballot 4, in symmetry with the new Unicode definition of
+`char-numeric?` and as an analog to CL's `digit-char-p`, we provided
+`digit-value`.
+
+An informal comment was made questioning this procedure, and
+suggesting if provided at all it be extended to hex digits.
+
+Vote `ascii-hex` to support only the ASCII hex digits a-f,A-F (in
+addition to full Unicode numeric digits), `unicode-hex` to support all
+Unicode variants of a-f,A-F (need to define formally), `remove` to
+remove `digit-value` entirely, or `keep` to keep as is.
+
+  * '''Options:''' ascii-hex, unicode-hex, remove, keep, undecided
+  * '''Default:''' keep
+  * '''Preferences:''' 
+
 == WG1 - Non-normative ==
 
 === #411 Reference implementation ===
@@ -979,4 +1106,15 @@ wins.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
+  * '''Preferences:''' 
+
+=== #463 library naming conventions  ===
+
+We currently use the singular form of data types for library names,
+e.g. `(scheme char)` and `(scheme file)`.  R6RS prefers the plural, as
+in `(scheme lists)` and `(scheme records)`. We should decide
+officially which is preferred.
+
+  * '''Options:''' singular, plural, unspecified, undecided
+  * '''Default:''' unspecified
   * '''Preferences:''' 
