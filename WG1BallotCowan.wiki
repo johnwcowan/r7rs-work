@@ -144,7 +144,8 @@ Note `equal?` is already required to handle cycles regardless.
 
   * '''Options:''' recursive, identity, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' undecided
+  * '''Preferences:''' unspecified
+  * '''Rationale:''' Existing systems shouldn't have to change their `equal?` to conform to R7RS.
 
 === #306 What does "full Unicode" support mean in Appendix B? ===
 
@@ -766,7 +767,8 @@ Alternately, vote `separate` to keep these as two separate procedures.
 
   * '''Options:''' port-last, offsets-last, separate, undecided
   * '''Default:''' separate
-  * '''Preferences:''' undecided
+  * '''Preferences:''' offsets-last
+  * '''Rationale:'''  I think the port is less important than the stop/start.
 
 === #387 Add start/end arguments to string->vector and vector->string ===
 
@@ -918,7 +920,8 @@ or `add` to have all three.
 
   * '''Options:''' replace, add, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' undecided
+  * '''Preferences:''' replace
+  * '''Rationale:'''  It's better to keep these separate, even if marginally less convenient.
 
 === #450 Eliminate default for fill argument in vector-copy ===
 
