@@ -185,7 +185,8 @@ Alternately, we can adapt the operational semantics from R6RS.
 
   * '''Options:''' remove, keep, operational, undecided
   * '''Default:''' keep
-  * '''Preferences:''' undecided
+  * '''Preferences:''' remove
+  * '''Rationale:'''  The formal semantics broken as written, and even if we patched it up, it would still be less than helpful.  We need to let a separate group do a better job.
 
 === #398 Allow repeated keys in `case` ===
 
@@ -202,7 +203,8 @@ This allows hash-table or other non-left-to-right implementations.
 
   * '''Options:''' r5rs, r6rs, leftmost, unspecified, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' undecided
+  * '''Preferences:''' leftmost
+  * '''Rationale:'''  `Leftmost` is a reasonable compromise between R5RS and R6RS; the latter overspecifies the mechanism.
 
 === #85 Blobs, bytevectors, byte-vectors, octet-vectors, or something else?
 
@@ -216,7 +218,8 @@ blank their votes from ballot 3 will be used.
 
   * '''Options:''' blob, bytevector, byte-vector, u8vector, octet-vector, undecided
   * '''Default:''' bytevector
-  * '''Preferences:''' undecided
+  * '''Preferences:''' blob
+  * '''Rationale:'''  Neither `bytevector` nor `u8vector` fully captures the idea here, which is of a collection of unstructured binary information.  `Blob` does that nicely.
 
 == WG1 - Library System ==
 
@@ -255,7 +258,8 @@ Vote `yes` to add the restriction, or `no` to leave it out.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' undecided
+  * '''Preferences:''' yes
+  * '''Rationale:'''  This is how Chicken works, and I think left-to-right processing is a Good Thing whenever possible.  Note that this has nothing to do with the fact that the library form is read all at once, and everything to do with how it is processed.
 
 === #359 Limit numbers used in library names ===
 
@@ -274,7 +278,8 @@ allowed in library names.
 
   * '''Options:''' uint15, int16, uint16, int24, uint24, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' undecided
+  * '''Preferences:''' uint15
+  * '''Rationale:'''  I may change this later when/if Alex explains why negative numbers are useful in library names.  We haven't had them up to now.
 
 === #441 Make sure a program/library loads any imported libraries at most once ===
 
@@ -309,7 +314,8 @@ and include-ci but none that are imported with import."
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' undecided
+  * '''Preferences:''' yes
+  * '''Rationale:'''  I think this is very useful for reducing bureaucracy in small libraries.  Chicken has it.
 
 === #448 Add library declaration include-library-declarations ===
 
@@ -326,7 +332,8 @@ if it is abstract.
 
   * '''Options:''' include-library-declarations, export-from, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' undecided
+  * '''Preferences:''' include-library-declarations
+  * '''Rationale:'''  Though this name is verbose even by Scheme standards, what it provides is very helpful.  In simple implementations, it can be the same as include.
 
 === #449 Clarify library loading rules ===
 
@@ -363,7 +370,8 @@ Aaron Hsu, however, thinks this is too restrictive, and proposes
     * '''zero-or-one:''' Kelsey's proposal with Hsu's relaxation
   * '''Options:''' one, one-or-more, zero-or-one, zero-or-more
   * '''Default:''' one-or-more
-  * '''Preferences:''' undecided
+  * '''Preferences:''' zero-or-more
+  * '''Rationale:'''  I think we should defer to R6RS-based experience here.
 
 == WG1 - Numerics ==
 
@@ -379,7 +387,8 @@ Vote `yes` to add the optional second argument from R6RS.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' undecided
+  * '''Preferences:''' yes
+  * '''Rationale:'''  This is easy for both users and implementers, but implementers should do it once so users don't have to do it more than once (as well as remembering the order of terms in the division!)
 
 === #367 Inexact division by exact zero ===
 
@@ -422,7 +431,8 @@ always an error in all implementations.
 
   * '''Options:''' required, optional, forbidden, undecided
   * '''Default:''' optional
-  * '''Preferences:''' undecided
+  * '''Preferences:''' required
+  * '''Rationale:'''  It's silly for `(- 1 2 3)` not to Just Work in all Schemes.
 
 === #370 Log of exact and inexact zero ===
 
@@ -452,7 +462,8 @@ error, respectively.  Vote `infinity` to always return `-inf.0`.
 
   * '''Options:''' r6rs, infinity, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' undecided
+  * '''Preferences:''' r6rs
+  * '''Rationale:'''  R6RS got it right here: the limit of log ''x'' as ''x'' -> 0 is negative infinity, which however is not representable within the exact number system.
 
 === #407 Dividing exact 0 by an inexact number ===
 
@@ -485,7 +496,8 @@ as `both` but without the note).
 
   * '''Options:''' both, infinity, nan, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' undecided
+  * '''Preferences:''' both, unspecified
+  * '''Rationale:'''  If we are going to allow both (as I think we should and must, the arguments on both sides being equally satisfactory), we should say so.
 
 === #395 Infinite and NaN complex numbers ===
 
@@ -502,7 +514,8 @@ behavior.
 
   * '''Options:''' overlap, disjoint, unspecified, undecided
   * '''Default:''' overlap
-  * '''Preferences:''' undecided
+  * '''Preferences:''' overlap
+  * '''Rationale:'''  I don't really care about the R6RS notion that `finite?`, `infinite?`, and `nan?` form a partition (and in R6RS they don't work on complex numbers anyway).  Testing against the Scheme suite didn't show much, because most Schemes either don't have complex numbers at all, don't have `infinite?` and/or `nan?`, or don't allow complex numbers as arguments to them.  However, Gauche, Chicken with the numbers egg, Vicare, !IronScheme agree that `+inf.0+nan.0i` is both infinite and NaN.  Spark says it is neither, SXM doesn't allow NaN in a complex value.
 
 === #364 truncate, floor, ceiling round should return a non-finite argument ===
 
@@ -552,7 +565,8 @@ Vote `yes` to add these two procedures.
 
   * '''Options:''' yes, no, wg2, undecided
   * '''Default:''' no
-  * '''Preferences:''' undecided
+  * '''Preferences:''' yes
+  * '''Rationale:'''  Natural numbers are an important type, and Scheme should support it directly.
 
 == WG1 - Read/Write ==
 
@@ -578,7 +592,8 @@ regardless.
 
   * '''Options:''' required, optional, undecided
   * '''Default:''' optional
-  * '''Preferences:''' undecided
+  * '''Preferences:''' required
+  * '''Rationale:'''  All Schemes treat tab as whitespace anyway, though some give it special meaning (completion or whatever) at the REPL.
 
 === #388 Specify what `display` does with circular lists ===
 
@@ -588,7 +603,8 @@ or leave it unspecified?
 
   * '''Options:''' labels, loop, unspecified
   * '''Default:''' unspecified
-  * '''Preferences:''' undecided
+  * '''Preferences:''' unspecified
+  * '''Rationale:'''  `Display` should be kept as undefined as possible; it's really a sort of debug-printer except when used to display strings or symbols.
 
 === #447 #!fold-case and #!no-fold-case have no final delimiter ===
 
@@ -604,7 +620,8 @@ This seems unfortunate.
     * '''comment:''' the draft status-quo
   * '''Options:''' identifier, delimiter, comment, undecided
   * '''Default:''' comment
-  * '''Preferences:''' undecided
+  * '''Preferences:''' delimiter
+  * '''Rationale:'''  Most of the time case-folding directives will be delimited by newline or space anyway.  I see no point in adding yet another class of magic implementation-dependent things to the standards: implementations can do what they will anyway.
 
 === #442 write procedure is not backwards compatible ===
 
@@ -671,7 +688,8 @@ the implementation.
 
   * '''Options:''' w3c, unicode, unspecified, undecided.
   * '''Default:''' unspecified
-  * '''Preferences:''' undecided
+  * '''Preferences:''' w3c
+  * '''Rationale:'''  The W3C list is a good useful compromise, refined over decades of SGML use.
 
 == WG1 - Base Library ==
 
@@ -701,7 +719,8 @@ leave them in as aliases.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' undecided
+  * '''Preferences:''' yes
+  * '''Rationale:'''  It's silly to have both sets of names in the base library.
 
 === #378 Rename GET-FEATURES to just FEATURES ===
 
@@ -710,7 +729,8 @@ Java-like".  Okay, it's bikeshedding.
 
   * '''Options:''' features, get-features, undecided
   * '''Default:''' get-features
-  * '''Preferences:''' undecided
+  * '''Preferences:''' features
+  * '''Rationale:'''  I don't even know why I made this `get-features` when I proposed it.
 
 === #384 Merge `bytevector-copy` and `bytevector-copy-partial` ===
 
@@ -723,7 +743,8 @@ Vote `yes` for this simplification.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' undecided
+  * '''Preferences:''' yes
+  * '''Rationale:'''  This is in conformity with the way we do string and vector copiers now, as well as the destructive `bytevector-copy!`.
 
 === #385 Merge `write-bytevector` and `write-bytevector-partial` ===
 
@@ -760,7 +781,8 @@ Vote `yes` to add these optional arguments.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' undecided
+  * '''Preferences:''' yes
+  * '''Rationale:'''  Consistency and completeness.
 
 === #391 Add predicates for R7RS signalled conditions ===
 
@@ -785,7 +807,8 @@ Vote `yes` to add these procedures, or `file-only` to only add the
 
   * '''Options:''' yes, file-only, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' undecided
+  * '''Preferences:''' yes
+  * '''Rationale:'''  There are only a few standard traps, and we should be able to identify which one we have.  I can't think of any reason for providing `file-error` but not the others.
 
 === #400 Define record? . ===
 
@@ -798,7 +821,8 @@ This is Alexey Radul's suggestion.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' undecided
+  * '''Preferences:''' no
+  * '''Rationale:'''  No, no, a thousand times no.  The large language may want to introduce opaque records (records that look like primitive types to the outside world) and this would effectively prevent it.  Redefining `record?` within a library wouldn't be enough, as it would permit opaque records to be recognized as such as soon as they were passed out of the library.
 
 === #425 Add read-string, read-string!, write-string procedures to (scheme base) ===
 
@@ -820,7 +844,8 @@ Vote `yes` to add all three, `immutable` to add only `read-string` and
 
   * '''Options:''' yes, immutable, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' undecided
+  * '''Preferences:''' yes
+  * '''Rationale:'''  As soon as we voted in `string-copy!`, the goal of immutable strings died a horrible death.  We should have all of these for bulk I/O.
 
 === #433 full conversion cycle for containers ===
 
@@ -867,7 +892,8 @@ for the Formal Comment that triggered this ticket.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' undecided
+  * '''Preferences:''' yes
+  * '''Rationale:'''  Consistency and completeness.
 
 === #451 Add bytevector-append procedure ===
 
@@ -878,7 +904,8 @@ byte sequences.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' undecided
+  * '''Preferences:''' yes
+  * '''Rationale:'''  Consistency and completeness.
 
 === #445 Bidirectional ports and port-open? ===
 
@@ -920,7 +947,8 @@ whether the exception is continuable.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' undecided
+  * '''Preferences:''' no
+  * '''Rationale:'''  Given that Scheme has no way of calling procedures portably when the number of arguments they accept is unknown, I have to reluctantly reject this, even though it is clearly the Right Thing.  Many handlers will not care, and they should not be required to be retrofitted with a dummy second argument.
 
 == WG1 - Optional Libraries ==
 
@@ -957,7 +985,8 @@ raise an exception or fail to exit (from #374).
     * '''extended-true:''' `#f` is generic failure, `#t` generic success, and `""` and `0` are generic success if not otherwise understood by the OS
   * '''Options:''' boolean, extended-true, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' undecided
+  * '''Preferences:''' boolean
+  * '''Rationale:'''  `Extended-true` is going too far: 0 means success on many systems, but failure (specifically: failure of unknown origin) on VMS.  Portable code should stick with `#t` and `#f`.
 
 === #375 Add EMERGENCY-EXIT procedure ===
 
@@ -971,7 +1000,8 @@ If you want to write in an alternate name, be sure to include
 
   * '''Options:''' emergency-exit, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' undecided
+  * '''Preferences:''' yes
+  * '''Rationale:'''  Given that `exit` unwinds thunks, this is needed.  It should also call `_exit()` on Posix and Windows, so stdio buffers are not flushed either.
 
 === #394 Ditching SCHEME-REPORT-ENVIRONMENT and NULL-ENVIRONMENT ===
 
@@ -1011,7 +1041,8 @@ be supported.  Vote `keep` to leave them as-is.
 
   * '''Options:''' remove, move, keep, undecided
   * '''Default:''' keep
-  * '''Preferences:''' undecided
+  * '''Preferences:''' move
+  * '''Rationale:'''  These do no harm in the R5RS-compatibility library, but are actively harmful (because misleading) in the `eval` library where they are today.
 
 === #413 EVAL accepts DEFINE ===
 
@@ -1041,7 +1072,8 @@ implementations which support this extension an object could return
 
   * '''Options:''' remove, type-check, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' undecided
+  * '''Preferences:''' type-check
+  * '''Rationale:'''  The `type-check` rule is sensible and clear.
 
 === #405 Make promises first-class ===
 
@@ -1058,7 +1090,8 @@ Vote `disjoint` to add `promise?` and make it a disjoint type, or
 
   * '''Options:''' disjoint, yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' undecided
+  * '''Preferences:''' disjoint
+  * '''Rationale:'''  Promises should be disjoint, specifically disjoint from procedures.  See DisjointProcedures for which are and which are not.
 
 === #462 end of line definition ===
 
@@ -1074,7 +1107,8 @@ lines, and `none` to leave as-is.
 
   * '''Options:''' no-extensions, no-return, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' undecided
+  * '''Preferences:''' none
+  * '''Rationale:'''  The implementation-defined extensions is for the sake of R6RS systems that treat EBCDIC NEL and Unicode LS as line delimiters (a la XML 1.1, both my doing, I fear).  Defining "a" as a line ending is a quality of implementation issue; the standard does not need to forbid implementations from being stupid, because nobody will use such an implementation.
 
 === #452 provide digit-value support for hex-digits ===
 
@@ -1092,7 +1126,8 @@ remove `digit-value` entirely, or `keep` to keep as is.
 
   * '''Options:''' ascii-hex, unicode-hex, remove, keep, undecided
   * '''Default:''' keep
-  * '''Preferences:''' undecided
+  * '''Preferences:''' ascii-hex
+  * '''Rationale:'''  `Ascii-hex` spoils the theoretical purity of `digit-value`, but it's handy to have packaged in the same framework, and we can certainly say it is provided for convenience.
 
 == WG1 - Non-normative ==
 
@@ -1106,7 +1141,8 @@ wins.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' undecided
+  * '''Preferences:''' yes
+  * '''Rationale:'''  Chibi is the de facto model implementation, and we may as well say so.  It's small, easy to understand, and does a lot of things directly in Scheme.
 
 === #463 library naming conventions  ===
 
@@ -1117,4 +1153,5 @@ officially which is preferred.
 
   * '''Options:''' singular, plural, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' undecided
+  * '''Preferences:''' singular
+  * '''Rationale:'''  This is a matter of taste, but I like the singular form and see no reason to change it.
