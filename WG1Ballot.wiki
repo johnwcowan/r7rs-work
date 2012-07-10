@@ -850,13 +850,15 @@ new procedures:
   * vector->bytevector
   * bytevector->vector
 
+Vote `list+vector` to add both list and vector conversions.
+
 The `latin-1` proposal also adds the Latin-1-centric ideas of string to
 bytevector conversion, where each element of the bytevector is
 converted to/from a character with char->integer/integer->char.
 
 The `matrix` proposal requires all 4^3^=64 conversions.
 
-  * '''Options:''' matrix, list, vector, latin-1, no, undecided
+  * '''Options:''' matrix, list, vector, list+vector, latin-1, no, undecided
   * '''Default:''' no
   * '''Preferences:''' 
 
