@@ -80,9 +80,11 @@ formulation in the previous ballot, and in response to formal comment
 Regardless of the result of #460, the semantics implies that `eqv?`
 return `#f` on comparing any two NaN objects.  It is reasonable to
 want to consider any two NaNs as the "same" since they behave the same
-under any operation, even though none of the results are `=`.  In
-deference to this R6RS makes an exception and allows the result to be
-unspecified, and we should consider allowing this exception.
+under any operation, even though none of the results are `=`.  Moreover,
+it is very common to use a shortcut `eq?` pointer comparison before
+falling back on general `eqv?` logic.  In deference to this R6RS makes
+an exception and allows the result to be unspecified, and we should
+consider allowing this exception.
 
 The "same" options from previous ballots have been removed, pending an
 alternate formulation of the semantics of #460 in which this would
