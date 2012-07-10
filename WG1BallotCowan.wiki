@@ -478,7 +478,8 @@ would return `+nan.0`.
 
   * '''Options:''' zero, no-nan, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' undecided
+  * '''Preferences:''' no-nan
+  * '''Rationale:'''  Returning an exact value is good, but propagating NaN is good too.
 
 === #410 Infinity vs. NaN in max and min ===
 
@@ -550,7 +551,8 @@ and `unspecified` to leave unspecified as in the current draft.
 
   * '''Options:''' input, error, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' undecided
+  * '''Preferences:''' input, unspecified, error
+  * '''Rationale:'''  There's no reason not to go along with R6RS here.
 
 === #392 Exact positive and non-negative integer predicates ===
 
@@ -941,7 +943,8 @@ for the current status quo.
 
   * '''Options:''' required, error, default, undecided
   * '''Default:''' default
-  * '''Preferences:''' undecided
+  * '''Preferences:''' default
+  * '''Rationale:'''  This routine comes from SRFI-43 and should be kept compatible with it.
 
 === #404 Make handlers take a raise-continuable? argument. ===
 
