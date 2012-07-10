@@ -646,6 +646,39 @@ additional implementation burden.
   * '''Default:''' write+simple
   * '''Preferences:''' 
 
+=== #219 Bring back readable boolean literals ===
+
+Scheme used to use `#!true` and `#!false` before abbreviating to
+the `#t` and `#f` syntax.
+
+In draft 4 we added these back in as aliases, without the "!" now
+that tokens are required to be delimited so there would be no ambiguity.
+
+Some objections were made to the new syntax which generated
+a lot of discussion, so we are re-opening this ticket.  The default
+is the previous decision to add `#true` and `#false` as aliases.
+
+The primary objection is that boolean literals are very common,
+and this introduces needless incompatibilities with non-R7RS
+systems, and potential confusion in documentation.
+
+The counter-argument is that these are more readable and
+friendly to beginners, and allow easy visual distinction in long lists
+of booleans.  We retain full backwards compatibility and are
+under no obligation for non-R7RS systems to be able to run R7RS code.
+
+Note that Racket and Chibi independently adopted this same
+syntax unaware of each other.  Chicken also supports this via
+its SRFI-38 implementation.
+
+  * '''References:'''
+  * '''Proposals:'''
+     * '''long:''' #true and #false
+     * '''bang-long:''' #!true and #!false
+  * '''Options:''' long, bang-long, none, undecided
+  * '''Default:''' long
+  * '''Preferences:''' 
+
 === #443 Recommend sources of character names ===
 
 Currently, we allow implementations to provide their own names for
@@ -669,7 +702,7 @@ non-identifier character (space and apostrophe) with hyphens.  Vote
 `unspecified` to leave the character name extensions entirely up to
 the implementation.
 
-  * '''Options:''' w3c, unicode, unspecified, undecided.
+  * '''Options:''' w3c, unicode, unspecified, undecided
   * '''Default:''' unspecified
   * '''Preferences:''' 
 
@@ -874,9 +907,7 @@ for the Formal Comment that triggered this ticket.
 === #451 Add bytevector-append procedure ===
 
 This is for consistency with `append`, `string-append`, and
-`vector-append` (per ticket #444) procedures.  It is useful for the
-reconstruction phase of divide-and-conquer algorithms on arbitrary
-byte sequences.
+`vector-append` (per ticket #444) procedures.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
