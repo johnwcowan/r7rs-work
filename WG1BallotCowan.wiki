@@ -80,9 +80,11 @@ formulation in the previous ballot, and in response to formal comment
 Regardless of the result of #460, the semantics implies that `eqv?`
 return `#f` on comparing any two NaN objects.  It is reasonable to
 want to consider any two NaNs as the "same" since they behave the same
-under any operation, even though none of the results are `=`.  In
-deference to this R6RS makes an exception and allows the result to be
-unspecified, and we should consider allowing this exception.
+under any operation, even though none of the results are `=`.  Moreover, 
+it is very common to use a shortcut `eq?` pointer comparison before 
+falling back on general `eqv?` logic.  In deference to this R6RS makes 
+an exception and allows the result to be unspecified, and we should 
+consider allowing this exception. 
 
 The "same" options from previous ballots have been removed, pending an
 alternate formulation of the semantics of #460 in which this would
@@ -694,6 +696,40 @@ the implementation.
   * '''Default:''' unspecified
   * '''Preferences:''' w3c
   * '''Rationale:'''  The W3C list is a good useful compromise, refined over decades of SGML use.
+
+=== #219 Bring back readable boolean literals ===
+
+Scheme used to use `#!true` and `#!false` before abbreviating to
+the `#t` and `#f` syntax.
+
+In draft 4 we added these back in as aliases, without the "!" now
+that tokens are required to be delimited so there would be no ambiguity.
+
+Some objections were made to the new syntax which generated
+a lot of discussion, so we are re-opening this ticket.  The default
+is the previous decision to add `#true` and `#false` as aliases.
+
+The primary objection is that boolean literals are very common,
+and this introduces needless incompatibilities with non-R7RS
+systems, and potential confusion in documentation.
+
+The counter-argument is that these are more readable and
+friendly to beginners, and allow easy visual distinction in long lists
+of booleans.  We retain full backwards compatibility and are
+under no obligation for non-R7RS systems to be able to run R7RS code.
+
+Note that Racket and Chibi independently adopted this same
+syntax unaware of each other.  Chicken also supports this via
+its SRFI-38 implementation.
+
+  * '''References:'''
+  * '''Proposals:'''
+     * '''long:''' #true and #false
+     * '''bang-long:''' #!true and #!false
+  * '''Options:''' long, bang-long, none, undecided
+  * '''Default:''' long
+  * '''Preferences:''' long
+  * '''Rationale:'''  "I meant what I said and I said what I meant / An elephant's faithful, 100%!" --Horton Hatches The Egg
 
 == WG1 - Base Library ==
 
