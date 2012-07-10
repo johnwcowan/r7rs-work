@@ -417,7 +417,9 @@ arguments are exact, or `unspecified` to make this case unspecified.
 
   * '''Options:''' error, all-error, unspecified, undecided
   * '''Default:''' error
-  * '''Preferences:''' undecided
+  * '''Preferences:''' error
+  * '''Rationale:''' The zero is exact and that is what causes the error - the other arguments are not relevant.
+
 
 === #369 Require that - and / allow an arbitrary number of arguments ===
 
