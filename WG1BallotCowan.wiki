@@ -305,7 +305,8 @@ Vote `yes` to add this requirement.
 
   * '''Options:''' yes, no, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' undecided
+  * '''Preferences:''' yes
+  * '''Rationale:'''  This is not a case R6RS deals with, but I think it's sensible to require all imports from the foo library into the bar library to come from the same instantiation.
 
 === #402 Add an export-all form. ===
 
@@ -887,7 +888,8 @@ The `matrix` proposal requires all 4^3^=64 conversions.
 
   * '''Options:''' matrix, list, vector, latin-1, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' undecided
+  * '''Preferences:''' list+vector
+  * '''Rationale:'''  Conversions between bytevectors and lists/vectors are sensible, but doing Latin-1 conversions isn't a particularly sensible conversion between strings and bytevectors.
 
 === #444 Add vector-append procedure ===
 
