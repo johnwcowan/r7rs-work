@@ -556,8 +556,8 @@ and `unspecified` to leave unspecified as in the current draft.
 
   * '''Options:''' input, error, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' input, unspecified, error
-  * '''Rationale:'''  There's no reason not to go along with R6RS here.
+  * '''Preferences:''' unspecified,  input, error
+  * '''Rationale:'''  Implementations differ.
 
 === #392 Exact positive and non-negative integer predicates ===
 
@@ -611,8 +611,8 @@ or leave it unspecified?
 
   * '''Options:''' labels, loop, unspecified
   * '''Default:''' unspecified
-  * '''Preferences:''' unspecified
-  * '''Rationale:'''  `Display` should be kept as undefined as possible; it's really a sort of debug-printer except when used to display strings or symbols.
+  * '''Preferences:''' labels
+  * '''Rationale:'''  Display should be safe.
 
 === #447 #!fold-case and #!no-fold-case have no final delimiter ===
 
@@ -1098,7 +1098,8 @@ EvalDefine for which Schemes already handle this.
 
   * '''Options:''' yes, no, unspecified, undecided
   * '''Default:''' no
-  * '''Preferences:''' undecided
+  * '''Preferences:''' yes
+  * '''Rationale:'''  We've got first-class environments now, we should make use of them.
 
 === #399 clarify which primitives are allowed to implicitly force ===
 
@@ -1172,8 +1173,8 @@ remove `digit-value` entirely, or `keep` to keep as is.
 
   * '''Options:''' ascii-hex, unicode-hex, remove, keep, undecided
   * '''Default:''' keep
-  * '''Preferences:''' ascii-hex
-  * '''Rationale:'''  `Ascii-hex` spoils the theoretical purity of `digit-value`, but it's handy to have packaged in the same framework, and we can certainly say it is provided for convenience.
+  * '''Preferences:''' ascii-hex, keep
+  * '''Rationale:'''  `Ascii-hex` spoils the theoretical purity of `digit-value`, but it's handy to have packaged in the same framework, and we can certainly say it is provided for convenience.  Failing that, this procedure will be useful in parsing even if only ASCII digits are expected.
 
 == WG1 - Non-normative ==
 
