@@ -38,6 +38,16 @@ Gauche, Chicken, Bigloo, Scheme48/scsh, Guile, Kawa, SISC, Chibi, SCM, !Ikarus/V
 
 !SigScheme, Dream, Oaklisp, Owl Lisp do not support inexact numbers.
 
+=== Multiplying NaN by exact 0 ===
+
+Racket, MIT, Chez, Ypsilon, Elk, SXM, Sizzle, Spark, Inlab return exact `0`.
+
+Gauche, Gambit, Chicken, Bigloo, Scheme48/scsh, Guile, Kawa, SISC, Chibi, SCM, Vicare, Larceny, !IronScheme, NexJ, STklos, KSi, Shoe, !TinyScheme, RScheme, Scheme 7, BDC, XLisp, Rep, Schemik, UMB, VX, Llava, !FemtoLisp, Dfsch return `+nan.0`.
+
+Scheme 9 does not have any form of NaN.
+
+!SigScheme, Dream, Oaklisp, Owl Lisp do not support inexact numbers.
+
 === Dividing exact zero by an inexact number ===
 
 Racket, Gambit, !TinyScheme, Sizzle, Spark return exact `0`.
