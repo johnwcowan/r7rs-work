@@ -7,3 +7,11 @@ MIT, Scheme48, SISC, SCM, STklos, !TinyScheme, Scheme 9, Dream, XLisp, Elk, UMB,
 == Preferred case is upper case ==
 
 I also decided to check the case-insensitive implementations using `(string=? (symbol->string 't) "T")` to see which ones converted symbols to upper case internally.  Only XLisp (which is not really Scheme-compliant) and Oaklisp (which is somewhat R3RS-compliant) did so.
+
+== Character name case-sensitivity ==
+
+Is `#\Space` a valid constant?
+
+Racket, Gauche, MIT, Bigloo, Scheme48, Guile, Kawa, Chibi, Chez, NexJ, STklos, KSi, !SigScheme, !TinyScheme, Scheme 9, Dream, RScheme, Rep, Elk, Oaklisp, Llava, SXM, Spark, Dfsch, Inlab accept `#\Space`.
+
+Gambit, Chicken, scsh, Vicare, Ypsilon, Mosh, !IronScheme, Shoe, Scheme 7, Schemik, UMB, Sizzle, !FemtoLisp, Owl Lisp reject `#\Space`.
