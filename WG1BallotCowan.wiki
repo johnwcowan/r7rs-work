@@ -69,7 +69,8 @@ Keep in mind the semantics of `eqv?` also affect `memv`, `assv` and
     * [[https://groups.google.com/d/msg/scheme-reports-wg1/2Nv6oIND8HI/Z2HXPQMNFooJ|the history of eqv? on numbers]]
   * '''Options:''' r5rs, r6rs, r6rs/all
   * '''Default:''' r5rs
-  * '''Preferences:''' undecided
+  * '''Preferences:''' r6rs
+  * '''Rationale:'''  On systems where `0.0` and `-0.0` are mathematically distinct, they should be distinct in the sense of `eqv?` as well.
 
 === #229 eqv? and NaN ===
 
@@ -95,7 +96,8 @@ ballot.
 
   * '''Options:''' different, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' undecided
+  * '''Preferences:''' unspecified
+  * '''Rationale:'''  This is a marginal case which is not worth prescribing.
 
 === #125 Allow procedures not to be locations (making EQV? unspecified in some additional cases) ===
 
@@ -127,7 +129,8 @@ The default of `yes` still holds from the previous invalidated ballot.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' yes
-  * '''Preferences:''' undecided
+  * '''Preferences:''' yes
+  * '''Rationale:'''  Although this means that procedures aren't quite first-class (you can't reliably use `memv` to determine if a procedure can be found in a list), I think we don't want to renege on the license to return `#f` that R6RS provided and that optimizing compilers exploit.
 
 === #393 Defining record equality ===
 
@@ -147,7 +150,7 @@ Note `equal?` is already required to handle cycles regardless.
   * '''Options:''' recursive, identity, unspecified, undecided
   * '''Default:''' unspecified
   * '''Preferences:''' unspecified
-  * '''Rationale:''' Existing systems shouldn't have to change their `equal?` to conform to R7RS.
+  * '''Rationale:''' Existing systems shouldn't have to change their `equal?` to conform to R7RS.  What's more, record equality is `eqv?` on some systems by default and not on others.
 
 === #306 What does "full Unicode" support mean in Appendix B? ===
 
