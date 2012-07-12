@@ -69,7 +69,7 @@ Keep in mind the semantics of `eqv?` also affect `memv`, `assv` and
     * [[https://groups.google.com/d/msg/scheme-reports-wg1/2Nv6oIND8HI/Z2HXPQMNFooJ|the history of eqv? on numbers]]
   * '''Options:''' r5rs, r6rs, r6rs/all
   * '''Default:''' r5rs
-  * '''Preferences:''' r6rs
+  * '''Preferences:''' r6rs/all, r6rs
   * '''Rationale:'''  On systems where `0.0` and `-0.0` are mathematically distinct, they should be distinct in the sense of `eqv?` as well.
 
 === #229 eqv? and NaN ===
@@ -97,7 +97,7 @@ ballot.
   * '''Options:''' different, unspecified, undecided
   * '''Default:''' unspecified
   * '''Preferences:''' unspecified
-  * '''Rationale:'''  This is a marginal case which is not worth prescribing.
+  * '''Rationale:'''  This is a marginal case which is not worth prescribing.  I would have preferred all NaNs to be `eqv?` to each other, but that's probably not achievable.
 
 === #125 Allow procedures not to be locations (making EQV? unspecified in some additional cases) ===
 
@@ -210,7 +210,7 @@ This allows hash-table or other non-left-to-right implementations.
 
   * '''Options:''' r5rs, r6rs, leftmost, unspecified, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' leftmost
+  * '''Preferences:''' leftmost, r6rs
   * '''Rationale:'''  `Leftmost` is a reasonable compromise between R5RS and R6RS; the latter overspecifies the mechanism.
 
 === #85 Blobs, bytevectors, byte-vectors, octet-vectors, or something else?
@@ -225,8 +225,8 @@ blank their votes from ballot 3 will be used.
 
   * '''Options:''' blob, bytevector, byte-vector, u8vector, octet-vector, undecided
   * '''Default:''' bytevector
-  * '''Preferences:''' blob
-  * '''Rationale:'''  Neither `bytevector` nor `u8vector` fully captures the idea here, which is of a collection of unstructured binary information.  `Blob` does that nicely.
+  * '''Preferences:''' blob, bytevector
+  * '''Rationale:'''  Neither `bytevector` nor `u8vector` fully captures the idea here, which is of a collection of unstructured binary information.  `Blob` does that nicely.  Failing that, at least there is R6RS as precedent for using `bytevector` in this vague way.
 
 == WG1 - Library System ==
 
@@ -285,7 +285,7 @@ allowed in library names.
 
   * '''Options:''' uint15, int16, uint16, int24, uint24, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' uint15
+  * '''Preferences:''' uint15, int16, uint16, int24, uint24
   * '''Rationale:'''  I may change this later when/if Alex explains why negative numbers are useful in library names.  We haven't had them up to now.
 
 === #441 Make sure a program/library loads any imported libraries at most once ===
@@ -379,7 +379,7 @@ Aaron Hsu, however, thinks this is too restrictive, and proposes
   * '''Options:''' one, one-or-more, zero-or-one, zero-or-more
   * '''Default:''' one-or-more
   * '''Preferences:''' zero-or-more
-  * '''Rationale:'''  I think we should defer to R6RS-based experience here.
+  * '''Rationale:'''  I think we should defer to R6RS-based experience here.  Those who don't care much can probably live with any of these options, but those who care seem to be passionate about it.
 
 == WG1 - Numerics ==
 
@@ -422,7 +422,7 @@ arguments are exact, or `unspecified` to make this case unspecified.
   * '''Options:''' error, all-error, unspecified, undecided
   * '''Default:''' error
   * '''Preferences:''' error
-  * '''Rationale:''' The zero is exact and that is what causes the error - the other arguments are not relevant.
+  * '''Rationale:''' The zero is exact and that is what causes the error -- the other arguments are not relevant.
 
 
 === #369 Require that - and / allow an arbitrary number of arguments ===
@@ -487,8 +487,8 @@ would return `+nan.0`.
 
   * '''Options:''' zero, no-nan, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' no-nan
-  * '''Rationale:'''  Returning an exact value is good, but propagating NaN is good too.
+  * '''Preferences:''' zero, no-nan
+  * '''Rationale:'''  Returning an exact value is good, but propagating NaN is good too.  As I've posted, I don't think the NaN exception to the exception is worth fussing about, since it's all optional.
 
 === #410 Infinity vs. NaN in max and min ===
 
@@ -559,9 +559,9 @@ Vote `input` to return the input, `error` to specify "it is an error",
 and `unspecified` to leave unspecified as in the current draft.
 
   * '''Options:''' input, error, unspecified, undecided
-  * '''Default:''' unspecified
+  * '''Default:''' unspecified, input
   * '''Preferences:''' unspecified,  input, error
-  * '''Rationale:'''  Implementations differ.
+  * '''Rationale:'''  Implementations differ.  If we must specify, R6RS wins.
 
 === #392 Exact positive and non-negative integer predicates ===
 
@@ -616,7 +616,7 @@ or leave it unspecified?
   * '''Options:''' labels, loop, unspecified
   * '''Default:''' unspecified
   * '''Preferences:''' labels
-  * '''Rationale:'''  Display should be safe.
+  * '''Rationale:'''  Display should be safe (shouldn't loop), since it's often used as a debug printer.  It might be better if it ignored sharing, but not enough to be worth yet another exception.
 
 === #447 #!fold-case and #!no-fold-case have no final delimiter ===
 
@@ -673,7 +673,9 @@ additional implementation burden.
     * '''write+simple+shared:''' `write` handles cycles only, provide `write-simple` and `write-shared` separately
   * '''Options:''' write+simple, write+shared, write+cyclic, write+shared+cyclic, write+simple+shared, unspecified, undecided
   * '''Default:''' write+simple
-  * '''Preferences:''' undecided
+  * '''Preferences:''' write+simple, write+simple+shared
+  * '''Rationale:'''  `Write` should do the data-preserving thing.  I think it's just enough to have a space- and time-efficient `write-simple` alongside it, though I can see why people would want `write-shared`, so I've made that my second vote.
+
 
 === #443 Recommend sources of character names ===
 
@@ -700,8 +702,8 @@ the implementation.
 
   * '''Options:''' w3c, unicode, unspecified, undecided.
   * '''Default:''' unspecified
-  * '''Preferences:''' w3c
-  * '''Rationale:'''  The W3C list is a good useful compromise, refined over decades of SGML use.
+  * '''Preferences:''' unspecified, w3c, unicode
+  * '''Rationale:'''  Alex is unhappy with the W3C list because it has case-sensitive names (so under case folding some names are shadowed), and I'm unhappy with the Unicode list because it's huuuuuuge and the names are loooooong.  Let's say nothing.
 
 === #219 Bring back readable boolean literals ===
 
@@ -855,7 +857,7 @@ Vote `yes` to add these procedures, or `file-only` to only add the
   * '''Options:''' yes, file-only, no, undecided
   * '''Default:''' no
   * '''Preferences:''' yes
-  * '''Rationale:'''  There are only a few standard traps, and we should be able to identify which one we have.  I can't think of any reason for providing `file-error` but not the others.
+  * '''Rationale:'''  There are only a few situations where errors must be signalled, and we should be able to identify which one we have in an exception handler.  I can't think of any reason for providing `file-error` but not the others.
 
 === #400 Define record? . ===
 
@@ -998,7 +1000,7 @@ whether the exception is continuable.
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
   * '''Preferences:''' no
-  * '''Rationale:'''  Given that Scheme has no way of calling procedures portably when the number of arguments they accept is unknown, I have to reluctantly reject this, even though it is clearly the Right Thing.  Many handlers will not care, and they should not be required to be retrofitted with a dummy second argument.
+  * '''Rationale:'''  Given that Scheme has no way of calling a procedure portably when the number of arguments it accepts is unknown, I have to reluctantly reject this, even though it is clearly the Right Thing.  Many handlers will not care, and they should not be required to be retrofitted with a dummy second argument.
 
 == WG1 - Optional Libraries ==
 
@@ -1091,7 +1093,7 @@ be supported.  Vote `keep` to leave them as-is.
 
   * '''Options:''' remove, move, keep, undecided
   * '''Default:''' keep
-  * '''Preferences:''' move
+  * '''Preferences:''' move, remove
   * '''Rationale:'''  These do no harm in the R5RS-compatibility library, but are actively harmful (because misleading) in the `eval` library where they are today.
 
 === #413 EVAL accepts DEFINE ===
@@ -1123,7 +1125,7 @@ implementations which support this extension an object could return
 
   * '''Options:''' remove, type-check, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' type-check
+  * '''Preferences:''' type-check, unspecified
   * '''Rationale:'''  The `type-check` rule is sensible and clear.
 
 === #405 Make promises first-class ===
@@ -1141,7 +1143,7 @@ Vote `disjoint` to add `promise?` and make it a disjoint type, or
 
   * '''Options:''' disjoint, yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' disjoint
+  * '''Preferences:''' disjoint, yes
   * '''Rationale:'''  Promises should be disjoint, specifically disjoint from procedures.  See DisjointProcedures for which are and which are not.
 
 === #462 end of line definition ===
@@ -1158,8 +1160,8 @@ lines, and `none` to leave as-is.
 
   * '''Options:''' no-extensions, no-return, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' none
-  * '''Rationale:'''  The implementation-defined extensions is for the sake of R6RS systems that treat EBCDIC NEL and Unicode LS as line delimiters (a la XML 1.1, both my doing, I fear).  Defining "a" as a line ending is a quality of implementation issue; the standard does not need to forbid implementations from being stupid, because nobody will use such an implementation.
+  * '''Preferences:''' none, no-return
+  * '''Rationale:'''  The implementation-defined extensions is for the sake of R6RS systems that treat EBCDIC NEL and Unicode LS as line delimiters (a la XML 1.1, both my doing, I fear).  Defining "a" as a line ending is a quality of implementation issue; the standard does not need to forbid implementations from being stupid, because nobody will use such an implementation.  I agree we could live without `\r`, but it's very standard today in such routines.
 
 === #452 provide digit-value support for hex-digits ===
 
