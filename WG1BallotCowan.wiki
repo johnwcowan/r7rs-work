@@ -814,8 +814,8 @@ Alternately, vote `separate` to keep these as two separate procedures.
 
   * '''Options:''' port-last, offsets-last, separate, undecided
   * '''Default:''' separate
-  * '''Preferences:''' offsets-last
-  * '''Rationale:'''  I think the port is less important than the stop/start.
+  * '''Preferences:''' port-last
+  * '''Rationale:'''  I think the port is less important than the stop/start; it can be set using the current-output-port parameter anyway.
 
 === #387 Add start/end arguments to string->vector and vector->string ===
 
