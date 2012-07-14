@@ -1,6 +1,6 @@
 
 = Instructions =
- 
+
     * You may list as many of the options as you want in order of preference.
     * Options are comma-delimited (ignoring space) and case-insensitive.
     * You can pipe-delimit (|) options you want to give equal weight to.
@@ -10,7 +10,7 @@
     * module means "yes, but I want it in a separate module",
     * wg2 means "no, but I think it should go in WG2".
     * undecided means I want to discuss this issue further.
-    * Abstain on any item by leaving the preferences blank. 
+    * Abstain on any item by leaving the preferences blank.
 
 = WG1 Ballot Items To Finalize By July 31 =
 
@@ -75,7 +75,7 @@ Keep in mind the semantics of `eqv?` also affect `memv`, `assv` and
     * [[https://groups.google.com/d/msg/scheme-reports-wg1/2Nv6oIND8HI/Z2HXPQMNFooJ|the history of eqv? on numbers]]
   * '''Options:''' r5rs, r6rs, r6rs/all
   * '''Default:''' r5rs
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #229 eqv? and NaN ===
 
@@ -101,7 +101,7 @@ ballot.
 
   * '''Options:''' different, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #125 Allow procedures not to be locations (making EQV? unspecified in some additional cases) ===
 
@@ -133,7 +133,7 @@ The default of `yes` still holds from the previous invalidated ballot.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' yes
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #393 Defining record equality ===
 
@@ -152,7 +152,7 @@ Note `equal?` is already required to handle cycles regardless.
 
   * '''Options:''' recursive, identity, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #306 What does "full Unicode" support mean in Appendix B? ===
 
@@ -170,7 +170,7 @@ would not be compliant until it was updated with each new standard.
 
   * '''Options:''' at-least-6, at-least-6.1, latest, undecided, unspecified
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #458 Remove the formal semantics from the report ===
 
@@ -193,7 +193,7 @@ Alternately, we can adapt the operational semantics from R6RS.
 
   * '''Options:''' remove, keep, operational, undecided
   * '''Default:''' keep
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #398 Allow repeated keys in `case` ===
 
@@ -210,7 +210,7 @@ This allows hash-table or other non-left-to-right implementations.
 
   * '''Options:''' r5rs, r6rs, leftmost, unspecified, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #85 Blobs, bytevectors, byte-vectors, octet-vectors, or something else?
 
@@ -224,7 +224,7 @@ blank their votes from ballot 3 will be used.
 
   * '''Options:''' blob, bytevector, byte-vector, u8vector, octet-vector, undecided
   * '''Default:''' bytevector
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 == WG1 - Library System ==
 
@@ -263,7 +263,7 @@ Vote `yes` to add the restriction, or `no` to leave it out.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #359 Limit numbers used in library names ===
 
@@ -282,7 +282,7 @@ allowed in library names.
 
   * '''Options:''' uint15, int16, uint16, int24, uint24, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #441 Make sure a program/library loads any imported libraries at most once ===
 
@@ -307,7 +307,7 @@ Vote `yes` to add this requirement.
 
   * '''Options:''' yes, no, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #402 Add an export-all form. ===
 
@@ -317,7 +317,7 @@ and include-ci but none that are imported with import."
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #448 Add library declaration include-library-declarations ===
 
@@ -334,7 +334,7 @@ if it is abstract.
 
   * '''Options:''' include-library-declarations, export-from, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #449 Clarify library loading rules ===
 
@@ -371,7 +371,7 @@ Aaron Hsu, however, thinks this is too restrictive, and proposes
     * '''zero-or-one:''' Kelsey's proposal with Hsu's relaxation
   * '''Options:''' one, one-or-more, zero-or-one, zero-or-more
   * '''Default:''' one-or-more
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 == WG1 - Numerics ==
 
@@ -387,7 +387,7 @@ Vote `yes` to add the optional second argument from R6RS.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #367 Inexact division by exact zero ===
 
@@ -412,7 +412,7 @@ arguments are exact, or `unspecified` to make this case unspecified.
 
   * '''Options:''' error, all-error, unspecified, undecided
   * '''Default:''' error
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #369 Require that - and / allow an arbitrary number of arguments ===
 
@@ -430,7 +430,7 @@ always an error in all implementations.
 
   * '''Options:''' required, optional, forbidden, undecided
   * '''Default:''' optional
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #370 Log of exact and inexact zero ===
 
@@ -460,7 +460,7 @@ error, respectively.  Vote `infinity` to always return `-inf.0`.
 
   * '''Options:''' r6rs, infinity, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #407 Dividing exact 0 by an inexact number ===
 
@@ -474,7 +474,7 @@ would return `+nan.0`.
 
   * '''Options:''' zero, no-nan, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #410 Infinity vs. NaN in max and min ===
 
@@ -493,7 +493,7 @@ as `both` but without the note).
 
   * '''Options:''' both, infinity, nan, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #395 Infinite and NaN complex numbers ===
 
@@ -510,7 +510,7 @@ behavior.
 
   * '''Options:''' overlap, disjoint, unspecified, undecided
   * '''Default:''' overlap
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #364 truncate, floor, ceiling round should return a non-finite argument ===
 
@@ -544,7 +544,7 @@ and `unspecified` to leave unspecified as in the current draft.
 
   * '''Options:''' input, error, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #392 Exact positive and non-negative integer predicates ===
 
@@ -560,7 +560,7 @@ Vote `yes` to add these two procedures.
 
   * '''Options:''' yes, no, wg2, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 == WG1 - Read/Write ==
 
@@ -586,7 +586,7 @@ regardless.
 
   * '''Options:''' required, optional, undecided
   * '''Default:''' optional
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #388 Specify what `display` does with circular lists ===
 
@@ -596,7 +596,7 @@ or leave it unspecified?
 
   * '''Options:''' labels, loop, unspecified
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #447 #!fold-case and #!no-fold-case have no final delimiter ===
 
@@ -606,13 +606,13 @@ comments, which means that they are treated as whitespace (section
 implicit.  This means that `(1#!no-fold-cases)` reads as `(1 s)`.
 This seems unfortunate.
 
-  * '''Proposals:''' 
+  * '''Proposals:'''
     * '''identifier:''' add the formal syntax `<lexical-directive> --> #! <identifier>` and then make the interpretation of `<identifier>` implementation-dependent, except for the standard cases `#!fold-case` and `#!no-fold-case`. (Per Bothner, Richard Kelsey)
     * '''delimiter:''' the directives must be followed by delimiter (John Cowan)
     * '''comment:''' the draft status-quo
   * '''Options:''' identifier, delimiter, comment, undecided
   * '''Default:''' comment
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #442 write procedure is not backwards compatible ===
 
@@ -652,7 +652,7 @@ additional implementation burden.
     * '''write+simple+shared:''' `write` handles cycles only, provide `write-simple` and `write-shared` separately
   * '''Options:''' write+simple, write+shared, write+cyclic, write+shared+cyclic, write+simple+shared, unspecified, undecided
   * '''Default:''' write+simple
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #219 Bring back readable boolean literals ===
 
@@ -685,7 +685,7 @@ its SRFI-38 implementation.
      * '''bang-long:''' #!true and #!false
   * '''Options:''' long, bang-long, none, undecided
   * '''Default:''' long
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #443 Recommend sources of character names ===
 
@@ -712,7 +712,7 @@ the implementation.
 
   * '''Options:''' w3c, unicode, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 == WG1 - Base Library ==
 
@@ -742,7 +742,7 @@ leave them in as aliases.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #378 Rename GET-FEATURES to just FEATURES ===
 
@@ -751,7 +751,7 @@ Java-like".  Okay, it's bikeshedding.
 
   * '''Options:''' features, get-features, undecided
   * '''Default:''' get-features
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #384 Merge `bytevector-copy` and `bytevector-copy-partial` ===
 
@@ -764,7 +764,7 @@ Vote `yes` for this simplification.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #385 Merge `write-bytevector` and `write-bytevector-partial` ===
 
@@ -786,7 +786,7 @@ Alternately, vote `separate` to keep these as two separate procedures.
 
   * '''Options:''' port-last, offsets-last, separate, undecided
   * '''Default:''' separate
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #387 Add start/end arguments to string->vector and vector->string ===
 
@@ -801,7 +801,7 @@ Vote `yes` to add these optional arguments.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #391 Add predicates for R7RS signalled conditions ===
 
@@ -826,7 +826,7 @@ Vote `yes` to add these procedures, or `file-only` to only add the
 
   * '''Options:''' yes, file-only, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #400 Define record? . ===
 
@@ -839,7 +839,7 @@ This is Alexey Radul's suggestion.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #425 Add read-string, read-string!, write-string procedures to (scheme base) ===
 
@@ -861,7 +861,7 @@ Vote `yes` to add all three, `immutable` to add only `read-string` and
 
   * '''Options:''' yes, immutable, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #433 full conversion cycle for containers ===
 
@@ -901,7 +901,7 @@ The `matrix` proposal requires all 4^3^=64 conversions.
 
   * '''Options:''' matrix, list, vector, list+vector, latin-1, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #444 Add vector-append procedure ===
 
@@ -910,7 +910,7 @@ for the Formal Comment that triggered this ticket.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #451 Add bytevector-append procedure ===
 
@@ -919,7 +919,7 @@ This is for consistency with `append`, `string-append`, and
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #445 Bidirectional ports and port-open? ===
 
@@ -932,7 +932,7 @@ or `add` to have all three.
 
   * '''Options:''' replace, add, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #450 Eliminate default for fill argument in vector-copy ===
 
@@ -952,7 +952,7 @@ for the current status quo.
 
   * '''Options:''' required, error, default, undecided
   * '''Default:''' default
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #404 Make handlers take a raise-continuable? argument. ===
 
@@ -961,7 +961,7 @@ whether the exception is continuable.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 == WG1 - Optional Libraries ==
 
@@ -993,12 +993,12 @@ In either case, unless someone makes a proposal to the contrary,
 unknown values should always be treated as generic failure, and never
 raise an exception or fail to exit (from #374).
 
-  * '''Proposals:''' 
+  * '''Proposals:'''
     * '''boolean:''' Only `#t`/`#f` are as described as above, and all other values are passed (as best as possible) to the OS and therefore implementation-defined
     * '''extended-true:''' `#f` is generic failure, `#t` generic success, and `""` and `0` are generic success if not otherwise understood by the OS
   * '''Options:''' boolean, extended-true, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #375 Add EMERGENCY-EXIT procedure ===
 
@@ -1012,7 +1012,7 @@ If you want to write in an alternate name, be sure to include
 
   * '''Options:''' emergency-exit, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #394 Ditching SCHEME-REPORT-ENVIRONMENT and NULL-ENVIRONMENT ===
 
@@ -1052,7 +1052,7 @@ be supported.  Vote `keep` to leave them as-is.
 
   * '''Options:''' remove, move, keep, undecided
   * '''Default:''' keep
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #413 EVAL accepts DEFINE ===
 
@@ -1062,7 +1062,7 @@ EvalDefine for which Schemes already handle this.
 
   * '''Options:''' yes, no, unspecified, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #399 clarify which primitives are allowed to implicitly force ===
 
@@ -1082,7 +1082,7 @@ implementations which support this extension an object could return
 
   * '''Options:''' remove, type-check, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #405 Make promises first-class ===
 
@@ -1099,7 +1099,7 @@ Vote `disjoint` to add `promise?` and make it a disjoint type, or
 
   * '''Options:''' disjoint, yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #462 end of line definition ===
 
@@ -1115,7 +1115,7 @@ lines, and `none` to leave as-is.
 
   * '''Options:''' no-extensions, no-return, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #452 provide digit-value support for hex-digits ===
 
@@ -1133,7 +1133,7 @@ remove `digit-value` entirely, or `keep` to keep as is.
 
   * '''Options:''' ascii-hex, unicode-hex, remove, keep, undecided
   * '''Default:''' keep
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 == WG1 - Non-normative ==
 
@@ -1147,7 +1147,7 @@ wins.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #463 library naming conventions  ===
 
@@ -1158,4 +1158,4 @@ officially which is preferred.
 
   * '''Options:''' singular, plural, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:'''
