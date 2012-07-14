@@ -70,7 +70,7 @@ Keep in mind the semantics of `eqv?` also affect `memv`, `assv` and
   * '''Options:''' r5rs, r6rs, r6rs/all
   * '''Default:''' r5rs
   * '''Preferences:''' r6rs/all, r6rs
-  * '''Rationale:'''  On systems where `0.0` and `-0.0` are mathematically distinct, they should be distinct in the sense of `eqv?` as well.
+  * '''Rationale:'''  On systems where `0.0` and `-0.0` are mathematically distinct, they should be distinct in the sense of `eqv?` as well, and the same for `1.0+2.0i` and `1.0+2i`.
 
 === #229 eqv? and NaN ===
 
