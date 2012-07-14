@@ -53,13 +53,19 @@ tower.  For example, `(eqv? 1/3 (/ 3.0))` is unspecified under any
 definition, because exact ratios may not be supported.  However,
 `(eqv? 0.0 -0.0)` is specified and required to return `#t` under the
 `r5rs` rule, yet is unspecified under the `r6rs` rule - it would
-return `#f` for implementations which distinguish both `-0.0` and
-`-inf.0` (without which `-0.0` does not produce different results from
-`0.0`) and `#t otherwise`.  Under `r6rs/all`, `(eqv? 0.0 -0.0)` should
+return `#f` for implementations which distinguish `-0.0` from `0.0`
+and `#t otherwise`.  Under `r6rs/all`, `(eqv? 0.0 -0.0)` should
 return `#f` under any implementation which would at least write `-0.0`
 with the leading minus sign.  Any notation using precision specifiers
 would also has undefined equivalence under the `r6rs` rule, e.g.
 `(eqv? 1e0 1f0)`.
+
+Finally, some Schemes (MIT, Gambit, Chibi, STklos) allow
+mixed-exactness complex numbers: that is, `(imag-part 1.0+2i)` returns `2`
+rather than `2.0`.  Under `r5rs`, `(eqv? 1.0+2i 1.0+2.0i)` returns
+`#t`, because these numbers are `=` and both inexact.  Under `r6rs` and
+`r6rs/all`, however, it returns `#f` because `imag-part` returns
+a different value when applied to each argument.
 
 Keep in mind the semantics of `eqv?` also affect `memv`, `assv` and
 `case`.
