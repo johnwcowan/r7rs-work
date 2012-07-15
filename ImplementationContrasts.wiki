@@ -10,8 +10,8 @@ Not all these pages have information on all these Schemes.
 
 
  * BackslashBar
- * CaseInsensitivity
  * CallCc
+ * CaseInsensitivity
  * CommaInIdentifiers
  * ComplexRepresentations
  * DatumLabels
@@ -28,6 +28,7 @@ Not all these pages have information on all these Schemes.
  * ImproperLists
  * MaxInfNan
  * MultipleValues
+ * NegativeSqrt
  * NonFiniteNumbers
  * NumericTower
  * PrefixedStringToNumber
