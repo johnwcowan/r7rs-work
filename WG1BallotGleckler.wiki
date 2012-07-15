@@ -75,7 +75,37 @@ Keep in mind the semantics of `eqv?` also affect `memv`, `assv` and
     * [[https://groups.google.com/d/msg/scheme-reports-wg1/2Nv6oIND8HI/Z2HXPQMNFooJ|the history of eqv? on numbers]]
   * '''Options:''' r5rs, r6rs, r6rs/all
   * '''Default:''' r5rs
-  * '''Preferences:'''
+  * '''Preferences:''' r5rs, r6rs, r6rs/all
+
+Rationale: The R6RS semantics are defined too indirectly and are too
+dependent on the specific combination of numeric features supported by
+the implementation.  The R5RS semantics are clearer.
+
+I would argue for an option that is the same as r5rs but distinguishes
+between positive and negative zero in the same way as we already
+distinguish between exact and inexact, but that does not appear on the
+ballot.
+
+I don't understand the argument from memoization for choosing
+`r6rs/all` over `r6rs`.  The results of calling each procedure on each
+set of arguments must be memoized separately anyway, regardless of
+whether they're implementation-specific.  Also,
+implementation-specific procedures like `decode-float`, the example
+given above, are specifically designed to expose implementation
+details, whereas `eqv?` has generally been used to compare numbers
+arithmetically.  If we add implementation-specific procedures to the
+requirement, the definition of `eqv?` becomes even more indirect, and
+adding a new procedure to an implementation may change the meaning of
+`eqv?` for existing code.
+
+This whole debate illustrates the well-known futility of designing an
+equivalent predicate that works for everyone's purposes.  Regardless
+of the outcome of this ballot, someone who wants reliable, portable
+control over exactly what numbers are considered equivalent will not
+be able to use `eqv?`.
+
+By the way, I commend the authors of this ballot item.  It's well
+written, and the references were particularly helpful.
 
 === #229 eqv? and NaN ===
 
@@ -101,7 +131,11 @@ ballot.
 
   * '''Options:''' different, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:'''
+  * '''Preferences:''' unspecified
+
+Rationale: The ballot item doesn't specify what the `different` option
+means, but I'm happy to leave this unspecified.  NaN's are strange
+creatures and can be addressed specially by code that uses them.
 
 === #125 Allow procedures not to be locations (making EQV? unspecified in some additional cases) ===
 
@@ -133,7 +167,10 @@ The default of `yes` still holds from the previous invalidated ballot.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' yes
-  * '''Preferences:'''
+  * '''Preferences:''' no
+
+Rationale: Absolutely not.  This would mean that even `eq?` wouldn't
+work after such an optimization.
 
 === #393 Defining record equality ===
 
@@ -152,7 +189,10 @@ Note `equal?` is already required to handle cycles regardless.
 
   * '''Options:''' recursive, identity, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:'''
+  * '''Preferences:''' recursive
+
+Rationale: This is merely making `equal?` on records consistent with
+`equal?` on other data types.
 
 === #306 What does "full Unicode" support mean in Appendix B? ===
 
@@ -170,7 +210,15 @@ would not be compliant until it was updated with each new standard.
 
   * '''Options:''' at-least-6, at-least-6.1, latest, undecided, unspecified
   * '''Default:''' unspecified
-  * '''Preferences:'''
+  * '''Preferences:''' at-least-6, at-least-6.1, unspecified
+
+Rationale: Specifying `latest` is unrealistic.  That would mean that
+existing Scheme implementations would fall out of compliance the
+moment a new Unicode standard was promulgated.  Specifying a point
+version, e.g. 6.1, is also unrealistic, as the version of Unicode that
+a particular implementation is reasonably able to support depends so
+much on underlying facilities provided, for example, by the operating
+system.
 
 === #458 Remove the formal semantics from the report ===
 
@@ -193,7 +241,24 @@ Alternately, we can adapt the operational semantics from R6RS.
 
   * '''Options:''' remove, keep, operational, undecided
   * '''Default:''' keep
-  * '''Preferences:'''
+  * '''Preferences:''' keep, remove
+
+Rationale: I've never understood the fascination with formal
+semantics, particularly considering that they're non-normative,
+i.e. that the English has always taken precedence.  We always get the
+English right, then adjust the formal semantics to match.  In all my
+years of using the RnRS specifications for reference, I have not once
+referred to the formal semantics in order to understand some point of
+the language.
+
+Nevertheless, the formal semantics do matter a lot to many people in
+the community.  Removing them, even temporarily, will probably cause
+us to lose support for the draft.  I'm afraid that we're going to have
+to find a way -- some volunteers? -- to bring that part of the
+document up to date.
+
+There's no point in adopting the operational semantics from R6RS since
+it's not compatible with R7RS.
 
 === #398 Allow repeated keys in `case` ===
 
@@ -210,7 +275,11 @@ This allows hash-table or other non-left-to-right implementations.
 
   * '''Options:''' r5rs, r6rs, leftmost, unspecified, undecided
   * '''Default:''' r5rs
-  * '''Preferences:'''
+  * '''Preferences:''' leftmost, r6rs
+
+Rationale: The argument from machine-generated code, e.g. macros,
+makes perfect sense, but the `leftmost` proposal gives implementations
+more freedom to achieve the same ends.
 
 === #85 Blobs, bytevectors, byte-vectors, octet-vectors, or something else?
 
@@ -224,7 +293,24 @@ blank their votes from ballot 3 will be used.
 
   * '''Options:''' blob, bytevector, byte-vector, u8vector, octet-vector, undecided
   * '''Default:''' bytevector
-  * '''Preferences:'''
+  * '''Preferences:''' byte-vector, bytevector, u8vector, octet-vector, blob
+
+Rationale: While "blob" is a widely used term these days, I prefer a
+properly hyphenated, descriptive term, or at least a descriptive term.
+I've never liked "blob," even knowing that it abbreviates "Binary
+Large OBject."  Since R7RS is case sensitive, we don't need even more
+cases where the capitalization of an abbreviation is not matched in
+the names of Scheme identifiers.  Furthermore, it has been ages since
+"byte" meant anything other than eight bits, so there's no need to
+choose "u8" or "octet."
+
+While Marc's argument that we (and implementers of the widely adopted
+SRFI 4) use "#u8(" to prefix literal byte vectors is compelling, the
+idea of byte vectors is to provide the basis for a more complete
+system in WG2 Scheme that supports reading and writing not only
+unsigned bytes, but also other data types, e.g. IEEE floats, and mixed
+types as well.  It's useful to distinguish this idea by name even if
+the underlying data type is the same.
 
 == WG1 - Library System ==
 
@@ -263,7 +349,12 @@ Vote `yes` to add the restriction, or `no` to leave it out.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:'''
+  * '''Preferences:''' yes
+
+Rationale: I'm not sure why we even allow `begin`, `include`, or
+`include-ci` before any `import` or `export` form.  The proposed
+restriction is not limiting, and simplifies not only implementing the
+library system, but also reading code that uses it.
 
 === #359 Limit numbers used in library names ===
 
@@ -282,9 +373,16 @@ allowed in library names.
 
   * '''Options:''' uint15, int16, uint16, int24, uint24, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:'''
+  * '''Preferences:''' int16, uint16, unspecified, int24, uint24
 
-=== #441 Make sure a program/library loads any imported libraries at most once ===
+Rationale (from my earlier ballot on #349): Twenty-four is too many
+bits to require for tiny implementations.  I'm nervous about burdening
+the smallest implementations with even a sixteen-bit requirement, but
+such implementations typically already leave out significant language
+features, so I'm willing to ask for 16 bits.
+
+=== #441 Make sure a program/library loads any imported libraries at
+most once ===
 
 Add the following text to the discussion of library loading:
 
@@ -307,7 +405,17 @@ Vote `yes` to add this requirement.
 
   * '''Options:''' yes, no, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:'''
+  * '''Preferences:''' yes, unspecified
+
+Rationale: Yes, we don't want people to interpret `import` as a
+statement causing an import to happen rather than a declaration that
+one should.  However, the wording still isn't clear, and in fact seems
+to suggest the opposite of its intent.  I recommend this instead:
+
+ Regardless of the number of times that a library is loaded, all the
+ bindings it exports to any loading program or library will come from
+ a single loading of that library, regardless of the number of
+ `import` or `cond-expand` declarations in which it appears.
 
 === #402 Add an export-all form. ===
 
@@ -317,7 +425,16 @@ and include-ci but none that are imported with import."
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:'''
+  * '''Preferences:''' yes
+
+Rationale: This will be a common usage pattern.  It's much better than
+the alternative suggestion, which was to make all identifiers be
+exported if none are.  That violates the principle of least
+astonishment.
+
+I don't understand Alex's argument that this will be hard to
+implement.  If something like that is hard, we're doing something
+wrong.
 
 === #448 Add library declaration include-library-declarations ===
 
@@ -334,7 +451,12 @@ if it is abstract.
 
   * '''Options:''' include-library-declarations, export-from, no, undecided
   * '''Default:''' no
-  * '''Preferences:'''
+  * '''Preferences:''' no
+
+Rationale: I don't understand why writing the imports in a separate
+file is a good idea.  I view the imports and exports as part of a
+"wiring diagram" showing how parts of the system are connected, not a
+way of declaring an abstract interface.
 
 === #449 Clarify library loading rules ===
 
@@ -371,7 +493,12 @@ Aaron Hsu, however, thinks this is too restrictive, and proposes
     * '''zero-or-one:''' Kelsey's proposal with Hsu's relaxation
   * '''Options:''' one, one-or-more, zero-or-one, zero-or-more
   * '''Default:''' one-or-more
-  * '''Preferences:'''
+  * '''Preferences:''' one, zero-or-one, one-or-more, zero-or-more
+
+Rationale: Our library system is designed to have simple semantics,
+and divergence from once-and-only-once makes it harder to reason
+about.  If we are going to do something else, let's still make sure
+that modules aren't loaded more than once.
 
 == WG1 - Numerics ==
 
@@ -387,7 +514,9 @@ Vote `yes` to add the optional second argument from R6RS.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:'''
+  * '''Preferences:''' yes
+
+Rationale: This is simple, widely useful, and conforms to R6RS.
 
 === #367 Inexact division by exact zero ===
 
@@ -412,7 +541,12 @@ arguments are exact, or `unspecified` to make this case unspecified.
 
   * '''Options:''' error, all-error, unspecified, undecided
   * '''Default:''' error
-  * '''Preferences:'''
+  * '''Preferences:''' error, all-error
+
+Rationale: Division by zero is still typically a mistake, and catching
+it as early as possible is a good idea.  Until we specify how an
+implementation goes into IEEE non-signalling mode, we should continue
+signalling such errors.
 
 === #369 Require that - and / allow an arbitrary number of arguments ===
 
@@ -430,7 +564,10 @@ always an error in all implementations.
 
   * '''Options:''' required, optional, forbidden, undecided
   * '''Default:''' optional
-  * '''Preferences:'''
+  * '''Preferences:''' required, optional
+
+Rationale: It's not hard to make this just work, and almost all
+Schemes already support it.
 
 === #370 Log of exact and inexact zero ===
 
@@ -460,7 +597,9 @@ error, respectively.  Vote `infinity` to always return `-inf.0`.
 
   * '''Options:''' r6rs, infinity, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:'''
+  * '''Preferences:''' r6rs, unspecified
+
+Rationale: Let's catch errors early.
 
 === #407 Dividing exact 0 by an inexact number ===
 
@@ -474,7 +613,11 @@ would return `+nan.0`.
 
   * '''Options:''' zero, no-nan, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:'''
+  * '''Preferences:''' zero, no-nan
+
+Rationale: Zero divided by anything is zero.  We know the answer
+exactly given only an exact numerator, so we should return an exact
+answer.
 
 === #410 Infinity vs. NaN in max and min ===
 
@@ -493,7 +636,11 @@ as `both` but without the note).
 
   * '''Options:''' both, infinity, nan, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:'''
+  * '''Preferences:''' infinity, both, unspecified, nan
+
+Rationale: This is another case where we know the answer given only
+one argument.  Infinity is bigger than any number, so we can return
+infinity from `max`.  Similarly for `min`.
 
 === #395 Infinite and NaN complex numbers ===
 
@@ -510,7 +657,13 @@ behavior.
 
   * '''Options:''' overlap, disjoint, unspecified, undecided
   * '''Default:''' overlap
-  * '''Preferences:'''
+  * '''Preferences:''' overlap, disjoint
+
+Rationale: I'm not sure how useful it is to ask whether a complex
+number is infinite, but the only reasonable interpretation I can see
+is that if either part is infinite, the complex number is.  If we
+don't agree on that, I can't see any value in leaving this
+unspecified, so let's make them disjoint.
 
 === #364 truncate, floor, ceiling round should return a non-finite argument ===
 
@@ -544,7 +697,13 @@ and `unspecified` to leave unspecified as in the current draft.
 
   * '''Options:''' input, error, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:'''
+  * '''Preferences:''' error, unspecified
+
+Rationale: Let's catch errors early.  The whole point of these
+procedures is to return integers, so returning something that is not
+an integer makes no sense.  If we don't do that, we should leave the
+result unspecified rather than force implementations to do the wrong
+thing even if it is compatible with R6RS.
 
 === #392 Exact positive and non-negative integer predicates ===
 
@@ -560,7 +719,9 @@ Vote `yes` to add these two procedures.
 
   * '''Options:''' yes, no, wg2, undecided
   * '''Default:''' no
-  * '''Preferences:'''
+  * '''Preferences:''' no, wg2
+
+Rationale: We don't need more names in WG1.
 
 == WG1 - Read/Write ==
 
@@ -586,7 +747,10 @@ regardless.
 
   * '''Options:''' required, optional, undecided
   * '''Default:''' optional
-  * '''Preferences:'''
+  * '''Preferences:''' required
+
+Rationale: How can this be in question?  It's just basic ASCII, as is
+page break, for that matter.
 
 === #388 Specify what `display` does with circular lists ===
 
@@ -596,7 +760,10 @@ or leave it unspecified?
 
   * '''Options:''' labels, loop, unspecified
   * '''Default:''' unspecified
-  * '''Preferences:'''
+  * '''Preferences:''' unspecified, labels
+
+Rationale: Why are we requiring that basic I/O operations be
+expensive?  I shouldn't have to allocate memory just to print a list.
 
 === #447 #!fold-case and #!no-fold-case have no final delimiter ===
 
@@ -612,7 +779,11 @@ This seems unfortunate.
     * '''comment:''' the draft status-quo
   * '''Options:''' identifier, delimiter, comment, undecided
   * '''Default:''' comment
-  * '''Preferences:'''
+  * '''Preferences:''' delimiter, identifier
+
+Rationale: Requiring a delimiter (presumably including end of file) is
+simple and consistent.  Even if we don't do that, we shouldn't stick
+with the status quo, which is bizarre.
 
 === #442 write procedure is not backwards compatible ===
 
@@ -652,7 +823,13 @@ additional implementation burden.
     * '''write+simple+shared:''' `write` handles cycles only, provide `write-simple` and `write-shared` separately
   * '''Options:''' write+simple, write+shared, write+cyclic, write+shared+cyclic, write+simple+shared, unspecified, undecided
   * '''Default:''' write+simple
-  * '''Preferences:'''
+  * '''Preferences:''' write+shared, write+cyclic, write+shared+cyclic, write+simple+shared
+
+Rationale: We shouldn't make such a basic, incompatible change in a
+core language feature (i.e. `write`) even in the interests of
+preventing infinite loops.  Furthermore, `write` shouldn't have to
+allocate memory just to print something, particularly considering that
+the vast majority of uses will have no cycles.
 
 === #219 Bring back readable boolean literals ===
 
@@ -685,7 +862,11 @@ its SRFI-38 implementation.
      * '''bang-long:''' #!true and #!false
   * '''Options:''' long, bang-long, none, undecided
   * '''Default:''' long
-  * '''Preferences:'''
+  * '''Preferences:''' long, bang-long
+
+Rationale: The long form is more readable, I suppose.  However, I'm
+worried that non-R7RS implementations will no longer be able to read
+values of this most basic type.
 
 === #443 Recommend sources of character names ===
 
@@ -712,7 +893,12 @@ the implementation.
 
   * '''Options:''' w3c, unicode, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:'''
+  * '''Preferences:''' unspecified, unicode
+
+Rationale: There isn't agreement among implementations on this.  If we
+do specify it, we should specify Unicode to be consistent with all our
+other support for Unicode, which is the most carefully thought out
+standard in any case.
 
 == WG1 - Base Library ==
 
@@ -742,7 +928,10 @@ leave them in as aliases.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:'''
+  * '''Preferences:''' no
+
+Rationale: I don't have a strong preference, so I'll go with not
+breaking existing code.
 
 === #378 Rename GET-FEATURES to just FEATURES ===
 
@@ -751,7 +940,13 @@ Java-like".  Okay, it's bikeshedding.
 
   * '''Options:''' features, get-features, undecided
   * '''Default:''' get-features
-  * '''Preferences:'''
+  * '''Preferences:''' features
+
+Rationale: Yes, the "get-" prefix adds nothing here.
+
+We should consider removing it from `get-output-string`,
+`get-output-bytevector`, `get-environment-variable`, and
+`get-environment-variables` as well.
 
 === #384 Merge `bytevector-copy` and `bytevector-copy-partial` ===
 
@@ -764,7 +959,10 @@ Vote `yes` for this simplification.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:'''
+  * '''Preferences:''' yes
+
+Rationale: The naming convention "-partial" is neither widely used nor
+consistent with naming elsewhere in the draft.
 
 === #385 Merge `write-bytevector` and `write-bytevector-partial` ===
 
@@ -786,7 +984,12 @@ Alternately, vote `separate` to keep these as two separate procedures.
 
   * '''Options:''' port-last, offsets-last, separate, undecided
   * '''Default:''' separate
-  * '''Preferences:'''
+  * '''Preferences:''' port-last
+
+Rationale: Alex says that we should optimize for the most common use
+case, and I agree, but I believe that that's writing a range of the
+byte vector, not writing to a different port.  After all, as John
+points out, the latter can be accomplished using a parameter.
 
 === #387 Add start/end arguments to string->vector and vector->string ===
 
@@ -801,7 +1004,13 @@ Vote `yes` to add these optional arguments.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:'''
+  * '''Preferences:''' yes
+
+Rationale: Yes, these are useful, and we should be consistent.  Alex
+says that using indexes with strings is a mistake, but I disagree.
+Arbitrarily indexing into a string and expecting to find a well-formed
+substring may be a mistake, but it should still be possible to
+remember safe offsets while creating a string and use them later.
 
 === #391 Add predicates for R7RS signalled conditions ===
 
@@ -826,7 +1035,16 @@ Vote `yes` to add these procedures, or `file-only` to only add the
 
   * '''Options:''' yes, file-only, no, undecided
   * '''Default:''' no
-  * '''Preferences:'''
+  * '''Preferences:''' yes, file-only
+
+Rationale: I'm disappointed that we have an exception system without a
+standard taxonomy even in WG1, so this will provide at least some
+relief.  Alex argues that all of these situations can be checked for
+in advance, but that's not true.  For example, checking that a file
+exists and is accessible before opening it opens one up to a race
+condition.  Also, the only way to determine whether EOF will be found
+in the middle of reading a datum is to implement a separate parser, at
+which point `read` becomes useless.
 
 === #400 Define record? . ===
 
@@ -839,7 +1057,14 @@ This is Alexey Radul's suggestion.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:'''
+  * '''Preferences:''' yes
+
+Rationale: Why shouldn't one be able to distinguish instances of
+record types from instances of other types?  John says that having
+`record?` would prevent WG2 Scheme from supporting opaque records
+because it would be possible to recognize them as instances of record
+types.  So what?  What's the harm in being able to recognize them as
+such?  Could a programmer do anything malicious with that information?
 
 === #425 Add read-string, read-string!, write-string procedures to (scheme base) ===
 
@@ -861,7 +1086,11 @@ Vote `yes` to add all three, `immutable` to add only `read-string` and
 
   * '''Options:''' yes, immutable, no, undecided
   * '''Default:''' no
-  * '''Preferences:'''
+  * '''Preferences:''' immutable, yes
+
+Rationale: I'm alarmed that we made it this far without
+`write-string`.  I'm not sure what the immutable versions would do, so
+I'm voting against them.
 
 === #433 full conversion cycle for containers ===
 
@@ -901,7 +1130,13 @@ The `matrix` proposal requires all 4^3^=64 conversions.
 
   * '''Options:''' matrix, list, vector, list+vector, latin-1, no, undecided
   * '''Default:''' no
-  * '''Preferences:'''
+  * '''Preferences:''' no, list+vector, vector
+
+Rationale: I don't see the point.  These conversions are generally
+wasteful, especially as simple intermediate values, and direct
+conversions would be better.  However, we shouldn't include the full
+direct conversions matrix because that's just too large, especially
+for WG1.
 
 === #444 Add vector-append procedure ===
 
@@ -910,7 +1145,9 @@ for the Formal Comment that triggered this ticket.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:'''
+  * '''Preferences:''' yes
+
+Rationale: Yes, for consistency and completeness.
 
 === #451 Add bytevector-append procedure ===
 
@@ -919,7 +1156,9 @@ This is for consistency with `append`, `string-append`, and
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:'''
+  * '''Preferences:''' yes
+
+Rationale: Yes, for consistency and completeness.
 
 === #445 Bidirectional ports and port-open? ===
 
@@ -932,7 +1171,10 @@ or `add` to have all three.
 
   * '''Options:''' replace, add, no, undecided
   * '''Default:''' no
-  * '''Preferences:'''
+  * '''Preferences:''' replace
+
+Rationale: Otherwise it's unclear what `port-open?` means on a
+bidirectional port.
 
 === #450 Eliminate default for fill argument in vector-copy ===
 
@@ -950,9 +1192,25 @@ Vote `required` to make the fill parameter required, `error` to make
 it an error in the case that fill is absent yet needed, or `default`
 for the current status quo.
 
-  * '''Options:''' required, error, default, undecided
+  * '''Options:''' required, error, remove, default, undecided
   * '''Default:''' default
-  * '''Preferences:'''
+  * '''Preferences:''' remove, error, required
+
+Rationale: While allowing the `fill` parameter to have a default value
+is compatible with SRFI 43, Marc's argument about detecting errors is
+strong.  However, I disagree that the idea of allowing `start` to be
+negative is somehow more consistent.  The obvious application of the
+`fill` parameter is implementing variable-length data structures out
+of vectors, extending the original in the process.  However, using the
+name `vector-copy` for this purpose is an awkward overloading.  A
+separate procedure, not defined in WG1 Scheme, should be used for that
+purpose.
+
+Alex, you voted `remove`, but there was no `remove` option on
+WG1Ballot.
+
+I've updated WG1Ballot, so others should adjust their votes if they
+see fit.
 
 === #404 Make handlers take a raise-continuable? argument. ===
 
@@ -961,7 +1219,12 @@ whether the exception is continuable.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:'''
+  * '''Preferences:''' no
+
+Rationale: I would like to see this, too, but agree that passing it to
+every handler is overly verbose considering how rarely it would be
+used.  We should address this in WG2 where we will, I hope, have a
+more powerful exception system.
 
 == WG1 - Optional Libraries ==
 
@@ -998,7 +1261,11 @@ raise an exception or fail to exit (from #374).
     * '''extended-true:''' `#f` is generic failure, `#t` generic success, and `""` and `0` are generic success if not otherwise understood by the OS
   * '''Options:''' boolean, extended-true, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:'''
+  * '''Preferences:''' boolean, unspecified
+
+Rationale: Making `(exit #t)` have the same effect as `(exit)` is a
+no-brainer.  I can see no portable reason to treat the empty string
+and zero specially.
 
 === #375 Add EMERGENCY-EXIT procedure ===
 
@@ -1012,7 +1279,16 @@ If you want to write in an alternate name, be sure to include
 
   * '''Options:''' emergency-exit, no, undecided
   * '''Default:''' no
-  * '''Preferences:'''
+  * '''Preferences:''' exit-immediately, emergency-exit
+
+Rationale: I hate the name, but it makes sense to be able to exit
+immediately.  Frankly, I'd rather that `exit` did this, or that its
+behavior with regard to `dynamic-wind` was unspecified.  It's my
+impression that people use `exit` when they want their program to stop
+immediately.  They don't want a `dynamic-wind` form to prevent their
+exit, for example.
+
+I suggest the name `exit-immediately`.
 
 === #394 Ditching SCHEME-REPORT-ENVIRONMENT and NULL-ENVIRONMENT ===
 
@@ -1052,7 +1328,10 @@ be supported.  Vote `keep` to leave them as-is.
 
   * '''Options:''' remove, move, keep, undecided
   * '''Default:''' keep
-  * '''Preferences:'''
+  * '''Preferences:''' move, remove
+
+Rationale: I see John's point, but we shouldn't break compatibility
+with R5RS.
 
 === #413 EVAL accepts DEFINE ===
 
@@ -1062,7 +1341,9 @@ EvalDefine for which Schemes already handle this.
 
   * '''Options:''' yes, no, unspecified, undecided
   * '''Default:''' no
-  * '''Preferences:'''
+  * '''Preferences:''' yes
+
+Rationale: `eval` should accept the full language, including defines.
 
 === #399 clarify which primitives are allowed to implicitly force ===
 
@@ -1082,7 +1363,9 @@ implementations which support this extension an object could return
 
   * '''Options:''' remove, type-check, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:'''
+  * '''Preferences:''' unspecified
+
+I don't see any reason to change this.
 
 === #405 Make promises first-class ===
 
@@ -1099,7 +1382,15 @@ Vote `disjoint` to add `promise?` and make it a disjoint type, or
 
   * '''Options:''' disjoint, yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:'''
+  * '''Preferences:''' disjoint, yes
+
+Rationale: The `promise?` procedure is useful, as the examples above
+demonstrate.  Once we support `promise?`, keeping them disjoint seems
+easy, since if one implements them directly as procedures, one can't
+provide `promise?` without an inefficient table lookup anyway.
+
+John, your rationale for this item references DisjointProcedures, but
+that page doesn't exist.  You must have meant DisjointPromises.
 
 === #462 end of line definition ===
 
@@ -1115,7 +1406,10 @@ lines, and `none` to leave as-is.
 
   * '''Options:''' no-extensions, no-return, none, undecided
   * '''Default:''' none
-  * '''Preferences:'''
+  * '''Preferences:''' none, no-return
+
+Rationale: Implementations are going to define extensions, and it's
+unreasonable to expect them not to.
 
 === #452 provide digit-value support for hex-digits ===
 
@@ -1133,7 +1427,11 @@ remove `digit-value` entirely, or `keep` to keep as is.
 
   * '''Options:''' ascii-hex, unicode-hex, remove, keep, undecided
   * '''Default:''' keep
-  * '''Preferences:'''
+  * '''Preferences:''' remove, ascii-hex
+
+Rationale: We've strayed into invention territory here, providing
+something that existing implementations don't.  If we do keep it, it
+should support ASCII hex for compatibility with `string->number`.
 
 == WG1 - Non-normative ==
 
@@ -1147,7 +1445,12 @@ wins.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:'''
+  * '''Preferences:''' yes
+
+Rationale: Chibi is the one implementation that be considered a
+reference implementation, and we are supposed to provide one, so let's
+make it official.  Thank you very much to Alex for doing the work to
+make this happen.
 
 === #463 library naming conventions  ===
 
@@ -1158,4 +1461,9 @@ officially which is preferred.
 
   * '''Options:''' singular, plural, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:'''
+  * '''Preferences:''' singular, plural, unspecified
+
+Rationale: I'll bikeshed for the singular.  (I'm assuming that what
+we're saying here is that we'll change all of the data type names we
+use, not that we're saying anything about the names people use for
+purposes other than standard data types.)
