@@ -947,10 +947,11 @@ when ''start'' is less than 0, for consistency with the case where
 ''end'' is greater to the length of the sequence.
 
 Vote `required` to make the fill parameter required, `error` to make
-it an error in the case that fill is absent yet needed, or `default`
-for the current status quo.
+it an error in the case that fill is absent yet needed, `remove` to
+remove the fill parameter and signal a runtime error if end is longer
+than the input vector, or `default` for the current status quo.
 
-  * '''Options:''' required, error, default, undecided
+  * '''Options:''' required, error, remove, default, undecided
   * '''Default:''' default
   * '''Preferences:''' 
 
