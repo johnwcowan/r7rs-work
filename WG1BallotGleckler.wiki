@@ -1226,6 +1226,22 @@ every handler is overly verbose considering how rarely it would be
 used.  We should address this in WG2 where we will, I hope, have a
 more powerful exception system.
 
+=== #464 Add optional start and end parameters to utf8->string and string->utf8. ===
+
+Per ticket 464, add optional start and end arguments to `utf8->string`
+and `string->utf8`.
+
+Vote `both` to add optional start and end arguments to both,
+`string->utf8` or `utf8->string` to add them to only one procedure, or
+`neither` to leave both unchanged.
+
+  * '''Options:''' both, string->utf8, utf8->string, neither
+  * '''Default:''' neither
+  * '''Preferences:''' both, utf8->string, neither
+
+Rationale: As Marijn says, it's useful to be able to avoid extra
+copying while decoding a string.  We should change both for symmetry.
+
 == WG1 - Optional Libraries ==
 
 === #373 (exit #t) should be the same as (exit) ===
