@@ -1002,6 +1002,20 @@ whether the exception is continuable.
   * '''Preferences:''' no
   * '''Rationale:'''  Given that Scheme has no way of calling a procedure portably when the number of arguments it accepts is unknown, I have to reluctantly reject this, even though it is clearly the Right Thing.  Many handlers will not care, and they should not be required to be retrofitted with a dummy second argument.
 
+=== #464 Add optional start and end parameters to utf8->string and string->utf8. ===
+
+Per ticket 464, add optional start and end arguments to `utf8->string`
+and `string->utf8`.
+
+Vote `both` to add optional start and end arguments to both,
+`string->utf8` or `utf8->string` to add them to only one procedure, or
+`neither` to leave both unchanged.
+
+  * '''Options:''' both, string->utf8, utf8->string, neither
+  * '''Default:''' neither
+  * '''Preferences:''' both, utf8->string
+  * '''Rationale:''' I think both of these are wins, but converting part of a bytevector into a string without having to copy it first is probably the more important part.
+
 == WG1 - Optional Libraries ==
 
 === #373 (exit #t) should be the same as (exit) ===
