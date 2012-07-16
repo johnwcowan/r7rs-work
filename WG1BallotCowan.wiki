@@ -441,8 +441,8 @@ always an error in all implementations.
 
   * '''Options:''' required, optional, forbidden, undecided
   * '''Default:''' optional
-  * '''Preferences:''' required
-  * '''Rationale:'''  It's silly for `(- 1 2 3)` not to Just Work in all Schemes.
+  * '''Preferences:''' required, optional
+  * '''Rationale:'''  It's silly for `(- 1 2 3)` not to Just Work in all Schemes.  Still, `forbidden` would be terrible.
 
 === #370 Log of exact and inexact zero ===
 
@@ -893,8 +893,8 @@ Vote `yes` to add all three, `immutable` to add only `read-string` and
 
   * '''Options:''' yes, immutable, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' yes
-  * '''Rationale:'''  As soon as we voted in `string-copy!`, the goal of immutable strings died a horrible death.  We should have all of these for bulk I/O.
+  * '''Preferences:''' yes, immutable.
+  * '''Rationale:'''  As soon as we voted in `string-copy!`, the goal of immutable strings died a horrible death.  We should have all of these for bulk I/O.  Still, `immutable` is better than `no`.
 
 === #433 full conversion cycle for containers ===
 
