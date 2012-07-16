@@ -111,6 +111,38 @@ These are the R6RS examples involving -0.0 (already accounted for verbally in th
 (angle -1.0-0.0i) => -3.141592653589793   ; approximately
 }}}
 
+=== Angle of negative zero ===
+
+Because of the branch cut of `atan`, the values of `(angle 0.0)` and `(angle -0.0)` should be 0 and pi respectively.  Furthermore, by R5RS and R6RS, `(atan y x)` is equivalent to `(angle (make-rectangular x y))` even on systems that don't support non-real numbers, so `(atan 0.0 -0.0)` should also be pi.  On many implementations, these turn out not to be the case.  
+
+Gambit, Chicken with the numbers egg, Chez, Vicare, Larceny, !IronScheme, STklos, Sizzle return pi to both `angle` and `atan`.
+
+Gauche, plain Chicken, Guile, SISC return `0.0` to `angle`, pi to `atan`.
+
+Scheme48 returns `-0.0` to `angle`, pi to `atan`.
+
+scsh returns an error to `angle`, pi to `atan`.
+
+KSi returns NaN to `angle`, an error to `atan`.
+
+Racket, Spark return pi to `angle`, `0.0` to `atan`.
+
+SISC, Mosh, Scheme 7 return `0.0` to both expressions.
+
+MIT does not support `-0.0`.
+
+NexJ, RScheme, BDC, XLisp, Rep, Elk, Inlab do not support `angle`, but returns pi to `atan`.
+
+Bigloo, Scheme 9, SXM do not support `angle`, but raise an error to `atan`.
+
+VX does not support `angle`, but returns `-0.0` to `atan`.
+
+UMB does not support `angle`, but returns `0.0` to atan.
+
+Shoe, !TinyScheme, Schemik, Llava, !FemtoLisp do not support either `angle` or `atan`.
+
+!SigScheme, Dream, Oaklisp, Owl Lisp do not support inexact numbers.
+
 === Inexact zero raised to a negative real power ===
 
 This situation involves the log of 0, and R6RS and R7RS permit implementations to either raise an exception or return an arbitrary number.
