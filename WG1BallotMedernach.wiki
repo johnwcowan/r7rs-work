@@ -397,7 +397,8 @@ Vote `yes` to add the optional second argument from R6RS.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no, undecided, yes
+
 
 === #367 Inexact division by exact zero ===
 
@@ -422,7 +423,8 @@ arguments are exact, or `unspecified` to make this case unspecified.
 
   * '''Options:''' error, all-error, unspecified, undecided
   * '''Default:''' error
-  * '''Preferences:''' 
+  * '''Preferences:''' error, unspecified, all-error, undecided
+
 
 === #369 Require that - and / allow an arbitrary number of arguments ===
 
@@ -440,7 +442,8 @@ always an error in all implementations.
 
   * '''Options:''' required, optional, forbidden, undecided
   * '''Default:''' optional
-  * '''Preferences:''' 
+  * '''Preferences:''' required, optional, undecided, forbidden
+
 
 === #370 Log of exact and inexact zero ===
 
@@ -470,7 +473,8 @@ error, respectively.  Vote `infinity` to always return `-inf.0`.
 
   * '''Options:''' r6rs, infinity, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' r6rs, infinity, unspecified, undecided
+
 
 === #407 Dividing exact 0 by an inexact number ===
 
@@ -484,7 +488,8 @@ would return `+nan.0`.
 
   * '''Options:''' zero, no-nan, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' non-nan, zero, unspecified, undecided
+
 
 === #410 Infinity vs. NaN in max and min ===
 
@@ -503,7 +508,8 @@ as `both` but without the note).
 
   * '''Options:''' both, infinity, nan, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' both, unspecified, nan, infinity, undecided
+
 
 === #395 Infinite and NaN complex numbers ===
 
@@ -520,7 +526,8 @@ behavior.
 
   * '''Options:''' overlap, disjoint, unspecified, undecided
   * '''Default:''' overlap
-  * '''Preferences:''' 
+  * '''Preferences:''' overlap, unspecified, disjoint, undecided
+
 
 === #364 truncate, floor, ceiling round should return a non-finite argument ===
 
@@ -554,7 +561,8 @@ and `unspecified` to leave unspecified as in the current draft.
 
   * '''Options:''' input, error, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' input, unspecified, error, undecided
+
 
 === #392 Exact positive and non-negative integer predicates ===
 
@@ -570,7 +578,8 @@ Vote `yes` to add these two procedures.
 
   * '''Options:''' yes, no, wg2, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no, wg2, undecided, yes
+
 
 == WG1 - Read/Write ==
 
