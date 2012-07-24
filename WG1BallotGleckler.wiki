@@ -1483,3 +1483,69 @@ Rationale: I'll bikeshed for the singular.  (I'm assuming that what
 we're saying here is that we'll change all of the data type names we
 use, not that we're saying anything about the names people use for
 purposes other than standard data types.)
+
+
+== WG1 - Late additions ==
+
+=== #465 Add jiffy-modulus to specify when, if ever, current-jiffy wraps ===
+
+If the value of `current-jiffy` is to be both space-efficient (that is, a fixnum) and reasonably precise (say, microsecond timing), it needs to wrap around: 30-bit fixnums on a 32-bit system will wrap every 17 minutes.  That means an application needs to know what the maximum value is before it wraps back to zero.  The `jiffy-modulus` function returns the maximum value of the current jiffy plus 1.  Alternatively, jiffies can be signed and wrap from (- (jiffy-modulus) 1) to (- (jiffy-modulus)), which is easier for the implementation but harder for the user.
+
+  * '''Options:''' unsigned, signed, no, undecided
+  * '''Default:''' no
+  * '''Preferences:''' undecided
+
+Rationale: I don't know what existing implementations do.
+
+=== #466 case folding of character names ===
+
+In ticket #11 we voted to make the reader case-sensitive
+by default. In ticket #92 we further added the R6RS
+#!fold-case and #!no-fold-case reader extensions. In
+both cases the terminology was lax and simply referred
+to "reader case sensitivity", and all discussion centered
+around symbols, although in R6RS character names were
+also effected.
+
+Case folding will apply to numeric literals, booleans and
+bytevectors regardless, as they do in both R5RS and R6RS.
+We need to clarify how character names and the case
+folding directives themselves are handled.
+
+The default is `r6rs`, where character names are case
+sensitive by default and folded by the `#!fold-case` flag:
+
+​http://www.r6rs.org/final/html/r6rs-app/r6rs-app-Z-H-4.html#node_chap_B
+
+Alternately character names could be made to ignore
+the reader directives and always or never fold case.
+Never folding case breaks R5RS and earlier compatibility
+without any easy workaround.
+
+These same settings apply to the `include-ci` syntax.
+
+  * '''Proposals:'''
+    * '''r6rs:''' character names behave like symbols, directives are sensitive
+    * '''r6rs+directives:''' like `r6rs` but directives can also be case-folded
+    * '''always-fold:''' like `r6rs` but character names and directives always fold case
+    * '''never-fold:''' like `r6rs` but character names and directives never fold case
+  * '''Options:''' r6rs, r6rs+directives, always-fold, never-fold, undecided
+  * '''Default:''' r6rs
+  * '''Preferences:''' r6rs, r6rs+directives
+
+Rationale: I see no reason to differ from R6RS here.
+
+=== #467 Allow eqv? and eq? to return different answers on procedures as well as integers and characters ===
+
+This proposal stems from [[http://lists.r6rs.org/pipermail/r6rs-discuss/2012-July/006405.html|remarks]] by Alaric Snell-Pym and Will Clinger on the r6rs public mailing list.  If `eq?` is allowed to return `#f` on two procedures when `eqv?` nevertheless returns `#t`, as is already the case for numbers and characters, then more intelligent implementation-specific procedure comparisons using `eqv?` are possible, while still keeping `eq?` simple enough to inline easily.
+
+Note that this is orthogonal to the question of #460, how `eqv?` works on procedures.  There should be little or no backward-compatibility hit for this change.
+
+  * '''Proposals:'''
+    * '''same:''' `eq?` and `eqv?` always return the same on procedures, per R5RS and R6RS
+    * '''different:''' `eq?` may return `#f` on procedures even when `eqv?` returns `#t` (but not vice versa)
+  * '''Options:''' same, different, undecided
+  * '''Default:''' same
+  * '''Preferences:''' different
+
+Rationale: I will defer to Will's long experience in compiler implementation.
