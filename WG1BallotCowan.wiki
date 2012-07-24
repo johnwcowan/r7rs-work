@@ -1066,8 +1066,8 @@ If you want to write in an alternate name, be sure to include
 
   * '''Options:''' emergency-exit, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' yes
-  * '''Rationale:'''  Given that `exit` unwinds thunks, this is needed.  It should also call `_exit()` on Posix and Windows, so stdio buffers are not flushed either.
+  * '''Preferences:''' exit-immediately, emergency-exit
+  * '''Rationale:'''  Given that `exit` unwinds thunks, this is needed.  It should also call `_exit()` on Posix and Windows, so stdio buffers are not flushed either.  I agree that `exit-immediately` is a better name.
 
 === #394 Ditching SCHEME-REPORT-ENVIRONMENT and NULL-ENVIRONMENT ===
 
