@@ -96,10 +96,12 @@ The "same" options from previous ballots have been removed, pending an
 alternate formulation of the semantics of #460 in which this would
 make sense.
 
+"same-bits" stands for "In an implementation whose inexact numbers conform to IEEE 754-2008 arithmetic, two inexact numbers are eqv? if and only if the the following properties of the two numbers are the same: the radix, precision, maximum exponent, sign, exponent, and significand, as these terms are defined in the IEEE 754-2008 standard.".
+
 The default of `unspecified` still holds from the previous invalidated
 ballot.
 
-  * '''Options:''' different, unspecified, undecided
+  * '''Options:''' same-bits, different, unspecified, undecided
   * '''Default:''' unspecified
   * '''Preferences:''' 
 
