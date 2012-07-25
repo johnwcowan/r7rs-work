@@ -86,11 +86,8 @@ between positive and negative zero in the same way as we already
 distinguish between exact and inexact, but that does not appear on the
 ballot.
 
-I don't understand the argument from memoization for choosing
-`r6rs/all` over `r6rs`.  The results of calling each procedure on each
-set of arguments must be memoized separately anyway, regardless of
-whether they're implementation-specific.  Also,
-implementation-specific procedures like `decode-float`, the example
+I don't agree with choosing `r6rs/all` over `r6rs`.
+Implementation-specific procedures like `decode-float`, the example
 given above, are specifically designed to expose implementation
 details, whereas `eqv?` has generally been used to compare numbers
 arithmetically.  If we add implementation-specific procedures to the
@@ -99,7 +96,7 @@ adding a new procedure to an implementation may change the meaning of
 `eqv?` for existing code.
 
 This whole debate illustrates the well-known futility of designing an
-equivalent predicate that works for everyone's purposes.  Regardless
+equivalence predicate that works for everyone's purposes.  Regardless
 of the outcome of this ballot, someone who wants reliable, portable
 control over exactly what numbers are considered equivalent will not
 be able to use `eqv?`.
@@ -456,7 +453,9 @@ if it is abstract.
 Rationale: I don't understand why writing the imports in a separate
 file is a good idea.  I view the imports and exports as part of a
 "wiring diagram" showing how parts of the system are connected, not a
-way of declaring an abstract interface.
+way of declaring an abstract interface.  In any case, this is
+invention, not something that exists in Scheme implementations
+already, so it doesn't belong in the standard.
 
 === #449 Clarify library loading rules ===
 
@@ -613,11 +612,12 @@ would return `+nan.0`.
 
   * '''Options:''' zero, no-nan, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' zero, no-nan
+  * '''Preferences:''' no-nan, zero, unspecified
 
 Rationale: Zero divided by anything is zero.  We know the answer
 exactly given only an exact numerator, so we should return an exact
-answer.
+answer.  However, as John points out, a non-signalling NAN may
+indicate an earlier error, and we shouldn't require masking that.
 
 === #410 Infinity vs. NaN in max and min ===
 
@@ -1086,11 +1086,10 @@ Vote `yes` to add all three, `immutable` to add only `read-string` and
 
   * '''Options:''' yes, immutable, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' immutable, yes
+  * '''Preferences:''' yes, immutable
 
 Rationale: I'm alarmed that we made it this far without
-`write-string`.  I'm not sure what the immutable versions would do, so
-I'm voting against them.
+`write-string`.
 
 === #433 full conversion cycle for containers ===
 
