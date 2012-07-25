@@ -86,9 +86,9 @@ make sense.
 The default of `unspecified` still holds from the previous invalidated
 ballot.
 
-  * '''Options:''' different, unspecified, undecided
+  * '''Options:''' same-bits, different, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' unspecified, undecided, different
+  * '''Preferences:''' same-bits, unspecified, undecided, different
   * '''Rationale:''' It will depend on the #460 item result, but personnaly I would prefer to be able to distinguish different NaNs and to identify identical NaNs ("same" vote).
 
 === #125 Allow procedures not to be locations (making EQV? unspecified in some additional cases) ===
