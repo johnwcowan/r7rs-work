@@ -378,8 +378,7 @@ the smallest implementations with even a sixteen-bit requirement, but
 such implementations typically already leave out significant language
 features, so I'm willing to ask for 16 bits.
 
-=== #441 Make sure a program/library loads any imported libraries at
-most once ===
+=== #441 Make sure a program/library loads any imported libraries at most once ===
 
 Add the following text to the discussion of library loading:
 
