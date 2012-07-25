@@ -616,8 +616,8 @@ would return `+nan.0`.
 
 Rationale: Zero divided by anything is zero.  We know the answer
 exactly given only an exact numerator, so we should return an exact
-answer.  However, as John points out, a non-signalling NAN may
-indicate an earlier error, and we shouldn't require masking that.
+answer.  However, as John points out, a NaN may indicate an earlier
+error, and we shouldn't require masking that.
 
 === #410 Infinity vs. NaN in max and min ===
 
@@ -636,11 +636,11 @@ as `both` but without the note).
 
   * '''Options:''' both, infinity, nan, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' infinity, both, unspecified, nan
+  * '''Preferences:''' both, unspecified, nan, infinity
 
-Rationale: This is another case where we know the answer given only
-one argument.  Infinity is bigger than any number, so we can return
-infinity from `max`.  Similarly for `min`.
+Rationale: I'm changing this for the same reason I changed my answer
+to #407, i.e. because a NAN may indicate an earlier error and we
+shouldn't lose the information that there was an error.
 
 === #395 Infinite and NaN complex numbers ===
 
@@ -1188,8 +1188,9 @@ when ''start'' is less than 0, for consistency with the case where
 ''end'' is greater to the length of the sequence.
 
 Vote `required` to make the fill parameter required, `error` to make
-it an error in the case that fill is absent yet needed, or `default`
-for the current status quo.
+it an error in the case that fill is absent yet needed, `remove` to
+remove the fill parameter and signal a runtime error if end is longer
+than the input vector, or `default` for the current status quo.
 
   * '''Options:''' required, error, remove, default, undecided
   * '''Default:''' default
@@ -1204,9 +1205,6 @@ of vectors, extending the original in the process.  However, using the
 name `vector-copy` for this purpose is an awkward overloading.  A
 separate procedure, not defined in WG1 Scheme, should be used for that
 purpose.
-
-Alex, you voted `remove`, but there was no `remove` option on
-WG1Ballot.
 
 I've updated WG1Ballot, so others should adjust their votes if they
 see fit.
@@ -1404,9 +1402,6 @@ demonstrate.  Once we support `promise?`, keeping them disjoint seems
 easy, since if one implements them directly as procedures, one can't
 provide `promise?` without an inefficient table lookup anyway.
 
-John, your rationale for this item references DisjointProcedures, but
-that page doesn't exist.  You must have meant DisjointPromises.
-
 === #462 end of line definition ===
 
 The definition of read-line allows implementation defined extensions
@@ -1482,7 +1477,6 @@ Rationale: I'll bikeshed for the singular.  (I'm assuming that what
 we're saying here is that we'll change all of the data type names we
 use, not that we're saying anything about the names people use for
 purposes other than standard data types.)
-
 
 == WG1 - Late additions ==
 
