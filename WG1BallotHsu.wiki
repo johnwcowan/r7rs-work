@@ -1314,3 +1314,17 @@ These same settings apply to the `include-ci` syntax.
 
 Rationale: It is needless complication to deviate from R6RS in this case.
 
+=== #467 Allow eqv? and eq? to return different answers on procedures as well as integers and characters ===
+
+This proposal stems from [[http://lists.r6rs.org/pipermail/r6rs-discuss/2012-July/006405.html|remarks]] by Alaric Snell-Pym and Will Clinger on the r6rs public mailing list.  If `eq?` is allowed to return `#f` on two procedures when `eqv?` nevertheless returns `#t`, as is already the case for numbers and characters, then more intelligent implementation-specific procedure comparisons using `eqv?` are possible, while still keeping `eq?` simple enough to inline easily.
+
+Note that this is orthogonal to the question of #460, how `eqv?` works on procedures.  There should be little or no backward-compatibility hit for this change.
+
+  * '''Proposals:'''
+    * '''same:''' `eq?` and `eqv?` always return the same on procedures, per R5RS and R6RS
+    * '''different:''' `eq?` may return `#f` on procedures even when `eqv?` returns `#t` (but not vice versa)
+  * '''Options:''' same, different, undecided
+  * '''Default:''' same
+  * '''Preferences:''' undecided, different, same
+
+Rationale: This seems to be useful, but I am cautious about this.
