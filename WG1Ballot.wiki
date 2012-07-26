@@ -103,6 +103,7 @@ tower.
 
 Finally, the `same-bits` option replaces (3) with:
 
+{{{
   (3.1) obj1 and obj2 are both exact numbers and are numerically
   equal (see `=`)
 
@@ -116,6 +117,7 @@ Finally, the `same-bits` option replaces (3) with:
 
   (3.4) are both inexact complex numbers whose real and imaginary
   parts are `eqv?`
+}}}
 
 Keep in mind the semantics of `eqv?` also affect `memv`, `assv` and
 `case`.
