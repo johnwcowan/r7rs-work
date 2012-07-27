@@ -65,7 +65,7 @@ The `r6rs` vote replaces (3) with the following operational
 equivalence semantics:
 
 {{{
-  (3.1) obj1 and obj2 are both exact number and are numerically
+  (3.1) obj1 and obj2 are both exact numbers and are numerically
   equal (see `=`)
 
   (3.2) obj1 and obj2 are both inexact numbers, are numerically
@@ -77,8 +77,9 @@ equivalence semantics:
 
 where "standard arithmetic procedures" refers arguably to either
 11.7 or 11.7.4.3.  For R7RS it would apply to the "Numbers"
-section 6.2.6.  R6RS further adds an extra case which we should
-vote on separately:
+section 6.2.6.  R6RS further adds an extra case which is not
+applicable because we don't guarantee record-types are first-class
+objects:
 
 {{{
   (8) obj1 and obj2 are record-type descriptors that are
@@ -107,15 +108,15 @@ Finally, the `same-bits` option replaces (3) with:
   (3.1) obj1 and obj2 are both exact numbers and are numerically
   equal (see `=`)
 
-  (3.2) are both inexact real numbers, are implemented using the
-  IEEE 754-2008 representation, and have the same radix,
+  (3.2) obj1 and obj2 are both inexact real numbers conforming to the
+  IEEE 754-2008 standard, and they have the same radix,
   precision, maximum exponent, sign, exponent, and significand as
   described in IEEE 754-2008
 
-  (3.3) are both inexact real numbers, are not implemented using
+  (3.3) obj1 and obj2 are both inexact real numbers, are not implemented using
   IEEE 754-2008, and are numerically equal (see `=`)
 
-  (3.4) are both inexact complex numbers whose real and imaginary
+  (3.4) obj1 and obj2 are both complex numbers whose real and imaginary
   parts are `eqv?`
 }}}
 
