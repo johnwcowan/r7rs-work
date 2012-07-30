@@ -512,8 +512,9 @@ always an error in all implementations.
 
   * '''Options:''' required, optional, forbidden, undecided
   * '''Default:''' optional
-  * '''Preferences:''' forbidden, optional
-It should be forbidden unless it is right-associative.  I doubt anybody uses it anyway :-).   
+  * '''Preferences:''' required
+I don't think these are particularly useful, but will go with it for the sake of improving portability.
+
 === #370 Log of exact and inexact zero ===
 
 R5RS and draft 6 of R7RS don't say what `(log 0.0)` and `(log 0)`
