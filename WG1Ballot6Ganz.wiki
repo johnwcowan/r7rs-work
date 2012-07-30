@@ -558,7 +558,7 @@ would return `+nan.0`.
   * '''Options:''' zero, no-nan, unspecified, undecided
   * '''Default:''' unspecified
   * '''Preferences:''' no-nan
-I'd be happy to require exact zero in other cases.
+I'd be happy to require exact zero in other cases (and for multiplication by exact 0).
 
 === #410 Infinity vs. NaN in max and min ===
 
