@@ -1,4 +1,3 @@
-''' Note: The authoritative source of this copy is at ​[[wiki:WG1Ballot6Ganz]].'''
 
 = Instructions =
 
@@ -129,8 +128,8 @@ Keep in mind the semantics of `eqv?` also affect `memv`, `assv` and
     * [[https://groups.google.com/d/msg/scheme-reports-wg1/2Nv6oIND8HI/Z2HXPQMNFooJ|the history of eqv? on numbers]]
   * '''Options:''' r5rs, r6rs, r6rs/all, same-bits
   * '''Default:''' r5rs
-  * '''Preferences:''' r5rs, r6rs/all, r6rs, same-bits
-I sympathize with the motivation of r6rs in getting at "true" operational equivalence, but agree with Alex that this eventually becomes inseparable from the machine implementation, and is thus not suitable for its most prominent use.  same-bits is of course also implementation-dependent, so I'm going with r5rs.
+  * '''Preferences:''' same-bits, r5rs, r6rs/all, r6rs
+I sympathize with the motivation of r6rs in getting at "true" operational equivalence, but agree with Alex that this eventually becomes inseparable from the machine implementation, and is thus not suitable for its most prominent use.  same-bits is of course also somewhat implementation-dependent, but in a more controlled way.
 
   
 
@@ -397,7 +396,8 @@ and include-ci but none that are imported with import."
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
+Some may choose other ways of hiding definitions, and this can save both keystrokes and maintenance effort.
 
 === #448 Add library declaration include-library-declarations ===
 
@@ -414,8 +414,8 @@ if it is abstract.
 
   * '''Options:''' include-library-declarations, export-from, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
-
+  * '''Preferences:''' export-from
+This is a useful feature, and export-from seems like the cleaner way to achieve it.
 === #449 Clarify library loading rules ===
 
 R7RS currently says:
@@ -451,7 +451,8 @@ Aaron Hsu, however, thinks this is too restrictive, and proposes
     * '''zero-or-one:''' Kelsey's proposal with Hsu's relaxation
   * '''Options:''' one, one-or-more, zero-or-one, zero-or-more
   * '''Default:''' one-or-more
-  * '''Preferences:''' 
+  * '''Preferences:''' one, undecided
+My module proposal had allowed for the same module to be loaded multiple times, consuming and producing different bindings each time, and I think was very well-motivated.  I'm a bit confused on what additional expressiveness is being offered here.  Based on my current understanding, the "exactly one" rule best meets the intuitions of the current module system.  I don't see much benefit to avoiding loading libraries whose bindings are not referenced, and significant "surprise" potential in not doing so.
 
 == WG1 - Numerics ==
 
@@ -467,7 +468,7 @@ Vote `yes` to add the optional second argument from R6RS.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
 
 === #367 Inexact division by exact zero ===
 
@@ -492,7 +493,8 @@ arguments are exact, or `unspecified` to make this case unspecified.
 
   * '''Options:''' error, all-error, unspecified, undecided
   * '''Default:''' error
-  * '''Preferences:''' 
+  * '''Preferences:''' all-error
+Systems that support +inf.0 and -inf.0 as constants and have procedures to test for them should produce them when appropriate.
 
 === #369 Require that - and / allow an arbitrary number of arguments ===
 
@@ -510,7 +512,8 @@ always an error in all implementations.
 
   * '''Options:''' required, optional, forbidden, undecided
   * '''Default:''' optional
-  * '''Preferences:''' 
+  * '''Preferences:''' required
+I don't think these are particularly useful, but will go with it for the sake of improving portability.
 
 === #370 Log of exact and inexact zero ===
 
@@ -540,7 +543,7 @@ error, respectively.  Vote `infinity` to always return `-inf.0`.
 
   * '''Options:''' r6rs, infinity, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' r6rs
 
 === #407 Dividing exact 0 by an inexact number ===
 
@@ -554,7 +557,8 @@ would return `+nan.0`.
 
   * '''Options:''' zero, no-nan, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' no-nan
+I'd be happy to require exact zero in other cases (and for multiplication by exact 0).
 
 === #410 Infinity vs. NaN in max and min ===
 
@@ -573,7 +577,7 @@ as `both` but without the note).
 
   * '''Options:''' both, infinity, nan, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' nan, unspecified
 
 === #395 Infinite and NaN complex numbers ===
 
@@ -590,7 +594,7 @@ behavior.
 
   * '''Options:''' overlap, disjoint, unspecified, undecided
   * '''Default:''' overlap
-  * '''Preferences:''' 
+  * '''Preferences:''' disjoint, unspecified
 
 === #364 truncate, floor, ceiling round should return a non-finite argument ===
 
@@ -624,7 +628,7 @@ and `unspecified` to leave unspecified as in the current draft.
 
   * '''Options:''' input, error, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' input, unspecified
 
 === #392 Exact positive and non-negative integer predicates ===
 
@@ -640,7 +644,7 @@ Vote `yes` to add these two procedures.
 
   * '''Options:''' yes, no, wg2, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
 
 == WG1 - Read/Write ==
 
@@ -666,7 +670,8 @@ regardless.
 
   * '''Options:''' required, optional, undecided
   * '''Default:''' optional
-  * '''Preferences:''' 
+  * '''Preferences:''' required
+Behavior of `read` should be consistent with `char-whitespace?`
 
 === #388 Specify what `display` does with circular lists ===
 
@@ -676,7 +681,7 @@ or leave it unspecified?
 
   * '''Options:''' labels, loop, unspecified
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' labels
 
 === #447 #!fold-case and #!no-fold-case have no final delimiter ===
 
@@ -692,43 +697,7 @@ This seems unfortunate.
     * '''comment:''' the draft status-quo
   * '''Options:''' identifier, delimiter, comment, undecided
   * '''Default:''' comment
-  * '''Preferences:''' 
-
-=== #466 case folding of character names ===
-
-In ticket #11 we voted to make the reader case-sensitive
-by default. In ticket #92 we further added the R6RS
-#!fold-case and #!no-fold-case reader extensions. In
-both cases the terminology was lax and simply referred
-to "reader case sensitivity", and all discussion centered
-around symbols, although in R6RS character names were
-also affected.
-
-Case folding will apply to numeric literals, booleans and
-bytevectors regardless, as they do in both R5RS and R6RS.
-We need to clarify how character names and the case
-folding directives themselves are handled.
-
-The default is `r6rs`, where character names are case
-sensitive by default and folded by the `#!fold-case` flag:
-
-​http://www.r6rs.org/final/html/r6rs-app/r6rs-app-Z-H-4.html#node_chap_B
-
-Alternately character names could be made to ignore
-the reader directives and always or never fold case.
-Never folding case breaks R5RS and earlier compatibility
-without any easy workaround.
-
-These same settings apply to the `include-ci` syntax.
-
-  * '''Proposals:'''
-    * '''r6rs:''' character names behave like symbols, directives are sensitive
-    * '''r6rs+directives:''' like `r6rs` but directives can also be case-folded
-    * '''always-fold:''' like `r6rs` but character names and directives always fold case
-    * '''never-fold:''' like `r6rs` but character names and directives never fold case
-  * '''Options:''' r6rs, r6rs+directives, always-fold, never-fold, undecided
-  * '''Default:''' r6rs
-  * '''Preferences:''' 
+  * '''Preferences:''' identifier, delimiter
 
 === #442 write procedure is not backwards compatible ===
 
@@ -768,7 +737,8 @@ additional implementation burden.
     * '''write+simple+shared:''' `write` handles cycles only, provide `write-simple` and `write-shared` separately
   * '''Options:''' write+simple, write+shared, write+cyclic, write+shared+cyclic, write+simple+shared, unspecified, undecided
   * '''Default:''' write+simple
-  * '''Preferences:''' 
+  * '''Preferences:''' write+simple+shared
+I don't have patience to try to rate the others in terms of 'least-bad'.
 
 === #219 Bring back readable boolean literals ===
 
@@ -801,7 +771,7 @@ its SRFI-38 implementation.
      * '''bang-long:''' #!true and #!false
   * '''Options:''' long, bang-long, none, undecided
   * '''Default:''' long
-  * '''Preferences:''' 
+  * '''Preferences:''' long, none
 
 === #443 Recommend sources of character names ===
 
@@ -828,7 +798,7 @@ the implementation.
 
   * '''Options:''' w3c, unicode, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' w3c, unspecified
 
 == WG1 - Base Library ==
 
@@ -858,7 +828,7 @@ leave them in as aliases.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no
 
 === #378 Rename GET-FEATURES to just FEATURES ===
 
@@ -867,7 +837,7 @@ Java-like".  Okay, it's bikeshedding.
 
   * '''Options:''' features, get-features, undecided
   * '''Default:''' get-features
-  * '''Preferences:''' 
+  * '''Preferences:''' features
 
 === #384 Merge `bytevector-copy` and `bytevector-copy-partial` ===
 
@@ -880,7 +850,7 @@ Vote `yes` for this simplification.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
 
 === #385 Merge `write-bytevector` and `write-bytevector-partial` ===
 
@@ -902,7 +872,7 @@ Alternately, vote `separate` to keep these as two separate procedures.
 
   * '''Options:''' port-last, offsets-last, separate, undecided
   * '''Default:''' separate
-  * '''Preferences:''' 
+  * '''Preferences:''' offsets-last
 
 === #387 Add start/end arguments to string->vector and vector->string ===
 
@@ -917,7 +887,7 @@ Vote `yes` to add these optional arguments.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
 
 === #391 Add predicates for R7RS signalled conditions ===
 
@@ -942,7 +912,7 @@ Vote `yes` to add these procedures, or `file-only` to only add the
 
   * '''Options:''' yes, file-only, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
 
 === #400 Define record? . ===
 
@@ -955,7 +925,8 @@ This is Alexey Radul's suggestion.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no
+This seems even less useful than `procedure?`, which is hardly the most well-recommended scheme primitive.  I'm not sure I care if something is a record without more powerful introspection procedures, which might at least allow me to recur through the fields.   I can't do anything with it unless I already know what kind of record it is, and that is available through the predicates.
 
 === #425 Add read-string, read-string!, write-string procedures to (scheme base) ===
 
@@ -977,7 +948,7 @@ Vote `yes` to add all three, `immutable` to add only `read-string` and
 
   * '''Options:''' yes, immutable, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes, immutable
 
 === #433 full conversion cycle for containers ===
 
@@ -1017,7 +988,8 @@ The `matrix` proposal requires all 4^3^=64 conversions.
 
   * '''Options:''' matrix, list, vector, list+vector, latin-1, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' vector, matrix
+I don't see a lot of justification for bytevector->list.
 
 === #444 Add vector-append procedure ===
 
@@ -1026,7 +998,7 @@ for the Formal Comment that triggered this ticket.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
 
 === #451 Add bytevector-append procedure ===
 
@@ -1035,7 +1007,7 @@ This is for consistency with `append`, `string-append`, and
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
 
 === #445 Bidirectional ports and port-open? ===
 
@@ -1045,10 +1017,11 @@ other.  See Formal Comment #439.
 
 Vote `replace` to replace `port-open?` with just the two new versions,
 or `add` to have all three.
-
+ an
   * '''Options:''' replace, add, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' replace
+Leaving `port-open?` leads to the question of whether it should require both sides or either side of a bidirectional port to be open.  The answer should probably be both, but then you still need to use both the new procedures to determine that a port is closed, or add yet another.
 
 === #450 Eliminate default for fill argument in vector-copy ===
 
@@ -1069,7 +1042,8 @@ than the input vector, or `default` for the current status quo.
 
   * '''Options:''' required, error, remove, default, undecided
   * '''Default:''' default
-  * '''Preferences:''' 
+  * '''Preferences:''' error
+Marc's suggestions sound convincing to me.
 
 === #404 Make handlers take a raise-continuable? argument. ===
 
@@ -1078,7 +1052,8 @@ whether the exception is continuable.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided
+Seems like a lot of wires to connect.  I can see why this might be useful, but would like to see some examples of programs that rely on this, and decide whether this is really the best way.  For example, perhaps `with-exception-handler` can provide separate handlers for the continuable and non-continuable cases.
 
 === #464 Add optional start and end parameters to utf8->string and string->utf8. ===
 
@@ -1091,7 +1066,10 @@ Vote `both` to add optional start and end arguments to both,
 
   * '''Options:''' both, string->utf8, utf8->string, neither
   * '''Default:''' neither
-  * '''Preferences:''' 
+  * '''Preferences:''' both
+Consistency is good.  
+
+BTW, I REALLY dislike these names.  The bytevector is not utf8, it's just bytes.  If anything, the string is utf8.  I prefer bytevector->string/string->bytevector, possibly taking `utf8` as an symbol argument, to allow support for alternative coding.  At a minimum, bytevector->utf8/utf8->bytevector would make more sense.
 
 == WG1 - Optional Libraries ==
 
@@ -1128,7 +1106,8 @@ raise an exception or fail to exit (from #374).
     * '''extended-true:''' `#f` is generic failure, `#t` generic success, and `""` and `0` are generic success if not otherwise understood by the OS
   * '''Options:''' boolean, extended-true, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' boolean
+Don't add unnecessary OS dependencies.
 
 === #375 Add EMERGENCY-EXIT procedure ===
 
@@ -1142,7 +1121,8 @@ If you want to write in an alternate name, be sure to include
 
   * '''Options:''' emergency-exit, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' abort, emergency-exit
+I think abort is standard for this.  It is probably not recommended in production code, but is useful for completeness, for education, and potentially for debugging.
 
 === #394 Ditching SCHEME-REPORT-ENVIRONMENT and NULL-ENVIRONMENT ===
 
@@ -1182,7 +1162,7 @@ be supported.  Vote `keep` to leave them as-is.
 
   * '''Options:''' remove, move, keep, undecided
   * '''Default:''' keep
-  * '''Preferences:''' 
+  * '''Preferences:''' remove, move, keep, 
 
 === #413 EVAL accepts DEFINE ===
 
@@ -1192,7 +1172,8 @@ EvalDefine for which Schemes already handle this.
 
   * '''Options:''' yes, no, unspecified, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes, but
+What is a mutable environment?  I would expect all environments to be mutable, unless we have particular reason for protecting them.  null-environment and environment are procedures that always return a "new" environment with a particular structure.  eval should be able to change that structure. 
 
 === #399 clarify which primitives are allowed to implicitly force ===
 
@@ -1212,7 +1193,7 @@ implementations which support this extension an object could return
 
   * '''Options:''' remove, type-check, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' type-check, unspecified
 
 === #405 Make promises first-class ===
 
@@ -1229,7 +1210,8 @@ Vote `disjoint` to add `promise?` and make it a disjoint type, or
 
   * '''Options:''' disjoint, yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes, no, undecided
+The 'disjoint' option seems inconsistent with implicit forcing.
 
 === #462 end of line definition ===
 
@@ -1245,7 +1227,8 @@ lines, and `none` to leave as-is.
 
   * '''Options:''' no-extensions, no-return, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' 
+  * '''Preferences:''' no-return
+I think we can trust that implementations will be reasonable here.  They should be left enough leeway to deal with any OS.
 
 === #452 provide digit-value support for hex-digits ===
 
@@ -1263,7 +1246,8 @@ remove `digit-value` entirely, or `keep` to keep as is.
 
   * '''Options:''' ascii-hex, unicode-hex, remove, keep, undecided
   * '''Default:''' keep
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided, keep, remove
+I would support this only if `digit-value` took a radix argument.  The draft says that `digit-value` is only defined if `char-numeric?` returns #t, so `char-numeric?` would also require a radix argument (this is a good idea even if `digit-value` is removed).
 
 == WG1 - Non-normative ==
 
@@ -1277,7 +1261,8 @@ wins.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided
+If it disagrees with the standard (as is always possible) one of them needs to be changed, even after we are officially relieved of our duty, so the distinction seems pedantic.
 
 === #463 library naming conventions  ===
 
@@ -1288,7 +1273,8 @@ officially which is preferred.
 
   * '''Options:''' singular, plural, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' singular, plural
+Just personal preference.
 
 
 == WG1 - Late additions ==
@@ -1299,7 +1285,7 @@ If the value of `current-jiffy` is to be both space-efficient (that is, a fixnum
 
   * '''Options:''' unsigned, signed, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided
 
 === #466 case folding of character names ===
 
@@ -1335,7 +1321,9 @@ These same settings apply to the `include-ci` syntax.
     * '''never-fold:''' like `r6rs` but character names and directives never fold case
   * '''Options:''' r6rs, r6rs+directives, always-fold, never-fold, undecided
   * '''Default:''' r6rs
-  * '''Preferences:''' 
+  * '''Preferences:''' r6rs, r6rs+directives, never-fold, always-fold
+Making case fold directives subject to themselves seems at best weird and at worst paradoxical: I suppose `#!nO-fOLD-cASE` is unspecified but `#!fOLD-cASE` is a valid directive?  The very possibility that directives could be interpreted as case-folded forces them to be case-unambiguous anyway, or else the case-folding crowd will have to pick a selected interpretation.  I don't think we want to go there.
+My understanding is that under r6rs option nothing prevents an implementation from supporting additional directives with any other case.  I see no need to emphasize this possibility, though.
 
 === #467 Allow eqv? and eq? to return different answers on procedures as well as integers and characters ===
 
@@ -1348,4 +1336,4 @@ Note that this is orthogonal to the question of #460, how `eqv?` works on proced
     * '''different:''' `eq?` may return `#f` on procedures even when `eqv?` returns `#t` (but not vice versa)
   * '''Options:''' same, different, undecided
   * '''Default:''' same
-  * '''Preferences:''' 
+  * '''Preferences:''' same, undecided
