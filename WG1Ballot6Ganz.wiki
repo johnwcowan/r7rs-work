@@ -128,8 +128,8 @@ Keep in mind the semantics of `eqv?` also affect `memv`, `assv` and
     * [[https://groups.google.com/d/msg/scheme-reports-wg1/2Nv6oIND8HI/Z2HXPQMNFooJ|the history of eqv? on numbers]]
   * '''Options:''' r5rs, r6rs, r6rs/all, same-bits
   * '''Default:''' r5rs
-  * '''Preferences:''' r5rs, r6rs/all, r6rs, same-bits
-I sympathize with the motivation of r6rs in getting at "true" operational equivalence, but agree with Alex that this eventually becomes inseparable from the machine implementation, and is thus not suitable for its most prominent use.  same-bits is of course also implementation-dependent, so I'm going with r5rs.
+  * '''Preferences:''' same-bits, r5rs, r6rs/all, r6rs
+I sympathize with the motivation of r6rs in getting at "true" operational equivalence, but agree with Alex that this eventually becomes inseparable from the machine implementation, and is thus not suitable for its most prominent use.  same-bits is of course also somewhat implementation-dependent, but in a more controlled way.
 
   
 
