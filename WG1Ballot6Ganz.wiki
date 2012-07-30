@@ -1283,7 +1283,8 @@ remove `digit-value` entirely, or `keep` to keep as is.
 
   * '''Options:''' ascii-hex, unicode-hex, remove, keep, undecided
   * '''Default:''' keep
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided, keep, remove
+I would support this only if `digit-value` took a radix argument.  The draft says that `digit-value` is only defined if `char-numeric?` returns #t, so `char-numeric?` would also require a radix argument (this is a good idea even if `digit-value` is removed).
 
 == WG1 - Non-normative ==
 
@@ -1297,7 +1298,8 @@ wins.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided
+If it disagrees with the standard (as is always possible) one of them needs to be changed, even after we are officially relieved of our duty, so the distinction seems pedantic.
 
 === #463 library naming conventions  ===
 
@@ -1308,7 +1310,8 @@ officially which is preferred.
 
   * '''Options:''' singular, plural, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' singular, plural
+Just personal preference.
 
 
 == WG1 - Late additions ==
@@ -1319,7 +1322,7 @@ If the value of `current-jiffy` is to be both space-efficient (that is, a fixnum
 
   * '''Options:''' unsigned, signed, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided
 
 === #466 case folding of character names ===
 
@@ -1355,7 +1358,9 @@ These same settings apply to the `include-ci` syntax.
     * '''never-fold:''' like `r6rs` but character names and directives never fold case
   * '''Options:''' r6rs, r6rs+directives, always-fold, never-fold, undecided
   * '''Default:''' r6rs
-  * '''Preferences:''' 
+  * '''Preferences:''' r6rs, r6rs+directives, never-fold, always-fold
+Making case fold directives subject to themselves seems at best weird and at worst paradoxical: I suppose `#!nO-fOLD-cASE` is unspecified but `#!fOLD-cASE` is a valid directive?  The very possibility that directives could be interpreted as case-folded forces them to be case-unambiguous anyway, or else the case-folding crowd will have to pick a selected interpretation.  I don't think we want to go there.
+My understanding is that under r6rs option nothing prevents an implementation from supporting additional directives with any other case.  I see no need to emphasize this possibility, though.
 
 === #467 Allow eqv? and eq? to return different answers on procedures as well as integers and characters ===
 
@@ -1368,4 +1373,4 @@ Note that this is orthogonal to the question of #460, how `eqv?` works on proced
     * '''different:''' `eq?` may return `#f` on procedures even when `eqv?` returns `#t` (but not vice versa)
   * '''Options:''' same, different, undecided
   * '''Default:''' same
-  * '''Preferences:''' 
+  * '''Preferences:''' same, undecided
