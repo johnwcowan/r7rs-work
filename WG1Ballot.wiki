@@ -668,42 +668,6 @@ This seems unfortunate.
   * '''Default:''' comment
   * '''Preferences:''' 
 
-=== #466 case folding of character names ===
-
-In ticket #11 we voted to make the reader case-sensitive
-by default. In ticket #92 we further added the R6RS
-#!fold-case and #!no-fold-case reader extensions. In
-both cases the terminology was lax and simply referred
-to "reader case sensitivity", and all discussion centered
-around symbols, although in R6RS character names were
-also affected.
-
-Case folding will apply to numeric literals, booleans and
-bytevectors regardless, as they do in both R5RS and R6RS.
-We need to clarify how character names and the case
-folding directives themselves are handled.
-
-The default is `r6rs`, where character names are case
-sensitive by default and folded by the `#!fold-case` flag:
-
-​http://www.r6rs.org/final/html/r6rs-app/r6rs-app-Z-H-4.html#node_chap_B
-
-Alternately character names could be made to ignore
-the reader directives and always or never fold case.
-Never folding case breaks R5RS and earlier compatibility
-without any easy workaround.
-
-These same settings apply to the `include-ci` syntax.
-
-  * '''Proposals:'''
-    * '''r6rs:''' character names behave like symbols, directives are sensitive
-    * '''r6rs+directives:''' like `r6rs` but directives can also be case-folded
-    * '''always-fold:''' like `r6rs` but character names and directives always fold case
-    * '''never-fold:''' like `r6rs` but character names and directives never fold case
-  * '''Options:''' r6rs, r6rs+directives, always-fold, never-fold, undecided
-  * '''Default:''' r6rs
-  * '''Preferences:''' 
-
 === #442 write procedure is not backwards compatible ===
 
 There is concern that the output of `write` cannot be read by non-R7RS
@@ -1283,7 +1247,7 @@ by default. In ticket #92 we further added the R6RS
 both cases the terminology was lax and simply referred
 to "reader case sensitivity", and all discussion centered
 around symbols, although in R6RS character names were
-also effected.
+also affected.
 
 Case folding will apply to numeric literals, booleans and
 bytevectors regardless, as they do in both R5RS and R6RS.
