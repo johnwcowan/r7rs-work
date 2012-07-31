@@ -1069,7 +1069,7 @@ Vote `both` to add optional start and end arguments to both,
   * '''Preferences:''' both
 Consistency is good.  
 
-BTW, I REALLY dislike these names.  The bytevector is not utf8, it's just bytes.  If anything, the string is utf8.  I prefer bytevector->string/string->bytevector, possibly taking `utf8` as an symbol argument, to allow support for alternative coding.  At a minimum, bytevector->utf8/utf8->bytevector would make more sense.
+BTW, I REALLY dislike these names.  The bytevector is not utf8, it's just bytes.  If anything, the string is utf8.  I prefer bytevector->string/string->bytevector, possibly taking `utf8` as a symbol argument, to allow support for alternative coding.  At a minimum, bytevector->utf8/utf8->bytevector would make more sense.
 
 == WG1 - Optional Libraries ==
 
@@ -1247,7 +1247,7 @@ remove `digit-value` entirely, or `keep` to keep as is.
   * '''Options:''' ascii-hex, unicode-hex, remove, keep, undecided
   * '''Default:''' keep
   * '''Preferences:''' undecided, keep, remove
-I would support this only if `digit-value` took a radix argument.  The draft says that `digit-value` is only defined if `char-numeric?` returns #t, so `char-numeric?` would also require a radix argument (this is a good idea even if `digit-value` is removed).
+A radix argument allows support for letters a-f as digits without creating inconsistency with `char-numeric?`.  It also allows easier access to these results for other numeric systems.
 
 == WG1 - Non-normative ==
 
