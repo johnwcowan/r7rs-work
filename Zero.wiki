@@ -165,9 +165,7 @@ MIT (even ignoring floating point traps), Scheme48, KSi, Scheme 7 raise an excep
 
 === Inexact zero raised to a complex power whose real part is negative ===
 
-Racket, Gauche, Gambit, Chicken with the numbers egg, Kawa, Chibi, Ypsilon, Spark return `+nan.0+nan.0i`.
-
-Guile returns `+inf.0+nan.0i`.
+Racket, Gauche, Gambit, Chicken with the numbers egg, Kawa, Chibi, Guile, Ypsilon, Spark return `+nan.0+nan.0i`.  (On some platforms, Guile returns the wrong answer: this is a glibc bug.)
 
 SISC, Chez, Vicare, !IronScheme return `0.0`.
 
@@ -175,7 +173,7 @@ SCM, Dfsch return `+inf.0`.
 
 Larceny returns `+nan.0`.
 
-MIT (ignoring floating point traps), Scheme48/scsh, STklos, UMB raise an exception.
+MIT (even when ignoring floating point traps), Scheme48/scsh, STklos, UMB raise an exception.
 
 Mosh returns its implementation-specific "undefined" value.
 
