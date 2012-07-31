@@ -1200,9 +1200,9 @@ Unicode variants of a-f,A-F (need to define formally).
 
 Vote `ascii-radix` or `unicode-radix` to have both `digit-value` and `char-numeric?` take a radix argument, such that `char-numeric?` returns #t and `digit-value` returns the appropriate value for characters representing digits of that radix under ascii or unicode character encodings, respectively.  Implementations are required to support at least the radix values: 2, 8, 10, and 16, and may support others.
 
-Vote `remove` to remove `digit-value` entirely, or `keep` to keep as is.
+Vote `remove` to remove `digit-value` entirely, `remove-radix` to remove `digit-value` entirely, but add the radix argument to `char-numeric?` as described above, or `keep` to keep as is.
 
-  * '''Options:''' ascii-hex, unicode-hex, remove, keep, undecided
+  * '''Options:''' ascii-hex, unicode-hex, ascii-radix, unicode-radix, remove, remove-radix, keep, undecided
   * '''Default:''' keep
   * '''Preferences:''' 
 
