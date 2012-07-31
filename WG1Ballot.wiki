@@ -220,9 +220,9 @@ standard for all supported characters.  The question of which version
 of Unicode the property refers to is important.  We could require a
 specific version (and all further revisions), or always require the
 latest official Unicode standard, in which case an implementation
-would not be compliant until it was updated with each new standard.
+would not be compliant until it was updated with each new standard.  Alternatively, we could parameterize the feature identifier, so that implementations might claim to support (full-unicode 3), (full-unicode 3.1), etc.
 
-  * '''Options:''' at-least-6, at-least-6.1, latest, undecided, unspecified
+  * '''Options:''' at-least-6, at-least-6.1, latest, parameterize, undecided, unspecified
   * '''Default:''' unspecified
   * '''Preferences:''' 
 
