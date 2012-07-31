@@ -239,9 +239,9 @@ would not be compliant until it was updated with each new standard.
 
   * '''Options:''' at-least-6, at-least-6.1, latest, undecided, unspecified
   * '''Default:''' unspecified
-  * '''Preferences:''' latest, at-least-6.1, at-least-6
-This seems easier than having to update the standard in order to get a guarantee that the next version of unicode is supported.
-But why not parametrize the feature identifier with a version number?
+  * '''Preferences:''' parameterize, latest, at-least-6.1, at-least-6
+'latest' seems easier than having to update the standard in order to get a guarantee that the next version of unicode is supported.
+But parameterizing the feature identifier with a version number allows for new unicode versions without either implementations becoming non-compliant or the standard becoming out-dated.
 
 === #458 Remove the formal semantics from the report ===
 
