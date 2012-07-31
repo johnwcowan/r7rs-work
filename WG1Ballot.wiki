@@ -1185,7 +1185,7 @@ lines, and `none` to leave as-is.
   * '''Default:''' none
   * '''Preferences:''' 
 
-=== #452 provide digit-value support for hex-digits ===
+=== #452 provide digit-value support for non-decimal-digits ===
 
 In ballot 4, in symmetry with the new Unicode definition of
 `char-numeric?` and as an analog to CL's `digit-char-p`, we provided
@@ -1196,8 +1196,11 @@ suggesting if provided at all it be extended to hex digits.
 
 Vote `ascii-hex` to support only the ASCII hex digits a-f,A-F (in
 addition to full Unicode numeric digits), `unicode-hex` to support all
-Unicode variants of a-f,A-F (need to define formally), `remove` to
-remove `digit-value` entirely, or `keep` to keep as is.
+Unicode variants of a-f,A-F (need to define formally).
+
+Vote `ascii-radix` or `unicode-radix` to have both `digit-value` and `char-numeric?` take a radix argument, such that `char-numeric?` returns #t and `digit-value` returns the appropriate value for characters representing digits of that radix under ascii or unicode character encodings, respectively.  Implementations are required to support at least the radix values: 2, 8, 10, and 16, and may support others.
+
+Vote `remove` to remove `digit-value` entirely, or `keep` to keep as is.
 
   * '''Options:''' ascii-hex, unicode-hex, remove, keep, undecided
   * '''Default:''' keep
