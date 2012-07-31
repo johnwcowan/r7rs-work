@@ -1107,7 +1107,7 @@ Vote `both` to add optional start and end arguments to both,
   * '''Preferences:''' both
 Consistency is good.  
 
-BTW, I REALLY dislike these names.  The bytevector is not utf8, it's just bytes.  If anything, the string is utf8.  I prefer bytevector->string/string->bytevector, possibly taking `utf8` as an symbol argument, to allow support for alternative coding.  At a minimum, bytevector->utf8/utf8->bytevector would make more sense.
+BTW, I REALLY dislike these names.  The bytevector is not utf8, it's just bytes.  If anything, the string is utf8.  I prefer bytevector->string/string->bytevector, possibly taking `utf8` as a symbol argument, to allow support for alternative coding.  At a minimum, bytevector->utf8/utf8->bytevector would make more sense.
 
 == WG1 - Optional Libraries ==
 
