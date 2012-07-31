@@ -260,9 +260,9 @@ standard for all supported characters.  The question of which version
 of Unicode the property refers to is important.  We could require a
 specific version (and all further revisions), or always require the
 latest official Unicode standard, in which case an implementation
-would not be compliant until it was updated with each new standard.
+would not be compliant until it was updated with each new standard.  Alternatively, we could parameterize the feature identifier, so that implementations might claim to support (full-unicode 6), (full-unicode 6.1), etc.
 
-  * '''Options:''' at-least-6, at-least-6.1, latest, undecided, unspecified
+  * '''Options:''' at-least-6, at-least-6.1, latest, parameterize, undecided, unspecified
   * '''Default:''' unspecified
   * '''Preferences:''' at-least-6, at-least-6.1, unspecified
 
@@ -1486,10 +1486,9 @@ In ballot 4, in symmetry with the new Unicode definition of
 An informal comment was made questioning this procedure, and
 suggesting if provided at all it be extended to hex digits.
 
-Vote `ascii-hex` to support only the ASCII hex digits a-f,A-F (in
-addition to full Unicode numeric digits), `unicode-hex` to support all
-Unicode variants of a-f,A-F (need to define formally), `remove` to
-remove `digit-value` entirely, or `keep` to keep as is.
+Vote `ascii-radix` or `unicode-radix` to have both `digit-value` and `char-numeric?` take a radix argument, such that `char-numeric?` returns #t and `digit-value` returns the appropriate value for characters representing non-numeric digits of that radix under ASCII or Unicode character encodings, respectively, and for characters representing numeric digits under Unicode.  Implementations are required to support at least the radix values: 2, 8, 10, and 16, and may support others.
+
+Vote `remove` to remove `digit-value` entirely, `remove-radix` to remove `digit-value` entirely, but add the radix argument to `char-numeric?` as described above, or `keep` to keep as is.
 
   * '''Options:''' ascii-hex, unicode-hex, remove, keep, undecided
   * '''Default:''' keep
@@ -1554,7 +1553,7 @@ by default. In ticket #92 we further added the R6RS
 both cases the terminology was lax and simply referred
 to "reader case sensitivity", and all discussion centered
 around symbols, although in R6RS character names were
-also effected.
+also affected.
 
 Case folding will apply to numeric literals, booleans and
 bytevectors regardless, as they do in both R5RS and R6RS.
