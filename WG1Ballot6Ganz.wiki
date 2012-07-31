@@ -1284,8 +1284,8 @@ remove `digit-value` entirely, or `keep` to keep as is.
 
   * '''Options:''' ascii-hex, unicode-hex, remove, keep, undecided
   * '''Default:''' keep
-  * '''Preferences:''' undecided, keep, remove
-I would support this only if `digit-value` took a radix argument.  The draft says that `digit-value` is only defined if `char-numeric?` returns #t, so `char-numeric?` would also require a radix argument (this is a good idea even if `digit-value` is removed).
+  * '''Preferences:''' unicode-radix, ascii-radix, remove-radix, keep, remove
+A radix argument allows support for letters a-f as digits without creating inconsistency with `char-numeric?`.  It also allows easier access to these results for other numeric systems.
 
 == WG1 - Non-normative ==
 
