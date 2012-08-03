@@ -129,7 +129,7 @@ Keep in mind the semantics of `eqv?` also affect `memv`, `assv` and
     * [[https://groups.google.com/d/msg/scheme-reports-wg1/2Nv6oIND8HI/Z2HXPQMNFooJ|the history of eqv? on numbers]]
   * '''Options:''' r5rs, r6rs, r6rs/all, same-bits
   * '''Default:''' r5rs
-  * '''Preferences:''' 
+  * '''Preferences:''' same-bits, r5rs
 
 === #229 eqv? and NaN ===
 
@@ -156,7 +156,12 @@ ballot.
 
   * '''Options:''' no-exception, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' no-exception
+
+As I interpret same-bits, it would actually require eqv? to return
+#t on two IEEE NaNs that did, in fact, have the same pattern of
+bits.  This case satisfies all rationales I can think of for wanting
+NaNs to compare eqv?.
 
 === #125 Allow procedures not to be locations (making EQV? unspecified in some additional cases) ===
 
@@ -188,7 +193,23 @@ The default of `yes` still holds from the previous invalidated ballot.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' yes
-  * '''Preferences:''' 
+  * '''Preferences:''' no
+
+I have argued against this on the list in the past, as being the
+beginning of a slippery slope that has no end.  It occurs to me now
+that procedures-with-locations are definable from
+procedures-without-locations if the implementation supports
+apply-hooks and gensyms (the latter of which I expect that most
+implementations will have to, in one or another form, if nothing
+else because cons is generative).  This means that a complete,
+performance-conscious implementation should offer both tagged
+procedures and untagged procedures, and the question becomes which
+one should you get when you type "lambda" into the initial
+environment.  I vote for retaining the invariant that for any
+variable x, (eqv? x x) is true unless one is using an implementation
+extension (like said untagged procedures).  (My understanding of my
+votes on 460 and 229 implies this will be the case for NaNs also,
+making that invariant complete.)
 
 === #393 Defining record equality ===
 
@@ -207,7 +228,22 @@ Note `equal?` is already required to handle cycles regardless.
 
   * '''Options:''' recursive, identity, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' unspecified
+
+I don't think WG1 is in a position to solve this problem.  If equal?
+is recursive, it becomes impossible to use records for information
+hiding or security.  If equal? is identity, the common (at least in
+my code, and in what I understand to be good style) case (of records
+just being transparent immutable named tuples) breaks.  In either
+case, the essential problem is that if you want the non-default
+behavior for a particular record type, there is no way to
+effectively modify equal?, without rewriting it and rewriting every
+procedure that uses equal? internally (member comes to mind; even if
+there are no others in the standard, there will be others in
+libraries).  So the "right answer" to this involves some kind of
+extensible or generic operation system, which we are by consensus
+not in a position to produce.  The conservative option is
+"unspecified".
 
 === #306 What does "full Unicode" support mean in Appendix B? ===
 
@@ -265,7 +301,7 @@ This allows hash-table or other non-left-to-right implementations.
 
   * '''Options:''' r5rs, r6rs, leftmost, unspecified, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' 
+  * '''Preferences:''' leftmost
 
 === #85 Blobs, bytevectors, byte-vectors, octet-vectors, or something else?
 
@@ -337,7 +373,7 @@ allowed in library names.
 
   * '''Options:''' uint15, int16, uint16, int24, uint24, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' uint15, uint16, unspecified
 
 === #441 Make sure a program/library loads any imported libraries at most once ===
 
@@ -362,7 +398,7 @@ Vote `yes` to add this requirement.
 
   * '''Options:''' yes, no, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' yes, unspecified
 
 === #402 Add an export-all form. ===
 
@@ -372,7 +408,9 @@ and include-ci but none that are imported with import."
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
+
+This is definitely going to be the common case.
 
 === #448 Add library declaration include-library-declarations ===
 
@@ -389,7 +427,7 @@ if it is abstract.
 
   * '''Options:''' include-library-declarations, export-from, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided
 
 === #449 Clarify library loading rules ===
 
@@ -426,7 +464,7 @@ Aaron Hsu, however, thinks this is too restrictive, and proposes
     * '''zero-or-one:''' Kelsey's proposal with Hsu's relaxation
   * '''Options:''' one, one-or-more, zero-or-one, zero-or-more
   * '''Default:''' one-or-more
-  * '''Preferences:''' 
+  * '''Preferences:''' one
 
 == WG1 - Numerics ==
 
@@ -442,7 +480,7 @@ Vote `yes` to add the optional second argument from R6RS.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:'''
 
 === #367 Inexact division by exact zero ===
 
@@ -467,7 +505,7 @@ arguments are exact, or `unspecified` to make this case unspecified.
 
   * '''Options:''' error, all-error, unspecified, undecided
   * '''Default:''' error
-  * '''Preferences:''' 
+  * '''Preferences:''' error, unspecified
 
 === #369 Require that - and / allow an arbitrary number of arguments ===
 
@@ -485,7 +523,10 @@ always an error in all implementations.
 
   * '''Options:''' required, optional, forbidden, undecided
   * '''Default:''' optional
-  * '''Preferences:''' 
+  * '''Preferences:''' required
+
+Since everybody does it anyway, might as well allow code to depend
+on it.  Not that (/ 1 2 3 4) is very intuitive.
 
 === #370 Log of exact and inexact zero ===
 
@@ -529,7 +570,14 @@ would return `+nan.0`.
 
   * '''Options:''' zero, no-nan, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' zero
+
+While this does have the downside of potentially masking a NaN, it
+only masks one in a computation whose result wasn't going to be used
+anyway.  If the programmer really did not want their NaNs masked,
+they could have ensured the zero were inexact.  In the meantime,
+this allows an optimization, which can be very important in numeric
+code because it can chain.
 
 === #410 Infinity vs. NaN in max and min ===
 
@@ -548,7 +596,7 @@ as `both` but without the note).
 
   * '''Options:''' both, infinity, nan, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' unspecified
 
 === #395 Infinite and NaN complex numbers ===
 
@@ -565,7 +613,7 @@ behavior.
 
   * '''Options:''' overlap, disjoint, unspecified, undecided
   * '''Default:''' overlap
-  * '''Preferences:''' 
+  * '''Preferences:''' disjoint
 
 === #364 truncate, floor, ceiling round should return a non-finite argument ===
 
@@ -599,7 +647,7 @@ and `unspecified` to leave unspecified as in the current draft.
 
   * '''Options:''' input, error, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' 
+  * '''Preferences:''' input
 
 === #392 Exact positive and non-negative integer predicates ===
 
@@ -641,7 +689,7 @@ regardless.
 
   * '''Options:''' required, optional, undecided
   * '''Default:''' optional
-  * '''Preferences:''' 
+  * '''Preferences:''' required
 
 === #388 Specify what `display` does with circular lists ===
 
@@ -707,7 +755,15 @@ additional implementation burden.
     * '''write+simple+shared:''' `write` handles cycles only, provide `write-simple` and `write-shared` separately
   * '''Options:''' write+simple, write+shared, write+cyclic, write+shared+cyclic, write+simple+shared, unspecified, undecided
   * '''Default:''' write+simple
-  * '''Preferences:''' 
+  * '''Preferences:''' write+simple
+
+If you are trying to use read/write to implement serialization and
+you have two different implementations of Scheme, one of which
+writes shared structure by default and the other does not read it,
+you have two perfectly good options: Either write a procedure that
+unshares shared structure, or implement reading of shared structure.
+The latter is harder, but is likely to yield a more compact external
+representation.
 
 === #219 Bring back readable boolean literals ===
 
@@ -740,7 +796,7 @@ its SRFI-38 implementation.
      * '''bang-long:''' #!true and #!false
   * '''Options:''' long, bang-long, none, undecided
   * '''Default:''' long
-  * '''Preferences:''' 
+  * '''Preferences:''' long
 
 === #443 Recommend sources of character names ===
 
@@ -797,7 +853,7 @@ leave them in as aliases.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' no
 
 === #378 Rename GET-FEATURES to just FEATURES ===
 
@@ -806,7 +862,7 @@ Java-like".  Okay, it's bikeshedding.
 
   * '''Options:''' features, get-features, undecided
   * '''Default:''' get-features
-  * '''Preferences:''' 
+  * '''Preferences:''' features
 
 === #384 Merge `bytevector-copy` and `bytevector-copy-partial` ===
 
@@ -856,7 +912,7 @@ Vote `yes` to add these optional arguments.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' 
+  * '''Preferences:''' yes
 
 === #391 Add predicates for R7RS signalled conditions ===
 
@@ -1290,4 +1346,15 @@ Note that this is orthogonal to the question of #460, how `eqv?` works on proced
     * '''different:''' `eq?` may return `#f` on procedures even when `eqv?` returns `#t` (but not vice versa)
   * '''Options:''' same, different, undecided
   * '''Default:''' same
-  * '''Preferences:''' 
+  * '''Preferences:''' undecided
+
+It could be reasonable to allow a scenario where eq? compares
+procedures by location tags and eqv? does something coarser, like
+alpha renaming.  I would, however, strongly object to allowing
+{{{
+(let ((x (lambda ...)))
+  (eq? x x))
+}}}
+to evaluate to #f.  I do not see any options on this item that I
+understand to correspond with this, which is the definition of
+"further discussion".
