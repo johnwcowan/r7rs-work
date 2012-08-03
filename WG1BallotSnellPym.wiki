@@ -231,6 +231,9 @@ default as secure sandboxing is a rather specialise case, and I'm
 undecided on the former basis. So I go for open records on the latter
 basis alone :-)
 
+However, to make it clear, I want the wording such that this is the defined behaviour for records created only using WG1 syntax,
+and that extensions to that syntax can exist (eg, from WG2) that creates record types which produce instances with different equality behaviour are PERFECTLY LEGAL.
+
 === #306 What does "full Unicode" support mean in Appendix B? ===
 
 Specifically, does it indicate case-folding and normalization support
@@ -1176,7 +1179,7 @@ Vote `both` to add optional start and end arguments to both,
 
   * '''Options:''' both, string->utf8, utf8->string, neither
   * '''Default:''' neither
-  * '''Preferences:''' both, neither
+  * '''Preferences:''' both, utf8->string, string->utf8|neither
 
 Consistency!
 
