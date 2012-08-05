@@ -31,35 +31,94 @@ R2RS had the simplest historical rule which was simply to use `=`.
 
 The term "operational equivalence" appears in R3RS but for numbers the
 definition is the same as in R4RS and R5RS, which is `=` plus the same
-exactness.  This is the `r5rs` option.
+exactness.  This is the `r5rs` option, with the "true" cases written formally as:
 
-R6RS defines two numbers to be "operationally equivalent" (and
-therefore `eqv?`) if they would return the same results for any finite
-composition of "Scheme's standard arithmetic procedures".  Presumably
-this refers to everything in section 11.7 "Arithmetic", but not, for
-example, `write`.  For R7RS this would be equivalent to all the
-standard procedures in the "Numbers" section 6.2.6, and is called the
-`r6rs` option.  Alternately, the equivalence rules could include any
-procedure the implementation provides (such as `decode-float`) - this
-is the `r6rs/all` option.  Operational equivalence is very desirable
-when implementing caches and programs which reason about programs.
+{{{
+  The `eqv?` procedure returns #t if:
+
+  (1) obj1 and obj2 are both booleans and are the same according
+  to the `boolean=?` procedure.
+
+  (2) obj1 and obj2 are both symbols and are the same symbol
+  according to the `symbol=?` procedure.
+
+  (3) obj1 and obj2 are both numbers, have the same exactness, are
+  numerically equal (see `=`).
+
+  (4) obj1 and obj2 are both characters and are the same
+  character according to the `char=?` procedure.
+
+  (5) obj1 and obj2 are both the empty list.
+
+  (6) obj1 and obj2 are pairs, vectors, bytevectors, records,
+  or strings that denote the same location in the store.
+
+  (7) obj1 and obj2 are procedures whose location tags are equal.
+}}}
+
+Note that (7) is an exception case which will be decided
+separately in #125.  Furthermore, an exception to make NaNs
+unspecified regardless of the semantics here will be decided in
+#229.
+
+The `r6rs` vote replaces (3) with the following operational
+equivalence semantics:
+
+{{{
+  (3.1) obj1 and obj2 are both exact numbers and are numerically
+  equal (see `=`)
+
+  (3.2) obj1 and obj2 are both inexact numbers, are numerically
+  equal (see `=`), and yield the same results (in the sense of
+  `eqv?`) when passed as arguments to any other procedure that
+  can be defined as a finite composition of Scheme’s standard
+  arithmetic procedures.
+}}}
+
+where "standard arithmetic procedures" refers arguably to either
+11.7 or 11.7.4.3.  For R7RS it would apply to the "Numbers"
+section 6.2.6.  R6RS further adds an extra case which is not
+applicable because we don't guarantee record-types are first-class
+objects:
+
+{{{
+  (8) obj1 and obj2 are record-type descriptors that are
+  specified to be `eqv?` in library section on “Procedural
+  layer”.
+}}}
+
+The `r6rs/all` option changes (3.2) to a finite composition of
+any of the implementations arithmetic procedures.  The intention
+is that `decode-float` if provided could distinguish NaNs, but
+something like `eq?` (which could distinguish the same bit
+pattern in different locations) would not be considered
+arithmetic and not apply.  This does leave the
+definition "arithmetic" open to some interpretation.
 
 In contrast to R6RS, R7RS does not require the full numeric tower.
 This means that any definition of operational equivalence would render
 many numbers unspecified from the perspective of the standard, yet
 users could rely on consistency within their own implementation, and
 broad agreement amongst most implementations which provide the full
-tower.  For example, `(eqv? 1/3 (/ 3.0))` is unspecified under any
-definition, because exact ratios may not be supported.  However,
-`(eqv? 0.0 -0.0)` is specified and required to return `#t` under the
-`r5rs` rule, yet is unspecified under the `r6rs` rule - it would
-return `#f` for implementations which distinguish both `-0.0` and
-`-inf.0` (without which `-0.0` does not produce different results from
-`0.0`) and `#t otherwise`.  Under `r6rs/all`, `(eqv? 0.0 -0.0)` should
-return `#f` under any implementation which would at least write `-0.0`
-with the leading minus sign.  Any notation using precision specifiers
-would also has undefined equivalence under the `r6rs` rule, e.g.
-`(eqv? 1e0 1f0)`.
+tower.
+
+Finally, the `same-bits` option replaces (3) with:
+
+{{{
+  (3.1) obj1 and obj2 are both exact numbers and are numerically
+  equal (see `=`)
+
+  (3.2) obj1 and obj2 are both inexact real numbers conforming to the
+  IEEE 754-2008 standard, and they have the same radix,
+  precision, maximum exponent, sign, exponent, and significand as
+  described in IEEE 754-2008
+
+  (3.3) obj1 and obj2 are both inexact real numbers, are not implemented using
+  IEEE 754-2008, and are numerically equal (see `=`)
+
+  (3.4) obj1 and obj2 are both complex numbers whose real and imaginary
+  parts are `eqv?`
+}}}
 
 Keep in mind the semantics of `eqv?` also affect `memv`, `assv` and
 `case`.
@@ -67,9 +126,9 @@ Keep in mind the semantics of `eqv?` also affect `memv`, `assv` and
   * '''References:'''
     * [[https://groups.google.com/d/msg/scheme-reports-wg1/BGvDFtD6A1M/5pHmfXHtvEIJ|eqv? issues summarized]]
     * [[https://groups.google.com/d/msg/scheme-reports-wg1/2Nv6oIND8HI/Z2HXPQMNFooJ|the history of eqv? on numbers]]
-  * '''Options:''' r5rs, r6rs, r6rs/all
+  * '''Options:''' r5rs, r6rs, r6rs/all, same-bits
   * '''Default:''' r5rs
-  * '''Preferences:''' r5rs, r6rs/all, r6rs
+  * '''Preferences:''' r5rs, r6rs/all, same-bits, r6rs
 
 I don't think the operational semantics of R6RS is well defined, nor
 is it appropriate when so much is unspecified about the numeric tower.
@@ -92,14 +151,15 @@ falling back on general `eqv?` logic.  In deference to this R6RS makes
 an exception and allows the result to be unspecified, and we should
 consider allowing this exception.
 
-The "same" options from previous ballots have been removed, pending an
-alternate formulation of the semantics of #460 in which this would
-make sense.
+This proposal is only to allow an explicit exception to make
+NaN comparisons unspecified, regardless of the semantics.
+Vote `no-exception` (or anything other than `unspecified`)
+to require NaN comparisons to follow directly from #460.
 
 The default of `unspecified` still holds from the previous invalidated
 ballot.
 
-  * '''Options:''' different, unspecified, undecided
+  * '''Options:''' no-exception, unspecified, undecided
   * '''Default:''' unspecified
   * '''Preferences:''' unspecified, different
 
@@ -162,7 +222,9 @@ Note `equal?` is already required to handle cycles regardless.
   * '''Preferences:''' recursive
 
 Prior to records all containers could be compared with `equal?`, and
-we shouldn't change this.
+we shouldn't change this.  It is reasonable to consider opaque record
+types - when and it they are introduced to the language, we can
+specify how `equal?` treats them.
 
 === #306 What does "full Unicode" support mean in Appendix B? ===
 
@@ -176,14 +238,18 @@ standard for all supported characters.  The question of which version
 of Unicode the property refers to is important.  We could require a
 specific version (and all further revisions), or always require the
 latest official Unicode standard, in which case an implementation
-would not be compliant until it was updated with each new standard.
+would not be compliant until it was updated with each new standard.  Alternatively, we could parameterize the feature identifier, so that implementations might claim to support (full-unicode 6), (full-unicode 6.1), etc.
 
-  * '''Options:''' at-least-6, at-least-6.1, latest, undecided, unspecified
+  * '''Options:''' at-least-6, at-least-6.1, latest, parameterize, undecided, unspecified
   * '''Default:''' unspecified
-  * '''Preferences:''' at-least-6.1
+  * '''Preferences:''' at-least-6, at-least-6.1
 
-We should tie this report to the latest version of Unicode at time of
-ratification (perhaps 6.2 by the final draft?).
+We should tie this report to the latest major version of Unicode.
+Later standards can consider Unicode 7, etc., and in the meantime
+implementations can continue to add new characters from minor
+releases.  It's highly unlikely characters will ever be removed, but
+in such a case Scheme implementations will be required to support old
+characters, and allowed to support new ones.
 
 === #458 Remove the formal semantics from the report ===
 
@@ -228,7 +294,7 @@ This allows hash-table or other non-left-to-right implementations.
 
   * '''Options:''' r5rs, r6rs, leftmost, unspecified, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' r5rs
+  * '''Preferences:''' bytevector
 
 I would need to see specific examples of generated code where this is
 useful, otherwise I fear we're just masking errors.
@@ -245,7 +311,7 @@ blank their votes from ballot 3 will be used.
 
   * '''Options:''' blob, bytevector, byte-vector, u8vector, octet-vector, undecided
   * '''Default:''' bytevector
-  * '''Preferences:''' bytevector
+  * '''Preferences:''' bytevector, blob, u8vector
 
 I don't particularly like the name, but it has precedence in R6RS.
 The name u8vector doesn't work well when accessing by other types,
@@ -351,8 +417,10 @@ and include-ci but none that are imported with import."
   * '''Default:''' no
   * '''Preferences:''' no
 
-I'm concerned we may make the library system too complicated to
-easily implement.
+I'm concerned we may make the library system too complicated to easily
+implement.  It's also unclear whether `export-all` should export
+imported identifiers or not, and contrary to what John Cowan says
+Chicken does not provide this functionality.
 
 === #448 Add library declaration include-library-declarations ===
 
@@ -409,7 +477,15 @@ Aaron Hsu, however, thinks this is too restrictive, and proposes
     * '''zero-or-one:''' Kelsey's proposal with Hsu's relaxation
   * '''Options:''' one, one-or-more, zero-or-one, zero-or-more
   * '''Default:''' one-or-more
-  * '''Preferences:''' undecided, one-or-more
+  * '''Preferences:''' zero-or-more, one-or-more
+
+Allowing one or many instantiations is a philosophical choice that I
+think implementations are unlikely to compromise on.  In deference to
+existing R6RS implementations I think zero instantiations is
+reasonable, assuming the implementation can prove it's safe.  This
+gives better support among implementations, and the work-around to
+being unable to import for side effects is simply to import and call a
+function at run time.
 
 == WG1 - Numerics ==
 
@@ -603,7 +679,7 @@ and `unspecified` to leave unspecified as in the current draft.
   * '''Default:''' unspecified
   * '''Preferences:''' unspecified
 
-I think this is an error, but is understand wanting to return the
+I think this is an error, but understand wanting to return the
 argument for efficiency, simplicity, and closeness to the floating
 point processor.  Since implementations differ we should leave this
 unspecified.
@@ -887,7 +963,8 @@ Alternately, vote `separate` to keep these as two separate procedures.
   * '''Default:''' separate
   * '''Preferences:''' offsets-last, port-last, undecided
 
-We should optimize for the most common use case.
+We should optimize for the most common use case, and wanting to write
+the entire bytevector is most common.
 
 === #387 Add start/end arguments to string->vector and vector->string ===
 
@@ -904,7 +981,10 @@ Vote `yes` to add these optional arguments.
   * '''Default:''' no
   * '''Preferences:''' no
 
-Using indexes with strings is a mistake.
+First, using indexes with strings is a mistake.  More importantly,
+these are type coercion utilites, and the case of using indexes seems
+too rare, and better relegated to a thorough vector or string library,
+and/or a comprehensions library.  Let's keep simple functions simple.
 
 === #391 Add predicates for R7RS signalled conditions ===
 
@@ -929,7 +1009,7 @@ Vote `yes` to add these procedures, or `file-only` to only add the
 
   * '''Options:''' yes, file-only, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' no
+  * '''Preferences:''' no, file-only
 
 WG2 will include a full condition hierarchy which will make this
 redundant.  All of these can be checked for in advance.
@@ -945,9 +1025,10 @@ This is Alexey Radul's suggestion.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' yes
+  * '''Preferences:''' no
 
-This is useful and has precedence from SRFI-99.
+This is useless without a record introspection library.  We can
+include it when and if we provide record introspection.
 
 === #425 Add read-string, read-string!, write-string procedures to (scheme base) ===
 
@@ -972,7 +1053,8 @@ Vote `yes` to add all three, `immutable` to add only `read-string` and
   * '''Preferences:''' immutable, no
 
 These are very useful, but for reading into a mutable data-structure
-you should use bytevectors.
+you should use bytevectors - strings are not guaranteed to have the
+requisite size allocated.
 
 === #433 full conversion cycle for containers ===
 
@@ -1015,7 +1097,8 @@ The `matrix` proposal requires all 4^3^=64 conversions.
   * '''Preferences:''' no, list, vector, list+vector, latin-1
 
 I'd rather these be part of the general extended bytevector library
-from wg2.
+from wg2.  Bytevectors are a second class data structure that can only
+hold bytes, not a general purpose one like lists or vectors.
 
 === #444 Add vector-append procedure ===
 
@@ -1024,12 +1107,10 @@ for the Formal Comment that triggered this ticket.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' no
+  * '''Preferences:''' yes
 
-I'd rather these be part of the general extended vector library from
-wg2.  The argument of divide and conquer is encouraging an inefficient
-programming idiom allocating O(n*log(n)) space when only O(n) space is
-needed.
+Although I disagree with the rationale in the formal comment, this is
+a generally useful function.
 
 === #451 Add bytevector-append procedure ===
 
@@ -1038,10 +1119,10 @@ This is for consistency with `append`, `string-append`, and
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' no
+  * '''Preferences:''' yes
 
-I'd rather these be part of the general extended bytevector library
-from wg2.
+This is perhaps less useful than `vector-append` but reasonable to
+include.
 
 === #445 Bidirectional ports and port-open? ===
 
@@ -1054,7 +1135,7 @@ or `add` to have all three.
 
   * '''Options:''' replace, add, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' replace
+  * '''Preferences:''' replace, add
 
 Contrary to close-port I think you always know which direction you
 need when checking if a port is open.
@@ -1072,8 +1153,9 @@ when ''start'' is less than 0, for consistency with the case where
 ''end'' is greater to the length of the sequence.
 
 Vote `required` to make the fill parameter required, `error` to make
-it an error in the case that fill is absent yet needed, or `default`
-for the current status quo.
+it an error in the case that fill is absent yet needed, `remove` to
+remove the fill parameter and signal a runtime error if end is longer
+than the input vector, or `default` for the current status quo.
 
   * '''Options:''' required, error, remove, default, undecided
   * '''Default:''' default
@@ -1092,7 +1174,27 @@ whether the exception is continuable.
 
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' undecided
+  * '''Preferences:''' no
+
+This has no precedent, and could be difficult for implementations to
+support.
+
+=== #464 Add optional start and end parameters to utf8->string and string->utf8. ===
+
+Per ticket 464, add optional start and end arguments to `utf8->string`
+and `string->utf8`.
+
+Vote `both` to add optional start and end arguments to both,
+`string->utf8` or `utf8->string` to add them to only one procedure, or
+`neither` to leave both unchanged.
+
+  * '''Options:''' both, string->utf8, utf8->string, neither
+  * '''Default:''' neither
+  * '''Preferences:''' both
+
+The arguments to utf8->string are necessary for many common idioms of
+reading binary data and extracting strings from it.  The reverse is
+much less useful, but makes sense for symmetry.
 
 == WG1 - Optional Libraries ==
 
@@ -1129,7 +1231,7 @@ raise an exception or fail to exit (from #374).
     * '''extended-true:''' `#f` is generic failure, `#t` generic success, and `""` and `0` are generic success if not otherwise understood by the OS
   * '''Options:''' boolean, extended-true, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' extended-true
+  * '''Preferences:''' extended-true, boolean
 
 This is the only way to allow programs to exit with meaningful values
 while remaining portable.
@@ -1223,10 +1325,11 @@ implementations which support this extension an object could return
 
   * '''Options:''' remove, type-check, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' unspecified
+  * '''Preferences:''' unspecified, type-check
 
 I don't like removing this extension, which is still available in
-chibi-scheme.
+chibi-scheme.  `type-check` is slightly different from what chibi
+currently does.
 
 === #405 Make promises first-class ===
 
@@ -1245,7 +1348,9 @@ Vote `disjoint` to add `promise?` and make it a disjoint type, or
   * '''Default:''' no
   * '''Preferences:''' yes
 
-`promise?` is useful, I don't think it needs to be disjoint.
+`promise?` is useful, I don't think it needs to be disjoint.  One must
+still be aware that the result of `(delay <expr>)` may not answer true
+to `promise?` given the existing allowed extensions.
 
 === #462 end of line definition ===
 
@@ -1261,12 +1366,12 @@ lines, and `none` to leave as-is.
 
   * '''Options:''' no-extensions, no-return, none, undecided
   * '''Default:''' none
-  * '''Preferences:''' no-return
+  * '''Preferences:''' no-return, none
 
 Allowing extensions is reasonable, and given that case there is no
 need to explicitly mention the antiquated "\r".
 
-=== #452 provide digit-value support for hex-digits ===
+=== #452 provide digit-value support for non-decimal-digits ===
 
 In ballot 4, in symmetry with the new Unicode definition of
 `char-numeric?` and as an analog to CL's `digit-char-p`, we provided
@@ -1277,17 +1382,22 @@ suggesting if provided at all it be extended to hex digits.
 
 Vote `ascii-hex` to support only the ASCII hex digits a-f,A-F (in
 addition to full Unicode numeric digits), `unicode-hex` to support all
-Unicode variants of a-f,A-F (need to define formally), `remove` to
-remove `digit-value` entirely, or `keep` to keep as is.
+Unicode variants of a-f,A-F (need to define formally).
 
-  * '''Options:''' ascii-hex, unicode-hex, remove, keep, undecided
+Vote `ascii-radix` or `unicode-radix` to have both `digit-value` and `char-numeric?` take a radix argument, such that `char-numeric?` returns #t and `digit-value` returns the appropriate value for characters representing non-numeric digits of that radix under ASCII or Unicode character encodings, respectively, and for characters representing numeric digits under Unicode.  Implementations are required to support at least the radix values: 2, 8, 10, and 16, and may support others.
+
+Vote `remove` to remove `digit-value` entirely, `remove-radix` to remove `digit-value` entirely, but add the radix argument to `char-numeric?` as described above, or `keep` to keep as is.
+
+  * '''Options:''' ascii-hex, unicode-hex, ascii-radix, unicode-radix, remove, remove-radix, keep, undecided
   * '''Default:''' keep
   * '''Preferences:''' remove, keep, undecided
 
 digit-value is paired with char-numeric? which does not handle hex
 digits.  The two of these can serve as a basis for hex-digit or
-base-N-digit procedures.  Since there is contention I'd just as soon
-move this to more general Unicode property handling in WG2, however.
+base-N-digit procedures.  The -radix variations are already getting
+too complicated for something in the core language.  Since there is
+contention I'd just as soon move this to more general Unicode property
+handling in WG2, however.
 
 == WG1 - Non-normative ==
 
@@ -1303,6 +1413,8 @@ wins.
   * '''Default:''' no
   * '''Preferences:''' yes
 
+The important thing is the standard comes first.
+
 === #463 library naming conventions  ===
 
 We currently use the singular form of data types for library names,
@@ -1312,7 +1424,80 @@ officially which is preferred.
 
   * '''Options:''' singular, plural, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' plural
+  * '''Preferences:''' plural, singular
 
 Not only R6RS but also several SRFIs, e.g. (srfi 99 records), have
 started a plural convention.
+
+== WG1 - Late additions ==
+
+=== #465 Add jiffy-modulus to specify when, if ever, current-jiffy wraps ===
+
+If the value of `current-jiffy` is to be both space-efficient (that is, a fixnum) and reasonably precise (say, microsecond timing), it needs to wrap around: 30-bit fixnums on a 32-bit system will wrap every 17 minutes.  That means an application needs to know what the maximum value is before it wraps back to zero.  The `jiffy-modulus` function returns the maximum value of the current jiffy plus 1.  Alternatively, jiffies can be signed and wrap from (- (jiffy-modulus) 1) to (- (jiffy-modulus)), which is easier for the implementation but harder for the user.
+
+  * '''Options:''' unsigned, signed, no, undecided
+  * '''Default:''' no
+  * '''Preferences:''' no
+
+As specified, this is broken, since if jiffies are equated with
+fixnums, and an implementation has no bignum support, then by
+definition it cannot represent the modulus.  A better API is
+`(maximum-jiffy)` optionally with `(minumum-jiffy)` if negative values
+are allowed.
+
+I still find jiffies difficult to use and avoided them in some recent
+R7RS time based code.
+
+=== #466 case folding of character names ===
+
+In ticket #11 we voted to make the reader case-sensitive
+by default. In ticket #92 we further added the R6RS
+#!fold-case and #!no-fold-case reader extensions. In
+both cases the terminology was lax and simply referred
+to "reader case sensitivity", and all discussion centered
+around symbols, although in R6RS character names were
+also affected.
+
+Case folding will apply to numeric literals, booleans and
+bytevectors regardless, as they do in both R5RS and R6RS.
+We need to clarify how character names and the case
+folding directives themselves are handled.
+
+The default is `r6rs`, where character names are case
+sensitive by default and folded by the `#!fold-case` flag:
+
+​http://www.r6rs.org/final/html/r6rs-app/r6rs-app-Z-H-4.html#node_chap_B
+
+Alternately character names could be made to ignore
+the reader directives and always or never fold case.
+Never folding case breaks R5RS and earlier compatibility
+without any easy workaround.
+
+These same settings apply to the `include-ci` syntax.
+
+  * '''Proposals:'''
+    * '''r6rs:''' character names behave like symbols, directives are sensitive
+    * '''r6rs+directives:''' like `r6rs` but directives can also be case-folded
+    * '''always-fold:''' like `r6rs` but character names and directives always fold case
+    * '''never-fold:''' like `r6rs` but character names and directives never fold case
+  * '''Options:''' r6rs, r6rs+directives, always-fold, never-fold, undecided
+  * '''Default:''' r6rs
+  * '''Preferences:''' r6rs, r6rs+directives, always-fold
+
+I can't think of a good reason to diverge from R6RS here.
+
+=== #467 Allow eqv? and eq? to return different answers on procedures as well as integers and characters ===
+
+This proposal stems from [[http://lists.r6rs.org/pipermail/r6rs-discuss/2012-July/006405.html|remarks]] by Alaric Snell-Pym and Will Clinger on the r6rs public mailing list.  If `eq?` is allowed to return `#f` on two procedures when `eqv?` nevertheless returns `#t`, as is already the case for numbers and characters, then more intelligent implementation-specific procedure comparisons using `eqv?` are possible, while still keeping `eq?` simple enough to inline easily.
+
+Note that this is orthogonal to the question of #460, how `eqv?` works on procedures.  There should be little or no backward-compatibility hit for this change.
+
+  * '''Proposals:'''
+    * '''same:''' `eq?` and `eqv?` always return the same on procedures, per R5RS and R6RS
+    * '''different:''' `eq?` may return `#f` on procedures even when `eqv?` returns `#t` (but not vice versa)
+  * '''Options:''' same, different, undecided
+  * '''Default:''' same
+  * '''Preferences:''' undecided, different
+
+I understand the desire to separate these two, but need to think about
+this more.
