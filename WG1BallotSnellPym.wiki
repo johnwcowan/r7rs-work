@@ -296,7 +296,7 @@ This allows hash-table or other non-left-to-right implementations.
 
   * '''Options:''' r5rs, r6rs, leftmost, unspecified, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' leftmost, r5rs, r6rs
+  * '''Preferences:''' r5rs, leftmost, r6rs
 
 === #85 Blobs, bytevectors, byte-vectors, octet-vectors, or something else?
 
