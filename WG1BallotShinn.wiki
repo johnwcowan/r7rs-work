@@ -292,14 +292,14 @@ The proposal is a compromise: allow keys to appear in more than one clause,
 but behave as if the key appeared only in the first (leftmost) clause.
 This allows hash-table or other non-left-to-right implementations.
 
-  * '''Options:''' r5rs, r6rs, leftmost, unspecified, undecided
+  * '''Options:''' r5rs, leftmost, unspecified, undecided
   * '''Default:''' r5rs
-  * '''Preferences:''' bytevector
+  * '''Preferences:''' r5rs, unspecified
 
 I would need to see specific examples of generated code where this is
 useful, otherwise I fear we're just masking errors.
 
-=== #85 Blobs, bytevectors, byte-vectors, octet-vectors, or something else?
+=== #85 Blobs, bytevectors, byte-vectors, octet-vectors, or something else? ===
 
 Following exactly in the footsteps of R6RS we voted for a `blob` API
 and then changed the name to `bytevector`.
