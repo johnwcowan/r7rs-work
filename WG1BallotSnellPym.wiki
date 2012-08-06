@@ -538,7 +538,7 @@ always an error in all implementations.
 
   * '''Options:''' required, optional, forbidden, undecided
   * '''Default:''' optional
-  * '''Preferences:''' require, optional, forbidden
+  * '''Preferences:''' required, optional, forbidden
 
 It's useful, and it does not harm, and it's widely implemented. What's
 not to love?
@@ -1409,3 +1409,13 @@ Note that this is orthogonal to the question of #460, how `eqv?` works on proced
   * '''Options:''' same, different, undecided
   * '''Default:''' same
   * '''Preferences:''' different, same
+
+=== #465 Add jiffy-modulus to specify when, if ever, current-jiffy wraps ===
+
+If the value of `current-jiffy` is to be both space-efficient (that is, a fixnum) and reasonably precise (say, microsecond timing), it needs to wrap around: 30-bit fixnums on a 32-bit system will wrap every 17 minutes.  That means an application needs to know what the maximum value is before it wraps back to zero.  The `jiffy-modulus` function returns the maximum value of the current jiffy plus 1.  Alternatively, jiffies can be signed and wrap from (- (jiffy-modulus) 1) to (- (jiffy-modulus)), which is easier for the implementation but harder for the user.
+
+  * '''Options:''' unsigned, signed, no, undecided
+  * '''Default:''' no
+  * '''Preferences:''' unsigned, signed, no
+
+I agree that wrapping jiffies are useful (and may be forced upon us by the underlying clock mechanism). However, I would also like some support for `jiffy-modulus` to be infinite, as forcing the jiffy counter to be a fixed-width number is unnecessary. Allowing it to return positive infinity would satiate me, I think!
