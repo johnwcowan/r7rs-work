@@ -89,7 +89,8 @@ ballot.
   * '''Options:''' no-exception, unspecified, undecided 
   * '''Default:''' unspecified
   * '''Preferences:''' unspecified, no-exception, undecided
-  * '''Rationale:''' It will depend on the #460 item result, but personnaly I would prefer to be able to distinguish different NaNs and to identify identical NaNs ("same" vote).
+
+It will depend on the #460 item result, but personnaly I would prefer to be able to distinguish different NaNs and to identify identical NaNs ("same" vote).
 
 === #125 Allow procedures not to be locations (making EQV? unspecified in some additional cases) ===
 
@@ -122,7 +123,8 @@ The default of `yes` still holds from the previous invalidated ballot.
   * '''Options:''' yes, no, undecided
   * '''Default:''' yes
   * '''Preferences:''' yes, undecided, no
-  * '''Rationale:''' The problematic R5RS paragraph is the following (end of section 4.1.4):
+
+The problematic R5RS paragraph is the following (end of section 4.1.4):
 
          Each procedure created as the result of evaluating a lambda expression is (conceptually) tagged with a storage location, in order to make `eqv?' and `eq?' work on procedures (see section *note Equivalence predicates::).
 
@@ -151,7 +153,8 @@ Note `equal?` is already required to handle cycles regardless.
   * '''Options:''' recursive, identity, unspecified, undecided
   * '''Default:''' unspecified
   * '''Preferences:''' identity, unspecified, undecided, recursive
-  * '''Rationale:''' I believe that one may have 2 records containing identical fields and despite that being semantically distincts. (records have "bag" behaviour instead of set behaviour).
+
+I believe that one may have 2 records containing identical fields and despite that being semantically distincts. (records have "bag" behaviour instead of set behaviour).
 
 === #306 What does "full Unicode" support mean in Appendix B? ===
 
@@ -193,7 +196,8 @@ Alternately, we can adapt the operational semantics from R6RS.
   * '''Options:''' remove, keep, operational, undecided
   * '''Default:''' keep
   * '''Preferences:''' remove
-  * '''Rationale:''' Please produce it in a separate forthcoming document, in order for experts to have enough time to do it as well as possible.
+
+Please produce it in a separate forthcoming document, in order for experts to have enough time to do it as well as possible.
 
 
 === #398 Allow repeated keys in `case` ===
@@ -212,7 +216,8 @@ This allows hash-table or other non-left-to-right implementations.
   * '''Options:''' r5rs, r6rs, leftmost, unspecified, undecided
   * '''Default:''' r5rs
   * '''Preferences:''' r5rs, leftmost, r6rs, unspecified, undecided
-  * '''Rationale:''' There is a risk that repeated keys are an oversight. Being silent in that case is not recommended.
+
+There is a risk that repeated keys are an oversight. Being silent in that case is not recommended.
 
 
 === #85 Blobs, bytevectors, byte-vectors, octet-vectors, or something else?
@@ -228,7 +233,8 @@ blank their votes from ballot 3 will be used.
   * '''Options:''' blob, bytevector, byte-vector, u8vector, octet-vector, undecided
   * '''Default:''' bytevector
   * '''Preferences:''' bytevector, byte-vector
-  * '''Rationale:''' blob or u8vector are IMHO terrible names. byte-vector is not perfect but conveys meaning.
+
+blob or u8vector are IMHO terrible names. byte-vector is not perfect but conveys meaning.
 
 == WG1 - Library System ==
 
@@ -312,7 +318,8 @@ Vote `yes` to add this requirement.
   * '''Options:''' yes, no, unspecified, undecided
   * '''Default:''' unspecified
   * '''Preferences:''' yes
-  * '''Rationale:''' By the rule of least surprise.
+
+By the rule of least surprise.
 
 === #402 Add an export-all form. ===
 
@@ -323,7 +330,8 @@ and include-ci but none that are imported with import."
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
   * '''Preferences:''' no
-  * '''Rationale:''' Not in the standard does not disallow some implementation to have it, but allow others not to provide it if they think this is an overkill.
+
+Not in the standard does not disallow some implementation to have it, but allow others not to provide it if they think this is an overkill.
 
 === #448 Add library declaration include-library-declarations ===
 
@@ -341,7 +349,8 @@ if it is abstract.
   * '''Options:''' include-library-declarations, export-from, no, undecided
   * '''Default:''' no
   * '''Preferences:''' include-library-declarations, no, undecided, export-from
-  * '''Rationale:''' Having a simple way to separate interfaces from implementation is nice. 
+
+Having a simple way to separate interfaces from implementation is nice. 
 
 === #449 Clarify library loading rules ===
 
@@ -708,7 +717,8 @@ additional implementation burden.
   * '''Options:''' write+simple, write+shared, write+cyclic, write+shared+cyclic, write+simple+shared, unspecified, undecided
   * '''Default:''' write+simple
   * '''Preferences:''' write+simple+shared, write+shared+cyclic, write+shared, write+simple, write+cyclic, unspecified, undecided
-  * '''Rationale:''' Safety is essential and both procedures are useful.
+
+Safety is essential and both procedures are useful.
 
 
 === #219 Bring back readable boolean literals ===
@@ -800,7 +810,8 @@ leave them in as aliases.
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
   * '''Preferences:''' no
-  * '''Rationale:''' This would break too much code.
+
+This would break too much code.
 
 === #378 Rename GET-FEATURES to just FEATURES ===
 
@@ -886,7 +897,8 @@ Vote `yes` to add these procedures, or `file-only` to only add the
   * '''Options:''' yes, file-only, no, undecided
   * '''Default:''' no
   * '''Preferences:''' file-only, yes, undecided, no
-  * '''Rationale:''' File operations are too common not to have a predicate for detecting file errors. The others are not really needed as one could test for it beforehand. 
+
+File operations are too common not to have a predicate for detecting file errors. The others are not really needed as one could test for it beforehand. 
 
 === #400 Define record? . ===
 
@@ -900,7 +912,8 @@ This is Alexey Radul's suggestion.
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
   * '''Preferences:''' no, undecided, yes
-  * '''Rationale:''' Definitely not. The idea is that each record type defines a type by itself, and that one doesn't want to exhibit implementation details. Moreover there is not any functions taking generic records.
+
+Definitely not. The idea is that each record type defines a type by itself, and that one doesn't want to exhibit implementation details. Moreover there is not any functions taking generic records.
 
 
 === #425 Add read-string, read-string!, write-string procedures to (scheme base) ===
@@ -964,7 +977,8 @@ The `matrix` proposal requires all 4^3^=64 conversions.
   * '''Options:''' matrix, list, vector, list+vector, latin-1, no, undecided
   * '''Default:''' no
   * '''Preferences:''' no, vector, list+vector, list, undecided, latin-1, matrix
-  * '''Rationale:''' This is more part of a WG2 library.
+
+This is more part of a WG2 library.
 
 === #444 Add vector-append procedure ===
 
@@ -1018,7 +1032,8 @@ than the input vector, or `default` for the current status quo.
   * '''Options:''' required, error, remove, default, undecided
   * '''Default:''' default
   * '''Preferences:''' remove, error, default, undecided, required
-  * '''Rationale:''' It should be an error to cross vector boundary, lest something terribly wrong may happen unnoticed. As Alex said, the best is IMHO to remove this fill parameter.
+
+It should be an error to cross vector boundary, lest something terribly wrong may happen unnoticed. As Alex said, the best is IMHO to remove this fill parameter.
 
 === #404 Make handlers take a raise-continuable? argument. ===
 
@@ -1028,7 +1043,8 @@ whether the exception is continuable.
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
   * '''Preferences:''' undecided, no
-  * '''Rationale:''' This is a needed feature, but I am not convinced that this is the correct way to express it ?
+
+This is a needed feature, but I am not convinced that this is the correct way to express it ?
 
 === #464 Add optional start and end parameters to utf8->string and string->utf8. ===
 
@@ -1093,7 +1109,8 @@ If you want to write in an alternate name, be sure to include
   * '''Options:''' emergency-exit, no, undecided
   * '''Default:''' no
   * '''Preferences:''' exit-immediately, emergency-exit, undecided, no
-  * '''Rationale:''' This is occasionally (or unfortunately) needed in critical systems. Arthur's name proposal is certainly better.
+
+This is occasionally (or unfortunately) needed in critical systems. Arthur's name proposal is certainly better.
 
 === #394 Ditching SCHEME-REPORT-ENVIRONMENT and NULL-ENVIRONMENT ===
 
@@ -1164,7 +1181,8 @@ implementations which support this extension an object could return
   * '''Options:''' remove, type-check, unspecified, undecided
   * '''Default:''' unspecified
   * '''Preferences:''' remove, unspecified, type-check, undecided
-  * '''Rationale:''' Conflating a lazy language with standard Scheme is not a good idea, especially for primitives. One may still provide its own extensions, but no standard code have to rely on this.
+
+Conflating a lazy language with standard Scheme is not a good idea, especially for primitives. One may still provide its own extensions, but no standard code have to rely on this.
 
 === #405 Make promises first-class ===
 
@@ -1182,7 +1200,8 @@ Vote `disjoint` to add `promise?` and make it a disjoint type, or
   * '''Options:''' disjoint, yes, no, undecided
   * '''Default:''' no
   * '''Preferences:''' yes, undecided, disjoint, no
-  * '''Rationale:''' We should have a way to check for promises, but not make it a disjoint type. It is perfectly reasonable to implement promises with thunks.
+
+We should have a way to check for promises, but not make it a disjoint type. It is perfectly reasonable to implement promises with thunks.
 
 === #462 end of line definition ===
 
@@ -1199,7 +1218,8 @@ lines, and `none` to leave as-is.
   * '''Options:''' no-extensions, no-return, none, undecided
   * '''Default:''' none
   * '''Preferences:''' none
-  * '''Rationale:''' Not any sensible implementation would do such thing !
+
+Not any sensible implementation would do such thing !
 
 === #452 provide digit-value support for hex-digits ===
 
@@ -1218,7 +1238,8 @@ remove `digit-value` entirely, or `keep` to keep as is.
   * '''Options:''' ascii-hex, unicode-hex, remove, keep, undecided
   * '''Default:''' keep
   * '''Preferences:''' remove, undecided, ascii-hex, keep, unicode-hex
-  * '''Rationale:''' Let WG2 comes up with an Unicode library.
+
+Let WG2 comes up with an Unicode library.
 
 == WG1 - Non-normative ==
 
@@ -1233,7 +1254,8 @@ wins.
   * '''Options:''' yes, no, undecided
   * '''Default:''' no
   * '''Preferences:''' yes
-  * '''Rationale:''' Of course. Thanks Alex for such an impressive work !
+
+Of course. Thanks Alex for such an impressive work !
 
 === #463 library naming conventions  ===
 
