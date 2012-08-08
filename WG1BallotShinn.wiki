@@ -219,12 +219,11 @@ Note `equal?` is already required to handle cycles regardless.
 
   * '''Options:''' recursive, identity, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' recursive
+  * '''Preferences:''' unspecified
 
-Prior to records all containers could be compared with `equal?`, and
-we shouldn't change this.  It is reasonable to consider opaque record
-types - when and it they are introduced to the language, we can
-specify how `equal?` treats them.
+I think recursive is the Right Thing, but appreciate this is
+very controversial and moreover that it may be difficult for
+implementations to support.
 
 === #306 What does "full Unicode" support mean in Appendix B? ===
 
