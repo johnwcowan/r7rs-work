@@ -1005,11 +1005,11 @@ Proposed names are `file-error?`, `scheme-report-error?`,
 `read-error?`, and `expt-error?` respectively.
 
 Vote `yes` to add these procedures, or `file-only` to only add the
-`file-error?` predicate.
+`file-error?` predicate, and `file+read` to add the `file-error?` and `read-error?` predicates.
 
-  * '''Options:''' yes, file-only, no, undecided
+  * '''Options:''' yes, file-only, file+read, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' no, file-only
+  * '''Preferences:''' no, file+read, file-only
 
 WG2 will include a full condition hierarchy which will make this
 redundant.  All of these can be checked for in advance.
