@@ -856,7 +856,7 @@ Vote `yes` to add these procedures, or `file-only` to only add the
 
   * '''Options:''' yes, file-only, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' yes
+  * '''Preferences:''' file+read, yes, file-only
   * '''Rationale:'''  There are only a few situations where errors must be signalled, and we should be able to identify which one we have in an exception handler.  I can't think of any reason for providing `file-error` but not the others.
 
 === #400 Define record? . ===
