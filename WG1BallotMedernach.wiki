@@ -894,9 +894,9 @@ Proposed names are `file-error?`, `scheme-report-error?`,
 Vote `yes` to add these procedures, or `file-only` to only add the
 `file-error?` predicate.
 
-  * '''Options:''' yes, file-only, no, undecided
+  * '''Options:''' yes, file+read, file-only, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' file-only, yes, undecided, no
+  * '''Preferences:''' file+read, file-only, yes, undecided, no
 
 File operations are too common not to have a predicate for detecting file errors. The others are not really needed as one could test for it beforehand. 
 
