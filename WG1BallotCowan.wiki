@@ -673,8 +673,8 @@ additional implementation burden.
     * '''write+simple+shared:''' `write` handles cycles only, provide `write-simple` and `write-shared` separately
   * '''Options:''' write+simple, write+shared, write+cyclic, write+shared+cyclic, write+simple+shared, unspecified, undecided
   * '''Default:''' write+simple
-  * '''Preferences:''' write+simple, write+simple+shared
-  * '''Rationale:'''  `Write` should do the data-preserving thing.  I think it's just enough to have a space- and time-efficient `write-simple` alongside it, though I can see why people would want `write-shared`, so I've made that my second vote.
+  * '''Preferences:''' write+simple+shared, write+simple
+  * '''Rationale:'''  I've changed my mind on this one: it's better to have all three.
 
 
 === #443 Recommend sources of character names ===
