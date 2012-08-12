@@ -243,10 +243,13 @@ Note `equal?` is already required to handle cycles regardless.
 
   * '''Options:''' recursive, identity, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' recursive
+  * '''Preferences:''' identity, unspecified
 
-Rationale: This is merely making `equal?` on records consistent with
-`equal?` on other data types.
+Rationale: Initially, I voted for recursive, but that's because I was
+fooled by the description, which is inaccurate.  It says that `eqv?`
+compares the contents of pairs, vectors, and byte vectors to determine
+its result, but that's not true.  The test is whether they denote the
+same location.
 
 === #306 What does "full Unicode" support mean in Appendix B? ===
 
@@ -1092,7 +1095,7 @@ Vote `yes` to add these procedures, or `file-only` to only add the
 
   * '''Options:''' yes, file-only, file+read, no, undecided
   * '''Default:''' no
-  * '''Preferences:''' yes, file-only
+  * '''Preferences:''' yes, file+read, file-only
 
 Rationale: I'm disappointed that we have an exception system without a
 standard taxonomy even in WG1, so this will provide at least some
