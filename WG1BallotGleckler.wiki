@@ -1087,9 +1087,10 @@ Proposed names are `file-error?`, `scheme-report-error?`,
 `read-error?`, and `expt-error?` respectively.
 
 Vote `yes` to add these procedures, or `file-only` to only add the
-`file-error?` predicate.
+`file-error?` predicate, and file+read to add the `file-error?` and
+`read-error?` predicates.
 
-  * '''Options:''' yes, file-only, no, undecided
+  * '''Options:''' yes, file-only, file+read, no, undecided
   * '''Default:''' no
   * '''Preferences:''' yes, file-only
 
@@ -1477,7 +1478,7 @@ lines, and `none` to leave as-is.
 Rationale: Implementations are going to define extensions, and it's
 unreasonable to expect them not to.
 
-=== #452 provide digit-value support for hex-digits ===
+=== #452 provide digit-value support for non-decimal-digits ===
 
 In ballot 4, in symmetry with the new Unicode definition of
 `char-numeric?` and as an analog to CL's `digit-char-p`, we provided
@@ -1486,11 +1487,15 @@ In ballot 4, in symmetry with the new Unicode definition of
 An informal comment was made questioning this procedure, and
 suggesting if provided at all it be extended to hex digits.
 
+Vote `ascii-hex` to support only the ASCII hex digits a-f,A-F (in
+addition to full Unicode numeric digits), `unicode-hex` to support all
+Unicode variants of a-f,A-F (need to define formally).
+
 Vote `ascii-radix` or `unicode-radix` to have both `digit-value` and `char-numeric?` take a radix argument, such that `char-numeric?` returns #t and `digit-value` returns the appropriate value for characters representing non-numeric digits of that radix under ASCII or Unicode character encodings, respectively, and for characters representing numeric digits under Unicode.  Implementations are required to support at least the radix values: 2, 8, 10, and 16, and may support others.
 
 Vote `remove` to remove `digit-value` entirely, `remove-radix` to remove `digit-value` entirely, but add the radix argument to `char-numeric?` as described above, or `keep` to keep as is.
 
-  * '''Options:''' ascii-hex, unicode-hex, remove, keep, undecided
+  * '''Options:''' ascii-hex, unicode-hex, ascii-radix, unicode-radix, remove, remove-radix, keep, undecided
   * '''Default:''' keep
   * '''Preferences:''' remove, ascii-hex
 
