@@ -243,13 +243,10 @@ Note `equal?` is already required to handle cycles regardless.
 
   * '''Options:''' recursive, identity, unspecified, undecided
   * '''Default:''' unspecified
-  * '''Preferences:''' identity, unspecified
+  * '''Preferences:''' recursive
 
-Rationale: Initially, I voted for recursive, but that's because I was
-fooled by the description, which is inaccurate.  It says that `eqv?`
-compares the contents of pairs, vectors, and byte vectors to determine
-its result, but that's not true.  The test is whether they denote the
-same location.
+Rationale: This is merely making `equal?` on records consistent with
+`equal?` on other data types.
 
 === #306 What does "full Unicode" support mean in Appendix B? ===
 
