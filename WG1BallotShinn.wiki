@@ -803,12 +803,9 @@ additional implementation burden.
     * '''write+simple+shared:''' `write` handles cycles only, provide `write-simple` and `write-shared` separately
   * '''Options:''' write+simple, write+shared, write+cyclic, write+shared+cyclic, write+simple+shared, unspecified, undecided
   * '''Default:''' write+simple
-  * '''Preferences:''' write+simple, write+shared
+  * '''Preferences:''' write+simple+shared, write+shared, write+simple
 
-The versions handling only cycles are more special-purpose - we can
-have later formatting SRFI-1 with more finer grained control of what
-gets labelled, but for now we just need something safe and accurate.
-Safety as the default is always a good rule.
+This is backwards compatible and makes the default `write` safe.
 
 === #219 Bring back readable boolean literals ===
 
