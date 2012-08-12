@@ -294,10 +294,10 @@ Note `equal?` is already required to handle cycles regardless.
     * [[:WG1BallotMedernach|Medernach]]: identity, unspecified, undecided, recursive
     * [[:WG1BallotRadul|Radul]]: unspecified
     * [[:WG1BallotRead|Read]]: recursive
-    * [[:WG1BallotShinn|Shinn]]: recursive
+    * [[:WG1BallotShinn|Shinn]]: unspecified
     * [[:WG1BallotSnellPym|SnellPym]]: recursive, identity, unspecified
-  * '''Results:''' '''recursive''', unspecified, identity, undecided
-  * '''Ratios:''' 6:4, 6:1, 6:1
+  * '''Results:''' '''unspecified''', recursive, identity, undecided
+  * '''Ratios:''' 5:5, 5:2, 7:0
   * '''Rationales:'''
 
  `Cowan`::
@@ -315,7 +315,7 @@ Note `equal?` is already required to handle cycles regardless.
  `Read`::
   Compatible with our expectations of `equal?`
  `Shinn`::
-  Prior to records all containers could be compared with `equal?`, and we shouldn't change this. It is reasonable to consider opaque record types - when and it they are introduced to the language, we can specify how `equal?` treats them.
+  I think recursive is the Right Thing, but appreciate this is very controversial and moreover that it may be difficult for implementations to support.
  `SnellPym`::
   I see a desire for both "open" records that are vectors with named slots, and "closed" records that are opaque separations of implementation from interface. I definitely want WG2 Scheme to provide both these options as part of an extended record system, along the related issues of read/write on record objects and record introspection. So, what we're really deciding here is both what limited WG1-only schemes will provide, and what the default will be. On the latter basis, I think that open records are the sensible default as secure sandboxing is a rather specialise case, and I'm undecided on the former basis. So I go for open records on the latter basis alone :-) However, to make it clear, I want the wording such that this is the defined behaviour for records[[:WG1BallotSnellPym|...]]
 
@@ -434,10 +434,10 @@ This allows hash-table or other non-left-to-right implementations.
     * [[:WG1BallotMedernach|Medernach]]: r5rs, leftmost, r6rs, unspecified, undecided
     * [[:WG1BallotRadul|Radul]]: leftmost
     * [[:WG1BallotRead|Read]]: unspecified
-    * [[:WG1BallotShinn|Shinn]]: bytevector
+    * [[:WG1BallotShinn|Shinn]]: r5rs, unspecified
     * [[:WG1BallotSnellPym|SnellPym]]: r5rs, leftmost, r6rs
-  * '''Results:''' '''r5rs''', leftmost, r6rs, unspecified, undecided, bytevector
-  * '''Ratios:''' 4:4, 4:3, 4:1, 4:0, 4:1
+  * '''Results:''' '''r5rs''', leftmost, r6rs, unspecified, undecided
+  * '''Ratios:''' 5:4, 5:3, 5:1, 5:0
   * '''Rationales:'''
 
  `Cowan`::
@@ -1364,7 +1364,7 @@ additional implementation burden.
   * '''Options:''' write+simple, write+shared, write+cyclic, write+shared+cyclic, write+simple+shared, unspecified, undecided
   * '''Default:''' write+simple
   * '''Voters:''' 
-    * [[:WG1BallotCowan|Cowan]]: write+simple, write+simple+shared
+    * [[:WG1BallotCowan|Cowan]]: write+simple+shared, write+simple
     * [[:WG1BallotGanz|Ganz]]: write+simple+shared
     * [[:WG1BallotGleckler|Gleckler]]: write+shared, write+cyclic, write+shared+cyclic, write+simple+shared
     * [[:WG1BallotHsu|Hsu]]: write+simple+shared, write+shared+cyclic, write+simple
@@ -1372,14 +1372,14 @@ additional implementation burden.
     * [[:WG1BallotMedernach|Medernach]]: write+simple+shared, write+shared+cyclic, write+shared, write+simple, write+cyclic, unspecified, undecided
     * [[:WG1BallotRadul|Radul]]: write+simple
     * [[:WG1BallotRead|Read]]: write+simple
-    * [[:WG1BallotShinn|Shinn]]: write+simple, write+shared
+    * [[:WG1BallotShinn|Shinn]]: write+simple+shared, write+shared, write+simple
     * [[:WG1BallotSnellPym|SnellPym]]: write+simple, write+simple+shared, (write+shared write+cyclic write+shared+cyclic)
-  * '''Results:''' '''write+simple''', write+simple+shared, write+shared+cyclic, write+shared, write+cyclic, unspecified, undecided
-  * '''Ratios:''' 5:4, 5:4, 6:3, 7:1, 7:0, 7:1
+  * '''Results:''' '''write+simple+shared''', write+simple, write+shared+cyclic, write+shared, write+cyclic, unspecified, undecided
+  * '''Ratios:''' 6:3, 6:2, 6:2, 6:1, 7:0, 7:1
   * '''Rationales:'''
 
  `Cowan`::
-  `Write` should do the data-preserving thing. I think it's just enough to have a space- and time-efficient `write-simple` alongside it, though I can see why people would want `write-shared`, so I've made that my second vote.
+  I've changed my mind on this one: it's better to have all three.
  `Ganz`::
   I don't have patience to try to rate the others in terms of 'least-bad'.
  `Gleckler`::
@@ -1391,7 +1391,7 @@ additional implementation burden.
  `Radul`::
   If you are trying to use read/write to implement serialization and you have two different implementations of Scheme, one of which writes shared structure by default and the other does not read it, you have two perfectly good options: Either write a procedure that unshares shared structure, or implement reading of shared structure. The latter is harder, but is likely to yield a more compact external representation.
  `Shinn`::
-  The versions handling only cycles are more special-purpose - we can have later formatting SRFI-1 with more finer grained control of what gets labelled, but for now we just need something safe and accurate. Safety as the default is always a good rule.
+  This is backwards compatible and makes the default `write` safe.
  `SnellPym`::
   I want a safe write by default; if you want backwards compatability, you shouldn't be trying to send shared structure, which r5rs doesn't support. In effect, you're relying on an implicit "remove all sharing" phase before WRITE in R5RS. I don't like relying on implicit things if I can avoid it!
 
@@ -1715,22 +1715,23 @@ Proposed names are `file-error?`, `scheme-report-error?`,
 `read-error?`, and `expt-error?` respectively.
 
 Vote `yes` to add these procedures, or `file-only` to only add the
-`file-error?` predicate.
+`file-error?` predicate, and file+read to add the `file-error?` and
+`read-error?` predicates.
 
-  * '''Options:''' yes, file-only, no, undecided
+  * '''Options:''' yes, file-only, file+read, no, undecided
   * '''Default:''' no
   * '''Voters:''' 
-    * [[:WG1BallotCowan|Cowan]]: yes
+    * [[:WG1BallotCowan|Cowan]]: file+read, yes, file-only
     * [[:WG1BallotGanz|Ganz]]: yes
     * [[:WG1BallotGleckler|Gleckler]]: yes, file-only
     * [[:WG1BallotHsu|Hsu]]: yes, no, file-only, undecided
     * [[:WG1BallotLucier|Lucier]]: undecided
-    * [[:WG1BallotMedernach|Medernach]]: file-only, yes, undecided, no
+    * [[:WG1BallotMedernach|Medernach]]: file+read, file-only, yes, undecided, no
     * [[:WG1BallotRead|Read]]: yes
-    * [[:WG1BallotShinn|Shinn]]: no, file-only
+    * [[:WG1BallotShinn|Shinn]]: no, file+read, file-only
     * [[:WG1BallotSnellPym|SnellPym]]: yes, no, file-only
-  * '''Results:''' '''yes''', no, file-only, undecided
-  * '''Ratios:''' 7:1, 6:2, 7:1
+  * '''Results:''' '''yes''', no, file+read, file-only, undecided
+  * '''Ratios:''' 7:1, 5:3, 6:2, 7:1
   * '''Rationales:'''
 
  `Cowan`::
