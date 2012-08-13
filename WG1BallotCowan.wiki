@@ -1192,9 +1192,9 @@ Unicode variants of a-f,A-F (need to define formally), `remove` to
 remove `digit-value` entirely, or `keep` to keep as is.
 
   * '''Options:''' ascii-hex, unicode-hex, remove, keep, undecided
-  * '''Default:''' keep
-  * '''Preferences:''' ascii-hex, keep
-  * '''Rationale:'''  `Ascii-hex` spoils the theoretical purity of `digit-value`, but it's handy to have packaged in the same framework, and we can certainly say it is provided for convenience.  Failing that, this procedure will be useful in parsing even if only ASCII digits are expected.
+  * '''Default:''' keep, ascii-hex
+  * '''Preferences:''' keep
+  * '''Rationale:'''  Allowing the hex digits is an unnecessary wart.
 
 == WG1 - Non-normative ==
 
