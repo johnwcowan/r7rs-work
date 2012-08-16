@@ -1235,7 +1235,7 @@ remove `digit-value` entirely, or `keep` to keep as is.
 
   * '''Options:''' ascii-hex, unicode-hex, remove, keep, undecided
   * '''Default:''' keep
-  * '''Preferences:''' undecided
+  * '''Preferences:''' remove,keep,undecided
 
 == WG1 - Non-normative ==
 
