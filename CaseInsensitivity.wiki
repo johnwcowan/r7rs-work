@@ -15,3 +15,9 @@ Is `#\Space` a valid constant?
 Racket, Gauche, MIT, Bigloo, Scheme48, Guile, Kawa, Chibi, Chez, NexJ, STklos, KSi, !SigScheme, !TinyScheme, Scheme 9, Dream, RScheme, Rep, Elk, Oaklisp, Llava, SXM, Spark, Dfsch, Inlab accept `#\Space`.
 
 Gambit, Chicken, scsh, Vicare, Ypsilon, Mosh, !IronScheme, Shoe, Scheme 7, Schemik, UMB, Sizzle, !FemtoLisp, Owl Lisp reject `#\Space`.
+
+== Boolean constant case-sensitivity ==
+
+Gambit, !TinyScheme, Scheme 7, VX, Sizzle, Owl Lisp do not accept `#T` as equivalent to `#t`.
+
+The other Schemes in the test suite do.
