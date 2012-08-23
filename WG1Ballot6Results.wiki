@@ -1723,15 +1723,15 @@ Vote `yes` to add these procedures, or `file-only` to only add the
   * '''Voters:''' 
     * [[:WG1BallotCowan|Cowan]]: file+read, yes, file-only
     * [[:WG1BallotGanz|Ganz]]: yes
-    * [[:WG1BallotGleckler|Gleckler]]: yes, file-only
+    * [[:WG1BallotGleckler|Gleckler]]: yes, file+read, file-only
     * [[:WG1BallotHsu|Hsu]]: yes, no, file-only, undecided
     * [[:WG1BallotLucier|Lucier]]: undecided
     * [[:WG1BallotMedernach|Medernach]]: file+read, file-only, yes, undecided, no
     * [[:WG1BallotRead|Read]]: yes
     * [[:WG1BallotShinn|Shinn]]: no, file+read, file-only
     * [[:WG1BallotSnellPym|SnellPym]]: yes, no, file-only
-  * '''Results:''' '''yes''', no, file+read, file-only, undecided
-  * '''Ratios:''' 7:1, 5:3, 6:2, 7:1
+  * '''Results:''' '''yes''', file+read, file-only, no, undecided
+  * '''Ratios:''' 5:3, 6:2, 7:1, 7:1
   * '''Rationales:'''
 
  `Cowan`::
@@ -2437,20 +2437,20 @@ Vote `remove` to remove `digit-value` entirely, `remove-radix` to remove `digit-
   * '''Options:''' ascii-hex, unicode-hex, ascii-radix, unicode-radix, remove, remove-radix, keep, undecided
   * '''Default:''' keep
   * '''Voters:''' 
-    * [[:WG1BallotCowan|Cowan]]: ascii-hex, keep
+    * [[:WG1BallotCowan|Cowan]]: keep
     * [[:WG1BallotGanz|Ganz]]: unicode-radix, ascii-radix, remove-radix, keep
     * [[:WG1BallotGleckler|Gleckler]]: remove, ascii-hex
-    * [[:WG1BallotHsu|Hsu]]: undecided
+    * [[:WG1BallotHsu|Hsu]]: remove, keep, undecided
     * [[:WG1BallotLucier|Lucier]]: ascii-hex, keep
     * [[:WG1BallotMedernach|Medernach]]: remove, undecided, ascii-hex, keep, unicode-hex
     * [[:WG1BallotShinn|Shinn]]: remove, keep, undecided
     * [[:WG1BallotSnellPym|SnellPym]]: unicode-hex, ascii-hex, keep, remove
-  * '''Results:''' '''ascii-hex''', keep, remove, undecided, unicode-hex, unicode-radix, ascii-radix, remove-radix
-  * '''Ratios:''' 5:2, 3:3, 4:3, 4:1, 5:1, 5:1, 5:1
+  * '''Results:''' remove, ascii-hex, ''keep'', undecided, unicode-hex, unicode-radix, ascii-radix, remove-radix
+  * '''Ratios:''' 4:2, 4:4, 5:0, 4:1, 5:1, 5:1, 5:1
   * '''Rationales:'''
 
  `Cowan`::
-  `Ascii-hex` spoils the theoretical purity of `digit-value`, but it's handy to have packaged in the same framework, and we can certainly say it is provided for convenience. Failing that, this procedure will be useful in parsing even if only ASCII digits are expected.
+  Allowing the hex digits is an unnecessary wart.
  `Ganz`::
   A radix argument allows support for letters a-f as digits without creating inconsistency with `char-numeric?`. It also allows easier access to these results for other numeric systems.
  `Gleckler`::
