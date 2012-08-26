@@ -386,13 +386,13 @@ Alternately, we can adapt the operational semantics from R6RS.
     * [[:WG1BallotGanz|Ganz]]: keep
     * [[:WG1BallotGleckler|Gleckler]]: keep, remove
     * [[:WG1BallotHsu|Hsu]]: remove, operational, keep
-    * [[:WG1BallotLucier|Lucier]]: remove, keep, operational, undecided
+    * [[:WG1BallotLucier|Lucier]]: keep, operational, remove, undecided
     * [[:WG1BallotMedernach|Medernach]]: remove
     * [[:WG1BallotRead|Read]]: undecided
     * [[:WG1BallotShinn|Shinn]]: keep, operational
     * [[:WG1BallotSnellPym|SnellPym]]: remove, operational, keep
-  * '''Results:''' '''remove''', keep, operational, undecided
-  * '''Ratios:''' 5:3, 6:1, 6:1
+  * '''Results:''' remove, ''keep'', operational, undecided
+  * '''Ratios:''' 4:4, 5:2, 6:1
   * '''Rationales:'''
 
  `Cowan`::
