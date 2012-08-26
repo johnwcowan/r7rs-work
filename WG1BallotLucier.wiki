@@ -1,6 +1,5 @@
 '''Note:  The authoritative source of this copy is at http://www.math.purdue.edu/~lucier/WG1Ballot-6-revised.txt.'''
 
-
 = Instructions =
 
     * You may list as many of the options as you want in order of preference.
@@ -130,7 +129,7 @@ Keep in mind the semantics of `eqv?` also affect `memv`, `assv` and
     * [[https://groups.google.com/d/msg/scheme-reports-wg1/2Nv6oIND8HI/Z2HXPQMNFooJ|the history of eqv? on numbers]]
   * '''Options:''' r5rs, r6rs, r6rs/all, same-bits
   * '''Default:''' r5rs
-  * '''Preferences:''' samebits,r6rs/all
+  * '''Preferences:''' same-bits,r6rs/all
 
 === #229 eqv? and NaN ===
 
@@ -249,7 +248,7 @@ Alternately, we can adapt the operational semantics from R6RS.
 
   * '''Options:''' remove, keep, operational, undecided
   * '''Default:''' keep
-  * '''Preferences:''' remove, keep, operational, undecided
+  * '''Preferences:''' keep, operational, remove, undecided
 
 === #398 Allow repeated keys in `case` ===
 
