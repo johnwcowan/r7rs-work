@@ -40,10 +40,10 @@ For an ASCII-only Scheme, `string-upcase` is a straightforward application of `s
 
 12. The `string-ci*` procedures act as if they applied `string-foldcase` to their arguments before calling the non-`ci` versions.
 
-13. The `string-ni*` procedures (an extension to R5RS based on the `string-ci*` procedures) do comparisons on the normalized forms of their arguments.  The exact normalization in use is implementation-specified.  For an ASCII-only Scheme, normalization is the identity operation.
+13. [Deleted]
 
-14. In addition to the identifier characters of the ASCII repertoire specified by R5RS, Scheme implementations may permit any additional repertoire of Unicode characters to be employed in symbols (and therefore identifiers), provided that each such character has a Unicode general category of Lu, Ll, Lt, Lm, Lo, Mn, Mc, Me, Nd, Nl, No, Pd, Pc, Po, Sc, Sm, Sk, So, or Co, or is U+200C or U+200D (the zero-width non-joiner and joiner, respectively, which are needed for correct spelling in Persian, Hindi, and other languages).  No non-Unicode characters may be used explicitly (that is, other than by specifying an escape) in symbols or identifiers.
+14. In addition to the identifier characters of the ASCII repertoire specified by R5RS, Scheme implementations may permit any additional repertoire of Unicode characters to be employed in symbols (and therefore identifiers), provided that each such character has a Unicode general category of Lu, Ll, Lt, Lm, Lo, Mn, Mc, Me, Nd, Nl, No, Pd, Pc, Po, Sc, Sm, Sk, So, or Co, or is U+200C or U+200D (the zero-width non-joiner and joiner, respectively, which are needed for correct spelling in Persian, Hindi, and other languages).  No non-Unicode characters may be used in symbols or identifiers.
 
-15. All Scheme implementations shall permit the sequence `\x<hexdigits>;` to appear in Scheme symbols (and therefore identifiers).  If the character with the given Unicode scalar value is supported by the implementation, symbols containing such a sequence are equivalent to symbols containing the corresponding character.  The `symbol->string` procedure may return the actual character or the escape sequence at the implementation's option, but any leading zeros must be removed from the escape sequence.
+15. [Deleted]
 
 Note that what is said of ASCII also applies to ISO 8859-1 (Latin-1), but not to Windows code page 1252 or other encodings.
