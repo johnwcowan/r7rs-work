@@ -1,0 +1,27 @@
+Here are the ways in which the test suite of Schemes interprets square brackets and curly braces.  Both are undefined in R5RS.  In R6RS, square brackets are synonyms for parentheses, but curly braces are still undefined.
+
+Brackets are:
+
+ * synonyms for parentheses:  Racket, Gauche, Gambit, Chicken, SXM, Spark, Bigloo, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, STklos, KSi, Oaklisp, Sizzle, Guile, SISC, Chez, Elk
+
+ * lexical syntax errors:  MIT, Scheme48/scsh, NexJ, !SigScheme, Schemik, Owl Lisp, RScheme
+
+ * vector constructors:  Rep, !FemtoLisp
+
+ * redefinable constructors:  Kawa
+
+ * identifier characters:  SCM, Shoe, !TinyScheme, Scheme 9, Dream, Scheme 7, XLisp, UMB, VX, Llava, Dfsch, Inlab, Chibi, BDC
+
+Braces are:
+
+ * synonyms for parentheses:  Racket, Gauche, Gambit, Chicken, SXM, Spark
+
+ * lexical syntax errors:  MIT, Scheme48/scsh, NexJ, !SigScheme, Schemik, Owl Lisp, Bigloo, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, STklos, KSi, Oaklisp, Sizzle
+
+ * user-defined type literals:  Chibi
+
+ * who-knows-what: RScheme
+
+ * identifier characters:  SCM, Shoe, !TinyScheme, Scheme 9, Dream, Scheme 7, XLisp, UMB, VX, Llava, Dfsch, Inlab, Kawa, Rep, !FemtoLisp, Guile, SISC, Chez, Elk, BDC
+
+Note:  In some Schemes where these are identifier characters, they are self-delimiting: that is: `{abc}` is equivalent to `{ abc }`.
