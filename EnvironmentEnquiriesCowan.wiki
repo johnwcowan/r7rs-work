@@ -40,7 +40,7 @@ Note: Rough equivalents to the Common Lisp `machine-version`, `short-site-name`,
 
 == WG1 procedure ==
 
-`(get-features)`
+`(features)`
 
 Returns the symbols which are provided as `cond-expand` feature identifiers by the implementation.  This name is in the `(scheme process-context)` library.
 
