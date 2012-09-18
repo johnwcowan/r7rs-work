@@ -57,7 +57,8 @@ text since we are not avoiding this in R7RS:
 
   * '''Options:''' r5rs, r5rs-error, r6rs, undecided
   * '''Default:''' r6rs
-  * '''Preferences:''' 
+  * '''Preferences:''' r5rs-error, r5rs
+  * '''Rationale:'''  I agree that the R6RS rule makes no sense in an R7RS context.  However, it's worth saying explicitly that the oddball zero cases are errors.
 
 === #472 clarify semantics of non-library library declarations ===
 
@@ -92,7 +93,8 @@ to drop these extensions.
 
   * '''Options:''' declaration, syntax, both, remove
   * '''Default:''' 
-  * '''Preferences:''' 
+  * '''Preferences:''' declaration, both, syntax, remove
+  * '''Rationale:''' `Declaration` is the option that makes sense to me, ''without'' however permitting declarations in included files (they are currently forbidden).  I see no reason in these cases to make a distinction between library bodies on the one hand and programs and REPLs on the other.  The `syntax` option allows them to be used in random nested places, which I consider to be unnecessary.
 
 === #473 library declaration locations in top-level ===
 
@@ -130,5 +132,6 @@ as a program.  The disadvantage is that programs
 can no longer be resolved separately from expansion.
 
   * '''Options:''' r6rs, beginning-only, any-top-level
-  * '''Default:''' 
-  * '''Preferences:''' 
+  * '''Default:'''
+  * '''Preferences:''' beginning-only, any-top-level, r6rs
+  * '''Rationale:''' Note that this is about programs only, not REPLs or library bodies.  I really, really dislike both `any-top-level` and `beginning-only`.  The first is too flexible, the second, not flexible enough.  Very reluctantly I choose `beginning-only` because it preserves static analysis.  I see no benefit to the `r6rs` option at all, given that R6RS systems will have to provide additional support for R7RS library syntax anyway.
