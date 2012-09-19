@@ -57,7 +57,9 @@ text since we are not avoiding this in R7RS:
 
   * '''Options:''' r5rs, r5rs-error, r6rs, undecided
   * '''Default:''' r6rs
-  * '''Preferences:''' 
+  * '''Preferences:''' r5rs, r5rs-error, r6rs
+
+I'm voting r5rs until this ballot item is fixed, which I believe means changing the language associated with r5rs-error to say "it is an error."  If that change is made, I'll put r5rs-error first.
 
 === #472 clarify semantics of non-library library declarations ===
 
