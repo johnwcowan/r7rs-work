@@ -51,8 +51,7 @@ text since we are not avoiding this in R7RS:
 
 {{{
      0.0^z is 1.0 if z = 0.0, and 0.0 if (real-part z) is positive.
-     For other cases in which the first argument is zero, either
-     an error is signalled or an unspecified number is returned.
+     It is an error for the first argument to be zero in other cases.
 }}}
 
   * '''Options:''' r5rs, r5rs-error, r6rs, undecided
@@ -131,4 +130,21 @@ can no longer be resolved separately from expansion.
 
   * '''Options:''' r6rs, beginning-only, any-top-level
   * '''Default:''' 
+  * '''Preferences:''' 
+
+=== #405 Retract language requiring force to accept non-promises ===
+
+#405 lumped together several issues, one of which was a requirement
+(as opposed to an option) to make `force` applied to a non-promise
+return its argument, as opposed to it being an error.  Thus, it would
+require `(force 2) => 2`.  However, R6RS
+requires `(force 2)` to signal an error, and many non-R6RS Schemes also
+signal an error (see ForceNonPromise for details).  These facts were not
+considered at the time.
+
+Vote `retain` to retain this requirement, or `retract` to retract it
+and leave the result of `(force 2)` implementation-dependent.
+
+  * '''Options:''' retain, retract
+  * '''Default:''' retain
   * '''Preferences:''' 
