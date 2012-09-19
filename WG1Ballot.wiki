@@ -50,8 +50,9 @@ An alternative, `r5rs-error`, is to restore the "is an error"
 text since we are not avoiding this in R7RS:
 
 {{{
-     0.0^z is 1.0 if z = 0.0, and 0.0 if (real-part z) is positive.
-     It is an error for the first argument to be zero in other cases.
+     The value of 0^z is 1 if (zero? z), 0 if (real-part z)
+     is positive, and an error otherwise.  Similarly for 0.0^z,
+     with inexact results.
 }}}
 
   * '''Options:''' r5rs, r5rs-error, r6rs, undecided
