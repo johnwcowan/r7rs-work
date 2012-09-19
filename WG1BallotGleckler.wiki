@@ -135,4 +135,6 @@ can no longer be resolved separately from expansion.
 
   * '''Options:''' r6rs, beginning-only, any-top-level
   * '''Default:''' 
-  * '''Preferences:''' 
+  * '''Preferences:''' r6rs, beginning-only
+
+Rationale: As long as we're only restricting what the standard supports but are not restricting how implementations may extend their own implementations, I'm fine with this.  In that case, preserving R6RS compatibility is a good idea.
