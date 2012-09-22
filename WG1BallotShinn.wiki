@@ -55,9 +55,9 @@ text since we are not avoiding this in R7RS:
      an error is signalled or an unspecified number is returned.
 }}}
 
-  * '''Options:''' r5rs, r5rs-error, r6rs, undecided
+  * '''Options:''' r5rs, r5rs-error, r5rs-error/real, r6rs, r6rs/real, undecided
   * '''Default:''' r6rs
-  * '''Preferences:''' r5rs-error, r5rs, r6rs
+  * '''Preferences:''' r5rs-error/real, r5rs-error, r5rs, r6rs/real, r6rs
 
 The entire rationale for R6RS not using this option
 doesn't apply to R7RS.
@@ -145,3 +145,23 @@ If applicable we should strive for at least this much
 compatibility with R6RS.  Otherwise, we definitely
 should not allow `any-top-level` which defeats the
 purpose of having a static library system.
+
+=== #405 Retract language requiring force to accept non-promises ===
+
+#405 lumped together several issues, one of which was a requirement
+(as opposed to an option) to make `force` applied to a non-promise
+return its argument, as opposed to it being an error.  Thus, it would
+require `(force 2) => 2`.  However, R6RS
+requires `(force 2)` to signal an error, and many non-R6RS Schemes also
+signal an error (see ForceNonPromise for details).  These facts were not
+considered at the time.
+
+Vote `retain` to retain this requirement, or `retract` to retract it
+and leave the result of `(force 2)` implementation-dependent.
+
+  * '''Options:''' retain, retract
+  * '''Default:''' retain
+  * '''Preferences:''' retract
+
+This was just an oversight when the item was originally
+proposed - there's no grounds to require this.
