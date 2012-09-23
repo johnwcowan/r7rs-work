@@ -9,7 +9,7 @@
     * module means "yes, but I want it in a separate module",
     * wg2 means "no, but I think it should go in WG2".
     * undecided means I want to discuss this issue further.
-    * Abstain on any item by leaving the preferences blank. 
+    * Abstain on any item by leaving the preferences blank.
 
 = WG1 Ballot Items To Finalize By Sep. 18 =
 
@@ -50,12 +50,17 @@ An alternative, `r5rs-error`, is to restore the "is an error"
 text since we are not avoiding this in R7RS:
 
 {{{
-     0.0^z is 1.0 if z = 0.0, and 0.0 if (real-part z) is positive.
-     For other cases in which the first argument is zero, either
-     an error is signalled or an unspecified number is returned.
+     The value of 0^z is 1 if (zero? z), 0 if (real-part z)
+     is positive, and an error otherwise.  Similarly for 0.0^z,
+     with inexact results.
 }}}
 
-  * '''Options:''' r5rs, r5rs-error, r6rs, undecided
+The `/real` variant restricts the domain for the zero
+base exception to the real numbers.  This is because
+0^z is mathematically undefined for non-real z, and
+implementations do not agree on the result.
+
+  * '''Options:''' r5rs, r5rs-error, r5rs-error/real, r6rs, r6rs/real, undecided
   * '''Default:''' r6rs
   * '''Preferences:''' r5rs, r5rs-error, r6rs
 
@@ -93,7 +98,7 @@ this is all too confusing you could also vote `remove`,
 to drop these extensions.
 
   * '''Options:''' declaration, syntax, both, remove
-  * '''Default:''' 
+  * '''Default:'''
   * '''Preferences:''' remove, syntax, declaration
 
 Rationale: There's just too much confusion in this area.
@@ -134,7 +139,7 @@ as a program.  The disadvantage is that programs
 can no longer be resolved separately from expansion.
 
   * '''Options:''' r6rs, beginning-only, any-top-level
-  * '''Default:''' 
+  * '''Default:'''
   * '''Preferences:''' r6rs, beginning-only
 
 Rationale: As long as we're only restricting what the standard supports but are not restricting how implementations may extend their own implementations, I'm fine with this.  In that case, preserving R6RS compatibility is a good idea.
