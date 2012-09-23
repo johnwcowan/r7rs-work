@@ -62,9 +62,9 @@ implementations do not agree on the result.
 
   * '''Options:''' r5rs, r5rs-error, r5rs-error/real, r6rs, r6rs/real, undecided
   * '''Default:''' r6rs
-  * '''Preferences:''' r5rs, r5rs-error, r6rs
+  * '''Preferences:''' r5rs-error/real, r5rs-error, r5rs, r6rs/real, r6rs
 
-Rationale: I'm voting r5rs until this ballot item is fixed, which I believe means changing the language associated with r5rs-error to say "it is an error."  If that change is made, I'll put r5rs-error first.
+Rationale: R7RS isn't making the is-an-error change.  I'm choosing "/real" over non-"/real" because there isn't enough agreement to support the latter.
 
 === #472 clarify semantics of non-library library declarations ===
 
