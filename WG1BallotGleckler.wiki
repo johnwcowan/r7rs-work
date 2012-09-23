@@ -57,7 +57,7 @@ text since we are not avoiding this in R7RS:
 
 The `/real` variant restricts the domain for the zero
 base exception to the real numbers.  This is because
-0^z is mathematically undefined for non-real z, and
+0^z^ is mathematically undefined for non-real z, and
 implementations do not agree on the result.
 
   * '''Options:''' r5rs, r5rs-error, r5rs-error/real, r6rs, r6rs/real, undecided
