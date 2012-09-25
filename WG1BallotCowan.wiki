@@ -55,9 +55,14 @@ text since we are not avoiding this in R7RS:
 
 }}}
 
-  * '''Options:''' r5rs, r5rs-error, r6rs, undecided
+The `/real` variant restricts the domain for the zero
+base exception to the real numbers.  This is because
+0^z^ is mathematically undefined for non-real z, and
+implementations do not agree on the result.
+
+  * '''Options:''' r5rs, r5rs-error, r5rs-error/real, r6rs, r6rs/real, undecided
   * '''Default:''' r6rs
-  * '''Preferences:''' r5rs-error, r5rs
+  * '''Preferences:''' r5rs-error, r5rs-error/real, r5rs
   * '''Rationale:'''  I agree that the R6RS rule makes no sense in an R7RS context.  However, it's worth saying explicitly that the oddball zero cases are errors.
 
 === #472 clarify semantics of non-library library declarations ===
