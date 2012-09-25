@@ -159,4 +159,6 @@ and leave the result of `(force 2)` implementation-dependent.
 
   * '''Options:''' retain, retract
   * '''Default:''' retain
-  * '''Preferences:''' 
+  * '''Preferences:''' retract
+
+Rationale: There isn't enough agreement among implementations to impose the new requirement.
