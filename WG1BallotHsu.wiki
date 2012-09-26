@@ -92,7 +92,7 @@ to drop these extensions.
 
   * '''Options:''' declaration, syntax, both, remove
   * '''Default:''' 
-  * '''Preferences:''' syntax
+  * '''Preferences:''' syntax,remove,both,declaration
 
 Rationale: These are common and useful forms, but having them as a separate declaration form, especially for `include` and the like, is very confusing IMO, especially for implementations that will choose to provide a syntactic `include` nonetheless. 
 
@@ -150,4 +150,4 @@ and leave the result of `(force 2)` implementation-dependent.
 
   * '''Options:''' retain, retract
   * '''Default:''' retain
-  * '''Preferences:''' 
+  * '''Preferences:''' retract
