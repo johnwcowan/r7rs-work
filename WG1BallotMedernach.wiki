@@ -62,10 +62,10 @@ implementations do not agree on the result.
 
   * '''Options:''' r5rs, r5rs-error, r5rs-error/real, r6rs, r6rs/real, undecided
   * '''Default:''' r6rs
-  * '''Preferences:''' r5rs, r5rs-error, undecided, r5rs-error/real, r6rs, r6rs/real
+  * '''Preferences:''' r5rs-error, r5rs, undecided, r5rs-error/real, r6rs, r6rs/real
 
 As I understand the above text is just false: 0^0^ and 0.0^0.0^ are mathematicaly undefined, this is because it is not continuous there. Just take x^(-1/log(x))^, when x -> 0 it is equal (and therefore converges) to 1/e instead of 1 ! Provided this is changed I prefer the openness of r5rs-error.
-
+Bradley's argument convinces me to retain 0^0^=1 (i.e. only if we have an exact 0 as exponent) as a practical convention.
 
 
 === #472 clarify semantics of non-library library declarations ===
