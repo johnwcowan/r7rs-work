@@ -63,8 +63,7 @@ implementations do not agree on the result.
   * '''Options:''' r5rs, r5rs-error, r5rs-error/real, r6rs, r6rs/real, undecided
   * '''Default:''' r6rs
   * '''Preferences:''' r5rs-error, r5rs-error/real
-This seems consistent with #367.  
-According to Wikipedia, for pos real b, b^c^ = e^cln(b)^ (the parens may be missing in the R5RS snippet?).  The zero base, non-real exponent case can be defined to return nans and we should not preclude that.
+This seems consistent with #367.  Aside from that precedent, I would go with r6rs to allow nan results.
 
 === #472 clarify semantics of non-library library declarations ===
 
