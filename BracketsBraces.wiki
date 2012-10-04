@@ -16,12 +16,12 @@ Braces are:
 
  * synonyms for parentheses:  Racket, Gauche, Gambit, Chicken, SXM, Spark
 
- * lexical syntax errors:  MIT, Scheme48/scsh, NexJ, !SigScheme, Schemik, Owl Lisp, Bigloo, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, STklos, KSi, Oaklisp, Sizzle
+ * lexical syntax errors:  MIT, Scheme48/scsh, NexJ, !SigScheme, Schemik, Owl Lisp, Bigloo, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, STklos, KSi, Oaklisp, Sizzle, Scheme 9
 
  * user-defined type literals:  Chibi
 
  * containers for embedded C code: RScheme
 
- * identifier characters:  SCM, Shoe, !TinyScheme, Scheme 9, Dream, Scheme 7, XLisp, UMB, VX, Llava, Dfsch, Inlab, Kawa, Rep, !FemtoLisp, Guile, SISC, Chez, Elk, BDC
+ * identifier characters:  SCM, Shoe, !TinyScheme, Dream, Scheme 7, XLisp, UMB, VX, Llava, Dfsch, Inlab, Kawa, Rep, !FemtoLisp, Guile, SISC, Chez, Elk, BDC
 
 Note:  In some Schemes where these are identifier characters, they are self-delimiting: that is: `{abc}` is equivalent to `{ abc }`.
