@@ -4,13 +4,13 @@ Brackets are:
 
  * synonyms for parentheses:  Racket, Gauche, Gambit, Chicken, SXM, Spark, Bigloo, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, STklos, KSi, Oaklisp, Sizzle, Guile, SISC, Chez, Elk
 
- * lexical syntax errors:  MIT, Scheme48/scsh, NexJ, !SigScheme, Schemik, Owl Lisp, RScheme
+ * lexical syntax errors:  MIT, Scheme48/scsh, NexJ, !SigScheme, Schemik, Owl Lisp, RScheme, Scheme 9
 
  * vector constructors:  Rep, !FemtoLisp
 
  * redefinable constructors:  Kawa
 
- * identifier characters:  SCM, Shoe, !TinyScheme, Scheme 9, Dream, Scheme 7, XLisp, UMB, VX, Llava, Dfsch, Inlab, Chibi, BDC
+ * identifier characters:  SCM, Shoe, !TinyScheme, Dream, Scheme 7, XLisp, UMB, VX, Llava, Dfsch, Inlab, Chibi, BDC
 
 Braces are:
 
