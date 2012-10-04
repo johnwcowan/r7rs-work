@@ -8,7 +8,9 @@ Gauche, SCM, KSi, VX return an inexact infinity.
 
 Kawa returns one of two ''exact'' infinities depending on the sign of the numerator.  These are notated `1/0` and `-1/0`.  They are the same in the sense of `eqv?`, anomalously so since they are not operationally equivalent.  They are also distinct in the sense of `eqv?` from `+inf.0` and `-inf.0`, but `1/0` and `+inf.0` are the same in the sense of `=`, as are `-1/0` and `-inf.0`.
 
-Scheme 9, Femtolisp return an incorrect result.
+Scheme 9 returns +nan.0.
+
+Femtolisp return an incorrect result.
 
 === Inexact division by exact zero ===
 
@@ -18,7 +20,9 @@ MIT (with floating traps ignored), Gauche, Bigloo, Scheme48, Kawa, SISC, SCM, Ch
 
 !SigScheme, Dream, Oaklisp, Owl Lisp do not support inexact numbers.
 
-KSi, Scheme 9, Femtolisp return an incorrect result.
+Scheme 9 returns +nan.0.
+
+KSi, Femtolisp return an incorrect result.
 
 === Division by inexact zero ===
 
@@ -28,7 +32,9 @@ Racket, Gauche, MIT (with floating traps ignored), Gambit, Chicken with the numb
 
 !SigScheme, Dream, Oaklisp, Owl Lisp do not support inexact numbers.
 
-KSi, Scheme 9 return an incorrect result.
+Scheme 9 returns +nan.0
+
+KSi return an incorrect result.
 
 === Inexact multiplication by exact zero ===
 
