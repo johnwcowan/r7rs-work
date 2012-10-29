@@ -1,6 +1,6 @@
-Ballot 8 was conducted informally on [[https://groups.google.com/forum/?fromgroups=#!topic/scheme-reports-wg1/-Z65vUeerPk|a poll thread]] of the WG1 mailing list.
-
 = WG1 Ballot Items To Finalize By Oct. 29 =
+
+Ballot 8 was conducted informally on [[https://groups.google.com/forum/?fromgroups=#!topic/scheme-reports-wg1/-Z65vUeerPk|a poll thread]] of the WG1 mailing list.
 
 === #315 null character may not be usable in strings ===
 
