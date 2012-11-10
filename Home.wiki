@@ -19,6 +19,7 @@ Comments are welcome at the [[http://lists.scheme-reports.org/cgi-bin/mailman/li
   * [[:WG1Ballot5|Fifth Ballot]] ([[:WG1Ballot5Results|Results]])
   * [[:WG1Ballot6|Sixth Ballot]] ([[:WG1Ballot6Results|Results]])
   * [[:WG1Ballot|Seventh Ballot]] ([[:WG1Ballot7Results|Results]])
+  * [[:WG1Ballot8Results|Eighth (Informal) Ballot Results]]
 
 [[:WG1vsR6RSDiff|Differences between the current WG1 draft and the R6RS]]
 
