@@ -1,0 +1,14 @@
+These are the editorial corrections to the seventh draft in the order they were made: 
+
+ * Added `#` to vector literals in certain examples
+ * Added cross-reference for import declarations
+ * Fixed example and added new example for `digit-value`
+ * Improved discussion of transitivity for `=`, `<`, etc.
+ * Noted that `substring` is a special case of `string-copy`
+ * Improved wording describing alternative exponent markers
+ * Fixed `read-bytevector!` argument order to match `write-bytevector`
+ * Added includers to formal syntax of primitive procedures
+ * Corrected formal syntax of <program> to match prose
+ * Removed confusing term "top level" in favor of "outermost" (for syntax) and "global" (for bindings)
+
+This page may grow further.
