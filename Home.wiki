@@ -101,3 +101,7 @@ Comments are welcome at the [[http://lists.scheme-reports.org/cgi-bin/mailman/li
 == Administrative Details ==
 
     * SiteBackups
+
+== Editorial Corrections ==
+
+    * SeventhDraftEditorialCorrections
