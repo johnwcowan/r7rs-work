@@ -10,5 +10,6 @@ These are the editorial corrections to the seventh draft in the order they were 
  * Added includers to formal syntax of primitive procedures
  * Corrected formal syntax of <program> to match prose
  * Removed confusing term "top level" in favor of "outermost" (for syntax) and "global" (for bindings)
+* Replacied redundant non-digit with dot subsequent.
 
 This page may grow further.
