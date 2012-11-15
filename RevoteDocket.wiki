@@ -52,7 +52,9 @@ Random procedures from R6RS (notably `symbol=?` and `boolean=?`): to be spelled 
 
 Record external representations: 
 
-Raw strings:  <<, """..."""
+Raw strings:  <<, """...""":
+
+Setter procedures: [[http://srfi.schemers.org/srfi-17/srfi-17.html|SRFI 17]]
 
 `standard-*-port` routines:  R6RS
 
