@@ -14,4 +14,4 @@ These are the editorial corrections to the seventh draft in the order they were 
  * Changed "distinct" to "normally distinct" in the explanation of negative zero
  * Explained that `equal?` is defined in terms of itself
 
-This page may grow further.
+This page may grow further.  These notices do not supersede the Mercurial repository, which is authoritative.
