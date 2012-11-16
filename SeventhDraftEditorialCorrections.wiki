@@ -13,5 +13,7 @@ These are the editorial corrections to the seventh draft in the order they were 
  * Replaced redundant non-digit with dot subsequent
  * Changed "distinct" to "normally distinct" in the explanation of negative zero
  * Explained that `equal?` is defined in terms of itself
+ * Clarified that objects used to signal errors may or may not be error-objects
+ * Explain that "is an error" situations may signal an error, extend the language, or fail catastrophically
 
 This page may grow further.  These notices do not supersede the Mercurial repository, which is authoritative.
