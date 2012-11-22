@@ -1,0 +1,25 @@
+= TBD =
+
+
+Stuff reclaimed from old BlobAPI
+
+== String procedures ==
+
+`(bytevector-<encoding>-ref` ''bytevector'' [[|[ ''start'' ]] ''end'' ] `)`
+
+Returns a newly allocated Scheme string corresponding to the binary value encoded according to ''encoding'' beginning at offset ''n'' in ''bytevector'' and continuing for ''l'' bytes.
+
+`(bytevector-<encoding>-set!` ''bytevector n v''`)`
+
+Converts ''v'' to a binary string encoded according to ''encoding'' and places it into ''bytevector'' beginning at offset ''n''.  Returns the number of bytes encoded.
+
+== String encodings ==
+
+ `utf8`::
+  UTF-8 encoding
+ `utf16`::
+  UTF-16 encoding (respects BOM if present, defaults to native encoding otherwise)
+ `utf16be`::
+  UTF-16BE encoding (treats BOM as a normal character)
+ `utf16le`::
+  UTF-16LE encoding (treats BOM as a normal character)
