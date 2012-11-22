@@ -1,25 +1,19 @@
-= TBD =
+This proposal extends the `(scheme base)` procedures `utf8->string` and `string->utf8` to additional encodings, providing procedures that translate between strings and bytevectors that encode those strings using the UTF-16, UTF-16LE, and UTF-16BE encodings.
 
+== Procedures ==
 
-Stuff reclaimed from old BlobAPI
+`(utf16->string `''bytevector start end''`)`
 
-== String procedures ==
+`(utf16le->string `''bytevector start end''`)`
 
-`(bytevector-<encoding>-ref` ''bytevector'' [[|[ ''start'' ]] ''end'' ] `)`
+`(utf16be->string `''bytevector start end''`)`
 
-Returns a newly allocated Scheme string corresponding to the binary value encoded according to ''encoding'' beginning at offset ''n'' in ''bytevector'' and continuing for ''l'' bytes.
+Decodes the bytes of ''bytevector'' between ''start'' and ''end'' and returns the corresponding string.  It is an error for ''bytevector'' to contain byte sequences representing characters which are forbidden in strings.  If the first two bytes of the bytevector are either `#xFE #xFF` or `#xFF #xFE`, then `utf16->string` interprets them as a byte order mark, and uses that to interpret the rest of the bytevector as little-endian or big-endian respectively.  If no byte order mark is present, the assumed byte order is implementation-defined.  The other two procedures always interpret the encoded form as little-endian or big-endian respectively, and do not recognize any byte order mark.
 
-`(bytevector-<encoding>-set!` ''bytevector n v''`)`
+`(string->utf16 `''string start end''`)`
 
-Converts ''v'' to a binary string encoded according to ''encoding'' and places it into ''bytevector'' beginning at offset ''n''.  Returns the number of bytes encoded.
+`(string->utf16le `''string start end''`)`
 
-== String encodings ==
+`(string->utf16be `''string start end''`)`
 
- `utf8`::
-  UTF-8 encoding
- `utf16`::
-  UTF-16 encoding (respects BOM if present, defaults to native encoding otherwise)
- `utf16be`::
-  UTF-16BE encoding (treats BOM as a normal character)
- `utf16le`::
-  UTF-16LE encoding (treats BOM as a normal character)
+Encodes the characters of ''string'' between ''start'' and ''end'' and returns the corresponding bytevector.  `String->utf16` always generates a byte order mark, but the byte order it generates is implementation-defined.  The other two procedures always generate the encoded form as little-endian or big-endian respectively, and do not generate any byte order mark.
