@@ -18,6 +18,8 @@ Enumerations (R6RS, but see also http://www.r6rs.org/formal-comments/comment-262
 
 Evaluator arguments to procedures like `load`: #277
 
+Extended exact numbers:  ExtendedRationalsCowan
+
 External representation of records: 
 
 Futures:  [[http://docs.racket-lang.org/reference/futures.html|Racket API]]
