@@ -130,3 +130,7 @@ Applies ''proc'' to the elements of the ''bytevector''s when viewed as <type>vec
 == More procedures ==
 
 See NumericVectorsAdvancedCowan.
+
+== Structured representation types ==
+
+For mapping C structs onto bytevectors, see StructuresCowan.
