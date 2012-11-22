@@ -1,20 +1,20 @@
 == Binary heaps ==
 
-Binary heaps are mutable collections that can contain any Scheme object provided there exists a total ordering on the objects expressed by an ''ordering procedure''.  They are intended to be a thin veneer over arrays.  Binary heaps are disjoint from other types of Scheme objects.
+Binary heaps are mutable collections that can contain any Scheme object provided there exists a total ordering on the objects expressed by an ''ordering procedure''.  They are intended to be a thin veneer over vectors.  Binary heaps are disjoint from other types of Scheme objects.
 
 == Procedures ==
 
 `(make-heap `''<''`)`
 
-Constructs and returns a new empty heap.  ''<'' is the less-than procedure for the heap.
+Returns a newly allocated empty heap.  ''<'' is the less-than procedure for the heap.
 
 `(heap `''<''` `''element''` ...)`
 
-Constructs and returns a new heap using ''<'' as the ordering procedure, and containing the ''elements''.  This operation should be O(n) in the size of the heap.
+Returns a newly allocated heap using ''<'' as the ordering procedure, and containing the ''elements''.  This operation should be O(n) in the size of the heap.
 
 `(copy-heap` ''heap''`)`
 
-Constructs and returns a new heap containing the elements of ''heap'' with the same ''<'' procedure.
+Returns a newly allocated heap containing the elements of ''heap'' with the same ''<'' procedure.
 
 `(heap? `''obj''`)`
 
@@ -42,11 +42,9 @@ Returns the smallest element of the heap (according to the ''<'' function).  Thi
 
 Removes the smallest element of the heap (according to the ''<'' function) and returns it.  This operation should be O(log N) in the size of the heap.
 
-'''Issue:''' maybe this should return an unspecified value like other destructive procedures?
-
 `(heap-map `''proc''` `''<''` `''heap''`)`
 
-Applies ''proc'' to each element of ''heap'' in arbitrary order and constructs and returns a new heap with ordering predicate ''<'' containing the values of the applications.  This operation should be O(N) in the size of the heap.
+Applies ''proc'' to each element of ''heap'' in arbitrary order and returns a newly allocated heap with ordering predicate ''<'' containing the values of the applications.  This operation should be O(N) in the size of the heap.
 
 `(heap-for-each `''proc''` `''heap''`)`
 
@@ -54,25 +52,24 @@ Applies ''proc'' to ''heap'' in arbitrary order, discarding the returned values.
 
 `(heap->list `''heap''`)`
 
-Constructs and returns a new list containing the members of ''heap'' in arbitrary order.  This operation should be O(N) in the size of the heap.
+Returns a newly allocated list containing the members of ''heap'' in arbitrary order.  This operation should be O(N) in the size of the heap.
 
 `(heap->sorted-list! `''<''` `''heap''`)`
 
-Constructs and returns a new list containing the members of ''heap'' in increasing order.  ''Heap'' may be destroyed in the process.
+Returns a newly allocated list containing the members of ''heap'' in increasing order.  ''Heap'' may be destroyed in the process.
 
 `(list->heap `''<''` `''list''`)`
 
-Constructs and returns a new heap containing the elements of ''list'' and using ''<'' as the ordering procedure.  This operation should be O(n) in the size of the heap.
+Returns a newly allocated heap containing the elements of ''list'' and using ''<'' as the ordering procedure.  This operation should be O(n) in the size of the heap.
 
 `(heap->vector `''heap''`)`
 
-Constructs and returns a new vector containing the elements of ''heap'' in arbitrary order.
+Returns a newly allocated vector containing the elements of ''heap'' in arbitrary order.
 
 `(heap->sorted-vector! `''<''` `''heap''`)`
 
-Returns a vector containing the elements of ''heap'' in increasing order.  ''Heap'' may be destroyed in the process.
+Returns a newly allocated vector containing the elements of ''heap'' in increasing order.  ''Heap'' may be destroyed in the process.
 
 `(vector->heap `''<''` `''vector''`)`
 
-Constructs and returns a new heap containing the elements of ''vector'' and using ''<'' as the ordering procedure.  This operation should be O(n) in the size of the heap.
-
+Returns a newly allocated heap containing the elements of ''vector'' and using ''<'' as the ordering procedure.  This operation should be O(n) in the size of the heap.
