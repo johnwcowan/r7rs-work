@@ -1,0 +1,99 @@
+This is a proposal for a WG2 numeric vector API.  The conceit is that we provide what appear to be a set of specialized numeric-only vectors a la SRFI 4, but there really is only one underlying type, the bytevector.  This makes it easy to see a single byte sequence in a variety of ways, not just as homogeneous vectors.
+
+This design differs from related designs in that everything is a separate procedure with minimal arguments; this makes for a ''lot'' of procedures, but each one can be easily inlined by even a very dumb compiler, providing high efficiency.
+
+== Numeric types ==
+
+A <type> consists of a <principal type> followed by an <endianism>.
+
+The <principal type> values are:
+
+ `u8`::
+  unsigned 8-bit integer
+ `s8`::
+  signed 8-bit integer
+ `u16`::
+  unsigned 16-bit integer
+ `s16`::
+  signed 16-bit integer
+ `u32`::
+  unsigned 32-bit integer
+ `s32`::
+  signed 32-bit integer
+ `u64`::
+  unsigned 64-bit integer
+ `s64`::
+  signed 64-bit integer
+ `u128`::
+  unsigned 128-bit integer
+ `s128`::
+  signed 128-bit integer
+ `f32`::
+  32-bit float
+ `f64`::
+  64-bit float
+ `c64`::
+  64-bit complex number (two 32-bit floats, real followed by imaginary)
+ `c128`::
+  128-bit complex number (two 64-bit floats, real followed by imaginary)
+
+The <endianism> values are:
+
+ (empty)::
+  Native representations (system-dependent)
+ `le`::
+  Little-endian (for float and complex, IEEE format)
+ `be`::
+  Big-endian (for float and complex, IEEE format)
+
+Endianism is not applicable to the `u8` and `s8` types.
+
+
+== Constructors ==
+
+`(make-<type>vector `''k''` ` [[|''fill'' ]]`)`
+
+Returns a newly allocated bytevector of length ''k * b'', where ''b'' is the number of bytes consumed by <type>.  ''Fill'' is converted to a binary value according to <type> and used to fill the bytevector; the default is implementation-defined.
+
+`(<type>vector ` ''v'' ... `)`
+
+Returns a newly allocated bytevector of length ''k * b'', where ''k'' is the number of arguments to the procedure and ''b'' is the number of bytes specified by <type>.  It is filled with the binary values resulting from encoding the ''v'' values according to <type>.
+
+== Selectors ==
+
+`(<type>vector-length ` ''bytevector''`)`
+
+Returns the length of ''bytevector'' divided by ''b'', where ''b'' is the number of bytes specified by <type>, and rounded toward zero.
+
+`(bytevector-<type>-ref` ''bytevector k''`)`
+
+Returns a Scheme number corresponding to the binary value encoded according to ''type'' beginning at offset ''k'' in ''bytevector''.  This procedure treats ''bytevector'' as potentially containing more than one type.
+
+`(<type>vector-ref` ''bytevector k''`)`
+
+Returns a Scheme number corresponding to the binary value encoded according to ''type'' beginning at offset ''k * b'' in ''bytevector'', where ''b'' is the size of the binary value in bytes.  This procedure treats ''bytevector'' as a uniformly typed vector.
+
+== Mutators ==
+
+(`bytevector-<type>-set!` ''bytevector k v''`)`
+
+Converts ''v'' to a binary value encoded according to ''type'' and places it into ''bytevector'' beginning at offset ''k''.  This procedure treats ''bytevector'' as potentially containing more than one type.
+
+(`<type>vector-set!` ''bytevector k v''`)`
+
+Converts ''v'' to a binary value encoded according to ''type'' and places it into ''bytevector'' beginning at offset ''k * b'', where ''b'' is the size of the binary value in bytes.  This procedure treats ''bytevector'' as a uniformly typed vector.
+
+== Conversions ==
+
+(`vector-><type>vector `''vector''`)`
+
+Returns a vector with the same elements as ''<type>vector''.
+
+(`<type>vector->vector `''<type>vector''`)`
+
+Returns a <type>vector with the same elements as ''vector''.  It is an error if an element cannot be accurately converted to `<type>`.
+
+
+=== Equality, map, for-each, fold, unfold ===
+
+'''TBD'''
