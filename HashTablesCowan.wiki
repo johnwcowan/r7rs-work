@@ -22,19 +22,19 @@ These constructors provide suitable hash functions for the equivalence function 
 
 `(make-eq-hash-table)`
 
-Creates a new table with no associations whose equivalence function is `eq?`.  (SRFI-69 `(make-hash-table eq? hash-by-identity)`; R6RS `(make-eq-hashtable)`)
+Returns a newly allocated table with no associations whose equivalence function is `eq?`.  (SRFI-69 `(make-hash-table eq? hash-by-identity)`; R6RS `(make-eq-hashtable)`)
 
 `(make-equal-hash-table)`
 
-Creates a new table with no associations whose equivalence function is `equal?`.  (SRFI-69 `(make-hash-table equal? hash)`; R6RS `(make-hashtable equal? equal-hash)`)
+Returns a newly allocated with no associations whose equivalence function is `equal?`.  (SRFI-69 `(make-hash-table equal? hash)`; R6RS `(make-hashtable equal? equal-hash)`)
 
 `(make-string-hash-table)`
 
-Creates a new table with no associations whose equivalence function is `string=?`.  (SRFI-69 `(make-hash-table string=? string-hash)`; R6RS `(make-hashtable string=? string-hash)`)
+Returns a newly allocated table with no associations whose equivalence function is `string=?`.  (SRFI-69 `(make-hash-table string=? string-hash)`; R6RS `(make-hashtable string=? string-hash)`)
 
 `(make-string-ci-hash-table)`
 
-Creates a new table with no associations whose equivalence function is `string-ci=?`.  (SRFI-69 `(make-hash-table string-ci=? string-ci-hash)`; R6RS `(make-hashtable string-ci=? string-ci-hash)`)
+Returns a newly allocated table with no associations whose equivalence function is `string-ci=?`.  (SRFI-69 `(make-hash-table string-ci=? string-ci-hash)`; R6RS `(make-hashtable string-ci=? string-ci-hash)`)
 
 Note that there are no hash tables whose equivalence function is `eqv?`, because SRFI 69 does not support them.  Users will have to live with `eq?` or `equal?` hash tables as the case may be.
 
@@ -43,7 +43,7 @@ Note that there are no hash tables whose equivalence function is `eqv?`, because
 
 `(hash-table-copy `''hash-table''`)`
 
-Creates a new hash table with the same equivalence predicate and associations as ''hash-table''. (SRFI-69 `hash-table-copy`; R6RS `(hashtable-copy `''hash-table''` #t)`)
+Returns a newly allocated hash table with the same equivalence predicate and associations as ''hash-table''. (SRFI-69 `hash-table-copy`; R6RS `(hashtable-copy `''hash-table''` #t)`)
 
 
 == Predicates ==
