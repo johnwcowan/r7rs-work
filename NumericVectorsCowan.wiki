@@ -101,7 +101,7 @@ Returns a newly allocated bytevector which, when viewed as a <type>vector, has t
 
 Returns a vector or list with the same elements as ''bytevector'' viewed as a <type>vector.
 
-=== Copying, appending, and filling ===
+== Copying, appending, and filling ==
 
 `(<type>vector-copy `[[|[ ''start'' ]] ''end'' ] `)`
 
@@ -116,6 +116,16 @@ There are no `<type>vector-append` procedures, as `bytevector-append` is suffici
 `(<type>vector-fill! `''bytevector fill'' [[|[ ''start'' ]] ''end'' ] `)`
 
 Stores ''fill'' in the elements of ''bytevector'' viewed as a <type>vector from ''start'' to ''end''. An error is signaled if ''fill'' cannot be accurately converted to `<type>`.
+
+== Mapping ==
+
+`(<type>vector-map `''proc bytevector1 bytevector2'' ...`)`
+
+Returns a newly allocated bytevector which, when viewed as a <type>vector, contains the results of applying ''proc'' to the elements of the ''bytevector''s when viewed as <type>vectors.
+
+`(<type>vector-for-each `''proc bytevector1 bytevector2'' ...`)`
+
+Applies ''proc'' to the elements of the ''bytevector''s when viewed as <type>vectors.  Returns an unspecified value.
 
 == More procedures ==
 
