@@ -30,7 +30,7 @@ Counts the number of parallel elements in the bytevectors, when viewed as <type>
 
 `(<type>vector-index-right `''predicate bytevector1 bytevector2'' ...`)` -> exact nonnegative integer or `#f`
 
-`(<type>vector-skip `predicate bytevector1 bytevector2'' ...`)` -> exact nonnegative integer or `#f`
+`(<type>vector-skip `''predicate bytevector1 bytevector2'' ...`)` -> exact nonnegative integer or `#f`
 
 `(<type>vector-skip-right `''predicate bytevector1 bytevector2'' ...`)` -> exact nonnegative integer or #f
 
