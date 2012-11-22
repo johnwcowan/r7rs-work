@@ -4,17 +4,21 @@ The following items will be approved without a formal vote unless someone object
 
 Note: "Prefix stripping" means that prefixes such as `fx`, `fl`, or `bitwise-` are removed from identifiers exported by this package.  That way, users can add back their own prefixes using the facilities of `import`.
 
+Binary ports: present in the small language.
+
+Exception system: present in the small language.
+
 Explicit renaming macros: Uses the `er-macro-transformer` keyword (bare lambdas are unsupported).  Three arguments are provided to transformers: `form rename compare`.
 
 Fixnum arithmetic: The R6RS `arithmetic fixnum` library with prefix stripping.
 
 Format combinators: Alex Shinn's [[http://synthcode.com/scheme/fmt/|fmt library]], with possibly a touch of renaming.  The C formatting library is excluded.
 
-Pretty-printer: see Format combinators
-
 Generalized getters and setters: [[http://http://srfi.schemers.org/srfi-17/srfi-17.html|SRFI 17]].
 
 Getopt/args-fold:  [[http://http://srfi.schemers.org/srfi-37/srfi-37.html|SRFI 37]].
+
+Pretty-printer: see Format combinators
 
 Regex (S-exps and strings): Alex Shinn's [[http://synthcode.com/scheme/irregex/|irregex library]], possibly a touch of renaming.  Specify full PCRE compatibility even though the irregex implementation doesn't support all of it.
 
@@ -30,10 +34,10 @@ Regex (S-exps and strings): Alex Shinn's [[http://synthcode.com/scheme/irregex/|
 
 [[http://http://srfi.schemers.org/srfi-41/srfi-41.html|SRFI 41]], `(streams primitive)` and `(streams derived)` libraries: As written.
 
-[[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]], vector library: As written, but excluding `make-vector`, `vector`,`vector?`, `vector-ref`, `vector-length`, `vector-set!`, `vector->list`, `list->vector`, `vector-copy`, `vector-fill!`, which are all in the `(scheme base)` library.  
+[[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]], vector library: As written, but excluding `make-vector`, `vector`,`vector?`, `vector-ref`, `vector-length`, `vector-set!`, `vector->list`, `list->vector`, `vector-copy`, `vector-copy!`, `vector-append`, `vector-fill!`, which are all in the `(scheme base)` library in a SRFI-43-compatible way (except that R7RS `vector-copy!` does not have a ''fill'' argument).  
 
-SRFI 38, circular list read/write support: Already in WG1, so no package.
+SRFI 38, circular list read/write support: present in the small language.
 
-When/unless: Already in WG1, so no package.
+When/unless: present in the small language.
 
  
