@@ -2,54 +2,56 @@ This page is an extension of NumericVectorsCowan that adds numeric vector versio
 
 == Folds and unfolds ==
 
-(<type>vector-fold kons knil bytevector1 bytevector2 ···) -> value
+`(<type>vector-fold `''kons knil bytevector1 bytevector2'' ...`)` -> value
 
-(<type>vector-fold kons knil bytevector1 bytevector2 ...) -> value
+`(<type>vector-fold `''kons knil bytevector1 bytevector2'' ...`)` -> value
 
-(<type>vector-unfold f length initial-seed ...) -> bytevector
+`(<type>vector-unfold `''proc length initial-seed'' ...`)` -> bytevector
 
-(<type>vector-unfold-right f length initial-seed ...) -> bytevector
+`(<type>vector-unfold-right `''proc length initial-seed'' ...`)` -> bytevector
 
 == Predicates ==
 
-(<type>vector= = bytevector1 bytevector2 ...) -> boolean
+`(<type>vector= `''= bytevector1 bytevector2'' ...`)` -> boolean
 
 == Iteration ==
 
-(<type>vector-map! proc bytevector1 bytevector2 ...) -> unspecified
+`(<type>vector-map! `''proc bytevector1 bytevector2'' ...`)`
 
-Similar to `<type>vector-map`, but rather than mapping the new elements into a new vector, the new mapped elements are destructively inserted into ``bytevector1``.  Returns an unspecified result.
+Similar to `<type>vector-map`, but rather than mapping the new elements into a newly allocated bytevector, the results are destructively inserted into ``bytevector1``.  Returns an unspecified value.  Returns an unspecified value.
 
-(<type>vector-count predicate bytevector1 bytevector2 ...) -> exact nonnegative integer
+`(<type>vector-count `''predicate bytevector1 bytevector2'' ...`)`
 
-Counts the number of parallel elements in the vectors that satisfy predicate, which is applied, for each index i in the range [[0,|length), where length is the length of the smallest vector argument, to i and each parallel element in the vectors at that index, in order. 
+Counts the number of parallel elements in the bytevectors, when viewed as <type>vectors</i>, that satisfy ''predicate'', and returns the count as an exact non-negative integer.  The procedure is applied for each index ''i'' in the range from 0 (inclusive) to ''length'' (exclusive), where ''length'' is the length of the smallest bytevector argument, to ''i'' and the ''i''th element in each bytevector when viewed as a <type>vector, in order. 
 
-== Searching 
+== Searching ==
 
-(<type>vector-index pred? bytevector1 bytevector2 ···) -> exact nonnegative integer or #f
+`(<type>vector-index `''predicate bytevector1 bytevector2'' ...`)` -> exact nonnegative integer or `#f`
 
-(<type>vector-index-right pred? bytevector1 bytevector2 ···) -> exact nonnegative integer or #f
+`(<type>vector-index-right `''predicate bytevector1 bytevector2'' ...`)` -> exact nonnegative integer or `#f`
 
-(<type>vector-skip pred? bytevector1 bytevector2 ...) -> exact nonnegative integer or #f
+`(<type>vector-skip `predicate bytevector1 bytevector2'' ...`)` -> exact nonnegative integer or `#f`
 
-(<type>vector-skip-right pred? bytevector1 bytevector2 ...) -> exact nonnegative integer or #f
+`(<type>vector-skip-right `''predicate bytevector1 bytevector2'' ...`)` -> exact nonnegative integer or #f
 
-(<type>vector-binary-search bytevector value cmp) -> exact nonnegative integer or #f
+`(<type>vector-binary-search `''bytevector value cmp''`)` -> exact nonnegative integer or `#f`
 
-(<type>vector-any pred? bytevector1 bytevector2 ···) -> value or #f
+`(<type>vector-any predicate `''bytevector1 bytevector2'' ...`)` -> value or `#f`
 
-(<type>vector-every pred? bytevector1 bytevector2 ···) -> value or #f
+`(<type>vector-every predicate `''bytevector1 bytevector2'' ...`)` -> value or `#f`
 
 
 == Swap == 
 
-(<type>vector-swap! bytevector i j) -> unspecified
+`(<type>vector-swap! `''bytevector i j''`)` -> unspecified
 
 Exchanges the values of the locations in ''bytevector'', when viewed as a <type>vector, at indices ''i'' and ''j''.
 
 
 == Reverse operations ==
 
-(<type>vector-reverse! bytevector [start [end]]]) -> unspecified
+`(<type>vector-reverse! `''bytevector'' [[|''start'' [ ''end'' ]] ] `)`
 
-The `<type>vector-reverse-copy`, `<type>reverse-vector->vector`, `<type>reverse-vector->list`, `<type>reverse-list->vector`, and `<type>reverse-list->list` procedures are identical to their regular counterparts, but process the bytevector argument, when viewed as a <type>vector, in reverse order.  
+Destructively reverses the order of the elements in ''bytevector'' from ''start'' to ''end''.
+
+The `<type>vector-reverse-copy`, `<type>reverse-vector->vector`, `<type>reverse-vector->list`, `<type>reverse-list->vector`, and `<type>reverse-list->list` procedures are identical to their regular counterparts, but produce the bytevector argument, when viewed as a <type>vector, in reverse element order.  
