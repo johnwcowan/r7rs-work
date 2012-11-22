@@ -1,1 +1,1 @@
-See [[http://trac.sacrideo.us/wg/wiki/BlobAPI|BlobAPI]]
+See NumericVectorsCowan and StringBytevectorConversionCowan.
