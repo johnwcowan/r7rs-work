@@ -30,7 +30,7 @@ Regex (S-exps and strings): Alex Shinn's [[http://synthcode.com/scheme/irregex/|
 
 [[http://http://srfi.schemers.org/srfi-41/srfi-41.html|SRFI 41]], `(streams primitive)` and `(streams derived)` libraries: As written.
 
-[[http://http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]], vector library: As written, but excluding `make-vector`, `vector`,`vector?`, `vector-ref`, `vector-length`, `vector-set!`, `vector->list`, `list->vector`, `vector-copy`, `vector-fill!`, which are all in the `(scheme base)` library.  
+[[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]], vector library: As written, but excluding `make-vector`, `vector`,`vector?`, `vector-ref`, `vector-length`, `vector-set!`, `vector->list`, `list->vector`, `vector-copy`, `vector-fill!`, which are all in the `(scheme base)` library.  
 
 SRFI 38, circular list read/write support: Already in WG1, so no package.
 
