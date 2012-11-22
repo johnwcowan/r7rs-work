@@ -59,7 +59,7 @@ Mutexes, condition variables:
 
 Named parameters: NamedParametersCowan
 
-Octet vectors, bytevectors, blobs: BlobsCowan
+Octet vectors, bytevectors, blobs: NumericVectorsCowan + StringBytevectorConversionCowan
 
 Optional arguments (other than by `case-lambda`): 
 
