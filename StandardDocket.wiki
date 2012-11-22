@@ -7,8 +7,6 @@ Assertions: R6RS base library, R6RS with optional message and irritants.
 
 Binary heap: BinaryHeapsCowan
 
-Binary ports: present in the small language
-
 Binary search: [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]]
 
 Bitwise arithmetic: [[http://srfi.schemers.org/srfi-33/srfi-33.html|SRFI 33]], [[http://srfi.schemers.org/srfi-60/srfi-60.html|SRFI 60]], [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.4|R6RS]], BitwiseCowan.  See BitwiseComparison for a detailed comparison of names and parameter order.  See also the incomplete proposal BitwiseArithmeticRead.
@@ -28,8 +26,6 @@ Dictionaries (may include hash tables):
 Enumerations and enum-sets: SetsCowan, [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-15.html#node_chap_14|R6RS]]
 
 Environment enquiries: EnvironmentEnquiriesCowan
-
-Exception system: present in the small language
 
 File system directories (reading): [[http://www.scsh.net/docu/html/man-Z-H-4.html#node_sec_3.3|SCSH directory stream interface]], DirectoryPortsCowan, `directory-files` to return a list of all files in the dir (in WG1 vote order)
 
