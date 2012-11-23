@@ -1,0 +1,49 @@
+This proposal contains various procedures that return procedures and a few others, drawn from Chicken.  Common Lisp has a few of them too.
+
+`(always `''obj''`)`
+
+Ignores its argument and always returns `#t`. 
+
+`(constantly `''obj'' ...`)`
+
+Returns a procedure that always returns the ''obj'' objects as its values, regardless of the number and value of its arguments.
+
+`(complement `''proc''`)`
+
+Returns a procedure that returns the boolean inverse of ''proc''.
+
+`(compose `''proc'' ... `)`
+
+Returns a procedure that represents the composition of its arguments.  Any of the procedures may return multiple values, which are passed as arguments to its successor.  With zero arguments, `(compose)` returns a procedure that is functionally equivalent to `values`.
+
+`(conjoin `''predicate'' ...`)`
+
+Returns a procedure that returns `#t` if its argument satisfies all the ''predicate''s.
+
+`(disjoin `''predicate'' ...`)`
+
+Returns a procedure that returns `#t` if its argument satisfies any of the ''predicate''s.
+
+`(each `''proc'' ... `)`
+
+Returns a procedure that applies each of the ''proc''s in turn to its arguments, discarding the results and returning an unspecified value.
+
+`(flip `''proc''`)`
+
+Returns a two-argument procedure that calls ''proc'', a two-argument procedure, with its arguments swapped.
+
+`(identity `''obj''`)`
+
+Returns ''obj''.
+
+`(list-of? `''predicate''`)`
+
+Returns a procedure of one argument that returns `#t` when applied to a list of elements that all satisfy ''predicate'', or `#f` otherwise.
+
+`(never `''obj''`)`
+
+Ignores its argument and always returns `#f`.
+
+`(o `''proc'' ...`)`
+
+A variant of `compose` that does not handle multiple-valued procedures. With zero arguments, returns a procedure that is functionally equivalent to `identity`.
