@@ -14,16 +14,16 @@ Returns #t if obj is a flonum, #f otherwise.
 
 Returns the best flonum representation of x.
 
-== R6RS-compatible procedures ==
+== R7RS-small-compatible procedures ==
 
-The following core Scheme procedures have flonum equivalents:
+The following R7RS-small procedures have flonum equivalents:
 
 {{{
 = < <= > >= 
 integer? zero? positive? negative? odd? even? finite? infinite? nan?
 + - * /
 abs numerator denominator floor ceiling truncate round
-exp log sin cos tan asin acos atan
+log sin cos tan asin acos atan
 sqrt expt
 }}}
 
@@ -64,17 +64,18 @@ The following procedures are defined in terms of the functions of the <math.h> h
 ||`complementary-error-function`||`double      erfc(double)`||-||
 ||`copy-sign`||`double      copysign(double x, double y)`||result has magnitude of x and sign of y||
 ||`cosh`||`double      cosh(double)`||hyperbolic cosine||
-||`make-flonum`||`double      ldexp(double x, int n)`||x*2^n
+||`make-flonum`||`double      ldexp(double x, int n)`||x*2^n^||
 ||`error-function`||`double      erf(double)`||-||
-||`exp-binary`||`double      exp2(double)`||base-2 exponential||
-||`exp-minus-1`||`double      expm1(double)`||exp(x)-1||
+||`exp`||`double exp(double)`||e^x^||
+||`exp-binary`||`double      exp,,2,,(double)`||base-2 exponential||
+||`exp-minus-1`||`double      expm1(double)`||e^x^-1||
 ||`exponent`||`double      logb(double x)`||the exponent of x, which is the integral part of log_r(|x|), as a signed floating-point value, for non-zero x, where r is the radix of the machine's floating-point arithmetic||
 ||`first-bessel-order-0`||`double      j0(double)`||bessel function of the first kind, order 0||
 ||`first-bessel-order-1`||`double      j1(double)`||bessel function of the first kind, order 1||
 ||`first-bessel`||`double      jn(int n, double)`||bessel function of the first kind, order n||
 ||`fraction-exponent`||`double      modf(double, double *)`||returns two values, fraction and int exponent||
 ||`gamma`||`double      tgamma(double)`||-||
-||`hypotenuse`||`double      hypot(double, double)`||sqrt(x^2+y^2)||
+||`hypotenuse`||`double      hypot(double, double)`||sqrt(x^2^+y^2^)||
 ||`integer-exponent`||`int         ilogb(double)`||binary log as int||
 ||`log-binary`||`double      log2(double)`||log base 2||
 ||`log-decimal`||`double      log10(double)`||log base 10||
