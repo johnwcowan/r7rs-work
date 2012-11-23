@@ -1,0 +1,83 @@
+== WG2 Input Docket ==
+
+This docket contains work items that have not yet been voted on.  See [[:WG2Dockets|WG2Dockets]] for other dockets.
+
+Applicable record instances (see http://www.r6rs.org/formal-comments/comment-6.txt):
+
+`cond` `=>` with guard as well as generator (see #89):  SRFI 61
+
+Combinators: CombinatorsCowan
+
+Custom I/O ports:
+
+Division library: DivisionRiastradh
+
+`drop-prefix` import spec:  
+
+Enumerations (R6RS, but see also http://www.r6rs.org/formal-comments/comment-262.txt):
+
+`equal=?` (like `equal?` but with `=` instead of `eqv?` on numbers):
+
+Evaluator arguments to procedures like `load`: #277
+
+Extended exact numbers:  ExtendedRationalsCowan
+
+External representation of records: 
+
+Futures:  [[http://docs.racket-lang.org/reference/futures.html|Racket API]]
+
+Identifier-syntax:
+
+Imaginary inexact zero versions of ''real'', ''rational'', ''integer'': 
+
+Immutable data: ImmutableData
+
+Interrupts, timers, signals: 
+
+List library (supplementary):  ListsCowan
+
+Macro expander(s) available at run time: 
+
+`make-error-object` constructs error object without raising it: 
+
+Multiple values passed through => in `cond` (see #90): 
+
+NaN dissector API (sign, quiet/signaling status, and integer tag): NanMedernach
+
+Natural number predicates (from WG1):  `exact-positive-integer?` and `exact-non-negative-integer?`.
+
+`number->string` control for significant digits: [[http://lists.scheme-reports.org/pipermail/scheme-reports/2011-May/000709.html|Vincent Manis proposal]], R6RS
+
+Port encodings, buffering, line ending control:  SettingsListsCowan and FilesAdvancedCowan
+
+Port type detector:
+
+Random procedures from R6RS (notably `symbol=?` and `boolean=?`): to be spelled out
+
+`Record-let`:
+
+Record external representations: 
+
+Raw strings:  <<, """...""":
+
+Search and mismatch procedures:  SearchMismatchCowan
+
+Setter procedures: [[http://srfi.schemers.org/srfi-17/srfi-17.html|SRFI 17]]
+
+`standard-*-port` routines:  R6RS
+
+String positions and slices (see http://www.r6rs.org/formal-comments/comment-235.txt):
+
+Syntactic closures: 
+
+`syntax-case`:
+
+Tree library: at least `tree=?` and `tree-copy`, probably Common Lisp [[http://www.lispworks.com/documentation/lw50/CLHS/Body/f_sublis.htm|SUBLIS and NSUBLIS]], fold, unfold, map ... 
+
+Thread-local storage: 
+
+Testing function arity: [[http://srfi.schemes.org/srfi-102/srfi-102.html|SRFI 102]]
+
+Undefined value API (see #49):
+
+User-specified syntax-transformers:
