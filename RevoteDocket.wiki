@@ -68,7 +68,9 @@ String positions and slices (see http://www.r6rs.org/formal-comments/comment-235
 
 Syntactic closures: 
 
-`syntax-case`: 
+`syntax-case`:
+
+Tree library: at least `tree=?` and `tree-copy`, probably fold, unfold, map ... 
 
 Thread-local storage: 
 
