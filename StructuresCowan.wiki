@@ -16,9 +16,9 @@ Returns `#t` if ''obj'' is a structure descriptor and `#f` otherwise.
 
 Returns the name of ''structure-type''.
 
-`(structure-descriptor-field `''structure-type k''`)`
+`(structure-descriptor-field `''structure-type obj''`)`
 
-Returns the ''k''th field from ''structure-type''.
+If ''obj'' is an exact integer, returns the ''obj''th field from ''structure-type''.  If ''obj'' is a symbol, returns the field whose name is ''obj''.
 
 `(structure-length `''structure-type''`)`
 
