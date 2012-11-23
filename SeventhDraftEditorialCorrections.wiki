@@ -16,5 +16,9 @@ These are the editorial corrections to the seventh draft in the order they were 
  * Clarified that objects used to signal errors may or may not be error-objects
  * Explain that "is an error" situations may signal an error, extend the language, or fail catastrophically
  * Changed "name" to "character" in example of character escape, \x03BB
+ * Moved comma outside literal string that is the printed representation of the number twenty-eight.
+ * Fixed bug in derived expression for `let*-values`.
+ * Revised wording of non-termination requirement for `display`.
+ * Refined wording about `eqv?` in non-IEEE inexact implementations.
 
 This page may grow further.  These notices do not supersede the Mercurial repository, which is authoritative.
