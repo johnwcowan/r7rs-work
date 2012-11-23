@@ -194,4 +194,4 @@ The identifier <constructor> is bound to a syntax definition which accepts symbo
 
 == Conversions ==
 
-The basic set is used as the pivot between different kinds of specialized sets.  In particular, `set->bag`, `set->integer-set`, `set->bag`, `bag->set`, `integer-set->set`, and `enum-set->set` take one argument and do the obvious thing.  `set->integer-set` takes two arguments, ''limit'' and the set.  `set->enum-set also takes two arguments, ''enum-type'' and the set.
+The basic set is used as the pivot between different kinds of specialized sets.  In particular, `set->bag`, `set->integer-set`, `set->bag`, `bag->set`, `integer-set->set`, and `enum-set->set` take one argument and do the obvious thing.  `set->integer-set` takes two arguments, ''limit'' and the set.  `set->enum-set` also takes two arguments, ''enum-type'' and the set.
