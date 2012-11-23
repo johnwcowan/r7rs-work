@@ -72,7 +72,7 @@ Syntactic closures:
 
 `syntax-case`:
 
-Tree library: at least `tree=?` and `tree-copy`, probably fold, unfold, map ... 
+Tree library: at least `tree=?` and `tree-copy`, probably Common Lisp [[http://www.lispworks.com/documentation/lw50/CLHS/Body/f_sublis.htm|SUBLIS and NSUBLIS]], fold, unfold, map ... 
 
 Thread-local storage: 
 
