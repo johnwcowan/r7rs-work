@@ -18,6 +18,20 @@ Returns `#f` if ''obj'' is a pair, and `#t` otherwise.  (Common Lisp ATOM.)
 
 Returns `#t` if ''obj'' is the empty list, `#f` if ''obj'' is a pair.  It signals an error otherwise.  (Common Lisp ENDP.)
 
+== Substitution ==
+
+`(substitute `''newobj oldobj list''`)`
+
+`(substitute! `''newobj oldobj list''`)`
+
+`Substitute` returns a newly constructed list in which all elements of ''list'' that are the same (in the sense of `eqv?`) as ''oldobj'' have been replaced by ''newobj''.  `Substitute!` does the same thing, but may destructively modify ''list''.  (Common Lisp SUBSTITUTE, NSUBSTITUTE.)
+
+`(transform `''transformer predicate list''`)`
+
+`(transform! `''transformer predicate list''`)`
+
+`Transform` returns a newly constructed list in which all elements of ''list'' on which ''predicate'' returns `#t` have been replaced by the result of calling ''transformer'' on the element.  `Transform!` does the same, but may destructively modify ''list''.  (Closely related to Common Lisp SUBSTITUTE-IF, NSUBSTITUTE-IF.)
+
 == Issues ==
 
-Should these procedures, if accepted, be merged into SRFI 1?
+Should these procedures, if accepted, be merged into the SRFI 1 package?
