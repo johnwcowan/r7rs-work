@@ -1,5 +1,8 @@
 This is a list of voting dockets for WG2 work items (packages):
 
+ InputDocket::
+   Items proposed but not yet voted on.
+
  StandardDocket::
   Items to be discussed and voted on individually.
 
@@ -10,4 +13,7 @@ This is a list of voting dockets for WG2 work items (packages):
   Items that WG2 is not working on because it is asking the Steering Committee to assign them to future WGs.
 
  RevoteDocket::
-  Items that need to be voted on for acceptability, either because the number of votes were equal for WG2 and a future WG, or because they were forwarded from WG1, or because they were thought of after the most recent ballot.  The name of this docket is historical.
+  Items that require a revote.
+
+ RejectedDocket::
+  Items that were rejected by a vote.
