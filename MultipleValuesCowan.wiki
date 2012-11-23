@@ -1,8 +1,12 @@
-== Multiple values procedure ==
+== Multiple values procedures ==
 
 `(call-with-all-values `''producer'' ...` `''consumer''`)`
 
 Invoke the ''producers'' in arbitrary order and pass all values returned by them in the given order to ''consumer''.  This extends `call-with-values` by allowing more than one ''producer''.  Equivalent to Common Lisp's `multiple-value-call`.
+
+`(values-list `''list''`)`
+
+Returns the elements of the list as multiple values.  Equivalent to Common Lisp's `values-list`.
 
 == Multiple values syntax ==
 
