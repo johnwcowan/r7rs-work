@@ -6,6 +6,8 @@ Applicable record instances (see http://www.r6rs.org/formal-comments/comment-6.t
 
 `cond` `=>` with guard as well as generator (see #89):  SRFI 61
 
+Combinators: CombinatorsCowan
+
 Custom I/O ports:
 
 Division library: DivisionRiastradh
