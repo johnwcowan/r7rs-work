@@ -4,6 +4,8 @@ This docket contains work items that WG2 has not yet decided whether to work on 
 
 Applicable record instances (see http://www.r6rs.org/formal-comments/comment-6.txt):
 
+Association lists:  AlistsCowan
+
 `cond` `=>` with guard as well as generator (see #89):  SRFI 61
 
 Combinators: CombinatorsCowan
