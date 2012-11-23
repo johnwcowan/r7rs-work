@@ -1,0 +1,23 @@
+This proposal is a tiny extension to SRFI 1.  The procedures come from Common Lisp, with a little renaming.  Some Common Lisp procedures are already in SRFI 1 and don't appear here.
+
+== Association lists ==
+
+`(make-alist `''keys values''`)`
+
+Returns a newly allocated alist whose pairs are constructed from the elements of the lists ''keys'' and ''values''.  (Common Lisp PAIRLIS.)
+
+`Reverse-assq`, `reverse-assv`, and `reverse-assoc` are the same as `assq`, `assv`, and `assoc` respectively, except that the key is matched against the cdr rather than the car of the pairs in the alist.  (Common Lisp RASSOC.)
+
+== Predicates ==
+
+`(atom? `''obj''`)`
+
+Returns `#f` if ''obj'' is a pair, and `#t` otherwise.  (Common Lisp ATOM.)
+
+`(end? `''obj''`)`
+
+Returns `#t` if ''obj'' is the empty list, `#f` if ''obj'' is a pair.  It signals an error otherwise.  (Common Lisp ENDP.)
+
+== Issues ==
+
+Should these procedures, if accepted, be merged into SRFI 1?
