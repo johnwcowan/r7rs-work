@@ -1,0 +1,46 @@
+Near the end of the WG1 process, a Formal Comment sub-process was performed.  A total of 21 Formal Comments were received, listed here.  Note that the ticket numbers are links to verbatim copies of the actual comments.
+
+#357: The epoch of `current-second` should be 1970-01-01 00:00:00 TAI.  Adopted.
+
+#360: Change syntax of escaped symbols from `|<symbol element>*|` to `#"<string element>*"`.  Rejected by the editors, who concluded that there was no precedent for it, that it conflicted with the Racket lexical syntax for byte strings, and that it was most unlikely to pass a vote.
+
+#372: `(exit #t)` should be the same as `(exit`).  Adopted by a vote of the WG.
+
+#414: Internal syntax definitions vs a body with definitions being a letrec*.  Treated as editorial, and adopted by the editors.
+
+#416: `lazy` is underspecified.  Treated as editorial, and adopted by the editors.
+
+#420: Scope of `#!fold-case` and `#!no-fold-case`.  Treated as editorial, and adopted by the editors.
+
+#421: #!fold-case and `#!no-fold-case` have no final delimiter.  Adopted in principle after a vote by the WG, although a different syntax was chosen (they are delimited by whitespace).
+
+#423: When does eqv? return `#t` for procedures?  Rejected by a vote of the WG.
+
+#424: Add write-string procedure to `(scheme base)`.  Adopted by a vote of the WG.
+
+#426: The descriptions of the dynamic features need to be clearer and more consistent.  Treated as editorial, and adopted for the most part by the editors.  A new section was not added as had been requested, but many changes in detail were made, including to the formal semantics.
+
+#430: Clarify library loading rules.  Adopted by a vote of the WG.
+
+#431: Continuation used when 'guard' re-raises an exception.  Treated as editorial, and adopted by the editors.
+
+#434: List of named characters is incomplete.  Treated mostly as editorial.  The WG voted not to adopt any specific recommended source of named characters for implementation extensions.
+
+#435: Bytevectors should be called u8vectors.  Rejected by the editors, on the grounds that the WG had already voted and no new arguments had been presented.  There was considerable (and widening) dispute [[http://lists.scheme-reports.org/pipermail/scheme-reports/2012-July/002386.html|on the scheme-reports mailing list]], but the editors' view prevailed and no vote was taken.
+
+#436: Generalization of append, map, and for-each to other sequences.  The proposed `vector-append` and `bytevector-append` procedures were adopted by a vote of the WG.  Due to an apparent oversight, the `bytevector-map` and `bytevector-for-each` procedures were never considered by the WG.
+
+#438: Inconsistency of sequence copying procedures.  Adopted by a vote of the WG.  However, the suggestions to reorder the arguments of the destructive `*-copy!` procedures and to to rename various procedures were not considered.
+
+#439: Bidirectional ports and `port-open?`.  Adopted by a vote of the WG.
+
+#440: Write procedure is not backwards compatible.  Rejected by a vote of the WG, which adopted three procedures `write-simple` (traditional `write`), `write` (with datum labels only to break cycles), and `write-shared` (datum labels to show all shared structure, the `write-with-shared-structure` of SRFI-38).
+
+#453: The denotational semantics.  Treated as editorial and substantially adopted by the editors.  The WG voted whether to remove the formal semantics altogether or attempt to repair it, and decided on the latter.
+
+#455: What is a dynamic environment?  Treated as editorial and substantially adopted by the editors.
+
+#456: Adoption of R6RS.  Treated as editorial.  Recognizing the delicate nature of the issue, the editors removed the language objected to, and replaced it by new and less contentious language.  The new language was also objected to.  The editors decided to go no further.
+
+After the Formal Comment process closed, a [[http://lists.scheme-reports.org/pipermail/scheme-reports/2012-November/002755.html|belated Formal Comment]] was received.  The WG is still considering whether an emergency change is justified.
+
