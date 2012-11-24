@@ -1,6 +1,6 @@
-Near the end of the WG1 process, a Formal Comment sub-process was performed.  A total of 21 Formal Comments were received, listed here.  Note that the ticket numbers are links to verbatim copies of the actual comments.
+Near the end of the WG1 process, a Formal Comment sub-process was performed based on the sixth draft.  A total of 21 Formal Comments were received, which listed here.  Note that the ticket numbers are links to verbatim copies of the actual comments.  For details of WG votes, see [wiki:WG1Ballot6Results].
 
-#357: The epoch of `current-second` should be 1970-01-01 00:00:00 TAI.  Adopted.
+#357: The epoch of `current-second` should be 1970-01-01 00:00:00 TAI.  Adopted by a vote of the WG; see [wiki:WG1Ballot5Results] for details.
 
 #360: Change syntax of escaped symbols from `|<symbol element>*|` to `#"<string element>*"`.  Rejected by the editors, who concluded that there was no precedent for it, that it conflicted with the Racket lexical syntax for byte strings, and that it was most unlikely to pass a vote.
 
@@ -28,7 +28,7 @@ Near the end of the WG1 process, a Formal Comment sub-process was performed.  A 
 
 #435: Bytevectors should be called u8vectors.  Rejected by the editors, on the grounds that the WG had already voted and no new arguments had been presented.  There was considerable (and widening) dispute [[http://lists.scheme-reports.org/pipermail/scheme-reports/2012-July/002386.html|on the scheme-reports mailing list]], but the editors' view prevailed and no vote was taken.
 
-#436: Generalization of append, map, and for-each to other sequences.  The proposed `vector-append` and `bytevector-append` procedures were adopted by a vote of the WG.  Due to an apparent oversight, the `bytevector-map` and `bytevector-for-each` procedures were never considered by the WG.
+#436: Generalization of append, map, and for-each to other sequences.  The proposed `vector-append` and `bytevector-append` procedures were adopted by a vote of the WG.  Neither the editors nor any WG member filed a ballot ticket for the `bytevector-map` and `bytevector-for-each` procedures, so they were never voted on by the WG.
 
 #438: Inconsistency of sequence copying procedures.  Adopted by a vote of the WG.  However, the suggestions to reorder the arguments of the destructive `*-copy!` procedures and to to rename various procedures were not considered.
 
@@ -43,4 +43,3 @@ Near the end of the WG1 process, a Formal Comment sub-process was performed.  A 
 #456: Adoption of R6RS.  Treated as editorial.  Recognizing the delicate nature of the issue, the editors removed the language objected to, and replaced it by new and less contentious language.  The new language was also objected to.  The editors decided to go no further.
 
 After the Formal Comment process closed, a [[http://lists.scheme-reports.org/pipermail/scheme-reports/2012-November/002755.html|belated Formal Comment]] was received.  The WG is still considering whether an emergency change is justified.
-
