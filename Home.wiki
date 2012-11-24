@@ -66,8 +66,9 @@ Comments are welcome at the [[http://lists.scheme-reports.org/cgi-bin/mailman/li
 [[MemberPagesWorkingGroupTwo|Member Page]]
 
 '''Work Item Dockets'''
+    * InputDocket (new work items not yet accepted by WG2)
     * StandardDocket (main list of WG2 work items)
-    * ConsentDocket (uncontroversial work items)
+    * ConsentDocket (work items that are uncontroversial in the view of the chair)
     * ReassignedDocket (work items for future WGs)
     * RevoteDocket (work items that need a WG2 revote)
 
