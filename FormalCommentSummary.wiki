@@ -1,4 +1,6 @@
-Near the end of the WG1 process, a Formal Comment sub-process was performed based on the sixth draft.  A total of 21 Formal Comments were received, which listed here.  Note that the ticket numbers are links to verbatim copies of the actual comments.  For details of WG votes, see [wiki:WG1Ballot6Results].
+Near the end of the WG1 process, a Formal Comment sub-process was performed based on the sixth draft.  A total of 21 Formal Comments were received, which are listed here.  Note that the ticket numbers are links to verbatim copies of the actual comments.  For details of WG votes, see [wiki:WG1Ballot6Results].
+
+Quick list of Formal Comments that were not adopted, or not in their entirety:  #360, #421, #423, #434, #435, #436, #438, #440, #456, #477.
 
 #357: The epoch of `current-second` should be 1970-01-01 00:00:00 TAI.  Adopted by a vote of the WG; see [wiki:WG1Ballot5Results] for details.
 
