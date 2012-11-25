@@ -42,7 +42,9 @@ Note also that there is considerable freedom in the choice of procedures to allo
 
 == Differences between this proposal and R6RS ==
 
-1. The R6RS implicitly requires that the implementation will be able to   prove operational equivalence in ''all'' cases where there is no counterexample (which I suspect is not always possible), whereas my definition does not.  My definition strictly requires `#t` for inexacts only when they have the "same internal representation".  Therefore, my definition allows `#f` to be returned in some cases where R6RS would strictly require `#t`.
+Even apart from the NaN problem [[see|#477 for details]], my formulation has four notable changes:
+
+1. The R6RS implicitly requires that the implementation will be able to prove operational equivalence in ''all'' cases where there is no counterexample (which I suspect is not always possible), whereas my definition does not.  My definition strictly requires `#t` for inexacts only when they have the "same internal representation".  Therefore, my definition allows `#f` to be returned in some cases where R6RS would strictly require `#t`.
 
 2. The R6RS has a circular definition, comparing the results of `(f z1)` and `(f z2)` using 'eqv?', whereas my formulation uses `=` when the results are both numbers (and not both !NaNs).  I would conjecture that this results in the same requirements as those ''intended'' by the R6RS authors.
 
