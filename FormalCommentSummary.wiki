@@ -42,4 +42,4 @@ Near the end of the WG1 process, a Formal Comment sub-process was performed base
 
 #456: Adoption of R6RS.  Treated as editorial.  Recognizing the delicate nature of the issue, the editors removed the language objected to, and replaced it by new and less contentious language.  The new language was also objected to.  The editors decided to go no further.
 
-After the Formal Comment process closed, a [[http://lists.scheme-reports.org/pipermail/scheme-reports/2012-November/002755.html|belated Formal Comment]] was received.  The WG is still considering whether an emergency change is justified.
+After the Formal Comment process closed, #477 (a Formal Objection) was received.  The WG is still considering whether an emergency change is justified.
