@@ -1,0 +1,29 @@
+== Proposed R7RS definition for `eqv?` on numbers ==
+
+[[See|#477 for detailed background and rationale]]
+
+Objects ''obj,,1,,'' and ''obj,,2,,'' are ''substantially different'' if and only if one of the following holds:
+
+* ''Obj,,1,,'' and ''obj,,2,,'' are both numbers, at least one is numerically equal to itself (see `=`), and they are not numerically equal (see `=`) to each other.
+
+* ''Obj,,1,,'' and ''obj,,2,,'' are not both numbers, and they are different (in the sense of `eqv?`).
+
+Inexact numbers ''z,,1,,'' and ''z,,2,,'' are ''operationally equivalent'' if and only if for all procedures ''f'' that can be defined as a finite composition of the standard numerical operations specified in section 6.2.6, `(f z1)` and `(f z2)` either both raise exceptions or yield results that are not substantially different.
+
+The `eqv?` procedure returns `#t` if one of the following holds:
+
+[...]
+
+* ''Obj,,1,,'' and ''obj,,2,,'' are both exact numbers and are numerically equal (see `=`).
+
+* ''Obj,,1,,'' and ''obj,,2,,'' are both inexact numbers, at least one is numerically equal to itself (see `=`), and the implementation is able to prove that ''obj,,1,,'' and ''obj,,2,,'' are operationally equivalent.  Implementations must be able to prove that two inexact numbers with the same internal representation are operationally equivalent.
+
+The `eqv?` procedure returns `#f` if one of the following holds:
+
+[...]
+
+* One of ''obj,,1,,'' and ''obj,,2,,'' is an exact number but the other is an inexact number.
+
+* ''Obj,,1,,'' and ''obj,,2,,'' are exact numbers for which the `=` procedure returns `#f`.
+
+* ''Obj,,1,,'' and ''obj,,2,,'' are inexact numbers, at least one is numerically equal to itself (see `=`), and the implementation is unable to prove that ''obj,,1,,'' and ''obj,,2,,'' are operationally equivalent.
