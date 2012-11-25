@@ -26,7 +26,7 @@ Quick list of Formal Comments that were not adopted, or not in their entirety:  
 
 #431: Continuation used when 'guard' re-raises an exception.  Treated as editorial, and adopted by the editors.
 
-#434: List of named characters is incomplete.  Treated mostly as editorial.  The WG voted not to adopt any specific recommended source of named characters for implementation extensions.
+#434: List of named characters is incomplete.  Treated mostly as editorial, and adopted by the editors.  The WG voted not to adopt any specific recommended source of named characters for implementation extensions.
 
 #435: Bytevectors should be called u8vectors.  Rejected by the editors, on the grounds that the WG had already voted and no new arguments had been presented.  There was considerable (and widening) dispute [[http://lists.scheme-reports.org/pipermail/scheme-reports/2012-July/002386.html|on the scheme-reports mailing list]], but the editors' view prevailed and no vote was taken.
 
