@@ -41,7 +41,7 @@ Homogeneous numeric arrays: [[http://srfi.schemers.org/srfi-4/srfi-4.html|SRFI 4
 
 Immutable cyclic lists: CyclesMedernach
 
-Loop syntax: [[http://www.ccs.neu.edu/home/shivers/papers/loop.pdf|Olin Shivers's loop]], [[http://mumble.net/~campbell/scheme/foof-loop.txt|Taylor Campbell's foof-loop]], eager comprehensions from [[http://srfi.schemers.org/srfi-42/srfi-42.html|SRFI 42]]
+Loop syntax: [[http://www.ccs.neu.edu/home/shivers/papers/loop.pdf|Olin Shivers's loop]], [[http://mumble.net/~campbell/scheme/foof-loop.txt|Taylor Campbell's foof-loop]], eager comprehensions from [[http://srfi.schemers.org/srfi-42/srfi-42.html|SRFI 42]].  See also [[http://lists.scheme-reports.org/pipermail/scheme-reports/2012-November/002914.html|Alex Shinn's defense of foof-loop]].
 
 Mailboxes, channels, synchronized queues:
 
