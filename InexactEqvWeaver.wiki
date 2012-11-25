@@ -1,6 +1,6 @@
 == Proposed R7RS definition for `eqv?` on numbers ==
 
-[[See|#477 for detailed background and rationale]]
+[[See|#477 for detailed background]]
 
 Objects ''obj,,1,,'' and ''obj,,2,,'' are ''substantially different'' if and only if one of the following holds:
 
@@ -27,3 +27,27 @@ The `eqv?` procedure returns `#f` if one of the following holds:
 * ''Obj,,1,,'' and ''obj,,2,,'' are exact numbers for which the `=` procedure returns `#f`.
 
 * ''Obj,,1,,'' and ''obj,,2,,'' are inexact numbers, at least one is numerically equal to itself (see `=`), and the implementation is unable to prove that ''obj,,1,,'' and ''obj,,2,,'' are operationally equivalent.
+
+== Rationale for the above definition ==
+
+The novel feature of this definition is the auxiliary predicate ''substantially different'', which is needed to gracefully avoid circularities and the problems associated with !NaNs, both of which plagued the R6RS definition.
+
+The circularity problem is addressed by defining substantially different on numbers in terms of `=` instead of `eqv?`.  The NaN problem (see below) is addressed by making sure that two numbers can only be substantially different from each other if at least one of them is `=` to itself.
+
+Note that there is considerable freedom in how "substantially different" is defined.  As long as it is capable of making the most coarse distinctions between numbers, that's good enough, because it should always be possible to choose a procedure ''f'' that amplifies even the finest distinction between any two inexact numbers that are not operationally equivalent.
+
+For example, suppose that in addition to the usual `+0.0` and `-0.0`, an experimental numeric representation was able to distinguish (x/y+0.0) from (x/y-0.0) for any exact rational x/y.  It would still be possible to amplify that distinction to an infinite difference by subtracting x/y and then taking the reciprocal.
+
+Note also that there is considerable freedom in the choice of procedures to allow in the construction of ''f''.  The main requirements are that they are sufficient to amplify arbitrary fine distinctions into coarse ones that are substantially different, and that the procedures are pure functions, i.e. they must not use `eqv?` or `eq?` (directly or indirectly), they must not cause visible side effects, and their return values must depend only on their arguments.  It needn't be a comprehensive set.
+
+== Differences between this proposal and R6RS ==
+
+1. The R6RS implicitly requires that the implementation will be able to   prove operational equivalence in ''all'' cases where there is no counterexample (which I suspect is not always possible), whereas my definition does not.  My definition strictly requires `#t` for inexacts only when they have the "same internal representation".  Therefore, my definition allows `#f` to be returned in some cases where R6RS would strictly require `#t`.
+
+2. The R6RS has a circular definition, comparing the results of `(f z1)` and `(f z2)` using 'eqv?', whereas my formulation uses `=` when the results are both numbers (and not both !NaNs).  I would conjecture that this results in the same requirements as those ''intended'' by the R6RS authors.
+
+3. The set of numerical procedures that can be composed to form ''f'' is different.  I would conjecture that this makes no difference in the resulting requirements.
+
+4. In the R6RS, the clause requiring `eqv?` to return `#t` for inexacts explicitly requires that `=` return `#t` as a prerequisite.  My formulation does not explicitly require this, but it requires the same prerequisite indirectly (unless both are !NaNs), because if ''z,,1,,'' and ''z,,2,,'' are not `=`, then `(+ z1)` and `(+ z2)` are substantially different.
+
+In summary, I would conjecture that the only difference in the resulting requirements (comparing with those ''intended'' by the R6RS and likely implemented in practice) has to do with change #1 above.
