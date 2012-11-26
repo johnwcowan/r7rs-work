@@ -40,16 +40,37 @@ For example, suppose that in addition to the usual `+0.0` and `-0.0`, an experim
 
 Note also that there is considerable freedom in the choice of procedures to allow in the construction of ''f''.  The main requirements are that they are sufficient to amplify arbitrary fine distinctions into coarse ones that are substantially different, and that the procedures are pure functions, i.e. they must not use `eqv?` or `eq?` (directly or indirectly), they must not cause visible side effects, and their return values must depend only on their arguments.  It needn't be a comprehensive set.
 
-== Differences between this proposal and R6RS ==
+== Nontrivial changes in the formulation of `eqv?` since R6RS ==
 
-Even apart from the NaN problem [[see|#477 for details]], my formulation has four notable changes:
+* Nontrivial change: "rational numbers" to "exact numbers" in the clause requiring `#f` if "Obj,,1,, and obj,,2,, are rational numbers for which the `=` procedure returns `#f`."
 
-1. The R6RS implicitly requires that the implementation will be able to prove operational equivalence in ''all'' cases where there is no counterexample (which I suspect is not always possible), whereas my definition does not.  My definition strictly requires `#t` for inexacts only when they have the "same internal representation".  Therefore, my definition allows `#f` to be returned in some cases where R6RS would strictly require `#t`.
+  Note: This clause was redundant, but is kept for the case of exact numbers, so that we may restrict our definition of the predicate "operationally equivalent" to inexact numbers only.
 
-2. The R6RS has a circular definition, comparing the results of `(f z1)` and `(f z2)` using 'eqv?', whereas my formulation uses `=` when the results are both numbers (and not both !NaNs).  I would conjecture that this results in the same requirements as those ''intended'' by the R6RS authors.
+* Stylistic change: Move the following language into the new
+  auxiliary predicate ''operationally equivalent'':
 
-3. The set of numerical procedures that can be composed to form ''f'' is different.  I would conjecture that this makes no difference in the resulting requirements.
+    "[...] yield {the same,different} results (in the sense of `eqv?`) when passed as arguments to any other procedure that can be defined as a finite composition of Scheme's standard arithmetic procedures"
 
-4. In the R6RS, the clause requiring `eqv?` to return `#t` for inexacts explicitly requires that `=` return `#t` as a prerequisite.  My formulation does not explicitly require this, but it requires the same prerequisite indirectly (unless both are !NaNs), because if ''z,,1,,'' and ''z,,2,,'' are not `=`, then `(+ z1)` and `(+ z2)` are substantially different.
+* Nontrivial change: Restrict use of the predicate "operationally equivalent" to cases where both arguments are inexact.
 
-In summary, I would conjecture that the only difference in the resulting requirements (comparing with those ''intended'' by the R6RS and likely implemented in practice) has to do with change #1 above.
+* Stylistic change: Move the "same results (in the sense of `eqv?`)" language into the new auxiliary predicate ''substantially different''.
+
+* Significant change: Eliminate the circularity by changing the definition of "substantially different" for two numbers to use `=` instead of `eqv?`.
+
+* Significant change: Fix the NaN problem by making sure that two numbers can only be substantially different if at least one of them is numerically equal to itself.
+
+* Significant change: Restrict the set of procedures that can be used to construct ''f'', and use the R7RS terminology, changing "Scheme's standard arithmetic procedures" to "the standard numerical operations specified in section 6.2.6"
+
+* Significant change: Properly handle the case where `(f z_1)` or `(f z_2)` raise exception(s).  Change "`(f z_1)` and `(f z_2`) yield results that are not substantially different" to "`(f z_1)` and `(f z_2)` either both raise exceptions or yield results that are not substantially different."
+
+* Significant change: Make sure that the case where both arguments are NaNs is left unspecified by requiring, in the inexact clauses, that at least one argument is numerically equal to itself.
+
+* Simplification: Remove the redundant check for numerical equality as a prerequisite for `eqv?` returning `#t`.
+
+  Rationale: If ''obj,,1,,'' and ''obj,,2,,'' are not numerically equal (and not both !NaNs), it trivially follows that ''obj,,1,,'' and ''obj,,2,,'' are not operationally equivalent, since `(+ obj_1`) and `(+ obj_2)`are substantially different.
+
+* Significant change: Relax the requirements for returning `#t` for `eqv?` on inexacts to the cases where "the implementation is able to prove" operational equivalence.
+
+  We now require only that the "implementations must be able to prove that two inexact numbers with the same internal representation are operationally equivalent.
+
+  Rationale: It may be difficult or impossible for the implementation to prove that two inexact numbers are operationally equivalent.
