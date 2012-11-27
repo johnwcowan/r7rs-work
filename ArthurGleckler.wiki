@@ -35,7 +35,7 @@ to view and edit pages on our Trac site directly from Emacs.
 
 Here are my ballots:
 
-   * [wiki:WG1BallotGleckler] (This is currently my seventh ballot.)
+   * [wiki:WG1BallotGleckler] (This is currently my ninth ballot.)
    * [wiki:WG1Ballot1Gleckler]
    * [wiki:WG1Ballot3Gleckler] (This is a copy of my third ballot.  I didn't archive my second ballot.)
    * [wiki:WG1Ballot4Gleckler] (This is a copy of my fourth ballot.)
