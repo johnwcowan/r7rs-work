@@ -47,7 +47,7 @@ appeal to idealists, it does not match reality.  Our computers use
 crude hacks for efficiency, and even if someone manages to build an
 ideal Scheme, it will likely be impractical and most implementations
 will continue to use those hacks.  Moreover, mathematical equivalence
-is already available vai the `=` procedure.  This is not a practical
+is already available via the `=` procedure.  This is not a practical
 equivalence relation for a standard.  The text for the true case of
 `eqv?` for inexact numbers under `r5rs` is:
 
