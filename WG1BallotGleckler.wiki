@@ -107,4 +107,11 @@ text is:
     * [[http://www.math.purdue.edu/~lucier/r7rs-eqv-discuss|Lucier on IEEE 754]]
   * '''Options:''' r5rs, r6rs, representational
   * '''Default:''' r5rs
-  * '''Preferences:'''
+  * '''Preferences:''' representational, r6rs, r5rs
+
+Rationale: The representational definition clearly and concretely
+defines what an implementer should do to implement `eqv?` for inexact
+numbers, which makes it better than the r6rs option, and it takes into
+account issues like precision, which makes it better than the r5rs
+option.  The r6rs option is better than the r5rs option for the same
+reason.  Thus my ordering of preferences.
