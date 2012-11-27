@@ -41,6 +41,7 @@ Here are my ballots:
    * [wiki:WG1Ballot4Gleckler] (This is a copy of my fourth ballot.)
    * [wiki:WG1Ballot5Gleckler] (This is a copy of my fifth ballot.)
    * [wiki:WG1Ballot6Gleckler] (This is a copy of my sixth ballot.)
+   * [wiki:WG1Ballot7Gleckler] (This is a copy of my seventh ballot.)
    * [wiki:WG1ReBallotGleckler] (obsolete)
 
 Here are my proposals:
