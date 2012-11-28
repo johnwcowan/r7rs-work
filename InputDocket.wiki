@@ -4,7 +4,7 @@ This docket contains work items that have not yet been voted on.  See [[:WG2Dock
 
 Applicable record instances (see http://www.r6rs.org/formal-comments/comment-6.txt):
 
-`cond` `=>` with guard as well as generator (see #89):  SRFI 61
+`cond` `=>` with guard as well as generator (see #89):  [[http://srfi.schemers.org/srfi-61/srfi-61.html|SRFI 61]]
 
 Combinators: CombinatorsCowan
 
