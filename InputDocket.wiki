@@ -6,9 +6,13 @@ Applicable record instances (see http://www.r6rs.org/formal-comments/comment-6.t
 
 `cond` `=>` with guard as well as generator (see #89):  [[http://srfi.schemers.org/srfi-61/srfi-61.html|SRFI 61]]
 
+`cond` `=>` passes multiple values from predicate to consumer:
+
 Combinators: CombinatorsCowan
 
 Custom I/O ports:
+
+Default exception handler controls:
 
 Division library: DivisionRiastradh
 
@@ -16,7 +20,7 @@ Division library: DivisionRiastradh
 
 Enumerations (R6RS, but see also http://www.r6rs.org/formal-comments/comment-262.txt):
 
-`equal=?` (like `equal?` but with `=` instead of `eqv?` on numbers):
+Generalized `equal`: GeneralizedEqualCowan
 
 Evaluator arguments to procedures like `load`: #277
 
@@ -31,6 +35,8 @@ External representation of records:
 Futures:  [[http://docs.racket-lang.org/reference/futures.html|Racket API]]
 
 Identifier-syntax:
+
+`if` with arbitrarily many arguments:
 
 Imaginary inexact zero versions of ''real'', ''rational'', ''integer'': 
 
@@ -55,6 +61,8 @@ Natural number predicates (from WG1):  `exact-positive-integer?` and `exact-non-
 Port encodings, buffering, line ending control:  SettingsListsCowan and FilesAdvancedCowan
 
 Port type detector:
+
+R6RS compatibility libraries:
 
 Random procedures from R6RS (notably `symbol=?` and `boolean=?`): to be spelled out
 
@@ -85,5 +93,7 @@ Thread-local storage:
 Testing function arity: [[http://srfi.schemes.org/srfi-102/srfi-102.html|SRFI 102]]
 
 Undefined value API (see #49):
+
+Unquote with multiple arguments:  see #123
 
 User-specified syntax-transformers:
