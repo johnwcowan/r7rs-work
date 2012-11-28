@@ -16,4 +16,7 @@ This is a list of voting dockets for WG2 work items (packages):
   Items that require a revote.
 
  RejectedDocket::
-  Items that were rejected by a vote.
+  Items that were rejected by a WG2 vote.
+
+ MandatoryDocket::
+  Things to consider making mandatory in R7RS-large that are optional in R7RS-small.
