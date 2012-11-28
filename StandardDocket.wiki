@@ -29,13 +29,15 @@ Environment enquiries: EnvironmentEnquiriesCowan
 
 File system directories (reading): [[http://www.scsh.net/docu/html/man-Z-H-4.html#node_sec_3.3|SCSH directory stream interface]], DirectoryPortsCowan, `directory-files` to return a list of all files in the dir (in WG1 vote order)
 
+File library, advanced version:  FilesAdvancedCowan
+
 File system directories (creation, removal): DirectoriesCowan
 
 Flonum arithmetic: FlonumsCowan
 
 Gettext (i18n of strings):
 
-Hash tables: [[http://srfi.schemers.org/srfi-69/srfi-69.html|SRFI 69]], [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-14.html#node_chap_13|R6RS]] (in WG1 vote order), HashTablesCowan
+Hash tables: [[http://srfi.schemers.org/srfi-69/srfi-69.html|SRFI 69]], [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-14.html#node_chap_13|R6RS]] (in WG1 vote order), HashTablesCowan (portable compromise, default equality functions only)
 
 Homogeneous numeric arrays: [[http://srfi.schemers.org/srfi-4/srfi-4.html|SRFI 4]], BlobsCowan
 
