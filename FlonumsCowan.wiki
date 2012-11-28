@@ -83,7 +83,7 @@ The following procedures are defined in terms of the functions of the <math.h> h
 ||`log-one-plus`||`double      log1p(double x)`||log (1+x)||
 ||`multiply-add`||`double      fma(double a, double b, double c)`||a*b+c||
 ||`next-after`||`double      nextafter(double, double)`||next flonum following x in the direction of y||
-||`normalized-fraction-exponent`||`double      frexp(double, int *)`||returns two values, fraction in range [1/2,1) and int exponent||
+||`normalized-fraction-exponent`||`double      frexp(double, int *)`||returns two values, fraction in range [[1/2,1)|and int exponent||
 ||`positive-difference`||`double      fdim(double, double)`||-||
 ||`remquo`||`double      remquo(double, double, int *)`||returns two values, rounded remainder and low-order ''n'' bits of the quotient (''n'' is implementation-defined)
 ||`scalbn`||`double      scalbn(double x, int y)`||x*r^y^, where r is the machine float radix||
@@ -102,7 +102,7 @@ Implementations that use IEEE binary floating-point arithmetic should follow the
 
 == Compnum procedures from <complex.h> ==
 
-A ''compnum'' is a general complex number whose `real-part` and `imag-part` are both flonums.  The following procedures should be in a different module from the flonum procedures, since they will only be relevant to Schemes that support general complex numbers, and since there are conflicting names.
+A ''compnum'' is a general complex number whose `real-part` and `imag-part` are both flonums.  The following procedures should be in a different library from the flonum procedures, since they will only be relevant to Schemes that support general complex numbers, and since there are conflicting names.
 
 ||Scheme name||C signature||Comments||
 ||`abs`||`double cabs(double complex)`||same as magnitude||
@@ -128,3 +128,20 @@ A ''compnum'' is a general complex number whose `real-part` and `imag-part` are 
 ||`sqrt`||`double complex csqrt(double complex)`||-||
 ||`tan`||`double complex ctan(double complex)`||-||
 ||`tanh`||`double complex ctanh(double complex)`||-||
+
+== Derived procedures ==
+
+TODO: what library do these go in?
+
+`(cis `''z''`)`
+
+Returns e^i''z''^, a complex number whose real part is cos ''z'' and whose imaginary part is sin ''z''.
+
+`(signum `''z''`)`
+
+Returns a complex number whose phase is the same as ''z'' but whose magnitude is 1, unless ''z'' is zero, in which case it returns ''z''.  As a consequence of this definition, negative real numbers return -1, positive real numbers return 1, and zero returns zero.
+
+`(decode-float `''z''`)` and friends
+
+See [http://www.lispworks.com/documentation/lw50/CLHS/Body/f_dec_fl.htm CL DECODE-FLOAT and friends]].
+ 
