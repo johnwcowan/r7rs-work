@@ -1,7 +1,9 @@
-These are things to consider making mandatory in the large language that are optional in the small language.
+These are things to consider making mandatory in the large language that are optional in the small language.  See [wiki:WG2Dockets] for other dockets.
 
 Full numeric tower support (bignums, ratios, flonums, compnums)
 
 Full Unicode support (all Unicode characters as characters, all Unicode characters except perhaps U+0000 in strings)
+
+Fixnums must be at least 24 bits signed
 
 
