@@ -1,0 +1,7 @@
+These are things to consider making mandatory in the large language that are optional in the small language.
+
+Full numeric tower support (bignums, ratios, flonums, compnums)
+
+Full Unicode support (all Unicode characters as characters, all Unicode characters except perhaps U+0000 in strings)
+
+
