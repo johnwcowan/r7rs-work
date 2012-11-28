@@ -1,0 +1,87 @@
+This WG2 proposal extends Scheme symbols in a variety of traditional Lisp ways: it provides uninterned symbols, symbol values, and property lists.  It can be implemented portably on top of ordinary symbols, provided that the four standard procedures given here are redefined to deal with uninterned symbols as well as ordinary symbols.  For a high-quality implementation, a record facility is needed for uninterned symbols, and a hash table or similar lookup table to associated ordinary symbols with their values and property lists.
+
+== Uninterned symbols ==
+
+Uninterned symbols are like symbols, except that they have two names, a unique name and a human-readable name (which need not be unique).  Implementations need not guarantee that the unique name is truly unique, but should make a best effort to do so, such as by using a large pseudo-random string of characters as the name.
+
+`(symbol? `''obj''`)`
+
+Returns `#t` if ''obj'' is either an ordinary symbol or an uninterned symbol, and `#f` otherwise.   
+
+`(ordinary-symbol? `''obj''`)`
+
+Returns `#t` if ''obj'' is an ordinary symbol, and `#f` otherwise.
+
+`(uninterned-symbol? `''obj''`)`
+
+Returns `#t` if ''obj'' is an uninterned symbol, and `#f` otherwise.
+
+`(symbol=? `''symbol1 symbol2'' ... `)`
+
+Returns `#t` if all the ''symbol''s have the same unique name in the sense of `string=?`.
+
+`(symbol->string `''symbol''`)`
+
+Returns the name of ''symbol'' as a string if it is an ordinary symbol, or its human-readable name if it is an uninterned symbol.  It is an error to mutate this string.
+
+`(string->symbol `''string''`)`
+
+Returns an ordinary symbol whose name is ''string''.
+
+`(string->uninterned-symbol `''string''`)`
+
+Returns an uninterned symbol whose human-readable name is ''string'', and whose unique name is chosen by the implementation.
+
+`(symbol-unique-name `''symbol''`)`
+
+Return the name of ''symbol'' if it is an ordinary symbol, or its unique name if it is an uninterned symbol.
+
+`(gensym ` [[|''string'' ]] `)`
+
+Returns an uninterned symbol whose human-readable name is distinct from that of any symbol returned by a previous call to `gensym`.  If ''string'' is present, it is used as a prefix of the human-readable name.
+
+== Symbol values ==
+
+`(symbol-ref `''symbol''`)`
+
+Returns an object which is the value of ''symbol''.  The value may or may not have anything to do with the global binding of the identifier corresponding to ''symbol''.
+
+`(symbol-set! `''symbol obj''`)`
+
+Changes the value of ''symbol'' to ''obj''.  This may or may not affect the global binding of the identifier corresponding to ''symbol''.  An unspecified value is returned.
+
+== Property lists ==
+
+A property list is a list that can be bound to a symbol.  The original value of a symbol's property list is implementation-dependent.  The structure of a property list is a sequence of symbols known as ''indicators'', some of which may be followed by an arbitrary object known as the indicator's ''value''.  Note that property lists are a list of objects, unlike alists which are a list of pairs.
+
+`(get-property `''symbol indicator'' [[|''obj'' ]] `)`
+
+Searches the property list of ''symbol'' for ''indicator''.  If a symbol that is `symbol=?` to ''indicator'' is found on the list, the next object on the list is returned; it is an error if there is no next object.  If there is not, ''obj'' is returned if it is present, and if absent, `#f` is returned.
+
+`(get-property-list `''symbol indicator''`)`
+
+If a symbol that is `symbol=?` to ''indicator'' is found on the list, the rest of the list is returned.  If there is not, `#f` is returned.
+
+`(set-property! `''symbol indicator obj''`)`
+
+Searches the property list of ''symbol'' for ''indicator''.  If a symbol that is `symbol=?` to ''indicator'' is found on the list, the next object on the list is destructively replaced with ''obj''; it is an error if there is no next object.  If there is not, ''indicator'' and ''obj'' are consed on to the beginning of the property list.   An unspecified value is returned.
+
+`(remove-property! `''symbol indicator''`)`
+
+Searches the property list of ''symbol'' for ''indicator''.  If a symbol that is `symbol=?` to ''indicator'' is found on the list, the indicator and the next object on the list are destructively removed from the list and `#t` is returned; it is an error if there is no next object.  If there is not, nothing is done, and `#f` is returned.
+
+`(symbol-property-list `''symbol''`)`
+
+Returns the property list associated with ''symbol'' without copying it.  The caller is free to mutate the list.
+
+`(symbol-property-list-set! `''symbol list''`)`
+
+Replaces the property list associated with ''symbol'' with ''list'', which is not copied.  An unspecified value is returned.
+
+`(symbol-add-indicators! `''symbol-list indicator''`)`
+
+''Symbol-list'' is a list of symbols.  The property list of each symbol is searched for ''indicator''.  If a symbol that is `symbol=?` to ''indicator'' is found on the list, nothing is done.  If not, ''indicator'' is consed on to the beginning of the property list.  An unspecified value is returned.
+
+`(symbol-remove-indicators! `''symbol-list indicator''`)`
+
+''Symbol-list'' is a list of symbols.  The property list of each symbol is searched for ''indicator''.  If a symbol that is `symbol=?` to ''indicator'' is found on the list, the indicator is destructively removed from the list.  If not, ''indicator'' is consed on to the beginning of the property list.  An unspecified value is returned.
