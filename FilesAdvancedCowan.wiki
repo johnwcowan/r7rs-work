@@ -29,11 +29,11 @@ Returns the current position of ''port''.  For a binary port, returns the index 
 
 Returns `#t` if the port supports the `port-position` operation, and `#f` otherwise.
 
-`(set-port-position `''port''` `''position''`)`
+`(set-port-position! `''port''` `''position''`)`
 
 Changes the current position of ''port''.  If port is a binary port, and ''position'' is a non-negative exact integer object, it is used as the index of the position at which the next byte will be read from or written to the port. If port is a textual port, and ''position'' is the return value of a preceding call to `port-position` on ''port'', then the next character will be read or written from that position.  If ''port'' is a binary output port and the ''position'' is beyond the current end of the data, `set-port-position!` will succeed, but the contents of any intervening positions are unspecified.
 
-Calling this procedure on ''port'' resets the buffer state, allowing a binary operation to follow even if the previous operation was textual, an input operation to follow even if the previous operation was output, or an output operation to follow even if the previous operation of input.
+Calling this procedure on ''port'' resets the buffer state, allowing a binary operation to follow even if the previous operation was textual, an input operation to follow even if the previous operation was an output, or an output operation to follow even if the previous operation was an input.
 
 `(can-set-port-position? `''port''`)`
 
@@ -47,17 +47,14 @@ Returns `#t` if the next attempt to read a byte from ''port'' would return an eo
 
 Returns `#t` if the next attempt to read a character from ''port'' would return an eof-object, and `#f` otherwise.
 
-`(read-string `''n''` `[[|''port'' ]]`)`
+`(read-string! `''string'' [[|''port'' [ ''start'' [ ''end'' ]] ] ] `)`
 
-Reads at most ''n'' characters from ''port'' and returns them as a newly allocated string.  If fewer characters can be read, they are returned.  If no characters can be read, an eof-object is returned.  The default port is the value of `(current-input-port)`.
+Reads the next ''end'' − ''start'' characters, or as many as are available before the end of file, from the binary input ''port'' into ''string'' in left-to-right order beginning at the ''start'' position. If ''end'' is not supplied, reads until the end of ''string'' has been reached. If ''start'' is not supplied, reads beginning at position 0. Returns the number of characters read.
+If no characters are available, an end-of-file object is returned.
 
-`(read-string! `''n''` `''string''` `''start''` `[[|''port'' ]]`)`
+`(read-lines ` [[|''input-port'' ]]`)`
 
-Reads at most ''n'' characters from ''port'' and places them into ''string'' starting at position ''start''.  If there is insufficient room in ''string'', it is filled up and no further characters are read.  If fewer than ''n'' characters can be read from ''port'', they are used.  If no characters at all can be read, an eof-object is returned.  The default port is the value of `(current-input-port)`.
-
-`(write-string `''string''` `''start''` `''end''` `[''port'']`)`
-
-Reads characters from ''string'' beginning at ''start'' (inclusive) and ending at ''end'' (exclusive) to ''port''.  The default port is the value of `(current-output-port)`.
+Read all remaining characters in ''input-port'' as if by `read-line`, and return a list of strings representing the lines.
 
 `(read-all-bytes ` [''port'']`)`
 
@@ -82,4 +79,3 @@ Converts ''string'' to a bytevector using the keys `encoding`, `newline`, `encod
 `(bytevector->string `''bytevector'' [[|''settings-list'' ]]`)`
 
 Converts ''bytevector'' to a string using the keys `encoding`, `newline`, `encoding-error`, and possibly other implementation-specific keys in ''settings-list'', and returns the bytevector.
-
