@@ -58,7 +58,7 @@ Port type detector:
 
 Random procedures from R6RS (notably `symbol=?` and `boolean=?`): to be spelled out
 
-`Record-let`:
+`Record-let`: #45
 
 Record external representations: 
 
