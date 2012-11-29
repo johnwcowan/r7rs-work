@@ -10,6 +10,8 @@ Applicable record instances (see http://www.r6rs.org/formal-comments/comment-6.t
 
 Combinators: CombinatorsCowan
 
+Container conversion: [[http://trac.sacrideo.us/wg/wiki/WG1Ballot6Results#a433fullconversioncycleforcontainers|ballot options]]
+
 Custom I/O ports:
 
 Default exception handler controls:
@@ -36,6 +38,8 @@ Features, allowing libraries to add:
 
 Futures:  [[http://docs.racket-lang.org/reference/futures.html|Racket API]]
 
+`hex-digit-value`:
+
 Identifier-syntax:
 
 `if` with arbitrarily many arguments:
@@ -45,6 +49,8 @@ Imaginary inexact zero versions of ''real'', ''rational'', ''integer'':
 Immutable data: ImmutableData
 
 Interrupts, timers, signals: 
+
+Jiffy cleanup:
 
 List library (supplementary):  ListsCowan
 
@@ -58,11 +64,15 @@ NaN dissector API (sign, quiet/signaling status, and integer tag): NanMedernach
 
 Natural number predicates (from WG1):  `exact-positive-integer?` and `exact-non-negative-integer?`.
 
-`number->string` control for significant digits: [[http://lists.scheme-reports.org/pipermail/scheme-reports/2011-May/000709.html|Vincent Manis proposal]], R6RS
+`number->string` variant with control for significant digits: [[http://lists.scheme-reports.org/pipermail/scheme-reports/2011-May/000709.html|Vincent Manis proposal]], R6RS
+
+`number->string` variant handling arbitrary Unicode decimal digits: 
 
 Port encodings, buffering, line ending control:  SettingsListsCowan and FilesAdvancedCowan
 
-Port type detector:
+Port type detector: #177
+
+Procedure arity inspection: [[http://srfi.schemers.org/srfi-102/srfi-102.html|SRFI 102]]
 
 R6RS compatibility libraries:
 
@@ -94,7 +104,7 @@ Thread-local storage:
 
 Testing function arity: [[http://srfi.schemes.org/srfi-102/srfi-102.html|SRFI 102]]
 
-Undefined value API (see #49):
+Undefined value API: #49
 
 Unquote with multiple arguments:  see #123
 
