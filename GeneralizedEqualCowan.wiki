@@ -4,4 +4,14 @@
 
 Compares ''obj1'' and ''obj2'' for equality.  If both are pairs, vectors, or bytevectors, or belong to the same implementation-defined container types, returns `#t` if they are equal in length and the same call to `generalized-equal?` returns `#t` on all the components.  If both are numbers, they are compared with the procedure ''=''; if both are characters, they are compared with the procedure ''char=?''; if both are strings, they are compared with the procedure ''string=?''; if both are symbols, they are compared with the procedure ''symbol=?''.  The default values of these are `=`, `char=?`, `string=?`, and `symbol=?` respectively.
 
-In all other cases, the procedure ''recursive=?'' is invoked with three arguments:  ''obj1'', ''obj2'', and a two-argument procedure which returns what `generalized-equal?` returns given the seven arguments passed to or defaulted on it in this call.  This allows ''recursive=?'' to return whatever it likes on atomic types it knows about, and to invoke its third argument on the components of composite types it knows how to descend into.  It is recommended that when ''recursive=?'' receives arguments it does not know how to handle, that it invokes `eqv?` on them.  The default value of ''recursive=?'' always applies `eqv?` to its first two arguments.  
+In all other cases, the procedure ''recursive=?'' is invoked with three arguments:  ''obj1'', ''obj2'', and a two-argument procedure which returns what `generalized-equal?` returns given the seven arguments passed to or defaulted on it in this call.  This allows ''recursive=?'' to return whatever it likes on atomic types it knows about, and to invoke its third argument on the components of composite types it knows how to descend into.  It is recommended that when ''recursive=?'' receives arguments it does not know how to handle, that it invokes `eqv?` on them.  The default value of ''recursive=?'' always applies `eqv?` to its first two arguments.
+
+== Objections ==
+
+It does not permit implementation-defined container types to be different in aspects which either are not "components" (if that is narrowly defined) or which should be compared by means other than `generalized-equal?`. Furthermore, it requires implementation-defined container types to have a notion of length instead of shape.
+
+The four default arguments for builtin types strikes me as a wart, in that it is not extensible to a future version which has additional builtin types.
+
+The language for the argument to ''recursive=?'' is a little unclear.
+
+It is not possible to interpose on specific types of containers without building a full wrapper around `generalized-equal?`, because the built-in-containers case comes before ''recursive=?''. This means that it is a breaking change for an implementation to *add support for* a given container type to `generalized-equal?`, because an application might have been specially handling it.
