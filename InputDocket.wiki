@@ -10,7 +10,11 @@ Applicable record instances (see http://www.r6rs.org/formal-comments/comment-6.t
 
 Combinators: CombinatorsCowan
 
+Concatenation:  ConcatenateCowan
+
 Container conversion: [[http://trac.sacrideo.us/wg/wiki/WG1Ballot6Results#a433fullconversioncycleforcontainers|ballot options]]
+
+Continuation API:  [[http://repository.readscheme.org/ftp/papers/sw2001/feeley.pdf|Feeley's paper]] (PDF)
 
 Custom I/O ports:
 
@@ -37,6 +41,8 @@ External representation of records:
 Features, allowing libraries to add:
 
 Futures:  [[http://docs.racket-lang.org/reference/futures.html|Racket API]]
+
+Getters and setters: [[http://srfi.schemers.org/srfi-17/srfi-17.html|SRFI 17]]
 
 `hex-digit-value`:
 
@@ -73,6 +79,8 @@ Port encodings, buffering, line ending control:  SettingsListsCowan and FilesAdv
 Port type detector: #177
 
 Procedure arity inspection: [[http://srfi.schemers.org/srfi-102/srfi-102.html|SRFI 102]]
+
+Queues:  [[http://wiki.call-cc.org/man/4/Unit%20data-structures#queues|Chicken API]]
 
 R6RS compatibility libraries:
 
