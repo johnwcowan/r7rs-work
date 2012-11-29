@@ -50,7 +50,7 @@ Identifier-syntax:
 
 `if` with arbitrarily many arguments:
 
-Imaginary inexact zero versions of ''real'', ''rational'', ''integer'': 
+Imaginary inexact zero versions of `real?`, `rational?`, `integer?`: 
 
 Immutable data: ImmutableData
 
