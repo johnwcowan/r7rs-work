@@ -32,6 +32,8 @@ Extended exact numbers:  ExtendedRationalsCowan
 
 External representation of records: 
 
+Features, allowing libraries to add:
+
 Futures:  [[http://docs.racket-lang.org/reference/futures.html|Racket API]]
 
 Identifier-syntax:
