@@ -79,3 +79,7 @@ Converts ''string'' to a bytevector using the keys `encoding`, `newline`, `encod
 `(bytevector->string `''bytevector'' [[|''settings-list'' ]]`)`
 
 Converts ''bytevector'' to a string using the keys `encoding`, `newline`, `encoding-error`, and possibly other implementation-specific keys in ''settings-list'', and returns the bytevector.
+
+`(rename-file ''oldname newname''`)`
+
+Renames a file named ''oldname'' to be named ''newname''.  Returns `#t` if it succeeds and `#f` if it fails.
