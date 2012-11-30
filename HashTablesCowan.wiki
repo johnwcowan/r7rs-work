@@ -3,10 +3,10 @@
 This WG2 proposal defines an interface to hash tables, which are widely recognized as a fundamental data structure for a wide variety of applications.  A hash table is a data structure that:
 
    * Is disjoint from all other types.
-   * Provides a mapping from some set of ''keys'' to some set of ''values'' associated to those keys.
+   * Provides a mapping from objects known as ''keys'' to corresponding objects known as ''values''.
      * Keys may be any Scheme objects in some kinds of hash tables, but are restricted in other kinds.
      * Values may be any Scheme objects.
-   * Has no intrinsic order for the key-value ''associations'' it contains.
+   * Has no intrinsic order for the key-value ''associations'' it contains, though an order may be defined as an extension.
    * Provides an ''equivalence function'' which defines when a proposed key is the same as an existing key.  No table may contain more than one value for a given key.
    * Supports mutation as the primary means of setting the contents of a table.
    * Assumes that keys are immutable; mutating a key leads to unspecified behavior.
@@ -38,13 +38,13 @@ Returns a newly allocated table with no associations whose equivalence function 
 
 Note that there are no hash tables whose equivalence function is `eqv?`, because SRFI 69 does not support them.  Users will have to live with `eq?` or `equal?` hash tables as the case may be.
 
+'''Issue''':  add `(hash-table-unfold `''p f g key-seed value-seed''`)`?  Or possibly just one seed and let `f` generate the two values from a single value.
 
 == Copiers ==
 
 `(hash-table-copy `''hash-table''`)`
 
 Returns a newly allocated hash table with the same equivalence predicate and associations as ''hash-table''. (SRFI-69 `hash-table-copy`; R6RS `(hashtable-copy `''hash-table''` #t)`)
-
 
 == Predicates ==
 
@@ -58,39 +58,40 @@ Returns `#t` if there is any association to ''key'' in ''hash-table''.  Must exe
 
 == Accessors ==
 
-`(hash-table-ref `''hash-table''` `''key'' ''default''`)`
+`(hash-table-ref `''hash-table''` `''key'' ''default-proc''`)`
 
-Returns the value associated to ''key'' in ''table''. If no value is associated to ''key'', ''default'' is returned.  Must execute in amortized O(1) time.  (SRFI-69 `hash-table-ref/default`; R6RS `hashtable-ref`)
+Returns the value associated to ''key'' in ''table''. If no value is associated to ''key'', ''default-proc'' is applied to no arguments and the result is returned.  Must execute in amortized O(1) time, not counting the time to call ''default-proc'' if necessary.  (SRFI-69 `hash-table-ref/default`; R6RS `hashtable-ref`)
 
 `(hash-table-size `''table''`)`
 
 Returns the number of associations in ''hash-table''.  Must execute in amortized O(1) time.  (SRFI-69 `hash-table-size`; R6RS `hashtable-size`)
 
-
 == Mutators ==
 
 `(hash-table-set! `''hash-table''` `''key''` `''value''`)`
 
-Creates a new association in ''hash-table'' that associates ''key'' with ''value''. The previous association (if any) is removed.  It is an error if ''table'' is a string or string-ci hash table and ''key'' is not a string.  Must execute in amortized O(1) time.  (SRFI-69 `hash-table-set!`; R6RS `hashtable-set!`)
+Creates a new association in ''hash-table'' that associates ''key'' with ''value''. The previous association (if any) is removed.  It is an error if ''hash-table'' is a string or string-ci hash table and ''key'' is not a string.  Must execute in amortized O(1) time.  Returns an unspecified value.  (SRFI-69 `hash-table-set!`; R6RS `hashtable-set!`)
 
 `(hash-table-delete! `''hash-table''` `''key''`)`
 
-Removes any association to ''key'' in ''hash-table''. It is not an error if no association for that ''key'' exists.    Must execute in amortized O(1) time.  (SRFI-69 `hash-table-delete!`; R6RS `hashtable-delete!`)
+Removes any association to ''key'' in ''hash-table''. It is not an error if no association for that ''key'' exists.    Must execute in amortized O(1) time.  Returns an unspecified value.  (SRFI-69 `hash-table-delete!`; R6RS `hashtable-delete!`)
 
-`(hash-table-update! `''hash-table''` `''key''` `''procedure'' ''default'' ]`)`
+`(hash-table-update! `''hash-table''` `''key''` `''procedure'' ''default-proc'' ]`)`
 
 Semantically equivalent to, but may be implemented more efficiently than, the following code:
 
-`(hash-table-set! `''hash-table''` `''key''` (`''procedure'' `(hash-table-ref `''hash-table''` `''key''` `''default''`)))`
+`(hash-table-set! `''hash-table''` `''key''` (`''procedure'' `(hash-table-ref `''hash-table''` `''key''` `''default-proc''`)))`
 
-Must execute in amortized O(1) time.  (SRFI-69 `hash-table-update!/default`; R6RS `hashtable-update!`)
+Must execute in amortized O(1) time.  Returns an unspecified value.  (SRFI-69 `hash-table-update!/default`; R6RS `hashtable-update!`)
+
+'''Issue''':  add `hash-table-clear`?
 
 
 == Iterators ==
 
-`(hash-table-fold `''hash-table''` `''procedure''` `''init''`)`
+`(hash-table-fold `''procedure''` `''init''` `''hash-table''`)`
 
-Calls ''procedure'' for every association in ''hash-table'' with three arguments: the key of the association, the value of the association, and an accumulated value ''val''.  ''Val'' is ''init'' for the first invocation of ''procedure'', and for subsequent invocations of ''procedure'', the return value of the previous invocation.  The value returned by `hash-table-fold` is the return value of the last invocation of f. The order in which ''procedure'' is called for different associations is unspecified.  (SRFI-69 `hash-table-fold`; not in R6RS but easily implemented: see below.)
+Calls ''procedure'' for every association in ''hash-table'' with three arguments: the key of the association, the value of the association, and an accumulated value ''val''.  ''Val'' is ''init'' for the first invocation of ''procedure'', and for subsequent invocations of ''procedure'', the return value of the previous invocation.  The value returned by `hash-table-fold` is the return value of the last invocation of f. The order in which ''procedure'' is called for different associations is unspecified.  (SRFI-69 `hash-table-fold`; not in R6RS but trivially implemented: see below.)
 
 
 == Excluded features ==
