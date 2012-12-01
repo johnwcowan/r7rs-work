@@ -1,10 +1,12 @@
 == Generalized `equal?` predicate ==
 
-`(generalized-equal? `''obj1 obj2 comparator'' ... `)`
+`(generalized-equal? `''obj1 obj2'' `.` comparator-list''`)`
 
-Compares ''obj1'' and ''obj2'' for equality.  A ''comparator'' is a procedure that is given two arguments to compare.  It returns `#t` if its arguments are to be considered equal, `#f` if they are to be considered unequal, and any other value if it cannot decide.  A third argument consists of a list of comparators to be used in recursive calls to `generalize-equal?`.
+Compares ''obj1'' and ''obj2'' for equality.  A ''comparator'' is a procedure that is given two arguments to compare.  It returns `#t` if its arguments are to be considered equal, `#f` if they are to be considered unequal, and any other value if it cannot decide.  The third argument of a comparators consists of a list of comparators to be used in recursive calls to `generalize-equal?`.
 
-First, each ''comparator'' argument is invoked on ''obj1'' and ''obj2''.  If it returns `#t` or `#f`, that is the result.  If all comparators have been invoked without a `#t` or `#f` result, then `generalized-equal?` determines if both ''obj1'' and ''obj2'' are ordered containers of the same type.  This determination is partly implementation-dependent, but pairs, strings, vectors, and bytevectors must be treated as ordered containers of distinct types.  If they are not, then `generalized-equal?` returns what `eqv?` returns on ''obj1'' and ''obj2''.
+First, each element of ''comparator-list''  is invoked on ''obj1'' and ''obj2'', passing ''comparator-list'' as its third argument.  If the comparator returns `#t` or `#f`, that is the result.
+
+If all comparators in the list have been invoked without a `#t` or `#f` result, then `generalized-equal?` determines if both ''obj1'' and ''obj2'' are ordered containers of the same type.  This determination is partly implementation-dependent, but pairs, strings, vectors, and bytevectors must be treated as ordered containers of distinct types.  If they are not both ordered containers of the same type, then `generalized-equal?` returns what `eqv?` returns on ''obj1'' and ''obj2''.
 
 Otherwise, if the containers have different numbers of elements, the result is `#f`.  Otherwise, `generalized-equal?` invokes itself recursively on each corresponding element of the containers, passing itself the same comparators.  If a recursive call returns `#f`, that is the result; if all recursive calls return `#t`, that is the result.
 
