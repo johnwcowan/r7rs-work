@@ -11,15 +11,7 @@ The procedures `open-input-file`, `open-binary-input-file`, `open-output-file`, 
 
 The procedures `file-exists?` and `delete-file` are the same as in the `(scheme files)` library.
 
-== Additional procedures ==
-
-`(native-encoding)`
-
-Returns a symbol suitable for use in a settings list to represent the native encoding used by the implementation.
-
-`(native-newline)`
-
-Returns a symbol suitable for use in a settings list to represent the native newline translation used by the implementation.
+== Port procedures ==
 
 `(port-position `''port''`)`
 
@@ -38,6 +30,12 @@ Calling this procedure on ''port'' resets the buffer state, allowing a binary op
 `(can-set-port-position? `''port''`)`
 
 Returns `#t` if the port supports the `set-port-position!` operation, and `#f` otherwise.
+
+`(port-settings  `''port''`)`
+
+Returns an approximation to the settings list used to create ''port''.  The order of keys may not be the same, some keys may be omitted if they have no effect on the implementation or if they explicitly specify the implementation default, and some values may be different if they have the same effect on the implementation.  If no settings list was used, the list `(path `''filename''`)` is returned.
+
+== I/O procedures ==
 
 `(binary-port-eof? `''port''`)`
 
@@ -68,18 +66,18 @@ Returns a string consisting of all the characters that can be read from ''port''
 
 Returns a list consisting of all the Scheme objects that can be read from ''port'' (as if by `read`) before an eof-object is returned, or an eof-object if there are none.  The default port is the value of `(current-input-port)`.
 
-`(port-settings  `''port''`)`
+== Conversion procedures == 
 
-Returns an approximation to the settings list used to create ''port''.  The order of keys may not be the same, some keys may be omitted if they have no effect on the implementation or if they explicitly specify the implementation default, and some values may be different if they have the same effect on the implementation.  If no settings list was used, the list `(path `''filename''`)` is returned.
+`(string->bytevector `''string'' [[|''settings-list'' [ ''start'' [ ''end'' ]] ] ] `)`
 
-`(string->bytevector `''string'' [[|''settings-list'' ]]`)`
+Converts ''string'' from ''start'' to ''end'' to a bytevector using the keys `encoding`, `newline`, `encoding-error`, and possibly other implementation-specific keys in ''settings-list'', and returns the string.
 
-Converts ''string'' to a bytevector using the keys `encoding`, `newline`, `encoding-error`, and possibly other implementation-specific keys in ''settings-list'', and returns the string.
+`(bytevector->string `''bytevector'' [[|''settings-list'' [ ''start'' [ ''end'' ]] ] ] `)`
 
-`(bytevector->string `''bytevector'' [[|''settings-list'' ]]`)`
+Converts ''bytevector'' from ''start'' to ''end'' to a string using the keys `encoding`, `newline`, `encoding-error`, and possibly other implementation-specific keys in ''settings-list'', and returns the bytevector.
 
-Converts ''bytevector'' to a string using the keys `encoding`, `newline`, `encoding-error`, and possibly other implementation-specific keys in ''settings-list'', and returns the bytevector.
+== File procedures ==
 
-`(rename-file ''oldname newname''`)`
+`(rename-file `''oldname newname''`)`
 
-Renames a file named ''oldname'' to be named ''newname''.  Returns `#t` if it succeeds and `#f` if it fails.
+Renames a file named ''oldname'' to be named ''newname''.  Returns an unspecified value if it succeeds; otherwise, an error satisfying `file-error?` is raised.
