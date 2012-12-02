@@ -33,3 +33,7 @@ A comparator that returns `#t` if ''obj1'' and ''obj2'' are both strings that ar
 `(hash-table-comparator `''obj1 obj2 comparators-list''`)`
 
 A comparator that returns `#t` if ''obj1'' and ''obj2'' are both hash tables using the same comparison key, contain the same keys (in the sense of that comparison key), and map each key to the same value (in the sense of `generalized-equal?`, using the comparators in ''comparators-list''); returns `#f` if ''obj1'' and ''obj2'' are both hash tables but are distinct in the above sense; and returns a third value in all other cases.
+
+== Issues ==
+
+Should the third value be specified?  As designed, if a badly written comparator returns nonsense, it's just ignored rather than giving the implementation of `generalized-equal?` a chance to report an error.  The symbol `pass` has been suggested.  My implementation uses 0.
