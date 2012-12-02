@@ -1,161 +1,117 @@
-= Instructions =
-
-    * You may list as many of the options as you want in order of preference.
-    * Options are comma-delimited (ignoring space) and case-insensitive.
-    * You can pipe-delimit (|) options you want to give equal weight to.
-    * You may write in your own option if you announce it to the list first.
-    * You may specify a variant with option/variant, for example srfi-1/module to vote for srfi-1 but clarify it should be in a separate module. Please also include the srfi-1 option in this case.
-    * You can write a free-form rationale after the "preferences" line,
-    * module means "yes, but I want it in a separate module",
-    * wg2 means "no, but I think it should go in WG2".
-    * undecided means I want to discuss this issue further.
-    * Abstain on any item by leaving the preferences blank. 
-
-= WG1 Ballot Items To Finalize By Sep. 18 =
-
 == WG1 - Core ==
 
-=== #121 The semantics of expt for zero bases has been refined ===
+=== #460 Semantics of `eqv?` ===
 
-The R5RS definition of expt is:
+The semantics of `eqv?` are highly contended, and as a result we are
+bringing this up for a third and final vote.
 
-{{{
- -- procedure: expt z1 z2
-     Returns Z1 raised to the power Z2.  For z_1 ~= 0
+The earlier votes on #125 (`eqv?` may not return true for procedures)
+and #229 (`eqv?` is unspecified for NaNs) were voted on and treated as
+orthogonal.  There have been no objections to these, and so the
+results still stand.  We're only focusing on the core `eqv?` semantics
+for inexact numbers.
 
-                          z_1^z_2 = e^z_2 log z_1
-
-     0^z is 1 if z = 0 and 0 otherwise.
-}}}
-
-however exponents with negative real parts are undefined.
-R6RS attempted to clarify this with:
+This is fundamentally a tale of three equivalences: mathematical,
+operational, and representational.
 
 {{{
-     0.0^z is 1.0 if z = 0.0, and 0.0 if (real-part z) is positive.
-     For other cases in which the first argument is zero, either
-     an error is signalled or an unspecified number is returned.
+Ultra-brief history:
+
+R2RS was purely mathematical, defining `eqv?` on numbers in terms of
+`=`.  R3RS defined a simple operational equivalence by distinguishing
+exact and inexact.  This was not a complete operational equivalence
+because R3RS already had multiple precisions and implicit NaNs and
+signed zeros.  R[45]RS dropped the discussion of operational
+equivalence but kept the exactness separate.  R6RS re-introduced the
+notion of operational equivalence, this time with a complete definition.
+The R7RS 7th draft introduced an incomplete notion of representational
+equivalence - two numbers are `eqv?` iff they have the same IEEE-style
+representation.
 }}}
 
-(Ignore the change in exactness, which was strictly editorial
-and the examples clarify that the rules ignore exactness.)
+For this final vote there are three proposals under consideration,
+corresponding to the complete forms of each equivalence.  Variations
+may be proposed and added if a suitable rationale is given.
 
-This is unique in all the reports of a result either
-signalling an error or returning a value.  The motivation
-for this was because R6RS consistently removed uses of the
-"is an error" terminology which would more naturally fit
-this situation.
-
-An alternative, `r5rs-error`, is to restore the "is an error"
-text since we are not avoiding this in R7RS:
+The `r5rs` proposal follows R5RS exactly, in the spirit of
+mathematical equivalence (assuming exacts and inexacts are different
+types to begin with).  The advantage of this is it's very simple and
+it appeals to idealists - people who want to pretend that they are
+computing real mathematical values without such thing as NaNs or
+negative zeros.  The disadvantage of this is, as with most things that
+appeal to idealists, it does not match reality.  Our computers use
+crude hacks for efficiency, and even if someone manages to build an
+ideal Scheme, it will likely be impractical and most implementations
+will continue to use those hacks.  Moreover, mathematical equivalence
+is already available via the `=` procedure.  This is not a practical
+equivalence relation for a standard.  The text for the true case of
+`eqv?` for inexact numbers under `r5rs` is:
 
 {{{
-     The value of 0^z is 1 if (zero? z), 0 if (real-part z)
-     is positive, and an error otherwise.  Similarly for 0.0^z,
-     with inexact results.
+  (3) obj1 and obj2 are both numbers, have the same exactness, and are
+  numerically equal (see `=`).
 }}}
 
-The `/real` variant restricts the domain for the zero
-base exception to the real numbers.  This is because
-0^z^ is mathematically undefined for non-real z, and
-implementations do not agree on the result.
+The `r6rs` proposal follows R6RS exactly in the spirit of operational
+equivalence (with a small correction to avoid making everything
+unspecified via NaN transitivity).  The advantages of this is that
+it's exactly what you want to distinguish if two values will always
+behave the same, for example for compiler optimizations or
+memoization.  The disadvantage is that the definition is complicated
+and difficult to nail down - it doesn't account for non-standard
+extensions an implementation may provide which could distinguish
+certain new values.  The `r6rs` text is:
 
-  * '''Options:''' r5rs, r5rs-error, r5rs-error/real, r6rs, r6rs/real, undecided
-  * '''Default:''' r6rs
-  * '''Preferences:''' r5rs-error, r5rs, undecided, r5rs-error/real, r6rs, r6rs/real
+{{{
+  (3.1) obj1 and obj2 are both exact numbers and are numerically
+  equal (see `=`)
 
-As I understand the above text is just false: 0^0^ and 0.0^0.0^ are mathematicaly undefined, this is because it is not continuous there. Just take x^(-1/log(x))^, when x -> 0 it is equal (and therefore converges) to 1/e instead of 1 ! Provided this is changed I prefer the openness of r5rs-error.
-Bradley's argument convinces me to retain 0^0^=1 (i.e. only if we have an exact 0 as exponent) as a practical convention.
+  (3.2) obj1 and obj2 are both inexact numbers, are numerically equal
+  (see `=`), and yield the same results (in the sense of `eqv?` and
+  excluding `+nan.0`) when passed as arguments to any other procedure
+  that can be defined as a finite composition of Scheme’s standard
+  arithmetic procedures.
+}}}
+
+Finally, the `representational` proposal is based on the previous
+`same-bits` in the spirit of representational equivalence.  Two
+numbers are `eqv?` if they are represented the same way.  This is
+potentially finer grained than operational equivalence - it may in
+fact make useless distinctions, but it is generally safer to
+over-distinguish than to under-distinguish.  The `representational`
+text is:
+
+{{{
+  (3.1) obj1 and obj2 are both exact numbers and are numerically
+  equal (see `=`)
+
+  (3.2) obj1 and obj2 are both numbers of the same composite numeric
+  type, whose corresponding fields are all `eqv?`
+
+    * numbers in the style of the IEEE 754-2008 floating point
+      standard are considered composites of their radix, precision,
+      maximum exponent, sign, exponent, and significand
+
+    * non-real complex numbers are composites of their real and
+      imaginary parts
+}}}
+
+  * '''References:'''
+    * [[https://groups.google.com/d/msg/scheme-reports-wg1/BGvDFtD6A1M/5pHmfXHtvEIJ|eqv? issues summarized]]
+    * [[https://groups.google.com/d/msg/scheme-reports-wg1/2Nv6oIND8HI/Z2HXPQMNFooJ|the history of eqv? on numbers]]
+    * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2012-November/002914.html|Weaver's objection]]
+    * [[http://www.math.purdue.edu/~lucier/r7rs-eqv-discuss|Lucier on IEEE 754]]
+  * '''Options:''' r5rs, r6rs, representational
+  * '''Default:''' r5rs
+  * '''Preferences:''' r6rs, representational, r5rs
 
 
-=== #472 clarify semantics of non-library library declarations ===
+Rationale: IMHO the only sensible choice is operational equivalence, at the end of the day it is all about one implementation being consistent in its choice of equivalence classes. This left an open door for implementation and at the same time avoid inconvenience to users.
 
-In items #91, #148 and #150 we voted to allow the
-use of `include`, `include-ci` and `cond-expand`
-at the "top-level" respectively, but there remains
-some confusion as to their semantics.
+'''representational''' is maybe too low-level, I mean the underlying concept here is about equivalence class and I would let implementors freedom/discretion of how they check for it. Again and of course de-composition is the way to go most of the time. I am sure the 2 proposals are not too far from each other.
 
-Here "top-level" refers to repl and program body
-top-levels, but not library bodies.
+I suggest therefore that an editorial note may be added to the '''r6rs''' option saying something along the line of that:
 
-One interpretation is that these behave like library
-declarations, and can expand into `import` forms.
-In this case, for a purely static implementation of
-R7RS libraries, they must first be statically scanned
-from all top-level forms.  They cannot be used
-outside the top-level, and are not even available
-as bindings otherwise.  This is the `declaration`
-proposal.
+  ''One possible implementation is to check subpart eqv?-eness if it is consistent with equivalence classes wished to be provided by the implementation.''
 
-Another interpretation is that they are just normal
-macros with the obvious definitions (cond-expand
-in terms of the output of the `features` macro),
-are available in the `(scheme base)` library, and
-consequently can't be used to expand into `import`
-since imports have already been resolved.  This is
-the `syntax` proposal.
-
-Alternately, we could provide `both`.  If you think
-this is all too confusing you could also vote `remove`,
-to drop these extensions.
-
-  * '''Options:''' declaration, syntax, both, remove
-  * '''Default:''' 
-  * '''Preferences:''' syntax, remove, declaration, both
-
-=== #473 library declaration locations in top-level ===
-
-R6RS allows only a single library declaration, `import`,
-at the beginning of a program body, and this must
-contain all imported libraries.
-
-Pending the result of ticket #472 we may also allow
-`include(-ci)` and `cond-expand` to expand into
-imports, and so the single form restriction would not
-make sense.  However, it would be reasonable to
-restrict all library declarations to the beginning of
-a program - the first non-declaration would begin
-the real body.  This is the `beginning-only` option.
-
-The advantage of the `r6rs` proposal is that it would
-not require any changes in existing R6RS program
-loading implementations to support.  If the result of
-ticket #472 indicates multiple declaration types are
-available this option would automatically become
-invalid, so you don't need to vote against it on those
-grounds.
-
-The advantage of the `beginning-only` option is
-that it becomes possible to statically determine
-all program imports without expansion, which was
-the primary motivation of a static library system.
-
-The final alternative is `any-top-level`, which
-allows these forms anywhere at the top-level,
-possibly interspersed with definitions.  The advantage
-of this is that you can cut&paste repl sessions
-(for which interspersed imports are always allowed)
-as a program.  The disadvantage is that programs
-can no longer be resolved separately from expansion.
-
-  * '''Options:''' r6rs, beginning-only, any-top-level
-  * '''Default:''' 
-  * '''Preferences:'''  beginning-only, r6rs, any-top-level
-
-=== #405 Retract language requiring force to accept non-promises ===
-
-#405 lumped together several issues, one of which was a requirement
-(as opposed to an option) to make `force` applied to a non-promise
-return its argument, as opposed to it being an error.  Thus, it would
-require `(force 2) => 2`.  However, R6RS
-requires `(force 2)` to signal an error, and many non-R6RS Schemes also
-signal an error (see ForceNonPromise for details).  These facts were not
-considered at the time.
-
-Vote `retain` to retain this requirement, or `retract` to retract it
-and leave the result of `(force 2)` implementation-dependent.
-
-  * '''Options:''' retain, retract
-  * '''Default:''' retain
-  * '''Preferences:''' retract
 
