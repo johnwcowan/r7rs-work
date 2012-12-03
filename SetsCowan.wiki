@@ -2,11 +2,13 @@
 
 Sets and bags (multisets) are mutable collections that can contain any Scheme object.  Integer sets are mutable collections that can contain non-negative exact integers that are less than a maximum value specified when the integer set is created.  Enumeration sets are mutable collections that can contain symbols chosen from a set of symbols represented by an enumeration type.
 
-Sets and bags (multisets) are intended to be a thin veneer over hashtables, and integer sets are a thin veneer over bit vectors.  In turn, enumeration sets are a thin veneer over integer sets.  Consequently, the `-member?`, `-add!`, and `-remove!` procedures are required to have an amortized cost of O(1).
+Sets and bags (multisets) are intended to be a thin veneer over hashtables, and integer sets are a thin veneer over bytevectors considered as sequences of bits.  In turn, enumeration sets are a thin veneer over integer sets.  Consequently, the `-member?`, `-add!`, and `-remove!` procedures are required to have an amortized cost of O(1).
 
 Sets, bags, integer sets, enumeration sets, and enumeration types are mutually disjoint, and disjoint from other types of Scheme objects.
 
 == Set procedures ==
+
+It is an error to operate on sets with different equality procedures.
 
 `(make-set `''=''`)`
 
@@ -80,37 +82,37 @@ Returns `#t` if each ''set'' other than the last is a subset of the following ''
 
 Returns `#t` if each ''set'' other than the last is a superset of the following ''set'', and `#f` otherwise.
 
-`(set-union `''set,,1'` `''other-set,,2'' ...`)`
+`(set-union `''set,,1,,''` `''set,,2,,'' ...`)`
 
 Returns a newly allocated set that is the union of the ''sets''.  It is an error if the sets do not have the same equality predicate.
 
-`(set-intersection `''set,,1'` `''other-set,,2'' ...`)`
+`(set-intersection `''set,,1,,''` `''set,,2,,'' ...`)`
 
 Returns a newly allocated set that is the intersection of the ''sets''.  It is an error if the sets do not have the same equality predicate.
 
-`(set-difference `''set,,1'` `''other-set,,2'' ...`)`
+`(set-difference `''set,,1,,''` `''set,,2,,'' ...`)`
 
-Returns a newly allocated set that is the difference of the ''sets''.  It is an error if the sets do not have the same equality predicate.
+Returns a newly allocated set that is the asymmetric difference of ''set,,1,,'' and the union of the other ''sets''.  It is an error if the sets do not have the same equality predicate.
 
-`(set-xor `''set,,1''` `''set,,2''`)`
+`(set-xor `''set,,1,,''` `''set,,2,,''`)`
 
-Returns a newly allocated set that is the xor (symmetric difference) of ''set,,1'' and ''set,,2,,''.  It is an error if the sets do not have the same equality predicate.
+Returns a newly allocated set that is the xor (symmetric difference) of ''set,,1,,'' and ''set,,2,,''.
 
-`(set-union! `''set,,1'` `''other-set,,2'' ...`)`
+`(set-union! `''set,,1,,''` `''set,,2,,'' ...`)`
 
-Mutates ''set'' to a new set that is the union of the ''sets''.  It is an error if the sets do not have the same equality predicate.
+Mutates ''set,,1,,'' to a set that is the union of the ''sets''.  It is an error if the sets do not have the same equality predicate.
 
-`(set-intersection! `''set,,1'` `''other-set,,2'' ...`)`
+`(set-intersection! `''set,,1,,''` `set,,2,,'' ...`)`
 
-Mutates ''set'' to a new set that is the intersection of 'the ''sets''.  It is an error if the sets do not have the same equality predicate.
+Mutates ''set,,1,,'' to a set that is the asymmetric difference of ''set,,1,,'' and the union of the other ''sets''.  It is an error if the sets do not have the same equality predicate.
 
-`(set-difference! `''set,,1'` `''other-set,,2'' ...`)`
+`(set-difference! `''set,,1,,''` `''set,,2,,'' ...`)`
 
-Mutates ''set,,1'' to a new set that is the difference of the ''sets''.  It is an error if the sets do not have the same equality predicate.
+Mutates ''set,,1,,'' to a set that is the difference of the ''sets''.  It is an error if the sets do not have the same equality predicate.
 
-`(set-xor! `''set,,1''` `''set,,2''`)`
+`(set-xor! `''set,,1,,''` `''set,,2,,''`)`
 
-Mutates ''set'' to a new set that is the xor (symmetric difference) of ''set,,1'' and ''set,,2''.  It is an error if the sets do not have the same equality predicate.
+Mutates ''set,,1,,'' to a new set that is the xor (symmetric difference) of ''set,,1,,'' and ''set,,2,,''.  It is an error if the sets do not have the same equality predicate.
 
 == Bag procedures ==
 
@@ -119,6 +121,12 @@ The procedures for creating and manipulating bags are the same as those for sets
 `(bag-count `''bag''` `''element''`)`
 
 Returns an exact integer representing the number of times that ''element'' appears in ''bag''.
+
+`(bag-increment `''bag` `element` `count''`)`
+
+`(bag-decrement `''bag` `element` `count''`)`
+
+Increases or decreases the count of ''element'' in ''bag'' by the exact integer ''count''.
 
 == Integer set procedures ==
 
