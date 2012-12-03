@@ -1,6 +1,6 @@
 == Sets, bags, integer sets, and enumeration sets ==
 
-Sets and bags (multisets) are mutable collections that can contain any Scheme object.  Integer sets are mutable collections that can contain non-negative exact integers from 0 to a maximum value that is specified when the integer set is created.  Enumeration sets are mutable collections that can contain symbols chosen from a set of symbols represented by an enumeration type.
+Sets and bags (multisets) are mutable collections that can contain any Scheme object.  Integer sets are mutable collections that can contain non-negative exact integers that are less than a maximum value specified when the integer set is created.  Enumeration sets are mutable collections that can contain symbols chosen from a set of symbols represented by an enumeration type.
 
 Sets and bags (multisets) are intended to be a thin veneer over hashtables, and integer sets are a thin veneer over bit vectors.  In turn, enumeration sets are a thin veneer over integer sets.  Consequently, the `-member?`, `-add!`, and `-remove!` procedures are required to have an amortized cost of O(1).
 
@@ -40,9 +40,9 @@ Adds ''element'' to ''set'' unless it is already a member.  Returns an unspecifi
 
 Removes ''element'' from ''set'' unless it is not a member.  Returns an unspecified value.
 
-`(set-map `''proc''` `''set''`)`
+`(set-map `''=''` `''proc''` `''set''`)`
 
-Applies ''proc'' to each element of ''set'' in arbitrary order and returns a newly allocated set with the same equality predicate containing the values of the applications.  '''Issue: Should we provide this at all?  The fold is sufficient.'''
+Applies ''proc'' to each element of ''set'' in arbitrary order and returns a newly allocated set with the equality predicate ''='' which contains the results of the applications.
 
 `(set-for-each `''proc''` `''set''`)`
 
@@ -54,7 +54,7 @@ Invokes ''proc'' on each member of ''set'' in arbitrary order, passing the resul
 
 `(set->list `''set''`)`
 
-Returns a newly allocated list containing the members of ''set'' in unspecified order.
+Returns a newly allocated list containing the members of ''set'' in unspecified order.  However, repeated calls to this procedure will return a list in the same order until the set is mutated.
 
 `(list->set `''list''`)`
 
@@ -80,41 +80,41 @@ Returns `#t` if each ''set'' other than the last is a subset of the following ''
 
 Returns `#t` if each ''set'' other than the last is a superset of the following ''set'', and `#f` otherwise.
 
-`(set-union `''set'` `''other-set'' ...`)`
+`(set-union `''set,,1'` `''other-set,,2'' ...`)`
 
-Returns a newly allocated set that is the union of ''set'' and the ''other-sets''.
+Returns a newly allocated set that is the union of the ''sets''.  It is an error if the sets do not have the same equality predicate.
 
-`(set-intersection `''set'` `''other-set'' ...`)`
+`(set-intersection `''set,,1'` `''other-set,,2'' ...`)`
 
-Returns a newly allocated set that is the intersection of ''set'' and the ''other-sets''.
+Returns a newly allocated set that is the intersection of the ''sets''.  It is an error if the sets do not have the same equality predicate.
 
-`(set-difference `''set'` `''other-set'' ...`)`
+`(set-difference `''set,,1'` `''other-set,,2'' ...`)`
 
-Returns a newly allocated set that is the difference of ''set'' and the union of the ''other-sets''.
+Returns a newly allocated set that is the difference of the ''sets''.  It is an error if the sets do not have the same equality predicate.
 
-`(set-xor `''set''` `''other-set'' ...`)`
+`(set-xor `''set,,1''` `''set,,2''`)`
 
-Returns a newly allocated set that is the xor (symmetric difference) of the ''sets''.
+Returns a newly allocated set that is the xor (symmetric difference) of ''set,,1'' and ''set,,2,,''.  It is an error if the sets do not have the same equality predicate.
 
-`(set-union! `''set''` `''other-set'' ...`)`
+`(set-union! `''set,,1'` `''other-set,,2'' ...`)`
 
-Mutates ''set'' to a new set that is the union of ''set'' and the ''other-sets''.
+Mutates ''set'' to a new set that is the union of the ''sets''.  It is an error if the sets do not have the same equality predicate.
 
-`(set-intersection! `''set''` `''other-set'' ...`)`
+`(set-intersection! `''set,,1'` `''other-set,,2'' ...`)`
 
-Mutates ''set'' to a new set that is the intersection of ''set'' and the ''other-sets''.
+Mutates ''set'' to a new set that is the intersection of 'the ''sets''.  It is an error if the sets do not have the same equality predicate.
 
-`(set-difference! `''set''` `''other-set'' ...`)`
+`(set-difference! `''set,,1'` `''other-set,,2'' ...`)`
 
-Mutates ''set'' to a new set that is the difference of ''set'' and the union of the ''other-sets''.
+Mutates ''set,,1'' to a new set that is the difference of the ''sets''.  It is an error if the sets do not have the same equality predicate.
 
-`(set-xor! `''set''` `''other-set'' ...`)`
+`(set-xor! `''set,,1''` `''set,,2''`)`
 
-Mutates ''set'' to a new set that is the xor (symmetric difference) of ''set'' and the ''other-sets''.
+Mutates ''set'' to a new set that is the xor (symmetric difference) of ''set,,1'' and ''set,,2''.  It is an error if the sets do not have the same equality predicate.
 
 == Bag procedures ==
 
-The procedures for creating and manipulating bags are the same as those for sets, except that `set` is replaced by `bag` in their names, and that adding an element to a bag is effective even if the bag already contains the element.
+The procedures for creating and manipulating bags are the same as those for sets, except that `set` is replaced by `bag` in their names, and that adding an element to a bag is effective even if the bag already contains the element.  However, `bag-xor` and `bag-xor!` do not exist.
 
 `(bag-count `''bag''` `''element''`)`
 
@@ -122,7 +122,7 @@ Returns an exact integer representing the number of times that ''element'' appea
 
 == Integer set procedures ==
 
-Except as noted below, the procedures for creating and manipulating integer sets are the same as those for sets, except that `set` is replaced by `integer-set` in their names.  Wherever a newly allocated integer set is returned, it has the same limit as the source sets.
+Except as noted below, the procedures for creating and manipulating integer sets are the same as those for sets, except that `set` is replaced by `integer-set` in their names.  Wherever a newly allocated integer set is returned, it has the same limit as the source sets.  It is an error to operate on integer sets with different limits.
 
 `(make-integer-set `''limit''`)`
 
@@ -138,7 +138,7 @@ Returns a newly allocated integer set.  The possible elements of the set are the
 
 `(list->integer-set `''limit''` `''list''`)`
 
-Returns a newly allocated integer set.  The possible elements of the set are the exact integers from 0 to ''limit'' - 1. The set is initialized to contain the elements of ''list''.
+Returns a newly allocated integer set.  The possible elements of the set are the exact integers from 0 to ''limit'' - 1. The set is initialized to contain the elements of ''list'' in increasing numerical order.
 
 `(integer-set-complement `''integer-set''`)`
 
@@ -148,13 +148,33 @@ Returns a newly allocated integer set that is the complement of ''integer-set''.
 
 Mutates ''integer-set'' to a new set that is the complement of ''integer-set''.
 
+`(integer-set-least `''integer-set''`)`
+
+`(integer-set-most `''integer-set''`)`
+
+Returns the smallest or largest integer in ``integer-set``, or `#f` if there is none.
+
+`(integer-set-least! `''integer-set''`)`
+
+`(integer-set-most! `''integer-set''`)`
+
+Removes and returns the smallest or largest integer in ``integer-set``, or `#f` if there is none.
+
+`(integer->integer-set `''limit'' ''integer'' `)`
+
+Creates a newly allocated integer set with the specified ''limit'' initialized from the bits of ''integer'', which must be exact, considered as a bit vector.
+
+`(integer-set->integer `''integer-set''`)`
+
+Returns the exact integer which, considered as a bit vector, is equivalent to ''integer-set''.
+
 == Enumeration sets ==
 
-Except as noted below, the procedures for creating and manipulating enumeration sets are the same as those for sets, except that `set` is replaced by `enum-set` in their names.  Wherever a newly allocated enumeration set is returned, it has the same enumeration type as the source sets.
+Except as noted below, the procedures for creating and manipulating enumeration sets are the same as those for sets, except that `set` is replaced by `enum-set` in their names.  Wherever a newly allocated enumeration set is returned, it has the same enumeration type as the source sets.  It is an error to operate on enumeration sets of different types.
 
 `(make-enum-type `''symbol-list''`)`
 
-Returns a newly allocated enumeration type suitable for constructing enumeration sets whose members are the symbols in ''symbol-list''.  These symbols are said to be ''in the enumeration type''.
+Returns an enumeration type suitable for constructing enumeration sets whose members are the symbols in ''symbol-list''.  These symbols are said to be ''in the enumeration type''.  '''Issue''': are enumeration types the same if they have the same symbols?
 
 `(make-enum-set `''enum-type''`)`
 
@@ -180,9 +200,9 @@ Returns a newly allocated enumeration set that is the complement of ''enum-set''
 
 Mutates ''enum-set'' to a new set that is the complement of ''enum-set''.
 
-`(enum-set-projection `''enum-set-1''` `''enum-set-2''`)`
+`(enum-set-projection `''enum-set''` `''enum-type''`)`
 
-Returns a newly allocated enumeration set of the same enumeration type as ''enum-set-2''.  The elements of the enumeration set are the symbols belonging to ''enum-set-1'', ignoring any symbols which are not in the enumeration type of ''enum-set-2''.
+Returns a newly allocated enumeration set of type ''enum-type''.  Its elements are the symbols belonging to ''enum-set'', ignoring any symbols which are not in ''enum-type''.
 
 `(define-enumeration `<type-name>` (`<symbol> ...`)` <constructor>`)`
 
