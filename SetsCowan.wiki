@@ -12,7 +12,7 @@ It is an error to operate on sets with different equality procedures.
 
 `(make-set `''=''`)`
 
-Returns a newly allocated empty set.  ''='' is the equality procedure for the set, which must be consistent with `eq?`.  If ''='' is other than `eq?`, `equal`, `string=?`, or `string-ci=?`, the implementation MAY signal an error.  '''Issue: possibly add '''`eqv?`''' to this list if hash tables support it.'''
+Returns a newly allocated empty set.  ''='' is the equality procedure for the set.  If ''='' is other than `eq?`, `equal`, `string=?`, or `string-ci=?`, the implementation MAY signal an error.  '''Issue: possibly add '''`eqv?`''' to this list if hash tables support it.'''
 
 `(set `''=''` `''element''` ...)`
 
@@ -120,7 +120,7 @@ The procedures for creating and manipulating bags are the same as those for sets
 
 `(bag-count `''bag''` `''element''`)`
 
-Returns an exact integer representing the number of times that ''element'' appears in ''bag''.
+Returns an exact integer representing the number of times that ''element'' appears in ''bag''; if it does not appear, returns 0.
 
 `(bag-increment `''bag` `element` `count''`)`
 
