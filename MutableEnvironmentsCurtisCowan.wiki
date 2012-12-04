@@ -1,0 +1,45 @@
+This proposal provides mutable environments for R7RS-large.  It's based on [[http://groups.csail.mit.edu/mac/ftpdir/scheme-mail/HTML/rrrs-1988/msg00139.html|this proposal by Pavel Curtis]], but he is not responsible for the use I have made of it.
+
+== Introduction ==
+
+The small language provides four procedures that return global environments for use by `eval`.  They are:
+
+* `environment`, which returns an immutable environment when passed on zero or more import-specs which contains the bindings made available by those import specs
+
+* `scheme-report-environment`, which when passed the argument `5` returns a copy of the R5RS environment, which may or may not be mutable
+
+* `null-environment`, which when passed the argument `5` returns a subset of the R5RS environment containing syntax keywords only, which may or may not be mutable
+
+* `interaction-environment`, which returns a mutable environment containing implementation-defined bindings, including at least those exported by the base library
+
+== Procedures ==
+
+The following procedures allow an application to generate, examine, and mutate environments which can be used like those obtained from the R7RS-small procedures above.
+
+`(make-environment `''environment'' ...`)`
+
+Returns a newly allocated mutable environment that has imported into it the bindings of the ''environments''.
+
+`(environment? `''obj''`)`
+
+Returns `#t` if ''obj'' is an environment, and `#f` otherwise.
+
+`(mutable-environment? `''obj''`)`
+
+Returns `#t` if ''obj'' is a mutable environment, and `#f` otherwise.
+
+`(environment-ref `''environment symbol''`)`
+
+If ''symbol'' is bound as a variable in ''environment'', returns the value bound to it.  If ''symbol'' is bound as a syntax keyword, returns an implementation-defined object.  If ''symbol'' is not bound, returns `#f`.
+
+`(environment-bound? `''environment symbol''`)`
+
+Returns `#t` if ''symbol'' is bound in ''environment'', and `#f` otherwise.
+
+`(environment-set! `''environment symbol value''`)`
+
+In ''environment'', binds ''symbol'' as a variable whose value is ''value'', discarding any existing binding.  Returns an unspecified value.
+
+`(environment-for-each `''environment proc''`)`
+
+Invokes ''proc'' on each identifier bound in ''environment'' whose value comes from a call to `environment-set!`.  ''Proc'' is passed the identifier and the value (or an unspecified value if the identifier is bound as a syntax keyword).  Note that identifiers imported when the environment was created are not passed to ''proc'' unless their values have been changed.  Returns an unspecified value.
