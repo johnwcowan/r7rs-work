@@ -66,6 +66,8 @@ Macro expander(s) available at run time:
 
 Multiple values passed through => in `cond` (see #90): 
 
+Mutable environments for `eval`:  MutableEnvironmentsCurtisCowan
+
 NaN dissector API (sign, quiet/signaling status, and integer tag): NanMedernach
 
 Natural number predicates (from WG1):  `exact-positive-integer?` and `exact-non-negative-integer?`.
