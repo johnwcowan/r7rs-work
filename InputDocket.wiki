@@ -82,7 +82,7 @@ Port type detector: #177
 
 Procedure arity inspection: [[http://srfi.schemers.org/srfi-102/srfi-102.html|SRFI 102]]
 
-Queues:  [[http://wiki.call-cc.org/man/4/Unit%20data-structures#queues|Chicken API]]
+Queues:  [[http://wiki.call-cc.org/man/4/Unit%20data-structures#queues|Chicken API]], BinaryHeapsCowan
 
 R6RS compatibility libraries:
 
