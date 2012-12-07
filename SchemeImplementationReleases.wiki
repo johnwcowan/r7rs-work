@@ -3,10 +3,10 @@
 These are the release dates of the most recent stable releases of the Scheme implementations in John Cowan's test suite.  Where there is no stable release, the most recent update is used instead.
 
 ||'''date'''||'''name'''||'''release'''||
+||2012-11-30||[[http://www.gnu.org/software/guile/|Guile]]||2.0.7||
 ||2012-09-24||[[http://www.call-cc.org/|Chicken]]||4.8||
 ||2012-08-01||[[http://racket-lang.org/|Racket]]||5.3||
 ||2012-07-08||[[http://www.t3x.org/s9fes/|Scheme 9]]||20120708||
-||2012-07-07||[[http://www.gnu.org/software/guile/|Guile]]||2.0.6||
 ||2012-06-01||[[http://www-sop.inria.fr/indes/fp/Bigloo/bigloo-2.html|Bigloo]]||3.8c||
 ||2012-05-30||[[http://www.gnu.org/software/kawa/index.html|Kawa]]||1.12||
 ||2012-05-28||[[http://practical-scheme.net/gauche/|Gauche]]||0.9.3.3||
