@@ -92,7 +92,7 @@ Random procedures from R6RS (notably `symbol=?` and `boolean=?`): to be spelled 
 
 Record external representations: 
 
-Raw strings:  <<, """...""":
+Raw strings:  <<, """...""", [[http://srfi.schemers.org/srfi-109/srfi-109.html|SRFI 109]]
 
 Search and mismatch procedures:  SearchMismatchCowan
 
