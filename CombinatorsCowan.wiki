@@ -2,11 +2,11 @@ This proposal contains various procedures that return procedures and a few other
 
 `(always `''obj''`)`
 
-Ignores its argument and always returns `#t`. 
+Ignores its arguments and always returns `#t`. 
 
 `(never `''obj''`)`
 
-Ignores its argument and always returns `#f`.
+Ignores its arguments and always returns `#f`.
 
 `(constantly `''obj'' ...`)`
 
@@ -44,9 +44,13 @@ Returns a two-argument procedure that calls ''proc'', a two-argument procedure, 
 
 Returns ''obj''.
 
-`(list-of? `''predicate''`)`
+`(all-of? `''predicate''`)`
 
 Returns a procedure of one argument that returns `#t` when applied to a list of elements that all satisfy ''predicate'', or `#f` otherwise.
+
+`(any-of? `''predicate''`)`
+
+Returns a procedure of one argument that returns `#t` when applied to a list of elements at least one of which satisfies ''predicate'', or `#f` otherwise.
 
 `(map-reduce `''mapper reducer''`)`
 
