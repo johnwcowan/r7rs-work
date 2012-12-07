@@ -3,7 +3,6 @@
 These are the release dates of the most recent stable releases of the Scheme implementations in John Cowan's test suite.  Where there is no stable release, the most recent update is used instead.
 
 ||'''date'''||'''name'''||'''release'''||
-||2012-10-01||[[http://scheme.com/|Chez]]||8.4||
 ||2012-09-24||[[http://www.call-cc.org/|Chicken]]||4.8||
 ||2012-08-01||[[http://racket-lang.org/|Racket]]||5.3||
 ||2012-07-08||[[http://www.t3x.org/s9fes/|Scheme 9]]||20120708||
@@ -20,6 +19,7 @@ These are the release dates of the most recent stable releases of the Scheme imp
 ||2011-12-31||[[http://www.stklos.net/|STklos]]||1.10||
 ||2011-12-01||[[http://code.google.com/p/owl-lisp/|Owl Lisp]]||0.1.6||
 ||2011-12-01||[[https://code.google.com/p/chibi-scheme/|Chibi]]||0.5.3||
+||2011-10-01||[[http://scheme.com/|Chez]]||8.4||
 ||2011-09-08||[[https://ccrma.stanford.edu/software/snd/snd/s7.html|Scheme 7]]||20110908||
 ||2011-08-25||[[http://code.google.com/p/vicare-scheme/|Vicare]]||0.1b1||
 ||2011-07-07||[[http://www.stripedgazelle.org/joey/dream.html|Dream]]||20110707
