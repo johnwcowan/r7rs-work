@@ -4,17 +4,25 @@ This proposal contains various procedures that return procedures and a few other
 
 Ignores its argument and always returns `#t`. 
 
+`(never `''obj''`)`
+
+Ignores its argument and always returns `#f`.
+
 `(constantly `''obj'' ...`)`
 
 Returns a procedure that always returns the ''obj'' objects as its values, regardless of the number and value of its arguments.
 
 `(complement `''proc''`)`
 
-Returns a procedure that returns the boolean inverse of ''proc''.
+Returns a procedure that returns the boolean inverse of ''proc''.  That is, it returns a true value when ''proc'' returns `#f`, and `#f` otherwise.
 
 `(compose `''proc'' ... `)`
 
 Returns a procedure that represents the composition of its arguments.  Any of the procedures may return multiple values, which are passed as arguments to its successor.  With zero arguments, `(compose)` returns a procedure that is functionally equivalent to `values`.
+
+`(simple-compose `''proc'' ...`)`
+
+A variant of `compose` that does not handle multiple-valued procedures. With zero arguments, returns a procedure that is functionally equivalent to `identity`.
 
 `(conjoin `''predicate'' ...`)`
 
@@ -40,10 +48,6 @@ Returns ''obj''.
 
 Returns a procedure of one argument that returns `#t` when applied to a list of elements that all satisfy ''predicate'', or `#f` otherwise.
 
-`(never `''obj''`)`
+`(map-reduce `''mapper reducer'' ...`)`
 
-Ignores its argument and always returns `#f`.
-
-`(o `''proc'' ...`)`
-
-A variant of `compose` that does not handle multiple-valued procedures. With zero arguments, returns a procedure that is functionally equivalent to `identity`.
+Returns a procedure that applies ''mapper'' to each of its arguments, and then applies ''reducer'' to all the results and returns what it returns.
