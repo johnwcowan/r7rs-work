@@ -5,7 +5,7 @@ This is a list of work items that WG2 has voted to work on, and proposals for th
 
 Assertions: R6RS base library, R6RS with optional message and irritants.
 
-Binary heap: BinaryHeapsCowan
+Binary heap: BinaryHeapsCowan (includes queues)
 
 Binary search: [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]]
 
