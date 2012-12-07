@@ -60,3 +60,11 @@ Ignores its arguments and always returns `#f`.
 
 Returns ''obj''.
 
+== Documentation style ==
+
+It's been suggested that the documentation of these combinators is too hard to understand, and should be documented
+like this:
+
+`((constantly `''obj'' ...`) `''arg'' ...`)`
+
+Ignores ''args'' and returns ''objs''.
