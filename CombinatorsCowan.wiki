@@ -48,6 +48,6 @@ Returns ''obj''.
 
 Returns a procedure of one argument that returns `#t` when applied to a list of elements that all satisfy ''predicate'', or `#f` otherwise.
 
-`(map-reduce `''mapper reducer'' ...`)`
+`(map-reduce `''mapper reducer''`)`
 
 Returns a procedure that applies ''mapper'' to each of its arguments, and then applies ''reducer'' to all the results and returns what it returns.
