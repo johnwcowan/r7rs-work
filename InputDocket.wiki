@@ -102,6 +102,8 @@ Setter procedures: [[http://srfi.schemers.org/srfi-17/srfi-17.html|SRFI 17]]
 
 String positions and slices (see http://www.r6rs.org/formal-comments/comment-235.txt):
 
+String encoding and decoding:  StringBytevectorConversionCowan
+
 Symbol library:  SymbolsCowan
 
 Syntactic closures: 
