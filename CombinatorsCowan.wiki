@@ -1,12 +1,6 @@
 This proposal contains various procedures that return procedures and a few others, drawn from Chicken.  Common Lisp has a few of them too.
 
-`(always `''obj''`)`
-
-Ignores its arguments and always returns `#t`. 
-
-`(never `''obj''`)`
-
-Ignores its arguments and always returns `#f`.
+== Combinators ==
 
 `(constantly `''obj'' ...`)`
 
@@ -40,10 +34,6 @@ Returns a procedure that applies each of the ''proc''s in turn to its arguments,
 
 Returns a two-argument procedure that calls ''proc'', a two-argument procedure, with its arguments swapped.
 
-`(identity `''obj''`)`
-
-Returns ''obj''.
-
 `(all-of? `''predicate''`)`
 
 Returns a procedure of one argument that returns `#t` when applied to a list of elements that all satisfy ''predicate'', or `#f` otherwise.
@@ -55,3 +45,18 @@ Returns a procedure of one argument that returns `#t` when applied to a list of 
 `(map-reduce `''mapper reducer''`)`
 
 Returns a procedure that applies ''mapper'' to each of its arguments, and then applies ''reducer'' to all the results and returns what it returns.
+
+== Other procedures ==
+
+`(always `''obj''`)`
+
+Ignores its arguments and always returns `#t`. 
+
+`(never `''obj''`)`
+
+Ignores its arguments and always returns `#f`.
+
+`(identity `''obj''`)`
+
+Returns ''obj''.
+
