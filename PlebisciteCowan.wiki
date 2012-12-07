@@ -1,0 +1,25 @@
+Here's my proposal for the R7RS-small plebiscite.  The issue to vote on, per [[http://www.scheme-reports.org/2009/working-group-1-charter.html|the WG1 charter]], is: "Does the eighth draft of R7RS-small satisfy the requirements of the charter?"  I propose that the following ballot be sent to the scheme-reports mailing list and that replies (if formally sufficient) be interpreted as votes.  
+
+== Ballot ==
+
+Full name (required):  Insert your name here.
+
+Location (optional):  Insert your physical location here.
+
+Affiliation (optional):  Insert your institutional affiliation, if any, here.
+
+Contact details (optional):  Insert any contact details here.  The email address from which you post the ballot will be assumed to be a primary contact method, unless overridden here.
+
+Statement of interest (required, unless you registered for the R6RS ratification or the 2009 Steering Committee election):  Insert at least 75 words of original content explaining your interest in Scheme and the Scheme standard and your stake in the outcome of the ratification process.
+
+Vote (required):  Insert "yes" or "no" here.
+
+Rationale (optional):  Insert your explanation of why you voted the way you did here.  Anyone voting "no" is particularly encouraged to complete this section.
+
+== Comments ==
+
+This is a variant of the registration and ballot forms used for R6RS ratification process and for the Steering Committee election.  Both registration and voting are combined into a single form.  Note that the entire content of the ballot will be published, since it is being sent to a public mailing list.
+
+== Issues ==
+
+Should we worry about the fact that some people may not vote because their email addresses will be published?  I think not, but I may be out of date on this point.
