@@ -2,7 +2,7 @@
 
 `(generalized-equal? `''obj1 obj2''` . `''comparator-list''`)`
 
-Compares ''obj1'' and ''obj2'' for equality.  A ''comparator'' is a procedure that is given two arguments to compare.  It returns `#t` if its arguments are to be considered equal, `#f` if they are to be considered unequal, and any other value if it cannot decide.  The third argument of a comparators consists of a list of comparators to be used in recursive calls to `generalized-equal?`.
+Compares ''obj1'' and ''obj2'' for equality.  A ''comparator'' is a procedure that is given two arguments to compare.  It returns `#t` if its arguments are to be considered equal, `#f` if they are to be considered unequal, and any other value if it cannot decide.  The third argument passed to a comparator is a list of comparators to be used in recursive calls to `generalized-equal?`.
 
 First, each element of ''comparator-list''  is invoked on ''obj1'' and ''obj2'', passing ''comparator-list'' as its third argument.  If the comparator returns `#t` or `#f`, that is the result.
 
