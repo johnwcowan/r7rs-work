@@ -1,4 +1,6 @@
-Here's my proposal for the R7RS-small plebiscite.  The issue to vote on, per [[http://www.scheme-reports.org/2009/working-group-1-charter.html|the WG1 charter]], is: "Does the eighth draft of R7RS-small satisfy the requirements of the charter?"  I propose that the following ballot be sent to the scheme-reports mailing list and that replies (if formally sufficient) be interpreted as votes.  
+Here's my proposal for the R7RS-small plebiscite.  The issue to vote on, per [[http://www.scheme-reports.org/2009/working-group-1-charter.html|the WG1 charter]], is: "Does the eighth draft of R7RS-small satisfy the requirements of the charter?"  (Obviously this does not include the deadlines -- we've missed those.)
+
+I propose that the following ballot be sent to the scheme-reports mailing list and that replies (if formally sufficient) be interpreted as votes.  
 
 == Ballot ==
 
