@@ -66,6 +66,10 @@ Returns a string consisting of all the characters that can be read from ''port''
 
 Returns a list consisting of all the Scheme objects that can be read from ''port'' (as if by `read`) before an eof-object is returned, or an eof-object if there are none.  The default port is the value of `(current-input-port)`.
 
+`(write-line `''string'' [[|''port'' ]]`)`
+
+Write ''string'' to ''port'' as if by `write-string`, then write a newline to ''port'' as if by ''newline''.
+
 == Conversion procedures == 
 
 `(string->bytevector `''string'' [[|''settings-list'' [ ''start'' [ ''end'' ]] ] ] `)`
