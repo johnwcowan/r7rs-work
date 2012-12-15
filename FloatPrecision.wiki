@@ -14,7 +14,9 @@ The numbers have 19-bit, 24-bit, 53-bit, and 53-bit precision respectively: !Lis
 
 The numbers have 17-bit, 24-bit, 53-bit, and 64-bit precision respectively: CLISP
 
-Report syntax errors or treat input as identifiers (including systems without inexact numbers):  Bigloo, Scheme48/scsh, !SigScheme, !TinyScheme, Dream, RScheme, BDC, XLisp, Rep, Schemik, Elk, Oaklisp, Sizzle, !FemtoLisp, Owl Lisp.
+No inexact numbers: !SigScheme, Dream, Oaklisp, Owl Lisp
+
+Report syntax errors or treat input as identifiers:  Bigloo, Scheme48/scsh, !TinyScheme, Dream, RScheme, BDC, XLisp, Rep, Schemik, Elk, Sizzle, !FemtoLisp
 
 Inputs are treated as as special lexical syntax, not as numbers: Llava
 
