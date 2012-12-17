@@ -75,7 +75,7 @@ The following sections and subsections are omitted here because they aren't like
 
 == List oddities ==
 
-circular-list, proper-list?, circular-list?, dotted-list?, not-pair?, null-list?, car+cdr, last-pair, length/length+ (proposal: rename to simple-length/length), append!, pair-fold, pair-fold-right, pair-for-each, find-tail
+xcons, circular-list, proper-list?, circular-list?, dotted-list?, not-pair?, null-list?, car+cdr, last-pair, length/length+ (proposal: rename to simple-length/length), append!, pair-fold, pair-fold-right, pair-for-each, find-tail
 
 == String oddities ==
 
