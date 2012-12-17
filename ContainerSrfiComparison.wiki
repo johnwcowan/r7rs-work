@@ -10,7 +10,6 @@ The following sections and subsections are omitted here because they aren't like
 * low-level procedures (SRFI 13)
 
 ||Function||List library||String library||Vector library||
-||New container in reverse order of arguments||xcons||-||-||
 ||Specified elements plus existing container||cons*||-||-||
 ||Elements constructed by applying proc to integers||list-tabulate||string-tabulate||-||
 ||Elements are integers||iota||-||-||
