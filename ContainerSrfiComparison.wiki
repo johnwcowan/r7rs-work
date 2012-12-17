@@ -1,143 +1,85 @@
 This is a face-to-face comparison of three container SRFIs, [[http://srfi.schemers.org/srfi-1/srfi-1.html|SRFI 1]] for lists, [[http://srfi.schemers.org/srfi-13/srfi-13.html|SRFI 13]] for strings, and [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]] for vectors.  It will eventually mature into a proposal to make them match up to some degree, as has been done in R7RS-small, but at the moment it's just data.  Procedures present in the small language have mostly been removed unless they have corresponding procedures in other SRFIs that aren't part of the small language, as I assume that they won't be separately part of the large language.
 
-The following sections are omitted here because they aren't likely to have counterparts in other containers:
+The following sections and subsections are omitted here because they aren't likely to have counterparts in other containers:
 
 * zip (SRFI 1)
 * association list (SRFI 1)
 * set operations on lists (SRFI 1)
+* trimming and padding (SRFI 13)
 * alphabetic case mapping (SRFI 13)
 * low-level procedures (SRFI 13)
 
-== Constructors ==
+||New container in reverse order of arguments||xcons||-||-||
+||Specified elements plus existing container||cons*||-||-||
+||Elements constructed by applying proc to integers||list-tabulate||string-tabulate||-||
+||Elements are integers||iota||-||-||
+||Copy container in reverse element order||-||-||vector-reverse-copy||
+||Empty container predicate||null?||string-null?||vector-empty?||
+||Elementwise equality||list= ||-||vector= ||
+||Does one container subsume another?||-||string-contains(-ci)||-||
+||Specified element||first .. tenth||-||-||
+||Initial elements||take(!)||string-take||-||
+||All but initial elements||drop||string-drop||-||
+||Final elements||take-right(!)||string-take-right||-||
+||All but final elements||drop-right||string-drop-right||-||
+||Initial and final elements||split-at(!)||-||-||
+||Last element||last||-||-||
+||Inequality comparison||-||string(-ci)-<>||-||
+||Comparison||-||string-compare(-ci)||-||
+||Hashing||-||string-hash(-ci)||-||
+||Prefix equality||-||string-prefix(-ci)?||-||
+||Suffix equality||-||string-suffix(-ci)?||-||
+||Shared prefix length||-||string-prefix-length(-ci)||-||
+||Shared suffix length||-||string-suffix-length(-ci)||-||
+||Concatenate containers in a list||concatenate(!)||string-concatenate||vector-concatenate||
+||Concatenate with separator||-||string-join||-||
+||Concatenate in reverse||-||string-concatenate-reverse||-||
+||Reverse container||reverse(!)||string-reverse(!)||vector-reverse! ||
+||Append reversed container||append-reverse(!)||-||-||
+||Swap elements||-||-||vector-swap! ||-||
+||Reverse conversion||-||reverse-list->string||-||
+||Reverse conversion||-||reverse-vector->list||-||
+||Reverse conversion||-||reverse-list->vector||-||
+||Count of elements satisfying pred||count||string-count†||vector-count||
+||Fundamental deconstructor||fold||string-fold||vector-fold||
+||Fundamental deconstructor from right||fold-right||string-fold-right||vector-fold-right||
+||Fundamental constructor||unfold||string-unfold||vector-unfold||
+||Fundamental constructor from right||unfold-right||string-unfold-right||vector-unfold-right||
+||Simplified constructor||reduce||-||-||
+||Simplified constructor from right||reduce-right||-||-||
+||Append results of mapping||append-map(!)||-||-||
+||Linear-update map||map! ||string-map! ||vector-map! ||
+||Map saving only true values||filter-map||-||-||
+||Map guaranteeing order||map-in-order||-||-||
+||For-each with element and index||-||string-for-each-index||-||
+||Replicated copy||-||xsubstring||-||
+||Linear-update replicated copy||-||string-xcopy! ||-||
+||Container with elements matching pred||filter(!)||string-filter†||-||
+||Two containers with elements matching and not||partition(!)||-||-||
+||Container with elements not matching pred||remove(!)||string-delete†||-||
+||Find first element satisfying pred||find||-||-||
+||Return true if any elements satisfy||any||string-any†||vector-any||
+||Return true if every element satisfies||every||string-every†||vector-every||
+||Index of first element satisfying pred||list-index||string-index†||vector-index||
+||Index of last element satisfying pred||-||string-index-right†||vector-index-right||
+||Find first element not satisfying pred||-||string-skip†||vector-skip||
+||Find last element not satisfying pred||-||string-skip-right†||vector-skip-right||
+||Initial elements satisfying pred||take-while(!)||-||-||
+||Final elements satisfying pred||drop-while||-||-||
+||Initial elements satisfying pred plus final ones||span(!)||-||-||
+||Final elements satisfying pred plus final ones||break(!)||-||-||
+||Binary search||-||-||vector-binary-search||
+||Remove elements by identity||delete(!)||string-delete†||-||
+||Remove duplicate elements||delete-duplicates(!)||-||-||
 
-||xcons||-||-||
-||cons*||-||-||
-||list-tabulate||string-tabulate||-||
-||circular-list||-||-||
-||iota||-||-||
-||-||-||vector-reverse-copy||
+== List oddities ==
 
-== Predicates ==
-
-||null?||string-null?||vector-empty?||
-||proper-list?||-||-||
-||circular-list?||-||-||
-||dotted-list? ||-||-||
-||not-pair?||-||-||
-||null-list?||-||-||
-||list= ||-||vector= ||
-
-== Selectors ==
-
-||first .. tenth||-||-||
-||car+cdr||-||-||
-||take(!)||string-take||-||
-||drop||string-drop||-||
-||take-right(!)||string-take-right||-||
-||drop-right||string-drop-right||-||
-||split-at(!)||-||-||
-||last||-||-||
-||last-pair||-||-||
-||-||string-pad†||-||
-||-||string-pad-right†||-||
-||-||string-trim†||-||
-||-||string-trim-right†||-||
-||-||string-trim-both†||-||
-
-== Comparisons ==
-
-||-||string(-ci)-<>||-||
-||-||string-compare(-ci)||-||
-||-||string-hash(-ci)||-||
-
-== Prefixes and suffixes ==
-
-||-||string-prefix(-ci)?||-||
-||-||string-suffix(-ci)?||-||
-||-||string-prefix-length(-ci)||-||
-||-||string-suffix-length(-ci)||-||
-
-== Length ==
-
-||length+||-||-||
-
-== Append  ==
-
-||append! ||-||-||
-
-== Concatenate ==
-
-||concatenate(!)||string-concatenate||vector-concatenate||
-||-||string-join||-||
-||-||string-concatenate-reverse||-||
-
-== Reverse ==
-
-||reverse(!)||string-reverse(!)||vector-reverse! ||
-||append-reverse(!)||-||-||
-||-||-||vector-swap! ||-||
-||-||reverse-list->string||-||
-||-||reverse-vector->list||-||
-||-||reverse-list->vector||-||
-
-== Count ==
-
-||count||string-count†||vector-count||
-||-||string-contains(-ci)||-||
-
-== Fold, unfold & map ==
-
-||fold||string-fold||vector-fold||
-||-||string-fold-right||vector-fold-right||
-||unfold||string-unfold||vector-unfold||
-||-||string-unfold-right||vector-unfold-right||
-||pair-fold||-||-||
-||reduce||-||-||
-||fold-right||-||-||
-||unfold-right||-||-||
-||pair-fold-right||-||-||
-||reduce-right||-||-||
-||append-map(!)||-||-||
-||map(!)||string-map(!)||vector-map(!)||
-||pair-for-each||-||-||
-||filter-map||-||-||
-||map-in-order||-||-||
-||-||string-for-each-index||-||
-
-== Replicate & rotate
-
-||-||xsubstring||-||
-||-||string-xcopy! ||-||
-
-== Filtering & partitioning ==
-
-||filter(!)||string-filter†||-||
-||partition(!)||-||-||
-||remove(!)||string-delete†||-||
-
-== Searching ==
-
-||find||-||-||
-||find-tail||-||-||
-||any||string-any†||vector-any||
-||every||string-every†||vector-every||
-||list-index||string-index†||vector-index||
-||-||string-index-right†||vector-index-right||
-||-||string-skip†||vector-skip||
-||-||string-skip-right†||vector-skip-right||
-||take-while(!)||-||-||
-||drop-while||-||-||
-||span(!)||-||-||
-||break(!)||-||-||
-||-||-||vector-binary-search||
-
-== Deleting ==
-
-||delete(!)||string-delete†||-||
-||delete-duplicates(!)||-||-||
+circular-list, proper-list?, circular-list?, dotted-list?, not-pair?, null-list?, car+cdr, last-pair, length/length+ (rename to simple-length/length?), append!, pair-fold, pair-fold-right, pair-for-each, find-tail
 
 == String oddities ==
 
 substring/shared, string-concatenate/shared, string-append/shared, string-concatenate-reverse/shared, string-replace, string-tokenize
+
+== Footnotes ==
 
 †Polymorphic procedure: accepts character, character set, or predicate
