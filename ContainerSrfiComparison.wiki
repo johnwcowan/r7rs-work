@@ -19,7 +19,7 @@ The following sections are omitted here because they aren't likely to have count
 
 == Predicates ==
 
-||null?||string-null?||vector-empty??||
+||null?||string-null?||vector-empty?||
 ||proper-list?||-||-||
 ||circular-list?||-||-||
 ||dotted-list? ||-||-||
