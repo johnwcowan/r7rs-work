@@ -36,7 +36,7 @@ The following sections and subsections are omitted here because they aren't like
 ||Concatenate in reverse||-||string-concatenate-reverse||-||
 ||Reverse container||reverse(!)||string-reverse(!)||vector-reverse! ||
 ||Append reversed container||append-reverse(!)||-||-||
-||Swap elements||-||-||vector-swap! ||-||
+||Swap elements||-||-||vector-swap! ||
 ||Reverse conversion||-||reverse-list->string||-||
 ||Reverse conversion||-||reverse-vector->list||-||
 ||Reverse conversion||-||reverse-list->vector||-||
@@ -67,14 +67,14 @@ The following sections and subsections are omitted here because they aren't like
 ||Initial elements satisfying pred||take-while(!)||-||-||
 ||Final elements satisfying pred||drop-while||-||-||
 ||Initial elements satisfying pred plus final ones||span(!)||-||-||
-||Final elements satisfying pred plus final ones||break(!)||-||-||
+||Initial elements not satisfying pred plus final ones||break(!)||-||-||
 ||Binary search||-||-||vector-binary-search||
 ||Remove elements by identity||delete(!)||string-delete†||-||
 ||Remove duplicate elements||delete-duplicates(!)||-||-||
 
 == List oddities ==
 
-circular-list, proper-list?, circular-list?, dotted-list?, not-pair?, null-list?, car+cdr, last-pair, length/length+ (rename to simple-length/length?), append!, pair-fold, pair-fold-right, pair-for-each, find-tail
+circular-list, proper-list?, circular-list?, dotted-list?, not-pair?, null-list?, car+cdr, last-pair, length/length+ (proposal: rename to simple-length/length), append!, pair-fold, pair-fold-right, pair-for-each, find-tail
 
 == String oddities ==
 
