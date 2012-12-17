@@ -2,8 +2,7 @@ This is a face-to-face comparison of three container SRFIs, [[http://srfi.scheme
 
 The following sections and subsections are omitted here because they aren't likely to have counterparts in other containers:
 
-* zip (SRFI 1)
-* association list (SRFI 1)
+* association lists (SRFI 1)
 * set operations on lists (SRFI 1)
 * trimming and padding (SRFI 13)
 * alphabetic case mapping (SRFI 13)
@@ -36,6 +35,8 @@ The following sections and subsections are omitted here because they aren't like
 ||Concatenate in reverse||-||string-concatenate-reverse||-||
 ||Reverse container||reverse(!)||string-reverse(!)||vector-reverse! ||
 ||Append reversed container||append-reverse(!)||-||-||
+||Zip up input to make container of containers||zip||-||-||
+||Unzip container of containers||unzip1 .. unzip5||-||-||
 ||Swap elements||-||-||vector-swap! ||
 ||Reverse conversion||-||reverse-list->string||-||
 ||Reverse conversion||-||reverse-vector->list||-||
