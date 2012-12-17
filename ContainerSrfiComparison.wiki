@@ -1,4 +1,4 @@
-This is a face-to-face comparison of three container SRFIs, [[http://srfi.schemers.org/srfi-1/srfi-1.html|SRFI 1]] for lists, [[http://srfi.schemers.org/srfi-13/srfi-13.html|SRFI 13]] for strings, and [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]] for vectors.  It will eventually mature into a proposal to make them match up to some degree, as has been done in R7RS-small, but at the moment it's just data.  Procedures present in the small language have mostly been removed unless they have corresponding procedures in other SRFIs that aren't part of the small language, as I assume that they won't be separately part of the large language.
+This is a face-to-face comparison of three container SRFIs, [[http://srfi.schemers.org/srfi-1/srfi-1.html|SRFI 1]] for lists, [[http://srfi.schemers.org/srfi-13/srfi-13.html|SRFI 13]] for strings, and [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]] for vectors.  It will eventually mature into a proposal to make them match up to some degree, as has been done in R7RS-small, but at the moment it's just data.  Procedures present in the small language have mostly been removed unless they have corresponding procedures in other SRFIs that aren't part of the small language, as I assume that they won't be separately part of the large language.  The order of functions is basically the order of SRFI-1, the most comprehensive library: the functions are grouped as constructors, predicates, selectors, miscellaneous, filtering, partitioning, searching, and deleting.
 
 The following sections and subsections are omitted here because they aren't likely to have counterparts in other containers:
 
@@ -9,6 +9,7 @@ The following sections and subsections are omitted here because they aren't like
 * alphabetic case mapping (SRFI 13)
 * low-level procedures (SRFI 13)
 
+||Function||List library||String library||Vector library||
 ||New container in reverse order of arguments||xcons||-||-||
 ||Specified elements plus existing container||cons*||-||-||
 ||Elements constructed by applying proc to integers||list-tabulate||string-tabulate||-||
