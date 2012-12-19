@@ -1,4 +1,4 @@
-Here's a list of places where R7RS-small says something "is an error".  The names in brackets represent a rough-and-ready classification of these errors, and don't constitute a proposal.  The list is [domain], [mismatch], [syntax], [read], [immutable], [undefined].
+Here's a list of places where R7RS-small says something "is an error".  The names in brackets represent a rough-and-ready classification of these errors, and don't constitute a proposal.  The list is [domain], [mismatch], [syntax], [read], [immutable], [undefined], [non-continuable].
 
 1.3.2 procedure domain errors [domain]
 
@@ -119,6 +119,8 @@ Here's a list of places where R7RS-small says something "is an error".  The name
 6.10 `call/cc` must accept one argument [domain]
 
 6.10 `with-exception-handler` handler and thunk arguments must accept a condition object and no arguments respectively [domain]
+
+6.11 attempt to continue from a non-continuable exception [non-continuable]
 
 6.13.1 procedure passed to a call procedure must accept one argument [domain]
 
