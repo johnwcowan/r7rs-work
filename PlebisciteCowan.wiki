@@ -1,6 +1,8 @@
 Here's my proposal for the R7RS-small plebiscite.  The issue to vote on, per [[http://www.scheme-reports.org/2009/working-group-1-charter.html|the WG1 charter]], is: "Does the eighth draft of R7RS-small satisfy the requirements of the charter?"  (Obviously this does not include the deadlines -- we've missed those.)
 
-I propose that the following ballot be sent to the scheme-reports mailing list and that replies (if formally sufficient) be interpreted as votes.  
+I propose that the following ballot be sent to the scheme-reports mailing list with replies directed to the email address of a volunteer vote taker (I am attempting to find such a person by appealing on various non-Scheme-related mailing lists).  The vote taker would concatenate all received replies, minimally encoding "@" to " at ", and post the whole file to a publicly readable web page they control.
+
+If such a person cannot be found, posting to the scheme-reports@scheme-reports.org mailing list would probably be adequate.
 
 == Ballot ==
 
@@ -12,7 +14,7 @@ Affiliation (optional):  Insert your institutional affiliation, if any, here.
 
 Contact details (optional):  Insert any contact details here.  The email address from which you post the ballot will be assumed to be a primary contact method, unless overridden here.
 
-Statement of interest (required, unless you registered for the R6RS ratification or the 2009 Steering Committee election):  Insert at least 75 words of original content explaining your interest in Scheme and the Scheme standard and your stake in the outcome of the ratification process.
+Statement of interest (required unless you registered for the R6RS ratification or the 2009 Steering Committee election):  Insert at least 75 words of original content explaining your interest in Scheme and the Scheme standard and your stake in the outcome of the ratification process.
 
 Vote (required):  Insert "yes" or "no" here.
 
@@ -24,4 +26,4 @@ This is a variant of the registration and ballot forms used for R6RS ratificatio
 
 == Issues ==
 
-Should we worry about the fact that some people may not vote because their email addresses will be published?  I think not, but I may be out of date on this point.
+Some people might not vote because it would disclose their email address even with encoding protection.
