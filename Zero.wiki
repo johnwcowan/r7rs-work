@@ -121,9 +121,9 @@ These are the R6RS examples involving -0.0 (already accounted for verbally in th
 
 Because of the branch cut of `atan`, the values of `(angle 0.0)` and `(angle -0.0)` should be 0 and pi respectively.  Furthermore, by R5RS and R6RS, `(atan y x)` is equivalent to `(angle (make-rectangular x y))` even on systems that don't support non-real numbers, so `(atan 0.0 -0.0)` should also be pi.  On many implementations, these turn out not to be the case.  
 
-Gambit, Chicken with the numbers egg, Chez, Vicare, Larceny, !IronScheme, STklos, Sizzle return pi to both `angle` and `atan`.
+Gambit, Chicken with the numbers egg, Guile, Chez, Vicare, Larceny, !IronScheme, STklos, Sizzle return pi to both `angle` and `atan`.
 
-Gauche, plain Chicken, Guile, SISC return `0.0` to `angle`, pi to `atan`.
+Gauche, plain Chicken, SISC return `0.0` to `angle`, pi to `atan`.
 
 Scheme48 returns `-0.0` to `angle`, pi to `atan`.
 
@@ -171,7 +171,9 @@ MIT (even ignoring floating point traps), Scheme48, KSi, Scheme 7 raise an excep
 
 === Inexact zero raised to a complex power whose real part is negative ===
 
-Racket, Gauche, Gambit, Chicken with the numbers egg, Kawa, Chibi, Guile, Ypsilon, Spark return `+nan.0+nan.0i`.  (On some platforms, Guile returns the wrong answer: this is a glibc bug.)
+Racket, Gauche, Gambit, Chicken with the numbers egg, Kawa, Chibi, Ypsilon, Spark return `+nan.0+nan.0i`.
+
+Guile returns `+nan.0+nan.0i` or `+inf.0+nan.0i` depending on the platform.
 
 SISC, Chez, Vicare, !IronScheme return `0.0`.
 
