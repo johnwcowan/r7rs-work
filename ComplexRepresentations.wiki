@@ -1,4 +1,4 @@
-How a variety of Schemes represent complex numbers:
+== Exact, inexact, and mixed complex numbers ==
 
 Exact, inexact, and mixed complex number representations, where inexact and mixed numbers that are `=` are nevertheless distinct in the sense of `eqv?`: Gambit, Chibi.  (Also CLISP, Pure.)
 
@@ -13,5 +13,17 @@ Exact complex number representations only: Owl Lisp (which has no inexact number
 No complex numbers: plain Chicken, Bigloo, Ikarus, NexJ, !SigScheme, Shoe, !TinyScheme, Scheme 9, Dream, RScheme, BDC, XLisp, Rep, Schemik, Elk, VX, Oaklisp, Llava, SXM, Sizzle, !FemtoLisp, Dfsch, Inlab.
 
 Mosh has a bug whereby numbers that are `=` are always `eqv?` even if they differ in exactness; it supports exact, inexact, and mixed complex number representations, but doesn't differentiate exact from inexact properly.
+
+== The imaginary part of an inexact real number ==
+
+The value of `(imag-part 2.0)` is exact 0:  Racket, MIT, Gambit, Guile, Kawa, Chez, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, STklos, RScheme, Sizzle, Spark.
+
+The value of `(imag-part 2.0)` is inexact 0.0:  Gauche, Chicken with the numbers egg, Scheme48/scsh, SISC, Chibi, SCM, KSi, Scheme 7, UMB, SXM.
+
+No `imag-part` procedure:  plain Chicken, Bigloo, NexJ, Shoe, !TinyScheme, Scheme 9, BDC, XLisp, Rep, Schemik, Elk, VX, Llava, !FemtoLisp, Dfsch, Inlab.
+
+No inexact numbers:  !SigScheme, Dream, Oaklisp, Owl Lisp.
+
+Integrating both sets of results, this means that Racket, Kawa, Chez, Vicare, Larceny, Ypsilon, !IronScheme, Spark behave ''as if'' they supported mixed-exactness complex numbers in the case where the real part is inexact and the imaginary part is exact 0, even though they do not support mixed-exactness complex numbers otherwise.
 
 See also NumericTower.
