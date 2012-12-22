@@ -20,3 +20,5 @@ There are therefore 16 possible numeric towers.  Nine of them are known to have 
 See NumericTowerManisComments for Vincent Manis's comments on an earlier version of this page.
 
 See also ComplexRepresentations for information on which Schemes support exact, inexact, and mixed-exactness complex numbers.
+
+See also FloatPrecision for information on the different precisions of inexact numbers that some Schemes support.
