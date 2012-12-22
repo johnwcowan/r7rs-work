@@ -45,7 +45,7 @@ Returns the property value associated with the property named ''sym'' of ''condi
 
 Returns a predicate which will return `#t` if applied to a condition belonging to type ''sym'', and `#f` otherwise.
 
-`(condition-accessor`''sym'' [[|''default'' ]] `)`
+`(condition-accessor `''sym'' [[|''default'' ]] `)`
 
 Returns an accessor which will return the value of ''sym'' if applied to a condition object and ''default'' otherwise.  If ''default'' is not specified, the accessor will return `#f`.
 
