@@ -1,6 +1,6 @@
 == Exact, inexact, and mixed complex numbers ==
 
-Exact, inexact, and mixed complex number representations, where inexact and mixed numbers that are `=` are nevertheless distinct in the sense of `eqv?`: Gambit, Chibi.  (Also CLISP, Pure.)
+Exact, inexact, and mixed complex number representations, where inexact and mixed numbers that are `=` are nevertheless distinct in the sense of `eqv?`: Gambit, Kawa, Chibi.  (Also CLISP, Pure.)
 
 Exact, inexact, and mixed complex number representations, where inexact and mixed numbers that are `=` are the same in the sense of `eqv?`: MIT, STklos.
 
@@ -24,6 +24,6 @@ No `imag-part` procedure:  plain Chicken, Bigloo, NexJ, Shoe, !TinyScheme, Schem
 
 No inexact numbers:  !SigScheme, Dream, Oaklisp, Owl Lisp.
 
-Integrating both sets of results, this means that Racket, Kawa, Chez, Vicare, Larceny, Ypsilon, !IronScheme, Spark behave ''as if'' they supported mixed-exactness complex numbers in the case where the real part is inexact and the imaginary part is exact 0, even though they do not support mixed-exactness complex numbers otherwise.
+Integrating both sets of results, this means that Racket, Guile, Chez, Vicare, Larceny, Ypsilon, !IronScheme, Spark behave ''as if'' they supported mixed-exactness complex numbers in the case where the real part is inexact and the imaginary part is exact 0, even though they do not support mixed-exactness complex numbers otherwise.
 
 See also NumericTower.
