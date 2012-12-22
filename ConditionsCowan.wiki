@@ -25,6 +25,10 @@ Returns `#t` if ''obj'' is a condition of any type, and `#f` otherwise.
 
 Returns `#t` if ''obj'' is a condition belonging to type ''sym'', and `#f` otherwise.
 
+`(<type>-error? ''obj''`)`
+
+Returns `#t` if ''obj'' is a condition belonging to type `<type>` from the list below, and `#f` otherwise.
+
 == Accessors ==
 
 `(condition-types `''condition''`)`
@@ -38,8 +42,6 @@ Returns the list of property names associated with this condition.  It is an err
 `(condition-ref `''condition sym'' [[|''default'' ]] `)`
 
 Returns the property value associated with the property named ''sym'' of ''condition''.  If there is no such property, returns ''default''.  If ''default'' is not specified, returns `#f`.
-
-== Meta ==
 
 `(condition-predicate `''sym''`)`
 
@@ -68,37 +70,22 @@ Returns `#t` if ''obj'' is a condition belonging to type `read`, and `#f` otherw
 
 Returns `#t` if ''obj'' is a condition belonging to type `syntax`, and `#f` otherwise.  Such conditions may be created by the implementation if program code is syntactically ill-formed.  When such a condition is raised, it may or may not be possible for the exception system to catch it.  ''Part of the small language, but shown here for completeness.''
 
-`(domain-error? `''obj''`)`
+== Standard condition types ==
 
-Returns `#t` if ''obj'' is a condition belonging to type `domain`, and `#f` otherwise.  Such conditions may be created by the implementation if a procedure is passed an argument that is not in its domain, either because it is of the wrong type or because it has an unacceptable value, as well as in analogous situations.
+The following condition types are standardized.  Conditions of each type may be created by the implementation in the specified situations as well as any analogous situations.
 
-`(mismatch-error? `''obj''`)`
-
-Returns `#t` if ''obj'' is a condition belonging to type `mismatch`, and `#f` otherwise.  Such conditions may be created by the implementation if a procedure is passed too many or too few arguments, as well as in analogous situations.
-
-`(immutability-error? `''obj''`)`
-
-Returns `#t` if ''obj'' is a condition belonging to type `immutability`, and `#f` otherwise.  Such conditions may be created by the implementation on an attempt to modify immutable data, as well as in analogous situations.
-
-`(undefined-error? `''obj''`)`
-
-Returns `#t` if ''obj'' is a condition belonging to type `undefined`, and `#f` otherwise.  Such conditions may be created by the implementation if an attempt is made to get the value of a variable that has not been defined, as well as in analogous situations.
-
-`(non-continuable-error? `''obj''`)`
-
-Returns `#t` if ''obj'' is a condition of type `non-continuable`, and `#f` otherwise.  Such conditions may be created by the implementation if an attempt is made to continue from an exception raised by `raise`, as well as in analogous situations.
-
-`(input-error? `''obj''`)`
-
-Returns `#t` if ''obj'' is a condition belonging to type `input`, and `#f` otherwise.  Such conditions may be created by the implementation if an input error occurs, as well as in analogous situations.
-
-`(output-error? `''obj''`)`
-
-Returns `#t` if ''obj'' is a condition belonging to type `output`, and `#f` otherwise.  Such conditions may be created by the implementation if an output error occurs, as well as in analogous situations.
-
-`(implementation-restriction? `''obj''`)`
-
-Returns `#t` if ''obj'' is a condition of type `implementation-restriction`, and `#f` otherwise.  Such conditions may be created by the implementation if an implementation restriction occurs such as running out of memory or exceeding the maximum representable size of an exact number, as well as in analogous situations.
+||`simple`||error created by `error`||
+||`file`||file-related error||
+||`read`||lexical syntax error||
+||`syntax`||Scheme syntax error||
+||`domain`||argument has wrong type or value||
+||`mismatch`||too many or too few arguments||
+||`immutability`||modifying immutable data||
+||`undefined`||getting the value of a variable that has not been defined||
+||`non-continuable`||continuing from an exception raised by `raise`||
+||`input`||input error||
+||`output`||output error||
+||`implementation-restriction`||implementation restriction (out of memory, too-large exact number)||
 
 == Specific accessors ==
 
