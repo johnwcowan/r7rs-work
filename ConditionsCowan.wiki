@@ -47,9 +47,13 @@ Returns the property value associated with the property named ''sym'' of ''condi
 
 Returns a predicate which will return `#t` if applied to a condition belonging to type ''sym'', and `#f` otherwise.
 
-`(condition-accessor `''sym'' [[|''default'' ]] `)`
+`(condition-accessor `''condition'' ''sym'' [[|''default'' ]] `)`
 
 Returns an accessor which will return the value of ''sym'' if applied to a condition object and ''default'' otherwise.  If ''default'' is not specified, the accessor will return `#f`.
+
+`(condition-<property-name> `''condition''`)`
+
+Returns the value of the property named `<property-name>` (from the standard list of property names below) of ''condition'', or `#f` if there is no such property.
 
 
 == Specific predicates ==
@@ -70,6 +74,10 @@ Returns `#t` if ''obj'' is a condition belonging to type `read`, and `#f` otherw
 
 Returns `#t` if ''obj'' is a condition belonging to type `syntax`, and `#f` otherwise.  Such conditions may be created by the implementation if program code is syntactically ill-formed.  When such a condition is raised, it may or may not be possible for the exception system to catch it.  ''Part of the small language, but shown here for completeness.''
 
+`(implementation-restriction? `''obj''`)`
+
+Returns `#t` if ''obj'' is a condition belonging to type `syntax`, and `#f` otherwise.  Such conditions may be created by the implementation if one of its restrictions is exceeded, such as consuming too much memory or trying to compute an exact number too large to represent.
+
 == Standard condition types ==
 
 The following condition types are standardized.  Conditions of each type may be created by the implementation in the specified situations as well as any analogous situations.
@@ -83,16 +91,13 @@ The following condition types are standardized.  Conditions of each type may be 
 ||`immutability`||modifying immutable data||
 ||`undefined`||getting the value of a variable that has not been defined||
 ||`non-continuable`||continuing from an exception raised by `raise`||
+||`range`||violation of start-end conditions||
 ||`input`||input error||
 ||`output`||output error||
-||`implementation-restriction`||implementation restriction (out of memory, too-large exact number)||
+||`invalid-position`||invalid file position||
+||`coding`||encoding or decoding error||
 
-== Specific accessors ==
+== Standard property names ==
 
-`(condition-message `''condition''`)`
-
-Returns the value of the `message` property associated with ''condition'', or `#f` if there is none.  This value should be a string.
-
-`(condition-irritants `''condition''`)`
-
-Returns the value of the `irritants` property associated with ''condition'', or `#f` if there is none.  This value should be a list.
+||`message`||human-readable description string||
+||`irritants`||list of problematic arguments||
