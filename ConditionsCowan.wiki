@@ -41,7 +41,7 @@ Returns the list of property names associated with this condition.  It is an err
 
 `(condition-ref `''condition sym'' [[|''default'' ]] `)`
 
-Returns the property value associated with the property named ''sym'' of ''condition''.  If there is no such property, returns ''default''.  If ''default'' is not specified, returns `#f`.
+Returns the property value associated with the property named ''sym'' of ''condition''.  If it has no such property, returns ''default''.  If ''default'' is not specified, returns `#f`.
 
 `(condition-predicate `''sym''`)`
 
@@ -53,7 +53,7 @@ Returns an accessor which will return the value of ''sym'' if applied to a condi
 
 `(condition-<property-name> `''condition''`)`
 
-Returns the value of the property named `<property-name>` (from the standard list of property names below) of ''condition'', or `#f` if there is no such property.
+Returns the value of the property named `<property-name>` (from the standard list of property names below) of ''condition'', or `#f` if it has no such property.
 
 
 == Specific predicates ==
