@@ -80,24 +80,65 @@ Returns `#t` if ''obj'' is a condition belonging to type `syntax`, and `#f` othe
 
 == Standard condition types ==
 
-The following condition types are standardized.  Conditions of each type may be created by the implementation in the specified situations as well as any analogous situations.
+The following condition types are standardized.  Conditions of each type may be created by the implementation in the specified situations as well as any analogous situations.  The list is intended to be comprehensive but not complete: it draws on R6RS, Java, and other sources.
 
 ||`simple`||error created by `error`||
+||`assert`||error created by `assert`||
 ||`file`||file-related error||
-||`read`||lexical syntax error||
+||`filename`||mangled filename||
+||`protection`||file protection error||
+||`input`||input error||
+||`output`||output error||
+||`network`||socket or network error||
+||`closed`||I/O operation on closed port||
+||`already-exists`||file already exists||
+||`not-found`||file not found||
+||`read`||textual error during reading||
+||`lexical`||lexical syntax error||
+||`eof`||EOF inside a lexical construct||
 ||`syntax`||Scheme syntax error||
 ||`domain`||argument has wrong type or value||
-||`mismatch`||too many or too few arguments||
+||`type`||wrong type||
+||`value`||wrong value||
+||`state`||invalid state event||
+||`arithmetic`||arithmetic error||
+||`divide`||division by exact zero||
+||`fixnum`||sufficiently small exact integer expected||
+||`conversion`||attempted impossible conversion||
+||`improper-list`||improper lists not supported||
+||`circular-list`||circular lists not supported||
+||`arity`||too many or too few arguments||
 ||`immutability`||modifying immutable data||
 ||`undefined`||getting the value of a variable that has not been defined||
 ||`non-continuable`||continuing from an exception raised by `raise`||
+||`match`||unsatisfied pattern match||
+||`uncaught`||uncaught exception||
+||`nonexistent`||reference to something that does not exist||
 ||`range`||violation of start-end conditions||
-||`input`||input error||
-||`output`||output error||
+||`scheduler`||task scheduler error||
+||`deadlock`||scheduler deadlock||
+||`timeout`||operation timed out||
+||`termination`||thread termination||
+||`concurrency`||invalid concurrent modification||
 ||`invalid-position`||invalid file position||
-||`coding`||encoding or decoding error||
+||`encoding`||encoding or decoding error||
+||`os`||operating system reported error||
+||`implementation-restriction`||implementation restriction||
+||`memory`||out of memory||
+||`unsupported`||unsupported operation||
+||`no-infinities`||implementation does not support infinities||
+||`no-nans`||implementation does not support !NaNs||
+||`continuation`||escape procedure invoked when not supported||
+||`bignum`||exact number too large to represent||
+||`version-skew`||mismatched versions of code||
+||`security`||security violation||
+||`implementation-error`||low-level failure||
 
 == Standard property names ==
 
 ||`message`||human-readable description string||
 ||`irritants`||list of problematic arguments||
+||`who`||an object reporting a problem with another object||
+||`what`||an object which has a problem||
+||`position`||the position in `what` at which the problem occurred||
+
