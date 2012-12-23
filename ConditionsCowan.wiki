@@ -25,7 +25,7 @@ Returns `#t` if ''obj'' is a condition of any type, and `#f` otherwise.
 
 Returns `#t` if ''obj'' is a condition belonging to type ''sym'', and `#f` otherwise.
 
-`(<type>-error? ''obj''`)`
+`(<type>-error? `''obj''`)`
 
 Returns `#t` if ''obj'' is a condition belonging to type `<type>` from the list below, and `#f` otherwise.
 
