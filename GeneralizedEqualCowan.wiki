@@ -26,7 +26,7 @@ A comparator that returns `#t` if ''obj1'' and ''obj2'' are numbers that are equ
 
 A comparator that returns `#t` if ''obj1'' and ''obj2'' are both characters that are equal by `char-ci=?`, `#f` if they are not equal by `char-ci=?`, and a third value otherwise.  The ''comparators-list'' argument is ignored.
 
-`(string-ci-comparator `''obj1' obj2 comparators-list''`)`
+`(string-ci-comparator `''obj1 obj2 comparators-list''`)`
 
 A comparator that returns `#t` if ''obj1'' and ''obj2'' are both strings that are equal by `string-ci=?`, `#f` if they are not equal by `string-ci=?`, and a third value otherwise.  The ''comparators-list'' argument is ignored.
 
