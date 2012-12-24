@@ -54,4 +54,6 @@ Exchanges the values of the locations in ''bytevector'', when viewed as a <type>
 
 Destructively reverses the order of the elements in ''bytevector'' from ''start'' to ''end''.
 
-The `<type>vector-reverse-copy`, `<type>reverse-vector->vector`, `<type>reverse-vector->list`, `<type>reverse-list->vector`, and `<type>reverse-list->list` procedures are identical to their regular counterparts, but produce the bytevector argument, when viewed as a <type>vector, in reverse element order.  
+The `<type>vector-reverse-copy`, `<type>reverse-vector->vector`, `<type>reverse-vector->list`, `<type>reverse-list->vector`, and `<type>reverse-list->list` procedures are identical to their regular counterparts, but produce the bytevector argument, when viewed as a <type>vector, in reverse element order.
+
+See ContainerSrfiComparison for possible additions to this list.
