@@ -9,20 +9,24 @@ The following sections and subsections are omitted here because they aren't like
 * low-level procedures (SRFI 13)
 
 ||Function||List library||String library||Vector library||
+||||||
 ||Specified elements plus existing container||`cons*`||-||-||
 ||Elements constructed by applying proc to integers||`list-tabulate`||`string-tabulate`||-||
 ||Elements are integers||`iota`||-||-||
 ||Copy container in reverse element order||-||-||`vector-reverse-copy`||
+||||||
 ||Empty container predicate||`null?`||`string-null?`||`vector-empty?`||
 ||Elementwise equality||`list=`||-||`vector=`||
 ||Does one container subsume another?||-||`string-contains`(`-ci`)||-||
 ||Specified element||`first` .. `tenth`||-||-||
+||||||
 ||Initial elements||`take`(`!`)||`string-take`||-||
 ||All but initial elements||`drop`||`string-drop`||-||
 ||Final elements||`take-right`(`!`)||`string-take-right`||-||
 ||All but final elements||`drop-right`||`string-drop-right`||-||
 ||Initial and final elements||`split-at`(`!`)||-||-||
 ||Last element||`last`||-||-||
+||||||
 ||Inequality comparison||-||`string`(`-ci`)`-<>`||-||
 ||Comparison||-||`string-compare`(`-ci`)||-||
 ||Hashing||-||`string-hash`(`-ci`)||-||
@@ -30,9 +34,11 @@ The following sections and subsections are omitted here because they aren't like
 ||Suffix equality||-||`string-suffix`(`-ci`)`?`||-||
 ||Shared prefix length||-||`string-prefix-length`(`-ci`)||-||
 ||Shared suffix length||-||`string-suffix-length`(`-ci`)||-||
+||||||
 ||Concatenate containers in a list||`concatenate`(`!`)||`string-concatenate`||`vector-concatenate`||
 ||Concatenate with separator||-||`string-join`||-||
 ||Concatenate in reverse||-||`string-concatenate-reverse`||-||
+||||||
 ||Reverse container||`reverse`(`!`)||`string-reverse`(`!`)||`vector-reverse!`||
 ||Append reversed container||`append-reverse`(`!`)||-||-||
 ||Zip up input to make container of containers||`zip`||-||-||
@@ -42,6 +48,7 @@ The following sections and subsections are omitted here because they aren't like
 ||Reverse conversion||-||`reverse-vector->list`||-||
 ||Reverse conversion||-||`reverse-list->vector`||-||
 ||Count of elements satisfying pred||`count`||`string-count`†||`vector-count`||
+||||||
 ||Fundamental deconstructor||`fold`||`string-fold`||`vector-fold`||
 ||Fundamental deconstructor from right||`fold-right`||`string-fold-right`||`vector-fold-right`||
 ||Fundamental constructor||`unfold`||`string-unfold`||`vector-unfold`||
@@ -53,11 +60,14 @@ The following sections and subsections are omitted here because they aren't like
 ||Map saving only true values||`filter-map`||-||-||
 ||Map guaranteeing order||`map-in-order`||-||-||
 ||For-each with element and index||-||`string-for-each-index`||-||
+||||||
 ||Replicated copy||-||`xsubstring`||-||
 ||Linear-update replicated copy||-||`string-xcopy!`||-||
+||||||
 ||Container with elements matching pred||`filter`(`!`)||`string-filter`†||-||
 ||Two containers with elements matching and not||`partition`(`!`)||-||-||
 ||Container with elements not matching pred||`remove`(`!`)||`string-delete`†||-||
+||||||
 ||Find first element satisfying pred||`find`||-||-||
 ||Return true if any elements satisfy||`any`||`string-any`†||`vector-any`||
 ||Return true if every element satisfies||`every`||`string-every`†||`vector-every`||
@@ -70,6 +80,7 @@ The following sections and subsections are omitted here because they aren't like
 ||Initial elements satisfying pred plus final ones||`span`(`!`)||-||-||
 ||Initial elements not satisfying pred plus final ones||`break`(`!`)||-||-||
 ||Binary search||-||-||`vector-binary-search`||
+||||||
 ||Remove elements by identity||`delete`(`!`)||`string-delete`†||-||
 ||Remove duplicate elements||`delete-duplicates`(`!`)||-||-||
 
