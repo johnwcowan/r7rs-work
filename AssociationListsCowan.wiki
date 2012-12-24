@@ -1,0 +1,15 @@
+This proposal is a tiny extension to SRFI 1 to bring it to parity with Common Lisp.
+
+== Association lists ==
+
+`(make-alist `''keys values''`)`
+
+Returns a newly allocated alist whose pairs are constructed from the elements of the lists ''keys'' and ''values''.  (Common Lisp PAIRLIS.)
+
+`(reverse-assq `''obj alist''`)`
+
+`(reverse-assv `''obj alist''`)`
+
+`(reverse-assoc `''obj alist'' [[|''compare'' ]] `)`
+
+These procedures find the ﬁrst pair in ''alist'' whose cdr (rather than car) field is ''obj'' , and returns that pair. If no pair in ''alist'' has ''obj'' as its cdr, then `#f` (not the empty list) is returned. The `assq` procedure uses `eq?` to compare obj with the cdr fields of the pairs in ''alist'', while `assv` uses `eqv?` and `assoc` uses ''compare'' if given and `equal?` otherwise.  (Common Lisp RASSOC.)
