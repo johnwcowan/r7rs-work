@@ -1,4 +1,4 @@
-Alex Shinn is the only active member of WG1 who is also an implementer.  Here is a preliminary list of things he has to implement as part of R7RS-compliance in Chibi Scheme that he voted against:
+Alex Shinn is the only active member of WG1 who is also an implementer.  Here is a preliminary list of things he has to implement as part of R7RS-compliance in Chibi Scheme that he voted against.  However, he has said that he sometimes votes for R5RS choices in order to provide a conservative voice.
 
  * the `call-cc` alias
  * `_` in syntax-rules
