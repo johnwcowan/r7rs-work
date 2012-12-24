@@ -1,0 +1,36 @@
+This is a small WG2 proposal for Scheme procedures corresponding to the Common Lisp function [[http://www.lispworks.com/documentation/lw50/CLHS/Body/f_search.htm|SEARCH]].
+
+== Procedures ==
+
+`(vector-contains `''test''` `''vector1''` `''vector2''` ` [[|[ [ [ ''start1'' ]] ''end1'' ] ''start2'' ] ''end2'' ]`)`
+
+`(vector-contains-right `''test''` `''vector1''` `''vector2''` ` [[|[ [ [ ''start1'' ]] ''end1'' ] ''start2'' ] ''end2'' ]`)`
+
+Searches ''vector2'' from ''start2'' to ''end2'' for the leftmost (for `vector-contains`) or the rightmost (for `vector-contains-right`) sub-vector whose elements are the same (in the sense of ''test'') as those of ''vector1'' from ''start1'' to ''end1''.  ''Test'' is a predicate of two arguments.  The usual default rules and restrictions apply to the start and end arguments.
+
+Returns an index into ''vector2'' if the search succeeds, or `#f` if it fails.
+
+The order in which the search is made is unspecified; in particular, `vector-rsearch` may search from left to right rather than right to left.  The number of times that ''test'' is invoked is also unspecified.
+
+`(list-contains `''test''` `''list1''` `''list2''` ` [[|[ [ [ ''start1'' ]] ''end1'' ] ''start2'' ] ''end2'' ]`)`
+
+Analogous to `vector-search`, but applicable to lists.
+
+
+`(string-contains `''test''` `''string1''` `''string2''` ` [[|[ [ [ ''start1'' ]] ''end1'' ] ''start2'' ] ''end2'' ]`)`
+
+`(string-contains-right `''test''` `''string1''` `''string2''` ` [[|[ [ [ ''start1'' ]] ''end1'' ] ''start2'' ] ''end2'' ]`)`
+
+Analogous to `vector-contains` and `vector-contains-right`, but applicable to strings.  `String-contains` is already part of SRFI 13.
+
+== Issues ==
+
+SRFI 13's `string-contains(-ci)` allows only the fixed tests `char=?` and `char-ci=?`.  Here are some reasonable ways to resolve the conflict:
+
+ * Omit the ''test'' argument from these procedures
+
+ * Modify SRFI 13 to accept a mandatory ''test'' argument
+
+ * Modify both SRFI 13 and these procedures to make the ''test'' argument optional
+
+ * Rename these separate procedures using a different root name
