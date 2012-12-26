@@ -12,7 +12,7 @@ Alex Shinn is the only active member of WG1 who is also an implementer.  Here is
  * `string-set!` in `(scheme base)`
  * `begin` rather than `body` as a library declaration
  * requiring `equal?` to return `#t` if `eqv?` does 
- * possibly something about #48, but I don't understand what
+ * making let-syntax introduce a lexical contour
  * new integer division operators
  * procedures not having locations
  * `let-values` and `let*-values`
