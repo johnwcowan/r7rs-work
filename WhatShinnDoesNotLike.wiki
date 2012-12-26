@@ -20,8 +20,6 @@ Alex Shinn is the only active member of WG1 who is also an implementer.  Here is
  * `error-object?`, `error-object-message`, and `error-object-irritants`
  * everything to do with multiple values
  * more than two arguments for char and string comparisons
- * making it an error for a procedure mapped by `map` and friends to return more than once
- * `#u8` syntax for bytevectors rather than `#vu8`
  * vertical bars around symbols
  * `close-port`
  * `make-promise`
