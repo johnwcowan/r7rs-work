@@ -11,9 +11,9 @@ Guy Steele's three-part test for Common Lisp involves evaluating `(atanh -2)`.  
 
 (Note:  KSi already defines `atanh` and will not allow its redefinition.)
 
-Returns `-0.5493061443340549+1.5707963267948966i`, the ''correct'' complex number:  Racket, Gauche, MIT, Chicken, Scheme48/scsh, Guile, Kawa, Chez, Vicare, Larceny, Ypsilon, !IronScheme, STklos, KSi, Scheme 7, Spark
+Returns `-0.5493061443340549+1.5707963267948966i`, the ''correct'' complex number:  Racket, Gauche, MIT, Chicken, Scheme48/scsh, Guile, Kawa, Chibi, Chez, Vicare, Larceny, Ypsilon, !IronScheme, STklos, KSi, Scheme 7, Spark
 
-Returns NaN (i.e. it is attempting to use a real-number log function) when the argument is `2`, but returns the correct complex number when the argument is `2.0+0.0i`:  Guile, SISC, Chibi, Mosh
+Returns NaN (i.e. it is attempting to use a real-number log function) when the argument is `2`, but returns the correct complex number when the argument is `2.0+0.0i`:  Guile, SISC, Mosh
 
 Returns an incorrect complex number: SCM
 
