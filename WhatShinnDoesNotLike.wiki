@@ -54,3 +54,5 @@ But I really do hate multiple values.
  * `digit-value`
  * singular library names
  * multiple imports in program files
+
+See also WhatGambitWontSupport.
