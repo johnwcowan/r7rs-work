@@ -36,7 +36,6 @@ Alex Shinn is the only active member of WG1 who is also an implementer.  Here is
  * `string-copy!` and `vector-copy!`
  * numeric syntax in programs must agree with `string->number` and `read`
  * support for undesirable characters and arbitrary numbers in library names
- * same-bits explanation of `eqv?` on IEEE inexacts
  * location-free procedures
  * complex numbers with `+nan.0` portions
  * predicates for R5RS signaled conditions
