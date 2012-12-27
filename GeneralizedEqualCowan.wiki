@@ -36,4 +36,4 @@ A comparator that returns `#t` if ''obj1'' and ''obj2'' are both hash tables usi
 
 == Issues ==
 
-Should the third value be specified?  As designed, if a badly written comparator returns nonsense, it's just ignored rather than giving the implementation of `generalized-equal?` a chance to report an error.  The symbol `pass` has been suggested.  My implementation uses 0.
+Should the third value be specified?  As designed, if a badly written comparator returns nonsense, it's just ignored rather than giving the implementation of `generalized-equal?` a chance to report an error.  The symbol `pass` has been suggested.
