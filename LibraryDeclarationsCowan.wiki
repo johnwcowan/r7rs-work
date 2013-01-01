@@ -2,7 +2,7 @@ This is a proposal to add further library declarations and import-set types to t
 
 == Library declarations ==
 
-Most of these declarations are specified with "should", which means that implementations are allowed to ignore them if they are inappropriate.  Furthermore, implementations may (but should not) ignore any list of identifiers.  Conflicts between declarations are resolved in an implementation-specific way.
+In the large language, it is not an error to provide a library declaration that a specific implementation does not understand.  In any case, most of these declarations are specified with "should", which means that implementations are allowed to ignore them if they are inappropriate.  Furthermore, implementations may (but should not) ignore any list of identifiers.  Conflicts between declarations are resolved in an implementation-specific way.
 
 Exceptions:
 
@@ -100,14 +100,16 @@ It is not an error to have loops in the interface graph.  They are simply flatte
 
 simply causes the interfaces `(a)` and `(b)` to export both `foo` and `bar`.
 
-== Macros? ==
+== Macros ==
 
-Should the ability to define syntax-rules macros which expand into library declarations be added to the large language?  Since library declarations don't bind identifiers, this is simple pattern matching with no hygiene issues.  If so, we would need `define-syntax` and some equivalent of declaration `begin`, which I propose be called `declarations`:
+''I am not now proposing this, but I am leaving the language in place in case someone else thinks it's a good idea.  It does add some complications for something of dubious utility.''
 
-`(declarations `''declaration ...`)`
-
-The ''declarations'' are spliced in.
+The ability to define syntax-rules macros which expand into library declarations could be added to the large language.  Since library declarations don't bind identifiers, this would be simple pattern matching with no hygiene issues.  If this were to be done, we would need `define-syntax` and some equivalent of declaration `begin`:
 
 `(define-syntax `''identifier''` (syntax-rules (`''identifier'' ...`) `''syntax-rule'' ...`)`
 
 Define ''identifier'' as a library declaration macro, where ''syntax-rule'' has the same syntax as in Scheme, but contains library declarations rather than Scheme declarations or expressions.  
+
+`(declarations `''declaration ...`)`
+
+The ''declarations'' are spliced in.
