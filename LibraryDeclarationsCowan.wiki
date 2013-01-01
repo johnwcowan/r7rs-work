@@ -1,0 +1,113 @@
+This is a proposal to add further library declarations and import-set types to the large language.
+
+== Library declarations ==
+
+Most of these declarations are specified with "should", which means that implementations are allowed to ignore them if they are inappropriate.  Furthermore, implementations may (but should not) ignore any list of identifiers.  Conflicts between declarations are resolved in an implementation-specific way.
+
+Exceptions:
+
+ * Support for `reexport` and `interface` is required.
+
+ * Precise support for `notinline` is required for implementations whose compilers decide to inline code.
+
+=== Name control ===
+
+`(reexport `''import-set'' ...`)`
+
+Like `import`, but also exports all identifiers that were imported.  This allows a library to easily extend one or more other libraries.
+
+`(interface `''interface-name'' ...`)`
+
+The identifiers named in the ''interface-names'' are exported; it is an error if any of them are not defined by the library.  See "Interfaces" below.
+
+=== Optimization ===
+
+In the list below, ''importance'' represents a symbol, one of `unimportant` (no importance), `neutral` (some importance, the default), `important` (substantial importance), or `extreme` (extreme importance).  It is an error to specify anything else.
+
+If no identifiers are named, then the library declaration applies to all defined identifiers.  
+
+`(speed `''importance'' ''identifier'' ...`)`
+
+The named ''identifiers'' should be processed so as to maximize execution speed to the extent specified by ''importance''.
+
+`(space `''importance'' ''identifier'' ...`)`
+
+The named ''identifiers'' should be processed so as to minimize the use of space at run time to the extent specified by ''importance''.
+
+`(safety `''importance'' ''identifier'' ...`)`
+
+The named ''identifiers'' should be processed so as to maximize safety at execution time to the extent specified by ''importance''.
+
+`(compilation-speed `''importance'' ''identifier'' ...`)`
+
+The named ''identifiers'' should be processed so as to maximize compilation speed to the extent specified by ''importance''.
+
+`(debuggability `''importance'' ''identifier'' ...`)`
+
+The named ''identifiers'' should be processed so as to maximize ease of debugging to the extent specified by ''importance''.
+
+=== Compilation ===
+
+`(inline `''identifier'' ...`)`
+
+The procedures named by the ''identifiers'' should be inlined by the compiler, if there is one.
+
+`(notinline `''identifier'' ...`)`
+
+The procedures named by the ''identifiers'' must not be inlined by the compiler, if there is one.
+
+`(unused `''identifier'' ...`)`
+
+The implementation should not warn the user if the ''identifiers'' are defined but not used in the library.
+
+`(undefined `''identifier'' ...`)`
+
+The implementation should not warn the user if the ''identifiers'' are used but not defined in the library.  Further errors may of course result if an attempt is made to actually make use of the undefined identifiers.
+
+`(verbose `''identifier'' ...`)`
+
+The implementation should process the definitions of the named identifiers (if none are named, the whole library) verbosely.
+
+`(terse `''identifier'' ...`)`
+
+The implementation should process the definitions of the named identifiers (if none are named, the whole library) as quietly as is reasonable.  The user should still be notified of errors and warnings.
+
+`(silent `''identifier'' ...`)`
+
+The implementation should process the definitions of the named identifiers (if none are named, the whole library) silently.  The user should still be notified of errors.
+
+== Import sets ==
+
+`(drop-prefix `''import-set'' ''identifier''`)`
+
+This import set automatically renames identifiers in the given ''import-set'': any of them which begin with the characters in ''identifier'' have those characters removed.
+
+For example, if the library `(foo)` exports identifiers `foo-a`, `foo-b`, and `foo-c`, then
+`(import (drop-prefix (foo) foo-)` will import them under the names of `a`, `b`, and `c` respectively.  Chibi Scheme already supports this type of import set.
+
+== Interfaces ==
+
+`(define-interface `''interface-name identifier-or-interface-name'' ...`)`
+
+Interfaces are a new type of Scheme component distinct from programs, libraries, and REPL scripts.  They consist solely of a `define-interface` declaration.  An interface specifies identifiers that will be exported from libraries as a group: the `interface` library declaration specifies that the library exports the names mentioned in the named interface.  Interface names are syntactically like library names; it is not an error if a library and an interface have the same name.  The identifiers to be exported may be specified individually or by mentioning the name of another interface.
+
+It is not an error to have loops in the interface graph.  They are simply flattened, so that:
+
+{{{
+(define-interface (a) foo (b))
+(define-interface (b) bar (a))
+}}}
+
+simply causes the interfaces `(a)` and `(b)` to export both `foo` and `bar`.
+
+== Macros? ==
+
+Should the ability to define syntax-rules macros which expand into library declarations be added to the large language?  Since library declarations don't bind identifiers, this is simple pattern matching with no hygiene issues.  If so, we would need `define-syntax` and some equivalent of declaration `begin`, which I propose be called `declarations`:
+
+`(declarations `''declaration ...`)`
+
+The ''declarations'' are spliced in.
+
+`(define-syntax `''identifier''` (syntax-rules (`''identifier'' ...`) `''syntax-rule'' ...`)`
+
+Define ''identifier'' as a library declaration macro, where ''syntax-rule'' has the same syntax as in Scheme, but contains library declarations rather than Scheme declarations or expressions.  
