@@ -102,7 +102,7 @@ simply causes the interfaces `(a)` and `(b)` to export both `foo` and `bar`.
 
 == Macros ==
 
-''I am not now proposing this, but I am leaving the language in place in case someone else thinks it's a good idea.  It does add some complications for something of dubious utility.''
+''I am not now proposing this, but I am leaving the language in place in case someone else thinks it's a good idea.  It does add considerable complications for something of doubtful utility.''
 
 The ability to define syntax-rules macros which expand into library declarations could be added to the large language.  Since library declarations don't bind identifiers, this would be simple pattern matching with no hygiene issues.  If this were to be done, we would need `define-syntax` and some equivalent of declaration `begin`:
 
