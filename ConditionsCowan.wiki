@@ -9,11 +9,15 @@ Within the above constraints, I have attempted to make the names as compatible a
 
 A condition is said to be "belong to type ''sym''" if (a) it was created by a call to `make-condition` that was passed the symbol `sym` as one of its condition types, or (b) it belongs to an implementation-defined set (possibly empty) of conditions of type ''sym''.  This allows implementation-dependent condition objects to participate in this condition system.
 
-== Constructor ==
+== Constructors ==
 
 `(make-condition `''symlist'' ( ''sym'' ''obj'' ) ...`)`
 
 Returns a newly allocated condition which belongs to the types whose names are given in `symlist`.  The remainder of the arguments are alternating property names (which are symbols) and values (which can be any object) that specify the information encapsulated by this condition.  It is an error if the value associated with the property name `message` is not a string; it is also an error if the value associated with the property name `irritants` is not a list.
+
+`(alist->condition `''symlist alist''`)`
+
+Returns a newly allocated condition which belongs to the types whose names are given in `symlist`.  Its properties and their values are specified by ''alist''.
 
 == Predicates ==
 
@@ -21,9 +25,9 @@ Returns a newly allocated condition which belongs to the types whose names are g
 
 Returns `#t` if ''obj'' is a condition of any type, and `#f` otherwise.
 
-`(condition-of-type? `''obj'' ''sym''`)`
+`(condition-of-type? `''obj'' ''symlist''`)`
 
-Returns `#t` if ''obj'' is a condition belonging to type ''sym'', and `#f` otherwise.
+Returns `#t` if ''obj'' is a condition belonging to any of the types specified by ''symlist'', and `#f` otherwise.
 
 `(<type>-error? `''obj''`)`
 
@@ -43,17 +47,21 @@ Returns the list of property names associated with this condition.  It is an err
 
 Returns the property value associated with the property named ''sym'' of ''condition''.  If it has no such property, returns ''default''.  If ''default'' is not specified, returns `#f`.
 
-`(condition-predicate `''sym''`)`
+`(condition-predicate `''symlist''`)`
 
-Returns a predicate which will return `#t` if applied to a condition belonging to type ''sym'', and `#f` otherwise.
+Returns a predicate which will return `#t` if applied to a condition belonging to any of the types specified in ''symlist'', and `#f` otherwise.
 
-`(condition-accessor `''condition'' ''sym'' [[|''default'' ]] `)`
+`(condition-accessor `''sym'' [[|''default'' ]] `)`
 
 Returns an accessor which will return the value of ''sym'' if applied to a condition object and ''default'' otherwise.  If ''default'' is not specified, the accessor will return `#f`.
 
-`(condition-<property-name> `''condition''`)`
+`(condition-<property-name> `''condition'' [[|''default'' ]]`)`
 
-Returns the value of the property named `<property-name>` (from the standard list of property names below) of ''condition'', or `#f` if it has no such property.
+Returns the value of the property named `<property-name>` (from the standard list of property names below) of ''condition'', or ''default'' if it has no such property, or `#f` if no default is specified.
+
+`(condition->alist `''condition''`)`
+
+Return the properties and values of ''condition'' in the form of an alist.
 
 
 == Specific predicates ==
@@ -141,4 +149,4 @@ The following condition types are standardized.  Conditions of each type may be 
 ||`who`||an object reporting a problem with another object||
 ||`what`||an object which has a problem||
 ||`position`||the position in `what` at which the problem occurred||
-
+||`subcondition`||a condition embedded in this one which has more details||
