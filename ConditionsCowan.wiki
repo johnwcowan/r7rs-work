@@ -132,7 +132,7 @@ The following condition types are standardized.  Conditions of each type may be 
 ||`bignum`||exact number too large to represent||
 ||`version-skew`||mismatched versions of code||
 ||`security`||security violation||
-||`implementation-error`||low-level failure||
+||`implementation-restriction`||low-level failure||
 
 == Standard property names ==
 
