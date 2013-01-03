@@ -76,7 +76,7 @@ Returns `#t` if ''obj'' is a condition belonging to type `syntax`, and `#f` othe
 
 `(implementation-restriction? `''obj''`)`
 
-Returns `#t` if ''obj'' is a condition belonging to type `syntax`, and `#f` otherwise.  Such conditions may be created by the implementation if one of its restrictions is exceeded, such as consuming too much memory or trying to compute an exact number too large to represent.
+Returns `#t` if ''obj'' is a condition belonging to type `implementation-restriction`, and `#f` otherwise.  Such conditions may be created by the implementation if one of its restrictions is exceeded, such as consuming too much memory or trying to compute an exact number too large to represent.
 
 == Standard condition types ==
 
