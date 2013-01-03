@@ -88,7 +88,7 @@ Returns `#t` if ''obj'' is a condition belonging to type `implementation-restric
 
 == Standard condition types ==
 
-The following condition types are standardized.  Conditions of each type may be created by the implementation in the specified situations as well as any analogous situations.  The list is intended to be comprehensive but not complete: it draws on R6RS, Java, and other sources.
+The following condition types are standardized.  Conditions of each type may be created by the implementation in the specified situations as well as any analogous situations.  The only constraint is that the implementation must not raise a condition of a specified type unless that type of external situation is in fact present.  The list is intended to be comprehensive but not complete: it draws on R6RS, Java, and other sources.
 
 ||`simple`||error created by `error`||
 ||`assert`||error created by `assert`||
@@ -140,7 +140,8 @@ The following condition types are standardized.  Conditions of each type may be 
 ||`bignum`||exact number too large to represent||
 ||`version-skew`||mismatched versions of code||
 ||`security`||security violation||
-||`implementation-restriction`||low-level failure||
+||`low-level-error`||problem with the implementation||
+||`implementation-restriction`||the implementation has insufficient resources though the program is correct||
 
 == Standard property names ==
 
