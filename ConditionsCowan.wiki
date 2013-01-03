@@ -1,7 +1,7 @@
 == Conditions ==
 
 This is a WG2 proposal for condition objects.  A condition object encapsulates information about an
-exceptional situation.  Typically the rest of the system is notified about a condition using the `raise` and `raise-continuable` predicates and their relatives.  Conditions are logically independent of the exception system, however:  conditions may be used for any purpose, and any object may be passed to the exception system.
+exceptional situation.  Typically the rest of the system is notified about a condition using the `raise` and `raise-continuable` procedures and their relatives.  Conditions are logically independent of the exception system, however:  conditions may be used for any purpose, and any object may be passed to the exception system.
 
 The design of this condition system attempts to assume as little as possible about any existing implementation-specific condition system.  In particular, there is no specified relationship between conditions and records, as there is in R6RS, nor is there any notion of subtyping required by the system.  There are condition types for convenience in dispatching, but they are just symbols and in general entail nothing about what information is encapsulated, as different implementations will provide different kinds of information when creating an implementation-specified condition.
 
