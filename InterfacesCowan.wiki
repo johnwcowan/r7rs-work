@@ -2,9 +2,9 @@ Interfaces are a new type of Scheme component distinct from programs, libraries,
 
 `(define-interface `''interface-name identifier-or-interface-name'' ...`)`
 
-Defines an interface by name.  Interface names are syntactically like library names; it is not an error if a library and an interface have the same name.  The identifiers to be exported may be specified individually or by using the name of another interface, which implicitly specifies the identifiers and interfaces listed in that interface.
+Defines an interface by name.  Interface names are syntactically like library names; it is not an error if a library and an interface have the same name.  The identifiers to be exported may be specified individually or by mentioning the name of another interface, which implicitly specifies the identifiers and interfaces listed in that interface.
 
-It is not an error to have loops in the interface graph.  They are simply flattened, so that:
+An implementation may resolve loops in the interface graph by flattening them, so that:
 
 {{{
 (define-interface (a) foo (b))
