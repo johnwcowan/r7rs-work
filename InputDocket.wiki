@@ -88,11 +88,13 @@ R6RS compatibility libraries:
 
 Random procedures from R6RS (notably `symbol=?` and `boolean=?`): to be spelled out
 
+Raw strings:  <<, """...""", [[http://srfi.schemers.org/srfi-109/srfi-109.html|SRFI 109]]
+
 `Record-let`: #45
 
 Record external representations: 
 
-Raw strings:  <<, """...""", [[http://srfi.schemers.org/srfi-109/srfi-109.html|SRFI 109]]
+Restarts:  [[http://www.ai.mit.edu/projects/iiip/doc/CommonLISP/HyperSpec/Body/sec_9-1-4-2.html|Common Lisp]], [[http://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Restarts.html|MIT]], [[http://mumble.net/~campbell/proposals/restart.text|Riastradh]]
 
 Search and mismatch procedures:  SearchMismatchCowan
 
