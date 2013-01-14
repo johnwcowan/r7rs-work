@@ -22,17 +22,11 @@ Default exception handler controls:
 
 Division library: DivisionRiastradh
 
-`drop-prefix` import spec:  
-
 Enumerations (R6RS, but see also http://www.r6rs.org/formal-comments/comment-262.txt):
 
 Generalized `equal`: GeneralizedEqualCowan
 
 Evaluator arguments to procedures like `load`: #277
-
-`export-all` library declaration: exports all identifiers defined in this library
-
-`export-import` library declaration: syntactically the same as `import`, but exports everything that is imported
 
 Extended exact numbers:  ExtendedRationalsCowan
 
@@ -59,6 +53,8 @@ Interrupts, timers, signals:
 Jiffy cleanup:
 
 List library (supplementary):  ListsCowan
+
+Library declarations: LibraryDeclarationsCowan
 
 Macro expander(s) available at run time: 
 
