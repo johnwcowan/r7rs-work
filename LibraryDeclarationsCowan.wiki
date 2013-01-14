@@ -4,15 +4,19 @@ This is a proposal to add further library declarations and import-set types to t
 
 In R7RS it is not an error to provide a library declaration that a specific implementation does not understand, although implementations should provide warnings in such cases.  Most of these declarations specified here use "should", which means that implementations are allowed to silently ignore them if they are inappropriate.  Furthermore, implementations may (but should not) ignore any list of identifiers.  Conflicts between declarations are resolved in an implementation-specific way.  Exceptions:
 
- * Support for `reexport` is required.
+ * Support for `reexport` and `export-all` is required.
 
  * Precise support for `notinline` is required for implementations that make the decision to inline code.
 
-=== Name control ===
+=== Name control (required) ===
 
 `(reexport `''import-set'' ...`)`
 
 Like `import`, but also exports all identifiers that were imported.  This allows a library to easily extend one or more other libraries.
+
+`(export-all)`
+
+Exports all defined identifiers except those that were imported.  This allows a library to be easily extended.
 
 === Optimization ===
 
@@ -72,7 +76,6 @@ The implementation should process the definitions of the named identifiers (if n
 
 This import set automatically renames identifiers in the given ''import-set'': any of them which begin with the characters in ''identifier'' have those characters removed.
 
-For example, if the library `(foo)` exports identifiers `foo-a`, `foo-b`, and `foo-c`, then
-`(import (drop-prefix (foo) foo-)` will import them under the names of `a`, `b`, and `c` respectively.  Chibi Scheme already supports this type of import set.
+For example, if the library `(foo)` exports identifiers `foo-a`, `foo-b`, and `foo-c`, then `(import (drop-prefix (foo) foo-)` will import them under the names of `a`, `b`, and `c` respectively.  Chibi Scheme already supports this type of import set.
 
 See also InterfacesCowan.
