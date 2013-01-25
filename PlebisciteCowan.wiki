@@ -1,12 +1,10 @@
 Here's my proposal for the R7RS-small plebiscite.  The issue to vote on, per [[http://www.scheme-reports.org/2009/working-group-1-charter.html|the WG1 charter]], is: "Does the eighth draft of R7RS-small satisfy the requirements of the charter?"  (Obviously this does not include the deadlines -- we've missed those.)
 
-I propose that the following ballot be sent to the scheme-reports mailing list with replies directed to the email address of a volunteer vote taker (I am attempting to find such a person by appealing on various non-Scheme-related mailing lists).  The vote taker would concatenate all received replies, minimally encoding "@" to " at ", and post the whole file to a publicly readable web page they control after the end of the ballot.
-
-If such a person cannot be found, posting to the scheme-reports@scheme-reports.org mailing list would probably be adequate.
+I propose that the following ballot be sent to the scheme-reports mailing list with replies directed back to the list.  At the end of the voting period, the archives can be trawled to determine the votes.  Any invalid ballots would be disregarded.
 
 == Ballot ==
 
-The purpose of this ballot is for you to register your views about the work of Working Group 1. In particular, you are being asked whether [[http://trac.sacrideo.us/wg/raw-attachment/wiki/WikiStart/r7rs-draft-8.pdf|the eighth draft of R7RS-small]], [[https://code.google.com/p/chibi-scheme|Chibi Scheme, the sample implementation]], and [[https://code.google.com/p/chibi-scheme/source/browse/#hg%2Ftests|the test cases]] satisfy the requirements of [[http://scheme-reports.org/2009/working-group-1-charter.html|the WG1 charter]].  Please send your vote to FIXME.
+The purpose of this ballot is for you to register your views about the work of Working Group 1. In particular, you are being asked whether [[http://trac.sacrideo.us/wg/raw-attachment/wiki/WikiStart/r7rs-draft-8.pdf|the eighth draft of R7RS-small]], [[https://code.google.com/p/chibi-scheme|Chibi Scheme, the sample implementation]], and [[https://code.google.com/p/chibi-scheme/source/browse/#hg%2Ftests|the test cases]] satisfy the requirements of [[http://scheme-reports.org/2009/working-group-1-charter.html|the WG1 charter]].  Please send your vote to scheme-reports@scheme-reports.org.
 
 Full name (required):  Insert your name here.
 
@@ -14,7 +12,7 @@ Location (optional):  Insert your physical location here.
 
 Affiliation (optional):  Insert your institutional affiliation, if any, here.
 
-Contact details (optional):  Insert any contact details here.  The email address from which you post the ballot will be assumed to be a primary contact method, unless overridden here.
+Contact details (optional):  Insert any contact details here.  The email address from which you post the ballot will be assumed to be a primary contact method, unless overridden here.  You can use a temporary email account if you don't want your main email address revealed.
 
 Statement of interest (not required if you registered for the R6RS ratification or the 2009 Steering Committee election):  Insert at least 75 words of original content explaining your interest in Scheme and the Scheme standard and your stake in the outcome of the ratification process.
 
@@ -25,7 +23,3 @@ Rationale (optional):  Insert your explanation of why you voted the way you did 
 == Comments ==
 
 This is a variant of the registration and ballot forms used for R6RS ratification process and for the Steering Committee election.  Both registration and voting are combined into a single form.  Note that the entire content of the ballot will be published.
-
-== Issues ==
-
-Some people might not vote because it would disclose their email address even with encoding protection.
