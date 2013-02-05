@@ -21,4 +21,4 @@ These are the editorial corrections to the seventh draft in the order they were 
  * Revised wording of non-termination requirement for `display`.
  * Refined wording about `eqv?` in non-IEEE inexact implementations.
 
-This page may grow further.  These notices do not supersede the Mercurial repository, which is authoritative.
+This page is now obsolete: see the eighth draft.
