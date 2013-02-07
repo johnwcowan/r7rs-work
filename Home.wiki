@@ -106,4 +106,5 @@ Comments are welcome at the [[http://lists.scheme-reports.org/cgi-bin/mailman/li
 
 == Editorial Corrections ==
 
-    * SeventhDraftEditorialCorrections
+    * SeventhDraftEditorialCorrections (partial)
+    * EighthDraftEditorialCorrections
