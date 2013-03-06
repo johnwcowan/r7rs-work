@@ -14,25 +14,25 @@ Fixnum arithmetic: The R6RS `arithmetic fixnum` library with prefix stripping.
 
 Format combinators: Alex Shinn's [[http://synthcode.com/scheme/fmt/|fmt library]], with possibly a touch of renaming.  The C formatting library is excluded.
 
-Generalized getters and setters: [[http://http://srfi.schemers.org/srfi-17/srfi-17.html|SRFI 17]].
+Generalized getters and setters: [[http://srfi.schemers.org/srfi-17/srfi-17.html|SRFI 17]].
 
-Getopt/args-fold:  [[http://http://srfi.schemers.org/srfi-37/srfi-37.html|SRFI 37]].
+Getopt/args-fold:  [[http://srfi.schemers.org/srfi-37/srfi-37.html|SRFI 37]].
 
 Pretty-printer: see Format combinators
 
 Regex (S-exps and strings): Alex Shinn's [[http://synthcode.com/scheme/irregex/|irregex library]], possibly a touch of renaming.  Specify full PCRE compatibility even though the irregex implementation doesn't support all of it.
 
-[[http://http://srfi.schemers.org/srfi-1/srfi-1.html|SRFI 1]], list library: As written, but excluding  `cons`, `pair?`, `null?`, `car`, `cdr`, `caar` ... `cddddr`, `set-car!`, `set-cdr!`, `list`, `append`, `reverse`, `length`, `list-ref`, `map`, `for-each`, `memq`, `memv`, `member`, `assq`, `assv`, `assoc`, which are all in the `(scheme base)` and `(scheme cxr)` libraries in a SRFI-1-compatible way.  '''Specification bug in SRFI 1: `any`, `every`, and `list-index` should omit the words "and returning a boolean result".'''
+[[http://srfi.schemers.org/srfi-1/srfi-1.html|SRFI 1]], list library: As written, but excluding  `cons`, `pair?`, `null?`, `car`, `cdr`, `caar` ... `cddddr`, `set-car!`, `set-cdr!`, `list`, `append`, `reverse`, `length`, `list-ref`, `map`, `for-each`, `memq`, `memv`, `member`, `assq`, `assv`, `assoc`, which are all in the `(scheme base)` and `(scheme cxr)` libraries in a SRFI-1-compatible way.  '''Specification bug in SRFI 1: `any`, `every`, and `list-index` should omit the words "and returning a boolean result".'''
 
-[[http://http://srfi.schemers.org/srfi-2/srfi-2.html|SRFI 2]], `and-let*` macro: As written.
+[[http://srfi.schemers.org/srfi-2/srfi-2.html|SRFI 2]], `and-let*` macro: As written.
 
-[[http://http://srfi.schemers.org/srfi-13/srfi-13.html|SRFI 13]], string library: As written, but excluding `string?`, `make-string`, `string`, `string->list`, `list->string`, `string-copy`, `string-fill!`, `string-length`, `string-ref`, `string-set!`, `string-append`, which are all in the `(scheme base)` library in a SRFI-13 compatible way.
+[[http://srfi.schemers.org/srfi-13/srfi-13.html|SRFI 13]], string library: As written, but excluding `string?`, `make-string`, `string`, `string->list`, `list->string`, `string-copy`, `string-fill!`, `string-length`, `string-ref`, `string-set!`, `string-append`, which are all in the `(scheme base)` library in a SRFI-13 compatible way.
 
-[[http://http://srfi.schemers.org/srfi-14/srfi-14.html|SRFI 14]], character set library: As written.
+[[http://srfi.schemers.org/srfi-14/srfi-14.html|SRFI 14]], character set library: As written.
 
-[[http://http://srfi.schemers.org/srfi-31/srfi-31.html|SRFI 31]], `rec` macro: As written.
+[[http://srfi.schemers.org/srfi-31/srfi-31.html|SRFI 31]], `rec` macro: As written.
 
-[[http://http://srfi.schemers.org/srfi-41/srfi-41.html|SRFI 41]], `(streams primitive)` and `(streams derived)` libraries: As written.
+[[http://srfi.schemers.org/srfi-41/srfi-41.html|SRFI 41]], `(streams primitive)` and `(streams derived)` libraries: As written.
 
 [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]], vector library: As written, but excluding `make-vector`, `vector`,`vector?`, `vector-ref`, `vector-length`, `vector-set!`, `vector->list`, `list->vector`, `vector-copy`, `vector-copy!`, `vector-append`, `vector-fill!`, which are all in the `(scheme base)` library in a SRFI-43-compatible way (except that R7RS `vector-copy!` does not have a ''fill'' argument).  
 
