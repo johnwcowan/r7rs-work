@@ -1,5 +1,7 @@
 These are the editorial corrections to the eighth draft in reverse order.  More may be added later.
 
+* Removed double definition of `caar`
+* Define `let-values` and `let*-values` in terms of `<mv binding spec>` in all instances
 * Specified interaction environment as mutable explicitly
 * Added ``, and `,@` to quasiquotation
 * Fixed subject-verb number agreement
