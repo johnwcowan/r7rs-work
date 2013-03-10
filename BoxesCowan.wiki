@@ -1,12 +1,18 @@
 == Boxes ==
 
-This is a trivial module, providing mutable and immutable boxes.  Most Schemes have something like it, sometimes called ''cells''.  Boxes are a disjoint type.
+This is a trivial module, providing objects with a single mutable state.  Several Schemes have something like it, sometimes called ''cells''.  Boxes are a disjoint type.
 
 == Procedures ==
 
  * `box`: constructor
- * `immutable-box`: constructor
  * `box?`: predicate
- * `immutable-box?`: predicate
  * `unbox`: accessor
  * `set-box!`: mutator
+
+== Existing implementations ==
+
+||Proposed||Racket||Gambit||Chicken||SISC||Chez||MIT||Scheme48||
+||box||box||box||make-box||box||box||make-cell||make-cell||
+||box?||box?||box?||box-mutable?||box?||box?||cell?||cell?||
+||unbox||unbox||unbox||box-ref||unbox||unbox||cell-contents||cell-ref||
+||set-box{{{!}}}||set-box{{{!}}}||set-box{{{!}}}||box-set{{{!}}}||set-box{{{!}}}||set-box{{{!}}}||set-cell-contents{{{!}}}||cell-set{{{!}}}||
