@@ -11,7 +11,7 @@ This is a trivial module, providing objects with a single mutable state.  Severa
 
 == Existing implementations ==
 
-||Proposed||Racket||Gambit||SISC||Chez||Chicken||MIT||Scheme48||
+||Proposed||[[http://docs.racket-lang.org/reference/boxes.html|Racket]]||[[http://www.iro.umontreal.ca/~gambit/doc/gambit-c.html#index-boxes|Gambit]]||[[http://sisc-scheme.org/manual/html/ch03.html#Boxing|SISC]]||[[http://www.scheme.com/csug7/objects.html#g50|Chez]]||[[http://wiki.call-cc.org/eggref/4/box|Chicken]]||[[http://web.mit.edu/scheme_v9.0.1/doc/mit-scheme-ref/Cells.html|MIT]]||[[http://s48.org/1.1/manual/s48manual_42.html|Scheme48/scsh]]||
 ||box||box||box||box||box||make-box||make-cell||make-cell||
 ||box?||box?||box?||box?||box?||box-mutable?||cell?||cell?||
 ||unbox||unbox||unbox||unbox||unbox||box-ref||cell-contents||cell-ref||
