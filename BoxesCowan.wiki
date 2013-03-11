@@ -16,3 +16,7 @@ This is a trivial module, providing objects with a single mutable state.  Severa
 ||box?||box?||box?||box?||box?||box-mutable?||cell?||cell?||
 ||unbox||unbox||unbox||unbox||unbox||box-ref||cell-contents||cell-ref||
 ||set-box{{{!}}}||set-box{{{!}}}||set-box{{{!}}}||set-box{{{!}}}||set-box{{{!}}}||box-set{{{!}}}||set-cell-contents{{{!}}}||cell-set{{{!}}}||
+
+== Lexical syntax ==
+
+Racket, Gambit, SISC, Chez, and Chicken all support `#&` to create a box initialized with the object represented by the following datum.
