@@ -18,3 +18,7 @@ for the case where their ''filename'' argument is a list:
 }}}
 
 (It could be written in terms of a `call-with-settings` procedure, of course.)
+
+== Issues ==
+
+How does one tell if a key is not present?  Bind to `#f`?  Bind to a default specified as a third value?  Ideally, each key should have its own default, but that may be too heavyweight.  --JC
