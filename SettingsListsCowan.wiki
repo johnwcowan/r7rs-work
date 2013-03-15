@@ -78,3 +78,7 @@ Returns a symbol suitable for use in a settings list to represent the native new
  * Posix permissions
  * pty (for process ports)
  * backlog (for network server ports)
+
+== Settings lists in other contexts ==
+
+See LetSettingsKendal for a proposal to help users write their own procedures accepting settings lists.
