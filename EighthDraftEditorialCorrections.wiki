@@ -1,4 +1,4 @@
-These are the editorial corrections to the eighth draft in reverse order.  More may be added later.
+These are the editorial corrections to the eighth draft in reverse order.  All are present in the ninth (ballot) draft.
 
 * Removed double definition of `caar`
 * Define `let-values` and `let*-values` in terms of `<mv binding spec>` in all instances
