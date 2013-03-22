@@ -1,10 +1,4 @@
-Here's my proposal for the R7RS-small plebiscite.  The issue to vote on, per [[http://www.scheme-reports.org/2009/working-group-1-charter.html|the WG1 charter]], is: "Does the eighth draft of R7RS-small satisfy the requirements of the charter?"  (Obviously this does not include the deadlines -- we've missed those.)
-
-I propose that the following ballot be sent to the scheme-reports mailing list with replies directed back to the list.  At the end of the voting period, the archives can be trawled to determine the votes.  Any invalid ballots would be disregarded.
-
-== Ballot ==
-
-The purpose of this ballot is for you to register your views about the work of Working Group 1. In particular, you are being asked whether [[http://trac.sacrideo.us/wg/raw-attachment/wiki/WikiStart/r7rs-draft-8.pdf|the eighth draft of R7RS-small]], [[https://code.google.com/p/chibi-scheme|Chibi Scheme, the sample implementation]], and [[https://code.google.com/p/chibi-scheme/source/browse/#hg%2Ftests|the test cases]] satisfy the requirements of [[http://scheme-reports.org/2009/working-group-1-charter.html|the WG1 charter]].  Please send your vote to scheme-reports@scheme-reports.org.
+The purpose of this ballot is for you to register your views about the work of Working Group 1. In particular, you are being asked whether the ninth draft of R7RS-small at <http://trac.sacrideo.us/wg/raw-attachment/wiki/WikiStart/r7rs-draft-9.pdf>, Chibi Scheme, the sample implementation at <https://code.google.com/p/chibi-scheme>, and the test cases at <https://code.google.com/p/chibi-scheme/source/browse/#hg%2Ftests> satisfy the requirements of the WG1 charter at <http://scheme-reports.org/2009/working-group-1-charter.html> (excluding the section labeled "Timeline").  Please send your vote to the mailing list scheme-reports@scheme-reports.org between Friday, April 19, 2013, and the deadline of Sunday, May 13, 2013, inclusive.
 
 Full name (required):  Insert your name here.
 
@@ -20,6 +14,4 @@ Vote (required):  Insert "yes" or "no" here.
 
 Rationale (optional):  Insert your explanation of why you voted the way you did here.  Anyone voting "no" is particularly encouraged to complete this section.
 
-== Comments ==
-
-This is a variant of the registration and ballot forms used for R6RS ratification process and for the Steering Committee election.  Both registration and voting are combined into a single form.  Note that the entire content of the ballot will be published.
+This ballot is a variant of the registration and ballot forms used for R6RS ratification process and for the Steering Committee election.  Both registration and voting are combined into a single form.  Note that the entire contents of the ballot will be published.
