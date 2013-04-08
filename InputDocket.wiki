@@ -42,7 +42,7 @@ Getters and setters: [[http://srfi.schemers.org/srfi-17/srfi-17.html|SRFI 17]]
 
 Identifier-syntax:
 
-`if` with arbitrarily many arguments:
+`if` with arbitrarily many arguments: [[http://dpk.io/r7rs/naryif-20130406|David Kendal's rationale]]
 
 Imaginary inexact zero versions of `real?`, `rational?`, `integer?`: 
 
