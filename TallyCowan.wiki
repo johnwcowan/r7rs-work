@@ -1,0 +1,128 @@
+== Introduction ==
+
+A ''tally'' is a member of a disjoint type whose purpose is to keep running descriptive statistics on ''observations'', consisting of one or two Scheme numbers, that are injected into it.  It can compute a variety of simple statistics such as the arithmetic mean, the variance, and the standard deviation.  It does not record the observations themselves, and therefore cannot compute the median or the mode.
+
+== Constructor ==
+
+`(make-tally `[[|''key'' ]]`)`
+
+Returns a newly allocated tally with no observations.  The ''key'' is an arbitrary Scheme object useful for distinguishing this tally from other tallies; for example, it can be used when tallying observations into multiple bins to record the lower and/or upper limit of each bin.  The default value is `#f`.
+
+== Injectors ==
+
+Some of the statistics may be meaningless if more than one of these injectors is used on any one tally.
+
+`(tally! `''tally''` `''value''`)`
+
+Injects ''value'' into ''tally'' and updatse all descriptive statistics.
+
+`(tally-weighted! `''tally''` `''value''` `''weight''`)`
+
+Injects ''value'' into ''tally'', assigning it a weight of ''weight'' (from 0 to 1) for the purpose of calculating weighted sums and weighted averages, and updates all descriptive statistics.
+
+`(tally-timed! `''tally''` `''value''` `''timestamp''`)`
+
+The same as `tally-weighted!`, except that the weight is ''timestamp'' minus the value of ''timestamp'' on the previous call to `tally-timed!`, or 0 if there was no previous call.
+
+`(tally-correlated! `''tally''` `''value,,1,,''` `''value,,2,,''`)`
+
+Injects ''value,,1,,'' into ''tally'', tracking ''value,,2,,'' separately for the purpose of calculating correlation and covariance.
+
+== Basic statistics ==
+
+`(tally-key `''tally''`)`
+
+Returns the key of ''tally''.
+
+`(tally-count `''tally''`)`
+
+Returns the number of observations injected so far as an exact integer.
+
+`(tally-sum `''tally''`)`
+
+Returns the sum of all observations injected so far.
+
+`(tally-sum `''tally''`)`
+
+Returns the sum of all observations injected so far.
+
+`(tally-product `''tally''`)`
+
+Returns the product of all observations injected so far.
+
+`(tally-harmonic-sum `''tally''`)`
+
+Returns the harmonic sum of all observations injected so far.  This is the sum of the reciprocals of the observation values.  If any observation value is zero, returns `+nan.0`.
+
+`(tally-mean `''tally''`)`
+
+Returns the arithmetic mean of all observations injected so far.  This is the quotient of the sum and the count, or `+nan.0` if the count is zero.
+
+`(tally-geometric-mean `''tally''`)`
+
+Returns the geometric mean of all observations injected so far.  This is the nth root of the product, where n = the count.
+
+`(tally-harmonic-mean `''tally''`)`
+
+Returns the sum of all observations injected so far.  This is the count divided by the harmonic sum.
+
+`(tally-max `''tally''`)`
+
+Returns the maximum observation injected so far.  If no observations have been injected, returns `+inf.0`.
+
+`(tally-min `''tally''`)`
+
+Returns the minimum observation injected so far.  If no observations have been injected, returns `-inf.0`.
+
+`(tally-range `''tally''`)`
+
+Returns the difference between the maximum and the minimum.  If no observations have been injected, returns `+nan.0`.
+
+`(tally-sample-variance `''tally''`)`
+
+Returns the sample variance of the observations injected so far.  If no observations have been injected, returns `+nan.0`.
+
+`(tally-population-variance `''tally''`)`
+
+Returns the population variance of the observations injected so far.  If no observations have been injected, returns `+nan.0`.
+
+`(tally-sample-standard-deviation `''tally''`)`
+
+Returns the sample standard deviation of the observations injected so far.  If no observations have been injected, returns `+nan.0`.
+
+`(tally-population-standard-deviation `''tally''`)`
+
+Returns the population standard deviation of the observations injected so far.  If no observations have been injected, returns `+nan.0`.
+
+== Weighted and timed statistics ==
+
+`(tally-weighted-sum `''tally''`)`
+
+Returns the weighted sum of the observations and weights injected so far.
+
+`(tally-weighted-mean `''tally''`)`
+
+Returns the weighted arithmetic mean of the observations and weights injected so far.  If no observations have been injected, returns `+nan.0`.
+
+`(tally-timed-sum `''tally''`)`
+
+Returns the weighted sum of the observations and weights (based on timestamps) injected so far.
+
+`(tally-timed-mean `''tally''`)`
+
+Returns the weighted arithmetic mean of the observations and weights (based on timestamps) injected so far.  If no observations have been injected, returns `+nan.0`.
+
+== Covariance and correlation ==
+
+`(tally-sample-covariance `''tally''`)`
+
+Returns the sample covariance of the pairs of observations injected so far.  If no observations have been injected, returns `+nan.0`.
+
+`(tally-population-covariance `''tally''`)`
+
+Returns the population covariance of the pairs of observations injected so far.  If no observations have been injected, returns `+nan.0`.
+
+`(tally-correlation `''tally''`)`
+
+Returns the correlation based on the pairs of observations injected so far.
+
