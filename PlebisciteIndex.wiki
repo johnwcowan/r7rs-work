@@ -7,6 +7,7 @@ This is a running tally of R7RS-small plebiscite votes received so far, with lin
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003305.html|Andy Wingo]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003308.html|Ivan Raikov]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003310.html|Peter Bex]]
+* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003316.html|Alex Shinn]]
 
 == No ==
 
@@ -14,6 +15,7 @@ This is a running tally of R7RS-small plebiscite votes received so far, with lin
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003307.html|Eli Barzilay]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003309.html|Michael Sperber]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003311.html|James Wise]]
+
 == Abstentions ==
 
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003303.html|Jay Freeman]]
