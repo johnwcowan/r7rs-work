@@ -38,7 +38,11 @@ Returns `#t` if ''symbol'' is bound in the environment specified by ''environmen
 
 `(environment-set! `''environment symbol value''`)`
 
-In the environment specified by ''environment'', binds ''symbol'' as a variable whose value is ''value'', discarding any existing binding.  Returns an unspecified value.
+In the environment specified by ''environment'', binds ''symbol'' as a variable whose value is ''value'', shadowing any imported binding.  Returns an unspecified value.
+
+`(environment-remove! `''environment symbol''`)`
+
+In the environment specified by ''environment'', removes any binding for ''symbol'' created by `environment-set!`, revealing any imported binding.  If there is no such binding, it does nothing.  Returns an unspecified value.
 
 `(environment-for-each `''environment proc''`)`
 
