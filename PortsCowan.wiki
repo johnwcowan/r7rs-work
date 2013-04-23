@@ -13,13 +13,13 @@ The new features beyond R5RS are:
  * binary ports
   * Accepted by WG1, see #28 and [[:WG1Ballot2Results|WG1Ballot2Results]]
  * blob ports (the binary version of string ports)
-  * Not voted on by WG1, see #149
+  * Accepted by WG1, see #149 and [[:WG1Ballot3Results|WG1Ballot3Results]]
  * `current-error-port`
   * Accepted by WG1, see #59 and [[:WG1Ballot1Results|WG1Ballot1Results]]
  * `flush-output-port`
-  * Not voted on by WG1, see #133
+  * Accepted by WG1, see #134 and [[:WG1Ballot3Results|WG1Ballot3Results]]
  * `read-line`
-  * Not voted on by WG1, see #132
+  * Accepted by WG1, see #133 and [[:WG1Ballot3Results|WG1Ballot3Results]]
  * `delete-file`, and `file-exists?` from R6RS
   * Accepted by WG1, see #60 and [[:WG1Ballot1Results|WG1Ballot1Results]]
 
