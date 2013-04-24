@@ -11,6 +11,7 @@ This is a running tally of R7RS-small plebiscite votes received so far, with lin
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003317.html|Jules Altfas]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003318.html|Aaron W. Hsu]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003323.html|Andrew Robbins]]
+* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003324.html|Alaric Blagrave Snell-Pym]]
 
 == No ==
 
