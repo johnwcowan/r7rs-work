@@ -1,7 +1,13 @@
 = Charter for working group 2 =
 
 This is an editor's draft and not yet official.  New paragraphs
-are marked as such.
+are marked as such.  The reference to the timeline proved to be
+unhelpful in WG1 and has been removed.  The section on coordination
+with WG1 has been stripped down to a statement of compatibility.
+The membership and internal process sections have been rewritten.
+
+Because the SRFI process is open to all members of the Scheme
+community, the final community vote has been removed from the process.
 
 == Purpose ==
 
@@ -68,7 +74,7 @@ specifications produced by working group 2.
 
 == Membership ==
 
-''New:''
+'''New:'''
 Any member of the Scheme community may become a member of the working
 group with the consent of the chair, which shall not be unreasonably
 withheld.  Membership decisions made by the chair may be appealed
@@ -93,23 +99,26 @@ The chair of the working group is expected to develop an
 internal process that allows the working group to achieve
 its objectives.
 
-''New:''
+'''New:'''
 Insofar as practical, the working group should leverage the
 existing [[http://srfi.schemers.org/srfi-process.html|SRFI
 process]] to develop the standard.  Any member of the working
 group can propose that a SRFI, existing or to be created, should
 become part of the language.  It is expected that many existing
 and new SRFIs will be added to the language in this fashion.
+Sections of the R6RS standards may be treated as SRFIs for this
+purpose.
 
-''New:''
+'''New:'''
 If the working group agrees, the SRFI as a whole will become
 an optional part of the language, constituting one or more
-libraries.  If the chair believes the proposal is sufficiently
+libraries.  If the chair believes a proposal is sufficiently
 uncontroversial, the SRFI may be added to the language without
 consulting the working group, although any such action by the
-chair may be appealed, in which case the working group will decide.
+chair may be overridden at the request of any member, in which
+case the working group shall vote on the proposal.
 
-''New:''
+'''New:'''
 In exceptional circumstances, the working group may decide
 explicitly to make a SRFI a required part of the language.
 
@@ -120,7 +129,8 @@ such votes must be preserved within the public record, along
 with the reasons for dissent. Minority positions may be
 registered as formal objections (see above).
 
-''New:'' When the working group votes on a proposal, a simple
+'''New:'''
+When the working group votes on a proposal, a simple
 majority of the legal votes cast (ignoring abstentions) shall
 determine the vote.
 
@@ -134,14 +144,11 @@ the work products, the Steering Committee will consider whether
 the work products meet the charter requirements, as well as the
 level of support that they enjoy.
 
-''New:''
+'''New:'''
 Given the modular nature of the standard, the working group is
-encouraged to submit parts of the standard for endorsement
-rather than waiting for the standard to be complete.
+encouraged to submit work products for endorsement on a rolling basis
+rather than waiting for the effort to be complete.
 
-If formal objections remain at this time, the Steering Committee
-may choose to put the question of whether some or all work products
-satisfy charter requirements to a representative electorate.
 If the Steering Committee believes that support could be increased
 by revising work products in response to specific objections, then
 it may request another draft/review cycle of the working group.
@@ -151,3 +158,10 @@ it may request another draft/review cycle of the working group.
 The Steering Committee selects, and may replace, the working group's chair.
 
 The working group may elect or appoint other officers as it sees fit.
+
+== Termination ==
+
+'''New:'''
+The Steering Committee may terminate the working group on request of the
+chair or on its own motion at any time.
+
