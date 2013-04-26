@@ -101,8 +101,8 @@ its objectives.
 
 '''New:'''
 Insofar as practical, the working group should leverage the
-existing [[http://srfi.schemers.org/srfi-process.html|SRFI
-process]] to develop the standard.  Any member of the working
+existing [[http://srfi.schemers.org/srfi-process.html|SRFI process]]
+to develop the standard.  Any member of the working
 group can propose that a SRFI, existing or to be created, should
 become part of the language.  It is expected that many existing
 and new SRFIs will be added to the language in this fashion.
