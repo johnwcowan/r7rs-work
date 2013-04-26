@@ -2,7 +2,7 @@
 
 Sets and bags (multisets) are mutable collections that can contain any Scheme object.  Integer sets are mutable collections that can contain non-negative exact integers that are less than a maximum value specified when the integer set is created.  Enumeration sets are mutable collections that can contain symbols chosen from a set of symbols represented by an enumeration type.
 
-Sets and bags (multisets) are intended to be a thin veneer over hashtables, and integer sets are a thin veneer over bytevectors considered as sequences of bits.  In turn, enumeration sets are a thin veneer over integer sets.  Consequently, the `-member?`, `-add!`, and `-remove!` procedures are required to have an amortized cost of O(1).
+Sets and bags (multisets) are intended to be a thin veneer over hashtables, and integer sets are a thin veneer over bytevectors.  It is implementation-dependent whether an integer set packs eight values into each bytevector element or (as the reference implementation does) just one.  In turn, enumeration sets are a thin veneer over integer sets.  Consequently, the `-member?`, `-add!`, and `-remove!` procedures are required to have an amortized cost of O(1).
 
 Sets, bags, integer sets, enumeration sets, and enumeration types are mutually disjoint, and disjoint from other types of Scheme objects.
 
@@ -100,19 +100,13 @@ Returns a newly allocated set that is the xor (symmetric difference) of ''set,,1
 
 `(set-union! `''set,,1,,''` `''set,,2,,'' ...`)`
 
-Mutates ''set,,1,,'' to a set that is the union of the ''sets''.  It is an error if the sets do not have the same equality predicate.
-
 `(set-intersection! `''set,,1,,''` `set,,2,,'' ...`)`
-
-Mutates ''set,,1,,'' to a set that is the asymmetric difference of ''set,,1,,'' and the union of the other ''sets''.  It is an error if the sets do not have the same equality predicate.
 
 `(set-difference! `''set,,1,,''` `''set,,2,,'' ...`)`
 
-Mutates ''set,,1,,'' to a set that is the difference of the ''sets''.  It is an error if the sets do not have the same equality predicate.
-
 `(set-xor! `''set,,1,,''` `''set,,2,,''`)`
 
-Mutates ''set,,1,,'' to a new set that is the xor (symmetric difference) of ''set,,1,,'' and ''set,,2,,''.  It is an error if the sets do not have the same equality predicate.
+The same as `set-union`, `set-intersection`, `set-difference`, and `set-xor` respectively, but may destroy the ''set,,1,,'' argument.
 
 == Bag procedures ==
 
@@ -126,11 +120,11 @@ Returns an exact integer representing the number of times that ''element'' appea
 
 `(bag-decrement `''bag` `element` `count''`)`
 
-Increases or decreases the count of ''element'' in ''bag'' by the exact integer ''count''.
+Increases or decreases the count of ''element'' in ''bag'' by the exact integer ''count''.  If ''element'' does not exist, its value is assumed to be 0.
 
 == Integer set procedures ==
 
-Except as noted below, the procedures for creating and manipulating integer sets are the same as those for sets, except that `set` is replaced by `integer-set` in their names.  Wherever a newly allocated integer set is returned, it has the same limit as the source sets.  It is an error to operate on integer sets with different limits.
+Except as noted below, the procedures for creating and manipulating integer sets are the same as those for sets, except that `set` is replaced by `integer-set` in their names.  The equality function is always `=`.  Wherever a newly allocated integer set is returned, it has the same limit as the source sets.  It is an error to operate on integer sets with different limits.
 
 `(make-integer-set `''limit''`)`
 
@@ -212,14 +206,12 @@ Mutates ''enum-set'' to a new set that is the complement of ''enum-set''.
 
 Returns a newly allocated enumeration set of type ''enum-type''.  Its elements are the symbols belonging to ''enum-set'', ignoring any symbols which are not in ''enum-type''.
 
-`(define-enumeration `<type-name>` (`<symbol> ...`)` <constructor>`)`
-
-Defines a newly allocated enumeration type and provides macros for constructing its members and sets.  It is a definition and can appear anywhere that other definitions can appear.  The <symbol>s are in the enumeration type.  '''Issue: do we need define-enumeration?'''
-
-The identifier <type-name> is bound to a syntax definition which accepts a symbol as its argument and returns the symbol if it is in the enumeration type.  It is a syntax error if the symbol is not in the enumeration type.
-
-The identifier <constructor> is bound to a syntax definition which accepts symbols as its arguments and returns an enumeration set containing those symbols.  It is a syntax error if any of the symbols are not in the enumeration type.
-
 == Conversions ==
 
 The basic set is used as the pivot between different kinds of specialized sets.  In particular, `set->bag`, `set->integer-set`, `set->bag`, `bag->set`, `integer-set->set`, and `enum-set->set` take one argument and do the obvious thing.  `set->integer-set` takes two arguments, ''limit'' and the set.  `set->enum-set` also takes two arguments, ''enum-type'' and the set.
+
+== Issues ==
+
+R6RS provides `define-enumeration` to help set up enumeration types.  Is this worth having?  Possible syntax is:
+
+`(define-enumeration `<type-name>` (`<symbol> ...`)` <constructor>`)`
