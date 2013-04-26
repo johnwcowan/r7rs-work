@@ -1,6 +1,10 @@
 = Welcome to the Scheme Working Groups =
 
+'''For instructions on how to vote on the 9th draft of R7RS-small, see [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003299.html|the Steering Committee's email]].'''
+
 For a complete list of local wiki pages, see TitleIndex (alphabetic) or RecentChanges (most recent first).
+
+Click on "Attachments" below to access the draft reports.
 
 Comments are welcome at the [[http://lists.scheme-reports.org/cgi-bin/mailman/listinfo/scheme-reports|public discussion list]].
 
