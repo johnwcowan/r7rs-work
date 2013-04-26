@@ -4,13 +4,13 @@ In this design, keywords are disjoint from symbols, but there is no special synt
 
 == Syntax ==
 
-`(lambda/keywords `''arg'' ... `(`''key''` `''value''`) `...`) ''body'' ...`)`  [syntax]
+`(keywords-lambda `''arg'' ... `(`''key''` `''value''`) `...`) ''body'' ...`)`  [syntax]
 
 Returns a procedure whose body is ''body'' that accepts non-keyword arguments ''args'' and keyword arguments whose names are ''keys''.  ''Values'' specify the default value for the corresponding ''keys''.
 
 Note that ''keys'' need not have any particular syntax such as beginning with or ending with a colon, but they may do so by convention.  As identifiers, keywords must be explicitly exported from modules.
 
-`(define/keywords (`''name''` `''arg'' ... `(`''key''` `''value''`) `...`) ''body'' ...`)`  [syntax]
+`(keywords-define (`''name''` `''arg'' ... `(`''key''` `''value''`) `...`) ''body'' ...`)`  [syntax]
 
 Defines a procedure named ''name'' with body `(lambda/keywords `''arg'' ... `(`''key''` `''value''`) `...`) `''body'' ...`)`
 
@@ -30,4 +30,4 @@ Returns `#t` if ''kw1'' and ''kw2'' are keywords with the same name, and `#f` if
 
 == Rationale and implementation ==
 
-See KeywordArgumentsArcfide.  The syntax keywords `define/keywords` and `lambda/keywords` here correspond to `define/optional` and `lambda/opt` there.
+See KeywordArgumentsArcfide.  The syntax keywords `keywords-define` and `keywords-lambda` here correspond to `define/optional` and `lambda/opt` there.
