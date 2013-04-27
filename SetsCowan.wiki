@@ -90,9 +90,9 @@ Returns a newly allocated set that is the union of the ''sets''.  It is an error
 
 Returns a newly allocated set that is the intersection of the ''sets''.  It is an error if the sets do not have the same equality predicate.
 
-`(set-difference `''set,,1,,''` `''set,,2,,'' ...`)`
+`(set-difference `''set,,1,,''` `''set,,2,,''`)`
 
-Returns a newly allocated set that is the asymmetric difference of ''set,,1,,'' and the union of the other ''sets''.  It is an error if the sets do not have the same equality predicate.
+Returns a newly allocated set that is the asymmetric difference of ''set,,1,,'' and ''set,,2,,''.  It is an error if the sets do not have the same equality predicate.
 
 `(set-xor `''set,,1,,''` `''set,,2,,''`)`
 
@@ -102,7 +102,7 @@ Returns a newly allocated set that is the xor (symmetric difference) of ''set,,1
 
 `(set-intersection! `''set,,1,,''` `set,,2,,'' ...`)`
 
-`(set-difference! `''set,,1,,''` `''set,,2,,'' ...`)`
+`(set-difference! `''set,,1,,''` `''set,,2,,''`)`
 
 `(set-xor! `''set,,1,,''` `''set,,2,,''`)`
 
