@@ -12,7 +12,7 @@ Returns the name of the Scheme implementation.  This procedure corresponds rough
 
 `(implementation-version)`
 
-Returns the version of the Scheme implementation.  This procedure corresponds roughly to Common Lisp's `lisp-implementation-version` function.  A `cond-expand` feature identifier related to the string returned by `(string-concat (scheme-implementation-type) "-" (scheme-implementation-version))` is also provided.
+Returns the version of the Scheme implementation.  This procedure corresponds roughly to Common Lisp's `lisp-implementation-version` function.  A `cond-expand` feature identifier related to the string returned by `(string-concat (implementation-type) "-" (implementation-version))` is also provided.
 
 `(cpu-architecture)`
 
