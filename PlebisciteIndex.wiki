@@ -1,5 +1,7 @@
 This is a running tally of R7RS-small plebiscite votes received so far, with links to the actual votes.  This tally may contain errors, and is not yet a certified return.
 
+To vote, see [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003299.html|these instructions]].
+
 == Yes ==
 
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003301.html|Grant Rettke]]
@@ -24,6 +26,7 @@ This is a running tally of R7RS-small plebiscite votes received so far, with lin
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003307.html|Eli Barzilay]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003309.html|Michael Sperber]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003311.html|James Wise]]
+* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003349.html|John David Stone]]
 
 
 == Abstentions ==
