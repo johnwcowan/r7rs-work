@@ -116,9 +116,9 @@ The procedures for creating and manipulating bags are the same as those for sets
 
 Returns an exact integer representing the number of times that ''element'' appears in ''bag''; if it does not appear, returns 0.
 
-`(bag-increment `''bag` `element` `count''`)`
+`(bag-increment! `''bag` `element` `count''`)`
 
-`(bag-decrement `''bag` `element` `count''`)`
+`(bag-decrement! `''bag` `element` `count''`)`
 
 Increases or decreases the count of ''element'' in ''bag'' by the exact integer ''count''.  If ''element'' does not exist, its value is assumed to be 0.
 
