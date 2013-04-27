@@ -31,6 +31,6 @@ To vote, see [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-Apr
 
 == Abstentions ==
 
-* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003303.html|Jay Freeman]]
-* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003311.html|Jude Arnout "Biep" Durieux]]
+* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003303.html|Jay Reynolds Freeman]]
+* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003314.html|Jude Arnout "Biep" Durieux]]
  
