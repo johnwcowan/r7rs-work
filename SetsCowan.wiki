@@ -134,14 +134,6 @@ Returns a newly allocated integer set.  The possible elements of the set are the
 
 Returns a newly allocated integer set.  The possible elements of the set are the exact integers from 0 to ''limit'' - 1, where ''limit'' is an exact non-negative integer.  The set contains all possible elements.
 
-`(integer-set `''limit''` `''element'' ...`)`
-
-Returns a newly allocated integer set.  The possible elements of the set are the exact integers from 0 to ''limit'' - 1. The set is initialized to contain the ''elements''.
-
-`(list->integer-set `''limit''` `''list''`)`
-
-Returns a newly allocated integer set.  The possible elements of the set are the exact integers from 0 to ''limit'' - 1. The set is initialized to contain the elements of ''list'' in increasing numerical order.
-
 `(integer-set-complement `''integer-set''`)`
 
 Returns a newly allocated integer set that is the complement of ''integer-set''.
