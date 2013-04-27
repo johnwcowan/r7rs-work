@@ -19,6 +19,7 @@ To vote, see [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-Apr
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003337.html|Felix Winkelmann]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003341.html|Arthur A. Gleckler]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003350.html|David Krentzlin]]
+* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003351.html|Shiro Kawai]]
 
 == No ==
 
