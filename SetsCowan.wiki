@@ -58,9 +58,9 @@ Invokes ''proc'' on each member of ''set'' in arbitrary order, passing the resul
 
 Returns a newly allocated list containing the members of ''set'' in unspecified order.  However, repeated calls to this procedure will return a list in the same order until the set is mutated.
 
-`(list->set `''list''`)`
+`(list->set `''= list''`)`
 
-Returns a newly allocated set containing the elements of ''list''.
+Returns a newly allocated set with equality predicate ''='' containing the elements of ''list''.
 
 `(set=? `''set'' ...`)`
 
