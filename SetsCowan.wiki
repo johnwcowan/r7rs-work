@@ -158,7 +158,7 @@ Removes and returns the smallest or largest integer in ``integer-set``, or `#f` 
 
 Except as noted below, the procedures for creating and manipulating enumeration sets are the same as those for sets, except that `set` is replaced by `enum-set` in their names.  Wherever a newly allocated enumeration set is returned, it has the same enumeration type as the source sets.  It is an error to operate on enumeration sets of different types.
 
-The procedure `integer-set-value` is just the identity function, so it is not provided.
+The procedure `enum-set-value` is just the identity function, so it is not provided.
 
 `(make-enum-type `''symbol-list''`)`
 
