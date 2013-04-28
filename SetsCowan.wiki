@@ -203,3 +203,5 @@ R6RS provides `define-enumeration` to help set up enumeration types.  Is this wo
 Should there be a mechanism to convert between integer sets and integers as bitvectors, as defined in SRFI 33, SRFI 60, and R6RS?
 
 Currently you can convert one set type to another via lists.  Are conversions directly through sets (or bags) useful enough to justify enlarging the SRFI?  What about other types of direct conversions?
+
+How about `set-intern`, which is like `set-value` (and ditto for bags) but adds the element to the set if it's not already there?
