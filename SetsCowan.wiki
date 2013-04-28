@@ -12,7 +12,7 @@ It is an error to operate on sets with different equality procedures.
 
 `(make-set `''=''`)`
 
-Returns a newly allocated empty set.  ''='' is the equality procedure for the set.  If ''='' is other than `eq?`, `equal`, `string=?`, or `string-ci=?`, the implementation MAY signal an error.  '''Issue: possibly add '''`eqv?`''' to this list if hash tables support it.'''
+Returns a newly allocated empty set.  ''='' is the equality procedure for the set.  If ''='' is other than `eq?`, `equal`, `string=?`, or `string-ci=?`, the implementation MAY signal an error.
 
 `(set `''=''` `''element''` ...)`
 
@@ -191,6 +191,8 @@ Returns a newly allocated enumeration set that is the complement of ''enum-set''
 Returns a newly allocated enumeration set of type ''enum-type''.  Its elements are the symbols belonging to ''enum-set'', ignoring any symbols which are not in ''enum-type''.
 
 == Issues ==
+
+Consider adding `eqv?` to the list of equality predicates guaranteed valid.  For some bizarre reason, R6RS does not support it.
 
 R6RS provides `define-enumeration` to help set up enumeration types.  Is this worth having?  Possible syntax is:
 
