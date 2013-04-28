@@ -190,10 +190,6 @@ Mutates ''enum-set'' to a new set that is the complement of ''enum-set''.
 
 Returns a newly allocated enumeration set of type ''enum-type''.  Its elements are the symbols belonging to ''enum-set'', ignoring any symbols which are not in ''enum-type''.
 
-== Conversions ==
-
-The basic set is used as the pivot between different kinds of specialized sets.  In particular, `set->bag`, `set->integer-set`, `set->bag`, `bag->set`, `integer-set->set`, and `enum-set->set` take one argument and do the obvious thing.  `set->integer-set` takes two arguments, ''limit'' and the set.  `set->enum-set` also takes two arguments, ''enum-type'' and the set.
-
 == Issues ==
 
 R6RS provides `define-enumeration` to help set up enumeration types.  Is this worth having?  Possible syntax is:
@@ -201,3 +197,5 @@ R6RS provides `define-enumeration` to help set up enumeration types.  Is this wo
 `(define-enumeration `<type-name>` (`<symbol> ...`)` <constructor>`)`
 
 Should there be a mechanism to convert between integer sets and integers as bitvectors, as defined in SRFI 33, SRFI 60, and R6RS?
+
+Currently you can convert one set type to another via lists.  Are conversions directly through sets (or bags) useful enough to justify enlarging the SRFI?  What about other types of direct conversions?
