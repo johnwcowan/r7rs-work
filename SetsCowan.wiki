@@ -124,7 +124,7 @@ Increases or decreases the count of ''element'' in ''bag'' by the exact integer 
 
 == Integer set procedures ==
 
-Except as noted below, the procedures for creating and manipulating integer sets are the same as those for sets, except that `set` is replaced by `integer-set` in their names.  The equality function is always `=`.  Wherever a newly allocated integer set is returned, it has the same limit as the source sets.  It is an error to operate on integer sets with different limits.
+Except as noted below, the procedures for creating and manipulating integer sets are the same as those for sets, except that `set` is replaced by `integer-set` in their names, and references to equality predicates are replaced by limits, as the equality function is always `=`.  Wherever a newly allocated integer set is returned, it has the same limit as the source sets.  It is an error to operate on integer sets with different limits.
 
 `(make-integer-set `''limit''`)`
 
@@ -160,7 +160,7 @@ Except as noted below, the procedures for creating and manipulating enumeration 
 
 `(make-enum-type `''symbol-list''`)`
 
-Returns an enumeration type suitable for constructing enumeration sets whose members are the symbols in ''symbol-list''.  These symbols are said to be ''in the enumeration type''.  '''Issue''': are enumeration types the same if they have the same symbols?
+Returns a newly allocated enumeration type suitable for constructing enumeration sets whose members are the symbols in ''symbol-list''.  These symbols are said to be ''in the enumeration type''.
 
 `(make-enum-set `''enum-type''`)`
 
@@ -200,4 +200,4 @@ R6RS provides `define-enumeration` to help set up enumeration types.  Is this wo
 
 `(define-enumeration `<type-name>` (`<symbol> ...`)` <constructor>`)`
 
-Should there be a mechanism to convert between integer sets and integers-as-bitvectors, as defined in SRFI 33, SRFI 60, and R6RS?
+Should there be a mechanism to convert between integer sets and integers as bitvectors, as defined in SRFI 33, SRFI 60, and R6RS?
