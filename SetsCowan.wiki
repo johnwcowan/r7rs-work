@@ -124,6 +124,8 @@ Increases or decreases the count of ''element'' in ''bag'' by the exact integer 
 
 The elements of an integer set are non-negative exact integers less than the set's ''limit'', which is specified when it is created.  Except as noted below, the procedures for creating and manipulating integer sets are the same as those for sets, except that `set` is replaced by `integer-set` in their names, and references to equality predicates are replaced by limits, as the equality function is always `=`.  Wherever a newly allocated integer set is returned, it has the same limit as the source sets.  It is an error to operate on integer sets with different limits.
 
+The procedure `integer-set-value` is just the identity function, so it is not provided.
+
 `(make-integer-set `''limit''`)`
 
 Returns a newly allocated integer set.  The possible elements of the set are the exact integers from 0 to ''limit'' - 1, where ''limit'' is an exact non-negative integer.  The set is empty.
@@ -155,6 +157,8 @@ Removes and returns the smallest or largest integer in ``integer-set``, or `#f` 
 == Enumeration sets ==
 
 Except as noted below, the procedures for creating and manipulating enumeration sets are the same as those for sets, except that `set` is replaced by `enum-set` in their names.  Wherever a newly allocated enumeration set is returned, it has the same enumeration type as the source sets.  It is an error to operate on enumeration sets of different types.
+
+The procedure `integer-set-value` is just the identity function, so it is not provided.
 
 `(make-enum-type `''symbol-list''`)`
 
