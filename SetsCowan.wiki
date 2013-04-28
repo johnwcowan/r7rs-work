@@ -142,25 +142,17 @@ Returns a newly allocated integer set that is the complement of ''integer-set''.
 
 Mutates ''integer-set'' to a new set that is the complement of ''integer-set''.
 
-`(integer-set-least `''integer-set''`)`
+`(integer-set-min `''integer-set''`)`
 
-`(integer-set-most `''integer-set''`)`
+`(integer-set-max `''integer-set''`)`
 
 Returns the smallest or largest integer in ``integer-set``, or `#f` if there is none.
 
-`(integer-set-least! `''integer-set''`)`
+`(integer-set-min! `''integer-set''`)`
 
-`(integer-set-most! `''integer-set''`)`
+`(integer-set-max! `''integer-set''`)`
 
 Removes and returns the smallest or largest integer in ``integer-set``, or `#f` if there is none.
-
-`(integer->integer-set `''limit'' ''integer'' `)`
-
-Creates a newly allocated integer set with the specified ''limit'' initialized from the bits of ''integer'', which must be exact, considered as a bit vector.
-
-`(integer-set->integer `''integer-set''`)`
-
-Returns the exact integer which, considered as a bit vector, is equivalent to ''integer-set''.
 
 == Enumeration sets ==
 
@@ -207,3 +199,5 @@ The basic set is used as the pivot between different kinds of specialized sets. 
 R6RS provides `define-enumeration` to help set up enumeration types.  Is this worth having?  Possible syntax is:
 
 `(define-enumeration `<type-name>` (`<symbol> ...`)` <constructor>`)`
+
+Should there be a mechanism to convert between integer sets and integers-as-bitvectors, as defined in SRFI 33, SRFI 60, and R6RS?
