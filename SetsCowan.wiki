@@ -104,7 +104,7 @@ The same as `set-union`, `set-intersection`, `set-difference`, and `set-xor` res
 
 `(set-value `''set'' ''element''`)`
 
-Returns the element of ''set'' that is equal, in the sense of the equality predicate, to ''element''.
+Returns the element of ''set'' that is equal, in the sense of the equality predicate, to ''element''.  If ''element'' is not a member of the set, it is returned.
 
 == Bag procedures ==
 
@@ -194,7 +194,7 @@ Returns a newly allocated enumeration set of type ''enum-type''.  Its elements a
 
 == Issues ==
 
-Consider adding `eqv?` to the list of equality predicates guaranteed valid.  For some bizarre reason, R6RS does not support it.
+Consider adding `eqv?` to the list of equality predicates guaranteed valid.  For some bizarre reason, SRFI 69 does not support it.
 
 R6RS provides `define-enumeration` to help set up enumeration types.  Is this worth having?  Possible syntax is:
 
