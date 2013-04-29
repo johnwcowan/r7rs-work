@@ -108,17 +108,17 @@ Returns the element of ''set'' that is equal, in the sense of the equality predi
 
 == Bag procedures ==
 
-The procedures for creating and manipulating bags are the same as those for sets, except that `set` is replaced by `bag` in their names, and that adding an element to a bag is effective even if the bag already contains the element.  However, `bag-xor` and `bag-xor!` do not exist.
+The procedures for creating and manipulating bags are the same as those for sets, except that `set` is replaced by `bag` in their names, and that adding an element to a bag is effective even if the bag already contains the element.  However, `bag-xor`, `bag-xor!`, and `bag-value` are not included.
 
 `(bag-count `''bag''` `''element''`)`
 
-Returns an exact integer representing the number of times that ''element'' appears in ''bag''; if it does not appear, returns 0.
+Returns an exact integer representing the number of times that ''element'' appears in ''bag''.
 
 `(bag-increment! `''bag` `element` `count''`)`
 
 `(bag-decrement! `''bag` `element` `count''`)`
 
-Increases or decreases the count of ''element'' in ''bag'' by the exact integer ''count''.  If ''element'' does not exist, its value is assumed to be 0.
+Increases or decreases the count of ''element'' in ''bag'' by the exact integer ''count''.
 
 == Integer set procedures ==
 
