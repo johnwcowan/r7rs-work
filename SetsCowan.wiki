@@ -158,50 +158,58 @@ Removes and returns the smallest or largest integer in ``integer-set``, or `#f` 
 
 Except as noted below, the procedures for creating and manipulating enumeration sets are the same as those for sets, except that `set` is replaced by `enum-set` in their names.  Wherever a newly allocated enumeration set is returned, it has the same enumeration type as the source sets.  It is an error to operate on enumeration sets of different types.
 
+This design is founded on [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-15.html|R6RS enumerations]], but with the addition of reified enumeration types along the lines suggested by [[http://www.r6rs.org/formal-comments/comment-262.txt|R6RS Formal Comment #262]].  The prefix `enum` is used in all cases instead of using both `enum` and `enumeration` as R6RS does.
+
 The procedure `enum-set-value` is just the identity function, so it is not provided.
 
 `(make-enum-type `''symbol-list''`)`
 
-Returns a newly allocated enumeration type suitable for constructing enumeration sets whose members are the symbols in ''symbol-list''.  These symbols are said to be ''in the enumeration type''.
+Returns a newly allocated enumeration type suitable for constructing enumeration sets whose members are the symbols in ''symbol-list''.  These symbols are said to be ''in the enumeration type''.  In R6RS the function of this procedure is provided as part of `make-enumeration`.
 
 `(enum-type-symbols `''enum-type''`)`
 
 Return a newly allocated list of the symbols in ''enum-type'' in the original order.
 
+`(enum-type-index `''enum-type symbol''`)`
+
+Return an exact integer corresponding to the position of ''symbol'' in the original list that created ''enum-type'', or `#f` if it was not one of those symbols.  The R6RS equivalent is the procedure returned by `enum-type-indexer` when applied to an enum-set belonging to `enum-type`.
+
 `(make-enum-set `''enum-type''`)`
 
-Returns a newly allocated enumeration set.  The possible elements of the set are the symbols in ''enum-type''.  The set is empty.
+Returns a newly allocated enumeration set.  The possible elements of the set are the symbols in ''enum-type''.  The set is empty.  The approximate R6RS equivalents are `enum-set-constructor` and `make-enumeration`.
 
 `(make-universal-enum-set `''enum-type''`)`
 
-Returns a newly allocated enumeration set.  The possible elements of the set are the symbols in ''enum-type''.  The set contains all possible elements.
+Returns a newly allocated enumeration set.  The possible elements of the set are the symbols in ''enum-type''.  The set contains all possible elements.  The approximate R6RS equivalent is `enum-set-universe`.
 
 `(enum-set `''enum-type''` `''element'' ...`)`
 
-Returns a newly allocated enumeration set.  The possible elements of the set are the symbols in ''enum-type''. The set is initialized to contain the ''elements''.
+Returns a newly allocated enumeration set.  The possible elements of the set are the symbols in ''enum-type''. The set is initialized to contain the ''elements''.  There is no R6RS equivalent.
 
 `(list->enum-set `''enum-type''` `''list''`)`
 
-Returns a newly allocated enumeration set.  The possible elements of the set are the symbols in ''enum-type''. The set is initialized to contain the elements of ''list''.
+Returns a newly allocated enumeration set.  The possible elements of the set are the symbols in ''enum-type''. The set is initialized to contain the elements of ''list''.  There is no R6RS equivalent.
 
 `(enum-set-complement `''enum-set''`)`
 
-Returns a newly allocated enumeration set that is the complement of ''enum-set''.
+Returns a newly allocated enumeration set that is the complement of ''enum-set''.  This procedure is also in R6RS.
 
 `(enum-set-projection `''enum-set''` `''enum-type''`)`
 
-Returns a newly allocated enumeration set of type ''enum-type''.  Its elements are the symbols belonging to ''enum-set'', ignoring any symbols which are not in ''enum-type''.
+Returns a newly allocated enumeration set of type ''enum-type''.  Its elements are the symbols belonging to ''enum-set'', ignoring any symbols which are not in ''enum-type''.  This procedure is also in R6RS, but uses a second enum-set in place of ''enum-type''.
 
 == Issues ==
 
-Consider adding `eqv?` to the list of equality predicates guaranteed valid.  For some bizarre reason, SRFI 69 does not support it.
+1. We should consider adding `eqv?` to the list of equality predicates guaranteed valid.  For some bizarre reason, SRFI 69 does not support it.
 
-R6RS provides `define-enumeration` to help set up enumeration types.  Is this worth having?  Possible syntax is:
+2. R6RS provides `define-enumeration` to help set up enum-types.  Is this worth having?  Possible syntax is:
 
 `(define-enumeration `<type-name>` (`<symbol> ...`)` <constructor>`)`
 
-Should there be a mechanism to convert between integer sets and integers as bitvectors, as defined in SRFI 33, SRFI 60, and R6RS?
+This would bind `<type-name>` to the enum-type, and `constructor` to a curried version of `make-enum-set` that already knows what type to use.
 
-Currently you can convert one set type to another via lists.  Are conversions directly through sets (or bags) useful enough to justify enlarging the SRFI?  What about other types of direct conversions?
+3. Should there be a mechanism to convert between integer sets and integers as bitvectors, as defined in SRFI 33, SRFI 60, and R6RS?
 
-How about `set-intern`, which is like `set-value` (and ditto for bags) but adds the element to the set if it's not already there?
+4. Currently you can convert one set type to another via lists.  Are conversions directly through sets (or bags) useful enough to justify enlarging the SRFI?  What about direct conversions between other types?
+
+5. How about `set-intern`, which is like `set-value` (and ditto for bags) but adds the element to the set if it's not already there?
