@@ -1,0 +1,33 @@
+This docket contains work items that the chair is moving (unless there is objection) to StandardDocket.  See [[:WG2Dockets|WG2Dockets]] for other dockets.
+
+Container conversion: [[http://trac.sacrideo.us/wg/wiki/WG1Ballot6Results#a433fullconversioncycleforcontainers|ballot options]]
+
+Continuation API:  [[http://repository.readscheme.org/ftp/papers/sw2001/feeley.pdf|Feeley's paper]] (PDF)
+
+Division library: DivisionRiastradh
+
+Enumerations: [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-15.html#node_chap_14|R6RS]] (see also http://www.r6rs.org/formal-comments/comment-262.txt), SetsCowan, [[http://wiki.call-cc.org/eggref/4/miscmacros|Chicken miscmacros egg]]
+
+Getters and setters: [[http://srfi.schemers.org/srfi-17/srfi-17.html|SRFI 17]]
+
+Library declarations: LibraryDeclarationsCowan
+
+Mutable environments for `eval`:  MutableEnvironmentsCurtisCowan
+
+NaN dissector API (sign, quiet/signaling status, and integer tag): NanMedernach
+
+Natural number predicates (from WG1):  `exact-positive-integer?` and `exact-non-negative-integer?`.
+
+Procedure arity inspection: [[http://srfi.schemers.org/srfi-102/srfi-102.html|SRFI 102]]
+
+`Record-let`: #45
+
+Restarts:  [[http://www.ai.mit.edu/projects/iiip/doc/CommonLISP/HyperSpec/Body/sec_9-1-4-2.html|Common Lisp]], [[http://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Restarts.html|MIT]], [[http://mumble.net/~campbell/proposals/restart.text|RestartersRiastradh]]
+
+String encoding and decoding:  StringBytevectorConversionCowan
+
+Syntactic closures (voted down, but restored by popular demand): [[http://web.mit.edu/scheme_v9.0.1/doc/mit-scheme-ref/Syntactic-Closures.html|MIT]]
+
+`syntax-case` (voted down, but restored by popular demand): [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html|R6RS]]
+
+
