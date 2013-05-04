@@ -94,8 +94,6 @@ Restarts:  [[http://www.ai.mit.edu/projects/iiip/doc/CommonLISP/HyperSpec/Body/s
 
 Search and mismatch procedures:  SearchMismatchCowan
 
-Setter procedures: [[http://srfi.schemers.org/srfi-17/srfi-17.html|SRFI 17]]
-
 `standard-*-port` routines:  [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html|R6RS]]
 
 String positions and slices (see http://www.r6rs.org/formal-comments/comment-235.txt):
@@ -111,8 +109,6 @@ Syntactic closures (voted down, but restored by popular demand): [[http://web.mi
 Tree library: at least `tree=?` and `tree-copy`, probably Common Lisp [[http://www.lispworks.com/documentation/lw50/CLHS/Body/f_sublis.htm|SUBLIS and NSUBLIS]], fold, unfold, map ... 
 
 Thread-local storage: 
-
-Testing function arity: [[http://srfi.schemes.org/srfi-102/srfi-102.html|SRFI 102]]
 
 Undefined value API: #49
 
