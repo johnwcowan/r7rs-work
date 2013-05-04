@@ -1,12 +1,12 @@
 = Charter for working group 2 =
 
 This is an editor's draft and not yet official.  New paragraphs
-are marked as such.  The reference to the timeline proved to be
+are marked as such.  Having a specific timeline proved to be
 unhelpful in WG1 and has been removed.  The section on coordination
 with WG1 has been stripped down to a statement of compatibility.
 The membership and internal process sections have been rewritten.
 
-Because the SRFI process is open to all members of the Scheme
+Because SRFI processes are open to all members of the Scheme
 community, the final community vote has been removed from the process.
 
 == Purpose ==
@@ -76,14 +76,14 @@ specifications produced by working group 2.
 
 '''New:'''
 Any member of the Scheme community may become a member of the working
-group with the consent of the chair, which shall not be unreasonably
+group with the consent of the chair, which consent must not be unreasonably
 withheld.  Membership decisions made by the chair may be appealed
 to the Steering Committee.  It is expected that new members will join
 throughout the life of the working group.
 
 Members of the working group should endorse the goals of the
 working group and be willing and able to work toward consensus.
-Working groups 1 and 2 should have some members in common.
+Working groups 1 and 2 will have some members in common.
 
 == Publicity ==
 
@@ -116,10 +116,8 @@ libraries.  If the chair believes a proposal is sufficiently
 uncontroversial, the SRFI may be added to the language without
 consulting the working group, although any such action by the
 chair may be overridden at the request of any member, in which
-case the working group shall vote on the proposal.
-
-'''New:'''
-In exceptional circumstances, the working group may decide
+case the working group must vote on the proposal.  In
+exceptional circumstances, the working group may decide
 explicitly to make a SRFI a required part of the language.
 
 The working group is expected to strive for consensus on all
