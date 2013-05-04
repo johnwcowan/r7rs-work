@@ -5,6 +5,7 @@ To vote, see [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-Apr
 == Yes ==
 
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003301.html|Grant Rettke]]
+* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003303.html|Jay Reynolds Freeman]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003304.html|Jeronimo Cordoni Pellegrini]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003305.html|Andy Wingo]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003308.html|Ivan Raikov]]
@@ -20,8 +21,10 @@ To vote, see [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-Apr
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003341.html|Arthur A. Gleckler]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003350.html|David Krentzlin]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003351.html|Shiro Kawai]]
+* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003362.html|Bill Schottstaedt]]
+* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003363.html|Takashi Kato]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003364.html|Per (Magnus Alfred) Bothner]]
-* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003365.html|Yuki OKUMURA]]
+* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003365.html|Yuki Okumura]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003371.html|Bradley Lucier]]
 
 == No ==
