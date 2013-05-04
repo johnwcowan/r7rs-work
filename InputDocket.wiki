@@ -12,19 +12,11 @@ Combinators: CombinatorsCowan
 
 Concatenation:  ConcatenateCowan
 
-Container conversion: [[http://trac.sacrideo.us/wg/wiki/WG1Ballot6Results#a433fullconversioncycleforcontainers|ballot options]]
-
-Continuation API:  [[http://repository.readscheme.org/ftp/papers/sw2001/feeley.pdf|Feeley's paper]] (PDF)
-
 Custom I/O ports: [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html|R6RS]]
 
 Default exception handler controls:
 
 Descriptive statistics:  TallyCowan
-
-Division library: DivisionRiastradh
-
-Enumerations: [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-15.html#node_chap_14|R6RS]] (see also http://www.r6rs.org/formal-comments/comment-262.txt), SetsCowan, [[http://wiki.call-cc.org/eggref/4/miscmacros|Chicken miscmacros egg]]
 
 Generalized `equal`: GeneralizedEqualCowan
 
@@ -37,8 +29,6 @@ External representation of records:
 Features, allowing libraries to add:
 
 Futures:  [[http://docs.racket-lang.org/reference/futures.html|Racket API]]
-
-Getters and setters: [[http://srfi.schemers.org/srfi-17/srfi-17.html|SRFI 17]]
 
 `hex-digit-value`:
 
@@ -56,19 +46,11 @@ Jiffy cleanup: [[http://arcanesentiment.blogspot.com/2012/07/current-jiffy-is-no
 
 List library (supplementary):  ListsCowan
 
-Library declarations: LibraryDeclarationsCowan
-
 Macro expander(s) available at run time: 
 
 `make-error-object` constructs error object without raising it: 
 
 Multiple values passed through => in `cond`: #90 
-
-Mutable environments for `eval`:  MutableEnvironmentsCurtisCowan
-
-NaN dissector API (sign, quiet/signaling status, and integer tag): NanMedernach
-
-Natural number predicates (from WG1):  `exact-positive-integer?` and `exact-non-negative-integer?`.
 
 `number->string` variant with control for significant digits: [[http://lists.scheme-reports.org/pipermail/scheme-reports/2011-May/000709.html|Vincent Manis proposal]], R6RS
 
@@ -78,19 +60,13 @@ Port encodings, buffering, line ending control:  SettingsListsCowan and FilesAdv
 
 Port type detector: #177
 
-Procedure arity inspection: [[http://srfi.schemers.org/srfi-102/srfi-102.html|SRFI 102]]
-
 Queues:  [[http://wiki.call-cc.org/man/4/Unit%20data-structures#queues|Chicken API]], BinaryHeapsCowan
 
 R6RS compatibility: whole libraries or cherry-picked procedures:
 
 Raw strings:  <<, """...""", [[http://srfi.schemers.org/srfi-109/srfi-109.html|SRFI 109]]
 
-`Record-let`: #45
-
 Record external representations: 
-
-Restarts:  [[http://www.ai.mit.edu/projects/iiip/doc/CommonLISP/HyperSpec/Body/sec_9-1-4-2.html|Common Lisp]], [[http://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Restarts.html|MIT]], [[http://mumble.net/~campbell/proposals/restart.text|RestartersRiastradh]]
 
 Search and mismatch procedures:  SearchMismatchCowan
 
@@ -98,13 +74,7 @@ Search and mismatch procedures:  SearchMismatchCowan
 
 String positions and slices (see http://www.r6rs.org/formal-comments/comment-235.txt):
 
-String encoding and decoding:  StringBytevectorConversionCowan
-
 Symbol library:  SymbolsCowan
-
-Syntactic closures (voted down, but restored by popular demand): [[http://web.mit.edu/scheme_v9.0.1/doc/mit-scheme-ref/Syntactic-Closures.html|MIT]]
-
-`syntax-case` (voted down, but restored by popular demand): [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html|R6RS]]
 
 Tree library: at least `tree=?` and `tree-copy`, probably Common Lisp [[http://www.lispworks.com/documentation/lw50/CLHS/Body/f_sublis.htm|SUBLIS and NSUBLIS]], fold, unfold, map ... 
 
