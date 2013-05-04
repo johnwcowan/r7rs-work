@@ -3,6 +3,9 @@ This is a list of voting dockets for WG2 work items (packages):
  InputDocket::
    Items proposed but not yet voted on.
 
+ PreStandardDocket::
+   Items being moved by the chair to StandardDocket unless objections are raised.
+
  StandardDocket::
   Items to be discussed and voted on individually.
 
