@@ -130,9 +130,11 @@ with the reasons for dissent. Minority positions may be
 registered as formal objections (see above).
 
 '''New:'''
-When the working group votes on a proposal, a simple
+When the working group votes yes or no on a proposal, a simple
 majority of the legal votes cast (ignoring abstentions) shall
-determine the vote.
+determine the vote.  A process similar to the ranked-pairs
+voting used by working group 1 may be used in the case of multiple
+competing proposals.
 
 == Endorsement Process ==
 
