@@ -20,6 +20,9 @@ To vote, see [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-Apr
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003341.html|Arthur A. Gleckler]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003350.html|David Krentzlin]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003351.html|Shiro Kawai]]
+* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003364.html|Per (Magnus Alfred) Bothner]]
+* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003365.html|Yuki OKUMURA]]
+* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003371.html|Bradley Lucier]]
 
 == No ==
 
