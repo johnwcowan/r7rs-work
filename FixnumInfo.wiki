@@ -1,6 +1,6 @@
 = Fixnum ranges for 32-bit Schemes =
 
-This is the range of fixnums in bits for the 32-bit builds of 39 Schemes.   For this purpose, an exact integer ''n'' is a fixnum if ''n'' satisfies the implementation's `fixnum?` procedure (marked by an asterisk) or if there is no such procedure, then if `(eq `''n''` `''n''`)` returns `#t`.
+This is the range of fixnums in bits for the 32-bit builds of 39 Schemes.   For this purpose, an exact integer ''n'' is a fixnum if ''n'' satisfies the implementation's `fixnum?` procedure (marked by an asterisk) or if there is no such procedure, then if `(eq? `''n''` `''n''`)` returns `#t`.
 
 ||31 bits||Racket*, Chicken*, Ypsilon*, Elk||
 ||30 bits||Gambit* , Scheme48/scsh, Guile, Chibi, Chez*, SCM, Ikarus*/Vicare*, Larceny*, Ypsilon*, Mosh*, !IronScheme* (but see below), STklos*, RScheme*, Oaklisp*||
