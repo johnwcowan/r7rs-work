@@ -5,7 +5,6 @@ To vote, see [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-Apr
 == Yes ==
 
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003301.html|Grant Rettke]]
-* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003303.html|Jay Reynolds Freeman]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003304.html|Jeronimo Cordoni Pellegrini]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003305.html|Andy Wingo]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003308.html|Ivan Raikov]]
