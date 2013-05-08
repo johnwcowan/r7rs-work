@@ -27,6 +27,7 @@ To vote, see [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-Apr
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003371.html|Bradley Lucier]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003381.html|Daniel Villeneuve]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003382.html|Gerald Jay Sussman]]
+* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003386.html|Tom Kwong]]
 
 == No ==
 
