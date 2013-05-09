@@ -32,6 +32,7 @@ To vote, see [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-Apr
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003389.html|Moritz Heidkamp]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003388.html|Arthur Smyles]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003393.html|Jussi Piitulainen]]
+* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003394.html|Steven Ganz]]
 
 == No ==
 
