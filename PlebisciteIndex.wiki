@@ -29,6 +29,7 @@ To vote, see [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-Apr
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003382.html|Gerald Jay Sussman]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003386.html|Tom Kwong]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003387.html|David Banks]]
+* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003389.html|Moritz Heidkamp]]
 
 == No ==
 
