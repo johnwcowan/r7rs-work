@@ -43,6 +43,7 @@ To vote, see [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-Apr
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003309.html|Michael Sperber]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003311.html|James Wise]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003349.html|John David Stone]]
+* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003400.html|Göran Weinholt]]
 
 == Abstentions ==
 
