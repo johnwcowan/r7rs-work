@@ -1,6 +1,6 @@
 This is a running tally of R7RS-small plebiscite votes received so far, with links to the actual votes.  This tally may contain errors, and is not yet a certified return.
 
-To vote, see [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003299.html|these instructions]].
+To vote, see [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003299.html|these instructions]].  Note that '''the voting period has been extended until the end of May 20''' in every time zone.
 
 == Yes ==
 
