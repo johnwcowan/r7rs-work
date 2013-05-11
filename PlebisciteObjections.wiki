@@ -1,7 +1,11 @@
 I (John Cowan) have extracted the following formal and informal objections to draft 9 of R7RS-small from votes cast in the R7RS-small plebiscite.  I have in some cases provided suggested resolutions for the WG as well.
 
 * The draft semantics of `eq?` and `eqv?` as applied to procedures should return to the IEEE/R5RS rules.
- * WG1 has already unanimously agreed with this.
+ * WG1 has already unanimously agreed with this statement.
+* In the draft as written, implementations are permitted to add new character names such as `#\xbeef;` that can also be read as hexadecimal character references.
+ * WG1 is considering this issue.
+* The various mapping procedures should be allowed to return results that are `eqv?` to, or share storage with, one or more of their arguments.
+ * WG1 is considering this issue.
 * The draft is gratuitously incompatible with R6RS.
  * R6RS in turn was incompatible with existing practice as expressed in SRFIs and implementations.  Many of the incompatibilities in the draft were meant to be compatible with this existing practice.
 * The proposed module system is pointlessly inflexible.
@@ -47,7 +51,7 @@ I (John Cowan) have extracted the following formal and informal objections to dr
 * Adding Unicode support is too large a change from R5RS.
  * It is still possible for a Scheme to provide ASCII-only support; the only constraint is that it must be done in a way that extends smoothly to the rest of the Unicode repertoire.
 * Exceptions integrate badly with the rest of the language.
- * 
+ * Perhaps that is because they are pure R6RS.  We can't do it all.
 * The syntaxes `#true` and `#false` are totally gratuitous.
  * They add a little extra readability, but are optional.  Early versions of the Scheme standard provided them in the forms `#!true` and `#!false`.
 * The lexical syntax `#| ... |#` is unsightly.
