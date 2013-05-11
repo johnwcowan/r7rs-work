@@ -13,33 +13,41 @@ I (John Cowan) have extracted the following formal and informal objections to dr
 * The draft avoids making hard decisions, making it a mere description of the current state of Scheme.
  * A standard is inherently a compromise.  A rigid "my way or the highway" standard, especially a complex one, means that only a few implementers will be able to provide it, thus limiting the scope of user choices.
 * Many decisions were based on a tacit requirement to ignore R6RS.
+ * 
 * The draft is a step backwards (or at any rate fails to be a step forwards) from R6RS.
  * The R7RS-small language is not meant to replace R6RS.  Rather, it is meant to replace R5RS and at the same time provide a sound basis for the R7RS-large language, which is meant to replace R6RS.
 * The draft fails to stay true to the history and spirit of Scheme.
  * A matter of opinion.
 * The draft's failure to treat compatibility with R6RS as important is a move away from unity.
+ * There was never much unity beyond the IEEE/R4RS/R5RS core.  The introduction of R6RS was not in itself a move toward or away from unity, but the fact that it was not widely accepted by existing implementations caused a de facto separation of implementations into R5RS and R6RS.  As has been noted, R7RS-small is not directly intended to address this separation.
 * For aficionados of Scheme's crystalline beauty, the draft has little to offer beyond R5RS.
-* It's a matter of opinion whether Scheme's procedure librar (which is greatly extended) is a matter of diamond-like beauty in ''any'' version of the Scheme standard.  It is for the most part ad hoc and historical.
+ * It's a matter of opinion whether Scheme's procedure library (which is greatly extended) is a matter of diamond-like beauty in ''any'' version of the Scheme standard.  It is for the most part ad hoc and historical.
 * The draft has little to offer the working programmer over R6RS.
+ * 
 * The draft fails to provide library versioning, a pedagogically important topic.
  * The WG's view is that the R6RS library versioning system was insufficiently tested against implementations when it was proposed, and hasn't received much attention since.
 * The draft excludes assertions.
- * True.
+ * True.  The WG felt that simple `assert` is insufficient, and a more complex and useful assertion facility was beyond the scope of the small language.
 * Programs that depend on full Unicode support are not portable to all R7RS implementations.
  * True.  However, many programs in the domain of the small language do not require extensive character support, and Unicode support is emphatically not free.
 * The syntaxes `include` and `include-ci`, and the `load` procedure, don't belong in Scheme.
  * The `load` procedure has been around
 * The draft does not provide the important higher-order procedures in the R6RS `(rnrs lists)` library.
+ * Equivalents exist in SRFI 1, which is well-established, available in almost all Scheme implementations, and will be directly incorporated into the large language.
 * The draft does not require the Scheme language to be safely implemented in conforming implementations.
  * Not mandating safety allows implementations to trade off safety for performance for the sake of users and programs who need that performance.  This can be done either by a safety setting in a single implementation or by allowing pervasively unsafe, yet conformant, implementations to be created.
 * The draft defines a less expressive language than the R6RS base language.
+ * 
 * The "stack-winding dance" of `guard` clauses is not dealt with in a satisfactory way.
+ * 
 * Mutable strings are still present in the draft despite their undesirability.
+ * True.  Immutable strings would be useful in many ways; unfortunately, mutable strings are part of IEEE, and the WG did not feel that the high bar for removing IEEE features was reached even in this case.
 * The draft insists that certain procedures return a single unspecified value rather than an unspecified number of unspecified values.
  * That provision makes it possible to invoke an unknown procedure safely without needing to wrap it in `call-with-values` or an equivalent.
 * Adding Unicode support is too large a change from R5RS.
  * It is still possible for a Scheme to provide ASCII-only support; the only constraint is that it must be done in a way that extends smoothly to the rest of the Unicode repertoire.
 * Exceptions integrate badly with the rest of the language.
+ * 
 * The syntaxes `#true` and `#false` are totally gratuitous.
  * They add a little extra readability, but are optional.  Early versions of the Scheme standard provided them in the forms `#!true` and `#!false`.
 * The lexical syntax `#| ... |#` is unsightly.
@@ -51,11 +59,13 @@ I (John Cowan) have extracted the following formal and informal objections to dr
 * The syntax of `define-record-type` is unscalable and not open to extension.
  * True.  However, it is extremely widely implemented, more so than any other non-R5RS syntax or procedure.  WG members who voted for it emphasized the importance of compatibility.
 * The systematic use of parameters would be better than proliferating separate procedures, specifically in the `write`, `write-simple`, and `write-shared` procedures and the `include` and `include-ci` syntaxes.
- * Au contraire.  If that were done, the only safe way to call `write` would be wrapped in a `parameterize` form, which is longer and less clear.  Syntax forms are not affected by the state of (run-time) parameter objects.
+ * Au contraire.  If that were done, the only safe way to call `write` would be by always wrapping it in a `parameterize` form, which is longer and less clear.  Syntax forms are not affected by the state of (run-time) parameter objects.
 * The `error` procedure is gratuitously different from the R6RS version.
  * Which in turn was gratuitously different from SRFI 23.
 * The `include`, `include-ci`, and `include-library-declarations` syntaxes are ugly and unnecessary consequences of the artificial limitations on modules.
+ * 
 * The `cond-expand` syntax does not scale well, and we have done little to fix the issues that make it un-useful.
+ * 
 * The lack of a fully-featured macro system requires the use of sub-par constructs.
  * There are too many fully-featured macro systems around, and WG1 believed that none of them were appropriate for the small language, bringing in as they do considerations of phasing.  There is no reason why the large language cannot provide more than one.
 * The draft's version of Scheme has no conception of user extensibility in the library system or conditional expansion.
@@ -71,6 +81,7 @@ I (John Cowan) have extracted the following formal and informal objections to dr
 * The large language should have been developed before the small language.
  * This objection is untimely.  In addition, developing a large language and then subsetting it would have a higher overall risk of failure; if the large language was never completed, the small language would not exist.
 * The text-handling routines are redundant or inelegant in a Unicode world, but could not be removed or fundamentally altered due to charter restrictions.
+ * Scheme would probably be better off not treating strings as sequences of characters, but rather treating characters as a special case of strings.  Unfortunately, that's too far away from the IEEE model.
 * The interaction between exceptions, `dynamic-wind`, and continuations is missing something orthogonal.
  * This objection is too vague to meet head-on.
 * Parameters don't belong in the base language.
