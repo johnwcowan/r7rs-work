@@ -1,0 +1,51 @@
+The following formal and informal objections to draft 9 of R7RS-small have been extracted from votes cast in the R7RS-small plebiscite.  I have in some cases provided suggested resolutions as well.
+
+* The draft semantics of `eq?` and `eqv?` as applied to procedures should return to the IEEE/R5RS rules.
+* The draft is gratuitously incompatible with R6RS.
+* The proposed module system is pointlessly inflexible.
+* The proposed module system requires additional boilerplate past the requirements of R6RS and implementation-specific module systems.
+* The semantics of the top level are unspecified in the draft.
+* The draft avoids making hard decisions, making it a mere description of the current state of Scheme.
+* Many decisions were based on a tacit requirement to ignore R6RS.
+* The draft is a step backwards from R6RS.
+* The draft fails to make substantive improvements in the Scheme language over R6RS.
+* The draft fails to stay true to the history and spirit of Scheme.
+* The draft's failure to treat compatibility with R6RS as important is a move away from unity.
+* For aficionados of Scheme's crystalline beauty, the draft has little to offer beyond R5RS.
+* The draft has little to offer the working programmer over R6RS.
+* The draft fails to provide library versioning, a pedagogically important topic.
+* The draft excludes assertions.
+* Programs that depend on full Unicode support are not portable to all R7RS implementations.
+* The syntaxes `include` and `include-ci`, and the `load` procedure, don't belong in Scheme.
+* The draft does not provide the important higher-order procedures in the R6RS `(rnrs lists)` library.
+* The draft does not require the Scheme language to be safely implemented in conforming implementations.
+* The draft defines a less expressive language than the R6RS base language.
+* The "stack-winding dance" of `guard` clauses is not dealt with in a satisfactory way.
+* Mutable strings are still present in the draft despite their undesirability.
+* The draft insists that certain procedures return a single unspecified value rather than an unspecified number of unspecified values.
+* Adding Unicode support is too large a change from R5RS.
+* Exceptions integrate badly with the rest of the language.
+* The syntaxes `#true` and `#false` are totally gratuitous.
+* The lexical syntax `#| ... |#` is unsightly.
+* The lexical syntax `#!(no-)fold-case` is a bit ugly.
+* The `read-line` procedure can cause a denial of service because it does not provide for a limit on the amount of input read.
+* The syntax of `define-record-type` is unscalable and not open to extension.
+* The systematic use of parameters would be better than proliferating separate procedures, specifically in the `write`, `write-simple`, and `write-shared` procedures and the `include` and `include-ci` syntaxes.
+* The `error` procedure is gratuitously different from the R6RS version.
+* The `include`, `include-ci`, and `include-library-declarations` syntaxes are ugly and unnecessary consequences of the artificial limitations on modules.
+* The `cond-expand` syntax does not scale well, and we have done little to fix the issues that make it un-useful.
+* The lack of a fully-featured macro system requires the use of sub-par constructs.
+* The draft's version of Scheme has no conception of user extensibility in the library system or conditional expansion.
+* The draft follows the style and wording of R5RS rather than the better, more precise, and clearer R6RS language.
+* The draft should reflect the intersection of high-quality industrial-strength implementations, not the intersection of every toy Scheme ever written.
+* The `call/cc` abstraction is intractable and not useful and should have been excluded.
+* The draft was forbidden by its charter to remove restrictions that make additional features seem necessary.
+* The large language should have been developed before the small language.
+* The text-handling routines are redundant or inelegant in a Unicode world, but could not be removed or fundamentally altered due to charter restrictions.
+* The interaction between exceptions, `dynamic-wind`, and continuations is missing something orthogonal.
+* Parameters don't belong in the base language.
+* The draft made many matters settled by R6RS undefined again.
+* The order of arguments in the draft's `bytevector-copy` is fundamentally incompatible with R6RS in an undetectable way, though it is R6RS that is wrong here.
+* The draft should have included delimited continuation support.
+* The draft does not provide procedures that operate on mixed types of sequences (e.g. a map function that accepts a list and a vector and applies a two-argument function element-wise on them)
+* The draft is too conservative in its changes to R5RS.
