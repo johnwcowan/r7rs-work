@@ -13,7 +13,7 @@ I (John Cowan) have extracted the following formal and informal objections to dr
 * The draft avoids making hard decisions, making it a mere description of the current state of Scheme.
  * A standard is inherently a compromise.  A rigid "my way or the highway" standard, especially a complex one, means that only a few implementers will be able to provide it, thus limiting the scope of user choices.
 * Many decisions were based on a tacit requirement to ignore R6RS.
- * 
+ * There was, of course, no such tacit requirement.  Several members of the WG pushed R6RS solutions as hard as they could.  Sometimes they carried the group with them, sometimes they did not.
 * The draft is a step backwards (or at any rate fails to be a step forwards) from R6RS.
  * The R7RS-small language is not meant to replace R6RS.  Rather, it is meant to replace R5RS and at the same time provide a sound basis for the R7RS-large language, which is meant to replace R6RS.
 * The draft fails to stay true to the history and spirit of Scheme.
@@ -23,7 +23,7 @@ I (John Cowan) have extracted the following formal and informal objections to dr
 * For aficionados of Scheme's crystalline beauty, the draft has little to offer beyond R5RS.
  * It's a matter of opinion whether Scheme's procedure library (which is greatly extended) is a matter of diamond-like beauty in ''any'' version of the Scheme standard.  It is for the most part ad hoc and historical.
 * The draft has little to offer the working programmer over R6RS.
- * 
+ * Probably true if application programmers are meant.  Library programmers, however, will be able to achieve more widely portable libraries if R7RS-small is adopted by the implementations that did not adopt R6RS.
 * The draft fails to provide library versioning, a pedagogically important topic.
  * The WG's view is that the R6RS library versioning system was insufficiently tested against implementations when it was proposed, and hasn't received much attention since.
 * The draft excludes assertions.
