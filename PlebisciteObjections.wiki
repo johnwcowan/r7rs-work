@@ -1,51 +1,6 @@
-I (John Cowan) have extracted the following formal and informal objections to draft 9 of R7RS-small from votes cast in the R7RS-small plebiscite.  I have in some cases provided suggested resolutions for the WG as well.
+'''Work in progress, please ignore for now'''
 
-* The draft semantics of `eq?` and `eqv?` as applied to procedures should return to the IEEE/R5RS rules.
- * WG1 has already unanimously agreed with this statement.
-* In the draft as written, implementations are permitted to add new character names such as `#\xbeef;` that can also be read as hexadecimal character references.
- * WG1 is considering this issue.
-* The various mapping procedures should be allowed to return results that are `eqv?` to, or share storage with, one or more of their arguments.
- * WG1 is considering this issue.
-* The draft is gratuitously incompatible with R6RS.
- * R6RS in turn was incompatible with existing practice as expressed in SRFIs and implementations.  Many of the incompatibilities in the draft were meant to be compatible with this existing practice.
-* The proposed module system is pointlessly inflexible.
- * The only way to extend the module system in R6RS is through the use of syntax-case macros, which were considered to be too complex and controversial for R7RS-small.
-* The proposed module system requires additional boilerplate past the requirements of R6RS and implementation-specific module systems.
- * Only a little.  You can convert an R6RS module into the draft's module language by changing `library` to `define-library` and wrapping everything except the `import` and `export` declarations into a `begin` library declaration.  (Of course, this assumes that the implementation provides both R6RS and R7RS modules for import.)
-* The semantics of the top level are unspecified in the draft.
- * They are not entirely specified, it's true.  But there is no reason for something to be either 100% specified or 0% specified.  A standard is a contract between user and implementer, and it may quite legitimately partly constrain the implementer or user while still providing some freedom of action.
-* The draft avoids making hard decisions, making it a mere description of the current state of Scheme.
- * A standard is inherently a compromise.  A rigid "my way or the highway" standard, especially a complex one, means that only a few implementers will be able to provide it, thus limiting the scope of user choices.
-* Many decisions were based on a tacit requirement to ignore R6RS.
- * There was, of course, no such tacit requirement.  Several members of the WG pushed R6RS solutions as hard as they could.  Sometimes they carried the group with them, sometimes they did not.
-* The draft is a step backwards (or at any rate fails to be a step forwards) from R6RS.
- * The R7RS-small language is not meant to replace R6RS.  Rather, it is meant to replace R5RS and at the same time provide a sound basis for the R7RS-large language, which is meant to replace R6RS.
-* The draft fails to stay true to the history and spirit of Scheme.
- * A matter of opinion.
-* The draft's failure to treat compatibility with R6RS as important is a move away from unity.
- * There was never much unity beyond the IEEE/R4RS/R5RS core.  The introduction of R6RS was not in itself a move toward or away from unity, but the fact that it was not widely accepted by existing implementations caused a de facto separation of implementations into R5RS and R6RS.  As has been noted, R7RS-small is not directly intended to address this separation.
-* For aficionados of Scheme's crystalline beauty, the draft has little to offer beyond R5RS.
- * It's a matter of opinion whether Scheme's procedure library (which is greatly extended) is a matter of diamond-like beauty in ''any'' version of the Scheme standard.  It is for the most part ad hoc and historical.
-* The draft has little to offer the working programmer over R6RS.
- * Probably true if application programmers are meant.  Library programmers, however, will be able to achieve more widely portable libraries if R7RS-small is adopted by the implementations that did not adopt R6RS.
-* The draft fails to provide library versioning, a pedagogically important topic.
- * The WG's view is that the R6RS library versioning system was insufficiently tested against implementations when it was proposed, and hasn't received much attention since.
-* The draft excludes assertions.
- * True.  The WG felt that simple `assert` is insufficient, and a more complex and useful assertion facility was beyond the scope of the small language.
-* Programs that depend on full Unicode support are not portable to all R7RS implementations.
- * True.  However, many programs in the domain of the small language do not require extensive character support, and Unicode support is emphatically not free.
-* The syntaxes `include` and `include-ci`, and the `load` procedure, don't belong in Scheme.
- * The `load` procedure has been around
-* The draft does not provide the important higher-order procedures in the R6RS `(rnrs lists)` library.
- * Equivalents exist in SRFI 1, which is well-established, available in almost all Scheme implementations, and will be directly incorporated into the large language.
-* The draft does not require the Scheme language to be safely implemented in conforming implementations.
- * Not mandating safety allows implementations to trade off safety for performance for the sake of users and programs who need that performance.  This can be done either by a safety setting in a single implementation or by allowing pervasively unsafe, yet conformant, implementations to be created.
-* The draft defines a less expressive language than the R6RS base language.
- * 
-* The "stack-winding dance" of `guard` clauses is not dealt with in a satisfactory way.
- * 
-* Mutable strings are still present in the draft despite their undesirability.
- * True.  Immutable strings would be useful in many ways; unfortunately, mutable strings are part of IEEE, and the WG did not feel that the high bar for removing IEEE features was reached even in this case.
+
 * The draft insists that certain procedures return a single unspecified value rather than an unspecified number of unspecified values.
  * That provision makes it possible to invoke an unknown procedure safely without needing to wrap it in `call-with-values` or an equivalent.
 * Adding Unicode support is too large a change from R5RS.
