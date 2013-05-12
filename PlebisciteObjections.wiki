@@ -56,4 +56,5 @@
 * The draft is too conservative in its changes to R5RS.
  * That was a charter requirement.
 * #467 should not be reverted.
+* The storage model should return to saying "equivalent in the sense of `eqv?`" rather than "operationally equivalent".
 
