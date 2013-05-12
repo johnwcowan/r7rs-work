@@ -55,3 +55,5 @@
  * True.  Unfortunately, no one proposed them during the working life of WG1.
 * The draft is too conservative in its changes to R5RS.
  * That was a charter requirement.
+* #467 should not be reverted.
+
