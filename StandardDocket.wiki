@@ -3,6 +3,7 @@
 This is a list of work items that WG2 has voted to work on, and proposals for those work items.  If no more than one proposal gets written for an item, the item may migrate to the ConsentDocket.  See [[:WG2Dockets|WG2Dockets]] for other dockets.
 
 
+
 Assertions: R6RS base library, R6RS with optional message and irritants.
 
 Binary heap: BinaryHeapsCowan (includes queues)
@@ -17,13 +18,19 @@ Character encoding conversion:
 
 Conditions: 
 
+Container conversion: [[http://trac.sacrideo.us/wg/wiki/WG1Ballot6Results#a433fullconversioncycleforcontainers|ballot options]]
+
+Continuation API:  [[http://repository.readscheme.org/ftp/papers/sw2001/feeley.pdf|Feeley's paper]] (PDF)
+
 Date and time arithmetic: TimeAdvancedCowan plus TimePeriodsCowan
 
 Date-time parser:
 
 Dictionaries (may include hash tables):
 
-Enumerations and enum-sets: SetsCowan, [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-15.html#node_chap_14|R6RS]]
+Division library: DivisionRiastradh
+
+Enumerations and enum-sets: [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-15.html#node_chap_14|R6RS]] (see also http://www.r6rs.org/formal-comments/comment-262.txt), SetsCowan, [[http://wiki.call-cc.org/eggref/4/miscmacros|Chicken miscmacros egg]]
 
 Environment enquiries: EnvironmentEnquiriesCowan
 
@@ -35,6 +42,8 @@ File system directories (creation, removal): DirectoriesCowan
 
 Flonum arithmetic: FlonumsCowan
 
+Getters and setters: [[http://srfi.schemers.org/srfi-17/srfi-17.html|SRFI 17]]
+
 Gettext (i18n of strings):
 
 Hash tables: [[http://srfi.schemers.org/srfi-69/srfi-69.html|SRFI 69]], [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-14.html#node_chap_13|R6RS]] (in WG1 vote order), HashTablesCowan (portable compromise, default equality functions only)
@@ -42,6 +51,8 @@ Hash tables: [[http://srfi.schemers.org/srfi-69/srfi-69.html|SRFI 69]], [[http:/
 Homogeneous numeric arrays: [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-3.html#node_chap_2,|R6RS]], [[http://srfi.schemers.org/srfi-4/srfi-4.html|SRFI 4]], [[http://srfi.schemers.org/srfi-63/srfi-63.html|SRFI 63]] (supersedes SRFI 25 and SRFI 47), [[http://srfi.schemers.org/srfi-66/srfi-66.html|SRFI 66]], [[http://srfi.schemers.org/srfi-74/srfi-74.html|SRFI 74]], NumericVectorsCowan
 
 Immutable cyclic lists: CyclesMedernach
+
+Library declarations: LibraryDeclarationsCowan
 
 Loop syntax: [[http://www.ccs.neu.edu/home/shivers/papers/loop.pdf|Olin Shivers's loop]], [[http://mumble.net/~campbell/scheme/foof-loop.txt|Taylor Campbell's foof-loop]], eager comprehensions from [[http://srfi.schemers.org/srfi-42/srfi-42.html|SRFI 42]].  See also [[https://groups.google.com/group/comp.lang.scheme/msg/60dcac5ea812398?dmode=source&output=gplain&noredirect&pli=1|Alex Shinn's defense of foof-loop]].
 
@@ -57,9 +68,15 @@ Multi-dimensional general arrays: ArraysCowan
 
 Multiple value macros (from CL): MultipleValuesCowan
 
+Mutable environments for `eval`:  MutableEnvironmentsCurtisCowan
+
 Mutexes, condition variables:
 
 Named parameters: NamedParametersCowan
+
+NaN dissector API (sign, quiet/signaling status, and integer tag): NanMedernach
+
+Natural number predicates (from WG1):  `exact-positive-integer?` and `exact-non-negative-integer?`.
 
 Octet vectors, bytevectors, blobs: NumericVectorsCowan + StringBytevectorConversionCowan
 
@@ -73,13 +90,19 @@ Port functions (concatenate, join, split): PortOperationsCowan
 
 Priority queues:
 
+Procedure arity inspection: [[http://srfi.schemers.org/srfi-102/srfi-102.html|SRFI 102]]
+
 Processes (system, popen, etc): SystemCommandCowan + ProcessPortsCowan
 
 Random numbers: RandomnessCommonLisp, [[http://srfi.schemers.org/srfi-27/srfi-27.html|SRFI 27]], RandomCowan, RandomnessArcfide (in WG1 vote order)
 
 Record introspection: [[http://srfi.schemers.org/srfi-99/srfi-99.html|SRFI 99]]
 
+`Record-let`: #45
+
 REPL facilities: ReplCowan
+
+Restarts:  [[http://www.ai.mit.edu/projects/iiip/doc/CommonLISP/HyperSpec/Body/sec_9-1-4-2.html|Common Lisp]], [[http://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Restarts.html|MIT]], [[http://mumble.net/~campbell/proposals/restart.text|RestartersRiastradh]]
 
 Run-time records: [[http://srfi.schemers.org/srfi-99/srfi-99.html|SRFI 99]]
 
@@ -91,6 +114,11 @@ Simple Posix: SimplePosixCowan
 
 Sorting: [[http://srfi.schemers.org/srfi-32/srfi-32.html|SRFI 32]], [[http://srfi.schemers.org/srfi-95/srfi-95.html|SRFI 95]]
 
+String encoding and decoding:  StringBytevectorConversionCowan
+
+Syntactic closures (voted down, but restored by popular demand): [[http://web.mit.edu/scheme_v9.0.1/doc/mit-scheme-ref/Syntactic-Closures.html|MIT]]
+
+`syntax-case` (voted down, but restored by popular demand): [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html|R6RS]]
 TCP protocol: NetworkPortsCowan
 
 Thread-local storage:
