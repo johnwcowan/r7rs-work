@@ -2,6 +2,8 @@ This docket contains work items that the chair is moving (unless there is object
 
 Applicable record instances: [[http://www.r6rs.org/formal-comments/comment-6.txt|R6RS formal comment]]
 
+Association list library (supplements SRFI 1):  AssociationListsCowan
+
 Combinators: CombinatorsCowan
 
 Concatenation:  ConcatenateCowan
@@ -14,15 +16,15 @@ Futures:  [[http://docs.racket-lang.org/reference/futures.html|Racket API]]
 
 `hex-digit-value`: same as `digit value`, but understands A-F and a-f too
 
-List library (supplementary):  AssociationListsCowan + SubstituteCowan
-
-`make-error-object` constructs error object without raising it: 
+`make-error-object`: constructs error object without raising it: 
 
 Port encodings, buffering, line ending control:  SettingsListsCowan and FilesAdvancedCowan
 
 Queues:  [[http://wiki.call-cc.org/man/4/Unit%20data-structures#queues|Chicken API]], BinaryHeapsCowan
 
 Search and mismatch procedures:  SearchMismatchCowan
+
+Substitution and transformation: SubstituteCowan
 
 Symbol library:  SymbolsCowan
 
