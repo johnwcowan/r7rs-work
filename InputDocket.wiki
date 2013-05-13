@@ -2,35 +2,21 @@
 
 This docket contains work items that need to be voted on for possible inclusion into R7RS-large.  See [[:WG2Dockets|WG2Dockets]] for other dockets.
 
-Applicable record instances (see http://www.r6rs.org/formal-comments/comment-6.txt):
-
 `cond` `=>` with guard as well as generator (see #89):  [[http://srfi.schemers.org/srfi-61/srfi-61.html|SRFI 61]]
 
 `cond` `=>` passes multiple values from predicate to consumer:
-
-Combinators: CombinatorsCowan
-
-Concatenation:  ConcatenateCowan
 
 Custom I/O ports: [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html|R6RS]]
 
 Default exception handler controls:
 
-Descriptive statistics:  TallyCowan
-
-Generalized `equal`: GeneralizedEqualCowan
-
-Evaluator arguments to procedures like `load`: #277
+Evaluator arguments to procedures like `load`: see #277
 
 Extended exact numbers:  ExtendedRationalsCowan
 
 External representation of records: 
 
 Features, allowing libraries to add:
-
-Futures:  [[http://docs.racket-lang.org/reference/futures.html|Racket API]]
-
-`hex-digit-value`:
 
 Identifier-syntax: [[http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_sec_11.19|R6RS]]
 
@@ -44,23 +30,15 @@ Interrupts, timers, signals:
 
 Jiffy cleanup: [[http://arcanesentiment.blogspot.com/2012/07/current-jiffy-is-not-usable-portably.html|Arcane Sentiment blog post]]
 
-List library (supplementary):  ListsCowan
-
 Macro expander(s) available at run time: 
 
-`make-error-object` constructs error object without raising it: 
-
-Multiple values passed through => in `cond`: #90 
+Multiple values passed through => in `cond`: see #90 
 
 `number->string` variant with control for significant digits: [[http://lists.scheme-reports.org/pipermail/scheme-reports/2011-May/000709.html|Vincent Manis proposal]], R6RS
 
 `number->string` and `string->number` with non-ASCII decimal digits: NumberStringUnicode
 
-Port encodings, buffering, line ending control:  SettingsListsCowan and FilesAdvancedCowan
-
-Port type detector: #177
-
-Queues:  [[http://wiki.call-cc.org/man/4/Unit%20data-structures#queues|Chicken API]], BinaryHeapsCowan
+Port type detector: see #177
 
 R6RS compatibility: whole libraries or cherry-picked procedures:
 
@@ -68,19 +46,15 @@ Raw strings:  <<, """...""", [[http://srfi.schemers.org/srfi-109/srfi-109.html|S
 
 Record external representations: 
 
-Search and mismatch procedures:  SearchMismatchCowan
-
 `standard-*-port` routines:  [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html|R6RS]]
 
-String positions and slices (see http://www.r6rs.org/formal-comments/comment-235.txt):
-
-Symbol library:  SymbolsCowan
+String positions and slices: [[http://www.r6rs.org/formal-comments/comment-235.txt|R6RS formal comment]]
 
 Tree library: at least `tree=?` and `tree-copy`, probably Common Lisp [[http://www.lispworks.com/documentation/lw50/CLHS/Body/f_sublis.htm|SUBLIS and NSUBLIS]], fold, unfold, map ... 
 
 Thread-local storage: 
 
-Undefined value API: #49
+Undefined value API: see #49
 
 Unquote with multiple arguments:  see #123
 
