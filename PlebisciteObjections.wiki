@@ -13,14 +13,6 @@
  * It is R6RS-compatible and fairly clear.  The alternatives `#cs` (case sensitive) and `#ci` are less widely standardized and less intuitively clear.
 * The `read-line` procedure can cause a denial of service because it does not provide for a limit on the amount of input read.
  * True.  However, `read` has the same problem.  It's easy for an implementation that worries about this sort of thing to provide an optional second argument setting a limit.
-* The `cond-expand` syntax does not scale well, and we have done little to fix the issues that make it un-useful.
- * 
-* The lack of a fully-featured macro system requires the use of sub-par constructs.
- * There are too many fully-featured macro systems around, and WG1 believed that none of them were appropriate for the small language, bringing in as they do considerations of phasing.  There is no reason why the large language cannot provide more than one.
-* The draft's version of Scheme has no conception of user extensibility in the library system or conditional expansion.
- * The module system is the largest mandatory extension to R5RS.  Keeping it simple and static rather than allowing greater generality seemed to the WG to be the appropriate tradeoff between flexibility and ease of use and implementation.  Not everything in Scheme is designed for maximal flexibility.
-* The draft follows the style and wording of R5RS rather than the better, more precise, and clearer R6RS language.
- * A matter of opinion.  John Cowan personally does not believe that changing every occurrence of "number" to "number object" actually helped either precision or clarity.
 * The draft should reflect the intersection of high-quality industrial-strength implementations, not the intersection of every toy Scheme ever written.
  * Which implementations are those?  Schemers disagree.
 * The `call/cc` abstraction is intractable and not useful and should have been excluded.
