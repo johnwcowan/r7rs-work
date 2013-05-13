@@ -1,8 +1,6 @@
 '''Work in progress, please ignore for now'''
 
 
-* The draft insists that certain procedures return a single unspecified value rather than an unspecified number of unspecified values.
- * That provision makes it possible to invoke an unknown procedure safely without needing to wrap it in `call-with-values` or an equivalent.
 * Adding Unicode support is too large a change from R5RS.
  * It is still possible for a Scheme to provide ASCII-only support; the only constraint is that it must be done in a way that extends smoothly to the rest of the Unicode repertoire.
 * Exceptions integrate badly with the rest of the language.
@@ -15,14 +13,6 @@
  * It is R6RS-compatible and fairly clear.  The alternatives `#cs` (case sensitive) and `#ci` are less widely standardized and less intuitively clear.
 * The `read-line` procedure can cause a denial of service because it does not provide for a limit on the amount of input read.
  * True.  However, `read` has the same problem.  It's easy for an implementation that worries about this sort of thing to provide an optional second argument setting a limit.
-* The syntax of `define-record-type` is unscalable and not open to extension.
- * True.  However, it is extremely widely implemented, more so than any other non-R5RS syntax or procedure.  WG members who voted for it emphasized the importance of compatibility.
-* The systematic use of parameters would be better than proliferating separate procedures, specifically in the `write`, `write-simple`, and `write-shared` procedures and the `include` and `include-ci` syntaxes.
- * Au contraire.  If that were done, the only safe way to call `write` would be by always wrapping it in a `parameterize` form, which is longer and less clear.  Syntax forms are not affected by the state of (run-time) parameter objects.
-* The `error` procedure is gratuitously different from the R6RS version.
- * Which in turn was gratuitously different from SRFI 23.
-* The `include`, `include-ci`, and `include-library-declarations` syntaxes are ugly and unnecessary consequences of the artificial limitations on modules.
- * 
 * The `cond-expand` syntax does not scale well, and we have done little to fix the issues that make it un-useful.
  * 
 * The lack of a fully-featured macro system requires the use of sub-par constructs.
@@ -43,8 +33,6 @@
  * Scheme would probably be better off not treating strings as sequences of characters, but rather treating characters as a special case of strings.  Unfortunately, that's too far away from the IEEE model.
 * The interaction between exceptions, `dynamic-wind`, and continuations is missing something orthogonal.
  * This objection is too vague to meet head-on.
-* Parameters don't belong in the base language.
- * They can be provided portably on top of `dynamic-wind` provided the implementation does not provide native threads.  In the presence of threads, however, such a portable implementation will produce unintuitive results.
 * The draft made many matters settled by R6RS undefined again.
  * Since R6RS support never became pervasive, these matters were in practice not defined in a way that Schemers could rely on, unless they used only R6RS-compatible implementations.
 * The order of arguments in the draft's `bytevector-copy` is fundamentally incompatible with R6RS in an undetectable way, though it is R6RS that is wrong here.
