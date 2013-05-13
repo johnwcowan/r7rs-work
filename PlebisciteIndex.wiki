@@ -40,7 +40,7 @@ To vote, see [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-Apr
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003419.html|Christian Stigen Larsen]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003420.html|Sven Hartrumpf]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003427.html|Marco Benelli]]
-
+* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003434.html|Christian Kellermann]]
 
 == No ==
 
