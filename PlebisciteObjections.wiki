@@ -13,8 +13,6 @@
  * It is R6RS-compatible and fairly clear.  The alternatives `#cs` (case sensitive) and `#ci` are less widely standardized and less intuitively clear.
 * The `read-line` procedure can cause a denial of service because it does not provide for a limit on the amount of input read.
  * True.  However, `read` has the same problem.  It's easy for an implementation that worries about this sort of thing to provide an optional second argument setting a limit.
-* The draft should reflect the intersection of high-quality industrial-strength implementations, not the intersection of every toy Scheme ever written.
- * Which implementations are those?  Schemers disagree.
 * The `call/cc` abstraction is intractable and not useful and should have been excluded.
  * The WG did not believe that the very high bar for removing an IEEE Scheme feature was met.
 * The draft was forbidden by its charter to remove restrictions that make additional features seem necessary.
@@ -36,5 +34,4 @@
 * The draft is too conservative in its changes to R5RS.
  * That was a charter requirement.
 * #467 should not be reverted.
-* The storage model should return to saying "equivalent in the sense of `eqv?`" rather than "operationally equivalent".
 
