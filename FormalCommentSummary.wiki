@@ -6,17 +6,17 @@ Near the end of the WG1 process, a Formal Comment sub-process was performed base
 
 #421: #!fold-case and `#!no-fold-case` have no final delimiter.  Adopted in principle after a vote by the WG, although a different syntax was chosen (they are delimited by whitespace).  The commenter was asked if he is satisfied, but made no reply.
 
-#423: When does `eqv?` return `#t` for procedures? [[pointed|out inconsistencies and proposed a return to the R5RS rule]]  Rejected by a vote of the WG, which kept the R6RS rules.  The commenter was asked if he is satisfied, but made no reply.
+#423: When does `eqv?` return `#t` for procedures? [[pointed|out inconsistencies and proposed a return to the R5RS rule]]  Rejected by a vote of the WG, which kept the R6RS rules.  The commenter was asked if he is satisfied, but made no reply.  Note:  The WG has now unanimously changed its mind and returned to the R5RS rule as part of the post-plebiscite process.
 
 #434: List of named characters is incomplete.  Treated mostly as editorial, and adopted by the editors.  The WG voted not to adopt any specific recommended source of named characters for implementation extensions.  The commenter was asked if he is satisfied, but made no reply.
 
 #435: Bytevectors should be called u8vectors.  Rejected by the editors, on the grounds that the WG had already voted and no new arguments had been presented.  There was considerable (and widening) dispute [[http://lists.scheme-reports.org/pipermail/scheme-reports/2012-July/002386.html|on the scheme-reports mailing list]], but the editors' view prevailed and no vote was taken.  The commenter was asked if he is satisfied, but made no reply.
 
-#436: Generalization of append, map, and for-each to other sequences.  The proposed `vector-append` and `bytevector-append` procedures were adopted by a vote of the WG.  Neither the editors nor any WG member chose to file a ballot ticket for the `bytevector-map` and `bytevector-for-each` procedures, so they were never voted on by the WG.  The commenter was asked if he is satisfied, but made no reply.
+#436: Generalization of `append`, `map`, and `for-each` to other sequences.  The proposed `vector-append` and `bytevector-append` procedures were adopted by a vote of the WG.  Neither the editors nor any WG member chose to file a ballot ticket for the `bytevector-map` and `bytevector-for-each` procedures, so they were never voted on by the WG.  The commenter was asked if he is satisfied, but made no reply.
 
 #438: Inconsistency of sequence copying procedures.  Adopted by a vote of the WG.  However, the suggestions to reorder the arguments of the destructive `*-copy!` procedures and to to rename various procedures were not considered, as neither the editors nor any member chose to file ballot tickets.  The commenter was asked if he is satisfied, but made no reply.
 
-#440: Write procedure is not backwards compatible.  Rejected by a vote of the WG, which adopted three procedures `write-simple` (traditional `write`), `write` (with datum labels only to break cycles), and `write-shared` (datum labels to show all shared structure, the `write-with-shared-structure` of SRFI-38).  The commenter was asked if he is satisfied, but made no reply.
+#440: `Write` procedure is not backwards compatible.  Rejected by a vote of the WG, which adopted three procedures `write-simple` (traditional `write`), `write` (with datum labels only to break cycles), and `write-shared` (datum labels to show all shared structure, the `write-with-shared-structure` of SRFI-38).  The commenter was asked if he is satisfied, but made no reply.
 
 #456: Adoption of the standard [R6RS] ''was'' as widespread as had been hoped.  Treated as editorial.  Recognizing the delicate nature of the issue, the editors removed the language objected to, and replaced it by new and less contentious language.  The new language was also objected to.  The editors decided to go no further.  The commenter was asked if he is satisfied, but made no reply.
 
