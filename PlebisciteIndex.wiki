@@ -43,6 +43,7 @@ See PlebisciteObjections for the objections to the draft embedded in these ballo
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003420.html|Sven Hartrumpf]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003427.html|Marco Benelli]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003434.html|Christian Kellermann]]
+* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003435.html|Sudarshan S. Chawathe]]
 
 == No ==
 
