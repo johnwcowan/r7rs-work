@@ -204,9 +204,9 @@ Returns a newly allocated enumeration set of type ''enum-type''.  Its elements a
 
 2. R6RS provides `define-enumeration` to help set up enum-types.  Is this worth having?  Possible syntax is:
 
-`(define-enumeration `<type-name>` (`<symbol> ...`)` <constructor>`)`
+  `(define-enumeration `<type-name>` (`<symbol> ...`)` <constructor>`)`
 
-This would bind `<type-name>` to the enum-type, and `constructor` to a curried version of `make-enum-set` that already knows what type to use.
+  This would bind `<type-name>` to the enum-type, and `constructor` to a curried version of `make-enum-set` that already knows what type to use.
 
 3. Should there be a mechanism to convert between integer sets and integers as bitvectors, as defined in SRFI 33, SRFI 60, and R6RS?
 
