@@ -212,4 +212,4 @@ Returns a newly allocated enumeration set of type ''enum-type''.  Its elements a
 
 4. Currently you can convert one set type to another via lists.  Are conversions directly through sets (or bags) useful enough to justify enlarging the SRFI?  What about direct conversions between other types?
 
-5. How about `set-intern`, which is like `set-value` (and ditto for bags) but adds the element to the set if it's not already there?
+5. How about `set-intern`, which is like `set-value` but adds the element to the set if it's not already there?
