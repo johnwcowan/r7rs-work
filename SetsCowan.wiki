@@ -2,7 +2,7 @@
 
 Sets and bags (multisets) are mutable collections that can contain any Scheme object.  Integer sets are mutable collections that can contain non-negative exact integers that are less than a maximum value specified when the integer set is created.  Enumeration sets are mutable collections that can contain symbols chosen from a set of symbols represented by an enumeration type.
 
-Sets and bags are intended to be a thin veneer over hashtables, and integer sets are a thin veneer over bytevectors.  It is implementation-dependent whether an integer set packs eight values into each bytevector element or (as the reference implementation does) just one.  In turn, enumeration sets are a thin veneer over integer sets.  Consequently, the `-member?`, `-add!`, and `-remove!` procedures are required to have an amortized cost of O(1).
+Sets and bags are intended to be a thin veneer over hashtables, and integer sets are a thin veneer over bytevectors.  It is implementation-dependent whether an integer set packs eight values into each bytevector element or (as the reference implementation does) just one.  In turn, enumeration sets are a thin veneer over integer sets.  Consequently, the `-member?`, `-add!`, and `-delete!` procedures are required to have an amortized cost of O(1).
 
 Sets, bags, integer sets, enumeration sets, and enumeration types are mutually disjoint, and disjoint from other types of Scheme objects.
 
@@ -38,9 +38,9 @@ Returns `#t` if ''element'' is a member of ''set'' and `#f` otherwise.
 
 Adds ''element'' to ''set'' unless it is already a member.  Returns an unspecified value.
 
-`(set-remove! `''set''` `''element''`)`
+`(set-delete! `''set''` `''element''`)`
 
-Removes ''element'' from ''set'' unless it is not a member.  Returns `#t` if the element was a member, `#f` if not.
+Deletes ''element'' from ''set'' if it is a member.  Returns `#t` if the element was a member, `#f` if not.
 
 `(set-map `''=''` `''proc''` `''set''`)`
 
@@ -152,7 +152,7 @@ Returns the smallest or largest integer in ``integer-set``, or `#f` if there is 
 
 `(integer-set-max! `''integer-set''`)`
 
-Removes and returns the smallest or largest integer in ``integer-set``, or `#f` if there is none.
+Deletes and returns the smallest or largest integer in ``integer-set``, or `#f` if there is none.
 
 == Enumeration sets ==
 
