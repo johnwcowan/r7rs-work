@@ -14,7 +14,7 @@ See PlebisciteObjections for the objections to the draft embedded in these ballo
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003316.html|Alex Shinn]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003317.html|Jules Altfas]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003318.html|Aaron W. Hsu]]
-* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003323.html|Andrew Robbins]] (without the words "and hashtables")
+* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003456.html|Andrew Robbins]] ([[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003323.html|original]])
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003324.html|Alaric Blagrave Snell-Pym]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003326.html|Ray Dillinger]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003327.html|Emmanuel Medernach]]
