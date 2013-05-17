@@ -1,4 +1,4 @@
-'''Work in progress, do not use'''
+'''Work in progress, do not use yet'''
 
 == Hash tables ==
 
@@ -17,207 +17,207 @@ This WG2 proposal defines an interface to hash tables, which are widely recogniz
 
 == Procedures ==
 
-(make-hash-table = hash . args)
+`(make-hash-table `''= hash'' `.` ''args''`)`
 
 Returns a newly allocated hash table whose equality procedure is =, hash function is hash (defaults to a suitable function, and args mean whatever (number is initial capacity, 'immutable, 'weakkeys, 'weak-values, all implementation-dependent).  The "safe" equality procedures are eq?, eqv?, equal?, string=?, string-ci=?.
 
-(hash-table = hash key value ...)
+`(hash-table `''= hash'' ( ''key value'' ) ...`)`
 
 Ditto, but with explicitly specified key/value pairs
 
-(hash-table? obj)
+`(hash-table? `''obj''`)`
 
 Returns #t if obj is a hash table.
 
-(hash-table-ref/default hash-table key default)
+`(hash-table-ref/default `''hash-table key default''`)`
 
 Returns the value corresponding to key in hash-table, or default if none.
 
-(hash-table-ref hash-table key failure success)
+`(hash-table-ref `''hash-table key'' [[|''failure'' [ ''success'' ]] ]`)`
 
 Looks up key in hash table.  If found, passes value to success procedure (default identity) and returns its value; if not found, invoke failure procedure (default is to signal an error) and return its value
 
-(hash-table-ref!/default hash-table key default)
+`(hash-table-ref!/default `''hash-table key default''`)`
 
 Same as hash-table-ref/default, but updates hash table if needed.
 
-(hash-table-ref! hash-table key failure success)
+`(hash-table-ref! `''hash-table key'' [[|''failure'' [ ''success'' ]] ]`)`
 
 Same as hash-table-ref, but updates hash table if needed.
 
-(hash-table-exists? hash-table key)
+`(hash-table-exists? `''hash-table key''`)`
 
 Returns #t if key exists, #f if not.
 
-(hash-table-set! hash-table key value)
+`(hash-table-set! `''hash-table key value''`)`
 
 Primitive mutator.
 
-(hash-table-set*! hash-table key value ...)
+`(hash-table-set*! `''hash-table'' ( ''key value'' ) ...`)`
 
 Mutate key1 to value1, key2 to value2, etc.
 
-(hash-table-set hash-table key value)
+`(hash-table-set `''hash-table key value''`)`
 
 Like hash-table-set! but returns new hash table.
 
-(hash-table-set* hash-table key value ...)
+`(hash-table-set* `''hash-table'' ( ''key value'' ) ...`)`
 
 Like hash-table-set*! but returns new hash table.
 
-(hash-table-delete! hash-table key)
+`(hash-table-delete! `''hash-table key''`)`
 
 Delete key if it exists.
 
-(hash-table-delete hash-table key)
+`(hash-table-delete `''hash-table key''`)`
 
 Allocate copy without key.
 
-(hash-table-delete*! hash-table keylist)
+`(hash-table-delete*! `''hash-table keylist''`)`
 
 Delete each key in keylist if it exists.
 
-(hash-table-delete* hash-table key)
+`(hash-table-delete* `''hash-table keylist''`)`
 
 Allocate copy without keys in keylist.
 
-(hash-table-update!/default hash-table key updater default)
+`(hash-table-update!/default `''hash-table key updater default''`)`
 
 Looks up key in hash-table, using default if not found.  Invoke updater procedure and mutate the value of the same key.
 
-(hash-table-update! hash-table key updater failure success)
+`(hash-table-update! `''hash-table key updater'' [[|''failure'' [ ''success ]] ]`)`
 
 Looks up key in hash-table, passing it through success procedure if found, or result of failure procedure if not found.  Pass through updater, mutate the value of the same key.
 
-(hash-table-update/default hash-table key updater default)
+`(hash-table-update/default `''hash-table key updater default''`)`
 
 Same as hash-table-update!/default but returns new hash table.
 
-(hash-table-update hash-table key updater failure success)
+`(hash-table-update `''hash-table key updater'' [[|''failure'' [ ''success ]] ]`)`
 
 Same as hash-table-update! but returns new hash table.
 
-(hash-table-replace!/default hash-table key value default)
+`(hash-table-replace!/default `''hash-table key updater default''`)
 
 If key is found, replace it with value and return value, otherwise return default.
 
-(hash-table-replace! hash-table key value failure success)
+`(hash-table-replace! `''hash-table key updater'' [[|''failure'' [ ''success ]] ]`)`
 
 The same, but uses failure and success instead.
 
-(hash-table-replace/default hash-table key value default)
+`(hash-table-replace/default hash-table `''key value default''`)`
 
 Same as hash-table-replace!/default but returns new hash table.
 
-(hash-table-replace hash-table key value failure success)
+`(hash-table-replace `''hash-table key updater'' [[|''failure'' [ ''success ]] ]`)`
 
 Same as hash-table-replace! but returns new hash table.
 
-(hash-table-clear! hash-table)
+`(hash-table-clear! `''hash-table''`)`
 
 Remove all keys from hash-table as efficiently as possible.
 
-(hash-table-length hash-table)
+`(hash-table-length `''hash-table''`)`
 
 Return number of keys in hash-table.
 
-(hash-table-keys hash-table)
+`(hash-table-keys `''hash-table''`)`
 
 Return list of all keys in random order.
 
-(hash-table-values hash-table)
+`(hash-table-values `''hash-table''`)`
 
 Return list of all values in random order, not necessarily the same order as hash-table-keys.
 
-(hash-table-entries hash-table)
+`(hash-table-entries `''hash-table''`)`
 
 Returns two values, the list of keys in random order and the list of values in the matching order.
 
-(hash-table-map->list hash-table proc)
+`(hash-table-map->list `''hash-table proc''`)`
 
 Pass each key and value as separate arguments to proc, collect results in list.  There is no `hash-table-map` in the sense of lifting a procedure to the domain of hash tables.
 
-(hash-table-map = hash proc merger hash-table ...)
+`(hash-table-map `''= hash proc merger hash-table'' ...`)`
 
 For n hash-table arguments, invoke proc with 2n arguments (key, value, key, value ...) and expect it to return two values, which are used to construct a new hash table using = and hash.  Merger is called with key,,1,, value,,1,, key,,2,, value,,2,, when the two keys are equal according to =, and returns two values, the proper key and the proper value.
 
-(hash-table-map! proc merger hash-table ...)
+`(hash-table-map! `''proc merger hash-table'' ...`)`
 
 The same, but the values are used to mutate the first hash table instead of creating a new one.
 
-(hash-table-for-each proc hash-table ...)
+`(hash-table-for-each `''proc hash-table'' ...`)`
 
 The same, but discards the results.
 
-(hash-table-copy hash-table)
+`(hash-table-copy `''hash-table''`)`
 
 Returns a fresh copy of hash-table, same equality and hash procedures.
 
-(hash-table->alist hash-table)
+`(hash-table->alist `''hash-table''`)`
 
 Returns an alist with the keys and values of hash-table.
 
-(alist->hash-table alist = hash . args)
+`(alist->hash-table `''alist = hash'' `.` ''args''`)`
 
 Returns a new hash-table, as if with make-hash-table, initializing it with alist.
 
-(hash-table-push! hash-table key value)
+`(hash-table-push! `''hash-table key value''`)`
 
 Conses value onto the value of key, empty list if no such key.
 
-(hash-table-pop! hash-table key success failure)
+`(hash-table-pop! `''hash-table key'' [[|''success'' [ ''failure'' ]] ]`)`
 
 Returns car of value corresponding to key, mutates key to cdr.  Failure if the key does not exist or the value is not a pair.  Issue: signal an error for non-pair instead?
 
-(hash-table-pop!/default hash-table key default)
+`(hash-table-pop!/default `''hash-table key default''`)`
 
 The same, but with default if key does not exist or value is not a pair.  Issue: signal an error for non-pair instead?
 
-(hash-table-find hash-table proc)
+`(hash-table-find `''hash-table proc''`)`
 
 Proc gets called with each key and value in random order.  If it returns #f, try another key and value, otherwise return what proc returns.
 
-(hash-table-accessor/default hash-table default)
+`(hash-table-accessor/default `''hash-table default''`)`
 
 Curries hash-table-ref/default.
 
-(hash-table-accessor hash-table success failure)
+`(hash-table-accessor `''hash-table'' [[|''success'' [ ''failure'' ]] ]`)`
 
 Curries hash-table-ref.
 
-(hash-table-mutator hash-table)
+`(hash-table-mutator `''hash-table''`)`
 
 Curries hash-table-set!.
 
-(hash-table-deleter hash-table)
+`(hash-table-deleter `''hash-table''`)`
 
 Curries hash-table-delete.
 
-(hash-table-updater/default hash-table updater default)
+`(hash-table-updater/default `''hash-table updater default''`)`
 
 Curries hash-table-update!/default.
 
-(hash-table-updater hash-table updater failure success)
+`(hash-table-updater `''hash-table updater'' [[|''failure'' [ ''success'' ]] ]`)`
 
 Curries hash-table-update!
 
-(hash-table-union hash-table,,1,, hash-table,,2,, merger)
+`(hash-table-union `''hash-table,,1,, hash-table,,2,,'' [[|''merger'' ]]`)`
 
 Adds keys and values of hash-table,,2,, to a copy of hash-table,,1,, and returns it.  The values are merged using the merger procedure, which defaults to `(lambda (value,,1,, value,,2,,) value,,2)`. 
 
-(hash-table-union! hash-table,,1,, hash-table,,2,, merger)
+`(hash-table-union! `''hash-table,,1,, hash-table,,2,,'' [[|''merger'' ]]`)`
 
 Adds keys and values of hash-table,,2,, to a copy of hash-table,,1,, and returns it.  The values are merged using the merger procedure, which defaults to `(lambda (value,,1,, value,,2,,) value,,2)`. 
 
-(hash-table-difference hash-table,,1,, hash-table,,2,,)
+`(hash-table-difference `''hash-table,,1,, hash-table,,2,,'' [[|''merger'' ]]`)`
 
 Removes keys of hash-table,,2,, from copy of hash-table,,1,, and returns it.
 
-(hash-table-difference! hash-table,,1,, hash-table,,2,,)
+`(hash-table-difference! `''hash-table,,1,, hash-table,,2,,'' [[|''merger'' ]]`)`
 
 Removes keys of hash-table,,2,, from hash-table,,1,, and returns it.
 
-(hash-table=? key= value= hash-table,,1,, hash-table,,2,,)
+`(hash-table=? `''key= value= hash-table,,1,, hash-table,,2,,''`)`
 
 Returns #t if hash-tables have the same keys (in the sense of key=) and the same corresponding values (in the sense of value=).
 
