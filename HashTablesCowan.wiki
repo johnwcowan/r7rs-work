@@ -14,44 +14,163 @@ This WG2 proposal defines an interface to hash tables, which are widely recogniz
    * Assumes that keys are immutable; mutating a key leads to unspecified behavior.
    * Provides key lookup and destructive update in amortised constant time.
 
-I have added equivalences to SRFI 69 and R6RS facilities.  Systems supporting either should be able to support these hash tables trivially; it will be necessary to write `hash-table-fold` for R6RS systems.  I have adopted SRFI 69's term `hash-table` rather than R6RS's `hashtable` because of our decision in #40.  Besides, the word ''hashtable'' obviously means something that can be ... hashted.
+(make-hash-table = hash . args)
 
-The main annoyances of this proposal for SRFI 69 programmers will be remembering to supply a third argument to `hash-table-ref`, and for R6RS programmers will be remembering to insert a hyphen in `hashtable`.  Both will have to get used to the new constructors.
+Returns a newly allocated hash table whose equality procedure is =, hash function is hash (defaults to a suitable function, and args mean whatever (number is initial capacity, 'immutable, 'weakkeys, 'weak-values, all implementation-dependent).  The "safe" equality procedures are eq?, eqv?, equal?, string=?, string-ci=?.
 
-make-hash-table
-hash-table
-hash-table?
-hash-table-ref/default
-hash-table-ref
-hash-table-ref!/default
-hash-table-ref!
-hash-table-exists?
-hash-table-set!
-hash-table-set*!
-hash-table-delete!
-hash-table-delete
-hash-table-update!/default
-hash-table-update!
-hash-table-update, hash-table-update/default
-hash-table-clear!
-hash-table-length
-hash-table-keys
-hash-table-values
-hash-table-map->list
-hash-table-for-each
-hash-table-copy
-hash-table->alist
-alist->hash-table
-eq? support
-eqv? support
-equal? support
-string=? support
-string-ci=? support
-hash-table-push!, hash-table-pop!
-hash-table-find
-hash-table-accessor, hash-table-mutator, hash-table-deleter, hash-table-updater
-hash-table-union(!), hash-table-intersection(!), hash-table-difference(!)
-hash-table=?
+(hash-table = hash key value ...)
+
+Ditto, but with explicitly specified key/value pairs
+
+(hash-table? obj)
+
+Returns #t if obj is a hash table.
+
+(hash-table-ref/default hash-table key default)
+
+Returns the value corresponding to key in hash-table, or default if none.
+
+(hash-table-ref hash-table key failure success)
+
+Looks up key in hash table.  If found, passes value to success procedure (default identity) and returns its value; if not found, invoke failure procedure (default is implementation-specific) and return its value
+
+(hash-table-ref!/default hash-table key default)
+
+Same as hash-table-ref/default, but updates hash table if needed.
+
+(hash-table-ref! hash-table key failure success)
+
+Same as hash-table-ref, but updates hash table if needed.
+
+(hash-table-exists? hash-table key)
+
+Returns #t if key exists, #f if not.
+
+(hash-table-set! hash-table key value)
+
+Primitive mutator.
+
+(hash-table-set*! hash-table key value ...)
+
+Mutate key1 to value1, key2 to value2, etc.
+
+(hash-table-delete! hash-table key)
+
+Delete key if it exists.
+
+(hash-table-delete hash-table key)
+
+Allocate copy without key.
+
+(hash-table-update!/default hash-table key updater default)
+
+Looks up key in hash-table, using default if not found.  Invoke updater procedure and mutate the value of the same key.
+
+(hash-table-update! hash-table key updater failure success)
+
+Looks up key in hash-table, passing it through success procedure if found, or result of failure procedure if not found.  Pass through updater, mutate the value of the same key.
+
+(hash-table-update/default hash-table key updater default)
+
+Same as hash-table-update!/default but returns new hash table.
+
+(hash-table-update! hash-table key updater failure success)
+
+Same as hash-table-update! but returns new hash table.
+
+(hash-table-clear! hash-table)
+
+Remove all keys from hash-table as efficiently as possible.
+
+(hash-table-length hash-table)
+
+Return number of keys in hash-table.
+
+(hash-table-keys hash-table)
+
+Return list of all keys in random order.
+
+(hash-table-values hash-table)
+
+Return list of all values in random order, not necessarily the same order.
+
+(hash-table-map->list hash-table proc)
+
+Pass each key and value as separate arguments to proc, collect results in list.  There is no `hash-table-map` in the sense of lifting a procedure to the domain of hash tables.
+
+(hash-table-for-each hash-table proc)
+
+The same, but discards the results.
+
+(hash-table-copy hash-table)
+
+Returns a fresh copy of hash-table, same equality and hash procedures.
+
+(hash-table->alist hash-table)
+
+Returns an alist with the keys and values of hash-table.
+
+(alist->hash-table alist = hash . args)
+
+Returns a new hash-table, as if with make-hash-table, initializing it with alist.
+
+(hash-table-push! hash-table key value)
+
+Conses value onto the value of key, empty list if no such key.
+
+(hash-table-pop! hash-table key)
+
+Returns car of value corresponding to key, mutates key to cdr.
+
+(hash-table-find proc)
+
+Proc gets called with each key and value in random order.  If it returns #f, try another key and value, otherwise return what proc returns.
+
+(hash-table-accessor/default hash-table default)
+
+Curries hash-table-ref/default.
+
+(hash-table-accessor hash-table success failure)
+
+Curries hash-table-ref.
+
+(hash-table-mutator hash-table)
+
+Curries hash-table-set!.
+
+(hash-table-deleter hash-table)
+
+Curries hash-table-delete.
+
+(hash-table-updater/default hash-table updater default)
+
+Curries hash-table-update!/default.
+
+(hash-table-updater hash-table updater failure success)
+
+Curries hash-table-update!
+
+(hash-table-union hash-table,,1,, hash-table,,2,,)
+
+Adds keys and values of hash-table,,2,, to copy of hash-table,,1,, and returns it.
+
+(hash-table-union! hash-table ...)
+
+Adds keys and values of hash-table,,2,, to hash-table,,1,, and returns it.
+
+(hash-table-difference hash-table,,1,, hash-table,,2,,)
+
+Removes keys of hash-table,,2,, from copy of hash-table,,1,, and returns it.
+
+(hash-table-difference! hash-table,,1,, hash-table,,2,,)
+
+Removes keys of hash-table,,2,, from hash-table,,1,, and returns it.
+
+(hash-table=? key= value= hash-table,,1,, hash-table,,2,,)
+
+Returns #t if hash-tables have the same keys (in the sense of key=) and the same corresponding values (in the sense of value=).
+
+''Everything past this point is obsolete.''
 
 == Constructors ==
 
@@ -187,3 +306,8 @@ Hash tables based on `equalp` (which is not in Scheme).
          (val init (proc (vector-ref k i) (vector-ref v i) val)))
         ((= i s) val))))
 }}}
+
+I have added equivalences to SRFI 69 and R6RS facilities.  Systems supporting either should be able to support these hash tables trivially; it will be necessary to write `hash-table-fold` for R6RS systems.  I have adopted SRFI 69's term `hash-table` rather than R6RS's `hashtable` because of our decision in #40.  Besides, the word ''hashtable'' obviously means something that can be ... hashted.
+
+The main annoyances of this proposal for SRFI 69 programmers will be remembering to supply a third argument to `hash-table-ref`, and for R6RS programmers will be remembering to insert a hyphen in `hashtable`.  Both will have to get used to the new constructors.
+
