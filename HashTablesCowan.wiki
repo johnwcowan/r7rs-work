@@ -14,6 +14,8 @@ This WG2 proposal defines an interface to hash tables, which are widely recogniz
    * Assumes that keys are immutable; mutating a key leads to unspecified behavior.
    * Provides key lookup and destructive update in amortised constant time.
 
+== Procedures ==
+
 (make-hash-table = hash . args)
 
 Returns a newly allocated hash table whose equality procedure is =, hash function is hash (defaults to a suitable function, and args mean whatever (number is initial capacity, 'immutable, 'weakkeys, 'weak-values, all implementation-dependent).  The "safe" equality procedures are eq?, eqv?, equal?, string=?, string-ci=?.
@@ -170,6 +172,89 @@ Removes keys of hash-table,,2,, from hash-table,,1,, and returns it.
 
 Returns #t if hash-tables have the same keys (in the sense of key=) and the same corresponding values (in the sense of value=).
 
+== Review by kpreid ==
+
+{{{
+<kpreid> probably what you meant, but say it
+<kpreid> (hash-table = hash k v k v)  looks icky, how about (hash-table (make-hash-table-type = hash) k v k v)
+<jcowan> It's meant to be parallel to list, vector, string
+<djanatyn> hmm
+<jcowan> unfortunately you need the extra args
+<kpreid> Yes, but those types don't need two pieces of definition data :)
+<djanatyn> I got really really depressed today :\
+<djanatyn> I got to cuddle a lot, but that didn't even make me feel better
+<kpreid> jcowan: So, this is my first piece of major feedback. Define *some* sort of value which bundles up = and hash.
+<jcowan> And hash?
+<kpreid> the hash function, named as you did
+<jcowan> er, yeah, sorry.
+<kpreid> Like I said: (hash-table (make-hash-table-type = hash) k v k v)
+<kpreid> (make-hash-table (make-hash-table-type = hash))
+<kpreid> and so on
+<jcowan> Hmm, if the implementation is nice enough to specify a hash function for boolean=?, say, why does the user need to do so also?
+<kpreid> You really should mark your optional arguments, then.
+<kpreid> OK, so let's go for a cleverer idea.
+<kpreid> (with-hash-function = hash) returns a function which behaves identically to =, but can also be used in make-hash-table and friends.
+<jcowan> I will mark them when I reformat
+<kpreid> Note that this allows the author of an equality predicate to provide hashing without cluttering up the interface, and allows the predicate to be an equal peer with built-in predicate.
+<jcowan> I like it.
+<kpreid> And it has no mutable state unlike some global table of hash-and-equality associations.
+<kpreid> OK, continuing assuming this happens.
+<jcowan> So there needs to be a secret interface for the implementation to extract the hash function out of the result of with-hash-function.
+<jcowan> But the standard doesn't need to define that.
+<kpreid> Doesn't need to be secret.
+<jcowan> Doesn't need to be exposed, either.
+<kpreid> In fact, letting it out is nice if users want to build some customized hashy data structure.
+<kpreid> (On the other hand, hiding it for builtins means impls can do rehashing tables.)
+<jcowan> I guess calling the function with zero arguments works.
+<kpreid> Ew.
+<kpreid> (=) should return true.
+<kpreid> Hm, success procedure in hash-table-ref is not *necessary*.
+<kpreid> I see what it's good for, but I question how often it is valuable.
+<kpreid> OTOH, most general operator.
+<jcowan> That's why it's the last optional argument.
+<jcowan> last and optional
+<kpreid> Aah.
+<kpreid> failure procedure is implementation-specific? AAAAAAA
+<jcowan> A BFG hot water bottle?
+<kpreid> you MUST specify whether the default failure procedure returns.
+<kpreid> allowing it to return or not is too hairy to program against
+<jcowan> The idea is that if you call it with two arguments, you are willing to take your chances
+<jcowan> if not, use three
+<kpreid> That's a horrible footgun.
+<kpreid> jcowan: I predict people will get confused with hash-table-delete vs. hash-table-delete!
+<jcowan> Good point, and that's bad.  What general convention should I use if not dropping !? (same with ref, update)
+<kpreid> I don't know what is Schemely idiomatic there.
+<kpreid> hash-table-update!/default is confusing: if the default is used, I assume it invokes (updater default), but then what is done with the return value thereof?
+<kpreid> Oh, duh, set new key.
+<kpreid> OK, so this is the "mutate an entry in the virtually infinite table" operator.
+<jcowan> Right.
+<kpreid> You have non-destructive update but you do not have a non-destructive hash-table-set*!, which is an unfortunate omission efficiencywise.
+<jcowan> Excellent point.
+<jcowan> I'll add that.
+<kpreid> Actually, you don't have a nondestructive hash-table-set either.
+<kpreid> (Note that it is *possible* for a chain of hash-table-set to be equivalent-amortized-cost to hash-table-set*.)
+<kpreid> (And I implemented that once.)
+<kpreid> hash-table-keys should either explicitly permit or prohibit the order changing at arbitrary times, for clarity
+<jcowan> I meant to have set, left it out by accident, but didn't think of set*
+<kpreid> Actually, set* can also be done in terms of 'merge two hash tables' operations.
+<jcowan> In principle set(!) and set*(!) could be the same function; do you think that's a good idea?
+<jcowan> I do have those
+<kpreid> Right, haven't gotten there yet.
+<kpreid> I don't know whether same is a good idea.
+<kpreid> I am doubtful about wanting set* which is N-ary as opposed to which takes a list of associations.
+<kpreid> (zero-one-infinity rule applies here)
+<kpreid> (and yes, there is (apply hash-table-set* ...), but it's a question of what is convenient)
+<kpreid> "There is no hash-table-map in the sense of lifting a procedure to the domain of hash tables."
+<kpreid> There should be.
+<kpreid> If you're going to have all those fancy updaters, you should at least have this.
+<kpreid> The generalized form would be (hash-table-map key-mapper value-mapper colliding-value-merger).
+<kpreid> Er, also needs a hash-table argument :-)
+<kpreid> Item for consideration: hash-table-pop! should perhaps delete empty entries.
+<kpreid> hash-table-union should take an optional value-merger function. (Example use case: (hash-table-union table-of-counts-1 table-of-counts-2 +).)
+<jcowan> kpreid: SRFI 69 says that if there is no failure thunk, an error is signaled.  What's your view on that?
+<kpreid> I think that that is an appropriate choice, and also traditional.
+}}}
+
 ''Everything past this point is obsolete.''
 
 == Constructors ==
@@ -310,4 +395,3 @@ Hash tables based on `equalp` (which is not in Scheme).
 I have added equivalences to SRFI 69 and R6RS facilities.  Systems supporting either should be able to support these hash tables trivially; it will be necessary to write `hash-table-fold` for R6RS systems.  I have adopted SRFI 69's term `hash-table` rather than R6RS's `hashtable` because of our decision in #40.  Besides, the word ''hashtable'' obviously means something that can be ... hashted.
 
 The main annoyances of this proposal for SRFI 69 programmers will be remembering to supply a third argument to `hash-table-ref`, and for R6RS programmers will be remembering to insert a hyphen in `hashtable`.  Both will have to get used to the new constructors.
-
