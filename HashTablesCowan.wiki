@@ -1,3 +1,5 @@
+'''Work in progress, do not use'''
+
 == Hash tables ==
 
 This WG2 proposal defines an interface to hash tables, which are widely recognized as a fundamental data structure for a wide variety of applications.  A hash table is a data structure that:
@@ -15,6 +17,41 @@ This WG2 proposal defines an interface to hash tables, which are widely recogniz
 I have added equivalences to SRFI 69 and R6RS facilities.  Systems supporting either should be able to support these hash tables trivially; it will be necessary to write `hash-table-fold` for R6RS systems.  I have adopted SRFI 69's term `hash-table` rather than R6RS's `hashtable` because of our decision in #40.  Besides, the word ''hashtable'' obviously means something that can be ... hashted.
 
 The main annoyances of this proposal for SRFI 69 programmers will be remembering to supply a third argument to `hash-table-ref`, and for R6RS programmers will be remembering to insert a hyphen in `hashtable`.  Both will have to get used to the new constructors.
+
+make-hash-table
+hash-table
+hash-table?
+hash-table-ref/default
+hash-table-ref
+hash-table-ref!/default
+hash-table-ref!
+hash-table-exists?
+hash-table-set!
+hash-table-set*!
+hash-table-delete!
+hash-table-delete
+hash-table-update!/default
+hash-table-update!
+hash-table-update, hash-table-update/default
+hash-table-clear!
+hash-table-length
+hash-table-keys
+hash-table-values
+hash-table-map->list
+hash-table-for-each
+hash-table-copy
+hash-table->alist
+alist->hash-table
+eq? support
+eqv? support
+equal? support
+string=? support
+string-ci=? support
+hash-table-push!, hash-table-pop!
+hash-table-find
+hash-table-accessor, hash-table-mutator, hash-table-deleter, hash-table-updater
+hash-table-union(!), hash-table-intersection(!), hash-table-difference(!)
+hash-table=?
 
 == Constructors ==
 
