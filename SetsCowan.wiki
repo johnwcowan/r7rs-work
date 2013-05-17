@@ -152,7 +152,7 @@ Returns the smallest or largest integer in ``integer-set``, or `#f` if there is 
 
 `(integer-set-max! `''integer-set''`)`
 
-Deletes and returns the smallest or largest integer in ``integer-set``, or `#f` if there is none.
+Returns and deletes the smallest or largest integer in ``integer-set``, or `#f` if there is none.
 
 == Enumeration sets ==
 
