@@ -59,7 +59,7 @@ Mutate key1 to value1, key2 to value2, etc.
 
 (hash-table-set hash-table key value)
 
-New hash table with additional (or replaced) binding.
+Like hash-table-set! but returns new hash table.
 
 (hash-table-set* hash-table key value ...)
 
@@ -72,6 +72,14 @@ Delete key if it exists.
 (hash-table-delete hash-table key)
 
 Allocate copy without key.
+
+(hash-table-delete*! hash-table keylist)
+
+Delete each key in keylist if it exists.
+
+(hash-table-delete* hash-table key)
+
+Allocate copy without keys in keylist.
 
 (hash-table-update!/default hash-table key updater default)
 
@@ -89,6 +97,22 @@ Same as hash-table-update!/default but returns new hash table.
 
 Same as hash-table-update! but returns new hash table.
 
+(hash-table-replace!/default hash-table key value default)
+
+If key is found, replace it with value and return value, otherwise return default.
+
+(hash-table-replace! hash-table key value failure success)
+
+The same, but uses failure and success instead.
+
+(hash-table-replace/default hash-table key value default)
+
+Same as hash-table-replace!/default but returns new hash table.
+
+(hash-table-replace hash-table key value failure success)
+
+Same as hash-table-replace! but returns new hash table.
+
 (hash-table-clear! hash-table)
 
 Remove all keys from hash-table as efficiently as possible.
@@ -103,13 +127,25 @@ Return list of all keys in random order.
 
 (hash-table-values hash-table)
 
-Return list of all values in random order, not necessarily the same order.
+Return list of all values in random order, not necessarily the same order as hash-table-keys.
+
+(hash-table-entries hash-table)
+
+Returns two values, the list of keys in random order and the list of values in the matching order.
 
 (hash-table-map->list hash-table proc)
 
 Pass each key and value as separate arguments to proc, collect results in list.  There is no `hash-table-map` in the sense of lifting a procedure to the domain of hash tables.
 
-(hash-table-for-each hash-table proc)
+(hash-table-map = hash proc merger hash-table ...)
+
+For n hash-table arguments, invoke proc with 2n arguments (key, value, key, value ...) and expect it to return two values, which are used to construct a new hash table using = and hash.  Merger is called with key,,1,, value,,1,, key,,2,, value,,2,, when the two keys are equal according to =, and returns two values, the proper key and the proper value.
+
+(hash-table-map! proc merger hash-table ...)
+
+The same, but the values are used to mutate the first hash table instead of creating a new one.
+
+(hash-table-for-each proc hash-table ...)
 
 The same, but discards the results.
 
@@ -129,9 +165,13 @@ Returns a new hash-table, as if with make-hash-table, initializing it with alist
 
 Conses value onto the value of key, empty list if no such key.
 
-(hash-table-pop! hash-table key)
+(hash-table-pop! hash-table key success failure)
 
-Returns car of value corresponding to key, mutates key to cdr.
+Returns car of value corresponding to key, mutates key to cdr.  Failure if the key does not exist or the value is not a pair.  Issue: signal an error for non-pair instead?
+
+(hash-table-pop!/default hash-table key default)
+
+The same, but with default if key does not exist or value is not a pair.  Issue: signal an error for non-pair instead?
 
 (hash-table-find hash-table proc)
 
@@ -161,13 +201,13 @@ Curries hash-table-update!/default.
 
 Curries hash-table-update!
 
-(hash-table-union hash-table,,1,, hash-table,,2,,)
+(hash-table-union hash-table,,1,, hash-table,,2,, merger)
 
-Adds keys and values of hash-table,,2,, to copy of hash-table,,1,, and returns it.
+Adds keys and values of hash-table,,2,, to a copy of hash-table,,1,, and returns it.  The values are merged using the merger procedure, which defaults to `(lambda (value,,1,, value,,2,,) value,,2)`. 
 
-(hash-table-union! hash-table ...)
+(hash-table-union! hash-table,,1,, hash-table,,2,, merger)
 
-Adds keys and values of hash-table,,2,, to hash-table,,1,, and returns it.
+Adds keys and values of hash-table,,2,, to a copy of hash-table,,1,, and returns it.  The values are merged using the merger procedure, which defaults to `(lambda (value,,1,, value,,2,,) value,,2)`. 
 
 (hash-table-difference hash-table,,1,, hash-table,,2,,)
 
@@ -183,8 +223,6 @@ Returns #t if hash-tables have the same keys (in the sense of key=) and the same
 
 == Not yet processed ==
 
-hash-table-entries (returns both keys and values as two values)
-
 set!* from an alist
 
 accept key list and value list and add them all, destructive or non-destructive, analogous to CL pairlis
@@ -195,23 +233,9 @@ hash-table-unfold
 
 count and remove/remove! by a predicate
 
-hash-table-replace! (mutates only if found)
-
-(hash-table-map hash-table key-mapper value-mapper colliding-value-merger)
-
-hash-table-map!, same idea
-
-pop! should take defaults in the usual way, since it is an accessor.  Issue: should it remove empty entries altogether?
-
-union(!) should take value-merging procedure (defaults to `(lambda (x y) y)`).
-
 == An idea ==
 
-Have a procedure that binds the equality and hash procedures into a single procedure by case-lambda.  This is used to create hash tables, saving an extra argument each time.  Note that this allows the author of an equality predicate to provide hashing without cluttering up the interface, and allows the predicate to be an equal peer with built-in predicate.  The only bad point here is that it makes copying messy (but it's already messy, and may have to be primitive anyway).
-
-== Naming issue ==
-
-Having both set and set!, delete and delete!, update and update! etc. may be too confusing, though it is Schemely.
+Have a procedure that accepts an equality and a hash function, and returns a function that behaves as the equality function when called with two arguments, but when called with zero arguments, returns the hash function.  This is used to create hash tables, saving an extra argument each time.  Note that this allows the author of an equality predicate to provide hashing without cluttering up the interface, and allows the predicate to be an equal peer with built-in predicates.
 
 == Everything past this point is obsolete. ==
 
