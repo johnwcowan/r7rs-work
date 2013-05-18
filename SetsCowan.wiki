@@ -1,6 +1,6 @@
 == Sets, bags, integer sets, and enumeration sets ==
 
-Sets and bags (multisets) are mutable collections that can contain any Scheme object.  Integer sets are mutable collections that can contain non-negative exact integers that are less than a maximum value specified when the integer set is created.  Enumeration sets are mutable collections that can contain symbols chosen from a set of symbols represented by an enumeration type.
+''Sets'' and ''bags'' (also known as multisets) are mutable collections that can contain any Scheme object.  Sets enforce the constraint that an object can appear in them only once; bags do not.  ''Integer sets'' are mutable collections that can contain non-negative exact integers that are less than a maximum value specified when the integer set is created.  ''Enumeration sets'' are mutable collections that can contain symbols chosen from a set of symbols represented by an enumeration type.
 
 Sets and bags are intended to be a thin veneer over hashtables, and integer sets are a thin veneer over bytevectors.  It is implementation-dependent whether an integer set packs eight values into each bytevector element or (as the reference implementation does) just one.  In turn, enumeration sets are a thin veneer over integer sets.  Consequently, the `-member?`, `-add!`, and `-delete!` procedures are required to have an amortized cost of O(1).
 
