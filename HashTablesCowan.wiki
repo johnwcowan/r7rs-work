@@ -21,7 +21,7 @@ This WG2 proposal defines an interface to hash tables, which are widely recogniz
 
 `(make-hash-table `''equivalence hash'' `.` ''args''`)`
 
-Returns a newly allocated hash table whose equivalence procedure is ''equivalence''and hash procedure is ''hash'' (defaults to a suitable function, and args mean whatever (number is initial capacity, 'immutable, 'weakkeys, 'weak-values, all implementation-dependent).  The "safe" equivalence procedures are eq?, eqv?, equal?, string=?, string-ci=?.  (SRFI-69 `make-hash-table`; R6RS `make-eq-hashtable`, `make-eqv-hashtable`, and `make-hashtable` are related)
+Returns a newly allocated hash table whose equivalence procedure is ''equivalence''and hash procedure is ''hash'' (defaults to a suitable function, and args mean whatever (number is initial capacity, 'immutable, 'weakkeys, 'weak-values, all implementation-dependent).  The "safe" equivalence procedures are eq?, eqv?, equal?, string=?, string-ci=?.  (SRFI-69 `make-hash-table`; R6RS `make-eq-hashtable`, `make-eqv-hashtable`, and `make-hashtable`)
 
 `(hash-table `''equivalence hash'' ( ''key value'' ) ...`)`
 
@@ -112,8 +112,6 @@ Semantically equivalent to, but may be implemented more efficiently than, the fo
 
   `(hash-table-set! `''hash-table''` `''key''` (`''updater'' `(hash-table-ref `''hash-table''` `''key failure success''`)))`
 
-(SRFI-69
-
 Must execute in amortized O(1) time.  Returns an unspecified value.  (SRFI-69 `hash-table-update!/default`; R6RS `hashtable-update!`)
 
 `(hash-table-update!/default `''hash-table key updater default''`)`
@@ -122,7 +120,7 @@ Semantically equivalent to, but may be implemented more efficiently than, the fo
 
   `(hash-table-set! `''hash-table''` `''key''` (`''updater'' `(hash-table-ref/default `''hash-table''` `''key default''`)))`
 
-Must execute in amortized O(1) time.  Returns an unspecified value.  (SRFI-69 `hash-table-update!/default`; R6RS `hashtable-update!`)
+Must execute in amortized O(1) time.  Returns an unspecified value.  (SRFI-69 `hash-table-update!`)
 
 `(hash-table-push! `''hash-table key value''`)`
 
@@ -172,15 +170,15 @@ Return number of keys in hash-table.
 
 `(hash-table-keys `''hash-table''`)`
 
-Return list of all keys in an unspecified order.
+Return list of all keys in an unspecified order. (SRFI 69 `hash-table-keys`; R6RS `hashtable-keys` returns a vector)
 
 `(hash-table-values `''hash-table''`)`
 
-Return list of all values in an unspecified order, not necessarily the same order as hash-table-keys.
+Return list of all values in an unspecified order, not necessarily the same order as hash-table-keys. (SRFI 69 `hash-table-values`)
 
 `(hash-table-entries `''hash-table''`)`
 
-Returns two values, the list of keys in an unspecified order and the list of values in the corresponding order.
+Returns two values, the list of keys in an unspecified order and the list of values in the corresponding order.  (R6RS `hash-table-entries` returns vectors)
 
 `(hash-table-find `''hash-table proc''`)`
 
@@ -194,8 +192,6 @@ For each association of ''hash-table'', invoke ''proc'' on its key and value in 
 
 For each association of ''hash-table'', invoke ''proc'' on its key and value in an unspecified order.  If ''proc'' returns true, delete the association.
 
-
-
 === Mapping and folding ===
 
 `(hash-table-map `''equivalence hash proc merger hash-table''`)`
@@ -208,15 +204,15 @@ The same, but the values are used to mutate the hash table instead of creating a
 
 `(hash-table-for-each `''proc hash-table''`)`
 
-The same, but discards the results.
+The same, but discards the results.  (SRFI 69 `hash-table-walk` has the ''hash-table'' as the first argument)
 
-`(hash-table-map->list `''hash-table proc''`)`
+`(hash-table-map->list `''proc hash-table''`)`
 
-Pass each key and value as separate arguments to proc, collect results in list.  There is no `hash-table-map` in the sense of lifting a procedure to the domain of hash tables.
+Pass each key and value as separate arguments to proc, collect results in list.  
 
-`(hash-table-fold `''procedure''` `''init''` `''hash-table''`)`
+`(hash-table-fold `''proc''` `''init''` `''hash-table''`)`
 
-Calls ''procedure'' for every association in ''hash-table'' with three arguments: the key of the association, the value of the association, and an accumulated value ''val''.  ''Val'' is ''init'' for the first invocation of ''procedure'', and for subsequent invocations of ''procedure'', the return value of the previous invocation.  The value returned by `hash-table-fold` is the return value of the last invocation of f. The order in which ''procedure'' is called for different associations is unspecified.  (SRFI-69 `hash-table-fold`)
+Calls ''proc'' for every association in ''hash-table'' with three arguments: the key of the association, the value of the association, and an accumulated value ''val''.  ''Val'' is ''init'' for the first invocation of ''procedure'', and for subsequent invocations of ''procedure'', the returned value of the previous invocation.  The value returned by `hash-table-fold` is the return value of the last invocation of ''proc''. The order in which ''procedure'' is called for different associations is unspecified.  (SRFI-69 `hash-table-fold` has the ''hash-table'' as the first argument)
 
 `(hash-table-unfold `''equivalence hash continue? mapper successor seed''`)`
 
@@ -226,7 +222,7 @@ Create a new hash table using ''equivalence'' and ''hash''.  If the result of ap
 
 `(hash-table-copy `''hash-table''`)`
 
-Returns a newly allocated hash table with the same equivalence and hash predicates and the same associations as ''hash-table''. (SRFI-69 `hash-table-copy`; R6RS `(hashtable-copy `''hash-table''` #t)`)
+Returns a newly allocated hash table with the same equivalence and hash predicates and the same associations as ''hash-table''. (SRFI-69 `hash-table-copy`; R6RS `hashtable-copy`, passing `#t` as the second argument)
 
 `(hash-table->alist `''hash-table''`)`
 
@@ -260,7 +256,7 @@ These procedures allow hash tables to be used as functions with mutable behavior
 
 `(hash-table-union `''hash-table,,1,, hash-table,,2,,'' [[|''merger'' ]]`)`
 
-Adds the associations of hash-table,,2,, to a copy of hash-table,,1,, and returns it.  The values are merged using the merger procedure, which defaults to `(lambda (value,,1,, value,,2,,) value,,2)`. 
+Adds the associations of hash-table,,2,, to a copy of hash-table,,1,, and returns it.  The values are merged using the merger procedure, which defaults to `(lambda (value,,1,, value,,2,,) value,,2)`.  (SRFI 69 `hash-table-merge!`)
 
 `(hash-table-union! `''hash-table,,1,, hash-table,,2,,'' [[|''merger'' ]]`)`
 
