@@ -13,11 +13,11 @@ This WG2 proposal defines an interface to hash tables, which are widely recogniz
    * Provides key lookup and destructive update in amortized constant time.
    * Does not guarantee that whole-table operations work in the presence of concurrent mutation.
 
-This proposal is at an intermediate level.  It supports a great many convenience procedures on top of the basic hash table interfaces provided by [[http://srfi.schemers.org/srfi-69/srfi-69.html|SRFI 69]]and [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-14.html|R6RS]].  However, it does not mandate support for immutability or weakness, though it does provide a semi-portable hook for specifying these features.
+This proposal is at an intermediate level.  It supports a great many convenience procedures on top of the basic hash table interfaces provided by [[http://srfi.schemers.org/srfi-69/srfi-69.html|SRFI 69]] and [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-14.html|R6RS]].  However, it does not mandate support for immutability or weakness, though it does provide a semi-portable hook for specifying these features.
 
 == Issues ==
 
-K. P. Reid suggests having a procedure that accepts an equivalence and a hash procedure, and returns a function that behaves the same as the equivalence function when called with two arguments, but when called with zero arguments, returns the hash procedure.  This is used to create hash tables, saving an extra argument each time.  Note that this allows the author of an equivalence predicate to provide hashing without cluttering up the interface, and allows the predicate to be provided as transparently as built-in predicates.
+What about having a procedure that accepts an equivalence and a hash procedure, and returns a function that behaves the same as the equivalence function when called with two arguments, but when called with zero arguments, returns the hash procedure.  This is used to create hash tables, saving an extra argument each time.  Note that this allows the author of an equivalence predicate to provide hashing without cluttering up the interface, and allows the predicate to be provided as transparently as built-in predicates.
 
 == Rationale ==
 
