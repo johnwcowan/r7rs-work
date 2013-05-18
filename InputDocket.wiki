@@ -38,6 +38,8 @@ Multiple values passed through => in `cond`: see #90
 
 `number->string` and `string->number` with non-ASCII decimal digits: NumberStringUnicode
 
+Observable objects: 
+
 Port type detector: see #177
 
 R6RS compatibility: whole libraries or cherry-picked procedures:
