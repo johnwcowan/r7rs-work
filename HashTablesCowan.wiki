@@ -21,7 +21,7 @@ This WG2 proposal defines an interface to hash tables, which are widely recogniz
 
 `(make-hash-table `''equivalence hash'' `.` ''args''`)`
 
-Returns a newly allocated hash table whose equivalence procedure is ''equivalence''and hash procedure is ''hash'' (defaults to a suitable function, and args mean whatever (number is initial capacity, 'immutable, 'weakkeys, 'weak-values, all implementation-dependent).  The "safe" equivalence procedures are eq?, eqv?, equal?, string=?, string-ci=?.  (SRFI-69 `make-hash-table`; R6RS `make-eq-hashtable`, `make-eqv-hashtable`, and `make-hashtable`)
+Returns a newly allocated hash table whose equivalence procedure is ''equivalence''and hash procedure is ''hash'' (defaults to a suitable function, and args mean whatever (number is initial capacity, 'immutable, 'weakkeys, 'weak-values, all implementation-dependent).  The "safe" equivalence procedures are eq?, eqv?, equal?, string=?, string-ci=?.  (SRFI-69 `make-hash-table`; R6RS `make-eq-hashtable`, `make-eqv-hashtable`, and `make-hashtable`; Common Lisp `make-hash-table`)
 
 `(hash-table `''equivalence hash'' ( ''key value'' ) ...`)`
 
@@ -31,7 +31,7 @@ Ditto, but with explicitly specified key/value pairs
 
 `(hash-table? `''obj''`)`
 
-Returns `#t` if ''obj'' is a hash table.  (SRFI-69 `hash-table?`; R6RS `hashtable?`)
+Returns `#t` if ''obj'' is a hash table.  (SRFI-69 `hash-table?`; R6RS `hashtable?`; Common Lisp `hash-table-p`)
 
 `(hash-table-contains? `''hash-table key''`)`
 
@@ -58,7 +58,7 @@ Extracts the value associated to ''key'' in ''hash-table'', invokes the procedur
 Semantically equivalent to, but may be more efficient than, the following code:
   `(hash-table-ref `''hash-table key'' `(lambda () `''default''`))`
 
-(SRFI-69 `hash-table-ref/default`, R6RS `hashtable-ref`)
+(SRFI-69 `hash-table-ref/default`, R6RS `hashtable-ref`; Common Lisp `gethash`)
 
 === Mutators ===
 
@@ -82,7 +82,7 @@ Repeatedly mutates ''hash-table'' using the associations of ''alist''.
 
 `(hash-table-delete! `''hash-table key''`)`
 
-Deletes any association to ''key'' in ''hash-table'' and returns an unspecified value.  It is not an error if no association for that ''key'' exists.  Must execute in amortized O(1) time.    (SRFI-69 `hash-table-delete!`; R6RS `hashtable-delete!`)
+Deletes any association to ''key'' in ''hash-table'' and returns an unspecified value.  It is not an error if no association for that ''key'' exists.  Must execute in amortized O(1) time.    (SRFI-69 `hash-table-delete!`; R6RS `hashtable-delete!`; Common Lisp `remhash`)
 
 `(hash-table-delete-keys! `''hash-table keylist''`)`
 
@@ -158,13 +158,13 @@ The same, but with default if key does not exist or value is not a pair.  Issue:
 
 These procedures are equivalent to the mutators with corresponding names, except that they return a new hash table which differs from the original in the specified ways.  No guarantees are provided about their amortized execution time, as they may copy the original hash table.
 
-=== Procedures on the whole hash table ===
+=== The whole hash table ===
 
 `(hash-table-clear! `''hash-table''`)`
 
-Remove all the associations from ''hash-table''.  Should execute in amortized O(1) time.  (R6RS `hashtable-clear!`)
+Remove all the associations from ''hash-table''.  Should execute in amortized O(1) time.  (R6RS `hashtable-clear!`; Common Lisp `clrhash`)
 
-`(hash-table-length `''hash-table''`)`  Must execute in amortized O(1) time.  (SRFI 69 `hash-table-size`, R6RS `hashtable-size`)
+`(hash-table-length `''hash-table''`)`  Must execute in amortized O(1) time.  (SRFI 69 `hash-table-size`, R6RS `hashtable-size`; Common Lisp `hash-table-count`)
 
 Return number of keys in hash-table.
 
@@ -204,7 +204,7 @@ The same, but the values are used to mutate the hash table instead of creating a
 
 `(hash-table-for-each `''proc hash-table''`)`
 
-The same, but discards the results.  (SRFI 69 `hash-table-walk` has the ''hash-table'' as the first argument)
+The same, but discards the results.  (SRFI 69 `hash-table-walk` has the ''hash-table'' as the first argument; Common Lisp `maphash`)
 
 `(hash-table-map->list `''proc hash-table''`)`
 
