@@ -46,6 +46,7 @@ See PlebisciteObjections for the objections to the draft embedded in these ballo
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003435.html|Sudarshan S. Chawathe]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003437.html|Christian Lask]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003453.html|Jean-Michel Hufflen]]
+* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003457.html|John Boyle]]
 
 == No ==
 
