@@ -57,7 +57,7 @@ The relatively few hash table procedures in R6RS are all available in this propo
 
 In addition, the `hashtable-ref` and `hashtable-update!` of R6RS correspond to the `hash-table-ref/default` and `hash-table-update!/default` of this proposal.
 
-It would be trivial to provide the R6RS names on top of this proposal.  The only substantive difference is that R6RS `hashtable-values` and `hashtable-entries` return vectors, whereas in this proposal `hash-table-values` and `hash-table-entries` return lists.
+It would be trivial to provide the R6RS names (or for that matter the SRFI 69 names) on top of this proposal.  The only substantive difference is that R6RS `hashtable-values` and `hashtable-entries` return vectors, whereas in this proposal `hash-table-values` and `hash-table-entries` return lists.
 
 === Common Lisp compatibility ===
 
