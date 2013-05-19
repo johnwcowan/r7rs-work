@@ -20,7 +20,7 @@ This proposal is at an intermediate level.  It supports a great many convenience
 
  1. I've heard complaints about the messiness of passing two arguments, one of which is optional, when creating a hash table.  What about having a procedure that accepts an equivalence predicate and a hash procedure, and returns a procedure that behaves the same as the equivalence predicate when called with two arguments, but when called with zero arguments, returns the hash procedure?  This is used to create hash tables, saving an extra argument each time.  Note that this style allows the author of an equivalence predicate to provide hashing without cluttering up the interface, and allows the predicate to be provided as transparently as built-in predicates are.  (This idea was suggested by early reviewer kpreid.)
 
- 2. We could support more Scheme implementations if we did not support arbitrary equivalence predicates, but only allowed `eq?`, `eqv?`, `equal?`, and `string=?`.
+ 2. What if we did not support arbitrary equivalence predicates, but only allowed `eq?`, `eqv?`, `equal?`, and `string=?` (hash tables that support `equal?` will also support `string=?`).  We could further allow `string-ci=?` as an optional ("should") equivalence predicate.  This would allow us to support more Scheme implementations and eliminate any need to deal with hash procedures, though it is a considerable restriction on generality.  I'd like feedback on how often such generality is actually required.
 
 == Rationale ==
 
