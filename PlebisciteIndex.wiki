@@ -48,6 +48,8 @@ See PlebisciteObjections for the objections to the draft embedded in these ballo
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003453.html|Jean-Michel Hufflen]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003457.html|John Boyle]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003460.html|Michael Montague]]
+* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003462.html|Felix S. Klock II]]
+* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003463.html|Mario Domenech Goulart]]
 
 == No ==
 
