@@ -81,7 +81,31 @@ R6RS eliminates this issue by providing separate constructors for `eq?` and `eqv
 
 The slash in the names of some procedures can be pronounced "with".
 
-== Procedures ==
+== Specification ==
+
+Here is an index to the procedures of this specification:
+
+* [[#Constructors|Constructors]]: `make-hash-table`, `hash-table`
+
+* [[#Predicates|Predicates]]: `hash-table?`, `hash-table-contains?`, `hash-table=?`
+
+* [[#Accessors|Accessors]]: `hash-table-ref`, `hash-table-ref/default`
+
+* [[#Mutators|Mutators]]: `hash-table-set!`, `hash-table-set-all!`, `hash-table-set-entries!`, `hash-table-set-alist!`, `hash-table-delete!`, `hash-table-delete-keys!`, `hash-table-extend!`, `hash-table-extend!/default`, `hash-table-replace!`, `hash-table-replace!/default`, `hash-table-update!`, `hash-table-update!/default`
+
+* [[#Functionalupdate|Functional update]]: `hash-table-set`, `hash-table-set-all`, `hash-table-set-entries`, `hash-table-set-alist`, `hash-table-delete`, `hash-table-delete-keys`, `hash-table-extend`, `hash-table-extend/default`, `hash-table-replace`, `hash-table-replace/default`, `hash-table-update`, `hash-table-update/default`
+
+* [[#Thewholehashtable|The whole hash table]]: `hash-table-clear!`, `hash-table-length`, `hash-table-keys`, `hash-table-values`, `hash-table-entries`, `hash-table-find`, `hash-table-count`, `hash-table-remove!`
+
+* [[#Mappingandfolding|Mapping and folding]]: `hash-table-map`, `hash-table-map!`, `hash-table-for-each`, `hash-table-map->list`, `hash-table-fold`, `hash-table-unfold`
+
+* [[#Copyingandconversion|Copying and conversion]]: `hash-table-copy`, `hash-table->alist`, `alist->hash-table]
+
+* [[#Hashtablesasfunctions|Hash tables as functions]]: `hash-table-accessor`, `hash-table-accessor/default`, `hash-table-mutator`, `hash-table-deleter`, `hash-table-extender`, `hash-table-extender/default`, `hash-table-replacer`, `hash-table-replacer/default`, `hash-table-updater`, `hash-table-updater/default`
+
+* [[#Hashtablesassets|Hash tables as sets]]: `hash-table-union`, `hash-table-union!`, `hash-table-difference`, `hash-table-difference!`
+
+* [[#Exceptions|Exceptions]]: `hash-table-error?` `hash-table-not-found?`
 
 === Constructors ===
 
