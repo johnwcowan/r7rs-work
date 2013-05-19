@@ -214,13 +214,13 @@ If an association with ''key'' is found in ''hash-table'', then return the car o
 
 `(hash-table-delete-keys `''hash-table keylist''`)`
 
-`(hash-table-extend`''hash-table key'' [[|''failure'' [ ''success ]] ]`)`
+`(hash-table-extend `''hash-table key'' [[|''failure'' [ ''success ]] ]`)`
 
-`(hash-table-extend/default hash-table `''key value default''`)`
+`(hash-table-extend/default `''hash-table key value default''`)`
 
 `(hash-table-replace `''hash-table key'' [[|''failure'' [ ''success ]] ]`)`
 
-`(hash-table-replace/default hash-table `''key value default''`)`
+`(hash-table-replace/default `''hash-table key value default''`)`
 
 `(hash-table-update `''hash-table key updater'' [[|''failure'' [ ''success ]] ]`)`
 
@@ -308,27 +308,47 @@ Returns a newly allocated hash-table as if by `make-hash-table`, initializing it
 
 === Hash tables as functions ===
 
+The following procedures allow hash tables to be used as functions with mutable behavior.  They return procedures that are curried versions of other procedures in this library on the given arguments.  All such procedures accept a key and return either the corresponding value (for procedures created by `hash-table-accessor`, `hash-table-accessor/default`, `hash-table-extender`, or `hash-table-extender/default`), or an unspecified value (for all other procedures).
+
 `(hash-table-accessor `''hash-table'' [[|''failure'' [ ''success'' ]] ]`)`
+
+Curried version of `hash-table-ref`.
 
 `(hash-table-accessor/default `''hash-table default''`)`
 
+Curried version of `hash-table-ref/default`.
+
 `(hash-table-mutator `''hash-table''`)`
+
+Curried version of `hash-table-set!`.
 
 `(hash-table-deleter `''hash-table''`)`
 
+Curried version of `hash-table-delete!`.
+
 `(hash-table-extender `''hash-table'' [[|''failure'' [ ''success'' ]] ]`)`
+
+Curried version of `hash-table-extend`.
 
 `(hash-table-extender/default `''hash-table default''`)`
 
-`(hash-table-replacer `''hash-table updater'' [[|''failure'' [ ''success'' ]] ]`)`
+Curried version of `hash-table-extend/default`.
+
+`(hash-table-replacer `''hash-table'' [[|''failure'' [ ''success'' ]] ]`)`
+
+Curried version of `hash-table-replace`.
 
 `(hash-table-replacer/default `''hash-table updater default''`)`
 
+Curried version of `hash-table-replace/default`.
+
 `(hash-table-updater `''hash-table updater'' [[|''failure'' [ ''success'' ]] ]`)`
+
+Curried version of `hash-table-update`.
 
 `(hash-table-updater/default `''hash-table updater default''`)`
 
-These procedures allow hash tables to be used as functions with mutable behavior.  They return procedures that are curried versions of `hash-table-ref`, `hash-table-ref/default`, `hash-table-set!`, `hash-table-delete!`, `hash-table-extend!`, `hash-table-extend!/default`, `hash-table-replace!`, `hash-table-replace!/default` `hash-table-update!`, and `hash-table-update!/default`, respectively on the given arguments.  All such procedures accept a key and return either the corresponding value (for procedures created by `hash-table-accessor`, `hash-table-accessor/default`, `hash-table-extender`, or `hash-table-extender/default`), or an unspecified value (for all other procedures).
+Curried version of `hash-table-update/default`.
 
 === Hash tables as sets ===
 
