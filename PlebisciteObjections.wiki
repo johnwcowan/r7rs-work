@@ -57,6 +57,10 @@ Almost all of the tickets take the following form: an attributed quotation from 
 * #530: The draft is too conservative in its changes to R5RS
 * #531: Eq? should not be called an equivalence predicate
 * #532: Delaying multiple values shouldn't be undefined
+* #533: Define-library doesn't bind a name
+* #534: Include at the library level should include declarations, not code
+* #535: Libraries should have at most one begin
+* #536: R6RS and R7RS libraries should be made closer
 
 Here is an author index, specifying which tickets each person's ballot or email is referred to in.  See PlebisciteIndex for links to the actual ballots.  Links to non-ballots are inside the tickets.
 
@@ -70,6 +74,7 @@ Here is an author index, specifying which tickets each person's ballot or email 
 * Kato: #486
 * Manis: #478
 * Medernach: #503, #509, #510, #511
+* Montague: #533, #534, #535, #536
 * More: #520, #521
 * Piitulainen: #478, #504, #505
 * Radul: #479, #480
