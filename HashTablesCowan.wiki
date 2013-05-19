@@ -18,9 +18,49 @@ This proposal is at an intermediate level.  It supports a great many convenience
 
 == Issues ==
 
-I've heard complaints about the messiness of passing two arguments, one of which is optional, when creating a hash table.  What about having a procedure that accepts an equivalence predicate and a hash procedure, and returns a procedure that behaves the same as the equivalence predicate when called with two arguments, but when called with zero arguments, returns the hash procedure?  This is used to create hash tables, saving an extra argument each time.  Note that this style allows the author of an equivalence predicate to provide hashing without cluttering up the interface, and allows the predicate to be provided as transparently as built-in predicates are.  (This idea was suggested by early reviewer kpreid.)
+ 1. I've heard complaints about the messiness of passing two arguments, one of which is optional, when creating a hash table.  What about having a procedure that accepts an equivalence predicate and a hash procedure, and returns a procedure that behaves the same as the equivalence predicate when called with two arguments, but when called with zero arguments, returns the hash procedure?  This is used to create hash tables, saving an extra argument each time.  Note that this style allows the author of an equivalence predicate to provide hashing without cluttering up the interface, and allows the predicate to be provided as transparently as built-in predicates are.  (This idea was suggested by early reviewer kpreid.)
+
+ 2. We could support more Scheme implementations if we did not support arbitrary equivalence predicates, but only allowed `eq?`, `eqv?`, `equal?`, and `string=?`.
 
 == Rationale ==
+
+=== SRFI 69 compatibility ===
+
+The names used in this proposal are mostly derived from SRFI 69, with the following changes:
+
+* The `hash-table-exists?` procedure seems to ask if its argument is an existing hash table.  It has been renamed `hash-table-contains?`, as in R6RS.
+
+* The `hash-table-size` procedure has been renamed `hash-table-length` for compatibility with `length`, `string-length`, and so on.
+
+* The `hash-table-walk` procedure places the hash table argument first and the walker procedure second.  It has been renamed `hash-table-for-each` and given the same argument order as `for-each`, `string-for-each`, and so on.  However, unlike those procedures it can only accept one hash table: coordinated access to multiple hash tables is meaningless, given that hash tables are unordered.
+
+* The `hash-table-merge!` procedure has been renamed `hash-table-union!`, since it causes the first hash table to become the union of the two hash table arguments.  A third argument specifying how to merge the values has been added.
+
+=== R6RS compatibility ===
+
+The relatively few hash table procedures in R6RS are all available in this proposal under somewhat different names.  This proposal adopts SRFI 69's term `hash-table` rather than R6RS's `hashtable`, because of the universal use of "hash table" rather than "hashtable" in other languages and in technical prose generally.  Besides, the English word ''hashtable'' obviously means something that can be ... hashted.
+
+In addition, the `hashtable-ref` and `hashtable-update!` of R6RS correspond to the `hash-table-ref/default` and `hash-table-update!/default` of this proposal.
+
+It would be trivial to provide the R6RS names (or for that matter the SRFI 69 names) on top of this proposal.  The only substantive difference is that R6RS `hashtable-values` and `hashtable-entries` return vectors, whereas in this proposal `hash-table-values` and `hash-table-entries` return lists.
+
+=== Reflection and hash-function procedures ===
+
+SRFI 69 provides reflective procedures that, given a hash table, returns its equivalence predicate and hash procedure, as well as procedures that expose the implementation's hash procedures suitable for the equivalence predicates `eq?`, `equal?`, `string=?`, and `string-ci=?`.  The second of these can also be used for `eqv?`.  However, if the `eq?` hash procedure directly exposes the address of the key, and the garbage collector moves the hash table, it must also rehash its keys.  In such implementations, the `hash-by-identity` procedure is not idempotent, which makes it dangerous to use outside the context of implementation-provided hash tables.
+
+R6RS eliminates this issue by providing separate constructors for `eq?` and `eqv?` hash tables, and refusing to expose the hash functions for them.  However, this proposal takes the radical option of providing neither reflection nor implementation-based hash functions.  They can of course be provided bby implementations as extensions.
+
+=== Common Lisp compatibility ===
+
+As usual, the Common Lisp names are completely different from the Scheme names. Common Lisp provides the following capabilities that are not in this proposal:
+
+* The constructor allows specifying the current capacity (as opposed to size), rehash size, aand rehash threshold of the new hash table.  There are also accessors and mutators for these.
+
+* There are hash tables based on `equalp` (which is not in Scheme).
+
+* `With-hash-table-iterator` is a hash table external iterator implemented as a local macro.
+
+* `Sxhash` is a stable hash function.
 
 === Sources ===
 
@@ -39,44 +79,6 @@ The procedures in this proposal are drawn primarily from SRFI 69, R6RS, and the 
 The procedures `hash-table-replace!`, `hash-table-replace!/default`, `hash-table-difference`, `hash-table-difference!` and most of the procedures in the section "Functional update" were added for completeness. 
 
 The native hash tables of [[http://web.mit.edu/scheme_v9.0.1/doc/mit-scheme-ref/Hash-Tables.html|MIT]],  [[http://www.gnu.org/software/guile/manual/html_node/Hash-Table-Reference.html|Guile]], [[http://sisc-scheme.org/manual/html/ch09.html#Hashtables|SISC]], [[http://www-sop.inria.fr/indes/fp/Bigloo/doc/bigloo-7.html#Hash-Tables|Bigloo]], [[http://s48.org/0.57/manual/s48manual_44.html|Scheme48]], [[http://www.cs.indiana.edu/scheme-repository/SCM/slib_2.html#SEC13|SLIB]], [[http://www.rscheme.org/rs/b/0.7.3.4/5/html/c2143.html|RScheme]], [[https://ccrma.stanford.edu/software/snd/snd/s7.html#hashtables|Scheme 7]], [[https://github.com/barak/scheme9/blob/master/lib/hash-table.scm|Scheme 9]], [[http://www.fifi.org/cgi-bin/info2www?(librep)Hash+Tables|Rep]], and [[https://code.google.com/p/femtolisp/wiki/APIReference|FemtoLisp]] were also investigated, but no additional procedures were incorporated.
-
-=== SRFI 69 compatibility ===
-
-The names used in this proposal are mostly derived from SRFI 69, with the following changes:
-
-* The `hash-table-exists?` procedure seems to ask if its argument is an existing hash table.  It has been renamed `hash-table-contains?`, as in R6RS.
-
-* The `hash-table-size` procedure has been renamed `hash-table-length` for compatibility with `length`, `string-length`, and so on.
-
-* The `hash-table-walk` procedure places the hash table argument first and the walker procedure second.  It has been renamed `hash-table-for-each` and given the same argument order as `for-each`, `string-for-each`, and so on.  However, it can only accept one hash table, because coordinated access to multiple hash tables is meaningless, given that hash tables are unordered.
-
-* The `hash-table-merge!` procedure has been renamed `hash-table-union!`, since it causes the first hash table to become the union of the two hash table arguments.  A third argument specifying how to merge the values has been added.
-
-=== R6RS compatibility ===
-
-The relatively few hash table procedures in R6RS are all available in this proposal under somewhat different names.  This proposal adopts SRFI 69's term `hash-table` rather than R6RS's `hashtable`, because of the universal use of "hash table" rather than "hashtable" in other languages and in technical prose generally.  Besides, the English word ''hashtable'' obviously means something that can be ... hashted.
-
-In addition, the `hashtable-ref` and `hashtable-update!` of R6RS correspond to the `hash-table-ref/default` and `hash-table-update!/default` of this proposal.
-
-It would be trivial to provide the R6RS names (or for that matter the SRFI 69 names) on top of this proposal.  The only substantive difference is that R6RS `hashtable-values` and `hashtable-entries` return vectors, whereas in this proposal `hash-table-values` and `hash-table-entries` return lists.
-
-=== Common Lisp compatibility ===
-
-As usual, the Common Lisp names are completely different from the Scheme names. Common Lisp provides the following functions that are not in this proposal:
-
-* The constructor allows specifying the current capacity (as opposed to size), rehash size, aand rehash threshold of the new hash table.  There are also accessors and mutators for these.
-
-* There are hash tables based on `equalp` (which is not in Scheme).
-
-* `With-hash-table-iterator` is a hash table external iterator implemented as a local macro.
-
-* `Sxhash` is a stable hash function.
-
-=== Reflection and hash-function procedures ===
-
-SRFI 69 provides reflective procedures that, given a hash table, returns its equivalence predicate and hash procedure, as well as procedures that expose the implementation's hash procedures suitable for the equivalence predicates `eq?`, `equal?`, `string=?`, and `string-ci=?`.  The second of these can also be used for `eqv?`.  However, if the `eq?` hash procedure directly exposes the address of the key, and the garbage collector moves the hash table, it must also rehash its keys.  In such implementations, the `hash-by-identity` procedure is not idempotent, which makes it dangerous to use outside the context of implementation-provided hash tables.
-
-R6RS eliminates this issue by providing separate constructors for `eq?` and `eqv?` hash tables, and refusing to expose the hash functions for them.  However, this proposal takes the radical option of providing neither reflection nor implementation-based hash functions.  They can of course be provided bby implementations as extensions.
 
 === Pronunciation ===
 
@@ -409,9 +411,11 @@ Returns `#t` if ''obj'' is an object raised by the `hash-table-ref` procedure or
 
 The sample implementation (''not yet written'') was originally intended to be easily layered over any existing hash table implementation, including the many that support either SRFI 69 or R6RS (there is an implementation of [[https://code.launchpad.net/~scheme-libraries-team/scheme-libraries/srfi|SRFI 69 on top of R6RS]], plus all the native hash table systems mentioned in [[#Sources|Sources]] above.  However, this turned out not to be practical for the following reasons:
 
-* Gauche and MIT do not support arbitrary equivalence predicates, only `eq?`, `eqv?`, `equal?`, and `string=?`
+* Racket does not support arbitrary equivalence predicates, only `eq?`, `eqv?`, and `equal?`.
 
-* Guile supports arbitrary equivalence predicates, but the equivalence predicate and hash procedure must be passed explicitly to all the primitive procedures.  Consequently, hash tables corresponding to this proposal would have to be records containing a Guile hash table, an equivalence predicate, and a hash procedure, meaning they could not interoperate directly with naked Guile hash tables.
+* Gauche and MIT do not support arbitrary equivalence predicates, only `eq?`, `eqv?`, `equal?`, and `string=?`.
+
+* Guile supports arbitrary equivalence predicates, but in that case the equivalence predicate and hash procedure must be passed explicitly to all the primitive procedures.  Consequently, hash tables corresponding to this proposal would have to be records containing a Guile hash table, an equivalence predicate, and a hash procedure, meaning they could not interoperate directly with naked Guile hash tables.
 
 * SISC, Scheme48/scsh, RScheme, Scheme 7, Scheme 9, Rep do not provide any procedure that copies a hash table, nor any way of inspecting it to determine its equivalence predicates and hash procedures so that it can be re-created.
 
@@ -421,4 +425,4 @@ The sample implementation (''not yet written'') was originally intended to be ea
 
 As a result, the sample implementation assumes the existence of a SRFI 69 implementation, and imports just the core procedures `make-hash-table`, `hash-table?`, `hash-table-ref/default`, `hash-table-set!`, `hash-table-delete!`, `hash-table-size` (as `hash-table-length`), `hash-table-walk`, and `hash-table-copy`.  New implementers who need to support this proposal from scratch can take the implementations of these procedures from the SRFI 69 implementation and add them to this implementation.
 
-To layer the implementation directly on top of R6RS, the corresponding procedures need to be imported from `(rnrs hashtables)`.  See the file `hash-tables.sls` in the implementation.
+To layer the implementation directly on top of R6RS, the corresponding procedures need to be imported from `(rnrs hashtables)`.  See the file `hash-tables.sls` in the implementation.   It should also be possible to adapt the sample operation for use on Gambit and Bigloo.
