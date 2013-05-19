@@ -425,4 +425,4 @@ The sample implementation (''not yet written'') was originally intended to be ea
 
 As a result, the sample implementation assumes the existence of a SRFI 69 implementation, and imports just the core procedures `make-hash-table`, `hash-table?`, `hash-table-ref/default`, `hash-table-set!`, `hash-table-delete!`, `hash-table-size` (as `hash-table-length`), `hash-table-walk`, and `hash-table-copy`.  New implementers who need to support this proposal from scratch can take the implementations of these procedures from the SRFI 69 implementation and add them to this implementation.
 
-To layer the implementation directly on top of R6RS, the corresponding procedures need to be imported from `(rnrs hashtables)`.  See the file `hash-tables.sls` in the implementation.   It should also be possible to adapt the sample operation for use on Gambit and Bigloo.
+To layer the implementation directly on top of R6RS, the corresponding procedures need to be imported from `(rnrs hashtables)`.  See the file `hash-tables.sls` in the implementation.   It should also be possible to adapt the sample implementation for use on Gambit and Bigloo.
