@@ -7,17 +7,18 @@ This WG2 proposal defines an interface to hash tables, which are widely recogniz
      * Keys may be any Scheme objects in some kinds of hash tables, but are restricted in other kinds.
      * Values may be any Scheme objects.
    * Has no intrinsic order for the key-value ''associations'' it contains, though an order may be defined as an extension.
-   * Provides an ''equivalence function'' which defines when a proposed key is the same as an existing key.  No table may contain more than one value for a given key.
+   * Provides an ''equivalence predicate'' which defines when a proposed key is the same as an existing key.  No table may contain more than one value for a given key.
+   * Provides a ''hash procedure'' which maps a candidate key into a non-negative exact integer.
    * Supports mutation as the primary means of setting the contents of a table.
    * Assumes that keys are immutable; mutating a key leads to unspecified behavior.
    * Provides key lookup and destructive update in amortized constant time.
    * Does not guarantee that whole-table operations work in the presence of concurrent mutation.
 
-This proposal is at an intermediate level.  It supports a great many convenience procedures on top of the basic hash table interfaces provided by [[http://srfi.schemers.org/srfi-69/srfi-69.html|SRFI 69]] and [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-14.html|R6RS]].  However, it does not mandate support for immutability or weakness, though it does provide a semi-portable hook for specifying these features.
+This proposal is at an intermediate level.  It supports a great many convenience procedures on top of the basic hash table interfaces provided by [[http://srfi.schemers.org/srfi-69/srfi-69.html|SRFI 69]] and [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-14.html|R6RS]].  However, it does not mandate support for thread safety, immutability, or weakness, though it does provide a semi-portable hook for specifying these features.
 
 == Issues ==
 
-I've heard complaints about the messiness of passing two arguments, one of which is optional, when creating a hash table.  What about having a procedure that accepts an equivalence and a hash procedure, and returns a function that behaves the same as the equivalence function when called with two arguments, but when called with zero arguments, returns the hash procedure?  This is used to create hash tables, saving an extra argument each time.  Note that this style allows the author of an equivalence predicate to provide hashing without cluttering up the interface, and allows the predicate to be provided as transparently as built-in predicates are.  (This idea was suggested by early reviewer kpreid.)
+I've heard complaints about the messiness of passing two arguments, one of which is optional, when creating a hash table.  What about having a procedure that accepts an equivalence predicate and a hash procedure, and returns a procedure that behaves the same as the equivalence predicate when called with two arguments, but when called with zero arguments, returns the hash procedure?  This is used to create hash tables, saving an extra argument each time.  Note that this style allows the author of an equivalence predicate to provide hashing without cluttering up the interface, and allows the predicate to be provided as transparently as built-in predicates are.  (This idea was suggested by early reviewer kpreid.)
 
 == Rationale ==
 
@@ -69,11 +70,11 @@ As usual, the Common Lisp names are completely different from the Scheme names. 
 
 * `With-hash-table-iterator` is a hash table external iterator implemented as a local macro.
 
-* `Sxhash`, a stable hash function.
+* `Sxhash` is a stable hash function.
 
 === Reflection and hash-function procedures ===
 
-SRFI 69 provides reflective procedures that, given a hash table, returns its equivalence and hash procedures, as well as procedures that expose the implementation's hash procedures suitable for the equivalence procedures `eq?`, `equal?`, `string=?`, and `string-ci=?`.  The second of these can also be used for `eqv?`.  However, if the `eq?` hash procedure directly exposes the address of the key, and the garbage collector moves the hash table, it must also rehash its keys.  In such implementations, the `hash-by-identity` procedure is not idempotent, which makes it dangerous to use outside the context of implementation-provided hash tables.
+SRFI 69 provides reflective procedures that, given a hash table, returns its equivalence predicate and hash procedure, as well as procedures that expose the implementation's hash procedures suitable for the equivalence predicates `eq?`, `equal?`, `string=?`, and `string-ci=?`.  The second of these can also be used for `eqv?`.  However, if the `eq?` hash procedure directly exposes the address of the key, and the garbage collector moves the hash table, it must also rehash its keys.  In such implementations, the `hash-by-identity` procedure is not idempotent, which makes it dangerous to use outside the context of implementation-provided hash tables.
 
 R6RS eliminates this issue by providing separate constructors for `eq?` and `eqv?` hash tables, and refusing to expose the hash functions for them.  However, this proposal takes the radical option of providing neither reflection nor implementation-based hash functions.  They can of course be provided bby implementations as extensions.
 
@@ -82,6 +83,8 @@ R6RS eliminates this issue by providing separate constructors for `eq?` and `eqv
 The slash in the names of some procedures can be pronounced "with".
 
 == Specification ==
+
+The procedures in this proposal are in the `(scheme hash-tables)` and `(srfi xxx)` libraries (or (srfi :xxx) on R6RS).  However, the library in the sample implementation is named `(hash-tables)`.
 
 Here is an index to the procedures of this specification:
 
@@ -111,11 +114,11 @@ Here is an index to the procedures of this specification:
 
 `(make-hash-table `''equivalence'' [[|''hash'' ]] [[|''arg'' ... ]]`)`
 
-Returns a newly allocated hash table whose equivalence procedure is ''equivalence'' and hash procedure is ''hash''.  It is the programmer's responsibility to ensure that two objects passed to the hash procedure return the same value if the same objects passed to the equivalence procedure return true; however, the converse is not required.
+Returns a newly allocated hash table whose equivalence predicate is ''equivalence'' and hash procedure is ''hash''.  It is the programmer's responsibility to ensure that two objects passed to the hash procedure return the same value if the same objects passed to the equivalence predicate return true; however, the converse is not required.
 
-The ability to omit the ''hash'' argument is severely limited.  If ''equivalence'' is `eq?`, `eqv?`, `equal?`, `string=?`, or `string-ci=?`, a suitable implementation-provided procedure will be used.  The implementation may extend this list.  But if any other equivalence procedure is provided without a hash procedure, an error that satisfies `hash-table-error?` is signaled.
+The ability to omit the ''hash'' argument is severely limited.  If ''equivalence'' is `eq?`, `eqv?`, `equal?`, `string=?`, or `string-ci=?`, a suitable implementation-provided procedure will be used.  The implementation may extend this list.  But if any other equivalence predicate is provided without a hash procedure, an error that satisfies `hash-table-error?` is signaled.
 
-The meaning of the remaining arguments is implementation-dependent.  However, implementations which support the ability to specify the initial capacity of a hash table should interpret a non-negative exact integer as the specification of that capacity.  In addition, if the symbols `immutable`, `weak-keys` or  `weak-values` are present, implementations should create immutable hash tables, hash tables with weak keys, and hash tables with weak values respectively.  In an implementation which does not, an error that satisfies `hash-table-error?` should be signaled.  To avoid collision with the ''hash'' argument, none of these arguments can be procedures.
+The meaning of the remaining arguments is implementation-dependent.  However, implementations which support the ability to specify the initial capacity of a hash table should interpret a non-negative exact integer as the specification of that capacity.  In addition, if the symbols `immutable`, `thread-safe`, `weak-keys` or  `weak-values` are present, implementations should create immutable hash tables, mutable thread-safe hash tables, hash tables with weak keys, and hash tables with weak values respectively.  In an implementation which does not support these features, an error that satisfies `hash-table-error?` should be signaled if they are requested.  To avoid collision with the ''hash'' argument, none of these arguments can be procedures.
 
 (SRFI 69 `make-hash-table`; R6RS `make-eq-hashtable`, `make-eqv-hashtable`, and `make-hashtable`; Common Lisp `make-hash-table`)
 
@@ -392,7 +395,7 @@ Removes the keys of ''hash-table,,2,,'' from a copy of ''hash-table,,1,,'' and r
 
 Removes the keys of ''hash-table,,2,,'' from ''hash-table,,1,,'' and returns ''hash-table,,1,,''.
 
-== Exceptions ==
+=== Exceptions ===
 
 `(hash-table-error? `''obj''`)`
 
@@ -401,3 +404,21 @@ Returns `#t` if ''obj'' is an object raised by the `make-hash-table` procedure o
 `(hash-table-not-found? `''obj''`)`
 
 Returns `#t` if ''obj'' is an object raised by the `hash-table-ref` procedure or any other procedure that accesses hash tables when the key is not found and there is no failure procedure, and `#f` otherwise.
+
+== Implementation ==
+
+The sample implementation (''not yet written'') was originally intended to be easily layered over any existing hash table implementation, including the many that support either SRFI 69 or R6RS (there is an implementation of [[https://code.launchpad.net/~scheme-libraries-team/scheme-libraries/srfi|SRFI 69 on top of R6RS]], plus all the native hash table systems mentioned in [[#Sources|Sources]] above.  However, this turned out not to be practical for the following reasons:
+
+* Gauche and MIT do not support arbitrary equivalence predicates, only `eq?`, `eqv?`, `equal?`, and `string=?`
+
+* Guile supports arbitrary equivalence predicates, but the equivalence predicate and hash procedure must be passed explicitly to all the primitive procedures.  Consequently, hash tables corresponding to this proposal would have to be records containing a Guile hash table, an equivalence predicate, and a hash procedure, meaning they could not interoperate directly with naked Guile hash tables.
+
+* SISC, Scheme48/scsh, RScheme, Scheme 7, Scheme 9, Rep do not provide any procedure that copies a hash table, nor any way of inspecting it to determine its equivalence predicates and hash procedures so that it can be re-created.
+
+* SLIB hash tables are vectors, not disjoint objects.
+
+* !FemtoLisp supports only `equal?` as the equivalence predicate.
+
+As a result, the sample implementation assumes the existence of a SRFI 69 implementation, and imports just the core procedures `make-hash-table`, `hash-table?`, `hash-table-ref/default`, `hash-table-set!`, `hash-table-delete!`, `hash-table-size` (as `hash-table-length`), `hash-table-walk`, and `hash-table-copy`.  New implementers who need to support this proposal from scratch can take the implementations of these procedures from the SRFI 69 implementation and add them to this implementation.
+
+To layer the implementation directly on top of R6RS, the corresponding procedures need to be imported from `(rnrs hashtables)`.  See the file `hash-tables.sls` in the implementation.
