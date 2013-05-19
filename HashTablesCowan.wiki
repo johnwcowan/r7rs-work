@@ -127,15 +127,15 @@ Returns a newly allocated hash table, created as if by `make-hash-table`, whose 
 
 `(hash-table? `''obj''`)`
 
-Returns `#t` if ''obj'' is a hash table.  (SRFI 69 `hash-table?`; R6RS `hashtable?`; Common Lisp `hash-table-p`)
+Returns `#t` if ''obj'' is a hash table, and `#f` otherwise.  (SRFI 69 `hash-table?`; R6RS `hashtable?`; Common Lisp `hash-table-p`)
 
 `(hash-table-contains? `''hash-table key''`)`
 
 Returns `#t` if there is any association to ''key'' in ''hash-table'', and `#f` otherwise.  Must execute in amortized O(1) time.  (SRFI 69 `hash-table-exists?`; R6RS `hashtable-contains?`)
 
-`(hash-table=? `''key= value= hash-table,,1,, hash-table,,2,,''`)`
+`(hash-table=? `''value= hash-table,,1,, hash-table,,2,,''`)`
 
-''Not yet defined''
+Returns `#t` if ''hash-table,,1,,'' and ''hash-table,,2,,'' have the same keys (in the sense of their common equivalence predicate) and the same values (in the sense of the ''value='' predicate) for each key, and `#f` otherwise.  It is an error to compare two hash tables that have distinct equivalence predicates.
 
 === Accessors ===
 
