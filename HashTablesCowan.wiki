@@ -86,7 +86,7 @@ The slash in the names of some procedures can be pronounced "with".
 
 == Specification ==
 
-The procedures in this proposal are in the `(scheme hash-tables)` and `(srfi xxx)` libraries (or (srfi :xxx) on R6RS).  However, the library in the sample implementation is named `(hash-tables)`.
+The procedures in this proposal are in the `(scheme hash-tables)` and `(srfi xxx)` libraries (or `(srfi :xxx)` on R6RS).  However, the library in the sample implementation is named `(hash-tables)`.
 
 Here is an index to the procedures of this specification:
 
