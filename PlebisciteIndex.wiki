@@ -51,6 +51,7 @@ See PlebisciteObjections for the objections to the draft embedded in these ballo
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003462.html|Felix S. Klock II]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003463.html|Mario Domenech Goulart]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003464.html|Tara Lorenz]]
+* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003465.html|Stephen Lewis]]
 
 == No ==
 
