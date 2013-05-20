@@ -56,29 +56,29 @@ Returns a list containing all but the last ''k'' elements of ''cycle'' in revers
 
 `(cycle-rotate `''cycle''` `''k''`)`
 
-''cycle-rotate'' returns a cycle obtained from ''cycle'' by a rotation of ''k'' steps forward, where ''k'' is an exact non-negative integer.
+Returns a cycle obtained from ''cycle'' by a rotation of ''k'' steps forward, where ''k'' is an exact non-negative integer.
 
 `(cycle-reverse-rotate `''cycle''` `''k''`)`
 
-''cycle-reverse-rotate'' returns a cycle obtained from ''cycle'' by a rotation of ''k'' steps backward, where ''k'' is an exact non-negative integer.
+Returns a cycle obtained from ''cycle'' by a rotation of ''k'' steps backward, where ''k'' is an exact non-negative integer.
 
 `(cycle-find `''cycle predicate''`)`
 
-''cycle-find'' returns a cycle obtained from ''cycle'' by a forward rotation of as few steps as possible such that the value of `cycle-front` satisfies `predicate`.
+Returns a cycle obtained from ''cycle'' by a forward rotation of as few steps as possible such that the value of `cycle-front` satisfies `predicate`.
 
 `(cycle-reversed-find `''cycle predicate''`)`
 
-''cycle-reversed-find'' returns a cycle obtained from ''cycle'' by a backward rotation of as few steps as possible such that the value of `(cycle-front ` ''cycle''`)` satisfies `predicate`.
+Returns a cycle obtained from ''cycle'' by a backward rotation of as few steps as possible such that the value of `(cycle-front ` ''cycle''`)` satisfies `predicate`.
 
 === Functional update ===
 
 `(cycle-remove-front `''cycle''`)`
 
-''cycle-remove-front'' returns a cycle obtained from ''cycle'', but lacking the front element.
+Returns a cycle obtained from ''cycle'', but lacking the front element.
 
 `(cycle-insert `''cycle''` `''obj''`)`
 
-Return a cycle obtained from ''cycle'', but where ''obj'' is added as the front element.
+Returns a cycle obtained from ''cycle'', but where ''obj'' is added as the front element.
 
 === Mapping and folding ===
 
@@ -88,7 +88,7 @@ All cycles must have the same length, and ''proc'' must be a procedure taking as
 
 `(cycle-for-each `''proc''` `''cycle'' ...`)`
 
-All cycles must have the same length, and ''proc'' must be a procedure taking as many arguments as there are ''cycles''. `cycle-for-each` applies ''proc'' to the elements of the cycle(s) and discards any results.
+All cycles must have the same length, and ''proc'' must be a procedure taking as many arguments as there are ''cycles''. `cycle-for-each` applies ''proc'' to the elements of the cycle(s) and discards any results.  Returns an unspecified value.
 
 `(cycle-fold `''proc''` `''nil''` `''cycle'' ...`)`
 
