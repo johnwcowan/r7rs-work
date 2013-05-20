@@ -1,6 +1,6 @@
 == Cycle type ==
 
-Cycles are an immutable container type similar to circular lists.
+Cycles are an immutable ordered, but unindexed, container type similar to circular lists.
 
 The idea is to make a cycle type disjoint from the other types, only interface is standardized. Scheme implementations are free to use any underlying structure to achieve it.
 
@@ -44,11 +44,11 @@ Returns the element in front of ''cycle''.
 
 `(cycle-insert `''cycle''` `''obj''`)`
 
-Returns a cycle where ''obj'' is put in front in ''cycle''.
+Return a cycle where ''obj'' is put in front in ''cycle''.
 
-`(cycle=? `''cycle1''` `''cycle2''`)`
+`(cycle=? `''equivalence cycle,,1,, cycle,,2,,''`)`
 
-Returns `#t` if ''cycle1'' and ''cycle2'' contain the same values (in the sense of `eqv?`) in the same order, independent of their rotations; otherwise returns `#f`.
+Return `#t` if ''cycle,,1,,'' and ''cycle,,2,,'' contain the same values (in the sense of the ''equivalence'' predicate) in the same order, independent of their rotations; otherwise return `#f`.
 
 Example:  `(cycle=? (make-cycle 1 2 3) (make-cycle 3 1 2)) => t`
 
@@ -64,6 +64,9 @@ All cycles must have the same length, and ''proc'' must be a procedure taking as
 
 All cycles must have the same length, and ''proc'' must be a procedure taking as many arguments as there are ''cycles'', plus one additional argument, and returning a single value. `cycle-fold` applies ''proc'' to the elements of the cycle(s) and the value previously returned by ''proc''.  On the first call to ''proc'', the additional argument is ''nil''.  Returns the result of the final call to ''proc''.
 
+`(cycle-unfold `''continue? successor mapper seed''`)`
+
+Start with an empty list.  If the result of applying the predicate ''continue?'' to ''seed'' is `#f`, apply `make-cycle` to the reversed list and return the result.  Otherwise, apply the procedure ''mapper'' to ''seed''.  The value of ''mapper'' is prepended onto the list.  Then get a new seed by applying the procedure ''successor'' to ''seed'', and repeat this algorithm.
 
 === External representations ===
 
@@ -71,10 +74,6 @@ The cycle composed of elements 1, 2 and 3 with 1 in front can be written as foll
 
   `#cycle(1 2 3)`
 
-== Endorsements ==
 
-John Cowan endorses this document, except for the external representation section.
-
-John Cowan also proposes adding `cycle-ref` by analogy with `list-ref`, although random access to cycles is normally not a good idea, any more than to lists.
 
 
