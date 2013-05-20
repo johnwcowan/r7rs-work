@@ -30,7 +30,7 @@ Dictionaries (may include hash tables):
 
 Division library: DivisionRiastradh
 
-Enumerations and enum-sets: [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-15.html#node_chap_14|R6RS]] (see also http://www.r6rs.org/formal-comments/comment-262.txt), SetsCowan, [[http://wiki.call-cc.org/eggref/4/miscmacros|Chicken miscmacros egg]]
+Enumerations and enum-sets: [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-15.html#node_chap_14|R6RS]] (see also http://www.r6rs.org/formal-comments/comment-262.txt), SetsCowan, `define-enum` in the [[http://wiki.call-cc.org/eggref/4/miscmacros|Chicken miscmacros egg]]
 
 Environment enquiries: EnvironmentEnquiriesCowan
 
