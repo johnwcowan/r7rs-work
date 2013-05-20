@@ -84,6 +84,10 @@ The native hash tables of [[http://web.mit.edu/scheme_v9.0.1/doc/mit-scheme-ref/
 
 The slash in the names of some procedures can be pronounced "with".
 
+=== Acknowledgements ===
+
+Much of the language of this proposal is copied from SRFI 69 with thanks to its author, Panu Kalliokoski.
+
 == Specification ==
 
 The procedures in this proposal are in the `(scheme hash-tables)` and `(srfi xxx)` libraries (or `(srfi :xxx)` on R6RS).  However, the library in the sample implementation is named `(hash-tables)`.
