@@ -12,7 +12,7 @@ In this proposal, a filename passed to any of `open-input-file`, `open-binary-in
 
  `binary`::
 
- If the value of this key is true, then a call to `open-input-file`, `open-output-file`, `with-input-from-file`, `with-output-from-file`, `call-with-input-file`, or `call-with-output-file` will allow binary operations and respond `#t` to `binary-port?`.  If `textual` is specified as `#t`, textual operations may also be possible as explained under `textual`.  It is an error to specify the value as `#f` on calls to `open-binary-input-file` or `open-binary-output-file` (which would be self-contradictory); otherwise, the value `#f` causes the key to be ignored.
+ If the value of this key is true, then a call to `open-input-file`, `open-output-file`, `with-input-from-file`, `with-output-from-file`, `call-with-input-file`, or `call-with-output-file` will allow binary operations and respond `#t` to `binary-port?`.  If the `textual` key is present and has a true value also, textual operations may also be possible as explained under `textual`.  It is an error to specify the value as `#f` on calls to `open-binary-input-file` or `open-binary-output-file` (which would be self-contradictory); otherwise, the value `#f` causes the key to be ignored.
 
  `bidirectional`::
 
