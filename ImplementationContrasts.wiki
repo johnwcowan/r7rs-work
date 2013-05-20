@@ -4,9 +4,11 @@ This is an index to pages that describe various detailed differences between Sch
 
 As of 2012-05-29, the list of Scheme implementations tested is:
 
-Racket, Gauche, MIT, Gambit, plain Chicken, Chicken with the numbers egg, Bigloo, Scheme48, scsh, Guile, Kawa, SISC, Chibi, SCM, Chez, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, NexJ, STklos, KSi, !SigScheme, Shoe, !TinyScheme, Scheme 9, Dream, RScheme, Scheme 7, BDC, XLisp, Rep, Schemik, Elk, UMB, VX, Oaklisp, Llava, SXM, Sizzle, Spark, Femtolisp, Dfsch, Inlab, Owl Lisp.
+Racket, Gauche, MIT, Gambit, plain Chicken, Chicken with the numbers egg, Bigloo, Scheme48, scsh, Guile, Kawa, SISC, Chibi, SCM, Chez, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, NexJ, STklos, KSi, !SigScheme, Shoe, !TinyScheme, Scheme 9, Dream, RScheme, S7, BDC, XLisp, Rep, Schemik, Elk, UMB, VX, Oaklisp, Llava, SXM, Sizzle, Spark, Femtolisp, Dfsch, Inlab, Owl Lisp.
 
 As of 2013-01-31, I am no longer able to build VX or Spark, so they will be excluded from the suite from now on.
+
+S7 was formerly, but incorrectly, known in these pages as "Scheme 7", and many references to this name survive.  It's really named after [[http://en.wikipedia.org/wiki/Sunbeam_S7_and_S8|the motorcycle]].
 
 Not all these pages have information on all these Schemes.
 
