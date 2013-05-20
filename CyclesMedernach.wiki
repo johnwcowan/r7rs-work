@@ -18,13 +18,19 @@ Constructs and returns a new cycle containing ''elements''.
 
 Constructs and returns a list whose elements are those of ''cycle''.
 
-=== Predicate ===
+=== Predicates ===
 
 `(cycle? `''obj''`)`
 
 Returns `#t` if obj is a cycle, and otherwise returns `#f`.
 
-=== Associated procedures ===
+`(cycle=? `''equivalence cycle,,1,, cycle,,2,,''`)`
+
+Return `#t` if ''cycle,,1,,'' and ''cycle,,2,,'' contain the same values (in the sense of the ''equivalence'' predicate) in the same order, independent of their rotations; otherwise return `#f`.
+
+Example:  `(cycle=? (make-cycle 1 2 3) (make-cycle 3 1 2)) => t`
+
+=== Accessors ===
 
 `(cycle-length `''cycle''`)`
 
@@ -34,23 +40,25 @@ Returns the number of elements in ''cycle''.
 
 Returns the element in front of ''cycle''.
 
+`(cycle-rotate `''cycle''` `''k''`)`
+
+''cycle-rotate'' returns a cycle obtained from ''cycle'' by a rotation of ''k'' steps, which is an exact integer.  If ''k'' is positive, the rotation is forward; if ''k'' is negative, the rotation is backward; if ''k'' is zero, there is no rotation.
+
+`(cycle-find `''cycle pred'' [[|''reversed?'' ]]`)`
+
+''cycle-find'' returns a cycle obtained from ''cycle'' by a rotation of as few steps as possible such that the value of `cycle-front` satisfies `pred`.  If ''reversed?'' is true (by default it is false), the rotation goes in the reverse direction.
+
+=== Functional update ===
+
 `(cycle-remove-front `''cycle''`)`
 
 ''cycle-remove-front'' returns a cycle obtained from ''cycle'' where the front element has been removed.
-
-`(cycle-rotate `''cycle''` `''k''`)`
-
-''cycle-rotate'' returns a cycle obtained from ''cycle'' by a rotation of ''k'', which is an exact integer.  If ''k'' is positive, the rotation is forward; if ''k'' is negative, the rotation is backward; if ''k'' is zero, there is no rotation.
 
 `(cycle-insert `''cycle''` `''obj''`)`
 
 Return a cycle where ''obj'' is put in front in ''cycle''.
 
-`(cycle=? `''equivalence cycle,,1,, cycle,,2,,''`)`
-
-Return `#t` if ''cycle,,1,,'' and ''cycle,,2,,'' contain the same values (in the sense of the ''equivalence'' predicate) in the same order, independent of their rotations; otherwise return `#f`.
-
-Example:  `(cycle=? (make-cycle 1 2 3) (make-cycle 3 1 2)) => t`
+=== Mapping and folding ===
 
 `(cycle-map `''proc''` `''cycle'' ...`)`
 
@@ -74,6 +82,6 @@ The cycle composed of elements 1, 2 and 3 with 1 in front can be written as foll
 
   `#cycle(1 2 3)`
 
+== Ideas from SRFI 1 ==
 
-
-
+take, drop, take-reversed, drop-reversed, reverse, count, filter, partition, remove, any, every
