@@ -16,7 +16,7 @@ Boxes/references: [[http://srfi.schemers.org/srfi-111/srfi-111.html|SRFI 111]]
 
 Character encoding conversion:
 
-Conditions: 
+Conditions: ConditionsCowan
 
 Container conversion: [[http://trac.sacrideo.us/wg/wiki/WG1Ballot6Results#a433fullconversioncycleforcontainers|ballot options]]
 
