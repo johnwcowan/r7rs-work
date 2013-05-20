@@ -425,13 +425,13 @@ Returns `#t` if ''obj'' is an object raised by the `hash-table-ref` procedure or
 
 The sample implementation (''not yet written'') was originally intended to be easily layered over any existing hash table implementation, including the many that support either SRFI 69 or R6RS (there is an implementation of [[https://code.launchpad.net/~scheme-libraries-team/scheme-libraries/srfi|SRFI 69 on top of R6RS]], plus all the native hash table systems mentioned in [[#Sources|Sources]] above.  However, this turned out not to be practical for the following reasons:
 
-* Racket does not support arbitrary equivalence predicates, only `eq?`, `eqv?`, and `equal?`.
+* Racket, Gauche, and MIT do not support arbitrary equivalence predicates, only `eq?`, `eqv?`, `equal?`, and `string=?`.
 
-* Gauche and MIT do not support arbitrary equivalence predicates, only `eq?`, `eqv?`, `equal?`, and `string=?`.
+* S7 does not support arbitrary equivalence predicates: the implementation chooses a predicate based on the nature of the keys.
 
 * Guile supports arbitrary equivalence predicates, but in that case the equivalence predicate and hash procedure must be passed explicitly to all the primitive procedures.  Consequently, hash tables corresponding to the present proposal would have to be records containing a Guile hash table, an equivalence predicate, and a hash procedure, meaning they could not interoperate directly with naked Guile hash tables.
 
-* SISC, Scheme48/scsh, RScheme, Scheme 7, Scheme 9, Rep do not provide any procedure that copies a hash table, nor any way of inspecting it to determine its equivalence predicates and hash procedures so that it can be re-created.
+* SISC, Scheme48/scsh, RScheme, Scheme 9, and Rep do not provide any procedure that copies a hash table, nor any way of inspecting it to determine its equivalence predicates and hash procedures so that it can be re-created.
 
 * SLIB hash tables are vectors, not disjoint objects.
 
