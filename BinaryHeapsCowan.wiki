@@ -100,8 +100,6 @@ Returns `#t` if ''obj'' is a queue, and `#f` otherwise.
 
 Returns the number of elements in ''queue''.
 
-'''Issue:''' change the name to `queue-size` or `queue-count`?
-
 `(queue-member? `''queue''` `''element''`)`
 
 Returns `#t` if ''element'' is a member of ''queue'' (in the sense of `eqv?`) and `#f` otherwise.
@@ -129,8 +127,6 @@ Removes the first element of the queue and returns it.  This operation should be
 `(queue-remove-last! `''queue''`)`
 
 Removes the last element of the queue and returns it.  This operation should be O(1).
-
-'''Issue:''' Maybe return an unspecified result instead?  Returning the removed value is convenient but contrary to the usual Scheme style.
 
 `(queue-map `''proc queue''`)`
 
