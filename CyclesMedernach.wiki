@@ -26,9 +26,13 @@ Returns `#t` if obj is a cycle, and otherwise returns `#f`.
 
 `(cycle=? `''equivalence cycle,,1,, cycle,,2,,''`)`
 
+Return `#t` if ''cycle,,1,,'' and ''cycle,,2,,'' contain the same values (in the sense of the ''equivalence'' predicate) in the same order; otherwise return `#f`.
+
+`(cycle=?/rotation `''equivalence cycle,,1,, cycle,,2,,''`)`
+
 Return `#t` if ''cycle,,1,,'' and ''cycle,,2,,'' contain the same values (in the sense of the ''equivalence'' predicate) in the same order, independent of their rotations; otherwise return `#f`.
 
-Example:  `(cycle=? (make-cycle 1 2 3) (make-cycle 3 1 2)) => t`
+Example:  `(cycle=? eqv? (cycle 1 2 3) (3 1 2)) => t`
 
 === Accessors ===
 
@@ -72,7 +76,7 @@ Returns a cycle obtained from ''cycle'' by a backward rotation of as few steps a
 
 === Functional update ===
 
-`(cycle-remove-front `''cycle''`)`
+`(cycle-delete-front `''cycle''`)`
 
 Returns a cycle obtained from ''cycle'', but lacking the front element.
 
