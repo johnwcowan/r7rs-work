@@ -108,7 +108,7 @@ Here is an index to the procedures of this specification:
 
 * [[#Hashtablesasfunctions|Hash tables as functions]]: `hash-table-accessor`, `hash-table-accessor/default`, `hash-table-mutator`, `hash-table-deleter`, `hash-table-extender`, `hash-table-extender/default`, `hash-table-replacer`, `hash-table-replacer/default`, `hash-table-updater`, `hash-table-updater/default`
 
-* [[#Hashtablesassets|Hash tables as sets]]: `hash-table-union`, `hash-table-union!`, `hash-table-difference`, `hash-table-difference!`
+* [[#Hashtablesassets|Hash tables as sets]]: `hash-table-union`, `hash-table-union!`, `hash-table-intersection`, `hash-table-intersection!`, `hash-table-difference`, `hash-table-difference!`
 
 * [[#Exceptions|Exceptions]]: `hash-table-error?` `hash-table-not-found?`
 
@@ -388,6 +388,14 @@ Adds the associations of ''hash-table,,2,,'' to a copy of ''hash-table,,1,,'' an
 `(hash-table-union! `''hash-table,,1,, hash-table,,2,,'' [[|''merger'' ]]`)`
 
 Adds the associations of ''hash-table,,2,,'' to ''hash-table,,1,,'' and returns it.  The values are merged using the ''merger'' procedure, which defaults to `(lambda (value1 value2) value2)`. 
+
+`(hash-table-intersection `''hash-table,,1,, hash-table,,2,,'' [[|''merger'' ]]`)`
+
+Removes the associations from a copy of ''hash-table,,1,,'' which don't also appear in ''hash-table,,2,,'' and returns the copy.  The values are merged using the ''merger'' procedure, which defaults to `(lambda (value1 value2) value2)`.  (SRFI 69 `hash-table-merge!`)
+
+`(hash-table-intersection! `''hash-table,,1,, hash-table,,2,,'' [[|''merger'' ]]`)`
+
+Removes the associations from ''hash-table,,1,,'' which don't also appear in ''hash-table,,2,,'' and returns ''hash-table,,1,,''.  The values are merged using the ''merger'' procedure, which defaults to `(lambda (value1 value2) value2)`.  (SRFI 69 `hash-table-merge!`)
 
 `(hash-table-difference `''hash-table,,1,, hash-table,,2,,''`)`
 
