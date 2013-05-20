@@ -317,9 +317,9 @@ Calls ''proc'' for every association in ''hash-table'' with two arguments: the k
 
 Calls ''proc'' for every association in ''hash-table'' with three arguments: the key of the association, the value of the association, and an accumulated value ''val''.  ''Val'' is ''init'' for the first invocation of ''procedure'', and for subsequent invocations of ''procedure'', the returned value of the previous invocation.  The value returned by `hash-table-fold` is the return value of the last invocation of ''proc''. The order in which ''procedure'' is called for different associations is unspecified.  (SRFI 69 `hash-table-fold` has the ''hash-table'' as the first argument)
 
-`(hash-table-unfold `''equivalence hash continue? mapper successor seed''`)`
+`(hash-table-unfold `''continue? mapper successor seed equivalence'' [[|''hash'' ]]`)`
 
-Create a new hash table using ''equivalence'' and ''hash''.  If the result of applying the predicate ''continue?'' to ''seed'' is `#f`, return the hash table.  Otherwise, apply the procedure ''mapper'' to ''seed''.  ''Mapper'' returns two values, which are inserted into the hash table as the key and the value respectively.  Then get a new seed by applying the procedure ''successor'' to ''seed'', and repeat this algorithm.
+Create a new hash table as if by `make-hash-table`.  If the result of applying the predicate ''continue?'' to ''seed'' is `#f`, return the hash table.  Otherwise, apply the procedure ''mapper'' to ''seed''.  ''Mapper'' returns two values, which are inserted into the hash table as the key and the value respectively.  Then get a new seed by applying the procedure ''successor'' to ''seed'', and repeat this algorithm.
 
 === Copying and conversion ===
 
