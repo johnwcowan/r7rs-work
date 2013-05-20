@@ -8,15 +8,15 @@ The idea is to make a cycle type disjoint from the other types, only interface i
 
 `(make-cycle `''list''`)`
 
-Returns a newly allocated cycle whose elements are the elements of ''list''.  Order is preserved.
+Returns a cycle whose elements are the elements of ''list''.  Order is preserved.
 
 `(cycle `''element'' ...`)`
 
-Returns a newly allocated cycle containing ''elements''.  Order is preserved.
+Returns a cycle containing ''elements''.  Order is preserved.
 
 `(cycle->list `''cycle''`)`
 
-Returns a newly allocated list whose elements are those of ''cycle''.  Order is preserved.
+Returns a list whose elements are those of ''cycle''.  Order is preserved.
 
 === Predicates ===
 
@@ -74,17 +74,17 @@ Returns a list containing all but the last ''k'' elements of ''cycle'' in revers
 
 `(cycle-remove-front `''cycle''`)`
 
-''cycle-remove-front'' returns a newly allocated cycle obtained from ''cycle'', but lacking the front element.
+''cycle-remove-front'' returns a cycle obtained from ''cycle'', but lacking the front element.
 
 `(cycle-insert `''cycle''` `''obj''`)`
 
-Return a newly allocated cycle obtained from ''cycle'', but where ''obj'' is added as the front element.
+Return a cycle obtained from ''cycle'', but where ''obj'' is added as the front element.
 
 === Mapping and folding ===
 
 `(cycle-map `''proc''` `''cycle'' ...`)`
 
-All cycles must have the same length, and ''proc'' must be a procedure taking as many arguments as there are ''cycles'' and returning a single value. `cycle-map` applies ''proc'' to the elements of the cycle(s) and returns a newly allocated cycle of the corresponding results.
+All cycles must have the same length, and ''proc'' must be a procedure taking as many arguments as there are ''cycles'' and returning a single value. `cycle-map` applies ''proc'' to the elements of the cycle(s) and returns a cycle of the corresponding results.
 
 `(cycle-for-each `''proc''` `''cycle'' ...`)`
 
@@ -106,7 +106,7 @@ Returns the number of elements in ''cycle''.
 
 `(cycle-reverse `''cycle''`)`
 
-Return a newly allocated cycle containing the same elements as this cycle but in reverse order.  Navigating a reversed cycle forward is the same as navigating the original cycle backward.
+Return a cycle containing the same elements as this cycle but in reverse order.  Navigating a reversed cycle forward is the same as navigating the original cycle backward.
 
 `(cycle-count `''cycle predicate''`)`
 
@@ -122,15 +122,15 @@ Returns `#t` if every element of ''cycle'' satisfies ''predicate'', and `#f` oth
 
 `(cycle-filter `''cycle predicate''`)`
 
-Returns a newly allocated cycle containing those elements which satisfy ''predicate''.  Order is preserved.
+Returns a cycle containing those elements which satisfy ''predicate''.  Order is preserved.
 
 `(cycle-remove `''cycle predicate''`)`
 
-Returns a newly allocated cycle containing those elements which do not satisfy ''predicate''.  Order is preserved.
+Returns a cycle containing those elements which do not satisfy ''predicate''.  Order is preserved.
 
 `(cycle-partition `''cycle predicate''`)`
 
-Returns two values, a newly allocated cycle containing those elements which satisfy ''predicate'', and another newly allocated cycle containing those elements which do not.  Order is preserved.
+Returns two values, a cycle containing those elements which satisfy ''predicate'', and another cycle containing those elements which do not.  Order is preserved.
 
 == External representation ==
 
