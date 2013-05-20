@@ -108,7 +108,7 @@ Returns a cycle obtained from ''cycle'', but where ''obj'' is added as the first
 
 Returns a cycle obtained from ''cycle'', but where ''obj'' is added as the last element.
 
-`(cycle-delete-first`''cycle''`)`
+`(cycle-delete-first `''cycle''`)`
 
 Returns a cycle obtained from ''cycle'', but lacking the first element.
 
