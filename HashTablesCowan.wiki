@@ -6,7 +6,7 @@ This WG2 proposal defines an interface to hash tables, which are widely recogniz
    * Provides a mapping from objects known as ''keys'' to corresponding objects known as ''values''.
      * Keys may be any Scheme objects in some kinds of hash tables, but are restricted in other kinds.
      * Values may be any Scheme objects.
-   * Has no intrinsic order for the key-value ''associations'' it contains, though an order may be defined as an extension.
+   * Has no intrinsic order for the key-value ''associations'' it contains.
    * Provides an ''equivalence predicate'' which defines when a proposed key is the same as an existing key.  No table may contain more than one value for a given key.
    * Provides a ''hash procedure'' which maps a candidate key into a non-negative exact integer.
    * Supports mutation as the primary means of setting the contents of a table.
