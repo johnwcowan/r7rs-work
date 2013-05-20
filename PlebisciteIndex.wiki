@@ -56,7 +56,7 @@ See PlebisciteObjections for the objections to the draft embedded in these ballo
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003471.html|Alex Sandro Queiroz e Silva]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003472.html|David Preston Kendal]]  (will change to no if #478 is rejected)
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003473.html|Juergen Lorenz]]
-* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003475.html|Will Clinger]]
+* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003475.html|William D Clinger]]
 
 == No ==
 
