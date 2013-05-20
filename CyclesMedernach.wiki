@@ -4,19 +4,19 @@ Cycles are an immutable ordered, but unindexed, container type similar to circul
 
 The idea is to make a cycle type disjoint from the other types, only interface is standardized. Scheme implementations are free to use any underlying structure to achieve it.
 
-=== Constructor and type conversion === 
+=== Constructors and type conversion === 
 
 `(make-cycle `''list''`)`
 
-Constructs and returns a new cycle whose elements are the elements of ''list''.
+Returns a newly allocated cycle whose elements are the elements of ''list''.  Order is preserved.
 
 `(cycle `''element'' ...`)`
 
-Constructs and returns a new cycle containing ''elements''.
+Returns a newly allocated cycle containing ''elements''.  Order is preserved.
 
 `(cycle->list `''cycle''`)`
 
-Constructs and returns a list whose elements are those of ''cycle''.
+Returns a newly allocated list whose elements are those of ''cycle''.  Order is preserved.
 
 === Predicates ===
 
@@ -32,31 +32,53 @@ Example:  `(cycle=? (make-cycle 1 2 3) (make-cycle 3 1 2)) => t`
 
 === Accessors ===
 
-`(cycle-length `''cycle''`)`
-
-Returns the number of elements in ''cycle''.
-
 `(cycle-front `''cycle''`)`
 
 Returns the element in front of ''cycle''.
 
+`(cycle-take `''cycle k''`)`
+
+Returns a list containing the first ''k'' elements of ''cycle''.
+
+`(cycle-reverse-take `''cycle k''`)`
+
+Returns a list containing the last ''k'' elements of ''cycle'' in reverse order.
+
+`(cycle-drop `''cycle k''`)`
+
+Returns a list containing all but the first ''k'' elements of ''cycle''.
+
+`(cycle-reverse-drop `''cycle k''`)`
+
+Returns a list containing all but the last ''k'' elements of ''cycle'' in reverse order.
+
+=== Rotation ===
+
 `(cycle-rotate `''cycle''` `''k''`)`
 
-''cycle-rotate'' returns a cycle obtained from ''cycle'' by a rotation of ''k'' steps, which is an exact integer.  If ''k'' is positive, the rotation is forward; if ''k'' is negative, the rotation is backward; if ''k'' is zero, there is no rotation.
+''cycle-rotate'' returns a cycle obtained from ''cycle'' by a rotation of ''k'' steps forward, where ''k'' is an exact non-negative integer.
 
-`(cycle-find `''cycle pred'' [[|''reversed?'' ]]`)`
+`(cycle-reverse-rotate `''cycle''` `''k''`)`
 
-''cycle-find'' returns a cycle obtained from ''cycle'' by a rotation of as few steps as possible such that the value of `cycle-front` satisfies `pred`.  If ''reversed?'' is true (by default it is false), the rotation goes in the reverse direction.
+''cycle-reverse-rotate'' returns a cycle obtained from ''cycle'' by a rotation of ''k'' steps backward, where ''k'' is an exact non-negative integer.
+
+`(cycle-find `''cycle predicate''`)`
+
+''cycle-find'' returns a cycle obtained from ''cycle'' by a forward rotation of as few steps as possible such that the value of `cycle-front` satisfies `predicate`.
+
+`(cycle-reversed-find `''cycle predicate''`)`
+
+''cycle-reversed-find'' returns a cycle obtained from ''cycle'' by a backward rotation of as few steps as possible such that the value of `(cycle-front ` ''cycle''`)` satisfies `predicate`.
 
 === Functional update ===
 
 `(cycle-remove-front `''cycle''`)`
 
-''cycle-remove-front'' returns a cycle obtained from ''cycle'' where the front element has been removed.
+''cycle-remove-front'' returns a newly allocated cycle obtained from ''cycle'', but lacking the front element.
 
 `(cycle-insert `''cycle''` `''obj''`)`
 
-Return a cycle where ''obj'' is put in front in ''cycle''.
+Return a newly allocated cycle obtained from ''cycle'', but where ''obj'' is added as the front element.
 
 === Mapping and folding ===
 
@@ -76,12 +98,42 @@ All cycles must have the same length, and ''proc'' must be a procedure taking as
 
 Start with an empty list.  If the result of applying the predicate ''continue?'' to ''seed'' is `#f`, apply `make-cycle` to the reversed list and return the result.  Otherwise, apply the procedure ''mapper'' to ''seed''.  The value of ''mapper'' is prepended onto the list.  Then get a new seed by applying the procedure ''successor'' to ''seed'', and repeat this algorithm.
 
-=== External representations ===
+=== The whole cycle ===
+
+`(cycle-length `''cycle''`)`
+
+Returns the number of elements in ''cycle''.
+
+`(cycle-reverse `''cycle''`)`
+
+Return a newly allocated cycle containing the same elements as this cycle but in reverse order.  Navigating a reversed cycle forward is the same as navigating the original cycle backward.
+
+`(cycle-count `''cycle predicate''`)`
+
+Returns the number of elements of ''cycle'' which satisfy ''predicate''.
+
+`(cycle-any `''cycle predicate''`)`
+
+Returns `#t` if any element of ''cycle'' satisfies ''predicate'', and `#f` otherwise.
+
+`(cycle-every `''cycle predicate''`)`
+
+Returns `#t` if every element of ''cycle'' satisfies ''predicate'', and `#f` otherwise.
+
+`(cycle-filter `''cycle predicate''`)`
+
+Returns a newly allocated cycle containing those elements which satisfy ''predicate''.  Order is preserved.
+
+`(cycle-remove `''cycle predicate''`)`
+
+Returns a newly allocated cycle containing those elements which do not satisfy ''predicate''.  Order is preserved.
+
+`(cycle-partition `''cycle predicate''`)`
+
+Returns two values, a newly allocated cycle containing those elements which satisfy ''predicate'', and another newly allocated cycle containing those elements which do not.  Order is preserved.
+
+== External representation ==
 
 The cycle composed of elements 1, 2 and 3 with 1 in front can be written as following:
 
   `#cycle(1 2 3)`
-
-== Ideas from SRFI 1 ==
-
-take, drop, take-reversed, drop-reversed, reverse, count, filter, partition, remove, any, every
