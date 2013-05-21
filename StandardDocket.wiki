@@ -88,7 +88,7 @@ Pattern matching: MatchingWise
 
 Port functions (concatenate, join, split): PortOperationsCowan
 
-Procedure arity inspection: [[http://srfi.schemers.org/srfi-102/srfi-102.html|SRFI 102]]
+Procedure arity inspection: [[http://srfi.schemers.org/srfi-102/srfi-102.html|SRFI 102]], [[http://srfi.schemers.org/srfi-102/mail-archive/msg00011.html|Dybvig's proposal]]
 
 Processes (system, popen, etc): SystemCommandCowan + ProcessPortsCowan
 
