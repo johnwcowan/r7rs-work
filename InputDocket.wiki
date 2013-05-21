@@ -2,23 +2,15 @@
 
 This docket contains work items that need to be voted on for possible inclusion into R7RS-large.  See [[:WG2Dockets|WG2Dockets]] for other dockets.
 
-`cond` `=>` with guard as well as generator (see #89):  [[http://srfi.schemers.org/srfi-61/srfi-61.html|SRFI 61]]
-
 Custom I/O ports: [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html|R6RS]]
 
 Default exception handler controls:
-
-Evaluator arguments to procedures like `load`: see #277
-
-Extended exact numbers:  ExtendedRationalsCowan
 
 External representation of records: 
 
 Features, allowing libraries to add:
 
 Identifier-syntax: [[http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_sec_11.19|R6RS]]
-
-`if` with arbitrarily many arguments: [[http://dpk.io/r7rs/naryif-20130406|David Kendal's rationale]]
 
 R6RS versions of `real?`, `rational?`, `integer?`: these are false if the imaginary part is an inexact zero; the issue here is what to name them to avoid confusion
 
@@ -30,8 +22,6 @@ Jiffy cleanup: [[http://arcanesentiment.blogspot.com/2012/07/current-jiffy-is-no
 
 Macro expander(s) available at run time: 
 
-Multiple values passed through => in `cond`: see #90 
-
 `number->string` variant with control for significant digits: [[http://lists.scheme-reports.org/pipermail/scheme-reports/2011-May/000709.html|Vincent Manis proposal]], R6RS
 
 `number->string` and `string->number` with non-ASCII decimal digits: NumberStringUnicode
@@ -42,8 +32,6 @@ Port type detector: see #177
 
 R6RS compatibility: whole libraries or cherry-picked procedures:
 
-Raw strings:  <<, """...""", [[http://srfi.schemers.org/srfi-109/srfi-109.html|SRFI 109]]
-
 Record external representations: 
 
 `standard-*-port` routines:  [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html|R6RS]]
@@ -53,8 +41,6 @@ String positions and slices: [[http://www.r6rs.org/formal-comments/comment-235.t
 Tree library: at least `tree=?` and `tree-copy`, probably Common Lisp [[http://www.lispworks.com/documentation/lw50/CLHS/Body/f_sublis.htm|SUBLIS and NSUBLIS]], fold, unfold, map ... 
 
 Thread-local storage: 
-
-Undefined value API: see #49
 
 Unquote with multiple arguments:  see #123
 
