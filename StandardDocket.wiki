@@ -48,7 +48,7 @@ Gettext (i18n of strings):
 
 Hash tables: [[http://srfi.schemers.org/srfi-69/srfi-69.html|SRFI 69]], [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-14.html#node_chap_13|R6RS]] (in WG1 vote order), HashTablesCowan (much larger API, can be layered over either of the others)
 
-Homogeneous numeric arrays: [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-3.html#node_chap_2,|R6RS]], [[http://srfi.schemers.org/srfi-4/srfi-4.html|SRFI 4]], [[http://srfi.schemers.org/srfi-63/srfi-63.html|SRFI 63]] (supersedes SRFI 25 and SRFI 47), [[http://srfi.schemers.org/srfi-66/srfi-66.html|SRFI 66]], [[http://srfi.schemers.org/srfi-74/srfi-74.html|SRFI 74]], NumericVectorsCowan
+Homogeneous numeric arrays: [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-3.html#node_chap_2,|R6RS]], [[http://srfi.schemers.org/srfi-4/srfi-4.html|SRFI 4]], [[http://srfi.schemers.org/srfi-63/srfi-63.html|SRFI 63]] (supersedes SRFI 25 and SRFI 47; lexical syntax in [[http://srfi.schemers.org/srfi-58/srfi-58.html|SRFI 58), [http://srfi.schemers.org/srfi-66/srfi-66.html SRFI 66]], [[http://srfi.schemers.org/srfi-74/srfi-74.html|SRFI 74]], NumericVectorsCowan
 
 Immutable cyclic lists: CyclesMedernach
 
@@ -60,7 +60,7 @@ Mailboxes, channels, synchronized queues:
 
 C89 or C99 <math.h>: FlonumsCowan
 
-Memoization:
+Memoization: Memoize (not a proposal yet)
 
 Message digests (CRC, MD5, SHA1, SHA2):
 
