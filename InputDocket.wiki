@@ -4,8 +4,6 @@ This docket contains work items that need to be voted on for possible inclusion 
 
 `cond` `=>` with guard as well as generator (see #89):  [[http://srfi.schemers.org/srfi-61/srfi-61.html|SRFI 61]]
 
-`cond` `=>` passes multiple values from predicate to consumer:
-
 Custom I/O ports: [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html|R6RS]]
 
 Default exception handler controls:
