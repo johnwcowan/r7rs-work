@@ -40,3 +40,5 @@ These are the editorial corrections to the eighth draft in reverse order.  All a
 * Editors of earlier reports don't necessarily support this one
 * Condensing second exception example
 * Clarifying `with-exception-handler` example that returns.
+
+This page is now obsolete: see the ninth draft.
