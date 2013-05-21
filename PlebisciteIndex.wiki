@@ -60,6 +60,7 @@ See PlebisciteObjections for the objections to the draft embedded in these ballo
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003479.html|Justin Ethier]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003480.html|Arthur Maciel Nunes Gonçalves]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003481.html|Seth Alves]]
+* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003482.html|Jay Sulzberger]]
 
 == No ==
 
