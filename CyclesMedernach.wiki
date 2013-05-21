@@ -1,8 +1,6 @@
 == Cycle type ==
 
-Cycles are an immutable ordered, but unindexed, container type similar to circular lists.
-
-The idea is to make a cycle type disjoint from the other types, only interface is standardized. Scheme implementations are free to use any underlying structure to achieve it.
+Cycles are an immutable ordered, but unindexed, container type similar to circular lists.  Unlike lists, however, cycles are fully bidirectional.
 
 === Constructors and type conversion === 
 
