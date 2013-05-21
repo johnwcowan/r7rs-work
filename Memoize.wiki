@@ -20,6 +20,6 @@ There are a bunch of issues, though:
 
  * Do we support multiple returned values?  Maybe not by default, only if specifically requested, because of the overhead.
 
-Adding extra arguments to `lambda/memo` beyond the lambda-list and the body doesn't seem like a win to me (how do you know if the extra arguments are arguments, or part of the body?).  Are dynamic parameters the Right Thing here?  I don't think so, because all these factors should be bound to the static definition of the memoized functions.  Is this a place where we need keyword arguments (which can be implemented directly in R5RS with no new data structures or lambda magic)?
+Adding extra arguments to `lambda/memo` beyond the lambda-list and the body doesn't seem like a win to me (how do you know if the extra arguments are arguments, or part of the body?).  Are dynamic parameters the Right Thing here?  I don't think so, because all these factors should be bound to the static definition of the memoized functions.  Is this a place where we need keyword arguments in `lambda/memo`?
 
 I think we need a record type `memoization-store` that provides a store constructor, comparator, getter, and setter.  But we still have the issue of associating an instance of `memoization-store` with a particular lambda.
