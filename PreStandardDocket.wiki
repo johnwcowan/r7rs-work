@@ -1,2 +1,20 @@
 This docket contains work items that the chair is moving (unless there is objection) from InputDocket to StandardDocket.  See [[:WG2Dockets|WG2Dockets]] for other dockets.
 
+`cond` `=>` with guard as well as generator (see #89):  [[http://srfi.schemers.org/srfi-61/srfi-61.html|SRFI 61]]
+
+Evaluator arguments to procedures like `load`: see #277
+
+Extended exact numbers:  ExtendedRationalsCowan
+
+`if` with arbitrarily many arguments: [[http://dpk.io/r7rs/naryif-20130406|David Kendal's rationale]]
+
+Multiple values passed through => in `cond`: see #90 
+
+`number->string` and `string->number` with non-ASCII decimal digits: NumberStringUnicode
+
+Raw strings:  <<, """...""", [[http://srfi.schemers.org/srfi-109/srfi-109.html|SRFI 109]]
+
+String positions and slices: [[http://www.r6rs.org/formal-comments/comment-235.txt|R6RS formal comment]]
+
+Undefined value API: see #49
+
