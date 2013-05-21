@@ -1,0 +1,13 @@
+These are the editorial corrections to the eighth draft in reverse order.  All are present in the ninth (ballot) draft.
+
+* Added note about R6RS vs. R7RS bytevector-copy!
+* Restored reference to `eqv?` in the storage model (as opposed to "operational equivalence")
+* Improved allocation discussion to handle empty objects specially
+* Changed "as following" to "as follows"
+* Cleaned up all cases of "forbidden in strings" to be uniform
+* Made the definitions of character comparisons defer to `char->integer` to handle non-Unicode
+* Fixed quasiquotation and symbol-equality examples
+* Removed procedure inequivalence from language changes list
+* Squeeze vertical space to save a whole page
+* Revert to R5RS equivalence semantics for procedures (substantive change per WG unanimity)
+* Removed "equal," from definition of `string<?` and friends
