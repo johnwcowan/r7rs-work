@@ -4,7 +4,11 @@ This is a list of work items that WG2 has voted to work on, and proposals for th
 
 
 
-Assertions: R6RS base library, R6RS with optional message and irritants.
+Applicable record instances: [[http://www.r6rs.org/formal-comments/comment-6.txt|R6RS formal comment]]
+
+Assertions: [[http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_750|R6RS]], R6RS with optional message and irritants.
+
+Association list library (supplements SRFI 1):  AssociationListsCowan
 
 Binary heap: BinaryHeapsCowan (includes queues)
 
@@ -16,6 +20,10 @@ Boxes/references: [[http://srfi.schemers.org/srfi-111/srfi-111.html|SRFI 111]]
 
 Character encoding conversion:
 
+Combinators: CombinatorsCowan
+
+Concatenation:  ConcatenateCowan
+
 Conditions: ConditionsCowan
 
 Container conversion: [[http://trac.sacrideo.us/wg/wiki/WG1Ballot6Results#a433fullconversioncycleforcontainers|ballot options]]
@@ -25,6 +33,8 @@ Continuation API:  [[http://repository.readscheme.org/ftp/papers/sw2001/feeley.p
 Date and time arithmetic: TimeAdvancedCowan plus TimePeriodsCowan
 
 Date-time parser:
+
+Descriptive statistics:  TallyCowan
 
 Dictionaries (may include hash tables):
 
@@ -42,11 +52,17 @@ File system directories (creation, removal): DirectoriesCowan
 
 Flonum arithmetic: FlonumsCowan
 
+Futures:  [[http://docs.racket-lang.org/reference/futures.html|Racket API]]
+
+Generalized `equal`: GeneralizedEqualCowan
+
 Getters and setters: [[http://srfi.schemers.org/srfi-17/srfi-17.html|SRFI 17]]
 
 Gettext (i18n of strings):
 
 Hash tables: [[http://srfi.schemers.org/srfi-69/srfi-69.html|SRFI 69]], [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-14.html#node_chap_13|R6RS]] (in WG1 vote order), HashTablesCowan (much larger API, can be layered over either of the others)
+
+`hex-digit-value`: same as `digit value`, but understands A-F and a-f too
 
 Homogeneous numeric arrays: [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-3.html#node_chap_2,|R6RS]], [[http://srfi.schemers.org/srfi-4/srfi-4.html|SRFI 4]], [[http://srfi.schemers.org/srfi-63/srfi-63.html|SRFI 63]] (supersedes SRFI 25 and SRFI 47; lexical syntax in [[http://srfi.schemers.org/srfi-58/srfi-58.html|SRFI 58), [http://srfi.schemers.org/srfi-66/srfi-66.html SRFI 66]], [[http://srfi.schemers.org/srfi-74/srfi-74.html|SRFI 74]], NumericVectorsCowan
 
@@ -58,7 +74,9 @@ Loop syntax: [[http://www.ccs.neu.edu/home/shivers/papers/loop.pdf|Olin Shivers'
 
 Mailboxes, channels, synchronized queues:
 
-C89 or C99 <math.h>: FlonumsCowan
+`make-error-object`: constructs error object without raising it: 
+
+<math.h> (C89 or C99): FlonumsCowan
 
 Memoization: Memoize (not a proposal yet)
 
@@ -86,11 +104,15 @@ Pathnames: PathnamesCowan
 
 Pattern matching: MatchingWise
 
+Port encodings, buffering, line ending control:  SettingsListsCowan and FilesAdvancedCowan
+
 Port functions (concatenate, join, split): PortOperationsCowan
 
 Procedure arity inspection: [[http://srfi.schemers.org/srfi-102/srfi-102.html|SRFI 102]], [[http://srfi.schemers.org/srfi-102/mail-archive/msg00011.html|Dybvig's proposal]]
 
 Processes (system, popen, etc): SystemCommandCowan + ProcessPortsCowan
+
+Queues:  [[http://wiki.call-cc.org/man/4/Unit%20data-structures#queues|Chicken API]], BinaryHeapsCowan
 
 Random numbers: RandomnessCommonLisp, [[http://srfi.schemers.org/srfi-27/srfi-27.html|SRFI 27]], RandomCowan, RandomnessArcfide (in WG1 vote order)
 
@@ -104,6 +126,8 @@ Restarts:  [[http://www.ai.mit.edu/projects/iiip/doc/CommonLISP/HyperSpec/Body/s
 
 Run-time records: [[http://srfi.schemers.org/srfi-99/srfi-99.html|SRFI 99]]
 
+Search and mismatch procedures:  SearchMismatchCowan
+
 Sets and bags: SetsCowan
 
 Shift and reset:
@@ -114,7 +138,11 @@ Sorting: [[http://srfi.schemers.org/srfi-32/srfi-32.html|SRFI 32]], [[http://srf
 
 String encoding and decoding:  StringBytevectorConversionCowan
 
+Substitution and transformation: SubstituteCowan
+
 Syntactic closures (voted down, but restored by popular demand): [[http://web.mit.edu/scheme_v9.0.1/doc/mit-scheme-ref/Syntactic-Closures.html|MIT]]
+
+Symbol library:  SymbolsCowan
 
 `syntax-case` (voted down, but restored by popular demand): [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html|R6RS]]
 
