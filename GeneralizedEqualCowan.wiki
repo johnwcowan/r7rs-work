@@ -45,7 +45,3 @@ A comparator that returns `#t` if ''obj1'' and ''obj2'' are strings that are equ
 A comparator that returns `#t` if ''obj1'' and ''obj2'' are bytevectors of the same length whose elements are equal in the sense of `generalized-equal?` when passed ''comparators-list'', `#f` if they are bytevectors that are not equal in that sense, and `pass` otherwise.  The ''comparators-list'' argument is ignored.
 
 When used by an implementation that doesn't provide bytevectors, this procedure always returns `pass`.
-
-== Issues ==
-
-Should the third value be specified?  As designed, if a badly written comparator returns nonsense, it's just ignored rather than giving the implementation of `generalized-equal?` a chance to report an error.  The symbol `pass` has been suggested.
