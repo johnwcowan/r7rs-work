@@ -36,6 +36,8 @@ Record external representations:
 
 `standard-*-port` routines:  [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html|R6RS]]
 
+Streams:  [[http://srfi.schemers.org/srfi-41/srfi-41.html|SRFI 41]]
+
 String positions and slices: [[http://www.r6rs.org/formal-comments/comment-235.txt|R6RS formal comment]]
 
 Tree library: at least `tree=?` and `tree-copy`, probably Common Lisp [[http://www.lispworks.com/documentation/lw50/CLHS/Body/f_sublis.htm|SUBLIS and NSUBLIS]], fold, unfold, map ... 
