@@ -6,7 +6,7 @@ Compares ''obj1'' and ''obj2'' for equality.  A ''comparator'' is a procedure th
 
 First, each element of ''comparator-list''  is invoked on ''obj1'' and ''obj2'', passing ''comparator-list'' as its third argument.  If the comparator returns `#t` or `#f`, that is the result.
 
-If all comparators in the list have been invoked with a `pass` result, then `generalized-equal?` determines if both ''obj1'' and ''obj2'' are ordered containers of the same type.  This determination is partly implementation-dependent, but pairs, strings, vectors, and bytevectors must be treated as ordered containers of distinct types.  If they are not both ordered containers of the same type, then `generalized-equal?` returns what `eqv?` returns on ''obj1'' and ''obj2''.
+If all comparators in ''comparator-list'' have been invoked with a `pass` result, then `generalized-equal?` determines if both ''obj1'' and ''obj2'' are ordered containers of the same type.  This determination is partly implementation-dependent, but pairs, strings, vectors, and bytevectors must be treated as ordered containers of distinct types.  If they are not both ordered containers of the same type, then `generalized-equal?` returns what `eqv?` returns on ''obj1'' and ''obj2''.
 
 Otherwise, if the containers have different numbers of elements, the result is `#f`.  Otherwise, `generalized-equal?` invokes itself recursively on each corresponding element of the containers, passing itself the same comparators.  If any recursive call returns `#f`, that is the result; if all recursive calls return `#t`, that is the result.
 
@@ -18,15 +18,33 @@ Returns a comparator that invokes ''type-predicate'' on its first and its second
 
 `(numeric-comparator `''obj1 obj2 comparators-list''`)`
 
-A comparator that returns `#t` if ''obj1'' and ''obj2'' are numbers that are equal by `=`, `#f` if they are not equal by `=`, and a third value otherwise.  The ''comparators-list'' argument is ignored.
+A comparator that returns `#t` if ''obj1'' and ''obj2'' are numbers that are equal in the sense of `=`, `#f` if they are numbers that are not equal in the sense of `=`, and `pass` otherwise.  The ''comparators-list'' argument is ignored.
 
 `(char-ci-comparator `''obj1'' ''obj2 comparators-list''`)`
 
-A comparator that returns `#t` if ''obj1'' and ''obj2'' are both characters that are equal by `char-ci=?`, `#f` if they are not equal by `char-ci=?`, and a third value otherwise.  The ''comparators-list'' argument is ignored.
+A comparator that returns `#t` if ''obj1'' and ''obj2'' are characters that are equal in the sense of `char-ci=?`, `#f` if they are characters that are not equal in the sense of `char-ci=?`, and `pass` otherwise.  The ''comparators-list'' argument is ignored.
+
+`(list-comparator `''obj1 obj2 comparators-list''`)`
+
+A comparator that returns `#t` if ''obj1'' and ''obj2'' are lists of the same length whose elements are equal in the sense of `generalized-equal?` when passed ''comparators-list'', `#f` if they are lists that are not equal in that sense, and `pass` otherwise.  The ''comparators-list'' argument is ignored.
+
+`(vector-comparator `''obj1 obj2 comparators-list''`)`
+
+A comparator that returns `#t` if ''obj1'' and ''obj2'' are vectors of the same length whose elements are equal in the sense of `generalized-equal?` when passed ''comparators-list'', `#f` if they are vectors that are not equal in that sense, and `pass` otherwise.  The ''comparators-list'' argument is ignored.
+
+`(string-comparator `''obj1 obj2 comparators-list''`)`
+
+A comparator that returns `#t` if ''obj1'' and ''obj2'' are strings that are equal in the sense of `string=?`, `#f` if they are strings that are not equal in the sense of `string=?`, and `pass` otherwise.  The ''comparators-list'' argument is ignored.
 
 `(string-ci-comparator `''obj1 obj2 comparators-list''`)`
 
-A comparator that returns `#t` if ''obj1'' and ''obj2'' are both strings that are equal by `string-ci=?`, `#f` if they are not equal by `string-ci=?`, and a third value otherwise.  The ''comparators-list'' argument is ignored.
+A comparator that returns `#t` if ''obj1'' and ''obj2'' are strings that are equal in the sense of `string-ci=?`, `#f` if they are strings that are not equal in the sense of `string-ci=?`, and `pass` otherwise.  The ''comparators-list'' argument is ignored.
+
+`(bytevector-comparator `''obj1 obj2 comparators-list''`)`
+
+A comparator that returns `#t` if ''obj1'' and ''obj2'' are bytevectors of the same length whose elements are equal in the sense of `generalized-equal?` when passed ''comparators-list'', `#f` if they are bytevectors that are not equal in that sense, and `pass` otherwise.  The ''comparators-list'' argument is ignored.
+
+When used by an implementation that doesn't provide bytevectors, this procedure always returns `pass`.
 
 == Issues ==
 
