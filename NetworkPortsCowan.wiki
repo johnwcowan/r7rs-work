@@ -35,6 +35,8 @@ Implementations MUST support the following keys:
 
  Specifies the host as a string.  It may be an IPv4 dotted-decimal address, an IPv6 colon-hexadecimal address if supported by the operating system, or a host name to be looked up according to whatever operating system conventions exist, if any.  Appropriate strings may refer to broadcast or multicast addresses.
 
+ The host can also be specified as a bytevector of length 4 or 16.
+
  `port`::
 
  Specifies the port number as an exact integer or the port name as a string.  The meaning of a string is implementation-dependent, but is intended to be a standardized service name.
