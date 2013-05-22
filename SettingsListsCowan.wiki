@@ -1,6 +1,8 @@
 == Settings lists ==
 
-In this proposal, a filename passed to any of `open-input-file`, `open-binary-input-file`, `open-output-file`, `open-binary-output-file`, `with-input-from-file`, `with-output-from-file`, `call-with-input-file`, and `call-with-output-file` may be specified either as a string (as in R7RS-small) or as a ''settings list'', which is an alist where every key is a symbol.  Quasiquote syntax is useful in creating settings lists.  Specifying a string instead of a list is equivalent to specifying the settings list `((path . `''string''`))`.  Quasiquotation is often useful in creating a settings list with fixed keys but one or more variable values.
+In this proposal, a filename passed to any of `open-input-file`, `open-binary-input-file`, `open-output-file`, `open-binary-output-file`, `with-input-from-file`, `with-output-from-file`, `call-with-input-file`, and `call-with-output-file` may be specified either as a string (as in R7RS-small) or as a ''settings list'', which is an alist where every key is a symbol.  The value is the cadr of the association rather than its cdr.
+
+Quasiquote syntax is useful in creating settings lists.  Specifying a string instead of a list is equivalent to specifying the settings list `((path `''string''`))`.  Quasiquotation is often useful in creating a settings list with fixed keys but one or more variable values.
 
 The following keys are defined by this proposal:
 
