@@ -14,7 +14,7 @@ Multiple values passed through => in `cond`: see #90
 
 Raw strings:  <<, """...""", [[http://srfi.schemers.org/srfi-109/srfi-109.html|SRFI 109]]
 
-String positions and slices: [[http://www.r6rs.org/formal-comments/comment-235.txt|R6RS formal comment]]
+String positions and slices: [[http://www.r6rs.org/formal-comments/comment-235.txt|R6RS formal comment #235]]
 
 Undefined value API: see #49
 
