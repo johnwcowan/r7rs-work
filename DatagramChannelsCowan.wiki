@@ -2,7 +2,9 @@
 
 Datagram channels are a mild abstraction of UDP sockets.  They are a disjoint type.
 
-In the following descriptions, ''host'' and ''local-address'' are strings, which may be IPv4 dotted-decimal addresses, IPv6 colon-hexadecimal addresses if supported by the operating system, or host names to be looked up according to whatever operating system conventions exist, if any.  Appropriate strings may refer to broadcast or multicast addresses.  ''Port'' may be an integer or a string; the meaning of a string is implementation-dependent, but is intended to be a standardized service name.
+In the following descriptions, ''host'' and ''local-address'' are strings, which may be IPv4 dotted-decimal addresses, IPv6 colon-hexadecimal addresses if supported by the operating system, or host names to be looked up according to whatever operating system conventions exist, if any.   They can also be specified as bytevectors of length 4 or 16.
+
+Appropriate strings may refer to broadcast or multicast addresses.  ''Port'' may be an integer or a string; the meaning of a string is implementation-dependent, but is intended to be a standardized service name.
 
 == Procedures ==
 
