@@ -64,6 +64,15 @@ Implementations MAY support other keys, SHOULD warn if they detect keys or value
 
 Settings lists are also used by other proposals:  NetworkPortsCowan, DirectoryPortsCowan, ProcessPortsCowan.
 
+== Buffering rationale ==
+
+When a file is opened in binary mode, only the binary buffer (if any) is used.  But in textual mode both buffers are relevant.  When reading, the binary buffer is filled with bytes, and then a byte-to-character conversion is done which fills the character buffer.  When the latter is empty, it's refilled from the binary buffer; when the binary buffer is empty, it's refilled from the stream.  When writing, the character buffer is used to fill the byte buffer.
+
+It's efficient to do both I/O and character conversion en bloc when possible, but when switching between modes, it's undesirable to have a character buffer even in textual mode (though a binary buffer is still useful) so that the implementation doesn't convert bytes that should
+not be converted.
+
+Of course, when the character encoding is an 8-bit one, the implementation doesn't need to jump through these hoops.
+
 == Procedures ==
 
 `(native-encoding)`
