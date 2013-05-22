@@ -2,21 +2,19 @@
 
 `(generalized-equal? `''obj1 obj2''` . `''comparator-list''`)`
 
-Compares ''obj1'' and ''obj2'' for equality.  A ''comparator'' is a procedure that is given two arguments to compare.  It returns `#t` if its arguments are to be considered equal, `#f` if they are to be considered unequal, and any other value if it cannot decide.  The third argument passed to a comparator is a list of comparators to be used in recursive calls to `generalized-equal?`.
+Compares ''obj1'' and ''obj2'' for equality.  A ''comparator'' is a procedure that is given two arguments to compare.  It returns `#t` if its arguments are to be considered equal, `#f` if they are to be considered unequal, and the symbol `pass` if it cannot decide.  The third argument passed to a comparator is ''comparator-list'', to be used in recursive calls to `generalized-equal?`.
 
 First, each element of ''comparator-list''  is invoked on ''obj1'' and ''obj2'', passing ''comparator-list'' as its third argument.  If the comparator returns `#t` or `#f`, that is the result.
 
-If all comparators in the list have been invoked without a `#t` or `#f` result, then `generalized-equal?` determines if both ''obj1'' and ''obj2'' are ordered containers of the same type.  This determination is partly implementation-dependent, but pairs, strings, vectors, and bytevectors must be treated as ordered containers of distinct types.  If they are not both ordered containers of the same type, then `generalized-equal?` returns what `eqv?` returns on ''obj1'' and ''obj2''.
+If all comparators in the list have been invoked with a `pass` result, then `generalized-equal?` determines if both ''obj1'' and ''obj2'' are ordered containers of the same type.  This determination is partly implementation-dependent, but pairs, strings, vectors, and bytevectors must be treated as ordered containers of distinct types.  If they are not both ordered containers of the same type, then `generalized-equal?` returns what `eqv?` returns on ''obj1'' and ''obj2''.
 
-Otherwise, if the containers have different numbers of elements, the result is `#f`.  Otherwise, `generalized-equal?` invokes itself recursively on each corresponding element of the containers, passing itself the same comparators.  If a recursive call returns `#f`, that is the result; if all recursive calls return `#t`, that is the result.
+Otherwise, if the containers have different numbers of elements, the result is `#f`.  Otherwise, `generalized-equal?` invokes itself recursively on each corresponding element of the containers, passing itself the same comparators.  If any recursive call returns `#f`, that is the result; if all recursive calls return `#t`, that is the result.
 
-`(predicates->comparator `''type-predicate compare-predicate''`)`
+`(make-atomic-comparator `''type-predicate compare-predicate''`)`
 
-Returns a comparator that invokes ''type-predicate'' on its first and its second arguments.  If they both return `#t`, then they are assumed to be of the same type, and ''compare-predicate'' is invoked on the first and second arguments together.  If the result is `#t` or `#f`, then the comparator returns `#t` or `#f` respectively.  If they are not of the same type, a third value is returned.  The comparator always ignores its third argument.
+Returns a comparator that invokes ''type-predicate'' on its first and its second arguments.  If they both return `#t`, then they are assumed to be of the same type, and ''compare-predicate'' is invoked on the first and second arguments together.  If the result is `#t` or `#f`, then the comparator returns `#t` or `#f` respectively.  If they are not of the same type, a third value is returned.  The resulting comparator always ignores its third argument.
 
-== Sample comparators ==
-
-These comparators may or may not be part of this package.
+== Standard comparators ==
 
 `(numeric-comparator `''obj1 obj2 comparators-list''`)`
 
@@ -29,10 +27,6 @@ A comparator that returns `#t` if ''obj1'' and ''obj2'' are both characters that
 `(string-ci-comparator `''obj1 obj2 comparators-list''`)`
 
 A comparator that returns `#t` if ''obj1'' and ''obj2'' are both strings that are equal by `string-ci=?`, `#f` if they are not equal by `string-ci=?`, and a third value otherwise.  The ''comparators-list'' argument is ignored.
-
-`(hash-table-comparator `''obj1 obj2 comparators-list''`)`
-
-A comparator that returns `#t` if ''obj1'' and ''obj2'' are both hash tables using the same comparison key, contain the same keys (in the sense of that comparison key), and map each key to the same value (in the sense of `generalized-equal?`, using the comparators in ''comparators-list''); returns `#f` if ''obj1'' and ''obj2'' are both hash tables but are distinct in the above sense; and returns a third value in all other cases.
 
 == Issues ==
 
