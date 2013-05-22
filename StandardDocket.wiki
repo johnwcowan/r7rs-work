@@ -72,7 +72,7 @@ Library declarations: LibraryDeclarationsCowan
 
 Loop syntax: [[http://www.ccs.neu.edu/home/shivers/papers/loop.pdf|Olin Shivers's loop]], [[http://mumble.net/~campbell/scheme/foof-loop.txt|Taylor Campbell's foof-loop]], eager comprehensions from [[http://srfi.schemers.org/srfi-42/srfi-42.html|SRFI 42]].  See also [[https://groups.google.com/group/comp.lang.scheme/msg/60dcac5ea812398?dmode=source&output=gplain&noredirect&pli=1|Alex Shinn's defense of foof-loop]].
 
-Mailboxes, channels, synchronized queues:
+Mailboxes, channels, synchronized queues: [[http://www.s48.org/1.9/manual/manual-Z-H-8.html#node_sec_7.8|Scheme48]]
 
 `make-error-object`: constructs error object without raising it: 
 
