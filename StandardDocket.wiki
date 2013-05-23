@@ -24,7 +24,7 @@ Concatenation:  ConcatenateCowan
 
 Conditions: ConditionsCowan
 
-Container conversion: [[http://trac.sacrideo.us/wg/wiki/WG1Ballot6Results#a433fullconversioncycleforcontainers|ballot options]]
+Container conversion: [[http://trac.sacrideo.us/wg/wiki/WG1Ballot6Results#a433fullconversioncycleforcontainers|WG1 ballot options]]
 
 Continuation API:  [[http://repository.readscheme.org/ftp/papers/sw2001/feeley.pdf|Feeley's paper]] (PDF)
 
@@ -34,7 +34,7 @@ Date-time parser: [[https://code.google.com/p/hato/source/browse/hato-date.scm|H
 
 Descriptive statistics:  TallyCowan
 
-Dictionaries (may include hash tables):
+Dictionaries (other than hash tables):
 
 Division library: DivisionRiastradh
 
@@ -70,13 +70,13 @@ Library declarations: LibraryDeclarationsCowan
 
 Loop syntax: [[http://www.ccs.neu.edu/home/shivers/papers/loop.pdf|Olin Shivers's loop]], [[http://mumble.net/~campbell/scheme/foof-loop.txt|Taylor Campbell's foof-loop]], eager comprehensions from [[http://srfi.schemers.org/srfi-42/srfi-42.html|SRFI 42]].  See also [[https://groups.google.com/group/comp.lang.scheme/msg/60dcac5ea812398?dmode=source&output=gplain&noredirect&pli=1|Alex Shinn's defense of foof-loop]].
 
-Mailboxes, channels, synchronized queues: [[http://www.s48.org/1.9/manual/manual-Z-H-8.html#node_sec_7.8|Scheme48]]
+Mailboxes, channels, synchronized queues: [[http://www.s48.org/1.9/manual/manual-Z-H-8.html#node_sec_7.8|Scheme48 from Concurrent ML]]
 
-`make-error-object`: constructs error object without raising it: 
+`make-error-object`: constructs error object without raising it
 
 <math.h> (C89 or C99): FlonumsCowan
 
-Memoization: Memoize (not a proposal yet)
+Memoization: [wiki:Memoize] (not a proposal yet)
 
 Message digests (CRC, MD5, SHA1, SHA2):
 
@@ -86,7 +86,7 @@ Multiple value macros (from CL): MultipleValuesCowan
 
 Mutable environments for `eval`:  MutableEnvironmentsCurtisCowan
 
-Mutexes, condition variables:
+Mutexes, condition variables: [[[http://srfi.schemers.org/srfi-18/srfi-18.html|SRFI 18]]
 
 Named parameters: NamedParametersCowan
 
@@ -148,7 +148,7 @@ TCP protocol: NetworkPortsCowan
 
 Thread-local storage:
 
-Threads:  ThreadsCowan
+Threads:  ThreadsCowan, [[http://srfi.schemers.org/srfi-18/srfi-18.html|SRFI 18]]
 
 UDP protocol:  DatagramChannelsCowan
 
