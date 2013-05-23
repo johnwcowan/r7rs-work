@@ -61,6 +61,8 @@ Almost all of the tickets take the following form: an attributed quotation from 
 * #534: Include at the library level should include declarations, not code
 * #535: Libraries should have at most one begin
 * #536: R6RS and R7RS libraries should be made closer
+* #537: Minimal interface to sockets, concurrency, and hierarchical file systems
+* #538: Falling off a cond-expand should be unspecified behavior
 
 Here is an author index, specifying which tickets each person's ballot or email is referred to in.  See PlebisciteIndex for links to the actual ballots.  Links to non-ballots are inside the tickets.
 
@@ -76,7 +78,7 @@ Here is an author index, specifying which tickets each person's ballot or email 
 * Medernach: #503, #509, #510, #511
 * Montague: #533, #534, #535, #536
 * More: #520, #521
-* Piitulainen: #478, #504, #505
+* Piitulainen: #478, #504, #505, #538
 * Radul: #479, #480
 * Smyles: #506
 * Snell-Pym: #503
@@ -90,3 +92,4 @@ Here is an author index, specifying which tickets each person's ballot or email 
 * Wingo: #498, #499, #500, #501, #502, #503
 * Wise: #486, #487, #488, #489, #490
 * Wittenberger: #532
+* Wortman: #537
