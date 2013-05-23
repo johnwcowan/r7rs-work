@@ -118,7 +118,7 @@ Here is an index to the procedures of this specification:
 
 * [[#Hashtablesassets|Hash tables as sets]]: `hash-table-union`, `hash-table-union!`, `hash-table-intersection`, `hash-table-intersection!`, `hash-table-difference`, `hash-table-difference!`
 
-* [[#Exceptions|Exceptions]]: `hash-table-error?` `hash-table-not-found?`
+* [[#Exceptions|Exceptions]]: `hash-table-error?`, `hash-table-not-found?`
 
 === Constructors ===
 
