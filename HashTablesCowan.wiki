@@ -112,7 +112,7 @@ Here is an index to the procedures of this specification:
 
 * [[#Mappingandfolding|Mapping and folding]]: `hash-table-map`, `hash-table-map!`, `hash-table-for-each`, `hash-table-map->list`, `hash-table-fold`, `hash-table-unfold`
 
-* [[#Copyingandconversion|Copying and conversion]]: `hash-table-copy`, `hash-table->alist`, `alist->hash-table]
+* [[#Copyingandconversion|Copying and conversion]]: `hash-table-copy`, `hash-table->alist`, `alist->hash-table`
 
 * [[#Hashtablesasfunctions|Hash tables as functions]]: `hash-table-accessor`, `hash-table-accessor/default`, `hash-table-mutator`, `hash-table-deleter`, `hash-table-extender`, `hash-table-extender/default`, `hash-table-replacer`, `hash-table-replacer/default`, `hash-table-updater`, `hash-table-updater/default`
 
