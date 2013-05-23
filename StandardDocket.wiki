@@ -2,8 +2,6 @@
 
 This is a list of work items that WG2 has voted to work on, and proposals for those work items.  If no more than one proposal gets written for an item, the item may migrate to the ConsentDocket.  See [[:WG2Dockets|WG2Dockets]] for other dockets.
 
-
-
 Applicable record instances: [[http://www.r6rs.org/formal-comments/comment-6.txt|R6RS formal comment]]
 
 Assertions: [[http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_750|R6RS]], R6RS with optional message and irritants.
@@ -30,9 +28,9 @@ Container conversion: [[http://trac.sacrideo.us/wg/wiki/WG1Ballot6Results#a433fu
 
 Continuation API:  [[http://repository.readscheme.org/ftp/papers/sw2001/feeley.pdf|Feeley's paper]] (PDF)
 
-Date and time arithmetic: TimeAdvancedCowan plus TimePeriodsCowan
+Date and time arithmetic: TimeAdvancedCowan plus TimePeriodsCowan, [[http://srfi.schemers.org/srfi-19/srfi-19.html|SRFI 19]]
 
-Date-time parser:
+Date-time parser: [[https://code.google.com/p/hato/source/browse/hato-date.scm|Hato date parser]], [[http://srfi.schemers.org/srfi-19/srfi-19.html|SRFI 19]]
 
 Descriptive statistics:  TallyCowan
 
@@ -58,7 +56,7 @@ Generalized `equal`: GeneralizedEqualCowan
 
 Getters and setters: [[http://srfi.schemers.org/srfi-17/srfi-17.html|SRFI 17]]
 
-Gettext (i18n of strings):
+Gettext (i18n of strings): [[http://wiki.call-cc.org/eggref/4/free-gettext|Chicken free-gettext]], [[http://srfi.schemers.org/srfi-29/srfi-29.html|SRFI 29]] (depends on [[http://srfi.schemers.org/srfi-28/srfi-28.html|SRFI 28]])
 
 Hash tables: [[http://srfi.schemers.org/srfi-69/srfi-69.html|SRFI 69]], [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-14.html#node_chap_13|R6RS]] (in WG1 vote order), HashTablesCowan (much larger API, can be layered over either of the others)
 
@@ -98,7 +96,7 @@ Natural number predicates (from WG1):  `exact-positive-integer?` and `exact-non-
 
 Octet vectors, bytevectors, blobs: NumericVectorsCowan + StringBytevectorConversionCowan
 
-Optional arguments (other than by `case-lambda`): 
+Optional arguments (other than by `case-lambda`): [[http://mumble.net/~campbell/proposals/optional.text|OptionalsRiastradh]]
 
 Pathnames: PathnamesCowan
 
@@ -112,7 +110,7 @@ Procedure arity inspection: [[http://srfi.schemers.org/srfi-102/srfi-102.html|SR
 
 Processes (system, popen, etc): SystemCommandCowan + ProcessPortsCowan
 
-Queues:  [[http://wiki.call-cc.org/man/4/Unit%20data-structures#queues|Chicken API]], BinaryHeapsCowan
+Queues:  [[http://wiki.call-cc.org/man/4/Unit%20data-structures#queues|Chicken API]], BinaryHeapsCowan, [[http://people.csail.mit.edu/jaffer/slib/Queues.html#Queues|SLIB]]
 
 Random numbers: RandomnessCommonLisp, [[http://srfi.schemers.org/srfi-27/srfi-27.html|SRFI 27]], RandomCowan, RandomnessArcfide (in WG1 vote order)
 
@@ -130,7 +128,7 @@ Search and mismatch procedures:  SearchMismatchCowan
 
 Sets and bags: SetsCowan
 
-Shift and reset:
+Shift and reset: [[https://github.com/tonyg/pgg/blob/master/shift-reset.scm|Scheme48]], [[http://docs.racket-lang.org/reference/cont.html|Racket]]
 
 Simple Posix: SimplePosixCowan
 
