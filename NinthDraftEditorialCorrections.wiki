@@ -1,5 +1,7 @@
 These are the editorial corrections to the ninth draft in reverse order.  All are present in the tenth (post-ballot) draft.
 
+* Minor typos fixed (thanks to Jussi Piitulainen)
+* Corrected changes not to imply that character and string comparisons accept 0 or 1 arguments
 * Added note about R6RS vs. R7RS bytevector-copy!
 * Restored reference to `eqv?` in the storage model (as opposed to "operational equivalence")
 * Improved allocation discussion to handle empty objects specially
