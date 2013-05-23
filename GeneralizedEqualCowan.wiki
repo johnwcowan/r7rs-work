@@ -8,6 +8,8 @@ First, each element of ''comparator-list''  is invoked on ''obj1'' and ''obj2'',
 
 If all comparators in ''comparator-list'' have been invoked with a `pass` result, then `generalized-equal?` behaves as if it had been invoked on the comparators `list-comparator`, `string-comparator`, `vector-comparator`, and `bytevector-comparator` defined below, plus additional implementation-defined comparators if any.  If all of these return `pass`, then `generalized-equal?` returns what `eqv?` returns.
 
+When `generalized-equal?` is invoked with an empty comparator list, it returns what `equal?` returns, except possibly on implementation-defined object types that are not record types.  When it is invoked with `numeric-comparator`, `char-ci-comparator`, `string-ci-comparator`, and a comparator that descends into hash tables, it returns what Common Lisp's `equalp` returns.
+
 `(make-atomic-comparator `''type-predicate compare-predicate''`)`
 
 Returns a comparator that invokes ''type-predicate'' on its first and its second arguments.  If they both return `#t`, then they are assumed to be of the same type, and ''compare-predicate'' is invoked on the first and second arguments together.  If the result is `#t` or `#f`, then the comparator returns `#t` or `#f` respectively.  If they are not of the same type, a third value is returned.  The resulting comparator always ignores its third argument.
