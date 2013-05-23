@@ -14,6 +14,10 @@ When `generalized-equal?` is invoked with an empty comparator list, it returns w
 
 Returns a comparator that invokes ''type-predicate'' on its first and its second arguments.  If they both return `#t`, then they are assumed to be of the same type, and ''compare-predicate'' is invoked on the first and second arguments together.  If the result is `#t` or `#f`, then the comparator returns `#t` or `#f` respectively.  If they are not of the same type, a third value is returned.  The resulting comparator always ignores its third argument.
 
+`(make-specific-equality `'' . `''comparator-list''`)`
+
+Return a curried version of `generalized-equal?` that accepts two arguments to compare and uses the comparators in ''comparator-list''.
+
 == Standard comparators ==
 
 `(numeric-comparator `''obj1 obj2 comparators-list''`)`
