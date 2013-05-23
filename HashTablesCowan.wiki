@@ -94,6 +94,8 @@ The procedures in the present proposal are in the `(scheme hash-tables)` and `(s
 
 All references to "executing in amortized O(1) time" presuppose that a satisfactory hash procedure has been supplied by the user.  Arbitrary or non-idempotent hash procedures can make a hash of the implementation.
 
+Hash tables are allowed to cache the results of calling the equivalence and hash procedures, so programs cannot rely on the hash procedure being called exactly once for every primitive hash table operation: it may be called zero, one, or more times.
+
 Here is an index to the procedures of this specification:
 
 * [[#Constructors|Constructors]]: `make-hash-table`, `hash-table`
