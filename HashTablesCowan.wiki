@@ -203,7 +203,7 @@ Invokes `hash-table-ref` with the given arguments and returns what it returns.  
 
 Invokes `hash-table-ref/default` with the given arguments and returns what it returns.  If ''key'' was not found in ''hash-table'', its association is set to the result being returned.
 
-`(hash-table-replace! `''hash-table key'' [[|''failure'' [ ''success ]] ]`)`
+`(hash-table-replace! `''hash-table key failure'' [[|''success ]]`)`
 
 Invokes `hash-table-ref` with the given arguments and returns what it returns.  If ''key'' was found in ''hash-table'', its value is set to the result being returned.
 
@@ -343,11 +343,11 @@ Curried version of `hash-table-extend`.
 
 Curried version of `hash-table-extend/default`.
 
-`(hash-table-replacer `''hash-table'' [[|''failure'' [ ''success'' ]] ]`)`
+`(hash-table-replacer `''hash-table failure'' [[|''success'' ]]`)`
 
 Curried version of `hash-table-replace`.
 
-`(hash-table-replacer/default `''hash-table updater default''`)`
+`(hash-table-replacer/default `''hash-table default''`)`
 
 Curried version of `hash-table-replace/default`.
 
@@ -391,7 +391,7 @@ Deletes the keys of ''hash-table,,2,,'' from ''hash-table,,1,,'' and returns ''h
 
 `(hash-table-extend/default `''hash-table key value default''`)`
 
-`(hash-table-replace `''hash-table key'' [[|''failure'' [ ''success ]] ]`)`
+`(hash-table-replace `''hash-table key failure'' [[|''success ]]`)`
 
 `(hash-table-replace/default `''hash-table key value default''`)`
 
