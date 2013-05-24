@@ -2,7 +2,7 @@ Results from `(round (* 1.0e300 1.0e300))` (to avoid problems with Schemes that 
 
 Returns the argument:  Racket, Gauche, MIT, Chicken (with and without the numbers egg), Bigloo, Guile, Kawa, SISC, SCM, Chez, Vicare, Ypsilon, Mosh, !IronScheme, NexJ, STklos, KSi, Shoe, BDC, Rep, Schemik, Elk, VX, Spark, Dfsch, Inlab
 
-Error:  Gambit, Scheme48/scsh, SISC, Scheme 7
+Error:  Gambit, Scheme48/scsh, SISC, S7
 
 Returns 1.0e+600: Scheme 9
 
