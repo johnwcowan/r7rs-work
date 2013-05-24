@@ -7,7 +7,7 @@ Kawa, Chibi, Chez, Vicare, NexJ, STklos, KSi, !SigScheme, Scheme 9, BDC,
 XLisp, Rep, Oaklisp, Spark, Owl Lisp
 
 Returned `(a'b)`:  Bigloo, Guile, SISC, SCM, Shoe, !TinyScheme, Dream,
-Scheme 7, Schemik, Elk, UMB, VX, Sizzle, Inlab
+S7, Schemik, Elk, UMB, VX, Sizzle, Inlab
 
 Syntax error: Vicare, Ikarus, Mosh, !IronScheme, SXI, MScheme
 
