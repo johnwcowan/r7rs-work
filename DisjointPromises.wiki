@@ -4,7 +4,7 @@ Disjoint: Racket, Gauche, MIT, Gambit, Chicken, Guile, Kawa, Chibi, SCM, STklos,
 
 Not disjoint: Bigloo, Scheme48/scsh, SISC, Chez, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, NexJ, Scheme 9, Schemik, Inlab, Owl Lisp
 
-`delay` undefined: KSi, Shoe, Scheme 7, Rep, Llava, !FemtoLisp, Dfsch
+`delay` undefined: KSi, Shoe, S7, Rep, Llava, !FemtoLisp, Dfsch
 
 Buggy implementation: Oaklisp
 
