@@ -11,7 +11,7 @@ This WG2 proposal defines an interface to hash tables, which are widely recogniz
    * Provides a ''hash procedure'' which maps a candidate key into a non-negative exact integer.
    * Supports mutation as the primary means of setting the contents of a table.
    * Assumes that keys are immutable; mutating a key leads to unspecified behavior.
-   * Provides key lookup and destructive update in amortized constant time, provided a satisfactory hash procedure is given.
+   * Provides key lookup and destructive update in (expected) amortized constant time, provided a satisfactory hash procedure is given.
    * Does not guarantee that whole-table operations work in the presence of concurrent mutation.
 
 The present proposal is at an intermediate level.  It supports a great many convenience procedures on top of the basic hash table interfaces provided by [[http://srfi.schemers.org/srfi-69/srfi-69.html|SRFI 69]] and [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-14.html|R6RS]].  However, it does not mandate support for thread safety, immutability, or weakness, though it does provide a semi-portable hook for specifying these features.
@@ -92,7 +92,7 @@ Some of the language of the present proposal is copied from SRFI 69 with thanks 
 
 The procedures in the present proposal are in the `(scheme hash-tables)` and `(srfi xxx)` libraries (or `(srfi :xxx)` on R6RS).  However, the library in the sample implementation is named `(hash-tables)`.
 
-All references to "executing in amortized O(1) time" presuppose that a satisfactory hash procedure has been supplied by the user.  Arbitrary or non-idempotent hash procedures can make a hash of the implementation.
+All references to "executing in expected amortized O(1) time" presuppose that a satisfactory hash procedure has been supplied by the user.  Arbitrary or non-idempotent hash procedures can make a hash of the implementation.
 
 Hash tables are allowed to cache the results of calling the equivalence and hash procedures, so programs cannot rely on the hash procedure being called exactly once for every primitive hash table operation: it may be called zero, one, or more times.
 
@@ -144,7 +144,7 @@ Returns `#t` if ''obj'' is a hash table, and `#f` otherwise.  (SRFI 69 `hash-tab
 
 `(hash-table-contains? `''hash-table key''`)`
 
-Returns `#t` if there is any association to ''key'' in ''hash-table'', and `#f` otherwise.  Must execute in amortized O(1) time.  (SRFI 69 `hash-table-exists?`; R6RS `hashtable-contains?`)
+Returns `#t` if there is any association to ''key'' in ''hash-table'', and `#f` otherwise.  Must execute in expected amortized O(1) time.  (SRFI 69 `hash-table-exists?`; R6RS `hashtable-contains?`)
 
 `(hash-table=? `''value= hash-table,,1,, hash-table,,2,,''`)`
 
@@ -156,7 +156,7 @@ The following procedures, given a key, return the corresponding value.
 
 `(hash-table-ref `''hash-table key'' [[|''failure'' [ ''success'' ]] ]`)`
 
-Extracts the value associated to ''key'' in ''hash-table'', invokes the procedure ''success'' on it, and returns its result.  Otherwise, invokes the procedure ''failure'' on no arguments and returns its result.  If ''success'' is not provided and is required, the value itself is returned.  If ''failure'' is not provided but is required, an error that satisfies `hash-table-not-found?` is signaled.  Must execute in amortized O(1) time, not counting the time to call the procedures.  (SRFI 69 `hash-table-ref`)
+Extracts the value associated to ''key'' in ''hash-table'', invokes the procedure ''success'' on it, and returns its result.  Otherwise, invokes the procedure ''failure'' on no arguments and returns its result.  If ''success'' is not provided and is required, the value itself is returned.  If ''failure'' is not provided but is required, an error that satisfies `hash-table-not-found?` is signaled.  Must execute in expected amortized O(1) time, not counting the time to call the procedures.  (SRFI 69 `hash-table-ref`)
 
 `(hash-table-ref/default `''hash-table key default''`)`
 
@@ -171,7 +171,7 @@ The following procedures alter the associations in a hash table either unconditi
 
 `(hash-table-set! `''hash-table key value''`)`
 
-Creates a new association in ''hash-table'' that associates ''key'' with ''value''.  If there is a previous association for ''key'', it is deleted.  It is an error if ''hash-table'' is not a valid argument to the equality predicate of ''hash-table''.  Returns an unspecified value.  Must execute in amortized O(1) time.  (SRFI 69 `hash-table-set!`; R6RS `hashtable-set!`)
+Creates a new association in ''hash-table'' that associates ''key'' with ''value''.  If there is a previous association for ''key'', it is deleted.  It is an error if ''hash-table'' is not a valid argument to the equality predicate of ''hash-table''.  Returns an unspecified value.  Must execute in expected amortized O(1) time.  (SRFI 69 `hash-table-set!`; R6RS `hashtable-set!`)
 
 `(hash-table-set-all! `''hash-table'' ( ''key value'' ) ...`)`
 
@@ -187,7 +187,7 @@ Repeatedly mutates ''hash-table'' using the associations of ''alist''.
 
 `(hash-table-delete! `''hash-table key''`)`
 
-Deletes any association to ''key'' in ''hash-table'' and returns an unspecified value.  It is not an error if no association for that ''key'' exists.  Must execute in amortized O(1) time.    (SRFI 69 `hash-table-delete!`; R6RS `hashtable-delete!`; Common Lisp `remhash`)
+Deletes any association to ''key'' in ''hash-table'' and returns an unspecified value.  It is not an error if no association for that ''key'' exists.  Must execute in expected amortized O(1) time.    (SRFI 69 `hash-table-delete!`; R6RS `hashtable-delete!`; Common Lisp `remhash`)
 
 `(hash-table-delete-keys! `''hash-table keylist''`)`
 
@@ -217,7 +217,7 @@ Semantically equivalent to, but may be implemented more efficiently than, the fo
 
   `(hash-table-set! `''hash-table''` `''key''` (`''updater'' `(hash-table-ref `''hash-table''` `''key failure success''`)))`
 
-Must execute in amortized O(1) time.  Returns an unspecified value.  (SRFI 69 `hash-table-update!/default`; R6RS `hashtable-update!`)
+Must execute in expected amortized O(1) time.  Returns an unspecified value.  (SRFI 69 `hash-table-update!/default`; R6RS `hashtable-update!`)
 
 `(hash-table-update!/default `''hash-table key updater default''`)`
 
@@ -225,7 +225,7 @@ Semantically equivalent to, but may be implemented more efficiently than, the fo
 
   `(hash-table-set! `''hash-table''` `''key''` (`''updater'' `(hash-table-ref/default `''hash-table''` `''key default''`)))`
 
-Must execute in amortized O(1) time.  Returns an unspecified value.  (SRFI 69 `hash-table-update!`)
+Must execute in expected amortized O(1) time.  Returns an unspecified value.  (SRFI 69 `hash-table-update!`)
 
 `(hash-table-push! `''hash-table key value''`)`
 
@@ -241,11 +241,11 @@ If an association with ''key'' is found in ''hash-table'', then return the car o
 
 `(hash-table-clear! `''hash-table''`)`
 
-Delete all the associations from ''hash-table''.  Should execute in amortized O(1) time.  (R6RS `hashtable-clear!`; Common Lisp `clrhash`)
+Delete all the associations from ''hash-table''.  Should execute in expected amortized O(1) time.  (R6RS `hashtable-clear!`; Common Lisp `clrhash`)
 
 `(hash-table-size `''hash-table''`)`
 
-Returns the number of associations in ''hash-table'' as an exact integer.  Should execute in amortized O(1) time.  (SRFI 69 `hash-table-size`, R6RS `hashtable-size`; Common Lisp `hash-table-count`.)
+Returns the number of associations in ''hash-table'' as an exact integer.  Should execute in expected amortized O(1) time.  (SRFI 69 `hash-table-size`, R6RS `hashtable-size`; Common Lisp `hash-table-count`.)
 
 Return number of keys in hash-table.
 
@@ -407,7 +407,7 @@ Deletes the keys of ''hash-table,,2,,'' from ''hash-table,,1,,'' and returns ''h
 
 `(hash-table-difference `''hash-table,,1,, hash-table,,2,,''`)`
 
-These procedures are equivalent to the mutators with corresponding names, except that they return a new hash table which differs from the original in the specified ways.  No guarantees are provided about their amortized execution time, as they may copy the original hash table.
+These procedures are equivalent to the mutators with corresponding names, except that they return a new hash table which differs from the original in the specified ways.  No guarantees are provided about their execution time, as they may copy the original hash table.
 
 === Exceptions ===
 
