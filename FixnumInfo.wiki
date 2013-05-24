@@ -7,7 +7,7 @@ This is the range of fixnums in bits for the 32-bit builds of 39 Schemes.   For 
 ||29 bits||Gauche*, Bigloo*, !SigScheme||
 ||26 bits||MIT*||
 ||16 bits||Owl Lisp*||
-||9 bits||Scheme 7||
+||9 bits||S7||
 ||No fixnums (even `(eq? 0 0)` is `#f`)||SISC, KSi, !TinyScheme, Scheme 9, Dream, BDC, UMB||
 ||Apparently unbounded fixnums||Shoe, Schemik, VX||
 ||Answer not easily determined||NexJ, XLisp, rep||
