@@ -6,7 +6,7 @@ Return inexact `0.0+1.0i`: Gauche, Chicken (with the numbers egg), Scheme48, Gui
 
 Returns `+nan.0`: Chicken (without the numbers egg), NexJ, RScheme, BDC, VX, Inlab
 
-Returns `+nan.0+nan.0i`: Scheme 7
+Returns `+nan.0+nan.0i`: S7
 
 Signals an error: Bigloo, scsh, Ikarus, Scheme 9, XLisp, Rep, Schemik, Elk, Llava, SXM, Sizzle, Dfsch
 
