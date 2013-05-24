@@ -15,7 +15,7 @@ The following table concisely describes the other Schemes in the test suite.  "S
 ||NexJ||yes||`(Infinity -Infinity NaN)`||no||
 ||VX||yes||`(inf. -inf. -nan.)`||no||
 ||SCM||*||`(+inf.0 -inf.0 0/0)`||yes||
-||Scheme 7||no||`(inf.0 -inf.0 -nan.0)`||no||
+||S7||no||`(inf.0 -inf.0 -nan.0)`||no||
 ||SXM||no||`(inf.0 -inf.0 -nan.0)`||no||
 ||Inlab||no||`(inf.0 -inf.0 -nan.0)`||no||
 ||UMB||no||`(inf.0 -inf.0 -nan)`||no||
