@@ -4,7 +4,7 @@ Accepted as equivalent to `|`:  Gauche, MIT, Gambit, Chicken, Bigloo, Kawa, Chib
 
 Not equivalent: Schemik
 
-Lexical syntax error:  Racket, Scheme48/scsh, Guile, Vicare, Ypsilon, Mosh, NexJ, KSi, !SigScheme, Scheme 9, Scheme 7, SXM, Spark, Inlab, Owl Lisp
+Lexical syntax error:  Racket, Scheme48/scsh, Guile, Vicare, Ypsilon, Mosh, NexJ, KSi, !SigScheme, Scheme 9, S7, SXM, Spark, Inlab, Owl Lisp
 
 Lexer gets confused:  Chez, !IronScheme
 
