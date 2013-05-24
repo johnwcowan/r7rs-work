@@ -106,8 +106,6 @@ Here is an index to the procedures of this specification:
 
 * [[#Mutators|Mutators]]: `hash-table-set!`, `hash-table-set-all!`, `hash-table-set-entries!`, `hash-table-set-alist!`, `hash-table-delete!`, `hash-table-delete-keys!`, `hash-table-extend!`, `hash-table-extend!/default`, `hash-table-replace!`, `hash-table-replace!/default`, `hash-table-update!`, `hash-table-update!/default`
 
-* [[#Functionalupdate|Functional update]]: `hash-table-set`, `hash-table-set-all`, `hash-table-set-entries`, `hash-table-set-alist`, `hash-table-delete`, `hash-table-delete-keys`, `hash-table-extend`, `hash-table-extend/default`, `hash-table-replace`, `hash-table-replace/default`, `hash-table-update`, `hash-table-update/default`
-
 * [[#Thewholehashtable|The whole hash table]]: `hash-table-clear!`, `hash-table-length`, `hash-table-keys`, `hash-table-values`, `hash-table-entries`, `hash-table-find`, `hash-table-count`, `hash-table-remove!`
 
 * [[#Mappingandfolding|Mapping and folding]]: `hash-table-map`, `hash-table-map!`, `hash-table-for-each`, `hash-table-map->list`, `hash-table-fold`, `hash-table-unfold`
@@ -116,7 +114,9 @@ Here is an index to the procedures of this specification:
 
 * [[#Hashtablesasfunctions|Hash tables as functions]]: `hash-table-accessor`, `hash-table-accessor/default`, `hash-table-mutator`, `hash-table-deleter`, `hash-table-extender`, `hash-table-extender/default`, `hash-table-replacer`, `hash-table-replacer/default`, `hash-table-updater`, `hash-table-updater/default`
 
-* [[#Hashtablesassets|Hash tables as sets]]: `hash-table-union`, `hash-table-union!`, `hash-table-intersection`, `hash-table-intersection!`, `hash-table-difference`, `hash-table-difference!`
+* [[#Hashtablesassets|Hash tables as sets]]: `hash-table-union!`, `hash-table-intersection!`, `hash-table-difference!`
+
+* [[#Functionalupdate|Functional update]]: `hash-table-set`, `hash-table-set-all`, `hash-table-set-entries`, `hash-table-set-alist`, `hash-table-delete`, `hash-table-delete-keys`, `hash-table-extend`, `hash-table-extend/default`, `hash-table-replace`, `hash-table-replace/default`, `hash-table-update`, `hash-table-update/default`, `hash-table-remove`, `hash-table-union`, `hash-table-intersection`, `hash-table-difference`.
 
 * [[#Exceptions|Exceptions]]: `hash-table-error?`, `hash-table-not-found?`
 
@@ -237,39 +237,11 @@ Semantically equivalent to, but may be more efficient than, the following code:
 
 If an association with ''key'' is found in ''hash-table'', then return the car of the value, and set the value to its cdr.  If the value is not found or is not a pair, signal an error.
 
-== Functional update ==
-
-`(hash-table-set `''hash-table key value''`)`
-
-`(hash-table-set-all `''hash-table'' ( ''key value'' ) ...`)`
-
-`(hash-table-set-entries `''hash-table keys values''`)`
-
-`(hash-table-set-alist `''hash-table alist''`)`
-
-`(hash-table-delete `''hash-table key''`)`
-
-`(hash-table-delete-keys `''hash-table keylist''`)`
-
-`(hash-table-extend `''hash-table key'' [[|''failure'' [ ''success ]] ]`)`
-
-`(hash-table-extend/default `''hash-table key value default''`)`
-
-`(hash-table-replace `''hash-table key'' [[|''failure'' [ ''success ]] ]`)`
-
-`(hash-table-replace/default `''hash-table key value default''`)`
-
-`(hash-table-update `''hash-table key updater'' [[|''failure'' [ ''success ]] ]`)`
-
-`(hash-table-update/default `''hash-table key updater default''`)`
-
-These procedures are equivalent to the mutators with corresponding names, except that they return a new hash table which differs from the original in the specified ways.  No guarantees are provided about their amortized execution time, as they may copy the original hash table.
-
 === The whole hash table ===
 
 `(hash-table-clear! `''hash-table''`)`
 
-Remove all the associations from ''hash-table''.  Should execute in amortized O(1) time.  (R6RS `hashtable-clear!`; Common Lisp `clrhash`)
+Delete all the associations from ''hash-table''.  Should execute in amortized O(1) time.  (R6RS `hashtable-clear!`; Common Lisp `clrhash`)
 
 `(hash-table-length `''hash-table''`)`
 
@@ -389,29 +361,53 @@ Curried version of `hash-table-update/default`.
 
 === Hash tables as sets ===
 
-`(hash-table-union `''hash-table,,1,, hash-table,,2,,'' [[|''merger'' ]]`)`
-
-Adds the associations of ''hash-table,,2,,'' to a copy of ''hash-table,,1,,'' and returns it.  The values are merged using the ''merger'' procedure, which defaults to `(lambda (value1 value2) value2)`.  (SRFI 69 `hash-table-merge!`)
-
 `(hash-table-union! `''hash-table,,1,, hash-table,,2,,'' [[|''merger'' ]]`)`
 
 Adds the associations of ''hash-table,,2,,'' to ''hash-table,,1,,'' and returns it.  The values are merged using the ''merger'' procedure, which defaults to `(lambda (value1 value2) value2)`. 
 
-`(hash-table-intersection `''hash-table,,1,, hash-table,,2,,'' [[|''merger'' ]]`)`
-
-Removes the associations from a copy of ''hash-table,,1,,'' which don't also appear in ''hash-table,,2,,'' and returns the copy.  The values are merged using the ''merger'' procedure, which defaults to `(lambda (value1 value2) value2)`.  (SRFI 69 `hash-table-merge!`)
-
 `(hash-table-intersection! `''hash-table,,1,, hash-table,,2,,'' [[|''merger'' ]]`)`
 
-Removes the associations from ''hash-table,,1,,'' which don't also appear in ''hash-table,,2,,'' and returns ''hash-table,,1,,''.  The values are merged using the ''merger'' procedure, which defaults to `(lambda (value1 value2) value2)`.  (SRFI 69 `hash-table-merge!`)
-
-`(hash-table-difference `''hash-table,,1,, hash-table,,2,,''`)`
-
-Removes the keys of ''hash-table,,2,,'' from a copy of ''hash-table,,1,,'' and returns it.
+Deletess the associations from ''hash-table,,1,,'' which don't also appear in ''hash-table,,2,,'' and returns ''hash-table,,1,,''.  The values are merged using the ''merger'' procedure, which defaults to `(lambda (value1 value2) value2)`.  (SRFI 69 `hash-table-merge!`)
 
 `(hash-table-difference! `''hash-table,,1,, hash-table,,2,,''`)`
 
-Removes the keys of ''hash-table,,2,,'' from ''hash-table,,1,,'' and returns ''hash-table,,1,,''.
+Deletes the keys of ''hash-table,,2,,'' from ''hash-table,,1,,'' and returns ''hash-table,,1,,''.
+
+== Functional update ==
+
+`(hash-table-set `''hash-table key value''`)`
+
+`(hash-table-set-all `''hash-table'' ( ''key value'' ) ...`)`
+
+`(hash-table-set-entries `''hash-table keys values''`)`
+
+`(hash-table-set-alist `''hash-table alist''`)`
+
+`(hash-table-delete `''hash-table key''`)`
+
+`(hash-table-delete-keys `''hash-table keylist''`)`
+
+`(hash-table-extend `''hash-table key'' [[|''failure'' [ ''success ]] ]`)`
+
+`(hash-table-extend/default `''hash-table key value default''`)`
+
+`(hash-table-replace `''hash-table key'' [[|''failure'' [ ''success ]] ]`)`
+
+`(hash-table-replace/default `''hash-table key value default''`)`
+
+`(hash-table-update `''hash-table key updater'' [[|''failure'' [ ''success ]] ]`)`
+
+`(hash-table-update/default `''hash-table key updater default''`)`
+
+`(hash-table-remove `''hash-table pred''`)`
+
+`(hash-table-union `''hash-table,,1,, hash-table,,2,,'' [[|''merger'' ]]`)`
+
+`(hash-table-intersection `''hash-table,,1,, hash-table,,2,,'' [[|''merger'' ]]`)`
+
+`(hash-table-difference `''hash-table,,1,, hash-table,,2,,''`)`
+
+These procedures are equivalent to the mutators with corresponding names, except that they return a new hash table which differs from the original in the specified ways.  No guarantees are provided about their amortized execution time, as they may copy the original hash table.
 
 === Exceptions ===
 
@@ -431,7 +427,7 @@ The sample implementation (''not yet written'') was originally intended to be ea
 
 * S7 does not support arbitrary equivalence predicates: the implementation chooses a predicate based on the nature of the keys.
 
-* Guile supports arbitrary equivalence predicates, but in that case the equivalence predicate and hash procedure must be passed explicitly to all the primitive procedures.  Consequently, hash tables corresponding to the present proposal would have to be records containing a Guile hash table, an equivalence predicate, and a hash procedure, meaning they could not interoperate directly with naked Guile hash tables.
+* Guile supports arbitrary equivalence predicates, but in that case the equivalence predicate and hash procedure must be passed explicitly to all the primitive procedures.  Consequently, hash tables corresponding to the present proposal would have to be records containing a Guile hash table, an equivalence predicate, and a hash procedure, which means that they could not interoperate directly with naked Guile hash tables.
 
 * SISC, Scheme48/scsh, RScheme, Scheme 9, and Rep do not provide any procedure that copies a hash table, nor any way of inspecting it to determine its equivalence predicates and hash procedures so that it can be re-created.
 
