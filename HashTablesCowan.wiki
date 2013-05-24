@@ -118,7 +118,7 @@ Here is an index to the procedures of this specification:
 
 * [[#Functionalupdate|Functional update]]: `hash-table-set`, `hash-table-set-all`, `hash-table-set-entries`, `hash-table-set-alist`, `hash-table-delete`, `hash-table-delete-keys`, `hash-table-extend`, `hash-table-extend/default`, `hash-table-replace`, `hash-table-replace/default`, `hash-table-update`, `hash-table-update/default`, `hash-table-remove`, `hash-table-union`, `hash-table-intersection`, `hash-table-difference`.
 
-* [[#Exceptions|Exceptions]]: `hash-table-error?`, `hash-table-not-found?`
+* [[#Exceptions|Exceptions]]: `hash-table-not-found?`
 
 === Constructors ===
 
@@ -126,9 +126,9 @@ Here is an index to the procedures of this specification:
 
 Returns a newly allocated hash table whose equivalence predicate is ''equivalence'' and hash procedure is ''hash''.  It is the programmer's responsibility to ensure that two objects passed to the hash procedure return the same value if the same objects passed to the equivalence predicate return true; however, the converse is not required.
 
-The ability to omit the ''hash'' argument is severely limited.  If ''equivalence'' is `eq?`, `eqv?`, `equal?`, `string=?`, or `string-ci=?`, a suitable implementation-provided procedure will be used.  The implementation may extend this list.  But if any other equivalence predicate is provided without a hash procedure, an error that satisfies `hash-table-error?` is signaled.
+The ability to omit the ''hash'' argument is severely limited.  If ''equivalence'' is `eq?`, `eqv?`, `equal?`, `string=?`, or `string-ci=?`, a suitable implementation-provided procedure will be used.  The implementation may extend this list.  But if any other equivalence predicate is provided without a hash procedure, an error should be signaled.
 
-The meaning of the remaining arguments is implementation-dependent.  However, implementations which support the ability to specify the initial capacity of a hash table should interpret a non-negative exact integer as the specification of that capacity.  In addition, if the symbols `immutable`, `thread-safe`, `weak-keys` or  `weak-values` are present, implementations should create immutable hash tables, mutable thread-safe hash tables, hash tables with weak keys, and hash tables with weak values respectively.  In an implementation which does not support these features, an error that satisfies `hash-table-error?` should be signaled if they are requested.  To avoid collision with the ''hash'' argument, none of these arguments can be procedures.
+The meaning of the remaining arguments is implementation-dependent.  However, implementations which support the ability to specify the initial capacity of a hash table should interpret a non-negative exact integer as the specification of that capacity.  In addition, if the symbols `immutable`, `thread-safe`, `weak-keys` or  `weak-values` are present, implementations should create immutable hash tables, mutable thread-safe hash tables, hash tables with weak keys, and hash tables with weak values respectively.  In an implementation which does not support these features, an error should be signaled if they are requested.  To avoid collision with the ''hash'' argument, none of these arguments can be procedures.
 
 (SRFI 69 `make-hash-table`; R6RS `make-eq-hashtable`, `make-eqv-hashtable`, and `make-hashtable`; Common Lisp `make-hash-table`)
 
@@ -410,10 +410,6 @@ Deletes the keys of ''hash-table,,2,,'' from ''hash-table,,1,,'' and returns ''h
 These procedures are equivalent to the mutators with corresponding names, except that they return a new hash table which differs from the original in the specified ways.  No guarantees are provided about their amortized execution time, as they may copy the original hash table.
 
 === Exceptions ===
-
-`(hash-table-error? `''obj''`)`
-
-Returns `#t` if ''obj'' is an object raised by the `make-hash-table` procedure or any other procedure that creates hash tables, and `#f` otherwise.
 
 `(hash-table-not-found? `''obj''`)`
 
