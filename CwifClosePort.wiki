@@ -13,6 +13,6 @@ to see if the final `(read port)` would return 3 (meaning that the port was stil
 
 Printed `3`:  Racket, MIT, Chicken, Scheme48/scsh, Guile, Chibi, SCM, Chez, Vicare, Larceny, Ypsilon, Mosh, STklos, KSi, !SigScheme, !TinyScheme, Dream, RScheme, XLisp, Elk, VX, SXM, Spark, Inlab, Scheme 9
 
-Failed with closed-port exception: Gauche, Bigloo, Kawa, SISC, !IronScheme, NexJ, Scheme 7, BDC, Sizzle
+Failed with closed-port exception: Gauche, Bigloo, Kawa, SISC, !IronScheme, NexJ, S7, BDC, Sizzle
 
 Failed for other reasons (typically because `call-with-input-file` is not supported): Shoe, Rep, Schemik, UMB, Oaklisp, Llava, Femtolisp, Dfsch, Owl Lisp
