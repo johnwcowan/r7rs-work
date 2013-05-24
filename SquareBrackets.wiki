@@ -2,7 +2,7 @@ I tested the usual suite of Schemes with `'[[a|b c]]` to see how they reacted to
 
 Evaluates to `(a b c)`: Racket, Gauche, Gambit, Chicken, Bigloo, Guile, SISC, Chez, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, STklos, KSi, Schemik, Elk, Oaklisp, SXM, Sizzle, Spark
 
-Evaluates to the symbol `[a`, followed by undefined-variable error on `b`:  Chibi, SCM, Shoe, !TinyScheme, Dream, Scheme 7, BDC, XLisp, UMB, VX, Llava, Dfsch, Inlab
+Evaluates to the symbol `[a`, followed by undefined-variable error on `b`:  Chibi, SCM, Shoe, !TinyScheme, Dream, S7, BDC, XLisp, UMB, VX, Llava, Dfsch, Inlab
 
 Syntax error: MIT, Scheme48/scsh, NexJ, !SigScheme, RScheme, Owl Lisp, Scheme 9
 
