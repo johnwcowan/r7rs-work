@@ -203,11 +203,11 @@ Invokes `hash-table-ref` with the given arguments and returns what it returns.  
 
 Invokes `hash-table-ref/default` with the given arguments and returns what it returns.  If ''key'' was not found in ''hash-table'', its association is set to the result being returned.
 
-`(hash-table-replace! `''hash-table key updater'' [[|''failure'' [ ''success ]] ]`)`
+`(hash-table-replace! `''hash-table key'' [[|''failure'' [ ''success ]] ]`)`
 
 Invokes `hash-table-ref` with the given arguments and returns what it returns.  If ''key'' was found in ''hash-table'', its value is set to the result being returned.
 
-`(hash-table-replace!/default `''hash-table key updater default''`)
+`(hash-table-replace!/default `''hash-table key default''`)`
 
 Invokes `hash-table-ref/default` with the given arguments and returns what it returns.  If ''key'' was found in ''hash-table'', its value is set to the result being returned.
 
