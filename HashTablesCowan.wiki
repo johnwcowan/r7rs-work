@@ -188,7 +188,7 @@ Repeatedly mutates ''hash-table'' using the associations of ''alist''.
 
 `(hash-table-delete! `''hash-table key''`)`
 
-Deletes any association to ''key'' in ''hash-table'' and returns an unspecified value.  It is not an error if no association for that ''key'' exists.  Must execute in expected amortized O(1) time.    (SRFI 69 `hash-table-delete!`; R6RS `hashtable-delete!`; Common Lisp `remhash`)
+Deletes any association to ''key'' in ''hash-table'' and returns true if there was an association for ''key'', false if not.  Must execute in expected amortized O(1) time.    (SRFI 69 `hash-table-delete!`; R6RS `hashtable-delete!`; Common Lisp `remhash`)
 
 `(hash-table-delete-keys! `''hash-table keylist''`)`
 
