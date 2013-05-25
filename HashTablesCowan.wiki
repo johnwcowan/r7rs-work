@@ -14,8 +14,6 @@ This WG2 proposal defines an interface to hash tables, which are widely recogniz
    * Provides key lookup and destructive update in (expected) amortized constant time, provided a satisfactory hash procedure is given.
    * Does not guarantee that whole-table operations work in the presence of concurrent mutation.
 
-The present proposal is at an intermediate level.  It supports a great many convenience procedures on top of the basic hash table interfaces provided by [[http://srfi.schemers.org/srfi-69/srfi-69.html|SRFI 69]] and [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-14.html|R6RS]].  However, it does not mandate support for thread safety, immutability, or weakness, though it does provide a semi-portable hook for specifying these features.
-
 == Issues ==
 
  1. I've heard complaints about the messiness of passing two arguments, one of which is optional, when creating a hash table.  What about having a procedure that accepts an equivalence predicate and a hash procedure, and returns a procedure that behaves the same as the equivalence predicate when called with two arguments, but when called with zero arguments, returns the hash procedure?  This is used to create hash tables, saving an extra argument each time.  Note that this style allows the author of an equivalence predicate to provide hashing without cluttering up the interface, and allows the predicate to be provided as transparently as built-in predicates are.  (This idea was suggested by early reviewer kpreid.)  Something like this was proposed as an enhancement to Common Lisp as [[http://cdr.eurolisp.org/document/2/genhash.html|CDR 2]].
@@ -24,7 +22,10 @@ The present proposal is at an intermediate level.  It supports a great many conv
 
 == Rationale ==
 
-Hash tables themselves don't really need defending.  
+Hash tables themselves don't really need defending: almost all dynamically typed scripting languages, from awk to JavaScript to Lua to Perl to Python to Common Lisp, have them in some form as a very basic data structure.  Therefore, what needs to be defended is not the data structure but the procedures.  The present proposal is at an intermediate level.  It supports a great many convenience procedures on top of the basic hash table interfaces provided by [[http://srfi.schemers.org/srfi-69/srfi-69.html|SRFI 69]] and [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-14.html|R6RS]].  Nothing in it adds power to what those interfaces provide, but it does add convenience in the form of pre-debugged routines to do various common things, and even some things not so commonly done but useful.
+
+There is no mandated support for thread safety, immutability, or weakness, though there is a semi-portable hook for specifying these features.
+
 
 === SRFI 69 compatibility ===
 
@@ -317,7 +318,7 @@ Returns a newly allocated hash-table as if by `make-hash-table`, initializing it
 
 === Hash tables as functions ===
 
-The following procedures allow hash tables to be used as functions with mutable behavior.  They return procedures that are curried versions of other procedures in this library on the given arguments.  All such procedures accept a key and return either the corresponding value (for procedures created by `hash-table-accessor`, `hash-table-accessor/default`, `hash-table-extender`, or `hash-table-extender/default`), or an unspecified value (for all other procedures).
+The following procedures allow hash tables to be used as functions with mutable behavior.  They return procedures that are curried versions of other procedures in this library on the given arguments.  All such procedures accept a key and return either the corresponding value (for procedures created by `hash-table-accessor`, `hash-table-accessor/default`, `hash-table-extender`, or `hash-table-extender/default`), or an unspecified value (for all other procedures).  In this way, for example, lists can be processed by `map` using the procedure returned from a hash table by `hash-table-accessor'.
 
 `(hash-table-accessor `''hash-table'' [[|''failure'' [ ''success'' ]] ]`)`
 
