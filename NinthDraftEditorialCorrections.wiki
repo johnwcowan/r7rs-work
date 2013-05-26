@@ -1,5 +1,10 @@
 These are the editorial corrections to the ninth draft in reverse order.  All are present in the tenth (post-ballot) draft.
 
+* Rule out `xbeef` as a character name because it is a hex scalar value
+* Restored R5RS results of `gen-counter` and `gen-loser`
+* Cleaned up definition of "variable definition"
+* Cleaned up zero-or-more values continuations language
+* Falling off a `cond-expand` is now undefined behavior
 * Minor typos fixed (thanks to Jussi Piitulainen)
 * Corrected changes not to imply that character and string comparisons accept 0 or 1 arguments
 * Added note about the order of arguments in R6RS vs. R7RS `bytevector-copy!`
