@@ -319,51 +319,15 @@ Returns a newly allocated hash-table as if by `make-hash-table`, initializing it
 
 === Hash tables as functions ===
 
-The following procedures allow hash tables to be used as functions with mutable behavior.  They return procedures that are curried versions of other procedures in this library on the given arguments.  In this way, for example, lists can be processed by `map` using the procedure returned from a hash table by `hash-table-accessor'.
+The following procedures allow hash tables to be used as functions with mutable behavior.  In this way, for example, lists can be processed by `map` using the procedure returned from a hash table by `hash-table-accessor'.
 
 `(hash-table-accessor `''hash-table'' [[|''failure'' [ ''success'' ]] ]`)`
 
-Curried version of `hash-table-ref`.  Returns a procedure of one argument, a key, which returns what `hash-table-ref` returns.
+Curried version of `hash-table-ref`.  Returns a procedure of one argument, a key, which returns what `hash-table-ref` returns when invoked with the ''hashtable'' argument, the passed key, and the ''failure'' and ''success'' arguments.
 
 `(hash-table-accessor/default `''hash-table default''`)`
 
-Curried version of `hash-table-ref/default`.  Returns a procedure of one argument, a key, which returns what `hash-table-ref/default` returns.
-
-`(hash-table-mutator `''hash-table''`)`
-
-Curried version of `hash-table-set!`.  Returns a procedure of two arguments, a key and a value, which returns an unspecified value.
-
-`(hash-table-deleter `''hash-table''`)`
-
-Curried version of `hash-table-delete!`.  Returns a procedure of one argument, a key, which returns what `hash-table-delete!` returns.
-
-`(hash-table-extender `''hash-table'' [[|''failure'' [ ''success'' ]] ]`)`
-
-Curried version of `hash-table-extend`.  Returns a procedure of one argument, a key, which returns what `hash-table-extend!` returns.
-
-`(hash-table-extender/default `''hash-table default''`)`
-
-Curried version of `hash-table-extend/default`.  Returns a procedure of one argument, a key, which returns what `hash-table-extend!/default` returns.
-
-`(hash-table-replacer `''hash-table failure'' [[|''success'' ]]`)`
-
-Curried version of `hash-table-replace`.  Returns a procedure of one argument, a key, which returns what `hash-table-replace!` returns.
-
-`(hash-table-replacer/default `''hash-table default''`)`
-
-Curried version of `hash-table-replace!/default`.  Returns a procedure of one argument, a key, which returns what `hash-table-replace!/default` returns.
-
-`(hash-table-updater `''hash-table updater'' [[|''failure'' [ ''success'' ]] ]`)`
-
-Curried version of `hash-table-update`.  Returns a procedure of one argument, a key, which returns what `hash-table-update!` returns.
-
-`(hash-table-updater/default `''hash-table updater default''`)`
-
-Curried version of `hash-table-update!/default`.  Returns a procedure of one argument, a key, which returns what `hash-table-update!/default` returns.
-
-`(hash-table-searcher `''hash-table'' [[|''failure'' [ ''success'' ]] ]`)`
-
-Curried version of `hash-table-search!`.  Returns a procedure of one argument, a key, which returns what `hash-table-search!` returns.
+Curried version of `hash-table-ref/default`.  Returns a procedure of one argument, a key, which returns what `hash-table-ref/default` returns when invoked with the ''hashtable'' argument, the passed key, and the ''default'' argument.
 
 === Hash tables as sets ===
 
