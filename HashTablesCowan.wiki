@@ -353,7 +353,7 @@ Returns `#t` if ''obj'' is an object raised by the `hash-table-ref` procedure or
 
 The sample implementation (''not yet written'') was originally intended to be easily layered over any existing hash table implementation, including the many that support either SRFI 69 or R6RS (there is an implementation of [[https://code.launchpad.net/~scheme-libraries-team/scheme-libraries/srfi|SRFI 69 on top of R6RS]], plus all the native hash table systems mentioned in [[#Sources|Sources]] above.  However, this turned out not to be practical for the following reasons:
 
-* Racket, Gauche, and MIT do not support arbitrary equivalence predicates, only `eq?`, `eqv?`, `equal?`, and `string=?`.
+* Racket and Gauche do not support arbitrary equivalence predicates, only `eq?`, `eqv?`, `equal?`, and `string=?`.
 
 * S7 does not support arbitrary equivalence predicates: the implementation chooses a predicate based on the nature of the keys.
 
