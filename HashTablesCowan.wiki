@@ -240,8 +240,8 @@ If an association with ''key'' is found in ''hash-table'', then return the car o
 
 `(hash-table-search! `''hash-table key failure success''`)`
 
-Search ''hash-table'' for ''key''.  If it is found, invoke the ''success'' procedure with
-one argument, a unary ''add!'' procedure which if invoked will insert a new association between ''key'' and its argument.  If ''key'' is not found, invoke the ''failure'' procedure with three arguments: the value found, a unary ''set!'' procedure that updates the association to have the value specified as its argument, and a nullary ''delete!'' procedure that deletes the association.  Returns whatever ''success'' or ''failure'' returns, as the case may be.
+Search ''hash-table'' for ''key''.  If it is not found, invoke the ''failure'' procedure with
+one argument, a unary ''add! '' procedure which if invoked will insert a new association between ''key'' and its argument.  If ''key'' is found, invoke the ''success'' procedure with three arguments: the value found, a unary ''set! '' procedure that updates the association to have the value specified as its argument, and a nullary ''delete! '' procedure that deletes the association.  Returns whatever ''success'' or ''failure'' returns, as the case may be.
 
 === The whole hash table ===
 
