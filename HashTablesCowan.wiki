@@ -241,7 +241,7 @@ If an association with ''key'' is found in ''hash-table'', then return the car o
 `(hash-table-search! `''hash-table key failure success''`)`
 
 Search ''hash-table'' for ''key''.  If it is not found, invoke the ''failure'' procedure with
-one argument, a unary ''add! '' procedure which if invoked will insert a new association between ''key'' and its argument.  If ''key'' is found, invoke the ''success'' procedure with three arguments: the value found, a unary ''set! '' procedure that updates the association to have the value specified as its argument, and a nullary ''delete! '' procedure that deletes the association.  Returns whatever ''success'' or ''failure'' returns, as the case may be.
+one argument, a unary ''add!'' procedure which if invoked will insert a new association between ''key'' and its argument.  If ''key'' is found, invoke the ''success'' procedure with three arguments: the value found, a unary ''set! '' procedure that updates the association to have the value specified as its argument, and a nullary ''delete!'' procedure that deletes the association.  Returns whatever ''success'' or ''failure'' returns, as the case may be.
 
 === The whole hash table ===
 
@@ -253,19 +253,19 @@ Delete all the associations from ''hash-table''.  Should execute in expected amo
 
 Returns the number of associations in ''hash-table'' as an exact integer.  Should execute in expected amortized O(1) time.  (SRFI 69 `hash-table-size`, R6RS `hashtable-size`; Common Lisp `hash-table-count`.)
 
-Return number of keys in hash-table.
+Returns the number of keys in ''hash-table''.
 
 `(hash-table-keys `''hash-table''`)`
 
-Return list of all keys in an unspecified order. (SRFI 69 `hash-table-keys`; R6RS `hashtable-keys` returns a vector)
+Returns a newly allocated list of all the keys in ''hash-table'' in an unspecified order. (SRFI 69 `hash-table-keys`; R6RS `hashtable-keys` returns a vector)
 
 `(hash-table-values `''hash-table''`)`
 
-Return list of all values in an unspecified order, not necessarily the same order as hash-table-keys. (SRFI 69 `hash-table-values`)
+Returns a newly allocated list of all the keys in ''hash-table'' in an unspecified order, not necessarily the same order as `hash-table-keys`. (SRFI 69 `hash-table-values`)
 
 `(hash-table-entries `''hash-table''`)`
 
-Returns two values, the list of keys in an unspecified order and the list of values in the corresponding order.  (R6RS `hash-table-entries` returns vectors)
+Returns two values, a newly allocated list of all the keys in ''hash-table'' in an unspecified order and a newly allocated of all the values in ''hash-table'' in the corresponding order.  (R6RS `hash-table-entries` returns vectors)
 
 `(hash-table-find `''hash-table proc''`)`
 
@@ -319,7 +319,7 @@ Returns a newly allocated hash-table as if by `make-hash-table`, initializing it
 
 === Hash tables as functions ===
 
-The following procedures allow hash tables to be used as functions with mutable behavior.  In this way, for example, lists can be processed by `map` using the procedure returned from a hash table by `hash-table-accessor'.
+The following procedures allow hash tables to be used as functions with mutable behavior.  In this way, for example, lists can be processed by `map` using the procedure returned from a hash table by `hash-table-accessor`.
 
 `(hash-table-accessor `''hash-table'' [[|''failure'' [ ''success'' ]] ]`)`
 
