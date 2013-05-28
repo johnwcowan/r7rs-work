@@ -22,7 +22,7 @@ This WG2 proposal defines an interface to hash tables, which are widely recogniz
 
 == Rationale ==
 
-Hash tables themselves don't really need defending: almost all dynamically typed scripting languages, from awk to JavaScript to Lua to Perl to Python to Common Lisp, have them in some form as a very basic data structure.  Therefore, what needs to be defended is not the data structure but the procedures.  The present proposal is at an intermediate level.  It supports a great many convenience procedures on top of the basic hash table interfaces provided by [[http://srfi.schemers.org/srfi-69/srfi-69.html|SRFI 69]] and [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-14.html|R6RS]].  Nothing in it adds power to what those interfaces provide, but it does add convenience in the form of pre-debugged routines to do various common things, and even some things not so commonly done but useful.
+Hash tables themselves don't really need defending: almost all dynamically typed scripting languages, from awk to !JavaScript to Lua to Perl to Python to Common Lisp, have them in some form as a very basic data structure.  Therefore, what needs to be defended is not the data structure but the procedures.  The present proposal is at an intermediate level.  It supports a great many convenience procedures on top of the basic hash table interfaces provided by [[http://srfi.schemers.org/srfi-69/srfi-69.html|SRFI 69]] and [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-14.html|R6RS]].  Nothing in it adds power to what those interfaces provide, but it does add convenience in the form of pre-debugged routines to do various common things, and even some things not so commonly done but useful.
 
 There is no mandated support for thread safety, immutability, or weakness, though there is a semi-portable hook for specifying these features.
 
@@ -204,11 +204,11 @@ Invokes `hash-table-ref` with the given arguments and returns what it returns.  
 
 Invokes `hash-table-ref/default` with the given arguments and returns what it returns.  If ''key'' was not found in ''hash-table'', its association is set to the result being returned.
 
-`(hash-table-replace! `''hash-table key failure'' [[|''success ]]`)`
+`(hash-table-replace! `''hash-table key'' [[|''failure'' [ ''success'' ]] ]`)`
 
 Invokes `hash-table-ref` with the given arguments and returns what it returns.  If ''key'' was found in ''hash-table'', its value is set to the result being returned.
 
-`(hash-table-replace!/default `''hash-table key default''`)`
+`(hash-table-replace!/default `''hash-table key'' [[|''default'' ]]`)`
 
 Invokes `hash-table-ref/default` with the given arguments and returns what it returns.  If ''key'' was found in ''hash-table'', its value is set to the result being returned.
 
@@ -281,7 +281,7 @@ For each association of ''hash-table'', invoke ''pred'' on its key and value in 
 
 Returns a newly allocated hash table as if by `make-hash-table`.  Calls ''proc'' for every association in ''hash-table'' with two arguments: the key of the association and the value of the association.  The two values returned by ''proc'' are inserted into the new hash table as a key and value.   The order in which ''procedure'' is called for different associations is unspecified.
 
-When a key has already been created in the hash table, the procedure ''merger'' is called with arguments ''oldkey oldvalue newkey newvalue'' and returns two values, the proper key and the proper value.
+When the key being added already exists in the hash table, the procedure ''merger'' is called with arguments ''oldkey oldvalue newkey newvalue'' and returns the value to be associated with that key.
 
 `(hash-table-for-each `''proc hash-table''`)`
 
