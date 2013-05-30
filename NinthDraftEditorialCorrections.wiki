@@ -1,20 +1,22 @@
 These are the editorial corrections to the ninth draft in reverse order.  All are present in the tenth (post-ballot) draft.
 
+* Fixed minor editorial nits from a last-minute review
+* Updated acknowledgements of commenters
 * Rule out `xbeef` as a character name because it is a hex scalar value
 * Restored R5RS results of `gen-counter` and `gen-loser`
 * Cleaned up definition of "variable definition"
 * Cleaned up zero-or-more values continuations language
-* Falling off a `cond-expand` is now undefined behavior
+* Falling off a `cond-expand` is now undefined behavior (no particular behavior was voted on)
 * Minor typos fixed (thanks to Jussi Piitulainen)
 * Corrected changes not to imply that character and string comparisons accept 0 or 1 arguments
 * Added note about the order of arguments in R6RS vs. R7RS `bytevector-copy!`
 * Restored reference to `eqv?` in the storage model (as opposed to "operational equivalence")
 * Improved allocation discussion to handle empty objects specially
 * Changed "as following" to "as follows"
-* Cleaned up all cases of "forbidden in strings" to be uniform
+* Cleaned up all cases of "forbidden in strings" to be uniform, removing redundant references
 * Made the definitions of character comparisons defer to `char->integer` to handle non-Unicode
 * Fixed quasiquotation and symbol-equality examples
 * Removed procedure inequivalence from language changes list
-* Squeeze vertical space to save a whole page
-* Revert to R5RS equivalence semantics for procedures (substantive change per WG unanimity)
+* Squeezedvertical space to save a whole page
+* Reverted to R5RS equivalence semantics for procedures (substantive change per WG unanimity)
 * Removed "equal," from definition of `string<?` and friends
