@@ -1,5 +1,7 @@
 These are the editorial corrections to the ninth draft in reverse order.  All are present in the tenth (post-ballot) draft.
 
+* Cleaned up bibliography to include only cited works, including SRFIs
+* Warning about <init>s was incorrectly on `letrec` instead of `letrec*`
 * Fixed minor editorial nits from a last-minute review
 * Updated acknowledgements of commenters
 * Rule out `xbeef` as a character name because it is a hex scalar value
@@ -17,6 +19,6 @@ These are the editorial corrections to the ninth draft in reverse order.  All ar
 * Made the definitions of character comparisons defer to `char->integer` to handle non-Unicode
 * Fixed quasiquotation and symbol-equality examples
 * Removed procedure inequivalence from language changes list
-* Squeezedvertical space to save a whole page
+* Squeezed vertical space to save a whole page
 * Reverted to R5RS equivalence semantics for procedures (substantive change per WG unanimity)
 * Removed "equal," from definition of `string<?` and friends
