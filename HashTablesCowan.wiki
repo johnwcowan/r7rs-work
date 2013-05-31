@@ -164,7 +164,7 @@ Extracts the value associated to ''key'' in ''hash-table'', invokes the procedur
 Semantically equivalent to, but may be more efficient than, the following code:
   `(hash-table-ref `''hash-table key'' `(lambda () `''default''`))`
 
-((SRFI 69 `hash-table-ref/default`, R6RS `hashtable-ref`; Common Lisp `gethash`)
+(SRFI 69 `hash-table-ref/default`, R6RS `hashtable-ref`; Common Lisp `gethash`)
 
 === Mutators ===
 
