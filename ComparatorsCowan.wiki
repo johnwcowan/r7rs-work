@@ -64,7 +64,7 @@ Compares symbols using the total order implied by applying `symbol->string` to t
 
 `number-comparator`
 
-These comparators compare exact integers, integers, rational numbers, real numbers, complex numbers, and any numbers using the total order implied by `<`.  They must be compatible with the R5RS numerical tower in the following sense: If S is a subtype of the numerical type T and the two objects are members to both S and T, then the equivalence and compare procedures (but not necessarily the hash procedure) of S-comparator and T-comparator compute the same results on those objects.
+These comparators compare exact integers, integers, rational numbers, real numbers, complex numbers, and any numbers using the total order implied by `<`.  They must be compatible with the R5RS numerical tower in the following sense: If S is a subtype of the numerical type T and the two objects are members of both S and T, then the equivalence and compare procedures (but not necessarily the hash procedure) of S-comparator and T-comparator compute the same results on those objects.
 
 Since non-real numbers cannot be compared with `<`, the following least-surprising ordering is defined: If the real parts are < or >, so are the complex numbers; otherwise, the complex numbers are ordered by their imaginary parts.
 
