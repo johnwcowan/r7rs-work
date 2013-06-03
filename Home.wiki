@@ -82,6 +82,7 @@ Comments are welcome at the [[http://lists.scheme-reports.org/cgi-bin/mailman/li
     * [[PortIo|Port I/O]]
     * BitwiseOperations
         * BitwiseArithmeticRead
+    * ImmutableDataStructuresWortman
 
 '''Proposed Repository Format'''
     * [[:Snow|Snow]]
