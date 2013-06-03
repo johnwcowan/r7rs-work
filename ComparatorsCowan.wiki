@@ -1,5 +1,15 @@
 == Abstract ==
 
+This proposal is a rewrite of SRFI 67, Compare Procedures, extending it from procedures that represent a total order to procedures that represent one or more of a total order, an equivalence predicate, and a hash function.  By packaging these procedures together, along with a type check predicate, they can be treated as a single item for use in the implementation of higher-level data structures.
+
+== Rationale ==
+
+The four procedures above have complex dependencies on one another, and it is inconvenient to have to pass them all to other procedures that might or might not make use of all of them.  For example, a set implementation naturally requires only an equivalence procedure, but if it is implemented using a hash table, an appropriate hash procedure is also required if the implementation does not provide one; alternatively, if it is implemented using a tree, a compare procedure is required.  By passing a comparator rather than a bare equivalence procedure, the set implementation can make use of whatever procedures are useful to it.
+
+== Specification ==
+
+== Comparators ==
+
 A ''comparator'' is an object of a disjoint type.  It is bundle of procedures that are useful for comparing two objects either for equality or for ordering.  There are four procedures in the bundle:
 
 * The ''type check'' procedure returns `#t` if its argument has the correct type to be passed as an argument to the other three procedures, and `#f` otherwise.
@@ -11,12 +21,6 @@ A ''comparator'' is an object of a disjoint type.  It is bundle of procedures th
 * The ''hash'' procedure takes one argument, and returns an exact non-negative integer which corresponds to it in the sense of a hash function.  It is the programmer's responsibility to ensure that it can handle any argument that satisfies the type check procedure, and that it returns the same value on two objects if the equivalence procedure says they are the same (but not necessarily the converse).  '''Issue:  Should this procedure accept a second argument such that its result must be less than this argument?'''
 
 All four procedures must provide the same result whenever they are applied to the same object(s) unless the object(s) have been mutated since the last invocation.  In other words, they must not depend in any way on memory addresses in systems where the garbage collector can move objects in memory.
-
-== Rationale ==
-
-The four procedures above have complex dependencies on one another, and it is inconvenient to have to pass them all to various higher-level procedures that might or might not make use of all of them.  For example, a set implementation naturally requires only an equivalence procedure, but if it is implemented using a hash table, an appropriate hash procedure is also required if the implementation does not provide one; alternatively, if it is implemented using a tree, a compare procedure is required.  By passing a comparator rather than a bare equivalence procedure, the set implementation can make use of whatever procedures are useful to it.
-
-== Specification ==
 
 === Predicate ===
 
@@ -157,7 +161,7 @@ Returns a comparator that behaves exactly like ''comparator'', except that it ve
 
 This is a comparator that accepts any two Scheme values and orders them in some implementation-defined way, subject to the following constraints:
 
-* When applied to booleans, characters, strings, and numbers, its behavior must be the same as `boolean-comparator`, `character-comparator`, `string-comparator`, and `number-comparator` respectively.  The same should be true for any pair of objects of the same type if a comparator is defined for that type.
+* When applied to booleans, characters, strings, and numbers, its behavior must be the same as `boolean-comparator`, `character-comparator`, `string-comparator`, and `number-comparator` respectively, except that NaN values must be accepted and treated as either preceding or following all numeric values.  The same should be true for any pair of objects of the same type if a standard comparator is defined for that type.
 
 * When applied to lists, vectors, and bytevectors, its behavior must be the same as `(make-list-comparator default-comparator)`, `(make-vector-comparator default-comparator)`, and `(make-bytevector-comparator default-comparator)` respectively.  The same should be true for any pair of sequences of the same type if an element-wise comparator is defined for that type.
 
@@ -293,7 +297,7 @@ Because the relations are transitive, it suffices to compare each object with it
 
 `(comparator-min `''comparator object,,1,, object,,2,,'' ...`)`
 
-`(comparator-max `''comparator object'' ...`)`
+`(comparator-max `''comparator object,,1,, object,,2,,'' ...`)`
 
 These procedures are analogous to `min` and `max` respectively.  They apply the compare procedure of ''comparator'' to the ''objects'' to determine the first object that is minimal (or maximal).  The order in which the values are compared is unspecified, but each value is compared at least once, even if there is just one, to ensure type checking.
 
