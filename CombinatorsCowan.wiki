@@ -20,11 +20,11 @@ A variant of `compose` that handles only single-argument single-valued procedure
 
 `(conjoin `''predicate'' ...`)`
 
-Returns a procedure that returns `#t` if its argument satisfies all the ''predicate''s.
+Returns a procedure that returns `#t` if its arguments satisfy all the ''predicate''s.
 
 `(disjoin `''predicate'' ...`)`
 
-Returns a procedure that returns `#t` if its argument satisfies any of the ''predicate''s.
+Returns a procedure that returns `#t` if its arguments satisfy any of the ''predicate''s.
 
 `(each `''proc'' ... `)`
 
