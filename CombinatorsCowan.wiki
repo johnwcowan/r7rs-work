@@ -8,7 +8,7 @@ Returns a procedure that always returns the ''obj'' objects as its values, regar
 
 `(complement `''proc''`)`
 
-Returns a procedure that returns the boolean inverse of ''proc''.  That is, it returns a true value when ''proc'' returns `#f`, and `#f` otherwise.
+Returns a procedure that returns the boolean inverse of ''proc''.  That is, it returns `#t` when ''proc'' returns `#f`, and `#f` otherwise.
 
 `(compose `''proc'' ... `)`
 
@@ -16,7 +16,7 @@ Returns a procedure that represents the composition of its arguments.  Any of th
 
 `(simple-compose `''proc'' ...`)`
 
-A variant of `compose` that does not handle multiple-valued procedures. With zero arguments, returns a procedure that is functionally equivalent to `identity`.
+A variant of `compose` that handles only single-argument single-valued procedures. With zero arguments, returns a procedure that is functionally equivalent to `identity`.
 
 `(conjoin `''predicate'' ...`)`
 
