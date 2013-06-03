@@ -146,7 +146,7 @@ Symbol library:  SymbolsCowan
 
 TCP protocol: NetworkPortsCowan
 
-Thread-local storage:
+Thread-local storage: [[http://docs.oracle.com/javase/6/docs/api/java/lang/ThreadLocal.html|Java]]
 
 Threads:  ThreadsCowan, [[http://srfi.schemers.org/srfi-18/srfi-18.html|SRFI 18]]
 
