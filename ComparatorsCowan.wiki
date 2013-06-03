@@ -36,7 +36,7 @@ Compares booleans using the total order `#f < #t`.
 
 Compares characters using the total order implied by `char<?`.
 
-`char-comparator-ci`
+`char-ci-comparator`
 
 Compares characters using the total order implied by `char-ci<?`.
 
@@ -44,7 +44,7 @@ Compares characters using the total order implied by `char-ci<?`.
 
 Compares strings using the total order implied by `string<?`.  Note that this order is implementation-dependent.
 
-`string-comparator-ci`
+`string-ci-comparator`
 
 Compares strings using the total order implied by `string-ci<?`.  Note that this order is implementation-dependent.
 
