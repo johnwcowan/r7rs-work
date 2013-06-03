@@ -125,9 +125,9 @@ Returns a comparator which compares two objects that satisfy ''type-check'' as i
     cdr))
 }}}
 
-`(make-pair-comparator-car `''comparator''`)`
+`(make-car-comparator `''comparator''`)`
 
-`(make-pair-comparator-cdr `''comparator''`)`
+`(make-cdr-comparator `''comparator''`)`
 
 `(make-pair-comparator `''car-comparator cdr-comparator''`)`
 
