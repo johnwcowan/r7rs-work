@@ -88,7 +88,7 @@ Returns a comparator which bundles the ''type-check, equivalence, compare'', and
 
 Returns a comparator that compares inexact numbers as follows:  if after rounding to the nearest ''epsilon'' they are the same, they compare equal; otherwise they compare as specified by `<`.  The direction of rounding is specified by the ''rounding'' argument, which is one of the symbols `floor`, `ceiling`, `truncate`, or `round`.
 
-The argument `nan-handling` specifies how to compare NaN arguments to non-NaN arguments.  If it is 'min', NaN values precede all other values; if it is 'max', they follow all other values, and if it is 'error', an error is signaled.  In any case, two NaNs are always treated as equivalent by this comparator.
+The argument `nan-handling` specifies how to compare NaN arguments to non-NaN arguments.  If it is 'min', NaN values precede all other values; if it is 'max', they follow all other values, and if it is 'error', an error is signaled.  In any case, two !NaNs are always treated as equivalent by this comparator.
 
 `(make-vector-comparator `''element-comparator''`)`
 
