@@ -74,7 +74,7 @@ These requirements can be satisfied by many flavors of ''self-balancing binary t
 
 === Order predicates ===
 
-An ''order predicate'' for a set of orderable elements is a procedure {{{precedes?}}} such that, for set elements {{{x}}} and {{{y}}},
+An ''order predicate'' for a universe of orderable elements is a procedure {{{precedes?}}} such that, for set elements of the universe {{{x}}} and {{{y}}},
 {{{#!scheme
 (precedes? x y)
 }}}
@@ -90,12 +90,16 @@ Note that {{{<}}}, {{{char<?}}}, and {{{string<?}}} are valid order predicates f
 
 The time bounds stated below are all based on the assumption that evaluating an order predicate takes O(1) time.
 
+=== Deduplication policy ===
+
+All elements of a set must be unique, which complicates operations that produce sets from collections that may contain duplicates. The procedures described consintely follow a ''least recently used'' removal policy. That means that, when an operation encounters two elements that are equal according to the order predicate, the one that was encountered earlier is removed from the set and replaced with the element that was encountered later.
+
 === Construction ===
 
 {{{#!scheme
 (iset precedes? [element...])
 }}}
-Return a new set using the order predicate {{{precedes?}}} and containing elements {{{element...}}}. If any subset of element arguments are equal according to {{{precedes?}}} then only the leftmost of them is a member of the returned set. Takes O(n log n) time.
+Return a new set using the order predicate {{{precedes?}}} and containing elements {{{element...}}}. If any elements are equal according to {{{precedes?}}}, only the rightmost of them is retained. O(n log n) time.
 
 === Set-wide queries ===
 
@@ -117,7 +121,7 @@ Return a new set using the order predicate {{{precedes?}}} and containing elemen
 (iset-symmetric-difference set...)
 }}}
 
-Return a new set containing the union/intersection/difference/symmetric difference of the arguments. All the arguments must be sets sharing an equivalent order predicate. Runs in O(kn log n) time, where k is the number of sets and n is the number of elements involved; O(kn) time is optimal.
+Return a new set containing the union/intersection/difference/symmetric difference of the arguments. All the arguments must be sets sharing an equivalent order predicate. The set operator is applied in a left-associative order. When an element is a member of multiple arguments to {{{set-union}}}, the object from the rightmost argument is retained. May take O(kn log n) time, where k is the number of sets and n is the number of elements involved, though O(kn) time is optimal.
 
 === Element queries ===
 
@@ -140,7 +144,7 @@ Returns the least/greatest element of {{{set}}}. It is an error for {{{set}}} to
 (iset-update set x present-proc absent-proc)
 }}}
 
-A continuation-based universal update procedure. Attempts to find an element {{{match}}} equal to {{{x}}} in {{{set}}}. When such a {{{match}}} is found, calls
+A continuation-based universal update procedure. Attempts to find an element {{{match}}} equal to {{{x}}} in {{{set}}} according to the order predicate. When such a {{{match}}} is found, calls
 {{{#!scheme
 (present-proc match update remove)
 }}}
@@ -152,7 +156,7 @@ to replace {{{match}}} with {{{new-element}}}, or tail-call
 {{{#!scheme
 (remove ret)
 }}}
-to remove {{{match}}} from {{{set}}}. In either case {{{ret}}} will be returned from the enclosing {{{iset-update}}} call.
+to remove {{{match}}} from {{{set}}}. In either case {{{ret}}} will be one of the values returned from the enclosing {{{iset-update}}} call.
 
 When no such {{{match}}} is found, {{{iset-update}}} calls
 {{{#!scheme
@@ -172,20 +176,20 @@ In any case, {{{iset-update}}} returns
 {{{#!scheme
 (values new-set ret)
 }}}
-where {{{new-set}}} is a new set reflecting the indicated modification, if any; and {{{ret}}} is the return value produced by one of the continuations. It runs in O(log n) time.
+where {{{new-set}}} is a set reflecting the indicated modification, if any; and {{{ret}}} is the return value produced by one of the continuations. It runs in O(log n) time.
 
 (This procedure is based on an analogous procedure for hash tables suggested by Alexey Radul and attributed to Taylor Campbell.)
 
 {{{#!scheme
-(iset-find iset x [absent-thunk])
+(iset-find set x [absent-thunk])
 }}}
-Returns the element {{{y}}} equal to {{{x}}} in {{{set}}}, or the result of evaluating {{{(absent-thunk)}}} if no such element exists. If {{{absent-thunk}}} is unspecified then a default procedure that always returns {{{#false}}} is used. Takes O(log n) time.
+Returns the element {{{match}}} equal to {{{x}}} in {{{set}}}, or the result of evaluating {{{(absent-thunk)}}} if no such element exists. If {{{absent-thunk}}} is unspecified then a default procedure that always returns {{{#false}}} is used. Takes O(log n) time.
 
 {{{#!scheme
 (iset-include set x)
 (iset-exclude set x)
 }}}
-Return a new set that certainly does/doesn't include {{{x}}}. Each operation takes O(log n) time.
+Return a new set that certainly does/doesn't include {{{x}}}. {{{iset-include}}} may replace an object equal to {{{x}}} already in {{{set}}}, if any. Each operation takes O(log n) time.
 
 {{{#!scheme
 (iset-predecessor set x [absent-thunk])
@@ -199,7 +203,7 @@ Returns the element that immediately precedes/succeeds {{{x}}} in {{{set}}}'s or
 (iset-between set least include-least most include-most)
 }}}
 
-Returns a new set containing the elements of {{{set}}} in the interval between {{{least}}} and {{{most}}}. If {{{include-least}}}/{{{include-most}}} is non-{{{#false}}} then the result includes elements equal to {{{least}}}/{{{most}}} respectively; otherwise those elements are not included. Takes O(k log k + log n) time, where n is the number of elements in the set and k is the number of elements returned; O(k + log n) is optimal.
+Returns a new set containing the elements of {{{set}}} in the interval between {{{least}}} and {{{most}}}. If {{{include-least}}}/{{{include-most}}} is non-{{{#false}}} then the result includes an element equal to {{{least}}}/{{{most}}} respectively; otherwise those elements are not included. Takes O(k log k + log n) time, where n is the number of elements in the set and k is the number of elements returned; O(k + log n) is optimal.
 
 {{{#!scheme
 (iset-range< set x)
@@ -233,12 +237,12 @@ Takes O(n) time.
 {{{#!scheme
 (iset-map/monotone proc set [precedes?])
 }}}
-Returns a new set containing the elements {{{(proc x)}}} for every {{{x}}} in {{{set}}}. {{{proc}}} must be a ''monotone'' unary procedure that preserves the order and uniqueness of set elements. If {{{precedes?}}} is given, it is the order predicate of the new set; otherwise the new set uses the same order predicate as {{{set}}}. Takes O(n) time.
+Returns a new set containing the elements {{{(proc x)}}} for every {{{x}}} in {{{set}}}. {{{proc}}} must be a ''monotone'' unary procedure that preserves the order of set elements. Observe that mapping a set of unique elements with a monotone function yields a new set of unique elements, so element uniqueness follows from the monotonicity assumption. If {{{precedes?}}} is given, it is the order predicate of the new set; otherwise the new set uses the same order predicate as {{{set}}}. Takes O(n) time.
 
 {{{#!scheme
 (iset-map proc set [precedes?])
 }}}
-As {{{iset-map/monotone}}}, except the {{{proc}}} is not required to be monotone. When multiple elements are mapped to the same value, only the value originating from the least pre-mapped element is retained. Takes O(n log n) time.
+As {{{iset-map/monotone}}}, except the {{{proc}}} is not required to be monotone. When multiple elements are mapped to the same value, only the value originating from the greatest unmapped element is retained. O(n log n) time.
 
 === Conversion ===
 
@@ -246,19 +250,19 @@ As {{{iset-map/monotone}}}, except the {{{proc}}} is not required to be monotone
 (iset->ordered-list set)
 }}}
 
-Returns a list containing the elements of {{{set}}} in increasing order. Takes O(n) time.
+Returns a list containing the elements of {{{set}}} in increasing order. O(n) time.
 
 {{{#!scheme
 (ordered-list->iset precedes? list)
 }}}
 
-Returns a set containing the elements of {{{list}}} and using order predicate {{{precedes?}}}. It is an error for {{{list}}} to be anything other than a proper list of elements in increasing order. Takes O(n log n) time; O(n) is optimal.
+Returns a set containing the elements of {{{list}}} and using order predicate {{{precedes?}}}. It is an error for {{{list}}} to be anything other than a proper list of elements in increasing order. O(n log n) time; O(n) is optimal.
 
 {{{#!scheme
 (list->iset precedes? list)
 }}}
 
-Returns a set containing the elements of {{{list}}} and using order predicate {{{precedes?}}}. {{{list}}} must be a proper list, but may contain duplicates and need not be in order. When a subset of input elements are equal according to {{{precedes?}}}, only the first such element in {{{list}}} is a member of the returned set. Takes O(n log n) time.
+Returns a set containing the elements of {{{list}}} and using order predicate {{{precedes?}}}. {{{list}}} must be a proper list, but may contain duplicates and need not be in order. When a subset of input elements are equal according to {{{precedes?}}}, only the last occurrence is retained. O(n log n) time.
 
 === Element comparison ===
 
@@ -272,9 +276,9 @@ These procedures compare {{{x}}} to {{{y}}} according to {{{set}}}'s order predi
 
 = Maps =
 
-A map data structure, as specified here, stores key-value associations between a set of keys with an order predicate and arbitrary value objects. It is an alternative to an association list or hash table, which also store key-value associations, but with different key constraints and efficiency guarantees.
+A map data structure stores key-value associations from a set of keys with an order predicate to arbitrary value objects. It is an alternative to an association list or hash table, which also store key-value associations, but with different key constraints and efficiency guarantees.
 
-In the same way that a list of key-value dotted pairs can implement an association list, a set of key-value dotted pairs can implement a map. Implementations may use this approach, or implement a distinct data structure specific to maps.
+In the same way that a list of key-value dotted pairs can implement an association list, a set of key-value dotted pairs can implement a map. Implementations may use this approach, or may implement a distinct data structure specific to maps.
 
 === Construction ===
 
@@ -315,7 +319,7 @@ The behavior and efficiency of these operations is the same as the analogous set
 (imap-max-value map)
 }}}
 
-Returns the value associated with {{{(imap-min-key map)}}} and {{{(imap-max-key map)}}} respectively. Takes O(log n) time; O(1) is optimal.
+Returns the value associated with {{{(imap-min-key map)}}} and {{{(imap-max-key map)}}} respectively. O(log n) time; O(1) is optimal.
 
 === Element operations ===
 
@@ -335,7 +339,7 @@ to replace {{{key}}} with {{{new-key}}} and the corresponding value with {{{new-
 {{{#!scheme
 (remove ret)
 }}}
-to remove {{{key-match}}} and its corresponding value from {{{map}}}. In either case {{{ret}}} will be returned from the enclosing {{{imap-update}}} call.
+to remove the assocition from {{{map}}}. In either case {{{ret}}} will be one of the values returned from the enclosing {{{imap-update}}} call.
 
 When no such {{{key-match}}} is found, {{{imap-update}}} calls
 {{{#!scheme
@@ -355,20 +359,18 @@ In any case, {{{imap-update}}} returns
 {{{#!scheme
 (values new-map ret)
 }}}
-where {{{new-map}}} is a new map reflecting the indicated modification, if any; and {{{ret}}} is the return value produced by one of the continuations. It runs in O(log n) time.
-
-(This procedure is based on an analogous procedure for hash tables suggested by Alexey Radul and attributed to Taylor Campbell.)
+where {{{new-map}}} is a new map reflecting the indicated modification, if any; and {{{ret}}} is the return value produced by one of the continuations. O(log n) time.
 
 {{{#!scheme
 (imap-find map key [absent-thunk])
 }}}
-Returns the value associated with {{{key}}} in {{{map}}}, or the result of evaluating {{{(absent-thunk)}}} if no such value exists. If {{{absent-thunk}}} is unspecified then a default procedure that always returns {{{#false}}} is used. Takes O(log n) time.
+Returns the value associated with {{{key}}} in {{{map}}}, or the result of evaluating {{{(absent-thunk)}}} if no such value exists. If {{{absent-thunk}}} is unspecified then a default procedure that always returns {{{#false}}} is used. O(log n) time.
 
 {{{#!scheme
 (imap-include map key value)
 (imap-exclude map key)
 }}}
-Return a new set that certainly does/doesn't include {{{key}}} and the associated {{{value}}}. {{{imap-include}}} will replace any prior association to {{{key}}} that might exist in {{{map}}}. Each operation takes O(log n) time.
+Return a new set that certainly does/doesn't include an association from {{{key}}}. {{{imap-include}}} will replace any prior association from {{{key}}} that might exist in {{{map}}}. O(log n) time.
 
 {{{#!scheme
 (imap-key-predecessor map key [absent-thunk])
@@ -383,7 +385,7 @@ The behavior and efficiency of these operations is the same as the analogous set
 (imap-between map least include-least most include-most)
 }}}
 
-Returns a new map containing the associations of {{{map}}} whose keys are in the interval between {{{least}}} and {{{most}}}. If {{{include-least}}}/{{{include-most}}} is non-{{{#false}}} then the result includes associations with keys equal to {{{least}}}/{{{most}}} respectively; otherwise those associations are not included. Takes O(k log k + log n) time, where n is the number of elements in the set and k is the number of elements returned; O(k + log n) is optimal.
+The behavior and efficiency of these operations is the same as the analogous set procedures. (Least and most are keys.)
 
 {{{#!scheme
 (imap-range< map key)
@@ -401,7 +403,7 @@ The behavior and efficiency of these operations is the same as the analogous set
 (imap-filter proc set)
 }}}
 
-Returns a new set containing only those associations for which {{{(proc key value)}}} returns non-{{{#false}}}. Takes O(n log n) time; O(n) is optimal.
+Returns a new set containing only those associations for which {{{(proc key value)}}} returns non-{{{#false}}}. O(n log n) time; O(n) is optimal.
 
 {{{#!scheme
 (imap-fold proc base map)
@@ -410,7 +412,7 @@ The fundamental map iterator. Calls
 {{{#!scheme
 (proc key value accum)
 }}}
-successively to accumulate a value initialized to {{{base}}}. Takes O(n) time.
+successively to accumulate a value initialized to {{{base}}}. O(n) time.
 
 {{{#!scheme
 (imap-map-values proc map)
@@ -433,7 +435,7 @@ for each key-value association in {{{map}}}. {{{proc}}} must return {{{(values n
 {{{#!scheme
 (imap-map proc map [precedes?])
 }}}
-As {{{imap-map/monotone}}}, except the {{{proc}}} is not required to be monotone. When multiple keys are mapped to the same {{{new-key}}}, only the association originating from the least pre-mapped key is retained. Takes O(n log n) time.
+As {{{imap-map/monotone}}}, except the {{{proc}}} is not required to be monotone. When multiple keys are mapped to the same {{{new-key}}}, only the association originating from the greatest pre-mapped key is retained. O(n log n) time.
 
 === Conversion ===
 
@@ -441,23 +443,23 @@ As {{{imap-map/monotone}}}, except the {{{proc}}} is not required to be monotone
 (imap->ordered-alist map)
 }}}
 
-Returns an association list containing the associations of {{{map}}} in increasing order by key. Takes O(n) time.
+Returns an association list containing the associations of {{{map}}} in increasing order by key. O(n) time.
 
 {{{#!scheme
 (imap-keys map)
 }}}
-Returns a set containing the keys of {{{map}}}. Takes O(n log n) time; O(n) is optimal.
+Returns a set containing the keys of {{{map}}}. O(n log n) time; O(n) is optimal.
 
 {{{#!scheme
 (imap-values map)
 }}}
-Returns a list containing the values of {{{map}}} in increasing order by key. Takes O(n) time.
+Returns a list containing the values of {{{map}}} in increasing order by key. O(n) time.
 
 {{{#!scheme
 (ordered-alist->imap precedes? alist)
 }}}
 
-Returns a map containing the associations of {{{alist}}} and using order predicate {{{precedes?}}}. It is an error for {{{list}}} to be anything other than a proper association list in increasing order by key. Takes O(n log n) time; O(n) is optimal.
+Returns a map containing the associations of {{{alist}}} and using order predicate {{{precedes?}}}. It is an error for {{{list}}} to be anything other than a proper association list in increasing order by key. O(n log n) time; O(n) is optimal.
 
 {{{#!scheme
 (alist->imap precedes? alist)
@@ -473,10 +475,9 @@ The behavior and efficiency of these operations is the same as the analogous set
 (imap-key>? map x y)
 }}}
 
-These procedures compare key {{{x}}} to key {{{y}}} according to {{{set}}}'s order predicate and the conventional meaning of {{{<}}}, {{{=}}}, and {{{>}}}.
+The behavior and efficiency of these operations is the same as the analogous set procedures.
 
 = Open questions =
 
 * Should there be an explicitly-immutable pair and list?
 * "imap" is a name clash with the IMAP email protocol. Is this a dealbreaker?
-
