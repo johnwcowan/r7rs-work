@@ -1,16 +1,16 @@
 == Abstract ==
 
-This proposal is a rewrite of SRFI 67, Compare Procedures, extending it from procedures that represent a total order to procedures that represent one or more of a total order, an equivalence predicate, and a hash function.  By packaging these procedures together, along with a type check predicate, they can be treated as a single item for use in the implementation of higher-level data structures.
+This proposal is a rewrite of SRFI 67, Compare Procedures, extending it from procedures that represent a total order to procedure bundles that represent one or more of a total order, an equivalence predicate, and a hash function.  By packaging these procedures together, along with a type check predicate, they can be treated as a single item for use in the implementation of data structures.
 
 == Rationale ==
 
-The four procedures above have complex dependencies on one another, and it is inconvenient to have to pass them all to other procedures that might or might not make use of all of them.  For example, a set implementation naturally requires only an equivalence procedure, but if it is implemented using a hash table, an appropriate hash procedure is also required if the implementation does not provide one; alternatively, if it is implemented using a tree, a compare procedure is required.  By passing a comparator rather than a bare equivalence procedure, the set implementation can make use of whatever procedures are useful to it.
+The four procedures above have complex dependencies on one another, and it is inconvenient to have to pass them all to other procedures that might or might not make use of all of them.  For example, a set implementation naturally requires only an equivalence procedure, but if it is implemented using a hash table, an appropriate hash procedure is also required if the implementation does not provide one; alternatively, if it is implemented using a tree, a compare procedure is required.  By passing a comparator rather than a bare equivalence procedure, the set implementation can make use of whatever procedures are available and useful to it.
 
 == Specification ==
 
-== Comparators ==
+== Definitions ==
 
-A ''comparator'' is an object of a disjoint type.  It is bundle of procedures that are useful for comparing two objects either for equality or for ordering.  There are four procedures in the bundle:
+A ''comparator'' is an object of a disjoint type.  It is a bundle of procedures that are useful for comparing two objects either for equality or for ordering.  There are four procedures in the bundle:
 
 * The ''type check'' procedure returns `#t` if its argument has the correct type to be passed as an argument to the other three procedures, and `#f` otherwise.
 
@@ -20,7 +20,7 @@ A ''comparator'' is an object of a disjoint type.  It is bundle of procedures th
 
 * The ''hash'' procedure takes one argument, and returns an exact non-negative integer which corresponds to it in the sense of a hash function.  It is the programmer's responsibility to ensure that it can handle any argument that satisfies the type check procedure, and that it returns the same value on two objects if the equivalence procedure says they are the same (but not necessarily the converse).  '''Issue:  Should this procedure accept a second argument such that its result must be less than this argument?'''
 
-All four procedures must provide the same result whenever they are applied to the same object(s) unless the object(s) have been mutated since the last invocation.  In other words, they must not depend in any way on memory addresses in systems where the garbage collector can move objects in memory.
+It is also the programmer's responsibility to ensure that all four procedures provide the same result whenever they are applied to the same object(s), unless the object(s) have been mutated since the last invocation.  In particular, they must not depend in any way on memory addresses in systems where the garbage collector can move objects in memory.
 
 === Predicate ===
 
@@ -34,7 +34,7 @@ The following comparators are analogues to the standard compare procedures of SR
 
 `boolean-comparator`
 
-Compares booleans using the total order `#f < #t`.
+Compares booleans using the total order `#f` < `#t`.
 
 `char-comparator`
 
@@ -76,19 +76,25 @@ It is an error to pass a NaN value to any of these comparators.
 
 === Constructors ===
 
-Most of the following comparators are analogues to the standard compare procedures of SRFI 67.  They all provide appropriate hash functions as well.
+Most of the following comparators are close analogues of the standard compare procedures of SRFI 67.  They all provide appropriate hash functions as well.
 
 Note that comparator constructors are allowed to cache their results: they need not return a newly allocated object, since comparators are purely functional.
 
 `(make-comparator `''type-check equivalence compare hash''`)`
 
-Returns a comparator which bundles the ''type-check, equivalence, compare'', and ''hash'' procedures provided.  If ''type-check'' is `#f`, a type-check procedure that accepts any arguments is provided.  If ''equivalence'' is `#f` but ''compare'' is not, an equivalence procedure is provided that returns `#t` iff ''compare'' returns 0.  If ''compare'' or ''hash'' is `#f`, a procedure is provided that signals an error on application.
+Returns a comparator which bundles the ''type-check, equivalence, compare'', and ''hash'' procedures provided.  As a convenience, `#f` is accepted in place of any procedure, as follows:
+
+* If ''type-check'' is `#f`, a type-check procedure that accepts any arguments is provided.
+* If ''equivalence'' is `#f`, an equivalence procedure is provided that returns `#t` iff ''compare'' returns 0.
+* If ''compare'' or ''hash'' is `#f`, a procedure is provided that signals an error on application.
+
+It is an error if both ''equivalence'' and ''compare'' are specified as `#f`.
 
 `(make-inexact-comparator `''epsilon rounding nan-handling''`)`
 
 Returns a comparator that compares inexact numbers as follows:  if after rounding to the nearest ''epsilon'' they are the same, they compare equal; otherwise they compare as specified by `<`.  The direction of rounding is specified by the ''rounding'' argument, which is one of the symbols `floor`, `ceiling`, `truncate`, or `round`.
 
-The argument `nan-handling` specifies how to compare NaN arguments to non-NaN arguments.  If it is 'min', NaN values precede all other values; if it is 'max', they follow all other values, and if it is 'error', an error is signaled.  In any case, two !NaNs are always treated as equivalent by this comparator.
+The argument `nan-handling` specifies how to compare NaN arguments to non-NaN arguments.  If it is `min`, NaN values precede all other values; if it is `max`, they follow all other values, and if it is `error`, an error is signaled if a NaN value is compared.  In any case, two !NaNs are always treated as equivalent by this comparator.
 
 `(make-vector-comparator `''element-comparator''`)`
 
@@ -153,19 +159,21 @@ Returns a comparator that makes use of the ''comparators'' in the same way as `m
 
 `(make-debug-comparator `''comparator''`)`
 
-Returns a comparator that behaves exactly like ''comparator'', except that it verifies all the programmer responsibilities whenever its procedures are invoked, and an error is signaled if any of them are violated.  Transitivity is not tested on the first call to a debug comparator, because it requires three arguments; it is tested on all future calls using an arbitrarily chosen argument from the previous invocation.  Note that this may cause unexpected storage leaks. 
+Returns a comparator that behaves exactly like ''comparator'', except that it verifies all the programmer responsibilities (except stability) whenever its procedures are invoked, and an error is signaled if any of them are violated.  Transitivity is not tested on the first call to a debug comparator, because it requires three arguments; it is tested on all future calls using an arbitrarily chosen argument from the previous invocation.  Note that this may cause unexpected storage leaks. 
 
 === The default comparator ===
 
 `default-comparator`
 
-This is a comparator that accepts any two Scheme values and orders them in some implementation-defined way, subject to the following constraints:
+This is a comparator that accepts any two Scheme values (with the exception of circular structure) and orders them in some implementation-defined way, subject to the following constraints:
 
 * When applied to booleans, characters, strings, and numbers, its behavior must be the same as `boolean-comparator`, `character-comparator`, `string-comparator`, and `number-comparator` respectively, except that NaN values must be accepted and treated as either preceding or following all numeric values.  The same should be true for any pair of objects of the same type if a standard comparator is defined for that type.
 
 * When applied to lists, vectors, and bytevectors, its behavior must be the same as `(make-list-comparator default-comparator)`, `(make-vector-comparator default-comparator)`, and `(make-bytevector-comparator default-comparator)` respectively.  The same should be true for any pair of sequences of the same type if an element-wise comparator is defined for that type.
 
 * All objects of a disjoint type must compare either greater than or less than all values of another disjoint type.  In other words, type trumps structure.
+
+Because of the expense of ensuring otherwise, the procedures of `default-comparator` are not required to terminate on circular structures.
 
 === Standard convenience comparators ===
 
