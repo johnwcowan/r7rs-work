@@ -155,7 +155,7 @@ This procedure is analogous to the expression types `select-compare` and `cond-c
 
 `(make-refining-comparator `''comparator,,1,, comparator,,2,,'' ...`)`
 
-Returns a comparator that makes use of the ''comparators'' in the same way as `make-selecting-comparator`, except that if the compare procedure returns 0 (or, if there is no compare procedure, if the equivalence procedure returns `#t`), then the next comparator whose type check procedure is satisfied is used instead.  If there are no more such comparators, then the equivalence procedure returns `#t`, the compare procedure returns 0, and the hash procedure returns whatever the hash procedure of the last comparator examined returns.  If no type check procedure is satisfied, an error is signaled; to avoid this, make sure that the type check procedure of the final comparator is satisfied by any arguments.  '''Issue:  Is this the right treatment of hash procedures?'''
+Returns a comparator that makes use of the ''comparators'' in the same way as `make-selecting-comparator`, except that if the compare procedure returns 0 (or, if there is no compare procedure, if the equivalence procedure returns `#t`), then the next comparator whose type check procedure is satisfied is used instead.  If there are no more such comparators, then the equivalence procedure returns `#t`, the compare procedure returns 0, and the hash procedure returns the XOR of what the hash procedures of all the relevant comparators return.  If no type check procedure is satisfied, an error is signaled; to avoid this, make sure that the type check procedure of the final comparator is satisfied by any arguments.
 
 `(make-debug-comparator `''comparator''`)`
 
