@@ -16,9 +16,9 @@ This WG2 proposal defines an interface to hash tables, which are widely recogniz
 
 == Issues ==
 
- 1. I've heard complaints about the messiness of passing two arguments, one of which is optional, when creating a hash table.  What about having a procedure that accepts an equivalence predicate and a hash procedure, and returns a procedure that behaves the same as the equivalence predicate when called with two arguments, but when called with zero arguments, returns the hash procedure?  This is used to create hash tables, saving an extra argument each time.  Note that this style allows the author of an equivalence predicate to provide hashing without cluttering up the interface, and allows the predicate to be provided as transparently as built-in predicates are.  (This idea was suggested by early reviewer kpreid.)  Something like this was proposed as an enhancement to Common Lisp as [[http://cdr.eurolisp.org/document/2/genhash.html|CDR 2]].
+ 1. Should we support [[:ComparatorsCowan|comparators]] as alternatives to equivalence procedures?  That packages up the equivalence predicate with the hash function; if no hash function is available, but an order predicate is, the hash table can fall back to an O(log n) tree.
 
- 2. What if we did not support arbitrary equivalence predicates, but only allowed `eq?`, `eqv?`, `equal?`, and `string=?` (hash tables that support `equal?` will also support `string=?`).  We could further allow `string-ci=?` as an optional ("should") equivalence predicate.  This would allow us to support more Scheme implementations and eliminate any need to deal with hash procedures, though it is a considerable restriction on generality.  I'd like feedback on how often such generality is actually required.
+ 2. Alternatively, what if we did not support arbitrary equivalence predicates, but only allowed `eq?`, `eqv?`, `equal?`, and `string=?` (hash tables that support `equal?` will also support `string=?`).  We could further allow `string-ci=?` as an optional ("should") equivalence predicate.  This would allow us to support more Scheme implementations and eliminate any need to deal with hash procedures, though it is a considerable restriction on generality.
 
 == Rationale ==
 
@@ -75,7 +75,7 @@ The procedures in the present proposal are drawn primarily from SRFI 69, R6RS, a
 
 * The procedures `hash-table-unfold` and `hash-table-count` were suggested by [[http://srfi.schemers.org/srfi-1/srfi-1.html|SRFI 1]].  
 
-* The procedures in the section "Hash tables as functions" were loosely inspired by the finite functions of [[https://code.google.com/p/owl-lisp/wiki/OwlManual#Finite_Functions|Owl Lisp]].
+* The procedures `hash-table-accessor` and `hash-table-accessor/default` were loosely inspired by the finite functions of [[https://code.google.com/p/owl-lisp/wiki/OwlManual#Finite_Functions|Owl Lisp]].
 
 The procedures `hash-table-replace!`, `hash-table-replace!/default`, `hash-table-search!`, `hash-table-intersection!`, and `hash-table-difference!` were added for completeness. 
 
@@ -115,7 +115,7 @@ Here is an index to the procedures of this specification:
 
 * [[#Copyingandconversion|Copying and conversion]]: `hash-table-copy`, `hash-table->alist`, `alist->hash-table`
 
-* [[#Hashtablesasfunctions|Hash tables as functions]]: `hash-table-accessor`, `hash-table-accessor/default`, `hash-table-mutator`, `hash-table-deleter`, `hash-table-extender`, `hash-table-extender/default`, `hash-table-replacer`, `hash-table-replacer/default`, `hash-table-updater`, `hash-table-updater/default`
+* [[#Hashtablesasfunctions|Hash tables as functions]]: `hash-table-accessor`, `hash-table-accessor/default`
 
 * [[#Hashtablesassets|Hash tables as sets]]: `hash-table-union!`, `hash-table-intersection!`, `hash-table-difference!`
 
