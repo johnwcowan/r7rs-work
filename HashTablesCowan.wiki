@@ -7,22 +7,22 @@ This WG2 proposal defines an interface to hash tables, which are widely recogniz
      * Keys may be any Scheme objects in some kinds of hash tables, but are restricted in other kinds.
      * Values may be any Scheme objects.
    * Has no intrinsic order for the key-value ''associations'' it contains.
-   * Provides an ''equivalence predicate'' which defines when a proposed key is the same as an existing key.  No table may contain more than one value for a given key.
-   * Provides a ''hash procedure'' which maps a candidate key into a non-negative exact integer.
+   * Provides an ''equality predicate'' which defines when a proposed key is the same as an existing key.  No table may contain more than one value for a given key.
+   * Provides a ''hash function'' which maps a candidate key into a non-negative exact integer.
    * Supports mutation as the primary means of setting the contents of a table.
    * Assumes that keys are immutable; mutating a key leads to unspecified behavior.
-   * Provides key lookup and destructive update in (expected) amortized constant time, provided a satisfactory hash procedure is given.
+   * Provides key lookup and destructive update in (expected) amortized constant time, provided a satisfactory hash function is available.
    * Does not guarantee that whole-table operations work in the presence of concurrent mutation.
 
 == Issues ==
 
- 1. Should we support [[:ComparatorsCowan|comparators]] as alternatives to equivalence procedures?  That packages up the equivalence predicate with the hash function; if no hash function is available, but an order predicate is, the hash table can fall back to an O(log n) tree.
+ 1. Should we support [[:ComparatorsCowan|comparators]] as alternatives to equality procedures?  That packages up the equality predicate with the hash function; if no hash function is available, but an order predicate is, the hash table can fall back to an O(log n) tree.
 
- 2. Alternatively, what if we did not support arbitrary equivalence predicates, but only allowed `eq?`, `eqv?`, `equal?`, and `string=?` (hash tables that support `equal?` will also support `string=?`).  We could further allow `string-ci=?` as an optional ("should") equivalence predicate.  This would allow us to support more Scheme implementations and eliminate any need to deal with hash procedures, though it is a considerable restriction on generality.
+ 2. Alternatively, what if we did not support arbitrary equality predicates, but only allowed `eq?`, `eqv?`, `equal?`, and `string=?` (hash tables that support `equal?` will also support `string=?`).  We could further allow `string-ci=?` as an optional ("should") equality predicate.  This would allow us to support more Scheme implementations and eliminate any need to deal with user-specified hash functions, though it is a considerable restriction on generality.
 
 == Rationale ==
 
-Hash tables themselves don't really need defending: almost all dynamically typed scripting languages, from awk to !JavaScript to Lua to Perl to Python to Common Lisp, have them in some form as a very basic data structure.  Therefore, what needs to be defended is not the data structure but the procedures.  The present proposal is at an intermediate level.  It supports a great many convenience procedures on top of the basic hash table interfaces provided by [[http://srfi.schemers.org/srfi-69/srfi-69.html|SRFI 69]] and [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-14.html|R6RS]].  Nothing in it adds power to what those interfaces provide, but it does add convenience in the form of pre-debugged routines to do various common things, and even some things not so commonly done but useful.
+Hash tables themselves don't really need defending: almost all dynamically typed languages, from awk to !JavaScript to Lua to Perl to Python to Common Lisp, and including many Scheme implementations, have them in some form as a fundamental data structure.  Therefore, what needs to be defended is not the data structure but the procedures.  The present proposal is at an intermediate level.  It supports a great many convenience procedures on top of the basic hash table interfaces provided by [[http://srfi.schemers.org/srfi-69/srfi-69.html|SRFI 69]] and [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-14.html|R6RS]].  Nothing in it adds power to what those interfaces provide, but it does add convenience in the form of pre-debugged routines to do various common things, and even some things not so commonly done but useful.
 
 There is no mandated support for thread safety, immutability, or weakness, though there is a semi-portable hook for specifying these features.
 
@@ -47,7 +47,7 @@ It would be trivial to provide the R6RS names (or for that matter the SRFI 69 na
 
 === Reflection and hash-function procedures ===
 
-SRFI 69 provides reflective procedures that, given a hash table, returns its equivalence predicate and hash procedure, as well as procedures that expose the implementation's hash procedures suitable for the equivalence predicates `eq?`, `equal?`, `string=?`, and `string-ci=?`.  The second of these can also be used for `eqv?`.  However, if the `eq?` hash procedure directly exposes the address of the key, and the garbage collector moves the hash table, it must also rehash its keys.  In such implementations, the `hash-by-identity` procedure is not idempotent, which makes it dangerous to use outside the context of implementation-provided hash tables.
+SRFI 69 provides reflective procedures that, given a hash table, returns its equality predicate and hash function, as well as procedures that expose the implementation's hash functions suitable for the equality predicates `eq?`, `equal?`, `string=?`, and `string-ci=?`.  The second of these can also be used for `eqv?`.  However, if the `eq?` hash function directly exposes the address of the key, and the garbage collector moves the hash table, it must also rehash its keys.  In such implementations, the `hash-by-identity` procedure is not idempotent, which makes it dangerous to use outside the context of implementation-provided hash tables.
 
 R6RS eliminates this issue by providing separate constructors for `eq?` and `eqv?` hash tables, and refusing to expose the hash functions for them.  However, the presents proposal takes the radical option of providing neither reflection nor implementation-based hash functions.  They can of course be provided by implementations as extensions with suitable warnings against inappropriate uses.
 
@@ -55,7 +55,7 @@ R6RS eliminates this issue by providing separate constructors for `eq?` and `eqv
 
 As usual, the Common Lisp names are completely different from the Scheme names. Common Lisp provides the following capabilities that are not in the present proposal:
 
-* The constructor allows specifying the current capacity (as opposed to size), rehash size, aand rehash threshold of the new hash table.  There are also accessors and mutators for these.
+* The constructor allows specifying the current capacity (as opposed to size), rehash size, and rehash threshold of the new hash table.  There are also accessors and mutators for these.
 
 * There are hash tables based on `equalp` (which is not in Scheme).
 
@@ -65,7 +65,9 @@ As usual, the Common Lisp names are completely different from the Scheme names. 
 
 === Sources ===
 
-The procedures in the present proposal are drawn primarily from SRFI 69, R6RS, and the native hash tables of [[http://docs.racket-lang.org/reference/hashtables.html|Racket]].  In addition, the following sources are acknowledged:
+The procedures in the present proposal are drawn primarily from SRFI 69 and R6RS.  In addition, the following sources are acknowledged:
+
+* The `hash-table-extend!`, `hash-table-extend/default`, `hash-table-map->alist`, `hash-table->alist`, and `alist->hash-table` are from [[http://docs.racket-lang.org/reference/hashtables.html|Racket]], renamed in the style of this proposal.
 
 * The `hash-table-push!` and `hash-table-pop!` procedures are from [[http://practical-scheme.net/gauche/man/gauche-refe_53.html|Gauche]].
 
@@ -77,7 +79,7 @@ The procedures in the present proposal are drawn primarily from SRFI 69, R6RS, a
 
 * The procedures `hash-table-accessor` and `hash-table-accessor/default` were loosely inspired by the finite functions of [[https://code.google.com/p/owl-lisp/wiki/OwlManual#Finite_Functions|Owl Lisp]].
 
-The procedures `hash-table-replace!`, `hash-table-replace!/default`, `hash-table-search!`, `hash-table-intersection!`, and `hash-table-difference!` were added for completeness. 
+The procedures `hash-table=?`, `hash-table-set-entries!`, `hash-table-replace!`, `hash-table-replace!/default`, `hash-table-search!`, `hash-table-map`, `hash-table-update-each!`, `hash-table-intersection!`, and `hash-table-difference!` were added for completeness. 
 
 The native hash tables of [[http://web.mit.edu/scheme_v9.0.1/doc/mit-scheme-ref/Hash-Tables.html|MIT]],  [[http://www.gnu.org/software/guile/manual/html_node/Hash-Table-Reference.html|Guile]], [[http://sisc-scheme.org/manual/html/ch09.html#Hashtables|SISC]], [[http://www-sop.inria.fr/indes/fp/Bigloo/doc/bigloo-7.html#Hash-Tables|Bigloo]], [[http://s48.org/0.57/manual/s48manual_44.html|Scheme48]], [[http://www.cs.indiana.edu/scheme-repository/SCM/slib_2.html#SEC13|SLIB]], [[http://www.rscheme.org/rs/b/0.7.3.4/5/html/c2143.html|RScheme]], [[https://ccrma.stanford.edu/software/snd/snd/s7.html#hashtables|Scheme 7]], [[https://github.com/barak/scheme9/blob/master/lib/hash-table.scm|Scheme 9]], [[http://www.fifi.org/cgi-bin/info2www?(librep)Hash+Tables|Rep]], and [[https://code.google.com/p/femtolisp/wiki/APIReference|FemtoLisp]] were also investigated, but no additional procedures were incorporated.
 
@@ -93,15 +95,15 @@ Some of the language of the present proposal is copied from SRFI 69 with thanks 
 
 The procedures in the present proposal are in the `(scheme hash-tables)` and `(srfi xxx)` libraries (or `(srfi :xxx)` on R6RS).  However, the library in the sample implementation is named `(hash-tables)`.
 
-All references to "executing in expected amortized O(1) time" presuppose that a satisfactory hash procedure has been supplied by the user.  Arbitrary or non-idempotent hash procedures can make a hash of the implementation.
+All references to "executing in expected amortized constant time" presuppose that a satisfactory hash function has been supplied by the user.  Arbitrary or non-idempotent hash functions can make a hash of the implementation.
 
-Hash tables are allowed to cache the results of calling the equivalence and hash procedures, so programs cannot rely on the hash procedure being called exactly once for every primitive hash table operation: it may be called zero, one, or more times.
+Hash tables are allowed to cache the results of calling the equality and hash functions, so programs cannot rely on the hash function being called exactly once for every primitive hash table operation: it may be called zero, one, or more times.
 
 No procedure passed to `hash-table-find`, `hash-table-count`, `hash-table-map`, `hash-table-for-each`, `hash-table-update-each!`, `hash-table-map->list`, or `hash-table-fold` may mutate the hash table being walked, with the exception of changing the value of the association currently being processed.
 
 Here is an index to the procedures of this specification:
 
-* [[#Constructors|Constructors]]: `make-hash-table`, `hash-table`
+* [[#Constructors|Constructors]]: `make-hash-table`, `hash-table`, `hash-table-unfold`
 
 * [[#Predicates|Predicates]]: `hash-table?`, `hash-table-contains?`, `hash-table=?`
 
@@ -111,7 +113,7 @@ Here is an index to the procedures of this specification:
 
 * [[#Thewholehashtable|The whole hash table]]: `hash-table-clear!`, `hash-table-size`, `hash-table-keys`, `hash-table-values`, `hash-table-entries`, `hash-table-find`, `hash-table-count`
 
-* [[#Mappingandfolding|Mapping and folding]]: `hash-table-map`, `hash-table-for-each`, `hash-table-update-each!`, `hash-table-map->list`, `hash-table-fold`, `hash-table-unfold`
+* [[#Mappingandfolding|Mapping and folding]]: `hash-table-map`, `hash-table-for-each`, `hash-table-update-each!`, `hash-table-map->list`, `hash-table-fold`
 
 * [[#Copyingandconversion|Copying and conversion]]: `hash-table-copy`, `hash-table->alist`, `alist->hash-table`
 
@@ -123,19 +125,23 @@ Here is an index to the procedures of this specification:
 
 === Constructors ===
 
-`(make-hash-table `''equivalence'' [[|''hash'' ]] [[|''arg'' ... ]]`)`
+`(make-hash-table `''equality'' [[|''hash'' ]] [[|''arg'' ... ]]`)`
 
-Returns a newly allocated hash table whose equivalence predicate is ''equivalence'' and hash procedure is ''hash''.  The equivalence predicate accepts two arguments and returns a truth value.  The hash procedure accepts one argument in the domain of the equivalence predicate and returns a non-negative exact integer.  It is the programmer's responsibility to ensure that two objects passed to the hash procedure return the same value if the same objects passed to the equivalence predicate return true; however, the converse is not required.
+Returns a newly allocated hash table whose equality predicate is ''equality'' and hash function is ''hash''.  The equality predicate accepts two arguments and returns a truth value.  The hash function accepts one argument in the domain of the equality predicate and returns a non-negative exact integer.  It is the programmer's responsibility to ensure that two objects passed to the hash function return the same value if the same objects passed to the equality predicate return true; however, the converse is not required.
 
-The ability to omit the ''hash'' argument is severely limited.  If ''equivalence'' is `eq?`, `eqv?`, `equal?`, `string=?`, or `string-ci=?`, a suitable implementation-provided procedure will be used.  The implementation may extend this list.  But if any other equivalence predicate is provided without a hash procedure, an error should be signaled.
+The ability to omit the ''hash'' argument is severely limited.  If ''equality'' is `eq?`, `eqv?`, `equal?`, `string=?`, or `string-ci=?`, then if ''hash'' is not provided, a suitable implementation-provided procedure will be used; the implementation may use its own procedure in any case.  The implementation may extend this list.  But if any other equality predicate is provided without a hash function, an error should be signaled.
 
 The meaning of the remaining arguments is implementation-dependent.  However, implementations which support the ability to specify the initial capacity of a hash table should interpret a non-negative exact integer as the specification of that capacity.  In addition, if the symbols `immutable`, `thread-safe`, `weak-keys` or  `weak-values` are present, implementations should create immutable hash tables, mutable thread-safe hash tables, hash tables with weak keys, and hash tables with weak values respectively.  In an implementation which does not support these features, an error should be signaled if they are requested.  To avoid collision with the ''hash'' argument, none of these arguments can be procedures.
 
 (SRFI 69 `make-hash-table`; R6RS `make-eq-hashtable`, `make-eqv-hashtable`, and `make-hashtable`; Common Lisp `make-hash-table`)
 
-`(hash-table `''equivalence hash'' ( ''key value'' ) ...`)`
+`(hash-table `''equality hash'' ( ''key value'' ) ...`)`
 
-Returns a newly allocated hash table, created as if by `make-hash-table`, whose equivalence procedure is `equivalence` and hash procedure is `hash`.  For each pair of arguments, an association is created in the new hash table with ''key'' as its key and ''value'' as its value.
+Returns a newly allocated hash table, created as if by `make-hash-table`, whose equality procedure is `equality` and hash function is `hash`.  For each pair of arguments, an association is added to the new hash table with ''key'' as its key and ''value'' as its value.
+
+`(hash-table-unfold `''continue? mapper successor seed equality'' [[|''hash'' ]]`)`
+
+Create a new hash table as if by `make-hash-table`.  If the result of applying the predicate ''continue?'' to ''seed'' is `#f`, return the hash table.  Otherwise, apply the procedure ''mapper'' to ''seed''.  ''Mapper'' returns two values, which are inserted into the hash table as the key and the value respectively.  Then get a new seed by applying the procedure ''successor'' to ''seed'', and repeat this algorithm.
 
 === Predicates ===
 
@@ -145,11 +151,11 @@ Returns `#t` if ''obj'' is a hash table, and `#f` otherwise.  (SRFI 69 `hash-tab
 
 `(hash-table-contains? `''hash-table key''`)`
 
-Returns `#t` if there is any association to ''key'' in ''hash-table'', and `#f` otherwise.  Must execute in expected amortized O(1) time.  (SRFI 69 `hash-table-exists?`; R6RS `hashtable-contains?`)
+Returns `#t` if there is any association to ''key'' in ''hash-table'', and `#f` otherwise.  Must execute in expected amortized constant time.  (SRFI 69 `hash-table-exists?`; R6RS `hashtable-contains?`)
 
 `(hash-table=? `''value= hash-table,,1,, hash-table,,2,,''`)`
 
-Returns `#t` if ''hash-table,,1,,'' and ''hash-table,,2,,'' have the same keys (in the sense of their common equivalence predicate) and the same values (in the sense of the ''value='' predicate) for each key, and `#f` otherwise.  It is an error to compare two hash tables that have distinct equivalence predicates.
+Returns `#t` if ''hash-table,,1,,'' and ''hash-table,,2,,'' have the same size, the same keys (in the sense of their common equality predicate) and the same values (in the sense of the ''value='' predicate) for each key, and `#f` otherwise.  It is an error to compare two hash tables that have distinct equality predicates.
 
 === Accessors ===
 
@@ -172,23 +178,23 @@ The following procedures alter the associations in a hash table either unconditi
 
 `(hash-table-set! `''hash-table key value''`)`
 
-Creates a new association in ''hash-table'' that associates ''key'' with ''value''.  If there is a previous association for ''key'', it is deleted.  It is an error if ''hash-table'' is not a valid argument to the equality predicate of ''hash-table''.  Returns an unspecified value.  Must execute in expected amortized O(1) time.  (SRFI 69 `hash-table-set!`; R6RS `hashtable-set!`)
+Creates a new association in ''hash-table'' that associates ''key'' with ''value''.  If there is a previous association for ''key'', it is deleted.  It is an error if ''key'' is not a valid argument to the equality predicate of ''hash-table''.  Returns an unspecified value.  Must execute in expected amortized constant time.  (SRFI 69 `hash-table-set!`; R6RS `hashtable-set!`)
 
 `(hash-table-set-all! `''hash-table'' ( ''key value'' ) ...`)`
 
 Repeatedly mutates ''hash-table'', setting each ''key'' to the ''value'' that follows it.
 
-`(hash-table-set-entries! `''hash-table keys values''`)`
+`(hash-table-set-entries! `''hash-table keyslist valueslist''`)`
 
-Repeatedly mutates ''hash-table'', setting each element of ''keys'' to the corresponding element of ''values''.
+Repeatedly mutates ''hash-table'', setting each element of ''keyslist'' to the corresponding element of ''valueslist'' in the order given.
 
 `(hash-table-set-alist! `''hash-table alist''`)`
 
-Repeatedly mutates ''hash-table'' using the associations of ''alist''.
+Repeatedly mutates ''hash-table'' using the associations of ''alist'' in the order given.
 
 `(hash-table-delete! `''hash-table key''`)`
 
-Deletes any association to ''key'' in ''hash-table'' and returns true if there was an association for ''key'', false if not.  Must execute in expected amortized O(1) time.    (SRFI 69 `hash-table-delete!`; R6RS `hashtable-delete!`; Common Lisp `remhash`)
+Deletes any association to ''key'' in ''hash-table'' and returns true if there was an association for ''key'', false if not.  Must execute in expected amortized constant time.    (SRFI 69 `hash-table-delete!`; R6RS `hashtable-delete!`; Common Lisp `remhash`)
 
 `(hash-table-delete-keys! `''hash-table keylist''`)`
 
@@ -218,7 +224,7 @@ Semantically equivalent to, but may be implemented more efficiently than, the fo
 
   `(hash-table-set! `''hash-table''` `''key''` (`''updater'' `(hash-table-ref `''hash-table''` `''key failure success''`)))`
 
-Must execute in expected amortized O(1) time.  Returns an unspecified value.  (SRFI 69 `hash-table-update!/default`; R6RS `hashtable-update!`)
+Must execute in expected amortized constant time.  Returns an unspecified value.  (SRFI 69 `hash-table-update!/default`; R6RS `hashtable-update!`)
 
 `(hash-table-update!/default `''hash-table key updater default''`)`
 
@@ -226,7 +232,7 @@ Semantically equivalent to, but may be implemented more efficiently than, the fo
 
   `(hash-table-set! `''hash-table''` `''key''` (`''updater'' `(hash-table-ref/default `''hash-table''` `''key default''`)))`
 
-Must execute in expected amortized O(1) time.  Returns an unspecified value.  (SRFI 69 `hash-table-update!`)
+Must execute in expected amortized constant time.  Returns an unspecified value.  (SRFI 69 `hash-table-update!`)
 
 `(hash-table-push! `''hash-table key value''`)`
 
@@ -245,13 +251,15 @@ one argument, a unary ''add'' procedure which if invoked will insert a new assoc
 
 === The whole hash table ===
 
+These procedures process the associations of the hash table in arbitrary order.
+
 `(hash-table-clear! `''hash-table''`)`
 
-Delete all the associations from ''hash-table''.  Should execute in expected amortized O(1) time.  (R6RS `hashtable-clear!`; Common Lisp `clrhash`)
+Delete all the associations from ''hash-table''.  Should execute in expected amortized constant time.  (R6RS `hashtable-clear!`; Common Lisp `clrhash`)
 
 `(hash-table-size `''hash-table''`)`
 
-Returns the number of associations in ''hash-table'' as an exact integer.  Should execute in expected amortized O(1) time.  (SRFI 69 `hash-table-size`, R6RS `hashtable-size`; Common Lisp `hash-table-count`.)
+Returns the number of associations in ''hash-table'' as an exact integer.  Should execute in expected amortized constant time.  (SRFI 69 `hash-table-size`, R6RS `hashtable-size`; Common Lisp `hash-table-count`.)
 
 Returns the number of keys in ''hash-table''.
 
@@ -277,31 +285,29 @@ For each association of ''hash-table'', invoke ''pred'' on its key and value in 
 
 === Mapping and folding ===
 
-`(hash-table-map `''equivalence hash proc merger hash-table''`)`
+These procedures process the associations of the hash table in arbitrary order.
 
-Returns a newly allocated hash table as if by `make-hash-table`.  Calls ''proc'' for every association in ''hash-table'' with two arguments: the key of the association and the value of the association.  The two values returned by ''proc'' are inserted into the new hash table as a key and value.   The order in which ''procedure'' is called for different associations is unspecified.
+`(hash-table-map `''equality hash proc merger hash-table''`)`
+
+Returns a newly allocated hash table as if by `make-hash-table`.  Calls ''proc'' for every association in ''hash-table'' with two arguments: the key of the association and the value of the association.  The two values returned by ''proc'' are inserted into the new hash table as a key and value.
 
 When the key being added already exists in the hash table, the procedure ''merger'' is called with arguments ''oldkey oldvalue newkey newvalue'' and returns the value to be associated with that key.
 
 `(hash-table-for-each `''proc hash-table''`)`
 
-Calls ''proc'' for every association in ''hash-table'' with two arguments: the key of the association and the value of the association.  The value returned by ''proc'' is discarded.   The order in which ''procedure'' is called for different associations is unspecified.  Returns an unspecified value.  (SRFI 69 `hash-table-walk` with the arguments reversed; Common Lisp `maphash`)
+Calls ''proc'' for every association in ''hash-table'' with two arguments: the key of the association and the value of the association.  The value returned by ''proc'' is discarded.Returns an unspecified value.  (SRFI 69 `hash-table-walk` with the arguments reversed; Common Lisp `maphash`)
 
 `(hash-table-update-each! `''proc hash-table''`)`
 
-Calls ''proc'' for every association in ''hash-table'' with two arguments: the key of the association and the value of the association.  The value returned by ''proc'' is used to update the association.   Returns an unspecified value.  The order in which ''procedure'' is called for different associations is unspecified.
+Calls ''proc'' for every association in ''hash-table'' with two arguments: the key of the association and the value of the association.  The value returned by ''proc'' is used to update the association.   Returns an unspecified value.
 
 `(hash-table-map->list `''proc hash-table''`)`
 
-Calls ''proc'' for every association in ''hash-table'' with two arguments: the key of the association and the value of the association.  The value returned by ''proc'' is accumulated into a list, which is returned.   The order in which ''procedure'' is called for different associations is unspecified.  
+Calls ''proc'' for every association in ''hash-table'' with two arguments: the key of the association and the value of the association.  The value returned by ''proc'' is accumulated into a list, which is returned.  
 
 `(hash-table-fold `''proc''` `''init''` `''hash-table''`)`
 
-Calls ''proc'' for every association in ''hash-table'' with three arguments: the key of the association, the value of the association, and an accumulated value ''val''.  ''Val'' is ''init'' for the first invocation of ''procedure'', and for subsequent invocations of ''procedure'', the returned value of the previous invocation.  The value returned by `hash-table-fold` is the return value of the last invocation of ''proc''. The order in which ''procedure'' is called for different associations is unspecified.  (SRFI 69 `hash-table-fold` has the ''hash-table'' as the first argument)
-
-`(hash-table-unfold `''continue? mapper successor seed equivalence'' [[|''hash'' ]]`)`
-
-Create a new hash table as if by `make-hash-table`.  If the result of applying the predicate ''continue?'' to ''seed'' is `#f`, return the hash table.  Otherwise, apply the procedure ''mapper'' to ''seed''.  ''Mapper'' returns two values, which are inserted into the hash table as the key and the value respectively.  Then get a new seed by applying the procedure ''successor'' to ''seed'', and repeat this algorithm.
+Calls ''proc'' for every association in ''hash-table'' with three arguments: the key of the association, the value of the association, and an accumulated value ''val''.  ''Val'' is ''init'' for the first invocation of ''procedure'', and for subsequent invocations of ''procedure'', the returned value of the previous invocation.  The value returned by `hash-table-fold` is the return value of the last invocation of ''proc''.  (SRFI 69 `hash-table-fold` has the ''hash-table'' as the first argument)
 
 === Copying and conversion ===
 
@@ -313,7 +319,7 @@ Returns a newly allocated hash table with the same properties and associations a
 
 Returns an alist with the same associations as ''hash-table'' in an unspecified order.
 
-`(alist->hash-table `''alist equivalence hash''`)`
+`(alist->hash-table `''alist equality hash''`)`
 
 Returns a newly allocated hash-table as if by `make-hash-table`, initializing it from the associations of ''alist''.  (SRFI 69 `alist->hash-table`)
 
@@ -333,7 +339,7 @@ Curried version of `hash-table-ref/default`.  Returns a procedure of one argumen
 
 `(hash-table-union! `''hash-table,,1,, hash-table,,2,,'' [[|''merger'' ]]`)`
 
-Adds the associations of ''hash-table,,2,,'' to ''hash-table,,1,,'' and returns it.  The values are merged using the result of invoking the ''merger'' procedure, which accepts the arguments ''key,,1,, value,,1,, key,,2,, value,,2,,'' and defaults to `(lambda (key1 value1 key2 value2) value2)`.  (SRFI 69 `hash-table-merge!`)
+Adds the associations of ''hash-table,,2,,'' to ''hash-table,,1,,'' and returns ''hash-table,,1,,''.  The values are merged using the result of invoking the ''merger'' procedure, which accepts the arguments ''key,,1,, value,,1,, key,,2,, value,,2,,'' and defaults to `(lambda (key1 value1 key2 value2) value2)`.  (SRFI 69 `hash-table-merge!`)
 
 `(hash-table-intersection! `''hash-table,,1,, hash-table,,2,,'' [[|''merger'' ]]`)`
 
@@ -341,7 +347,7 @@ Deletes the associations from ''hash-table,,1,,'' which don't also appear in ''h
 
 `(hash-table-difference! `''hash-table,,1,, hash-table,,2,,''`)`
 
-Deletes the keys of ''hash-table,,2,,'' from ''hash-table,,1,,'' and returns ''hash-table,,1,,''.
+Deletes the associations of ''hash-table,,1,,'' whose keys are also present in ''hash-table,,2,,'' and returns ''hash-table,,1,,''.
 
 === Exceptions ===
 
@@ -351,20 +357,20 @@ Returns `#t` if ''obj'' is an object raised by the `hash-table-ref` procedure or
 
 == Implementation ==
 
-The sample implementation (''not yet written'') was originally intended to be easily layered over any existing hash table implementation, including the many that support either SRFI 69 or R6RS (there is an implementation of [[https://code.launchpad.net/~scheme-libraries-team/scheme-libraries/srfi|SRFI 69 on top of R6RS]], plus all the native hash table systems mentioned in [[#Sources|Sources]] above.  However, this turned out not to be practical for the following reasons:
+The sample implementation (''not yet written'') is designed to be easily layered over any hash table implementation that supports either SRFI 69 or R6RS (there is an implementation of [[https://code.launchpad.net/~scheme-libraries-team/scheme-libraries/srfi|SRFI 69 on top of R6RS]], It was originally intended to support all the native hash table systems mentioned in [[#Sources|Sources]] above as well.  However, this turned out not to be practical for the following reasons:
 
-* Racket and Gauche do not support arbitrary equivalence predicates, only `eq?`, `eqv?`, `equal?`, and `string=?`.
+* Gauche does not support arbitrary equality predicates, only `eq?`, `eqv?`, `equal?`, and `string=?`.
 
-* S7 does not support arbitrary equivalence predicates: the implementation chooses a predicate based on the nature of the keys.
+* S7 does not support arbitrary equality predicates: the implementation chooses a predicate based on the nature of the keys.
 
-* Guile supports arbitrary equivalence predicates, but in that case the equivalence predicate and hash procedure must be passed explicitly to all the primitive procedures.  Consequently, hash tables corresponding to the present proposal would have to be records containing a Guile hash table, an equivalence predicate, and a hash procedure, which means that they could not interoperate directly with naked Guile hash tables.
+* Guile supports arbitrary equality predicates, but in that case the equality predicate and hash function must be passed explicitly to all the primitive procedures.  Consequently, hash tables corresponding to the present proposal would have to be records containing a Guile hash table, an equality predicate, and a hash function, which means that they could not interoperate directly with naked Guile hash tables.
 
-* SISC, Scheme48/scsh, RScheme, Scheme 9, and Rep do not provide any procedure that copies a hash table, nor any way of inspecting it to determine its equivalence predicates and hash procedures so that it can be re-created.
+* SISC, Scheme48/scsh, RScheme, Scheme 9, and Rep do not provide any procedure that copies a hash table, nor any way of inspecting it to determine its equality predicates and hash functions so that it can be re-created.
 
 * SLIB hash tables are vectors, not disjoint objects.
 
-* !FemtoLisp supports only `equal?` as the equivalence predicate.
+* !FemtoLisp supports only `equal?` as the equality predicate.
 
 As a result, the sample implementation assumes the existence of a SRFI 69 implementation, and imports just the core procedures `make-hash-table`, `hash-table?`, `hash-table-ref/default`, `hash-table-set!`, `hash-table-delete!`, `hash-table-size`, `hash-table-walk`, and `hash-table-copy`.  New implementers who need to support the present proposal from scratch can take the implementations of these procedures from the SRFI 69 implementation and add them to this implementation.
 
-To layer the implementation directly on top of R6RS, the corresponding procedures need to be imported from `(rnrs hashtables)`.  See the file `hash-tables.sls` in the implementation.   It should also be possible to adapt the sample implementation for use on MIT, Gambit, and Bigloo.
+To layer the implementation directly on top of R6RS, the corresponding procedures need to be imported from `(rnrs hashtables)`.  See the file `hash-tables.sls` in the implementation.   It should also be possible to adapt the sample implementation for use on Racket, MIT, Gambit, and Bigloo.
