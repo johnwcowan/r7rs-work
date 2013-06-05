@@ -8,7 +8,7 @@ The four procedures above have complex dependencies on one another, and it is in
 
 == Specification ==
 
-== Definitions ==
+=== Definitions ===
 
 A ''comparator'' is an object of a disjoint type.  It is a bundle of procedures that are useful for comparing two objects either for equality or for ordering.  There are four procedures in the bundle:
 
