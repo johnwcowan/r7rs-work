@@ -44,6 +44,70 @@ The named ''identifiers'' should be processed so as to maximize compilation spee
 
 The named ''identifiers'' should be processed so as to maximize ease of debugging to the extent specified by ''importance''.
 
+=== Numeric tower ===
+
+`(numeric-tower ` ''identifier'' ...`)`
+
+The ''identifiers'' indicate the assumptions the library makes about the availability of different kinds of numbers.  They may appear in any order, and have the following meanings:
+
+`exactness-preserving`
+
+The library relies on arithmetic operators other than `/` returning exact results when given exact arguments.
+
+`no-exactness-preserving`
+
+The library does not rely on arithmetic operators other than `/` returning exact results when given exact arguments.
+
+`ratios`
+
+The library relies on `/` returning exact results when given exact arguments.
+
+`no-ratios`
+
+The library does not rely on `/` returning exact results when given exact arguments.
+
+`inexact`
+
+The library relies on the availability of inexact numbers.
+
+`no-inexact`
+
+The library does not rely on the availability of inexact numbers.
+
+`complex`
+
+The library relies on the availability of non-real numbers.
+
+`no-complex`
+
+The library relies on the availability of non-real numbers.
+
+`exact-complex`
+
+The library does not rely on the availability of exact non-real numbers.
+
+`no-exact-complex`
+
+The library relies on the availability of exact non-real numbers.
+
+For example, the declaration `(no-exactness-preserving no-ratios inexact no-complex)` means that the library assumes only a limited range of exact integers, with numeric operations potentially overflowing to inexact reals.  In consequence, it cannot run on an implementation that does not provide these features, and an implementation that provides non-integer exact numbers and non-real numbers may assume that these features are not used.
+
+It is an error to specify any other identifier.
+
+=== Types ===
+
+`(type ''identifier'' ''predicate'')
+
+The implementation may assume that ''identifier'' always has a value that will satisfy the predicate bound to ''predicate''.  If `#t` appears instead of ''predicate'', any value will satisfy it, but the absence of a value will not.
+
+`(procedure-type ''identifier return-predicate arg-predicate'' ... `)`
+
+`(procedure-type ''identifier` ( `''return-predicate'' ...`) `''arg-predicate'' ... `)`
+
+The implementation may assume that ''identifier'' always has a value that is a procedure.  When this procedure is invoked, its value satisfies the predicate bound to ''return-predicate'' (for the first format) or its values satisfy the predicates bound to the ''return-predicates'' (for the second format).  In addition, its arguments (or an initial subsequence of them) satisfy the ''arg-predicates''.  f `#t` appears instead of a predicate identifier, any value will satisfy it, but the absence of a value will not.
+
+'''Issue:  This introduces phasing complications (where and when are the predicates bound?) which must be resolved as part of a comprehensive treatment of phasing.'''
+
 === Compilation ===
 
 `(inline `''identifier'' ...`)`
