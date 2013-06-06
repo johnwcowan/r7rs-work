@@ -134,6 +134,14 @@ The implementation should process the definitions of the named identifiers (if n
 
 The implementation should process the definitions of the named identifiers (if none are named, the whole library) silently.  The user should still be notified of errors.
 
+== Declarations in main programs ==
+
+To allow library declarations in main programs (not in files of code included by `include` or `include-ci`), the following new syntax is added:
+
+`(declare `''declaration'' ...`)`
+
+Allows any library declaration except `export` and `reexport` to be included as part of a main program.   It is an error for `declare` to appear except at the beginning of a main program.  For backward compatibility with R7RS-small, programmers should avoid wrapping `import`, `include`, `include-ci`, or `begin` declarations in `declare` declarations.
+
 == Import sets ==
 
 `(drop-prefix `''import-set'' ''identifier''`)`
