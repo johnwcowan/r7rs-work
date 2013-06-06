@@ -1,4 +1,4 @@
-This is a proposal to add further library declarations and import-set types to the large language.
+This is a proposal to add further library declarations and import-set types to the large language.  '''Issue:  Phases are not yet dealt with.'''
 
 == Library declarations ==
 
@@ -106,7 +106,7 @@ The implementation may assume that ''identifier'' always has a value that will s
 
 The implementation may assume that ''identifier'' always has a value that is a procedure.  When this procedure is invoked, its value satisfies the predicate bound to ''return-predicate'' (for the first format) or its values satisfy the predicates bound to the ''return-predicates'' (for the second format).  In addition, its arguments (or an initial subsequence of them) satisfy the ''arg-predicates''.  f `#t` appears instead of a predicate identifier, any value will satisfy it, but the absence of a value will not.
 
-'''Issue:  This introduces phasing complications (where and when are the predicates bound?) which must be resolved as part of a comprehensive treatment of phasing.'''
+'''Issue:  These declarations introduce phasing complications (where and when are the predicate names bound?) which must be resolved as part of a comprehensive treatment of phasing.'''
 
 === Compilation ===
 
@@ -133,6 +133,12 @@ The implementation should process the definitions of the named identifiers (if n
 `(silent `''identifier'' ...`)`
 
 The implementation should process the definitions of the named identifiers (if none are named, the whole library) silently.  The user should still be notified of errors.
+
+=== Semantics ===
+
+`(no-location `''identifier'' ...`)`
+
+The implementation may assume that the procedures bound to ''identifier'' (if none are named, all procedures) have no location, so that neither `eq?` nor `eqv?` is required to return `#t` in any circumstances when passed a procedure argument.
 
 == Declarations in main programs ==
 
