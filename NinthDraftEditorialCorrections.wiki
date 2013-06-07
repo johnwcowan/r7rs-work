@@ -1,5 +1,7 @@
 These are the editorial corrections to the ninth draft in reverse order.  All are present in the tenth (post-ballot) draft.
 
+* Changed rationale of `eqv?` to be normative
+* Improved language stating when inexact numbers are not `eqv?`
 * Cleaned up bibliography to include only cited works, including SRFIs
 * Added grammar for `case-lambda` to tail-recursion section
 * Warning about <init>s was incorrectly on `letrec` instead of `letrec*`
