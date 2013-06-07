@@ -87,6 +87,9 @@ Comments are welcome at the [[http://lists.scheme-reports.org/cgi-bin/mailman/li
 '''Proposed Repository Format'''
     * [[:Snow|Snow]]
 
+'''Administration'''
+    * [[:WG2Calendar|WG2Calendar]]
+
 
 == Information on Scheme Implementations ==
 
