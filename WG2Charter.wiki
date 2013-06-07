@@ -111,10 +111,10 @@ purpose.
 
 '''New:'''
 If the working group agrees, the SRFI as a whole will become
-an optional part of the language, constituting one or more
+an optional part of the language, usually constituting one or more
 libraries.  If the chair believes a proposal is sufficiently
 uncontroversial, the SRFI may be added to the language without
-consulting the working group, although any such action by the
+consulting the working group.  Any such action by the
 chair may be overridden at the request of any member, in which
 case the working group must vote on the proposal.  In
 exceptional circumstances, the working group may decide
