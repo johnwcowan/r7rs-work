@@ -35,6 +35,8 @@ The names used in the present proposal are mostly derived from SRFI 69, with the
 
 * The `hash-table-walk` procedure places the hash table argument first and the walker procedure second.  It has been renamed `hash-table-for-each` and given the same argument order as `for-each`, `string-for-each`, and so on.  However, unlike those procedures it can only accept one hash table: coordinated access to multiple hash tables is meaningless, given that hash tables are unordered.
 
+* The `hash-table-fold` procedure places the hash table argument first.  For the same reasons as the above, it has been changed to place it last.
+
 * The `hash-table-merge!` procedure has been renamed `hash-table-union!`, since it causes the first hash table to become the union of the two hash table arguments.  A third argument specifying how to merge the values has been added.
 
 === R6RS compatibility ===
