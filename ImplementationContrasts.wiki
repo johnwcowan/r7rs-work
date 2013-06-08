@@ -2,13 +2,13 @@
 
 This is an index to pages that describe various detailed differences between Scheme implementations.  
 
-As of 2012-05-29, the list of Scheme implementations tested is:
+As of 2013-06-08, the list of Scheme implementations tested is:
 
-Racket, Gauche, MIT, Gambit, plain Chicken, Chicken with the numbers egg, Bigloo, Scheme48, scsh, Guile, Kawa, SISC, Chibi, SCM, Chez, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, NexJ, STklos, KSi, !SigScheme, Shoe, !TinyScheme, Scheme 9, Dream, RScheme, S7, BDC, XLisp, Rep, Schemik, Elk, UMB, VX, Oaklisp, Llava, SXM, Sizzle, Spark, Femtolisp, Dfsch, Inlab, Owl Lisp.
+[[http://racket-lang.org/|Racket]], [[http://practical-scheme.net/gauche/|Gauche]], [[http://www.gnu.org/software/mit-scheme/|MIT]], [[http://dynamo.iro.umontreal.ca/wiki/index.php/Main_Page|Gambit]], plain [[http://call-cc.org/|Chicken]], Chicken with the [[http://wiki.call-cc.org/eggref/4/numbers|numbers egg]], [[http://www-sop.inria.fr/indes/fp/Bigloo/|Bigloo]], [[http://s48.org/|Scheme48]], [[http://www.scsh.net/|scsh]], [[http://www.gnu.org/software/guile/|Guile]], [[http://www.gnu.org/software/kawa/|Kawa]], [[http://sisc-scheme.org/|SISC]], [[https://code.google.com/p/chibi-scheme/|Chibi]], [[http://people.csail.mit.edu/jaffer/SCM.html|SCM]], [[http://scheme.com/|Chez]], [[http://marcomaggi.github.io/vicare.html|Vicare]], [[http://www.larcenists.org/|Larceny]], [[https://code.google.com/p/ypsilon/|Ypsilon]], [[https://code.google.com/p/mosh-scheme/|Mosh]], [[http://ironscheme.codeplex.com/|IronScheme]], [[NexJ,|STklos, KSi, SigScheme, Shoe, TinyScheme, Scheme 9, Dream (link dead), RScheme, S7, BDC, XLisp, Rep, Schemik, Elk, UMB, Oaklisp, Llava, SXM, Sizzle, FemtoLisp, Dfsch, Inlab, Owl Lisp.
 
-As of 2013-01-31, I am no longer able to build VX or Spark, so they will be excluded from the suite from now on.
+As of 2013-01-31, I was no longer able to build VX or Spark, so they are excluded from the suite from now on.
 
-S7 was formerly, but incorrectly, known in these pages as "Scheme 7", and many references to this name survive.  It's really named after [[http://en.wikipedia.org/wiki/Sunbeam_S7_and_S8|the motorcycle]].
+S7 was formerly, but incorrectly, known in these pages as "Scheme 7", and many references to this name survive.  It's really named after [http://en.wikipedia.org/wiki/Sunbeam_S7_and_S8 the motorcycle]].
 
 Not all these pages have information on all these Schemes.
 
