@@ -481,3 +481,37 @@ The behavior and efficiency of these operations is the same as the analogous set
 
 * Should there be an explicitly-immutable pair and list?
 * "imap" is a name clash with the IMAP email protocol. Is this a dealbreaker?
+
+= John Cowan's comments =
+
+To start with, I basically think this proposal is an excellent start, providing facilities that Scheme programmers should have easily available to them.
+
+I think it is ''very'' important that these proposals all be fleshed out to something the size of [[http://srfi.schemers.org/srfi-1/srfi-1.html|SRFI 1]] and [[http://srfi.schemers.org/srfi-113/srfi-113.html|SRFI 113]].  Users should not wind up choosing between one data structure and another by which one has a more convenient API.  If the API is as consistent as possible in all proposals, it's a big win for usability.  I do not mean that absolutely every SRFI 1 feature is needed (in particular, I don't see a need for association deque support), but that these APIs seem much too small to fit with the evolving style of the large language; in the words of the charter, to be "large enough to address the practical needs of mainstream software development".  Keeping it uniform also helps with human-memory issues.  See ContainerSrfiComparison for something close to what I have in mind.
+
+== Comments on ideques ==
+
+I will be putting together a proposal for mutable deques (aka tconc lists) at some point, no doubt closely based on this proposal and SRFI 1.
+
+Because deques are ordered, I suggest `ideque-length` for compatibility with `length`, `vector-length`, and `string-length`.  Unordered types like sets and maps should have `iset-size` and `imap-size`.  SRFI 113 and HashTablesCowan already adopt this convention.
+
+== Comments on isets and imaps ==
+
+It's premature to do so yet, but I think this proposal should be prepared to incorporate ComparatorsCowan when it becomes a draft SRFI.  This would mean accepting comparators wherever a precedence (<) function is expected.  I plan to convert SRFI 113, HashTablesCowan, and whatever we use for a sort package (which I hope will be a revitalized [[http://srfi.schemers.org/srfi-32/srfi-32.html|SRFI 32]]) to this style.
+
+I'm not opposed to the LRU convention, but I'd like to see it justified.  If I'm convinced, I'll adopt it for SRFI 113 too -- again, uniformity is a win.  Currently the spec says nothing and the implementation uses first-addition-wins.  Terminologically, I think it should be "least recently ''added''" rather than "used", or better yet speak of a "most recently added retention policy" rather than a removal policy.
+
+I prefer `difference` and `xor` to `asymmetric-difference` and `symmetric-difference`, on the lines of SRFI 1 and SRFI 113.  Does it really make sense to XOR more or fewer than two sets?  SRFI 113 assumes it does not.
+
+I'm puzzled by the MUSTard of the `update` procedure.  Why ''must'' one of the success continuations be called?  What's the matter with just returning, if you decide not to update the set?  Ditto, why ''should'' for the failure continuation?  Finally, in R7RS style MUSTard applies only to the implementation, not to programmer responsibilities, which are generally expressed with "It is an error if" language.
+
+I also think that the failure continuation should precede the success continuation, for consistency with HashTablesCowan and SRFI 69.
+
+I need more justification on the element-comparison procedures.
+
+Take a look at the explicit merger procedures of SRFI 113 for union and intersection.
+
+== Comments on open issues ==
+
+I think immutable pairs/lists should be a separate proposal.
+
+I don't think the imap/IMAP naming conflict is important at all.
