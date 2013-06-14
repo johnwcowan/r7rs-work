@@ -35,7 +35,7 @@ The names used in the present proposal are mostly derived from SRFI 69, with the
 
 * The `hash-table-walk` procedure places the hash table argument first and the walker procedure second.  It has been renamed `hash-table-for-each` and given the same argument order as `for-each`, `string-for-each`, and so on.  However, unlike those procedures it can only accept one hash table: coordinated access to multiple hash tables is meaningless, given that hash tables are unordered.
 
-* The `hash-table-fold` procedure places the hash table argument first.  For the same reasons as the above, it has been changed to place it last.
+* The SRFI 69 `hash-table-fold` procedure places the hash table argument first.  For the same reasons as the above, in this proposal it appears last.
 
 * The `hash-table-merge!` procedure has been renamed `hash-table-union!`, since it causes the first hash table to become the union of the two hash table arguments.  A third argument specifying how to merge the values has been added.
 
@@ -75,7 +75,7 @@ The procedures in the present proposal are drawn primarily from SRFI 69 and R6RS
 
 * The `hash-table-find` procedure is from [[http://www.iro.umontreal.ca/~gambit/doc/gambit-c.html#Tables|Gambit]].
 
-* The procedures `hash-table-set-entries!` and `hash-table-set-entries` are inspired by the [[http://clhs.lisp.se/Body/f_pairli.htm|Common Lisp]] function `pairlis`.
+* The procedures `hash-table-set-entries!` are inspired by the [[http://clhs.lisp.se/Body/f_pairli.htm|Common Lisp]] function `pairlis`.
 
 * The procedures `hash-table-unfold` and `hash-table-count` were suggested by [[http://srfi.schemers.org/srfi-1/srfi-1.html|SRFI 1]].  
 
@@ -95,13 +95,13 @@ Some of the language of the present proposal is copied from SRFI 69 with thanks 
 
 == Specification ==
 
-The procedures in the present proposal are in the `(scheme hash-tables)` and `(srfi xxx)` libraries (or `(srfi :xxx)` on R6RS).  However, the library in the sample implementation is named `(hash-tables)`.
+The procedures in the present proposal are in the `(srfi xxx)` library (or `(srfi :xxx)` on R6RS).  However, the library in the sample implementation is currently named `(hash-tables)`.
 
 All references to "executing in expected amortized constant time" presuppose that a satisfactory hash function has been supplied by the user.  Arbitrary or non-idempotent hash functions can make a hash of the implementation.
 
-Hash tables are allowed to cache the results of calling the equality and hash functions, so programs cannot rely on the hash function being called exactly once for every primitive hash table operation: it may be called zero, one, or more times.
+Hash tables are allowed to cache the results of calling the equality predicate and hash function, so programs cannot rely on the hash function being called exactly once for every primitive hash table operation: it may be called zero, one, or more times.
 
-No procedure passed to `hash-table-find`, `hash-table-count`, `hash-table-map`, `hash-table-for-each`, `hash-table-update-each!`, `hash-table-map->list`, or `hash-table-fold` may mutate the hash table being walked, with the exception of changing the value of the association currently being processed.
+No procedure passed to `hash-table-find`, `hash-table-count`, `hash-table-map`, `hash-table-for-each`, `hash-table-update-each!`, `hash-table-map->list`, or `hash-table-fold` may mutate the hash table being walked.
 
 Here is an index to the procedures of this specification:
 
@@ -186,9 +186,9 @@ Creates a new association in ''hash-table'' that associates ''key'' with ''value
 
 Repeatedly mutates ''hash-table'', setting each ''key'' to the ''value'' that follows it.
 
-`(hash-table-set-entries! `''hash-table keyslist valueslist''`)`
+`(hash-table-set-entries! `''hash-table keys-list values-list''`)`
 
-Repeatedly mutates ''hash-table'', setting each element of ''keyslist'' to the corresponding element of ''valueslist'' in the order given.
+Repeatedly mutates ''hash-table'', setting each element of ''keys-list'' to the corresponding element of ''values-list'' in the order given.
 
 `(hash-table-set-alist! `''hash-table alist''`)`
 
@@ -198,11 +198,11 @@ Repeatedly mutates ''hash-table'' using the associations of ''alist'' in the ord
 
 Deletes any association to ''key'' in ''hash-table'' and returns true if there was an association for ''key'', false if not.  Must execute in expected amortized constant time.    (SRFI 69 `hash-table-delete!`; R6RS `hashtable-delete!`; Common Lisp `remhash`)
 
-`(hash-table-delete-keys! `''hash-table keylist''`)`
+`(hash-table-delete-keys! `''hash-table keys-list''`)`
 
 Semantically equivalent to, but may be implemented more efficiently than, the following code:
 
-  `(for-each (lambda (key) (hash-table-delete `''hash-table''` key)) `''keylist''`)`
+  `(for-each (lambda (key) (hash-table-delete `''hash-table''` key)) `''keys-list''`)`
 
 `(hash-table-extend! `''hash-table key'' [[|''failure'' [ ''success'' ]] ]`)`
 
@@ -301,7 +301,7 @@ Calls ''proc'' for every association in ''hash-table'' with two arguments: the k
 
 `(hash-table-update-each! `''proc hash-table''`)`
 
-Calls ''proc'' for every association in ''hash-table'' with two arguments: the key of the association and the value of the association.  The value returned by ''proc'' is used to update the association.   Returns an unspecified value.
+Calls ''proc'' for every association in ''hash-table'' with two arguments: the key of the association and the value of the association.  The value returned by ''proc'' is used to update the value of the association.   Returns an unspecified value.
 
 `(hash-table-map->list `''proc hash-table''`)`
 
@@ -341,11 +341,11 @@ Curried version of `hash-table-ref/default`.  Returns a procedure of one argumen
 
 `(hash-table-union! `''hash-table,,1,, hash-table,,2,,'' [[|''merger'' ]]`)`
 
-Adds the associations of ''hash-table,,2,,'' to ''hash-table,,1,,'' and returns ''hash-table,,1,,''.  The values are merged using the result of invoking the ''merger'' procedure, which accepts the arguments ''key,,1,, value,,1,, key,,2,, value,,2,,'' and defaults to `(lambda (key1 value1 key2 value2) value2)`.  (SRFI 69 `hash-table-merge!`)
+Adds the associations of ''hash-table,,2,,'' to ''hash-table,,1,,'' and returns ''hash-table,,1,,''.  The values of keys that appear in both hash tables are set to the result of the ''merger'' procedure, which accepts the arguments ''key,,1,, value,,1,, key,,2,, value,,2,,'' and defaults to `(lambda (key1 value1 key2 value2) value2)`.  (SRFI 69 `hash-table-merge!`)
 
 `(hash-table-intersection! `''hash-table,,1,, hash-table,,2,,'' [[|''merger'' ]]`)`
 
-Deletes the associations from ''hash-table,,1,,'' which don't also appear in ''hash-table,,2,,'' and returns ''hash-table,,1,,'', and merges the values of those that appear in both hash tables using the result of invoking the ''merger'' procedure, which accepts the arguments ''key,,1,, value,,1,, key,,2,, value,,2,,'' and defaults to `(lambda (key1 value1 key2 value2) value2)`.
+Deletes the associations from ''hash-table,,1,,'' which don't also appear in ''hash-table,,2,,'' and returns ''hash-table,,1,,'', and sets the values of those keys that appear in both hash tables to the result of invoking the ''merger'' procedure, which accepts the arguments ''key,,1,, value,,1,, key,,2,, value,,2,,'' and defaults to `(lambda (key1 value1 key2 value2) value2)`.
 
 `(hash-table-difference! `''hash-table,,1,, hash-table,,2,,''`)`
 
