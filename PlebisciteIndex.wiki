@@ -1,6 +1,6 @@
-This is a running tally of R7RS-small plebiscite votes received so far, with links to the actual ballots.  This tally may contain errors, and is not yet a certified return.
+This is a running tally of R7RS-small plebiscite votes received so far, with links to the actual ballots.  While this is not a certified return, this page [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003563.html|has been acknowledged]] by the Steering Committee as representing the results of the plebiscite.
 
-To vote, see [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003299.html|these instructions]].  Note that '''the voting period has been extended until the end of May 20''' in every time zone, which is the same as saying until noon on May 21, Coordinated Universal Time.
+For the voting instructions, see [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003299.html|these instructions]].  Note that '''the voting period was extended until the end of May 20''' in every time zone, which is the same as saying until noon on May 21, Coordinated Universal Time.
 
 See PlebisciteObjections for the objections to the draft embedded in these ballots.
 
