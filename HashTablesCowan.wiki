@@ -16,15 +16,17 @@ This WG2 proposal defines an interface to hash tables, which are widely recogniz
 
 == Issues ==
 
- 1. Should we support [[:ComparatorsCowan|comparators]] as alternatives to equality procedures?  That packages up the equality predicate with the hash function; if no hash function is available, but an order predicate is, the hash table can fall back to an O(log n) tree.
+ 1. (resolved)
 
- 2. Alternatively, what if we did not support arbitrary equality predicates, but only allowed `eq?`, `eqv?`, `equal?`, and `string=?` (hash tables that support `equal?` will also support `string=?`).  We could further allow `string-ci=?` as an optional ("should") equality predicate.  This would allow us to support more Scheme implementations and eliminate any need to deal with user-specified hash functions, though it is a considerable restriction on generality.
+ 2. (resolved)
 
 == Rationale ==
 
 Hash tables themselves don't really need defending: almost all dynamically typed languages, from awk to !JavaScript to Lua to Perl to Python to Common Lisp, and including many Scheme implementations, have them in some form as a fundamental data structure.  Therefore, what needs to be defended is not the data structure but the procedures.  The present proposal is at an intermediate level.  It supports a great many convenience procedures on top of the basic hash table interfaces provided by [[http://srfi.schemers.org/srfi-69/srfi-69.html|SRFI 69]] and [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-14.html|R6RS]].  Nothing in it adds power to what those interfaces provide, but it does add convenience in the form of pre-debugged routines to do various common things, and even some things not so commonly done but useful.
 
 There is no mandated support for thread safety, immutability, or weakness, though there is a semi-portable hook for specifying these features.
+
+This specification accepts separate equality predicates and hash functions for backward compatibility, but strongly encourages the use of [[http://srfi.schemers.org/srfi-114/srfi-114.html|SRFI 114]] comparators, which package a type test, an equality predicate, and a hash function into a single bundle.
 
 
 === SRFI 69 compatibility ===
@@ -127,21 +129,21 @@ Here is an index to the procedures of this specification:
 
 === Constructors ===
 
-`(make-hash-table `''equality'' [[|''hash'' ]] [[|''arg'' ... ]]`)`
+`(make-hash-table `''comparator'' [[|''hash'' ]] [[|''arg'' ... ]]`)`
 
-Returns a newly allocated hash table whose equality predicate is ''equality'' and hash function is ''hash''.  The equality predicate accepts two arguments and returns a truth value.  The hash function accepts one argument in the domain of the equality predicate and returns a non-negative exact integer.  It is the programmer's responsibility to ensure that two objects passed to the hash function return the same value if the same objects passed to the equality predicate return true; however, the converse is not required.
+Returns a newly allocated hash table whose equality predicate and hash function are extracted from ''comparator''.  If the argument is a procedure instead, it is assumed to be the equality predicate, and the hash function is ''hash''.  The equality predicate accepts two arguments and returns a truth value.  The hash function accepts one argument in the domain of the equality predicate and returns a non-negative exact integer.  It is the programmer's responsibility to ensure that two objects passed to the hash function return the same value if the same objects passed to the equality predicate return true; however, the converse is not required.
 
-The ability to omit the ''hash'' argument is severely limited.  If ''equality'' is `eq?`, `eqv?`, `equal?`, `string=?`, or `string-ci=?`, then if ''hash'' is not provided, a suitable implementation-provided procedure will be used; the implementation may use its own procedure in any case.  The implementation may extend this list.  But if any other equality predicate is provided without a hash function, an error should be signaled.
+If a bare equality predicate rather than a comparator is provided, the ability to omit the ''hash'' argument is severely limited.  If ''equality'' is `eq?`, `eqv?`, `equal?`, `string=?`, or `string-ci=?`, then the implementation must provide a hash function, which it may use in any case.  The implementation may extend this list.  But if any other equality predicate is provided without a hash function, an error should be signaled.
 
 The meaning of the remaining arguments is implementation-dependent.  However, implementations which support the ability to specify the initial capacity of a hash table should interpret a non-negative exact integer as the specification of that capacity.  In addition, if the symbols `immutable`, `thread-safe`, `weak-keys` or  `weak-values` are present, implementations should create immutable hash tables, mutable thread-safe hash tables, hash tables with weak keys, and hash tables with weak values respectively.  In an implementation which does not support these features, an error should be signaled if they are requested.  To avoid collision with the ''hash'' argument, none of these arguments can be procedures.
 
 (SRFI 69 `make-hash-table`; R6RS `make-eq-hashtable`, `make-eqv-hashtable`, and `make-hashtable`; Common Lisp `make-hash-table`)
 
-`(hash-table `''equality hash'' ( ''key value'' ) ...`)`
+`(hash-table `''comparator'' ( ''key value'' ) ...`)`
 
-Returns a newly allocated hash table, created as if by `make-hash-table`, whose equality procedure is `equality` and hash function is `hash`.  For each pair of arguments, an association is added to the new hash table with ''key'' as its key and ''value'' as its value.
+Returns a newly allocated hash table, created as if by `make-hash-table`.  For each pair of arguments, an association is added to the new hash table with ''key'' as its key and ''value'' as its value.
 
-`(hash-table-unfold `''continue? mapper successor seed equality'' [[|''hash'' ]]`)`
+`(hash-table-unfold `''continue? mapper successor seed comparator'' [[|''hash'' ]]`)`
 
 Create a new hash table as if by `make-hash-table`.  If the result of applying the predicate ''continue?'' to ''seed'' is `#f`, return the hash table.  Otherwise, apply the procedure ''mapper'' to ''seed''.  ''Mapper'' returns two values, which are inserted into the hash table as the key and the value respectively.  Then get a new seed by applying the procedure ''successor'' to ''seed'', and repeat this algorithm.
 
@@ -157,7 +159,7 @@ Returns `#t` if there is any association to ''key'' in ''hash-table'', and `#f` 
 
 `(hash-table=? `''value= hash-table,,1,, hash-table,,2,,''`)`
 
-Returns `#t` if ''hash-table,,1,,'' and ''hash-table,,2,,'' have the same size, the same keys (in the sense of their common equality predicate) and the same values (in the sense of the ''value='' predicate) for each key, and `#f` otherwise.  It is an error to compare two hash tables that have distinct equality predicates.
+Returns `#t` if ''hash-table,,1,,'' and ''hash-table,,2,,'' have the same size, the same keys (in the sense of their common equality predicate) and the same values (in the sense of the ''value='' predicate) for each key, and `#f` otherwise.  It is an error to compare two hash tables that have distinct comparators or distinct equality predicates.
 
 === Accessors ===
 
@@ -180,7 +182,7 @@ The following procedures alter the associations in a hash table either unconditi
 
 `(hash-table-set! `''hash-table key value''`)`
 
-Creates a new association in ''hash-table'' that associates ''key'' with ''value''.  If there is a previous association for ''key'', it is deleted.  It is an error if ''key'' is not a valid argument to the equality predicate of ''hash-table''.  Returns an unspecified value.  Must execute in expected amortized constant time.  (SRFI 69 `hash-table-set!`; R6RS `hashtable-set!`)
+Creates a new association in ''hash-table'' that associates ''key'' with ''value''.  If there is a previous association for ''key'', it is deleted.  It is an error if the type check procedure of the comparator of ''hash-table'', when invoked on ''key'', does not return `#t`. Likewise, it is an error if ''key'' is not a valid argument to the equality predicate of ''hash-table''.  Returns an unspecified value.  Must execute in expected amortized constant time.  (SRFI 69 `hash-table-set!`; R6RS `hashtable-set!`)
 
 `(hash-table-set-all! `''hash-table'' ( ''key value'' ) ...`)`
 
@@ -289,7 +291,7 @@ For each association of ''hash-table'', invoke ''pred'' on its key and value in 
 
 These procedures process the associations of the hash table in arbitrary order.
 
-`(hash-table-map `''equality hash proc merger hash-table''`)`
+`(hash-table-map `''comparator proc merger hash-table''`)`
 
 Returns a newly allocated hash table as if by `make-hash-table`.  Calls ''proc'' for every association in ''hash-table'' with two arguments: the key of the association and the value of the association.  The two values returned by ''proc'' are inserted into the new hash table as a key and value.
 
@@ -321,7 +323,7 @@ Returns a newly allocated hash table with the same properties and associations a
 
 Returns an alist with the same associations as ''hash-table'' in an unspecified order.
 
-`(alist->hash-table `''alist equality hash''`)`
+`(alist->hash-table `''alist comparator hash''`)`
 
 Returns a newly allocated hash-table as if by `make-hash-table`, initializing it from the associations of ''alist''.  (SRFI 69 `alist->hash-table`)
 
