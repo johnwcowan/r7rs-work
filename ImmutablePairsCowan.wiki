@@ -8,7 +8,7 @@ From immutable pairs plus the empty list we can build immutable lists.  Note tha
 
  1. Should there be a lexical syntax for `iquote`, analogous to `'` for `quote`?  One possibility would be `#i`, which means "inexact" when used before a number, but nothing special when it precedes a literal list.
 
- 2. In SRFI 1, `length` is R5RS `length` and `length+` is R6RS/R7RS-small `length`.  Both have their uses, and whatever is done for R7RS-large should be done here too.
+ 2. In SRFI 1, `length` is R5RS `length` (which may loop on circular structure) and `length+` is R6RS/R7RS-small `length` (which must not).  Both have their uses, and whatever is done for R7RS-large should be done here too.
 
 == Syntax ==
 
