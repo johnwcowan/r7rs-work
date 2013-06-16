@@ -8,6 +8,8 @@ From immutable pairs plus the empty list we can build immutable lists.  Note tha
 
  1. Should there be a lexical syntax for `iquote`, analogous to `'` for `quote`?  One possibility would be `#i`, which means "inexact" when used before a number, but nothing special when it precedes a literal list.
 
+ 2. In SRFI 1, `length` is R5RS `length` and `length+` is R6RS/R7RS-small `length`.  Both have their uses, and whatever is done for R7RS-large should be done here too.
+
 == Syntax ==
 
 `(iquote `<list>`)`
@@ -25,15 +27,15 @@ Constructors:
 
 Predicates:
 
-`ipair? proper-ilist? circular-ilist? dotted-ilist? null-ilist? ilist=`
+`ipair? ilist? proper-ilist? circular-ilist? dotted-ilist? null-ilist? ilist=`
 
 Selectors:
 
-`icar icdr` ... `icddadr icddddr ilist-ref icar+icdr ilist-take ilist-drop ilist-take-right ilist-drop-right split-at ilist-last ilist-last-pair`
+`icar icdr` ... `icddadr icddddr ilist-ref icar+icdr ilist-take ilist-drop` (also known as `ilist-tail`) `ilist-take-right ilist-drop-right split-at ilist-last ilist-last-pair`
 
 Miscellaneous:
 
-`ilist-length ilist-length+ ilist-append ilist-concatenate ilist-reverse ilist-append-reverse ilist-zip ilist-unzip1 ilist-unzip2 ilist-unzip3 ilist-unzip4 ilist-unzip5 ilist-count`
+`ilist-length ilist-append ilist-concatenate ilist-reverse ilist-append-reverse ilist-zip ilist-unzip1 ilist-unzip2 ilist-unzip3 ilist-unzip4 ilist-unzip5 ilist-count`
 
 Fold, unfold & map:
 
