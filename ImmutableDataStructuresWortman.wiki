@@ -25,10 +25,10 @@ Create a new deque containing {{{element...}}}. The leftmost element (if any) wi
 {{{#!scheme
 (ideque? x)
 (ideque-empty? deque)
-(ideque-size deque)
+(ideque-length deque)
 }}}
 
-{{{ideque?}}} and {{{ideque-empty?}}} take O(1) time; {{{ideque-size}}} may take O(n) time, though O(1) is optimal.
+{{{ideque?}}} and {{{ideque-empty?}}} take O(1) time; {{{ideque-length}}} may take O(n) time, though O(1) is optimal.
 
 === Queue operations ===
 
