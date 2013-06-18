@@ -299,7 +299,7 @@ The behavior and efficiency of these operations is the same as the analogous set
 (imap-union map...)
 (imap-intersection map...)
 (imap-difference map...)
-(imap-xor map...)
+(imap-xor map1 map2)
 }}}
 
 The behavior and efficiency of these operations is the same as the analogous set procedures.
