@@ -1,6 +1,9 @@
 = Introduction =
 
-(TODO)
+This proposal defines ''immutable'' data structures for queues, sets, and maps. A structure is immutable when all its operations leave the structure unchanged. Note that none of the procedures specified here ends with a !.
+
+Immutable structures are sometimes called ''persistent'' and are closely related to ''pure-functional'' (a.k.a. ''pure'') structures. The availability of immutable data structures facilitates writing efficient programs in the pure-functional style.
+
 
 = Efficiency bounds =
 
