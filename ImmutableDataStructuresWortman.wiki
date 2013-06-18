@@ -118,7 +118,7 @@ Return a new set using the order predicate {{{precedes?}}} and containing elemen
 (iset-union set...)
 (iset-intersection set...)
 (iset-difference left set...)
-(iset-symmetric-difference set...)
+(iset-xor set1 set2)
 }}}
 
 Return a new set containing the union/intersection/difference/symmetric difference of the arguments. All the arguments must be sets sharing an equivalent order predicate. The set operator is applied in a left-associative order. When an element is a member of multiple arguments to {{{set-union}}}, the object from the rightmost argument is retained. May take O(kn log n) time, where k is the number of sets and n is the number of elements involved, though O(kn) time is optimal.
@@ -299,7 +299,7 @@ The behavior and efficiency of these operations is the same as the analogous set
 (imap-union map...)
 (imap-intersection map...)
 (imap-difference map...)
-(imap-symmetric-difference map...)
+(imap-xor map...)
 }}}
 
 The behavior and efficiency of these operations is the same as the analogous set procedures.
