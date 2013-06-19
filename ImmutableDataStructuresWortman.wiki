@@ -327,43 +327,36 @@ Returns the value associated with {{{(imap-min-key map)}}} and {{{(imap-max-key 
 === Element operations ===
 
 {{{#!scheme
-(imap-update set key present-proc absent-proc)
+(imap-update map key absent-proc present-proc)
 }}}
 
-A continuation-based universal update procedure. Attempts to find a key {{{key-match}}} equal to {{{key}}} in {{{set}}}. When such a {{{key-match}}} is found, calls
+A continuation-based universal update procedure. Attempts to find a key {{{key-match}}} equal to {{{key}}} in {{{map}}}, and its associated {{{value}}}. When such no such {{{key-match}}} is found, returns the result of calling
 {{{#!scheme
-(present-proc key-match value update remove)
+(absent-proc insert)
 }}}
-which must either tail-call
+. {{{insert}}} is a procedure such that
 {{{#!scheme
-(update new-key new-value ret)
+(insert new-value)
 }}}
-to replace {{{key}}} with {{{new-key}}} and the corresponding value with {{{new-value}}}, or tail-call
-{{{#!scheme
-(remove ret)
-}}}
-to remove the assocition from {{{map}}}. In either case {{{ret}}} will be one of the values returned from the enclosing {{{imap-update}}} call.
+returns a version of {{{map}}} in which {{{key}}} is associated with {{{new-value}}}.
 
-When no such {{{key-match}}} is found, {{{imap-update}}} calls
+When {{{key-match}}} exists, returns the result of calling
 {{{#!scheme
-(absent-proc insert ignore)
+(present-proc key-match value replace remove)
 }}}
-which should either tail-call
+. {{{replace}}} is a procedure such that
 {{{#!scheme
-(insert new-key value ret)
+(replace new-value)
 }}}
-to insert {{{new-key}}} and {{{value}}} into {{{map}}}, or else tail-call
-{{{#!scheme
-(ignore ret)
-}}}
-to leave {{{map}}} unchanged. Again, {{{ret}}} will be returned from the enclosing {{{imap-update}}} call.
+returns a new version of {{{map}}} in which the {{{key}}} maps to {{{new-value}}} instead of {{{value}}}.
 
-In any case, {{{imap-update}}} returns
+{{{remove}}} is a thunk such that
 {{{#!scheme
-(values new-map ret)
+(remove)
 }}}
-where {{{new-map}}} is a new map reflecting the indicated modification, if any; and {{{ret}}} is the return value produced by one of the continuations. O(log n) time.
+returns a new version of {{{map}}} with no association for {{{key}}}. 
 
+The {{{imap-update}}}, {{{insert}}}, {{{replace}}}, and {{{remove}}} procedures may take O(log n) time each. Thus if {{{absent-proc}}} and {{{present-proc}}} take constant (or even O(log n)) time and call their passed-in continuations at most once (or even any constant number of times), the entire update process takes O(log n) time.
 {{{#!scheme
 (imap-find map key [absent-thunk])
 }}}
@@ -508,37 +501,3 @@ Take a look at the explicit merger procedures of SRFI 113 for union and intersec
 I think immutable pairs/lists should be a separate proposal.
 
 I don't think the imap/IMAP naming conflict is important at all.
-
-=== Update procedure draft 2 ===
-
-{{{#!scheme
-(imap-update map key absent-proc present-proc)
-}}}
-
-A continuation-based universal update procedure. Attempts to find a key {{{key-match}}} equal to {{{key}}} in {{{map}}}, and its associated {{{value}}}. When such no such {{{key-match}}} is found, returns the result of calling
-{{{#!scheme
-(absent-proc insert)
-}}}
-. {{{insert}}} is a procedure such that
-{{{#!scheme
-(insert new-value)
-}}}
-returns a version of {{{map}}} in which {{{key}}} is associated with {{{new-value}}}.
-
-When {{{key-match}}} exists, returns the result of calling
-{{{#!scheme
-(present-proc key-match value replace remove)
-}}}
-. {{{replace}}} is a procedure such that
-{{{#!scheme
-(replace new-value)
-}}}
-returns a new version of {{{map}}} in which the {{{key}}} maps to {{{new-value}}} instead of {{{value}}}.
-
-{{{remove}}} is a thunk such that
-{{{#!scheme
-(remove)
-}}}
-returns a new version of {{{map}}} with no association for {{{key}}}. 
-
-The {{{imap-update}}}, {{{insert}}}, {{{replace}}}, and {{{remove}}} procedures may take O(log n) time each. Thus if {{{absent-proc}}} and {{{present-proc}}} take constant (or even O(log n)) time and call their passed-in continuations at most once (or even any constant number of times), the entire update process takes O(log n) time.
