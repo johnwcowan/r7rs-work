@@ -522,10 +522,20 @@ I don't think the imap/IMAP naming conflict is important at all.
 === Update procedure draft 2 ===
 
 {{{#!scheme
-(imap-update map key present-proc absent-proc)
+(imap-update map key absent-proc present-proc)
 }}}
 
-A continuation-based universal update procedure. Attempts to find a key {{{key-match}}} equal to {{{key}}} in {{{map}}}, and its associated {{{value}}}. When such a {{{key-match}}} is found, returns the result of calling
+A continuation-based universal update procedure. Attempts to find a key {{{key-match}}} equal to {{{key}}} in {{{map}}}, and its associated {{{value}}}. When such no such {{{key-match}}} is found, returns the result of calling
+{{{#!scheme
+(absent-proc insert)
+}}}
+. {{{insert}}} is a procedure such that
+{{{#!scheme
+(insert new-value)
+}}}
+returns a version of {{{map}}} in which {{{key}}} is associated with {{{new-value}}}.
+
+When {{{key-match}}} exists, returns the result of calling
 {{{#!scheme
 (present-proc key-match value replace remove)
 }}}
@@ -541,14 +551,4 @@ returns a new version of {{{map}}} in which the {{{key}}} maps to {{{new-value}}
 }}}
 returns a new version of {{{map}}} with no association for {{{key}}}. 
 
-When no such {{{key-match}}} is found, {{{imap-update}}} returns the result of calling
-{{{#!scheme
-(absent-proc insert)
-}}}
-. {{{insert}}} is a procedure such that
-{{{#!scheme
-(insert new-value)
-}}}
-returns a version of {{{map}}} in which {{{key}}} is associated with {{{new-value}}}.
-
-The {{{imap-update}}}, {{{replace}}}, {{{remove}}}, and {{{insert}}} procedures may take O(log n) time each. Thus if {{{present-proc}}} and {{{absent-proc}}} take constant time and call their passed-in continuations at most once (or even a constant number of times), the entire update process takes O(log n) time.
+The {{{imap-update}}}, {{{insert}}}, {{{replace}}}, and {{{remove}}} procedures may take O(log n) time each. Thus if {{{absent-proc}}} and {{{present-proc}}} take constant (or even O(log n)) time and call their passed-in continuations at most once (or even any constant number of times), the entire update process takes O(log n) time.
