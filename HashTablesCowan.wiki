@@ -143,7 +143,7 @@ The meaning of the remaining arguments is implementation-dependent.  However, im
 
 Returns a newly allocated hash table, created as if by `make-hash-table`.  For each pair of arguments, an association is added to the new hash table with ''key'' as its key and ''value'' as its value.
 
-`(hash-table-unfold `''continue? mapper successor seed comparator'' [[|''hash'' ]]`)`
+`(hash-table-unfold `''continue? mapper successor seed comparator'' ]`)`
 
 Create a new hash table as if by `make-hash-table`.  If the result of applying the predicate ''continue?'' to ''seed'' is `#f`, return the hash table.  Otherwise, apply the procedure ''mapper'' to ''seed''.  ''Mapper'' returns two values, which are inserted into the hash table as the key and the value respectively.  Then get a new seed by applying the procedure ''successor'' to ''seed'', and repeat this algorithm.
 
@@ -323,7 +323,7 @@ Returns a newly allocated hash table with the same properties and associations a
 
 Returns an alist with the same associations as ''hash-table'' in an unspecified order.
 
-`(alist->hash-table `''alist comparator hash''`)`
+`(alist->hash-table `''alist comparator''`)`
 
 Returns a newly allocated hash-table as if by `make-hash-table`, initializing it from the associations of ''alist''.  (SRFI 69 `alist->hash-table`)
 
