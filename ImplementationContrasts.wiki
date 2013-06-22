@@ -31,7 +31,6 @@ Not all these pages have information on all these Schemes.
  * EmptyList
  * EmptyStringsVectors
  * EvalDefine
- * FalseIsNil
  * FixnumInfo
  * FloatPrecision
  * ForceNonPromise
@@ -43,6 +42,7 @@ Not all these pages have information on all these Schemes.
  * MaxInfNan
  * MultipleValues
  * NegativeSqrt
+ * NilIsFalse
  * NonFiniteNumbers
  * NumericTower
  * OneArmedIf
