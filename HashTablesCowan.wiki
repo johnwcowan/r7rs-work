@@ -105,7 +105,7 @@ Hash tables are allowed to cache the results of calling the equality predicate a
 
 No procedure passed to `hash-table-find`, `hash-table-count`, `hash-table-map`, `hash-table-for-each`, `hash-table-update-each!`, `hash-table-map->list`, or `hash-table-fold` may mutate the hash table being walked.
 
-Here is an index to the procedures of this specification:
+=== Index ===
 
 * [[#Constructors|Constructors]]: `make-hash-table`, `hash-table`, `hash-table-unfold`
 
