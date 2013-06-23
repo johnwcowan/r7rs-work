@@ -20,6 +20,8 @@ Character encoding conversion:
 
 Combinators: CombinatorsCowan
 
+Comparators: [[http://srfi.schemers.org/srfi-114/srfi-114.html|SRFI 114]]
+
 Concatenation:  ConcatenateCowan
 
 Conditions: ConditionsCowan
@@ -51,8 +53,6 @@ File system directories (creation, removal): DirectoriesCowan
 Flonum arithmetic: FlonumsCowan
 
 Futures:  [[http://docs.racket-lang.org/reference/futures.html|Racket API]]
-
-Generalized `equal`: GeneralizedEqualCowan
 
 Getters and setters: [[http://srfi.schemers.org/srfi-17/srfi-17.html|SRFI 17]]
 
