@@ -1,25 +1,13 @@
 This isn't a proposal, just some ideas and discussion points.
 
-The basic interface to memoizing is a variant of `lambda`, perhaps called `lambda/memo` as in Racket, or perhaps something else.  It returns a procedure that ''memoizes'' the results of calls on it in a ''store'', and then pulls the results out of the store on later calls with the same arguments.  (Obviously, you don't want to do this if the procedure is impure.)
+The basic interface to memoizing is a variant of `lambda`, perhaps called `lambda/memo` as in Racket, or perhaps something else.  It returns a procedure that ''memoizes'' the results of calls on it in a ''store'', and then pulls the results out of the store on later calls with the same arguments.  (Obviously you don't want to memoize impure procedures.)  Plausible stores are a-lists, hash tables, mutable or immutable sets, and other data structures.  It's easy to see how `define/memo` would work as a more convenient version of this.
 
-It's easy to see how `define/memo` would work as a more convenient version of this.
+The store can be abstracted into a record with four fields: a store creation procedure, a getter, a setter, and a [[http://srfi.schemers.org/srfi-114/srfi-114.html|SRFI 114]] comparator which defines what counts as "the same arguments" and is passed to the store creation procedure.  We need some standard stores, though unless memoization is tightly coupled to something like hash tables or trees, they won't be very efficient ones.  On the other hand, if it happens that the range of the argument is 0 to a small exact integer, a vector store would be much better than a hash table store.
 
-There are a bunch of issues, though:
+== Issues ==
 
- * The most fundamental question is "What counts as the 'same arguments'?"  In Racket, `lambda/memo` uses `eq?` and `lambda/memo*` uses `equal`.  That doesn't seem very flexible.
+ * How do we associate the store object with a particular lambda?  Dynamic parameters seem like the Wrong Thing; the store object should be statically bound to the memoized procedure.  Adding extra arguments to `lambda/memo` beyond the lambda-list and the body doesn't seem like a win either: how do you know if the extra arguments are arguments, or part of the body?.
 
- * What is the type of the store?  In Racket, hash tables based on `eq?` and `equal?` are available.  But in R7RS-large, there is no guarantee that an implementation that wants to support memoizing will also provide hash tables, so either we closely couple the two packages, or we provide a hook for constructing a store.  If the function accepts only a single argument which belongs to a small range of exact integers, a vector would be a ''much'' better store.
-
- * If arbitrary stores like a-lists are allowed, how are multiple arguments packaged up as a key for the store?
-
- * How do we specify the getter and setter for an arbitrary store?
-
- * How can we provide all this flexibility without compromising convenience for elementary uses?
+ * If multiple arguments and/or multiple returns are allowed, how are they packaged up in the store?  Vectors?  Lists?  Something else?
 
  * Should there be some way to let the function decide which return values to memoize?
-
- * Do we support multiple returned values?  Maybe not by default, only if specifically requested, because of the overhead.
-
-Adding extra arguments to `lambda/memo` beyond the lambda-list and the body doesn't seem like a win to me (how do you know if the extra arguments are arguments, or part of the body?).  Are dynamic parameters the Right Thing here?  I don't think so, because all these factors should be bound to the static definition of the memoized functions.  Is this a place where we need keyword arguments in `lambda/memo`?
-
-I think we need a record type `memoization-store` that provides a store constructor, comparator, getter, and setter.  But we still have the issue of associating an instance of `memoization-store` with a particular lambda.
