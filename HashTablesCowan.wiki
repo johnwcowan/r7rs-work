@@ -77,7 +77,7 @@ The procedures in the present proposal are drawn primarily from SRFI 69 and R6RS
 
 * The `hash-table-find` procedure is from [[http://www.iro.umontreal.ca/~gambit/doc/gambit-c.html#Tables|Gambit]].
 
-* The procedures `hash-table-set-entries!` are inspired by the [[http://clhs.lisp.se/Body/f_pairli.htm|Common Lisp]] function `pairlis`.
+* The procedure `hash-table-set-entries!` is inspired by the [[http://clhs.lisp.se/Body/f_pairli.htm|Common Lisp]] function `pairlis`.
 
 * The procedures `hash-table-unfold` and `hash-table-count` were suggested by [[http://srfi.schemers.org/srfi-1/srfi-1.html|SRFI 1]].  
 
@@ -129,13 +129,17 @@ No procedure passed to `hash-table-find`, `hash-table-count`, `hash-table-map`, 
 
 === Constructors ===
 
-`(make-hash-table `''comparator'' [[|''hash'' ]] [[|''arg'' ... ]]`)`
+`(make-hash-table `''comparator'' [[|''arg'' ... ]]`)`
 
-Returns a newly allocated hash table whose equality predicate and hash function are extracted from ''comparator''.  If the argument is a procedure instead, it is assumed to be the equality predicate, and the hash function is ''hash''.  The equality predicate accepts two arguments and returns a truth value.  The hash function accepts one argument in the domain of the equality predicate and returns a non-negative exact integer.  It is the programmer's responsibility to ensure that two objects passed to the hash function return the same value if the same objects passed to the equality predicate return true; however, the converse is not required.
+`(make-hash-table `''equality-predicate'' [[|''hash-function'' ]] [[|''arg'' ... ]]`)`
 
-If a bare equality predicate rather than a comparator is provided, the ability to omit the ''hash'' argument is severely limited.  If ''equality'' is `eq?`, `eqv?`, `equal?`, `string=?`, or `string-ci=?`, then the implementation must provide a hash function, which it may use in any case.  The implementation may extend this list.  But if any other equality predicate is provided without a hash function, an error should be signaled.
+Returns a newly allocated hash table whose equality predicate and hash function are extracted from ''comparator''.  Alternatively, for backward compatibility the equality predicate and hash function can be passed as separate arguments; this usage is deprecated.  If an equality predicate rather than a comparator is provided, the ability to omit the ''hash'' argument is severely limited.  The implementation must provide hash functions appropriate for use with the predicates `eq?`, `eqv?`, `equal?`, `string=?`, and `string-ci=?`, and may extend this list.  But if any other equality predicate is provided without a hash function, an error should be signaled.
 
-The meaning of the remaining arguments is implementation-dependent.  However, implementations which support the ability to specify the initial capacity of a hash table should interpret a non-negative exact integer as the specification of that capacity.  In addition, if the symbols `immutable`, `thread-safe`, `weak-keys` or  `weak-values` are present, implementations should create immutable hash tables, mutable thread-safe hash tables, hash tables with weak keys, and hash tables with weak values respectively.  In an implementation which does not support these features, an error should be signaled if they are requested.  To avoid collision with the ''hash'' argument, none of these arguments can be procedures.
+It is an error unless the equality predicate accepts two arguments and returns a truth value, and the hash function accepts one argument in the domain of the equality predicate and returns a non-negative exact integer.  It is the programmer's responsibility to ensure that two objects passed to the hash function return the same value if the same objects passed to the equality predicate return true; however, the converse is not required.
+
+If the equality predicate, whether passed as part of a comparator or explicitly, is more fine-grained (in the sense of R7RS-small section 6.1) than `equal?`, the implementation is free to ignore the programmer-specified hash function and use something implementation-dependent.  This allows the use of addresses as hashes, in which case the keys must be rehashed if they are moved by the garbage collector.
+
+The meaning of any further arguments is implementation-dependent.  However, implementations which support the ability to specify the initial capacity of a hash table should interpret a non-negative exact integer as the specification of that capacity.  In addition, if the symbols `immutable`, `thread-safe`, `weak-keys` or  `weak-values` are present, implementations should create immutable hash tables, mutable thread-safe hash tables, hash tables with weak keys, and hash tables with weak values respectively.  In an implementation which does not support these features, an error should be signaled if they are requested.  To avoid collision with the ''hash'' argument, none of these arguments can be procedures.
 
 (SRFI 69 `make-hash-table`; R6RS `make-eq-hashtable`, `make-eqv-hashtable`, and `make-hashtable`; Common Lisp `make-hash-table`)
 
