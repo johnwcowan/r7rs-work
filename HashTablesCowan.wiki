@@ -103,7 +103,7 @@ All references to "executing in expected amortized constant time" presuppose tha
 
 Hash tables are allowed to cache the results of calling the equality predicate and hash function, so programs cannot rely on the hash function being called exactly once for every primitive hash table operation: it may be called zero, one, or more times.
 
-No procedure passed to `hash-table-find`, `hash-table-count`, `hash-table-map`, `hash-table-for-each`, `hash-table-update-each!`, `hash-table-map->list`, or `hash-table-fold` may mutate the hash table being walked.
+It is an error if the procedure argument of `hash-table-find`, `hash-table-count`, `hash-table-map`, `hash-table-for-each`, `hash-table-update-each!`, `hash-table-map->list`, or `hash-table-fold` mutates the hash table being walked.
 
 === Index ===
 
@@ -161,9 +161,9 @@ Returns `#t` if ''obj'' is a hash table, and `#f` otherwise.  (SRFI 69 `hash-tab
 
 Returns `#t` if there is any association to ''key'' in ''hash-table'', and `#f` otherwise.  Must execute in expected amortized constant time.  (SRFI 69 `hash-table-exists?`; R6RS `hashtable-contains?`)
 
-`(hash-table=? `''value= hash-table,,1,, hash-table,,2,,''`)`
+`(hash-table=? `''value=? hash-table,,1,, hash-table,,2,,''`)`
 
-Returns `#t` if ''hash-table,,1,,'' and ''hash-table,,2,,'' have the same size, the same keys (in the sense of their common equality predicate) and the same values (in the sense of the ''value='' predicate) for each key, and `#f` otherwise.  It is an error to compare two hash tables that have distinct comparators or distinct equality predicates.
+Returns `#t` if ''hash-table,,1,,'' and ''hash-table,,2,,'' have the same size, the same keys (in the sense of their common equality predicate) and the same values (in the sense of the ''value=?'' predicate) for each key, and `#f` otherwise.  It is an error to compare two hash tables that have distinct comparators or distinct equality predicates.
 
 === Accessors ===
 
@@ -171,7 +171,7 @@ The following procedures, given a key, return the corresponding value.
 
 `(hash-table-ref `''hash-table key'' [[|''failure'' [ ''success'' ]] ]`)`
 
-Extracts the value associated to ''key'' in ''hash-table'', invokes the procedure ''success'' on it, and returns its result.  Otherwise, invokes the procedure ''failure'' on no arguments and returns its result.  If ''success'' is not provided and is required, the value itself is returned.  If ''failure'' is not provided but is required, an error that satisfies `hash-table-not-found?` is signaled.  Must execute in expected amortized O(1) time, not counting the time to call the procedures.  (SRFI 69 `hash-table-ref`)
+Extracts the value associated to ''key'' in ''hash-table'', invokes the procedure ''success'' on it, and returns its result.  Otherwise, invokes the procedure ''failure'' on no arguments and returns its result.  If ''success'' is not provided and is required, the value itself is returned.  If ''failure'' is not provided but is required, an error that satisfies `hash-table-not-found?` is signaled.  Must execute in expected amortized constant time, not counting the time to call the procedures.  (SRFI 69 `hash-table-ref`)
 
 `(hash-table-ref/default `''hash-table key default''`)`
 
@@ -194,7 +194,7 @@ Repeatedly mutates ''hash-table'', setting each ''key'' to the ''value'' that fo
 
 `(hash-table-set-entries! `''hash-table keys-list values-list''`)`
 
-Repeatedly mutates ''hash-table'', setting each element of ''keys-list'' to the corresponding element of ''values-list'' in the order given.
+Repeatedly mutates ''hash-table'', setting each element of ''keys-list'' to the corresponding element of ''values-list'' in the order given.  Excess keys or values are ignored.
 
 `(hash-table-set-alist! `''hash-table alist''`)`
 
@@ -269,8 +269,6 @@ Delete all the associations from ''hash-table''.  Should execute in expected amo
 
 Returns the number of associations in ''hash-table'' as an exact integer.  Should execute in expected amortized constant time.  (SRFI 69 `hash-table-size`, R6RS `hashtable-size`; Common Lisp `hash-table-count`.)
 
-Returns the number of keys in ''hash-table''.
-
 `(hash-table-keys `''hash-table''`)`
 
 Returns a newly allocated list of all the keys in ''hash-table'' in an unspecified order. (SRFI 69 `hash-table-keys`; R6RS `hashtable-keys` returns a vector)
@@ -285,7 +283,7 @@ Returns two values, a newly allocated list of all the keys in ''hash-table'' in 
 
 `(hash-table-find `''hash-table proc''`)`
 
-For each association of ''hash-table'', invoke ''proc'' on its key and value in an unspecified order.   If ''proc'' returns true, then return the value.  If ''proc'' always returns `#f`, return `#f`.
+For each association of ''hash-table'', invoke ''proc'' on its key and value in an unspecified order.   If ''proc'' returns true on a value, then return that value.  If all the calls to ''proc'' return `#f`, return `#f`.
 
 `(hash-table-count `''hash-table pred''`)`
 
@@ -347,7 +345,7 @@ Curried version of `hash-table-ref/default`.  Returns a procedure of one argumen
 
 `(hash-table-union! `''hash-table,,1,, hash-table,,2,,'' [[|''merger'' ]]`)`
 
-Adds the associations of ''hash-table,,2,,'' to ''hash-table,,1,,'' and returns ''hash-table,,1,,''.  The values of keys that appear in both hash tables are set to the result of the ''merger'' procedure, which accepts the arguments ''key,,1,, value,,1,, key,,2,, value,,2,,'' and defaults to `(lambda (key1 value1 key2 value2) value2)`.  (SRFI 69 `hash-table-merge!`)
+Adds the associations of ''hash-table,,2,,'' to ''hash-table,,1,,'' and returns ''hash-table,,1,,''.  The values of keys that appear in both hash tables are set to the result of invoking the ''merger'' procedure, which accepts the arguments ''key,,1,, value,,1,, key,,2,, value,,2,,'' and defaults to `(lambda (key1 value1 key2 value2) value2)`.  (SRFI 69 `hash-table-merge!`)
 
 `(hash-table-intersection! `''hash-table,,1,, hash-table,,2,,'' [[|''merger'' ]]`)`
 
@@ -365,7 +363,7 @@ Returns `#t` if ''obj'' is an object raised by the `hash-table-ref` procedure or
 
 == Implementation ==
 
-The sample implementation (''not yet written'') is designed to be easily layered over any hash table implementation that supports either SRFI 69 or R6RS (there is an implementation of [[https://code.launchpad.net/~scheme-libraries-team/scheme-libraries/srfi|SRFI 69 on top of R6RS]], It was originally intended to support all the native hash table systems mentioned in [[#Sources|Sources]] above as well.  However, this turned out not to be practical for the following reasons:
+The sample implementation (''not yet written'') is designed to be easily layered over any hash table implementation that supports either SRFI 69 or R6RS (there is an implementation of [[https://code.launchpad.net/~scheme-libraries-team/scheme-libraries/srfi|SRFI 69 on top of R6RS]]).  It was originally intended to support all the native hash table systems mentioned in [[#Sources|Sources]] above as well.  However, this turned out not to be practical for the following reasons:
 
 * Gauche does not support arbitrary equality predicates, only `eq?`, `eqv?`, `equal?`, and `string=?`.
 
@@ -381,4 +379,4 @@ The sample implementation (''not yet written'') is designed to be easily layered
 
 As a result, the sample implementation assumes the existence of a SRFI 69 implementation, and imports just the core procedures `make-hash-table`, `hash-table?`, `hash-table-ref/default`, `hash-table-set!`, `hash-table-delete!`, `hash-table-size`, `hash-table-walk`, and `hash-table-copy`.  New implementers who need to support the present proposal from scratch can take the implementations of these procedures from the SRFI 69 implementation and add them to this implementation.
 
-To layer the implementation directly on top of R6RS, the corresponding procedures need to be imported from `(rnrs hashtables)`.  See the file `hash-tables.sls` in the implementation.   It should also be possible to adapt the sample implementation for use on Racket, MIT, Gambit, and Bigloo.
+To layer the implementation directly on top of R6RS, the corresponding procedures need to be imported from `(rnrs hashtables)`.  See the file `hash-tables.sls` in the implementation.   It should also be possible to adapt the sample implementation for use on Racket, MIT, Gambit, and Bigloo native hash tables, all of which provide at least the above core.
