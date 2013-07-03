@@ -71,38 +71,37 @@ Conversion between deque and list structures. FIFO order is preserved, so the fr
 
 = Set =
 
-A sorted set data structure stores a finite collection of unique orderable (a.k.a. comparable or sortable) elements.
+A sorted set data structure stores a finite collection of unique elements with a defined comparator ( http://ccil.org/~cowan/temp/srfi-114.html ).
 
 These requirements can be satisfied by many flavors of ''self-balancing binary trees.'' Red-black trees, 1-2 brother trees, and labeled 2-3 finger trees are particularly convenient in an immutable context.
 
-=== Order predicates ===
+=== Set merger procedures ===
 
-An ''order predicate'' for a universe of orderable elements is a procedure {{{precedes?}}} such that, for set elements of the universe {{{x}}} and {{{y}}},
-{{{#!scheme
-(precedes? x y)
-}}}
-returns non-{{{#false}}} iff {{{x}}} precedes {{{y}}} in the set's ordering. It returns {{{#false}}} when {{{x}}} succeeds (comes after) {{{y}}} or when the elements are tied for the same position.
+Some set operations involve transforming input that may include duplicate elements into a set that must not contain duplicates. These operations take a ''merger'' procedure which decides which of the duplicates to retain. A set merger procedure is a binary procedure
 
-It is essential that order predicates return {{{#false}}} in the case of equal elements, as implementations may test for element equality with expressions of the form
 {{{#!scheme
-(and (not (precedes? x y))
-     (not (precedes? y x)))
+(merger left right)
 }}}
 
-Note that {{{<}}}, {{{char<?}}}, and {{{string<?}}} are valid order predicates for sets of numbers, characters, and strings, respectively.
+that returns {{{left}}} or {{{right}}}.
 
-The time bounds stated below are all based on the assumption that evaluating an order predicate takes O(1) time.
+The order in which merger procedures is called is undefined.
 
-=== Deduplication policy ===
-
-All elements of a set must be unique, which complicates operations that produce sets from collections that may contain duplicates. The procedures described consintely follow a ''least recently used'' removal policy. That means that, when an operation encounters two elements that are equal according to the order predicate, the one that was encountered earlier is removed from the set and replaced with the element that was encountered later.
+Two trivial set merger procedures are defined:
+{{{#!scheme
+(define (set-merger-left left right)
+  left)
+(define (set-merger-right left right)
+  right)
+}}}
 
 === Construction ===
 
 {{{#!scheme
-(iset precedes? [element...])
+(iset/merger comparator merger [element...])
+(iset comparator [element...])
 }}}
-Return a new set using the order predicate {{{precedes?}}} and containing elements {{{element...}}}. If any elements are equal according to {{{precedes?}}}, only the rightmost of them is retained. O(n log n) time.
+Return a new set using containing elements {{{element...}}}. {{{iset}}} uses {{{set-merger-right}}}. O(n log n) time.
 
 === Set-wide queries ===
 
@@ -110,7 +109,7 @@ Return a new set using the order predicate {{{precedes?}}} and containing elemen
 (iset? x)
 (iset-empty? set)
 (iset-size set)
-(iset-order-predicate set)
+(iset-comparator set)
 }}}
 
 {{{iset-size}}} may take O(n) time, though O(1) is optimal. The other procedures take O(1) time.
@@ -118,13 +117,13 @@ Return a new set using the order predicate {{{precedes?}}} and containing elemen
 === Set-theoretic operations ===
 
 {{{#!scheme
-(iset-union set...)
-(iset-intersection set...)
+(iset-union set... [merger])
+(iset-intersection set... [merger])
 (iset-difference left set...)
 (iset-xor set1 set2)
 }}}
 
-Return a new set containing the union/intersection/difference/symmetric difference of the arguments. All the arguments must be sets sharing an equivalent order predicate. The set operator is applied in a left-associative order. When an element is a member of multiple arguments to {{{set-union}}}, the object from the rightmost argument is retained. May take O(kn log n) time, where k is the number of sets and n is the number of elements involved, though O(kn) time is optimal.
+Return a new set containing the union/intersection/difference/symmetric difference of the arguments. All the arguments must be sets sharing an equivalent order predicate. The set operator is applied in a left-associative order. May take O(kn log n) time, where k is the number of sets and n is the number of elements involved, though O(kn) time is optimal.
 
 === Element queries ===
 
@@ -189,10 +188,10 @@ where {{{new-set}}} is a set reflecting the indicated modification, if any; and 
 Returns the element {{{match}}} equal to {{{x}}} in {{{set}}}, or the result of evaluating {{{(absent-thunk)}}} if no such element exists. If {{{absent-thunk}}} is unspecified then a default procedure that always returns {{{#false}}} is used. Takes O(log n) time.
 
 {{{#!scheme
-(iset-include set x)
+(iset-include set x [merger])
 (iset-exclude set x)
 }}}
-Return a new set that certainly does/doesn't include {{{x}}}. {{{iset-include}}} may replace an object equal to {{{x}}} already in {{{set}}}, if any. Each operation takes O(log n) time.
+Return a new set that certainly does/doesn't include {{{x}}}. {{{merger}}} is called when {{{set}}} already includes an element equal to {{{x}}} according to the set's comparator, with {{{left}}} as the object already in {{{set}}} and {{{right}}} as {{{x}}}. Each operation takes O(log n) time.
 
 {{{#!scheme
 (iset-predecessor set x [absent-thunk])
@@ -238,14 +237,14 @@ The fundamental set iterator. Equivalent to, but may be more efficient than,
 Takes O(n) time.
 
 {{{#!scheme
-(iset-map/monotone proc set [precedes?])
+(iset-map/monotone proc set [comparator])
 }}}
-Returns a new set containing the elements {{{(proc x)}}} for every {{{x}}} in {{{set}}}. {{{proc}}} must be a ''monotone'' unary procedure that preserves the order of set elements. Observe that mapping a set of unique elements with a monotone function yields a new set of unique elements, so element uniqueness follows from the monotonicity assumption. If {{{precedes?}}} is given, it is the order predicate of the new set; otherwise the new set uses the same order predicate as {{{set}}}. Takes O(n) time.
+Returns a new set containing the elements {{{(proc x)}}} for every {{{x}}} in {{{set}}}. {{{proc}}} must be a ''monotone'' unary procedure that preserves the order of set elements. Observe that mapping a set of unique elements with a monotone function yields a new set of unique elements, so element uniqueness follows from the monotonicity assumption. If {{{comparator}}} is given, it is the comparator of the new set; otherwise the new set uses the same order predicate as {{{set}}}. Takes O(n) time.
 
 {{{#!scheme
-(iset-map proc set [precedes?])
+(iset-map proc set [[merger|[comparator]]])
 }}}
-As {{{iset-map/monotone}}}, except the {{{proc}}} is not required to be monotone. When multiple elements are mapped to the same value, only the value originating from the greatest unmapped element is retained. O(n log n) time.
+As {{{iset-map/monotone}}}, except the {{{proc}}} is not required to be monotone. {{{merger}}} is used to select among any duplicates that might be created, and defaults to {{{set-merger-right}}}. O(n log n) time.
 
 === Conversion ===
 
@@ -256,26 +255,16 @@ As {{{iset-map/monotone}}}, except the {{{proc}}} is not required to be monotone
 Returns a list containing the elements of {{{set}}} in increasing order. O(n) time.
 
 {{{#!scheme
-(ordered-list->iset precedes? list)
+(ordered-list->iset comparator list)
 }}}
 
-Returns a set containing the elements of {{{list}}} and using order predicate {{{precedes?}}}. It is an error for {{{list}}} to be anything other than a proper list of elements in increasing order. O(n log n) time; O(n) is optimal.
+Returns a set containing the elements of {{{list}}} and using comparator {{{comparator}}}. It is an error for {{{list}}} to be anything other than a proper list of elements in increasing order. O(n log n) time; O(n) is optimal.
 
 {{{#!scheme
-(list->iset precedes? list)
+(list->iset comparator list [merger])
 }}}
 
-Returns a set containing the elements of {{{list}}} and using order predicate {{{precedes?}}}. {{{list}}} must be a proper list, but may contain duplicates and need not be in order. When a subset of input elements are equal according to {{{precedes?}}}, only the last occurrence is retained. O(n log n) time.
-
-=== Element comparison ===
-
-{{{#!scheme
-(iset-element<? set x y)
-(iset-element=? set x y)
-(iset-element>? set x y)
-}}}
-
-These procedures compare {{{x}}} to {{{y}}} according to {{{set}}}'s order predicate and the conventional meaning of {{{<}}}, {{{=}}}, and {{{>}}}.
+Returns a set containing the elements of {{{list}}} and using comparator {{{comparator}}}. {{{list}}} must be a proper list, but may contain duplicates and need not be in order. {{{merger}}} defaults to {{{set-merger-right}}}. O(n log n) time.
 
 = Maps =
 
