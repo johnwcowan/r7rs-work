@@ -24,6 +24,8 @@ Comparators: [[http://srfi.schemers.org/srfi-114/srfi-114.html|SRFI 114]]
 
 Concatenation:  ConcatenateCowan
 
+`cond` `=>` with guard as well as generator (see #89):  [[http://srfi.schemers.org/srfi-61/srfi-61.html|SRFI 61]]
+
 Conditions: ConditionsCowan
 
 Container conversion: [[http://trac.sacrideo.us/wg/wiki/WG1Ballot6Results#a433fullconversioncycleforcontainers|WG1 ballot options]]
@@ -43,6 +45,10 @@ Division library: DivisionRiastradh
 Enumerations and enum-sets: [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-15.html#node_chap_14|R6RS]] (see also http://www.r6rs.org/formal-comments/comment-262.txt), SetsCowan, `define-enum` in the [[http://wiki.call-cc.org/eggref/4/miscmacros|Chicken miscmacros egg]]
 
 Environment enquiries: EnvironmentEnquiriesCowan
+
+Evaluator arguments to procedures like `load`: see #277
+
+Extended exact numbers:  ExtendedRationalsCowan
 
 File system directories (reading): [[http://www.scsh.net/docu/html/man-Z-H-4.html#node_sec_3.3|SCSH directory stream interface]], DirectoryPortsCowan, `directory-files` to return a list of all files in the dir (in WG1 vote order)
 
@@ -64,6 +70,8 @@ Hash tables: [[http://srfi.schemers.org/srfi-69/srfi-69.html|SRFI 69]], [[http:/
 
 Homogeneous numeric arrays: [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-3.html#node_chap_2,|R6RS]], [[http://srfi.schemers.org/srfi-4/srfi-4.html|SRFI 4]], [[http://srfi.schemers.org/srfi-63/srfi-63.html|SRFI 63]] (supersedes SRFI 25 and SRFI 47; lexical syntax in [[http://srfi.schemers.org/srfi-58/srfi-58.html|SRFI 58), [http://srfi.schemers.org/srfi-66/srfi-66.html SRFI 66]], [[http://srfi.schemers.org/srfi-74/srfi-74.html|SRFI 74]], NumericVectorsCowan
 
+`if` with arbitrarily many arguments: [[http://dpk.io/r7rs/naryif-20130406|David Kendal's rationale]]
+
 Immutable cyclic lists: CyclesMedernach
 
 Library declarations: LibraryDeclarationsCowan
@@ -84,6 +92,8 @@ Multi-dimensional general arrays: ArraysCowan
 
 Multiple value macros (from CL): MultipleValuesCowan
 
+Multiple values passed through => in `cond`: see #90 
+
 Mutable environments for `eval`:  MutableEnvironmentsCurtisCowan
 
 Mutexes, condition variables: [[[http://srfi.schemers.org/srfi-18/srfi-18.html|SRFI 18]]
@@ -93,6 +103,8 @@ Named parameters: NamedParametersCowan
 NaN dissector API (sign, quiet/signaling status, and integer tag): NanMedernach
 
 Natural number predicates (from WG1):  `exact-positive-integer?` and `exact-non-negative-integer?`.
+
+`number->string` and `string->number` with non-ASCII decimal digits: NumberStringUnicode
 
 Octet vectors, bytevectors, blobs: NumericVectorsCowan + StringBytevectorConversionCowan
 
@@ -113,6 +125,8 @@ Processes (system, popen, etc): SystemCommandCowan + ProcessPortsCowan
 Queues:  [[http://wiki.call-cc.org/man/4/Unit%20data-structures#queues|Chicken API]], BinaryHeapsCowan, [[http://people.csail.mit.edu/jaffer/slib/Queues.html#Queues|SLIB]]
 
 Random numbers: RandomnessCommonLisp, [[http://srfi.schemers.org/srfi-27/srfi-27.html|SRFI 27]], RandomCowan, RandomnessArcfide (in WG1 vote order)
+
+Raw strings:  <<, """...""", [[http://srfi.schemers.org/srfi-109/srfi-109.html|SRFI 109]]
 
 Record introspection: [[http://srfi.schemers.org/srfi-99/srfi-99.html|SRFI 99]]
 
@@ -136,6 +150,8 @@ Sorting: [[http://srfi.schemers.org/srfi-32/srfi-32.html|SRFI 32]], [[http://srf
 
 String encoding and decoding:  StringBytevectorConversionCowan
 
+String positions and slices: [[http://www.r6rs.org/formal-comments/comment-235.txt|R6RS formal comment #235]]
+
 Substitution and transformation: SubstituteCowan
 
 Syntactic closures (voted down, but restored by popular demand): [[http://web.mit.edu/scheme_v9.0.1/doc/mit-scheme-ref/Syntactic-Closures.html|MIT]]
@@ -151,6 +167,8 @@ Thread-local storage: [[http://docs.oracle.com/javase/6/docs/api/java/lang/Threa
 Threads:  ThreadsCowan, [[http://srfi.schemers.org/srfi-18/srfi-18.html|SRFI 18]]
 
 UDP protocol:  DatagramChannelsCowan
+
+Undefined value API: see #49
 
 Unicode character database: UcdCowan
 
