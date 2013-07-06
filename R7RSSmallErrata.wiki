@@ -1,0 +1,3 @@
+Errata from the [[http://trac.sacrideo.us/wg/attachment/wiki/WikiStart/r7rs.pdf|final draft of R7RS]]:
+
+(currently none)
