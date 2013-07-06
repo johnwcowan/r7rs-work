@@ -1,18 +1,16 @@
 = Welcome to the Scheme Working Groups =
 
-'''For instructions on how to vote on the 9th draft of R7RS-small, see [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003299.html|the Steering Committee's email]].'''
+'''The [[http://trac.sacrideo.us/wg/raw-attachment/wiki/WikiStart/r7rs.pdf|final R7RS-small report]] has been submitted to the Scheme Language Steering Committee for endorsement.'''
 
 For a complete list of local wiki pages, see TitleIndex (alphabetic) or RecentChanges (most recent first).
 
-Click on "Attachments" below to access the draft reports.
+Click on "Attachments" below to access [[http://trac.sacrideo.us/wg/raw-attachment/wiki/WikiStart/r7rs.pdf|the final R7RS-small report]] as well as the first-year progress report and all draft reports.
 
 Comments are welcome at the [[http://lists.scheme-reports.org/cgi-bin/mailman/listinfo/scheme-reports|public discussion list]].
 
 == Working Group 1 ([[http://www.scheme-reports.org/2009/working-group-1-charter.html|Charter]]) ==
 
 [[MemberPagesWorkingGroupOne|Member Page]]
-
-[[http://trac.sacrideo.us/wg/attachment/wiki/WikiStart/scheme-wg1-progress1.pdf|Progress Report]]
 
 [[WorkingGroupOneProcess|Process]]
   * [[SampleVoteYakHandler|Sample Vote]]
@@ -26,9 +24,7 @@ Comments are welcome at the [[http://lists.scheme-reports.org/cgi-bin/mailman/li
   * [[:WG1Ballot8|Eighth Ballot]] ([[:WG1Ballot8Results|Results]])
   * [[:WG1Ballot|Ninth Ballot]]
 
-[[:WG1vsR6RSDiff|Differences between the current WG1 draft and the R6RS]]
-
-'''Issue Summaries and Proposals'''
+'''Issue Summaries and Proposals''' (many now obsolete)
 
     * [wiki:Keywords]
     * ModuleSystems
@@ -66,9 +62,13 @@ Comments are welcome at the [[http://lists.scheme-reports.org/cgi-bin/mailman/li
         * LetSyntaxArcfide
 
 
-== Working Group 2 [[http://scheme-reports.org/2010/working-group-2-charter.html|Charter]] ==
+== Working Group 2 ([[http://scheme-reports.org/2010/working-group-2-charter.html|Charter]]) ==
 
 [[MemberPagesWorkingGroupTwo|Member Page]]
+
+[[:ProposedWG2Charter|Proposed revision to WG2 Charter]]
+
+Note:  Proposals and issue summaries are linked from the Docket pages below.
 
 '''Work Item Dockets'''
     * InputDocket (new work items not yet accepted by WG2)
@@ -76,13 +76,6 @@ Comments are welcome at the [[http://lists.scheme-reports.org/cgi-bin/mailman/li
     * ConsentDocket (work items that are uncontroversial in the view of the chair)
     * ReassignedDocket (work items for future WGs)
     * RevoteDocket (work items that need a WG2 revote)
-
-'''Issue Summaries and Proposals'''
-
-    * [[PortIo|Port I/O]]
-    * BitwiseOperations
-        * BitwiseArithmeticRead
-    * ImmutableDataStructuresWortman
 
 '''Proposed Repository Format'''
     * [[:Snow|Snow]]
@@ -99,7 +92,7 @@ Comments are welcome at the [[http://lists.scheme-reports.org/cgi-bin/mailman/li
 
         * [[http://spreadsheets.google.com/pub?key=tRCHK6jWXuKMABKAfoOwWqw&output=html|Scheme Systems Supporting SRFIs]], by John Cowan
         * [[http://spreadsheets.google.com/pub?key=tS3XfMIS7TfMSwMTtd8cbaA&output=html|Small Scheme Standard Modules]], by John Cowan (Also contains some proposals.)
-        * [[:DSSSLVsScheme|DSSSLVsScheme]] (explains the difference between Scheme and the DSSSL expression language)
+        * [[:DSSSLVsScheme|DSSSL vs. Scheme]] (explains the difference between R4RS Scheme and the DSSSL expression language)
         * ImplementationContrasts (shows what different implementations do in particular circumstances)
 
 '''Catalogs of Implementations'''
@@ -107,6 +100,17 @@ Comments are welcome at the [[http://lists.scheme-reports.org/cgi-bin/mailman/li
         * [[http://community.schemewiki.org/?scheme-faq-standards#implementations|List of Scheme implementations]], at Schemers.org
         * SchemeImplementationReleases
         * SchemeImplementors
+        * ImplementationContrasts (gives list of 45 implementations used for testing)
+
+== Previous Scheme Standards ==
+
+* [[http://dspace.mit.edu/bitstream/handle/1721.1/5794/AIM-349.pdf|R0RS]]
+* [[http://dspace.mit.edu/bitstream/handle/1721.1/6283/AIM-452.pdf|R1RS]]
+* [[http://dspace.mit.edu/bitstream/handle/1721.1/6094/AIM-453.pdf|R2RS]]
+* [[ftp://ftp.cs.indiana.edu/pub/scheme-repository/doc/standards/r3rs.ps.gz|R3RS]] (.ps.gz format)
+* [[http://people.csail.mit.edu/jaffer/r4rs.pdf|R4RS]]
+* [[http://www.schemers.org/Documents/Standards/R5RS/r5rs.pdf|R5RS]]
+* R6RS [[http://www.r6rs.org/final/r6rs.pdf|base]], [[http://www.r6rs.org/final/r6rs-lib.pdf|libraries]], [[http://www.r6rs.org/final/r6rs-app.pdf|appendices]], [[http://www.r6rs.org/final/r6rs-rationale.pdf|rationale]]
 
 == Administrative Details ==
 
