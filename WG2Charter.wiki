@@ -117,15 +117,14 @@ uncontroversial, the SRFI may be added to the language without
 consulting the working group.  Any such action by the
 chair may be overridden at the request of any member, in which
 case the working group must vote on the proposal.  In
-exceptional circumstances, the working group may decide
+appropriate circumstances, the working group may decide
 explicitly to make a SRFI a required part of the language.
 
 The working group is expected to strive for consensus on all
 decisions. Where consensus cannot be achieved, the working
 group may proceed on the basis of a vote, but the results of
 such votes must be preserved within the public record, along
-with the reasons for dissent. Minority positions may be
-registered as formal objections (see above).
+with the reasons for dissent.
 
 '''New:'''
 When the working group votes yes or no on a proposal, a simple
