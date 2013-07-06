@@ -22,7 +22,9 @@ Comments are welcome at the [[http://lists.scheme-reports.org/cgi-bin/mailman/li
   * [[:WG1Ballot6|Sixth Ballot]] ([[:WG1Ballot6Results|Results]])
   * [[:WG1Ballot7|Seventh Ballot]] ([[:WG1Ballot7Results|Results]])
   * [[:WG1Ballot8|Eighth Ballot]] ([[:WG1Ballot8Results|Results]])
-  * [[:WG1Ballot|Ninth Ballot]]
+  * [[:WG1Ballot|Ninth Ballot]] ([[:WG1Ballot9Results|Results]])
+  * [[:WG1Ballot10|Tenth Ballot]] ([[:WG1Ballot10Results|Results]])
+
 
 '''Issue Summaries and Proposals''' (many now obsolete)
 
