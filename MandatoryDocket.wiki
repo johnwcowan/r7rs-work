@@ -6,7 +6,10 @@ Exact complex numbers
 
 Return exact results on exact arguments whenever possible (e.g. `(sqrt 4)`)
 
-Full Unicode support (all Unicode characters as characters, all Unicode characters except perhaps U+0000 in strings)
+Full Unicode support:
+ * all Unicode characters as characters
+ * all Unicode characters except perhaps U+0000 in strings
+ * all allowed Unicode characters in identifiers
 
 Unicode identifiers
 
@@ -21,4 +24,8 @@ Forcing a non-promise returns the object
 Implicit forcing of promises by primitives
 
 Require Unicodely-correct downcasing of Σ.
+
+Support for multiple inexact-number precisions
+
+Input/output ports
 
