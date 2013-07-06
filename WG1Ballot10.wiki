@@ -2,7 +2,7 @@
 
 See [[:WG1BallotExplanation|WG1BallotExplanation]].
 
-= WG1 Ballot Items To Finalize By Sep. 30 =
+= WG1 Ballot Items To Finalize By Jul. 6 =
 
 == WG1 - Core ==
 
