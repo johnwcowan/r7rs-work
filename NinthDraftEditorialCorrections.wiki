@@ -32,5 +32,4 @@ These are the editorial corrections to the ninth draft in reverse order.  All ar
 * Fixed quasiquotation and symbol-equality examples
 * Removed procedure inequivalence from language changes list
 * Squeezed vertical space to save a whole page
-* Reverted to R5RS equivalence semantics for procedures (substantive change per WG unanimity)
 * Removed "equal," from definition of `string<?` and friends
