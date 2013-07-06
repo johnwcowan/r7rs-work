@@ -5,6 +5,7 @@ Two substantive changes were made between the ninth draft and the tenth (post-ba
 
 These are the editorial corrections to the ninth draft in reverse order.  All are present in the tenth draft.
 
+* Fixed two instances of `eq?` that should have been `eqv?`, introduced by a last-minute change
 * Covered additional language changes in the changes list
 * Removed `s`, `f`, `d`, and `l` from the formal syntax of an exponent marker
 * Added `#true` and `#false` to language changes
