@@ -1,7 +1,7 @@
 Two substantive changes were made between the ninth draft and the tenth (post-ballot) draft:
 
-* The R5RS semantics of `eqv?` as applied to procedures was restored
-* The `eq?` predicate is now allowed to distinguish between procedures when `eqv?` must not
+* The R5RS semantics of `eqv?` as applied to procedures was restored: it must report true if they have the same location tags, and must report false if they have different behavior (results or side effects) on some arguments, but may report either true or false when comparing other procedures
+* The `eq?` predicate is now required to report true when two procedures have the same location tag, but may report either true or false when comparing other procedures
 
 These are the editorial corrections to the ninth draft in reverse order.  All are present in the tenth draft.
 
