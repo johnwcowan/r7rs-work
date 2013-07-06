@@ -16,7 +16,7 @@ Things that implementations explicitly ''may'' do:
 * Use multiple internal representations of numbers
 * Provide more than one format for inexact numbers
 * Use floating-point arithmetic for inexact numbers
-* Silently coerce the unrepresentable result of an exact operation, to an inexact value
+* Silently coerce the unrepresentable result of an exact operation to an inexact value of the highest precision available
 * Return an exact result to an inexact operation if it can prove it is safe
 * Support only a limited range of numbers of any type
 * May support only some types of numbers
