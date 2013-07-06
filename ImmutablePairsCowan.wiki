@@ -12,12 +12,20 @@ From immutable pairs plus the empty list we can build immutable lists.  Note tha
 
 == Syntax ==
 
-`(iquote `<list>`)`
+`(iquote `<datum>`)`
 
-Returns an immutable version of <list>.  If <list> is not a pair, it is returned.
+Returns a copy of <datum> with all pairs replaced by immutable pairs.  Note that <datum> can be circular or have shared structure, which is preserved.
 
 
 == Procedures ==
+
+`(immutable `''obj''`)`
+
+Returns a copy of ''obj'' with all pairs replaced by immutable pairs.  Note that ''obj'' can be circular or have shared structure, which is preserved.  If there are no pairs, the result may be the same as the argument.
+
+`(mutable `''obj''`)`
+
+Returns a copy of ''obj'' with all immutable pairs replaced by pairs.  Note that ''obj'' can be circular or have shared structure, which is preserved.  If there are no immutable pairs, the result may be the same as the argument.
 
 The following procedures are renamed from those in [[http://srfi.schemers.org/srfi-1/srfi-1.html|SRFI 1]].  They are a superset of those in R5RS and R7RS-small.  The intention is to make immutable lists as close to a drop-in replacement for ordinary lists as possible.  Each one does exactly what you'd expect from reading SRFI 1.
 
