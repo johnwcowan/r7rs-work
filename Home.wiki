@@ -74,8 +74,9 @@ Note:  Proposals and issue summaries are linked from the Docket pages below.
 
 '''Work Item Dockets'''
     * InputDocket (new work items not yet accepted by WG2)
-    * StandardDocket (main list of WG2 work items)
-    * ConsentDocket (work items that are uncontroversial in the view of the chair)
+    * PreStandardDocket (work items to be moved to StandardDocket unless there are objections)
+    * StandardDocket (main list of WG2 work items with proposals)
+    * ConsentDocket (work items whose resolution is uncontroversial in the view of the chair)
     * ReassignedDocket (work items for future WGs)
     * RevoteDocket (work items that need a WG2 revote)
 
