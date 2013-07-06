@@ -2,7 +2,7 @@ These are the editorial corrections to the ninth draft in reverse order.  All ar
 
 * Removed `s`, `f`, `d`, and `l` from the formal syntax of an exponent marker
 * Added `#true` and `#false` to language changes
-* Restored R5RS semantics of `eq?` '''(still under discussion)'''
+* Restored R5RS semantics of `eq?`
 * Corrected commenters' names
 * Changed rationale of `eqv?` to be normative
 * Improved language that defines when inexact numbers are not `eqv?`
