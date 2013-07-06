@@ -79,6 +79,8 @@ Note:  Proposals and issue summaries are linked from the Docket pages below.
     * ConsentDocket (work items whose resolution is uncontroversial in the view of the chair)
     * ReassignedDocket (work items for future WGs)
     * RevoteDocket (work items that need a WG2 revote)
+    * RejectedDocket (items that were rejected by a WG2 vote)
+    * MandatoryDocket (things to consider making mandatory in R7RS-large)
 
 '''Proposed Repository Format'''
     * [[:Snow|Snow]]
