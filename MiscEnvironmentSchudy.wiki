@@ -1,12 +1,18 @@
 [[JC|says: These are proposals I excluded from SRFI 112 because they are primarily for discrimination or computation rather than logging or display.  Some will probably be moved to other proposals.]]
 
- * `word-size` (or `word-width`): reports the size of a Scheme pointer
+== C memory model ==
+
+ * `word-size` (or `word-width` or `pointer-`*): reports the size of a Scheme pointer
 
  * `cpu-word-size` (or `cpu-word-width`): reports the machine's largest available pointer size (which is often different, e.g. a 32-bit Scheme on a 64-bit machine)
 
  * `fixnum-width`, `least-fixnum`, `greatest-fixnum` determine fixnum range.
 
- * Something for estimating memory use: is a Scheme pointer 4 or 8 bytes? For this purpose, you typically want the result in bytes, not bits, although that doesn't make sense on some architectures. Also, per-object overhead matters (especially if you use a lot of pairs or boxed floats). So does the x2 multiplier for a simple copying GC.
+ * Also, per-object overhead matters (especially if you use a lot of pairs or boxed floats). So does the x2 multiplier for a simple copying GC.
+
+ * [[JC|adds:  `short-size`, `int-size`, `long-size` to determine the size of C shorts, ints, and longs in bytes; need some others too for `ptrdiff_t` and so on.]]
+
+== Other ==
 
  * `username`: mostly covered by `(get-environment-variable "USER")`, so
 maybe a separate function is not necessary.
@@ -29,7 +35,7 @@ maybe a separate function is not necessary.
 
  * `memory-used`: how much (virtual) memory is the Scheme implementation currently using? (Including garbage: this is about the process, not the GC.)
 
- * `memory-limit`: how much (virtual) memory can the Scheme implementation use? This is a bit hard to implement, because it depends on word size, available swap, and quotas (e.g. on Unix, the soft limit from getrlimit(RLIMIT_AS)).
+ * `memory-limit`: how much (virtual) memory can the Scheme implementation use? This is a bit hard to implement, because it depends on word size, available swap, and quotas (e.g. on Unix, the soft limit from `getrlimit(RLIMIT_AS)`).
 
  * `disk-free` (or `disk-available`): how much disk space can the program use?  This is important to avoid filling up disks with ever-growing data like logs or caches. With one argument, which must be a pathname, return the available space for that path's drive; with zero arguments, return the space for some default drive. Should ideally take the user quota into account, if any. The name should maybe not include "disk", since that's sometimes inaccurate, but I can't think of an alternative that's as easy to understand ("drive" isn't, and isn't much more accurate).
 
