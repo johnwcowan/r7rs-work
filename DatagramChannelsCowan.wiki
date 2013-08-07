@@ -72,3 +72,5 @@ The client starts by using `(make-datagram-channel)` and then `(datagram-channel
 
 These names are very verbose, but I couldn't think of a better term than `datagram-channel`, which is borrowed from `java.nio.channels.DatagramChannel`.  This API is more powerful than Java's, though.
 
+Shiro Kawai [[http://srfi.schemers.org/srfi-106/mail-archive/msg00072.html|pointed out]] that having `send-to` and `receive-from` parse the ''host'' and ''port'' every time is really a performance killer, and that these should be abstracted away.  I agree, and will update this when I get a chance.
+
