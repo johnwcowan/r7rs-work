@@ -111,7 +111,7 @@ Note:  Proposals and issue summaries are linked from the Docket pages below.
 
 * [[http://dspace.mit.edu/bitstream/handle/1721.1/5794/AIM-349.pdf|R0RS]]
 * [[http://dspace.mit.edu/bitstream/handle/1721.1/6283/AIM-452.pdf|R1RS]]
-* [[ftp://publications.ai.mit.edu/ai-publications/pdf/AIM-848.pdf|R2RS]]
+* [[http://dspace.mit.edu/bitstream/handle/1721.1/5600/AIM-848.pdf|R2RS]]
 * [[ftp://ftp.cs.indiana.edu/pub/scheme-repository/doc/standards/r3rs.ps.gz|R3RS]] (.ps.gz format)
 * [[http://people.csail.mit.edu/jaffer/r4rs.pdf|R4RS]]
 * [[http://www.schemers.org/Documents/Standards/R5RS/r5rs.pdf|R5RS]]
