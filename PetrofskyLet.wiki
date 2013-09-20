@@ -1,0 +1,10 @@
+The usual Schemes were asked to evaluate `(let - ((n (- 1))) n)`.  All of them returned -1 with the following exceptions:
+
+Shoe returns a fatal error: `Fatal error -- list-rest: Argument 1 is not a list of lists.`
+
+BDC does not support named let.
+
+Rep, Owl Lisp return 1.
+
+Llava reports that SymbolImpl cannot be cast to Pair.
+
