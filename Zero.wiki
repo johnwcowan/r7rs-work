@@ -10,7 +10,7 @@ Kawa returns one of two ''exact'' infinities depending on the sign of the numera
 
 Scheme 9 returns `+nan.0`.
 
-Femtolisp return an incorrect result.
+Femtolisp returns an incorrect result.
 
 === Inexact division by exact zero ===
 
@@ -34,7 +34,7 @@ Racket, Gauche, MIT (with floating traps ignored), Gambit, Chicken with the numb
 
 Scheme 9 returns `+nan.0`.
 
-KSi return an incorrect result.
+KSi returns an incorrect result.
 
 === Inexact multiplication by exact zero ===
 
