@@ -16,7 +16,7 @@ In Kawa and !IronScheme all exact integers are boxed, but a short range is preal
 
 = Fixnum ranges for 64-bit Schemes =
 
-These were computed using later versions of the same Schemes.
+These were computed using later versions of many of the above Schemes, so they are not directly comparable.
 
 ||62 bits||Racket*, Chicken*, Ypsilon*||
 ||61 bits||Gauche*, Gambit*, Scheme48/scsh, Guile, Chibi*, SCM, STklos*||
