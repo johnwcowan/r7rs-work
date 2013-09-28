@@ -126,3 +126,4 @@ Note:  Proposals and issue summaries are linked from the Docket pages below.
     * SeventhDraftEditorialCorrections (partial)
     * EighthDraftEditorialCorrections
     * NinthDraftEditorialCorrections
+    * [wiki:R7RSSmallErrata]
