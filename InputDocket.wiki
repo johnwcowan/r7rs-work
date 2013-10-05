@@ -8,6 +8,7 @@ Binary I/O helpers: procedures relevant to reading and writing low-level binary 
 * non-byte-aligned bit fields
 * seeking to arbitrary positions
 * reading/writing packed representations of Scheme records
+(see [[http://srfi.schemers.org/srfi-56/srfi-56.html|SRFI 56]])
 
 Custom I/O ports: [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html|R6RS]]
 
@@ -58,3 +59,6 @@ Thread-local storage:
 Unquote with multiple arguments:  see #123
 
 User-specified syntax-transformers:
+
+Convenience package(s) for commonly desired sets of bindings:
+* (scheme r7rs-small) - all bindings in the small language
