@@ -1,16 +1,16 @@
 Errata from the [[http://trac.sacrideo.us/wg/attachment/wiki/WikiStart/r7rs.pdf|final draft of R7RS]]:
 
-1.  The claim in Section 3.1, paragraph 2, that all variable binding constructs can be explained in terms of `lambda` does not apply to top-level bindings.
+1.  In Section 3.1 (Variables, syntactic keywords, and regions), the claim in paragraph 2 that all variable binding constructs can be explained in terms of `lambda` does not apply to top-level bindings.
 
-2.  Section 7.1.5 doesn't make it clear that a top-level `syntax-rules` pattern must be a list pattern, not a vector pattern or an identifier pattern.
+2.  Section 7.1.5 (Transformers) doesn't make it clear that a top-level `syntax-rules` pattern must be a list pattern, not a vector pattern or an identifier pattern.
 
-3.  The procedure `boolean=?` is defined to return `#t` if the arguments are all booleans and are either all `#t` or all `#f`.  The words "are all booleans and" incorrectly suggest that the value is `#f` if at least one argument is not a boolean.  In fact it is an error to apply `boolean=?` to non-booleans.
+3.  In Section 6.3 (Booleans), the procedure `boolean=?` is defined to return `#t` if the arguments are all booleans and are either all `#t` or all `#f`.  The words "are all booleans and" incorrectly suggest that the value is `#f` if at least one argument is not a boolean.  In fact it is an error to apply `boolean=?` to non-booleans.
 
-4. In Section 4.1.2, the examples `'#` and `#` should be `'#\a` and `#\a` respectively.
+4. In Section 4.1.2 (Literal expressions), the examples `'#` and `#` should be `'#\a` and `#\a` respectively.
 
-5. In section 7.1, the escape sequence `\|` is not shown as permitted in strings.  The list in Section 6.7 shows that it is equivalent to `|`.  This makes the same escape sequences valid in both strings and symbols.
+5. In section 7.1.1 (Lexical structure), the escape sequence `\|` is not shown as permitted in strings.  The list in Section 6.7 shows that it is equivalent to `|`.  This makes the same escape sequences valid in both strings and symbols.
 
-6.  The syntax-rules definition of `case` in Section 7.3 is incorrect; the fourth syntax rule must be moved after the fifth to avoid an improper match against the fourth rule when `=>` is present.  Here is the correct version:
+6. In Section 7.3 (Derived expression types), the syntax-rules definition of `case` is incorrect; the fourth syntax rule must be moved after the fifth to avoid an improper match against the fourth rule when `=>` is present.  Here is the correct version:
 
 {{{
  (define-syntax case
@@ -47,3 +47,4 @@ Errata from the [[http://trac.sacrideo.us/wg/attachment/wiki/WikiStart/r7rs.pdf|
           (case key clause clauses ...)))))
 }}}
 
+7. The note in Section 4.2.8, Quasiquotation, implies that identifiers can begin with `@`.  This is not the case according to the lexical rules given in Section 7.1.1.  However, identifiers beginning with `@` are a legitimate implementation extension, in which case the note applies.
