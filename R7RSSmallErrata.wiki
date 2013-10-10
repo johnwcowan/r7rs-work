@@ -47,4 +47,4 @@ Errata from the [[http://trac.sacrideo.us/wg/attachment/wiki/WikiStart/r7rs.pdf|
           (case key clause clauses ...)))))
 }}}
 
-7. The note in Section 4.2.8, Quasiquotation, implies that identifiers can begin with `@`.  This is not the case according to the lexical rules given in Section 7.1.1.  However, identifiers beginning with `@` are a legitimate implementation extension, in which case the note applies.
+7. In Section 7.1.1, the lexical rule <special initial> incorrectly omits `@`.
