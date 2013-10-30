@@ -16,13 +16,13 @@ In the following descriptions, ''host'' can be:
 
 Note that appropriate values may refer to broadcast or multicast addresses.
 
-''Port'' can be a positive exact integer or a string.  The meaning of a string is implementation-dependent, but is intended to be a standardized service name.
+''Network-port'' can be a positive exact integer or a string.  The meaning of a string is implementation-dependent, but is intended to be a standardized service name.  Note that these ports are not Scheme ports.
 
 == Procedures ==
 
-`(make-network-endpoint `[''host'']` `[''port'']`)`
+`(make-network-endpoint `[''host'']` `[''network-port'']`)`
 
-Returns a newly allocated network endpoint.  If ''port'' is omitted or 0, then it is an error unless ''host'' refers to the local host, and the endpoint specifies an unused port to be assigned by the operating system.  If ''port'' is present but ''local-address'' is omitted or has the value `#t`, the endpoint specifies the given port on the local host accessed by any address.  Otherwise, the endpoint specifies a particular host and port.  If there is just one argument, it is ''port'', as this is the more common case.
+Returns a newly allocated network endpoint.  If ''network-port'' is omitted or 0, then it is an error unless ''host'' refers to the local host, and the endpoint specifies an unused port to be assigned by the operating system.  If ''network-port'' is present but ''local-address'' is omitted or has the value `#t`, the endpoint specifies the given port on the local host accessed by any address.  Otherwise, the endpoint specifies a particular host and port.  If there is just one argument, it is ''network-port'', as this is the more common case.
 
 `(network-endpoint? `''obj''`)`
 
@@ -42,5 +42,5 @@ Returns the host specified by ''endpoint'' as a host name, or if the host name i
 
 `(network-endpoint-port `''endpoint''`)`
 
-Returns the port number specified by ''endpoint'' as a number.  The value returned need not be the same as the value passed to `make-network-endpoint`, but must be acceptable to another invocation of `make-network-endpoint`.
+Returns the network port specified by ''endpoint'' as a number.  The value returned need not be the same as the value passed to `make-network-endpoint`, but must be acceptable to another invocation of `make-network-endpoint`.
 
