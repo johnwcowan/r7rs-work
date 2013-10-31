@@ -28,7 +28,7 @@ Send the portion of ''bytevector'' defined by ''start'' (inclusive) and ''end'' 
 
 `(datagram-channel-receive-from `''channel''` `''bytevector''` `[[''start''|[''end'']]]`)`
 
-Receives a datagram from ''channel'' into the portion of ''bytevector'' defined by ''start'' (inclusive) and ''end'' (exclusive).  If ''end'' is omitted, it is the length of ''bytevector'' plus one; if ''start'' is omitted, it is 0.  Returns two values: the sending endpoint and `#t` if the datagram was complete or `#f` if it was truncated.  It is an error to invoke this procedure on an output-only datagram channel.  In Posix terms this is `recvfrom()`.
+Receives a datagram from ''channel'' into the portion of ''bytevector'' defined by ''start'' (inclusive) and ''end'' (exclusive).  If ''end'' is omitted, it is the length of ''bytevector'' plus one; if ''start'' is omitted, it is 0.  Returns two values: the sending endpoint and the number of bytes received, which may be greater than, equal to, or less than ''end - start''.  If it is greater, excess bytes in the datagram are discarded; if it is less, the remaining bytes of the bytevector are unchanged. It is an error to invoke this procedure on an output-only datagram channel.  In Posix terms this is `recvfrom()`.
 
 `(datagram-channel-connect! `''channel''` `''endpoint''`)`
 
@@ -52,11 +52,54 @@ Close the underlying UDP port and abandon the channel.
 
 == Example: TFTP ==
 
-TFTP is a simple UDP-based protocol documented in RFC 1350.  For our purposes, all that matters is that the client sends the first datagram and the server sends exactly one response to each datagram (assuming no loss of packets in transmission).
+TFTP is a simple UDP-based protocol documented in [[http://tools.ietf.org/rfc/rfc1350.txt|RFC 1350]].  For our purposes, all that matters is that the client sends the first datagram and the server sends exactly one response to each datagram (assuming no loss of packets in transmission).
 
-The server uses `(make-datagram-channel (make-network-endpoint 69))` to create a datagram channel listening on the local UDP port 69 and then uses `(datagram-channel-receive-from `''chan''` `''bytevector''`)` to obtain an initial datagram.  The server then calls `(make-datagram-channel)` to create a new datagram channel listening on a randomly chosen port.  This datagram channel is then connected with `(datagram-channel-connect! `''client-host''` `''client-port''`)` to the client's host and port, and the response to the initial datagram is sent on the new channel.  All further transactions with that client are performed over the newly created channel.
+Here is skeleton code for a read-only server:
 
-The client starts by using `(make-datagram-channel)` and then `(datagram-channel-connect! `''chan''` (make-network-endpoint `''host''` 69))` to connect to the server.  The initial datagram is sent with `(datagram-channel-send `''bytevector''`)`.  When the server replies, the channel is reconnected with `(datagram-channel-connect! (make-network-endpoint `''host''` `''server-port''`))` and the remaining datagrams are sent over the channel.
+{{{
+(define server-chan (make-datagram-channel (make-network-endpoint 69)))
+
+(define buffer (make-bytevector 512)
+
+(define (tftp-server)
+  (let file-loop ()
+    (let-values (((endpoint size)
+                 (datagram-channel-receive-from tftp-chan buffer))
+      (define file (open-input-file (extract-filename buffer 0 size)))
+      (define chan (make-datagram-channel))
+      (datagram-channel-connect! chan endpoint)
+      (let block-loop ((seq 1))
+        (define raw-block-length (read-bytevector! file buffer))
+        (define block-length
+          (if (eof-object? raw-block-length) 0 raw-block-length))
+        (datagram-channel-send chan (box-tftp-data buffer 0 block-length seq))
+        (let-values (((endpoint acksize)
+                     (datagram-channel-receive-from chan buffer)))
+          (validate-ack! buffer 0 acksize)
+          (if (= size 512) (block-loop (+ 1 seq)))
+          (datagram-channel-close chan)
+          (close-input-port file)
+          (file-loop)))))
+}}}
+
+And here is skeleton code for a corresponding client:
+
+{{{
+(define (tftp-client hostname filename)
+  (define chan (make-datagram-channel))
+  (define file (open-output-file filename))
+  (define buffer (make-bytevector 512))
+  (datagram-channel-connect! chan (make-network-endpoint host 69))
+  (datagram-channel-send chan (format-read-request file))
+
+  (let block-loop ((seq 1))
+    (let-values (((endpoint size)
+                 (datagram-channel-receive-from chan buffer)))
+      (write-bytevector file (unbox-tftp-data buffer 0 size))
+      (if (= size 512) (block-loop (+ seq 1)))))
+  (datagram-channel-close chan)
+  (close-output-port file))
+}}}
 
 == Issues ==
 
