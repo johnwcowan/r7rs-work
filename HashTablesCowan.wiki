@@ -12,7 +12,7 @@ This WG2 proposal defines an interface to hash tables, which are widely recogniz
    * Supports mutation as the primary means of setting the contents of a table.
    * Assumes that keys are immutable; mutating a key leads to unspecified behavior.
    * Provides key lookup and destructive update in (expected) amortized constant time, provided a satisfactory hash function is available.
-   * Does not guarantee that whole-table operations work in the presence of concurrent mutation.
+   * Does not guarantee that whole-table operations work in the presence of concurrent mutation of the whole hash table (values may be mutated).
 
 == Issues ==
 
@@ -339,13 +339,13 @@ Calls ''proc'' for every association in ''hash-table'' with two arguments: the k
 
 Calls ''proc'' for every association in ''hash-table'' with three arguments: the key of the association, the value of the association, and an accumulated value ''val''.  ''Val'' is ''init'' for the first invocation of ''procedure'', and for subsequent invocations of ''procedure'', the returned value of the previous invocation.  The value returned by `hash-table-fold` is the return value of the last invocation of ''proc''.  (SRFI 69 `hash-table-fold` has the ''hash-table'' as the first argument)
 
-`(hash-table-filter `''comparator proc hashtable''`)`
+`(hash-table-filter `''comparator proc hash-table''`)`
 
-Returns a newly allocated hash table using ''comparator''.  Calls ''proc'' for every association in ''hashtable'' with two arguments, the key and the value of the association, and enters all associations  for which ''proc'' returns true into the new hash table.
+Returns a newly allocated hash table using ''comparator''.  Calls ''proc'' for every association in ''hash-table'' with two arguments, the key and the value of the association, and enters all associations  for which ''proc'' returns true into the new hash table.
 
-`(hash-table-partition `''comparator proc hashtable''`)`
+`(hash-table-partition `''comparator proc hash-table''`)`
 
-Returns two values, both newly allocated hash tables using ''comparator''.  Calls ''proc'' for every association in ''hashtable'' with two arguments, the key and the value of the association, and enters all associations for which ''proc'' returns true into the first hash table and all other associations into the second hash table.
+Returns two values, both newly allocated hash tables using ''comparator''.  Calls ''proc'' for every association in ''hash-table'' with two arguments, the key and the value of the association, and enters all associations for which ''proc'' returns true into the first hash table and all other associations into the second hash table.
 
 === Copying and conversion ===
 
@@ -367,11 +367,11 @@ The following procedures allow hash tables to be used as functions with mutable 
 
 `(hash-table-accessor `''hash-table'' [[|''failure'' [ ''success'' ]] ]`)`
 
-Curried version of `hash-table-ref`.  Returns a procedure of one argument, a key, which returns what `hash-table-ref` returns when invoked with the ''hashtable'' argument, the passed key, and the ''failure'' and ''success'' arguments.
+Curried version of `hash-table-ref`.  Returns a procedure of one argument, a key, which returns what `hash-table-ref` returns when invoked with the ''hash-table'' argument, the passed key, and the ''failure'' and ''success'' arguments.
 
 `(hash-table-accessor/default `''hash-table default''`)`
 
-Curried version of `hash-table-ref/default`.  Returns a procedure of one argument, a key, which returns what `hash-table-ref/default` returns when invoked with the ''hashtable'' argument, the passed key, and the ''default'' argument.
+Curried version of `hash-table-ref/default`.  Returns a procedure of one argument, a key, which returns what `hash-table-ref/default` returns when invoked with the ''hash-table'' argument, the passed key, and the ''default'' argument.
 
 === Hash tables as sets ===
 
