@@ -22,7 +22,7 @@ This WG2 proposal defines an interface to hash tables, which are widely recogniz
 
 == Rationale ==
 
-Hash tables themselves don't really need defending: almost all dynamically typed languages, from awk to !JavaScript to Lua to Perl to Python to Common Lisp, and including many Scheme implementations, have them in some form as a fundamental data structure.  Therefore, what needs to be defended is not the data structure but the procedures.  The present proposal is at an intermediate level.  It supports a great many convenience procedures on top of the basic hash table interfaces provided by [[http://srfi.schemers.org/srfi-69/srfi-69.html|SRFI 69]] and [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-14.html|R6RS]].  Nothing in it adds power to what those interfaces provide, but it does add convenience in the form of pre-debugged routines to do various common things, and even some things not so commonly done but useful.
+Hash tables themselves don't really need defending: almost all dynamically typed languages, from awk to !JavaScript to Lua to Perl to Python to Common Lisp, and including many Scheme implementations, provide them in some form as a fundamental data structure.  Therefore, what needs to be defended is not the data structure but the procedures.  The present proposal is at an intermediate level.  It supports a great many convenience procedures on top of the basic hash table interfaces provided by [[http://srfi.schemers.org/srfi-69/srfi-69.html|SRFI 69]] and [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-14.html|R6RS]].  Nothing in it adds power to what those interfaces provide, but it does add convenience in the form of pre-debugged routines to do various common things, and even some things not so commonly done but useful.
 
 There is no mandated support for thread safety, immutability, or weakness, though there is a semi-portable hook for specifying these features.
 
@@ -127,7 +127,7 @@ It is an error if the procedure argument of `hash-table-find`, `hash-table-count
 
 * [[#Hashtablesassets|Hash tables as sets]]: `hash-table-union!`, `hash-table-intersection!`, `hash-table-difference!`
 
-* [[#Exceptions|Exceptions]]: `hash-table-not-found?`
+* [[#Exceptions|Exceptions]]: `hash-table-key-not-found?`
 
 === Constructors ===
 
@@ -135,9 +135,9 @@ It is an error if the procedure argument of `hash-table-find`, `hash-table-count
 
 `(make-hash-table `''equality-predicate'' [[|''hash-function'' ]] [[|''arg'' ... ]]`)`
 
-Returns a newly allocated hash table whose equality predicate and hash function are extracted from ''comparator''.  Alternatively, for backward compatibility the equality predicate and hash function can be passed as separate arguments; this usage is deprecated.  If an equality predicate rather than a comparator is provided, the ability to omit the ''hash'' argument is severely limited.  The implementation must provide hash functions appropriate for use with the predicates `eq?`, `eqv?`, `equal?`, `string=?`, and `string-ci=?`, and may extend this list.  But if any other equality predicate is provided without a hash function, an error should be signaled.
+Returns a newly allocated hash table whose equality predicate and hash function are extracted from ''comparator''.  Alternatively, for backward compatibility the equality predicate and hash function can be passed as separate arguments; this usage is deprecated.  If an equality predicate rather than a comparator is provided, the ability to omit the ''hash'' argument is severely limited.  The implementation must provide hash functions appropriate for use with the predicates `eq?`, `eqv?`, `equal?`, `string=?`, and `string-ci=?`, and may extend this list.  But if any unknown equality predicate is provided without a hash function, an error should be signaled.
 
-It is an error unless the equality predicate accepts two arguments and returns a truth value, and the hash function accepts one argument in the domain of the equality predicate and returns a non-negative exact integer.  It is the programmer's responsibility to ensure that two objects passed to the hash function return the same value if the same objects passed to the equality predicate return true; however, the converse is not required.
+It is an error unless the equality predicate accepts two arguments and returns a truth value, and the hash function accepts one argument in the domain of the equality predicate and returns a non-negative exact integer.  It is the programmer's responsibility to ensure that if two objects are the same in the sense of equality predicate, then they  return the same value when passed to the hash function.  However, the converse is not required.
 
 If the equality predicate, whether passed as part of a comparator or explicitly, is more fine-grained (in the sense of R7RS-small section 6.1) than `equal?`, the implementation is free to ignore the programmer-specified hash function and use something implementation-dependent.  This allows the use of addresses as hashes, in which case the keys must be rehashed if they are moved by the garbage collector.
 
@@ -162,6 +162,8 @@ Returns `#t` if ''obj'' is a hash table, and `#f` otherwise.  (SRFI 69 `hash-tab
 `(hash-table-contains? `''hash-table key''`)`
 
 Returns `#t` if there is any association to ''key'' in ''hash-table'', and `#f` otherwise.  Must execute in expected amortized constant time.  (SRFI 69 `hash-table-exists?`; R6RS `hashtable-contains?`)
+
+Note:  The following three predicates do not obey the trichotomy law and therefore do not constitute a total order on hash tables.
 
 `(hash-table=? `''value=? hash-table,,1,, hash-table,,2,,''`)`
 
@@ -189,7 +191,7 @@ The following procedures, given a key, return the corresponding value.
 
 `(hash-table-ref `''hash-table key'' [[|''failure'' [ ''success'' ]] ]`)`
 
-Extracts the value associated to ''key'' in ''hash-table'', invokes the procedure ''success'' on it, and returns its result.  Otherwise, invokes the procedure ''failure'' on no arguments and returns its result.  If ''success'' is not provided and is required, the value itself is returned.  If ''failure'' is not provided but is required, an error that satisfies `hash-table-not-found?` is signaled.  Must execute in expected amortized constant time, not counting the time to call the procedures.  (SRFI 69 `hash-table-ref`)
+Extracts the value associated to ''key'' in ''hash-table'', invokes the procedure ''success'' on it, and returns its result; if ''success'' is not provided, then the value itself is returned.  Otherwise, `hash-table-ref` invokes the procedure ''failure'' on no arguments and returns its result; if ''failure'' is not provided, then an error that satisfies `hash-table-key-not-found?` is signaled.  Must execute in expected amortized constant time, not counting the time to call the procedures.  (SRFI 69 `hash-table-ref`)
 
 `(hash-table-ref/default `''hash-table key default''`)`
 
@@ -212,11 +214,11 @@ Repeatedly mutates ''hash-table'', setting each ''key'' to the ''value'' that fo
 
 `(hash-table-set-entries! `''hash-table keys-list values-list''`)`
 
-Repeatedly mutates ''hash-table'', setting each element of ''keys-list'' to the corresponding element of ''values-list'' in the order given.  Excess keys or values are ignored.
+Repeatedly mutates ''hash-table'', setting each element of ''keys-list'' to the corresponding element of ''values-list'' in the order in which they are specified.  Excess keys or values are ignored.
 
 `(hash-table-set-alist! `''hash-table alist''`)`
 
-Repeatedly mutates ''hash-table'' using the associations of ''alist'' in the order given.
+Repeatedly mutates ''hash-table'' using the associations of ''alist'' in the reverse of the order in which they appear in ''alist''.
 
 `(hash-table-delete! `''hash-table key''`)`
 
@@ -268,7 +270,7 @@ Semantically equivalent to, but may be implemented more efficiently than, the fo
 
 `(hash-table-pop! `''hash-table key''`)`
 
-If an association with ''key'' is found in ''hash-table'', then return the car of the value, and update the value to its own cdr.  If the value is not found or is not a pair, signal an error.
+If an association with ''key'' is found in ''hash-table'', then return the car of the value, and update the value to its own cdr.  If the value is not found, an error satisfied by `hash-table-key-not-found` is signaled.  It is an error if the value is not a pair.
 
 `(hash-table-search! `''hash-table key failure success''`)`
 
@@ -389,7 +391,7 @@ Deletes the associations of ''hash-table,,1,,'' whose keys are also present in '
 
 === Exceptions ===
 
-`(hash-table-not-found? `''obj''`)`
+`(hash-table-key-not-found? `''obj''`)`
 
 Returns `#t` if ''obj'' is an object raised by the `hash-table-ref` procedure or any other procedure that accesses hash tables when the key is not found and there is no failure procedure, and `#f` otherwise.
 
@@ -401,7 +403,7 @@ The sample implementation (''not yet written'') is designed to be easily layered
 
 * S7 does not support arbitrary equality predicates: the implementation chooses a predicate based on the nature of the keys.
 
-* Guile supports arbitrary equality predicates, but in that case the equality predicate and hash function must be passed explicitly to all the primitive procedures.  Consequently, hash tables corresponding to the present proposal would have to be records containing a Guile hash table, an equality predicate, and a hash function, which means that they could not interoperate directly with naked Guile hash tables.
+* Guile supports arbitrary equality predicates, but the equality predicate and hash function must be passed explicitly to all the primitive procedures.  Consequently, hash tables corresponding to the present proposal would have to be records containing a Guile hash table, an equality predicate, and a hash function, which means that they could not interoperate directly with naked Guile hash tables.
 
 * SISC, Scheme48/scsh, RScheme, Scheme 9, and Rep do not provide any procedure that copies a hash table, nor any way of inspecting it to determine its equality predicates and hash functions so that it can be re-created.
 
