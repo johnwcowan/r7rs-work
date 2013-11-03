@@ -266,7 +266,7 @@ Must execute in expected amortized constant time.  Returns an unspecified value.
 
 Semantically equivalent to, but may be implemented more efficiently than, the following code:
 
-  `(hash-table-update!/default `''hash-table key''` (lambda (x) (cons `''value''` x)) '())`
+  `(hash-table-update!/default `''hash-table key''` (lambda (x) (cons `''value''` x)) (list `''value''`))`
 
 `(hash-table-pop! `''hash-table key''`)`
 
@@ -345,9 +345,25 @@ Calls ''proc'' for every association in ''hash-table'' with three arguments: the
 
 Returns a newly allocated hash table using ''comparator''.  Calls ''proc'' for every association in ''hash-table'' with two arguments, the key and the value of the association, and enters all associations  for which ''proc'' returns true into the new hash table.
 
+`(hash-table-remove `''comparator proc hash-table''`)`
+
+Returns a newly allocated hash table using ''comparator''.  Calls ''proc'' for every association in ''hash-table'' with two arguments, the key and the value of the association, and enters all associations  for which ''proc'' returns false into the new hash table.
+
+`(hash-table-filter! `''comparator proc hash-table''`)`
+
+Calls ''proc'' for every association in ''hash-table'' with two arguments, the key and the value of the association, and removes all associations  for which ''proc'' returns false from ''hash-table'', which is returned.
+
 `(hash-table-partition `''comparator proc hash-table''`)`
 
 Returns two values, both newly allocated hash tables using ''comparator''.  Calls ''proc'' for every association in ''hash-table'' with two arguments, the key and the value of the association, and enters all associations for which ''proc'' returns true into the first hash table and all other associations into the second hash table.
+
+`(hash-table-any? `''comparator proc hash-table''`)`
+
+Calls ''proc'' for as many associations in ''hash-table'' as necessary with two arguments, the key and the value of the association.  If any invocation of ''proc'' returns true, `hash-table-any?` returns `#t`; otherwise it returns `#f`.
+
+`(hash-table-every? `''comparator proc hash-table''`)`
+
+Calls ''proc'' for as many associations in ''hash-table'' as necessary with two arguments, the key and the value of the association.  If every invocation of ''proc'' returns true, `hash-table-any?` returns `#t`; otherwise it returns `#f`.
 
 === Copying and conversion ===
 
