@@ -21,5 +21,3 @@ See NumericTowerManisComments for Vincent Manis's comments on an earlier version
 See also ComplexRepresentations for information on which Schemes support exact, inexact, and mixed-exactness complex numbers.
 
 See also FloatPrecision for information on the different precisions of inexact numbers that some Schemes support.
-
-See also FakeComplex for support of `real-part` and `imag-part` on Schemes without complex numbers.
