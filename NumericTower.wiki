@@ -2,19 +2,22 @@
 
 This is an analysis of the R5RS provision that the full numeric tower may be subsetted.  Four boolean feature settings characterize different kinds of numeric towers: `exactness-preserving`, `ratios`, `inexact`, and `complex`.  These refer respectively to the closure of exact numbers under rational operations (except `/`), exact non-integer values, inexact rationals, and non-real numbers.
 
-There are therefore 16 possible numeric towers.  8 of them are known to have implementations, as shown below.  I write `+` if a feature is present and `-` if it is absent, and give a general description of the resulting tower and some Scheme implementations that provide it.
+There are therefore 16 possible numeric towers.  9 of them are known to have implementations, as shown below.  I write `+` if a feature is present and `-` if it is absent, and give a general description of the resulting tower and some Scheme implementations that provide it.
 
 ||`exactness-preserving`||`ratios`||`inexact`||`complex`||Description||Implementations
 ||-||-||-||-||A "toy" tower with bounded exact integers only (possibly appropriate where no numerical work will be done)||!SigScheme*||
-||-||-||+||-||Fixnums and flonums (all arithmetic runs in essentially constant time)||Plain Chicken, Shoe*, !TinyScheme*, RScheme, BDC*, XLisp*, Schemik*, VX, SXM*, Inlab, Sixx, Sizzle, Stalin (also Elisp*, C*)||
+||-||-||+||-||Fixnums and flonums (all arithmetic runs in essentially constant time)||Plain Chicken, Shoe*, !TinyScheme*, RScheme, JScheme*, BDC*, XLisp*, Schemik*, VX, SXM*, Inlab, Llava, Sixx, Sizzle, Dfsch*, Stalin (also Elisp*, C*)||
+||-||+||+||1||Limited-range exact and inexact real numbers||NexJ (also Java)||
 ||-||+||+||+||Limited-range exact and inexact numbers||S7, Wraith||
-||+||-||+||-||Exact integers and inexact real numbers (a good all-round compromise)||Bigloo, Scheme 9, Elk (also ISLisp)||
+||+||-||+||-||Exact integers and inexact real numbers||Bigloo, Scheme 9, Elk (also ISLisp)||
 ||+||-||+||+||Exact integers, inexact real numbers, and inexact complex numbers||SCM||
 ||+||+||-||-||Exact rational numbers only (reasonable for some purposes, but will often run very slowly without inexact support, so unsuitable for scientific-type work)||Dream, Oaklisp, Owl Lisp||
-||+||+||+||-||Real numbers only||Psyche, Ikarus, Rep (also Clojure)||
+||+||+||+||-||Real numbers only||Psyche, Ikarus, Rep, Dfsch (also Clojure)||
 ||+||+||+||+||Full numeric tower||Racket, Gauche, MIT, Gambit, Chicken with the `numbers` egg, Scheme48/scsh, Kawa, SISC, Chibi, Guile, Chez, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, STklos, KSi, UMB, Spark (also R6RS, Common Lisp, Pure)||
 
 *These systems are technically exactness-preserving, but silently return the wrong answers when their arithmetic operations overflow.
+
+In my opinion, the reasonable general-purpose towers are --+- (fixnums and flonums), +-+- (fixnums, bignums, and flonums), and ++++ (full).
 
 See NumericTowerManisComments for Vincent Manis's comments on an earlier version of this page.
 
