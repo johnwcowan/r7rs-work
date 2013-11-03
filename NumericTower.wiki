@@ -11,7 +11,7 @@ There are therefore 16 possible numeric towers.  8 of them are known to have imp
 ||+||-||+||-||Exact integers and inexact real numbers (a good all-round compromise)||Bigloo, Scheme 9, Elk (also ISLisp)||
 ||+||-||+||+||Exact integers, inexact real numbers, and inexact complex numbers||SCM||
 ||+||+||-||-||Exact rational numbers only (reasonable for some purposes, but will often run very slowly without inexact support, so unsuitable for scientific-type work)||Dream, Oaklisp, Owl Lisp||
-||+||+||+||-||Real numbers only||Psyche, Ikarus, Rep, Elk (also Clojure)||
+||+||+||+||-||Real numbers only||Psyche, Ikarus, Rep (also Clojure)||
 ||+||+||+||+||Full numeric tower||Racket, Gauche, MIT, Gambit, Chicken with the `numbers` egg, Scheme48/scsh, Kawa, SISC, Chibi, Guile, Chez, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, STklos, KSi, UMB, Spark (also R6RS, Common Lisp, Pure)||
 
 *These systems are technically exactness-preserving, but silently return the wrong answers when their arithmetic operations overflow.
@@ -21,3 +21,5 @@ See NumericTowerManisComments for Vincent Manis's comments on an earlier version
 See also ComplexRepresentations for information on which Schemes support exact, inexact, and mixed-exactness complex numbers.
 
 See also FloatPrecision for information on the different precisions of inexact numbers that some Schemes support.
+
+See also FakeComplex for support of `real-part` and `imag-part` on Schemes without complex numbers.
