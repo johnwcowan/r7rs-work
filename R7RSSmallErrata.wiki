@@ -48,3 +48,5 @@ Errata from the [[http://trac.sacrideo.us/wg/attachment/wiki/WikiStart/r7rs.pdf|
 }}}
 
 7. In Section 7.1.1, the lexical rule <special initial> incorrectly omits `@`.
+
+8. Bibliographic reference ![13] should link to [[http://srfi.schemers.org/srfi-4/srfi-4.html|SRFI 4]].
