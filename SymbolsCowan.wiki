@@ -1,4 +1,4 @@
-This WG2 proposal extends Scheme symbols in a variety of traditional Lisp ways: it provides uninterned symbols, symbol values, and property lists.  It can be implemented portably on top of standard Scheme symbols, provided that the `symbol?`, `symbol=?`, and `symbol->string` procedures are redefined to deal with uninterned symbols as well as standard symbols.  For a high-quality implementation, a record facility is needed for uninterned symbols, and a hash table or similar lookup table to associate standard symbols with their values and property lists.
+This WG2 proposal extends Scheme symbols in a variety of traditional Lisp ways: it provides uninterned symbols and property lists.  It can be implemented portably on top of standard Scheme symbols, provided that the `symbol?`, `symbol=?`, and `symbol->string` procedures are redefined to deal with uninterned symbols as well as standard symbols.  For a high-quality implementation, a record facility is needed for uninterned symbols, and a hash table or similar lookup table to associate standard symbols with their property lists.
 
 == Uninterned symbols ==
 
@@ -39,16 +39,6 @@ Return the name of ''symbol'' if it is a standard symbol, or its unique name if 
 `(gensym ` [[|''string'' ]] `)`
 
 Returns a newly allocated uninterned symbol whose human-readable name is distinct from that of any symbol returned by a previous call to `gensym`.  If ''string'' is present, it is used as a prefix of the human-readable name.
-
-== Symbol values ==
-
-`(symbol-ref `''symbol''`)`
-
-Returns an object which is the value of ''symbol''.  The value may or may not have anything to do with the global binding of the identifier corresponding to ''symbol''.
-
-`(symbol-set! `''symbol obj''`)`
-
-Changes the value of ''symbol'' to ''obj''.  This may or may not affect the global binding of the identifier corresponding to ''symbol''.  An unspecified value is returned.
 
 == Property lists ==
 
