@@ -101,7 +101,7 @@ Some of the language of the present proposal is copied from SRFI 69 with thanks 
 
 The procedures in the present proposal are in the `(srfi xxx)` library (or `(srfi :xxx)` on R6RS).  However, the library in the sample implementation is currently named `(hash-tables)`.
 
-All references to "executing in expected amortized constant time" presuppose that a satisfactory hash function has been supplied by the user.  Arbitrary or non-idempotent hash functions can make a hash of the implementation.
+All references to "executing in expected amortized constant time" presuppose that a satisfactory hash function is available.  Arbitrary or non-idempotent hash functions can make a hash of the implementation.
 
 Hash tables are allowed to cache the results of calling the equality predicate and hash function, so programs cannot rely on the hash function being called exactly once for every primitive hash table operation: it may be called zero, one, or more times.
 
