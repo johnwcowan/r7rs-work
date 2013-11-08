@@ -1,12 +1,12 @@
 = Welcome to the Scheme Working Groups =
 
-'''The [[http://trac.sacrideo.us/wg/raw-attachment/wiki/WikiStart/r7rs.pdf|final R7RS-small report]] has been submitted to the Scheme Language Steering Committee for endorsement.'''
+'''The [[http://trac.sacrideo.us/wg/raw-attachment/wiki/WikiStart/r7rs.pdf|final R7RS-small report]] has been endorsed by a unanimous vote of the Scheme Language Steering Committee.  A formal announcement will be made at [[http://webyrd.net/scheme-2013|Scheme 2013]].  The [[http://trac.sacrideo.us/wg/raw-attachment/wiki/WikiStart/r7rs-small-spec.zip|TeX source code for the report]] has been released by the editors.'''
+
+Comments and discussion are welcome at the [[http://lists.scheme-reports.org/cgi-bin/mailman/listinfo/scheme-reports|public discussion list]].  Errata for the final draft have been posted at [wiki:R7RSSmallErrata].
 
 For a complete list of local wiki pages, see TitleIndex (alphabetic) or RecentChanges (most recent first).
 
-Click on "Attachments" below to access [[http://trac.sacrideo.us/wg/raw-attachment/wiki/WikiStart/r7rs.pdf|the final R7RS-small report]] as well as the first-year progress report and all draft reports.
-
-Comments are welcome at the [[http://lists.scheme-reports.org/cgi-bin/mailman/listinfo/scheme-reports|public discussion list]].
+Click on "Attachments" below to access the first-year progress report and all draft reports.
 
 == Working Group 1 ([[http://www.scheme-reports.org/2009/working-group-1-charter.html|Charter]]) ==
 
