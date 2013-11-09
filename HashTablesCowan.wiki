@@ -419,8 +419,6 @@ The sample implementation (''not yet written'') is designed to be easily layered
 
 * S7 does not support arbitrary equality predicates: the implementation chooses a predicate based on the nature of the keys.
 
-* Guile supports arbitrary equality predicates, but the equality predicate and hash function must be passed explicitly to all the primitive procedures.  Consequently, hash tables corresponding to the present proposal would have to be records containing a Guile hash table, an equality predicate, and a hash function, which means that they could not interoperate directly with naked Guile hash tables.
-
 * SISC, Scheme48/scsh, RScheme, Scheme 9, and Rep do not provide any procedure that copies a hash table, nor any way of inspecting it to determine its equality predicates and hash functions so that it can be re-created.
 
 * SLIB hash tables are vectors, not disjoint objects.
@@ -429,4 +427,6 @@ The sample implementation (''not yet written'') is designed to be easily layered
 
 As a result, the sample implementation assumes the existence of a SRFI 69 implementation, and imports just the core procedures `make-hash-table`, `hash-table?`, `hash-table-ref/default`, `hash-table-set!`, `hash-table-delete!`, `hash-table-size`, `hash-table-walk`, and `hash-table-copy`.  New implementers who need to support the present proposal from scratch can take the implementations of these procedures from the SRFI 69 implementation and add them to this implementation.
 
-To layer the implementation directly on top of R6RS, the corresponding procedures need to be imported from `(rnrs hashtables)`.  See the file `hash-tables.sls` in the implementation.   It should also be possible to adapt the sample implementation for use on Racket, MIT, Gambit, and Bigloo native hash tables, all of which provide at least the above core.
+To layer the implementation directly on top of R6RS, the corresponding procedures need to be imported from `(rnrs hashtables)`.  See the file `hash-tables.sls` in the implementation.   It should also be straightforward to adapt the sample implementation for use on Racket, MIT, Gambit, and Bigloo native hash tables, all of which provide at least the above core.
+
+Native Guile hash tables are a special case.  The equivalents of `hash-table-ref/default`, `hash-table-set!`, and `hash-table-delete` require the equality predicate and hash function to be passed to them explicitly (although there are utility functions for `eq?`, `eqv?`, and `equal?` hash tables).  Consequently, hash tables corresponding to the present proposal would have to be records containing a Guile hash table, an equality predicate, and a hash function, which means that they could not interoperate directly with native Guile hash tables.
