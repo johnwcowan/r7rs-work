@@ -1,0 +1,9 @@
+This is a test of the order in which Scheme REPLs evaluate constant arguments.  It doesn't necessarily apply when arguments have different levels of complexity, nor does it apply to compiled code.  The test is `((lambda x x) (display "l") (display "t") (display "r"))`.  In some cases, procedures other than `display` were used.
+
+Displays `ltr`: Racket, Gauche, Gambit, Chicken, Bigloo, Scheme48/scsh, Kawa, SCM, Vicare, Ypsilon, Mosh, !IronScheme, NexJ, STklos, KSi, !SigScheme, Scheme 9, RScheme, S7, Rep, Schemik, Elk, UMB, Sizzle, !FemtoLisp, Dfsch, Inlab, Foment
+
+Displays `rtl`: MIT, BDC, XLisp, SXI, Chibi
+
+Displays `tlr`: Chez
+
+Undeterminable: Llava, Owl Lisp
