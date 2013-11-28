@@ -96,13 +96,13 @@ It is an error to specify any other identifier.
 
 === Types ===
 
-`(type ''identifier'' ''predicate'')
+`(type `''identifier'' ''predicate''`)`
 
 The implementation may assume that ''identifier'' always has a value that will satisfy the predicate bound to ''predicate''.  If `#t` appears instead of ''predicate'', any value will satisfy it, but the absence of a value will not.
 
-`(procedure-type ''identifier return-predicate arg-predicate'' ... `)`
+`(procedure-type `''identifier return-predicate arg-predicate'' ... `)`
 
-`(procedure-type ''identifier` ( `''return-predicate'' ...`) `''arg-predicate'' ... `)`
+`(procedure-type `''identifier` ( `''return-predicate'' ...`) `''arg-predicate'' ... `)`
 
 The implementation may assume that ''identifier'' always has a value that is a procedure.  When this procedure is invoked, its value satisfies the predicate bound to ''return-predicate'' (for the first format) or its values satisfy the predicates bound to the ''return-predicates'' (for the second format).  In addition, its arguments (or an initial subsequence of them) satisfy the ''arg-predicates''.  f `#t` appears instead of a predicate identifier, any value will satisfy it, but the absence of a value will not.
 
@@ -157,3 +157,9 @@ This import set automatically renames identifiers in the given ''import-set'': a
 For example, if the library `(foo)` exports identifiers `foo-a`, `foo-b`, and `foo-c`, then `(import (drop-prefix (foo) foo-)` will import them under the names of `a`, `b`, and `c` respectively.  Chibi Scheme already supports this type of import set.
 
 See also InterfacesCowan.
+
+== Features ==
+
+`(provide ` ''feature'' ...`)`
+
+As a consequence of loading this library, the specified ''features'' are made immediately available to future `cond-expand` library declarations, to `cond-expand` syntax, and to the `features` procedure.
