@@ -51,6 +51,30 @@ Errata from the [[http://trac.sacrideo.us/wg/attachment/wiki/WikiStart/r7rs.pdf|
 
 8. Bibliographic reference ![13] should link to [[http://srfi.schemers.org/srfi-4/srfi-4.html|SRFI 4]].
 
-9. In section 4.2.2, add "interleaving evaluations with assignments" to the definition of `letrec*` and possibly a new example (still under discussion).
+9. In section 4.2.2, add "interleaving evaluations with assignments" to the definition of `letrec*`.  Replace the meaningless example with this:
+
+{{{
+;; Returns the arithmetic, geometric, and
+;; harmonic means of a nested list of numbers
+(define (means ton)
+  (letrec*
+     ((mean
+        (lambda (f g)
+          (f (/ (sum g ton) n))))
+      (sum
+        (lambda (g ton)
+          (if (null? ton)
+            (+)
+            (if (number? ton)
+                (g ton)
+                (+ (sum g (car ton))
+                   (sum g (cdr ton)))))))
+      (n (sum (lambda (x) 1) ton)))
+    (values (mean values values)
+            (mean exp log)
+            (mean / /))))
+}}}
+
+Note that evaluating `(means '(3 (1 4)))` returns three values: 8/3, 2.28942848510666 (approximately), and 36/19.
 
 10.  In section 7.1.1, add bytevectors to the alternatives for the <pattern datum> rule in 7.1.
