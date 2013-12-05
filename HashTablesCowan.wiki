@@ -51,9 +51,9 @@ It would be trivial to provide the R6RS names (or for that matter the SRFI 69 na
 
 === Reflection and hash-function procedures ===
 
-SRFI 69 provides reflective procedures that, given a hash table, returns its equality predicate and hash function, as well as procedures that expose the implementation's hash functions suitable for the equality predicates `eq?`, `equal?`, `string=?`, and `string-ci=?`.  The second of these can also be used for `eqv?`.  However, if the `eq?` hash function directly exposes the address of the key, and the garbage collector moves the hash table, it must also rehash its keys.  In such implementations, the `hash-by-identity` procedure is not idempotent, which makes it dangerous to use outside the context of implementation-provided hash tables.
+SRFI 69 provides reflective procedures that, given a hash table, returns its equality predicate and hash function, as well as procedures that expose the implementation's hash functions suitable for the equality predicates `eq?`, `equal?`, `string=?`, and `string-ci=?`.  The second of these can also be used for `eqv?`.  However, if the `eq?` hash function directly exposes the address of the key, and the garbage collector moves a key, it must also rehash every hash table containing that key.  In such implementations, the `hash-by-identity` procedure is not idempotent, which makes it dangerous to use outside the context of implementation-provided hash tables.
 
-R6RS eliminates this issue by providing separate constructors for `eq?` and `eqv?` hash tables, and refusing to expose the hash functions for them.  However, the presents proposal takes the radical option of providing neither reflection nor implementation-based hash functions.  They can of course be provided by implementations as extensions with suitable warnings against inappropriate uses.
+R6RS eliminates this issue by providing separate constructors for `eq?` and `eqv?` hash tables, and refusing to expose the hash functions for them.  However, the presents proposal takes the radical option of exposing neither reflection nor implementation-based hash functions.  Instead, implementations are permitted to ignore user-provided hash functions in certain circumstances if they have address-based hash functions available.  They can of course be provided by implementations as extensions with suitable warnings against inappropriate uses.
 
 === Common Lisp compatibility ===
 
@@ -83,9 +83,9 @@ The procedures in the present proposal are drawn primarily from SRFI 69 and R6RS
 
 * The procedures `hash-table-accessor` and `hash-table-accessor/default` were loosely inspired by the finite functions of [[https://code.google.com/p/owl-lisp/wiki/OwlManual#Finite_Functions|Owl Lisp]].
 
-* The hash table comparison procedures, and the procedures `hash-table-map`, `hash-table-map-entries`, `hash-table-filter`, and `hash-table-partition`, were suggested by [[http://hackage.haskell.org/packages/archive/containers/0.5.2.1/doc/html/Data-Map-Strict.html|Haskell's Data.Map.Strict module]].
+* The hash table comparison procedures and the procedures `hash-table-map`, `hash-table-map-entries`, `hash-table-filter`, and `hash-table-partition` were suggested by [[http://hackage.haskell.org/packages/archive/containers/0.5.2.1/doc/html/Data-Map-Strict.html|Haskell's Data.Map.Strict module]].
 
-The procedures `hash-table=?`, `hash-table-set-entries!`, `hash-table-replace!`, `hash-table-replace!/default`, `hash-table-search!`, `hash-table-update-each!`, `hash-table-intersection!`, and `hash-table-difference!` were added for completeness. 
+The mutation procedures `hash-table-set-entries!`, `hash-table-replace!`, `hash-table-replace!/default`, `hash-table-search!`, `hash-table-update-each!`, `hash-table-intersection!`, and `hash-table-difference!` were added for completeness. 
 
 The native hash tables of [[http://web.mit.edu/scheme_v9.0.1/doc/mit-scheme-ref/Hash-Tables.html|MIT]],  [[http://www.gnu.org/software/guile/manual/html_node/Hash-Table-Reference.html|Guile]], [[http://sisc-scheme.org/manual/html/ch09.html#Hashtables|SISC]], [[http://www-sop.inria.fr/indes/fp/Bigloo/doc/bigloo-7.html#Hash-Tables|Bigloo]], [[http://s48.org/0.57/manual/s48manual_44.html|Scheme48]], [[http://www.cs.indiana.edu/scheme-repository/SCM/slib_2.html#SEC13|SLIB]], [[http://www.rscheme.org/rs/b/0.7.3.4/5/html/c2143.html|RScheme]], [[https://ccrma.stanford.edu/software/snd/snd/s7.html#hashtables|Scheme 7]], [[https://github.com/barak/scheme9/blob/master/lib/hash-table.scm|Scheme 9]], [[http://www.fifi.org/cgi-bin/info2www?(librep)Hash+Tables|Rep]], and [[https://code.google.com/p/femtolisp/wiki/APIReference|FemtoLisp]] were also investigated, but no additional procedures were incorporated.
 
