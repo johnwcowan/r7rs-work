@@ -8,7 +8,7 @@ y)
 
 which in R5RS and earlier is defined to be the same as the `letrec` version, and in R6RS and R7RS is defined to be the same as the `letrec*` version.
 
-Note: UMB crashes with all these constructions.
+Note: UMB does not support any of these constructions.
 
 
 == letrec ==
