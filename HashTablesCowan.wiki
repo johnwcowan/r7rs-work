@@ -111,7 +111,7 @@ It is an error if the procedure argument of `hash-table-find`, `hash-table-count
 
 * [[#Constructors|Constructors]]: `make-hash-table`, `hash-table`, `hash-table-unfold`
 
-* [[#Predicates|Predicates]]: `hash-table?`, `hash-table-contains?`, `hash-table=?`, `hash-table<?`, `hash-table>?`, `hash-table<=?`, `hash-table>=?`
+* [[#Predicates|Predicates]]: `hash-table?`, `hash-table-contains?`, `hash-table-empty?`, `hash-table=?`, `hash-table<?`, `hash-table>?`, `hash-table<=?`, `hash-table>=?`
 
 * [[#Accessors|Accessors]]: `hash-table-ref`, `hash-table-ref/default`
 
@@ -162,6 +162,10 @@ Returns `#t` if ''obj'' is a hash table, and `#f` otherwise.  (SRFI 69 `hash-tab
 `(hash-table-contains? `''hash-table key''`)`
 
 Returns `#t` if there is any association to ''key'' in ''hash-table'', and `#f` otherwise.  Must execute in expected amortized constant time.  (SRFI 69 `hash-table-exists?`; R6RS `hashtable-contains?`)
+
+`(hash-table-empty? `''hash-table''`)`
+
+Returns `#t` if ''hash-table'' contains no associations, and `#f` otherwise.
 
 Note:  The following three predicates do not obey the trichotomy law and therefore do not constitute a total order on hash tables.
 
