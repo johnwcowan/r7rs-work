@@ -16,7 +16,4 @@ Evaluates to 33: Racket, Gambit, Guile, Kawa, SISC, Chez, Mosh, !IronScheme, SXM
 
 `include` is undefined: MIT, Bigloo, Scheme48/scsh, SCM, Vicare, Larceny, Ypsilon, Scheme 9
 
-No syntax-rules macros: NexJ, JScheme, !SigScheme, Shoe, !TinyScheme, Dream, BDC, XLisp, Schemik, Elk, UMB, Oaklisp, Llava, Sizzle, !FemtoLisp, Dfsch, Inlab
-
-Uninterpretable error output: KSi, RScheme
-
+No syntax-rules macros: NexJ, JScheme, KSi, RScheme, !SigScheme, Shoe, !TinyScheme, Dream, BDC, XLisp, Schemik, Elk, UMB, Oaklisp, Llava, Sizzle, !FemtoLisp, Dfsch, Inlab
