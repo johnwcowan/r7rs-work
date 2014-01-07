@@ -1,6 +1,4 @@
-I've been poking around the usual list of Schemes, trying to find out
-what the behavior is when an identifier is defined as a value and then
-redefined as syntax.  For example:
+This example determines what the behavior of the usual implementations is when an identifier is defined as a value and then redefined as syntax.  For example:
 
 {{{
         (define (noodle) (foodle))
@@ -15,16 +13,14 @@ redefined as syntax.  For example:
         (noodle) => ??
 }}}
 
-I tested Racket, Gauche, MIT, Chicken, Bigloo, Scheme48/scsh, Guile 2.0,
-Kawa, SISC, Chibi, Chez, SCM, !IronScheme, Ikarus, Larceny, Ypsilon, Mosh,
-STklos, and Scheme 9.
+Essentially all the implementations that support `syntax-rules` behave the same way on the first and third calls to `noodle`, returning 23 and 17 respectively.  The exception is Owl Lisp, which has a hyperstatic REPL that disallows all forward references.
 
-All the implementations behave the same way on the first and third calls
-to `noodle`, returning 23 and 17 respectively.  The first definition of
-`noodle` refers to `foodle`, which is undefined, and is therefore assumed to
-be a variable.  (Some but not all Schemes print a warning at this point.)
+The first definition of `noodle` refers to `foodle`, which is undefined, and is therefore assumed to be a variable.  (Guile prints a warning at this point.)  The second definition of `noodle` refers to the current (syntax) definition of `foodle`.  The question is, what happens in the second call of `noodle`, when the first definition of `noodle` is being invoked, but the definition of `foodle` has changed out from under it?
 
-The second definition of `noodle` refers to the current (syntax) definition
-of `foodle`.  All but Guile and Chibi also return 23 on the second call to
-noodle, ignoring the syntax definition.  Guile and Chibi, however, signal
-an error to the effect that a macro was invoked where a function was expected.
+`Noodle` continues to call the old definition of `foodle` and returns 23:  Racket, Gambit, Chicken, Bigloo, Scheme48/scsh, SISC, Chez, Vicare, Larceny, Mosh, !IronScheme, STklos, KSi, !SigScheme, SXM, Chibi
+
+Complains that a non-procedure is being invoked:  Gauche, MIT, Guile, Kawa, SCM, Foment, Scheme 9
+
+Complains that `foodle` is not defined: Ypsilon
+
+No support for `syntax-rules`: NexJ, JScheme, KSi, !SigScheme, Shoe, !TinyScheme, RScheme, S7, BDC, XLisp, Rep, Schemik, UMB, Elk, Llava, Sizzle, !FemtoLisp, Dfsch, Inlab
