@@ -8,7 +8,7 @@ In the following descriptions, ''host'' can be:
 
  * a string in the form of an IPv6 colon-hexadecimal address (if supported by the operating system)
 
- * a string representing  host name to be looked up according to whatever operating system conventions exist, if any
+ * a string representing a host name to be looked up according to whatever operating system conventions exist, if any
 
  * a bytevector of the appropriate length, such as 4 for IPv4 or 16 for IPv6, representing a host address in binary format.
 
@@ -22,7 +22,7 @@ Note that appropriate values may refer to broadcast or multicast addresses.
 
 `(make-network-endpoint `[''host'']` `[''network-port'']`)`
 
-Returns a network endpoint, which may be newly allocated.  If ''network-port'' is omitted or 0, then it is an error unless ''host'' refers to the local host, and the endpoint specifies an unused port to be assigned by the operating system.  If ''network-port'' is present but ''local-address'' is omitted or has the value `#t`, the endpoint specifies the given port on the local host accessed by any address.  Otherwise, the endpoint specifies a particular host and port.  If there is just one argument, it is ''network-port'', as this is the more common case.
+Returns a network endpoint, which may be newly allocated.  If ''network-port'' is omitted or 0, then it is an error unless ''host'' refers to the local host, and the endpoint specifies an unused port to be assigned by the operating system.  If ''network-port'' is present but ''host'' is omitted or has the value `#t`, the endpoint specifies the given port on the local host accessed by any address.  Otherwise, the endpoint specifies a particular host and port.  If there is just one argument, it is ''network-port'', as this is the more common case.
 
 `(network-endpoint? `''obj''`)`
 
