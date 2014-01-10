@@ -41,3 +41,6 @@ Implementations MUST support the following keys:
 
  Specifies the port number as an exact integer or the port name as a string.  The meaning of a string is implementation-dependent, but is intended to be a standardized service name.
 
+ `network-endpoint`::
+
+ Specifies both the host and the port number in the form of a network endpoint object.  See NetworkEndpointsCowan.
