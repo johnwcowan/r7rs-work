@@ -82,3 +82,5 @@ Note that evaluating `(means '(3 (1 4)))` returns three values: 8/3, 2.289428485
 11. Section 1.3.4 refers to "the initial environment" containing `*`, which is not true for programs.  Refer instead to "an environment containing the base library".
 
 12.  An example in section 5.3.3 refers to `integer-sqrt` instead of `exact-integer-sqrt`.
+
+13. In section 4.3.1, the body of a `let-syntax` expression is said to contain "one or more definitions"; it should be "zero or more definitions".
