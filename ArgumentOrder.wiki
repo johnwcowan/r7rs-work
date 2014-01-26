@@ -7,3 +7,21 @@ Displays `rtl`: MIT, BDC, XLisp, SXM, Chibi
 Unpredictable order: Chez
 
 Undeterminable order (no side effects): Owl Lisp
+
+The following C code was also tested:
+
+{{{
+# include <stdio.h>
+
+int yotz(int a, int b, int c) {
+  return a + b + c;
+}
+
+int main() {
+  yotz(printf("l"), printf("t"), printf("r"));
+}
+}}}
+
+Displays `ltr`: Clang
+
+Displays `rtl`: GCC
