@@ -84,3 +84,5 @@ Note that evaluating `(means '(3 (1 4)))` returns three values: 8/3, 2.289428485
 12.  An example in section 5.3.3 refers to `integer-sqrt` instead of `exact-integer-sqrt`.
 
 13. In section 4.3.1, the body of a `let-syntax` expression is said to contain "one or more definitions"; it should be "zero or more definitions".
+
+14. In section 6.6 for char-upcase/downcase/foldcase and 6.7 for string-upcase/downcase/foldcase the reader is referred to UAX #29 but it should be TR #44.
