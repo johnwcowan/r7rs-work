@@ -16,9 +16,7 @@ This WG2 proposal defines an interface to hash tables, which are widely recogniz
 
 == Issues ==
 
- 1. (resolved)
-
- 2. (resolved)
+None at present.
 
 == Rationale ==
 
@@ -53,7 +51,7 @@ It would be trivial to provide the R6RS names (or for that matter the SRFI 69 na
 
 SRFI 69 provides reflective procedures that, given a hash table, returns its equality predicate and hash function, as well as procedures that expose the implementation's hash functions suitable for the equality predicates `eq?`, `equal?`, `string=?`, and `string-ci=?`.  The second of these can also be used for `eqv?`.  However, if the `eq?` hash function directly exposes the address of the key, and the garbage collector moves a key, it must also rehash every hash table containing that key.  In such implementations, the `hash-by-identity` procedure is not idempotent, which makes it dangerous to use outside the context of implementation-provided hash tables.
 
-R6RS eliminates this issue by providing separate constructors for `eq?` and `eqv?` hash tables, and refusing to expose the hash functions for them.  However, the presents proposal takes the radical option of exposing neither reflection nor implementation-based hash functions.  Instead, implementations are permitted to ignore user-provided hash functions in certain circumstances if they have address-based hash functions available.  They can of course be provided by implementations as extensions with suitable warnings against inappropriate uses.
+R6RS eliminates this issue by providing separate constructors for `eq?` and `eqv?` hash tables, and refusing to expose the hash functions for them.  However, the present proposal takes the radical option of exposing neither reflection nor implementation-based hash functions.  Instead, implementations are permitted to ignore user-provided hash functions in certain circumstances if they have address-based hash functions available.  They can of course be provided by implementations as extensions with suitable warnings against inappropriate uses.
 
 === Common Lisp compatibility ===
 
@@ -367,7 +365,7 @@ Calls ''proc'' for as many associations in ''hash-table'' as necessary with two 
 
 `(hash-table-every? `''comparator proc hash-table''`)`
 
-Calls ''proc'' for as many associations in ''hash-table'' as necessary with two arguments, the key and the value of the association.  If every invocation of ''proc'' returns true, `hash-table-any?` returns `#t`; otherwise it returns `#f`.
+Calls ''proc'' for every association in ''hash-table'' with two arguments, the key and the value of the association.  If every invocation of ''proc'' returns true, `hash-table-any?` returns `#t`; otherwise it returns `#f`.
 
 === Copying and conversion ===
 
