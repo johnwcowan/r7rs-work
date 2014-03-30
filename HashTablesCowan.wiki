@@ -135,7 +135,7 @@ It is an error if the procedure argument of `hash-table-find`, `hash-table-count
 
 Returns a newly allocated hash table whose equality predicate and hash function are extracted from ''comparator''.  Alternatively, for backward compatibility the equality predicate and hash function can be passed as separate arguments; this usage is deprecated.  If an equality predicate rather than a comparator is provided, the ability to omit the ''hash'' argument is severely limited.  The implementation must provide hash functions appropriate for use with the predicates `eq?`, `eqv?`, `equal?`, `string=?`, and `string-ci=?`, and may extend this list.  But if any unknown equality predicate is provided without a hash function, an error should be signaled.
 
-It is an error unless the equality predicate accepts two arguments and returns a truth value, and the hash function accepts one argument in the domain of the equality predicate and returns a non-negative exact integer.  It is the programmer's responsibility to ensure that if two objects are the same in the sense of equality predicate, then they  return the same value when passed to the hash function.  However, the converse is not required.
+It is an error if the equality predicate does not accept two arguments and return a truth value.  It is also an error if the hash function does not accept one argument in the domain of the equality predicate and return a non-negative exact integer.  It is the programmer's responsibility to ensure that if two objects are the same in the sense of equality predicate, then they  return the same value when passed to the hash function.  However, the converse is not required.
 
 If the equality predicate, whether passed as part of a comparator or explicitly, is more fine-grained (in the sense of R7RS-small section 6.1) than `equal?`, the implementation is free to ignore the programmer-specified hash function and use something implementation-dependent.  This allows the use of addresses as hashes, in which case the keys must be rehashed if they are moved by the garbage collector.
 
@@ -311,6 +311,14 @@ For each association of ''hash-table'', invoke ''proc'' on its key and value in 
 
 For each association of ''hash-table'', invoke ''pred'' on its key and value in an unspecified order.  Return the number of calls to ''pred'' which returned true.
 
+`(hash-table-any? `''comparator proc hash-table''`)`
+
+Calls ''proc'' for as many associations in ''hash-table'' as necessary with two arguments, the key and the value of the association.  If any invocation of ''proc'' returns true, `hash-table-any?` returns `#t`; otherwise it returns `#f`.
+
+`(hash-table-every? `''comparator proc hash-table''`)`
+
+Calls ''proc'' for every association in ''hash-table'' with two arguments, the key and the value of the association.  If every invocation of ''proc'' returns true, `hash-table-any?` returns `#t`; otherwise it returns `#f`.
+
 === Mapping and folding ===
 
 These procedures process the associations of the hash table in arbitrary order.
@@ -358,14 +366,6 @@ Calls ''proc'' for every association in ''hash-table'' with two arguments, the k
 `(hash-table-partition `''comparator proc hash-table''`)`
 
 Returns two values, both newly allocated hash tables using ''comparator''.  Calls ''proc'' for every association in ''hash-table'' with two arguments, the key and the value of the association, and enters all associations for which ''proc'' returns true into the first hash table and all other associations into the second hash table.
-
-`(hash-table-any? `''comparator proc hash-table''`)`
-
-Calls ''proc'' for as many associations in ''hash-table'' as necessary with two arguments, the key and the value of the association.  If any invocation of ''proc'' returns true, `hash-table-any?` returns `#t`; otherwise it returns `#f`.
-
-`(hash-table-every? `''comparator proc hash-table''`)`
-
-Calls ''proc'' for every association in ''hash-table'' with two arguments, the key and the value of the association.  If every invocation of ''proc'' returns true, `hash-table-any?` returns `#t`; otherwise it returns `#f`.
 
 === Copying and conversion ===
 
