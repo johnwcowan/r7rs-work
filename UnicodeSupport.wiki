@@ -1,0 +1,23 @@
+== Unicode support ==
+
+I examined the result of `(integer->char 256)`, the first Unicode character outside the 8-bit range, and then attempted to create a string containing it.  I then tried the same thing with `(integer->char 65536)`, the first Unicode character outside the Basic Multilingual Plane.  In all cases where it was possible to create a string, it correctly had a length of 1.
+
+Full support:  Racket, Gauche, Gambit, Chicken, Scheme48/scsh, Guile, Kawa, Chez, Vicare, Larceny, Ypsilon, Mosh, STklos, KSi, !SigScheme, XLisp, BDC, Foment, Owl Lisp, Chibi
+
+Characters exist but can't be in a string: MIT
+
+Character 256 exists, but can't be in a string; character 65536 does not exist: RScheme
+
+Character 65536 does not exist: SISC, !IronScheme, NexJ, JScheme
+
+Character 256 does not exist:  Bigloo, SCM, Shoe, !TinyScheme, Scheme 9, S7, UMB, Elk, SXM, Sizzle, Inlab
+
+No `integer->char` procedure: Rep, Schemik, Llava, !FemtoLisp, Dfsch
+
+== Unicode identifiers ==
+
+I tried to define the identifier π with the value 3.141592653 and then evaluate it.
+
+Successful:  Racket, Gauche, Gambit, Chicken, Bigloo, Scheme48/scsh, Guile, Kawa, SISC, SCM, Chez, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, NexJ, JScheme, STklos, KSi, !SigScheme, Shoe, !TinyScheme, RScheme, S7, BDC, UMB, Elk, Llava, Sizzle, !FemtoLisp, Dfsch, Inlab, Foment, Owl Lisp, Chibi
+
+Unsuccessful: MIT, Chez (can't enter π at the REPL), Scheme 9, XLisp, Rep, Schemik, SXM
