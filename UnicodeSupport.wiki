@@ -16,7 +16,7 @@ Full support:  Racket, Gauche, Gambit, Chicken, Scheme48/scsh, Guile, Kawa, Chez
 
 Characters 0-65535 only: SISC, !IronScheme, NexJ, JScheme
 
-Characters 0-255 only:  MIT, Bigloo, RScheme, SCM, Shoe, !TinyScheme, Scheme 9, S7, UMB, Elk, SXM, Sizzle, Inlab
+Characters 0-255 only:  MIT (but MIT Scheme has UTF8 and "wide" strings, which do support full Unicode), Bigloo, RScheme, SCM, Shoe, !TinyScheme, Scheme 9, S7, UMB, Elk, SXM, Sizzle, Inlab
 
 No `integer->char` procedure: Rep, Schemik, Llava, !FemtoLisp, Dfsch
 
