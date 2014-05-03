@@ -14,6 +14,10 @@ Character 256 does not exist:  Bigloo, SCM, Shoe, !TinyScheme, Scheme 9, S7, UMB
 
 No `integer->char` procedure: Rep, Schemik, Llava, !FemtoLisp, Dfsch
 
+== NUL character ==
+
+I also tested to see if Schemes could handle character 0 (ASCII NUL) correctly.  All Schemes in the test suite treated it like any other character.
+
 == Unicode identifiers ==
 
 I tried to define the identifier π with the value 3.141592653 and then evaluate it.
