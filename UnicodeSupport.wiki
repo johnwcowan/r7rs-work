@@ -4,7 +4,7 @@ I examined the result of `(integer->char 256)`, the first Unicode character outs
 
 Full support:  Racket, Gauche, Gambit, Chicken, Scheme48/scsh, Guile, Kawa, Chez, Vicare, Larceny, Ypsilon, Mosh, STklos, KSi, !SigScheme, XLisp, BDC, Foment, Owl Lisp, Chibi
 
-Characters exist but can't be in a string: MIT
+Characters exist but can't be in a string: MIT (but there are special UTF8 and "wide" strings)
 
 Character 256 exists, but can't be in a string; character 65536 does not exist: RScheme
 
