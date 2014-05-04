@@ -15,13 +15,13 @@ These are the language changes listed in R6RS Appendix E, with notes on the exte
    * Adopted in principle, but SRFI 4 lexical syntax is used.
  * Matched square brackets can be used synonymously with parentheses.
    * Rejected on the grounds that implementations may wish to use brackets for better things.
- * The read-syntax abbreviations #' (for `syntax`), #` (for `quasisyntax`), #, (for `unsyntax`), and #,@ (for `unsyntax-splicing`) have been added.
+ * The read-syntax abbreviations `#'` (for `syntax`), `#`-backquote (for `quasisyntax`), `#`, (for `unsyntax`), and `#,@` (for `unsyntax-splicing`) have been added.
    * Not adopted, because `syntax-case` is not part of R7RS-small.
  * `#` can no longer be used in place of digits in number representations.
    * No longer required, but still permitted.
  * The external representation of number objects can now include a mantissa width.
    * Rejected.
- * Literals for NaNs and infinities were added.
+ * Literals for !NaNs and infinities were added.
    * Adopted.
  * String and character literals can now use a variety of escape sequences.
    * Adopted.
