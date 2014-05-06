@@ -4,6 +4,12 @@ Full numeric tower support (bignums, ratios, flonums, compnums)
 
 Exact complex numbers
 
+IEEE 64-bit binary inexact numbers
+
+Multiple precisions
+
+Safety
+
 Return exact results on exact arguments whenever possible (e.g. `(sqrt 4)`)
 
 Full Unicode support:
@@ -17,7 +23,22 @@ Fixnums must be at least 24 bits signed
 
 Signal an error on all ItIsAnError situations
 
-Provide all R7RS-small libraries
+Provide all R7RS-small libraries:
+
+ * case-lambda
+ * cxr
+ * eval
+ * file
+ * inexact
+ * lazy
+ * load
+ * process-context
+ * read
+ * repl
+ * time
+ * write
+
+Raise exceptions on all errors
 
 Forcing a non-promise returns the object
 
@@ -25,7 +46,7 @@ Implicit forcing of promises by primitives
 
 Require Unicodely-correct downcasing of Σ.
 
-Support for multiple inexact-number precisions
+Support multiple inexact-number precisions
 
 Input/output ports
 
