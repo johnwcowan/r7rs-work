@@ -1,0 +1,7 @@
+== R7RS Home Page ==
+
+This is the home page for R7RS, the Revised⁷ Report on the Algorithmic Language Scheme.  This version of Scheme has been divided into a small language, suitable for educators, researchers, and users of embedded languages; and a large language focused on the practical needs of mainstream software development.
+
+The report on the small language was finalized on July 6, 2013.  It is available [[http://trac.sacrideo.us/wg/raw-attachment/wiki/WikiStart/r7rs.pdf|in PDF format]] and as [[http://trac.sacrideo.us/wg/raw-attachment/wiki/WikiStart/r7rs-small-spec.zip|LaTeX source code]].  There are [[:R7RSSmallErrata|errata]].
+
+The development of the large language is still in progress.  For details on the development process of both languages, see the [[http://scheme-reports.org|Scheme Reports home page]] and the [[http://trac.sacrideo.us/wg/wiki|Working Groups home page]].
