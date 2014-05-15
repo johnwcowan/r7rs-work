@@ -2,11 +2,11 @@ This is a proposal to add further library declarations and import-set types to t
 
 == Library declarations ==
 
-In R7RS it is not an error to provide a library declaration that a specific implementation does not understand, although implementations should provide warnings in such cases.  Most of these declarations specified here use "should", which means that implementations are allowed to silently ignore them if they are inappropriate.  Furthermore, implementations may (but should not) ignore any list of identifiers.  Conflicts between declarations are resolved in an implementation-specific way.  Exceptions:
+In R7RS it is not an error to provide a library declaration that a specific implementation does not understand, although implementations should provide warnings in such cases.  Most of these declarations specified here use "should", which means that implementations are allowed to silently ignore them if they are inappropriate.  Conflicts between declarations are resolved in an implementation-specific way.  Exceptions:
 
- * Support for `reexport` and `export-all` is required.
+ * Support for `reexport`, `export-all` and `specify-declarations` is required.
 
- * Precise support for `notinline` is required for implementations that make the decision to inline code.
+ * Support for `notinline` is required for implementations that make the decision to inline code.
 
 === Name control (required) ===
 
@@ -20,9 +20,9 @@ Exports all defined identifiers except those that were imported.  This allows a 
 
 === Optimization ===
 
-In the list below, ''importance'' represents a symbol, one of `unimportant` (no importance), `neutral` (some importance, the default), `important` (substantial importance), or `extreme` (extreme importance).  It is an error to specify anything else.
+In the list below, ''importance'' represents a symbol, one of `unimportant` (no importance), `neutral` (some importance, the default), `important` (substantial importance), or `extreme` (extreme importance).  It is an error to specify anything else.  These correspond to the Common Lisp importance values 0, 1, 2, and 3 respectively.
 
-If no identifiers are named, then the library declaration applies to all defined identifiers.  
+If no identifiers are named, then the library declaration applies to all identifiers defined in the library.  Implementations may (but should not) ignore the named identifiers and treat the declaration as applying to all identifiers. 
 
 `(speed `''importance'' ''identifier'' ...`)`
 
@@ -48,7 +48,7 @@ The named ''identifiers'' should be processed so as to maximize ease of debuggin
 
 `(numeric-tower ` ''identifier'' ...`)`
 
-The ''identifiers'' indicate the assumptions the library makes about the availability of different kinds of numbers.  They may appear in any order, and have the following meanings:
+The ''identifiers'' indicate the assumptions the library makes about the availability of different kinds of numbers.    They may appear in any order, and have the following meanings:
 
 `exactness-preserving`
 
@@ -92,6 +92,8 @@ The library relies on the availability of exact non-real numbers.
 
 For example, the declaration `(no-exactness-preserving no-ratios inexact no-complex)` means that the library assumes only a limited range of exact integers, with numeric operations potentially overflowing to inexact reals.  In consequence, it cannot run on an implementation that does not provide these features, and an implementation that provides non-integer exact numbers and non-real numbers may assume that these features are not used.
 
+Note that in R7RS-large, implementations provide `exactness-preserving`, `ratio`, `inexact`, and `complex` by default, but using a declaration may allow implementations to specialize.
+
 It is an error to specify any other identifier.
 
 === Types ===
@@ -109,6 +111,8 @@ The implementation may assume that ''identifier'' always has a value that is a p
 '''Issue:  These declarations introduce phasing complications (where and when are the predicate names bound?) which must be resolved as part of a comprehensive treatment of phasing.'''
 
 === Compilation ===
+
+If no identifiers are named, then the library declaration applies to all identifiers defined in the library.  Implementations may (but should not) ignore the named identifiers and treat the declaration as applying to all identifiers. 
 
 `(inline `''identifier'' ...`)`
 
@@ -136,6 +140,8 @@ The implementation should process the definitions of the named identifiers (if n
 
 === Semantics ===
 
+If no identifiers are named, then the library declaration applies to all identifiers defined in the library.  Implementations may (but should not) ignore the named identifiers and treat the declaration as applying to all identifiers. 
+
 `(no-location `''identifier'' ...`)`
 
 The implementation may assume that the procedures bound to ''identifier'' (if none are named, all procedures) have no location, so that neither `eq?` nor `eqv?` is required to return `#t` in any circumstances when passed a procedure argument.
@@ -144,22 +150,27 @@ The implementation may assume that the procedures bound to ''identifier'' (if no
 
 To allow library declarations in main programs (not in files of code included by `include` or `include-ci`), the following new syntax is added:
 
-`(declare `''declaration'' ...`)`
+`(specify-declarations `''declaration'' ...`)`
 
-Allows any library declaration except `export` and `reexport` to be included as part of a main program.   It is an error for `declare` to appear except at the beginning of a main program.  For backward compatibility with R7RS-small, programmers should avoid wrapping `import`, `include`, `include-ci`, or `begin` declarations in `declare` declarations.
+Allows any library declaration except `export` and `reexport` to be included as part of a main program.   It is an error for `declare` to appear except at the beginning of a main program.  For backward compatibility with R7RS-small, programmers should avoid wrapping `import`, `include`, `include-ci`, or `begin` declarations in `specify-declarations`.
+
+The more natural term `declare` is avoided because some implementations use it for related but implementation-specific uses.
 
 == Import sets ==
 
 `(drop-prefix `''import-set'' ''identifier''`)`
 
-This import set automatically renames identifiers in the given ''import-set'': any of them which begin with the characters in ''identifier'' have those characters removed.
+Import sets of this kind automatically renames identifiers in the given ''import-set'': any of them which begin with the characters in ''identifier'' have those characters removed.
 
-For example, if the library `(foo)` exports identifiers `foo-a`, `foo-b`, and `foo-c`, then `(import (drop-prefix (foo) foo-)` will import them under the names of `a`, `b`, and `c` respectively.  Chibi Scheme already supports this type of import set.
-
-See also InterfacesCowan.
+For example, if the library `(foo)` exports identifiers `foo-a`, `foo-b`, and `foo-c`, then `(import (drop-prefix (foo) foo-)` will import them under the names of `a`, `b`, and `c` respectively.  (Chibi Scheme already supports this type of import set.)
 
 == Features ==
 
 `(provide ` ''feature'' ...`)`
 
 As a consequence of loading this library, the specified ''features'' are made immediately available to future `cond-expand` library declarations, to `cond-expand` syntax, and to the `features` procedure.
+
+== See also ==
+
+See also InterfacesCowan.
+
