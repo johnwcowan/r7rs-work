@@ -1,6 +1,7 @@
 = Charter for working group 2 =
 
-This is an editor's draft and not yet official.  New paragraphs
+This charter has been approved by the Scheme Steering Committee, though it is not yet up at scheme-reports.org.
+New paragraphs relative to the version there
 are marked as such.  Having a specific timeline proved to be
 unhelpful in WG1 and has been removed.  The section on coordination
 with WG1 has been stripped down to a statement of compatibility.
