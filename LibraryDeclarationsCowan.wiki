@@ -1,4 +1,8 @@
-This is a proposal to add further library declarations and import-set types to the large language.  '''Issue:  Phases are not yet dealt with.'''
+This is a proposal to add further library declarations and import-set types to the large language.
+
+'''Issue:  Phases are not yet dealt with.'''
+
+Issue: Earlier versions of this proposal included type declarations for identifiers; these have been omitted.
 
 == Library declarations ==
 
@@ -14,9 +18,9 @@ In R7RS it is not an error to provide a library declaration that a specific impl
 
 Like `import`, but also exports all identifiers that were imported.  This allows a library to easily extend one or more other libraries.
 
-`(export-all)`
+`(export-all `''identifier'' ...`)`
 
-Exports all defined identifiers except those that were imported.  This allows a library to be easily extended.
+Exports all defined identifiers except for ''identifiers'', if any.  Imported identifiers are not re-exported..  This allows a library to be easily extended.
 
 === Optimization ===
 
@@ -44,57 +48,11 @@ The named ''identifiers'' should be processed so as to maximize compilation spee
 
 The named ''identifiers'' should be processed so as to maximize ease of debugging to the extent specified by ''importance''.
 
-=== Numeric tower ===
+=== Errors ===
 
-`(numeric-tower ` ''identifier'' ...`)`
+`(library-error `''literal-string''`)`
 
-The ''identifiers'' indicate the assumptions the library makes about the availability of different kinds of numbers.    They may appear in any order, and have the following meanings:
-
-`exactness-preserving`
-
-The library relies on arithmetic operators other than `/` returning exact results when given exact arguments.
-
-`no-exactness-preserving`
-
-The library does not rely on arithmetic operators other than `/` returning exact results when given exact arguments.
-
-`ratios`
-
-The library relies on `/` returning exact results when given exact arguments.
-
-`no-ratios`
-
-The library does not rely on `/` returning exact results when given exact arguments.
-
-`inexact`
-
-The library relies on the availability of inexact numbers.
-
-`no-inexact`
-
-The library does not rely on the availability of inexact numbers.
-
-`complex`
-
-The library relies on the availability of non-real numbers.
-
-`no-complex`
-
-The library relies on the availability of non-real numbers.
-
-`exact-complex`
-
-The library does not rely on the availability of exact non-real numbers.
-
-`no-exact-complex`
-
-The library relies on the availability of exact non-real numbers.
-
-For example, the declaration `(no-exactness-preserving no-ratios inexact no-complex)` means that the library assumes only a limited range of exact integers, with numeric operations potentially overflowing to inexact reals.  In consequence, it cannot run on an implementation that does not provide these features, and an implementation that provides non-integer exact numbers and non-real numbers may assume that these features are not used.
-
-Note that in R7RS-large, implementations provide `exactness-preserving`, `ratio`, `inexact`, and `complex` by default, but using a declaration may allow implementations to specialize.
-
-It is an error to specify any other identifier.
+Signals an error when the library is first examined.  It is meant to be used within `cond-expand` library declarations to trigger an error if some feature or library is found not to be present.  Applications cannot count on being able to catch this error with exception handlers or guards.
 
 === Types ===
 
@@ -126,17 +84,9 @@ The procedures named by the ''identifiers'' must not be inlined by the compiler,
 
 The implementation should not warn the user if the ''identifiers'' are defined but not used in the library.
 
-`(verbose `''identifier'' ...`)`
+`(report ` [[`verbose`|`terse`|`silent`]] ''identifier'' ...`)`
 
-The implementation should process the definitions of the named identifiers (if none are named, the whole library) verbosely.
-
-`(terse `''identifier'' ...`)`
-
-The implementation should process the definitions of the named identifiers (if none are named, the whole library) as quietly as is reasonable.  The user should still be notified of errors and warnings.
-
-`(silent `''identifier'' ...`)`
-
-The implementation should process the definitions of the named identifiers (if none are named, the whole library) silently.  The user should still be notified of errors.
+The implementation should process the definitions of the named identifiers verbosely, tersely, or silently.  Even in silent mode, however, the user should still be notified of errors.
 
 === Semantics ===
 
@@ -144,7 +94,7 @@ If no identifiers are named, then the library declaration applies to all identif
 
 `(no-location `''identifier'' ...`)`
 
-The implementation may assume that the procedures bound to ''identifier'' (if none are named, all procedures) have no location, so that neither `eq?` nor `eqv?` is required to return `#t` in any circumstances when passed a procedure argument.
+The implementation may assume that the procedures bound to ''identifier'' have no location, so that neither `eq?` nor `eqv?` is required to return `#t` in any circumstances when passed a such a procedure as an argument.
 
 == Declarations in main programs ==
 
