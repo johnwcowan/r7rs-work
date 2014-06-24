@@ -93,13 +93,13 @@ The slash in the names of some procedures can be pronounced "with".
 
 === Acknowledgements ===
 
-Some of the language of the present proposal is copied from SRFI 69 with thanks to its author, Panu Kalliokoski.  However, he is not responsible for what I have made of it.
+Some of the language of the present proposal is copied from SRFI 69 with thanks to its author, Panu Kalliokoski.  However, he is not responsible for what I have done with it.
 
 == Specification ==
 
 The procedures in the present proposal are in the `(srfi xxx)` library (or `(srfi :xxx)` on R6RS).  However, the library in the sample implementation is currently named `(hash-tables)`.
 
-All references to "executing in expected amortized constant time" presuppose that a satisfactory hash function is available.  Arbitrary or non-idempotent hash functions can make a hash of the implementation.
+All references to "executing in expected amortized constant time" presuppose that a satisfactory hash function is available.  Arbitrary or non-idempotent hash functions can make a hash of any implementation.
 
 Hash tables are allowed to cache the results of calling the equality predicate and hash function, so programs cannot rely on the hash function being called exactly once for every primitive hash table operation: it may be called zero, one, or more times.
 
@@ -117,7 +117,7 @@ It is an error if the procedure argument of `hash-table-find`, `hash-table-count
 
 * [[#Thewholehashtable|The whole hash table]]: `hash-table-clear!`, `hash-table-size`, `hash-table-keys`, `hash-table-values`, `hash-table-entries`, `hash-table-find`, `hash-table-count`, `hash-table-any?`, `hash-table-every?`
 
-* [[#Mappingandfolding|Mapping and folding]]: `hash-table-map`, `hash-table-for-each`, `hash-table-map-entries`, `hash-table-update-each!`, `hash-table-map->list`, `hash-table-fold`, `hash-table-filter`, `hash-table-filter!`, `hash-table-remove`, `hash-table-partition`
+* [[#Mappingandfolding|Mapping and folding]]: `hash-table-map`, `hash-table-for-each`, `hash-table-map-entries`, `hash-table-update-each!`, `hash-table-map->list`, `hash-table-fold`, `hash-table-filter`, `hash-table-filter!`, `hash-table-remove`, `hash-table-remove!`, `hash-table-partition`, `hash-table-partition`
 
 * [[#Copyingandconversion|Copying and conversion]]: `hash-table-copy`, `hash-table->alist`, `alist->hash-table`
 
@@ -355,13 +355,17 @@ Calls ''proc'' for every association in ''hash-table'' with three arguments: the
 
 Returns a newly allocated hash table using ''comparator''.  Calls ''proc'' for every association in ''hash-table'' with two arguments, the key and the value of the association, and enters all associations  for which ''proc'' returns true into the new hash table.
 
+`(hash-table-filter! `''comparator proc hash-table''`)`
+
+Calls ''proc'' for every association in ''hash-table'' with two arguments, the key and the value of the association, and removes all associations for which ''proc'' returns false from ''hash-table'', which is returned.
+
 `(hash-table-remove `''comparator proc hash-table''`)`
 
 Returns a newly allocated hash table using ''comparator''.  Calls ''proc'' for every association in ''hash-table'' with two arguments, the key and the value of the association, and enters all associations  for which ''proc'' returns false into the new hash table.
 
-`(hash-table-filter! `''comparator proc hash-table''`)`
+`(hash-table-remove! `''comparator proc hash-table''`)`
 
-Calls ''proc'' for every association in ''hash-table'' with two arguments, the key and the value of the association, and removes all associations  for which ''proc'' returns false from ''hash-table'', which is returned.
+Calls ''proc'' for every association in ''hash-table'' with two arguments, the key and the value of the association, and removes all associations  for which ''proc'' returns true from ''hash-table'', which is returned.
 
 `(hash-table-partition `''comparator proc hash-table''`)`
 
@@ -379,7 +383,7 @@ Returns an alist with the same associations as ''hash-table'' in an unspecified 
 
 `(alist->hash-table `''alist comparator''`)`
 
-Returns a newly allocated hash-table as if by `make-hash-table`, initializing it from the associations of ''alist''.  (SRFI 69 `alist->hash-table`)
+Returns a newly allocated hash-table as if by `make-hash-table`, initializing it from the associations of ''alist'' taken in reverse order.  (SRFI 69 `alist->hash-table`)
 
 === Hash tables as functions ===
 
@@ -421,7 +425,7 @@ The sample implementation (''not yet written'') is designed to be easily layered
 
 * S7 does not support arbitrary equality predicates: the implementation chooses a predicate based on the nature of the keys.
 
-* SISC, Scheme48/scsh, RScheme, Scheme 9, and Rep do not provide any procedure that copies a hash table, nor any way of inspecting it to determine its equality predicates and hash functions so that it can be re-created.
+* SISC, Scheme48/scsh, RScheme, Scheme 9, and Rep do not document any procedure that copies a hash table, nor any way of inspecting it to determine its equality predicates and hash functions so that it can be re-created.
 
 * SLIB hash tables are vectors, not disjoint objects.
 
