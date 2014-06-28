@@ -220,7 +220,7 @@ Repeatedly mutates ''hash-table'', setting each element of ''keys-list'' to the 
 
 `(hash-table-set-alist! `''hash-table alist''`)`
 
-Repeatedly mutates ''hash-table'' using the associations of ''alist'' in the reverse of the order in which they appear in ''alist''.
+Repeatedly mutates ''hash-table'' using the associations of ''alist''.  Associations earlier in the list take precedence over those that come later.
 
 `(hash-table-delete! `''hash-table key''`)`
 
@@ -383,7 +383,7 @@ Returns an alist with the same associations as ''hash-table'' in an unspecified 
 
 `(alist->hash-table `''alist comparator''`)`
 
-Returns a newly allocated hash-table as if by `make-hash-table`, initializing it from the associations of ''alist'' taken in reverse order.  (SRFI 69 `alist->hash-table`)
+Returns a newly allocated hash-table as if by `make-hash-table`, initializing it from the associations of ''alist''.  Associations earlier in the list take precedence over those that come later.  (SRFI 69 `alist->hash-table`)
 
 === Hash tables as functions ===
 
