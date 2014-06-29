@@ -49,9 +49,9 @@ It would be trivial to provide the R6RS names (or for that matter the SRFI 69 na
 
 === Reflection and hash-function procedures ===
 
-SRFI 69 provides reflective procedures that, given a hash table, returns its equality predicate and hash function, as well as procedures that expose the implementation's hash functions suitable for the equality predicates `eq?`, `equal?`, `string=?`, and `string-ci=?`.  The second of these can also be used for `eqv?`.  However, if the `eq?` hash function directly exposes the address of the key, and the garbage collector moves a key, it must also rehash every hash table containing that key.  In such implementations, the `hash-by-identity` procedure is not idempotent, which makes it dangerous to use outside the context of implementation-provided hash tables.
+SRFI 69 provides reflective procedures that, given a hash table, returns its equality predicate and hash function, as well as procedures that expose the implementation's hash functions suitable for the equality predicates `eq?`, `equal?`, `string=?`, and `string-ci=?`.  The second of these can also be used for `eqv?`.  However, if the the value of `eq?` hash function is not idempotent but depends on the memory address of the key, and the garbage collector moves such a key, it must also rehash every hash table containing that key.  In such implementations, the `hash-by-identity` procedure is unsafe to use outside the context of implementation-provided hash tables.
 
-R6RS eliminates this issue by providing separate constructors for `eq?` and `eqv?` hash tables, and refusing to expose the hash functions for them.  However, the present proposal takes the radical option of exposing neither reflection nor implementation-based hash functions.  Instead, implementations are permitted to ignore user-provided hash functions in certain circumstances if they have address-based hash functions available.  They can of course be provided by implementations as extensions with suitable warnings against inappropriate uses.
+R6RS eliminates this issue by providing separate constructors for `eq?` and `eqv?` hash tables, and refusing to expose the hash functions for them.  However, the present proposal takes the radical option of exposing neither reflection nor implementation-based hash functions.  Instead, implementations are permitted to ignore user-provided hash functions in certain circumstances if they have address-based hash functions available.  They can of course be exposed by implementations as extensions, with suitable warnings against inappropriate uses.
 
 === Common Lisp compatibility ===
 
@@ -113,7 +113,7 @@ It is an error if the procedure argument of `hash-table-find`, `hash-table-count
 
 * [[#Accessors|Accessors]]: `hash-table-ref`, `hash-table-ref/default`
 
-* [[#Mutators|Mutators]]: `hash-table-set!`, `hash-table-set-all!`, `hash-table-set-entries!`, `hash-table-set-alist!`, `hash-table-delete!`, `hash-table-delete-keys!`, `hash-table-extend!`, `hash-table-extend!/default`, `hash-table-replace!`, `hash-table-replace!/default`, `hash-table-update!`, `hash-table-update!/default`, `hash-table-push!`, `hash-table-pop!`, `hash-table-search!`
+* [[#Mutators|Mutators]]: `hash-table-set!`, `hash-table-set-entries!`, `hash-table-set-alist!`, `hash-table-delete!`, `hash-table-delete-keys!`, `hash-table-extend!`, `hash-table-extend!/default`, `hash-table-replace!`, `hash-table-replace!/default`, `hash-table-update!`, `hash-table-update!/default`, `hash-table-push!`, `hash-table-pop!`, `hash-table-search!`
 
 * [[#Thewholehashtable|The whole hash table]]: `hash-table-clear!`, `hash-table-size`, `hash-table-keys`, `hash-table-values`, `hash-table-entries`, `hash-table-find`, `hash-table-count`, `hash-table-any?`, `hash-table-every?`
 
@@ -206,13 +206,9 @@ Semantically equivalent to, but may be more efficient than, the following code:
 
 The following procedures alter the associations in a hash table either unconditionally, or conditionally on the presence or absence of a specified key.
 
-`(hash-table-set! `''hash-table key value''`)`
+`(hash-table-set! `''hash-table'' ( ''key value'' ) ...`)`
 
-Creates a new association in ''hash-table'' that associates ''key'' with ''value''.  If there is a previous association for ''key'', it is deleted.  It is an error if the type check procedure of the comparator of ''hash-table'', when invoked on ''key'', does not return `#t`. Likewise, it is an error if ''key'' is not a valid argument to the equality predicate of ''hash-table''.  Returns an unspecified value.  Must execute in expected amortized constant time.  (SRFI 69 `hash-table-set!`; R6RS `hashtable-set!`)
-
-`(hash-table-set-all! `''hash-table'' ( ''key value'' ) ...`)`
-
-Repeatedly mutates ''hash-table'', setting each ''key'' to the ''value'' that follows it.
+Repeatedly mutates ''hash-table'', creating new associations in ''hash-table'' that associates each ''key'' with the ''value'' that follows it.  If there is a previous association for ''key'', it is deleted.  It is an error if the type check procedure of the comparator of ''hash-table'', when invoked on ''key'', does not return `#t`. Likewise, it is an error if ''key'' is not a valid argument to the equality predicate of ''hash-table''.  Returns an unspecified value.  Must execute in expected amortized constant time.  (SRFI 69 `hash-table-set!`; R6RS `hashtable-set!`; handles multiple associations)
 
 `(hash-table-set-entries! `''hash-table keys-list values-list''`)`
 
@@ -222,9 +218,9 @@ Repeatedly mutates ''hash-table'', setting each element of ''keys-list'' to the 
 
 Repeatedly mutates ''hash-table'' using the associations of ''alist''.  Associations earlier in the list take precedence over those that come later.
 
-`(hash-table-delete! `''hash-table key''`)`
+`(hash-table-delete! `''hash-table key'' ...`)`
 
-Deletes any association to ''key'' in ''hash-table'' and returns true if there was an association for ''key'', false if not.  Must execute in expected amortized constant time.    (SRFI 69 `hash-table-delete!`; R6RS `hashtable-delete!`; Common Lisp `remhash`)
+Deletes any association to each ''key'' in ''hash-table'' and returns the number of keys that had associations.  Must execute in expected amortized constant time.  (SRFI 69 `hash-table-delete!`; R6RS `hashtable-delete!`; Common Lisp `remhash`; handles multiple associations)
 
 `(hash-table-delete-keys! `''hash-table keys-list''`)`
 
