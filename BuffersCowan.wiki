@@ -6,8 +6,7 @@ This is a very preliminary description of edit buffers, basically mutable variab
  * Buffers do not have intrinsic names, so ''buffer-or-name'' arguments accept only buffers.
  * Point and markers are zero-based, as is usual in Scheme.
  * Ranges are min-inclusive and max-exclusive, also as is usual in Scheme.
-
-Note:  The start and end arguments are optional everywhere, as in R7RS-small.
+ * The start and end arguments are optional everywhere, as in R7RS-small.
 
 == Procedures ==
 
