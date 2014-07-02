@@ -7,7 +7,7 @@ This is a very preliminary description of edit buffers, basically mutable variab
  * Point and markers are zero-based, as is usual in Scheme.
  * Ranges are min-inclusive and max-exclusive, also as is usual in Scheme.
 
-Issue:  Should start and end be made optional everywhere?  May partly depend on ticket #310.
+Note:  The start and end arguments are optional everywhere, as in R7RS-small.
 
 == Procedures ==
 
