@@ -112,7 +112,7 @@ Note:  Proposals and issue summaries are linked from the Docket pages below.
 * [[http://dspace.mit.edu/bitstream/handle/1721.1/5794/AIM-349.pdf|R0RS]]
 * [[http://dspace.mit.edu/bitstream/handle/1721.1/6283/AIM-452.pdf|R1RS]]
 * [[http://dspace.mit.edu/bitstream/handle/1721.1/5600/AIM-848.pdf|R2RS]]
-* [[ftp://ftp.cs.indiana.edu/pub/scheme-repository/doc/standards/r3rs.ps.gz|R3RS]] (.ps.gz format)
+* [[http://repository.readscheme.org/ftp/papers/scheme_reports/r3rs.ps.gz|R3RS]] (.ps.gz format)
 * [[http://people.csail.mit.edu/jaffer/r4rs.pdf|R4RS]]
 * [[http://www.schemers.org/Documents/Standards/R5RS/r5rs.pdf|R5RS]]
 * R6RS [[http://www.r6rs.org/final/r6rs.pdf|base]], [[http://www.r6rs.org/final/r6rs-lib.pdf|libraries]], [[http://www.r6rs.org/final/r6rs-app.pdf|appendices]], [[http://www.r6rs.org/final/r6rs-rationale.pdf|rationale]]
@@ -123,7 +123,8 @@ Note:  Proposals and issue summaries are linked from the Docket pages below.
 
 == Editorial Corrections ==
 
-    * SeventhDraftEditorialCorrections (partial)
-    * EighthDraftEditorialCorrections
-    * NinthDraftEditorialCorrections
     * [wiki:R7RSSmallErrata]
+    * NinthDraftEditorialCorrections
+    * EighthDraftEditorialCorrections
+    * SeventhDraftEditorialCorrections (partial)
+
