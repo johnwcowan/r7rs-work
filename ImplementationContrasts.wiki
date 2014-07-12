@@ -55,6 +55,7 @@ Not all these pages have information on all these Schemes.
  * OneArmedIf
  * PetrofskyCatastrophe
  * PetrofskyLet
+ * PlusOneEx
  * PrefixedStringToNumber
  * QuoteDelimiter
  * ReadLine
