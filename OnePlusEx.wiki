@@ -2,10 +2,10 @@ This experiment finds out whether `+1x` is a valid identifier in the Scheme impl
 
 `+1x` valid, `add1` exists:  Racket, Chicken, SISC, Sizzle
 
-`+1x` valid, `add1` does not exist:  Gauche, MIT, Gambit, Bigloo, Guile, Kawa, SCM, Ypsilon, JScheme, STklos, Shoe, !TinyScheme, Scheme 9, BDC, XLisp, Rep, Schemik, Elk, Llava, !FemtoLisp, Inlab, Chibi
+`+1x` valid, `add1` does not exist:  Gauche, MIT, Gambit, Bigloo, Guile, Kawa, SCM, Ypsilon, JScheme, STklos, Shoe, !TinyScheme, Scheme 9, BDC, XLisp, Rep, Schemik, Elk, Llava, !FemtoLisp, Inlab
 
 Syntax error, `add1` exists:  Vicare, !IronScheme, RScheme, SXM
 
-Syntax error, `add1` does not exist:  Scheme48/scsh, Larceny, Mosh, KSi, !SigScheme, UMB, Dfsch, Foment
+Syntax error, `add1` does not exist:  Scheme48/scsh, Larceny, Mosh, KSi, !SigScheme, UMB, Dfsch, Foment, Chibi
 
 `1+x` is treated as `1 +x`, `add1` does not exist:  NexJ, Picrin, Owl Lisp
