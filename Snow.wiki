@@ -70,19 +70,21 @@ implementations.
   ;; package can only be referred to by the individual library names.
   (name (wonderland))
   ;; The URL points to a tarred, gzipped file containing a single
-  ;; directory - any other format is invalid.  All path references
-  ;; below are relative to that directory.
+  ;; directory - any other format is invalid (optionally alternate compression may be supported).
+  ;; All path references below are relative to that directory.
   (url "http://www.wonderland.org/repo/cheshire-cat.tgz")
   ;; Any number of checksums may be provided, and tools should require
   ;; confirmation or refuse to install for a package with an invalid
   ;; checksum.  Currently defined checksums include md5, sha1,
   ;; sha2224, sha256, sha384, sha12.  It is recommended all packages
   ;; use a sha256 checksum.  Checksums are always written as hex
-  ;; strings.
+  ;; strings.  Checksums always apply to the _unzipped_ tarball, so
+  ;; that transparent recompression can be applied.
   (checksums (md5 "0123...")
              (sha-256 "0123..."))
   ;; The size of the package tarball in bytes, for information prior
-  ;; to downloading and as an additional checksum.
+  ;; to downloading and as an additional checksum (since this is
+  ;; a checksum this refers to the size of the unzipped tarball).
   (size 1234)
   ;; A package can contain zero or more signatures.  Each signature
   ;; contains the identity of a publisher (discussed below), and an
