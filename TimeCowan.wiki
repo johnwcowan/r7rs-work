@@ -1,36 +1,3 @@
-'''This proposal is obsolete; its procedures have been incorporated in different form into R7RS-small.'''
-
-== Calendar Time ==
-
-`(current-posix-second)`
-
-Returns two values.
-
-The first value is an integer representing the current second of the Posix epoch, which began on 00:00:00 on 1 January 1970, Coordinated Universal Time but excludes all leap seconds.  Implementations SHOULD return a value that:
-
- * Is as accurate as reasonably achievable.
- * Provides a range of at least 2^31^ seconds before and after the epoch.
-
-If the implementation cannot provide such a value, either temporarily or permanently, when `current-posix-seconds` is invoked, this value MUST be `#f`.
-
-The second value is 0 if the current second is known not to be a leap second, or 1 if it is known to be a leap second, or `#f` if the implementation cannot say.
-
-== Elapsed Time ==
-
-`(current-jiffy)`
-
-Returns an exact integer representing the number of jiffies (arbitrary elapsed time units) since an arbitrary epoch, an implementation such as the time the program started running, the operating system was booted, or anything else.  Leap seconds are ''not'' excluded.  Implementations SHOULD return a value that:
-
- * Is as accurate as reasonably achievable.
- * Provides at least 1-second precision.
- * Provides a range of at least 2^31^ seconds before and after the epoch.
-
-If the implementation cannot provide such a value, either temporarily or permanently, when `current-jiffy` is invoked, it MUST return `#f`.
-
-`(jiffies-per-second)`
-
-Returns an exact integer representing the number of jiffies per SI second.  This value is an implementation-specified constant.
-
 == Date and Time Arithmetic (WG2) ==
 
 See TimeAdvancedCowan.
