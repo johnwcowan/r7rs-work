@@ -1,4 +1,4 @@
-This is a preliminary list of procedures for the R7RS vector library.  It is an upward compatible extension of the vector libraries of R5RS, R7RS-small, and [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]], with additional procedures that are analogous to the [[http://srfi.schemers.org/srfi-1/srfi-1.html|SRFI 1]] list library and the [[http://srfi.schemers.org/srfi-13/srfi-13.html|SRFI 13]] string library.  As a single exception, the `vector-copy` procedure in R7RS-small does not provide the ''fill'' argument present in SRFI 43.
+This is a preliminary list of procedures for the R7RS vector library.  It is an upward compatible extension of the vector libraries of [[http://www.schemers.org/Documents/Standards/R5RS/|R5RS]], [[http://trac.sacrideo.us/wg/raw-attachment/wiki/WikiStart/r7rs.pdf|R7RS-small]], and [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]], with additional procedures that are analogous to procedures in the [[http://srfi.schemers.org/srfi-1/srfi-1.html|SRFI 1]] list library and the [[http://srfi.schemers.org/srfi-13/srfi-13.html|SRFI 13]] string library.  As a single exception, the `vector-copy` procedure in R7RS-small does not provide the ''fill'' argument present in SRFI 43.
 
 The procedures that are already in R7RS-small will not be overridden by this library, and are included only for completeness.
 
@@ -16,6 +16,8 @@ The procedures that are already in R7RS-small will not be overridden by this lib
 
 * SRFI 1 means an analogous procedure is available in SRFI 1.
 
+* SRFI 1* means a vaguely analogous procedure is available in SRFI 1.
+
 == Constructors ==
 
 make-vector (R5RS), vector (R5RS), 
@@ -28,12 +30,14 @@ vector-tabulate (SRFI 13), vector-join (SRFI 13)
 
 vector? (R5RS)
 vector-empty? (SRFI 43)
-vector= (SRFI 43),
+
+== Comparison ==
+
+vector= (SRFI 43), vector< (SRFI 1*), vector> (SRFI 1*), vector<= (SRFI 1*), vector>= (SRFI 1*)
 
 == Selectors ==
 
-vector-ref (R5RS),
-vector-length (R5RS),
+vector-ref (R5RS), vector-length (R5RS), vector-split-at (SRFI 1)
 vector-take (SRFI 13), vector-take-right (SRFI 13),
 vector-drop (SRFI 13), vector-drop-right (SRFI 13),
 vector-pad (SRFI 13), vector-pad-right (SRFI 13),
@@ -42,13 +46,19 @@ vector-trim (SRFI 13), vector-trim-right (SRFI 13), vector-trim-both (SRFI 13)
 == Iteration ==
 
 vector-fold (SRFI 43), vector-fold-right (SRFI 43),
-vector-map (SRFI 43), vector-map! (SRFI 43), 
-vector-for-each (SRFI 43), 
-vector-count (SRFI 43)
+vector-reduce (SRFI 43), vector-reduce-right (SRFI 43),
+vector-map (SRFI 43), vector-map! (SRFI 43), vector-append-map (SRFI 1),
+vector-for-each (SRFI 43), vector-count (SRFI 43)
 
 == Filtering and partitioning ==
 
 vector-filter (SRFI 1), vector-remove (SRFI 1), vector-partition (SRFI 1)
+
+== Searching ==
+
+vector-find (SRFI 1), vector-index (SRFI 1), vector-contains (SRFI 13),
+vector-take-while (SRFI 1), vector-drop-while (SRFI 1),
+vector-span (SRFI 1), vector-break (SRFI 1),
 
 == Prefixes and suffixes ==
 
@@ -61,6 +71,12 @@ vector-index (SRFI 43), vector-index-right (SRFI 43),
 vector-skip (SRFI 43), vector-skip-right (SRFI 43), 
 vector-binary-search (SRFI 43), 
 vector-any (SRFI 43), vector-every (SRFI 43), 
+
+== Zip and unzip ==
+
+vector-zip (SRFI 1),
+vector-unzip1 (SRFI 1), vector-unzip2 (SRFI 1),
+vector-unzip3 (SRFI 1), vector-unzip4 (SRFI 1), vector-unzip5 (SRFI 1), 
 
 == Mutators ==
 
