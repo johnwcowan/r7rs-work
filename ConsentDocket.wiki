@@ -28,8 +28,6 @@ Pretty-printer: see Format combinators
 
 [[http://srfi.schemers.org/srfi-41/srfi-41.html|SRFI 41]], `(streams primitive)` and `(streams derived)` libraries: As written.
 
-[[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]], vector library: As written, but excluding `make-vector`, `vector`,`vector?`, `vector-ref`, `vector-length`, `vector-set!`, `vector->list`, `list->vector`, `vector-copy`, `vector-copy!`, `vector-append`, `vector-fill!`, which are all in the `(scheme base)` library in a SRFI-43-compatible way (except that R7RS `vector-copy!` does not have a ''fill'' argument).  See also ContainerSrfiComparison.
-
 [[http://srfi.schemers.org/srfi-115|SRFI 115]], regular expressions.
 
 === Obsolete items ===
