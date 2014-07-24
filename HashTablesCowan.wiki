@@ -39,6 +39,8 @@ The names used in the present proposal are mostly derived from SRFI 69, with the
 
 * The `hash-table-merge!` procedure has been renamed `hash-table-union!`, since it causes the first hash table to become the union of the two hash table arguments.  A third argument specifying how to merge the values has been added.
 
+* See below under "Reflection and hash-function procedures" for omitted procedures.
+
 === R6RS compatibility ===
 
 The relatively few hash table procedures in R6RS are all available in the present proposal under somewhat different names.  The present proposal adopts SRFI 69's term `hash-table` rather than R6RS's `hashtable`, because of the universal use of "hash table" rather than "hashtable" in other languages and in technical prose generally.  Besides, the English word ''hashtable'' obviously means something that can be ... hashted.
@@ -68,6 +70,8 @@ As usual, the Common Lisp names are completely different from the Scheme names. 
 === Sources ===
 
 The procedures in the present proposal are drawn primarily from SRFI 69 and R6RS.  In addition, the following sources are acknowledged:
+
+* The `hash-table-mutable?` and the second argument of `hash-table-copy` (which allows the creation of immutable hash tables) are from R6RS, renamed in the style of the present proposal (although it does not require implementations to provide immutable hash tables).
 
 * The `hash-table-extend!`, `hash-table-extend/default`, `hash-table-map->alist`, `hash-table->alist`, and `alist->hash-table` are from [[http://docs.racket-lang.org/reference/hashtables.html|Racket]], renamed in the style of this proposal.
 
@@ -105,11 +109,13 @@ Hash tables are allowed to cache the results of calling the equality predicate a
 
 It is an error if the procedure argument of `hash-table-find`, `hash-table-count`, `hash-table-map`, `hash-table-map-entries`, `hash-table-for-each`, `hash-table-update-each!`, `hash-table-map->list`, or `hash-table-fold` mutates the hash table being walked.
 
+It is an error to compare two hash tables with different comparators or equality predicates.
+
 === Index ===
 
-* [[#Constructors|Constructors]]: `make-hash-table`, `hash-table`, `hash-table-unfold`
+* [[#Constructors|Constructors]]: `make-hash-table`, `hash-table`, `hash-table-unfold`, `alist->hash-table`
 
-* [[#Predicates|Predicates]]: `hash-table?`, `hash-table-contains?`, `hash-table-empty?`, `hash-table=?`, `hash-table<?`, `hash-table>?`, `hash-table<=?`, `hash-table>=?`
+* [[#Predicates|Predicates]]: `hash-table?`, `hash-table-contains?`, `hash-table-empty?`, `hash-table=?`, `hash-table<?`, `hash-table<<?`, `hash-table>?`, `hash-table>>?`, `hash-table<=?`, `hash-table<<=?`, `hash-table>=?`, `hash-table>>=?`
 
 * [[#Accessors|Accessors]]: `hash-table-ref`, `hash-table-ref/default`
 
@@ -117,9 +123,9 @@ It is an error if the procedure argument of `hash-table-find`, `hash-table-count
 
 * [[#Thewholehashtable|The whole hash table]]: `hash-table-clear!`, `hash-table-size`, `hash-table-keys`, `hash-table-values`, `hash-table-entries`, `hash-table-find`, `hash-table-count`, `hash-table-any?`, `hash-table-every?`
 
-* [[#Mappingandfolding|Mapping and folding]]: `hash-table-map`, `hash-table-for-each`, `hash-table-map-entries`, `hash-table-update-each!`, `hash-table-map->list`, `hash-table-fold`, `hash-table-filter`, `hash-table-filter!`, `hash-table-remove`, `hash-table-remove!`, `hash-table-partition`, `hash-table-partition`
+* [[#Mappingandfolding|Mapping and folding]]: `hash-table-map`, `hash-table-for-each`, `hash-table-map-entries`, `hash-table-update-each!`, `hash-table-map->list`, `hash-table-fold`, `hash-table-filter`, `hash-table-filter!`, `hash-table-remove`, `hash-table-remove!`, `hash-table-partition`, `hash-table-partition!`
 
-* [[#Copyingandconversion|Copying and conversion]]: `hash-table-copy`, `hash-table->alist`, `alist->hash-table`
+* [[#Copyingandconversion|Copying and conversion]]: `hash-table-copy`, `hash-table->alist`
 
 * [[#Hashtablesasfunctions|Hash tables as functions]]: `hash-table-accessor`, `hash-table-accessor/default`
 
@@ -133,13 +139,13 @@ It is an error if the procedure argument of `hash-table-find`, `hash-table-count
 
 `(make-hash-table `''equality-predicate'' [[|''hash-function'' ]] [[|''arg'' ... ]]`)`
 
-Returns a newly allocated hash table whose equality predicate and hash function are extracted from ''comparator''.  Alternatively, for backward compatibility the equality predicate and hash function can be passed as separate arguments; this usage is deprecated.  If an equality predicate rather than a comparator is provided, the ability to omit the ''hash'' argument is severely limited.  The implementation must provide hash functions appropriate for use with the predicates `eq?`, `eqv?`, `equal?`, `string=?`, and `string-ci=?`, and may extend this list.  But if any unknown equality predicate is provided without a hash function, an error should be signaled.
+Returns a newly allocated hash table whose equality predicate and hash function are extracted from ''comparator''.  Alternatively, for backward compatibility with SRFI 69 the equality predicate and hash function can be passed as separate arguments; this usage is deprecated.  If an equality predicate rather than a comparator is provided, the ability to omit the ''hash'' argument is severely limited.  The implementation must provide hash functions appropriate for use with the predicates `eq?`, `eqv?`, `equal?`, `string=?`, and `string-ci=?`, and may extend this list.  But if any unknown equality predicate is provided without a hash function, an error should be signaled.
 
 It is an error if the equality predicate does not accept two arguments and return a truth value.  It is also an error if the hash function does not accept one argument in the domain of the equality predicate and return a non-negative exact integer.  It is the programmer's responsibility to ensure that if two objects are the same in the sense of equality predicate, then they  return the same value when passed to the hash function.  However, the converse is not required.
 
 If the equality predicate, whether passed as part of a comparator or explicitly, is more fine-grained (in the sense of R7RS-small section 6.1) than `equal?`, the implementation is free to ignore the programmer-specified hash function and use something implementation-dependent.  This allows the use of addresses as hashes, in which case the keys must be rehashed if they are moved by the garbage collector.
 
-The meaning of any further arguments is implementation-dependent.  However, implementations which support the ability to specify the initial capacity of a hash table should interpret a non-negative exact integer as the specification of that capacity.  In addition, if the symbols `immutable`, `thread-safe`, `weak-keys` or  `weak-values` are present, implementations should create immutable hash tables, mutable thread-safe hash tables, hash tables with weak keys, and hash tables with weak values respectively.  In an implementation which does not support these features, an error should be signaled if they are requested.  To avoid collision with the ''hash'' argument, none of these arguments can be procedures.
+The meaning of any further arguments is implementation-dependent.  However, implementations which support the ability to specify the initial capacity of a hash table should interpret a non-negative exact integer as the specification of that capacity.  In addition, if the symbols `thread-safe`, `weak-keys` or  `weak-values` are present, implementations should create thread-safe hash tables, hash tables with weak keys, and hash tables with weak values respectively.  In an implementation which does not support these features, an error should be signaled if they are requested.  To avoid collision with the ''hash'' argument, none of these arguments can be procedures.
 
 (SRFI 69 `make-hash-table`; R6RS `make-eq-hashtable`, `make-eqv-hashtable`, and `make-hashtable`; Common Lisp `make-hash-table`)
 
@@ -147,9 +153,15 @@ The meaning of any further arguments is implementation-dependent.  However, impl
 
 Returns a newly allocated hash table, created as if by `make-hash-table`.  For each pair of arguments, an association is added to the new hash table with ''key'' as its key and ''value'' as its value.
 
-`(hash-table-unfold `''continue? mapper successor seed comparator'' ]`)`
+`(hash-table-unfold `''comparator continue? mapper successor seed'' ]`)`
 
-Create a new hash table as if by `make-hash-table`.  If the result of applying the predicate ''continue?'' to ''seed'' is `#f`, return the hash table.  Otherwise, apply the procedure ''mapper'' to ''seed''.  ''Mapper'' returns two values, which are inserted into the hash table as the key and the value respectively.  Then get a new seed by applying the procedure ''successor'' to ''seed'', and repeat this algorithm.
+Create a new hash table as if by `make-hash-table` using ''comparator''.  If the result of applying the predicate ''continue?'' to ''seed'' is `#f`, return the hash table.  Otherwise, apply the procedure ''mapper'' to ''seed''.  ''Mapper'' returns two values, which are inserted into the hash table as the key and the value respectively.  Then get a new seed by applying the procedure ''successor'' to ''seed'', and repeat this algorithm.
+
+`(alist->hash-table `''alist comparator arg'' ...`)`
+
+`(alist->hash-table `''alist equality-predicate'' [[|''hash-function'' ]] ''arg'' ...`)`
+
+Returns a newly allocated hash-table as if by `make-hash-table`, initializing it from the associations of ''alist''.  Associations earlier in the list take precedence over those that come later.  The second form is for compatibility with SRFI 69, and is deprecated.  (SRFI 69 `alist->hash-table`)
 
 === Predicates ===
 
@@ -167,25 +179,45 @@ Returns `#t` if ''hash-table'' contains no associations, and `#f` otherwise.
 
 Note:  The following three predicates do not obey the trichotomy law and therefore do not constitute a total order on hash tables.
 
-`(hash-table=? `''value=? hash-table,,1,, hash-table,,2,,''`)`
+`(hash-table=? `''value-comparator hash-table,,1,, hash-table,,2,,''`)`
 
-Returns `#t` if ''hash-table,,1,,'' and ''hash-table,,2,,'' have the same keys (in the sense of their common equality predicate) and each key has the same values (in the sense of the ''value=?'' predicate), and `#f` otherwise.  It is an error to compare two hash tables that have distinct comparators or distinct equality predicates.
+Returns `#t` if ''hash-table,,1,,'' and ''hash-table,,2,,'' have the same keys (in the sense of their common equality predicate) and each key has the same value (in the sense of ''value-comparator''), and `#f` otherwise.
 
-`(hash-table<? `''value=? hash-table,,1,, hash-table,,2,,''`)`
+`(hash-table<? `''value-comparator hash-table,,1,, hash-table,,2,,''`)`
 
-Returns `#t` if there are fewer keys in ''hash-table,,1,,'' than in ''hash-table,,2,,'', all the keys in ''hash-table,,1,,'' also exist in ''hash-table,,2,,'' (in the sense of their common equality predicate), and each such key has the same value (in the sense of the ''value=?'' predicate), and `#f` otherwise.  It is an error to compare two hash tables that have distinct comparators or distinct equality predicates.
+Returns `#t` if there are fewer keys in ''hash-table,,1,,'' than in ''hash-table,,2,,'', all the keys in ''hash-table,,1,,'' also exist in ''hash-table,,2,,'' (in the sense of their common equality predicate), and each such key has the same value (in the sense of ''value-comparator''), and `#f` otherwise.
 
-`(hash-table>? `''value=? hash-table,,1,, hash-table,,2,,''`)`
+`(hash-table<<? `''value-comparator hash-table,,1,, hash-table,,2,,''`)`
 
-Returns `#t` if there are more keys in ''hash-table,,1,,'' than in ''hash-table,,2,,'', all the keys in ''hash-table,,2,,'' also exist in ''hash-table,,1,,'' (in the sense of their common equality predicate), and each such key has the same value (in the sense of the ''value=?'' predicate), and `#f` otherwise.  It is an error to compare two hash tables that have distinct comparators or distinct equality predicates.
+Returns `#t` if there are fewer keys in ''hash-table,,1,,'' than in ''hash-table,,2,,'', all the keys in ''hash-table,,1,,'' also exist in ''hash-table,,2,,'' (in the sense of their common equality predicate), and and the value of the key is less in ''hash-table,,1,,'' than in ''hash-table,,2,,'' (in the sense of ''value-comparator''), and `#f` otherwise.
 
-`(hash-table<=? `''value=? hash-table,,1,, hash-table,,2,,''`)`
+`(hash-table>? `''value-comparator hash-table,,1,, hash-table,,2,,''`)`
 
-Returns `#t` if either `hash-table=?` or `hash-table<?` returns #t.
+Returns `#t` if there are more keys in ''hash-table,,1,,'' than in ''hash-table,,2,,'', all the keys in ''hash-table,,2,,'' also exist in ''hash-table,,1,,'' (in the sense of their common equality predicate), and each such key has the same value (in the sense of ''value-comparator''), and `#f` otherwise.
 
-`(hash-table>=? `''value=? hash-table,,1,, hash-table,,2,,''`)`
+`(hash-table>>? `''value-comparator hash-table,,1,, hash-table,,2,,''`)`
 
-Returns `#t` if either `hash-table=?` or `hash-table>?` returns #t.
+Returns `#t` if there are more keys in ''hash-table,,1,,'' than in ''hash-table,,2,,'', all the keys in ''hash-table,,2,,'' also exist in ''hash-table,,1,,'' (in the sense of their common equality predicate), and the value of the key in ''hash-table,,1,,'' is greater than in ''hash-table,,2,,'' (in the sense of ''value-comparator''), and `#f` otherwise.
+
+`(hash-table<=? `''value-comparator hash-table,,1,, hash-table,,2,,''`)`
+
+Returns `#t` if there are fewer keys in ''hash-table,,1,,'' than in ''hash-table,,2,,'' or the same number, all the keys in ''hash-table,,1,,'' also exist in ''hash-table,,2,,'' (in the sense of their common equality predicate), and each such key has the same value (in the sense of ''value-comparator''), and `#f` otherwise.
+
+`(hash-table<<=? `''value-comparator hash-table,,1,, hash-table,,2,,''`)`
+
+Returns `#t` if there are fewer keys in ''hash-table,,1,,'' than in ''hash-table,,2,,'' or the same number, all the keys in ''hash-table,,1,,'' also exist in ''hash-table,,2,,'' (in the sense of their common equality predicate), and and the value of the key is less in ''hash-table,,1,,'' than in ''hash-table,,2,,'' or equal to it (in the sense of ''value-comparator''), and `#f` otherwise.
+
+`(hash-table>=? `''value-comparator hash-table,,1,, hash-table,,2,,''`)`
+
+Returns `#t` if there are more keys in ''hash-table,,1,,'' than in ''hash-table,,2,,'' or the same number, all the keys in ''hash-table,,2,,'' also exist in ''hash-table,,1,,'' (in the sense of their common equality predicate), and each such key has the same value (in the sense of ''value-comparator''), and `#f` otherwise.
+
+`(hash-table>>=? `''value-comparator hash-table,,1,, hash-table,,2,,''`)`
+
+Returns `#t` if there are more keys in ''hash-table,,1,,'' than in ''hash-table,,2,,'' or the same number, all the keys in ''hash-table,,2,,'' also exist in ''hash-table,,1,,'' (in the sense of their common equality predicate), and the value of the key in ''hash-table,,1,,'' is greater than in ''hash-table,,2,,'' or equal to it (in the sense of ''value-comparator''), and `#f` otherwise.
+
+`(hash-table-mutable? `''hash-table''`)`
+
+Returns `#t` if the hash table is mutable.  Implementations may or may not support immutable hash tables.  (R6RS `hashtable-mutable?`)
 
 === Accessors ===
 
@@ -193,7 +225,7 @@ The following procedures, given a key, return the corresponding value.
 
 `(hash-table-ref `''hash-table key'' [[|''failure'' [ ''success'' ]] ]`)`
 
-Extracts the value associated to ''key'' in ''hash-table'', invokes the procedure ''success'' on it, and returns its result; if ''success'' is not provided, then the value itself is returned.  Otherwise, `hash-table-ref` invokes the procedure ''failure'' on no arguments and returns its result; if ''failure'' is not provided, then an error that satisfies `hash-table-key-not-found?` is signaled.  Must execute in expected amortized constant time, not counting the time to call the procedures.  (SRFI 69 `hash-table-ref`)
+Extracts the value associated to ''key'' in ''hash-table'', invokes the procedure ''success'' on it, and returns its result; if ''success'' is not provided, then the value itself is returned.  Otherwise, `hash-table-ref` invokes the procedure ''failure'' on no arguments and returns its result; if ''failure'' is not provided, then an error that satisfies `hash-table-key-not-found?` is signaled.  Must execute in expected amortized constant time, not counting the time to call the procedures.  (SRFI 69 `hash-table-ref` does not support the ''success'' procedure)
 
 `(hash-table-ref/default `''hash-table key default''`)`
 
@@ -208,7 +240,7 @@ The following procedures alter the associations in a hash table either unconditi
 
 `(hash-table-set! `''hash-table'' ( ''key value'' ) ...`)`
 
-Repeatedly mutates ''hash-table'', creating new associations in ''hash-table'' that associates each ''key'' with the ''value'' that follows it.  If there is a previous association for ''key'', it is deleted.  It is an error if the type check procedure of the comparator of ''hash-table'', when invoked on ''key'', does not return `#t`. Likewise, it is an error if ''key'' is not a valid argument to the equality predicate of ''hash-table''.  Returns an unspecified value.  Must execute in expected amortized constant time.  (SRFI 69 `hash-table-set!`; R6RS `hashtable-set!`; handles multiple associations)
+Repeatedly mutates ''hash-table'', creating new associations in ''hash-table'' that associates each ''key'' with the ''value'' that follows it.  If there is a previous association for ''key'', it is deleted.  It is an error if the type check procedure of the comparator of ''hash-table'', when invoked on ''key'', does not return `#t`. Likewise, it is an error if ''key'' is not a valid argument to the equality predicate of ''hash-table''.  Returns an unspecified value.  Must execute in expected amortized constant time.  (SRFI 69 `hash-table-set!`, R6RS `hashtable-set!`, and Common Lisp `(setf gethash)` do not handle multiple associations)
 
 `(hash-table-set-entries! `''hash-table keys-list values-list''`)`
 
@@ -220,7 +252,7 @@ Repeatedly mutates ''hash-table'' using the associations of ''alist''.  Associat
 
 `(hash-table-delete! `''hash-table key'' ...`)`
 
-Deletes any association to each ''key'' in ''hash-table'' and returns the number of keys that had associations.  Must execute in expected amortized constant time.  (SRFI 69 `hash-table-delete!`; R6RS `hashtable-delete!`; Common Lisp `remhash`; handles multiple associations)
+Deletes any association to each ''key'' in ''hash-table'' and returns the number of keys that had associations.  Must execute in expected amortized constant time.  (SRFI 69 `hash-table-delete!`, R6RS `hashtable-delete!`, and Common Lisp `remhash` do not handle multiple associations)
 
 `(hash-table-delete-keys! `''hash-table keys-list''`)`
 
@@ -230,19 +262,19 @@ Semantically equivalent to, but may be implemented more efficiently than, the fo
 
 `(hash-table-extend! `''hash-table key'' [[|''failure'' [ ''success'' ]] ]`)`
 
-Invokes `hash-table-ref` with the given arguments and returns what it returns.  If ''key'' was not found in ''hash-table'', its value is set to the result being returned.
+Effectively invokes `hash-table-ref` with the given arguments and returns what it returns.  If ''key'' was not found in ''hash-table'', its value is set to the result being returned.
 
 `(hash-table-extend!/default `''hash-table key default''`)`
 
-Invokes `hash-table-ref/default` with the given arguments and returns what it returns.  If ''key'' was not found in ''hash-table'', its association is set to the result being returned.
+Effectively invokes `hash-table-ref/default` with the given arguments and returns what it returns.  If ''key'' was not found in ''hash-table'', its association is set to the result being returned.
 
 `(hash-table-replace! `''hash-table key'' [[|''failure'' [ ''success'' ]] ]`)`
 
-Invokes `hash-table-ref` with the given arguments and returns what it returns.  If ''key'' was found in ''hash-table'', its value is set to the result being returned.
+Effectively invokes `hash-table-ref` with the given arguments and returns what it returns.  If ''key'' was found in ''hash-table'', its value is set to the result being returned.
 
 `(hash-table-replace!/default `''hash-table key'' [[|''default'' ]]`)`
 
-Invokes `hash-table-ref/default` with the given arguments and returns what it returns.  If ''key'' was found in ''hash-table'', its value is set to the result being returned.
+Effectively invokes `hash-table-ref/default` with the given arguments and returns what it returns.  If ''key'' was found in ''hash-table'', its value is set to the result being returned.
 
 `(hash-table-update! `''hash-table key updater'' [[|''failure'' [ ''success ]] ]`)`
 
@@ -250,7 +282,7 @@ Semantically equivalent to, but may be implemented more efficiently than, the fo
 
   `(hash-table-set! `''hash-table key''` (`''updater'' `(hash-table-ref `''hash-table key failure success''`)))`
 
-Must execute in expected amortized constant time.  Returns an unspecified value.  (SRFI 69 `hash-table-update!/default`; R6RS `hashtable-update!`)
+Must execute in expected amortized constant time.  Returns an unspecified value.  (SRFI 69 `hash-table-update!/default` and R6RS `hashtable-update!` do not support the ''success'' procedure)
 
 `(hash-table-update!/default `''hash-table key updater default''`)`
 
@@ -272,8 +304,7 @@ If an association with ''key'' is found in ''hash-table'', then return the car o
 
 `(hash-table-search! `''hash-table key failure success''`)`
 
-Search ''hash-table'' for ''key''.  If it is not found, invoke the ''failure'' procedure with
-one argument, a unary ''add'' procedure which if invoked will insert a new association between ''key'' and its argument.  If ''key'' is found, invoke the ''success'' procedure with three arguments: the value found, a unary ''set'' procedure that updates the association to have the value specified as its argument, and a nullary ''delete'' procedure that deletes the association.  Returns whatever ''success'' or ''failure'' returns, as the case may be.
+Search ''hash-table'' for ''key''.  If it is not found, invoke the ''failure'' procedure with one argument, a unary ''add'' procedure which if invoked will insert a new association between ''key'' and its argument.  If ''key'' is found, invoke the ''success'' procedure with three arguments: the value found, a unary ''set'' procedure that updates the association to have the value specified as its argument, and a nullary ''delete'' procedure that deletes the association.  Returns whatever ''success'' or ''failure'' returns, as the case may be.
 
 === The whole hash table ===
 
@@ -281,7 +312,7 @@ These procedures process the associations of the hash table in arbitrary order.
 
 `(hash-table-clear! `''hash-table''`)`
 
-Delete all the associations from ''hash-table''.  Should execute in expected amortized constant time.  (R6RS `hashtable-clear!`; Common Lisp `clrhash`)
+Delete all the associations from ''hash-table''.  (R6RS `hashtable-clear!`; Common Lisp `clrhash`)
 
 `(hash-table-size `''hash-table''`)`
 
@@ -297,7 +328,7 @@ Returns a newly allocated list of all the keys in ''hash-table'' in an unspecifi
 
 `(hash-table-entries `''hash-table''`)`
 
-Returns two values, a newly allocated list of all the keys in ''hash-table'' in an unspecified order and a newly allocated of all the values in ''hash-table'' in the corresponding order.  (R6RS `hash-table-entries` returns vectors)
+Returns two values, a newly allocated list of all the keys in ''hash-table'' in an unspecified order and a newly allocated list of all the values in ''hash-table'' in the corresponding order.  (R6RS `hash-table-entries` returns vectors)
 
 `(hash-table-find `''hash-table proc''`)`
 
@@ -313,7 +344,7 @@ Calls ''proc'' for as many associations in ''hash-table'' as necessary with two 
 
 `(hash-table-every? `''comparator proc hash-table''`)`
 
-Calls ''proc'' for every association in ''hash-table'' with two arguments, the key and the value of the association.  If every invocation of ''proc'' returns true, `hash-table-every?` returns `#t`; otherwise it returns `#f`.
+Calls ''proc'' for as many associations in ''hash-table'' as necessary with two arguments, the key and the value of the association.  If every invocation of ''proc'' returns true, `hash-table-every?` returns `#t`; otherwise it returns `#f`.
 
 === Mapping and folding ===
 
@@ -347,9 +378,9 @@ Calls ''proc'' for every association in ''hash-table'' with two arguments: the k
 
 Calls ''proc'' for every association in ''hash-table'' with three arguments: the key of the association, the value of the association, and an accumulated value ''val''.  ''Val'' is ''init'' for the first invocation of ''procedure'', and for subsequent invocations of ''procedure'', the returned value of the previous invocation.  The value returned by `hash-table-fold` is the return value of the last invocation of ''proc''.  (SRFI 69 `hash-table-fold` has the ''hash-table'' as the first argument)
 
-`(hash-table-filter `''comparator proc hash-table''`)`
+`(hash-table-filter `''proc hash-table''`)`
 
-Returns a newly allocated hash table using ''comparator''.  Calls ''proc'' for every association in ''hash-table'' with two arguments, the key and the value of the association, and enters all associations  for which ''proc'' returns true into the new hash table.
+Returns a newly allocated hash table using the same comparator as ''hash-table''.  Calls ''proc'' for every association in ''hash-table'' with two arguments, the key and the value of the association, and enters all associations for which ''proc'' returns true into the new hash table.
 
 `(hash-table-filter! `''comparator proc hash-table''`)`
 
@@ -357,29 +388,29 @@ Calls ''proc'' for every association in ''hash-table'' with two arguments, the k
 
 `(hash-table-remove `''comparator proc hash-table''`)`
 
-Returns a newly allocated hash table using ''comparator''.  Calls ''proc'' for every association in ''hash-table'' with two arguments, the key and the value of the association, and enters all associations  for which ''proc'' returns false into the new hash table.
+Returns a newly allocated hash table using the same comparator as ''hash-table''.  Calls ''proc'' for every association in ''hash-table'' with two arguments, the key and the value of the association, and enters all associations for which ''proc'' returns false into the new hash table.
 
 `(hash-table-remove! `''comparator proc hash-table''`)`
 
-Calls ''proc'' for every association in ''hash-table'' with two arguments, the key and the value of the association, and removes all associations  for which ''proc'' returns true from ''hash-table'', which is returned.
+Calls ''proc'' for every association in ''hash-table'' with two arguments, the key and the value of the association, and removes all associations for which ''proc'' returns true from ''hash-table'', which is returned.
 
 `(hash-table-partition `''comparator proc hash-table''`)`
 
 Returns two values, both newly allocated hash tables using ''comparator''.  Calls ''proc'' for every association in ''hash-table'' with two arguments, the key and the value of the association, and enters all associations for which ''proc'' returns true into the first hash table and all other associations into the second hash table.
 
+`(hash-table-partition! `''comparator proc hash-table''`)`
+
+Returns two values, ''hash-table'' and a newly allocated hash table using the same comparator as ''hash-table''.  Calls ''proc'' for every association in ''hash-table'' with two arguments, the key and the value of the association, and removes all associations for which ''proc'' returns true from ''hash-table'' and enters them into the new hash table.
+
 === Copying and conversion ===
 
-`(hash-table-copy `''hash-table''`)`
+`(hash-table-copy `''hash-table'' [[|''immutable?'' ]]`)`
 
-Returns a newly allocated hash table with the same properties and associations as ''hash-table''. (SRFI 69 `hash-table-copy`; R6RS `hashtable-copy`, passing `#t` as the second argument)
+Returns a newly allocated hash table with the same properties and associations as ''hash-table''. If the second argument is present and is true, and the implementation supports immutable hash tables, the returned hash table is immutable.  (SRFI 69 `hash-table-copy` does not support second argument; R6RS `hashtable-copy`)
 
 `(hash-table->alist `''hash-table''`)`
 
 Returns an alist with the same associations as ''hash-table'' in an unspecified order.
-
-`(alist->hash-table `''alist comparator''`)`
-
-Returns a newly allocated hash-table as if by `make-hash-table`, initializing it from the associations of ''alist''.  Associations earlier in the list take precedence over those that come later.  (SRFI 69 `alist->hash-table`)
 
 === Hash tables as functions ===
 
