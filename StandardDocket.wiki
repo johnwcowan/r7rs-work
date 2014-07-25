@@ -42,7 +42,7 @@ Dictionaries (other than hash tables):
 
 Division library: DivisionRiastradh
 
-Enumerations and enum-sets: [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-15.html#node_chap_14|R6RS]] (see also http://www.r6rs.org/formal-comments/comment-262.txt), SetsCowan, `define-enum` in the [[http://wiki.call-cc.org/eggref/4/miscmacros|Chicken miscmacros egg]]
+Enumerations and enum-sets: [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-15.html#node_chap_14|R6RS]] (see also http://www.r6rs.org/formal-comments/comment-262.txt), `define-enum` in the [[http://wiki.call-cc.org/eggref/4/miscmacros|Chicken miscmacros egg]], EnumSetsCowan
 
 Environment enquiries: [[http://srfi.schemers.org/srfi-112/srfi-112.html|SRFI 112]]
 
@@ -140,7 +140,7 @@ Run-time records: [[http://srfi.schemers.org/srfi-99/srfi-99.html|SRFI 99]]
 
 Search and mismatch procedures:  SearchMismatchCowan
 
-Sets and bags: SetsCowan
+Sets and bags: [[http://srfi.schemers.org/srfi-113/srfi-113.html|SRFI 113]].
 
 Shift and reset: [[https://github.com/tonyg/pgg/blob/master/shift-reset.scm|Scheme48]], [[http://docs.racket-lang.org/reference/cont.html|Racket]]
 
