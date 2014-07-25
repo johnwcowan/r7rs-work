@@ -1,1 +1,1 @@
-See [[http://ccil.org/~cowan/temp/srfi-sets.html|this SRFI editor's draft]].
+See [[http://srfi.schemers.org/srfi-113/srfi-113.html|SRFI 113]].
