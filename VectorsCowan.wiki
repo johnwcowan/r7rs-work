@@ -12,29 +12,34 @@ The procedures that are already in R7RS-small will not be overridden by this lib
 
 * SRFI 43 means the procedure is available in SRFI 43.
 
+* SRFI 43+ means the procedure is available in SRFI 43 but additional ''start'' and ''end'' arguments are proposed.
+
 * SRFI 13 means an analogous procedure is available in SRFI 13.
 
 * SRFI 1 means an analogous procedure is available in SRFI 1.
+
+* SRFI 1/13 means an analogous procedure is available in both SRFI 1 and SRFI 13.
 
 == Constructors ==
 
 make-vector (R5RS), vector (R5RS), 
 vector-unfold (SRFI 43), vector-unfold-right (SRFI 43),
-vector-copy (R7RS), vector-reverse-copy (SRFI 43),
+vector-copy (R7RS), vector-reverse-copy (SRFI 43+),
 vector-append (R7RS), vector-concatenate (SRFI 43),
-vector-tabulate (SRFI 13), vector-join (SRFI 13)
+vector-tabulate (SRFI 1/13)
 
 == Predicates ==
 
-vector? (R5RS)
-vector-empty? (SRFI 43)
+vector? (R5RS),
+vector-empty? (SRFI 43),
 vector= (SRFI 43)
 
 == Selectors ==
 
-vector-ref (R5RS), vector-length (R5RS), vector-split-at (SRFI 1)
-vector-take (SRFI 13), vector-take-right (SRFI 13),
-vector-drop (SRFI 13), vector-drop-right (SRFI 13),
+vector-ref (R5RS), vector-length (R5RS), 
+vector-take (SRFI 1/13), vector-take-right (SRFI 1/13),
+vector-drop (SRFI 1/13), vector-drop-right (SRFI 13),
+vector-split-at (SRFI 1),
 vector-pad (SRFI 13), vector-pad-right (SRFI 13),
 vector-trim (SRFI 13), vector-trim-right (SRFI 13), vector-trim-both (SRFI 13)
 
@@ -47,41 +52,42 @@ vector-for-each (SRFI 43), vector-count (SRFI 43)
 
 == Filtering and partitioning ==
 
-vector-filter (SRFI 1), vector-remove (SRFI 1), vector-partition (SRFI 1)
+vector-filter (SRFI 1/13), vector-remove (SRFI 1/13), vector-partition (SRFI 1)
 
-== Searching ==
+== Deleting ==
 
-vector-find (SRFI 1), vector-index (SRFI 1), vector-contains (SRFI 13),
-vector-take-while (SRFI 1), vector-drop-while (SRFI 1),
-vector-span (SRFI 1), vector-break (SRFI 1),
+vector-delete (SRFI 1/13), vector-delete-duplicates (SRFI 1)
 
 == Prefixes and suffixes ==
 
 vector-prefix-length (SRFI 13), vector-suffix-length (SRFI 13), 
-vector-prefix? (SRFI 13), vector-suffix? (SRFI 13), 
+vector-prefix? (SRFI 13), vector-suffix? (SRFI 13)
  
 == Searching ==
 
+vector-find (SRFI 1),
 vector-index (SRFI 43), vector-index-right (SRFI 43), 
 vector-skip (SRFI 43), vector-skip-right (SRFI 43), 
-vector-binary-search (SRFI 43), 
-vector-any (SRFI 43), vector-every (SRFI 43), 
+vector-any (SRFI 43), vector-every (SRFI 43)
+vector-take-while (SRFI 1), vector-drop-while (SRFI 1),
+vector-binary-search (SRFI 43+), 
+
 
 == Zip and unzip ==
 
 vector-zip (SRFI 1),
 vector-unzip1 (SRFI 1), vector-unzip2 (SRFI 1),
-vector-unzip3 (SRFI 1), vector-unzip4 (SRFI 1), vector-unzip5 (SRFI 1), 
+vector-unzip3 (SRFI 1), vector-unzip4 (SRFI 1), vector-unzip5 (SRFI 1)
 
 == Mutators ==
 
 vector-set! (R5RS), vector-swap! (SRFI 43), 
 vector-fill! (R5RS+),
-vector-reverse! (SRFI 43), 
-vector-copy! (R7RS), vector-reverse-copy! (SRFI 43), 
+vector-reverse! (SRFI 43+), 
+vector-copy! (R7RS), vector-reverse-copy! (SRFI 43+)
 
 == Conversion ==
 
-vector->list (R5RS+), reverse-vector->list (SRFI 43), 
+vector->list (R5RS+), reverse-vector->list (SRFI 43+), 
 list->vector (R5RS), reverse-list->vector (SRFI 43), 
 vector->string (R7RS), string->vector (R7RS)
