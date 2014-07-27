@@ -24,7 +24,7 @@ The procedures that are already in R7RS-small will not be overridden by this lib
 
 make-vector (R5RS), vector (R5RS), 
 vector-unfold (SRFI 43), vector-unfold-right (SRFI 43),
-vector-copy (R7RS), vector-reverse-copy (SRFI 43+),
+vector-copy (R7RS), vector-copy! (R7RS), vector-reverse-copy (SRFI 43+),
 vector-append (R7RS), vector-concatenate (SRFI 43),
 vector-tabulate (SRFI 1/13)
 
@@ -32,7 +32,7 @@ vector-tabulate (SRFI 1/13)
 
 vector? (R5RS),
 vector-empty? (SRFI 43),
-vector= (SRFI 43)
+vector= (SRFI 43+)
 
 == Selectors ==
 
@@ -40,15 +40,13 @@ vector-ref (R5RS), vector-length (R5RS),
 vector-take (SRFI 1/13), vector-take-right (SRFI 1/13),
 vector-drop (SRFI 1/13), vector-drop-right (SRFI 13),
 vector-split-at (SRFI 1),
-vector-pad (SRFI 13), vector-pad-right (SRFI 13),
-vector-trim (SRFI 13), vector-trim-right (SRFI 13), vector-trim-both (SRFI 13)
 
 == Iteration ==
 
-vector-fold (SRFI 43), vector-fold-right (SRFI 43),
-vector-reduce (SRFI 43), vector-reduce-right (SRFI 43),
-vector-map (SRFI 43), vector-map! (SRFI 43), vector-append-map (SRFI 1),
-vector-for-each (SRFI 43), vector-count (SRFI 43)
+vector-fold (SRFI 43+), vector-fold-right (SRFI 43+),
+vector-reduce (SRFI 43+), vector-reduce-right (SRFI 43+),
+vector-map (SRFI 43+), vector-map! (SRFI 43+)
+vector-for-each (R7RS), vector-count (SRFI 43+)
 
 == Filtering and partitioning ==
 
@@ -66,10 +64,10 @@ vector-prefix? (SRFI 13), vector-suffix? (SRFI 13)
 == Searching ==
 
 vector-find (SRFI 1),
-vector-index (SRFI 43), vector-index-right (SRFI 43), 
-vector-skip (SRFI 43), vector-skip-right (SRFI 43), 
-vector-any (SRFI 43), vector-every (SRFI 43)
-vector-take-while (SRFI 1), vector-drop-while (SRFI 1),
+vector-index (SRFI 43+), vector-index-right (SRFI 43+), 
+vector-skip (SRFI 43+), vector-skip-right (SRFI 43+), 
+vector-any (SRFI 43+), vector-every (SRFI 43+)
+vector-take-while (SRFI 1+), vector-drop-while (SRFI 1+),
 vector-binary-search (SRFI 43+), 
 
 
