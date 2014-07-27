@@ -16,8 +16,6 @@ The procedures that are already in R7RS-small will not be overridden by this lib
 
 * SRFI 1 means an analogous procedure is available in SRFI 1.
 
-* SRFI 1* means a vaguely analogous procedure is available in SRFI 1.
-
 == Constructors ==
 
 make-vector (R5RS), vector (R5RS), 
@@ -30,10 +28,7 @@ vector-tabulate (SRFI 13), vector-join (SRFI 13)
 
 vector? (R5RS)
 vector-empty? (SRFI 43)
-
-== Comparison ==
-
-vector= (SRFI 43), vector< (SRFI 1*), vector> (SRFI 1*), vector<= (SRFI 1*), vector>= (SRFI 1*)
+vector= (SRFI 43)
 
 == Selectors ==
 
