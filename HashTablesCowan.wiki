@@ -73,7 +73,7 @@ The procedures in the present proposal are drawn primarily from SRFI 69 and R6RS
 
 * The `hash-table-mutable?` and the second argument of `hash-table-copy` (which allows the creation of immutable hash tables) are from R6RS, renamed in the style of the present proposal (although it does not require implementations to provide immutable hash tables).
 
-* The `hash-table-extend!`, `hash-table-extend/default`, `hash-table-map->alist`, `hash-table->alist`, and `alist->hash-table` are from [[http://docs.racket-lang.org/reference/hashtables.html|Racket]], renamed in the style of this proposal.
+* The `hash-table-extend!`, `hash-table-extend/default`, `hash-table-collect`, `hash-table->alist`, and `alist->hash-table` are from [[http://docs.racket-lang.org/reference/hashtables.html|Racket]], renamed in the style of this proposal.
 
 * The `hash-table-push!` and `hash-table-pop!` procedures are from [[http://practical-scheme.net/gauche/man/gauche-refe_53.html|Gauche]].
 
@@ -107,7 +107,7 @@ All references to "executing in expected amortized constant time" presuppose tha
 
 Hash tables are allowed to cache the results of calling the equality predicate and hash function, so programs cannot rely on the hash function being called exactly once for every primitive hash table operation: it may be called zero, one, or more times.
 
-It is an error if the procedure argument of `hash-table-find`, `hash-table-count`, `hash-table-map`, `hash-table-map-entries`, `hash-table-for-each`, `hash-table-update-each!`, `hash-table-map->list`, or `hash-table-fold` mutates the hash table being walked.
+It is an error if the procedure argument of `hash-table-find`, `hash-table-count`, `hash-table-map`, `hash-table-map-entries`, `hash-table-for-each`, `hash-table-update-each!`, `hash-table-collect`, or `hash-table-fold` mutates the hash table being walked.
 
 It is an error to compare two hash tables with different comparators or equality predicates.
 
@@ -123,7 +123,7 @@ It is an error to compare two hash tables with different comparators or equality
 
 * [[#Thewholehashtable|The whole hash table]]: `hash-table-clear!`, `hash-table-size`, `hash-table-keys`, `hash-table-values`, `hash-table-entries`, `hash-table-find`, `hash-table-count`, `hash-table-any?`, `hash-table-every?`
 
-* [[#Mappingandfolding|Mapping and folding]]: `hash-table-map`, `hash-table-for-each`, `hash-table-map-entries`, `hash-table-update-each!`, `hash-table-map->list`, `hash-table-fold`, `hash-table-filter`, `hash-table-filter!`, `hash-table-remove`, `hash-table-remove!`, `hash-table-partition`, `hash-table-partition!`
+* [[#Mappingandfolding|Mapping and folding]]: `hash-table-map`, `hash-table-for-each`, `hash-table-map-entries`, `hash-table-update-each!`, `hash-table-collect`, `hash-table-fold`, `hash-table-filter`, `hash-table-filter!`, `hash-table-remove`, `hash-table-remove!`, `hash-table-partition`, `hash-table-partition!`
 
 * [[#Copyingandconversion|Copying and conversion]]: `hash-table-copy`, `hash-table->alist`
 
@@ -370,7 +370,7 @@ When the key being added already exists in the hash table, the procedure ''merge
 
 Calls ''proc'' for every association in ''hash-table'' with two arguments: the key of the association and the value of the association.  The value returned by ''proc'' is used to update the value of the association.   Returns an unspecified value.
 
-`(hash-table-map->list `''proc hash-table''`)`
+`(hash-table-collect `''proc hash-table''`)`
 
 Calls ''proc'' for every association in ''hash-table'' with two arguments: the key of the association and the value of the association.  The value returned by ''proc'' is accumulated into a list, which is returned.  
 
