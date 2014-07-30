@@ -6,7 +6,7 @@ Applicable record instances: [[http://www.r6rs.org/formal-comments/comment-6.txt
 
 Assertions: [[http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_750|R6RS]], R6RS with optional message and irritants.
 
-Association list library (supplements SRFI 1):  AssociationListsCowan
+Association list library: flushed (SRFI 1 does enough)
 
 Binary heap: BinaryHeapsCowan (includes queues)
 
@@ -138,7 +138,7 @@ Restarts:  [[http://www.ai.mit.edu/projects/iiip/doc/CommonLISP/HyperSpec/Body/s
 
 Run-time records: [[http://srfi.schemers.org/srfi-99/srfi-99.html|SRFI 99]]
 
-Search and mismatch procedures:  SearchMismatchCowan
+Search and mismatch procedures:  flushed (use 
 
 Sets and bags: [[http://srfi.schemers.org/srfi-113/srfi-113.html|SRFI 113]].
 
