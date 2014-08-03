@@ -1,6 +1,6 @@
-This is a proposal for a WG2 numeric vector API.  The conceit is that we provide what appear to be a set of specialized numeric-only vectors, but there really is only one underlying type, the bytevector.  This makes it easy to see a single byte sequence in a variety of ways, not just as a homogeneous vector.
+This is a proposal for a simple numeric vector API.  The conceit is that we provide what appear to be a set of specialized numeric-only vectors, but there really is only one underlying type, the bytevector.  This makes it easy to see a single byte sequence in a variety of ways, not just as a homogeneous vector.
 
-This design subsumes [[http://srfi.schemers.org/srfi-4/srfi-4.html|SRFI 4]] with the exception of its type predicates.  It differs from related designs such as SRFI 63, SRFI 66, and R6RS in that each procedure listed below actually represents many procedures, one for each defined representation type.  This makes for a ''lot'' of procedures, but many of them can be easily inlined by even a very dumb compiler, providing high efficiency.
+This design subsumes [[http://srfi.schemers.org/srfi-4/srfi-4.html|SRFI 4]] with the exception of its type predicates.  It differs from related designs such as SRFI 63, SRFI 66, and R6RS in that each procedure listed below actually represents many procedures, one for each defined representation type.  This makes for a ''lot'' of procedures, but many of them can be easily inlined by even a very dumb compiler, providing high efficiency.  The procedures provided are the numeric-vector analogues of the R7RS-small vector API.
 
 == Representation types ==
 
@@ -57,13 +57,18 @@ Returns a newly allocated bytevector of length ''k * b'', where ''b'' is the num
 
 `(<type>vector ` ''v'' ... `)`
 
-Returns a newly allocated bytevector of length ''k * b'', where ''k'' is the number of arguments to the procedure and ''b'' is the number of bytes specified by <type>.  It is filled with the binary values resulting from encoding the arguments according to <type>.  An error is signaled if an argument cannot be accurately converted to `<type>`.
+Returns a newly allocated bytevector of length ''k * b'', where ''k'' is the number of arguments to the procedure and ''b'' is the number of bytes specified by <type>.  It is filled with the binary values resulting from encoding the ''v'' arguments according to <type>.  An error is signaled if an argument cannot be accurately converted to `<type>`.
+
+== Predicates ==
+
+There are no `<type>vector?` predicates, as `bytevector?` is sufficient.
+
+`(bytevector-empty? ` ''bytevector''`)`
+
+Returns `#t` iff ''bytevector'' has length 0.  This procedure is not specialized for different numeric types.
+
 
 == Selectors ==
-
-`(<type>vector-length ` ''bytevector''`)`
-
-Returns the length of ''bytevector'' divided by ''b'', where ''b'' is the number of bytes specified by <type>, and rounded toward zero.
 
 `(<type>vector-ref` ''bytevector k''`)`
 
@@ -89,19 +94,35 @@ Since `bytevector-u8-set!` is defined in the small language, it is excluded here
 
 == Conversions ==
 
-`(vector-><type>vector `''vector''`)`
+`(vector-><type>vector `''vector'' [[''start''|[ ''end'' ]] ]`)`
 
-`(list-><type>vector `''vector''`)`
+`(list-><type>vector `''list''`)`
 
 Returns a newly allocated bytevector which, when viewed as a <type>vector, has the same elements as ''vector'' or ''list''.  An error is signaled if an element of ''vector'' or ''list'' cannot be accurately converted to `<type>`.
 
-`(<type>vector->vector `''bytevector''`)`
+`(vector-><type>vector! `''bytevector at vector'' [[''start''|[ ''end'' ]] ]`)`
 
-`(<type>vector->list `''bytevector''`)`
+Writes the elements of ''vector'' from ''start'' to ''end'' into ''bytevector'' starting at ''at''.  An error is signaled if an element of ''vector'' cannot be accurately converted to `<type>`.
 
-Returns a vector or list with the same elements as ''bytevector'' viewed as a <type>vector.
+`(list-><type>vector! `''list at''`)`
 
-== Copying, appending, and filling ==
+Writes the elements of ''list'' into ''bytevector'' starting at ''at''.  An error is signaled if an element of ''vector'' or ''list'' cannot be accurately converted to `<type>`.
+
+`(<type>vector->vector `''bytevector'' [[|''start'' [ ''end'' ]] ]`)`
+
+`(<type>vector->list `''bytevector'' [[|''start'' [ ''end'' ]] ]`)`
+
+Returns a newly allocated vector or list with the elements of ''bytevector'' from ''start'' to ''end'' when viewed as a <type>vector.
+
+`(<type>vector->vector! `''vector at bytevector'' [[''start''|[ ''end'' ]] ]`)`
+
+Writes the elements of ''bytevector'' when viewed as a <type>vector from ''start'' to ''end'' into ''vector'' starting at ''at''.
+
+== The whole numeric vector ==
+
+`(<type>vector-length ` ''bytevector''`)`
+
+Returns the length of ''bytevector'' divided by ''b'', where ''b'' is the number of bytes specified by <type>, and rounded toward zero.
 
 `(<type>vector-copy `[[|[ ''start'' ]] ''end'' ] `)`
 
@@ -112,6 +133,10 @@ These procedures are equivalent to calling `bytevector-copy` with the ''start'' 
 These procedures are equivalent to calling `bytevector-copy!` with the ''start'', ''end'', and ''at'' arguments multiplied by ''b'', where ''b'' is the number of bytes specified by <type>.
 
 There are no `<type>vector-append` procedures, as `bytevector-append` is sufficient.
+
+`(bytevector-concat` ''list-of-bytevector''`)`
+
+Returns the result of concatenating the bytevectors which are members of ''list-of-bytevectors''.  This procedure is not specialized for different numeric types.
 
 `(<type>vector-fill! `''bytevector fill'' [[|[ ''start'' ]] ''end'' ] `)`
 
@@ -127,9 +152,9 @@ Returns a newly allocated bytevector which, when viewed as a <type>vector, conta
 
 Applies ''proc'' to the elements of the ''bytevector''s when viewed as <type>vectors.  Returns an unspecified value.
 
-== More procedures ==
+== Extended numeric vector API ==
 
-See NumericVectorsAdvancedCowan.
+See the procedures of VectorsCowan, with the exceptions of the ones defined here.
 
 == Structured representation types ==
 
