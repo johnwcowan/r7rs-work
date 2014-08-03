@@ -10,7 +10,7 @@ For the purposes of this proposal, an ''instant'' is an exact integer representi
 
 == Chronologies ==
 
-A ''chronology'' is an immutable member of a disjoint type that describes a particular calendar, such as the ISO, Gregorian, Julian, TAI, Jewish, Islamic, Persian, French Revolutionary, Maya, Chinese, Buddhist, Thai, Coptic, Ethiopic, or Martian calendar.  The chronologies primitively supported by an application are called the ''base chronologies''.  Implementations MUST support the ISO chronology, and MAY support any of the other calendars mentioned here, or indeed any calendar not mentioned here.  (The ISO chronology is similar to the Gregorian chronology: see the "ISO date fields" section for detailed differences.)
+A ''chronology'' is an immutable member of a disjoint type that describes a particular calendar, such as the ISO, Gregorian, Julian, TAI, Jewish, Islamic, Persian, French Revolutionary, Maya, Chinese, Buddhist, Thai, Coptic, Ethiopic, or Martian calendar.  The chronologies primitively supported by an implementation are called the ''base chronologies''.  Implementations MUST support the ISO chronology, and MAY support any of the other calendars mentioned here, or indeed any calendar not mentioned here.  (The ISO chronology is similar to the Gregorian chronology: see the "ISO date fields" section for detailed differences.)
 
 Chronologies also incorporate the concept of time zone.  An implementation MUST support the UTC (Universal Coordinated Time) time zone and any time zones expressible as a fixed offset in minutes from UTC.  It SHOULD support the historical time zones of the [[http://en.wikipedia.org/wiki/Tz_database|tz database]].  
 
@@ -30,7 +30,7 @@ Returns a list of the symbols naming the base chronologies provided by the imple
 
 `(chronology-name `''chronology''`)`
 
-Returns the symbol that names ''chronology'', or #f if it is not a base chronology.
+Returns the symbol that names ''chronology'', or #f if it has no name.
 
 `(chronology-fields `''chronology''`)`
 
@@ -42,7 +42,7 @@ Returns `#t` if ''obj'' is a chronology and `#f` otherwise.
 
 `(derive-chronology `[[|''chronology'' ]]` `''time-zone''`)`
 
-Returns a chronology based on ''chronology'', by default the value of `(current-chronology)`, but using the time zone specified by ''timezone''.    In the ISO and Gregorian chronologies, if ''timezone'' is an integer, it represents the number of minutes ahead of UTC, but if the implementation supports the `tz` database, and ''time-zone'' is a string containing a time zone name defined by that database, it represents the time zone with that name.  Otherwise, the interpretation of ''timezone'' is implementation-dependent.  Derived chronologies do not have names.
+Returns a chronology based on ''chronology'', by default the value of `(current-chronology)`, but using the time zone specified by ''timezone''.    In the ISO and Gregorian chronologies, if ''timezone'' is an integer, it represents the number of minutes ahead of UTC, but if the implementation supports the `tz` database, and ''time-zone'' is a string containing a time zone name defined by that database, it represents the time zone with that name.  Otherwise, the interpretation of ''timezone'' is implementation-dependent.  Derived chronologies may also be constructed by the application, and may or may not have names.
 
 `(chronology-time-zone `''chronology''`)`
 
@@ -50,11 +50,11 @@ Returns a time-zone value which, when applied to the base chronology of ''chrono
 
 `(make-compound-chronology `''chronology1''` `''chronology2''` `''instant''`)`
 
-Returns a chronology that uses ''chronology2'' at all times before ''instant'', and ''chronology1'' for all times including and following ''instant''.  This is useful for constructing chronologies that transition from Julian to Gregorian or from one timezone to another at a specified date.  Compound chronologies do not have names.  The fields available in a compound chronology are the union of those available in the underlying chronologies, but not all fields may be available for all instants.
+Returns a chronology that uses ''chronology2'' at all times before ''instant'', and ''chronology1'' for all times including and following ''instant''.  This is useful for constructing chronologies that transition from Julian to Gregorian or from one timezone to another at a specified date.  Compound chronologies may also be constructed by the application, and may or may not have names.  The fields available in a compound chronology are the union of those available in the underlying chronologies, but not all fields may be available for all instants.
 
 == Date objects ==
 
-A ''date object'' is an immutable member of a disjoint type that provides information about a specific date or time with respect to a certain chronology.  For example, at least with respect to the ISO, Gregorian, or Julian chronologies, a date may represent a specific year, a specific week of a specific year, or an instant in time precise to a second.  On the other hand, a date object may contain just a particular month.  Date objects have multiple numeric-valued fields such as `year` or `minute-of-day`, whose meanings and possible values are determined by the chronology.
+A ''date object'' is an immutable member of a disjoint type that provides information about a specific interval of time with respect to a certain chronology.  Chronologies are independent of spatial coordinates: no account is taken of relativistic time dilation.  For example, at least with respect to the ISO, Gregorian, or Julian chronologies, a date may represent a specific year, a specific week of a specific year, or an instant in time precise to a second.  Date objects have multiple numeric-valued fields such as `year` or `minute-of-day`, whose meanings and possible values are determined by the chronology.
 
 
 == Date procedures ==
@@ -73,7 +73,7 @@ Returns a newly allocated alist containing the fields of ''date''.  Implementati
 
 `(date-field `''date''` `''fieldname''`)`
 
-Returns the numeric value of the field named ''fieldname'' (a symbol) within ''date'', or `#f` if there is no such field.  If the specified field was not provided when ''date'' was constructed, and it is possible to compute its value from the values of fields that were provided, the value is computed and returned.
+Returns the numeric value of the field named ''fieldname'' (a symbol) within ''date'', or `#f` if there is no such field.  If the specified field was not provided when ''date'' was constructed, the value is computed and returned.
 
 `(convert-date `[[|''chronology'' ]]` `''date''`)`
 
@@ -85,7 +85,7 @@ Returns a date object based on ''date'', but with the field named ''fieldname'' 
 
 `(date-increment `''date''` `''fieldname''` `''increment''`)`
 
-Returns a date object which is later than ''date'' by ''increment'' measured in the units specified by ''fieldname'', or earlier if ''increment'' is negative.   Returns `#f` if an appropriate date object cannot be constructed due to lack of information in ''date'' An error is signaled if ''fieldname'' is unknown.
+Returns a date object which is later than ''date'' by ''increment'' measured in the units specified by ''fieldname'', or earlier if ''increment'' is negative.   An error is signaled if ''fieldname'' is unknown.
 
 For example, `(date-increment `''date''` 'day-of-month 7)` adds seven days to ''date''
 (which is typically the same as one week, but may be different in some chronologies).    
@@ -98,7 +98,7 @@ Returns the chronology associated with ''date''.
 
 `(date-field-minimum `''date''` `''fieldname''`)`
 
-Returns the maximum or minimum legal value of the field named ''fieldname'' in the chronology associated with ''date''.  This value is not necessarily the same for all instants; for example, 28 is the maximum value of `day-of-month` if `month` has the value 2 (February) and `year` is not a leap year.  Returns `#f` if the value cannot be determined (there is no maximum or minimum year in the ISO chronology, for example).
+Returns the maximum or minimum legal value of the field named ''fieldname'' in the chronology associated with ''date''.  This value is not necessarily the same for all date objects in a particular chronology; for example, 28 is the maximum value of `day-of-month` if `month` has the value 2 (February) and `year` is not a leap year.  Returns `#f` if the value cannot be determined (there is no maximum or minimum year in the ISO chronology, for example).
 
 `(date-round `''date''` `''fieldname''`)`
 
@@ -113,7 +113,7 @@ Returns a date object which is the same as ''date'', but adjusted to the nearest
 
 == ISO date fields ==
 
-The values of these fields MUST be either exact integers or `#f` if they were not explicitly set and cannot be calculated from the given information.  These fields are specified for the ISO, Gregorian, and Julian chronologies, but they may be relevant to other chronologies as well; it is easiest to use a chronology if it supports the standard fields.  For interoperability, every chronology must support the `instant` field.  The field names come from Joda Time, and ultimately from ISO 8601.
+The values of these fields MUST be exact integers.  These fields are specified for the ISO, Gregorian, and Julian chronologies, but they may be relevant to other chronologies as well; it is easiest to use a chronology if it supports the standard fields.  For interoperability, every chronology must support the `instant` field.  The field names come from Joda Time, and ultimately from ISO 8601.
 
  `century`::
    The absolute century of the date.  In the ISO chronology, the century of 1965 C.E. is 19, the century of 70 C.E. is 0, and the century of 43 B.C.E is -1.  In the Gregorian and Julian chronologies, they are 20, 1, and -1 respectively, and there is no century 0.
