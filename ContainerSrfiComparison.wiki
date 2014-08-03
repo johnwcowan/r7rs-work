@@ -86,13 +86,13 @@ The following sections and subsections are omitted here because they aren't like
 
 == List oddities ==
 
-`xcons`, `circular-list`, `proper-list?`, `circular-list?`, `dotted-list?`, `not-pair?`, `null-list?`, `car+cdr`, `last-pair`, `append!`, `pair-fold`, `pair-fold-right`, `pair-for-each`, `find-tail`.
+`xcons`, `circular-list`, `proper-list?`, `circular-list?`, `dotted-list?`, `not-pair?`, `null-list?`, `car+cdr`, `last-pair`, `append!`, `pair-fold`, `pair-fold-right`, `pair-for-each`, `find-tail`, the alist procedures, and the list-set procedures.
 
 In SRFI 1, `length` corresponds to R5RS `length`, whereas `length+` corresponds to R7RS `length`.
 
 == String oddities ==
 
-`substring/shared`, `string-concatenate/shared`, `string-append/shared`, `string-concatenate-reverse/shared`, `string-replace`, `string-tokenize`.
+`substring/shared`, `string-concatenate/shared`, `string-append/shared`, `string-concatenate-reverse/shared`, `string-replace`, `string-tokenize`, the trimming and padding procedures, the case mapping procedures, and the low-level procedures.
 
 == Footnotes ==
 
@@ -100,14 +100,7 @@ In SRFI 1, `length` corresponds to R5RS `length`, whereas `length+` corresponds 
 
 == Maximalist proposal ==
 
-The ''maximalist proposal'' is that this is for R7RS-large, and all the empty boxes should be filled with procedures, except for cases where it clearly makes no sense to do so.  Here's a list of "makes no sense" procedures that various people have proposed:
+The ''maximalist proposal'' is that this is for R7RS-large, and all the empty boxes under "Vector Library" should be filled with procedures.  The "List Library" and "String Library" procedures already correspond to the extent reasonable.  A proposal for those procedures can be found at VectorsCowan.
 
-* `list-binary-search` has the wrong speed and space performance to make any sense
-* `string-binary-search` doesn't reflect the way people use strings: a vector of chars would be more plausible
-* `first` .. `tenth` are primarily leftovers from the very old days before records
-* `string-iota` because strings don't hold integers
-* `string-append-reverse` and `vector-append-reverse`, because it is not normal to build strings and vectors up in reverse
+In addition, provide SRFI 1 and R5RS `length` as `simple-length`.
 
-As part of this proposal, provide SRFI 1 and R5RS `length` as `simple-length`.
-
-SearchCowan, SubstituteCowan, and AssociationListsCowan are extensions to the maximalist proposal.
