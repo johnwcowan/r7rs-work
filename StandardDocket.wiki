@@ -8,7 +8,7 @@ Assertions: [[http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_750|
 
 Association list library: flushed (SRFI 1 does enough)
 
-Binary heap: BinaryHeapsCowan (includes queues)
+Binary heap: BinaryHeapsCowan
 
 Binary search: [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]]
 
@@ -122,7 +122,7 @@ Procedure arity inspection: [[http://srfi.schemers.org/srfi-102/srfi-102.html|SR
 
 Processes (system, popen, etc): SystemCommandCowan + ProcessPortsCowan
 
-Queues:  [[http://wiki.call-cc.org/man/4/Unit%20data-structures#queues|Chicken API]], BinaryHeapsCowan, [[http://people.csail.mit.edu/jaffer/slib/Queues.html#Queues|SLIB]]
+Queues:  QueuesCowan
 
 Random numbers: RandomnessCommonLisp, [[http://srfi.schemers.org/srfi-27/srfi-27.html|SRFI 27]], RandomCowan, RandomnessArcfide (in WG1 vote order)
 
