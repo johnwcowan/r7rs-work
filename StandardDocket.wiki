@@ -22,7 +22,7 @@ Combinators: CombinatorsCowan
 
 Comparators: [[http://srfi.schemers.org/srfi-114/srfi-114.html|SRFI 114]]
 
-Concatenation:  ConcatenateCowan
+Concatenation:  flushed in favor of [[http://srfi.schemers.org/srfi-1/srfi-1.html|SRFI 1]], [[http://srfi.schemers.org/srfi-13/srfi-13.html|SRFI 13]], and VectorsCowan.
 
 `cond` `=>` with guard as well as generator (see #89):  [[http://srfi.schemers.org/srfi-61/srfi-61.html|SRFI 61]]
 
@@ -38,7 +38,7 @@ Date-time parser: [[https://code.google.com/p/hato/source/browse/hato-date.scm|H
 
 Descriptive statistics:  TallyCowan
 
-Dictionaries (other than hash tables):
+Dictionaries (other than hash tables): ImmutableDataStructuresWortman (also includes deques and sets)
 
 Division library: DivisionRiastradh
 
@@ -136,7 +136,7 @@ REPL facilities: ReplCowan
 
 Restarts:  [[http://www.ai.mit.edu/projects/iiip/doc/CommonLISP/HyperSpec/Body/sec_9-1-4-2.html|Common Lisp]], [[http://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Restarts.html|MIT]], [[http://mumble.net/~campbell/proposals/restart.text|RestartersRiastradh]]
 
-Run-time records: [[http://srfi.schemers.org/srfi-99/srfi-99.html|SRFI 99]]
+Run-time records: [[http://srfi.schemers.org/srfi-99/srfi-99.html|SRFI 99]], possibly simplified syntax
 
 Search and mismatch procedures:  flushed (use 
 
@@ -174,8 +174,8 @@ Unicode character database: UcdCowan
 
 Unicode normalization: [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-2.html#node_idx_58|R6RS]], `string-ni=?` and friends (from earlier R7RS-small drafts).
 
-Vector library: [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]], VectorsCowan
+Vector library: [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]], VectorsCowan (extension of SRFI 43)
 
 Weak dictionaries/hashtables:
 
-Weak references (soft, phantom):
+Weak references (soft, phantom): [[http://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Ephemerons.html|MIT Scheme ephemerons]], [[http://docs.racket-lang.org/reference/ephemerons.html|Racket ephemerons]]
