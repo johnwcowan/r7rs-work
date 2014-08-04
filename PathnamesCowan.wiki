@@ -18,7 +18,7 @@ The components of a pathname are ''scheme'', ''host'', ''port'', ''username'', '
 
 ''Device'' is a Windows-style device name without a trailing colon.  It is a string, typically but not always a single character.
 
-''Directory'' is a directory path, which is represented as a list.  The first element is always a symbol, which can be `absolute` or `relative` or `unc`, representing absolute, relative, and UNC directory paths respectively.  The root directory is represented by the list `(absolute)`.  A null directory path is represented by the empty list.  The other elements are strings.
+''Directory'' is a directory path, which is represented as a list.  The first element is always a symbol, which can be `absolute` or `relative` or `unc`, representing absolute, relative, and UNC directory paths respectively.  The root directory is represented by the list `(absolute)`, and a null directory path is represented by the list `(relative)`.  The other elements are strings.
 
 ''Name'' is a simple file name without the associated file type or extension, if any.  It is a string.
 
@@ -82,7 +82,7 @@ The scheme component is set to `"file"`, and the username, password, port, name,
 
 Constructs and returns a pathname.  ''Uri'' is a string to be converted to a pathname.  It is parsed according to IRI rules, which are the same as URI rules except that sequences of `%`-hexdigit-hexdigit escapes that represent UTF-8 byte sequences are parsed into characters, provided the requisite characters are supported by the implementation.
 
-The scheme, host, port, username, password, directory, name, type, query, and fragment components are potentially populated from ''uri''.  The device component is set to `#f`.
+The device component is set to `#f`.  All the other components are potentially populated from ''uri''.
 
 == Deconstructors ==
 
@@ -138,7 +138,7 @@ The scheme, host, port, username, password, directory, name, type, query, and fr
 
 Returns `#t` if ''object'' is a pathname, and `#f` otherwise.
 
-`(pathname=` ''pathname1''` `''pathname2''`)`
+`(pathname=?` ''pathname1''` `''pathname2''`)`
 
 Compares ''pathname1'' and ''pathname2'' for equality, component-wise.  Note that two pathnames may be different according to `pathname=?` but still access the same resource.  The host components are compared case-insensitively.
 
@@ -152,7 +152,7 @@ Returns `#t` if ''pathname'' specifies an absolute or UNC filename.
 
 `(pathname-absolute-uri? `''pathname''`)`
 
-Returns `#t` if ''pathname'' specifies an absolute URI (the fragment component must be #f).
+Returns `#t` if ''pathname'' specifies an absolute URI/IRI (the fragment component must be #f).
 
 `(pathname-uri? `''pathname''`)`
 
