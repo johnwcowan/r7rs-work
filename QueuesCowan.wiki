@@ -1,0 +1,117 @@
+== Queues ==
+
+Queues (also known as deques) are mutable ordered collections that can contain any Scheme object.  Objects can be added to or removed from either end of a queue.  Each queue contains a list that contains the elements of the queue, and maintains pointers to the first and last element of the list.  Queues are disjoint from other types of Scheme objects.
+
+The API provided here is closely analogous to the R7RS-small API for lists.  Other list procedures can be applied to queues using `queue->list`, `list->queue`, and `list-queue!`.
+
+== Procedures ==
+
+=== Constructors ===
+
+`(make-queue `''k'' [[|''fill'' ]]`)`
+
+Returns a newly allocated queue of ''k'' elements whose value is ''fill''.  If ''fill'' is omitted, an implementation-dependent value is chosen.
+
+`(queue `''element'' ...`)`
+
+Returns a newly allocated queue containing the ''elements''.
+
+`(queue-copy` ''queue''`)`
+
+Returns a newly allocated queue containing the elements of ''queue''.
+
+=== Predicates ===
+
+`(queue? `''obj''`)`
+
+Returns `#t` if ''obj'' is a queue, and `#f` otherwise.
+
+`(queue-empty? `''queue''`)`
+
+Returns `#t` if ''obj'' is a queue with no elements, and `#f` otherwise.
+
+=== Accessors ===
+
+`(queue-first `''queue''` `''element''`)`
+
+Returns the first element of the queue.  This operation is O(1).
+
+`(queue-last`''queue''` `''element''`)`
+
+Returns the last element of the queue.  This operation is O(1).
+
+`(queue-ref ''queue k''`)`
+
+Returns the ''k''th element of ''queue''.  This operation is O(k).
+
+=== Mutators ===
+
+`(queue-add-first! `''queue''` `''element''`)`
+
+Adds ''element'' to the beginning of ''queue''.  Returns an unspecified value.  This operation is O(1).
+
+`(queue-add-last! `''queue''` `''element''`)`
+
+Adds ''element'' to the end of ''queue''.  Returns an unspecified value.  This operation is O(1).
+
+`(queue-remove-first! `''queue''`)`
+
+Removes the first element of the queue and returns it.  This operation is O(1).
+
+`(queue-remove-last! `''queue''`)`
+
+Removes the last element of the queue and returns it.  This operation is O(1).
+
+`(queue-set! ''queue k value''`)`
+
+Sets the ''k''th element of ''queue'' to ''value''.  This operation is O(k).
+
+=== The whole queue ===
+
+`(queue-length `''queue''`)`
+
+Returns the number of elements in ''queue''.
+
+`(queue-append`''queue'' ...`)`
+
+Returns a queue which contains all the elements in all the ''queues'' in the order in which they appear in the call.
+
+`(queue-reverse `''queue''`)`
+
+Returns a newly allocated queue with the same elements as in ''queue'' but in reverse order.
+
+`(queue-member? `''queue element predicate''`)`
+
+Returns `#t` if ''element'' is a member of ''queue'' (in the sense of ''predicate'') and `#f` otherwise.
+
+=== Mapping ===
+
+`(queue-map `''proc queue''`)`
+
+Applies ''proc'' to each element of ''queue'' in order and returns a newly allocated queue containing the results.
+
+`(queue-map! `''proc queue''`)`
+
+Applies ''proc'' to each element of ''queue'' in order and modifies ''queue'' to contain the results.
+
+`(queue-for-each `''proc''` `''queue''`)`
+
+Applies ''proc'' to each element of ''queue'' in order, discarding the returned values.  Returns an unspecified value.
+
+`(queue->list `''queue''`)`
+
+Returns the list that contains the members of ''queue'' in order.  It is an error to mutate the cdrs of such a list, as it shares storage with the queue.
+
+`(list->queue `''list''`)`
+
+Returns a newly allocated queue containing the elements of ''list'' in order.  It is an error to mutate ''list'' after calling this procedure, as it may share storage with the queue.
+
+To apply a non-destructive list procedure to a queue and return a new queue, use `(list->queue (`''proc''` (queue->list `''queue''`)))`.
+
+`(list->queue! `''queue list''`)`
+
+Replaces the list associated with ''queue'' with ''list'', effectively discarding all the elements of ''queue'' in favor of those in ''list''.  It is an error to mutate ''list'' after calling this procedure, as it may share storage with the queue.  Returns an unspecified value.
+
+To apply a destructive list procedure to a queue, use `(list->queue! (`''proc''` (queue->list `''queue''`)))`.
+
+
