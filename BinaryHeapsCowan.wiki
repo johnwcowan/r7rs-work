@@ -16,11 +16,9 @@ Returns a newly allocated heap containing the elements of ''heap'' with the same
 
 Returns `#t` if ''obj'' is a heap, and `#f` otherwise.
 
-`(heap-length `''heap''`)`
+`(heap-size`''heap''`)`
 
 Returns the number of elements in ''heap''.
-
-'''Issue:''' change the name to `heap-size` or `heap-count`?
 
 `(heap-member? `''heap''` `''element''`)`
 
