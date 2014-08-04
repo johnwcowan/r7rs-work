@@ -159,3 +159,7 @@ See the procedures of VectorsCowan, with the exceptions of the ones defined here
 == Structured representation types ==
 
 For mapping C structs onto bytevectors, see StructuresCowan or [[https://gitorious.org/taylan-guile/bytestructures/source/0a5426d6b5a6bea66f0f6eea02690c22e11e251a:|StructuresTaylan]].
+
+== Implementation ==
+
+[[https://gist.github.com/ijp/1e0e67ff93c486f66fc8|This syntax-rules macro by Ian Price]] will be helpful in implementing lots of similar but not identical procedures for the 38 types.
