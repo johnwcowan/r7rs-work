@@ -54,14 +54,14 @@ Returns a chronology that uses ''chronology2'' at all times before ''instant'', 
 
 == Date objects ==
 
-A ''date object'' is an immutable member of a disjoint type that provides information about a specific interval of time with respect to a certain chronology.  Chronologies are independent of spatial coordinates: no account is taken of relativistic time dilation.  For example, at least with respect to the ISO, Gregorian, or Julian chronologies, a date may represent a specific year, a specific week of a specific year, or an instant in time precise to a second.  Date objects have multiple numeric-valued fields such as `year` or `minute-of-day`, whose meanings and possible values are determined by the chronology.
+A ''date object'' is an immutable member of a disjoint type that provides information about a specific interval of time with respect to a certain chronology.  Chronologies are independent of spatial coordinates: no account is taken of relativistic time dilation.  For example, at least with respect to the ISO, Gregorian, or Julian chronologies, a date object may represent a specific year, a specific week of a specific year, or an instant in time precise to a second.  Date objects have multiple numeric-valued fields such as `year` or `minute-of-day`, whose meanings and possible values are determined by the chronology.
 
 
 == Date procedures ==
 
 `(make-date `[[|''chronology'' ]]` `''alist''`)`
 
-Returns a date object using ''chronology'', defaulting to the value of `(current-chronology)`.  ''Alist'' is an association list that maps symbols which are field names meaningful to ''chronology'' to associated numeric values.  An error is signaled if the field values are invalid or mutually inconsistent.
+Returns a date object using ''chronology'', defaulting to the value of `(current-chronology)`.  ''Alist'' is an association list that maps symbols which are field names meaningful to ''chronology'' to associated numeric values.  An error is signaled if the field values are unknown to the chronology, insufficient to specify a particular date object (for example, a month without a year) or mutually inconsistent.
 
 `(date? `''obj''`)`
 
