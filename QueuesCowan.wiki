@@ -1,8 +1,10 @@
 == Queues ==
 
-Queues (also known as deques) are mutable ordered collections that can contain any Scheme object.  Objects can be added to or removed from either end of a queue.  Each queue contains a list that contains the elements of the queue, and maintains pointers to the first and last element of the list.  Queues are disjoint from other types of Scheme objects.
+Queues (also known as output-restricted deques) are mutable ordered collections that can contain any Scheme object.  Each queue contains a list that contains the elements of the queue, and maintains pointers to the first and last pairs of the list.  It's cheap to add or remove elements from the front of the list or to add elements to the back, but not to remove elements from the back.  Queues are disjoint from other types of Scheme objects.
 
 The API provided here is closely analogous to the R7RS-small API for lists.  Other list procedures can be applied to queues using `queue->list`, `list->queue`, and `list-queue!`.  It subsumes the [[http://wiki.call-cc.org/man/4/Unit%20data-structures#queues|Chicken]] and [[http://people.csail.mit.edu/jaffer/slib/Queues.html#Queues|SLIB]] APIs.
+
+Except as noted, all procedures are O(n), where n is the length of the queue.
 
 == Procedures ==
 
@@ -24,11 +26,11 @@ Returns a newly allocated queue containing the elements of ''queue''.
 
 `(queue? `''obj''`)`
 
-Returns `#t` if ''obj'' is a queue, and `#f` otherwise.
+Returns `#t` if ''obj'' is a queue, and `#f` otherwise.  This operation is O(1).
 
 `(queue-empty? `''queue''`)`
 
-Returns `#t` if ''obj'' is a queue with no elements, and `#f` otherwise.
+Returns `#t` if ''obj'' is a queue with no elements, and `#f` otherwise.  This operation is O(1).
 
 === Accessors ===
 
@@ -60,7 +62,7 @@ Removes the first element of the queue and returns it.  This operation is O(1).
 
 `(queue-remove-last! `''queue''`)`
 
-Removes the last element of the queue and returns it.  This operation is O(1).
+Removes the last element of the queue and returns it.  This operation is O(n), because the list does not have backward links.
 
 `(queue-set! ''queue k value''`)`
 
@@ -80,9 +82,9 @@ Returns a queue which contains all the elements in all the ''queues'' in the ord
 
 Returns a newly allocated queue with the same elements as in ''queue'' but in reverse order.
 
-`(queue-member? `''queue element predicate''`)`
+`(queue-member? `''queue element;'' [[|''predicate'' ]]`)`
 
-Returns `#t` if ''element'' is a member of ''queue'' (in the sense of ''predicate'') and `#f` otherwise.
+Returns `#t` if ''element'' is a member of ''queue'' (in the sense of ''predicate'', which defaults to `equal?`) and `#f` otherwise.
 
 === Mapping ===
 
@@ -102,18 +104,22 @@ Applies ''proc'' to each element of ''queue'' in order, discarding the returned 
 
 `(queue->list `''queue''`)`
 
-Returns the list that contains the members of ''queue'' in order.  It is an error to mutate the cdrs of such a list, as it shares storage with the queue.
+Returns the list that contains the members of ''queue'' in order.  It is an error to mutate the cdrs of such a list, as it shares storage with the queue.  This operation is O(1).
 
 `(list->queue `''list''`)`
 
-Returns a newly allocated queue containing the elements of ''list'' in order.  It is an error to mutate the cdrs of ''list'' after calling this procedure, as it shares storage with the queue.
+Returns a newly allocated queue containing the elements of ''list'' in order.  It is an error to mutate the cdrs of ''list'' after calling this procedure, as it shares storage with the queue.  This operation is O(1).
 
 To apply a non-destructive list procedure to a queue and return a new queue, use `(list->queue (`''proc''` (queue->list `''queue''`)))`.
 
 `(list->queue! `''queue list''`)`
 
-Replaces the list associated with ''queue'' with ''list'', effectively discarding all the elements of ''queue'' in favor of those in ''list''.  It is an error to mutate the cdrs of ''list'' after calling this procedure, as it may share storage with the queue.  Returns an unspecified value.
+Replaces the list associated with ''queue'' with ''list'', effectively discarding all the elements of ''queue'' in favor of those in ''list''.  It is an error to mutate the cdrs of ''list'' after calling this procedure, as it shares storage with the queue.  Returns an unspecified value.  This operation is O(1).
 
 To apply a destructive list procedure to a queue, use `(list->queue! (`''proc''` (queue->list `''queue''`)))`.
+
+== Implementation note ==
+
+R5RS implementations do not have `make-list` or `list-set!`, which therefore would need to be packaged with the sample implementation.  `Map!` is available in SRFI 1, but it's trivial to provide a local implementation.
 
 
