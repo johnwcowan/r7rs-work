@@ -64,7 +64,7 @@ Removes the first element of the queue and returns it.  This operation is O(1).
 
 Removes the last element of the queue and returns it.  This operation is O(n), because the list does not have backward links.
 
-`(queue-set! ''queue k value''`)`
+`(queue-set! `''queue k value''`)`
 
 Sets the ''k''th element of ''queue'' to ''value''.  This operation is O(k).
 
