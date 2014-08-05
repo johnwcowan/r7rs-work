@@ -120,6 +120,6 @@ To apply a destructive list procedure to a queue, use `(list->queue! (`''proc''`
 
 == Implementation note ==
 
-R5RS implementations do not have `make-list` or `list-set!`, which therefore would need to be packaged with the sample implementation.  `Map!` is available in SRFI 1, but it's trivial to provide a local implementation.
+R5RS implementations do not have `make-list`, `list-copy`, `list-set!`, or `map!`, which therefore would need to be packaged with the sample implementation.  All but `list-set!` are available in SRFI 1, but it's trivial to provide local implementations of them.
 
 
