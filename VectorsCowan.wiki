@@ -14,7 +14,7 @@ Numeric vector analogues of these procedures, excluding the ones in NumericVecto
 
 * SRFI 43 means the procedure is available in SRFI 43.
 
-* SRFI 43+ means the procedure is available in SRFI 43 but additional ''start'' and ''end'' arguments are proposed.
+* SRFI 43+ means either the procedure is available in SRFI 43 but additional functionality is proposed, or an analogous procedure is available in SRFI 43.
 
 * SRFI 13 means an analogous procedure is available in SRFI 13.
 
@@ -26,15 +26,16 @@ Numeric vector analogues of these procedures, excluding the ones in NumericVecto
 
 make-vector (R5RS), vector (R5RS), 
 vector-unfold (SRFI 43), vector-unfold-right (SRFI 43),
-vector-copy (R7RS), vector-copy! (R7RS), vector-reverse-copy (SRFI 43+),
-vector-append (R7RS), vector-concatenate (SRFI 43), vector-append-concatenate (SRFI 13)
-vector-tabulate (SRFI 1/13)
+vector-copy (R7RS), vector-copy! (R7RS),
+vector-reverse-copy (SRFI 43+), vector-reverse-copy! (SRFI 43+),
+vector-append (R7RS), vector-append! (SRFI 1),
+vector-concatenate (SRFI 43), vector-concatenate! (SRFI 1),
+vector-concatenate-reverse (SRFI 13), vector-concatenate-reverse (SRFI 13),
+vector-tabulate (SRFI 1/13), vector-tabulate! (SRFI 1/13)
 
 == Predicates ==
 
-vector? (R5RS),
-vector-empty? (SRFI 43),
-vector= (SRFI 43+)
+vector? (R5RS), vector-empty? (SRFI 43), vector= (SRFI 43+)
 
 == Selectors ==
 
@@ -47,13 +48,13 @@ vector-split-at (SRFI 1),
 
 vector-fold (SRFI 43+), vector-fold-right (SRFI 43+),
 vector-reduce (SRFI 43+), vector-reduce-right (SRFI 43+),
-vector-map (SRFI 43+), vector-map! (SRFI 43+)
+vector-map (SRFI 43+), vector-map! (SRFI 43+),
 vector-for-each (R7RS), vector-for-each-index (SRFI 13), vector-count (SRFI 43+),
 vector-append-map (SRFI 1), vector-filter-map (SRFI 1)
 
 == Filtering and partitioning ==
 
-vector-filter (SRFI 1/13), vector-remove (SRFI 1/13), vector-partition (SRFI 1)
+vector-filter (SRFI 1/13), vector-remove (SRFI 1/13), vector-partition (SRFI 1),
 vector-filter! (SRFI 1), vector-remove! (SRFI 1), vector-partition! (SRFI 1)
 
 == Deleting ==
@@ -71,13 +72,15 @@ vector-prefix? (SRFI 13), vector-suffix? (SRFI 13)
 vector-find (SRFI 1), vector-contains (SRFI 13),
 vector-index (SRFI 43+), vector-index-right (SRFI 43+), 
 vector-skip (SRFI 43+), vector-skip-right (SRFI 43+), 
-vector-any (SRFI 43+), vector-every (SRFI 43+)
+vector-any (SRFI 43+), vector-every (SRFI 43+),
 vector-take-while (SRFI 1+), vector-drop-while (SRFI 1+),
 vector-binary-search (SRFI 43+),
-vector-span (SRFI 1), vector-span! (SRFI 1), vector-break (SRFI 1), vector-break! (SRFI 1)
-
+vector-span (SRFI 1), vector-span! (SRFI 1),
+vector-break (SRFI 1), vector-break! (SRFI 1)
 
 == Zip and unzip ==
+
+Drop this?
 
 vector-zip (SRFI 1),
 vector-unzip1 (SRFI 1), vector-unzip2 (SRFI 1),
