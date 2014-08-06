@@ -132,9 +132,11 @@ These procedures uniformly observe the following parameter order:
 the data to be sorted come after the comparison function.
 In SRFI 32, the reverse convention was used, because it was
 consistent with all the implementations examined in 2002, with
-the sole exception of Chez Scheme.  However, R6RS adopted the reverse
-convention, which is more consistent with other Scheme libraries which
-to put the ordering function first — the "operation currying" convention,
+the sole exception of Chez Scheme.  However,
+[[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-5.html#node_chap_4|R6RS]]
+adopted the reverse
+convention, which is more consistent with other Scheme libraries that
+put the ordering function first — the "operation currying" convention,
 and this SRFI uses the R6RS order.
 (E.g., consider `for-each` or `map` or `find`.)
 
@@ -187,8 +189,8 @@ So, if we are merging two lists of numbers ordered by absolute value
 using the stable merge operation `list-merge`, then
 
 {{{
-(list-merge '(0 -2 4 8 -10) '(-1 3 -4 7)
-(lambda (x y) (< (abs x) (abs y))))
+(list-merge (lambda (x y) (< (abs x) (abs y)))
+            '(0 -2 4 8 -10) '(-1 3 -4 7))
 }}}
 
 reliably places the 4 of the first list before the equal-comparing -4
@@ -291,13 +293,15 @@ These procedures
 do not alter their inputs and are allowed to return a value that shares 
 a common tail with a list argument.
 
+The `list-stable-sort` procedure is equivalent to the R6RS `list-sort` procedure.
+
 `(list-sort! ` ''< lis''`)`
 
 `(list-stable-sort! ` ''< lis''`)`
 
 These procedures
 are "linear update" operators — they are allowed, but not required, to
-alter the cons cells of their arguments to produce their results. 
+alter the cons cells of their arguments to produce their results.
 
 `(vector-sort ` ''< v'' [[|''start'' [ ''end'' ]] ]`)`
 
@@ -305,7 +309,10 @@ alter the cons cells of their arguments to produce their results.
 
 These procedures
 do not alter their inputs, but allocate a fresh vector for their result,
-of length ''end'' - ''start''. 
+of length ''end'' - ''start''.
+ 
+The `vector-stable-sort` procedure with no optional arguments
+is equivalent to the R6RS `vector-sort` procedure.
 
 `(vector-sort! ` ''< v'' [[|''start'' [ ''end'' ]] ]`)`
 
@@ -317,17 +324,20 @@ allocate temporary storage proportional to the size of the input —
 I am not aware of O(n lg n) stable vector sorting algorithms that
 run in constant space.)
 
-`(list-merge `''< lis1 lis2''`)`
-
-This procedure
-does not alter its inputs, and is allowed to return a value that shares 
-a common tail with a list argument.
+The `vector-sort!` procedure with no optional arguments is equivalent
+to the R6RS `vector-sort!` procedure.
 
 === Merge procedures ===
 
 All four merge operations are stable: an element of the initial list ''lis1''
 or vector ''v1'' will come before an equal-comparing element in the second
 list ''lis2'' or vector ''v2'' in the result.
+
+`(list-merge `''< lis1 lis2''`)`
+
+This procedure
+does not alter its inputs, and is allowed to return a value that shares 
+a common tail with a list argument.
 
 `(list-merge! `''< lis1 lis2''`)`
 
@@ -537,7 +547,7 @@ already-ordered runs of list structure as-is when doing the merges.
 ||V merge||Yes||O(n lg n)||O(n lg n)||No||
 ||L merge||Yes||O(n lg n)||O(n lg n)||Either||
 
-Note that there is no list insert sort package, as you might as well always
+Note that there are no list insert sort procedures, as you might as well always
 use list merge sort. The sample implementation's destructive list merge
 sort will do fewer SET-CDR!s than a destructive insert sort.
 
@@ -548,8 +558,7 @@ in the code:
 
 * Use of multiple-value return, with the R5RS `values` procedure, and the simple [http://srfi.schemers.org/srfi-8/srfi-8.html SRFI 8]] `(receive  (`''var'' ...`)` ''mv-exp body'' ... `)` multiple-value binding macro.
 
-* A `vector-copy` procedure. This is a tiny little procedure: `(vector-copy `''v [[|''start'' [ ''end'' ]] ]`)`.
-It is part of R7RS-small.
+* A `vector-copy` procedure. This is a tiny little procedure: `(vector-copy `''v [[|''start'' [ ''end'' ]] ]`)`.  It is part of R7RS-small.
 
 * The `let-optionals` macro from scsh to parse and default optional arguments to three routines. Again, easy to port the macro or rewrite the code to parse, default, and error check the args by hand. 
 
