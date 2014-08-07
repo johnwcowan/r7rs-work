@@ -16,17 +16,20 @@ Olin Shivers (edited by John Cowan)
 * Procedure index
 * Editor's preface
 * Introduction
-* Design rules
+* Design rationale
   * What vs. how
-  * Consistency across function signatures
+  * Consistency across predicate signatures
   * Data parameter first, less-than parameter after
-  * Ordering, comparison functions and stability
+  * Ordering, comparison predicates and stability
   * All vector operations accept optional subrange parameters
   * Required vs. allowed side-effects
 * Specification
   * Procedure naming and functionality
   * Types of parameters and return values
-  * Basic procedures
+  * Predicates
+  * General sort procedures
+  * Merge procedures
+  * Deleting duplicate neighbors
   * Algorithm-specific sorting procedures
   * Algorithmic properties
 * Topics to be resolved during discussion phase
@@ -37,7 +40,7 @@ Olin Shivers (edited by John Cowan)
 
 == Abstract ==
 
-I've designed the API for a full-featured sort toolkit, which I propose as a SRFI.
+I've designed the API for a full-featured sort toolkit, which I propose in this SRFI.
 The spec comes with 1200 lines of high-quality reference code: tightly
 written, highly commented, portable code, available for free.
 
@@ -69,7 +72,7 @@ R7RS-large needs a sorting package, and this is a substantial one.  I've made
 as few adjustments as practical in order to bring the specification into 2014.
 (In this section, "I" means John Cowan; elsewhere, "I" means Olin Shivers.)
 
-There are two main functional changes.  The most important one is that the
+There are only two functional changes.  The most important one is that the
 comparison predicate now precedes the data rather than following it.
 Most of the SRFI 32 commenters thought that this is the better order, despite
 the widespread precedent, and I've made the change.  The other point is that
@@ -78,6 +81,12 @@ the procedures accept
 as well as predicates.
 
 Editorially, I have reorganized the text and removed the massive redundancies.
+In accordance with R5RS and R7RS, I have specified that procedures returning
+an unspecified value actually do return one value.  I have removed the multiple
+packages, most with only a few procedures, into which SRFI 32 is divided.
+
+The implementation is Olin's, with a few bug fixes from Scheme 48.  My changes
+to implement reordering and comparators were essentially mechanical.
 
 == Introduction ==
 
@@ -101,7 +110,7 @@ voluminous style. This includes notes on porting and implementation-specific
 optimisations.
 
 
-== Design rules ==
+== Design rationale ==
 
 === What vs. how ===
 
@@ -120,30 +129,30 @@ provided by this library — is one of execution time, which is not a
 arbitrary size without needing to allocate an unbounded number of stack
 frames.
 
-=== Consistency across function signatures ===
+=== Consistency across procedure signatures ===
 
-Procedures share common function signatures wherever
+Procedures share common signatures wherever
 possible, to facilitate switching a given call from one procedure
 to another.
 	
 === Comparison parameter before data parameter ===
 
 These procedures uniformly observe the following parameter order:
-the data to be sorted come after the comparison function.
+the comparison predicate comes before the data to be sorted.
 In SRFI 32, the reverse convention was used, because it was
 consistent with all the implementations examined in 2002, with
 the sole exception of Chez Scheme.  However,
 [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-5.html#node_chap_4|R6RS]]
 adopted the reverse
 convention, which is more consistent with other Scheme libraries that
-put the ordering function first — the "operation currying" convention,
-and this SRFI uses the R6RS order.
-(E.g., consider `for-each` or `map` or `find`.)
+put the procedure first — the "operation currying" convention,
+as in `for-each` or `map` or `find`.
+This SRFI uses the R6RS order throughout.
 
-=== Ordering, comparison functions and stability ===
+=== Ordering, comparison predicates and stability ===
 
-These routines take a < comparison function, not a <= comparison
-function, and they sort into increasing order. The difference between
+These routines take a < comparison predicate, not a <= comparison
+predicate, and they sort into increasing order. The difference between
 a < spec and a <= spec comes up in two places: 
 
 * the definition of an ordered or sorted data set, and 
@@ -154,33 +163,33 @@ if it contains no adjacent pair of values ... X Y ... such that Y < X.
 
 In other words, scanning across the data never takes a "downwards" step.
 
-If you use a <= procedure where these algorithms expect a <
-procedure, you may not get the answers you expect. For example,
-the `list-sorted?` function will return false if you pass it a <= comparison
-function and an ordered list containing adjacent equal elements.
+If you use a <= predicate where these algorithms expect a <
+predicate, you may not get the answers you expect. For example,
+the `list-sorted?` procedurewill return false if you pass it a <= comparison
+predicate and an ordered list containing adjacent equal elements.
 
 A "stable" sort is one that preserves the pre-existing order of equal
 elements. Suppose, for example, that we sort a list of numbers by 
-comparing their absolute values, i.e., using comparison function
+comparing their absolute values, i.e., using comparison predicate
 `(lambda (x y) (< (abs x) (abs y)))`.
 If we sort a list that contains both 3 and -3,
 then a stable sort is an algorithm that will not swap the order
 of these two elements, that is, the answer will look like `... 3 -3 ...`,
 not `... -3 3 ...`.
 
-Choosing < for the comparison function instead of <= affects how stability
+Choosing < for the comparison predicate instead of <= affects how stability
 is coded. Given an adjacent pair X Y, (< y x) means "Y should be moved in
-front of X" — otherwise, leave things as they are. So using a <= function
-where a < function is expected will ''invert'' stability.
+front of X" — otherwise, leave things as they are. So using a <= predicate
+where a < predicate is expected will ''invert'' stability.
 
-This is due to the definition of equality, given a < comparator:
+This is due to the definition of equality, given a < comparison predicate:
 `(and (not (< x y)) (not (< y x)))`.
-The definition is rather different, given a <= comparator:
+The definition is rather different, given a <= comparison predicate:
 `(and (<= x y) (<= x y))`.
 
 A "stable" merge is one that reliably favors one of its data sets
 when equal items appear in both data sets.
-''All merge operations in this library are stable'',
+All merge operations in this library are stable,
 breaking ties between data sets in favor
 of the first data set — elements of the first list come before equal 
 elements in the second list.
@@ -196,18 +205,18 @@ using the stable merge operation `list-merge`, then
 reliably places the 4 of the first list before the equal-comparing -4
 of the second list: `(0 -1 -2 4 -4 7 8 -10)`.
 
-In short, if your comparison function ''f'' answers true to `(`''f x x''`)`, then 
+In short, if your comparison predicate ''f'' answers true to `(`''f x x''`)`, then 
 using a stable sorting or merging algorithm will not give you a stable sort
 or merge, and `list-sorted?` may surprise you. Note that you can synthesize a <
-function from a <= function with `(lambda (x y) (not (<= y x)))`
+predicate from a <= predicate with `(lambda (x y) (not (<= y x)))`
 if need be. 
 
 Precise definitions give sharp edges to tools, but require care
 in use. "Measure twice, cut once."
 
-I have adopted the choice of < from Common Lisp. I assume they
-had a good reason for adopting < instead of <=. I'd love to know
-what this reason is; send me email if you can explain it, please.
+I have adopted the choice of < from Common Lisp, which chose it
+for historical compatibility with Maclisp, which did not have an
+analogue to <=.
 
 This version of the specification also accepts SRFI 114 comparators
 in place of procedures, which buys some reliability and possibly some
@@ -223,7 +232,7 @@ arguments indicating a selected subrange of a vector's elements.
 `list-sort!` and `list-stable-sort!` are allowed, but not required,
 to alter their arguments' cons cells to construct the result list. This is
 consistent with the what-not-how character of the group of procedures
-to which they belong (the "sort-lib" package).
+to which they belong.
 
 The `list-delete-neighbor-dups!`, `list-merge!` and `list-merge-sort!` procedures,
 on the other hand, provide specific algorithms, and, as such, explicitly
@@ -241,12 +250,12 @@ by composing a set of basic lexemes to indicate what they do.
 
 
 ||Lexeme||Meaning
-||`sort`||The procedure sorts its input data set by some < comparison function.||
+||`sort`||The procedure sorts its input data set by some < comparison predicate.||
 ||`merge`||The procedure merges two ordered data sets into a single ordered result.||
 ||`stable`||This lexeme indicates that the sort is a stable one.||
 ||`vector`||The procedure operates upon vectors.||
 ||`list`||The procedure operates upon lists.||
-||`!`||Procedures that end in "!" are allowed, and sometimes required, to reuse their input storage to construct their answer.||
+||`!`||Procedures that end in `!` are allowed, and sometimes required, to reuse their input storage to construct their answer.||
 
 
 === Types of parameters and return values ===
@@ -259,7 +268,7 @@ In the procedures specified below,
 
 * A < or = parameter is a procedure accepting two arguments taken from the specified procedure's data set(s), and returning a boolean;
 
-* A ''start'' parameter or ''start'' and ''end'' parameter pair is given to such a procedure, they must be exact, non-negative integers, such that 0 <= ''start'' <= ''end'' <= `(vector-length `''v''`)`, where ''v'' is the related vector parameter. If not specified, they default to 0 and the length of the vector, respectively. They are interpreted to select the range [[''start'',|''end''), that is, all elements from index ''start'' (inclusive) up to, but not including, index ''end''.
+* A ''start'' parameter or ''start'' and ''end'' parameter pair are exact non-negative integers such that 0 <= ''start'' <= ''end'' <= `(vector-length `''v''`)`, where ''v'' is the related vector parameter. If not specified, they default to 0 and the length of the vector, respectively. They are interpreted to select the range [[''start'',|''end''), that is, all elements from index ''start'' (inclusive) up to, but not including, index ''end''.
 
 Passing values to procedures with these parameters that do not satisfy these
 types is an error.
@@ -273,7 +282,7 @@ is said about what the procedure returns, except that it returns one value.
 
 `(vector-sorted? `'' < v'' [''start'' [ ''end'' ]] ]
 
-These procedures return true if their input list or vector
+These procedures return true iff their input list or vector
 is in sorted order, as determined by their < comparison parameter.
 Specifically, they return `#f` iff there is an adjacent pair ... X Y ... in the input
 list or vector such that Y < X. The optional ''start'' and ''end'' range 
@@ -322,7 +331,7 @@ These procedures
 sort their data in-place. (But note that `vector-stable-sort!` may 
 allocate temporary storage proportional to the size of the input —
 I am not aware of O(n lg n) stable vector sorting algorithms that
-run in constant space.)
+run in constant space.)  They return an unspecified value.
 
 The `vector-sort!` procedure with no optional arguments is equivalent
 to the R6RS `vector-sort!` procedure.
@@ -343,7 +352,7 @@ a common tail with a list argument.
 
 This procedure
 makes only a single, iterative, linear-time pass over its argument lists,
-using `set-cdr!`s to rearrange the cells of the lists into the final result
+using `set-cdr!`s to rearrange the cells of the lists into the list that is returned
 — they work "in place." Hence, any cons cell appearing in the result must
 have originally appeared in an input.
 
@@ -364,13 +373,14 @@ of length (''end1'' - ''start1'') + (''end2'' - ''start2''`)`.
 
 `(vector-merge!` ''< v0 v1 v2'' [[|''start0'' [ ''start1'' [ ''end1'' [ ''start2'' [ ''end2'' ]] ] ] ] ]`)`
 
-Writes its result into vector ''v0'', beginning at index ''start0'',
+This procedure writes its result into vector ''v0'', beginning at index ''start0'',
 for indices less than
 ''end0''  = ''start0'' + (''end1'' - ''start1'') + (''end2'' - ''start2''`)`.
 The target subvector ''v0''[[''start0'',|''end0'') may not overlap either source subvector,
 ''v1''[''start1'', ''end1'') or ''v2''[''start2'', ''end2'').
+It returns an unspecified value.
 
-== Deleting duplicate neighbors ==
+=== Deleting duplicate neighbors ===
 
 These procedures delete adjacent duplicate elements from a list or a
 vector, using a given element-equality procedure. The first/leftmost
@@ -385,35 +395,34 @@ elements from a large list or vector, sort the elements to bring equal
 items together, then use one of these procedures, for a total time of
 O(n lg n).
 
-The comparison function = passed to these procedures is always applied
+The comparison predicate = passed to these procedures is always applied
 as `(= x y)`,
 where X comes before Y in the containing list or vector.
 
+`(list-delete-neighbor-dups `''= v''`)`
+
+This procedure does not alter its input list; its result may share
+storage with the input list.
+
 `(list-delete-neighbor-dups! ` ''= lis''`)`
 
-This procedure mutates its input list in order to construct its answer.
+This procedure mutates its input list in order to construct its result.
 It makes only a single, iterative, linear-time pass over their
 argument lists, using `set-cdr!`s to rearrange the cells of the lists
 into the final result — they work "in place." Hence, any cons cell appearing
 in the result must have originally appeared in an input.
 
-`(vector-delete-neighbor-dups! ` ''= lis''`)`
-
-This procedure reuses its input vector to hold the answer, packing its answer into the index range [[start,newend),|
-
-where `newend` is the non-negative exact integer returned as its value. It returns `newend` as its result. The vector 
-
-is not altered outside the range [''start, newend'').
-
-`(list-delete-neighbor-dups `''= v''`)`
-
-This procedure does not alter its input list; its answer may share
-storage with the input list.
-
 `(vector-delete-neighbor-dups ` ''= v''`)`
 
 This procedure does not alter its input vector, but rather
-allocates and returns a fresh vector to hold the result.
+newly allocates and returns a vector to hold the result.
+
+`(vector-delete-neighbor-dups! ` ''= v''`)`
+
+This procedure reuses its input vector to hold the answer, packing its answer into the index range [[start,newend),|
+
+where `newend` is the non-negative exact integer that is returned as its value.
+The vector is not altered outside the range [''start, newend'').
 
 Examples:
 
@@ -424,7 +433,7 @@ Examples:
 	(vector-delete-neighbor-dups = '#(1 1 2 7 7 7 0 -2 -2))
                => #(1 2 7 0 -2)
 
-	(vector-delete-neighbor-dups = '#(1 1 2 7 7 7 0 -2 -2) = 3 7))
+	(vector-delete-neighbor-dups = '#(1 1 2 7 7 7 0 -2 -2) 3 7))
                => #(7 0 -2)
 
 ;; Result left in v[3,9):
@@ -444,7 +453,7 @@ Programmers that need a particular algorithm can use one of these procedures.
 
 `(list-merge-sort `''< lis''`)`
 
-`(list-merge-sort! ''< lis''`)`
+`(list-merge-sort! `''< lis''`)`
 
 These procedures sort their data using a list merge sort, which is
 stable. (The sample implementation is, additionally, a "natural" sort.
@@ -462,7 +471,8 @@ These procedures sort their data using vector merge sort, which is
 stable. (The sample implementation is, additionally, a "natural" sort.
 See below for the properties of this algorithm.)
 The `vector-merge-sort` procedure returns a newly allocated vector of length `end-start`.
-The `vector-merge-sort!` procedure leaves its result in ''v''[[''start'',|''end'').
+The `vector-merge-sort!` procedure leaves its result in ''v''[[''start'',|''end'')
+and returns an unspecified value.
 
 `vector-merge` returns a vector of length (''end1'' - ''start1'') + (''end2'' - ''start2'').
 
@@ -473,7 +483,8 @@ The `vector-merge-sort!` procedure leaves its result in ''v''[[''start'',|''end'
 These procedures sort their data using heap sort, 
 which is not a stable sorting algorithm. The
 `heap-sort` procedure returns a vector of length `end-start`. 
-The `heap-sort!` procedure is in-place, leaving its result in ''v''[[''start'',|''end'').
+The `heap-sort!` procedure is in-place, leaving its result in ''v''[[''start'',|''end''),
+and returns an unspecified value.
 
 `(quick-sort `''< v'' [ ''start'' [ ''end'' ]] ]`)`
 
@@ -482,7 +493,8 @@ The `heap-sort!` procedure is in-place, leaving its result in ''v''[[''start'',|
 These procedures sort their data using quick sort, 
 which is not a stable sorting algorithm.
 The `quick-sort` procedure returns a vector of length `end-start`. 
-The `quick-sort!` procedure is in-place, leaving its result in ''v''[[''start'',|''end'').
+The `quick-sort!` procedure is in-place, leaving its result in ''v''[[''start'',|''end''),
+and returns an unspecified value.
 
 `(insert-sort `''< v'' [ ''start'' [ ''end'' ]] ]`)`
 
@@ -491,7 +503,8 @@ The `quick-sort!` procedure is in-place, leaving its result in ''v''[[''start'',
 These procedures stably sort their data using insertion sort.
 
 `insert-sort` returns a vector of length `end-start`.
-`insert-sort!` is in-place, leaving its result in ''v''[[''start'',|''end'').
+`insert-sort!` is in-place, leaving its result in ''v''[[''start'',|''end''),
+and returns an unspecified value.
 
 === Algorithmic properties ===
 
@@ -532,7 +545,7 @@ Note that sorting lists involves chasing pointers through memory, which
 can be a loser on modern machine architectures because of poor cache and
 page locality. Pointer ''writing'', which is what the `set-cdr!`s of a
 destructive list-sort algorithm do, is even worse, especially if your
-Scheme has a generational `gc` — the writes will thrash the write-barrier.
+Scheme has a generational GC — the writes will thrash the write-barrier.
 Sorting vectors has inherently better locality.
 
 This SRFI's destructive list merge and merge sort implementations are
@@ -549,7 +562,7 @@ already-ordered runs of list structure as-is when doing the merges.
 
 Note that there are no list insert sort procedures, as you might as well always
 use list merge sort. The sample implementation's destructive list merge
-sort will do fewer SET-CDR!s than a destructive insert sort.
+sort will do fewer `set-cdr!`s than a destructive insert sort.
 
 == Porting and optimisation ==
 
@@ -558,11 +571,11 @@ in the code:
 
 * Use of multiple-value return, with the R5RS `values` procedure, and the simple [http://srfi.schemers.org/srfi-8/srfi-8.html SRFI 8]] `(receive  (`''var'' ...`)` ''mv-exp body'' ... `)` multiple-value binding macro.
 
-* A `vector-copy` procedure. This is a tiny little procedure: `(vector-copy `''v [[|''start'' [ ''end'' ]] ]`)`.  It is part of R7RS-small.
+* A `vector-copy` procedure. This is a tiny little procedure: `(vector-copy `''v'' [[|''start'' [ ''end'' ]] ]`)`.  It is part of R7RS-small.
 
 * The `let-optionals` macro from scsh to parse and default optional arguments to three routines. Again, easy to port the macro or rewrite the code to parse, default, and error check the args by hand. 
 
-* An `error` function for complaining about bad arguments.  It is part of R7RS-small.
+* An `error` procedure for complaining about bad arguments.  It is part of R7RS-small.
 
 This code is tightly bummed, as far as I can go in portable Scheme.
 
@@ -570,7 +583,7 @@ You could speed up the vector code a lot by error-checking the procedure
 parameters and then shifting over to fixnum-specific arithmetic and
 dangerous vector-indexing and vector-setting primitives. The comments
 in the code indicate where the initial error checks would have to be
-added. There are several `(quotient` ''n'' 2)` calls that could be changed to a
+added. There are several `(quotient `''n''` 2)` calls that could be changed to a
 fixnum right-shift, as well, in both the list and vector code. The code
 is designed to enable this — each file usually exports one or two "safe"
 procedures that end up calling an internal "dangerous" primitive. The
@@ -626,7 +639,6 @@ Short summary: no restrictions.
 While I wrote all of this code myself, I read a lot of code before I began
 writing. However, all such code is, itself, either open source or public
 domain, rendering irrelevant any issue of "copyright taint."
-
 The natural merge sorts (pure list, destructive list, and vector) are not only
 my own code, but are implementations of an algorithm of my own devising. They
 run in O(n lg n) worst case, O(n) best case, and require only a logarithmic
