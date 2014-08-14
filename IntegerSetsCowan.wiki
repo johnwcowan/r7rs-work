@@ -1,0 +1,53 @@
+{{{
+#!html
+<h2 id="Integersetprocedures">Integer set procedures</h2><p>
+
+The elements of an integer set are non-negative exact integers less than the set's <em>limit</em>, which is specified instead of a comparator when it is created.  The procedures for creating and manipulating integer sets are the same as those for <a href="http://srfi.schemers.org/srfi-113/srfi-113.html">SRFI 113 sets</a>, except that <code>set</code> is replaced by <code>integer-set</code> in their names, that <code>set-comparator</code> is replaced by <code>integer-set-limit</code>, and that in <code>integer-set</code>, <code>integer-set-unfold</code>, <code>integer-set-map</code>, and <code>integer-set-copy</code> the <em>comparator</em> argument is replaced by a <em>limit</em> argument, a non-negative integer.</p>
+
+<p>Wherever a newly allocated integer set is returned by any other procedure, it has the same limit as the source sets.  It is an error for a single procedure to be invoked on integer sets with different limits.</p>
+
+<p>Although sets subsume integer sets, providing them separately allows for increased implementation efficiency.  There are two Chicken eggs that provide integer sets: <a href="http://wiki.call-cc.org/eggref/4/iset#integer-sets"><code>iset</code></a>, which is conceptually similar to the integer sets described here; and <a href="http://wiki.call-cc.org/eggref/4/cis"><code>cis</code></a>, which uses lists of integer intervals.</p>
+
+
+
+<h3 id="Additionalintegersetprocedures">Additional integer set procedures</h3>
+
+<p><code>(integer-set-limit </code><em>integer-set</em><code>)</code></p>
+
+<p>Returns the limit of <em>integer-set</em>.  This procedure corresponds to <code>set-comparator</code>.</p>
+
+<p><code>(universal-integer-set </code><em>limit</em><code>)</code></p><p>
+
+Returns a newly allocated integer set.  The possible elements of the set are the exact integers from 0 to <em>limit</em> - 1, where <em>limit</em> is an exact non-negative integer.  The set contains all possible elements.
+
+</p><p><code>(range-&gt;integer-set </code><em>limit low high</em><code>)</code></p><p>
+
+Returns a newly allocated integer set.  The possible elements of the set are the exact integers from 0 to <em>limit</em> - 1, where <em>limit</em> is an exact non-negative integer.  The set contains the elements from <em>low</em> (inclusive) to <em>high</em> (exclusive).
+
+</p><p><code>(integer-set-adjoin-range </code><em>integer-set low high</em><code>)</code></p><p>
+
+Returns a newly allocated integer set with the same limit as <em>integer-set</em> and that contains all its values, and in addition each integer from <em>low</em> (inclusive) to <em>high</em> (exclusive) unless it is already equal to an existing member.
+
+</p><p><code>(integer-set-adjoin-range! </code><em>integer-set low high</em><code>)</code></p><p>
+
+A linear update procedure that returns an integer set with the same limit as <em>integer-set</em> and that contains all its values, and in addition each integer from <em>low</em> (inclusive) to <em>high</em> (exclusive) unless it is already equal to an existing member.
+
+</p><p><code>(integer-set-complement </code><em>integer-set</em><code>)</code></p><p>
+
+Returns a newly allocated integer set that is the complement of <em>integer-set</em>.
+
+</p><p><code>(integer-set-complement! </code><em>integer-set</em><code>)</code></p><p>
+
+A linear update procedure that returns a set that is the complement of <em>integer-set</em>.
+
+</p><p><code>(integer-set-min </code><em>integer-set</em><code>)</code></p><p><code>(integer-set-max </code><em>integer-set</em><code>)</code></p><p>
+
+Returns the smallest or largest integer in <i>integer-set</i>, or <code>#f</code> if there is none.
+
+</p><p><code>(integer-set-delete-min! </code><em>integer-set</em><code>)</code></p>
+<p><code>(integer-set-delete-max! </code><em>integer-set</em><code>)</code></p><p>
+
+Linear update procedures that return two values: the smallest or largest integer in <em>integer-set</em> or <code>#f</code> if there is none, and a set which contains all the elements of <em>set</em> except the integer being returned.
+
+</p>
+}}}
