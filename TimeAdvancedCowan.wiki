@@ -1,6 +1,6 @@
 == Date and time arithmetic ==
 
-This is a WG2 proposal for date and time arithmetic, loosely based on Java's [[http://joda-time.sourceforge.net|Joda Time]] functions.  It's possible to implement parts of SRFI 19 on top of it, but it provides much more flexibility.  See also TimePeriodsCowan and TimeFormattingCowan.
+This is a WG2 proposal for date and time arithmetic, loosely based on Java's [[http://joda-time.sourceforge.net|Joda Time]] functions.  It's possible to implement parts of SRFI 19 on top of it, but it provides much more flexibility.  See also TimePeriodsCowan.
 
 
 == Instants ==
@@ -12,7 +12,7 @@ For the purposes of this proposal, an ''instant'' is an exact integer representi
 
 A ''chronology'' is an immutable member of a disjoint type that describes a particular calendar, such as the ISO, Gregorian, Julian, TAI, Jewish, Islamic, Persian, French Revolutionary, Maya, Chinese, Buddhist, Thai, Coptic, Ethiopic, or Martian calendar.  The chronologies primitively supported by an implementation are called the ''base chronologies''.  Implementations MUST support the ISO chronology, and MAY support any of the other calendars mentioned here, or indeed any calendar not mentioned here.  (The ISO chronology is similar to the Gregorian chronology: see the "ISO date fields" section for detailed differences.)
 
-Chronologies also incorporate the concept of time zone.  An implementation MUST support the UTC (Universal Coordinated Time) time zone and any time zones expressible as a fixed offset in minutes from UTC.  It SHOULD support the historical time zones of the [[http://en.wikipedia.org/wiki/Tz_database|tz database]].  
+Chronologies also incorporate the concept of time zone.  For the ISO chronology (and the Gregorian and Julian chronologies if they are supported), an implementation MUST support the UTC (Universal Coordinated Time) time zone and any time zones expressible as a fixed offset in minutes from UTC.  It SHOULD support the historical time zones of the [[http://en.wikipedia.org/wiki/Tz_database|IETF time zone database]].  
 
 == Chronology procedures ==
 
@@ -20,17 +20,17 @@ Chronologies also incorporate the concept of time zone.  An implementation MUST 
 
 A parameter representing a chronology used by default.  Its initial value should normally represent the user's preferred calendar and current time zone.  It can be rebound with `parameterize`.
 
-`(base-chronology `''name''`)`
+`(chronology `''name''`)`
 
-Returns a base chronology named by the symbol ''name''.  The ISO chronology is named `iso`.  If provided, the Gregorian chronology is named `gregorian`, the Julian chronology is named `julian`, and the TAI chronology is named `tai`.  All these chronologies are proleptic (extend into the past before the date they were adopted).  The names and behaviors of other chronologies are implementation-dependent.  The chronologies returned by this procedure are in the UTC time zone, unless they are meant for planets other than Earth, in which case the nearest equivalent is used.  If the name is not known to the implementation, an error is signalled.
+Returns the chronology named by the symbol ''name''.  The ISO chronology is named `iso`.  If provided, the Gregorian chronology is named `gregorian`, the Julian chronology is named `julian`, and the TAI chronology is named `tai`.  All these chronologies are proleptic (extend into the past before the date they were adopted).  The names and behaviors of other chronologies are implementation-dependent.  The chronologies returned by this procedure are in the UTC time zone, unless they are meant for planets other than Earth, in which case the nearest equivalent is used.  If the name is not known to the implementation, an error that satisfies `date-error?` is signaled.
 
-`(base-chronology-names)`
+`(chronology-names)`
 
-Returns a list of the symbols naming the base chronologies provided by the implementation.  It is an error to modify this list.
+Returns a list of the symbols naming the chronologies known to the implementation.  It is an error to modify this list.
 
 `(chronology-name `''chronology''`)`
 
-Returns the symbol that names ''chronology'', or #f if it has no name.
+Returns the symbol that names ''chronology''.
 
 `(chronology-fields `''chronology''`)`
 
@@ -40,17 +40,17 @@ Returns a list of the symbols naming the possible fields in date objects backed 
 
 Returns `#t` if ''obj'' is a chronology and `#f` otherwise.
 
-`(derive-chronology `[[|''chronology'' ]]` `''time-zone''`)`
+`(derive-chronology `''name'' [[|''chronology'' ]] ''timezone''`)`
 
-Returns a chronology based on ''chronology'', by default the value of `(current-chronology)`, but using the time zone specified by ''timezone''.    In the ISO and Gregorian chronologies, if ''timezone'' is an integer, it represents the number of minutes ahead of UTC, but if the implementation supports the `tz` database, and ''time-zone'' is a string containing a time zone name defined by that database, it represents the time zone with that name.  Otherwise, the interpretation of ''timezone'' is implementation-dependent.  Derived chronologies may also be constructed by the application, and may or may not have names.
+Returns a chronology named ''name'' (a symbol).  The returned value is based on ''chronology'', by default the value of `(current-chronology)`, but using the time zone specified by ''timezone''.    In the ISO and Gregorian chronologies, if ''timezone'' is an integer, it represents the number of minutes ahead of UTC, but if the implementation supports the `tz` database, and ''time-zone'' is a string containing a time zone name defined by that database, it represents the time zone with that name.  Otherwise, the interpretation of ''timezone'' is chronology- and implementation-dependent.
 
 `(chronology-time-zone `''chronology''`)`
 
-Returns a time-zone value which, when applied to the base chronology of ''chronology'' using `derive-chronology`, would return an equivalent chronology, or #f if no such time zone value exists.
+Returns the time-zone value associated with this chronology.  The timezone of the ISO and Gregorian chronologies is 0; the timezone of chronologies derived from them is whatever was passed to `derive-chronology`.
 
-`(make-compound-chronology `''chronology1''` `''chronology2''` `''instant''`)`
+`(make-compound-chronology `''name chronology1  date chronology2''`)`
 
-Returns a chronology that uses ''chronology2'' at all times before ''instant'', and ''chronology1'' for all times including and following ''instant''.  This is useful for constructing chronologies that transition from Julian to Gregorian or from one timezone to another at a specified date.  Compound chronologies may also be constructed by the application, and may or may not have names.  The fields available in a compound chronology are the union of those available in the underlying chronologies, but not all fields may be available for all instants.
+Returns a chronology named ''name'' (a symbol) that uses ''chronology1'' at all times before ''date'' (a date object, see below), and ''chronology1'' for all times including and following ''date''.  This is useful for constructing chronologies that transition from Julian to Gregorian or from one timezone to another at a specified date.  Compound chronologies may also be constructed by the application, and may or may not have names.  The fields available in a compound chronology are the union of those available in the underlying chronologies, but not all fields may be available for all instants.
 
 == Date objects ==
 
@@ -61,7 +61,7 @@ A ''date object'' is an immutable member of a disjoint type that provides inform
 
 `(make-date `[[|''chronology'' ]]` `''alist''`)`
 
-Returns a date object using ''chronology'', defaulting to the value of `(current-chronology)`.  ''Alist'' is an association list that maps symbols which are field names meaningful to ''chronology'' to associated numeric values.  An error is signaled if the field values are unknown to the chronology, insufficient to specify a particular date object (for example, a month without a year) or mutually inconsistent.
+Returns a date object using ''chronology'', defaulting to the value of `(current-chronology)`.  ''Alist'' is an association list that maps symbols which are field names meaningful to ''chronology'' to associated numeric values.  An error that satisfies `date-error?` is signaled if the field values are unknown to the chronology, insufficient to specify a particular date object (for example, a month without a year) or mutually inconsistent.
 
 `(date? `''obj''`)`
 
@@ -81,11 +81,11 @@ Equivalent to `(make-date `[[|''chronology'' ]]` (date->alist `''date''`))`, but
 
 `(date-update `''date''` `''fieldname''` `''value''`)`
 
-Returns a date object based on ''date'', but with the field named ''fieldname'' updated to ''value''.  An error is signaled if the field is unknown or the value is out of range.  
+Returns a date object based on ''date'', but with the field named ''fieldname'' updated to ''value''.  An error that satisfies `date-error?` is signaled if the field is unknown or the value is out of range.  
 
 `(date-increment `''date''` `''fieldname''` `''increment''`)`
 
-Returns a date object which is later than ''date'' by ''increment'' measured in the units specified by ''fieldname'', or earlier if ''increment'' is negative.   An error is signaled if ''fieldname'' is unknown.
+Returns a date object which is later than ''date'' by ''increment'' measured in the units specified by ''fieldname'', or earlier if ''increment'' is negative.   An error that satisfies`date-error?` is signaled if ''fieldname'' is unknown.
 
 For example, `(date-increment `''date''` 'day-of-month 7)` adds seven days to ''date''
 (which is typically the same as one week, but may be different in some chronologies).    
@@ -198,3 +198,15 @@ The values of these fields MUST be exact integers.  These fields are specified f
 
  `year-of-era`::
    The year of the date's era.  In the Gregorian and Julian chronologies, the value cannot be 0.
+
+== Comparators ==
+
+`date-comparator`
+
+A comparator suitable for ordering date objects by their underlying instants.
+
+== Exceptions ==
+
+`(date-error `''obj''`)`
+
+Returns `#t` if ''obj'' is an object signaled by an error as specified above, and `#f` otherwise.
