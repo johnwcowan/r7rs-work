@@ -116,13 +116,13 @@ Returns a date object which is the same as ''date'', but adjusted to the nearest
 The values of these fields MUST be exact integers.  These fields are specified for the ISO, Gregorian, and Julian chronologies, but they may be relevant to other chronologies as well; it is easiest to use a chronology if it supports the standard fields.  For interoperability, every chronology must support the `instant` field.  The field names come from Joda Time, and ultimately from ISO 8601.
 
  `century`::
-   The absolute century of the date.  In the ISO chronology, the century of 1965 C.E. is 19, the century of 70 C.E. is 0, and the century of 43 B.C.E is -1.  In the Gregorian and Julian chronologies, they are 20, 1, and -1 respectively, and there is no century 0.
+   The absolute century of the date.  In the ISO chronology, the century of 1965 C.E. is 19, the century of 70 C.E. is 0, and the century of 43 B.C.E. is -1.  In the Gregorian and Julian chronologies, they are 20, 1, and -1 respectively, and there is no century 0.
 
  `century-of-era`::
    The century of the date's era.
 
  `clock-hour-of-day`::
-   The hour of the date's day in the range 1-24.
+   The hour of the date's day in the range 0-23.
 
  `clock-hour-of-half-day`::
    The hour of the date's half-day, in the range 1-12.
@@ -191,7 +191,7 @@ The values of these fields MUST be exact integers.  These fields are specified f
    The week-year of the date's century.  The range is the same as for `year-of-century`.
 
  `year`::
-   The absolute year of the date.
+   The absolute year of the date.  In the ISO chronology, 43 B.C.E. is -42; in the Gregorian and Julian chronologies, it is -43.
 
  `year-of-century`::
    The year of the date's century.  In the ISO chronology, the range is 0-99.  In the Gregorian and Julian chronologies, the range is 1-100.
