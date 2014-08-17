@@ -4,15 +4,15 @@ Queues (also known as output-restricted deques) are mutable ordered collections 
 
 The API provided here is closely analogous to the R7RS-small API for lists.  Other list procedures can be applied to queues using `queue->list`, `list->queue`, and `list-queue!`.  It subsumes the [[http://wiki.call-cc.org/man/4/Unit%20data-structures#queues|Chicken]] and [[http://people.csail.mit.edu/jaffer/slib/Queues.html#Queues|SLIB]] APIs.
 
-Except as noted, all procedures are O(n), where n is the length of the queue.
+Except as noted, all procedures are O(n), where n is the length of the queue.  These procedures signal an error that satisfies `queue-error?` if there is no element to return, modify, or delete.
+
+
 
 == Procedures ==
 
 === Constructors ===
 
 `(make-queue `''k'' [[|''fill'' ]]`)`
-
-Returns a newly allocated queue of ''k'' elements whose value is ''fill''.  If ''fill'' is omitted, an implementation-dependent value is chosen.
 
 `(queue `''element'' ...`)`
 
@@ -48,6 +48,8 @@ Returns the ''k''th element of ''queue''.  This operation is O(k).
 
 === Mutators ===
 
+These procedures signal an error that satisfies `queue-error?` if there is no element to delete or modify.
+
 `(queue-add-first! `''queue''` `''element''`)`
 
 Adds ''element'' to the beginning of ''queue''.  Returns an unspecified value.  This operation is O(1).
@@ -74,13 +76,13 @@ Sets the ''k''th element of ''queue'' to ''value''.  This operation is O(k).
 
 Returns the number of elements in ''queue''.
 
-`(queue-append`''queue'' ...`)`
+`(queue-append `''queue'' ...`)`
 
-Returns a queue which contains all the elements in all the ''queues'' in the order in which they appear in the call.
+Returns a queue which contains all the elements in all the ''queues'' in the order in which they appear in the call.  The result does not share storage with any of the arguments.
 
 `(queue-reverse `''queue''`)`
 
-Returns a newly allocated queue with the same elements as in ''queue'' but in reverse order.
+Returns a newly allocated queue with the same elements as in ''queue'' but in reverse order.  The result does not share structure with any of the arguments.
 
 `(queue-member? `''queue element;'' [[|''predicate'' ]]`)`
 
@@ -108,15 +110,27 @@ Returns the list that contains the members of ''queue'' in order.  It is an erro
 
 `(list->queue `''list''`)`
 
-Returns a newly allocated queue containing the elements of ''list'' in order.  It is an error to mutate the cdrs of ''list'' after calling this procedure, as it shares storage with the queue.  This operation is O(1).
+Returns a newly allocated queue containing the elements of ''list'' in order.  It is an error to mutate the cdrs of ''list'' after calling this procedure, as it shares storage with the queue.
 
 To apply a non-destructive list procedure to a queue and return a new queue, use `(list->queue (`''proc''` (queue->list `''queue''`)))`.
 
 `(list->queue! `''queue list''`)`
 
-Replaces the list associated with ''queue'' with ''list'', effectively discarding all the elements of ''queue'' in favor of those in ''list''.  It is an error to mutate the cdrs of ''list'' after calling this procedure, as it shares storage with the queue.  Returns an unspecified value.  This operation is O(1).
+Replaces the list associated with ''queue'' with ''list'', effectively discarding all the elements of ''queue'' in favor of those in ''list''.  It is an error to mutate the cdrs of ''list'' after calling this procedure, as it shares storage with the queue.  Returns an unspecified value.
 
 To apply a destructive list procedure to a queue, use `(list->queue! (`''proc''` (queue->list `''queue''`)))`.
+
+=== Comparator ===
+
+`queue-comparator`
+
+A comparator suitable for use with queues, using the procedures of `list-comparator`.
+
+=== Exceptions ===
+
+`(queue-error? `''obj''`)`
+
+Returns `#t` if ''obj'' is a condition object thrown by a queue procedure in circumstances given above, and `#f` otherwise.
 
 == Implementation note ==
 
