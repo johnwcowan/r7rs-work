@@ -6,17 +6,19 @@ Based on unique objects, not symbols.
 
 Each enum object has four properties:  enum type, name (a symbol), ordinal (a non-negative exact integer), value (anything).  Enum objects are unique across enum types.  Names and ordinals are unique within an enum type.  Accessors are `enum-type`, `enum-name`, `enum-ordinal`, `enum-value`.
 
-An enum type contains a map from names to enum objects and a vector indexed by the ordinal.  We need `enum-ordinal->enum` (uses the vector) and `enum-name->enum` (uses the map) as fundamental procedures on enum types.  Simple composition gives us `enum-name->ordinal`, `enum-ordinal->name`, `enum-ordinal->value`, and `enum->name->value`.  There is no way to work backward from an enum value because it need not be unique.  To retrieve all enums, we have `enum-type-enums` and `enum-type-names`.
+An enum type contains a map from names to enum objects and a vector indexed by the ordinal.  We need `enum-ordinal->enum` (uses the vector) and `enum-name->enum` (uses the map) as fundamental procedures on enum types.  Simple composition gives us `enum-name->ordinal`, `enum-ordinal->name`, `enum-ordinal->value`, and `enum->name->value`.  There is no way to work backward from an enum value because it need not be unique.  
 
 Having a single value is very handy for C definitions, etc.
 
-`Make-enumeration-type` accepts either names or `(name value)` lists.  Ordinals are assigned in order.  `Define-enumeration-type` binds an identifier to the enumeration type and an identifier per enum (same as the name) to each enum.
+Operations over the whole enum-type: `enum-type-size`, `enum-type-enums` and `enum-type-names`.  Maybe `enum-type-values` as well.
+
+`Make-enumeration-type` accepts either names or `(name value)` lists.  Ordinals are assigned in order from 0 upward; values default to same as ordinals.  `Define-enumeration-type` binds an identifier to the enumeration type and an identifier per enum (same as the name) to each enum.
 
 == Enumeration sets ==
 
 Except as noted below, the procedures for creating and manipulating enumeration sets are the same as those for sets, except that `set` is replaced by `enum-set` in their names.  Wherever a newly allocated enumeration set is returned, it has the same enumeration type as the source sets.  It is an error to operate on enumeration sets of different types in a single procedure.
 
-`(make-universal-enum-set `''enum-type''`)`
+`(universal-enum-set `''enum-type''`)`
 
 Returns a newly allocated enumeration set.  The possible elements of the set are the enum objects in ''enum-type''.  The set contains all possible elements.  The approximate R6RS equivalent is `enum-set-universe`.
 
@@ -36,7 +38,7 @@ Returns a newly allocated enumeration set that is the complement of ''enum-set''
 
 Returns a newly allocated enumeration set of type ''enum-type''.  Its elements are the enum objects in ''enum-type'' which have the same names as members of ''enum-set''.  Enum objects without corresponding names are ignored.  This procedure is also in R6RS, but uses a second enum-set in place of ''enum-type''.
 
-There will probably be more, depending on how integer sets turn out.
+There will probably be more, depending on how integer sets turn out:  `enum-set-complement`, `enum-set-complement!`, `enum-set-min`, `enum-set-max`.
 
 == Enumeration maps ==
 
