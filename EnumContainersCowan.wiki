@@ -6,35 +6,19 @@ Based on unique objects, not symbols.
 
 Each enum object has four properties:  enum type, name (a symbol), ordinal (a non-negative exact integer), value (anything).  Enum objects are unique across enum types.  Names and ordinals are unique within an enum type.  Accessors are `enum-type`, `enum-name`, `enum-ordinal`, `enum-value`.
 
-An enum type contains a map from names to enum objects and a vector indexed by the ordinal.  We need `enum-ref` (uses the vector) and `enum-name->enum` (uses the map) as fundamental procedures on enum types.  Simple composition gives us `enum-name->ordinal`, `enum-ordinal->name`, `enum-ordinal->value`, and `enum->name->value`.  There is no way to work backward from an enum value because it need not be unique.
+An enum type contains a map from names to enum objects and a vector indexed by the ordinal.  We need `enum-ordinal->enum` (uses the vector) and `enum-name->enum` (uses the map) as fundamental procedures on enum types.  Simple composition gives us `enum-name->ordinal`, `enum-ordinal->name`, `enum-ordinal->value`, and `enum->name->value`.  There is no way to work backward from an enum value because it need not be unique.  To retrieve all enums, we have `enum-type-enums` and `enum-type-names`.
 
-Possibly kill enum values in favor of just using enum maps?  A single value is very handy for C definitions, etc.
+Having a single value is very handy for C definitions, etc.
 
 `Make-enumeration-type` accepts either names or `(name value)` lists.  Ordinals are assigned in order.  `Define-enumeration-type` binds an identifier to the enumeration type and an identifier per enum (same as the name) to each enum.
 
 == Enumeration sets ==
 
-From SetsCowan, not yet consistent with the above.
-
-Except as noted below, the procedures for creating and manipulating enumeration sets are the same as those for sets, except that `set` is replaced by `enum-set` in their names.  Wherever a newly allocated enumeration set is returned, it has the same enumeration type as the source sets.  It is an error to operate on enumeration sets of different types.
-
-This design is founded on [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-15.html|R6RS enumerations]], but with the addition of reified enumeration types along the lines suggested by [[http://www.r6rs.org/formal-comments/comment-262.txt|R6RS Formal Comment #262]].  The prefix `enum` is used in all cases instead of using both `enum` and `enumeration` as R6RS does.
-
-`(enum-type-symbols `''enum-type''`)`
-
-Return a newly allocated list of the symbols in ''enum-type'' in the original order.
-
-`(enum-type-index `''enum-type symbol''`)`
-
-Return an exact integer corresponding to the position of ''symbol'' in the original list that created ''enum-type'', or `#f` if it was not one of those symbols.  The R6RS equivalent is the procedure returned by `enum-type-indexer` when applied to an enum-set belonging to `enum-type`.
-
-`(make-enum-set `''enum-type''`)`
-
-Returns a newly allocated enumeration set.  The possible elements of the set are the symbols in ''enum-type''.  The set is empty.  The approximate R6RS equivalents are `enum-set-constructor` and `make-enumeration`.
+Except as noted below, the procedures for creating and manipulating enumeration sets are the same as those for sets, except that `set` is replaced by `enum-set` in their names.  Wherever a newly allocated enumeration set is returned, it has the same enumeration type as the source sets.  It is an error to operate on enumeration sets of different types in a single procedure.
 
 `(make-universal-enum-set `''enum-type''`)`
 
-Returns a newly allocated enumeration set.  The possible elements of the set are the symbols in ''enum-type''.  The set contains all possible elements.  The approximate R6RS equivalent is `enum-set-universe`.
+Returns a newly allocated enumeration set.  The possible elements of the set are the enum objects in ''enum-type''.  The set contains all possible elements.  The approximate R6RS equivalent is `enum-set-universe`.
 
 `(enum-set `''enum-type''` `''element'' ...`)`
 
@@ -50,8 +34,10 @@ Returns a newly allocated enumeration set that is the complement of ''enum-set''
 
 `(enum-set-projection `''enum-set''` `''enum-type''`)`
 
-Returns a newly allocated enumeration set of type ''enum-type''.  Its elements are the symbols belonging to ''enum-set'', ignoring any symbols which are not in ''enum-type''.  This procedure is also in R6RS, but uses a second enum-set in place of ''enum-type''.
+Returns a newly allocated enumeration set of type ''enum-type''.  Its elements are the enum objects in ''enum-type'' which have the same names as members of ''enum-set''.  Enum objects without corresponding names are ignored.  This procedure is also in R6RS, but uses a second enum-set in place of ''enum-type''.
+
+There will probably be more, depending on how integer sets turn out.
 
 == Enumeration maps ==
 
-Based on vectors indexed by the enum's ordinal.  API is reduced form of HashTablesCowan.
+Based on vectors indexed by the enum's ordinal.  API is a reduced form of HashTablesCowan.
