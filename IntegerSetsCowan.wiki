@@ -1,3 +1,7 @@
+== Issues ==
+
+1. Limited sets as below, or unlimited sets as in Chicken or Chibi?
+
 {{{
 #!html
 <h2 id="Integersetprocedures">Integer set procedures</h2><p>
