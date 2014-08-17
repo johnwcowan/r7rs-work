@@ -4,43 +4,51 @@ Binary heaps are mutable collections that can contain any Scheme object provided
 
 == Procedures ==
 
-`(heap `''comparator''` `''element''` ...)`
+`(heap `''comparator'' ''element''` ...)`
 
 Returns a newly allocated heap ordered by ''comparator'', and containing the ''elements''.  This operation should be O(n) in the size of the heap.
 
-`(copy-heap` ''heap''`)`
+`(copy-heap `''heap''`)`
 
 Returns a newly allocated heap containing the elements of ''heap'' with the same ''<'' procedure.
+
+`(list->heap `''comparator'' ''list''`)`
+
+Returns a newly allocated heap containing the elements of ''list'' and ordered by ''comparator''.
+
+`(vector->heap `''comparator'' ''vector''`)`
+
+Returns a newly allocated heap containing the elements of ''vector'' and ordered by ''comparator''.
 
 `(heap? `''obj''`)`
 
 Returns `#t` if ''obj'' is a heap, and `#f` otherwise.
 
-`(heap-size`''heap''`)`
+`(heap-size `''heap''`)`
 
 Returns the number of elements in ''heap''.
 
-`(heap-member? `''heap''` `''element''`)`
+`(heap-member? `''heap'' ''element''`)`
 
 Returns `#t` if ''element'' is a member of ''heap'' (in the sense of `eqv?`) and `#f` otherwise.
 
-`(heap-add! `''heap''` `''element''`)`
+`(heap-add! `''heap'' ''element''`)`
 
 Adds ''element'' to ''heap''.  Returns an unspecified value.  This operation should be O(log N) in the size of the heap.
 
-`(heap-minimum `''heap''` `''element''`)`
+`(heap-min `''heap'' ''element''`)`
 
 Returns the smallest element of the heap (according to the ''<'' function).  This operation should be O(log N) in the size of the heap.
 
-`(heap-remove-minimum! `''heap''` `''element''`)`
+`(heap-remove-min! `''heap'' ''element''`)`
 
 Removes the smallest element of the heap (according to the ''<'' function) and returns it.  This operation should be O(log N) in the size of the heap.
 
-`(heap-map `''proc''` `''comparator''` `''heap''`)`
+`(heap-map `''proc'' ''comparator'' ''heap''`)`
 
 Applies ''proc'' to each element of ''heap'' in arbitrary order and returns a newly allocated heap ordered by ''comparator'' and containing the values of the applications.  This operation should be O(N) in the size of the heap.
 
-`(heap-for-each `''proc''` `''heap''`)`
+`(heap-for-each `''proc'' ''heap''`)`
 
 Applies ''proc'' to each element of ''heap'' in arbitrary order, discarding the returned values.  Returns an unspecified value.  This operation should be O(N) in the size of the heap.
 
@@ -55,12 +63,4 @@ Returns a newly allocated list or vector containing the members of ''heap'' in a
 `(heap->sorted-vector! `''heap''`)`
 
 Returns a newly allocated list or vector containing the members of ''heap'' in increasing order.  ''Heap'' may be destroyed in the process.
-
-`(list->heap `''comparator''` `''list''`)`
-
-Returns a newly allocated heap containing the elements of ''list'' and ordered by ''comparator''.
-
-`(vector->heap `''comparator''` `''vector''`)`
-
-Returns a newly allocated heap containing the elements of ''vector'' and ordered by ''comparator''.
 
