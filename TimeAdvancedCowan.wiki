@@ -2,6 +2,12 @@
 
 This is a WG2 proposal for date and time arithmetic, loosely based on Java's [[http://joda-time.sourceforge.net|Joda Time]] functions.  It's possible to implement parts of SRFI 19 on top of it, but it provides much more flexibility.  See also TimePeriodsCowan.
 
+== Issues ==
+
+1. Need to do something about ISO 8601 dates like "194902", which don't correspond to a single instant.  Extend dates to their first instant (also last instant?).
+
+2. What about subsecond timing?  Specify milli, micro, nano, picoseconds?
+
 
 == Instants ==
 
