@@ -6,7 +6,7 @@ Based on unique objects, not symbols.
 
 Each enum object has four properties:  enum type, name (a symbol), ordinal (a non-negative exact integer), value (anything).  Enum objects are unique across enum types.  Names and ordinals are unique within an enum type.  Accessors are `enum-type`, `enum-name`, `enum-ordinal`, `enum-value`.
 
-An enum type contains a map from names to enum objects and a vector indexed by the ordinal.  We need `enum-ordinal->enum` (uses the vector) and `enum-name->enum` (uses the map) as fundamental procedures on enum types.  Simple composition gives us `enum-name->ordinal`, `enum-ordinal->name`, `enum-ordinal->value`, and `enum->name->value`.  There is no way to work backward from an enum value because it need not be unique.  
+An enum type contains a map from names to enum objects and a vector indexed by the ordinal.  We need `enum-ordinal->enum` (uses the vector) and `enum-name->enum` (uses the map) as fundamental procedures on enum types.  Simple composition gives us `enum-name->ordinal`, `enum-ordinal->name`, `enum-ordinal->value`, and `enum->name->value`.  There is no way to work backward from an enum value because it need not be unique.  To step from one enum to another, `enum-next` and `enum-prev`.
 
 Having a single value is very handy for C definitions, etc.
 
