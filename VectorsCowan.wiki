@@ -29,6 +29,7 @@ vector-unfold (SRFI 43), vector-unfold-right (SRFI 43),
 vector-copy (R7RS), vector-copy! (R7RS),
 vector-reverse-copy (SRFI 43+), vector-reverse-copy! (SRFI 43+),
 vector-append (R7RS), vector-append! (SRFI 1),
+vector-append-subvectors (see below),
 vector-concatenate (SRFI 43), vector-concatenate! (SRFI 1),
 vector-concatenate-reverse (SRFI 13), vector-concatenate-reverse (SRFI 13),
 vector-tabulate (SRFI 1/13), vector-tabulate! (SRFI 1/13)
@@ -69,7 +70,7 @@ vector-prefix? (SRFI 13), vector-suffix? (SRFI 13)
  
 == Searching ==
 
-vector-find (SRFI 1), vector-contains (SRFI 13),
+vector-find (SRFI 1), 
 vector-index (SRFI 43+), vector-index-right (SRFI 43+), 
 vector-skip (SRFI 43+), vector-skip-right (SRFI 43+), 
 vector-any (SRFI 43+), vector-every (SRFI 43+),
@@ -77,14 +78,6 @@ vector-take-while (SRFI 1+), vector-drop-while (SRFI 1+),
 vector-binary-search (SRFI 43+),
 vector-span (SRFI 1), vector-span! (SRFI 1),
 vector-break (SRFI 1), vector-break! (SRFI 1)
-
-== Zip and unzip ==
-
-Drop this?
-
-vector-zip (SRFI 1),
-vector-unzip1 (SRFI 1), vector-unzip2 (SRFI 1),
-vector-unzip3 (SRFI 1), vector-unzip4 (SRFI 1), vector-unzip5 (SRFI 1)
 
 == Mutators ==
 
@@ -98,3 +91,9 @@ vector-copy! (R7RS), vector-reverse-copy! (SRFI 43+)
 vector->list (R5RS+), reverse-vector->list (SRFI 43+), 
 list->vector (R5RS), reverse-list->vector (SRFI 43), 
 vector->string (R7RS), string->vector (R7RS)
+
+== Additional procedures ==
+
+`(vector-append-subvectors `''k fill'' ( ''at vector start end'' ) ...`)`
+
+Returns a newly allocated vector of length ''k'' after copying the portion of each ''vector'' from ''start'' to ''end'' into the new vector starting at ''at''.  Any additional locations are initialized with ''fill''.  This procedure is a generalization of `vector-copy!`.  Implementations may optimize this procedure using an unsafe primitive that creates an uninitialized vector, in order to avoid touching each element of the result twice.
