@@ -96,4 +96,41 @@ vector->string (R7RS), string->vector (R7RS)
 
 `(vector-append-subvectors `''k fill'' ( ''at vector start end'' ) ...`)`
 
-Returns a newly allocated vector of length ''k'' after copying the portion of each ''vector'' from ''start'' to ''end'' into the new vector starting at ''at''.  Any additional locations are initialized with ''fill''.  This procedure is a generalization of `vector-copy!`.  Implementations may optimize this procedure using an unsafe primitive that creates an uninitialized vector, in order to avoid touching each element of the result twice.
+Returns a newly allocated vector of length ''k'' after copying the portion of each ''vector'' from ''start'' to ''end'' into the new vector starting at ''at''.  Any additional locations are initialized with ''fill''.  This procedure is a generalization of `vector-copy` and `vector-copy!`.  Implementations may optimize this procedure using an unsafe primitive that creates an uninitialized vector, in order to avoid touching each element of the result twice.  Racket code for an analogue:
+
+{{{
+(struct range
+  (from to from-vector from-vector-start))
+
+(define (make-vector-from-pieces dim default . inits)
+  (define sorted-inits (sort inits range-<))
+  (let ((vector (make-vector dim)))
+    (let loop ((cur 0) (inits sorted-inits))
+      (cond ((null? inits)
+             (vector-fill vector cur dim default))
+            (else
+             (define init (first inits))
+             (vector-fill vector cur (range-from init) default)
+             (vector-block-copy vector init)
+             (loop (range-to init) (rest inits)))))
+    vector))
+
+(define (range-< range1 range2)
+  (< (range-from range1)
+     (range-from range2)))
+
+(define (vector-block-copy vector range)
+  (define to (range-to range))
+  (define from-vector (range-from-vector range))
+  (let loop ((cur (range-from range))
+             (i (range-from-vector-start range)))
+    (when (< cur to)
+      (vector-set! vector cur (vector-ref from-vector i))
+      (loop (add1 cur) (add1 i)))))
+
+(define (vector-fill vector from to value)
+  (let loop ((from from))
+    (when (< from to)
+      (vector-set! vector from value)
+      (loop (add1 from)))))
+}}}
