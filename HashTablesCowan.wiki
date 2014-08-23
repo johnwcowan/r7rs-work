@@ -133,6 +133,8 @@ It is an error to compare two hash tables with different comparators or equality
 
 * [[#Exceptions|Exceptions]]: `hash-table-key-not-found?`
 
+* [[#Comparator|Comparator]]: `hash-table-comparator`
+
 === Constructors ===
 
 `(make-hash-table `''comparator'' [[|''arg'' ... ]]`)`
@@ -425,6 +427,12 @@ Deletes the associations of ''hash-table,,1,,'' whose keys are also present in '
 `(hash-table-key-not-found? `''obj''`)`
 
 Returns `#t` if ''obj'' is an object raised by the `hash-table-ref` procedure or any other procedure that accesses hash tables when the key is not found and there is no failure procedure, and `#f` otherwise.
+
+=== Comparator ===
+
+`hash-table-comparator`
+
+This comparator is suitable for comparing hash tables with the same (element) comparator for equality, and also provides a hash function for them.  It does not provide a comparison procedure, as there is no natural ordering between hash tables.
 
 == Implementation ==
 
