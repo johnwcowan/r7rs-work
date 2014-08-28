@@ -50,11 +50,18 @@ vector-split-at (SRFI 1),
 vector-fold (SRFI 43+), vector-fold-right (SRFI 43+),
 vector-reduce (SRFI 43+), vector-reduce-right (SRFI 43+),
 vector-map (SRFI 43+), vector-map! (SRFI 43+),
-vector-for-each (R7RS), vector-for-each-index (SRFI 13), vector-count (SRFI 43+),
-vector-append-map (SRFI 1), vector-filter-map (SRFI 1)
+vector-for-each (R7RS)
+
+The above procedures do not pass the index value to the mapping function, for compatibility with R7RS `vector-map` and `vector-fold`.  The following versions, which are compatible with SRFI 43 pass the index value as the first argument.
+
+vector-fold-index (SRFI 43+), vector-fold-right-index (SRFI 43+),
+vector-reduce-index (SRFI 43+), vector-reduce-right-index (SRFI 43+),
+vector-map-index (SRFI 43+), vector-map-index! (SRFI 43+),
+vector-for-each-index (R7RS)
 
 == Filtering and partitioning ==
 
+vector-count (SRFI 43+),
 vector-filter (SRFI 1/13), vector-remove (SRFI 1/13), vector-partition (SRFI 1),
 vector-filter! (SRFI 1), vector-remove! (SRFI 1), vector-partition! (SRFI 1)
 
@@ -134,3 +141,4 @@ Returns a newly allocated vector of length ''k'' after copying the portion of ea
       (vector-set! vector from value)
       (loop (add1 from)))))
 }}}
+
