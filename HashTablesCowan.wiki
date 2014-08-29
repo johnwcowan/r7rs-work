@@ -95,7 +95,9 @@ The procedures in the present proposal are drawn primarily from SRFI 69 and R6RS
 
 * The hash table comparison procedures and the procedures `hash-table-map`, `hash-table-map-entries`, `hash-table-filter!`, and `hash-table-partition!` were suggested by [[http://hackage.haskell.org/packages/archive/containers/0.5.2.1/doc/html/Data-Map-Strict.html|Haskell's Data.Map.Strict module]].
 
-The procedure `hash-table-empty?`, as well as the mutation procedures `hash-table-set-entries!`, `hash-table-replace!`, `hash-table-replace!/default`, `hash-table-search!`, `hash-table-map!`, `hash-table-intersection!`, and `hash-table-difference!`, were added for completeness. 
+* The `hash-table-search!` procedure is based on a suggestion by Taylor Campbell.
+
+The procedure `hash-table-empty?`, as well as the mutation procedures `hash-table-set-entries!`, `hash-table-replace!`, `hash-table-replace!/default`, `hash-table-map!`, `hash-table-intersection!`, and `hash-table-difference!`, were added for completeness. 
 
 The native hash tables of [[http://web.mit.edu/scheme_v9.0.1/doc/mit-scheme-ref/Hash-Tables.html|MIT]],  [[http://www.gnu.org/software/guile/manual/html_node/Hash-Table-Reference.html|Guile]], [[http://sisc-scheme.org/manual/html/ch09.html#Hashtables|SISC]], [[http://www-sop.inria.fr/indes/fp/Bigloo/doc/bigloo-7.html#Hash-Tables|Bigloo]], [[http://s48.org/0.57/manual/s48manual_44.html|Scheme48]], [[http://www.cs.indiana.edu/scheme-repository/SCM/slib_2.html#SEC13|SLIB]], [[http://www.rscheme.org/rs/b/0.7.3.4/5/html/c2143.html|RScheme]], [[https://ccrma.stanford.edu/software/snd/snd/s7.html#hashtables|Scheme 7]], [[https://github.com/barak/scheme9/blob/master/lib/hash-table.scm|Scheme 9]], [[http://www.fifi.org/cgi-bin/info2www?(librep)Hash+Tables|Rep]], and [[https://code.google.com/p/femtolisp/wiki/APIReference|FemtoLisp]] were also investigated, but no additional procedures were incorporated.
 
