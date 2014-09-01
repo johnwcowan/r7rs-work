@@ -87,9 +87,9 @@ Returns a newly allocated queue with the same elements as in ''queue'' but in re
 
 Returns `#t` if ''element'' is a member of ''queue'' (in the sense of ''predicate'', which defaults to `equal?`) and `#f` otherwise.  This operation is O(n).
 
-`(queue-assoc `''queue key'' [[|''predicate'' ]]`)`
+`(queue-assoc `''key queue'' [[|''predicate'' ]]`)`
 
-Searches the elements of ''queue'' for one whose car is equal to ''key'' in the sense of ''predicate'' (which defaults to `equal?`).  Returns the first such element, or `#f` if there are none.  It is an error if the elements are not pairs.
+Searches the elements of ''queue'' for one whose car is equal to ''key'' in the sense of ''predicate'' (which defaults to `equal?`).  Returns the first such element, or `#f` if there are none.  It is an error if the elements are not pairs.  Note that the order of arguments is that of `assoc`.
 
 === Mapping ===
 
@@ -131,6 +131,6 @@ A comparator suitable for use with queues, using the procedures of `list-compara
 
 == Implementation note ==
 
-R5RS implementations do not have `make-list`, `list-copy`, `list-set!`, or `map!`, which therefore would need to be packaged with the sample implementation.  All but `list-set!` are available in SRFI 1, but it's trivial to provide local implementations of them.
+R5RS implementations do not have `make-list`, `list-copy`, `list-set!`, or `map!`, which therefore are packaged with the sample implementation.  All but `list-set!` are available in SRFI 1, but it's trivial to provide local implementations of them.
 
 
