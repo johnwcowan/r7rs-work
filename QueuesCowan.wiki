@@ -1,10 +1,10 @@
 == Queues ==
 
-Queues (also known as output-restricted deques) are mutable ordered collections that can contain any Scheme object.  Each queue contains a list that contains the elements of the queue, and maintains pointers to the first and last pairs of the list.  It's cheap to add or remove elements from the front of the list or to add elements to the back, but not to remove elements from the back.  Queues are disjoint from other types of Scheme objects.
+Queues (more precisely, mostly-output-restricted deques) are mutable ordered collections that can contain any Scheme object.  Each queue is based on an ordinary Scheme list that contains the elements of the queue by maintaining pointers to the first and last pairs of the list.  It's cheap to add or remove elements from the front of the list or to add elements to the back, but not to remove elements from the back.  Queues are disjoint from other types of Scheme objects.
 
 The API provided here is closely analogous to the R7RS-small API for lists.  Other list procedures can be applied to queues using `queue->list`, `list->queue`, and `list-queue!`.  It subsumes the [[http://wiki.call-cc.org/man/4/Unit%20data-structures#queues|Chicken]] and [[http://people.csail.mit.edu/jaffer/slib/Queues.html#Queues|SLIB]] APIs.
 
-Except as noted, all procedures are O(n), where n is the length of the queue.  These procedures signal an error that satisfies `queue-error?` if there is no element to return, modify, or delete.
+These procedures signal an error that satisfies `queue-error?` if there is no element to return, modify, or delete.
 
 
 
@@ -16,11 +16,11 @@ Except as noted, all procedures are O(n), where n is the length of the queue.  T
 
 `(queue `''element'' ...`)`
 
-Returns a newly allocated queue containing the ''elements''.
+Returns a newly allocated queue containing the ''elements''.  This operation is O(n).
 
 `(queue-copy` ''queue''`)`
 
-Returns a newly allocated queue containing the elements of ''queue''.
+Returns a newly allocated queue containing the elements of ''queue''.  This operation is O(n).
 
 === Predicates ===
 
@@ -74,33 +74,33 @@ Sets the ''k''th element of ''queue'' to ''value''.  This operation is O(k).
 
 `(queue-length `''queue''`)`
 
-Returns the number of elements in ''queue''.
+Returns the number of elements in ''queue''.  This operation is O(n).
 
 `(queue-append `''queue'' ...`)`
 
-Returns a queue which contains all the elements in all the ''queues'' in the order in which they appear in the call.  The result does not share storage with any of the arguments.
+Returns a queue which contains all the elements in all the ''queues'' in the order in which they appear in the call.  The result does not share storage with any of the arguments.  This operation is O(n) in the total number of elements.
 
 `(queue-reverse `''queue''`)`
 
-Returns a newly allocated queue with the same elements as in ''queue'' but in reverse order.  The result does not share structure with any of the arguments.
+Returns a newly allocated queue with the same elements as in ''queue'' but in reverse order.  The result does not share structure with any of the arguments.  This operation is O(n).
 
 `(queue-member? `''queue element;'' [[|''predicate'' ]]`)`
 
-Returns `#t` if ''element'' is a member of ''queue'' (in the sense of ''predicate'', which defaults to `equal?`) and `#f` otherwise.
+Returns `#t` if ''element'' is a member of ''queue'' (in the sense of ''predicate'', which defaults to `equal?`) and `#f` otherwise.  This operation is O(n).
 
 === Mapping ===
 
 `(queue-map `''proc queue''`)`
 
-Applies ''proc'' to each element of ''queue'' in order and returns a newly allocated queue containing the results.
+Applies ''proc'' to each element of ''queue'' in order and returns a newly allocated queue containing the results.  This operation is O(n).
 
 `(queue-map! `''proc queue''`)`
 
-Applies ''proc'' to each element of ''queue'' in order and modifies ''queue'' to contain the results.
+Applies ''proc'' to each element of ''queue'' in order and modifies ''queue'' to contain the results.  This operation is O(n).
 
 `(queue-for-each `''proc''` `''queue''`)`
 
-Applies ''proc'' to each element of ''queue'' in order, discarding the returned values.  Returns an unspecified value.
+Applies ''proc'' to each element of ''queue'' in order, discarding the returned values.  Returns an unspecified value.  This operation is O(n).
 
 === Conversion and list operations ===
 
@@ -110,13 +110,13 @@ Returns the list that contains the members of ''queue'' in order.  It is an erro
 
 `(list->queue `''list''`)`
 
-Returns a newly allocated queue containing the elements of ''list'' in order.  It is an error to mutate the cdrs of ''list'' after calling this procedure, as it shares storage with the queue.
+Returns a newly allocated queue containing the elements of ''list'' in order.  It is an error to mutate the cdrs of ''list'' after calling this procedure, as it shares storage with the queue.  This operation is O(n).
 
 To apply a non-destructive list procedure to a queue and return a new queue, use `(list->queue (`''proc''` (queue->list `''queue''`)))`.
 
 `(list->queue! `''queue list''`)`
 
-Replaces the list associated with ''queue'' with ''list'', effectively discarding all the elements of ''queue'' in favor of those in ''list''.  It is an error to mutate the cdrs of ''list'' after calling this procedure, as it shares storage with the queue.  Returns an unspecified value.
+Replaces the list associated with ''queue'' with ''list'', effectively discarding all the elements of ''queue'' in favor of those in ''list''.  It is an error to mutate the cdrs of ''list'' after calling this procedure, as it shares storage with the queue.  Returns an unspecified value.  This operation is O(n).
 
 To apply a destructive list procedure to a queue, use `(list->queue! (`''proc''` (queue->list `''queue''`)))`.
 
