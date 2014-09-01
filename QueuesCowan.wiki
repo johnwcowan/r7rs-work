@@ -83,9 +83,13 @@ Returns a queue which contains all the elements in all the ''queues'' in the ord
 
 Returns a newly allocated queue with the same elements as in ''queue'' but in reverse order.  The result does not share structure with any of the arguments.  This operation is O(n).
 
-`(queue-member? `''queue element;'' [[|''predicate'' ]]`)`
+`(queue-member? `''queue element'' [[|''predicate'' ]]`)`
 
 Returns `#t` if ''element'' is a member of ''queue'' (in the sense of ''predicate'', which defaults to `equal?`) and `#f` otherwise.  This operation is O(n).
+
+`(queue-assoc `''queue key'' [[|''predicate'' ]]`)`
+
+Searches the elements of ''queue'' for one whose car is equal to ''key'' in the sense of ''predicate'' (which defaults to `equal?`).  Returns the first such element, or `#f` if there are none.  It is an error if the elements are not pairs.
 
 === Mapping ===
 
