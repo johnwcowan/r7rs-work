@@ -1,14 +1,13 @@
-== Queues ==
+== Abstract ==
 
 Queues (more precisely, mostly-output-restricted deques) are mutable ordered collections that can contain any Scheme object.  Each queue is based on an ordinary Scheme list that contains the elements of the queue by maintaining pointers to the first and last pairs of the list.  It's cheap to add or remove elements from the front of the list or to add elements to the back, but not to remove elements from the back.  Queues are disjoint from other types of Scheme objects.
 
-The API provided here is closely analogous to the R7RS-small API for lists.  Other list procedures can be applied to queues using `queue->list`, `list->queue`, and `list-queue!`.  It subsumes the [[http://wiki.call-cc.org/man/4/Unit%20data-structures#queues|Chicken]] and [[http://people.csail.mit.edu/jaffer/slib/Queues.html#Queues|SLIB]] APIs.
+== Rationale ==
 
-These procedures signal an error that satisfies `queue-error?` if there is no element to return, modify, or delete.
+Because the representation of queues as lists is exposed by the implementation, it's not necessary to provide a comprehensive API for queues, since [[http://srfi.schemers.org/srfi-1/srfi-1.html|SRFI 1]] and other list APIs can serve the same purpose, using the `queue->list`, `list->queue`, and `list-queue!` procedures to convert between queues and lists fairly cheaply.  Consequently, the API provided here over and above the bare necessities of queueing and dequeueing elements is closely analogous to the R7RS-small API for lists.  It also subsumes the [[http://wiki.call-cc.org/man/4/Unit%20data-structures#queues|Chicken]] and [[http://people.csail.mit.edu/jaffer/slib/Queues.html#Queues|SLIB]] APIs.
 
 
-
-== Procedures ==
+== Specification ==
 
 === Constructors ===
 
@@ -96,7 +95,7 @@ Applies ''proc'' to each element of ''queue'' in order and returns a newly alloc
 
 `(queue-map! `''proc queue''`)`
 
-Applies ''proc'' to each element of ''queue'' in order and modifies ''queue'' to contain the results.  This operation is O(n).
+Applies ''proc'' to each element of ''queue'' in order and modifies ''queue'' to contain the results.  This operation is O(n).  It is not part of the R7RS-small list API, but is included here to make transformation of a queue by mutation more efficient.
 
 `(queue-for-each `''proc''` `''queue''`)`
 
@@ -125,12 +124,6 @@ To apply a destructive list procedure to a queue, use `(list->queue! (`''proc''`
 `queue-comparator`
 
 A comparator suitable for use with queues, using the procedures of `list-comparator`.
-
-=== Exceptions ===
-
-`(queue-error? `''obj''`)`
-
-Returns `#t` if ''obj'' is a condition object thrown by a queue procedure in circumstances given above, and `#f` otherwise.
 
 == Implementation note ==
 
