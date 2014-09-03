@@ -95,4 +95,4 @@ Note that evaluating `(means '(3 (1 4)))` returns three values: 8/3, 2.289428485
 
 18. In the first bullet of the "Incompatibilities with R6RS" section, for "have to be be" read "have to be".
 
-19. In numeric tower bullet of the "Incompatibilities with R6RS" section, for "but the R6RS procedures `real-valued?`, `rational-valued?`, and `integer-valued?` were not" read "but the semantics of the R6RS procedures `real?`, `rational?`, and `integer?` were not adopted.  (Note that the R5RS/R7RS semantics are available in R6RS using `real-valued?`, `rational-valued?`, and `integer-valued?`".
+19. In numeric tower bullet of the "Incompatibilities with R6RS" section, for "but the R6RS procedures `real-valued?`, `rational-valued?`, and `integer-valued?` were not" read "but the semantics of the R6RS procedures `real?`, `rational?`, and `integer?` were not adopted.  (Note that the R5RS/R7RS semantics are available in R6RS using `real-valued?`, `rational-valued?`, and `integer-valued?`)".
