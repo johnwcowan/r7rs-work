@@ -16,7 +16,7 @@ These are the language changes listed in R6RS Appendix E, with notes on the exte
  * Matched square brackets can be used synonymously with parentheses.
    * Rejected on the grounds that implementations may wish to use brackets for better things.
  * The read-syntax abbreviations `#'` (for `syntax`), `#`-backquote (for `quasisyntax`), `#`, (for `unsyntax`), and `#,@` (for `unsyntax-splicing`) have been added.
-   * Not adopted, because `syntax-case` is not part of R7RS-small.
+   * Irrelevant, because `syntax-case` is not part of R7RS-small.
  * `#` can no longer be used in place of digits in number representations.
    * No longer required, but still permitted.
  * The external representation of number objects can now include a mantissa width.
@@ -28,7 +28,7 @@ These are the language changes listed in R6RS Appendix E, with notes on the exte
  * Block and datum comments have been added.
    * Adopted.
  * The `#!r6rs` comment for marking report-compliant lexical syntax has been added.
-   * Not adopted, nor any analogue of it.
+   * Rejected; there is no R7RS analogue of it.
  * Characters are now specified to correspond to Unicode scalar values.
    * Adopted in part: implementations are not required to handle all Unicode scalar values.
  * Many of the procedures and syntactic forms of the language are now part of the `(rnrs base (6))` library.  Some procedures and syntactic forms have been moved to other libraries.
@@ -66,7 +66,7 @@ These are the language changes listed in R6RS Appendix E, with notes on the exte
  * Procedures now may or may not refer to locations.  Consequently, `eqv?` is now unspecified in a few cases where it was specified before.
    * Mostly rejected, although `eq?` may now distinguish between procedures where `eqv?` does not.
  * The mutability of the values of `quasiquote` structures has been specified to some degree.
-   * Not adopted.
+   * Rejected.
  * The dynamic environment of the ''before'' and ''after'' procedures of `dynamic-wind` is now specified.
    * Adopted.
  * Various expressions that have only side effects are now allowed to return an arbitrary number of values.
@@ -78,4 +78,4 @@ These are the language changes listed in R6RS Appendix E, with notes on the exte
  * The old notion of program structure and Scheme's top-level environment has been replaced by top-level programs and libraries.
    * Adopted in parellel with the old semantics.
  * The denotational semantics has been replaced by an operational semantics.
-   * Not adopted.
+   * The denotational semantics was updated rather than replaced.
