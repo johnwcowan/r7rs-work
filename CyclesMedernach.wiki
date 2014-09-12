@@ -140,11 +140,11 @@ It is an error unless all cycles have the same length, and ''proc'' is a procedu
 
 `(cycle-map-steps `''proc''` `''cycle'' ...`)`
 
-It is an error unless all cycles have the same length, and ''proc'' is a procedure taking as many arguments as there are ''cycles'' and returning a single value. `cycle-map` applies ''proc'' to all the rotations of the cycle(s) in forward order and returns a cycle of the corresponding results.
+It is an error unless all cycles have the same length, and ''proc'' is a procedure taking as many arguments as there are ''cycles'' and returning a single value. `cycle-map-steps` applies ''proc'' to all the rotations of the cycle(s) in forward order and returns a cycle of the corresponding results.
 
 `(cycle-reverse-map-steps `''proc''` `''cycle'' ...`)`
 
-It is an error unless all cycles have the same length, and ''proc'' is a procedure taking as many arguments as there are ''cycles'' and returning a single value. `cycle-map` applies ''proc'' to all the rotations of the cycle(s) in backward order and returns a cycle of the corresponding results.
+It is an error unless all cycles have the same length, and ''proc'' is a procedure taking as many arguments as there are ''cycles'' and returning a single value. `cycle-reverse-map-steps` applies ''proc'' to all the rotations of the cycle(s) in backward order and returns a cycle of the corresponding results.
 
 `(cycle-for-each-step `''proc''` `''cycle'' ...`)`
 
@@ -192,8 +192,6 @@ Returns a cycle containing those elements which do not satisfy ''predicate''.  O
 
 Returns two values, a cycle containing those elements which satisfy ''predicate'', and another cycle containing those elements which do not.  Order is preserved.
 
-== External representation ==
+== Additions from SRFI-1 ==
 
-The cycle composed of elements 1, 2 and 3 with 1 in front can be written as following:
-
-  `#cycle(1 2 3)`
+`cycle-zip cycle-find cycle-take-while cycle-drop-while cycle-span cycle-break`
