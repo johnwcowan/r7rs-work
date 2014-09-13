@@ -24,7 +24,7 @@ Returns the local endpoint or `#f` if there is none.  The value returned may not
 
 `(datagram-channel-send-to `''channel''` `''endpoint''` `''bytevector''` `[[''start''|[''end'']]]`)`
 
-Send the portion of ''bytevector'' defined by ''start'' (inclusive) and ''end'' (exclusive) to ''endpoint'' using ''channel''.  If ''end'' is omitted, it is the length of ''bytevector'' plus one; if ''start'' is omitted, it is 0.  Returns undefined values.  In Posix terms this is `send()`.
+Send the portion of ''bytevector'' defined by ''start'' (inclusive) and ''end'' (exclusive) to ''endpoint'' using ''channel''.  If ''end'' is omitted, it is the length of ''bytevector'' plus one; if ''start'' is omitted, it is 0.  Returns an undefined value.  In Posix terms this is `send()`.
 
 `(datagram-channel-receive-from `''channel''` `''bytevector''` `[[''start''|[''end'']]]`)`
 
@@ -32,11 +32,11 @@ Receives a datagram from ''channel'' into the portion of ''bytevector'' defined 
 
 `(datagram-channel-connect! `''channel''` `''endpoint''`)`
 
-Connects ''channel'' to a remote ''endpoint''.  This endpoint may be on the local host, but it is an error for the port to be 0.  Datagrams can be sent to this endpoint using `datagram-channel-send`, but it is still possible to send datagrams to other endpoints using `datagram-channel-send-to`.  When connected, a datagram channel will ignore any arriving datagrams that do not come from the specified remote endpoint.  Returns undefined values.  In Posix terms this is `connect()`.
+Connects ''channel'' to a remote ''endpoint''.  This endpoint may be on the local host, but it is an error for the port to be 0.  Datagrams can be sent to this endpoint using `datagram-channel-send`, but it is still possible to send datagrams to other endpoints using `datagram-channel-send-to`.  When connected, a datagram channel will ignore any arriving datagrams that do not come from the specified remote endpoint.  Returns an undefined value.  In Posix terms this is `connect()`.
 
 `(datagram-channel-disconnect! `''channel''`)`
 
-Disconnects ''channel''.  Returns undefined values.  In Posix terms this is `connect()` with an argument whose address family is `AF_UNSPEC`.
+Disconnects ''channel''.  Returns an undefined value.  In Posix terms this is `connect()` with an argument whose address family is `AF_UNSPEC`.
 
 `(datagram-channel-remote-endpoint `''channel''`)`
 
@@ -44,7 +44,7 @@ Returns the remote endpoint to which ''channel'' is connected, or `#f` if it is 
 
 `(datagram-channel-send `''channel''` `''bytevector''` `[[''start''|[''end'']]]`)`
 
-Send the portion of ''bytevector'' defined by ''start'' (inclusive) and ''end'' (exclusive) to the remote endpoint of ''channel''.  If ''end'' is omitted, it is the length of ''bytevector'' plus one; if ''start'' is omitted, it is 0.  It is an error if ''channel'' is not connected.  Returns undefined values.  In Posix terms this is `send()`.
+Send the portion of ''bytevector'' defined by ''start'' (inclusive) and ''end'' (exclusive) to the remote endpoint of ''channel''.  If ''end'' is omitted, it is the length of ''bytevector'' plus one; if ''start'' is omitted, it is 0.  It is an error if ''channel'' is not connected.  Returns an undefined value.  In Posix terms this is `send()`.
 
 `(datagram-channel-close `''channel''`)`
 
