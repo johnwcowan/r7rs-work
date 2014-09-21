@@ -57,11 +57,11 @@ R6RS eliminates this issue by providing separate constructors for `eq?` and `eqv
 
 === R6RS compatibility ===
 
-The relatively few hash table procedures in R6RS are all available in the present proposal under somewhat different names.  The present proposal adopts SRFI 69's term `hash-table` rather than R6RS's `hashtable`, because of the universal use of "hash table" rather than "hashtable" in other languages and in technical prose generally.  Besides, the English word ''hashtable'' obviously means something that can be ... hashted.
+The relatively few hash table procedures in R6RS are all available in the present proposal under somewhat different names.  The only substantive difference is that R6RS `hashtable-values` and `hashtable-entries` return vectors, whereas in the present proposal `hash-table-values` and `hash-table-entries` return lists.  The present proposal adopts SRFI 69's term `hash-table` rather than R6RS's `hashtable`, because of the universal use of "hash table" rather than "hashtable" in other languages and in technical prose generally.  Besides, the English word ''hashtable'' obviously means something that can be ... hashted.
 
 In addition, the `hashtable-ref` and `hashtable-update!` of R6RS correspond to the `hash-table-ref/default` and `hash-table-update!/default` of both SRFI 69 and the present proposal.
 
-It would be trivial to provide the R6RS names (or for that matter the SRFI 69 names) on top of the present proposal.  The only substantive difference is that R6RS `hashtable-values` and `hashtable-entries` return vectors, whereas in the present proposal `hash-table-values` and `hash-table-entries` return lists.
+It would be trivial to provide the R6RS names (or for that matter the SRFI 69 names) on top of the present proposal.
 
 === Common Lisp compatibility ===
 
@@ -165,9 +165,9 @@ The meaning of any further arguments is implementation-dependent.  However, impl
 
 Returns a newly allocated hash table, created as if by `make-hash-table`.  For each pair of arguments, an association is added to the new hash table with ''key'' as its key and ''value'' as its value.
 
-`(hash-table-unfold `''comparator continue? mapper successor seed'' ]`)`
+`(hash-table-unfold `''stop? mapper successor seed comparator'' ]`)`
 
-Create a new hash table as if by `make-hash-table` using ''comparator''.  If the result of applying the predicate ''continue?'' to ''seed'' is `#f`, return the hash table.  Otherwise, apply the procedure ''mapper'' to ''seed''.  ''Mapper'' returns two values, which are inserted into the hash table as the key and the value respectively.  Then get a new seed by applying the procedure ''successor'' to ''seed'', and repeat this algorithm.
+Create a new hash table as if by `make-hash-table` using ''comparator''.  If the result of applying the predicate ''stop?'' to ''seed'' is `#f`, return the hash table.  Otherwise, apply the procedure ''mapper'' to ''seed''.  ''Mapper'' returns two values, which are inserted into the hash table as the key and the value respectively.  Then get a new seed by applying the procedure ''successor'' to ''seed'', and repeat this algorithm.
 
 `(alist->hash-table `''alist comparator arg'' ...`)`
 
