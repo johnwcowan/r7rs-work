@@ -22,7 +22,7 @@ None at present.
 
 Hash tables themselves don't really need defending: almost all dynamically typed languages, from awk to !JavaScript to Lua to Perl to Python to Common Lisp, and including many Scheme implementations, provide them in some form as a fundamental data structure.  Therefore, what needs to be defended is not the data structure but the procedures.  The present proposal is at an intermediate level.  It supports a great many convenience procedures on top of the basic hash table interfaces provided by [[http://srfi.schemers.org/srfi-69/srfi-69.html|SRFI 69]] and [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-14.html|R6RS]].  Nothing in it adds power to what those interfaces provide, but it does add convenience in the form of pre-debugged routines to do various common things, and even some things not so commonly done but useful.
 
-There is no mandated support for thread safety, immutability, or weakness, though there is a semi-portable hook for specifying these features.
+There is no mandated support for thread safety, immutability, or weakness, though there are semi-portable hooks for specifying these features.
 
 This specification accepts separate equality predicates and hash functions for backward compatibility, but strongly encourages the use of [[http://srfi.schemers.org/srfi-114/srfi-114.html|SRFI 114]] comparators, which package a type test, an equality predicate, and a hash function into a single bundle.
 
