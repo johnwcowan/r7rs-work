@@ -129,7 +129,7 @@ It is an error to compare two hash tables with different comparators or equality
 
 * [[#Accessors|Accessors]]: `hash-table-ref`, `hash-table-ref/default`
 
-* [[#Mutators|Mutators]]: `hash-table-set!`, `hash-table-set-entries!`, `hash-table-set-alist!`, `hash-table-delete!`, `hash-table-delete-keys!`, `hash-table-extend!`, `hash-table-extend!/default`, `hash-table-replace!`, `hash-table-replace!/default`, `hash-table-update!`, `hash-table-update!/default`, `hash-table-push!`, `hash-table-pop!`, `hash-table-search!`
+* [[#Mutators|Mutators]]: `hash-table-set!`, `hash-table-set-entries!`, `hash-table-delete!`, `hash-table-delete-keys!`, `hash-table-extend!`, `hash-table-extend!/default`, `hash-table-replace!`, `hash-table-replace!/default`, `hash-table-update!`, `hash-table-update!/default`, `hash-table-push!`, `hash-table-pop!`, `hash-table-search!`
 
 * [[#Thewholehashtable|The whole hash table]]: `hash-table-clear!`, `hash-table-size`, `hash-table-keys`, `hash-table-values`, `hash-table-entries`, `hash-table-find`, `hash-table-count`, `hash-table-any?`, `hash-table-every?`
 
@@ -163,17 +163,17 @@ The meaning of any further arguments is implementation-dependent.  However, impl
 
 `(hash-table `''comparator'' ( ''key value'' ) ...`)`
 
-Returns a newly allocated hash table, created as if by `make-hash-table`.  For each pair of arguments, an association is added to the new hash table with ''key'' as its key and ''value'' as its value.
+Returns a newly allocated hash table, created as if by `make-hash-table` using ''comparator''.  For each pair of arguments, an association is added to the new hash table with ''key'' as its key and ''value'' as its value.
 
-`(hash-table-unfold `''stop? mapper successor seed comparator'' ]`)`
+`(hash-table-unfold `''stop? mapper successor seed comparator arg'' ... ]`)`
 
-Create a new hash table as if by `make-hash-table` using ''comparator''.  If the result of applying the predicate ''stop?'' to ''seed'' is `#f`, return the hash table.  Otherwise, apply the procedure ''mapper'' to ''seed''.  ''Mapper'' returns two values, which are inserted into the hash table as the key and the value respectively.  Then get a new seed by applying the procedure ''successor'' to ''seed'', and repeat this algorithm.
+Create a new hash table as if by `make-hash-table` using ''comparator'' and the ''args''.  If the result of applying the predicate ''stop?'' to ''seed'' is `#f`, return the hash table.  Otherwise, apply the procedure ''mapper'' to ''seed''.  ''Mapper'' returns two values, which are inserted into the hash table as the key and the value respectively.  Then get a new seed by applying the procedure ''successor'' to ''seed'', and repeat this algorithm.
 
 `(alist->hash-table `''alist comparator arg'' ...`)`
 
 `(alist->hash-table `''alist equality-predicate'' [[|''hash-function'' ]] ''arg'' ...`)`
 
-Returns a newly allocated hash-table as if by `make-hash-table`, initializing it from the associations of ''alist''.  Associations earlier in the list take precedence over those that come later.  The second form is for compatibility with SRFI 69, and is deprecated.  (SRFI 69 `alist->hash-table`)
+Returns a newly allocated hash-table as if by `make-hash-table` using ''comparator'' and the ''args''.  It is then initialized from the associations of ''alist''.  Associations earlier in the list take precedence over those that come later.  The second form is for compatibility with SRFI 69, and is deprecated.  (SRFI 69 `alist->hash-table`)
 
 === Predicates ===
 
@@ -241,10 +241,6 @@ Repeatedly mutates ''hash-table'', creating new associations in ''hash-table'' t
 `(hash-table-set-entries! `''hash-table keys-list values-list''`)`
 
 Repeatedly mutates ''hash-table'', setting each element of ''keys-list'' to the corresponding element of ''values-list'' in the order in which they are specified.  Excess keys or values are ignored.
-
-`(hash-table-set-alist! `''hash-table alist''`)`
-
-Repeatedly mutates ''hash-table'' using the associations of ''alist''.  Associations earlier in the list take precedence over those that come later.
 
 `(hash-table-delete! `''hash-table key'' ...`)`
 
