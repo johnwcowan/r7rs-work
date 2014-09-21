@@ -50,7 +50,11 @@ Record external representations: [[http://srfi.schemers.org/srfi-108/srfi-108.ht
 
 Shuffle vectors, sample their contents: 
 
+Sparse vectors and maps: 
+
 String positions and slices: [[http://www.r6rs.org/formal-comments/comment-235.txt|R6RS formal comment]]
+
+Ternary search trees:
 
 Tree library: at least `tree=?` and `tree-copy`, probably Common Lisp [[http://www.lispworks.com/documentation/lw50/CLHS/Body/f_sublis.htm|SUBLIS and NSUBLIS]], fold, unfold, map ... 
 
