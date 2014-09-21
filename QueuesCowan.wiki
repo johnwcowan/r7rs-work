@@ -17,9 +17,17 @@ Because the representation of queues as lists is exposed by the implementation, 
 
 Returns a newly allocated queue containing the ''elements''.  This operation is O(n).
 
-`(queue-copy` ''queue''`)`
+`(queue-copy `''queue''`)`
 
 Returns a newly allocated queue containing the elements of ''queue''.  This operation is O(n).
+
+`(queue-unfold `''stop? mapper successor seed''`)`
+
+If the result of applying the predicate ''stop?'' to ''seed'' is `#f`, return a newly allocated empty queue.  Otherwise, apply the procedure ''mapper'' to ''seed''.  ''Mapper'' returns a value which is added to the end of the queue.  Then get a new seed by applying the procedure ''successor'' to ''seed'', and repeat this algorithm.
+
+`(queue-unfold-right `''stop? mapper successor seed''`)`
+
+If the result of applying the predicate ''stop?'' to ''seed'' is `#f`, return a newly allocated empty queue.  Otherwise, apply the procedure ''mapper'' to ''seed''.  ''Mapper'' returns a value which is added to the beginning of the queue.  Then get a new seed by applying the procedure ''successor'' to ''seed'', and repeat this algorithm.
 
 === Predicates ===
 
@@ -37,13 +45,9 @@ Returns `#t` if ''obj'' is a queue with no elements, and `#f` otherwise.  This o
 
 Returns the first element of the queue.  This operation is O(1).
 
-`(queue-last`''queue''` `''element''`)`
+`(queue-last `''queue''` `''element''`)`
 
 Returns the last element of the queue.  This operation is O(1).
-
-`(queue-ref ''queue k''`)`
-
-Returns the ''k''th element of ''queue''.  This operation is O(k).
 
 === Mutators ===
 
@@ -65,10 +69,6 @@ Removes the first element of the queue and returns it.  This operation is O(1).
 
 Removes the last element of the queue and returns it.  This operation is O(n), because the list does not have backward links.
 
-`(queue-set! `''queue k value''`)`
-
-Sets the ''k''th element of ''queue'' to ''value''.  This operation is O(k).
-
 === The whole queue ===
 
 `(queue-length `''queue''`)`
@@ -78,18 +78,6 @@ Returns the number of elements in ''queue''.  This operation is O(n).
 `(queue-append `''queue'' ...`)`
 
 Returns a queue which contains all the elements in all the ''queues'' in the order in which they appear in the call.  The result does not share storage with any of the arguments.  This operation is O(n) in the total number of elements.
-
-`(queue-reverse `''queue''`)`
-
-Returns a newly allocated queue with the same elements as in ''queue'' but in reverse order.  The result does not share structure with any of the arguments.  This operation is O(n).
-
-`(queue-member? `''queue element'' [[|''predicate'' ]]`)`
-
-Returns `#t` if ''element'' is a member of ''queue'' (in the sense of ''predicate'', which defaults to `equal?`) and `#f` otherwise.  This operation is O(n).
-
-`(queue-assoc `''key queue'' [[|''predicate'' ]]`)`
-
-Searches the elements of ''queue'' for one whose car is equal to ''key'' in the sense of ''predicate'' (which defaults to `equal?`).  Returns the first such element, or `#f` if there are none.  It is an error if the elements are not pairs.  Note that the order of arguments is that of `assoc`.
 
 === Mapping ===
 
@@ -123,11 +111,21 @@ Replaces the list associated with ''queue'' with ''list'', effectively discardin
 
 To apply a destructive list procedure to a queue, use `(list->queue! (`''proc''` (queue->list `''queue''`)))`.
 
+=== Queues as hooks ===
+
+`(queue-invoke `''queue arg'' ...`)`
+
+Apply each element of ''queue'' in turn to the ''args''.  It is an error if any element is not a procedure.  This allows queues to be used as hooks, which various parts of a program can register interest in by adding a procedure to the queue.
+
 === Comparator ===
 
 `queue-comparator`
 
 A comparator suitable for use with queues, using the procedures of `list-comparator`.
+
+`(make-queue-comparator `''element-comparator''`)`
+
+Returns a comparator for queues using ''element-comparator'' to compare the elements.
 
 == Implementation note ==
 
