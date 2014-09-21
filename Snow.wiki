@@ -145,6 +145,21 @@ implementations.
    (platforms linux (osx x86-64))
    ;; A list of cond-expand features required to install the library.
    (features utf8 bignum)
+   ;; List of phases this library is used for, where <phase> can be any
+   ;; of install, build or test.  The default is just install.  If used by other
+   ;; phases, this library will be installed in a temporary location for use
+   ;; during the given phase.
+   (use-for install)
+   ;; Library containing tests to run before installing this library.
+   ;; The second argument is the entry point, which should be a thunk
+   ;; which returns a true value if all tests pass, and defaults to run-tests.
+   (test-library (wonderland cheshire cat test) run-tests)
+   ;; Program containing tests to run before installing this library.
+   ;; The program should exit with a success value (0 on POSIX systems)
+   ;; if all tests pass.  Tools should fail or warn before installing libraries
+   ;; for which any tests fail.
+   (test-program "relative/path/to/test-program.scm")
+   (test-program (program name))
    ;; A list of author names.
    (authors "Alice Caroll")
    ;; A list of maintainers if different from the authors.
