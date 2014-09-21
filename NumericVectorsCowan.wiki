@@ -66,9 +66,9 @@ Returns a newly allocated numeric vector of length ''k'', where ''k'' is the num
 
 Returns `#t` if ''obj'' can be treated as a <type>vector, and `#f` if it cannot.  These predicates cannot be reliably used to discriminate between one numeric vector type and another, since any or all may share the same underlying types.  In particular, bytevectors return `#t` to all of them.
 
-`(numeric-vector-empty? ` ''numvector''`)`
+`(<type>vector-empty? ` ''numvector''`)`
 
-Returns `#t` if ''numvector'' has length 0, and `#f` otherwise.  This procedure is not specialized for different numeric types.
+Returns `#t` if ''numvector'' has length 0, and `#f` otherwise.
 
 == Selectors ==
 
@@ -171,6 +171,36 @@ Returns a newly allocated <type>vector which contains the results of applying ''
 `(<type>vector-for-each `''proc numvector1'' ...`)`
 
 Applies ''proc'' to the elements of the ''numvectors'' in order from first to last.  Returns an unspecified value.
+
+== Input and output ==
+
+`(read-<type> ` [[|''port'' ]]`)`
+
+Reads the appropriate number of bytes from ''port'' and returns a number of the appropriate type (exact integer or inexact real or complex number).
+
+`(write-<type> `''number'' [[|''port'' ]]`)`
+
+Writes ''number'' to ''port'' in the appropriate format.
+
+`(read-ber-integer ` [[|''port'' ]]`)`
+
+Reads a BER-encoded integer of arbitrary size from ''port''.
+
+`(write-ber-integer ` ''k'' [[|''port'' ]]`)`
+
+Writes ''integer'' using BER encoding to ''port''.
+
+`(read-<type>vector `''k'' [[|''port'' ]]`)`
+
+Read ''k'' * ''b'' bytes from ''port'' into a newly allocated <type>vector and returns it.
+
+`(read-<type>vector! `''numvector'' [[|''port'' [ ''start'' [ ''end'' ]] ] ]`)`
+
+Read (''end'' - ''start'') * ''b'' bytes from ''port'' into ''numvector'' starting at ''start''.  Returns the number of bytes read divided by ''b'', or an eof object if no bytes are available.  If the number of bytes available is not a multiple of ''b'', the value of the element of ''numvector'' for which ''b'' bytes are not available is unspecified.
+
+`(write-<type>vector `''numvector [[|''port'' [ ''start'' [ ''end'' ]] ] ]`)`
+
+Write (''end'' - ''start'') * ''b'' bytes to ''port'' from ''numvector'' starting at ''start''.  Returns an unspecified value.
 
 == Extended numeric vector API ==
 
