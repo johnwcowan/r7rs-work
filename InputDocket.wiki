@@ -16,6 +16,8 @@ Default exception handler controls:
 
 Features, allowing libraries to add:
 
+Generators: GeneratorsGauche
+
 Greek lambda syntax: define syntax equivalent to "lambda" whose identifier is a single Unicode U+03BB character (http://www.fileformat.info/info/unicode/char/3bb/index.htm)
 
 Identifier-syntax: [[http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_sec_11.19|R6RS]]
