@@ -41,11 +41,11 @@ Returns `#t` if ''obj'' is a queue with no elements, and `#f` otherwise.  This o
 
 === Accessors ===
 
-`(queue-first `''queue''` `''element''`)`
+`(queue-front `''queue''` `''element''`)`
 
 Returns the first element of the queue.  This operation is O(1).
 
-`(queue-last `''queue''` `''element''`)`
+`(queue-back `''queue''` `''element''`)`
 
 Returns the last element of the queue.  This operation is O(1).
 
@@ -53,19 +53,19 @@ Returns the last element of the queue.  This operation is O(1).
 
 These procedures signal an error that satisfies `queue-error?` if there is no element to delete or modify.
 
-`(queue-add-first! `''queue''` `''element''`)`
+`(queue-add-front! `''queue''` `''element''`)`
 
 Adds ''element'' to the beginning of ''queue''.  Returns an unspecified value.  This operation is O(1).
 
-`(queue-add-last! `''queue''` `''element''`)`
+`(queue-add-back! `''queue''` `''element''`)`
 
 Adds ''element'' to the end of ''queue''.  Returns an unspecified value.  This operation is O(1).
 
-`(queue-remove-first! `''queue''`)`
+`(queue-remove-front! `''queue''`)`
 
 Removes the first element of the queue and returns it.  This operation is O(1).
 
-`(queue-remove-last! `''queue''`)`
+`(queue-remove-back! `''queue''`)`
 
 Removes the last element of the queue and returns it.  This operation is O(n), because the list does not have backward links.
 
