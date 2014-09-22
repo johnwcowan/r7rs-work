@@ -115,7 +115,7 @@ To apply a destructive list procedure to a queue, use `(list->queue! (`''proc''`
 
 `(queue-invoke `''queue arg'' ...`)`
 
-Apply each element of ''queue'' in turn to the ''args''.  It is an error if any element is not a procedure.  This allows queues to be used as hooks, which various parts of a program can register interest in by adding a procedure to the queue.
+Apply each element of ''queue'' in turn to the ''args''.  It is an error if any element is not a procedure.  This allows queues to be used as hooks, which various parts of a program can register interest in by adding a procedure to the queue.  This operation is O(n).
 
 === Comparator ===
 
