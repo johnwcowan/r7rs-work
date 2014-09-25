@@ -151,6 +151,8 @@ Applies ''proc'' to the elements of the ''[type]vectors'' in order from first to
 
 == Input and output ==
 
+It is an error if the ports passed to these procedures are not binary ports.
+
 `(read-[type] ` [[|''port'' ]]`)`
 
 Reads the appropriate number of bytes from ''port'' and returns a number of the appropriate type (exact integer or inexact real or complex number).
