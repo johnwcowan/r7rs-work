@@ -132,15 +132,15 @@ Stores ''fill'' in the elements of ''bytevector'' viewed as a [type]vector from 
 
 `([type]-bytevector-map `''proc bytevector'' ...`)`
 
-Returns a newly allocated bytevector which contains the results of applying ''proc'' to the elements of the ''bytevectors'' in an unspecified order.
+Returns a newly allocated bytevector which contains the results of applying ''proc'' to the elements of the ''bytevectors'', considered as typed vectors, in an unspecified order.
 
 `([type]-bytevector-map! `''proc output-bytevector bytevector'' ...`)`
 
-Returns a newly allocated bytevector which contains the results of applying ''proc'' to the elements of the ''bytevectors'' in an unspecified order.  Returns an unspecified value.
+Writes the results of applying ''proc'' to the elements of the ''bytevectors'', considered as typed vectors, into the corresponding elements of ''output-bytevector'' in an unspecified order.  It is not an error for ''output-bytevector'' to be the same as one of the ''bytevectors''.  Returns an unspecified value.
 
 `([type]-bytevector-for-each `''proc bytevector'' ...`)`
 
-Applies ''proc'' to the elements of the ''bytevectors'' in order from first to last.  Returns an unspecified value.
+Applies ''proc'' to the elements of the ''bytevectors'', considered as typed vectors, in order from first to last and discards the results.  Returns an unspecified value.
 
 == Extended bytevector API ==
 
