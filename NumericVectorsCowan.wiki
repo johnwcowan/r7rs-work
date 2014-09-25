@@ -1,12 +1,10 @@
-This is a proposal for a simple numeric vector API.  It provides what appear to be a set of specialized numeric-only vectors distinguished by their ''representation type''.  However, implementations may in fact use R7RS-small bytevectors to represent any or all of the vector types.  It is recommended that implementations use bytevectors unless (as on the JVM and the CLR) it is impossible to efficiently coerce bytevectors to numeric vectors.  However, implementations that already provide SRFI-4 vectors may wish to use them for vectors of at least some representation types.  Numeric vectors containing unsigned 8-bit exact integers (u8vectors) must be represented as bytevectors.  Users can compel the creation of bytevectors rather than implementation-dependent numeric vectors.
+This is a proposal for a simple API for specialized numeric vectors.  It provides a set of specialized numeric-only vectors distinguished by their ''representation type''.  The `u8` type is the same as the R7RS-small bytevector type, but the other types are all disjoint.  It is recommended that implementations represent these vector types with a bytevector plus a type indication, unless (as on the JVM and the CLR) suitable numeric vectors are provided by the platform.
 
-This design subsumes [[http://srfi.schemers.org/srfi-4/srfi-4.html|SRFI 4]], except that users cannot count on distinguishing different types of numeric vectors by predicates.  It differs from related designs such as SRFI 63, SRFI 66, and R6RS in that each procedure listed below actually represents many procedures, one for each defined representation type.  This makes for a ''lot'' of procedures, but many of them can be easily inlined by even a very dumb compiler, providing high efficiency.   The procedures provided in the present proposal are the numeric-vector analogues of the R7RS-small vector API.
+This design subsumes [[http://srfi.schemers.org/srfi-4/srfi-4.html|SRFI 4]].  There are many procedures, but many of them can be easily inlined by even a very dumb compiler, providing high efficiency.   The procedures provided in the present proposal are the numeric-vector analogues of the R7RS-small vector API.
 
 == Representation types ==
 
-A <type> consists of a <principal type> followed by an <endianism>.
-
-The <principal type> values are:
+The [type] values are:
 
  `u8`::
   unsigned 8-bit integer
@@ -33,152 +31,131 @@ The <principal type> values are:
  `f64`::
   64-bit float
  `c64`::
-  64-bit complex number (two 32-bit floats, real followed by imaginary)
+  64-bit complex number
  `c128`::
-  128-bit complex number (two 64-bit floats, real followed by imaginary)
-
-The <endianism> values are:
-
- (empty)::
-  Native representations (system-dependent)
- `le`::
-  Little-endian (for float and complex, IEEE format)
- `be`::
-  Big-endian (for float and complex, IEEE format)
-
-Endianism is not applicable to the `u8` and `s8` types.  Thus there are 3 * 14 - 4, or 38, representation types altogether.
-
-The number of bytes occupied by a representation type is the number of bits expressed in its name divided by 8.  This value is designated by ''b'' in the descriptions of procedures.
+  128-bit complex number
 
 == Constructors ==
 
-`(make-<type>vector `''k'' [[|''fill'' ]]`)`
+`(make-[type]vector `''k'' [[|''fill'' ]]`)`
 
-Returns a newly allocated numeric vector of length ''k''.  If the implementation chooses to allocate a bytevector, its length will be ''k * b''.  ''Fill'' is converted to a binary value according to `<type> and used to fill the vector; if ''fill'' is not specified, the values of the elements are unspecified.  It is an error if ''fill'' cannot be accurately converted to <type>.
+Returns a newly allocated numeric vector of length ''k''.''Fill'' is converted to a binary value according to `[type] and used to fill the vector; if ''fill'' is not specified, the values of the elements are unspecified.  It is an error if ''fill'' cannot be converted to [type].
 
-`(<type>vector ` ''v'' ... `)`
+`([type]vector ` ''v'' ... `)`
 
-Returns a newly allocated numeric vector of length ''k'', where ''k'' is the number of arguments to the procedure.  If the implementation chooses to allocate a bytevector, its length will be ''k * b''.  It is filled with the binary values resulting from encoding the ''v'' arguments according to <type>.  It is an error if an argument cannot be accurately converted to <type>.
+Returns a newly allocated numeric vector of length ''k'', where ''k'' is the number of arguments to the procedure.  It is filled with the binary values resulting from encoding the ''v'' arguments according to [type].  It is an error if an argument cannot be converted to [type].
 
 == Predicates ==
 
-`(<type>vector? `''obj''`)`
+`([type]vector? `''obj''`)`
 
-Returns `#t` if ''obj'' can be treated as a <type>vector, and `#f` if it cannot.  These predicates cannot be reliably used to discriminate between one numeric vector type and another, since any or all may share the same underlying types.  In particular, bytevectors return `#t` to all of them.
+Returns `#t` if ''obj'' is a [type]vector, and `#f` if it is not.
 
-`(<type>vector-empty? ` ''numvector''`)`
+`([type]vector-empty? ` ''[type]vector''`)`
 
-Returns `#t` if ''numvector'' has length 0, and `#f` otherwise.
+Returns `#t` if ''[type]vector'' has length 0, and `#f` otherwise.
 
 == Selectors ==
 
-`(<type>vector-ref` ''numvector k''`)`
+`([type]vector-ref` ''[type]vector k''`)`
 
-Returns a Scheme number corresponding to the ''k''th element of ''numvector''.  If ''numvector'' is a bytevector, this will be the binary value encoded according to <type> beginning at offset ''k * b'' in ''bytevector''.  This procedure treats bytevectors as uniformly typed vectors.
-
-`(bytevector-<type>-ref` ''bytevector k''`)`
-
-Returns a Scheme number corresponding to the binary value encoded according to <type> beginning at offset ''k'' in ''bytevector''.  This procedure treats ''bytevector'' as potentially containing more than one type.
-
-Note that `bytevector-u8-ref` is defined in the small language.
+Returns a Scheme number corresponding to the ''k''th element of ''[type]vector''.  Note that `u8vector-ref` is the same as the R7RS-small procedure `bytevector-u8-ref`.
 
 == Mutators ==
 
-`(<type>vector-set!` ''numvector k v''`)`
+`([type]vector-set!` ''[type]vector k v''`)`
 
-Converts ''v'' to a binary value encoded according to <type> and places it into the ''k''th element of ''numvector''.  If ''numvector'' is a bytevector, the value is placed beginning at offset ''k * b''.  This procedure treats bytevectors as uniformly typed vectors.  It is an error if ''v'' cannot be converted to <type>.
-
-`(bytevector-<type>-set!` ''bytevector k v''`)`
-
-Converts ''v'' to a binary value encoded according to <type> and places it into ''bytevector'' beginning at offset ''k''.  This procedure treats ''bytevector'' as potentially containing more than one type.  It is an error if ''v'' cannot be converted to <type>.
-
-Note that `bytevector-u8-set!` is defined in the small language.
+Converts ''v'' to a binary value encoded according to [type] and places it into the ''k''th element of ''[type]vector''.  It is an error if ''v'' cannot be converted to [type].  Note that `u8vector-set!` is the same as the R7RS-small procedure `bytevector-u8-set!`.
 
 == Conversions to numeric vectors ==
 
-It is an error if a value being used to fill an element of a <type>vector cannot be converted to <type>.
+It is an error if a value being used to fill an element of a [type]vector cannot be converted to [type].
 
-`(vector-><type>vector `''vector'' [[''start''|[ ''end'' ]] ]`)`
+`(vector->[type]vector `''vector'' [[''start''|[ ''end'' ]] ]`)`
 
-Returns a newly allocated <type>vector of length ''end - start'', filled with the corresponding elements of ''vector''.
+Returns a newly allocated [type]vector of length ''end - start'', filled with the corresponding elements of ''vector''.
 
-`(list-><type>vector `''list''`)`
+`(list->[type]vector `''list''`)`
 
-Returns a newly allocated <type>vector whose length is the length of ''list'', filled with the elements of ''list''.
+Returns a newly allocated [type]vector whose length is the length of ''list'', filled with the elements of ''list''.
 
-`(bytevector-><type>vector `''bytevector'' [[|''start'' [ ''end'' ]] ]`)`
+`(bytevector->[type]vector `''bytevector'' [[|''start'' [ ''end'' ]] ]`)`
 
-Returns a <type>vector of length ''end / b - start / b'', filled with the elements of ''bytevector'' taken ''b'' at a time.  The result may share storage with ''bytevector''.
+Returns a [type]vector of length ''end / b - start / b'', filled with the elements of ''bytevector'' taken ''b'' at a time.
 
-`(vector-><type>vector! `''numvector at vector'' [[''start''|[ ''end'' ]] ]`)`
+`(vector->[type]vector! `''[type]vector at vector'' [[''start''|[ ''end'' ]] ]`)`
 
-Writes the elements of ''vector'' from ''start'' to ''end'' into ''numvector'' starting at ''at''.
+Writes the elements of ''vector'' from ''start'' to ''end'' into ''[type]vector'' starting at ''at''.
 
-`(list-><type>vector! `''list numvector at''`)`
+`(list->[type]vector! `''list [type]vector at''`)`
 
-Writes the elements of ''list'' into ''numvector'' starting at ''at''.
+Writes the elements of ''list'' into ''[type]vector'' starting at ''at''.
 
-`(bytevector-><type>vector! `''numvector at vector'' [[''start''|[ ''end'' ]] ]`)`
+`(bytevector->[type]vector! `''[type]vector at vector'' [[''start''|[ ''end'' ]] ]`)`
 
-Writes the elements of ''bytevector'' from ''b * start'' to ''b * end'' taken ''b'' at a time into ''numvector'' starting at ''at''.
+Writes the elements of ''bytevector'' from ''b * start'' to ''b * end'' taken ''b'' at a time into ''[type]vector'' starting at ''at''.
 
 == Conversions from numeric vectors ==
 
-`(<type>vector->vector `''numvector'' [[|''start'' [ ''end'' ]] ]`)`
+`([type]vector->vector `''[type]vector'' [[|''start'' [ ''end'' ]] ]`)`
 
-`(<type>vector->list `''numvector'' [[|''start'' [ ''end'' ]] ]`)`
+`([type]vector->list `''[type]vector'' [[|''start'' [ ''end'' ]] ]`)`
 
-Returns a newly allocated vector or list of length ''end - start'' with the elements of ''numvector'' from ''start'' to ''end''.
+Returns a newly allocated vector or list of length ''end - start'' with the elements of ''[type]vector'' from ''start'' to ''end''.
 
-`(<type>vector->bytevector `''numvector'' [[|''start'' [ ''end'' ]] ]`)`
+`([type]vector->bytevector `''[type]vector'' [[|''start'' [ ''end'' ]] ]`)`
 
-Returns a newly allocated bytevector of length ''b * end - b * start'' with the elements of ''numvector'' from ''start'' to ''end''.  The result may share structure with ''numvector''; in particular
+Returns a newly allocated bytevector of length ''b * end - b * start'' with the elements of ''[type]vector'' from ''start'' to ''end''.  The result may share structure with ''[type]vector''; in particular
 
-`(<type>vector->vector! `''vector at numvector'' [[''start''|[ ''end'' ]] ]`)`
+`([type]vector->vector! `''vector at [type]vector'' [[''start''|[ ''end'' ]] ]`)`
 
-`(<type>vector->bytevector! `''bytevector at numvector'' [[''start''|[ ''end'' ]] ]`)`
+`([type]vector->bytevector! `''bytevector at [type]vector'' [[''start''|[ ''end'' ]] ]`)`
 
-Writes the elements of ''numvector'' from ''start'' to ''end'' into ''vector'' or ''bytevector'' starting at ''at''.
+Writes the elements of ''[type]vector'' from ''start'' to ''end'' into ''vector'' or ''bytevector'' starting at ''at''.
 
 == The whole numeric vector ==
 
-`(<type>vector-length ` ''numvector''`)`
+`([type]vector-length ` ''[type]vector''`)`
 
-Returns the length of ''numvector''.  If ''numvector'' is a bytevector, returns its length divided by ''b'' and rounded toward zero.
+Returns the length of ''[type]vector''.
 
-`(<type>vector-copy ` ''numvector'' [[|[ ''start'' ]] ''end'' ] `)`
+`([type]vector-copy ` ''[type]vector'' [[|[ ''start'' ]] ''end'' ] `)`
 
-Copies the elements of ''numvector'' from ''start'' to ''end'' into a newly allocated numeric vector of the same representation type.  If ''numvector'' is a bytevector, this is equivalent to `bytevector-copy`, except that ''start'' and ''end'' are multiplied by ''b''.
+Copies the elements of ''[type]vector'' from ''start'' to ''end'' into a newly allocated [type]vector.
 
-`(<type>vector-copy! `''to at from'' [[|[ ''start'' ]] ''end'' ] `)`
+`([type]vector-copy! `''to at from'' [[|[ ''start'' ]] ''end'' ] `)`
 
-Copies the elements of ''from'' from ''start'' to ''end'' into ''to'' starting at ''at''.  If ''numvector'' is a bytevector, the number of bytes copied is ''(end - start) * b''.
+Copies the elements of ''from'' from ''start'' to ''end'' into ''to'' starting at ''at''.
 
-`<type>vector-append ` ''numvector'' ...`)`
+`[type]vector-append ` ''[type]vector'' ...`)`
 
-Returns a newly allocated <type>vector whose elements are the concatenation of the elements in ''numvectors''.  It is an error if the ''numvectors'' are not all of the same type.  If they are all bytevectors, `<type>vector-append` is equivalent to `bytevector-append`.
+Returns a newly allocated [type]vector whose elements are the concatenation of the elements in ''[type]vectors''.  It is an error if the ''[type]vectors'' are not all of the same type.
 
-`(<type>vector-fill! `''bytevector fill'' [[|[ ''start'' ]] ''end'' ] `)`
+`([type]vector-fill! `''[type]vector fill'' [[|[ ''start'' ]] ''end'' ] `)`
 
-Stores ''fill'' in the elements of ''bytevector'' viewed as a <type>vector from ''start'' to ''end''. An error is signaled if ''fill'' cannot be accurately converted to <type>.
+Stores ''fill'' in the elements of ''[type]vector''. An error is signaled if ''fill'' cannot be converted to [type].
 
 == Mapping ==
 
-`(<type>vector-map `''proc numvector1'' ...`)`
+`([type]vector-map `''proc [type]vector'' ...`)`
 
-Returns a newly allocated <type>vector which contains the results of applying ''proc'' to the elements of the ''numvectors'' in an unspecified order.
+Returns a newly allocated [type]vector which contains the results of applying ''proc'' to the elements of the ''[type]vectors'' in an unspecified order.
 
-`(<type>vector-for-each `''proc numvector1'' ...`)`
+`([type]vector-map! `''proc output-[type]vector [type]vector'' ...`)`
 
-Applies ''proc'' to the elements of the ''numvectors'' in order from first to last.  Returns an unspecified value.
+Writes the results of applying ''proc'' to the elements of the ''[type]vectors'' into the corresponding elements of ''output-[type]vector'' in an unspecified order.  It is not an error for ''output-[type]vector'' to be the same as one of the ''[type]vectors''.  Returns an unspecified value.
+
+`([type]vector-for-each `''proc [type]vector'' ...`)`
+
+Applies ''proc'' to the elements of the ''[type]vectors'' in order from first to last and discards the results.  Returns an unspecified value.
 
 == Input and output ==
 
-`(read-<type> ` [[|''port'' ]]`)`
+`(read-[type] ` [[|''port'' ]]`)`
 
 Reads the appropriate number of bytes from ''port'' and returns a number of the appropriate type (exact integer or inexact real or complex number).
 
-`(write-<type> `''number'' [[|''port'' ]]`)`
+`(write-[type] `''number'' [[|''port'' ]]`)`
 
 Writes ''number'' to ''port'' in the appropriate format.
 
@@ -190,30 +167,26 @@ Reads a BER-encoded integer of arbitrary size from ''port''.
 
 Writes ''integer'' using BER encoding to ''port''.
 
-`(read-<type>vector `''k'' [[|''port'' ]]`)`
+`(read-[type]vector `''k'' [[|''port'' ]]`)`
 
-Read ''k'' * ''b'' bytes from ''port'' into a newly allocated <type>vector and returns it.
+Read ''k'' * ''b'' bytes from ''port'' into a newly allocated [type]vector and returns it.
 
-`(read-<type>vector! `''numvector'' [[|''port'' [ ''start'' [ ''end'' ]] ] ]`)`
+`(read-[type]vector! `''[type]vector'' [[|''port'' [ ''start'' [ ''end'' ]] ] ]`)`
 
-Read (''end'' - ''start'') * ''b'' bytes from ''port'' into ''numvector'' starting at ''start''.  Returns the number of bytes read divided by ''b'', or an eof object if no bytes are available.  If the number of bytes available is not a multiple of ''b'', the value of the element of ''numvector'' for which ''b'' bytes are not available is unspecified.
+Read ''end * b - start * b'' bytes from ''port'' into ''[type]vector'' starting at ''start''.  Returns the number of bytes read divided by ''b'', or an eof object if no bytes are available.  If the number of bytes available is not a multiple of ''b'', the value of the element of ''[type]vector'' for which ''b'' bytes are not available is unspecified.
 
-`(write-<type>vector `''numvector [[|''port'' [ ''start'' [ ''end'' ]] ] ]`)`
+`(write-[type]vector `''[type]vector [[|''port'' [ ''start'' [ ''end'' ]] ] ]`)`
 
-Write (''end'' - ''start'') * ''b'' bytes to ''port'' from ''numvector'' starting at ''start''.  Returns an unspecified value.
+Write ''end * b - start * b'' bytes to ''port'' from ''[type]vector'' starting at ''start''.  Returns an unspecified value.
 
 == Extended numeric vector API ==
 
 See the procedures of VectorsCowan, with the exceptions of the ones defined here.
 
-== Structured representation types ==
-
-For mapping C structs onto bytevectors, see StructuresCowan or [[https://gitorious.org/taylan-guile/bytestructures/source/0a5426d6b5a6bea66f0f6eea02690c22e11e251a:|StructuresTaylan]].
-
 == Packaging ==
 
-Since there are about a thousand procedures, it makes sense to factor this into separate libraries.  Most programs won't require all the representation types, so factoring horizontally into 38 libraries based on that is a simple approach.  If the result is still too large, then we can factor vertically based on expected uses for the function.  SRFI 4 provides just 8 procedures per type: the basic and multi-argument constructors, the predicate, the basic accessor, the basic mutator, length, and conversion to and from lists.
+Since there are many procedures, it makes sense to factor this into separate libraries.  Most programs won't require all the representation types, so factoring horizontally into 38 libraries based on that is a simple approach.  If the result is still too large, then we can factor vertically based on expected uses for the function.  SRFI 4 provides just 8 procedures per type: the basic and multi-argument constructors, the predicate, the basic accessor, the basic mutator, length, and conversion to and from lists.
 
 == Implementation ==
 
-[[https://gist.github.com/ijp/1e0e67ff93c486f66fc8|This syntax-rules macro by Ian Price]] will be helpful in implementing lots of similar but not identical procedures for the 38 types.
+[[https://gist.github.com/ijp/1e0e67ff93c486f66fc8|This syntax-rules macro by Ian Price]] will be helpful in implementing lots of similar but not identical procedures for the 14 types.
