@@ -1,10 +1,10 @@
-This is a proposal for a bytevector API whose procedures allow a bytevector to be viewed as one of several kinds of numeric vectors.  This design subsumes [[http://srfi.schemers.org/srfi-4/srfi-4.html|SRFI 4]], except that users cannot distinguish different types of numeric vectors by predicates, since they are all bytevectors.  It differs from related designs such as [[http://srfi.schemers.org/srfi-63/srfi-63.html|SRFI 63]], [[http://srfi.schemers.org/srfi-66/srfi-66.html|SRFI 66]], and [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-3.html|R6RS]] in that each procedure listed below actually represents many procedures, one for each defined representation type.  This makes for a ''lot'' of procedures, but many of them can be easily inlined by even a very dumb compiler, providing high efficiency.   The procedures provided in the present proposal are the numeric-vector analogues of the R7RS-small vector API.
+This is a proposal for a bytevector API whose procedures allow a bytevector to be viewed as one of several kinds of numeric vectors.  It differs from related designs such as [[http://srfi.schemers.org/srfi-63/srfi-63.html|SRFI 63]], [[http://srfi.schemers.org/srfi-66/srfi-66.html|SRFI 66]], and [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-3.html|R6RS]] in that each procedure listed below actually represents many procedures, one for each defined representation type.  This makes for a ''lot'' of procedures, but many of them can be easily inlined by even a very dumb compiler, providing high efficiency.   The procedures provided in the present proposal are the analogues of the R7RS-small vector API with a few additions.
 
 == Representation types ==
 
-A <type> consists of a <principal type> followed by an <endianism>.
+A [type] consists of a [[principal|type]] followed by an [endianism].
 
-The <principal type> values are:
+The [[principal|type]] values are:
 
  `u8`::
   unsigned 8-bit integer
@@ -35,7 +35,7 @@ The <principal type> values are:
  `c128`::
   128-bit complex number (two 64-bit floats, real followed by imaginary)
 
-The <endianism> values are:
+The [endianism] values are:
 
  (empty)::
   Native representations (system-dependent)
@@ -52,97 +52,97 @@ The number of bytes occupied by a representation type is the number of bits expr
 
 == Constructors ==
 
-`(make-<type>-bytevectorvector `''k'' [[|''fill'' ]]`)`
+`(make-[type]-bytevector `''k'' [[|''fill'' ]]`)`
 
-Returns a newly allocated bytevector of length ''k * b''.''Fill'' is converted to a binary value according to `<type> and used to fill the bytevector; if ''fill'' is not specified, the values of the elements are unspecified.  It is an error if ''fill'' cannot be converted to <type>.
+Returns a newly allocated bytevector of length ''k * b''.''Fill'' is converted to a binary value according to `[type] and used to fill the bytevector; if ''fill'' is not specified, the values of the elements are unspecified.  It is an error if ''fill'' cannot be converted to [type].
 
-`(<type>-bytevector ` ''v'' ... `)`
+`([type]-bytevector ` ''v'' ... `)`
 
-Returns a newly allocated bytevector of length ''k * b'', where ''k'' is the number of arguments to the procedure.  It is filled with the binary values resulting from encoding the ''v'' arguments according to <type>.  It is an error if an argument cannot be converted to <type>.
+Returns a newly allocated bytevector of length ''k * b'', where ''k'' is the number of arguments to the procedure.  It is filled with the binary values resulting from encoding the ''v'' arguments according to [type].  It is an error if an argument cannot be converted to [type].
 
 == Selectors ==
 
-`(<type>-bytevector-ref` ''bytevector k''`)`
+`([type]-bytevector-ref` ''bytevector k''`)`
 
-Returns a Scheme number corresponding to the binary value encoded according to <type> beginning at offset ''k * b'' in ''bytevector''.  This procedure treats ''bytevector'' as a uniformly typed vector.
+Returns a Scheme number corresponding to the binary value encoded according to [type] beginning at offset ''k * b'' in ''bytevector''.  This procedure treats ''bytevector'' as a uniformly typed vector.
 
-`(bytevector-<type>-ref` ''bytevector k''`)`
+`(bytevector-[type]-ref` ''bytevector k''`)`
 
-Returns a Scheme number corresponding to the binary value encoded according to <type> beginning at offset ''k'' in ''bytevector''.  This procedure treats ''bytevector'' as potentially containing more than one type.
+Returns a Scheme number corresponding to the binary value encoded according to [type] beginning at offset ''k'' in ''bytevector''.  This procedure treats ''bytevector'' as potentially containing more than one type.
 
 Note that `bytevector-u8-ref` is defined in the small language.
 
 == Mutators ==
 
-`(<type>-bytevector-set!` ''numvector k v''`)`
+`([type]-bytevector-set!` ''bytevector k v''`)`
 
-Converts ''v'' to a binary value encoded according to <type> and places it into ''bytevector'' beginning at offset ''k * b''.  This procedure treats ''bytevector'' as a uniformly typed vector.  It is an error if ''v'' cannot be converted to <type>.
+Converts ''v'' to a binary value encoded according to [type] and places it into ''bytevector'' beginning at offset ''k * b''.  This procedure treats ''bytevector'' as a uniformly typed vector.  It is an error if ''v'' cannot be converted to [type].
 
-`(bytevector-<type>-set!` ''bytevector k v''`)`
+`(bytevector-[type]-set!` ''bytevector k v''`)`
 
-Converts ''v'' to a binary value encoded according to <type> and places it into ''bytevector'' beginning at offset ''k''.  This procedure treats ''bytevector'' as potentially containing more than one type.  It is an error if ''v'' cannot be converted to <type>.
+Converts ''v'' to a binary value encoded according to [type] and places it into ''bytevector'' beginning at offset ''k''.  This procedure treats ''bytevector'' as potentially containing more than one type.  It is an error if ''v'' cannot be converted to [type].
 
 Note that `bytevector-u8-set!` is defined in the small language.
 
-== Conversions to numeric vectors ==
+== Conversions to bytevectors ==
 
-It is an error if a value being used to fill an element of a <type>vector cannot be converted to <type>, or if ''start'' (inclusive), ''end'' (inclusive), or ''at'' are out of range, or if an existing bytevector is being overflowed.
+It is an error if a value being used to fill an element of a [type]vector cannot be converted to [type], or if ''start'' (inclusive), ''end'' (inclusive), or ''at'' are out of range, or if an existing bytevector is being overflowed.
 
-`(vector-><type>-bytevector `''vector'' [[''start''|[ ''end'' ]] ]`)`
+`(vector->[type]-bytevector `''vector'' [[''start''|[ ''end'' ]] ]`)`
 
 Returns a newly allocated bytevector of length ''end * b - start * b'', filled with the corresponding elements of ''vector''.
 
-`(list-><type>-bytevector `''list''`)`
+`(list->[type]-bytevector `''list''`)`
 
 Returns a newly allocated bytevector whose length is the length of ''list'' times ''b'', filled with the elements of ''list''.
 
-`(vector-><type>-bytevector! `''bytevector at vector'' [[''start''|[ ''end'' ]] ]`)`
+`(vector->[type]-bytevector! `''bytevector at vector'' [[''start''|[ ''end'' ]] ]`)`
 
 Writes the elements of ''vector'' from ''start'' to ''end'' into ''bytevector'' starting at ''at''.
 
-`(list-><type>-bytevector! `''list bytevector at''`)`
+`(list->[type]-bytevector! `''list bytevector at''`)`
 
 Writes the elements of ''list'' into ''bytevector'' starting at ''at''.
 
-== Conversions from numeric vectors ==
+== Conversions from bytevectors ==
 
 It is an error if ''start'' (inclusive), ''end'' (inclusive), or ''at'' are out of range, or if an existing vector is being overflowed.
 
-`(<type>-bytevector->vector `''bytevector'' [[|''start'' [ ''end'' ]] ]`)`
+`([type]-bytevector->vector `''bytevector'' [[|''start'' [ ''end'' ]] ]`)`
 
-`(<type>-bytevector->list `''bytevector'' [[|''start'' [ ''end'' ]] ]`)`
+`([type]-bytevector->list `''bytevector'' [[|''start'' [ ''end'' ]] ]`)`
 
 Returns a newly allocated vector or list of length ''end - start'' with the elements of ''bytevector'' from ''start * b'' to ''end * b''.
 
-`(<type>-bytevector->vector! `''vector at bytevector'' [[''start''|[ ''end'' ]] ]`)`
+`([type]-bytevector->vector! `''vector at bytevector'' [[''start''|[ ''end'' ]] ]`)`
 
 Writes the elements of ''bytevector'' from ''start * b'' to ''end * b'' into ''vector'' starting at ''at''.
 
-== The whole numeric vector ==
+== The whole bytevector ==
 
-`(<type>-bytevector-length ` ''bytevector''`)`
+`([type]-bytevector-length ` ''bytevector''`)`
 
 Returns the length of ''bytevector / b'', rounded toward zero.
 
-`(<type>-bytevector-fill! `''bytevector fill'' [[|[ ''start'' ]] ''end'' ] `)`
+`([type]-bytevector-fill! `''bytevector fill'' [[|[ ''start'' ]] ''end'' ] `)`
 
-Stores ''fill'' in the elements of ''bytevector'' viewed as a <type>vector from ''start * b'' to ''end * b''. An error is signaled if ''fill'' cannot be converted to <type>.
+Stores ''fill'' in the elements of ''bytevector'' viewed as a [type]vector from ''start * b'' to ''end * b''. An error is signaled if ''fill'' cannot be converted to [type].
 
 == Mapping ==
 
-`(<type>-bytevector-map `''proc bytevector'' ...`)`
+`([type]-bytevector-map `''proc bytevector'' ...`)`
 
 Returns a newly allocated bytevector which contains the results of applying ''proc'' to the elements of the ''bytevectors'' in an unspecified order.
 
-`(<type>-bytevector-map! `''proc output-bytevector bytevector'' ...`)`
+`([type]-bytevector-map! `''proc output-bytevector bytevector'' ...`)`
 
 Returns a newly allocated bytevector which contains the results of applying ''proc'' to the elements of the ''bytevectors'' in an unspecified order.  Returns an unspecified value.
 
-`(<type>-bytevector-for-each `''proc bytevector'' ...`)`
+`([type]-bytevector-for-each `''proc bytevector'' ...`)`
 
 Applies ''proc'' to the elements of the ''bytevectors'' in order from first to last.  Returns an unspecified value.
 
-== Extended numeric vector API ==
+== Extended bytevector API ==
 
 See the procedures of VectorsCowan, with the exceptions of the ones defined here.
 
