@@ -4,20 +4,18 @@
 
 <p>A generator is merely a procedure with no arguments that works
 as a source of a series of values.  Every time it is called,
-it yields a value.  Returning an eof object indicates the generator is exhausted.
+it yields a value.  Returning an end-of-file object indicates the generator is exhausted.
 For example, <code>read-char</code> can be seen as a generator that
 generates characters from the current input port.
 </p>
-<p>It is common practice to abstract the source of values in such a way,
-so it is useful to define utility procedures that work on the
+<p>It is common practice to abstract the sources of values in such a way,
+so it is useful to define utility procedures that work on 
 generators.  This module provides them.
 </p>
 
-<p>A generator is very lightweight, and handy to implement simple
+<p>A generator is very lightweight, and useful for implementing simple
 on-demand calculations.  However, keep in mind that it is
 side-effecting construct; you can't safely backtrack, for example..
-</p>
-<p>You can construct, combine, and consume various generators with this library.
 </p>
 
 <h3 class="subsection">Generator constructors</h3>
@@ -27,20 +25,19 @@ so you can make a generator with lambdas.  This module provides
 some common generator constructors for convenience.
 </p>
 <p>If you want to use your procedure as a generator, note that a
-generator can be invoked many times even after it returns eof once.
-You have to code it so that once it returns eof, it keeps returning
-eof for the subsequent calls.
+generator can be invoked many times even after it returns an end-of-file object once.
+You have to code it so that once it returns an end-of-file object, it keeps returning
+an end-of-file object for all subsequent calls.
 </p>
 <p>The result of generator constructors is merely a procedure,
 and printing it doesn't show much.  In the examples in this section
 we use <code>generator-&gt;list</code> to convert the generator to the list.
-See <a href="#Generator-operations">Generator operations</a> for the description of <code>generator-&gt;list</code>.
 </p>
 <p>These procedures have names beginning with <code>make-</code>
 and ending with <code>-generator</code>.
 <dl>
-<dt><a name="index-null_002dgenerator"></a>'<code>make-element-generator</code><i> arg &hellip;</i></dt>
-<dd><p>The simplest generator.  Returns the given arguments followed by an eof object when called.
+<dt><a name="index-null_002dgenerator"></a>'<code>make-generator</code><i> arg &hellip;</i></dt>
+<dd><p>The simplest generator.  Returns the given arguments followed by an end-of-file object when called.
 </p></dd></dl>
 
 <dl>
@@ -89,6 +86,14 @@ and continues while the number is below <var>end</var>.
 </dd></dl>
 
 <dl>
+<dt><a name="index-gtabulate"></a>'<code>make-tabulation-generator</code><i> [k] proc </i></dt>
+<dd><p>Creates a generator
+of a series of <var>k</var> numbers (by default, an infinite number), namely
+<code>(proc 0)</code>, <code>(proc 1)</code>, <code>(proc 2)</code>, ....
+</p>
+</dd></dl>
+
+<dl>
 <dt><a name="index-generate"></a>'<code>make-coroutine-generator</code><i> proc</i></dt>
 <dd><p>Creates a generator from a coroutine.
 </p>
@@ -100,7 +105,7 @@ the execution of <var>proc</var> to be suspended, and <var>g</var> returns the v
 to <var>yield</var>.
 </p>
 <p>Once <var>proc</var> returns, it is the end of the series &mdash; <var>g</var> returns an
-eof object from then on.  The return value of <var>proc</var> is ignored.
+end-of-file object from then on.  The return value of <var>proc</var> is ignored.
 </p>
 <p>The following code creates a generator that produces a series
 0, 1, and 2 (effectively the same as <code>(make-iota-generator 3)</code> and binds
@@ -195,7 +200,7 @@ next seed value from the current seed value.
 </p>
 <p>For each call of the resulting generator, <var>p</var> is called with
 the current seed value.  If it returns true, then we see we've
-done, and we return an eof object.  Otherwise,
+done, and we return an end-of-file object.  Otherwise,
 we apply <var>f</var> on the current seed value to get the value to
 return, and use <var>g</var> to update the seed value.
 </p>
@@ -414,8 +419,58 @@ to fill the rest.
 (generator-&gt;list (gslices (giota 7) 3 #t 'x))
   &rArr; ((0 1 2) (3 4 5) (6 x x))
 </pre></td></tr></table>
-
 </dd></dl>
+
+<dl>
+<dt><a name="index-pairs_002dof"></a><code>gpairs</code><i> car-gen cdr-gen</i></dt>
+<dd><p>Returns a generator that yields pairs,
+whose car is generated from <var>car-gen</var>
+and whose cdr is generated from <var>cdr-gen</var>.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">
+(define g
+  (gpairs (make-generator 113 101 12 68 -55)
+          (make-generator #t #f #t #f #f))
+
+(generator-&gt;list g 10)
+ &rArr; ((113 . #t) (101 . #f) (12 . #t) (68 . #f) (-55 . #f))
+</pre></td></tr></table>
+</dd></dl>
+
+<dl>
+<dt><a name="index-tuples_002dof"></a><code>gtuple</code><i> gen &hellip;</i></dt>
+<dd><p>Returns a generator that yields lists 
+whose i-th element is generated from the i-th argument.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">
+(define g
+  (gtuples (make-generator -43 53 -114)
+           (make-generator #f #f #f)
+           (make-generator #\8 #\1 #\i))
+
+(generator-&gt;list g 3)
+ &rArr; ((-43 #f #\8) (53 #f #\1) (-114 #f #\i))
+</pre></td></tr></table>
+</dd></dl>
+
+<dl>
+<dt><a name="index-lists_002dof-1"></a><code>lists-of</code><i> sizer item-gen</i></dt>
+<dt><a name="index-vectors_002dof-1"></a><code>vectors-of</code><i> sizer item-gen</i></dt>
+<dt><a name="index-strings_002dof-2"></a><code>strings-of</code><i> sizer item-gen</i></dt>
+<dd><p>Creates a generator that generates lists, vectors or strings of values from <var>item-gen</var>, respectively.  The size of each datum is determined by
+<var>sizer</var>which can
+be either a nonnegative integer or a generator of nonnegative integers.
+The value of the sizer determines the length of the result data.<.
+</p>
+<dl>
+
+<p>TODO: <code>gdelete, gdelete-duplicates</code>.</p>
+
+<dl>
+<dt><a name="index-default_002dsizer"></a><u>Parameter:</u> <b>default-sizer</b></dt>
+<dd><p>The sizer used by <code>lists-of</code>, <code>vectors-of</code> and <code>strings-of</code>
+when <var>sizer</var> argument is omitted.
+
 
 <h3 class="subsection">Folding generated values</h3>
 
@@ -445,7 +500,7 @@ procedures <var>gen</var> <var>gen2</var> &hellip;.
 <var>r</var> is the current accumulated result; the initial value of the
 accumulated result is <var>seed</var>,
 and the return value from <var>proc</var> becomes the next accumulated result.
-When <var>gen</var> returns an eof object, the accumulated result at that time is returned
+When <var>gen</var> returns an end-of-file object, the accumulated result at that time is returned
 from <code>generator-fold</code>.
 </p>
 <p>When more than one generator is given, <var>proc</var> is
@@ -453,7 +508,7 @@ called as <code>(<var>proc</var> <var>v1</var> <var>v2</var> &hellip; <var>r</va
 where <var>v1</var>, <var>v2</var> &hellip; are the values yielded from
 <var>gen</var>, <var>gen2</var>, &hellip;, respectively, and <var>r</var> is
 the current accumulated result.  The iteration terminates when
-any one of the generators returns eof.
+any one of the generators returns an end-of-file object.
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">(with-input-from-string &quot;a b c d e&quot;
   (cut generator-fold cons 'z read))
@@ -465,7 +520,7 @@ any one of the generators returns eof.
 <dt><a name="index-generator_002dfor_002deach"></a>'<code>generator-for-each</code><i> proc gen gen2 &hellip;</i></dt>
 <dd><p>A generator version of <code>for-each</code>.  Repeatedly applies <var>proc</var> on
 the values yielded by <var>gen</var>, <var>gen2</var> &hellip; until any one of
-the generators yields eof.  The values returned from <var>proc</var> are discarded.
+the generators yields an end-of-file object.  The values returned from <var>proc</var> are discarded.
 </p>
 <p>This procedure consumes generated values using side effects.
 </p></dd></dl>
@@ -474,7 +529,7 @@ the generators yields eof.  The values returned from <var>proc</var> are discard
 <dt><a name="index-generator_002dmap"></a>'<code>generator-collect</code><i> proc gen gen2 &hellip;</i></dt>
 <dd><p>A generator analogue of <code>map</code>.  Repeatedly applies <var>proc</var> on
 the values yielded by <var>gen</var>, <var>gen2</var> &hellip; until any one of
-the generators yields eof.   The values returned from <var>proc</var>
+the generators yields an end-of-file object.   The values returned from <var>proc</var>
 are collected into a list and returned.
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">(with-input-from-string &quot;a b c d e&quot;
@@ -493,7 +548,9 @@ and <code>gmap</code>.
 <dt><a name="index-generator_002dfind"></a>'<code>generator-find</code><i> pred gen</i></dt>
 <dd><p>Returns the first item from the generator <var>gen</var> that satisfies
 the predicate <var>pred</var>.
-</p>
+</p></dd></dl>
+
+<p>TODO: <code>generator-length, generator-last, generator-reverse, generator-count, generator-any, generator-every</code>.</p>
 
 <h3 class="subsection">Syntax</h3>
 
@@ -501,7 +558,7 @@ the predicate <var>pred</var>.
 <dt><a name="index-glet_002a"></a><code>glet*</code><i> (binding &hellip;) body body2 &hellip;</i></dt>
 <dd><p>This captures a monadic pattern frequently appears in the generator
 code.  It is in a similar spirit of <code>and-let*</code>, but returns
-as soon as the evaluating expression returns eof, instead of <code>#f</code>
+as soon as the evaluating expression returns an end-of-file object, instead of <code>#f</code>
 as <code>and-let*</code> does.
 </p>
 <p>The <var>binding</var> part can be either <code>(var expr)</code> or <code>( expr )</code>.
@@ -529,7 +586,7 @@ The actual definition will explain this syntax clearly.
 </p>
 <p><var>Gexpr</var> is an expression that yields a generator.  It is
 evaluated once.  The resulting generator is called repeatedly
-until it returns eof.  Every time the generator is called,
+until it returns an end-of-file object.  Every time the generator is called,
 <var>body</var> &hellip; are evaluated in the scope
 where <var>var</var> is bound to the value yielded from the generator.
 </p>
