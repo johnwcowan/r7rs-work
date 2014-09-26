@@ -18,7 +18,8 @@ side-effecting construct; you can't safely backtrack, for example.
 </p>
 
 <p>These procedures are from the Gauche core and the Gauche modules
-<code>gauche.generator</code> and <code>data.random</code>.</p>
+<code>gauche.generator</code> and <code>data.random</code>, with
+some renaming to make them more systematic.</p>
 
 <h3 class="subsection">Generator constructors</h3>
 
