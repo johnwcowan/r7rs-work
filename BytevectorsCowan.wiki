@@ -22,10 +22,6 @@ The [[principal|type]] values are:
   unsigned 64-bit integer
  `s64`::
   signed 64-bit integer
- `u128`::
-  unsigned 128-bit integer
- `s128`::
-  signed 128-bit integer
  `f32`::
   32-bit float
  `f64`::
@@ -44,7 +40,7 @@ The [endianism] values are:
  `be`::
   Big-endian (for float and complex, IEEE format)
 
-Endianism is not applicable to the `u8` and `s8` types.  Thus there are 3 * 14 - 4, or 38, representation types altogether.
+Endianism is not applicable to the `u8` and `s8` types.  Thus there are 3 * 12 - 4, or 32, representation types altogether.
 
 The `s` and `u` types correspond to limited ranges of exact integers, the `f` types to limited ranges of inexact real numbers, and the `c` types to limited ranges of inexact complex numbers.
 
