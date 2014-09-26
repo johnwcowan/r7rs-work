@@ -306,7 +306,7 @@ and the next seed.
 
 <dl>
 <dt><a name="index-gfilter"></a><code>gfilter</code><i> pred gen</i></dt>
-<dt><a name="index-gremove"></a><code>gfilter</code><i> pred gen</i></dt>
+<dt><a name="index-gremove"></a><code>gremove</code><i> pred gen</i></dt>
 <dd><p>Returns a generator that yield the items from the source generator,
 except those on which <var>pred</var> answers false or true respectively.
 </p></dd></dl>
