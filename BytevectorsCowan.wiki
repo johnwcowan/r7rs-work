@@ -152,4 +152,4 @@ Since there are a great many procedures, it makes sense to factor this into sepa
 
 == Implementation ==
 
-[[https://gist.github.com/ijp/1e0e67ff93c486f66fc8|This syntax-rules macro by Ian Price]] will be helpful in implementing lots of similar but not identical procedures for the 38 types.
+[[https://gist.github.com/ijp/1e0e67ff93c486f66fc8|This syntax-rules macro by Ian Price]] will be helpful in implementing lots of similar but not identical procedures for the 32 types.
