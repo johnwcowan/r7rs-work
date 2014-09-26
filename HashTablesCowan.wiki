@@ -14,6 +14,8 @@ This WG2 proposal defines an interface to hash tables, which are widely recogniz
    * Provides key lookup and destructive update in (expected) amortized constant time, provided a satisfactory hash function is available.
    * Does not guarantee that whole-table operations work in the presence of concurrent mutation of the whole hash table (values may be mutated).
 
+In addition, procedures for use on bimaps (bidirectional hash tables) are defined.
+
 == Issues ==
 
 None at present.
@@ -26,6 +28,7 @@ There is no mandated support for thread safety, immutability, or weakness, thoug
 
 This specification accepts separate equality predicates and hash functions for backward compatibility, but strongly encourages the use of [[http://srfi.schemers.org/srfi-114/srfi-114.html|SRFI 114]] comparators, which package a type test, an equality predicate, and a hash function into a single bundle.
 
+Bimaps are just a convenience structure based on a pair of hash tables, one that maps keys to unique values, the other that maps the values back to their keys.  By providing mutation procedures, it becomes trivial to keep the two hash tables consistent.
 
 === SRFI 69 compatibility ===
 
@@ -97,6 +100,8 @@ The procedures in the present proposal are drawn primarily from SRFI 69 and R6RS
 
 * The `hash-table-search!` procedure is based on a suggestion by Taylor Campbell.
 
+* The bimap procedures are based on Gauche's bimaps.
+
 The procedure `hash-table-empty?`, as well as the mutation procedures `hash-table-set-entries!`, `hash-table-replace!`, `hash-table-replace!/default`, `hash-table-map!`, `hash-table-intersection!`, and `hash-table-difference!`, were added for completeness. 
 
 The native hash tables of [[http://web.mit.edu/scheme_v9.0.1/doc/mit-scheme-ref/Hash-Tables.html|MIT]],  [[http://www.gnu.org/software/guile/manual/html_node/Hash-Table-Reference.html|Guile]], [[http://sisc-scheme.org/manual/html/ch09.html#Hashtables|SISC]], [[http://www-sop.inria.fr/indes/fp/Bigloo/doc/bigloo-7.html#Hash-Tables|Bigloo]], [[http://s48.org/0.57/manual/s48manual_44.html|Scheme48]], [[http://www.cs.indiana.edu/scheme-repository/SCM/slib_2.html#SEC13|SLIB]], [[http://www.rscheme.org/rs/b/0.7.3.4/5/html/c2143.html|RScheme]], [[https://ccrma.stanford.edu/software/snd/snd/s7.html#hashtables|Scheme 7]], [[https://github.com/barak/scheme9/blob/master/lib/hash-table.scm|Scheme 9]], [[http://www.fifi.org/cgi-bin/info2www?(librep)Hash+Tables|Rep]], and [[https://code.google.com/p/femtolisp/wiki/APIReference|FemtoLisp]] were also investigated, but no additional procedures were incorporated.
@@ -145,6 +150,8 @@ It is an error to compare two hash tables with different comparators or equality
 
 * [[#Comparator|Comparator]]: `hash-table-comparator`
 
+* [[#Bimaps|Bimaps]]: `make-bimap`, `bimap?`, `bimap-forward-hash-table`, `bimap-reverse-hash-table`, `bimap-contains?`, `bimap-contains-value?`, `bimap=?`, `bimap-ref`, `bimap-value-ref`, `bimap-ref/default`, `bimap-value-ref/default`, `bimap-copy`, `bimap-set!`, `bimap-set-entries!`, `bimap-delete!`, `bimap-delete-keys!`, `bimap-extend!`, `bimap-extend/default!`, `bimap-replace!`, `bimap-replace/default!`, `bimap-update!`, `bimap-update/default!`, `bimap-clear!`, `bimap-filter!`, `bimap-remove!`, `bimap-partition!`
+
 === Constructors ===
 
 `(make-hash-table `''comparator'' [[|''arg'' ... ]]`)`
@@ -163,7 +170,7 @@ The meaning of any further arguments is implementation-dependent.  However, impl
 
 `(hash-table `''comparator'' ( ''key value'' ) ...`)`
 
-Returns a newly allocated hash table, created as if by `make-hash-table` using ''comparator''.  For each pair of arguments, an association is added to the new hash table with ''key'' as its key and ''value'' as its value.
+Returns a newly allocated hash table, created as if by `make-hash-table` using ''comparator''.  For each pair of arguments, an association is added to the new hash table with ''key'' as its key and ''value'' as its value.  If the implementation supports immutable hash tables, this procedure returns an immutable hash table.
 
 `(hash-table-unfold `''stop? mapper successor seed comparator arg'' ... ]`)`
 
@@ -384,7 +391,7 @@ Returns two values, ''hash-table'' and a newly allocated hash table using ''comp
 
 `(hash-table-copy `''hash-table'' [[|''immutable?'' ]]`)`
 
-Returns a newly allocated hash table with the same properties and associations as ''hash-table''. If the second argument is present and is true, and the implementation supports immutable hash tables, the returned hash table is immutable.  (SRFI 69 `hash-table-copy` does not support second argument; R6RS `hashtable-copy`)
+Returns a newly allocated hash table with the same properties and associations as ''hash-table''. If the second argument is present and is true, and the implementation supports immutable hash tables, the returned hash table is immutable; otherwise it is mutable.  (SRFI 69 `hash-table-copy` does not support second argument; R6RS `hashtable-copy`)
 
 `(hash-table->alist `''hash-table''`)`
 
@@ -419,6 +426,60 @@ Deletes the associations of ''hash-table,,1,,'' whose keys are also present in '
 `(hash-table-xor! `''hash-table,,1,, hash-table,,2,,''`)`
 
 Adds the associations of ''hash-table,,2,,'' whose keys are not present in 'hash-table,,1,,'' to 'hash-table,,1,,'' , then deletes the associations of ''hash-table,,1,,'' whose keys are also present in ''hash-table,,2,,'', and returns ''hash-table,,1,,''.
+
+=== Bimaps ===
+
+A bimap is built by starting with a hash table which represents the forward mapping from keys to values; it is an error if the values are not unique.  A second hash table is constructed and populated with the reverse mapping.  It is possible to retrieve either underlying hash table for read-only operations, but it is an error to mutate them, so bimap mutation procedures are provided.
+
+`(make-bimap `''hash-table comparator arg'' ...`)`
+
+Returns a newly allocated bimap whose forward hash table is ''hash-table'' and whose reverse hash table is newly allocated using ''comparator'' and any ''args''.  It is an error if any value in ''hash-table'' is not unique in the sense of ''comparator''.  It is an error to mutate ''hash-table'' after this procedure returns, as it shares structure with the bimap.
+
+`(bimap? `''obj''`)`
+
+Returns `#t` if ''obj'' is a bimap and `#f` otherwise.
+
+`(bimap-forward-hash-table `''bimap''`)`
+
+Returns the original hash table passed to the bimap.  It is an error to mutate this hash table.
+
+`(bimap-reverse-hash-table `''bimap''`)`
+
+Returns the reverse hash table created by `make-bimap`.  It is an error to mutate this hash table.
+
+`(bimap-contains? `''bimap key''`)`
+
+Returns `#t` if ''key'' is contained in one of the associations of the bimap, and `#f` otherwise.
+
+`(bimap-contains-value? `''bimap value''`)`
+
+Returns `#t` if ''value'' is contained in one of the associations of the bimap, and `#f` otherwise.
+
+`(bimap=? `''bimap,,1,, bimap,,2,,''`)`
+
+Returns `#t` if ''bimap,,1,,'' and ''bimap,,2,,'' contain the same key-value associations, and `#f` otherwise.
+
+`(bimap-ref `''bimap key'' [[|''failure'' [ ''success'' ]] ]`)`
+
+Returns what `(hash-table-ref (bimap-forward-hash-table `''bimap''`) `''key failure success''`)` returns.
+
+`(bimap-ref/default `''bimap key default''`)`
+
+Returns what `(hash-table-ref (bimap-forward-hash-table `''bimap''`) `''key default''`)` returns.
+
+`(bimap-value-ref `''bimap value'' [[|''failure'' [ ''success'' ]] ]`)`
+
+Returns what `(hash-table-ref (bimap-reverse-hash-table `''bimap''`) `''value failure success''`)` returns.
+
+`(bimap-value-ref/default `''bimap value default''`)`
+
+Returns what `(hash-table-ref (bimap-reverse-hash-table `''bimap''`) `''value default''`)` returns.
+
+`(bimap-copy `''bimap'' [[|''immutable?'' ]]`)`
+
+Returns a newly allocated bimap with the same properties and associations as ''bimap''. If the second argument is present and is true, and the implementation supports immutable hash tables, the returned bimap is made from immutable hash tables and is itself immutable; otherwise it is mutable.
+
+The mutation procedures `bimap-set!`, `bimap-set-entries!`, `bimap-delete!`, `bimap-delete-keys!`, `bimap-extend!`, `bimap-extend/default!`, `bimap-replace!`, `bimap-replace/default!`, `bimap-update!`, `bimap-update/default!`, `bimap-clear!`, `bimap-filter!`, `bimap-remove!`, and `bimap-partition!` have the same behavior as their hash table analogues, mutating both hash tables appropriately.
 
 === Exceptions ===
 
