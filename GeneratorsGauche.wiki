@@ -12,11 +12,13 @@ generates characters from the current input port.
 so it is useful to define utility procedures that work on 
 generators.  This module provides them.
 </p>
-
 <p>A generator is very lightweight, and useful for implementing simple
 on-demand calculations.  However, keep in mind that it is
-side-effecting construct; you can't safely backtrack, for example..
+side-effecting construct; you can't safely backtrack, for example.
 </p>
+
+<p>These procedures are from the Gauche core and the Gauche modules
+<code>gauche.generator</code> and <code>data.random</code>.</p>
 
 <h3 class="subsection">Generator constructors</h3>
 
