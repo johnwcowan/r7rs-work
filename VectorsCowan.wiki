@@ -1,8 +1,6 @@
-This is a preliminary list of procedures for the R7RS vector library.  It is an upward compatible extension of the vector libraries of [[http://www.schemers.org/Documents/Standards/R5RS/|R5RS]], [[http://trac.sacrideo.us/wg/raw-attachment/wiki/WikiStart/r7rs.pdf|R7RS-small]], and [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]], with additional procedures that are analogous to procedures in the [[http://srfi.schemers.org/srfi-1/srfi-1.html|SRFI 1]] list library and the [[http://srfi.schemers.org/srfi-13/srfi-13.html|SRFI 13]] string library.  As a single exception, the `vector-copy` procedure in R7RS-small does not provide the ''fill'' argument present in SRFI 43.
+This is a preliminary list of procedures for the R7RS vector library.  It is an upward compatible extension of the vector libraries of [[http://www.schemers.org/Documents/Standards/R5RS/|R5RS]], [[http://trac.sacrideo.us/wg/raw-attachment/wiki/WikiStart/r7rs.pdf|R7RS-small]], and [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]], with additional procedures that are analogous to procedures in the [[http://srfi.schemers.org/srfi-1/srfi-1.html|SRFI 1]] list library.  As a single exception, the `vector-copy` procedure in R7RS-small does not provide the ''fill'' argument present in SRFI 43.
 
 The procedures that are already in R7RS-small will not be overridden by this library, and are listed only for completeness.
-
-Numeric vector analogues of these procedures, excluding the ones in NumericVectorsCowan, will be provided in a separate library.
 
 == Notation ==
 
@@ -16,11 +14,7 @@ Numeric vector analogues of these procedures, excluding the ones in NumericVecto
 
 * SRFI 43+ means either the procedure is available in SRFI 43 but additional functionality is proposed (typically ''start/end'' and possibly ''at'' arguments), or an analogous procedure is available in SRFI 43.
 
-* SRFI 13 means an analogous procedure is available in SRFI 13.
-
 * SRFI 1 means an analogous procedure is available in SRFI 1.
-
-* SRFI 1/13 means an analogous procedure is available in both SRFI 1 and SRFI 13.
 
 == Constructors ==
 
@@ -31,8 +25,7 @@ vector-reverse-copy (SRFI 43+), vector-reverse-copy! (SRFI 43+) \\
 vector-append (R7RS), vector-append! (SRFI 1) \\
 vector-append-subvectors (see below) \\
 vector-concatenate (SRFI 43), vector-concatenate! (SRFI 1) \\
-vector-concatenate-reverse (SRFI 13), vector-concatenate-reverse (SRFI 13) \\
-vector-tabulate (SRFI 1/13), vector-tabulate! (SRFI 1/13)
+vector-tabulate (SRFI 1), vector-tabulate! (SRFI 1)
 
 == Predicates ==
 
@@ -41,8 +34,8 @@ vector? (R5RS), vector-empty? (SRFI 43), vector= (SRFI 43+)
 == Selectors ==
 
 vector-ref (R5RS), vector-length (R5RS) \\
-vector-take (SRFI 1/13), vector-take-right (SRFI 1/13) \\
-vector-drop (SRFI 1/13), vector-drop-right (SRFI 13) \\
+vector-take (SRFI 1), vector-take-right (SRFI 1) \\
+vector-drop (SRFI 1), vector-drop-right (SRFI 1) \\
 vector-split-at (SRFI 1)
 
 == Iteration ==
@@ -62,19 +55,14 @@ vector-for-each-index (R7RS)
 == Filtering and partitioning ==
 
 vector-count (SRFI 43+) \\
-vector-filter (SRFI 1/13), vector-remove (SRFI 1/13), vector-partition (SRFI 1) \\
+vector-filter (SRFI 1), vector-remove (SRFI 1), vector-partition (SRFI 1) \\
 vector-filter! (SRFI 1), vector-remove! (SRFI 1), vector-partition! (SRFI 1)
 
 == Deleting ==
 
-vector-delete (SRFI 1/13), vector-delete-duplicates (SRFI 1) \\
-vector-delete! (SRFI 1/13), vector-delete-duplicates! (SRFI 1)
+vector-delete (SRFI 1), vector-delete-duplicates (SRFI 1) \\
+vector-delete! (SRFI 1), vector-delete-duplicates! (SRFI 1)
 
-== Prefixes and suffixes ==
-
-vector-prefix-length (SRFI 13), vector-suffix-length (SRFI 13) \\
-vector-prefix? (SRFI 13), vector-suffix? (SRFI 13)
- 
 == Searching ==
 
 vector-find (SRFI 1) \\
@@ -141,3 +129,6 @@ Returns a newly allocated vector of length ''k'' after copying the portion of ea
       (loop (add1 from)))))
 }}}
 
+`(vector-cumulate `''proc seed vector''`)`
+
+Returns a newly allocated vector of the same length as ''vector''.  Each element is constructed by reducing (as if by `vector-reduce`) successive prefixes of the elements of ''vector''. (APL scan.)
