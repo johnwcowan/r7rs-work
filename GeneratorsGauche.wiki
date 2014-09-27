@@ -455,9 +455,9 @@ whose i-th element is generated from the i-th argument.
 </dd></dl>
 
 <dl>
-<dt><a name="index-lists_002dof-1"></a><code>lists-of</code><i> sizer item-gen</i></dt>
-<dt><a name="index-vectors_002dof-1"></a><code>vectors-of</code><i> sizer item-gen</i></dt>
-<dt><a name="index-strings_002dof-2"></a><code>strings-of</code><i> sizer item-gen</i></dt>
+<dt><a name="index-lists_002dof-1"></a><code>glists</code><i> sizer item-gen</i></dt>
+<dt><a name="index-vectors_002dof-1"></a><code>gvectors</code><i> sizer item-gen</i></dt>
+<dt><a name="index-strings_002dof-2"></a><code>gstrings</code><i> sizer item-gen</i></dt>
 <dd><p>Creates a generator that generates lists, vectors or strings of values from <var>item-gen</var>, respectively.  The size of each datum is determined by
 <var>sizer</var>which can
 be either a nonnegative integer or a generator of nonnegative integers.
@@ -465,7 +465,20 @@ The value of the sizer determines the length of the result data.
 </p>
 </dl>
 
-<p>TODO: <code>gdelete, gdelete-duplicates</code>.</p>
+<dl>
+<dt><a name="index-gdelete"></a><code>gdelete</code><i> item gen [[|= ]]</i></dt>
+<dt><a name="index-gdelete-neighbor-dups"></a><code>gdelete-neighbor-dups</code><i> = item-gen</i></dt>
+<dd><p>Creates a generator that returns whatever <var>gen</var> returns, except for any items that
+are the same as <var>item</var> in the sense of <var>=</var>, which defaults to <code>equal?</code>.
+</p>
+</dl>
+
+<dl>
+<dt><a name="index-vectors_002dof-1"></a><code>gdelete-neighbor-dups</code><i>gen [[|= ]]</i></dt>
+<dd><p>Creates a generator that returns whatever <var>gen</var> returns, except for any items
+that are equal to the preceding item in the sense of <var>=</var>, which defaults to <code>equal?</code>.
+</p>
+</dl>
 
 <h3 class="subsection">Folding generated values</h3>
 
@@ -476,6 +489,18 @@ have names beginning with <code>generator-</code>.
 <dl>
 <dt><a name="index-generator_002d_003elist"></a><code>generator-&gt;list</code><i> generator [[|k ]]</i></dt>
 <dd><p>Reads items from <var>generator</var> and returns a list of them.
+By default, this reads until the generator is exhausted.  If
+an optional argument <var>k</var> is given, it must be a nonnegative
+integer, and the list ends either <var>k</var> items are read,
+or the generator is exhausted.
+</p>
+<p>Be careful not to pass an infinite generator to this without
+specifying <var>k</var>, or this procedure will not return.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-generator_002d_003ereverse-list"></a><code>generator-&gt;reverse-list</code><i> generator [[|k ]]</i></dt>
+<dd><p>Reads items from <var>generator</var> and returns a list of them in reverse order.
 By default, this reads until the generator is exhausted.  If
 an optional argument <var>k</var> is given, it must be a nonnegative
 integer, and the list ends either <var>k</var> items are read,
@@ -540,20 +565,47 @@ and <code>gmap</code>.
 </dd></dl>
 
 <dl>
+<dt><a name="index-generator_002dlast"></a><code>generator-last</code><i> gen</i></dt>
+<dd><p>Returns the last item from the generator.
+</p></dd></dl>
+
+<dl>
 <dt><a name="index-generator_002dfind"></a><code>generator-find</code><i> pred gen</i></dt>
 <dd><p>Returns the first item from the generator <var>gen</var> that satisfies
 the predicate <var>pred</var>.
 </p></dd></dl>
 
-<p>TODO: <code>generator-length, generator-last, generator-reverse, generator-count, generator-any, generator-every</code>.</p>
+<dl>
+<dt><a name="index-generator_002dlength"></a><code>generator-length</code><i> gen</i></dt>
+<dd><p>Returns the number of items available from the generator <var>gen</var>.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-generator_002dcount"></a><code>generator-count</code><i> pred gen</i></dt>
+<dd><p>Returns the number of items available from the generator <var>gen</var> that satisfy
+the predicate <var>pred</var>.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-generator_002dany"></a><code>generator-any</code><i> pred gen</i></dt>
+<dd><p>Returns <code>#t</code> if any of the values available the generator <var>gen</var> satisfy
+the predicate <var>pred</var>.  For consistency, this procedure consumes any remaining values
+from the generator.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-generator_002devery"></a><code>generator-every</code><i> pred gen</i></dt>
+<dd><p>Returns <code>#t</code> if all of the values available the generator <var>gen</var> satisfy
+the predicate <var>pred</var>.
+</p></dd></dl>
 
 <h3 class="subsection">Syntax</h3>
 
 <dl>
 <dt><a name="index-glet_002a"></a><code>glet*</code><i> (binding &hellip;) body body2 &hellip;</i></dt>
 <dd><p>This captures a monadic pattern frequently appears in the generator
-code.  It is in a similar spirit of <code>and-let*</code>, but returns
-as soon as the evaluating expression returns an end-of-file object, instead of <code>#f</code>
+code.  It is in a similar spirit to <code>and-let*</code>, but returns
+as soon as the evaluated expression returns an end-of-file object, instead of <code>#f</code>
 as <code>and-let*</code> does.
 </p>
 <p>The <var>binding</var> part can be either <code>(var expr)</code> or <code>( expr )</code>.
@@ -581,10 +633,10 @@ The actual definition will explain this syntax clearly.
 <p><var>Gexpr</var> is an expression that yields a generator.  It is
 evaluated once.  The resulting generator is called repeatedly
 until it returns an end-of-file object.  Every time the generator is called,
-<var>body</var> &hellip; are evaluated in the scope
+<var>body</var> &hellip; are evaluated in a scope
 where <var>var</var> is bound to the value yielded from the generator.
 </p>
-<p>Like <code>dolist</code> and <code>dotimes</code>, this macro exists for
+<p>This macro exists for
 side-effects.  You can write the same thing with <code>for-each</code> families,
 but sometimes this macro makes the imperative code more readable:
 </p>
