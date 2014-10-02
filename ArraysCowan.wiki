@@ -38,7 +38,11 @@ Returns a newly allocatedn array whose shape is ''shape''.  Each ''obj'' is used
 
 Returns a newly allocated array with shape ''shape'', or with the specified lower-bounds, upper-bounds, and steps, containing the components of ''vector'' or ''list'' in storage order.  If ''shape'' is omitted, the result has the same shape as ''vector''.
 
+`(array-tabulate `''shape proc''`)`
 
+`(array-tabulate `''lower-bounds upper-bounds'' [[|''steps'' ]] ''proc''`)`
+
+Returns a newly allocated array with the specified ''shape, lower-bounds, upper-bounds'', and ''steps''.  ''Proc'' For each valid combination of indexes, ''proc'' is invoked, passing the indexes as a Scheme vector, which may be the same vector each time or distinct vectors.  Whatever ''proc'' returns becomes the value of the storage element corresponding to those indexes.
 
 == Predicates ==
 
