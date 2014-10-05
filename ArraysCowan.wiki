@@ -6,13 +6,17 @@ This is a proposal for the WG2 multidimensional arrays package.  These arrays ar
 
 The ''axes'' of an array are its dimensions: a vector has one axis, a matrix has two, and so on.  The ''rank'' of a vector is the number of axes it has.  Note that in this proposal, the objects called "vectors" in Scheme are referred to as "Scheme vectors".
 
-Every array has a ''shape'', which is a Scheme vector of non-negative exact integers that specify the number of distinct values on each of its axes.  Thus an array with shape `#(4)` is a vector whose axis contains 4 elements, by default labeled from 0 to 3, and an array with shape `#(2 7)` is a 2 x 7 matrix whose rows range by default from 0 to 1 and whose columns range by default from 0 to 6 respectively.  A component of the shape MAY be 0, in which case the vector has no components.  A rank-0 vector's shape is `#()`, and it has exactly one component.
+Every array has a ''shape'', which is a Scheme vector of non-negative exact integers that specify the number of distinct values on each of its axes.  Thus an array with shape `#(4)` is a vector whose axis contains 4 elements, by default labeled from 0 to 3, and an array with shape `#(2 7)` is a 2 x 7 matrix whose rows range by default from 0 to 1 and whose columns range by default from 0 to 6 respectively.  A component of the shape MAY be 0, in which case the vector has no components.  A rank-0 array's shape is `#()`, and it has exactly one component.
 
-It is possible to create arrays whose indexes have a lower bound other than 0, in which case the upper bound is not the same as the shape.  In addition, the valid index values of a specific axis may be restricted to exact multiples of an integer known as the ''step''.
+It is possible to create arrays whose indices have a lower bound other than 0, in which case the upper bounds are not the same as the elements of the shape.  In addition, the valid index values of a specific axis may be restricted to the lower bound plus exact multiples of an integer known as the ''step''.  For example, a vector with a lower bound of 1 and an upper bound of 7 with a step of 2 has valid indices 1, 3, and 5.
+
+The ''structure'' of an array is its shape, lower bounds, upper bounds, and steps.
 
 Each array has associated with it a ''storage object'', which for the purposes of this proposal is a Scheme vector.  It is possible for many arrays to be associated with a single storage object.  The locations associated with a storage object are known as ''storage elements''.  The values put into storage elements are `eqv?` to the values fetched from them.
 
-An array's ''size'' is the total number of storage objects associated with it.  This is the product of the components of the array's shape, or 1 if the shape has no components.
+An array's ''size'' is the total number of storage elements accessible from it.
+
+A ''subscript'' is an exact integer greater than or equal to the corresponding lower bound of an array and less than the corresponding upper bound.  To specify a particular storage element in the array requires as many subscripts as the rank of the array.  An ''index'' is a Scheme vector of subscripts whose length is equal to the rank.
 
 == Constructors ==
 
@@ -22,11 +26,11 @@ An array's ''size'' is the total number of storage objects associated with it.  
 
 The first form of this procedure returns a newly allocated array whose shape is ''shape''.  The second form specifies the lower bounds (inclusive) and the upper bounds (exclusive) of the dimensions, along with the step values, if any (which default to 1 in each axis).  All of these arguments are Scheme vectors.  It is an error if they do not have the same length.
 
-All the components of the new array are set to  ''initial value'' if it is specified; otherwise their values are undefined.  
+All the components of the new array are set to ''initial-value'' (which can be any Scheme object) if it is specified; otherwise their values are undefined.  
 
 `(array `''shape obj'' ...`)`
 
-Returns a newly allocatedn array whose shape is ''shape''.  Each ''obj'' is used to initialize the contents of the array in row-major order.  This procedure cannot specify lower bounds or steps.
+Returns a newly allocated array whose shape is ''shape''.  Each ''obj'' is used to initialize the contents of the array in row-major order.  This procedure cannot specify lower bounds or steps.
 
 `(vector->array `''shape'' ''vector''`)`
 
@@ -36,13 +40,13 @@ Returns a newly allocatedn array whose shape is ''shape''.  Each ''obj'' is used
 
 `(list->array `''lower-bounds upper-bounds'' [[|''steps'' ]] ''list''`)`
 
-Returns a newly allocated array with shape ''shape'', or with the specified lower-bounds, upper-bounds, and steps, containing the components of ''vector'' or ''list'' in storage order.  If ''shape'' is omitted, the result has the same shape as ''vector''.
+Returns a newly allocated array with shape ''shape'', or with the specified lower-bounds, upper-bounds, and steps, containing the components of ''vector'' or ''list'' in row-major order.  If ''shape'' is omitted, the result has the same shape as ''vector''.
 
 `(array-tabulate `''shape proc''`)`
 
 `(array-tabulate `''lower-bounds upper-bounds'' [[|''steps'' ]] ''proc''`)`
 
-Returns a newly allocated array with the specified ''shape, lower-bounds, upper-bounds'', and ''steps''.  ''Proc'' For each valid combination of indexes, ''proc'' is invoked, passing the indexes as a Scheme vector, which may be the same vector each time or distinct vectors.  Whatever ''proc'' returns becomes the value of the storage element corresponding to those indexes.
+Returns a newly allocated array with the specified ''shape, lower-bounds, upper-bounds'', and ''steps''.   For each valid index value, ''proc'' is invoked in arbitrary order.  The index may or may not be the same Scheme vector for each call.  Whatever ''proc'' returns becomes the value of the storage element corresponding to that index.
 
 == Predicates ==
 
@@ -62,7 +66,7 @@ Returns `#t` if ''obj'' is an array and `#f` otherwise.
 
 `(array-strides `''array''`)`
 
-Returns the shape, lower bounds, upper bounds, steps, or strides of ''array'' as Scheme vectors.  It is an error to m may be the same (in the sense of `eqv?`) as other arrays of the same shape.  It is an error to mutate the results of these procedures.
+Returns the shape, lower bounds, upper bounds, steps, or strides of ''array'' as Scheme vectors.  It is an error to mutate any of the results, which may be the same (in the sense of `eqv?`) as those associated with other arrays.
 
 `(array-rank `''array''`)`
 
@@ -74,7 +78,9 @@ Returns the size of ''array''.
 
 `(array-in-bounds? `''array subscript'' ...`)`
 
-Returns `#t` if ''subscripts'', which MUST be exact integers, are valid subscripts for ''array'', and #f otherwise.  A subscript is valid if it is non-negative and less than the corresponding component of the shape.
+`(array-in-bounds? `''array index''`)`
+
+The first form returns `#t` if ''subscripts'', which MUST be exact integers, are valid subscripts for ''array'', and #f otherwise.  A subscript is valid if it is greater than or equal to the corresponding lower bound and less than the corresponding lower bound.  The second form passes the subscripts as a Scheme vector.
 
 == Storage procedures ==
 
@@ -84,34 +90,61 @@ Returns the storage associated with an array.
 
 `(array-copy `''array''`)`
 
-Returns a new array with the same shape, bounds, steps, and strides as ''array''.  However, the storage object is a copy of the storage object of ''array''.
+Returns a new array with the same shape, bounds, steps, and strides as ''array''.  However, the storage object is a copy of part or all of the storage object of ''array''.
 
 `(array-ref `''array subscript'' ...`)`
 
-Returns the component of ''array'' specified by ''subscripts'', which MUST be exact integers.  It is an error to specify an invalid ''subscript''.
+`(array-ref `''array index''`)`
+
+Returns the component of ''array'' specified by ''subscripts'' or ''index''.  It is an error to specify an invalid index value.
 
 `(array-set! `''array subscript'' ... ''value''`)`
 
-Sets the component of ''array'' specified by ''subscripts'', which MUST be exact integers, to ''value''.  Returns undefined values.  It is an error to specify an invalid ''subscript''.
+`(array-set! `''array index value''`)`
+
+Sets the component of ''array'' specified by ''subscripts'' or ''index'' to ''value''.  Returns an undefined value.  It is an error to specify an invalid index value.
 
 == Mapping and folding ==
 
 `(array-map `''proc array'' ...`)`
 
-Applies ''proc'' to each corresponding component of the ''arrays'' in row-major order.  It returns a newly allocated array with the same shape as ''array'' and containing components which are the results of the appropriate applications.  It is an error unless all the ''arrays'' have the same shape.  It is also an error unless ''proc'' accepts at least as many arguments as there are arrays.
+Returns a newly allocated array with the same structure as the ''arrays'', which must all have the same structure.   For each valid index value, ''proc'' is invoked in arbitrary order, passing the index and all the arrays.  The index may or may not be the same Scheme vector for each call.  Whatever ''proc'' returns becomes the value of the storage element corresponding to that index in the result array.
 
 `(array-map! `''proc array'' ...`)`
 
-Applies ''proc'' to each corresponding component of the ''arrays'' in row-major order and places the results into  ''array''.  It is an error unless all the ''arrays'' have the same shape.  It is also an error unless ''proc'' accepts at least as many arguments as there are arrays.
+The ''arrays'' must all have the same structure.   For each valid index value, ''proc'' is invoked in arbitrary order, passing the index and all the arrays.  The index may or may not be the same Scheme vector for each call.  Whatever ''proc'' returns becomes the value of the storage element corresponding to that index in the first array argument.  The value returned is undefined.
 
 `(array-for-each `''proc array'' ...`)`
 
-Applies ''proc'' to each corresponding component of the ''arrays'' in storage order, discarding the results.  Returns undefined values.  It is an error unless all the ''arrays'' have the same shape.  It is also an error unless ''proc'' accepts at least as many arguments as there are arrays.
+The ''arrays'' must all have the same structure.   For each valid index value, ''proc'' is invoked in row-major order, passing the index and all the arrays.  The index may or may not be the same Scheme vector for each call.  The results are discarded and the value returned is undefined.
 
-`(array-fold `''proc nil array'' ...`)`
+`(array-fold `''proc seed array'' ...`)`
 
-Invokes ''proc'' on each component of ''arrays'' in storage order.  Each invocation is passed as arguments a Scheme vector containing the array indices of the current component, and the result of the previous invocation, in that order.  The Scheme vector may be reused by successive calls on ''proc''.  For the first invocation, ''nil'' is used as the final argument.  Returns the result of the last invocation.  It is an error unless all the ''arrays'' have the same shape.  It is also an error unless ''proc'' accepts at least as many arguments as there are arrays.
+The ''arrays'' must all have the same structure.   For each valid index value, ''proc'' is invoked in row-major order, passing the index, all the arrays, and the seed value.  The index may or may not be the same Scheme vector for each call.  The result is used as the seed for the next call to 'proc', and the final seed is returned.
 
+`(array-reduce `''proc''` `''array''` `''axis'' [[|''n'' ]]`)`
+
+Returns a newly allocated array whose rank is one less than the rank of ''array'', by combining all the groups of elements of length ''n'' (default 1) along ''axis'' using ''proc'', which MUST be a two-argument procedure.  The order and number of invocations of ''proc'' is unspecified.  If there is only one such element, it is unchanged.  (APL reduce.)
+
+`(array-cumulate `''proc''` `''array''` `''axis''`)`
+
+Returns a newly allocated array whose shape is the same as the shape of ''array''.  Each element along ''axis'' is constructed by reducing (as if by `array-reduce`) successive prefixes of the elements of ''array'' along that axis.  (APL scan.)
+
+== Outer and inner products ==
+
+`(array-outer-product `''proc''` `''array1''` `''array2''`)`
+
+Returns a newly allocated array whose shape is the concatenation of the shapes of ''array1'' and ''array2''.  Each component of the new array is the result of applying ''proc'' to every element of ''array1'' and every element of ''array2''.  The order and number of invocations of ''proc'' is unspecified.  (APL outer product.)
+
+`(array-inner-product `''proc1''` `''proc2''` `''array1''` `''array2''`)`
+
+Returns a newly allocated array whose shape is equal to the shape of ''array1'' without its last element concatenated with the shape of ''array2'' without its first element; these elements MUST be numerically equal.  It is an error if both arrays have rank 0.
+
+Each element of the result array results from applying ''proc2'' to the corresponding elements of the last vectors of ''array1'' and the first vectors of ''array2'' and then reducing them with ''proc1'' to a single value.  The order and number of invocations of the procedures is unspecified.
+
+In particular, if both arrays have rank 1, the last and first vectors are the whole of the arrays, and the result has rank 0; if both arrays have rank 2, the last vectors of ''array1'' are the column-wise vectors, and the first vectors of ''array2'' are the row-wise vectors, and the result has rank 2.  (APL inner product.)
+
+Example:  `(array-inner-product + * vector1 vector2)` computes the usual dot product of ''vector1'' and ''vector2''.
 == Conversions ==
 
 `(array->vector `''array''`)`
@@ -124,15 +157,15 @@ Returns a newly allocated list containing the components of ''array'' in row-maj
 
 `(array->nested-vector `''array''`)`
 
-Returns a newly allocated Scheme vector whose components are also newly constructed Scheme vectors, and so on as far down as necessary to cover every axis of the vector.  Bottom-level vectors contain the components of ''array''.  Thus, if ''array'' has rank 1, the result is a vector; if the array has rank 2, the result is a vector of vectors, and so on.  It is an error if ''array'' has rank 0.
+Returns a newly allocated Scheme vector whose components are also newly constructed Scheme vectors, and so on as far down as necessary to cover every axis of the array.  Bottom-level Scheme vectors contain the components of ''array''.  Thus, if ''array'' has rank 1, the result is a Scheme vector; if the array has rank 2, the result is a Scheme vector containing Scheme vectors, and so on.  As a special case, if ''array'' has rank 0, the sole component is returned.
 
 `(array->nested-list `''array''`)`
 
-Returns a newly allocated list whose components are also newly constructed lists, and so on as far down as necessary to cover every axis of ''array''.  Bottom-level lists contain the components of ''array''.  Thus, if ''array'' has rank 1, the result is a list; if the array has rank 2, the result is a list of lists, and so on.    It is an error if ''array'' has rank 0.
+Returns a newly allocated list whose components are also newly constructed list, and so on as far down as necessary to cover every axis of the array.  Bottom-level vectors contain the components of ''array''.  Thus, if ''array'' has rank 1, the result is a list if the array has rank 2, the result is a list of lists, and so on.  As a special case, if ''array'' has rank 0, the sole component is returned.
 
 `(nested-vector->array `''rank nested-vector''`)`
 
-Returns a newly allocated array with rank ''rank'' whose components are initialized from ''nested-vector''.  It is an error if ''nested-vector'' is not rectangular.  As a special case, if ''rank'' is 0, the sole component is ''nested-vector'', which need not be a vector.
+Returns a newly allocated array with rank ''rank'' whose components are initialized from the Scheme vector''nested-vector''.  It is an error if ''nested-vector'' is not rectangular.  As a special case, if ''rank'' is 0, the sole component is ''nested-vector'', which need not be a Scheme vector.
 
 `(nested-list->array `''rank nested-list''`)`
 
