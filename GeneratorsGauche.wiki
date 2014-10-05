@@ -54,7 +54,7 @@ When no arguments are provided, it returns a null generator that generates no va
 </pre></td></tr></table>
 
 <p>Note that the above example limits the length of
-the converted list by 10; otherwise
+the converted list to 10; otherwise
 <code>generator-&gt;list</code> won't return.
 </p></dd></dl>
 
@@ -136,7 +136,7 @@ it to <code>g</code>.
 A generator returned from <code>make-vector-reverse-generator</code> procedures runs in
 reverse order.
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">(make-generator-list (make-list-generator '(1 2 3 4 5)))
+<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (make-list-generator '(1 2 3 4 5)))
   &rArr; (1 2 3 4 5)
 (generator-&gt;list (make-vector-generator '#(1 2 3 4 5)))
   &rArr; (1 2 3 4 5)
@@ -156,7 +156,8 @@ element.
 For all the others, the first value the generator yields
 is the <var>start</var>-th element, and it ends right before the <var>end</var>-th element.
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (vector-&gt;generator '#(a b c d e) 2))
+<table><tr><td>&nbsp;</td><td><pre class="example">
+(generator-&gt;list (make-vector-generator '#(a b c d e) 2))
   &rArr; (c d e)
 (generator-&gt;list (make-vector-generator '#(a b c d e) 2 4))
   &rArr; (c d)
@@ -176,6 +177,8 @@ considered as a twos-complement value and treats it as a sequence of
 boolean values (0 for false and 1 for true), returning bits from
 the least significant bit first.  Note that the infinite sequence of
 high-order 0 or 1 bits are not returned, so this is a finite generator.
+In particular, <code>(make-bits-generator 0)</code> and <code>(make-bits-generator -1)</code>
+are both null generators.
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (bits-&gt;generator #b10110))
  &rArr; (#f #t #t #f #t)
@@ -194,7 +197,7 @@ port, respectively.
 
 <dl>
 <dt><code>make-for-each-generator</code><i> for-each obj</i></dt>
-<dd><p>A generic generators that toconverts any collection <var>obj</var> to a generator
+<dd><p>A generic generators that converts any collection <var>obj</var> to a generator
 that walks across the <var>obj</var> using the <var>for-each</var> procedure
 appropriate for <var>obj</var>.
 </p></dd></dl>
@@ -270,7 +273,7 @@ one of the generators provided by <var>gen</var> until they are exhausted.
 <table><tr><td>&nbsp;</td><td><pre class="example">
 (generator-&gt;list
   (gconcatenate
-    (make-list-generator `(,(giota 3) ,(giota 2)))))
+    (make-element-generator (giota 3) (giota 2))))
  &rArr; (0 1 2 0 1)
 </pre></td></tr></table>
 </dd></dl>
@@ -310,7 +313,7 @@ returns a generator immediately without consuming input.
 
 <dl>
 <dt><code>gfold</code><i> proc seed gen gen<sub>2</sub> &hellip;</i></dt>
-<dd><p>A generator analogue of <code>fold/code> for
+<dd><p>A generator analogue of <code>fold</code> for
 mapping with state.  It yields a sequence of sub-folds over <var>proc</var>.
 </p>
 <p>The <var>proc</var> argument is a procedure that takes as many arguments
@@ -355,7 +358,7 @@ and yields only values that are greater than their previous value.
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list
  (gstate-filter (lambda (v s) (values (&lt; s v) v)) 0
-                (make-list-generator '(1 2 3 2 1 0 1 2 3 2 1 0 1 2 3))))
+                (make-element-generator 1 2 3 2 1 0 1 2 3 2 1 0 1 2 3)))
  &rArr; (1 2 3 1 2 3 1 2 3)
 </pre></td></tr></table>
 </dd></dl>
@@ -430,7 +433,7 @@ to fill the rest.
 
 <dl>
 <dt><code>gpairs</code><i> car-gen cdr-gen</i></dt>
-<dd><p>Returns a generator that yields pairs,
+<dd><p>Returns a generator that yields pairs
 whose car is generated from <var>car-gen</var>
 and whose cdr is generated from <var>cdr-gen</var>.
 </p>
@@ -465,7 +468,7 @@ whose i-th element is generated from the i-th argument.
 <dt><code>gvectors</code><i> sizer item-gen</i></dt>
 <dt><code>gstrings</code><i> sizer item-gen</i></dt>
 <dd><p>Creates a generator that generates lists, vectors or strings of values from <var>item-gen</var>, respectively.  The size of each datum is determined by
-<var>sizer</var>which can
+<var>sizer</var>, which can
 be either a nonnegative integer or a generator of nonnegative integers.
 The value of the sizer determines the length of the result data.
 </p>
@@ -473,7 +476,6 @@ The value of the sizer determines the length of the result data.
 
 <dl>
 <dt><code>gdelete</code><i> item gen [[|= ]]</i></dt>
-<dt><code>gdelete-neighbor-dups</code><i> = item-gen</i></dt>
 <dd><p>Creates a generator that returns whatever <var>gen</var> returns, except for any items that
 are the same as <var>item</var> in the sense of <var>=</var>, which defaults to <code>equal?</code>.
 </p>
@@ -513,7 +515,7 @@ an optional argument <var>k</var> is given, it must be a nonnegative
 integer, and the list ends when either <var>k</var> items are read,
 or the generator is exhausted.
 </p>
-<p>Be careful not to pass an infinite generator to this without
+<p>Be careful not to pass an infinite generator to this procedure without
 specifying <var>k</var>, or this procedure will not return.
 </p></dd></dl>
 
@@ -593,15 +595,16 @@ the predicate <var>pred</var>.
 
 <dl>
 <dt><code>generator-any</code><i> pred gen</i></dt>
-<dd><p>Returns <code>#t</code> if any of the values available the generator <var>gen</var> satisfy
-the predicate <var>pred</var>.  For consistency, this procedure consumes any remaining values
-from the generator.
+<dd><p>Returns <code>#t</code> if any of the values available from the generator <var>gen</var> satisfy
+the predicate <var>pred</var>.  After such a value is found, the procedure returns without consuming
+the rest of the generator.
 </p></dd></dl>
 
 <dl>
 <dt><code>generator-every</code><i> pred gen</i></dt>
-<dd><p>Returns <code>#t</code> if all of the values available the generator <var>gen</var> satisfy
-the predicate <var>pred</var>.
+<dd><p>Returns <code>#t</code> if any of the values available frp, the generator <var>gen</var> do not satisfy
+the predicate <var>pred</var>.  After such a value is found, the procedure returns without consuming
+the rest of the generator.
 </p></dd></dl>
 
 <h3 class="subsection">Syntax</h3>
@@ -644,7 +647,7 @@ where <var>var</var> is bound to the value returned from the generator.
 side-effects.  You can do the same thing with <code>generator-for-each</code>,
 but sometimes this macro makes the imperative code more readable:
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">(do-generator (line (file-&gt;line-generator &quot;filename&quot;))
+<table><tr><td>&nbsp;</td><td><pre class="example">(do-generator (line read-line)
   ;; do some side-effecting stuff with line
   )
 </pre></td></tr></table>
