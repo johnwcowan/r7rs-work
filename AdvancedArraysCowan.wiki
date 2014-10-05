@@ -49,3 +49,42 @@ Applies `array-ref` to the ''array'' using the first ''i'' subscripts, where ''i
 
 These procedures are mostly derived in function, and sometimes in name, from ISO/IEC 8485 and ISO 17351, which standardize basic and extended APL respectively.
 
+== More ==
+
+transpose
+
+dyadic transpose
+
+append
+
+concatenate
+
+Numeric:  identity, inverse
+
+circular shift
+
+rotate-90, -180, -270 on two dimensions
+
+I/O: read, write, lexical syntax
+
+index->offset, offset-index
+
+
+diagonal
+
+rotate
+
+flatten
+
+flip
+
+squeeze
+
+expand
+
+repeate
+
+choose
+
+broadcast
+
