@@ -49,28 +49,3 @@ Applies `array-ref` to the ''array'' using the first ''i'' subscripts, where ''i
 
 These procedures are mostly derived in function, and sometimes in name, from ISO/IEC 8485 and ISO 17351, which standardize basic and extended APL respectively.
 
-`(array-reduce `''proc''` `''array''` `''axis''`)`
-
-Constructs and returns an array whose rank is one less than the rank of ''array'', by combining all the elements along ''axis'' using ''proc'', which MUST be a two-argument procedure.  The order and number of invocations of ''proc'' is unspecified.  If there is only one such element, it is unchanged.  (APL reduce.)
-
-`(array-reduce-by-groups`''proc''` `''array''` `''axis''` `''n''`)`
-
-Constructs and returns an array with the same rank as the rank of ''array'', by combining all the groups of elements of length ''n'' along ''axis'' using ''proc'', which MUST be a two-argument procedure.  The order and number of invocations of ''proc'' is unspecified.  If there is only one such group of elements, it is unchanged.  (APL N-wise reduction.)
-
-`(array-scan `''proc''` `''array''` `''axis''`)`
-
-Constructs and returns an array whose shape is the same as the shape of ''array''.  Each element along ''axis'' is constructed by reducing (as if by `array-reduce`) successive prefixes of the elements of ''array'' along that axis.  (APL scan.)
-
-`(array-outer-product `''proc''` `''array1''` `''array2''`)`
-
-Constructs and returns an array whose shape is the concatenation of the shapes of ''array1'' and ''array2''.  Each component of the new array is the result of applying ''proc'' to every element of ''array1'' and every element of ''array2''.  The order and number of invocations of ''proc'' is unspecified.  (APL outer product.)
-
-`(array-inner-product `''proc1''` `''proc2''` `''array1''` `''array2''`)`
-
-Constructs and returns an array whose shape is equal to the shape of ''array1'' without its last element concatenated with the shape of ''array2'' without its first element; these elements MUST be numerically equal.  It is an error if both arrays have rank 0.
-
-Each element of the result array results from applying ''proc2'' to the corresponding elements of the last vectors of ''array1'' and the first vectors of ''array2'' and then reducing them with ''proc1'' to a single value.  The order and number of invocations of the procedures is unspecified.
-
-In particular, if both arrays have rank 1, the last and first vectors are the whole of the arrays, and the result has rank 0; if both arrays have rank 2, the last vectors of ''array1'' are the column-wise vectors, and the first vectors of ''array2'' are the row-wise vectors, and the result has rank 2.  (APL inner product.)
-
-Example:  `(array-inner-product + * #(1 2 3) #(4 5 6))` computes the usual dot product of ''vector1'' and ''vector2''.
