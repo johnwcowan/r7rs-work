@@ -117,9 +117,7 @@ To apply a non-destructive list procedure to a queue and return a new queue, use
 
 `(front-back->queue `''front back''`)`
 
-Returns a newly allocated queue containing the elements of the list whose first pair is ''front'' and whose last pair is 'back''.  Alternatively, both ''front'' and ''back'' can be the empty list.  It is an error to mutate the cdrs of the list to which ''front'' and ''back'' belong after calling this procedure, as it shares storage with the queue.  This operation is O(1).
-
-To apply a non-destructive list procedure to a queue and return a new queue, use `(list->queue (`''proc''` (queue->list `''queue''`)))`.
+Returns a newly allocated queue containing the elements of the list whose first pair is ''front'' and whose last pair is ''back''.  Alternatively, both ''front'' and ''back'' can be the empty list.  It is an error to mutate the cdrs of the list to which ''front'' and ''back'' belong after calling this procedure, as it shares storage with the queue.  This operation is O(1).
 
 `(list->queue! `''queue list''`)`
 
