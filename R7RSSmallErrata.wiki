@@ -98,3 +98,5 @@ Note that evaluating `(means '(3 (1 4)))` returns three values: 8/3, 2.289428485
 19. In numeric tower bullet of the "Incompatibilities with R6RS" section, for "but the R6RS procedures `real-valued?`, `rational-valued?`, and `integer-valued?` were not" read "but the semantics of the R6RS procedures `real?`, `rational?`, and `integer?` were not adopted.  (Note that the R5RS/R7RS semantics are available in R6RS using `real-valued?`, `rational-valued?`, and `integer-valued?`)".
 
 20. From [[http://www.mumble.net/~kelsey/r5rs-errata.html|Richard Kelsey's R5RS errata]]: In the explanation of `list-ref`, for "fewer than ''k'' elements", read "''k'' or fewer elements". Thus, `(list-ref '(x) 1)` is an error.
+
+21. In Appendix B, for "All algebraic operations except `/` produce exact values given exact inputs" read "The algebraic operations `+`, `-`, `*`, and `expt` where the second argument is a non-negative integer) all produce exact values given exact inputs".
