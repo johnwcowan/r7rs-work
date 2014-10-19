@@ -28,7 +28,7 @@ Concatenation:  flushed in favor of [[http://srfi.schemers.org/srfi-1/srfi-1.htm
 
 Conditions: ConditionsCowan
 
-Container conversion: [[http://trac.sacrideo.us/wg/wiki/WG1Ballot6Results#a433fullconversioncycleforcontainers|WG1 ballot options]]
+Container conversion: See BytevectorsCowan, NumericVectorsCowan, and [[http://trac.sacrideo.us/wg/wiki/WG1Ballot6Results#a433fullconversioncycleforcontainers|WG1 ballot options]]
 
 Continuation API:  [[http://repository.readscheme.org/ftp/papers/sw2001/feeley.pdf|Feeley's paper]] (PDF)
 
