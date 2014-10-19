@@ -202,7 +202,7 @@ that walks across the <var>obj</var> using the <var>for-each</var> procedure
 appropriate for <var>obj</var>.
 </p></dd></dl>
 
-<dt><code>make-gunfold-generator</code><i> stop? mapper successor seed</i></dt>
+<dt><code>make-unfold-generator</code><i> stop? mapper successor seed</i></dt>
 <dd><p>A generator constructor similar to <code>unfold</code>.
 </p>
 <p>The <var>stop?</var> predicate takes a seed value and determines
@@ -217,7 +217,7 @@ returns an end-of-file object.  Otherwise,
 it applies <var>mapper</var> to the current seed value to get the value to
 return, and uses <var>g</var> to update the seed value.
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (gunfold (lambda s (&gt; s 5)) (lambda s (* s 2)) (lambda s (+ s 1)) 0))
+<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (make-unfold-generator (lambda s (&gt; s 5)) (lambda s (* s 2)) (lambda s (+ s 1)) 0))
   &rArr; '(0 2 4 6 8 10)
 </pre></td></tr></table>
 </dd></dl>
@@ -602,15 +602,31 @@ the rest of the generator.
 
 <dl>
 <dt><code>generator-every</code><i> pred gen</i></dt>
-<dd><p>Returns <code>#t</code> if any of the values available frp, the generator <var>gen</var> do not satisfy
+<dd><p>Returns <code>#t</code> if any of the values available from the generator <var>gen</var> do not satisfy
 the predicate <var>pred</var>.  After such a value is found, the procedure returns without consuming
 the rest of the generator.
+</p></dd></dl>
+
+<dl>
+<dt><code>generator=?</code><i> pred gen ...</i></dt>
+<dd><p>Returns <code>#f</code> if the corresponding values available from the generators <var>gen</var>
+are not equal in the sense of the predicate <var>pred</var>.  After such a value is found, the procedure
+returns without consuming the rest of the generators.  If all the values of all the generators have been
+consumed without finding any values that are not equal, <code>generator=?</code> returns <code>#t</code>.
+</p></dd></dl>
+
+<dl>
+<dt><code>generator-unfold</code><i> gen unfold arg ...</i></dt>
+<dd><p>Equivalent to <code>(</code><var>unfold</var> <code>eof-object? (lambda (x) x)</code> <var>gen</var>
+<code>(</code><var>gen</var><code>)</code> <var>args</var> ...<code>)</code>.  The values of <var>gen</var>
+are unfolded into the collection that <var>unfold</var> creates.  The combination of <code>make-for-each-generator</code> and <code>generator-unfold</code> makes it possible to convert any collection
+that has a for-each procedure into any collection that has an unfold constructor.
 </p></dd></dl>
 
 <h3 class="subsection">Syntax</h3>
 
 <dl>
-<dt><code>glet*</code><i> (binding &hellip;) body body2 &hellip;</i></dt>
+<dt><code>generator-let*</code><i> (binding &hellip;) body body2 &hellip;</i></dt>
 <dd><p>This captures a monadic pattern that frequently appears in generator-related
 code.  It is similar in spirit to <code>and-let*</code> from SRFI 2, but returns
 as soon as an evaluated expression returns an end-of-file object.
@@ -618,19 +634,19 @@ as soon as an evaluated expression returns an end-of-file object.
 <p>The <var>binding</var> part can be either <code>(var expr)</code> or <code>( expr )</code>.
 The actual definition will explain this syntax clearly.
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">(define-syntax glet*
+<table><tr><td>&nbsp;</td><td><pre class="example">(define-syntax generator-let*
   (syntax-rules ()
     ((_ () body body2 ...) (begin body body2 ...))
     ((_ ((var gen-expr) more-bindings ...) . body)
      (let ((var gen-expr))
        (if (eof-object? var)
          var
-         (glet* (more-bindings ...) . body))))
+         (generator-let* (more-bindings ...) . body))))
     ((_ (( gen-expr ) more-bindings ...) . body)
      (let ((var gen-expr))
        (if (eof-object? var)
          var
-         (glet* (more-bindings ...) . body))))))
+         (generator-let* (more-bindings ...) . body))))))
 </pre></td></tr></table>
 </dd></dl>
 
