@@ -16,7 +16,7 @@ Bitwise arithmetic: [[http://srfi.schemers.org/srfi-33/srfi-33.html|SRFI 33]], [
 
 Boxes/references: [[http://srfi.schemers.org/srfi-111/srfi-111.html|SRFI 111]]
 
-Character encoding conversion:
+Character encoding conversion: CharacterConversionCowan
 
 Combinators: CombinatorsCowan
 
