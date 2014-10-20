@@ -74,6 +74,8 @@ Homogeneous numeric arrays: [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z
 
 Immutable cyclic lists: CyclesMedernach
 
+Integer sets:  IntegerSetsCowan
+
 Library declarations: LibraryDeclarationsCowan
 
 Loop syntax: [[http://www.ccs.neu.edu/home/shivers/papers/loop.pdf|Olin Shivers's loop]], [[http://mumble.net/~campbell/scheme/foof-loop.txt|Taylor Campbell's foof-loop]], eager comprehensions from [[http://srfi.schemers.org/srfi-42/srfi-42.html|SRFI 42]].  See also [[https://groups.google.com/group/comp.lang.scheme/msg/60dcac5ea812398?dmode=source&output=gplain&noredirect&pli=1|Alex Shinn's defense of foof-loop]].
@@ -84,19 +86,19 @@ Mailboxes, channels, synchronized queues: [[http://www.s48.org/1.9/manual/manual
 
 <math.h> (C89 or C99): FlonumsCowan
 
-Memoization: [wiki:Memoize] (not a proposal yet)
+Memoization: [wiki:Memoize] (not a proposal yet), [[http://planet.racket-lang.org/display.ss?package=memoize.plt&owner=dherman|Racket]], [[http://hackage.haskell.org/package/memoize-0.1/docs/Data-Function-Memoize.html|Haskell]]
 
 Message digests (CRC, MD5, SHA1, SHA2):
 
 Multi-dimensional general arrays: ArraysCowan
 
-Multiple value macros (from CL): MultipleValuesCowan
+Multiple value macros (from CL): flushed
 
 Multiple values passed through => in `cond`: see #90 
 
 Mutable environments for `eval`:  MutableEnvironmentsCurtisCowan
 
-Mutexes, condition variables: [[[http://srfi.schemers.org/srfi-18/srfi-18.html|SRFI 18]]
+Mutexes, condition variables: [[http://srfi.schemers.org/srfi-18/srfi-18.html|SRFI 18]]
 
 Named parameters: NamedParametersCowan
 
@@ -146,7 +148,7 @@ Shift and reset: [[https://github.com/tonyg/pgg/blob/master/shift-reset.scm|Sche
 
 Simple Posix: SimplePosixCowan
 
-Sorting: [[http://srfi.schemers.org/srfi-32/srfi-32.html|SRFI 32]], [[http://srfi.schemers.org/srfi-95/srfi-95.html|SRFI 95]]
+Sorting: SortingShivers (revision of [[http://srfi.schemers.org/srfi-32/srfi-32.html|SRFI 32]]), [[http://srfi.schemers.org/srfi-95/srfi-95.html|SRFI 95]]
 
 String encoding and decoding:  StringBytevectorConversionCowan
 
