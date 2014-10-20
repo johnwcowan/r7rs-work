@@ -8,6 +8,8 @@ This is a WG2 proposal for date and time arithmetic, loosely based on Java's [[h
 
 2. What about subsecond timing?  Specify milli, micro, nano, picoseconds?
 
+3. Simple conversion between ISO 8601 date strings and date objects?
+
 
 == Instants ==
 
@@ -16,7 +18,7 @@ For the purposes of this proposal, an ''instant'' is an exact integer representi
 
 == Chronologies ==
 
-A ''chronology'' is an immutable member of a disjoint type that describes a particular calendar, such as the ISO, Gregorian, Julian, TAI, Jewish, Islamic, Persian, French Revolutionary, Maya, Chinese, Buddhist, Thai, Coptic, Ethiopic, or Martian calendar.  The chronologies primitively supported by an implementation are called the ''base chronologies''.  Implementations MUST support the ISO chronology, and MAY support any of the other calendars mentioned here, or indeed any calendar not mentioned here.  (The ISO chronology is similar to the Gregorian chronology: see the "ISO date fields" section for detailed differences.)
+A ''chronology'' is an immutable member of a disjoint type that describes a particular calendar, such as the ISO, Gregorian, Julian, TAI, Jewish, Islamic, Persian, French Revolutionary, Maya, Chinese, Buddhist, Thai, Coptic, Ethiopic, or Martian calendar.  Implementations MUST support the ISO chronology, and MAY support any of the other calendars mentioned here, or indeed any calendar not mentioned here.  (The ISO chronology is similar to the Gregorian chronology: see the "ISO date fields" section for detailed differences.)
 
 Chronologies also incorporate the concept of time zone.  For the ISO chronology (and the Gregorian and Julian chronologies if they are supported), an implementation MUST support the UTC (Universal Coordinated Time) time zone and any time zones expressible as a fixed offset in minutes from UTC.  It SHOULD support the historical time zones of the [[http://en.wikipedia.org/wiki/Tz_database|IETF time zone database]].  
 
@@ -28,7 +30,7 @@ A parameter representing a chronology used by default.  Its initial value should
 
 `(chronology `''name''`)`
 
-Returns the chronology named by the symbol ''name''.  The ISO chronology is named `iso`.  If provided, the Gregorian chronology is named `gregorian`, the Julian chronology is named `julian`, and the TAI chronology is named `tai`.  All these chronologies are proleptic (extend into the past before the date they were adopted).  The names and behaviors of other chronologies are implementation-dependent.  The chronologies returned by this procedure are in the UTC time zone, unless they are meant for planets other than Earth, in which case the nearest equivalent is used.  If the name is not known to the implementation, an error that satisfies `date-error?` is signaled.
+Returns the chronology named by the symbol ''name''.  The ISO chronology is named `iso`.  If provided, the Gregorian chronology is named `gregorian`, the Julian chronology is named `julian`, and the TAI chronology is named `tai`.  These chronologies are in the UTC time zone.  All these chronologies are proleptic (extend into the past before the date they were adopted).  The names and behaviors of other chronologies are implementation-dependent.  If the name is not known to the implementation, an error that satisfies `date-error?` is signaled.
 
 `(chronology-names)`
 
@@ -46,22 +48,21 @@ Returns a list of the symbols naming the possible fields in date objects backed 
 
 Returns `#t` if ''obj'' is a chronology and `#f` otherwise.
 
-`(derive-chronology `''name'' [[|''chronology'' ]] ''timezone''`)`
+`(derived-chronology `''name'' [[|''chronology'' ]] ''timezone''`)`
 
 Returns a chronology named ''name'' (a symbol).  The returned value is based on ''chronology'', by default the value of `(current-chronology)`, but using the time zone specified by ''timezone''.    In the ISO and Gregorian chronologies, if ''timezone'' is an integer, it represents the number of minutes ahead of UTC, but if the implementation supports the `tz` database, and ''time-zone'' is a string containing a time zone name defined by that database, it represents the time zone with that name.  Otherwise, the interpretation of ''timezone'' is chronology- and implementation-dependent.
 
 `(chronology-time-zone `''chronology''`)`
 
-Returns the time-zone value associated with this chronology.  The timezone of the ISO and Gregorian chronologies is 0; the timezone of chronologies derived from them is whatever was passed to `derive-chronology`.
+Returns the time-zone value associated with this chronology.
 
-`(make-compound-chronology `''name chronology1  date chronology2''`)`
+`(compound-chronology `''name initial-chronology'' (''date chronology'' )`)`
 
-Returns a chronology named ''name'' (a symbol) that uses ''chronology1'' at all times before ''date'' (a date object, see below), and ''chronology1'' for all times including and following ''date''.  This is useful for constructing chronologies that transition from Julian to Gregorian or from one timezone to another at a specified date.  Compound chronologies may also be constructed by the application, and may or may not have names.  The fields available in a compound chronology are the union of those available in the underlying chronologies, but not all fields may be available for all instants.
+Returns a chronology named ''name'' (a symbol) that uses ''initial-chronology1'' at all times before the first ''date'' (a date object, see below), and each ''chronology'' for all times including and following the corresponding ''date'' and up to but not including the next ''date'', if any.  This is useful for constructing chronologies that transition from Julian to Gregorian or from one timezone to another at a specified date.  Compound chronologies may also be constructed by the application.  The fields available in a compound chronology are the union of those available in the underlying chronologies, but not all fields are necessarily available for all instants.
 
-== Date objects ==
+== Date object procedures ==
 
 A ''date object'' is an immutable member of a disjoint type that provides information about a specific interval of time with respect to a certain chronology.  Chronologies are independent of spatial coordinates: no account is taken of relativistic time dilation.  For example, at least with respect to the ISO, Gregorian, or Julian chronologies, a date object may represent a specific year, a specific week of a specific year, or an instant in time precise to a second.  Date objects have multiple numeric-valued fields such as `year` or `minute-of-day`, whose meanings and possible values are determined by the chronology.
-
 
 == Date procedures ==
 
