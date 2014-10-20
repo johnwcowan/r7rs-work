@@ -32,7 +32,6 @@ Olin Shivers (edited by John Cowan)
   * Deleting duplicate neighbors
   * Algorithm-specific sorting procedures
   * Algorithmic properties
-* Topics to be resolved during discussion phase
 * Porting and optimisation
 * Acknowledgements
 * Copyright
@@ -40,7 +39,7 @@ Olin Shivers (edited by John Cowan)
 
 == Abstract ==
 
-I've designed the API for a full-featured sort toolkit, which I propose in this SRFI.
+This SRFI describes the API for a full-featured sort toolkit.
 The spec comes with 1200 lines of high-quality reference code: tightly
 written, highly commented, portable code, available for free.
 
@@ -121,11 +120,11 @@ There are two different interfaces: "what" (simple) and "how" (detailed).
 * Detailed: you specify the actual algorithm (quick, heap, insert, merge). Different algorithms have different properties, both semantic and pragmatic, so these exports are necessary.
 
 It is necessarily the case that the specifications of these procedures
-make statements about execution "pragmatics." For example, the sole
+make statements about execution pragmatics. For example, the sole
 distinction between heap sort and quick sort — both of which are
 provided by this library — is one of execution time, which is not a
-"semantic" distinction. Similar resource-use statements are made about
-"iterative" procedures, meaning that they can execute on input of
+semantic distinction. Similar resource-use statements are made about
+iterative procedures, meaning that they can execute on input of
 arbitrary size without needing to allocate an unbounded number of stack
 frames.
 
@@ -165,7 +164,7 @@ In other words, scanning across the data never takes a "downwards" step.
 
 If you use a <= predicate where these algorithms expect a <
 predicate, you may not get the answers you expect. For example,
-the `list-sorted?` procedurewill return false if you pass it a <= comparison
+the `list-sorted?` procedure will return false if you pass it a <= comparison
 predicate and an ordered list containing adjacent equal elements.
 
 A "stable" sort is one that preserves the pre-existing order of equal
@@ -266,7 +265,7 @@ In the procedures specified below,
 
 * A ''v'' parameter is a vector;
 
-* A < or = parameter is a procedure accepting two arguments taken from the specified procedure's data set(s), and returning a boolean;
+* A < or = parameter is either a procedure accepting two arguments taken from the specified procedure's data set(s), and returning a boolean, or a [[http://srfi.schemers.org/srfi-114/srfi-114.html|SRFI 114]] comparator.
 
 * A ''start'' parameter or ''start'' and ''end'' parameter pair are exact non-negative integers such that 0 <= ''start'' <= ''end'' <= `(vector-length `''v''`)`, where ''v'' is the related vector parameter. If not specified, they default to 0 and the length of the vector, respectively. They are interpreted to select the range [[''start'',|''end''), that is, all elements from index ''start'' (inclusive) up to, but not including, index ''end''.
 
@@ -407,10 +406,10 @@ storage with the input list.
 `(list-delete-neighbor-dups! ` ''= lis''`)`
 
 This procedure mutates its input list in order to construct its result.
-It makes only a single, iterative, linear-time pass over their
-argument lists, using `set-cdr!`s to rearrange the cells of the lists
-into the final result — they work "in place." Hence, any cons cell appearing
-in the result must have originally appeared in an input.
+It makes only a single, iterative, linear-time pass over its
+argument, using `set-cdr!`s to rearrange the cells of the list
+into the final result — it works "in place." Hence, any cons cell appearing
+in the result must have originally appeared in the input.
 
 `(vector-delete-neighbor-dups ` ''= v''`)`
 
@@ -420,7 +419,6 @@ newly allocates and returns a vector to hold the result.
 `(vector-delete-neighbor-dups! ` ''= v''`)`
 
 This procedure reuses its input vector to hold the answer, packing its answer into the index range [[start,newend),|
-
 where `newend` is the non-negative exact integer that is returned as its value.
 The vector is not altered outside the range [''start, newend'').
 
@@ -604,7 +602,7 @@ the corresponding vector, etc.
 == Acknowledgements ==
 
 I thank the authors of the open source I consulted when designing this
-library, particularly Richard O'Keefe, Donovan Kolby and the MIT Scheme Team.
+library, particularly Richard O'Keefe, Donovan Kolbly and the MIT Scheme Team.
 
 == Copyright ==
 
