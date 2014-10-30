@@ -1,4 +1,6 @@
-This example determines what the behavior of the usual implementations is when an identifier is defined as a value and then redefined as syntax.  For example:
+== Variable to syntax ==
+
+This example determines what the behavior of the usual implementations is when an identifier is defined as a variable and then redefined as syntax.  For example:
 
 {{{
         (define (noodle) (foodle))
@@ -24,3 +26,32 @@ Complains that a non-procedure is being invoked:  Gauche, MIT, Guile, Kawa, SCM,
 Complains that `foodle` is not defined: Ypsilon
 
 No support for `syntax-rules`: NexJ, JScheme, KSi, !SigScheme, Shoe, !TinyScheme, RScheme, S7, BDC, XLisp, Rep, Schemik, UMB, Elk, Llava, Sizzle, !FemtoLisp, Dfsch, Inlab
+
+== Syntax to variable ==
+
+Now we look at what happens when an identifier is defined as syntax and then changed to be a variable instead.  Here's an example:
+
+{{{
+(define-syntax fard
+  (syntax-rules ()
+    ((fard a b) (- a b))))
+
+(fard 1 2) => -1
+
+(define (fard a b) (+ a b))
+
+(fard 1 2) => ??
+
+(apply fard (list 1 2)) => ??
+}}}
+
+`fard` is successfully redefined in both operator and operand positions:  Racket, Gauche, MIT, Gambit, Scheme48/scsh, Guile, Kawa, SCM, Chez, Vicare, Larceny (prints a warning), Ypsilon, Mosh, KSi, Foment, Owl Lisp, Chibi
+
+`fard` is successfully redefined in operand position, but is still a syntax keyword in operator position: Chicken, Bigloo (prints a warning), STklos, Picrin
+
+`fard` is successfully redefined in operator position, but is still a syntax keyword in operand position: Scheme 9
+
+`fard` cannot be redefined: !IronScheme, SXM
+
+No support for `syntax-rules`: NexJ, JScheme, KSi, !SigScheme, Shoe, !TinyScheme, RScheme, S7, BDC, XLisp, Rep, Schemik, UMB, Elk, Llava, Sizzle, !FemtoLisp, Dfsch, Inlab
+
