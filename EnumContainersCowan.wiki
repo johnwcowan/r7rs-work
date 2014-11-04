@@ -42,4 +42,50 @@ There will probably be more, depending on how integer sets turn out:  `enum-set-
 
 == Enumeration maps ==
 
-Based on vectors indexed by the enum's ordinal.  API is a reduced form of HashTablesCowan.
+Based on vectors indexed by the enum's ordinal.  Procedures:
+
+{{{
+Constructors
+
+make-enum-map      enum-map                enum-map-unfold
+
+Predicates
+
+enum-map?          enum-map-contains?      enum-map=?
+
+Accessors
+
+enum-map-ref       enum-map-ref/default
+
+Mutators
+
+enum-map-set!      enum-map-set-entries!
+enum-map-delete!   enum-map-delete-keys!
+enum-map-extend!   enum-map-extend!/default
+enum-map-replace!  enum-map-replace!/default
+enum-map-update!   enum-map-updated!/default
+enum-map-push!     enum-map-pop!
+enum-map-search!   enum-map-clear!
+
+The whole enum map
+
+enum-map-size 
+enum-map-keys      enum-map-values         enum-map-entries
+enum-map-find      enum-map-count
+enum-map-any       enum-map-every
+enum-map-map       enum-map-map-values
+enum-map-for-each  enum-map-map!
+enum-map-collect   enum-map-fold
+enum-map-filter!   enum-map-remove!
+
+Copying and conversion
+
+enum-map-copy
+enum-map->alist
+
+Enum maps as functions
+
+enum-map-accessor  enum-map-accessor/default
+enum-map-union     enum-map-intersection
+enum-map-difference enum-map-xor
+}}}
