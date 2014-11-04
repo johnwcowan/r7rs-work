@@ -1,0 +1,67 @@
+== Lazy sequences ==
+
+Preliminary list of procedures for lazy sequences.  Lazy sequences are based on GeneratorsGauche, so there are only a few constructors.
+
+{{{
+Constructors
+
+list->lseq            list->vector          list->string          list->generator
+lseq                  lseq*                 lseq-unfold           lseq-unfold-right
+
+Predicates
+
+lseq?                 null-lseq?            lseq=?
+
+Selectors
+
+lseq-first ... tenth  lseq-rest             lseq-last
+lseq-ref
+lseq-drop             lseq-drop-right       lseq-take             lseq-take-right
+lseq-split-at
+
+The whole lazy sequence
+
+lseq-length           lseq-reverse
+lseq-append           lseq-concatenate
+lseq-zip              lseq-unzip            lseq-unzip2           lseq-unzip3
+lseq-unzip4           lseq-unzip5
+lseq-count
+
+Mapping and folding
+
+lseq-map              lseq-for-each         lseq-for-each-subseq  lseq-filter-map
+lseq-fold             lseq-fold-right       lseq-fold-subseq      lseq-fold-subseq-right
+lseq-reduce           lseq-reduce-right
+
+Filtering
+
+lseq-filter           lseq-remove           lseq-partition
+
+Searching
+
+lseq-find             lseq-find-rest        lseq-drop-while       lseq-take-while
+lseq-any              lseq-every
+lseq-index 
+lseq-member           lseq-memq             lseq-memv
+
+Deleting
+
+lseq-delete           lseq-delete-neighbor-dups
+
+Lazy alists
+
+lseq-assoc            lseq-assq             lseq-assv
+lseq-alist-cons       lseq-alist-delete
+
+Conversion
+
+lseq->list            lseq->vector          lseq->string          lseq->generator
+
+Realization
+
+lseq-realize!         lseq-realize-once!    lseq-realize-steps!   lseq-realize-while!      
+}}}
+
+== Implementation notes ==
+
+An lseq is a QueuesCowan queue plus a generator.  Queues can be shared between lseqs, which means that you are not allowed to remove anything from them, and the only addition operation is `lseq-realize-once!`, which realizes one value and adds it to the back of the queue.
