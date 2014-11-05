@@ -1,17 +1,59 @@
 == Path objects ==
 
-Path objects represent filesystem paths with semantics appropriate for different operating systems.  This proposal is essentially a straight transliteration of the pure portion of the Python [[http://docs.python.org/3/library/pathlib.html|`pathlib`]] library into Scheme.  As a result, it does not provide any support for accessing the file system.  See also [[http://legacy.python.org/dev/peps/pep-0428|PEP 428]].
+Path objects represent filesystem paths with semantics appropriate for different operating systems.  This proposal is essentially a straight transliteration of the pure portion of the Python [[http://docs.python.org/3/library/pathlib.html|pathlib]] library into Scheme.  As a result, it does not provide any support for accessing the file system.  See also [[http://legacy.python.org/dev/peps/pep-0428|PEP 428]].
 
 Path objects are immutable objects of a disjoint type.  They are divided into two subtypes, Posix paths and Windows paths.  Most procedures in this proposal operate correctly on both subtypes.
 
-Every path object has a ''drive'', a ''root'', and a possibly empty sequence of ''components'', all of which are strings.  The drive of a Posix path object is always the empty string; on Windows it can be a drive letter or device name followed by a colon, or a string of the form `//host/share` when the path object was created from an UNC pathname.  The root is the empty string for a relative path, `"/"` for an absolute path, or exceptionally `"//"` in path objects representing Posix pathnames beginning with `//` (whose meaning is system-dependent).
-
+Every path object has a ''drive'', a ''root'', and a possibly empty sequence of ''components'', all of which are strings.
 
 == Constructors ==
 
 `(make-posix-path `''string''`)`
 
+Parses ''string'' as a Posix pathname and returns a corresponding path object, setting the components to the slash-separated substrings of ''string''.  The drive and root are set according to the following examples:
+
+{{{
+(define absolute (make-posix-path "/etc/passwd))
+(path-drive absolute) => ""
+(path-root absolute) => "/"
+
+(define relative (make-posix-path "foo"))
+(path-drive relative) => ""
+(path-root relative) => ""
+
+(define implementation-defined (make-posix-path "//foo/bar"))
+(path-drive implementation-defined) => ""
+(path-root implementation-defined) => "//"
+}}}
+
+Except for the case of two initial slashes, consecutive slashes and backslashes are collapsed, and components consisting of a single period are removed.  However, components consisting of two periods are not removed, as this would produce the wrong result in the presence of symbolic links.
+
+
 `(make-windows-path `''string''`)`
+
+Parses ''string'' as a Posix pathname and returns a corresponding path object, setting the components to the slash-separated or backslash-separated substrings of ''string''.  The drive and root are set according to the following examples:
+
+{{{
+(define absolute (make-windows-path "C:\\Windows))
+(path-drive absolute) => "C:"
+(path-root absolute) => "/"
+
+(define unc (make-windows-path "\\\\host\\share\\file"))
+(path-drive unc) => "//host/share"
+(path-root unc) => "/"
+
+(define drive-relative (make-windows-path "\\Windows\\System32"))
+(path-drive drive-relative) => ""
+(path-root drive-relative) => "/"
+
+(define relative (make-windows-path "foo"))
+(path-drive relative) => ""
+(path-root relative) => ""
+}}}
+
+Consecutive slashes or backslashes are collapsed, and components consisting of a single period are removed.  However, components consisting of two periods are not removed, as this would produce the wrong result in the presence of symbolic links.
+
+If any of the characters of ''string'' are illegal in Windows pathnames, an error is signaled.
 
 `(make-path `''string''`)`
 
@@ -21,55 +63,106 @@ Invokes `make-posix-path` on non-Windows systems and `make-windows-path` on Wind
 
 `(path? `''obj''`)`
 
+Returns `#t` if ''obj'' is a path object and `#f` otherwise.
+
 `(posix-path? `''obj''`)`
+
+Returns `#t` if ''obj'' is a Posix path object and `#f` otherwise.
 
 `(windows-path? `''obj''`)`
 
+Returns `#t` if ''obj'' is a Windows path object and `#f` otherwise.
+
 `(path-absolute? `''path''`)`
 
+Returns `#t` if ''path'' represents an absolute path and `#f` otherwise.  On Posix, a path is absolute if its root is non-empty.  On Windows, both the drive and the root must be non-empty.
+
 `(path-reserved? `''path''`)`
+
+Returns `#t` if ''path'' is a Windows path containing a reserved component [[http://msdn.microsoft.com/en-us/library/aa365247.aspx|from this list]], possibly with a suffix, and `#f` otherwise.  Posix paths always return `#f`.
+
+`(path=? `''path,,1,, path,,2,,''`)`
+
+Returns `#t` if ''path,,1,,'' and ''path,,2,,'' are the same path; that is, the drive, root, and components are equal.  Posix paths are compared case-sensitively; Windows paths are compared case-insensitively.  It is implementation-defined whether a Windows path is ever `path=?` to a Posix path.  In all other cases, `path=?` returns `#f`.  
 
 == Accessors ==
 
 `(path-drive `''path''`)`
 
+Returns the drive part of ''path''.
+
 `(path-root `''path''`)`
+
+Returns the root part of ''path''.
 
 `(path-anchor `''path''`)`
 
+Returns the drive and root parts of ''path'' concatenated.
+
+`(path-parts `''path''`)`
+
+Returns a list whose car is the anchor of ''path'' and whose cdr is a list of the components of ''path''.
+
 `(path-parent `''path''`)`
+
+Returns a path representing the parent directory of ''path'', or ''path'' itself if it is a root directory.
 
 `(path-filename `''path''`)`
 
+Returns the filename (last component) of ''path'', or the empty string if there are no components.
+
 `(path-suffix `''path''`)`
+
+Returns the suffix (the rightmost part after a period) of the filename of ''path'', or the empty string if there are no periods.
 
 `(path-suffixes `''path''`)`
 
+Returns a list of all the suffixes of the filename of ''path''.
+
 `(path-stem `''path''`)`
 
-`(path-base `''path''`)`
+Returns the filename of ''path'' with all suffixes removed.
 
 == Conversion ==
 
 `(path->string `''path''`)`
 
+Returns a string pathname based on the contents of ''path''.  Windows paths use backslash as the separator.
+
 `(path->slashed-string `''path''`)`
+
+Returns a string pathname based on the contents of ''path''.  Windows paths use slash as the separator.
 
 `(path->file-uri `''path''`)`
 
-`(path->file-iri `''path''`)`
+Returns a file URI corresponding to ''path''.  If ''path'' is not absolute, an error is signaled.
 
 == Path operations ==
 
-`(path-join `''string-or-path,,1,, string-or-path,,2,,'' ...`)`
+`(path-join `path string-or-path'' ...`)`
 
-`(path-match `''path glob-string''`)`
+If a single ''string-or-path'' argument is given, `path-join` returns a path object representing the results of appending the components of the ''string-or-path'' arguments to ''path'' in order.  If the ''string-or-path'' argument is a string, `path-join` behaves as if it was converted to a path first by `make-posix-path` or `make-windows-path`, depending on the subtype of ''path''.
+
+If ''string-or-path'' argument has a non-empty drive, the drive, root, and components of ''path'' are discarded.  If any ''string-or-path'' argument has a non-empty root, the root and components of ''path'' are discarded.
+
+If two ''string-or-path'' arguments are given, `path-join` returns what `(path-join (path-join `''path'' ''string-or-path,,1,,''`)` ''string-or-path,,2,,''`)` returns, and so on for any additional arguments.
+
+`(path-match `''path string''`)`
+
+Returns `#t` if ''path'' matches the glob pattern in ''string''.  Glob patterns may contain the wildcards `*`, `?`, and `[...]` where ... represents a set of characters to match.  If ''string'' is relative, the path can be either relative or absolute, and matching is done from the right.  If ''string'' is absolute, the path must be absolute, and the whole path must match.  Posix paths are compared case-sensitively; Windows paths are compared case-insensitively.
 
 `(path-relative-to `''path,,1,, path,,2,,''`)`
 
+Return a version of ''path,,1,,'' that is relative to ''path,,2,,''.  If it is not possible to do so without introducing double-period components, an error is signaled.
+
 `(path-with-name `''path name''`)`
 
+Returns a path object based on ''path'' with the name (including any suffixes) replaced by ''name''.  If the path does not contain a name, an error is signaled.
+
 `(path-with-suffix `''path suffix''`)`
+
+Returns a path object based on ''path'' with the final suffix of the name replaced by ''suffix''.  If the name does not contain a suffix, ''suffix'' is appended after a separating period.  If the path does not contain a name, an error is signaled.
+
 
 
 
