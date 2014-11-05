@@ -34,7 +34,7 @@ In addition to the R7RS-small constructors `make-string` and `string`, the follo
 
 `(string-slice-transform `''proc slice arg'' ...`)`
 
-== Predicates
+== Predicates ==
 
 `(string-slice? `''obj''`)`
 
@@ -54,10 +54,9 @@ In addition to the R7RS-small constructors `make-string` and `string`, the follo
 
 `(string-slice-whole? `''slice''`)`
 
-{{{
-Selection
+== Selection ==
 
-string-slice-length                  string-length [R7RS-small]
+{{{
 string-slice-ref                     string-ref [R7RS-small]
 string-slice-take                    string-take
 string-slice-take-right              string-take-right
@@ -68,16 +67,20 @@ string-slice-pad-right               string-pad-right
 string-slice-trim                    string-trim
 string-slice-trim-right              string-trim-right
 string-slice-replicate               string-replicate
+}}}
 
-Prefixes and suffixes
+== Prefixes and suffixes ==
 
+{{{
 string-slice-prefix-length           string-prefix-length
 string-slice-suffix-length           string-suffix-length
 string-slice-prefix?                 string-slice-prefix?
 string-slice-suffix?                 string-slice-suffix?
+}}}
 
-Searching
+== Searching ==
 
+{{{
 string-slice-index                   string-index
 string-slice-index-right             string-index-right
 string-slice-skip                    string-skip
@@ -88,37 +91,48 @@ string-slice-take-while              string-take-while
 string-slice-drop-while              string-drop-while
 string-slice-break                   string-break
 string-slice-span                    string-span
+}}}
 
-The whole string slice
+== The whole string slice ==
 
+{{{
+string-slice-length                  string-length [R7RS-small]
 string-slice-copy                    string-copy [R7RS-small]
 string-slice-reverse                 string-reverse [R7RS-small]
 string-slice-append                  string-append [R7RS-small]
 string-slice-concatenate             string-concatenate
 string-slice-concatenate-reverse     string-concatenate-reverse
 string-slice-compress                string-compress
+}}}
 
-Folding and mapping
+== Folding and mapping ==
 
+{{{
 string-slice-map                     string-map [R7RS-small]
 string-slice-fold                    string-fold
 string-slice-fold-right              string-fold-right
 string-slice-for-each                string-for-each
 string-slice-for-each-index          string-for-each-index
+}}}
 
-Parsing
+== Parsing ==
 
+{{{
 string-slice-tokenize                string-tokenize
 string-slice-split                   string-split
+}}}
 
-Filtering and partitioning
+== Filtering and partitioning ==
 
+{{{
 string-slice-filter                  string-filter
 string-slice-remove                  string-remove
 string-slice-partition               string-partition
+}}}
 
-Compatibility
+== Compatibility ==
 
+{{{
 string-slice-upcase     string-slice-downcase   string-slice-foldcase
 string-slice=?          string-slice<?          string-slice>?
 string-slice<=?         string-slice>=?
