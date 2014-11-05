@@ -1,0 +1,75 @@
+== Path objects ==
+
+Path objects represent filesystem paths with semantics appropriate for different operating systems.  This proposal is essentially a straight transliteration of the pure portion of the Python [[http://docs.python.org/3/library/pathlib.html|`pathlib`]] library into Scheme.  As a result, it does not provide any support for accessing the file system.  See also [[http://legacy.python.org/dev/peps/pep-0428|PEP 428]].
+
+Path objects are immutable objects of a disjoint type.  They are divided into two subtypes, Posix paths and Windows paths.  Most procedures in this proposal operate correctly on both subtypes.
+
+Every path object has a ''drive'', a ''root'', and a possibly empty sequence of ''components'', all of which are strings.  The drive of a Posix path object is always the empty string; on Windows it can be a drive letter or device name followed by a colon, or a string of the form `//host/share` when the path object was created from an UNC pathname.  The root is the empty string for a relative path, `"/"` for an absolute path, or exceptionally `"//"` in path objects representing Posix pathnames beginning with `//` (whose meaning is system-dependent).
+
+
+== Constructors ==
+
+`(make-posix-path `''string''`)`
+
+`(make-windows-path `''string''`)`
+
+`(make-path `''string''`)`
+
+Invokes `make-posix-path` on non-Windows systems and `make-windows-path` on Windows systems.
+
+== Predicates ==
+
+`(path? `''obj''`)`
+
+`(posix-path? `''obj''`)`
+
+`(windows-path? `''obj''`)`
+
+`(path-absolute? `''path''`)`
+
+`(path-reserved? `''path''`)`
+
+== Accessors ==
+
+`(path-drive `''path''`)`
+
+`(path-root `''path''`)`
+
+`(path-anchor `''path''`)`
+
+`(path-parent `''path''`)`
+
+`(path-filename `''path''`)`
+
+`(path-suffix `''path''`)`
+
+`(path-suffixes `''path''`)`
+
+`(path-stem `''path''`)`
+
+`(path-base `''path''`)`
+
+== Conversion ==
+
+`(path->string `''path''`)`
+
+`(path->slashed-string `''path''`)`
+
+`(path->file-uri `''path''`)`
+
+`(path->file-iri `''path''`)`
+
+== Path operations ==
+
+`(path-join `''string-or-path,,1,, string-or-path,,2,,'' ...`)`
+
+`(path-match `''path glob-string''`)`
+
+`(path-relative-to `''path,,1,, path,,2,,''`)`
+
+`(path-with-name `''path name''`)`
+
+`(path-with-suffix `''path suffix''`)`
+
+
+
