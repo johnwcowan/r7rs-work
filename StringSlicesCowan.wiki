@@ -1,0 +1,125 @@
+== String slice library ==
+
+This is a library for manipulating textual content based on ''string slices'', which are references to part of a Scheme string, and ''string cursors'', which are pointers into strings.  It is not defined whether the string slice type is disjoint from strings, or whether string cursors are a disjoint type at all.  String slices are immutable, and it is an error to mutate the underlying string.
+
+In addition, string cursors may or may not be the same as character-based indexes into strings.  For example, in an implementation whose internal representation of strings is UTF-8, string cursors may be pointers to individual bytes in the string.  However, the operations provided here (with the exception of those in the Compatibility section) are entirely independent of the character repertoire supported by the implementation.
+
+This proposal contains a useful subset of SRFI 13, which manipulates strings directly with some allowances for shared substrings (which are both then and now provided only on Guile).  The string operations are defined in terms of the string slice operations.  Unlike SRFI 13, it does not provide ''start'' and ''end'' arguments, as their functionality is subsumed by slices.  In addition, the low-level procedures are not provided, nor are any mutation operations.
+
+Procedures marked [R7RS-small] are available in the small language, and are not exported by implementations of this proposal.  They are included only for completeness.
+
+All predicates passed to procedures defined in this proposal may be called in any order and any number of times, except as otherwise noted.
+
+== String constructors ==
+
+In addition to the R7RS-small constructors `make-string` and `string`, the following constructors for strings are provided:
+
+`(string-tabulate `''proc len''`)`
+
+`(string-unfold `''stop? mapper successor'' [[|''seed'' ]]`)`
+
+`(string-unfold-right `''stop? mapper successor'' [[|''seed'' ]]`)`
+
+== String slice constructors ==
+
+`(string-slice-whole `''string''`)`
+
+`(string-slice `''string start end''`)`
+
+`(string-subslice `''slice start end''`)`
+
+`(string-slice/cursors `''string start-cursor end-cursor''`)`
+
+`(string-subslice/cursors `''string start-cursor end-cursor''`)`
+
+`(string-slice-transform `''proc slice arg'' ...`)`
+
+== Predicates
+
+`(string-slice? `''obj''`)`
+
+`(string? `''obj''`)`  [R7RS-small]
+
+`(string-slice-null? `''slice''`)`
+
+`(string-null? `''string''`)`  [R7RS-small]
+
+`(string-slice-every `''pred slice''`)`
+
+`(string-every `''pred string''`)`
+
+`(string-slice-any `''pred slice''`)`
+
+`(string-any `''pred string''`)`
+
+`(string-slice-whole? `''slice''`)`
+
+{{{
+Selection
+
+string-slice-length                  string-length [R7RS-small]
+string-slice-ref                     string-ref [R7RS-small]
+string-slice-take                    string-take
+string-slice-take-right              string-take-right
+string-slice-drop                    string-drop
+string-slice-drop-right              string-drop-right
+string-slice-pad                     string-pad
+string-slice-pad-right               string-pad-right
+string-slice-trim                    string-trim
+string-slice-trim-right              string-trim-right
+string-slice-replicate               string-replicate
+
+Prefixes and suffixes
+
+string-slice-prefix-length           string-prefix-length
+string-slice-suffix-length           string-suffix-length
+string-slice-prefix?                 string-slice-prefix?
+string-slice-suffix?                 string-slice-suffix?
+
+Searching
+
+string-slice-index                   string-index
+string-slice-index-right             string-index-right
+string-slice-skip                    string-skip
+string-slice-skip-right              string-skip-right
+string-slice-count                   string-count
+string-slice-contains                string-contains
+string-slice-take-while              string-take-while
+string-slice-drop-while              string-drop-while
+string-slice-break                   string-break
+string-slice-span                    string-span
+
+The whole string slice
+
+string-slice-copy                    string-copy [R7RS-small]
+string-slice-reverse                 string-reverse [R7RS-small]
+string-slice-append                  string-append [R7RS-small]
+string-slice-concatenate             string-concatenate
+string-slice-concatenate-reverse     string-concatenate-reverse
+string-slice-compress                string-compress
+
+Folding and mapping
+
+string-slice-map                     string-map [R7RS-small]
+string-slice-fold                    string-fold
+string-slice-fold-right              string-fold-right
+string-slice-for-each                string-for-each
+string-slice-for-each-index          string-for-each-index
+
+Parsing
+
+string-slice-tokenize                string-tokenize
+string-slice-split                   string-split
+
+Filtering and partitioning
+
+string-slice-filter                  string-filter
+string-slice-remove                  string-remove
+string-slice-partition               string-partition
+
+Compatibility
+
+string-slice-upcase     string-slice-downcase   string-slice-foldcase
+string-slice=?          string-slice<?          string-slice>?
+string-slice<=?         string-slice>=?
+}}}
