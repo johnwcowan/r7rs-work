@@ -31,7 +31,7 @@ Except for the case of two initial slashes, consecutive slashes and backslashes 
 
 `(make-windows-path `''string''`)`
 
-Parses ''string'' as a Posix pathname and returns a corresponding path object, setting the components to the slash-separated or backslash-separated substrings of ''string''.  The drive and root are set according to the following examples:
+Parses ''string'' as a Windows pathname and returns a corresponding path object, setting the components to the slash-separated or backslash-separated substrings of ''string''.  The drive and root are set according to the following examples:
 
 {{{
 (define absolute (make-windows-path "C:\\Windows))
@@ -143,7 +143,7 @@ Returns a file URI corresponding to ''path''.  If ''path'' is not absolute, an e
 
 If a single ''string-or-path'' argument is given, `path-join` returns a path object representing the results of appending the components of the ''string-or-path'' arguments to ''path'' in order.  If the ''string-or-path'' argument is a string, `path-join` behaves as if it was converted to a path first by `make-posix-path` or `make-windows-path`, depending on the subtype of ''path''.
 
-If ''string-or-path'' argument has a non-empty drive, the drive, root, and components of ''path'' are discarded.  If any ''string-or-path'' argument has a non-empty root, the root and components of ''path'' are discarded.
+If the ''string-or-path'' argument has a non-empty drive, the drive, root, and components of ''path'' are discarded.  If the drive is empty, but the root is non-empty, the root and components of ''path'' are discarded.
 
 If two ''string-or-path'' arguments are given, `path-join` returns what `(path-join (path-join `''path'' ''string-or-path,,1,,''`)` ''string-or-path,,2,,''`)` returns, and so on for any additional arguments.
 
