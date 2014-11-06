@@ -1,6 +1,6 @@
 == Path objects ==
 
-Path objects represent filesystem paths with semantics appropriate for different operating systems.  This proposal is essentially a straight transliteration of the pure portion of the Python [[http://docs.python.org/3/library/pathlib.html|pathlib]] library into Scheme.  As a result, it does not provide any support for accessing the file system.  See also [[http://legacy.python.org/dev/peps/pep-0428|PEP 428]].
+Path objects represent filesystem pathnames with semantics appropriate for different operating systems.  This proposal is essentially a straight transliteration into Scheme of the pure portion of the Python [[http://docs.python.org/3/library/pathlib.html|pathlib]] library (also documented in [[http://legacy.python.org/dev/peps/pep-0428|PEP 428]]).  As a result, it does not provide any operations on the file system; convert the path object to a string to pass it to `open-input-file` or any other procedure expecting a pathname.  See also .
 
 Path objects are immutable objects of a disjoint type.  They are divided into two subtypes, Posix paths and Windows paths.  Most procedures in this proposal operate correctly on both subtypes.
 
