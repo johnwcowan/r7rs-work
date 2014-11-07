@@ -18,11 +18,6 @@ Is `string-slice-string` a bad idea?
 
 Titlecase doesn't really fit; keep it?
 
-Functional update worthwhile?
-
-String tree worthwhile?
-
-
 == String constructors ==
 
 In addition to the R7RS-small constructors `make-string` and `string`, the following constructors for strings are provided:
@@ -83,6 +78,7 @@ string-slice-take                    string-take
 string-slice-take-right              string-take-right
 string-slice-drop                    string-drop
 string-slice-drop-right              string-drop-right
+string-slice-split-at                string-split-at
 string-slice-pad                     string-pad
 string-slice-pad-right               string-pad-right
 string-slice-trim                    string-trim
@@ -158,12 +154,16 @@ string-slice-partition               string-partition
 {{{
 string-slice-set                     string-set
 string-slice-fill                    string-fill
+string-slice-replace                 string-replace
+string-slice-insert                  string-insert
+string-slice-delete                  string-delete
 }}}
 
 == String trees ==
 
 {{{
 string-tree->string                  write-string-tree
+}}}
 
 == Compatibility ==
 
@@ -171,6 +171,8 @@ string-tree->string                  write-string-tree
 string-slice-upcase     string-slice-downcase   string-slice-foldcase
 string-slice=?          string-slice<?          string-slice>?
 string-slice<=?         string-slice>=?
+string-slice-ci=?       string-slice-ci<?       string-slice-ci>?
+string-slice-ci<=?      string-slice-ci>=?
 
 string-slice-titlecase  string-titlecase
 }}}
@@ -194,5 +196,6 @@ string-cursor-forward-until          string-cursor-backward-until
 string-cursor=?
 string-cursor<?                      string-cursor>?
 string-cursor<=?                     string-cursor>=?
-string-cursors->string               string-cursors-length
+string-cursor->index                 string-index->cursor
+string-cursors->string               string-cursor-difference
 }}}
