@@ -10,6 +10,19 @@ Procedures marked [R7RS-small] are available in the small language, and are not 
 
 All predicates passed to procedures defined in this proposal may be called in any order and any number of times, except as otherwise noted.
 
+== Issues ==
+
+Allow negative indices in constructors?
+
+Is `string-slice-string` a bad idea?
+
+Titlecase doesn't really fit; keep it?
+
+Functional update worthwhile?
+
+String tree worthwhile?
+
+
 == String constructors ==
 
 In addition to the R7RS-small constructors `make-string` and `string`, the following constructors for strings are provided:
@@ -80,12 +93,12 @@ string-slice-replicate               string-replicate
 == Prefixes and suffixes ==
 
 {{{
+string-slice-prefix                  string-common-prefix
+string-slice-suffix                  string-common-suffix
 string-slice-prefix-length           string-prefix-length
 string-slice-suffix-length           string-suffix-length
 string-slice-prefix?                 string-prefix?
 string-slice-suffix?                 string-suffix?
-string-slice-common-prefix           string-common-prefix
-string-slice-common-suffix           string-common-suffix
 }}}
 
 == Searching ==
@@ -147,6 +160,11 @@ string-slice-set                     string-set
 string-slice-fill                    string-fill
 }}}
 
+== String trees ==
+
+{{{
+string-tree->string                  write-string-tree
+
 == Compatibility ==
 
 {{{
@@ -176,5 +194,5 @@ string-cursor-forward-until          string-cursor-backward-until
 string-cursor=?
 string-cursor<?                      string-cursor>?
 string-cursor<=?                     string-cursor>=?
-string-cursors->string
+string-cursors->string               string-cursors-length
 }}}
