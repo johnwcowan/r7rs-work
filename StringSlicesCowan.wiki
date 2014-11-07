@@ -20,6 +20,8 @@ In addition to the R7RS-small constructors `make-string` and `string`, the follo
 
 `(string-unfold-right `''stop? mapper successor'' [[|''seed'' ]]`)`
 
+`(char->string `''char''`)`
+
 == String slice constructors ==
 
 `(string-slice-whole `''string''`)`
@@ -33,6 +35,8 @@ In addition to the R7RS-small constructors `make-string` and `string`, the follo
 `(string-subslice/cursors `''string start-cursor end-cursor''`)`
 
 `(string-slice-transform `''proc slice arg'' ...`)`
+
+`(char->string-slice `''char''`)`
 
 == Predicates ==
 
@@ -54,6 +58,10 @@ In addition to the R7RS-small constructors `make-string` and `string`, the follo
 
 `(string-slice-whole? `''slice''`)`
 
+`(is-char? `''char''`)`
+
+`(in-char-set? `''char-set''`)`
+
 == Selection ==
 
 {{{
@@ -74,8 +82,10 @@ string-slice-replicate               string-replicate
 {{{
 string-slice-prefix-length           string-prefix-length
 string-slice-suffix-length           string-suffix-length
-string-slice-prefix?                 string-slice-prefix?
-string-slice-suffix?                 string-slice-suffix?
+string-slice-prefix?                 string-prefix?
+string-slice-suffix?                 string-suffix?
+string-slice-common-prefix           string-common-prefix
+string-slice-common-suffix           string-common-suffix
 }}}
 
 == Searching ==
@@ -130,10 +140,41 @@ string-slice-remove                  string-remove
 string-slice-partition               string-partition
 }}}
 
+== Functional update ==
+
+{{{
+string-slice-set                     string-set
+string-slice-fill                    string-fill
+}}}
+
 == Compatibility ==
 
 {{{
 string-slice-upcase     string-slice-downcase   string-slice-foldcase
 string-slice=?          string-slice<?          string-slice>?
 string-slice<=?         string-slice>=?
+
+string-slice-titlecase  string-titlecase
+}}}
+
+== Low-level operations ==
+
+{{{
+string-slice-start
+string-slice-end
+string-slice-string
+}}}
+
+== String cursors ==
+
+{{{
+string-cursor-start                  string-cursor-end
+string-cursor-ref
+string-cursor-next                   string-cursor-previous
+string-cursor-forward                string-cursor-backward
+string-cursor-forward-until          string-cursor-backward-until
+string-cursor=?
+string-cursor<?                      string-cursor>?
+string-cursor<=?                     string-cursor>=?
+string-cursors->string
 }}}
