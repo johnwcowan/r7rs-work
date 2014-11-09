@@ -42,18 +42,25 @@ Parses ''string'' as a Windows pathname and returns a corresponding path object,
 (path-drive unc) => "//host/share"
 (path-root unc) => "/"
 
-(define drive-relative (make-windows-path "\\Windows\\System32"))
-(path-drive drive-relative) => ""
-(path-root drive-relative) => "/"
+(define current-drive-relative (make-windows-path "\\Windows\\System32"))
+(path-drive current-drive-relative) => ""
+(path-root current-drive-relative) => "/"
 
 (define relative (make-windows-path "foo"))
 (path-drive relative) => ""
 (path-root relative) => ""
+
+(define relative-with-drive (make-windows-path "C:foo"))
+(path-drive relative-with-drive) => "C:"
+(path-root relative-with-drive) => ""
 }}}
+
+The last format is meaningful because Windows maintains a separate current directory
+on each drive, so `"C:foo"` means the file named `foo` relative to the current directory on drive `C:`, regardless of whether that is the current drive.
 
 Consecutive slashes or backslashes are collapsed, and components consisting of a single period are removed.  However, components consisting of two periods are not removed, as this would produce the wrong result in the presence of symbolic links.
 
-If any of the characters of ''string'' are illegal in Windows pathnames, an error is signaled.
+If any of the characters of ''string'' are illegal in Windows pathnames, namely `< > " : | ? *`, an error is signaled.
 
 `(make-path `''string''`)`
 
@@ -83,7 +90,7 @@ Returns `#t` if ''path'' is a Windows path containing a reserved component [[htt
 
 `(path=? `''path,,1,, path,,2,,''`)`
 
-Returns `#t` if ''path,,1,,'' and ''path,,2,,'' are the same path; that is, the drive, root, and components are equal.  Posix paths are compared case-sensitively; Windows paths are compared case-insensitively.  It is implementation-defined whether a Windows path is ever `path=?` to a Posix path.  In all other cases, `path=?` returns `#f`.  
+Returns `#t` if ''path,,1,,'' and ''path,,2,,'' are the same path; that is, the drive, root, and components are equal.  Posix paths are compared case-sensitively; Windows paths are compared case-insensitively.  It is implementation-defined whether a Windows path is ever `path=?` to a Posix path; for example, a Cygwin implementation might choose to treat `(make-posix-path "/cygdrive/c/Windows")` and `(make-windows-path "C:\\Windows")` as `path=?`.  In all other cases, `path=?` returns `#f`.  
 
 == Accessors ==
 
