@@ -18,7 +18,7 @@ Default exception handler controls:
 
 Features, allowing libraries to add:
 
-Generators: GeneratorsGauche [Red]
+Generators: GeneratorsGauche, [[http://srfi.schemers.org/srfi-41/srfi-41.html|SRFI 41]] [Red]
 
 Greek lambda syntax: define syntax equivalent to "lambda" whose identifier is a single Unicode U+03BB character (http://www.fileformat.info/info/unicode/char/3bb/index.htm)
 
