@@ -34,6 +34,8 @@ Interrupts, timers, signals:
 
 Jiffy cleanup: [[http://arcanesentiment.blogspot.com/2012/07/current-jiffy-is-not-usable-portably.html|Arcane Sentiment blog post]]
 
+Lazy sequences: LazySequencesCowan [Red]
+
 Macro expander(s) available at run time: 
 
 Maximal and minimal elements of lists and vectors: 
