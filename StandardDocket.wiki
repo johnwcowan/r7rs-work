@@ -84,7 +84,7 @@ Mailboxes, channels, synchronized queues: [[http://www.s48.org/1.9/manual/manual
 
 `make-error-object`: constructs error object without raising it
 
-<math.h> (C89 or C99): FlonumsCowan [Red]
+<math.h> (C89 or C99): FlonumsCowan [Orange]
 
 Memoization: [wiki:Memoize] (not a proposal yet), [[http://planet.racket-lang.org/display.ss?package=memoize.plt&owner=dherman|Racket]], [[http://hackage.haskell.org/package/memoize-0.1/docs/Data-Function-Memoize.html|Haskell]]
 
@@ -154,7 +154,7 @@ String encoding and decoding:  StringBytevectorConversionCowan [Yellow]
 
 String positions and slices: StringSlicesCowan [Red]
 
-Substitution and transformation: SubstituteCowan [Red?]
+Substitution and transformation: flushed
 
 Syntactic closures (voted down, but restored by popular demand): [[http://web.mit.edu/scheme_v9.0.1/doc/mit-scheme-ref/Syntactic-Closures.html|MIT]]
 
