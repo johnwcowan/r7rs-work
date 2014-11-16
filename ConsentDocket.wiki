@@ -6,7 +6,7 @@ Note: "Prefix stripping" means that prefixes such as `fx`, `fl`, or `bitwise-` a
 
 Explicit renaming macros: Uses the `er-macro-transformer` keyword (bare lambdas are unsupported).  Three arguments are provided to transformers: `form rename compare`.
 
-Fixnum arithmetic: The R6RS `arithmetic fixnum` library with prefix stripping.
+Fixnum arithmetic: The R6RS `arithmetic fixnum` library with prefix stripping.  [Orange]
 
 Format combinators: Alex Shinn's [[http://synthcode.com/scheme/fmt/|fmt library]], with possibly a touch of renaming.  The C formatting library is excluded.
 
@@ -16,17 +16,13 @@ Getopt/args-fold:  [[http://srfi.schemers.org/srfi-37/srfi-37.html|SRFI 37]].
 
 Pretty-printer: see Format combinators
 
-[[http://srfi.schemers.org/srfi-1/srfi-1.html|SRFI 1]], list library: As written, but excluding  `cons`, `pair?`, `null?`, `car`, `cdr`, `caar` ... `cddddr`, `set-car!`, `set-cdr!`, `list`, `append`, `reverse`, `length`, `list-ref`, `map`, `for-each`, `memq`, `memv`, `member`, `assq`, `assv`, `assoc`, which are all in the `(scheme base)` and `(scheme cxr)` libraries in a SRFI-1-compatible way.  '''Specification bug in SRFI 1: `any`, `every`, and `list-index` should omit the words "and returning a boolean result".'''
+[[http://srfi.schemers.org/srfi-1/srfi-1.html|SRFI 1]], list library: As written, but excluding  `cons`, `pair?`, `null?`, `car`, `cdr`, `caar` ... `cddddr`, `set-car!`, `set-cdr!`, `list`, `append`, `reverse`, `length`, `list-ref`, `map`, `for-each`, `memq`, `memv`, `member`, `assq`, `assv`, `assoc`, which are all in the `(scheme base)` and `(scheme cxr)` libraries in a SRFI-1-compatible way.  '''Specification bug in SRFI 1: `any`, `every`, and `list-index` should omit the words "and returning a boolean result".'''  [Red]
 
 [[http://srfi.schemers.org/srfi-2/srfi-2.html|SRFI 2]], `and-let*` macro: As written.
 
-[[http://srfi.schemers.org/srfi-13/srfi-13.html|SRFI 13]], string library: As written, but excluding `string?`, `make-string`, `string`, `string->list`, `list->string`, `string-copy`, `string-fill!`, `string-length`, `string-ref`, `string-set!`, `string-append`, which are all in the `(scheme base)` library in a SRFI-13 compatible way.  See also ContainerSrfiComparison.
-
-[[http://srfi.schemers.org/srfi-14/srfi-14.html|SRFI 14]], character set library: As written.
+[[http://srfi.schemers.org/srfi-14/srfi-14.html|SRFI 14]], character set library: As written. [Red]
 
 [[http://srfi.schemers.org/srfi-31/srfi-31.html|SRFI 31]], `rec` macro: As written.
-
-[[http://srfi.schemers.org/srfi-41/srfi-41.html|SRFI 41]], `(streams primitive)` and `(streams derived)` libraries: As written.
 
 [[http://srfi.schemers.org/srfi-115|SRFI 115]], regular expressions.
 
