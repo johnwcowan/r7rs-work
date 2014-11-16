@@ -56,8 +56,6 @@ Shuffle vectors, sample their contents:
 
 Sparse vectors and maps: [Red?]
 
-String positions and slices: StringSlicesCowan [Red?]
-
 Ternary search trees: [Red?]
 
 Tree library: at least `tree=?` and `tree-copy`, probably Common Lisp [[http://www.lispworks.com/documentation/lw50/CLHS/Body/f_sublis.htm|SUBLIS and NSUBLIS]], fold, unfold, map ... 
