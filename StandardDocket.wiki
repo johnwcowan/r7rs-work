@@ -8,19 +8,19 @@ Assertions: [[http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_750|
 
 Association list library: flushed (SRFI 1 does enough)
 
-Binary heap: BinaryHeapsCowan
+Binary heap: BinaryHeapsCowan [Red]
 
 Binary search: [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]]
 
 Bitwise arithmetic: [[http://srfi.schemers.org/srfi-33/srfi-33.html|SRFI 33]], [[http://srfi.schemers.org/srfi-60/srfi-60.html|SRFI 60]], [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.4|R6RS]], BitwiseCowan.  See BitwiseComparison for a detailed comparison of names and parameter order.  See also the incomplete proposal BitwiseArithmeticRead.
 
-Boxes/references: [[http://srfi.schemers.org/srfi-111/srfi-111.html|SRFI 111]]
+Boxes/references: [[http://srfi.schemers.org/srfi-111/srfi-111.html|SRFI 111]] [Red]
 
-Character encoding conversion: CharacterConversionCowan
+Character encoding conversion: CharacterConversionCowan [Yellow]
 
-Combinators: CombinatorsCowan
+Combinators: CombinatorsCowan 
 
-Comparators: [[http://srfi.schemers.org/srfi-114/srfi-114.html|SRFI 114]]
+Comparators: [[http://srfi.schemers.org/srfi-114/srfi-114.html|SRFI 114]] [Red]
 
 Concatenation:  flushed in favor of [[http://srfi.schemers.org/srfi-1/srfi-1.html|SRFI 1]], [[http://srfi.schemers.org/srfi-13/srfi-13.html|SRFI 13]], and VectorsCowan.
 
@@ -42,21 +42,21 @@ Dictionaries (other than hash tables): ImmutableDataStructuresWortman (also incl
 
 Division library: DivisionRiastradh
 
-Enumerations and enum-sets: [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-15.html#node_chap_14|R6RS]] (see also http://www.r6rs.org/formal-comments/comment-262.txt), `define-enum` in the [[http://wiki.call-cc.org/eggref/4/miscmacros|Chicken miscmacros egg]], [[http://s48.org/1.1/manual/s48manual_46.html|Scheme48 finite record types]], EnumsCowan
+Enumerations and enum-sets: [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-15.html#node_chap_14|R6RS]] (see also http://www.r6rs.org/formal-comments/comment-262.txt), `define-enum` in the [[http://wiki.call-cc.org/eggref/4/miscmacros|Chicken miscmacros egg]], [[http://s48.org/1.1/manual/s48manual_46.html|Scheme48 finite record types]], EnumsCowan [Red]
 
 Environment enquiries: [[http://srfi.schemers.org/srfi-112/srfi-112.html|SRFI 112]]
 
 Evaluator arguments to procedures like `load`: see #277
 
-Extended exact numbers:  ExtendedRationalsCowan
+Extended exact numbers:  ExtendedRationalsCowan [Orange]
 
-File system directories (reading): [[http://www.scsh.net/docu/html/man-Z-H-4.html#node_sec_3.3|SCSH directory stream interface]], DirectoryPortsCowan, `directory-files` to return a list of all files in the dir (in WG1 vote order)
+File system directories (reading): [[http://www.scsh.net/docu/html/man-Z-H-4.html#node_sec_3.3|SCSH directory stream interface]], DirectoryPortsCowan, `directory-files` to return a list of all files in the dir (in WG1 vote order) [Yellow]
 
-File library, advanced version:  FilesAdvancedCowan
+File library, advanced version:  FilesAdvancedCowan [Yellow]
 
 File system directories (creation, removal): DirectoriesCowan
 
-Flonum arithmetic: FlonumsCowan
+Flonum arithmetic: FlonumsCowan [Orange]
 
 Futures:  [[http://docs.racket-lang.org/reference/futures.html|Racket API]]
 
@@ -64,17 +64,17 @@ Getters and setters: [[http://srfi.schemers.org/srfi-17/srfi-17.html|SRFI 17]]
 
 Gettext (i18n of strings): [[http://wiki.call-cc.org/eggref/4/free-gettext|Chicken free-gettext]], [[http://srfi.schemers.org/srfi-29/srfi-29.html|SRFI 29]] (depends on [[http://srfi.schemers.org/srfi-28/srfi-28.html|SRFI 28]])
 
-Hash tables: [[http://srfi.schemers.org/srfi-69/srfi-69.html|SRFI 69]], [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-14.html#node_chap_13|R6RS]] (in WG1 vote order), HashTablesCowan (much larger API, can be layered over either of the others)
+Hash tables: [[http://srfi.schemers.org/srfi-69/srfi-69.html|SRFI 69]], [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-14.html#node_chap_13|R6RS]] (in WG1 vote order), HashTablesCowan (much larger API, can be layered over either of the others) [Red]
 
 `hex-digit-value`: same as `digit value`, but understands A-F and a-f too
 
-Homogeneous numeric arrays: [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-3.html#node_chap_2,|R6RS]], [[http://srfi.schemers.org/srfi-4/srfi-4.html|SRFI 4]], [[http://srfi.schemers.org/srfi-63/srfi-63.html|SRFI 63]] (supersedes SRFI 25 and SRFI 47; lexical syntax in [[http://srfi.schemers.org/srfi-58/srfi-58.html|SRFI 58]]), [[http://srfi.schemers.org/srfi-66/srfi-66.html|SRFI 66]], [[http://srfi.schemers.org/srfi-74/srfi-74.html|SRFI 74]], NumericVectorsCowan
+Homogeneous numeric arrays: [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-3.html#node_chap_2,|R6RS]], [[http://srfi.schemers.org/srfi-4/srfi-4.html|SRFI 4]], [[http://srfi.schemers.org/srfi-63/srfi-63.html|SRFI 63]] (supersedes SRFI 25 and SRFI 47; lexical syntax in [[http://srfi.schemers.org/srfi-58/srfi-58.html|SRFI 58]]), [[http://srfi.schemers.org/srfi-66/srfi-66.html|SRFI 66]], [[http://srfi.schemers.org/srfi-74/srfi-74.html|SRFI 74]], NumericVectorsCowan [Orange]
 
 `if` with arbitrarily many arguments: [[http://dpk.io/r7rs/naryif-20130406|David Kendal's rationale]]
 
-Immutable cyclic lists: CyclesMedernach
+Immutable cyclic lists: CyclesMedernach [Red]
 
-Integer sets:  IntegerSetsCowan
+Integer sets:  IntegerSetsCowan [Red]
 
 Library declarations: LibraryDeclarationsCowan
 
@@ -84,13 +84,13 @@ Mailboxes, channels, synchronized queues: [[http://www.s48.org/1.9/manual/manual
 
 `make-error-object`: constructs error object without raising it
 
-<math.h> (C89 or C99): FlonumsCowan
+<math.h> (C89 or C99): FlonumsCowan [Red]
 
 Memoization: [wiki:Memoize] (not a proposal yet), [[http://planet.racket-lang.org/display.ss?package=memoize.plt&owner=dherman|Racket]], [[http://hackage.haskell.org/package/memoize-0.1/docs/Data-Function-Memoize.html|Haskell]]
 
 Message digests (CRC, MD5, SHA1, SHA2):
 
-Multi-dimensional general arrays: ArraysCowan
+Multi-dimensional general arrays: ArraysCowan [Red?]
 
 Multiple value macros (from CL): flushed
 
@@ -118,15 +118,15 @@ Pattern matching: MatchingWise
 
 Port encodings, buffering, line ending control:  SettingsListsCowan and FilesAdvancedCowan
 
-Port functions (concatenate, join, split): PortOperationsCowan
+Port functions (concatenate, join, split): PortOperationsCowan [Yellow]
 
 Procedure arity inspection: [[http://srfi.schemers.org/srfi-102/srfi-102.html|SRFI 102]], [[http://srfi.schemers.org/srfi-102/mail-archive/msg00011.html|Dybvig's proposal]]
 
 Processes (system, popen, etc): SystemCommandCowan + ProcessPortsCowan
 
-Queues:  QueuesCowan
+Queues:  QueuesCowan [Red]
 
-Random numbers: RandomnessCommonLisp, [[http://srfi.schemers.org/srfi-27/srfi-27.html|SRFI 27]], RandomCowan, RandomnessArcfide (in WG1 vote order)
+Random numbers: RandomnessCommonLisp, [[http://srfi.schemers.org/srfi-27/srfi-27.html|SRFI 27]], RandomCowan, RandomnessArcfide (in WG1 vote order) [Orange]
 
 Raw strings:  <<, """...""", [[http://srfi.schemers.org/srfi-109/srfi-109.html|SRFI 109]]
 
@@ -138,23 +138,23 @@ REPL facilities: ReplCowan
 
 Restarts:  [[http://www.ai.mit.edu/projects/iiip/doc/CommonLISP/HyperSpec/Body/sec_9-1-4-2.html|Common Lisp]], [[http://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Restarts.html|MIT]], [[http://mumble.net/~campbell/proposals/restart.text|RestartersRiastradh]]
 
-Run-time records: [[http://srfi.schemers.org/srfi-99/srfi-99.html|SRFI 99]], possibly simplified syntax
+Run-time records: [[http://srfi.schemers.org/srfi-99/srfi-99.html|SRFI 99]], possibly simplified syntax [Red]
 
-Search and mismatch procedures:  flushed (use 
+Search and mismatch procedures:  flushed
 
-Sets and bags: [[http://srfi.schemers.org/srfi-113/srfi-113.html|SRFI 113]].
+Sets and bags: [[http://srfi.schemers.org/srfi-113/srfi-113.html|SRFI 113]]. [Red]
 
 Shift and reset: [[https://github.com/tonyg/pgg/blob/master/shift-reset.scm|Scheme48]], [[http://docs.racket-lang.org/reference/cont.html|Racket]]
 
 Simple Posix: SimplePosixCowan
 
-Sorting: SortingShivers (revision of [[http://srfi.schemers.org/srfi-32/srfi-32.html|SRFI 32]]), [[http://srfi.schemers.org/srfi-95/srfi-95.html|SRFI 95]]
+Sorting: SortingShivers (revision of [[http://srfi.schemers.org/srfi-32/srfi-32.html|SRFI 32]]), [[http://srfi.schemers.org/srfi-95/srfi-95.html|SRFI 95]] [Red]
 
-String encoding and decoding:  StringBytevectorConversionCowan
+String encoding and decoding:  StringBytevectorConversionCowan [Yellow]
 
-String positions and slices: [[http://www.r6rs.org/formal-comments/comment-235.txt|R6RS formal comment #235]]
+String positions and slices: StringSlicesCowan [Red]
 
-Substitution and transformation: SubstituteCowan
+Substitution and transformation: SubstituteCowan [Red?]
 
 Syntactic closures (voted down, but restored by popular demand): [[http://web.mit.edu/scheme_v9.0.1/doc/mit-scheme-ref/Syntactic-Closures.html|MIT]]
 
@@ -176,8 +176,8 @@ Unicode character database: UcdCowan
 
 Unicode normalization: [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-2.html#node_idx_58|R6RS]], `string-ni=?` and friends (from earlier R7RS-small drafts).
 
-Vector library: [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]], VectorsCowan (extension of SRFI 43)
+Vector library: [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]], VectorsCowan (extension of SRFI 43) [Red]
 
-Weak dictionaries/hashtables:
+Weak dictionaries/hashtables: [Red?]
 
-Weak references (soft, phantom): [[http://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Ephemerons.html|MIT Scheme ephemerons]], [[http://docs.racket-lang.org/reference/ephemerons.html|Racket ephemerons]]
+Weak references (soft, phantom): [[http://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Ephemerons.html|MIT Scheme ephemerons]], [[http://docs.racket-lang.org/reference/ephemerons.html|Racket ephemerons]] [Red?]
