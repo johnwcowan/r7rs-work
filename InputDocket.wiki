@@ -2,7 +2,7 @@
 
 This docket contains work items that need to be voted on for possible inclusion into R7RS-large.  See [[:WG2Dockets|WG2Dockets]] for other dockets.
 
-Bidirectional hash maps: HashTables Cowan [Red]
+Bidirectional hash maps: HashTablesCowan [Red]
 
 Binary I/O helpers: procedures relevant to reading and writing low-level binary formats, such as
 * 8/16/32/64 bit signed/unsigned integers in little-endian/big-endian/network-endian order
