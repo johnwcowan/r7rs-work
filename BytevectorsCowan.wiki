@@ -138,6 +138,26 @@ Writes the results of applying ''proc'' to the elements of the ''bytevectors'', 
 
 Applies ''proc'' to the elements of the ''bytevectors'', considered as typed vectors, in order from first to last and discards the results.  Returns an unspecified value.
 
+== Input and output ==
+
+It is an error if the ports passed to these procedures are not binary ports.
+
+`(read-[type] ` [[|''port'' ]]`)`
+
+Reads the appropriate number of bytes from ''port'' and returns a number of the appropriate type (exact integer or inexact real or complex number).
+
+`(write-[type] `''number'' [[|''port'' ]]`)`
+
+Writes ''number'' to ''port'' in the appropriate format.
+
+`(read-ber-integer ` [[|''port'' ]]`)`
+
+Reads a BER-encoded integer of arbitrary size from ''port''.
+
+`(write-ber-integer ` ''k'' [[|''port'' ]]`)`
+
+Writes ''integer'' using BER encoding to ''port''.
+
 == Extended bytevector API ==
 
 See the procedures of VectorsCowan, with the exceptions of the ones defined here.
