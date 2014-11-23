@@ -4,7 +4,7 @@ This is a library for manipulating textual content based on ''string slices'', w
 
 In addition, string cursors may or may not be the same as character-based indexes into strings.  For example, in an implementation whose internal representation of strings is UTF-8, string cursors may be pointers to individual bytes in the string.  However, the operations provided here (with the exception of those in the Compatibility section) are entirely independent of the character repertoire supported by the implementation.
 
-This proposal contains a useful subset of SRFI 13, which manipulates strings directly with some allowances for shared substrings (which are both then and now provided only on Guile).  The string operations are defined in terms of the string slice operations.  Unlike SRFI 13, it does not provide ''start'' and ''end'' arguments, as their functionality is subsumed by slices.  In addition, the low-level procedures are not provided, nor are any mutation operations.
+This proposal also contains a useful subset of SRFI 13, which manipulates strings directly with some allowances for shared substrings (which are both then and now provided only on Guile).  The string operations of this proposal are defined in terms of the string slice operations.  Unlike SRFI 13, it does not provide ''start'' and ''end'' arguments, as their functionality is subsumed by slices.  In addition, the low-level procedures are not provided, nor are any mutation operations.  Procedures with the same names and functions as SRFI-13 procedures are marked [[SRFI|13]]; note that they don't necessarily support all of the arguments of the SRFI 13 versions.
 
 Procedures marked [R7RS-small] are available in the small language, and are not exported by implementations of this proposal.  They are included only for completeness.
 
@@ -12,17 +12,21 @@ All predicates passed to procedures defined in this proposal may be called in an
 
 == Issues ==
 
-Allow negative indices in constructors?
+1. Allow negative indices in constructors?
 
-Is `string-slice-string` a bad idea?
+2. Titlecase doesn't really fit; keep it?
 
-Titlecase doesn't really fit; keep it?
+3. Keep functional update?
+
+4. Keep string trees?
+
+5. Keep compatibility routines, possibly in a different package?
 
 == String constructors ==
 
-In addition to the R7RS-small constructors `make-string` and `string`, the following constructors for strings are provided:
+`(make-string ` ''k'' [[|''char'' ]]`)` [R7RS-small]
 
-`(string-tabulate `''proc len''`)`
+`(string `''char'' ...`)` [R7RS-small]
 
 `(string-unfold `''stop? mapper successor'' [[|''seed'' ]]`)`
 
@@ -54,15 +58,15 @@ In addition to the R7RS-small constructors `make-string` and `string`, the follo
 
 `(string-slice-null? `''slice''`)`
 
-`(string-null? `''string''`)`  [R7RS-small]
+`(string-null? `''string''`)`  [[SRFI|13]]
 
 `(string-slice-every `''pred slice''`)`
 
-`(string-every `''pred string''`)`
+`(string-every `''pred string''`)`  [[SRFI|13]]
 
 `(string-slice-any `''pred slice''`)`
 
-`(string-any `''pred string''`)`
+`(string-any `''pred string''`)`  [[SRFI|13]]
 
 `(string-slice-whole? `''slice''`)`
 
@@ -72,130 +76,263 @@ In addition to the R7RS-small constructors `make-string` and `string`, the follo
 
 == Selection ==
 
-{{{
-string-slice-ref                     string-ref [R7RS-small]
-string-slice-take                    string-take
-string-slice-take-right              string-take-right
-string-slice-drop                    string-drop
-string-slice-drop-right              string-drop-right
-string-slice-split-at                string-split-at
-string-slice-pad                     string-pad
-string-slice-pad-right               string-pad-right
-string-slice-trim                    string-trim
-string-slice-trim-right              string-trim-right
-string-slice-replicate               string-replicate
-}}}
+`(string-slice-ref `''slice k''`)`
+
+`(string-ref `''string k''`)` [R7RS-small]
+
+`(string-slice-take `''slice n''`)`
+
+`(string-take `''string n''`)` [[SRFI|13]]
+
+`(string-slice-take-right `''slice n''`)`
+
+`(string-take-right `''string n''`)` [[SRFI|13]]
+
+`(string-slice-drop `''slice n''`)`
+
+`(string-drop `''string  n''`)` [[SRFI|13]]
+
+`(string-slice-drop-right `''slice n''`)`
+
+`(string-drop-right `''string n''`)` [[SRFI|13]]
+
+`(string-slice-split-at `''slice n''`)`
+
+`(string-split-at `''string  n''`)` [[SRFI|13]]
+
+`(string-slice-replicate `''slice from to''`)`
+
+`(string-replicate `''string from to''`)`
+
+== Padding, trimming, and compressing ==
+
+`(string-slice-pad `''slice len'' [[|''char'' ]]`)`
+
+`(string-pad `''string  len'' [[|''char'' ]]`)` [[SRFI|13]]
+
+`(string-slice-trim `''slice len'' [[|''char'' ]]`)`
+
+`(string-trim `''string len'' [[|''char'' ]]`)` [[SRFI|13]]
+
+`(string-slice-trim-right `''slice len'' [[|''char'' ]]`)`
+
+`(string-trim-right `''string len'' [[|''char'' ]]`)` [[SRFI|13]]
+
+`(string-slice-trim-both `''slice len'' [[|''char'' ]]`)`
+
+`(string-trim-both `''string len'' [[|''char'' ]]`)` [[SRFI|13]]
+
+`(string-slice-compress `''slice'' [[|''char'' ]]`)`
+
+`(string-compress `''string'' [[|''char'' ]]`)`
 
 == Prefixes and suffixes ==
 
-{{{
-string-slice-prefix                  string-common-prefix
-string-slice-suffix                  string-common-suffix
-string-slice-prefix-length           string-prefix-length
-string-slice-suffix-length           string-suffix-length
-string-slice-prefix?                 string-prefix?
-string-slice-suffix?                 string-suffix?
-}}}
+`(string-slice-prefix `''slice,,1,,'' ''slice,,2,,''`)`
+
+`(string-prefix `''string,,1,,'' ''string,,2,,''`)`
+
+`(string-slice-suffix `''slice,,1,,'' ''slice,,2,,''`)`
+
+`(string-suffix `''string,,1,,'' ''string,,2,,''`)` [[SRFI|13]]
+
+`(string-slice-prefix-length `''slice,,1,,'' ''slice,,2,,''`)`
+
+`(string-prefix-length `''string,,1,,'' ''string,,2,,''`)`
+
+`(string-slice-suffix-length `''slice,,1,,'' ''slice,,2,,''`)` [[SRFI|13]]
+
+`(string-suffix-length `''string,,1,,'' ''string,,2,,''`)`
+
+`(string-slice-prefix? `''slice,,1,,'' ''slice,,2,,''`)`
+
+`(string-prefix? `''string,,1,,'' ''string,,2,,''`)` [[SRFI|13]]
+
+`(string-slice-suffix? `''slice,,1,, slice,,2,,''`)`
+
+`(string-suffix? `''string,,1,,'' ''string,,2,,''`)` [[SRFI|13]]
 
 == Searching ==
 
-{{{
-string-slice-index                   string-index
-string-slice-index-right             string-index-right
-string-slice-skip                    string-skip
-string-slice-skip-right              string-skip-right
-string-slice-count                   string-count
-string-slice-contains                string-contains
-string-slice-take-while              string-take-while
-string-slice-drop-while              string-drop-while
-string-slice-break                   string-break
-string-slice-span                    string-span
-}}}
+`(string-slice-count `''proc slice''`)`
 
-== The whole string slice ==
+`(string-count `''proc string''`)` [[SRFI|13]]
 
-{{{
-string-slice-length                  string-length [R7RS-small]
-string-slice-copy                    string-copy [R7RS-small]
-string-slice-reverse                 string-reverse [R7RS-small]
-string-slice-append                  string-append [R7RS-small]
-string-slice-concatenate             string-concatenate
-string-slice-concatenate-reverse     string-concatenate-reverse
-string-slice-compress                string-compress
-}}}
+`(string-slice-take-while `''proc slice''`)`
+
+`(string-take-while  `''proc string''`)` [[SRFI|13]]
+
+`(string-slice-drop-while `''proc slice''`)`
+
+`(string-drop-while  `''proc string''`)` [[SRFI|13]]
+
+`(string-slice-break `''proc slice''`)`
+
+`(string-break `''proc string''`)` [[SRFI|13]]
+
+`(string-slice-drop `''proc slice''`)`
+
+`(string-drop `''proc string''`)` [[SRFI|13]]
+
+`(string-slice-contains `''slice,,1,, slice,,2,,''`)`
+
+`(string-contains `''string,,1,, string,,2,,''`)` [[SRFI|13]]
+
+== The whole string slice or string ==
+
+`(string-slice-length `''slice''`)`
+
+`(string-length `''string''`)` [R7RS-small]
+
+`(string-slice-copy `''slice''`)`
+
+`(string-copy `''string'' [[|''start'' [ ''end'' ]] ]`)` [R7RS-small]
+
+`(string-slice-reverse `''slice''`)`
+
+`(string-reverse `''slice''`)` [[SRFI|13]]
+
+`(string-slice-append `''slice'' ...`)`
+
+`(string-append `''string'' ...`)` [R7RS-small]
+
+`(string-slice-concatenate `''list-of-slices''`)`
+
+`(string-concatenate `''list-of-strings''`)` [[SRFI|13]]
+
+`(string-slice-concatenate-reverse `''list-of-slices''`)`
+
+`(string-concatenate-reverse `''list-of-strings''`)` [[SRFI|13]]
 
 == Folding and mapping ==
 
-{{{
-string-slice-map                     string-map [R7RS-small]
-string-slice-fold                    string-fold
-string-slice-fold-right              string-fold-right
-string-slice-for-each                string-for-each
-string-slice-for-each-index          string-for-each-index
-}}}
+`(string-slice-map `''proc slice'' ...`)`
+
+`(string-map `''proc string'' ...`)` [R7RS-small]
+
+`(string-slice-for-each `''proc slice'' ...`)`
+
+`(string-for-each `''proc string'' ...`)` [R7RS-small]
+
+`(string-slice-fold `''proc nil slice''`)`
+
+`(string-fold `''proc nil string''`)` [R7RS-small]
+
+`(string-slice-fold-right `''proc nil slice''`)`
+
+`(string-fold-right `''proc nil string''`)` [R7RS-small]
 
 == Parsing ==
 
-{{{
-string-slice-tokenize                string-tokenize
-string-slice-split                   string-split
-}}}
+`(string-slice-split `''slice [[''char''|[ ''limit'' ]] ]`)`
+
+`(string-slice-split `''slice [[''char''|[ ''limit'' ]] ]`)`
 
 == Filtering and partitioning ==
 
-{{{
-string-slice-filter                  string-filter
-string-slice-remove                  string-remove
-string-slice-partition               string-partition
-}}}
+`(string-slice-filter `''proc slice''`)` [[SRFI|13]]
 
-== Functional update ==
+`(string-filter `''proc string''`)`
 
-{{{
-string-slice-set                     string-set
-string-slice-fill                    string-fill
-string-slice-replace                 string-replace
-string-slice-insert                  string-insert
-string-slice-delete                  string-delete
-}}}
+`(string-slice-remove `''proc slice''`)`
 
-== String trees ==
+`(string-remove `''proc string''`)`
 
-{{{
-string-tree->string                  write-string-tree
-}}}
+`(string-slice-partition `''proc slice''`)`
 
-== Compatibility ==
+`(string-partition `''proc string''`)`
+
+== Conversion ==
+
+`(string-slice->list `''slice''`)`
+
+`(string-slice->vector `''slice''`)`
 
 {{{
-string-slice-upcase     string-slice-downcase   string-slice-foldcase
-string-slice=?          string-slice<?          string-slice>?
-string-slice<=?         string-slice>=?
-string-slice-ci=?       string-slice-ci<?       string-slice-ci>?
-string-slice-ci<=?      string-slice-ci>=?
-
-string-slice-titlecase  string-titlecase
-}}}
-
-== Low-level operations ==
-
-{{{
-string-slice-start
-string-slice-end
-string-slice-string
+string->list [R7RS-small]
+list->string [R7RS-small]
+vector->string [R7RS-small]
+string->vector [R7RS-small]
 }}}
 
 == String cursors ==
 
 {{{
-string-cursor-start                  string-cursor-end
+string-cursor-start
+string-cursor-end
+
 string-cursor-ref
-string-cursor-next                   string-cursor-previous
-string-cursor-forward                string-cursor-backward
-string-cursor-forward-until          string-cursor-backward-until
+
+string-cursor-next
+string-cursor-previous
+
+string-cursor-forward
+string-cursor-backward
+
+string-cursor-forward-until
+string-cursor-backward-until
+
 string-cursor=?
-string-cursor<?                      string-cursor>?
-string-cursor<=?                     string-cursor>=?
-string-cursor->index                 string-index->cursor
-string-cursors->string               string-cursor-difference
+string-cursor<?
+string-cursor>?
+string-cursor<=?
+string-cursor>=?
+
+string-cursor->index
+string-index->cursor
+
+string-cursors->string
+
+string-cursor-difference
 }}}
+
+== Functional update ==
+
+{{{
+string-slice-set
+string-set
+
+string-slice-fill
+string-fill
+
+string-slice-replace
+string-replace
+
+string-slice-insert
+string-insert
+
+string-slice-delete
+string-delete
+}}}
+
+== String trees ==
+
+{{{
+string-tree->string
+
+write-string-tree
+}}}
+
+
+== Compatibility ==
+
+{{{
+string-slice-upcase
+string-slice-downcase
+string-slice-foldcase
+
+string-slice=?
+string-slice<?
+string-slice>?
+string-slice<=?
+string-slice>=?
+string-slice-ci=?
+string-slice-ci<?
+string-slice-ci>?
+string-slice-ci<=?
+string-slice-ci>=?
+
+string-slice-titlecase
+string-titlecase [[SRFI|13]]
+}}}
+
