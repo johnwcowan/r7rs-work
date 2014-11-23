@@ -1,4 +1,4 @@
-This is a proposal for a simple API for specialized numeric vectorsdistinguished by their ''representation type''.  The `u8` type is the same as the R7RS-small bytevector type, but the other types are all disjoint from all other Scheme types.  This API is more restricted than BytevectorsCowan, except that it is possible to dispatch on the different types of numeric vectors.  It may be useful for Schemes on the JVM or the CLR to use this API to provide access to the platform's native numeric vectors.
+This is a proposal for a simple API for specialized numeric vectors distinguished by their ''representation type''.  The `u8` type is the same as the R7RS-small bytevector type, but the other types are all disjoint from all other Scheme types.  This API is more restricted than BytevectorsCowan, except that it is possible to dispatch on the different types of numeric vectors.  It may be useful for Schemes on the JVM or the CLR to use this API to provide access to the platform's native numeric vectors.
 
 This design subsumes [[http://srfi.schemers.org/srfi-4/srfi-4.html|SRFI 4]].  There are many procedures, but many of them can be easily inlined by even a very dumb compiler, providing high efficiency.   The procedures provided in the present proposal are the numeric-vector analogues of the R7RS-small vector API.
 
@@ -101,7 +101,7 @@ Returns a newly allocated vector or list of length ''end - start'' with the elem
 
 `([type]vector->bytevector `''[type]vector'' [[|''start'' [ ''end'' ]] ]`)`
 
-Returns a newly allocated bytevector of length ''b * end - b * start'' with the elements of ''[type]vector'' from ''start'' to ''end''.  The result may share structure with ''[type]vector''; in particular
+Returns a newly allocated bytevector of length ''b * end - b * start'' with the elements of ''[type]vector'' from ''start'' to ''end''.
 
 `([type]vector->vector! `''vector at [type]vector'' [[''start''|[ ''end'' ]] ]`)`
 
@@ -147,24 +147,6 @@ Applies ''proc'' to the elements of the ''[type]vectors'' in order from first to
 
 == Input and output ==
 
-It is an error if the ports passed to these procedures are not binary ports.
-
-`(read-[type] ` [[|''port'' ]]`)`
-
-Reads the appropriate number of bytes from ''port'' and returns a number of the appropriate type (exact integer or inexact real or complex number).
-
-`(write-[type] `''number'' [[|''port'' ]]`)`
-
-Writes ''number'' to ''port'' in the appropriate format.
-
-`(read-ber-integer ` [[|''port'' ]]`)`
-
-Reads a BER-encoded integer of arbitrary size from ''port''.
-
-`(write-ber-integer ` ''k'' [[|''port'' ]]`)`
-
-Writes ''integer'' using BER encoding to ''port''.
-
 `(read-[type]vector `''k'' [[|''port'' ]]`)`
 
 Read ''k'' * ''b'' bytes from ''port'' into a newly allocated [type]vector and returns it.
@@ -183,7 +165,7 @@ See the procedures of VectorsCowan, with the exceptions of the ones defined here
 
 == Packaging ==
 
-Since there are many procedures, it makes sense to factor this into separate libraries.  Most programs won't require all the representation types, so factoring horizontally into 38 libraries based on that is a simple approach.  If the result is still too large, then we can factor vertically based on expected uses for the function.  SRFI 4 provides just 8 procedures per type: the basic and multi-argument constructors, the predicate, the basic accessor, the basic mutator, length, and conversion to and from lists.
+Since there are many procedures, it makes sense to factor this into separate libraries.  Most programs won't require all the representation types, so factoring horizontally into 12 libraries based on that is a simple approach.  If the result is still too large, then we can factor vertically based on expected uses for the function.  SRFI 4 provides just 8 procedures per type: the basic and multi-argument constructors, the predicate, the basic accessor, the basic mutator, length, and conversion to and from lists.
 
 == Implementation ==
 
