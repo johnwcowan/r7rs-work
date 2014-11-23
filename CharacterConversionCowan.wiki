@@ -4,11 +4,11 @@ These routines are loosely based on the Gauche [[http://practical-scheme.net/gau
 
 == Character encoding schemes ==
 
-A ''character encoding scheme'' or ''CES'' is an algorithm for translating between a sequence of bytes and a sequence of characters and vice versa.  Converting bytes to characters is ''decoding''; converting characters to bytes is ''encoding''.  Typical CESes include ASCII, UTF-8, ISO-8859-1, and TIS-620; each one is named by a case-independent string.
+A ''character encoding scheme'' or ''CES'' is an algorithm for translating between a sequence of bytes and a sequence of characters and vice versa.  Converting bytes to characters is ''decoding''; converting characters to bytes is ''encoding''.  Typical CESes include ASCII, UTF-8, ISO-8859-1, and TIS-620; each one is named by a case-insensitive string.
 
 `(ces-valid? `''ces''`)`
 
-Returns `#t` if it is possible to convert between ''ces'' and the implementation-dependent internal CES of Scheme strings and `#f` otherwise.
+Returns `#t` if it is possible to convert between ''ces'' and the implementation-dependent internal CES of Scheme strings, and `#f` otherwise.
 
 `(ces-conversion-supported? `''ces,,1,, ces,,2,,''`)`
 
@@ -22,7 +22,7 @@ Returns a CES which might be the correct encoding of the bytes in ''bytevector''
 
 `(string->bytevector `''ces string''`)`
 
-Uses ''ces'' to encode''string'' into a newly allocated bytevector, which is returned.
+Uses ''ces'' to encode ''string'' into a newly allocated bytevector, which is returned.
 
 `(bytevector->string `''ces bytevector''`)`
 
@@ -34,7 +34,7 @@ Uses ''ces,,1,,'' to decode ''bytevector'' into a string, which is then encoded 
 
 == Conversion ports ==
 
-All of these procedures accept an optional ''size'' argument, specifying the size of an internal conversion buffer in characters (not bytes).  It is an error if ''size'' is not a non-negative exact integer.  If the size is 0, there is no internal buffer.
+All of these procedures accept an optional ''size'' argument, specifying the size of an internal conversion buffer in bytes.  It is an error if ''size'' is not a non-negative exact integer.  If the size is 0, there is no internal buffer.  If ''size'' is omitted, the size of the buffer is implementation-dependent.
 
 `(make-decoded-input-port `''binary-port ces'' [[|''size'' ]]`)`
 
