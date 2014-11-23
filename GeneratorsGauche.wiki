@@ -615,7 +615,10 @@ consumed without finding any values that are not equal, <code>generator=?</code>
 <code>(</code><var>gen</var><code>)</code> <var>args</var> ...<code>)</code>.  The values of <var>gen</var>
 are unfolded into the collection that <var>unfold</var> creates.  The combination of <code>make-for-each-generator</code> and <code>generator-unfold</code> makes it possible to convert any collection
 that has a for-each procedure into any collection that has an unfold constructor.
-</p></dd></dl>
+</p>
+<p>The signature of the <var>unfold</var> procedure is <code>(unfold </code><var>stop? mapper successor seed args ...</var><code>)</code>.
+Note that <code>vector-unfold</code> and <code>vector-unfold-right</code> do not
+have this signature and cannot be used with this procedure.</p></dd></dl>
 
 <h3 class="subsection">Syntax</h3>
 
