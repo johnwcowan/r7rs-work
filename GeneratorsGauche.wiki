@@ -104,8 +104,8 @@ of a series of <var>k</var> numbers (by default, an infinite number), namely
 <dt><code>make-coroutine-generator</code><i> proc</i></dt>
 <dd><p>Creates a generator from a coroutine.
 </p>
-<p>The <var>proc</var> argument is a procedure that takes one argument, <var>yield</var>. 
-When called, <code>generate</code> immediately returns
+<p>The <var>proc</var> argument is a procedure that takes one argument, <var>yield</var>.  When
+called, <code>generate</code> immediately returns
 a generator <var>g</var>.  When <var>g</var> is called, <var>proc</var> runs
 until it calls <var>yield</var>.  Calling <var>yield</var> causes
 the execution of <var>proc</var> to be suspended, and <var>g</var> returns the value passed
@@ -192,7 +192,7 @@ are both null generators.
 <dt><code>make-port-char-generator</code><i> input-port</i></dt>
 <dt><code>make-port-byte-generator</code><i> input-port</i></dt>
 <dd><p>Returns generators that read the appropriate type of object from the given
-port, respectively.
+port.
 </p></dd></dl>
 
 <dl>
@@ -229,7 +229,7 @@ return, and uses <var>g</var> to update the seed value.
 
 <h3 class="subsection">Generator operations</h3>
 
-<p>The following procedures accept generators and return a generator.</p>
+<p>The following procedures accept generators and return a new generator.</p>
 <p>The names of these procedures are prefixed with <code>g</code>.
 </p>
 
@@ -262,8 +262,8 @@ one of the generator arguments until they are exhausted.
 <dl>
 <dt><code>gconcatenate</code><i> gen</i></dt>
 <dd><p>The <var>gen</var> argument is a generator of generators.
-Returns a generator that yields the results from the first generator,
-then the second one, then the third, etc.
+Returns a generator that yields all the results from the first generator,
+then all the results from the second one, then the third, etc.
 </p>
 <p>It is similar to <code>(apply gappend (generator-&gt;list gen))</code>, except
 that <code>gconcatenate</code> can work even if <var>gen</var> generates an infinite
@@ -286,7 +286,7 @@ one of the generators provided by <var>gen</var> until they are exhausted.
 with the order determined by a SRFI 114 comparator.
  <code>Gmerge</code> returns all the elements;
  <code>gunion</code> returns all the elements that are distinct in the sense of the comparator;
- <code>gintersection</code> returns all the elements that appear in all the generators.
+ <code>gintersection</code> returns the elements that appear in all of the generators.
 </p>
 <p>Each input generator must yield appropriately ordered elements by itself;
 otherwise the result won't be ordered.
@@ -308,7 +308,7 @@ terminates when any of the generator arguments are exhausted.
 <p>Note: This differs from <code>generator-collect</code>,
 which consumes all
 values at once and returns the results as a list, while <code>gmap</code>
-returns a generator immediately without consuming input.
+returns a generator without immediately consuming input.
 </p></dd></dl>
 
 <dl>
@@ -411,6 +411,7 @@ while <var>pred</var> returns true for them, then starts yielding items returned
 <dd><p>Returns a generator that yields pairs
 whose car is the result of calling <var>car-gen</var>
 and whose cdr is the result of calling <var>cdr-gen</var>.
+The output ends when either generator is exhausted.
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">
 (define g
