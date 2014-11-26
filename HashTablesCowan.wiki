@@ -44,7 +44,7 @@ The names used in the present proposal are mostly derived from SRFI 69, with the
 
 ==== Calling conventions ====
 
-* The `make-hash-table` and `alist->hash-table' procedures now accept a [[http://srfi.schemers.org/srfi-114/srfi-114.html|SRFI 114]] comparator in place of an equality predicate and optional hash function.  The old calling convention is retained for backward compatibility. 
+* The `make-hash-table` and `alist->hash-table` procedures now accept a [[http://srfi.schemers.org/srfi-114/srfi-114.html|SRFI 114]] comparator in place of an equality predicate and optional hash function.  The old calling convention is retained for backward compatibility. 
 
 * The SRFI 69 `hash-table-fold` procedure places the hash table argument first.  For the same reasons as the reording of `hash-table-walk` arguments, in this proposal it appears last.
 
@@ -72,7 +72,7 @@ As usual, the Common Lisp names are completely different from the Scheme names. 
 
 * The constructor allows specifying the current capacity (as opposed to size), rehash size, and rehash threshold of the new hash table.  There are also accessors and mutators for these.
 
-* There are hash tables based on `equalp` (which is not in Scheme).
+* There are hash tables based on `equalp` (which does not exist in Scheme).
 
 * `With-hash-table-iterator` is a hash table external iterator implemented as a local macro.
 
@@ -124,7 +124,7 @@ Hash tables are allowed to cache the results of calling the equality predicate a
 
 It is an error if the procedure argument of `hash-table-find`, `hash-table-count`, `hash-table-map`, `hash-table-map-values`, `hash-table-for-each`, `hash-table-map!`, `hash-table-collect`, or `hash-table-fold` mutates the hash table being walked.
 
-It is an error to compare two hash tables with different comparators or equality predicates.
+It is an error to operate on two hash tables that have different comparators or equality predicates.
 
 === Index ===
 
@@ -158,9 +158,9 @@ It is an error to compare two hash tables with different comparators or equality
 
 `(make-hash-table `''equality-predicate'' [[|''hash-function'' ]] [[|''arg'' ... ]]`)`
 
-Returns a newly allocated hash table whose equality predicate and hash function are extracted from ''comparator''.  Alternatively, for backward compatibility with SRFI 69 the equality predicate and hash function can be passed as separate arguments; this usage is deprecated.  Note that SRFI 69 hash functions accept two arguments, the object to hash and a non-negative integer that bounds the hash code.
+Returns a newly allocated hash table whose equality predicate and hash function are extracted from ''comparator''.  Alternatively, for backward compatibility with SRFI 69 the equality predicate and hash function can be passed as separate arguments; this usage is deprecated.  Note that SRFI 69 hash functions, unlike the hash functions packaged as part of SRFI 114 comparators, accept two arguments, the object to hash and a non-negative integer that bounds the hash code.
 
-If an equality predicate rather than a comparator is provided, the ability to omit the ''hash'' argument is severely limited.  The implementation must provide hash functions appropriate for use with the predicates `eq?`, `eqv?`, `equal?`, `string=?`, and `string-ci=?`, and may extend this list.  But if any unknown equality predicate is provided without a hash function, an error should be signaled.
+If an equality predicate rather than a comparator is provided, the ability to omit the ''hash-function'' argument is severely limited.  The implementation must provide hash functions appropriate for use with the predicates `eq?`, `eqv?`, `equal?`, `string=?`, and `string-ci=?`, and may extend this list.  But if any unknown equality predicate is provided without a hash function, an error should be signaled.
 
 It is an error if the equality predicate does not accept two arguments and return a truth value.  It is also an error if the hash function does not accept one argument in the domain of the equality predicate and return a non-negative exact integer.  It is the programmer's responsibility to ensure that if two objects are the same in the sense of the equality predicate, then they  return the same value when passed to the hash function.  However, the converse is not required.
 
@@ -176,7 +176,7 @@ Returns a newly allocated hash table, created as if by `make-hash-table` using '
 
 `(hash-table-unfold `''stop? mapper successor seed comparator arg'' ... ]`)`
 
-Create a new hash table as if by `make-hash-table` using ''comparator'' and the ''args''.  If the result of applying the predicate ''stop?'' to ''seed'' is `#f`, return the hash table.  Otherwise, apply the procedure ''mapper'' to ''seed''.  ''Mapper'' returns two values, which are inserted into the hash table as the key and the value respectively.  Then get a new seed by applying the procedure ''successor'' to ''seed'', and repeat this algorithm.
+Create a new hash table as if by `make-hash-table` using ''comparator'' and the ''args''.  If the result of applying the predicate ''stop?'' to ''seed'' is `#t`, return the hash table.  Otherwise, apply the procedure ''mapper'' to ''seed''.  ''Mapper'' returns two values, which are inserted into the hash table as the key and the value respectively.  Then get a new seed by applying the procedure ''successor'' to ''seed'', and repeat this algorithm.
 
 `(alist->hash-table `''alist comparator arg'' ...`)`
 
@@ -305,11 +305,11 @@ Returns the number of associations in ''hash-table'' as an exact integer.  Shoul
 
 `(hash-table-keys `''hash-table''`)`
 
-Returns a newly allocated list of all the keys in ''hash-table'' in an unspecified order. (SRFI 69 `hash-table-keys`; R6RS `hashtable-keys` returns a vector)
+Returns a newly allocated list of all the keys in ''hash-table''. (SRFI 69 `hash-table-keys`; R6RS `hashtable-keys` returns a vector)
 
 `(hash-table-values `''hash-table''`)`
 
-Returns a newly allocated list of all the keys in ''hash-table'' in an unspecified order, not necessarily the same order as `hash-table-keys`. (SRFI 69 `hash-table-values`)
+Returns a newly allocated list of all the keys in ''hash-table''. (SRFI 69 `hash-table-values`)
 
 `(hash-table-entries `''hash-table''`)`
 
@@ -317,11 +317,11 @@ Returns two values, a newly allocated list of all the keys in ''hash-table'' in 
 
 `(hash-table-find `''hash-table proc''`)`
 
-For each association of ''hash-table'', invoke ''proc'' on its key and value in an unspecified order.   If ''proc'' returns true on a value, then return that value.  If all the calls to ''proc'' return `#f`, return `#f`.
+For each association of ''hash-table'', invoke ''proc'' on its key and value.   If ''proc'' returns true on a value, then return that value.  If all the calls to ''proc'' return `#f`, return `#f`.
 
 `(hash-table-count `''hash-table pred''`)`
 
-For each association of ''hash-table'', invoke ''pred'' on its key and value in an unspecified order.  Return the number of calls to ''pred'' which returned true.
+For each association of ''hash-table'', invoke ''pred'' on its key and value.  Return the number of calls to ''pred'' which returned true.
 
 `(hash-table-any? `''proc hash-table''`)`
 
@@ -329,7 +329,7 @@ Calls ''proc'' for as many associations in ''hash-table'' as necessary with two 
 
 `(hash-table-every? `''proc hash-table''`)`
 
-Calls ''proc'' for as many associations in ''hash-table'' as necessary with two arguments, the key and the value of the association.  If every invocation of ''proc'' returns true, `hash-table-every?` returns `#t`; otherwise it returns `#f`.
+Calls ''proc'' for as many associations in ''hash-table'' as necessary with two arguments, the key and the value of the association.  If any invocation of ''proc'' returns false, `hash-table-every?` returns `#f`; otherwise it returns `#t`.
 
 === Mapping and folding ===
 
@@ -347,7 +347,7 @@ Returns a newly allocated hash table as if by `make-hash-table`.  Calls ''proc''
 
 `(hash-table-for-each `''proc hash-table''`)`
 
-Calls ''proc'' for every association in ''hash-table'' with two arguments: the key of the association and the value of the association.  The value returned by ''proc'' is discarded.Returns an unspecified value.  (SRFI 69 `hash-table-walk` with the arguments reversed; Common Lisp `maphash`)
+Calls ''proc'' for every association in ''hash-table'' with two arguments: the key of the association and the value of the association.  The value returned by ''proc'' is discarded.  Returns an unspecified value.  (SRFI 69 `hash-table-walk` with the arguments reversed; Common Lisp `maphash`)
 
 `(hash-table-map! `''proc hash-table''`)`
 
@@ -355,7 +355,7 @@ Calls ''proc'' for every association in ''hash-table'' with two arguments: the k
 
 `(hash-table-collect `''proc hash-table''`)`
 
-Calls ''proc'' for every association in ''hash-table'' with two arguments: the key of the association and the value of the association.  The value returned by ''proc'' is accumulated into a list, which is returned.  
+Calls ''proc'' for every association in ''hash-table'' with two arguments: the key of the association and the value of the association.  The values returned by the invocations of ''proc'' are accumulated into a list, which is returned.  
 
 `(hash-table-fold `''proc init hash-table''`)`
 
@@ -469,11 +469,15 @@ The mutation procedures `bimap-set!`, `bimap-set-entries!`, `bimap-delete!`, `bi
 
 Returns `#t` if ''obj'' is an object raised by the `hash-table-ref` procedure or any other procedure that accesses hash tables when the key is not found and there is no failure procedure, and `#f` otherwise.
 
-=== Comparator ===
+=== Comparators ===
 
 `hash-table-comparator`
 
-This comparator is suitable for comparing hash tables with the same (element) comparator for equality, and also provides a hash function for them.  It does not provide a comparison procedure, as there is no natural ordering between hash tables.
+This comparator is suitable for comparing hash tables with the same key comparator for equality, and also provides a hash function for them.  It does not provide a comparison procedure, as there is no natural ordering between hash tables.
+
+`bimap-comparator`
+
+This comparator is suitable for comparing bimaps with the same key and value comparators for equality, and also provides a hash function for them.  It does not provide a comparison procedure, as there is no natural ordering between hash tables.
 
 == Implementation ==
 
