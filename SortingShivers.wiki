@@ -12,7 +12,7 @@ Olin Shivers (edited by John Cowan)
 
 2. Switch from quicksort to introsort?  Introsort is basically a restricted version of quicksort in which we switch to heap sorting when the recursion depth would exceed log(N).
 
-3. Flush insertion sort in favor of heapsort?  If we do both #2 and #3, we could flush the algorithm-specific entry points altogether, simplifying the API somewhat: heap sort is exposed as `vector-stable-sort` and introsort as `vector-sort`.
+3. Flush insertion sort in favor of heapsort?
 
 == Table of contents ==
 
