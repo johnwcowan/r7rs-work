@@ -53,8 +53,6 @@ Returns the last element of the queue.  This operation is O(1).
 
 === Mutators ===
 
-These procedures signal an error that satisfies `queue-error?` if there is no element to delete or modify.
-
 `(queue-add-front! `''queue''` `''element''`)`
 
 Adds ''element'' to the beginning of ''queue''.  Returns an unspecified value.  This operation is O(1).
@@ -65,11 +63,11 @@ Adds ''element'' to the end of ''queue''.  Returns an unspecified value.  This o
 
 `(queue-remove-front! `''queue''`)`
 
-Removes the first element of ''queue'' and returns it.  This operation is O(1).
+Removes the first element of ''queue'' and returns it.  It is an error if ''queue'' is empty.  This operation is O(1).
 
 `(queue-remove-back! `''queue''`)`
 
-Removes the last element of ''queue'' and returns it.  This operation is O(n), because the list does not have backward links.
+Removes the last element of ''queue'' and returns it.  It is an error if ''queue'' is empty.  This operation is O(n), because the list does not have backward links.
 
 `(queue-clear! `''queue''`)`
 
@@ -107,39 +105,37 @@ Applies ''proc'' to each element of ''queue'' in order, discarding the returned 
 
 `(queue->list `''queue''`)`
 
-Returns the list that contains the members of ''queue'' in order.  It is an error to mutate the cdrs of such a list, as it shares storage with the queue.  This operation is O(1).
+Returns the list that contains the members of ''queue'' in order.  The result shares storage with ''queue''.  This operation is O(1).
 
 `(list->queue `''list''`)`
 
-Returns a newly allocated queue containing the elements of ''list'' in order.  It is an error to mutate the cdrs of ''list'' after calling this procedure, as it shares storage with the queue.  This operation is O(n).
+Returns a newly allocated queue containing the elements of ''list'' in order.  The result shares storage with ''list''.  This operation is O(n).
 
 To apply a non-destructive list procedure to a queue and return a new queue, use `(list->queue (`''proc''` (queue->list `''queue''`)))`.
 
-`(front-back->queue `''front back''`)`
-
-Returns a newly allocated queue containing the elements of the list whose first pair is ''front'' and whose last pair is ''back''.  Alternatively, both ''front'' and ''back'' can be the empty list.  It is an error to mutate the cdrs of the list to which ''front'' and ''back'' belong after calling this procedure, as it shares storage with the queue.  This operation is O(1).
-
 `(list->queue! `''queue list''`)`
 
-Replaces the list associated with ''queue'' with ''list'', effectively discarding all the elements of ''queue'' in favor of those in ''list''.  It is an error to mutate the cdrs of ''list'' after calling this procedure, as it shares storage with the queue.  Returns an unspecified value.  This operation is O(n).
+Replaces the list associated with ''queue'' with ''list'', effectively discarding all the elements of ''queue'' in favor of those in ''list''.  The result is unspecified.  Returns an unspecified value.  This operation is O(n).
 
 To apply a destructive list procedure to a queue, use `(list->queue! (`''proc''` (queue->list `''queue''`)))`.
+
+`(queue->first-last`''queue''`)`
+
+Returns two values, the first and last pairs of the list that contains the members of ''queue'' in order.  If ''queue'' is empty, returns two empty lists.  The results share storage with the queue.  This operation is O(1).
+
+`(first-last->queue `''front back''`)`
+
+Returns a newly allocated queue containing the elements of the list whose first pair is ''first'' and whose last pair is ''last''.  Alternatively, both ''first'' and ''last'' can be the empty list.  The result shares storage with the list.  This operation is O(1).
+
+`(first-last->queue! `''queue front back''`)`
+
+Replaces the list associated with ''queue'' with the list whose first pair is ''first'' and whose last pair is ''last''.  Alternatively, both ''first'' and ''last'' can be the empty list.  The result is unspecified.  This operation is O(1).
 
 === Queues as hooks ===
 
 `(queue-invoke `''queue arg'' ...`)`
 
 Apply each element of ''queue'' in turn to the ''args''.  It is an error if any element is not a procedure.  This allows queues to be used as hooks, which various parts of a program can register interest in by adding a procedure to the queue.  This operation is O(n).
-
-=== Comparator ===
-
-`queue-comparator`
-
-A comparator suitable for use with queues, using the procedures of `list-comparator`.
-
-`(make-queue-comparator `''element-comparator''`)`
-
-Returns a comparator for queues using ''element-comparator'' to compare the elements.
 
 == Implementation note ==
 
