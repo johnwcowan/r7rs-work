@@ -2,7 +2,7 @@
 
 This is a library for manipulating textual content based on ''string slices'', which are references to part of a Scheme string, and ''string cursors'', which are pointers into strings.  It is not defined whether the string slice type is disjoint from strings, or whether string cursors are a disjoint type at all.  String slices are immutable, and it is an error to mutate the underlying string.
 
-In addition, string cursors may or may not be the same as character-based indexes into strings.  For example, in an implementation whose internal representation of strings is UTF-8, string cursors may be pointers to individual bytes in the string.  However, the operations provided here (with the exception of those in the Compatibility section) are entirely independent of the character repertoire supported by the implementation.
+In addition, string cursors may or may not be the same as character-based indexes into strings.  For example, in an implementation whose internal representation of strings is UTF-8, string cursors may be indexes of individual bytes in the string.  However, the operations provided here (with the exception of those in the Compatibility section) are entirely independent of the character repertoire supported by the implementation.
 
 This proposal also contains a useful subset of SRFI 13, which manipulates strings directly with some allowances for shared substrings (which are both then and now provided only on Guile).  The string operations of this proposal are defined in terms of the string slice operations.  Unlike SRFI 13, it does not provide ''start'' and ''end'' arguments, as their functionality is subsumed by slices.  In addition, the low-level procedures are not provided, nor are any mutation operations.  Procedures with the same names and functions as SRFI-13 procedures are marked [[SRFI|13]]; note that they don't necessarily support all of the arguments of the SRFI 13 versions.
 
@@ -26,29 +26,39 @@ All predicates passed to procedures defined in this proposal may be called in an
 
 `(make-string ` ''k'' [[|''char'' ]]`)` [R7RS-small]
 
+Returns a string containing ''k'' characters, all of which are ''char''.  If ''char'' is omitted, the contents of the string are implementation-dependent.
+
 `(string `''char'' ...`)` [R7RS-small]
 
 `(string-unfold `''stop? mapper successor'' [[|''seed'' ]]`)`
 
 `(string-unfold-right `''stop? mapper successor'' [[|''seed'' ]]`)`
 
-`(char->string `''char''`)`
+`(string-slice->string `''string-slice''`)`
+
+Returns a string which contains the characters of ''string-slice'' in order.
 
 == String slice constructors ==
 
-`(string-slice-whole `''string''`)`
+`(make-string-slice `''string start end''`)`
 
-`(string-slice `''string start end''`)`
+Returns a string-slice which contains the characters of ''string'' in order from ''start'' (inclusive) to ''end'' (exclusive).
 
-`(string-subslice `''slice start end''`)`
+`(string-slice `''char'' ...`)`
+
+`(string-slice-subslice `''slice start end''`)`
+
+`(string->string-slice `''string''`)`
+
+Returns a string slice which contains the characters of ''string'' in order.
 
 `(string-slice/cursors `''string start-cursor end-cursor''`)`
 
 `(string-subslice/cursors `''string start-cursor end-cursor''`)`
 
-`(string-slice-transform `''proc slice arg'' ...`)`
+`(string-slice-transform `''proc slice obj'' ...`)`
 
-`(char->string-slice `''char''`)`
+''Proc'' is a procedure which accepts a string as its first argument and returns a string.  It is invoked on a string which contains the characters of ''slice'' in order plus the ''obj'' arguments, if any.  The resulting string is returned as a string slice by `string-slice-transform`.  This procedure allows string-based procedures to be easily used in an environment that provides and expects string slices.
 
 == Predicates ==
 
@@ -56,23 +66,33 @@ All predicates passed to procedures defined in this proposal may be called in an
 
 `(string? `''obj''`)`  [R7RS-small]
 
+Returns `#t` if ''obj'' is a string slice, and `#f` otherwise.
+
 `(string-slice-null? `''slice''`)`
 
 `(string-null? `''string''`)`  [[SRFI|13]]
+
+Returns `#t` if ''slice'' contains zero characters, and `#f` otherwise.
 
 `(string-slice-every `''pred slice''`)`
 
 `(string-every `''pred string''`)`  [[SRFI|13]]
 
+Returns `#t` if ''pred returns true for every character in ''slice'', and `#f` otherwise.
+
 `(string-slice-any `''pred slice''`)`
 
 `(string-any `''pred string''`)`  [[SRFI|13]]
 
-`(string-slice-whole? `''slice''`)`
+Returns `#t` if ''pred returns true for any character in ''slice'', and `#f` otherwise.
 
 `(is-char? `''char''`)`
 
+Returns a predicate which accepts one argument, and returns `#t` if the argument is the same as ''char'' (in the sense of `char=?`) and `#f` otherwise.
+
 `(in-char-set? `''char-set''`)`
+
+Returns a predicate which accepts one argument, and returns `#t` if the argument is an element of ''char-set'', a SRFI 14 character set, and `#f` otherwise.
 
 == Selection ==
 
@@ -80,25 +100,37 @@ All predicates passed to procedures defined in this proposal may be called in an
 
 `(string-ref `''string k''`)` [R7RS-small]
 
+Returns the 'k'th character of ''slice'', starting with 0.  It is an error if ''k'' is not a non-negative exact integer less than the length of ''slice''.
+
 `(string-slice-take `''slice n''`)`
 
 `(string-take `''string n''`)` [[SRFI|13]]
+
+Returns a string slice which contains the first ''n'' characters of ''slice''.
 
 `(string-slice-take-right `''slice n''`)`
 
 `(string-take-right `''string n''`)` [[SRFI|13]]
 
+Returns a string slice which contains the last ''n'' characters of ''slice''.
+
 `(string-slice-drop `''slice n''`)`
 
 `(string-drop `''string  n''`)` [[SRFI|13]]
+
+Returns a string slice which contains all but the first ''n'' characters of ''slice''.
 
 `(string-slice-drop-right `''slice n''`)`
 
 `(string-drop-right `''string n''`)` [[SRFI|13]]
 
+Returns a string slice which contains all but the last ''n'' characters of ''slice''.
+
 `(string-slice-split-at `''slice n''`)`
 
 `(string-split-at `''string  n''`)` [[SRFI|13]]
+
+Returns two values, a string slice containing the first ''n'' characters of ''slice'', and another string slice containing the remaining characters of ''slice''.
 
 `(string-slice-replicate `''slice from to''`)`
 
@@ -224,9 +256,13 @@ All predicates passed to procedures defined in this proposal may be called in an
 
 == Parsing ==
 
-`(string-slice-split `''slice [[''char''|[ ''limit'' ]] ]`)`
+`(string-slice-split `''slice [[''sep''|[ ''limit'' ]] ]`)`
 
-`(string-slice-split `''slice [[''char''|[ ''limit'' ]] ]`)`
+`(string-slice-split `''slice [[''sep''|[ ''limit'' ]] ]`)`
+
+Returns a list of the words contained in ''slice''.  If ''sep'' (which is also a string slice) is omitted, then the words are separated by arbitrary strings of whitespace characters (those on which `char-whitespace?` returns `#t`). If ''sep'' is supplied, it specifies a string to be used as the word separator. The returned list will then have one more item than the number of non-overlapping occurrences of the separator in the string.  If ''sep'' is empty, then the returned list contains a list of the characters in ''slice''.
+
+If ''limit'' is provided, at most that many splits occur, and the remainder of ''slice'' is returned as the final element of the list (thus, the result will have at most ''limit'' + 1 elements). If ''limit'' is not specified, then all possible splits are made.  It is an error if ''limit'' is not a positive exact integer.
 
 == Filtering and partitioning ==
 
@@ -248,12 +284,13 @@ All predicates passed to procedures defined in this proposal may be called in an
 
 `(string-slice->vector `''slice''`)`
 
-{{{
-string->list [R7RS-small]
-list->string [R7RS-small]
-vector->string [R7RS-small]
-string->vector [R7RS-small]
-}}}
+`(string->list `''string'' [[|''start'' [ ''end'' ]] ]`)` [R7RS-small]
+
+`(list->string `''list''[[|''start'' [ ''end'' ]] ]`)` [R7RS-small]
+
+`(string->vector `''string''[[|''start'' [ ''end'' ]] ]`)` [R7RS-small]
+
+`(vector->string `''vector''[[|''start'' [ ''end'' ]] ]`)` [R7RS-small]
 
 == String cursors ==
 
@@ -289,12 +326,6 @@ string-cursor-difference
 == Functional update ==
 
 {{{
-string-slice-set
-string-set
-
-string-slice-fill
-string-fill
-
 string-slice-replace
 string-replace
 
