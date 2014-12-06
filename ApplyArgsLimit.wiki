@@ -8,19 +8,7 @@ These tests were done on a 64-bit Linux system.
 
 100000 arguments works correctly: S7
 
-60000 arguments works correctly: Guile
-
-48000 arguments works correctly: !TinyScheme
-
-32750 arguments works correctly: STklos
-
-16000 arguments works correctly: SXM
-
-14800 arguments works correctly: Llava
-
-12000 arguments works correctly: Mosh
-
-10000 arguments works correctly: XLisp, Elk
+10000 arguments works correctly: Guile, Mosh, XLisp, !TinyScheme, Elk, Llava, SXM, S7
 
 6500 arguments works correctly: Sizzle
 
@@ -30,10 +18,12 @@ Hard limit is 126937 arguments: MIT
 
 Hard limit is 8192 arguments: Gambit, Vicare
 
-Hard limit is 2048 arguments: Chicken
+Hard limit is 2048 arguments: Chicken, on CPUs with an assembler routine
 
 Hard limit is 2026 arguments: Foment
 
 Hard limit is 998 arguments: RScheme
+
+Hard limit is 126 arguments: Chicken, built with portable C only
 
 Cannot run test: UMB, Owl Lisp
