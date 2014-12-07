@@ -1,4 +1,4 @@
-This is a draft of proposals for the Red Edition (data structures) of R7RS-large.
+This is a draft of proposals for the Red Edition (data structures) of R7RS-large.  For other dockets, see [wiki:WG2Dockets].
 
 == Proposed ==
 
