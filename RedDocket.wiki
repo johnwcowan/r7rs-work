@@ -1,0 +1,47 @@
+This is a draft of proposals for the Red Edition (data structures) of R7RS-large.
+
+== Proposed ==
+
+List library:  [[http://srfi.schemers.org/srfi-1/srfi-1.html|SRFI 1]].
+
+String library:  [[http://srfi.schemers.org/srfi-13/srfi-13.html|SRFI 13]] or StringSlicesCowan.
+
+Vector library:  [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]] or VectorsCowan.
+
+Sorting and merging: SortingShivers (edited draft of withdrawn [[http://srfi.schemers.org/srfi-32/srfi-32.txt|SRFI 32]]) or [[http://srfi.schemers.org/srfi-95/srfi-95.html|SRFI 95]] or [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-5.html#node_chap_4|R6RS]].
+
+Comparators:  [[http://srfi.schemers.org/srfi-114/srfi-114.html|SRFI 114.]]
+
+Boxes:  [[http://srfi.schemers.org/srfi-111/srfi-111.html|SRFI 111]].
+
+Sets and bags:  [[http://srfi.schemers.org/srfi-113/srfi-113.html|SRFI 113]].
+
+Integer sets:  IntegerSetsCowan.
+
+Character sets:  [[http://srfi.schemers.org/srfi-14/srfi-14.html|SRFI 14]].
+
+List queues:  [[http://srfi.schemers.org/srfi-117/srfi-117.html|SRFI 117]].
+
+Immutable deques, sets, and maps:  ImmutableDataStructuresWortman.
+
+Immutable pairs and lists:  [[http://srfi.schemers.org/srfi-116/srfi-116.html|SRFI 116]].
+
+Hash tables and bimaps:  HashTablesCowan.
+
+Generators and/or streams:  GeneratorsGauche and/or [[http://srfi.schemers.org/srfi-41/srfi-41.html|SRFI 41]].
+
+Lazy sequences:  LazySequencesCowan.
+
+Immutable cyclic lists:  CyclesMedernach.
+
+Extended records:  [http://srfi.schemers.org/srfi-99/srfi-99.html].
+
+== Suggested ==
+
+Multidimensional general arrays:  ArraysCowan.
+
+Sparse vectors and maps:  [[http://practical-scheme.net/gauche/man/gauche-refe_208.html|Gauche util.sparse]].
+
+Ternary search trees:  No API proposal yet, but see [[http://en.wikipedia.org/wiki/Ternary_search_tree|Wikipedia]].
+
+Ephemerons: [[http://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Ephemerons.html|MIT Scheme]] or [[http://docs.racket-lang.org/reference/ephemerons.html|Racket]] (optional package).
