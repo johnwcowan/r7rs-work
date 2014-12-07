@@ -1,0 +1,24 @@
+This is an early draft of proposals for the Orange Edition (numbers) of R7RS-large. For other dockets, see [wiki:WG2Dockets].
+
+Extended rational numbers:  ExtendedRationalsCowan (based on withdrawn [[http://srfi.schemers.org/srfi-73/srfi-73.html|SRFI 73]]).
+
+Numeric vectors and/or numeric bytevectors:  NumericVectorsCowan and/or BytevectorsCowan.
+
+C-style structs:  StructuresCowan.
+
+Descriptive statistics:  TallyCowan.
+
+Flonums and compnums:  FlonumsCowan.
+
+Fixnums:  [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.2|R6RS]].
+
+String to bytevector conversion:  StringBytevectorConversionCowan
+
+Integers as bit vectors:  BitwiseCowan (refers to other proposals as well).
+
+Random numbers: [[http://srfi.schemers.org/srfi-27/srfi-27.html|SRFI 27]] plus AdvancedRandomGauche.
+
+Prime numbers:  PrimesGauche.
+
+
+
