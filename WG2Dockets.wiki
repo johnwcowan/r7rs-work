@@ -23,3 +23,6 @@ This is a list of voting dockets for WG2 work items (packages):
 
  MandatoryDocket::
   Things to consider making mandatory in R7RS-large that are optional in R7RS-small.
+
+ RedDocket::
+    Proposals for the Red Edition of R7RS-large.
