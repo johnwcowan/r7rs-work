@@ -1,50 +1,53 @@
 This proposal contains various procedures that return procedures and a few others, drawn from Chicken.  Common Lisp has a few of them too.
 
+
 == Combinators ==
 
-`(constantly `''obj'' ...`)`
+The documentation style rather than showing only how the procedures are invoked, also shows how the returned procedures would be invoked, in order to make the descriptions easier to understand.
 
-Returns a procedure that always returns the ''obj'' objects as its values, regardless of the number and value of its arguments.
+`((constantly `''obj'' ...`)` ''arg'' ...`)`
 
-`(complement `''proc''`)`
+Returns the ''obj'' objects as its values, ignoring ''args''.
 
-Returns a procedure that returns the boolean inverse of ''proc''.  That is, it returns `#t` when ''proc'' returns `#f`, and `#f` otherwise.
+`((complement `''proc''`)` ''obj''`)`
 
-`(compose `''proc'' ... `)`
+Returns `#t` when `(''proc obj''`)` returns `#f`, and `#f` otherwise.
 
-Returns a procedure that represents the composition of its arguments.  Any of the procedures may return multiple values, which are passed as arguments to its successor.  With zero arguments, `(compose)` returns a procedure that is functionally equivalent to `values`.
+`((compose `''proc'' ... `)` ''arg'' ...`)`
 
-`(simple-compose `''proc'' ...`)`
+Passes the ''args'' to the first ''proc'', which returns any number of values.  These are then passed to the next ''proc'', and so on until the final ''proc'' is reached.  If there are no ''procs'', returns its arguments as values.
 
-A variant of `compose` that handles only single-argument single-valued procedures. With zero arguments, returns a procedure that is functionally equivalent to `identity`.
+`((simple-compose `''proc'' ...`)` ''arg''`)`
 
-`(conjoin `''predicate'' ...`)`
+Passes ''arg'' to the first ''proc'', which returns one value.  This is then passed to the next ''proc'', and so on until the final ''proc'' is reached.  If there are no ''procs'', returns its argument.
 
-Returns a procedure that returns `#t` if its arguments satisfy all the ''predicate''s.
+`((conjoin `''predicate'' ...`)` ''arg'' ...`)`
 
-`(disjoin `''predicate'' ...`)`
+Returns `#t` if the ''args'' satisfy all the ''predicates'', and `#f` otherwise.
 
-Returns a procedure that returns `#t` if its arguments satisfy any of the ''predicate''s.
+`((disjoin `''predicate'' ...`)` ''arg'' ...`)`
 
-`(each `''proc'' ... `)`
+Returns `#t` if the ''args'' satisfy any of the ''predicate''s.
 
-Returns a procedure that applies each of the ''proc''s in turn to its arguments, discarding the results and returning an unspecified value.
+`((each `''proc'' ... `)` ''arg'' ...`)`
 
-`(flip `''proc''`)`
+Applies each of the ''proc''s in turn to ''args'', discarding the results and returning an unspecified value.
 
-Returns a two-argument procedure that calls ''proc'', a two-argument procedure, with its arguments swapped.
+`((flip `''proc''`)` ''arg1 arg2''`)`
 
-`(all-of? `''predicate''`)`
+Returns `(`''proc arg2 arg1''`)`.
+
+`((all-of? `''predicate''`)`
 
 Returns a procedure of one argument that returns `#t` when applied to a list of elements that all satisfy ''predicate'', or `#f` otherwise.
 
-`(any-of? `''predicate''`)`
+`((any-of? `''predicate''`)` ''list''`)`
 
-Returns a procedure of one argument that returns `#t` when applied to a list of elements at least one of which satisfies ''predicate'', or `#f` otherwise.
+Applies ''predicate'' to each element of ''list'' in turn, and immediately returns `#t` if ''predicate'' is satisfied by that element; otherwise returns `#f`.
 
 `(map-reduce `''mapper reducer''`)`
 
-Returns a procedure that maps ''mapper'' to each of its arguments, and then applies ''reducer'' to all the results and returns what it returns.
+Applies ''predicate'' to each element of ''list'' in turn, and immediately returns `#f` if ''predicate'' is not satisfied by that element; otherwise returns `#t`.
 
 == Other procedures ==
 
@@ -59,12 +62,3 @@ Ignores its arguments and always returns `#f`.
 `(identity `''obj''`)`
 
 Returns ''obj''.
-
-== Documentation style ==
-
-It's been suggested that the documentation of these combinators is too hard to understand, and should be documented
-like this:
-
-`((constantly `''obj'' ...`) `''arg'' ...`)`
-
-Ignores ''args'' and returns ''objs''.
