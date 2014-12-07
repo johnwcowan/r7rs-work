@@ -39,15 +39,15 @@ Returns `(`''proc arg2 arg1''`)`.
 
 `((all-of? `''predicate''`)`
 
-Returns a procedure of one argument that returns `#t` when applied to a list of elements that all satisfy ''predicate'', or `#f` otherwise.
+Applies ''predicate'' to each element of ''list'' in turn, and immediately returns `#f` if ''predicate'' is not satisfied by that element; otherwise returns `#t`.
 
 `((any-of? `''predicate''`)` ''list''`)`
 
 Applies ''predicate'' to each element of ''list'' in turn, and immediately returns `#t` if ''predicate'' is satisfied by that element; otherwise returns `#f`.
 
-`(map-reduce `''mapper reducer''`)`
+`((map-reduce `''mapper reducer''`)` ''list''`)`
 
-Applies ''predicate'' to each element of ''list'' in turn, and immediately returns `#f` if ''predicate'' is not satisfied by that element; otherwise returns `#t`.
+Returns ``(apply ''reducer'' `(`''mapper list''`))`.
 
 == Other procedures ==
 
