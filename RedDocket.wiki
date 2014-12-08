@@ -26,6 +26,8 @@ Immutable deques, sets, and maps:  ImmutableDataStructuresWortman.
 
 Immutable pairs and lists:  [[http://srfi.schemers.org/srfi-116/srfi-116.html|SRFI 116]].
 
+Random access pairs and lists:  [[http://srfi.schemers.org/srfi-110/srfi-110.html|SRFI 115]].
+
 Hash tables and bimaps:  HashTablesCowan.
 
 Generators and/or streams:  GeneratorsGauche and/or [[http://srfi.schemers.org/srfi-41/srfi-41.html|SRFI 41]].
@@ -39,6 +41,8 @@ Binary heaps: BinaryHeapsCowan.
 Enumerations with sets and maps:  EnumsCowan
 
 Extended records:  [http://srfi.schemers.org/srfi-99/srfi-99.html].
+
+Regular expressions:  [[http://srfi.schemers.org/srfi-115/srfi-115.html|SRFI 115]].
 
 == Suggested ==
 
