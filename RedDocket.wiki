@@ -40,7 +40,7 @@ Binary heaps: BinaryHeapsCowan.
 
 Enumerations with sets and maps:  EnumsCowan
 
-Extended records:  [http://srfi.schemers.org/srfi-99/srfi-99.html].
+Extended records:  [[http://srfi.schemers.org/srfi-99/srfi-99.html|SRFI 99]], possibly with simplified syntax.
 
 Regular expressions:  [[http://srfi.schemers.org/srfi-115/srfi-115.html|SRFI 115]].
 
