@@ -76,11 +76,7 @@ Depending on #310, possibly consolidate the last two.
 
 === Comparison ===
 
-No direct Emacs Lisp equivalents, but based on `compare-buffer-substrings`.  Should probably be in a separate module because of its Unicode implications.
-
-(buffer-substring=? buffer1 start1 end1 buffer2 start2 end2)
-
-similarly `buffer-substring<?`, `buffer-substring>?`, `buffer-substring<=?`, `buffer-substring>=?`, and `-ci` and `-ni` analogues.
+buffer-comparator == No Emacs Lisp equivalent, not sure if ordering is appropriate.
 
 === Basic mutators ===
 
@@ -95,16 +91,4 @@ similarly `buffer-substring<?`, `buffer-substring>?`, `buffer-substring<=?`, `bu
 (buffer-extract! buffer start end) == (delete-and-extract-region start end)
 
 (buffer-delete-characters! buffer count) == (delete-char count)
-
-=== Case changes ===
-
-Should probably be in a separate module because of its Unicode implications.
-
-(buffer-downcase! buffer start end) == (upcase-region start end)
-
-(buffer-upcase! buffer start end) == (downcase-region start end)
-
-(buffer-foldcase! buffer start end) = analogous to downcase-region
-
-
 
