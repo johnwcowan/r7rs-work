@@ -1,9 +1,9 @@
-This proposal contains various procedures that return procedures and a few others, drawn from Chicken.  Common Lisp has a few of them too.
+This proposal contains various procedures that return procedures as well as a few others, drawn from an earlier version of Chicken.  Common Lisp has a few of them too.
 
 
 == Combinators ==
 
-The documentation style rather than showing only how the procedures are invoked, also shows how the returned procedures would be invoked, in order to make the descriptions easier to understand.
+The documentation style, rather than showing only how the procedures are invoked, also shows how the returned procedures would be invoked.  This is done in order to make the descriptions easier to understand.
 
 `((constantly `''obj'' ...`)` ''arg'' ...`)`
 
