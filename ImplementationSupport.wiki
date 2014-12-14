@@ -4,6 +4,7 @@ The following implementations support all or part of R7RS-small:
 ||Chibi|| ||
 ||Chicken||(partial)||
 ||Foment|| ||
+||Gauche|| ||
 ||Guile||(partial)||
 ||Husk|| ||
 ||Kawa|| ||
