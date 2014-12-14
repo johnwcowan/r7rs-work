@@ -30,9 +30,11 @@ Random access pairs and lists:  [[http://srfi.schemers.org/srfi-110/srfi-110.htm
 
 Hash tables and bimaps:  HashTablesCowan.
 
-Generators and/or streams:  GeneratorsGauche and/or [[http://srfi.schemers.org/srfi-41/srfi-41.html|SRFI 41]].
+Generators:  GeneratorsGauche.
 
 Lazy sequences:  LazySequencesCowan.
+
+Streams:  [[http://srfi.schemers.org/srfi-41/srfi-41.html|SRFI 41]].
 
 Immutable cyclic lists:  CyclesMedernach.
 
