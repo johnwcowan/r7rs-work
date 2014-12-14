@@ -90,8 +90,8 @@ The following procedures are defined in terms of the functions of the <math.h> h
 ||`second-bessel-order-0`||`double      y0(double)`||bessel function of the second kind, order 0||
 ||`second-bessel-order-1`||`double      y1(double)`||bessel function of the second kind, order 1||
 ||`second-bessel`||`double      yn(int n, double)`||bessel function of the second kind, order ''n''||
-||`sinh`||`double      cosh(double)`||hyperbolic sine||
-||`tanh`||`double      cosh(double)`||hyperbolic tangent||
+||`sinh`||`double      sinh(double)`||hyperbolic sine||
+||`tanh`||`double      tanh(double)`||hyperbolic tangent||
 
 
 == General remarks ==
