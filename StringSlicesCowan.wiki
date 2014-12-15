@@ -1,8 +1,8 @@
-== String span library ==
+== Character span library ==
 
-This is a library for manipulating textual content based on ''string spans'', also known as just ''spans''.  These are conceptually references to parts of one or more Scheme strings.  It is not defined whether the string span type is disjoint from strings, or whether.  String spans are immutable, and except as noted below, it is an error to mutate the string(s) that underly a span.
+This is a library for manipulating textual content based on ''character spans'', also known as just ''spans''.  These are conceptually references to a part of a Scheme string.  It is not defined whether the character span type is disjoint from strings.  Character spans are immutable, and except as noted below, it is an error to mutate the string(s) that underly a span.
 
-''String cursors'' are pointers into strings, and are not necessarily disjoint from other Scheme types.  For example, they may be exact integers serving as character-based indexes into strings.  Alternatively, in an implementation whose internal representation of strings is UTF-8, string cursors may be indexes of individual bytes in the string.  It is also possible to implement string cursors as disjoint objects.
+''String cursors'' are pointers into strings, and are not necessarily disjoint from other Scheme types.  For example, they may be exact integers that are character-based indexes into strings.  Alternatively, in an implementation whose internal representation of strings is UTF-8, string cursors may be indexes of individual bytes in the string.  It is also possible to implement string cursors as objects of a disjoint type.
 
 This proposal also contains a useful subset of [[http://srfi.schemers.org/srfi-13/srfi-13.html|SRFI 13]], which manipulates strings directly with some allowances for shared substrings (which are provided only by Guile).  Unlike SRFI 13, the string procedures of this proposal do not have ''start'' and ''end'' arguments, as their function is subsumed by spans.  In addition, the low-level procedures are not provided, nor are there any mutation operations.  Procedures with the same names and basic functions as SRFI-13 procedures are marked [[SRFI|13]].
 
@@ -24,7 +24,7 @@ Procedures marked [R7RS-small] are available in the small language, and are not 
 
 == Specification ==
 
-With the exception of the constructors, all the procedures in this proposal exist in pairs: one that accepts and produces string spans and one that accepts and produces strings.  Only the string span version is documented in full; the string version should be understood as accepting the same non-span arguments, performing the same operations, and providing the same non-span results.
+With the exception of the constructors, all the procedures in this proposal exist in pairs: one that accepts and produces character spans and one that accepts and produces strings.  Only the character span version is documented in full; the string version should be understood as accepting the same non-span arguments, performing the same operations, and providing the same non-span results.
 
 All predicates passed to procedures defined in this proposal may be called in any order and any number of times, except as otherwise noted.
 
@@ -48,11 +48,11 @@ Returns a string consisting of the ''char'' arguments.
 
 Returns a newly allocated string which contains the characters of ''span'' in order.
 
-== String span constructors ==
+== Character span constructors ==
 
 `(make-span `''string start end''`)`
 
-Returns a string span which contains the characters of ''string'' in order from ''start'' (inclusive) to ''end'' (exclusive).
+Returns a character span which contains the characters of ''string'' in order from ''start'' (inclusive) to ''end'' (exclusive).
 
 `(span `''char'' ...`)`
 
@@ -60,7 +60,7 @@ Returns a string span which contains the characters of ''string'' in order from 
 
 `(string->span `''string''`)`
 
-Returns a string span which contains the characters of ''string'' in order.  Later mutation of ''string'' will not affect the value of ''span''.
+Returns a character span which contains the characters of ''string'' in order.  Later mutation of ''string'' will not affect the value of ''span''.
 
 `(span/cursors `''string start-cursor end-cursor''`)`
 
@@ -68,7 +68,7 @@ Returns a string span which contains the characters of ''string'' in order.  Lat
 
 `(span-transform `''proc span obj'' ...`)`
 
-''Proc'' is a procedure which accepts a string as its first argument and returns a string.  It is invoked on a string which contains the characters of ''span'' in order plus the ''obj'' arguments, if any.  The resulting string is returned as a string span by `span-transform`.  This procedure allows string-based procedures to be easily used in an environment that provides and expects spans.
+''Proc'' is a procedure which accepts a string as its first argument and returns a string.  It is invoked on a string which contains the characters of ''span'' in order plus the ''obj'' arguments, if any.  The resulting string is returned as a character span by `span-transform`.  This procedure allows string-based procedures to be easily used in an environment that provides and expects spans.
 
 == Predicates ==
 
@@ -76,7 +76,7 @@ Returns a string span which contains the characters of ''string'' in order.  Lat
 
 `(string? `''obj''`)`  [R7RS-small]
 
-Returns `#t` if ''obj'' is a string span, and `#f` otherwise.
+Returns `#t` if ''obj'' is a character span, and `#f` otherwise.
 
 `(span-null? `''span''`)`
 
@@ -116,31 +116,31 @@ Returns the 'k'th character of ''span'', starting with 0.  It is an error if ''k
 
 `(string-take `''string n''`)` [[SRFI|13]]
 
-Returns a string span which contains the first ''n'' characters of ''span''.
+Returns a character span which contains the first ''n'' characters of ''span''.
 
 `(span-take-right `''span n''`)`
 
 `(string-take-right `''string n''`)` [[SRFI|13]]
 
-Returns a string span which contains the last ''n'' characters of ''span''.
+Returns a character span which contains the last ''n'' characters of ''span''.
 
 `(span-drop `''span n''`)`
 
 `(string-drop `''string  n''`)` [[SRFI|13]]
 
-Returns a string span which contains all but the first ''n'' characters of ''span''.
+Returns a character span which contains all but the first ''n'' characters of ''span''.
 
 `(span-drop-right `''span n''`)`
 
 `(string-drop-right `''string n''`)` [[SRFI|13]]
 
-Returns a string span which contains all but the last ''n'' characters of ''span''.
+Returns a character span which contains all but the last ''n'' characters of ''span''.
 
 `(span-split-at `''span n''`)`
 
 `(string-split-at `''string  n''`)` [[SRFI|13]]
 
-Returns two values, a string span containing the first ''n'' characters of ''span'', and another string span containing the remaining characters of ''span''.
+Returns two values, a character span containing the first ''n'' characters of ''span'', and another character span containing the remaining characters of ''span''.
 
 `(span-replicate `''span from to''`)`
 
@@ -252,7 +252,7 @@ Returns the characters of
 
 `(string-contains `''string,,1,, string,,2,,''`)` [[SRFI|13]]
 
-== The whole string span or string ==
+== The whole character span or string ==
 
 `(span-length `''span''`)`
 
@@ -314,7 +314,7 @@ The same as `span-concatenate`, except that ''list-of-spans'' is processed in re
 
 `(span-split `''span [[''sep''|[ ''limit'' ]] ]`)`
 
-Returns a list of the words contained in ''span''.  If ''sep'' (which is also a string span) is omitted, then the words are separated by one or more whitespace characters (those on which `char-whitespace?` returns `#t`). If ''sep'' is supplied, it specifies a string to be used as the word separator. The returned list will then have one more item than the number of non-overlapping occurrences of the separator in the string.  If ''sep'' is an empty span, then the returned list contains a list of the characters in ''span''.
+Returns a list of the words contained in ''span''.  If ''sep'' (which is also a character span) is omitted, then the words are separated by one or more whitespace characters (those on which `char-whitespace?` returns `#t`). If ''sep'' is supplied, it specifies a string to be used as the word separator. The returned list will then have one more item than the number of non-overlapping occurrences of the separator in the string.  If ''sep'' is an empty span, then the returned list contains a list of the characters in ''span''.
 
 If ''limit'' is provided, at most that many splits occur, and the remainder of ''span'' is returned as the final element of the list (thus, the result will have at most ''limit'' + 1 elements). If ''limit'' is not specified, then as many splits as possible are made.  It is an error if ''limit'' is not a positive exact integer.
 
@@ -402,7 +402,7 @@ string-delete
 
 It is an error if ''port'' is not a textual output port.  If ''port'' is omitted, the value of `(current-output-port)` is used.
 
-If ''obj'' is a string or string span, its characters are output to ''port''.  If ''obj'' is a character, it is output to ''port''.  If ''obj'' is a number, it is converted to a string as if by `number->string` and the characters of the string are output to ''port''.  If ''obj'' is a pair or vector, its components are processed recursively by `write-string-tree`.  Otherwise, `write-string-tree` does nothing.
+If ''obj'' is a string or character span, its characters are output to ''port''.  If ''obj'' is a character, it is output to ''port''.  If ''obj'' is a number, it is converted to a string as if by `number->string` and the characters of the string are output to ''port''.  If ''obj'' is a pair or vector, its components are processed recursively by `write-string-tree`.  Otherwise, `write-string-tree` does nothing.
 
 `(tree->span `''obj''`)`
 
