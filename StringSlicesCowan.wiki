@@ -1,10 +1,10 @@
-== String slice library ==
+== String span library ==
 
-This is a library for manipulating textual content based on ''string slices'', which are references to part of a Scheme string, and ''string cursors'', which are pointers into strings.  It is not defined whether the string slice type is disjoint from strings, or whether string cursors are a disjoint type at all.  String slices are immutable, and it is an error to mutate the underlying string.
+This is a library for manipulating textual content based on ''string spans'', which are conceptually references to parts of one or more Scheme string, and ''string cursors'', which are pointers into strings.  It is not defined whether the string span type is disjoint from strings, or whether string cursors are a disjoint type at all.  String spans are immutable, and it is an error to mutate the underlying string.
 
 In addition, string cursors may or may not be the same as character-based indexes into strings.  For example, in an implementation whose internal representation of strings is UTF-8, string cursors may be indexes of individual bytes in the string.  However, the operations provided here (with the exception of those in the Compatibility section) are entirely independent of the character repertoire supported by the implementation.
 
-This proposal also contains a useful subset of SRFI 13, which manipulates strings directly with some allowances for shared substrings (which are both then and now provided only on Guile).  The string operations of this proposal are defined in terms of the string slice operations.  Unlike SRFI 13, it does not provide ''start'' and ''end'' arguments, as their functionality is subsumed by slices.  In addition, the low-level procedures are not provided, nor are any mutation operations.  Procedures with the same names and functions as SRFI-13 procedures are marked [[SRFI|13]]; note that they don't necessarily support all of the arguments of the SRFI 13 versions.
+This proposal also contains a useful subset of SRFI 13, which manipulates strings directly with some allowances for shared substrings (which are provided only by Guile).  The string operations of this proposal are defined in terms of the string span operations.  Unlike SRFI 13, it does not provide ''start'' and ''end'' arguments, as their functionality is subsumed by spans.  In addition, the low-level procedures are not provided, nor are any mutation operations.  Procedures with the same names and functions as SRFI-13 procedures are marked [[SRFI|13]]; note that they don't necessarily support all of the arguments of the SRFI 13 versions.
 
 Procedures marked [R7RS-small] are available in the small language, and are not exported by implementations of this proposal.  They are included only for completeness.
 
@@ -22,6 +22,10 @@ All predicates passed to procedures defined in this proposal may be called in an
 
 5. Keep compatibility routines, possibly in a different package?
 
+== Specification ==
+
+With the exception of the constructors, all the procedures in this proposal exist in pairs: one that accepts and produces string spans and one that accepts and produces strings.  Only the string span version is documented in full; the string version should be understood as accepting the same non-span arguments, performing the same operations, and providing the same non-span results.
+
 == String constructors ==
 
 `(make-string ` ''k'' [[|''char'' ]]`)` [R7RS-small]
@@ -34,57 +38,57 @@ Returns a string containing ''k'' characters, all of which are ''char''.  If ''c
 
 `(string-unfold-right `''stop? mapper successor'' [[|''seed'' ]]`)`
 
-`(string-slice->string `''string-slice''`)`
+`(span->string `''span''`)`
 
-Returns a string which contains the characters of ''string-slice'' in order.
+Returns a string which contains the characters of ''span'' in order.
 
-== String slice constructors ==
+== String span constructors ==
 
-`(make-string-slice `''string start end''`)`
+`(make-span `''string start end''`)`
 
-Returns a string-slice which contains the characters of ''string'' in order from ''start'' (inclusive) to ''end'' (exclusive).
+Returns a string span which contains the characters of ''string'' in order from ''start'' (inclusive) to ''end'' (exclusive).
 
-`(string-slice `''char'' ...`)`
+`(span `''char'' ...`)`
 
-`(string-slice-subslice `''slice start end''`)`
+`(subspan `''span start end''`)`
 
-`(string->string-slice `''string''`)`
+`(string->span `''string''`)`
 
-Returns a string slice which contains the characters of ''string'' in order.
+Returns a string span which contains the characters of ''string'' in order.
 
-`(string-slice/cursors `''string start-cursor end-cursor''`)`
+`(span/cursors `''string start-cursor end-cursor''`)`
 
-`(string-subslice/cursors `''string start-cursor end-cursor''`)`
+`(string-subspan/cursors `''string start-cursor end-cursor''`)`
 
-`(string-slice-transform `''proc slice obj'' ...`)`
+`(span-transform `''proc span obj'' ...`)`
 
-''Proc'' is a procedure which accepts a string as its first argument and returns a string.  It is invoked on a string which contains the characters of ''slice'' in order plus the ''obj'' arguments, if any.  The resulting string is returned as a string slice by `string-slice-transform`.  This procedure allows string-based procedures to be easily used in an environment that provides and expects string slices.
+''Proc'' is a procedure which accepts a string as its first argument and returns a string.  It is invoked on a string which contains the characters of ''span'' in order plus the ''obj'' arguments, if any.  The resulting string is returned as a string span by `span-transform`.  This procedure allows string-based procedures to be easily used in an environment that provides and expects spans.
 
 == Predicates ==
 
-`(string-slice? `''obj''`)`
+`(span? `''obj''`)`
 
 `(string? `''obj''`)`  [R7RS-small]
 
-Returns `#t` if ''obj'' is a string slice, and `#f` otherwise.
+Returns `#t` if ''obj'' is a string span, and `#f` otherwise.
 
-`(string-slice-null? `''slice''`)`
+`(span-null? `''span''`)`
 
 `(string-null? `''string''`)`  [[SRFI|13]]
 
-Returns `#t` if ''slice'' contains zero characters, and `#f` otherwise.
+Returns `#t` if ''span'' contains zero characters, and `#f` otherwise.
 
-`(string-slice-every `''pred slice''`)`
+`(span-every `''pred span''`)`
 
 `(string-every `''pred string''`)`  [[SRFI|13]]
 
-Returns `#t` if ''pred returns true for every character in ''slice'', and `#f` otherwise.
+Returns `#t` if ''pred returns true for every character in ''span'', and `#f` otherwise.
 
-`(string-slice-any `''pred slice''`)`
+`(span-any `''pred span''`)`
 
 `(string-any `''pred string''`)`  [[SRFI|13]]
 
-Returns `#t` if ''pred returns true for any character in ''slice'', and `#f` otherwise.
+Returns `#t` if ''pred returns true for any character in ''span'', and `#f` otherwise.
 
 `(is-char? `''char''`)`
 
@@ -96,193 +100,193 @@ Returns a predicate which accepts one argument, and returns `#t` if the argument
 
 == Selection ==
 
-`(string-slice-ref `''slice k''`)`
+`(span-ref `''span k''`)`
 
 `(string-ref `''string k''`)` [R7RS-small]
 
-Returns the 'k'th character of ''slice'', starting with 0.  It is an error if ''k'' is not a non-negative exact integer less than the length of ''slice''.
+Returns the 'k'th character of ''span'', starting with 0.  It is an error if ''k'' is not a non-negative exact integer less than the length of ''span''.
 
-`(string-slice-take `''slice n''`)`
+`(span-take `''span n''`)`
 
 `(string-take `''string n''`)` [[SRFI|13]]
 
-Returns a string slice which contains the first ''n'' characters of ''slice''.
+Returns a string span which contains the first ''n'' characters of ''span''.
 
-`(string-slice-take-right `''slice n''`)`
+`(span-take-right `''span n''`)`
 
 `(string-take-right `''string n''`)` [[SRFI|13]]
 
-Returns a string slice which contains the last ''n'' characters of ''slice''.
+Returns a string span which contains the last ''n'' characters of ''span''.
 
-`(string-slice-drop `''slice n''`)`
+`(span-drop `''span n''`)`
 
 `(string-drop `''string  n''`)` [[SRFI|13]]
 
-Returns a string slice which contains all but the first ''n'' characters of ''slice''.
+Returns a string span which contains all but the first ''n'' characters of ''span''.
 
-`(string-slice-drop-right `''slice n''`)`
+`(span-drop-right `''span n''`)`
 
 `(string-drop-right `''string n''`)` [[SRFI|13]]
 
-Returns a string slice which contains all but the last ''n'' characters of ''slice''.
+Returns a string span which contains all but the last ''n'' characters of ''span''.
 
-`(string-slice-split-at `''slice n''`)`
+`(span-split-at `''span n''`)`
 
 `(string-split-at `''string  n''`)` [[SRFI|13]]
 
-Returns two values, a string slice containing the first ''n'' characters of ''slice'', and another string slice containing the remaining characters of ''slice''.
+Returns two values, a string span containing the first ''n'' characters of ''span'', and another string span containing the remaining characters of ''span''.
 
-`(string-slice-replicate `''slice from to''`)`
+`(span-replicate `''span from to''`)`
 
 `(string-replicate `''string from to''`)`
 
 == Padding, trimming, and compressing ==
 
-`(string-slice-pad `''slice len'' [[|''char'' ]]`)`
+`(span-pad `''span len'' [[|''char'' ]]`)`
 
 `(string-pad `''string  len'' [[|''char'' ]]`)` [[SRFI|13]]
 
-`(string-slice-trim `''slice len'' [[|''char'' ]]`)`
+`(span-trim `''span len'' [[|''char'' ]]`)`
 
 `(string-trim `''string len'' [[|''char'' ]]`)` [[SRFI|13]]
 
-`(string-slice-trim-right `''slice len'' [[|''char'' ]]`)`
+`(span-trim-right `''span len'' [[|''char'' ]]`)`
 
 `(string-trim-right `''string len'' [[|''char'' ]]`)` [[SRFI|13]]
 
-`(string-slice-trim-both `''slice len'' [[|''char'' ]]`)`
+`(span-trim-both `''span len'' [[|''char'' ]]`)`
 
 `(string-trim-both `''string len'' [[|''char'' ]]`)` [[SRFI|13]]
 
-`(string-slice-compress `''slice'' [[|''char'' ]]`)`
+`(span-compress `''span'' [[|''char'' ]]`)`
 
 `(string-compress `''string'' [[|''char'' ]]`)`
 
 == Prefixes and suffixes ==
 
-`(string-slice-prefix `''slice,,1,,'' ''slice,,2,,''`)`
+`(span-prefix `''span,,1,,'' ''span,,2,,''`)`
 
 `(string-prefix `''string,,1,,'' ''string,,2,,''`)`
 
-`(string-slice-suffix `''slice,,1,,'' ''slice,,2,,''`)`
+`(span-suffix `''span,,1,,'' ''span,,2,,''`)`
 
 `(string-suffix `''string,,1,,'' ''string,,2,,''`)` [[SRFI|13]]
 
-`(string-slice-prefix-length `''slice,,1,,'' ''slice,,2,,''`)`
+`(span-prefix-length `''span,,1,,'' ''span,,2,,''`)`
 
 `(string-prefix-length `''string,,1,,'' ''string,,2,,''`)`
 
-`(string-slice-suffix-length `''slice,,1,,'' ''slice,,2,,''`)` [[SRFI|13]]
+`(span-suffix-length `''span,,1,,'' ''span,,2,,''`)` [[SRFI|13]]
 
 `(string-suffix-length `''string,,1,,'' ''string,,2,,''`)`
 
-`(string-slice-prefix? `''slice,,1,,'' ''slice,,2,,''`)`
+`(span-prefix? `''span,,1,,'' ''span,,2,,''`)`
 
 `(string-prefix? `''string,,1,,'' ''string,,2,,''`)` [[SRFI|13]]
 
-`(string-slice-suffix? `''slice,,1,, slice,,2,,''`)`
+`(span-suffix? `''span,,1,, span,,2,,''`)`
 
 `(string-suffix? `''string,,1,,'' ''string,,2,,''`)` [[SRFI|13]]
 
 == Searching ==
 
-`(string-slice-count `''proc slice''`)`
+`(span-count `''proc span''`)`
 
 `(string-count `''proc string''`)` [[SRFI|13]]
 
-`(string-slice-take-while `''proc slice''`)`
+`(span-take-while `''proc span''`)`
 
 `(string-take-while  `''proc string''`)` [[SRFI|13]]
 
-`(string-slice-drop-while `''proc slice''`)`
+`(span-drop-while `''proc span''`)`
 
 `(string-drop-while  `''proc string''`)` [[SRFI|13]]
 
-`(string-slice-break `''proc slice''`)`
+`(span-break `''proc span''`)`
 
 `(string-break `''proc string''`)` [[SRFI|13]]
 
-`(string-slice-drop `''proc slice''`)`
+`(span-drop `''proc span''`)`
 
 `(string-drop `''proc string''`)` [[SRFI|13]]
 
-`(string-slice-contains `''slice,,1,, slice,,2,,''`)`
+`(span-contains `''span,,1,, span,,2,,''`)`
 
 `(string-contains `''string,,1,, string,,2,,''`)` [[SRFI|13]]
 
-== The whole string slice or string ==
+== The whole string span or string ==
 
-`(string-slice-length `''slice''`)`
+`(span-length `''span''`)`
 
 `(string-length `''string''`)` [R7RS-small]
 
-`(string-slice-copy `''slice''`)`
+`(span-copy `''span''`)`
 
 `(string-copy `''string'' [[|''start'' [ ''end'' ]] ]`)` [R7RS-small]
 
-`(string-slice-reverse `''slice''`)`
+`(span-reverse `''span''`)`
 
-`(string-reverse `''slice''`)` [[SRFI|13]]
+`(string-reverse `''span''`)` [[SRFI|13]]
 
-`(string-slice-append `''slice'' ...`)`
+`(span-append `''span'' ...`)`
 
 `(string-append `''string'' ...`)` [R7RS-small]
 
-`(string-slice-concatenate `''list-of-slices''`)`
+`(span-concatenate `''list-of-spans''`)`
 
 `(string-concatenate `''list-of-strings''`)` [[SRFI|13]]
 
-`(string-slice-concatenate-reverse `''list-of-slices''`)`
+`(span-concatenate-reverse `''list-of-spans''`)`
 
 `(string-concatenate-reverse `''list-of-strings''`)` [[SRFI|13]]
 
 == Folding and mapping ==
 
-`(string-slice-map `''proc slice'' ...`)`
+`(span-map `''proc span'' ...`)`
 
 `(string-map `''proc string'' ...`)` [R7RS-small]
 
-`(string-slice-for-each `''proc slice'' ...`)`
+`(span-for-each `''proc span'' ...`)`
 
 `(string-for-each `''proc string'' ...`)` [R7RS-small]
 
-`(string-slice-fold `''proc nil slice''`)`
+`(span-fold `''proc nil span''`)`
 
 `(string-fold `''proc nil string''`)` [R7RS-small]
 
-`(string-slice-fold-right `''proc nil slice''`)`
+`(span-fold-right `''proc nil span''`)`
 
 `(string-fold-right `''proc nil string''`)` [R7RS-small]
 
 == Parsing ==
 
-`(string-slice-split `''slice [[''sep''|[ ''limit'' ]] ]`)`
+`(span-split `''span [[''sep''|[ ''limit'' ]] ]`)`
 
-`(string-slice-split `''slice [[''sep''|[ ''limit'' ]] ]`)`
+`(span-split `''span [[''sep''|[ ''limit'' ]] ]`)`
 
-Returns a list of the words contained in ''slice''.  If ''sep'' (which is also a string slice) is omitted, then the words are separated by arbitrary strings of whitespace characters (those on which `char-whitespace?` returns `#t`). If ''sep'' is supplied, it specifies a string to be used as the word separator. The returned list will then have one more item than the number of non-overlapping occurrences of the separator in the string.  If ''sep'' is empty, then the returned list contains a list of the characters in ''slice''.
+Returns a list of the words contained in ''span''.  If ''sep'' (which is also a string span) is omitted, then the words are separated by arbitrary strings of whitespace characters (those on which `char-whitespace?` returns `#t`). If ''sep'' is supplied, it specifies a string to be used as the word separator. The returned list will then have one more item than the number of non-overlapping occurrences of the separator in the string.  If ''sep'' is empty, then the returned list contains a list of the characters in ''span''.
 
-If ''limit'' is provided, at most that many splits occur, and the remainder of ''slice'' is returned as the final element of the list (thus, the result will have at most ''limit'' + 1 elements). If ''limit'' is not specified, then all possible splits are made.  It is an error if ''limit'' is not a positive exact integer.
+If ''limit'' is provided, at most that many splits occur, and the remainder of ''span'' is returned as the final element of the list (thus, the result will have at most ''limit'' + 1 elements). If ''limit'' is not specified, then all possible splits are made.  It is an error if ''limit'' is not a positive exact integer.
 
 == Filtering and partitioning ==
 
-`(string-slice-filter `''proc slice''`)` [[SRFI|13]]
+`(span-filter `''proc span''`)` [[SRFI|13]]
 
 `(string-filter `''proc string''`)`
 
-`(string-slice-remove `''proc slice''`)`
+`(span-remove `''proc span''`)`
 
 `(string-remove `''proc string''`)`
 
-`(string-slice-partition `''proc slice''`)`
+`(span-partition `''proc span''`)`
 
 `(string-partition `''proc string''`)`
 
 == Conversion ==
 
-`(string-slice->list `''slice''`)`
+`(span->list `''span''`)`
 
-`(string-slice->vector `''slice''`)`
+`(span->vector `''span''`)`
 
 `(string->list `''string'' [[|''start'' [ ''end'' ]] ]`)` [R7RS-small]
 
@@ -326,13 +330,13 @@ string-cursor-difference
 == Functional update ==
 
 {{{
-string-slice-replace
+span-replace
 string-replace
 
-string-slice-insert
+span-insert
 string-insert
 
-string-slice-delete
+span-delete
 string-delete
 }}}
 
@@ -348,22 +352,21 @@ write-string-tree
 == Compatibility ==
 
 {{{
-string-slice-upcase
-string-slice-downcase
-string-slice-foldcase
+span-upcase
+span-downcase
+span-foldcase
 
-string-slice=?
-string-slice<?
-string-slice>?
-string-slice<=?
-string-slice>=?
-string-slice-ci=?
-string-slice-ci<?
-string-slice-ci>?
-string-slice-ci<=?
-string-slice-ci>=?
+span=?
+span<?
+span>?
+span<=?
+span>=?
+span-ci=?
+span-ci<?
+span-ci>?
+span-ci<=?
+span-ci>=?
 
-string-slice-titlecase
+span-titlecase
 string-titlecase [[SRFI|13]]
 }}}
-
