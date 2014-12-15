@@ -9,4 +9,6 @@ The following implementations support all or part of R7RS-small:
 ||Husk|| ||
 ||Kawa|| ||
 ||Mosh||(partial)||
+||Picrin|| ||
 ||Sagittarius|| ||
+
