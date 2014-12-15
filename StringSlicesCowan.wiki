@@ -1,14 +1,14 @@
 == String span library ==
 
-This is a library for manipulating textual content based on ''string spans'', which are conceptually references to parts of one or more Scheme string, and ''string cursors'', which are pointers into strings.  It is not defined whether the string span type is disjoint from strings, or whether string cursors are a disjoint type at all.  String spans are immutable, and it is an error to mutate the underlying string.
+This is a library for manipulating textual content based on ''string spans'', also known as just ''spans''.  These are conceptually references to parts of one or more Scheme strings.  It is not defined whether the string span type is disjoint from strings, or whether.  String spans are immutable, and except as noted below, it is an error to mutate the string(s) that underly a span.
 
-In addition, string cursors may or may not be the same as character-based indexes into strings.  For example, in an implementation whose internal representation of strings is UTF-8, string cursors may be indexes of individual bytes in the string.  However, the operations provided here (with the exception of those in the Compatibility section) are entirely independent of the character repertoire supported by the implementation.
+''String cursors'' are pointers into strings, and are not necessarily disjoint from other Scheme types.  For example, they may be exact integers serving as character-based indexes into strings.  Alternatively, in an implementation whose internal representation of strings is UTF-8, string cursors may be indexes of individual bytes in the string.  It is also possible to implement string cursors as disjoint objects.
 
-This proposal also contains a useful subset of SRFI 13, which manipulates strings directly with some allowances for shared substrings (which are provided only by Guile).  The string operations of this proposal are defined in terms of the string span operations.  Unlike SRFI 13, it does not provide ''start'' and ''end'' arguments, as their functionality is subsumed by spans.  In addition, the low-level procedures are not provided, nor are any mutation operations.  Procedures with the same names and functions as SRFI-13 procedures are marked [[SRFI|13]]; note that they don't necessarily support all of the arguments of the SRFI 13 versions.
+This proposal also contains a useful subset of [[http://srfi.schemers.org/srfi-13/srfi-13.html|SRFI 13]], which manipulates strings directly with some allowances for shared substrings (which are provided only by Guile).  Unlike SRFI 13, the string procedures of this proposal do not have ''start'' and ''end'' arguments, as their function is subsumed by spans.  In addition, the low-level procedures are not provided, nor are there any mutation operations.  Procedures with the same names and basic functions as SRFI-13 procedures are marked [[SRFI|13]].
 
-Procedures marked [R7RS-small] are available in the small language, and are not exported by implementations of this proposal.  They are included only for completeness.
+The operations provided here (with the exception of those in the Compatibility section) are entirely independent of the character repertoire supported by the implementation.
 
-All predicates passed to procedures defined in this proposal may be called in any order and any number of times, except as otherwise noted.
+Procedures marked [R7RS-small] are available in the small language, and are not exported by implementations of this proposal.  They are included only for clarity and completeness.
 
 == Issues ==
 
@@ -26,6 +26,10 @@ All predicates passed to procedures defined in this proposal may be called in an
 
 With the exception of the constructors, all the procedures in this proposal exist in pairs: one that accepts and produces string spans and one that accepts and produces strings.  Only the string span version is documented in full; the string version should be understood as accepting the same non-span arguments, performing the same operations, and providing the same non-span results.
 
+All predicates passed to procedures defined in this proposal may be called in any order and any number of times, except as otherwise noted.
+
+
+
 == String constructors ==
 
 `(make-string ` ''k'' [[|''char'' ]]`)` [R7RS-small]
@@ -34,13 +38,15 @@ Returns a string containing ''k'' characters, all of which are ''char''.  If ''c
 
 `(string `''char'' ...`)` [R7RS-small]
 
+Returns a string consisting of the ''char'' arguments.
+
 `(string-unfold `''stop? mapper successor'' [[|''seed'' ]]`)`
 
 `(string-unfold-right `''stop? mapper successor'' [[|''seed'' ]]`)`
 
 `(span->string `''span''`)`
 
-Returns a string which contains the characters of ''span'' in order.
+Returns a newly allocated string which contains the characters of ''span'' in order.
 
 == String span constructors ==
 
@@ -54,7 +60,7 @@ Returns a string span which contains the characters of ''string'' in order from 
 
 `(string->span `''string''`)`
 
-Returns a string span which contains the characters of ''string'' in order.
+Returns a string span which contains the characters of ''string'' in order.  Later mutation of ''string'' will not affect the value of ''span''.
 
 `(span/cursors `''string start-cursor end-cursor''`)`
 
@@ -82,13 +88,13 @@ Returns `#t` if ''span'' contains zero characters, and `#f` otherwise.
 
 `(string-every `''pred string''`)`  [[SRFI|13]]
 
-Returns `#t` if ''pred returns true for every character in ''span'', and `#f` otherwise.
+Returns `#t` if ''pred'' returns true for every character in ''span'', and `#f` otherwise.
 
 `(span-any `''pred span''`)`
 
 `(string-any `''pred string''`)`  [[SRFI|13]]
 
-Returns `#t` if ''pred returns true for any character in ''span'', and `#f` otherwise.
+Returns `#t` if ''pred'' returns false for every character in ''span'', and `#f` otherwise.
 
 `(is-char? `''char''`)`
 
@@ -140,27 +146,49 @@ Returns two values, a string span containing the first ''n'' characters of ''spa
 
 `(string-replicate `''string from to''`)`
 
+''Span'' is conceptually replicated an infinite number of times to both left and right, and this doubly infinite sequence is then truncated to form a span starting at index ''from'' (inclusive) and ending at index ''to'' (exclusive).  Negative indexes are allowed in order to access the infinite left extension.
+
+{{{
+(string-replicate "abcdef" 2 7) => "cdefab" ; rotate left
+
+(string-replicate "abcdef" -2 4) => "efabcd" ; rotate right
+
+(string-replicate "abc" 0 7) => "abcabca" ; replicate
+}}}
+
+This procedure is the same as the SRFI 13 procedure `xsubstring`, except that the ''to'' argument is required.
+
 == Padding, trimming, and compressing ==
 
 `(span-pad `''span len'' [[|''char'' ]]`)`
 
 `(string-pad `''string  len'' [[|''char'' ]]`)` [[SRFI|13]]
 
-`(span-trim `''span len'' [[|''char'' ]]`)`
+`(span-pad-right `''span len'' [[|''char'' ]]`)`
 
-`(string-trim `''string len'' [[|''char'' ]]`)` [[SRFI|13]]
+`(string-pad-right `''string  len'' [[|''char'' ]]`)` [[SRFI|13]]
 
-`(span-trim-right `''span len'' [[|''char'' ]]`)`
+Returns a span of length ''len'' consisting of ''span'' padded on the left (right) by as many occurrences of the character ''char'' as needed.  If ''span'' has more than ''len'' characters, it is truncated on the left (right) to length ''len''.  If ''char'' is omitted, `#\space` is used.
 
-`(string-trim-right `''string len'' [[|''char'' ]]`)` [[SRFI|13]]
+`(span-trim `''span [[|''pred'' ]]`)`
 
-`(span-trim-both `''span len'' [[|''char'' ]]`)`
+`(string-trim `''string [[|''pred'' ]]`)` [[SRFI|13]]
 
-`(string-trim-both `''string len'' [[|''char'' ]]`)` [[SRFI|13]]
+`(span-trim-right `''span [[|''pred'' ]][[|''char'' ]]`)`
+
+`(string-trim-right `''string [[|''pred'' ]]`)` [[SRFI|13]]
+
+`(span-trim-both `''span [[|''pred'' ]]`)`
+
+`(string-trim-both `''string [[|''pred'' ]]`)` [[SRFI|13]]
+
+Trim ''span'' by skipping over all characters on the left / on the right / on both sides that satisfy ''pred'' and returning the resulting span.
 
 `(span-compress `''span'' [[|''char'' ]]`)`
 
 `(string-compress `''string'' [[|''char'' ]]`)`
+
+Return a span which differs from ''span'' in that every sequence of consecutive occurrences of ''char'' has been replaced by a single ''char''.  If ''char'' is omitted, `#\space` is used.
 
 == Prefixes and suffixes ==
 
@@ -170,15 +198,19 @@ Returns two values, a string span containing the first ''n'' characters of ''spa
 
 `(span-suffix `''span,,1,,'' ''span,,2,,''`)`
 
-`(string-suffix `''string,,1,,'' ''string,,2,,''`)` [[SRFI|13]]
+`(string-suffix `''string,,1,,'' ''string,,2,,''`)` 
+
+Returns a span containing the characters in the common prefix/suffix of ''span,,1,,' and ''span,,2,,''.  If there is no common prefix/suffix, returns an empty span.
 
 `(span-prefix-length `''span,,1,,'' ''span,,2,,''`)`
 
-`(string-prefix-length `''string,,1,,'' ''string,,2,,''`)`
+`(string-prefix-length `''string,,1,,'' ''string,,2,,''`)` [[SRFI|13]]
 
-`(span-suffix-length `''span,,1,,'' ''span,,2,,''`)` [[SRFI|13]]
+`(span-suffix-length `''span,,1,,'' ''span,,2,,''`)`
 
-`(string-suffix-length `''string,,1,,'' ''string,,2,,''`)`
+`(string-suffix-length `''string,,1,,'' ''string,,2,,''`)` [[SRFI|13]]
+
+Returns the length of the span that would be returned by `span-prefix` and friends.
 
 `(span-prefix? `''span,,1,,'' ''span,,2,,''`)`
 
@@ -188,27 +220,33 @@ Returns two values, a string span containing the first ''n'' characters of ''spa
 
 `(string-suffix? `''string,,1,,'' ''string,,2,,''`)` [[SRFI|13]]
 
+Returns `#t` if ''span,,1,,'' is a prefix/suffix of ''span,,2,,'', and `#f` otherwise.
+
 == Searching ==
 
-`(span-count `''proc span''`)`
+`(span-count `''pred span''`)`
 
 `(string-count `''proc string''`)` [[SRFI|13]]
 
-`(span-take-while `''proc span''`)`
+Returns an exact integer, the number of characters in ''span'' which satisfy ''pred''.
 
-`(string-take-while  `''proc string''`)` [[SRFI|13]]
+`(span-take-while `''pred span''`)`
 
-`(span-drop-while `''proc span''`)`
+`(string-take-while  `''pred string''`)`
 
-`(string-drop-while  `''proc string''`)` [[SRFI|13]]
+Returns the characters of
 
-`(span-break `''proc span''`)`
+`(span-drop-while `''pred span''`)`
 
-`(string-break `''proc string''`)` [[SRFI|13]]
+`(string-drop-while  `''pred string''`)`
 
-`(span-drop `''proc span''`)`
+`(span-break `''pred span''`)`
 
-`(string-drop `''proc string''`)` [[SRFI|13]]
+`(string-break `''pred string''`)` [[SRFI|13]]
+
+`(span-span `''pred span''`)`
+
+`(string-span `''pred string''`)` [[SRFI|13]]
 
 `(span-contains `''span,,1,, span,,2,,''`)`
 
@@ -220,25 +258,37 @@ Returns two values, a string span containing the first ''n'' characters of ''spa
 
 `(string-length `''string''`)` [R7RS-small]
 
+Returns the number of characters in ''span''.
+
 `(span-copy `''span''`)`
 
 `(string-copy `''string'' [[|''start'' [ ''end'' ]] ]`)` [R7RS-small]
+
+Makes a copy of ''span'' such that any future mutation of any string underlying ''span'' does not affect the characters of ''span''.
 
 `(span-reverse `''span''`)`
 
 `(string-reverse `''span''`)` [[SRFI|13]]
 
+Returns a span containing the characters of ''span'' in reverse order.
+
 `(span-append `''span'' ...`)`
 
 `(string-append `''string'' ...`)` [R7RS-small]
+
+Returns a span containing the characters of the ''spans'' in order.
 
 `(span-concatenate `''list-of-spans''`)`
 
 `(string-concatenate `''list-of-strings''`)` [[SRFI|13]]
 
+Returns a span containing the characters of the spans enumerated in ''list-of-spans'' in order.  This procedure will succeed even if `(apply string-append list-of-strings)` fails due to an implementation limit on the number of arguments a procedure may receive.
+
 `(span-concatenate-reverse `''list-of-spans''`)`
 
 `(string-concatenate-reverse `''list-of-strings''`)` [[SRFI|13]]
+
+The same as `span-concatenate`, except that ''list-of-spans'' is processed in reverse order.  Note that the individual spans are ''not'' processed in reverse order.
 
 == Folding and mapping ==
 
@@ -264,23 +314,29 @@ Returns two values, a string span containing the first ''n'' characters of ''spa
 
 `(span-split `''span [[''sep''|[ ''limit'' ]] ]`)`
 
-Returns a list of the words contained in ''span''.  If ''sep'' (which is also a string span) is omitted, then the words are separated by arbitrary strings of whitespace characters (those on which `char-whitespace?` returns `#t`). If ''sep'' is supplied, it specifies a string to be used as the word separator. The returned list will then have one more item than the number of non-overlapping occurrences of the separator in the string.  If ''sep'' is empty, then the returned list contains a list of the characters in ''span''.
+Returns a list of the words contained in ''span''.  If ''sep'' (which is also a string span) is omitted, then the words are separated by one or more whitespace characters (those on which `char-whitespace?` returns `#t`). If ''sep'' is supplied, it specifies a string to be used as the word separator. The returned list will then have one more item than the number of non-overlapping occurrences of the separator in the string.  If ''sep'' is an empty span, then the returned list contains a list of the characters in ''span''.
 
-If ''limit'' is provided, at most that many splits occur, and the remainder of ''span'' is returned as the final element of the list (thus, the result will have at most ''limit'' + 1 elements). If ''limit'' is not specified, then all possible splits are made.  It is an error if ''limit'' is not a positive exact integer.
+If ''limit'' is provided, at most that many splits occur, and the remainder of ''span'' is returned as the final element of the list (thus, the result will have at most ''limit'' + 1 elements). If ''limit'' is not specified, then as many splits as possible are made.  It is an error if ''limit'' is not a positive exact integer.
 
 == Filtering and partitioning ==
 
-`(span-filter `''proc span''`)` [[SRFI|13]]
+`(span-filter `''pred span''`)` [[SRFI|13]]
 
-`(string-filter `''proc string''`)`
+`(string-filter `''pred string''`)`
 
-`(span-remove `''proc span''`)`
+Returns a span containing the characters of ''span'' which satisfy ''proc''.
 
-`(string-remove `''proc string''`)`
+`(span-remove `''pred span''`)`
 
-`(span-partition `''proc span''`)`
+`(string-remove `''pred string''`)`
 
-`(string-partition `''proc string''`)`
+Returns a span containing the characters of ''span'' which do not satisfy ''proc''.
+
+`(span-partition `''pred span''`)`
+
+`(string-partition `''pred string''`)`
+
+Returns two values, a span containing the characters of ''span'' which satisfy ''proc'' and another span containing those which do not.
 
 == Conversion ==
 
@@ -340,33 +396,91 @@ span-delete
 string-delete
 }}}
 
-== String trees ==
+== Output ==
 
-{{{
-string-tree->string
+`(write-string-tree `''obj'' [[|''port'' ]]`)`
 
-write-string-tree
-}}}
+It is an error if ''port'' is not a textual output port.  If ''port'' is omitted, the value of `(current-output-port)` is used.
 
+If ''obj'' is a string or string span, its characters are output to ''port''.  If ''obj'' is a character, it is output to ''port''.  If ''obj'' is a number, it is converted to a string as if by `number->string` and the characters of the string are output to ''port''.  If ''obj'' is a pair or vector, its components are processed recursively by `write-string-tree`.  Otherwise, `write-string-tree` does nothing.
+
+`(tree->span `''obj''`)`
+
+`(tree->string `''obj''`)`
+
+Behaves as if `write-string-tree` were applied to ''obj'' and a newly allocated string output port.  When ''obj'' has been completely output, the port's string is returned as a span or a string.
 
 == Compatibility ==
 
+`(span-upcase `''span''`)`
+
+`(string-upcase `''span''`)` [R7RS-small]
+
+`(span-downcase `''span''`)`
+
+`(string-downcase `''span''`)` [R7RS-small]
+
+`(span-foldcase `''span''`)`
+
+`(string-foldcase `''span''`)` [R7RS-small]
+
+For the behavior of the string procedures, see R7RS-small.  In any implementation of this proposal based on R7RS, the span procedures must behave analogously to the string procedures.  That is, if a call to string procedure ''x'' on a string containing characters ''y,,0,, ... y,,n,,'' produces a string containing characters ''z,,0,, ... z,,n,,'', then a call to the analogous span procedure ''x′'' on a span containing characters ''y,,0,, ... y,,n,,'' must produce a span containing characters ''z,,0,, ... z,,n,,'.
+
+`(span=? `''span,,1,, span,,2,, span'' ...`)`
+
+`(string=? `''span,,1,, span,,2,, span'' ...`)` [R7RS-small]
+
+`(span<? `''span,,1,, span,,2,, span'' ...`)`
+
+`(string<? `''span,,1,, span,,2,, span'' ...`)` [R7RS-small]
+
+`(span>? `''span,,1,, span,,2,, span'' ...`)`
+
+`(string>? `''span,,1,, span,,2,, span'' ...`)` [R7RS-small]
+
+`(span<=? `''span,,1,, span,,2,, span'' ...`)`
+
+`(string<=? `''span,,1,, span,,2,, span'' ...`)` [R7RS-small]
+
+`(span>=? `''span,,1,, span,,2,, span'' ...`)`
+
+`(string>=? `''span,,1,, span,,2,, span'' ...`)` [R7RS-small]
+
+`(span-ci=? `''span,,1,, span,,2,, span'' ...`)`
+
+`(string-ci=? ` ''span,,1,, span,,2,, span'' ...`)` [R7RS-small]
+
+`(span-ci<? `''span,,1,, span,,2,, span'' ...`)`
+
+`(string-ci<? `''span,,1,, span,,2,, span'' ...`)` [R7RS-small]
+
+`(span-ci>? `''span,,1,, span,,2,, span'' ...`)`
+
+`(string-ci>? `''span,,1,, span,,2,, span'' ...`)` [R7RS-small]
+
+`(span-ci<=? `''span,,1,, span,,2,, span'' ...`)`
+
+`(string-ci<=? `''span,,1,, span,,2,, span'' ...`)` [R7RS-small]
+
+`(span-ci>=? `''span,,1,, span,,2,, span'' ...`)`
+
+`(string-ci>=? `''span,,1,, span,,2,, span'' ...`)` [R7RS-small]
+
+For the behavior of the string procedures, see R7RS-small.  In any implementation of this proposal based on R7RS, the span procedures must behave analogously to the string procedures.
+
+`(span-titlecase ''span''`)`
+
+`(string-titlecase `''span''`)`[[SRFI|13]]
+
+For every character ''c'' in ''span'': if ''c'' is preceded by a character with case, it is downcased; otherwise it is replaced by its titlecase equivalent, if any.  Other characters are unchanged.  Note that most lowercase characters have the same character as both uppercase and titlecase equivalents.
+
 {{{
-span-upcase
-span-downcase
-span-foldcase
+(string-titlecase "--capitalize tHIS sentence.") =>
+  "--Capitalize This Sentence."
 
-span=?
-span<?
-span>?
-span<=?
-span>=?
-span-ci=?
-span-ci<?
-span-ci>?
-span-ci<=?
-span-ci>=?
+(string-titlecase "see Spot run. see Nix run.") =>
+  "See Spot Run. See Nix Run."
 
-span-titlecase
-string-titlecase [[SRFI|13]]
+(string-titlecase "3com makes routers.") =>
+  "3Com Makes Routers."
 }}}
