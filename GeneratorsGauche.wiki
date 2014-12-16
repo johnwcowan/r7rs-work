@@ -73,9 +73,9 @@ and increased by <var>step</var> (1 by default).
 yields exact numbers; otherwise it yields inexact numbers.  The exactness
 of <var>count</var> does not affect the exactness of the results.
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (giota +inf.0 1/2 1/3) 6)
+<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (make-iota-generator +inf.0 1/2 1/3) 6)
   &rArr; (1/2 5/6 7/6 3/2 11/6 13/6)
-(generator-&gt;list (giota +inf.0 1.0 2.0) 5)
+(generator-&gt;list (make-iota-generator +inf.0 1.0 2.0) 5)
   &rArr; (1.0 3.0 5.0 7.0 9.0)
 </pre></td></tr></table>
 
@@ -457,11 +457,11 @@ too short to complete <var>k</var> items, <var>padding</var> is used
 to fill the rest.
 </p>
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (gslices (giota 7) 3))
+<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (glists (giota 7) 3))
   &rArr; ((0 1 2) (3 4 5) (6))
 </pre></td></tr></table>
 
-<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (gslices (giota 6) 3 'x))
+<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (glists (giota 6) 3 'x))
   &rArr; ((0 1 2) (3 4 5))
 (generator-&gt;list (gslices (giota 7) 3 'x))
   &rArr; ((0 1 2) (3 4 5) (6 x x))
@@ -573,7 +573,7 @@ combining <code>generator-&gt;list</code> and <code>gmap</code>.
 <dl>
 <dt><code>generator-find</code><i> pred gen</i></dt>
 <dd><p>Returns the first item from the generator <var>gen</var> that satisfies
-the predicate <var>pred</var>.
+the predicate <var>pred</var>, or <code>#f</code> if there is no such item.
 </p></dd></dl>
 
 <dl>
@@ -596,7 +596,7 @@ the rest of the generator.
 
 <dl>
 <dt><code>generator-every</code><i> pred gen</i></dt>
-<dd><p>Returns <code>#t</code> if any of the values available from the generator <var>gen</var> do not satisfy
+<dd><p>Returns <code>#f</code> if any of the values available from the generator <var>gen</var> do not satisfy
 the predicate <var>pred</var>.  After such a value is found, the procedure returns without consuming
 the rest of the generator.
 </p></dd></dl>
