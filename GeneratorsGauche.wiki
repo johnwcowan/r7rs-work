@@ -437,7 +437,7 @@ whose i-th element is generated from the i-th argument.
 (generator-&gt;list g 3)
  &rArr; ((-43 #f #\8) (53 #f #\1) (-114 #f #\i))
 </pre></td></tr></table>
-<p>This procedure is analogous to <code>zip</i>, but <code>gzip</i> would be a misleading name.</p>
+<p>This procedure is analogous to <code>zip</code>, but <code>gzip</code> would be a misleading name.</p>
 </dd></dl>
 
 <dl>
