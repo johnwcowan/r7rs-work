@@ -262,19 +262,25 @@ Returns a cursor pointing to the first/last character in ''span'' that does not 
 
 `(string-take-while  `''pred string''`)`
 
-Returns the characters of
+Returns the longest initial prefix of ''span'' whose characters all satisfy ''pred''. 
 
 `(span-drop-while `''pred span''`)`
 
 `(string-drop-while  `''pred string''`)`
 
-`(span-break `''pred span''`)`
-
-`(string-break `''pred string''`)` [[SRFI|13]]
+Drops the longest initial prefix of ''span'' whose characters all satisfy ''pred'', and returns the rest of ''span''. 
 
 `(span-span `''pred span''`)`
 
 `(string-span `''pred string''`)` [[SRFI|13]]
+
+`(span-break `''pred span''`)`
+
+`(string-break `''pred string''`)` [[SRFI|13]]
+
+The `span-span` procedure splits ''span'', returning two values: the longest initial prefix whose characters all satisfy ''pred'', and the remainder of ''span''.  The `span-break` procedure inverts the sense of the predicate: the remainder commences with the first character of ''span'' that satisfies ''pred''.  In other words: `span-span` finds the intial span of characters satisfying ''pred'', and `span-break` breaks ''span'' at the first character satisfying ''pred''.
+ 
+The name "`span-span`" is unfortunate but unavoidable.
 
 `(span-contains `''span,,1,, span,,2,,''`)`
 
