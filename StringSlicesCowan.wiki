@@ -22,6 +22,10 @@ Procedures marked [R7RS-small] are available in the small language, and are not 
 
 5. Keep compatibility routines, possibly in a different package?
 
+6. I have made the argument order of `string-tabulate` compatible with SRFI 1 `list-tabulate` rather than SRFI 13's `string-tabulate`; the discrepancy was accidental.  Revert to SRFI 13 argument order?
+
+7. Chibi provides `string-mismatch-right`, but the cursor returned is not necessarily valid; in particular, it returns -1 on identical strings.  I have left it out because of this.  Include it?
+
 == Specification ==
 
 With the exception of the constructors, all the procedures in this proposal exist in pairs: one that accepts and produces character spans and one that accepts and produces strings.  Only the character span version is documented in full; the string version should be understood as accepting the same non-span arguments, performing the same operations, and providing the same non-span results.
