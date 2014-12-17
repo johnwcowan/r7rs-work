@@ -102,3 +102,5 @@ Note that evaluating `(means '(3 (1 4)))` returns three values: 8/3, 2.289428485
 21. In Appendix B, for "All algebraic operations except `/` produce exact values given exact inputs" read "The algebraic operations `+`, `-`, `*`, and `expt` where the second argument is a non-negative integer) all produce exact values given exact inputs".
 
 22. In Appendix A, the `(scheme r5rs)` library should export `syntax-rules`, `else`, `...`, `=>` and `_`.
+
+23. In the definition of `string-for-each`, for "the elements of the ''lists''" read "the elements of the ''strings''".
