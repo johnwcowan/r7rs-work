@@ -32,26 +32,6 @@ With the exception of the constructors, all the procedures in this proposal exis
 
 All predicates passed to procedures defined in this proposal may be called in any order and any number of times, except as otherwise noted.
 
-
-
-== String constructors ==
-
-`(make-string ` ''k'' [[|''char'' ]]`)` [R7RS-small]
-
-Returns a string containing ''k'' characters, all of which are ''char''.  If ''char'' is omitted, the contents of the string are implementation-dependent.
-
-`(string `''char'' ...`)` [R7RS-small]
-
-Returns a string consisting of the ''char'' arguments.
-
-`(string-unfold `''stop? mapper successor'' [[|''seed'' ]]`)`
-
-`(string-unfold-right `''stop? mapper successor'' [[|''seed'' ]]`)`
-
-`(span->string `''span''`)`
-
-Returns a newly allocated string which contains the characters of ''span'' in order.
-
 == Character span constructors ==
 
 `(make-span `''string start end''`)`
@@ -73,6 +53,30 @@ Returns a character span which contains the characters of ''string'' in order.  
 `(span-transform `''proc span obj'' ...`)`
 
 ''Proc'' is a procedure which accepts a string as its first argument and returns a string.  It is invoked on a string which contains the characters of ''span'' in order plus the ''obj'' arguments, if any.  The resulting string is returned as a character span by `span-transform`.  This procedure allows string-based procedures to be easily used in an environment that provides and expects spans.
+
+== String constructors ==
+
+`(make-string ` ''k'' [[|''char'' ]]`)` [R7RS-small]
+
+Returns a string containing ''k'' characters, all of which are ''char''.  If ''char'' is omitted, the contents of the string are implementation-dependent.
+
+`(string `''char'' ...`)` [R7RS-small]
+
+Returns a string consisting of the ''char'' arguments.
+
+`(string-unfold `''stop? mapper successor'' [[|''seed'' ]]`)`
+
+`(string-unfold-right `''stop? mapper successor'' [[|''seed'' ]]`)`
+
+`(span->string `''span''`)`
+
+Returns a newly allocated string which contains the characters of ''span'' in order.
+
+`(string-tabulate `''len proc''`)`
+
+Invokes ''proc'' for all exact integers between 0 (inclusive) and ''len'' (exclusive), and returns a newly allocated string containing the characters returned by the invocations.
+
+Compatibility note:  The argument order here agrees with the `list-tabulate` procedure of [[http://srfi.schemers.org/srfi-1/srfi-1.html|SRFI 1]] rather than SRFI 13's `string-tabulate` procedure.  The discrepancy was [[http://srfi.schemers.org/srfi-13/mail-archive/msg00143.html|unintentional]], but was [[http://srfi.schemers.org/srfi-13/mail-archive/msg00144.html|discovered too late to fix]].
 
 == Predicates ==
 
