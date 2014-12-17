@@ -4,7 +4,7 @@ This is a library for manipulating textual content based on ''character spans'',
 
 ''String cursors'' are pointers into strings, and are not necessarily disjoint from other Scheme types.  For example, they may be exact integers that are character-based indexes into strings.  Alternatively, in an implementation whose internal representation of strings is UTF-8, string cursors may be indexes of individual bytes in the string.  It is also possible to implement string cursors as objects of a disjoint type.
 
-This proposal also contains a useful subset of [[http://srfi.schemers.org/srfi-13/srfi-13.html|SRFI 13]], which manipulates strings directly with some allowances for shared substrings (which are provided only by Guile).  Unlike SRFI 13, the string procedures of this proposal do not have ''start'' and ''end'' arguments, as their function is subsumed by spans.  In addition, the low-level procedures are not provided, nor are there any mutation operations.  Procedures with the same names and basic functions as SRFI-13 procedures are marked [[SRFI|13]].
+Most of the character span procedures in this proposal also have string equivalents.  In order to make the specification more concise, the string procedures are listed but don't have detailed explanations, except for the constructors.  Procedures with the same names and basic functions as [[http://srfi.schemers.org/srfi-13/srfi-13.html|SRFI 13]] procedures are marked [[SRFI|13]].  However, this proposal contains only a subset of SRFI 13.  In particular, the string procedures of this proposal do not accept ''start'' and ''end'' arguments, as their function is subsumed by spans.  In addition, the SRFI 13 low-level procedures and macros are not provided, nor are there any mutation operations.   
 
 The operations provided here (with the exception of those in the Compatibility section) are entirely independent of the character repertoire supported by the implementation.
 
@@ -237,6 +237,26 @@ Returns `#t` if ''span,,1,,'' is a prefix/suffix of ''span,,2,,'', and `#f` othe
 `(string-count `''proc string''`)` [[SRFI|13]]
 
 Returns an exact integer, the number of characters in ''span'' which satisfy ''pred''.
+
+`(span-find `''pred span''`)`
+
+`(string-find `''pred string''`)`
+
+`(span-find-right `''pred span''`)`
+
+`(string-find-right `''pred string''`)`
+
+Returns a cursor pointing to the first/last character in ''span'' that satisfies ''pred'', or the end/start cursor if there is none.
+
+`(span-bypass `''pred span''`)`
+
+`(string-bypass `''pred string''`)`
+
+`(span-bypass-right `''pred span''`)`
+
+`(string-bypass-right `''pred string''`)`
+
+Returns a cursor pointing to the first/last character in ''span'' that does not satisfy ''pred'', or the end/start cursor if there is none.
 
 `(span-take-while `''pred span''`)`
 
