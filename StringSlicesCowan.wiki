@@ -20,6 +20,8 @@ This is a library for manipulating textual content based on ''character spans'',
 
 8.  Keep `in-char-set?`?  It creates a dependency on SRFI 14, but is essential for SRFI 13 emulation.
 
+9.  Bring back `-ci` variants of the prefix and suffix operations and `span-compare` from SRFI 13?
+
 == Specification ==
 
 With the exception of the constructors, all the procedures in this proposal exist in pairs: one that accepts and produces character spans and one that accepts and produces strings.  Only the character span version is documented in full; the string version should be understood as accepting the same non-span arguments, performing the same operations, and providing the same non-span results.
@@ -30,9 +32,9 @@ String cursors are pointers into strings or spans, and are not necessarily disjo
 
 Given a span of length ''n'', there are ''n''+2 possible cursors that refer to it: one for each character in the span, one for the position just before the first character, and one for the position just after the last character.  These additional positions are provided for backward and forward iteration respectively, and also because when creating a span from cursors the second cursor argument is exclusive.
 
-Most of the character span procedures in this proposal also have string equivalents.  In order to make the specification more concise, the string procedures are listed but don't have detailed explanations, except for the constructors.  Procedures with the same names and basic functions as [[http://srfi.schemers.org/srfi-13/srfi-13.html|SRFI 13]] procedures are marked [[SRFI|13]].  However, this proposal contains only a subset of SRFI 13.  In particular, the string procedures of this proposal do not accept ''start'' and ''end'' arguments, as their function is subsumed by spans.  In addition, the SRFI 13 low-level procedures and macros are not provided, nor are there any mutators.   
+Most of the character span procedures in this proposal also have string equivalents.  In order to make the specification more concise, the string procedures are listed but don't have detailed explanations, except for the constructors.  Procedures with the same names and basic functions as [[http://srfi.schemers.org/srfi-13/srfi-13.html|SRFI 13]] procedures are marked [[SRFI|13]].  However, this proposal contains only a subset of SRFI 13.  In particular, the string procedures of this proposal do not accept ''start'' and ''end'' arguments, as their function is subsumed by spans, nor is SRFI 13's separation between sharable and non-sharable results supported.  In addition, the SRFI 13 low-level procedures and macros are not provided, nor are there any mutators.
 
-The operations provided here (with the exception of those in the Compatibility section) are entirely independent of the character repertoire supported by the implementation.
+The operations provided here (with the exception of those in the Compatibility section) are entirely independent of the character repertoire supported by the implementation.  In particular, this means that the case-insensitive procedures of SRFI 13 are excluded.
 
 All the R7RS-small string procedures are included here, with the exception of the string mutators `string-set!`, `string-copy!`, and `string-fill!`.  They are marked [R7RS-small], and are not exported by implementations of this proposal.  They are included only for clarity and completeness.
 
@@ -258,7 +260,7 @@ Returns `#t` if ''span,,1,,'' is a prefix/suffix of ''span,,2,,'', and `#f` othe
 
 `(span-count `''pred span''`)`
 
-`(string-count `''proc string''`)` [[SRFI|13]]
+`(string-count `''pred string''`)` [[SRFI|13]]
 
 Returns an exact integer, the number of characters in ''span'' which satisfy ''pred''.
 
@@ -358,17 +360,31 @@ This procedure is useful in the construction of procedures that accumulate chara
 
 `(string-map `''proc string'' ...`)` [R7RS-small]
 
+It is an error if ''proc'' does not accept as many arguments as there are spans and return a single character.
+
+Applies ''proc'' element-wise to the elements of the ''spans'' and returns a span of the results,
+in order. If more than one span is given and not all spans have the same length, `span-map` terminates
+when the shortest span runs out. The dynamic order in which ''proc'' is applied to the elements of the spans is unspecified. If multiple returns occur from `span-map`, the values returned by earlier returns are not mutated.
+
 `(span-for-each `''proc span'' ...`)`
 
 `(string-for-each `''proc string'' ...`)` [R7RS-small]
 
+It is an error if ''proc'' does not accept as many arguments as there are strings.
+
+The arguments to `span-for-each` are like the arguments to span-map, but it calls ''proc'' for its
+side effects rather than for its values. Unlike `span-map`, `span-for-each` is guaranteed to call ''proc'' on the elements of the lists in order from the first character(s) to the last, and the value returned by `string-for-each` is unspecified. If more than one span is given and not all
+spans have the same length, `span-for-each` terminates when the shortest string runs out.
+
 `(span-fold `''proc nil span''`)`
 
-`(string-fold `''proc nil string''`)` [R7RS-small]
+`(string-fold `''proc nil string''`)` [[SRFI|13]]
 
 `(span-fold-right `''proc nil span''`)`
 
-`(string-fold-right `''proc nil string''`)` [R7RS-small]
+`(string-fold-right `''proc nil string''`)` [[SRFI|13]]
+
+Invokes ''proc'' on each member of ''span'' in forward/reverse order, passing the result of the previous invocation as a second argument. For the first invocation, ''nil'' is used as the second argument. Returns the result of the last invocation, or ''nil'' if there was no invocation.
 
 == Parsing and unparsing ==
 
@@ -404,6 +420,8 @@ Returns a span containing the characters of ''span'' which satisfy ''proc''.
 `(string-remove `''pred string''`)`
 
 Returns a span containing the characters of ''span'' which do not satisfy ''proc''.
+
+Compatibility note:  The SRFI 13 variant of this procedure is called `string-delete`, which is inconsistent with the conventions of SRFI 1 and other SRFIs.
 
 `(span-partition `''pred span''`)`
 
