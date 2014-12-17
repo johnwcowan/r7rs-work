@@ -306,12 +306,6 @@ The name "`span-span`" is unfortunate but unavoidable.
 
 Returns the number of characters in ''span''.
 
-`(span-copy `''span''`)`
-
-`(string-copy `''string'' [[|''start'' [ ''end'' ]] ]`)` [R7RS-small]
-
-Makes a copy of ''span'' such that any future mutation of any string underlying ''span'' does not affect the characters of ''span''.
-
 `(span-reverse `''span''`)`
 
 `(string-reverse `''span''`)` [[SRFI|13]]
@@ -324,18 +318,20 @@ Returns a span containing the characters of ''span'' in reverse order.
 
 Returns a span containing the characters of the ''spans'' in order.
 
-`(span-concatenate `''list-of-spans''`)`
+`(span-concatenate `''list''`)`
 
-`(string-concatenate `''list-of-strings''`)` [[SRFI|13]]
+`(string-concatenate `''list''`)` [[SRFI|13]]
 
-Returns a span containing the characters of the spans enumerated in ''list-of-spans'' in order.  This procedure will succeed even if `(apply string-append list-of-strings)` fails due to an implementation limit on the number of arguments a procedure may receive.
+Returns a span containing the characters of the spans and/or strings enumerated in ''list'' in order.  This procedure will succeed even if `(apply string-append list-of-strings)` fails due to an implementation limit on the number of arguments a procedure may receive.  For convenience, the elements of ''list'' may be spans or strings or both.
 
-`(span-concatenate-reverse `''list-of-spans''`)`
+`(span-concatenate-reverse `''list''`)`
 
-`(string-concatenate-reverse `''list-of-strings''`)` [[SRFI|13]]
+`(string-concatenate-reverse `''list'' [[|''end'' ]]`)` [[SRFI|13]]
 
-The same as `span-concatenate`, except that ''list-of-spans'' is processed in reverse order.  Note that the individual spans are ''not'' processed in reverse order.
+The same as `span-concatenate`, except that ''list'' is processed in reverse order.  Note that the individual spans and strings are ''not'' processed in reverse order. 
 
+This procedure is useful in the construction of procedures that accumulate character data into lists of string buffers, and wish to convert the accumulated data into a single string when done.
+ 
 == Folding and mapping ==
 
 `(span-map `''proc span'' ...`)`
@@ -354,7 +350,7 @@ The same as `span-concatenate`, except that ''list-of-spans'' is processed in re
 
 `(string-fold-right `''proc nil string''`)` [R7RS-small]
 
-== Parsing ==
+== Parsing and unparsing ==
 
 `(span-split `''span [[''sep''|[ ''limit'' ]] ]`)`
 
@@ -363,6 +359,17 @@ The same as `span-concatenate`, except that ''list-of-spans'' is processed in re
 Returns a list of the words contained in ''span''.  If ''sep'' (which is also a character span) is omitted, then the words are separated by one or more whitespace characters (those on which `char-whitespace?` returns `#t`). If ''sep'' is supplied, it specifies a string to be used as the word separator. The returned list will then have one more item than the number of non-overlapping occurrences of the separator in the string.  If ''sep'' is an empty span, then the returned list contains a list of the characters in ''span''.
 
 If ''limit'' is provided, at most that many splits occur, and the remainder of ''span'' is returned as the final element of the list (thus, the result will have at most ''limit'' + 1 elements). If ''limit'' is not specified, then as many splits as possible are made.  It is an error if ''limit'' is not a positive exact integer.
+
+`(span-join `''list'' [[|''delim'' [ ''grammar'' ]] ]`)`
+
+`(string-join `''list'' [[|''delim'' [ ''grammar'' ]] ]`)`
+
+This procedure is a simple unparser — it pastes the elements of ''list'' together using ''delimiter'', which is a span.  If ''delimiter'' is omitted, it is a single space.  For convenience, ''list'' elements are allowed to be strings or spans or both.  The ''grammar'' argument is a symbol that determines how the delimiter is used, and defaults to `infix`.
+
+ * `infix means an infix or separator grammar: insert the delimiter between list elements. An empty list will produce an empty string. 
+ * `strict-infix` means the same as `infix`, but will signal an error if given an empty list. 
+ * `suffix` means a suffix or terminator grammar: insert the delimiter after every list element.
+ * `prefix` means a prefix grammar: insert the delimiter before every list element.
 
 == Filtering and partitioning ==
 
@@ -384,19 +391,33 @@ Returns a span containing the characters of ''span'' which do not satisfy ''proc
 
 Returns two values, a span containing the characters of ''span'' which satisfy ''proc'' and another span containing those which do not.
 
-== Conversion ==
+== Copying and conversion ==
+
+`(span-copy `''span''`)`
+
+`(string-copy `''string'' [[|''start'' [ ''end'' ]] ]`)` [R7RS-small]
+
+Makes a copy of ''span'' such that any future mutation of any string underlying ''span'' does not affect the characters of ''span''.
 
 `(span->list `''span''`)`
 
-`(span->vector `''span''`)`
-
 `(string->list `''string'' [[|''start'' [ ''end'' ]] ]`)` [R7RS-small]
 
-`(list->string `''list''[[|''start'' [ ''end'' ]] ]`)` [R7RS-small]
+`(span->vector `''span''`)`
 
 `(string->vector `''string''[[|''start'' [ ''end'' ]] ]`)` [R7RS-small]
 
+Returns a newly allocated list/vector containing the characters of ''span'' in order.  The ''start'' and ''end'' arguments are for compatibility with R7RS-small.
+
+`(list->string `''list''`)` [R7RS-small]
+
 `(vector->string `''vector''[[|''start'' [ ''end'' ]] ]`)` [R7RS-small]
+
+Returns a newly allocated string whose characters are the elements of ''list/vector'' in order.  It is an error if the elements are not characters.  The ''start'' and ''end'' arguments are for compatibility with R7RS-small.
+
+`(reverse-list->string `''list''`)` [[SRFI|13]]
+
+Returns a newly allocated string whose characters are the elements of ''list'' in reverse order.  It is an error if the elements are not characters.
 
 == String cursors ==
 
@@ -530,3 +551,9 @@ For every character ''c'' in ''span'': if ''c'' is preceded by a character with 
 (string-titlecase "3com makes routers.") =>
   "3Com Makes Routers."
 }}}
+
+== Comparator ==
+
+`span-comparator`
+
+This is a [http://srfi.schemers.org/srfi-114/srfi-114.html] SRFI 114] comparator for comparing strings.  Its procedures behave as if their arguments are converted to strings and then passed to the procedures of `string-comparator`.
