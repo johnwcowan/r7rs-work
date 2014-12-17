@@ -2,15 +2,9 @@
 
 This is a library for manipulating textual content based on ''character spans'', also known as just ''spans''.  These are conceptually references to a part of a string delimited using two ''string cursors'', which are references to the characters of a string.  It is not defined whether the character span type is disjoint from strings.  Character spans are immutable, and except as noted below, it is an error to mutate the string(s) that underly a span.  
 
-Most of the character span procedures in this proposal also have string equivalents.  In order to make the specification more concise, the string procedures are listed but don't have detailed explanations, except for the constructors.  Procedures with the same names and basic functions as [[http://srfi.schemers.org/srfi-13/srfi-13.html|SRFI 13]] procedures are marked [[SRFI|13]].  However, this proposal contains only a subset of SRFI 13.  In particular, the string procedures of this proposal do not accept ''start'' and ''end'' arguments, as their function is subsumed by spans.  In addition, the SRFI 13 low-level procedures and macros are not provided, nor are there any mutation operations.   
-
-The operations provided here (with the exception of those in the Compatibility section) are entirely independent of the character repertoire supported by the implementation.
-
-Procedures marked [R7RS-small] are available in the small language, and are not exported by implementations of this proposal.  They are included only for clarity and completeness.
-
 == Issues ==
 
-1. Allow negative indices in constructors?
+1. Allow negative indices in `make-span` and `subspan`?  Convenient, but irregular.
 
 2. Titlecase doesn't really fit; keep it?
 
@@ -24,6 +18,8 @@ Procedures marked [R7RS-small] are available in the small language, and are not 
 
 7. Currently `string-mismatch` returns a cursor into its second argument.  Should it return a cursor into the first argument, or into both arguments?  (In Chibi it makes no difference.)
 
+8.  Keep `in-char-set?`?  It creates a dependency on SRFI 14, but is essential for SRFI 13 emulation.
+
 == Specification ==
 
 With the exception of the constructors, all the procedures in this proposal exist in pairs: one that accepts and produces character spans and one that accepts and produces strings.  Only the character span version is documented in full; the string version should be understood as accepting the same non-span arguments, performing the same operations, and providing the same non-span results.
@@ -34,23 +30,25 @@ String cursors are pointers into strings or spans, and are not necessarily disjo
 
 Given a span of length ''n'', there are ''n''+2 possible cursors that refer to it: one for each character in the span, one for the position just before the first character, and one for the position just after the last character.  These additional positions are provided for backward and forward iteration respectively, and also because when creating a span from cursors the second cursor argument is exclusive.
 
+Most of the character span procedures in this proposal also have string equivalents.  In order to make the specification more concise, the string procedures are listed but don't have detailed explanations, except for the constructors.  Procedures with the same names and basic functions as [[http://srfi.schemers.org/srfi-13/srfi-13.html|SRFI 13]] procedures are marked [[SRFI|13]].  However, this proposal contains only a subset of SRFI 13.  In particular, the string procedures of this proposal do not accept ''start'' and ''end'' arguments, as their function is subsumed by spans.  In addition, the SRFI 13 low-level procedures and macros are not provided, nor are there any mutators.   
+
+The operations provided here (with the exception of those in the Compatibility section) are entirely independent of the character repertoire supported by the implementation.
+
+All the R7RS-small string procedures are included here, with the exception of the string mutators `string-set!`, `string-copy!`, and `string-fill!`.  They are marked [R7RS-small], and are not exported by implementations of this proposal.  They are included only for clarity and completeness.
+
 == Character span constructors ==
 
-`(make-span `''string start end''`)`
+`(make-span `''string'' [[''start''|''end'' ]] ]`)`
 
-Returns a character span which contains the characters of ''string'' in order from ''start'' (inclusive) to ''end'' (exclusive).
+Returns a character span which contains the characters of ''string'' in order from indexes ''start'' (inclusive) to ''end'' (exclusive).  The default values of ''start'' and ''end'' are 0 and the length of ''string'' respectively.
 
 `(span `''char'' ...`)`
 
-`(subspan `''span start end''`)`
+Returns a character span which contains the characters ''char'' in order.
 
 `(string->span `''string''`)`
 
 Returns a character span which contains the characters of ''string'' in order.  Later mutation of ''string'' will not affect the value of ''span''.
-
-`(span/cursors `''string start-cursor end-cursor''`)`
-
-`(string-subspan/cursors `''string start-cursor end-cursor''`)`
 
 `(span-transform `''proc span obj'' ...`)`
 
@@ -69,6 +67,8 @@ Returns a string consisting of the ''char'' arguments.
 `(string-unfold `''stop? mapper successor'' [[|''seed'' ]]`)`
 
 `(string-unfold-right `''stop? mapper successor'' [[|''seed'' ]]`)`
+
+Returns a newly allocated string, whose characters are generated in forward/reverse order using the following algorithm: If the result of applying the predicate ''stop?'' to ''seed'' is true, the string is complete and is returned.  Otherwise, apply the procedure ''mapper'' to seed. The value that ''mapper'' returns becomes the next character of the string.  Then a new seed is obtained by applying the procedure ''successor'' to ''seed'', and this algorithm is repeated.
 
 `(span->string `''span''`)`
 
@@ -104,15 +104,15 @@ Returns `#t` if ''pred'' returns true for every character in ''span'', and `#f` 
 
 `(string-any `''pred string''`)`  [[SRFI|13]]
 
-Returns `#t` if ''pred'' returns false for every character in ''span'', and `#f` otherwise.
+Returns `#f` if ''pred'' returns false for each character in ''span'', and `#t` otherwise.
 
 `(is-char? `''char''`)`
 
-Returns a predicate which accepts one argument, and returns `#t` if the argument is the same as ''char'' (in the sense of `char=?`) and `#f` otherwise.
+Returns a predicate which accepts one argument.  This predicate returns `#t` if the argument is the same as ''char'' (in the sense of `char=?`) and `#f` otherwise.
 
 `(in-char-set? `''char-set''`)`
 
-Returns a predicate which accepts one argument, and returns `#t` if the argument is an element of ''char-set'', a SRFI 14 character set, and `#f` otherwise.
+Returns a predicate which accepts one argument.  This predicate returns `#t` if the argument is an element of ''char-set'', a [[http://srfi.schemers.org/srfi-14/srfi-14|SRFI 14]] character set, and `#f` otherwise.
 
 == Selection ==
 
@@ -120,7 +120,7 @@ Returns a predicate which accepts one argument, and returns `#t` if the argument
 
 `(string-ref `''string k''`)` [R7RS-small]
 
-Returns the 'k'th character of ''span'', starting with 0.  It is an error if ''k'' is not a non-negative exact integer less than the length of ''span''.
+Returns the ''k''th character of ''span'', starting with 0.  It is an error if ''k'' is not a non-negative exact integer less than the length of ''span''.
 
 `(span-take `''span n''`)`
 
@@ -168,6 +168,16 @@ Returns two values, a character span containing the first ''n'' characters of ''
 
 This procedure is the same as the SRFI 13 procedure `xsubstring`, except that the ''to'' argument is required.
 
+`(subspan `''span start end''`)`
+
+`(substring `''string start end''`)` [R7RS-small]
+
+`(subspan/cursors `''span start end''`)`
+
+`(substring/cursors `''string start end''`)`
+
+Returns a character span which contains the characters in ''span'' between the indexes/cursors ''start'' (inclusive) and ''end'' (exclusive).
+
 == Padding, trimming, and compressing ==
 
 `(span-pad `''span len'' [[|''char'' ]]`)`
@@ -210,7 +220,7 @@ Return a span which differs from ''span'' in that every sequence of consecutive 
 
 `(string-suffix `''string,,1,,'' ''string,,2,,''`)` 
 
-Returns a span containing the characters in the common prefix/suffix of ''span,,1,,' and ''span,,2,,''.  If there is no common prefix/suffix, returns an empty span.
+Returns a span containing the characters in the common prefix/suffix of ''span,,1,,'' and ''span,,2,,''.  If there is no common prefix/suffix, returns an empty span.
 
 `(span-prefix-length `''span,,1,,'' ''span,,2,,''`)`
 
@@ -220,19 +230,19 @@ Returns a span containing the characters in the common prefix/suffix of ''span,,
 
 `(string-suffix-length `''string,,1,,'' ''string,,2,,''`)` [[SRFI|13]]
 
-Returns the length of the span that would be returned by `span-prefix` and friends.
+Returns the length (in characters) of the span that would be returned by `span-prefix` and friends.
 
 `(span-mismatch `''span,,1,,'' ''span,,2,,''`)`
 
 `(string-mismatch `''string,,1,,'' ''string,,2,,''`)`
 
-Returns a cursor pointing to the first character in ''span,,2,,'' that is not equal to the corresponding character in ''span,,1,,''.  If the spans are equal, the cursor referring to the position after the last character in ''span,,2,,'' is returned.
+Returns a cursor referring to the first character in ''span,,2,,'' that is not equal to the corresponding character in ''span,,1,,''.  If the spans are equal, the cursor referring to the position after the last character in ''span,,2,,'' is returned.
 
 `(span-mismatch-right `''span,,1,,'' ''span,,2,,''`)`
 
 `(string-mismatch-right `''string,,1,,'' ''string,,2,,''`)`
 
-Returns a cursor pointing to the first character in ''span,,2,,'', scanning in reverse order, that is not equal to the corresponding character in ''span,,1,,'', also processed in reverse order.  If the spans are equal, the cursor referring to the position before the first character in ''span,,2,,'' is returned.
+Returns a cursor referring to the first character in ''span,,2,,'', scanning in reverse order, that is not equal to the corresponding character in ''span,,1,,'', also processed in reverse order.  If the spans are equal, the cursor referring to the position before the first character in ''span,,2,,'' is returned.
 
 `(span-prefix? `''span,,1,,'' ''span,,2,,''`)`
 
