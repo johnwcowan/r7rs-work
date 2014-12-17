@@ -24,15 +24,15 @@ This is a library for manipulating textual content based on ''character spans'',
 
 == Rationale ==
 
-When SRFI 13 was defined in 1999, it was intended to provide string operations on both whole strings and substrings with efficiency.  At that time, only Guile and T provided true shared copy-on-write substrings, and SRFI 13 could not reasonably require them of a Scheme implementation.  Consequently, almost all the procedures accept optional ''start'' and ''end'' arguments for each of the string arguments, indexing the beginning and the end of the substring(s) to be operated on.
+When SRFI 13 was defined in 1999, it was intended to provide efficient string operations on both whole strings and substrings.  At that time, only Guile and T provided true shared copy-on-write substrings, and SRFI 13 could not reasonably require them of a Scheme implementation.  Consequently, almost all the SRFI 13 procedures accept optional ''start'' and ''end'' arguments for each of the string arguments, indexing the beginning and the end of the substring(s) to be operated on.
 
 Unfortunately, variable-arity procedures are often slow and may not interact well with type checking in Schemes that provide it.  In addition, it is now fairly common to store strings internally as UTF-8 or UTF-16 code unit sequences, which means that indexing operations are often O(n) rather than O(1), and string mutation can be extremely expensive if the storage used for the string needs to be expanded and the implementation does not use an indirect pointer to it (as in Chicken).
 
-As for shared substrings, they are no more common than they were in 1999.  Fortunately, however, since then it has become normal for Schemes to provide user-defined records, and they are required by both R6RS and R7RS.  This makes it possible to portably provide a representation for a portion of a string, provided the string is treated as immutable.  The most portable such record consists of a string and two indexes, but other more efficient representations may be used instead.
+As for shared substrings, they are no more common in 2015 than they were in 1999.  Fortunately, however, since then it has become normal for Schemes to provide user-defined records, and they are required by both R6RS and R7RS.  This makes it possible to portably provide a representation for a segment of a string, provided the string is never mutated.  The most portable such record consists of a string and two indexes, but other more efficient representations may be used instead.
 
-This proposal, therefore, is intended to help move the practice of Scheme programming away from mutable strings, string indexes, and SRFI 13, while maintaining as much backward compatibility as is practical.  It does not require any particular run-time efficiencies from its procedures.
+This proposal, therefore, is intended to help move the practice of Scheme programming away from mutable strings, string indexes, and SRFI 13, while maintaining as much backward compatibility as is consistent with these goals.  It does not require any particular run-time efficiencies from its procedures.
 
-It is also possible to implement character spans as ropes (trees of strings), which makes concatenation more efficient at the expense of more complex cursor objects and/or slower conversion to strings.
+It is also possible to implement character spans as ropes (trees of strings), which makes concatenation more efficient at the expense of more complex cursor objects and/or slower conversion to strings.  For this reason, as well as for security and efficiency reasons, there is no operation to retrieve an underlying string from a character span, as there may be more than one such string or none at all.
  
 == Specification ==
 
