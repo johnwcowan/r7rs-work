@@ -248,6 +248,8 @@ Returns an exact integer, the number of characters in ''span'' which satisfy ''p
 
 Returns a cursor pointing to the first/last character in ''span'' that satisfies ''pred'', or the end/start cursor if there is none.
 
+Compatibility note:  These procedures are analogous to SRFI 13's `string-index` procedures, but return cursors rather than indexes or `#f` on failure.
+
 `(span-bypass `''pred span''`)`
 
 `(string-bypass `''pred string''`)`
@@ -257,6 +259,8 @@ Returns a cursor pointing to the first/last character in ''span'' that satisfies
 `(string-bypass-right `''pred string''`)`
 
 Returns a cursor pointing to the first/last character in ''span'' that does not satisfy ''pred'', or the end/start cursor if there is none.
+
+Compatibility note:  These procedures are analogous to SRFI 13's `string-skip` procedures, but return cursors rather than indexes or `#f` on failure.
 
 `(span-take-while `''pred span''`)`
 
