@@ -400,7 +400,7 @@ If ''limit'' is provided, at most that many splits occur, and the remainder of '
 
 `(string-join `''list'' [[|''delim'' [ ''grammar'' ]] ]`)`
 
-This procedure is a simple unparser — it pastes the elements of ''list'' together using ''delimiter'', which is a span.  If ''delimiter'' is omitted, it is a single space.  For convenience, ''list'' elements are allowed to be strings or spans or both.  The ''grammar'' argument is a symbol that determines how the delimiter is used, and defaults to `infix`.
+This procedure pastes the elements of ''list'' together using ''delimiter'', which is a span.  For convenience, ''list'' elements are allowed to be strings or spans or both.  If ''delimiter'' is omitted, it is a single space.  The ''grammar'' argument is a symbol that determines how the delimiter is used, and defaults to `infix`.  The following values are understood:
 
  * `infix` means an infix or separator grammar: insert the delimiter between list elements. An empty list will produce an empty string. 
  * `strict-infix` means the same as `infix`, but will signal an error if given an empty list. 
@@ -487,7 +487,7 @@ Returns the cursor following ''cursor''.  It is an error if ''cursor'' does not 
 
 `(string-cursor-prev `''string cursor''`)`
 
-Returns the cursor following ''cursor''.  It is an error if ''cursor'' does not refer to a character in ''span'' other than the first.  However, it is not an error if ''cursor'' refers to the position following the last character in ''span''. 
+Returns the cursor following ''cursor''.  It is an error if ''cursor'' does not refer either to a character in ''span'' or the position following the last character in ''span''. 
 
 `(span-cursor-forward `''span cursor n''`)`
 
@@ -509,7 +509,7 @@ Iterates `span-cursor-next` until it refers to a character that satisfies ''pred
 
 `(string-cursor-backward-until `''string cursor n''`)`
 
-Iterates `span-cursor-prev` until it refers to a character that satisfies ''pred'' or the position following the last character of ''span'' is reached, and returns that cursor.
+Iterates `span-cursor-prev` until it refers to a character that satisfies ''pred'' or the position preceding the first character of ''span'' is reached, and returns that cursor.
 
 `(span-cursor=? `''span cursor,,1,, cursor,,2,,''`)`
 
@@ -644,4 +644,4 @@ For every character ''c'' in ''span'': if ''c'' is preceded by a character with 
 
 `span-comparator`
 
-This is a [http://srfi.schemers.org/srfi-114/srfi-114.html] SRFI 114] comparator for comparing strings.  Its procedures behave as if their arguments are converted to strings and then passed to the procedures of `string-comparator`.
+This is a [[http://srfi.schemers.org/srfi-114/srfi-114.html|SRFI 114]] comparator for comparing strings.  Its procedures behave as if their arguments are converted to strings and then passed to the procedures of `string-comparator`.
