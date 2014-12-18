@@ -4,6 +4,8 @@ This is a library for manipulating textual content based on ''character spans'',
 
 == Issues ==
 
+0. Is ''character span'' a satisfactory name?
+
 1. Allow negative indices in `make-span` and `subspan`?  Convenient, but irregular.
 
 2. Titlecase doesn't really fit; keep it?
@@ -34,6 +36,8 @@ This proposal, therefore, is intended to help move the practice of Scheme progra
 
 It is also possible to implement character spans as ropes (trees of strings), which makes concatenation more efficient at the expense of more complex cursor objects and/or slower conversion to strings.  For this reason, as well as for security and efficiency reasons, there is no operation to retrieve an underlying string from a character span, as there may be more than one such string or none at all.
  
+The operations provided here (with the exception of those in the Compatibility section) are entirely independent of the character repertoire supported by the implementation.  In particular, this means that the case-insensitive procedures of SRFI 13 are excluded.  There is also no provision for [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-2.html#node_idx_54|R6RS normalization procedures]] or for an `string->integer` procedure that was proposed for SRFI 13 but not included.  These may appear in future SRFIs.
+
 == Specification ==
 
 String cursors are pointers into strings or spans, and are not necessarily disjoint from other Scheme types.  For example, they may be exact integers that are character-based indexes into strings.  Alternatively, in an implementation whose internal representation of strings is UTF-8, string cursors may be indexes of individual bytes in the string.  It is also possible to implement string cursors as objects of a disjoint type.  The string-cursor procedures of this proposal are mostly taken from Chibi Scheme.
@@ -45,8 +49,6 @@ Most of the character span procedures in this proposal also have string equivale
 All the R7RS-small string procedures are included here, with the exception of the string mutators `string-set!`, `string-copy!`, and `string-fill!`.  They are marked [R7RS-small], and are not exported by implementations of this proposal meant for R7RS systems.  They are included only for clarity and completeness.
 
 All predicates passed to procedures defined in this proposal may be called in any order and any number of times, except as otherwise noted.  In SRFI 13, there is no such provision, and so character sets are inherently more efficient than predicates [[http://srfi.schemers.org/srfi-13/mail-archive/msg00052.html|because testing them is fast and free of side effects]], though how fast character sets are if they support full Unicode is implementation-dependent.
-
-The operations provided here (with the exception of those in the Compatibility section) are entirely independent of the character repertoire supported by the implementation.  In particular, this means that the case-insensitive procedures of SRFI 13 are excluded.
 
 == Character span constructors ==
 
