@@ -4,13 +4,11 @@ This is a library for manipulating textual content based on ''character spans'',
 
 == Issues ==
 
-0. Is ''character span'' a satisfactory name?
+1. Is ''character span'' a satisfactory name?
 
-1. Allow negative indices in `make-span` and `subspan`?  Convenient, but irregular.
+2. Allow negative indices in `make-span` and `subspan`?  Convenient, but irregular.
 
-2. Titlecase doesn't really fit; keep it?
-
-3. (resolved)
+3. Titlecase doesn't really fit; keep it?
 
 4. Keep string trees?
 
