@@ -44,7 +44,7 @@ Most of the character span procedures in this proposal also have string equivale
 
 All the R7RS-small string procedures are included here, with the exception of the string mutators `string-set!`, `string-copy!`, and `string-fill!`.  They are marked [R7RS-small], and are not exported by implementations of this proposal meant for R7RS systems.  They are included only for clarity and completeness.
 
-All predicates passed to procedures defined in this proposal may be called in any order and any number of times, except as otherwise noted.  This restriction, which is not present in SRFI 13, allows efficient discrimination of characters without making use of [[http://srfi.schemers.org/srfi-14/srfi-14|SRFI 14]] character sets.
+All predicates passed to procedures defined in this proposal may be called in any order and any number of times, except as otherwise noted.  In SRFI 13, there is no such provision, and so character sets are inherently more efficient than predicates [[http://srfi.schemers.org/srfi-13/mail-archive/msg00052.html|because testing them is fast and free of side effects]], though how fast character sets are if they support full Unicode is implementation-dependent.
 
 The operations provided here (with the exception of those in the Compatibility section) are entirely independent of the character repertoire supported by the implementation.  In particular, this means that the case-insensitive procedures of SRFI 13 are excluded.
 
