@@ -667,4 +667,4 @@ This is a [[http://srfi.schemers.org/srfi-114/srfi-114.html|SRFI 114]] comparato
 
 == Sample Implementation ==
 
-The sample implementation represents spans as records containing a string and two string cursors, and provides two implementations of string cursors, one using string indexes directly and one that layers UTF-8 character spans on top of single-byte native strings.
+The sample implementation (which is not yet written) represents spans as records containing a string and two string cursors, and provides two implementations of string cursors, one using string indexes directly and one that layers UTF-8 character spans on top of single-byte native strings.
