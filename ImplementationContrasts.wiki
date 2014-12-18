@@ -14,7 +14,7 @@ As of 2013-07-29, I could not build Oaklisp (it doesn't seem to like 64-bit syst
 
 As of 2013-01-31, I could not build [[https://code.google.com/p/vx-scheme/|VX]] or [[https://github.com/vijaymathew/spark-scheme|Spark]], so they were excluded from the suite from then on.
 
-KSM, Luna, MScheme, Schell, QScheme, Rhizome/pi, SIOD, and VSCM either will not build on my system or will not run.  For these and many other Schemes see the [[http://community.schemewiki.org/?scheme-faq-standards|fairly complete list of Scheme implementations]].
+KSM, Luna, MScheme, QScheme, Rhizome/pi, SIOD, and VSCM either will not build on my system or will not run.  For these and many other Schemes see the [[http://community.schemewiki.org/?scheme-faq-standards|fairly complete list of Scheme implementations]].
 
 S7 was formerly, but incorrectly, known in these pages as "Scheme 7", and some references to this name survive.  It's really named after [[http://en.wikipedia.org/wiki/Sunbeam_S7_and_S8|the motorcycle]].
 
