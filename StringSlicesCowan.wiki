@@ -14,7 +14,7 @@ This is a library for manipulating textual content based on ''character spans'',
 
 5. Keep compatibility routines, possibly in a different package?
 
-6. I have made the argument order of `string-tabulate` compatible with SRFI 1 `list-tabulate` rather than SRFI 13's `string-tabulate`; the discrepancy was accidental.  Revert to SRFI 13 argument order?
+6. (resolved)
 
 7. Currently `string-mismatch` returns a cursor into its second argument.  Should it return a cursor into the first argument, or into both arguments?  (In Chibi it makes no difference.)
 
@@ -574,7 +574,7 @@ Return the difference in characters between ''cursor,,2,,'' and ''cursor,,1,,''.
 
 It is an error if ''port'' is not a textual output port.  If ''port'' is omitted, the value of `(current-output-port)` is used.
 
-If ''obj'' is a string or character span, its characters are output to ''port''.  If ''obj'' is a character, it is output to ''port''.  If ''obj'' is a number, it is converted to a string as if by `number->string` and the characters of the string are output to ''port''.  If ''obj'' is a pair or vector, its components are processed recursively by `write-string-tree`.  Otherwise, `write-string-tree` does nothing.
+If ''obj'' is a string or character span, its characters are output to ''port''.  If ''obj'' is a character, it is output to ''port''.  If ''obj'' is a number, it is converted to a string as if by `number->string` and the characters of the string are output to ''port''.  If ''obj'' is a pair or vector, its components are processed recursively by `write-string-tree`.  Otherwise, `write-string-tree` takes an implementation-specific action.
 
 `(tree->span `''obj''`)`
 
