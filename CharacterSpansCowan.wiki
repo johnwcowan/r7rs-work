@@ -121,11 +121,14 @@ Compatibility note: This procedure is the same as the SRFI 13 procedure `xsubstr
 Examples:
 
 {{{
-(span-replicate (span-whole-string "abcdef") 2 7) => span containing "cdefab" ; rotate left
+(span-replicate (span-whole-string "abcdef") 2 7)
+      => span containing "cdefab" ; rotate left
 
-(span-replicate (span-whole-string "abcdef") -2 4) => span containing "efabcd" ; rotate right
+(span-replicate (span-whole-string "abcdef") -2 4)
+      => span containing "efabcd" ; rotate right
 
-(span-replicate (span-whole-string "abc") 0 7) => span containing "abcabca" ; replicate
+(span-replicate (span-whole-string "abc") 0 7)
+      => span containing "abcabca" ; replicate
 }}}
 
 `(subspan `''span start end''`)`
