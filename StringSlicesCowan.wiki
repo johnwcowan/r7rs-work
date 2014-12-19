@@ -1,3 +1,5 @@
+'''Note:  The author has now abandoned this library in favor of the leaner CharacterSpansCowan, but is leaving the original intact as a fine example of [[https://en.wikipedia.org/wiki/House_of_Cards_(Cohan_book)|hubris and wretched excess]].'''
+
 == Character span library ==
 
 This is a library for manipulating textual content based on ''character spans'', also known as just ''spans''.  These are conceptually references to a part of a string delimited using two ''string cursors'', which are references to the characters of a string.  It is not defined whether the character span type is disjoint from strings.  Character spans are immutable, and except as noted below, it is an error to mutate the string(s) that underly a span.  
