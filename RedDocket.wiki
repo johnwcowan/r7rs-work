@@ -4,7 +4,7 @@ This is a draft of proposals for the Red Edition (data structures) of R7RS-large
 
 List library:  [[http://srfi.schemers.org/srfi-1/srfi-1.html|SRFI 1]].
 
-String library:  [[http://srfi.schemers.org/srfi-13/srfi-13.html|SRFI 13]] or StringSlicesCowan.
+String library:  [[http://srfi.schemers.org/srfi-13/srfi-13.html|SRFI 13]] and/or CharacterSpansCowan.
 
 Vector library:  [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]] or VectorsCowan.
 
