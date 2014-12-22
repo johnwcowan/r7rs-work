@@ -1,0 +1,39 @@
+These are Scheme procedures that correspond to basic syntax.  They are derived from [[https://github.com/danfuzz/samizdat/blob/master/doc/library-guide/If.md|the If class of Samizdat]].
+
+`(begin-procedure `''thunk'' ...`)`
+
+Invokes ''thunks'' in order, and returns what the last thunk returns, or an unspecified value if there are no thunks.
+
+`(if-procedure `''pred-thunk then-thunk'' [[|''else-thunk'' ]]`)`
+
+Invokes ''pred-thunk''.  If it returns true, invokes ''then-thunk'' and returns what it returns.  Otherwise, invokes ''else-thunk'' and returns what it returns, or if ''else-thunk'' is not specified, returns an unspecified value.
+
+`(if-not-procedure `''pred-thunk else-thunk''`)`
+
+Invokes ''pred-thunk''.  If it returns true, returns an unspecified value.  Otherwise, invokes ''else-thunk'' and returns what it returns.
+
+`(value-procedure `''test-thunk then-proc else-thunk''`)`
+
+Invokes ''test-thunk''.  If it returns true, invokes ''then-proc'' on the returned value and returns what it returns.  Otherwise, invokes ''else-thunk'' and returns what it returns.
+
+`(case-procedure `''value-thunk thunk-alist'' [[|''else-thunk'' ]]`)`
+
+Invokes ''value-thunk'', and searches ''thunk-alist'' as if by `assv` for the value it returns.  If there is no such entry in ''thunk-alist'', invokes ''else-thunk'' and returns what it returns, or returns an unspecified value if ''else-thunk'' is not provided.  If there is an entry in ''thunk-alist'', its cdr is invoked as a thunk, and `case-procedure` returns what the thunk returns.
+
+`(and-procedure `''thunk'' ...`)`
+
+Invokes each ''thunk'' in the order given, and returns `#f` immediately if any of them return `#f`.  Otherwise returns the value of the last thunk, or `#t` if there are none.
+
+`(or-procedure `''thunk'' ...`)`
+
+Invokes each ''thunk'' in the order given, and if any of them returns true, `or-procedure` returns that value immediately.  Otherwise returns `#f`.
+
+`(loop-procedure ''thunk''`)`
+
+Invokes ''thunk'' repeatedly.  Does not return.
+
+`(while-procedure ''thunk''`)`
+
+Invokes ''thunk'' repeatedly until it returns `#f`.  Returns an unspecified value.
+
+
