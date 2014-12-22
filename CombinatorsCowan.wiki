@@ -1,13 +1,13 @@
-This proposal contains various procedures that return procedures as well as a few others, drawn from an earlier version of Chicken.  Common Lisp has a few of them too.
+This proposal contains various procedures that return procedures, as well as a few others, drawn from an earlier version of Chicken.  Common Lisp has a few of them too, and more come from [[http://programmingpraxis.com/contents/standard-prelude/|the Standard Prelude from ''Programming Praxis'']].
 
 
 == Combinators ==
 
-The documentation style, rather than showing only how the procedures are invoked, also shows how the returned procedures would be invoked.  This is done in order to make the descriptions easier to understand.
+These procedures are documented in an unusual style.  Rather than showing only how the procedures themselves are invoked, it also shows how the returned procedures would be invoked.  This is done in order to make the descriptions easier to understand.  For example, if `complement` were documented in the standard style, the description would say "Returns a procedure which, when applied to an argument, returns `#t` when ''proc'' would return `#f` when applied to the same argument, and `#f` otherwise", which is more convoluted.
 
 `((constantly `''obj'' ...`)` ''arg'' ...`)`
 
-Returns the ''obj'' objects as its values, ignoring ''args''.
+Returns the ''objs'' as its values, ignoring ''args''.
 
 `((complement `''proc''`)` ''obj''`)`
 
@@ -20,6 +20,18 @@ Passes the ''args'' to the first ''proc'', which returns any number of values.  
 `((simple-compose `''proc'' ...`)` ''arg''`)`
 
 Passes ''arg'' to the first ''proc'', which returns one value.  This is then passed to the next ''proc'', and so on until the final ''proc'' is reached.  If there are no ''procs'', returns its argument.
+
+`((swap `''proc''`)` ''obj,,1,, obj,,2,,''`)`
+
+Invokes `(''proc obj,,2,, obj,,1,,''`)`.
+
+`((fst `''proc''`)` ''obj,,1,, obj,,2,,''`)`
+
+Returns ''obj,,1,,''.
+
+`((snd `''proc''`)` ''obj,,1,, obj,,2,,''`)`
+
+Returns ''obj,,2,,''.
 
 `((conjoin `''predicate'' ...`)` ''arg'' ...`)`
 
@@ -48,6 +60,14 @@ Applies ''predicate'' to each element of ''list'' in turn, and immediately retur
 `((map-reduce `''mapper reducer''`)` ''list''`)`
 
 Returns ``(apply ''reducer'' `(`''mapper list''`))`.
+
+`((left-section `''proc arg'' ...`)` ''obj'' ...`)`
+
+Applies ''proc'' to ''args'' concatenated with ''objs''.
+
+`((right-section `''proc arg'' ...`)` ''obj'' ...`)`
+
+Applies ''proc'' to ''objs'' concatenated with ''args'', where ''args'' are in reverse order.
 
 == Other procedures ==
 
