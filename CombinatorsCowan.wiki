@@ -23,7 +23,7 @@ Passes ''arg'' to the first ''proc'', which returns one value.  This is then pas
 
 `((swap `''proc''`)` ''obj,,1,, obj,,2,,''`)`
 
-Invokes `(''proc obj,,2,, obj,,1,,''`)`.
+Invokes `(`''proc obj,,2,, obj,,1,,''`)`.
 
 `((fst `''proc''`)` ''obj,,1,, obj,,2,,''`)`
 
