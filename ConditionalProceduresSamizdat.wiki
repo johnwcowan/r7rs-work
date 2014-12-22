@@ -28,11 +28,11 @@ Invokes each ''thunk'' in the order given, and returns `#f` immediately if any o
 
 Invokes each ''thunk'' in the order given, and if any of them returns true, `or-procedure` returns that value immediately.  Otherwise returns `#f`.
 
-`(loop-procedure ''thunk''`)`
+`(loop-procedure `''thunk''`)`
 
 Invokes ''thunk'' repeatedly.  Does not return.
 
-`(while-procedure ''thunk''`)`
+`(while-procedure `''thunk''`)`
 
 Invokes ''thunk'' repeatedly until it returns `#f`.  Returns an unspecified value.
 
