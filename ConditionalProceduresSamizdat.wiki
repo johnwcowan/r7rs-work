@@ -4,21 +4,21 @@ These are Scheme procedures that correspond to basic syntax.  They are derived f
 
 Invokes ''thunks'' in order, and returns what the last thunk returns, or an unspecified value if there are no thunks.
 
-`(if-procedure `''pred-thunk then-thunk'' [[|''else-thunk'' ]]`)`
+`(if-procedure `''value then-thunk'' [[|''else-thunk'' ]]`)`
 
-Invokes ''pred-thunk''.  If it returns true, invokes ''then-thunk'' and returns what it returns.  Otherwise, invokes ''else-thunk'' and returns what it returns, or if ''else-thunk'' is not specified, returns an unspecified value.
+If ''value'' is true, invokes ''then-thunk'' and returns what it returns.  Otherwise, invokes ''else-thunk'' and returns what it returns, or if ''else-thunk'' is not specified, returns an unspecified value.
 
-`(if-not-procedure `''pred-thunk else-thunk''`)`
+`(if-not-procedure `''value else-thunk''`)`
 
-Invokes ''pred-thunk''.  If it returns true, returns an unspecified value.  Otherwise, invokes ''else-thunk'' and returns what it returns.
+If ''value'' is true, returns an unspecified value.  Otherwise, invokes ''else-thunk'' and returns what it returns.
 
-`(value-procedure `''test-thunk then-proc else-thunk''`)`
+`(value-procedure `''value then-proc else-thunk''`)`
 
-Invokes ''test-thunk''.  If it returns true, invokes ''then-proc'' on the returned value and returns what it returns.  Otherwise, invokes ''else-thunk'' and returns what it returns.
+If ''value'' is true, invokes ''then-proc'' on it and returns what ''then-proc'' returns.  Otherwise, invokes ''else-thunk'' and returns what it returns.
 
-`(case-procedure `''value-thunk thunk-alist'' [[|''else-thunk'' ]]`)`
+`(case-procedure `''value thunk-alist'' [[|''else-thunk'' ]]`)`
 
-Invokes ''value-thunk'', and searches ''thunk-alist'' as if by `assv` for the value it returns.  If there is no such entry in ''thunk-alist'', invokes ''else-thunk'' and returns what it returns, or returns an unspecified value if ''else-thunk'' is not provided.  If there is an entry in ''thunk-alist'', its cdr is invoked as a thunk, and `case-procedure` returns what the thunk returns.
+Searches ''thunk-alist'' for ''value'' (as if by `assv`).  If there is no such entry in ''thunk-alist'', invokes ''else-thunk'' and returns what it returns, or returns an unspecified value if ''else-thunk'' is not provided.  If there is a matching entry in ''thunk-alist'', its cdr is invoked as a thunk, and `case-procedure` returns what the thunk returns.
 
 `(and-procedure `''thunk'' ...`)`
 
