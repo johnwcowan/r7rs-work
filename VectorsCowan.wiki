@@ -95,3 +95,5 @@ Returns a newly allocated vector of length ''k'' after copying every ''stride''-
 `(vector-cumulate `''proc seed vector''`)`
 
 Returns a newly allocated vector of the same length as ''vector''.  Each element is constructed by reducing (as if by `vector-reduce`) successive prefixes of the elements of ''vector''. (APL scan.)
+
+`vector-rotate`
