@@ -38,7 +38,69 @@ All predicates passed to procedures defined in this proposal may be called in an
 
 For security and efficiency reasons, there is no operation to retrieve the underlying string from a character span.
 
-== Constructors ==
+== String cursors ==
+
+These operations apply to both spans and strings.
+
+`(string-cursor-start `''span''`)`
+
+Returns a cursor referring to the first character in ''span''.
+
+`(string-cursor-end `''span''`)`
+
+Returns a cursor referring to the position following the last character in ''span''.
+
+`(string-cursor-ref `''span cursor''`)`
+
+Returns the character referred to by ''cursor''.  It is an error if ''cursor'' does not refer to a character in ''span''.
+
+`(string-cursor-next `''span cursor''`)`
+
+Returns the cursor following ''cursor''.  It is an error if ''cursor'' does not refer to a character in ''span''.
+
+`(string-cursor-prev `''span cursor''`)`
+
+Returns the cursor following ''cursor''.  It is an error if ''cursor'' does not refer either to a character in ''span'' or the position following the last character in ''span''. 
+
+`(string-cursor-forward `''span cursor n''`)`
+
+`(string-cursor-backward `''span cursor n''`)`
+
+Iterates `string-cursor-next` or `string-cursor-prev` ''n'' times.
+
+`(string-cursor-forward-until `''span cursor n''`)`
+
+Iterates `string-cursor-next` until it refers to a character that satisfies ''pred'' or the position following the last character of ''span'' is reached, and returns that cursor.
+
+`(string-cursor-backward-until `''span cursor n''`)`
+
+Iterates `span-cursor-prev` until it refers to a character that satisfies ''pred'' or the position preceding the first character of ''span'' is reached, and returns that cursor.
+
+`(string-cursor=? `''span cursor,,1,, cursor,,2,,''`)`
+
+`(string-cursor<? `''span cursor,,1,, cursor,,2,,''`)`
+
+`(string-cursor>? `''span cursor,,1,, cursor,,2,,''`)`
+
+`(string-cursor<=? `''span cursor,,1,, cursor,,2,,''`)`
+
+`(string-cursor>=? `''span cursor,,1,, cursor,,2,,''`)`
+
+Compare ''cursor,,1,,'' and ''cursor,,2,,''.  It is an error if the cursors do not refer to positions in ''span''.
+
+`(string-cursor->index `''span cursor''`)`
+
+Return the character index into ''span'' corresponding to ''cursor''.  It is an error if ''cursor'' does not refer to a position in ''span''.
+
+`(string-index->cursor `''span index''`)`
+
+Return the cursor referring to ''span'' that corresponds to ''cursor''.  It is an error if ''index'' is less than zero or greater than the length of ''span''.
+
+`(string-cursor-difference `''span cursor,,1,, cursor,,2,,''`)`
+
+Return the difference in characters between ''cursor,,2,,'' and ''cursor,,1,,''.  It is an error if the cursors do not refer to positions in ''span''.
+
+== Span constructors ==
 
 `(make-whole-span `''string''`)`
 
@@ -326,72 +388,6 @@ Returns a newly allocated list/vector containing the characters of ''span'' in o
 `(reverse-list->span `''list''`)` [[SRFI|13]]
 
 Returns a span whose characters are the elements of ''list'' in reverse order.  It is an error if the elements are not characters.
-
-== String cursors ==
-
-`(span-cursor-start `''span''`)`
-
-Returns a cursor referring to the first character in ''span''.
-
-`(span-cursor-end `''span''`)`
-
-Returns a cursor referring to the position following the last character in ''span''.
-
-`(span-cursor-ref `''span cursor''`)`
-
-Returns the character referred to by ''cursor''.  It is an error if ''cursor'' does not refer to a character in ''span''.
-
-`(span-cursor-next `''span cursor''`)`
-
-Returns the cursor following ''cursor''.  It is an error if ''cursor'' does not refer to a character in ''span''.
-
-`(span-cursor-prev `''span cursor''`)`
-
-Returns the cursor following ''cursor''.  It is an error if ''cursor'' does not refer either to a character in ''span'' or the position following the last character in ''span''. 
-
-`(span-cursor-forward `''span cursor n''`)`
-
-`(span-cursor-backward `''span cursor n''`)`
-
-Iterates `span-cursor-next` or `span-cursor-prev` ''n'' times.
-
-`(span-cursor-forward-until `''span cursor n''`)`
-
-Iterates `span-cursor-next` until it refers to a character that satisfies ''pred'' or the position following the last character of ''span'' is reached, and returns that cursor.
-
-`(span-cursor-backward-until `''span cursor n''`)`
-
-Iterates `span-cursor-prev` until it refers to a character that satisfies ''pred'' or the position preceding the first character of ''span'' is reached, and returns that cursor.
-
-`(span-cursor=? `''span cursor,,1,, cursor,,2,,''`)`
-
-`(span-cursor<? `''span cursor,,1,, cursor,,2,,''`)`
-
-`(span-cursor>? `''span cursor,,1,, cursor,,2,,''`)`
-
-`(span-cursor<=? `''span cursor,,1,, cursor,,2,,''`)`
-
-`(span-cursor>=? `''span cursor,,1,, cursor,,2,,''`)`
-
-Compare ''cursor,,1,,'' and ''cursor,,2,,''.  It is an error if the cursors do not refer to positions in ''span''.
-
-`(span-cursor->index `''span cursor''`)`
-
-`(string-cursor->index `''string cursor''`)`
-
-Return the character index into ''span'' corresponding to ''cursor''.  It is an error if ''cursor'' does not refer to a position in ''span''.
-
-`(span-index->cursor `''span index''`)`
-
-`(string-index->cursor `''string index''`)`
-
-Return the cursor referring to ''span'' that corresponds to ''cursor''.  It is an error if ''index'' is less than zero or greater than the length of ''span''.
-
-`(span-cursor-difference `''span cursor,,1,, cursor,,2,,''`)`
-
-`(string-cursor-difference `''string cursor,,1,, cursor,,2,,''`)`
-
-Return the difference in characters between ''cursor,,2,,'' and ''cursor,,1,,''.  It is an error if the cursors do not refer to positions in ''span''.
 
 == Case ==
 
