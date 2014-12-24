@@ -30,7 +30,9 @@ read-whole-binary-file
 feature?
 }}}
 
-=== Combinations ==
+== Combinations ==
+
+[[http://en.wikipedia.org/wiki/Derangement|Derangements]]
 
 {{{
 binomial-coefficient
