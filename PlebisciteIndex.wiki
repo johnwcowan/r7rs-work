@@ -37,7 +37,7 @@ See PlebisciteObjections for the objections to the draft embedded in these ballo
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003394.html|Steven Ganz]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003395.html|Alexander Shendi]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003396.html|John Cowan]]
-* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003399.html|Vincent Stewart Manis]] (will change to no if #478 is rejected)
+* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003399.html|Vincent Stewart Manis]] (will change to no if #478 is rejected) (did not happen)
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003418.html|Alan M. Watson]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003419.html|Christian Stigen Larsen]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003420.html|Sven Hartrumpf]]
@@ -54,7 +54,7 @@ See PlebisciteObjections for the objections to the draft embedded in these ballo
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003465.html|Stephen Lewis]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003469.html|Kevin A. Wortman]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003471.html|Alex Sandro Queiroz e Silva]]
-* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003472.html|David Preston Kendal]]  (will change to no if #478 is rejected)
+* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003472.html|David Preston Kendal]]  (will change to no if #478 is rejected) (did not happen)
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003473.html|Juergen Lorenz]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003475.html|William D Clinger]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003479.html|Justin Ethier]]
@@ -71,7 +71,7 @@ See PlebisciteObjections for the objections to the draft embedded in these ballo
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003311.html|James Wise]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003349.html|John David Stone]]
 * [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003400.html|Göran Weinholt]]
-* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003415.html|Mikael More]] (will change to yes if #520 and #521 are adopted)
+* [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-May/003415.html|Mikael More]] (will change to yes if #520 and #521 are adopted) (did not happen)+
 
 == Abstentions ==
 
