@@ -2,7 +2,7 @@ Here are the ways in which the test suite of Schemes interprets square brackets 
 
 Brackets are:
 
- * synonyms for parentheses:  Racket, Gauche, Gambit, Chicken, SXM, Spark, Bigloo, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, STklos, KSi, Oaklisp, Sizzle, Guile, SISC, Chez, Elk
+ * synonyms for parentheses:  Racket, Gauche, Gambit, Chicken, SXM, Spark, Bigloo, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, STklos, KSi, Oaklisp, Sizzle, Guile, SISC, Chez, Elk, Sagittarius
 
  * lexical syntax errors:  MIT, Scheme48/scsh, NexJ, !SigScheme, Schemik, Owl Lisp, RScheme, Scheme 9
 
