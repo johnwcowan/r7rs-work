@@ -21,7 +21,7 @@ The first definition of `noodle` refers to `foodle`, which is undefined, and is 
 
 `Noodle` continues to call the old definition of `foodle` and returns 23:  Racket, Gambit, Chicken, Bigloo, Scheme48/scsh, SISC, Chez, Vicare, Larceny, Mosh, !IronScheme, STklos, KSi, !SigScheme, SXM, Chibi
 
-Complains that a non-procedure is being invoked:  Gauche, MIT, Guile, Kawa, SCM, Foment, Scheme 9
+Complains that a non-procedure is being invoked:  Gauche, MIT, Guile, Kawa, SCM, Foment, Scheme 9, Sagittarius
 
 Complains that `foodle` is not defined: Ypsilon
 
@@ -45,7 +45,7 @@ Now we look at what happens when an identifier is defined as syntax and then cha
 (apply fard (list 1 2)) => ??
 }}}
 
-`fard` is successfully redefined in both operator and operand positions:  Racket, Gauche, MIT, Gambit, Scheme48/scsh, Guile, Kawa, SCM, Chez, Vicare, Larceny (prints a warning), Ypsilon, Mosh, KSi, Foment, Owl Lisp, Chibi
+`fard` is successfully redefined in both operator and operand positions:  Racket, Gauche, MIT, Gambit, Scheme48/scsh, Guile, Kawa, SCM, Chez, Vicare, Larceny (prints a warning), Ypsilon, Mosh, KSi, Foment, Owl Lisp, Chibi, Sagittarius
 
 `fard` is successfully redefined in operand position, but is still a syntax keyword in operator position: Chicken, Bigloo (prints a warning), STklos, Picrin
 
