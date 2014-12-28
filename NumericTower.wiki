@@ -13,7 +13,7 @@ There are therefore 16 possible numeric towers.  9 of them are known to have imp
 ||+||+||-||-||Exact rational numbers only||Dream, Oaklisp
 ||+||+||-||+||Exact numbers only||Owl Lisp
 ||+||+||+||-||Real numbers only||Psyche, Ikarus, Rep, Dfsch (also Clojure)||
-||+||+||+||+||Full numeric tower||Racket, Gauche, MIT, Gambit, Chicken with the `numbers` egg, Scheme48/scsh, Kawa, SISC, Chibi, Guile, Chez, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, STklos, KSi, UMB, Spark (also R6RS, Common Lisp, Pure)||
+||+||+||+||+||Full numeric tower||Racket, Gauche, MIT, Gambit, Chicken with the `numbers` egg, Scheme48/scsh, Kawa, SISC, Chibi, Guile, Chez, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, STklos, KSi, UMB, Spark, Sagittarius (also R6RS, Common Lisp, Pure)||
 
 *These systems are technically exactness-preserving, but silently return the wrong answers when their arithmetic operations overflow.  This makes them non-conformant.
 
