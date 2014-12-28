@@ -2,7 +2,7 @@ I tested how Schemes deal with `string->symbol` when the string contains charact
 
 An interesting difference was the way in which the resulting symbol was printed by the REPL.
 
-Racket, Gauche, MIT, Gambit, Chicken, SISC, Chibi, STklos printed the symbol name as `|foo)(bar`.
+Racket, Gauche, MIT, Gambit, Chicken, SISC, Chibi, STklos, Sagittarius printed the symbol name as `|foo)(bar|`.
 
 Guile, Chez, !Icarus/Vicare, Larceny, Ypsilon, KSi printed it as `foo\x29;\x28;bar`, R6RS-style.
 
