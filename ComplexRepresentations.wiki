@@ -4,7 +4,7 @@ Exact, inexact, and mixed complex number representations, where inexact and mixe
 
 Exact, inexact, and mixed complex number representations, where inexact and mixed numbers that are `=` are the same in the sense of `eqv?`: MIT, STklos.
 
-Exact and inexact complex number representations only (mixed complex numbers become inexact): Racket, Chicken with the numbers egg, Scheme48/scsh, Kawa, Chez, Vicare, Larceny, Ypsilon, !IronScheme, Spark, Wraith.  (Also ABCL, Allegro CL, Clozure CL, CMUCL, ECL, GNU CL, !LispWorks, SBCL, Scieneer CL.)
+Exact and inexact complex number representations only (mixed complex numbers become inexact): Racket, Chicken with the numbers egg, Scheme48/scsh, Kawa, Chez, Vicare, Larceny, Ypsilon, !IronScheme, Spark, Wraith, Sagittarius.  (Also ABCL, Allegro CL, Clozure CL, CMUCL, ECL, GNU CL, !LispWorks, SBCL, Scieneer CL.)
 
 Inexact complex number representations only: Gauche, Guile, SISC, SCM, KSi, S7, UMB, Stalin.  (Also Fortran, C/C++, Python, etc.)
 
