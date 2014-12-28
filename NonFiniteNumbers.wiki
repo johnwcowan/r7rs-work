@@ -2,7 +2,7 @@
 
 Here's how various Schemes deal with syntax for non-finite inexact numbers.  "Standard syntax" means what R6RS prescribes: `+inf.0` for positive infinity, `-inf.0` for negative infinity, and both `+nan.0` and `-nan.0` for NaN.
 
-Racket, Gauche, Chicken (with or without the numbers egg), Scheme48, Guile, Kawa, Chez, !Ikarus/Vicare, Larceny, Ypsilon, Mosh, !IronScheme, STklos, Spark accept and print the standard syntax.
+Racket, Gauche, Chicken (with or without the numbers egg), Scheme48, Guile, Kawa, Chez, !Ikarus/Vicare, Larceny, Ypsilon, Mosh, !IronScheme, STklos, Spark, Sagittarius accept and print the standard syntax.
 
 Gambit, Bigloo, Chibi accept and print the standard syntax, except that they do not accept `-nan.0`.
 
@@ -35,7 +35,7 @@ The following table concisely describes the other Schemes in the test suite.  "S
 
 == NaN equivalence ==
 
-The following implementations return `#t` for `(eqv +nan.0 +nan.0)`: Chez, Gambit, Guile, !Ikarus/Vicare, Kawa, Larceny, Racket, STklos.
+The following implementations return `#t` for `(eqv +nan.0 +nan.0)`: Chez, Gambit, Guile, !Ikarus/Vicare, Kawa, Larceny, Racket, STklos, Sagittarius.
 
 The following implementations return `#f` for `(eqv +nan.0 +nan.0)`: Bigloo, Chibi, Chicken, Gauche, MIT Scheme, Scheme48.
 
