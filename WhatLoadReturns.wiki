@@ -7,7 +7,7 @@ Gauche returns `#t 2 3` (3 values).
 
 Bigloo returns `1 0` (2 values).
 
-MIT, Gambit, XLisp return various objects (1 value).
+MIT, Gambit, XLisp, Sagittarius return various objects (1 value).
 
 SCM doesn't like multiple values at the top level.
 
