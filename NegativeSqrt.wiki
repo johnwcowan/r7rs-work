@@ -1,6 +1,6 @@
 This is a test of `(sqrt -1)` to determine various issues: does the value become inexact, and if we don't have complex numbers, do we get an error or a NaN?
 
-Returns exact `+i`:  Racket, MIT, Gambit, Chibi, Chez, Vicare, Ypsilon, Mosh, !IronScheme, STklos, Spark, Owl Lisp
+Returns exact `+i`:  Racket, MIT, Gambit, Chibi, Chez, Vicare, Ypsilon, Mosh, !IronScheme, STklos, Spark, Owl Lisp, Sagittarius
 
 Return inexact `0.0+1.0i`: Gauche, Chicken (with the numbers egg), Scheme48, Guile, Kawa, SISC, SCM, Larceny, KSi, UMB
 
