@@ -1,6 +1,6 @@
 == Symbols ==
 
-Racket, Gauche, Gambit, Chicken, Bigloo, scsh, Guile, Kawa, Chibi, Chez, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, NexJ, KSi, !SigScheme, Shoe, RScheme, S7, BDC, Rep, Schemik, Llava, Sizzle, Spark, Femtolisp, Dfsch, Owl Lisp return `#f` to `(eq? 't 'T)`.
+Racket, Gauche, Gambit, Chicken, Bigloo, scsh, Guile, Kawa, Chibi, Chez, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, NexJ, KSi, !SigScheme, Shoe, RScheme, S7, BDC, Rep, Schemik, Llava, Sizzle, Spark, Femtolisp, Dfsch, Owl Lisp, Sagittarius return `#f` to `(eq? 't 'T)`.
 
 MIT, Scheme48, SISC, SCM, STklos, !TinyScheme, Scheme 9, Dream, XLisp, Elk, UMB, VX, Oaklisp, SXM, Inlab return `#t`.
 
@@ -14,7 +14,7 @@ Is `#\Space` a valid constant?
 
 Racket, Gauche, MIT, Bigloo, Scheme48, Guile, Kawa, Chibi, Chez, NexJ, STklos, KSi, !SigScheme, !TinyScheme, Scheme 9, Dream, RScheme, Rep, Elk, Oaklisp, Llava, SXM, Spark, Dfsch, Inlab accept `#\Space`.
 
-Gambit, Chicken, scsh, Vicare, Ypsilon, Mosh, !IronScheme, Shoe, S7, Schemik, UMB, Sizzle, !FemtoLisp, Owl Lisp reject `#\Space`.
+Gambit, Chicken, scsh, Vicare, Ypsilon, Mosh, !IronScheme, Shoe, S7, Schemik, UMB, Sizzle, !FemtoLisp, Owl Lisp, Sagittarius reject `#\Space`.
 
 == Boolean constants ==
 
