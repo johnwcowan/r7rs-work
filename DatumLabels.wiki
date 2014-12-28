@@ -1,13 +1,11 @@
 I tested datum-label support with the following expression:
 
 {{{
-        (let ((x '(#1=(a b) #1))) (eq? (car x) (cadr x)))
+        (let ((x '(#1=(a b) #1#))) (eq? (car x) (cadr x)))
 }}}
 
-Gauche, MIT, Bigloo, Kawa, Chez, Ikarus, Mosh support the syntax and
-return `#t`;
+Gauche, MIT, Bigloo, Kawa, Chez, Ikarus/Vikare, Mosh, STklos, !FemtoLisp, Sagittarius, Foment, Picrin support the syntax and return `#t`;
 
-Racket, Chicken, Scheme48/scsh, Chibi (in native mode), SCM, Larceny, Ypsilon, STklos,
-Scheme 9 report lexical syntax errors;
+Racket, Chicken, Scheme48/scsh, Guile, SISC, SCM, Larceny, Ypsilon, !IronScheme, NexJ, JScheme, KSi, !SigScheme, !TinyScheme, Scheme 9, RScheme, S7, XLisp, Rep, Schemik, Elk, SXM, Sizzle, Dfsch, Inlab, Oaklisp, Owl Lisp, Chibi (native mode) report lexical syntax errors;
 
-Gambit, SISC return `#f` for whatever reason.
+Gambit, Shoe, BDC, UMB, Llava, Chibi (R7RS mode) return `#f` for whatever reason.
