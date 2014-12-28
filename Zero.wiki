@@ -2,7 +2,7 @@ This page talks about how implementations handle various aspects of zero.  Thank
 
 === Exact division by zero ===
 
-Racket, MIT, Gambit, Chicken, Bigloo, Scheme48/scsh, Chibi, Guile, SISC, Chez, !Ikarus/Vicare, Larceny, Ypsilon, Mosh, !IronScheme, NexJ, STklos, Shoe, S7, BDC, XLisp, Rep, Schemik, Elk, UMB, !SigScheme, SXM, Sizzle, Spark, Dfsch, Inlab, VSCM report an error.
+Racket, MIT, Gambit, Chicken, Bigloo, Scheme48/scsh, Chibi, Guile, SISC, Chez, !Ikarus/Vicare, Larceny, Ypsilon, Mosh, !IronScheme, NexJ, STklos, Shoe, S7, BDC, XLisp, Rep, Schemik, Elk, UMB, !SigScheme, SXM, Sizzle, Spark, Dfsch, Inlab, VSCM, Sagittarius report an error.
 
 Gauche, SCM, KSi, VX return an inexact infinity.
 
@@ -16,7 +16,7 @@ Femtolisp returns an incorrect result.
 
 Racket, Gambit, Chicken, scsh, Chibi, Guile, Shoe, S7, BDC, XLisp, Rep, Schemik, Elk, SXM, Sizzle, Spark, Dfsch, Inlab, VSCM report an error.
 
-MIT (with floating traps ignored), Gauche, Bigloo, Scheme48, Kawa, SISC, SCM, Chez, !Ikarus/Vicare, Larceny, Ypsilon, Mosh, !IronScheme, NexJ, STklos, UMB, VX return an inexact infinity.
+MIT (with floating traps ignored), Gauche, Bigloo, Scheme48, Kawa, SISC, SCM, Chez, !Ikarus/Vicare, Larceny, Ypsilon, Mosh, !IronScheme, NexJ, STklos, UMB, VX, Sagittarius return an inexact infinity.
 
 !SigScheme, Dream, Oaklisp, Owl Lisp do not support inexact numbers.
 
@@ -28,7 +28,7 @@ KSi, Femtolisp return an incorrect result.
 
 Plain Chicken, scsh, Shoe, !TinyScheme, XLisp, Rep, Schemik, S7, SXM, Sizzle, Dfsch, Inlab, VSCM report an error.
 
-Racket, Gauche, MIT (with floating traps ignored), Gambit, Chicken with the numbers egg, Bigloo, Scheme48, Guile, Kawa, SISC, Chibi, SCM, Chez, SCM, !Ikarus/Vicare, Larceny, Ypsilon, Mosh, !IronScheme, NexJ, STklos, BDC, Elk, UMB, VX, Spark, Femtolisp return an inexact infinity.
+Racket, Gauche, MIT (with floating traps ignored), Gambit, Chicken with the numbers egg, Bigloo, Scheme48, Guile, Kawa, SISC, Chibi, SCM, Chez, SCM, !Ikarus/Vicare, Larceny, Ypsilon, Mosh, !IronScheme, NexJ, STklos, BDC, Elk, UMB, VX, Spark, Femtolisp, Sagittarius return an inexact infinity.
 
 !SigScheme, Dream, Oaklisp, Owl Lisp do not support inexact numbers.
 
@@ -40,7 +40,7 @@ KSi returns an incorrect result.
 
 Racket, MIT, Gambit, Chez, Ypsilon, !TinyScheme, XLisp, Elk, SXM, Sizzle, Spark, Inlab return exact `0`.
 
-Gauche, Chicken, Bigloo, Scheme48/scsh, Guile, Kawa, SISC, Chibi, SCM, !Ikarus/Vicare, Larceny, Mosh, !IronScheme, NexJ, STklos, KSi, Shoe, Scheme 9, S7, BDC, Rep, Schemik, UMB, VX, Femtolisp, Dfsch, VSCM return inexact `0.0`.
+Gauche, Chicken, Bigloo, Scheme48/scsh, Guile, Kawa, SISC, Chibi, SCM, !Ikarus/Vicare, Larceny, Mosh, !IronScheme, NexJ, STklos, KSi, Shoe, Scheme 9, S7, BDC, Rep, Schemik, UMB, VX, Femtolisp, Dfsch, VSCM, Sagittarius return inexact `0.0`.
 
 !SigScheme, Dream, Oaklisp, Owl Lisp do not support inexact numbers.
 
@@ -48,7 +48,7 @@ Gauche, Chicken, Bigloo, Scheme48/scsh, Guile, Kawa, SISC, Chibi, SCM, !Ikarus/V
 
 Racket, MIT, Chez, Ypsilon, Elk, SXM, Sizzle, Spark, Inlab return exact `0`.
 
-Gauche, Gambit, Chicken, Bigloo, Scheme48/scsh, Guile, Kawa, SISC, Chibi, SCM, Vicare, Larceny, !IronScheme, NexJ, STklos, KSi, Shoe, !TinyScheme, RScheme, S7, BDC, XLisp, Rep, Schemik, UMB, VX, Llava, !FemtoLisp, Dfsch return `+nan.0`.
+Gauche, Gambit, Chicken, Bigloo, Scheme48/scsh, Guile, Kawa, SISC, Chibi, SCM, Vicare, Larceny, !IronScheme, NexJ, STklos, KSi, Shoe, !TinyScheme, RScheme, S7, BDC, XLisp, Rep, Schemik, UMB, VX, Llava, !FemtoLisp, Dfsch, Sagittarius return `+nan.0`.
 
 Scheme 9 does not have any form of NaN.
 
@@ -58,7 +58,7 @@ Scheme 9 does not have any form of NaN.
 
 Racket, Gambit, !TinyScheme, Sizzle, Spark return exact `0`.
 
-Gauche, Chicken (with or without the numbers egg), Bigloo, Scheme48/scsh, Guile, Kawa, SISC, Chibi, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, STklos, KSi, Shoe, S7, BDC, XLisp, Rep, Schemik, UMB, VX, Llava, SXM, Dfsch, Inlab return inexact `0.0`.
+Gauche, Chicken (with or without the numbers egg), Bigloo, Scheme48/scsh, Guile, Kawa, SISC, Chibi, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, STklos, KSi, Shoe, S7, BDC, XLisp, Rep, Schemik, UMB, VX, Llava, SXM, Dfsch, Inlab, Sagittarius return inexact `0.0`.
 
 !SigScheme, Dream, Oaklisp, Owl Lisp do not support inexact numbers.
 
@@ -68,7 +68,7 @@ Femtolisp returns the wrong answer.
 
 Gauche, MIT, Chicken with the numbers egg, Scheme48/scsh, Kawa, SISC, SCM, STklos, KSi, S7, UMB, Spark, Dfsch, VSCM consider `3.0+0.0i` to be a real number.
 
-Racket, Gambit, Guile, Chibi, Chez, Vicare, Larceny, Ypsilon, Mosh, !IronScheme do not.
+Racket, Gambit, Guile, Chibi, Chez, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, Sagittarius do not.
 
 Plain Chicken, Bigloo, Ikarus, NexJ, !SigScheme, Shoe, !TinyScheme, Dream, Scheme 9, BDC, XLisp, Rep, Schemik, Elk, VX, Oaklisp, SXM, Sizzle, Femtolisp, Inlab, Owl Lisp do not implement non-real numbers.
 
@@ -88,7 +88,7 @@ S7, BDC, XLisp, Schemik, Elk, UMB, VX return some variant of
 `(-inf.0 -0.0 #t)`.
 
 Racket, Gambit, Guile, Kawa, Chez, Vicare, Larceny,
-Rep return some variant of `(-inf.0 -0.0 #f)`.
+Rep, Sagittarius return some variant of `(-inf.0 -0.0 #f)`.
 
 I wasn't able to generate `-0.0` on MIT, KSi, !SigScheme, Scheme 9, Dream, Oaklisp, Owl Lisp.
 
@@ -123,7 +123,7 @@ Because of the branch cut of `atan`, the values of `(angle 0.0)` and `(angle -0.
 
 Gambit, Chicken with the numbers egg, Guile, Chez, Vicare, Larceny, !IronScheme, STklos, Sizzle return pi to both `angle` and `atan`.
 
-Gauche, plain Chicken, SISC return `0.0` to `angle`, pi to `atan`.
+Gauche, plain Chicken, SISC, Sagittarius return `0.0` to `angle`, pi to `atan`.
 
 Scheme48 returns `-0.0` to `angle`, pi to `atan`.
 
@@ -153,7 +153,7 @@ Shoe, !TinyScheme, Schemik, Llava, !FemtoLisp do not support either `angle` or `
 
 This situation involves the log of 0, and R6RS and R7RS permit implementations to either raise an exception or return an arbitrary number.
 
-Racket, Gauche, Gambit, Chicken, Bigloo, scsh, Kawa, Chibi, SCM, Chez, Ypsilon, Mosh, NexJ, STklos, XLisp, Rep, UMB, SXM, Spark, Dfsch, Inlab return `inf.0`.
+Racket, Gauche, Gambit, Chicken, Bigloo, scsh, Kawa, Chibi, SCM, Chez, Ypsilon, Mosh, NexJ, STklos, XLisp, Rep, UMB, SXM, Spark, Dfsch, Inlab, Sagittarius return `inf.0`.
 
 Guile, Larceny, Scheme 9 return `+nan.0`.
 
@@ -171,7 +171,7 @@ MIT (even ignoring floating point traps), Scheme48, KSi, S7 raise an exception.
 
 === Inexact zero raised to a complex power whose real part is negative ===
 
-Racket, Gauche, Gambit, Chicken with the numbers egg, Kawa, Chibi, Ypsilon, Spark return `+nan.0+nan.0i`.
+Racket, Gauche, Gambit, Chicken with the numbers egg, Kawa, Chibi, Ypsilon, Spark, Sagittarius return `+nan.0+nan.0i`.
 
 Guile returns `+nan.0+nan.0i` or `+inf.0+nan.0i` depending on the platform.
 
