@@ -10,7 +10,7 @@ value expected, multiple values received", or else a low-level error
 reflecting how multiple values are represented.
 
 Gauche, Chicken,
-Bigloo, Guile, Larceny, Mosh, NexJ, STklos, S7, XLisp, Dfsch reduce the multiple values to a
+Bigloo, Guile, Larceny, Mosh, NexJ, STklos, S7, XLisp, Dfsch, Sagittarius reduce the multiple values to a
 single value.  Of these, Guile and NexJ treat zero values passed to a single-valued continuation as an error, Bigloo transforms it to 0, XLisp and Dfsch as the empty list, and the rest as their implementation-specific "undefined" value.
 
 !TinyScheme, Scheme 9, Dream, Rep, Schemik, Elk, UMB, VX, Oaklisp, Inlab don't support `values`.
