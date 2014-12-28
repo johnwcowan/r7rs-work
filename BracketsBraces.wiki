@@ -22,6 +22,6 @@ Braces are:
 
  * containers for embedded C code: RScheme
 
- * identifier characters:  SCM, Shoe, !TinyScheme, Dream, S7, XLisp, UMB, VX, Llava, Dfsch, Inlab, Kawa, Rep, !FemtoLisp, Guile, SISC, Chez, Elk, BDC
+ * identifier characters:  SCM, Shoe, !TinyScheme, Dream, S7, XLisp, UMB, VX, Llava, Dfsch, Inlab, Kawa, Rep, !FemtoLisp, Guile, SISC, Chez, Elk, BDC, Sagittarius
 
 Note:  In some Schemes where these are identifier characters, they are self-delimiting: that is: `{abc}` is equivalent to `{ abc }`.
