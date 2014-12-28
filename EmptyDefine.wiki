@@ -6,7 +6,7 @@ Syntax error: Racket, Gauche, Bigloo, Kawa, Chibi, SCM, NexJ, STklos, !SigScheme
 
 Variable is bound but not defined: MIT, Scheme48/scsh, Larceny.
 
-Variable is bound to the implementation-specific "undefined result" value:  Gambit, Chicken, Guile, SISC, Chez, Vicare, Ypsilon, Mosh, !IronScheme.
+Variable is bound to the implementation-specific "undefined result" value:  Gambit, Chicken, Guile, SISC, Chez, Vicare, Ypsilon, Mosh, !IronScheme, Sagittarius.
 
 Variable is bound to the empty list, which also serves as the "undefined result" value: !TinyScheme, XLisp, Rep, Elk, Inlab.
 
