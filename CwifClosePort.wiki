@@ -11,7 +11,7 @@ I created a file named "three" whose content was "3", and ran the following code
 
 to see if the final `(read port)` would return 3 (meaning that the port was still open after the exception was raised) or would fail with a new exception, something like "closed port".
 
-Printed `3`:  Racket, MIT, Chicken, Scheme48/scsh, Guile, Chibi, SCM, Chez, Vicare, Larceny, Ypsilon, Mosh, STklos, KSi, !SigScheme, !TinyScheme, Dream, RScheme, XLisp, Elk, VX, SXM, Spark, Inlab, Scheme 9
+Printed `3`:  Racket, MIT, Chicken, Scheme48/scsh, Guile, Chibi, SCM, Chez, Vicare, Larceny, Ypsilon, Mosh, STklos, KSi, !SigScheme, !TinyScheme, Dream, RScheme, XLisp, Elk, VX, SXM, Spark, Inlab, Scheme 9, Sagittarius
 
 Failed with closed-port exception: Gauche, Bigloo, Kawa, SISC, !IronScheme, NexJ, S7, BDC, Sizzle
 
