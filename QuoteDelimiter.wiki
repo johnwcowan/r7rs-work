@@ -4,7 +4,7 @@ I tested `(list 'a'b)` on the usual suite of Schemes.
 
 Returned `(a b)`:  Racket, Gauche, MIT, Gambit, Chicken, Scheme48/scsh,
 Kawa, Chibi, Chez, Vicare, NexJ, JScheme, STklos, KSi, !SigScheme, Scheme 9, RScheme, BDC,
-XLisp, Rep, Oaklisp, Spark, Llava, !FemtoLisp, Foment, Owl Lisp
+XLisp, Rep, Oaklisp, Spark, Llava, !FemtoLisp, Foment, Owl Lisp, Sagittarius
 
 Returned `(a'b)`:  Bigloo, Guile, SISC, SCM, Shoe, !TinyScheme, Dream,
 S7, Schemik, Elk, UMB, VX, Sizzle, Dfsch, Inlab
