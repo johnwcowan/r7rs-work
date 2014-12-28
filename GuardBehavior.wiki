@@ -29,7 +29,7 @@ This gives `(a b c d a b)` as the only valid result.
 
 My tests:
 
-We do indeed get `(a b c d a b)` from Chez, Ikarus, Vicare, Larceny, Ypsilon, Mosh, Chibi.
+We do indeed get `(a b c d a b)` from Chez, Ikarus, Vicare, Larceny, Ypsilon, Mosh, Chibi, Sagittarius.
 
 However, !IronScheme, Racket (in #lang r6rs mode), STklos all return `(a b c d)`.  In the case of !IronScheme at least, that is because it supports escape continuations only, and so the outer continuation in `guard` cannot re-enter the dynamic extent of the body.
 
