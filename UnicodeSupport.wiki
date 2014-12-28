@@ -2,7 +2,7 @@ I examined the results of `(integer->char 256)`, the first Unicode character out
 
 == Characters ==
 
-Full support:  Racket, Gauche, Gambit, MIT, Chicken, Scheme48/scsh, Guile, Kawa, Chez, Vicare, Larceny, Ypsilon, Mosh, STklos, KSi, !SigScheme, XLisp, BDC, Foment, Owl Lisp, Chibi
+Full support:  Racket, Gauche, Gambit, MIT, Chicken, Scheme48/scsh, Guile, Kawa, Chez, Vicare, Larceny, Ypsilon, Mosh, STklos, KSi, !SigScheme, XLisp, BDC, Foment, Owl Lisp, Chibi, Sagittarius
 
 Characters 0-65535 only:  RScheme, SISC, !IronScheme, NexJ, JScheme
 
@@ -12,7 +12,7 @@ No `integer->char` procedure: Rep, Schemik, Llava, !FemtoLisp, Dfsch
 
 == Strings ==
 
-Full support:  Racket, Gauche, Gambit, Chicken, Scheme48/scsh, Guile, Kawa, Chez, Vicare, Larceny, Ypsilon, Mosh, STklos, KSi, !SigScheme, XLisp, BDC, Foment, Owl Lisp, Chibi
+Full support:  Racket, Gauche, Gambit, Chicken, Scheme48/scsh, Guile, Kawa, Chez, Vicare, Larceny, Ypsilon, Mosh, STklos, KSi, !SigScheme, XLisp, BDC, Foment, Owl Lisp, Chibi, Sagittarius
 
 Characters 0-65535 only: SISC, !IronScheme, NexJ, JScheme
 
@@ -24,7 +24,7 @@ No `integer->char` procedure: Rep, Schemik, Llava, !FemtoLisp, Dfsch
 
 I tried to define the identifier π with the value 3.141592653 and then evaluate it.
 
-Successful:  Racket, Gauche, Gambit, Chicken, Bigloo, Scheme48/scsh, Guile, Kawa, SISC, SCM, Chez, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, NexJ, JScheme, STklos, KSi, !SigScheme, Shoe, !TinyScheme, RScheme, S7, BDC, UMB, Elk, Llava, Sizzle, !FemtoLisp, Dfsch, Inlab, Foment, Owl Lisp, Chibi
+Successful:  Racket, Gauche, Gambit, Chicken, Bigloo, Scheme48/scsh, Guile, Kawa, SISC, SCM, Chez, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, NexJ, JScheme, STklos, KSi, !SigScheme, Shoe, !TinyScheme, RScheme, S7, BDC, UMB, Elk, Llava, Sizzle, !FemtoLisp, Dfsch, Inlab, Foment, Owl Lisp, Chibi, Sagittarius
 
 Unsuccessful: MIT, Chez (can't enter π at the REPL), Scheme 9, XLisp, Rep, Schemik, SXM
 
