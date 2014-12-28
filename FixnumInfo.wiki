@@ -19,7 +19,7 @@ In Kawa and !IronScheme all exact integers are boxed, but a short range is preal
 These were computed using later versions of many of the above Schemes, so they are not directly comparable.
 
 ||62 bits||Racket*, Chicken*, Ypsilon*||
-||61 bits||Gauche*, Gambit*, Scheme48/scsh, Guile, Chibi*, SCM, STklos*||
+||61 bits||Gauche*, Gambit*, Scheme48/scsh, Guile, Chibi*, SCM, STklos*, Sagittarius*||
 ||60 bits||Chez, Vicare*||
 ||59 bits||!SigScheme||
 ||56 bits||MIT*||
