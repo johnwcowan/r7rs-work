@@ -3,39 +3,49 @@
 #!html
 <h2 class="section">Generators</h2>
 
-<p>A generator is simply a procedure with no arguments that works
+<p>This proposal defines utility procedures that create, transform, and consume generators.
+A generator is simply a procedure with no arguments that works
 as a source of a series of values.  Every time it is called,
 it yields a value.  Returning an end-of-file object indicates the generator is exhausted.
-(Note that some generators are infinite in length, and never return an end-of-file object.)
 For example, <code>read-char</code> is a generator that
 generates characters from the current input port.
 </p>
-<p>It is common practice to abstract the sources of values in such a way,
-so it is useful to define utility procedures that work on 
-generators.  This proposal provides them.
-</p>
-<p>A generator is very lightweight, and useful for implementing simple
-on-demand calculations.  However, it's important to keep in mind that it is
-side-effecting construct; you can't safely backtrack, for example.
+
+<h2 class="section">Rationale</h2>
+
+<p>The generators of this proposal don't belong to a disjoint type;
+they are just procedures that conform to a calling convention, 
+so you can construct a generator with <code>lambda</code>; the constructors
+of this proposal are provided for convenience.  Any
+procedure that can be called with no arguments can serve as a
+generator.  Note that generators can be invoked many times even after
+they return an end-of-file object, and they keep returning 
+an end-of-file object for all subsequent calls.
 </p>
 
-<p>These procedures are mostly from the Gauche core and the Gauche
+<p>Generators are very lightweight and are useful for implementing simple
+on-demand calculations.  However, it's important to keep in mind that calling
+a generator is a
+side-effecting construct; you can't safely backtrack, for example.
+Persistent lazy sequences based on generators will be the subject of a future SRFI.
+</p>
+
+<p>Using an end-of-file object to indicate that there is no more input
+makes it impossible to include such an object in the stream of generated values.
+However, it is compatible with the existing design of input ports, and it makes for
+more compact code than returning a user-specified termination object (as in Common Lisp),
+throwing an exception (as in Python), or returning multiple values.
+(Note that some generators are infinite in length, and never return an end-of-file object.)
+</p>
+
+<p>These procedures are from the Gauche core and the Gauche
 modules <code>gauche.generator</code> and <code>data.random</code>, with
 some renaming to make them more systematic.</p>
 
 <h3 class="subsection">Generator constructors</h3>
 
-<p>A generator isn't a special datatype but just an ordinary procedure,
-so you can construct a generator with <code>lambda</code>.  This proposal provides
-some common generator constructors for convenience.
-</p>
-<p>If you want to use your procedure as a generator, note that a
-generator can be invoked many times even after it returns an end-of-file object once
-Once it returns an end-of-file object, it keeps returning
-an end-of-file object for all subsequent calls.
-</p>
 <p>The result of generator constructors is just a procedure,
-and printing it doesn't show much.  In the examples in this section
+so printing it doesn't show much.  In the examples in this section
 we use <code>generator-&gt;list</code> to convert the generator to the list.
 </p>
 <p>These procedures have names prefixed with <code>make-</code>
@@ -50,7 +60,7 @@ When no arguments are provided, it returns a null generator that generates no va
 <dt><code>make-circular-generator</code><i> arg &hellip;</i></dt>
 <dd><p>Returns an infinite generator that repeats the given arguments forever.
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (circular-generator 1 2 3) 10)
+<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (make-circular-generator 1 2 3) 10)
   &rArr; (1 2 3 1 2 3 1 2 3 1)
 </pre></td></tr></table>
 
@@ -132,6 +142,7 @@ it to <code>g</code>.
 <dt><code>make-vector-generator</code><i> vec [[|start [ end ]] ]</i></dt>
 <dt><code>make-reverse-vector-generator</code><i> vec [[|start [ end ]] ]</i></dt>
 <dt><code>make-string-generator</code><i> str [[|start [ end ]] ]</i></dt>
+<dt><code>make-bytevector-generator</code><i> str [[|start [ end ]] ]</i></dt>
 <dd><p>These procedures return generators that yields each item in the given argument.
 A generator returned from <code>make-vector-reverse-generator</code> procedures runs in
 reverse order.
@@ -187,12 +198,14 @@ are both null generators.
 </dd></dl>
 
 <dl>
+<dt><code>make-port-generator</code><i> input-port reader</i></dt>
 <dt><code>make-port-sexp-generator</code><i> input-port</i></dt>
 <dt><code>make-port-line-generator</code><i> input-port</i></dt>
 <dt><code>make-port-char-generator</code><i> input-port</i></dt>
 <dt><code>make-port-byte-generator</code><i> input-port</i></dt>
 <dd><p>Returns generators that read the appropriate type of object from the given
-port.
+port using <var>reader</var>, <code>read</code>, <code>read-line</code>, <code>read-char</code>, or 
+<code>read-u8</code> respectively.
 </p></dd></dl>
 
 <dl>
@@ -239,7 +252,7 @@ return, and uses <var>g</var> to update the seed value.
 Once the <var>items</var> have been consumed, the generator is guaranteed to
 tail-call <var>gen</var>.
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (gcons* 'a 'b (giota 2)))
+<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (gcons* 'a 'b (make-iota-generator 2)))
  &rArr; (a b 0 1)
 </pre></td></tr></table>
 </dd></dl>
@@ -251,7 +264,7 @@ generator, and once it is exhausted, use the second generator, and so on.
 Calls to the returned generator are guaranteed to tail-call
 one of the generator arguments until they are exhausted.
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (gappend (giota 3) (giota 2)))
+<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (gappend (make-iota-generator 3) (make-iota-generator 2)))
  &rArr; (0 1 2 0 1)
 
 (generator-&gt;list (gappend))
@@ -273,7 +286,7 @@ one of the generators provided by <var>gen</var> until they are exhausted.
 <table><tr><td>&nbsp;</td><td><pre class="example">
 (generator-&gt;list
   (gconcatenate
-    (make-element-generator (giota 3) (giota 2))))
+    (make-element-generator (make-iota-generator 3) (make-iota-generator 2))))
  &rArr; (0 1 2 0 1)
 </pre></td></tr></table>
 </dd></dl>
@@ -457,13 +470,13 @@ too short to complete <var>k</var> items, <var>padding</var> is used
 to fill the rest.
 </p>
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (glists (giota 7) 3))
+<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (glists 3 (make-iota-generator 7)))
   &rArr; ((0 1 2) (3 4 5) (6))
 </pre></td></tr></table>
 
-<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (glists (giota 6) 3 'x))
+<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (glists 3 (make-iota-generator 6) 'x))
   &rArr; ((0 1 2) (3 4 5))
-(generator-&gt;list (glists (giota 7) 3 'x))
+(generator-&gt;list (glists 3 (make-iota-generator 7) 'x))
   &rArr; ((0 1 2) (3 4 5) (6 x x))
 </pre></td></tr></table>
 </dl>
