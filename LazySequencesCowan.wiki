@@ -7,7 +7,6 @@
 <li><a href="#Abstract">Abstract</a>
 </li><li><a href="#Rationale">Rationale</a>
 </li><li><a href="#ProcedureIndex">Procedure index</a>
-</li><li><a href="#GeneralDiscussion">General discussion</a></li>
 <li><a href="#Quotation">Quotation</a></li>
 <li><a href="#TheProcedures">The procedures</a>
   <ul>
