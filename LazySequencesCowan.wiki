@@ -258,7 +258,7 @@ If the result of applying the predicate <var>stop?</var> to the current seed is 
 	(lambda (x) (+ x 1))
 	1)
 </pre>
-
+</dd></dl>
 <!--========================================================================-->
 <h2><a name="Predicates">Predicates</a></h2>
 <dl>
@@ -655,7 +655,7 @@ If the result of applying the predicate <var>stop?</var> to the current seed is 
 </dd></dl>
 
 <!--========================================================================-->
-<h2><a name="FoldUnfoldMap">Fold, unfold &amp; map</a></h2>
+<h2><a name="FoldingMapping">Folding and mapping</a></h2>
 <dl>
 <!--
 ==== lseq-fold
