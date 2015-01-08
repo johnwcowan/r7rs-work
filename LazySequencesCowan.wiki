@@ -49,23 +49,23 @@ Here is a short list of the procedures provided by this SRFI.
 <dl>
 <dt class="proc-index"> Constructors
 </dt><dd class="proc-index">
-<pre class="proc-index"><a href="#lseq">lseq</a>         <a href="#lseq*">lseq*</a>          <a href="#list->lseq">list->lseq</a> 
-<a href="#vector->lseq">vector->lseq</a> <a href="#string->lseq">string->lseq</a> <a href="#generator->lseq">generator->lseq</a> 
+<pre class="proc-index"><a href="#lseq">lseq</a>          <a href="#lseq*">lseq*</a>        <a href="#list->lseq">list->lseq</a> 
+<a href="#vector->lseq">vector->lseq</a>  <a href="#string->lseq">string->lseq</a> <a href="#generator->lseq">generator->lseq</a> 
 <a href="#lseq-unfold">lseq-unfold</a>   <a href="#lseq-unfold-right">lseq-unfold-right</a>
 </pre>
 
 </dd><dt class="proc-index"> Predicates
 </dt><dd class="proc-index">
 <pre class="proc-index">
-<a href="#lseq-p">lseq?</a>        <a href="#null-lseq-p">null-lseq?</a>   <a href="#lseq=">lseq=</a>
+<a href="#lseq-p">lseq?</a>         <a href="#null-lseq-p">null-lseq?</a>   <a href="#lseq=">lseq=</a>
 </pre>
 
 </dd><dt class="proc-index"> Selectors
 </dt><dd class="proc-index">
 <pre class="proc-index">
-<a href="#lseq-first">lseq-first</a> <a href="#lseq-second">lseq-second</a> <a href="#lseq-third">lseq-third</a> <a href="#lseq-fourth">lseq-fourth</a> <a href="#lseq-fifth">lseq-fifth</a>
+<a href="#lseq-first">lseq-first</a> <a href="#lseq-second">lseq-second</a>  <a href="#lseq-third">lseq-third</a> <a href="#lseq-fourth">lseq-fourth</a> <a href="#lseq-fifth">lseq-fifth</a>
 <a href="#lseq-sixth">lseq-sixth</a> <a href="#lseq-seventh">lseq-seventh</a> <a href="#lseq-eighth">lseq-eighth</a> <a href="#lseq-ninth">lseq-ninth</a> <a href="#lseq-tenth">lseq-tenth</a>
-<a href="#lseq-last">lseq-last</a>  <a href="#lseq-rest">lseq-rest</a>  a href="#lseq-ref">lseq-ref</a>
+<a href="#lseq-last">lseq-last</a>  <a href="#lseq-rest">lseq-rest</a>    <a href="#lseq-ref">lseq-ref</a>
 <a href="#lseq-take">lseq-take</a>       <a href="#lseq-drop">lseq-drop</a>
 <a href="#lseq-take-right">lseq-take-right</a> <a href="#lseq-drop-right">lseq-drop-right</a>
 <a href="#lseq-split-at">isplit-at</a>   
@@ -75,7 +75,7 @@ Here is a short list of the procedures provided by this SRFI.
 </dt><dd class="proc-index">
 <pre class="proc-index"><a href="#lseq-length">lseq-length</a> 
 <a href="#lseq-append">lseq-append</a>  <a href="#lseq-concatenate">lseq-concatenate</a>  <a href="#lseq-reverse">lseq-reverse</a>
-<a href="#lseq-zip">lseq-zip</a> <a href="#lseq-unzip1">lseq-unzip1</a> <a href="#lseq-unzip2">lseq-unzip2</a> <a href="#lseq-unzip3">lseq-unzip3</a> <a href="#lseq-unzip4">lseq-unzip4</a> <a href="#lseq-unzip5">lseq-unzip5</a>
+<a href="#lseq-zip">lseq-zip</a>     <a href="#lseq-unzip1">lseq-unzip1</a> <a href="#lseq-unzip2">lseq-unzip2</a> <a href="#lseq-unzip3">lseq-unzip3</a> <a href="#lseq-unzip4">lseq-unzip4</a> <a href="#lseq-unzip5">lseq-unzip5</a>
 <a href="#lseq-count">lseq-count</a>
 </pre>
 
@@ -95,11 +95,12 @@ Here is a short list of the procedures provided by this SRFI.
 
 </dd><dt class="proc-index"> Searching
 </dt><dd class="proc-index"><pre class="proc-index">
-<a href="#lseq-member">lseq-member</a> <a href="#lseq-memq">lseq-memq</a> <a href="#lseq-memv">lseq-memv</a><a href="#lseq-find">lseq-find</a>         <a href="#lseq-find-rest">lseq-find-rest</a> 
-<a href="#lseq-any">lseq-any</a> <a href="#lseq-every">lseq-every</a>
+<a href="#lseq-member">lseq-member</a>       <a href="#lseq-memq">lseq-memq</a>     <a href="#lseq-memv">lseq-memv</a>
+<a href="#lseq-find">lseq-find</a>         <a href="#lseq-find-rest">lseq-find-rest</a> 
+<a href="#lseq-any">lseq-any</a>          <a href="#lseq-every">lseq-every</a>
 <a href="#lseq-index">lseq-index</a>
 <a href="#lseq-take-while">lseq-take-while</a>   <a href="#lseq-drop-while">lseq-drop-while</a>
-<a href="#lseq-span">lseq-span</a> <a href="#lseq-break">lseq-break</a>
+<a href="#lseq-span">lseq-span</a>         <a href="#lseq-break">lseq-break</a>
 </pre>
 
 </dd><dt class="proc-index"> Deleting
@@ -110,24 +111,24 @@ Here is a short list of the procedures provided by this SRFI.
 
 </dd><dt class="proc-index"> Lazy association lists
 </dt><dd class="proc-index">
-<pre class="proc-index"><a href="#lseq-assoc">lseq-assoc</a> <a href="#lseq-assq">lseq-assq</a> <a href="#lseq-assv">lseq-assv</a>
-<a href="#lseq-alist-cons">lseq-alist-cons</a>  <a href="#lseq-alist-delete">lseq-alist-delete</a>
+<pre class="proc-index"><a href="#lseq-assoc">lseq-assoc</a>        <a href="#lseq-assq">lseq-assq</a>       <a href="#lseq-assv">lseq-assv</a>
+<a href="#lseq-alist-cons">lseq-alist-cons</a>   <a href="#lseq-alist-delete">lseq-alist-delete</a>
 </pre>
 
 </dd><dt class="proc-index"> Conversion
 </dt><dd class="proc-index">
-<pre class="proc-index"><a href="#lseq->list">lseq->list</a>  <a href="#lseq->vector">lseq-vector</a>
-<a href="#lseq->string">lseq->string</a>  <a href="lseq->generator">lseq->generator</a>
+<pre class="proc-index"><a href="#lseq->list">lseq->list</a>        <a href="#lseq->vector">lseq-vector</a>
+<a href="#lseq->string">lseq->string</a>      <a href="lseq->generator">lseq->generator</a>
 </pre>
 
 </dd><dt class="proc-index"> Comparators
 </dt><dd class="proc-index">
-<pre class="proc-index"><a href="#lseq-comparator">lseq-comparator</a>        <a href="#make-lseq-comparator">make-lseq-comparator</a>
+<pre class="proc-index"><a href="#lseq-comparator">lseq-comparator</a>   <a href="#make-lseq-comparator">make-lseq-comparator</a>
 </pre>
 
 </dd><dt class="proc-index"> Realization
 </dt><dd class="proc-index">
-<pre class="proc-index"><a href="#lseq-realize!">lseq-realize!</a>        <a href="#lseq-realize-once!">lseq-realize-once!</a>
+<pre class="proc-index"><a href="#lseq-realize!">lseq-realize!</a>              <a href="#lseq-realize-once!">lseq-realize-once!</a>
 <a href="#lseq-realize-steps!">lseq-realize-steps!</a>        <a href="#lseq-realize-while!">lseq-realize-while!</a>
 </pre>
 
