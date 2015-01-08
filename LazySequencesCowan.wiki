@@ -128,8 +128,8 @@ Here is a short list of the procedures provided by this SRFI.
 
 </dd><dt class="proc-index"> Realization
 </dt><dd class="proc-index">
-<pre class="proc-index"><a href="#lseq-realize!">lseq-realize!</a>              <a href="#lseq-realize-once!">lseq-realize-once!</a>
-<a href="#lseq-realize-steps!">lseq-realize-steps!</a>        <a href="#lseq-realize-while!">lseq-realize-while!</a>
+<pre class="proc-index"><a href="#lseq-realize">lseq-realize!</a>              <a href="#lseq-realize-once">lseq-realize-once!</a>
+<a href="#lseq-realize-steps">lseq-realize-steps!</a>        <a href="#lseq-realize-until">lseq-realize-until!</a>
 </pre>
 
 </dd></dl>
@@ -484,7 +484,7 @@ If the result of applying the predicate <var>stop?</var> to the current seed is 
     to</p>
 <pre class="code-example">(values (lseq-take lseq i) (lseq-drop lseq i))
 </pre>
-
+</dd></dl>
 
 <!--========================================================================-->
 <h2><a name="Whole">The whole lazy sequence</a></h2>
@@ -918,49 +918,7 @@ Otherwise,    return <code>(lseq-fold <var>f</var> (lseq-first <var>lseq</var>) 
     =&gt; (1 -1 3 -3 8 -8)
 </pre>
 
-<!--
-==== lseq-map-in-order
-============================================================================-->
-</dd><dt class="proc-def">
-<a name="lseq-map-in-order"></a>
-<code class="proc-def">imap-in-order </code><var>f</var> <var>lseq<sub>1</sub> lseq<sub>2</sub> ... -&gt; lseq</var>
-</dt><dd class="proc-def">
-    A variant of the <code>lseq-map</code> procedure that guarantees to apply <var>f</var> across
-    the elements of the <var>lseq<sub>i</sub></var> arguments in a left-to-right order. This
-    is useful for mapping procedures that both have side effects and
-    return useful values.
-<p>
- <!--
-==== lseq-pair-for-each
-============================================================================-->
-</p></dd><dt class="proc-def">
-<a name="lseq-pair-for-each"></a>
-<code class="proc-def">ipair-for-each </code><var>f lseq<sub>1</sub> lseq<sub>2</sub> ... -&gt; unspecific</var>
-</dt><dd class="proc-def">
-    Like <code>lseq-for-each</code>, but <var>f</var> is applied to successive sub-lseqs of the argument
-    lseqs. That is, <var>f</var> is applied to the cells of the lseqs, rather
-    than the lseqs' elements. These applications occur in left-to-right
-    order.
-<pre class="code-example">(lseq-pair-for-each (lambda (lseq-pair) (display ipair) (newline)) (lq a b c)) ==&gt;
-    (a b c)
-    (b c)
-    (c)
-</pre>
-<!--
-==== lseq-filter-map
-============================================================================-->
-</dd><dt class="proc-def">
-<a name="lseq-filter-map"></a>
-<code class="proc-def">ifilter-map</code><var> f lseq<sub>1</sub> lseq<sub>2</sub> ... -&gt; lseq</var>
-</dt><dd class="proc-def">
-    Like <code>lseq-map</code>, but only true values are saved.
-<pre class="code-example">(lseq-filter-map (lambda (x) (and (number? x) (* x x))) (lq a 1 b 3 c 7))
-    =&gt; (1 9 49)
-</pre>
-    The dynamic order in which the various applications of <var>f</var> are made is
-    not specified.
-<p>
-</p></dd></dl>
+</dd></dl>
 
 <!--========================================================================-->
 <h2><a name="FilteringPartitioning">Filtering &amp; partitioning</a></h2>
@@ -1379,7 +1337,7 @@ and <code>lseq-break</code> breaks the lseq at the first element satisfying
 
 </p><pre class="code-example">(lseq-delete-duplicates (lq a b a c a b c z)) =&gt; (a b c z)
 
-;; Clean up an ialist:
+;; Clean up an lazy alist:
 (lseq-delete-duplicates (lq (a . 3) (b . 7) (a . 9) (c . 1))
                    (lambda (x y) (eq? (lseq-first x) (lseq-first y))))
     =&gt; ((a . 3) (b . 7) (c . 1))
@@ -1389,9 +1347,9 @@ and <code>lseq-break</code> breaks the lseq at the first element satisfying
 <!--========================================================================-->
 <h2><a name="lseq-mmutableassociationLists">Immutable association lists</a></h2>
 <p>
-An "immutable association list" (or "ialist") is an lseq of ipairs. The icar of each ipair
+An "immutable association list" (or "lazy alist") is an lseq of ipairs. The icar of each ipair
 contains a key value, and the icdr contains the associated data value. They can
-be used to construct simple look-up tables in Scheme. Note that ialists are probably inappropriate for performance-critical use on large data;
+be used to construct simple look-up tables in Scheme. Note that lazy alists are probably inappropriate for performance-critical use on large data;
 in these cases, immutable maps or some other alternative should be employed.
 
 </p><dl>
@@ -1400,24 +1358,24 @@ in these cases, immutable maps or some other alternative should be employed.
 ============================================================================-->
 <dt class="proc-def1">
 <a name="lseq-assoc"></a>
-<code class="proc-def">iassoc</code><var> key ialist [=] -&gt; ipair or #f</var>
+<code class="proc-def">iassoc</code><var> key lazy alist [=] -&gt; ipair or #f</var>
 </dt><dt class="proc-defi">
 <a name="lseq-assq"></a>
-<code class="proc-def">iassq</code><var> key ialist -&gt; ipair or #f</var>
+<code class="proc-def">iassq</code><var> key lazy alist -&gt; ipair or #f</var>
 </dt><dt class="proc-defn">
 <a name="lseq-assv"></a>
-<code class="proc-def">iassv</code><var> key ialist -&gt; ipair or #f</var>
+<code class="proc-def">iassv</code><var> key lazy alist -&gt; ipair or #f</var>
 </dt><dd class="proc-def">
 
   
-    <var>ialist</var> must be an immutable association list — an lseq of ipairs.  
+    <var>lazy alist</var> must be an immutable association list — an lseq of ipairs.  
     These procedures
-    find the first ipair in <var>ialist</var> whose icar field is <var>key</var>, 
+    find the first ipair in <var>lazy alist</var> whose icar field is <var>key</var>, 
     and returns that ipair.  
-    If no ipair in <var>ialist</var> has <var>key</var> as its icar, 
+    If no ipair in <var>lazy alist</var> has <var>key</var> as its icar, 
     then <code>#f</code> is returned.  
     <code>lseq-assq</code> uses <code>eq?</code> to compare <var>key</var> 
-    with the icar fields of the ipairs in <var>ialist</var>, 
+    with the icar fields of the ipairs in <var>lazy alist</var>, 
     while <code>lseq-assv</code> uses <code>eqv?</code> 
     and <code>lseq-assoc</code> uses <code>equal?</code>.
 <pre class="code-example">(define e (lq (a 1) (b 2) (c 3)))
@@ -1438,14 +1396,14 @@ in these cases, immutable maps or some other alternative should be employed.
     That is, the first argument is always <var>key</var>, 
     and the second argument is one of the lseq elements. 
     Thus one can reliably find the first entry
-    of <var>ialist</var> whose key is greater than five with
-	<code>(lseq-assoc 5 <var>ialist</var> &lt;)</code>
+    of <var>lazy alist</var> whose key is greater than five with
+	<code>(lseq-assoc 5 <var>lazy alist</var> &lt;)</code>
      
 <p>
-    Note that fully general ialist searching may be performed with
+    Note that fully general lazy alist searching may be performed with
     the <code>lseq-find-tail</code> and <code>lseq-find</code> procedures, <em>e.g.</em>
-</p><pre class="code-example">;; Look up the first association in <var>ialist</var> with an even key:
-(lseq-find (lambda (a) (even? (lseq-first a))) ialist)
+</p><pre class="code-example">;; Look up the first association in <var>lazy alist</var> with an even key:
+(lseq-find (lambda (a) (even? (lseq-first a))) lazy alist)
 </pre>
 
 
@@ -1454,34 +1412,34 @@ in these cases, immutable maps or some other alternative should be employed.
 ============================================================================-->
 </dd><dt class="proc-def">
 <a name="lseq-alist-cons"></a>
-<code class="proc-def">ialist-cons</code><var> key datum ialist -&gt; ialist</var>
+<code class="proc-def">lazy alist-cons</code><var> key datum lazy alist -&gt; lazy alist</var>
 </dt><dd class="proc-def">
-<pre>(lambda (key datum ialist) (lseq-pair (lseq-pair key datum) ialist))
+<pre>(lambda (key datum lazy alist) (lseq-pair (lseq-pair key datum) lazy alist))
 </pre>
-    Construct a new ialist entry mapping <var>key</var> -&gt; <var>datum</var> onto <var>ialist</var>.
+    Construct a new lazy alist entry mapping <var>key</var> -&gt; <var>datum</var> onto <var>lazy alist</var>.
 
 <!--
 ==== lseq-alist-delete
 ============================================================================-->
 </dd><dt class="proc-def">
 <a name="lseq-alist-delete"></a>
-<code class="proc-def">ialist-delete&nbsp;&nbsp;</code><var>key ialist [=] -&gt; ialist</var>
+<code class="proc-def">lazy alist-delete&nbsp;&nbsp;</code><var>key lazy alist [=] -&gt; lazy alist</var>
 </dt><dd class="proc-def">
-    <code>lseq-alist-delete</code> deletes all associations from <var>ialist</var> with the given <var>key</var>, 
+    <code>lseq-alist-delete</code> deletes all associations from <var>lazy alist</var> with the given <var>key</var>, 
     using key-comparison procedure =, which defaults to <code>equal?</code>. 
     The dynamic order in which the various applications of <var>=</var> are made is not 
     specified. 
 <p>
-    Return values may share common tails with the <var>ialist</var> argument.
-    The ialist is not disordered — elements that appear in the result ialist
-    occur in the same order as they occur in the argument ialist.
+    Return values may share common tails with the <var>lazy alist</var> argument.
+    The lazy alist is not disordered — elements that appear in the result lazy alist
+    occur in the same order as they occur in the argument lazy alist.
 </p><p>
-    The comparison procedure is used to compare the element keys <var>k<sub>i</sub></var> of <var>ialist</var>'s
+    The comparison procedure is used to compare the element keys <var>k<sub>i</sub></var> of <var>lazy alist</var>'s
     entries to the <var>key</var> parameter in this way:
 	<code>(= <var>key</var> <var>k<sub>i</sub></var>)</code>.
-    Thus, one can reliably remove all entries of <var>ialist</var> whose key is greater
+    Thus, one can reliably remove all entries of <var>lazy alist</var> whose key is greater
     than five with
-	<code>(lseq-alist-delete 5 <var>ialist</var> &lt;)</code>
+	<code>(lseq-alist-delete 5 <var>lazy alist</var> &lt;)</code>
 </p></dd></dl>
 
 
@@ -1511,6 +1469,7 @@ These procedures convert between mutable and immutable pair structures.
      <p>These procedures return a list, a vector, a string, or a generator that have the same
      elements as the argument.</p>
 
+</dd></dl>
 <!--========================================================================-->
 <h2><a name="Comparators">Comparators</a></h2>
 
@@ -1520,9 +1479,9 @@ These procedures convert between mutable and immutable pair structures.
 <code class="proc-def">ipair-comparator</code>
 </dt><dd class="proc-def">
      
-     The <code>lseq-comparator</code> object is a SRFI-114 comparator suitable for comparing lseqs.
+     <p>The <code>lseq-comparator</code> object is a SRFI-114 comparator suitable for comparing lseqs.
      Note that it is <em>not</em> a procedure.
-     It compares lseqs using <code>default-comparator</code> on their first elements.  If they are not equal, that value is returned.  If they are equal, <code>default-comparator</code> is used on the <code>lseq-rest</code> of the lseqs and that value is returned.
+     It compares lseqs using <code>default-comparator</code> on their first elements.  If they are not equal, that value is returned.  If they are equal, <code>lseq-comparator</code> is used on the <code>lseq-rest</code> of the lseqs and that value is returned.</p>
 </dd>
  
 <dt class="proc-def">
@@ -1530,8 +1489,52 @@ These procedures convert between mutable and immutable pair structures.
 <code class="proc-def">make-lseq-comparator</code><var> comparator -&gt; comparator</var>
 </dt><dd class="proc-def">
      
-     The <code>make-lseq-comparator</code> procedure returns a comparator suitable for comparing lseqs
-     using <var>element-comparator</var> to compare the elements.
+     <p>The <code>make-lseq-comparator</code> procedure returns a comparator suitable for comparing lseqs
+     using <var>element-comparator</var> to compare the elements.</p>
+</dd>
+ 
+</dl>
+ 
+<!--========================================================================-->
+<h2><a name="Realization">Realization</a></h2>
+
+<p>These procedures have no directly visible effects on their lseq arguments.
+However, they force the generator inside the lazy sequence to produce all its
+arguments and store them internally, which means that later operations may be
+faster, particularly if the generator is slow.  They return an unspecified value.</p>
+
+<dl>
+<dt class="proc-def">
+<a name="realize"></a>
+<code class="proc-def">realize!</code><var> lseq</var>
+</dt><dd class="proc-def">
+     
+     <p>Realizes all the values of <var>lseq</var>.</p>
+</dd>
+ 
+<dt class="proc-def">
+<a name="realize"></a>
+<code class="proc-def">realize-once!</code><var> lseq</var>
+</dt><dd class="proc-def">
+     
+     <p>Realizes exactly one additional value of <var>lseq</var>.  If no additional
+values are available, does nothing.</p>
+</dd>
+ 
+<dt class="proc-def">
+<a name="realize"></a>
+<code class="proc-def">realize-steps!</code><var> lseq n</var>
+</dt><dd class="proc-def">
+     
+     <p>Realizes at most <var>n</var> values of <var>lseq</var>.</p>
+</dd>
+ 
+<dt class="proc-def">
+<a name="realize"></a>
+<code class="proc-def">realize-until!</code><var> lseq pred</var>
+</dt><dd class="proc-def">
+     
+     <p>Realizes values of <var>lseq</var> until at least one value satisfies <var>pred</var>.</p>
 </dd>
  
 </dl>
