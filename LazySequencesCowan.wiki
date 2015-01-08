@@ -143,6 +143,13 @@ Here is a short list of the procedures provided by this SRFI.
 </dd></dl>
 </div>
 
+<h1><a name="Quotation">Quotation</a></h1>
+<p>The syntax keyword <code>lq</code> is
+provided as part of this SRFI.  It is analogous to <code>quote</code>,
+taking an arbitrary number of literals and constructing an lseq from them,
+with any pairs in the literals converted to ipairs. It is useful
+for providing constant lazy sequences.</p>
+
 
 <!--========================================================================-->
 <h1><a name="TheProcedures">The procedures</a></h1>
@@ -450,7 +457,7 @@ defined to accept such an argument.
     are always <code>lseq=</code>, as well; implementations may exploit this
     fact to "short-cut" the element-by-element comparisons.
 <pre class="code-example">(lseq= eq?) =&gt; #t       ; Trivial cases
-(lseq= eq? (lseq-q a)) =&gt; #t
+(lseq= eq? (lq a)) =&gt; #t
 </pre>
 
 </dd></dl>
@@ -518,10 +525,10 @@ defined to accept such an argument.
     This procedure returns an lseq with the contents of <var>lseq</i> except for the
     first element.
     Note that it is an error to apply it to the empty lseq.
-<pre class="code-example">(lseq-car (lseq-q a b c))       =&gt;  a        (lseq-cdr (lseq-q a b c))     =&gt;  (b c)  
-(lseq-car (lseq-q (a) b c d))   =&gt;  (a)	     (lseq-cdr (lseq-q (a) b c d)) =&gt;  (b c d)
-(lseq-car (lseq-pair 1 2))      =&gt;  1	     (lseq-cdr (lseq-pair 1 2))    =&gt;  2      
-(lseq-car '())              =&gt;  *error*  (lseq-cdr '())            =&gt;  *error*
+<pre class="code-example">(lseq-first (lq a b c))       =&gt;  a        (lseq-last (lq a b c))     =&gt;  (b c)  
+(lseq-first (lq (a) b c d))   =&gt;  (a)	     (lseq-last (lq (a) b c d)) =&gt;  (b c d)
+(lseq-first (lseq-pair 1 2))      =&gt;  1	     (lseq-last (lseq-pair 1 2))    =&gt;  2      
+(lseq-first '())              =&gt;  *error*  (lseq-last '())            =&gt;  *error*
 </pre>
 
 
@@ -619,8 +626,8 @@ defined to accept such an argument.
     <code>last-ipair</code> returns the last ipair in the non-empty
     lseq <var>pair</var>.
 
-<pre class="code-example">(lseq-last (lseq-q a b c))      =&gt; c
-(last-ipair (lseq-q a b c)) =&gt; (c)
+<pre class="code-example">(lseq-last (lq a b c))      =&gt; c
+(last-ipair (lq a b c)) =&gt; (c)
 </pre>
 
 </dd></dl>
@@ -639,7 +646,7 @@ defined to accept such an argument.
     Returns the length of its argument.
     It is an error to pass a value to <code>lseq-length</code> which is not a proper
     lseq (<code>()</code>-terminated).<p>    
-    The length of a proper lseq is a non-negative integer <var>n</var> such that <code>lseq-cdr</code> 
+    The length of a proper lseq is a non-negative integer <var>n</var> such that <code>lseq-last</code> 
     applied <var>n</var> times to the lseq produces the empty list.
 
 
@@ -654,18 +661,18 @@ defined to accept such an argument.
     Returns an lseq consisting of the elements 
     of <var>lseq<sub>1</sub></var>
     followed by the elements of the other lseq parameters.
-<pre class="code-example">(lseq-append (lseq-q x) (lseq-q y))        =&gt;  (x y)
-(lseq-append (lseq-q a) (lseq-q b c d))    =&gt;  (a b c d)
-(lseq-append (lseq-q a (b)) (lseq-q (c)))  =&gt;  (a (b) (c))
+<pre class="code-example">(lseq-append (lq x) (lq y))        =&gt;  (x y)
+(lseq-append (lq a) (lq b c d))    =&gt;  (a b c d)
+(lseq-append (lq a (b)) (lq (c)))  =&gt;  (a (b) (c))
 </pre>
     The resulting lseq is always newly allocated, except that it
     shares structure with the final <var>lseq<sub>i</sub></var> argument.  
     This last argument may be any value at all; 
     an improper lseq results if it is not
     a proper lseq. All other arguments must be proper lseqs.
-<pre class="code-example">(lseq-append (lseq-q a b) (lseq-pair 'c 'd))  =&gt;  (a b c . d)
+<pre class="code-example">(lseq-append (lq a b) (lseq-pair 'c 'd))  =&gt;  (a b c . d)
 (lseq-append '() 'a)           =&gt;  a
-(lseq-append (lseq-q x y))         =&gt;  (x y)
+(lseq-append (lq x y))         =&gt;  (x y)
 (lseq-append)                  =&gt;  ()
 </pre>
 
@@ -707,8 +714,8 @@ defined to accept such an argument.
 
     Returns a newly allocated lseq consisting of
     the elements of <var>lseq</var> in reverse order.
-<pre class="code-example">(lseq-reverse (lseq-q a b c)) =&gt;  (c b a)
-(lseq-reverse (lseq-q a (b c) d (e (f))))
+<pre class="code-example">(lseq-reverse (lq a b c)) =&gt;  (c b a)
+(lseq-reverse (lq a (b c) d (e (f))))
     =&gt;  ((e (f)) d (b c) a)
 </pre>
 
@@ -746,12 +753,12 @@ defined to accept such an argument.
     of these lseqs, each element of which is an <var>n</var>-element lseq comprised
     of the corresponding elements from the parameter lseqs.
 
-<pre class="code-example">(lseq-zip (lseq-q one two three) 
-     (lseq-q 1 2 3)
-     (lseq-q odd even odd even odd even odd even))
+<pre class="code-example">(lseq-zip (lq one two three) 
+     (lq 1 2 3)
+     (lq odd even odd even odd even odd even))
     =&gt; ((one 1 odd) (two 2 even) (three 3 odd))
 
-(lseq-zip (lseq-q 1 2 3)) =&gt; ((1) (2) (3))
+(lseq-zip (lq 1 2 3)) =&gt; ((1) (2) (3))
 </pre>
     
 <!--
@@ -781,7 +788,7 @@ defined to accept such an argument.
     and an lseq of the second elements. <code>lseq-unzip3</code> does the same for the first
     three elements of the lseqs, and so forth.
 
-<pre class="code-example">(lseq-unzip2 (lseq-q (1 one) (2 two) (3 three))) =&gt;
+<pre class="code-example">(lseq-unzip2 (lq (1 one) (2 two) (3 three))) =&gt;
     (1 2 3) 
     (one two three)
 </pre>
@@ -801,8 +808,8 @@ defined to accept such an argument.
     to apply <var>pred</var> to the <var>lseq</var> elements in a
     left-to-right order.
     The counting stops when the shortest lseq expires.
-<pre class="code-example">(count even? (lseq-q 3 1 4 1 5 9 2 5 6)) =&gt; 3
-(count &lt; (lseq-q 1 2 4 8) (lseq-q 2 4 6 8 10 12 14 16)) =&gt; 3
+<pre class="code-example">(count even? (lq 3 1 4 1 5 9 2 5 6)) =&gt; 3
+(count &lt; (lq 1 2 4 8) (lq 2 4 6 8 10 12 14 16)) =&gt; 3
 </pre>
     
 </dd></dl>
@@ -825,7 +832,7 @@ defined to accept such an argument.
 <code>(<var>kons</var> <var>e<sub>n</sub></var> ... (<var>kons</var> <var>e<sub>2</sub></var> (<var>kons</var> <var>e<sub>1</sub></var> <var>knil</var>)) ... )</code>
 </div>
     That is, it obeys the (tail) recursion
-<pre class="code-example">(lseq-fold <var>kons</var> <var>knil</var> <var>lis</var>) = (lseq-fold <var>kons</var> (<var>kons</var> (lseq-car <var>lis</var>) <var>knil</var>) (lseq-cdr <var>lis</var>))
+<pre class="code-example">(lseq-fold <var>kons</var> <var>knil</var> <var>lis</var>) = (lseq-fold <var>kons</var> (<var>kons</var> (lseq-first <var>lis</var>) <var>knil</var>) (lseq-last <var>lis</var>))
 (lseq-fold <var>kons</var> <var>knil</var> '()) = <var>knil</var>
 </pre>
 
@@ -851,7 +858,7 @@ defined to accept such an argument.
     <var>n</var>+1 parameters: one element from each lseq, and the "seed" or fold
     state, which is initially <var>knil</var>. The fold operation terminates when
     the shortest lseq runs out of values:
-<pre class="code-example">(lseq-fold ipair* '() (lseq-q a b c) (lseq-q 1 2 3 4 5)) =&gt; (c 3 b 2 a 1)
+<pre class="code-example">(lseq-fold ipair* '() (lq a b c) (lq 1 2 3 4 5)) =&gt; (c 3 b 2 a 1)
 </pre>
    
 <!--
@@ -869,7 +876,7 @@ defined to accept such an argument.
 (<var>kons</var> <var>e<sub>1</sub></var> (<var>kons</var> <var>e<sub>2</sub></var> ... (<var>kons</var> <var>e<sub>n</sub></var> <var>knil</var>)))
 </code></div>
     That is, it obeys the recursion
-<pre class="code-example">(lseq-fold-right <var>kons</var> <var>knil</var> <var>lis</var>) = (<var>kons</var> (lseq-car <var>lis</var>) (lseq-fold-right <var>kons</var> <var>knil</var> (lseq-cdr <var>lis</var>)))
+<pre class="code-example">(lseq-fold-right <var>kons</var> <var>knil</var> <var>lis</var>) = (<var>kons</var> (lseq-first <var>lis</var>) (lseq-fold-right <var>kons</var> <var>knil</var> (lseq-last <var>lis</var>)))
 (lseq-fold-right <var>kons</var> <var>knil</var> '()) = <var>knil</var>
 </pre>
         
@@ -884,7 +891,7 @@ defined to accept such an argument.
     <var>n</var>+1 parameters: one element from each lseq, and the "seed" or fold
     state, which is initially <var>knil</var>. The fold operation terminates when
     the shortest lseq runs out of values:
-<pre class="code-example">(lseq-fold-right ipair* '() (lseq-q a b c) (lseq-q 1 2 3 4 5)) =&gt; (a 1 b 2 c 3)
+<pre class="code-example">(lseq-fold-right ipair* '() (lq a b c) (lq 1 2 3 4 5)) =&gt; (a 1 b 2 c 3)
 </pre>
  
 <!--
@@ -897,13 +904,13 @@ defined to accept such an argument.
     Analogous to <code>fold</code>, but <var>kons</var> is applied to successive sub-lseqs of the 
     lseqs, rather than successive elements — that is, <var>kons</var> is applied to the
     ipairs making up the lists, giving this (tail) recursion:
-<pre class="code-example">(lseq-pair-fold <var>kons</var> <var>knil</var> <var>lis</var>) = (let ((tail (lseq-cdr <var>lis</var>)))
+<pre class="code-example">(lseq-pair-fold <var>kons</var> <var>knil</var> <var>lis</var>) = (let ((tail (lseq-last <var>lis</var>)))
                               (lseq-pair-fold <var>kons</var> (<var>kons</var> <var>lis</var> <var>knil</var>) tail))
 (lseq-pair-fold <var>kons</var> <var>knil</var> <code>'()</code>) = <var>knil</var>
 </pre>
 <p>
     Example:
-</p><pre class="code-example">(lseq-pair-fold ipair '() (lseq-q a b c)) =&gt; ((c) (b c) (a b c))
+</p><pre class="code-example">(lseq-pair-fold ipair '() (lq a b c)) =&gt; ((c) (b c) (a b c))
 </pre>
 
     
@@ -917,12 +924,12 @@ defined to accept such an argument.
     Holds the same relationship with <code>lseq-fold-right</code> that <code>lseq-pair-fold</code> holds with <code>lseq-fold</code>.
     Obeys the recursion
 <pre class="code-example">(lseq-pair-fold-right <var>kons</var> <var>knil</var> <var>lis</var>) = 
-    (<var>kons</var> <var>lis</var> (lseq-pair-fold-right <var>kons</var> <var>knil</var> (lseq-cdr <var>lis</var>)))
+    (<var>kons</var> <var>lis</var> (lseq-pair-fold-right <var>kons</var> <var>knil</var> (lseq-last <var>lis</var>)))
 (lseq-pair-fold-right <var>kons</var> <var>knil</var> <code>'()</code>) = <var>knil</var>
 </pre>
     
     Example:
-<pre class="code-example">(lseq-pair-fold-right ipair '() (lseq-q a b c)) =&gt; ((a b c) (b c) (c))
+<pre class="code-example">(lseq-pair-fold-right ipair '() (lq a b c)) =&gt; ((a b c) (b c) (c))
 </pre>
 <!--
 ==== lseq-reduce
@@ -941,7 +948,7 @@ defined to accept such an argument.
     <code>lseq-reduce</code> has the following definition:
 <div class="indent">
 If <var>lseq</var> = (),  return <var>ridentity</var>;<br/>
-Otherwise,    return <code>(lseq-fold <var>f</var> (lseq-car <var>lseq</var>) (lseq-cdr <var>lseq</var>))</code>.
+Otherwise,    return <code>(lseq-fold <var>f</var> (lseq-first <var>lseq</var>) (lseq-last <var>lseq</var>))</code>.
 </div>
     ...in other words, we compute 
     <code>(lseq-fold <var>f</var> <var>ridentity</var> <var>lseq</var>)</code>.
@@ -972,8 +979,8 @@ Otherwise,    return <code>(lseq-fold <var>f</var> (lseq-car <var>lseq</var>) (l
     <code>lseq-reduce-right</code> is the fold-right variant of <code>lseq-reduce</code>.
     It obeys the following definition:
 <pre class="code-example">(lseq-reduce-right <var>f</var> <var>ridentity</var> '()) = <var>ridentity</var>
-(lseq-reduce-right <var>f</var> <var>ridentity</var> (lseq-q <var>e<sub>1</sub></var>)) = (<var>f</var> <var>e<sub>1</sub></var> <var>ridentity</var>) = <var>e<sub>1</sub></var>
-(lseq-reduce-right <var>f</var> <var>ridentity</var> (lseq-q <var>e<sub>1</sub></var> <var>e<sub>2</sub></var> ...)) =
+(lseq-reduce-right <var>f</var> <var>ridentity</var> (lq <var>e<sub>1</sub></var>)) = (<var>f</var> <var>e<sub>1</sub></var> <var>ridentity</var>) = <var>e<sub>1</sub></var>
+(lseq-reduce-right <var>f</var> <var>ridentity</var> (lq <var>e<sub>1</sub></var> <var>e<sub>2</sub></var> ...)) =
     (<var>f</var> <var>e<sub>1</sub></var> (lseq-reduce <var>f</var> <var>ridentity</var> (<var>e<sub>2</sub></var> ...)))
 </pre>
     ...in other words, we compute 
@@ -1001,19 +1008,19 @@ Otherwise,    return <code>(lseq-fold <var>f</var> (lseq-car <var>lseq</var>) (l
      The dynamic order in which <var>proc</var> 
      is applied to the elements of the lseqs is unspecified.
     
-<pre class="code-example">(lseq-map icadr (lseq-q (a b) (d e) (g h))) =&gt;  (b e h)
+<pre class="code-example">(lseq-map icadr (lq (a b) (d e) (g h))) =&gt;  (b e h)
 
 (lseq-map (lambda (n) (expt n n))
-     (lseq-q 1 2 3 4 5))
+     (lq 1 2 3 4 5))
     =&gt;  (1 4 27 256 3125)
 
-(lseq-map + (lseq-q 1 2 3) (lseq-q 4 5 6)) =&gt;  (5 7 9)
+(lseq-map + (lq 1 2 3) (lq 4 5 6)) =&gt;  (5 7 9)
 
 (let ((count 0))
   (lseq-map (lambda (lseq-gnored)
          (set! count (+ count 1))
          count)
-       (lseq-q a b))) =&gt;  (1 2) <em>or</em> (2 1)
+       (lq a b))) =&gt;  (1 2) <em>or</em> (2 1)
 </pre>
 
  <p>
@@ -1038,7 +1045,7 @@ Otherwise,    return <code>(lseq-fold <var>f</var> (lseq-car <var>lseq</var>) (l
 <pre class="code-example">(let ((v (make-vector 5)))
   (lseq-for-each (lambda (lseq-)
               (vector-set! v i (* i i)))
-            (lseq-q 0 1 2 3 4))
+            (lq 0 1 2 3 4))
   v)  =&gt;  #(0 1 4 9 16)
 </pre>
  <p>
@@ -1067,7 +1074,7 @@ Otherwise,    return <code>(lseq-fold <var>f</var> (lseq-car <var>lseq</var>) (l
     not specified.
 </p><p>
     Example:
-</p><pre class="code-example">(lseq-append-map (lambda (x) (lseq x (- x))) (lseq-q 1 3 8))
+</p><pre class="code-example">(lseq-append-map (lambda (x) (lseq x (- x))) (lq 1 3 8))
     =&gt; (1 -1 3 -3 8 -8)
 </pre>
 
@@ -1094,7 +1101,7 @@ Otherwise,    return <code>(lseq-fold <var>f</var> (lseq-car <var>lseq</var>) (l
     lseqs. That is, <var>f</var> is applied to the cells of the lseqs, rather
     than the lseqs' elements. These applications occur in left-to-right
     order.
-<pre class="code-example">(lseq-pair-for-each (lambda (lseq-pair) (display ipair) (newline)) (lseq-q a b c)) ==&gt;
+<pre class="code-example">(lseq-pair-for-each (lambda (lseq-pair) (display ipair) (newline)) (lq a b c)) ==&gt;
     (a b c)
     (b c)
     (c)
@@ -1107,7 +1114,7 @@ Otherwise,    return <code>(lseq-fold <var>f</var> (lseq-car <var>lseq</var>) (l
 <code class="proc-def">ifilter-map</code><var> f lseq<sub>1</sub> lseq<sub>2</sub> ... -&gt; lseq</var>
 </dt><dd class="proc-def">
     Like <code>lseq-map</code>, but only true values are saved.
-<pre class="code-example">(lseq-filter-map (lambda (x) (and (number? x) (* x x))) (lseq-q a 1 b 3 c 7))
+<pre class="code-example">(lseq-filter-map (lambda (x) (and (number? x) (* x x))) (lq a 1 b 3 c 7))
     =&gt; (1 9 49)
 </pre>
     The dynamic order in which the various applications of <var>f</var> are made is
@@ -1133,7 +1140,7 @@ Otherwise,    return <code>(lseq-fold <var>f</var> (lseq-car <var>lseq</var>) (l
     The dynamic order in which the various applications of <var>pred</var> are made is
     not specified.
     
-<pre class="code-example">(lseq-filter even? (lseq-q 0 7 8 8 43 -4)) =&gt; (0 8 8 -4)
+<pre class="code-example">(lseq-filter even? (lq 0 7 8 8 43 -4)) =&gt; (0 8 8 -4)
 </pre>
 
 <!--
@@ -1151,7 +1158,7 @@ Otherwise,    return <code>(lseq-fold <var>f</var> (lseq-car <var>lseq</var>) (l
     not specified. One of the returned lseqs may share a common tail with the
     argument lseq.
 
-<pre class="code-example">(lseq-partition symbol? (lseq-q one 2 3 four five 6)) =&gt; 
+<pre class="code-example">(lseq-partition symbol? (lq one 2 3 four five 6)) =&gt; 
     (one four five)
     (2 3 6)
 </pre>
@@ -1172,7 +1179,7 @@ Otherwise,    return <code>(lseq-fold <var>f</var> (lseq-car <var>lseq</var>) (l
     The dynamic order in which the various applications of <var>pred</var> are made is 
     not specified.
     
-<pre class="code-example">(lseq-remove even? (lseq-q 0 7 8 8 43 -4)) =&gt; (7 43)
+<pre class="code-example">(lseq-remove even? (lq 0 7 8 8 43 -4)) =&gt; (7 43)
 </pre>
 
 
@@ -1213,12 +1220,12 @@ these procedures work when applied to different kinds of lseqs:
 Here are some examples, using the <code>lseq-find</code> and <code>lseq-any</code> procedures as canonical
 representatives:
 </p><pre class="code-example">;; Proper lseq — success
-(lseq-find even? (lseq-q 1 2 3))	=&gt; 2
-(lseq-any  even? (lseq-q 1 2 3))	=&gt; #t
+(lseq-find even? (lq 1 2 3))	=&gt; 2
+(lseq-any  even? (lq 1 2 3))	=&gt; #t
 
 ;; proper lseq — failure
-(lseq-find even? (lseq-q 1 7 3))	=&gt; #f
-(lseq-any  even? (lseq-q 1 7 3))	=&gt; #f
+(lseq-find even? (lq 1 7 3))	=&gt; #f
+(lseq-any  even? (lq 1 7 3))	=&gt; #f
 
 ;; Failure is error on a dotted lseq.
 (lseq-find even? (lseq-pair (1 (lseq-pair 3 x)))	=&gt; error
@@ -1243,7 +1250,7 @@ representatives:
     Return the first element of <var>lseq</var> that satisfies predicate <var>pred</var>;
     false if no element does.
 
-<pre class="code-example">(lseq-find even? (lseq-q 3 1 4 1 5 9)) =&gt; 4
+<pre class="code-example">(lseq-find even? (lq 3 1 4 1 5 9)) =&gt; 4
 </pre>
 
     Note that <code>lseq-find</code> has an ambiguity in its lookup semantics — if <code>lseq-find</code>
@@ -1254,7 +1261,7 @@ representatives:
     guaranteed to have an element satisfying <var>pred</var>. However, in cases
     where this ambiguity can arise, you should use <code>lseq-find-tail</code> instead of
     <code>lseq-find</code> — <code>lseq-find-tail</code> has no such ambiguity:
-<pre class="code-example">(cond ((lseq-find-tail pred lis) =&gt; (lambda (lseq-pair) ...)) ; Handle (lseq-car ipair)
+<pre class="code-example">(cond ((lseq-find-tail pred lis) =&gt; (lambda (lseq-pair) ...)) ; Handle (lseq-first ipair)
       (else ...)) ; Search failed.
 </pre>
 
@@ -1272,8 +1279,8 @@ representatives:
     function.
 </p><p>
     Examples: 
-</p><pre class="code-example">(lseq-find-tail even? (lseq-q 3 1 37 -8 -5 0 0)) =&gt; (-8 -5 0 0)
-(lseq-find-tail even? (lseq-q 3 1 37 -5)) =&gt; #f
+</p><pre class="code-example">(lseq-find-tail even? (lq 3 1 37 -8 -5 0 0)) =&gt; (-8 -5 0 0)
+(lseq-find-tail even? (lq 3 1 37 -5)) =&gt; #f
 
 ;; IMEMBER X LIS:
 (lseq-find-tail (lambda (elt) (equal? x elt)) lis)
@@ -1298,7 +1305,7 @@ Returns the longest initial prefix of <var>lseq</var> whose elements all
 satisfy the predicate <var>pred</var>.
 
 <p>
-</p><pre class="code-example">(lseq-take-while even? (lseq-q 2 18 3 10 22 9)) =&gt; (2 18)
+</p><pre class="code-example">(lseq-take-while even? (lq 2 18 3 10 22 9)) =&gt; (2 18)
 </pre>
 
 <!--
@@ -1311,7 +1318,7 @@ satisfy the predicate <var>pred</var>.
 idrops the longest initial prefix of <var>lseq</var> whose elements all
 satisfy the predicate <var>pred</var>, and returns the rest of the lseq.
 
-<pre class="code-example">(lseq-drop-while even? (lseq-q 2 18 3 10 22 9)) =&gt; (3 10 22 9)
+<pre class="code-example">(lseq-drop-while even? (lq 2 18 3 10 22 9)) =&gt; (3 10 22 9)
 </pre>
 
 <!--
@@ -1345,11 +1352,11 @@ and <code>lseq-break</code> breaks the lseq at the first element satisfying
 </pre>
 
 <p>
-</p><pre class="code-example">(lseq-span even? (lseq-q 2 18 3 10 22 9)) =&gt;
+</p><pre class="code-example">(lseq-span even? (lq 2 18 3 10 22 9)) =&gt;
   (2 18)
   (3 10 22 9)
 
-(lseq-break even? (lseq-q 3 1 4 1 5 9)) =&gt;
+(lseq-break even? (lq 3 1 4 1 5 9)) =&gt;
   (3 1)
   (4 1 5 9)
 </pre>
@@ -1386,10 +1393,10 @@ and <code>lseq-break</code> breaks the lseq at the first element satisfying
     indicate that it does not return a simple boolean (<code>#t</code> or <code>#f</code>), but a
     general value.
 
-</p><pre class="code-example">(lseq-any integer? (lseq-q a 3 b 2.7))   =&gt; #t
-(lseq-any integer? (lseq-q a 3.1 b 2.7)) =&gt; #f
-(lseq-any &lt; (lseq-q 3 1 4 1 5)
-       (lseq-q 2 7 1 8 2)) =&gt; #t
+</p><pre class="code-example">(lseq-any integer? (lq a 3 b 2.7))   =&gt; #t
+(lseq-any integer? (lq a 3.1 b 2.7)) =&gt; #f
+(lseq-any &lt; (lq 3 1 4 1 5)
+       (lq 2 7 1 8 2)) =&gt; #t
 </pre>
 
 <!--
@@ -1443,9 +1450,9 @@ and <code>lseq-break</code> breaks the lseq at the first element satisfying
     The iteration stops when one of the lseqs runs out of values; in this
     case, <code>lseq-index</code> returns <code>#f</code>.
 
-</p><pre class="code-example">(lseq-index even? (lseq-q 3 1 4 1 5 9)) =&gt; 2
-(lseq-index &lt; (lseq-q 3 1 4 1 5 9 2 5 6) (lseq-q 2 7 1 8 2)) =&gt; 1
-(lseq-index = (lseq-q 3 1 4 1 5 9 2 5 6) (lseq-q 2 7 1 8 2)) =&gt; #f
+</p><pre class="code-example">(lseq-index even? (lq 3 1 4 1 5 9)) =&gt; 2
+(lseq-index &lt; (lq 3 1 4 1 5 9 2 5 6) (lq 2 7 1 8 2)) =&gt; 1
+(lseq-index = (lq 3 1 4 1 5 9 2 5 6) (lq 2 7 1 8 2)) =&gt; #f
 </pre>
 
 <!--
@@ -1475,14 +1482,14 @@ and <code>lseq-break</code> breaks the lseq at the first element satisfying
     while <code>lseq-memv</code> uses <code>eqv?</code>, and
     <code>lseq-member</code> uses <code>equal?</code>.
 
-<pre class="code-example">    (lseq-memq 'a (lseq-q a b c))           =&gt;  (a b c)
-    (lseq-memq 'b (lseq-q a b c))           =&gt;  (b c)
-    (lseq-memq 'a (lseq-q b c d))           =&gt;  #f
-    (lseq-memq (lseq 'a) (lseq-q b (a) c)) =&gt;  #f
+<pre class="code-example">    (lseq-memq 'a (lq a b c))           =&gt;  (a b c)
+    (lseq-memq 'b (lq a b c))           =&gt;  (b c)
+    (lseq-memq 'a (lq b c d))           =&gt;  #f
+    (lseq-memq (lseq 'a) (lq b (a) c)) =&gt;  #f
     (lseq-member (lseq 'a)
-            (lseq-q b (a) c))           =&gt;  ((a) c)
-    (lseq-memq 101 (lseq-q 100 101 102))    =&gt;  *unspecified*
-    (lseq-memv 101 (lseq-q 100 101 102))    =&gt;  (101 102)
+            (lq b (a) c))           =&gt;  ((a) c)
+    (lseq-memq 101 (lq 100 101 102))    =&gt;  *unspecified*
+    (lseq-memv 101 (lq 100 101 102))    =&gt;  (101 102)
 </pre>
 
     
@@ -1580,11 +1587,11 @@ and <code>lseq-break</code> breaks the lseq at the first element satisfying
     algorithm to remove equal elements. Alternatively, one can use algorithms
     based on element-marking, with linear-time results.
 
-</p><pre class="code-example">(lseq-delete-duplicates (lseq-q a b a c a b c z)) =&gt; (a b c z)
+</p><pre class="code-example">(lseq-delete-duplicates (lq a b a c a b c z)) =&gt; (a b c z)
 
 ;; Clean up an ialist:
-(lseq-delete-duplicates (lseq-q (a . 3) (b . 7) (a . 9) (c . 1))
-                   (lambda (x y) (eq? (lseq-car x) (lseq-car y))))
+(lseq-delete-duplicates (lq (a . 3) (b . 7) (a . 9) (c . 1))
+                   (lambda (x y) (eq? (lseq-first x) (lseq-first y))))
     =&gt; ((a . 3) (b . 7) (c . 1))
 </pre>
 </dd></dl>
@@ -1623,20 +1630,20 @@ in these cases, immutable maps or some other alternative should be employed.
     with the icar fields of the ipairs in <var>ialist</var>, 
     while <code>lseq-assv</code> uses <code>eqv?</code> 
     and <code>lseq-assoc</code> uses <code>equal?</code>.
-<pre class="code-example">(define e (lseq-q (a 1) (b 2) (c 3)))
+<pre class="code-example">(define e (lq (a 1) (b 2) (c 3)))
 (lseq-assq 'a e)                               =&gt;  (a 1)
 (lseq-assq 'b e)                               =&gt;  (b 2)
 (lseq-assq 'd e)                               =&gt;  #f
-(lseq-assq (lseq 'a) (lseq-q ((a)) ((b)) ((c))))  =&gt;  #f
-(lseq-assoc (lseq 'a) (lseq-q ((a)) ((b)) ((c)))) =&gt;  ((a))
-(lseq-assq 5 (lseq-q (2 3) (5 7) (11 13)))	   =&gt;  *unspecified*
-(lseq-assv 5 (lseq-q (2 3) (5 7) (11 13)))	   =&gt;  (5 7)
+(lseq-assq (lseq 'a) (lq ((a)) ((b)) ((c))))  =&gt;  #f
+(lseq-assoc (lseq 'a) (lq ((a)) ((b)) ((c)))) =&gt;  ((a))
+(lseq-assq 5 (lq (2 3) (5 7) (11 13)))	   =&gt;  *unspecified*
+(lseq-assv 5 (lq (2 3) (5 7) (11 13)))	   =&gt;  (5 7)
 </pre>
 <p>
     The comparison procedure is used to compare the elements <var>e<sub>i</sub></var> of <var>lseq</var>
     to the <var>key</var> parameter in this way:
 </p><div class="indent"><code>
-(= <var>key</var> (lseq-car <var>e<sub>i</sub></var>))	; lseq is (E1 ... En)
+(= <var>key</var> (lseq-first <var>e<sub>i</sub></var>))	; lseq is (E1 ... En)
 </code></div>
     That is, the first argument is always <var>key</var>, 
     and the second argument is one of the lseq elements. 
@@ -1648,7 +1655,7 @@ in these cases, immutable maps or some other alternative should be employed.
     Note that fully general ialist searching may be performed with
     the <code>lseq-find-tail</code> and <code>lseq-find</code> procedures, <em>e.g.</em>
 </p><pre class="code-example">;; Look up the first association in <var>ialist</var> with an even key:
-(lseq-find (lambda (a) (even? (lseq-car a))) ialist)
+(lseq-find (lambda (a) (even? (lseq-first a))) ialist)
 </pre>
 
 
