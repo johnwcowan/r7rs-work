@@ -19,10 +19,9 @@
   </li><li><a href="#Searching">Searching</a>
   </li><li><a href="#Deletion">Deletion</a>
   </li><li><a href="#lseq-mmutableassociationLists">Immutable association lists</a>
-  </li><li><a href="#Replacers">Replacers</a>
   </li><li><a href="#Conversion">Conversion</a>
-  </li><li><a href="#ProcedureApplication">Procedure application</a>
   </li><li><a href="#Comparators">Comparators</a>
+  </li><li><a href="#Realization">Realization</a>
   </li></ul>
 </li><li><a href="#SampleImplementation">Sample Implementation</a>
 </li><li><a href="#Acknowledgements">Acknowledgements</a>
@@ -50,21 +49,23 @@ Here is a short list of the procedures provided by this SRFI.
 <dl>
 <dt class="proc-index"> Constructors
 </dt><dd class="proc-index">
-<pre class="proc-index"><a href="#lseq">lseq</a> <a href="#lseq*">lseq*</a> <a href="#list->lseq">list->lseq</a> 
+<pre class="proc-index"><a href="#lseq">lseq</a>         <a href="#lseq*">lseq*</a>          <a href="#list->lseq">list->lseq</a> 
 <a href="#vector->lseq">vector->lseq</a> <a href="#string->lseq">string->lseq</a> <a href="#generator->lseq">generator->lseq</a> 
-<a href="#lseq-unfold">lseq-unfold</a> <a href="#lseq-unfold-right">lseq-unfold-right</a>
+<a href="#lseq-unfold">lseq-unfold</a>   <a href="#lseq-unfold-right">lseq-unfold-right</a>
 </pre>
 
 </dd><dt class="proc-index"> Predicates
 </dt><dd class="proc-index">
-<pre class="proc-index"><a href="#lseq-p">lseq?</a> <a href="#null-lseq-p">null-lseq?</a> <a href="#lseq=">lseq=</a>
+<pre class="proc-index">
+<a href="#lseq-p">lseq?</a>        <a href="#null-lseq-p">null-lseq?</a>   <a href="#lseq=">lseq=</a>
 </pre>
 
 </dd><dt class="proc-index"> Selectors
 </dt><dd class="proc-index">
-<pre class="proc-index"><a href="#lseq-ref">lseq-ref</a>
+<pre class="proc-index">
 <a href="#lseq-first">lseq-first</a> <a href="#lseq-second">lseq-second</a> <a href="#lseq-third">lseq-third</a> <a href="#lseq-fourth">lseq-fourth</a> <a href="#lseq-fifth">lseq-fifth</a>
-<a href="#lseq-sixth">lseq-sixth</a> <a href="#lseq-seventh">lseq-seventh</a> <a href="#lseq-eighth">lseq-eighth</a> <a href="#lseq-ninth">lseq-ninth</a> <a href="#lseq-tenth">lseq-tenth</a> <a href="#lseq-rest">lseq-rest</a>
+<a href="#lseq-sixth">lseq-sixth</a> <a href="#lseq-seventh">lseq-seventh</a> <a href="#lseq-eighth">lseq-eighth</a> <a href="#lseq-ninth">lseq-ninth</a> <a href="#lseq-tenth">lseq-tenth</a>
+<a href="#lseq-last">lseq-last</a>  <a href="#lseq-rest">lseq-rest</a>  a href="#lseq-ref">lseq-ref</a>
 <a href="#lseq-take">lseq-take</a>       <a href="#lseq-drop">lseq-drop</a>
 <a href="#lseq-take-right">lseq-take-right</a> <a href="#lseq-drop-right">lseq-drop-right</a>
 <a href="#lseq-split-at">isplit-at</a>   
@@ -83,12 +84,12 @@ Here is a short list of the procedures provided by this SRFI.
 <pre class="proc-index"><a href="#lseq-map">lseq-map</a>        <a href="#lseq-for-each">lseq-for-each</a>
 <a href="#lseq-fold">lseq-fold</a>       <a href="#lseq-fold-right">lseq-fold-right</a>
 <a href="#lseq-fold-subseq">lseq-fold</a>       <a href="#lseq-fold-subseq-right">lseq-fold-right</a>
-<a href="#lseq-reduce">lseq-reduce</a>  <a href="#lseq-reduce-right">lseq-reduce-right</a> 
+<a href="#lseq-reduce">lseq-reduce</a>     <a href="#lseq-reduce-right">lseq-reduce-right</a> 
 </pre>
 
 </dd><dt class="proc-index"> Filtering and partitioning
 </dt><dd class="proc-index">
-<pre class="proc-index"><a href="#lseq-filter">lseq-filter</a>  <a href="#lseq-partition">lseq-partition</a>  <a href="#lseq-remove">lseq-remove</a>
+<pre class="proc-index"><a href="#lseq-filter">lseq-filter</a>     <a href="#lseq-partition">lseq-partition</a>  <a href="#lseq-remove">lseq-remove</a>
 
 </pre>
 
@@ -113,20 +114,10 @@ Here is a short list of the procedures provided by this SRFI.
 <a href="#lseq-alist-cons">lseq-alist-cons</a>  <a href="#lseq-alist-delete">lseq-alist-delete</a>
 </pre>
 
-</dd><dt class="proc-index"> Replacement
-</dt><dd class="proc-index">
-<pre class="proc-index"><a href="#replace-icar">replace-icar</a> <a href="#replace-icdr">replace-icdr</a>
-</pre>
-
 </dd><dt class="proc-index"> Conversion
 </dt><dd class="proc-index">
 <pre class="proc-index"><a href="#lseq->list">lseq->list</a>  <a href="#lseq->vector">lseq-vector</a>
 <a href="#lseq->string">lseq->string</a>  <a href="lseq->generator">lseq->generator</a>
-</pre>
-
-</dd><dt class="proc-index"> Procedure application
-</dt><dd class="proc-index">
-<pre class="proc-index"><a href="#lseq-apply">iapply</a>
 </pre>
 
 </dd><dt class="proc-index"> Comparators
@@ -157,11 +148,7 @@ for providing constant lazy sequences.</p>
 The templates given below obey the following conventions for procedure formals:
 </p><table>
 <tbody><tr valign="baseline"><th align="left"> <var>lseq</var>	
-    </th><td> A proper (<code>()</code>-terminated) lseq
-</td></tr><tr valign="baseline"><th align="left"> <var>lseq</var>
-    </th><td> A proper or dotted lseq
-</td></tr><tr valign="baseline"><th align="left"> <var>ipair</var>
-    </th><td> An immutable pair
+    </th><td> A lazy sequence
 </td></tr><tr valign="baseline">
     <th align="left"> <var>x</var>, <var>y</var>, <var>d</var>, <var>a</var>
     </th><td> Any value
@@ -173,6 +160,8 @@ The templates given below obey the following conventions for procedure formals:
     </th><td> A procedure
 </td></tr><tr valign="baseline"><th align="left"> <var>pred</var>
     </th><td> A procedure whose return value is treated as a boolean
+</td></tr><tr valign="baseline"><th align="left"> <var>generator</var>
+    </th><td> A procedure with no arguments that returns a sequence of values
 </td></tr><tr valign="baseline"><th align="left"> <var>=</var>
     </th><td> A boolean procedure taking two arguments
 </td></tr></tbody></table>
@@ -202,6 +191,7 @@ defined to accept such an argument.
 (lseq)               =&gt;  ()
 </pre>
 
+<!--
 ==== lseq*
 ============================================================================-->
 <a name="lseq*"></a>
@@ -220,17 +210,21 @@ defined to accept such an argument.
 ============================================================================-->
 <a name="list->lseq"></a>
 </dd><dt class="proc-def1"> <code class="proc-def">list->lseq</code> <var>list -&gt; lseq</var>
-<a name="list->lseq"></a>
+<a name="vector->lseq"></a>
 </dd><dt class="proc-defn"> <code class="proc-def">vector->lseq</code> <var>vector -&gt; lseq</var>
-<a name="list->lseq"></a>
-</dd><dt class="proc-defn"> <code class="proc-def">list->lseq</code> <var>string -&gt; lseq</var>
-<a name="list->lseq"></a>
-</dd><dt class="proc-def"> <code class="proc-def">list->lseq</code> <var>generator -&gt; lseq</var>
+<a name="string->lseq"></a>
+</dd><dt class="proc-defn"> <code class="proc-def">string->lseq</code> <var>string -&gt; lseq</var>
+<a name="generator->lseq"></a>
+</dd><dt class="proc-def"> <code class="proc-def">generator->lseq</code> <var>generator -&gt; lseq</var>
 </dt><dd class="proc-def">
     Returns an lseq
     whose elements are the elements of <var>list, vector, string</var>,
     or the values generated by <var>generator</var>.
-<pre class="code-example">(list->lseq '(c c c c c)) =&gt; (c c c c)
+<pre class="code-example">
+(list->lseq '(c c c c c)) =&gt; (c c c c)
+(vector->lseq #(c c c c c)) =&gt; (c c c c)
+(string->lseq "cccc") =&gt; (#\c #\c #\c #\c)
+(generator->lseq (circular-generator 'c)) =&gt; (c c c ...)
 </pre>
 
 <!--
@@ -1696,32 +1690,6 @@ in these cases, immutable maps or some other alternative should be employed.
 
 
 <!--========================================================================-->
-<h2><a name="Replacement">Replacement</a></h2>
-<p>
-These two procedures are analogues of the primitive 
-side-effect operations on pairs, <code>set-car!</code> and <code>set-cdr!</code>.
-
-</p><dl>
-<!--
-==== replace-icar replace-icdr
-============================================================================-->
-<dt class="proc-def">
-<a name="replace-icar"></a>
-<code class="proc-def">replace-icar</code><var> ipair object -&gt; ipair</var>
-</dt><dd class="proc-def">
-     
-     This procedure returns an ipair with <var>object</var> in the icar field
-     and the icdr of <var>ipair</var> in the icdr field.
-</dd><dt class="proc-def">
-<a name="replace-icdr"></a>
-<code class="proc-def">replace-icdr</code><var> ipair object -&gt; ipair</var>
-</dt><dd class="proc-def">
-     
-     This procedure returns an ipair with <var>object</var> in the icdr field
-     and the icar of <var>ipair</var> in the icar field.
-</dd></dl>
-
-<!--========================================================================-->
 <h2><a name="Conversion">Conversion</a></h2>
 <p>
 These procedures convert between mutable and immutable pair structures.
@@ -1793,26 +1761,6 @@ These procedures convert between mutable and immutable pair structures.
      containing only ipairs or pairs respectively.
      The result may share structure with the argument.
      If the argument is neither a pair nor an ipair, it is returned.
-</dd></dl>
-
-<!--========================================================================-->
-<h2><a name="ProcedureApplication">Procedure Application</a></h2>
-<p>
-This procedure allows a procedure to be applied to an lseq.
-
-</p><dl>
-<!--
-==== lseq-apply
-============================================================================-->
-<dt class="proc-def">
-<a name="lseq-apply"></a>
-<code class="proc-def">iapply</code><var> procedure object ... lseq -&gt; object</var>
-</dt><dd class="proc-def">
-     
-     The <code>lseq-apply</code> procedure is an analogue of <code>apply</code> whose last
-     argument is an lseq rather than a list. It is equivalent to
-     <code>(apply </code><var>procedure object</var> ... (<code>lseq->list</code> <var>lseq</var><code>))</code>,
-     but may be implemented more efficiently.
 </dd></dl>
 
 <!--========================================================================-->
