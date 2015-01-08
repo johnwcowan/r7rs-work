@@ -13,9 +13,9 @@
   <li><a href="#Constructors">Constructors</a>
   </li><li><a href="#Predicates">Predicates</a>
   </li><li><a href="#Selectors">Selectors</a>
-  </li><li><a href="#Miscellaneous">Miscellaneous: length, append, reverse, zip &amp; count</a>
-  </li><li><a href="#FoldUnfoldMap">Fold, unfold, and map</a>
-  </li><li><a href="#FilteringPartitioning">Filtering &amp; partitioning</a>
+  </li><li><a href="#Whole">The whole lazy sequence</a>
+  </li><li><a href="#FoldingMapping">Folding and mapping</a>
+  </li><li><a href="#FilteringPartitioning">Filtering and partitioning</a>
   </li><li><a href="#Searching">Searching</a>
   </li><li><a href="#Deletion">Deletion</a>
   </li><li><a href="#lseq-mmutableassociationLists">Immutable association lists</a>
@@ -233,154 +233,36 @@ defined to accept such an argument.
 ============================================================================-->
 </dd><dt class="proc-def">
 <a name="lseq-unfold"></a>
-<code class="proc-def">lseq-unfold</code><var> p f g seed [tail-gen] -&gt; lseq</var>
-</dt><dd class="proc-def">
-<code>lseq-unfold</code> is best described by its basic recursion:
-<pre class="code-example">(lseq-unfold <var>p</var> <var>f</var> <var>g</var> <var>seed</var>) = 
-    (if (<var>p</var> <var>seed</var>) (<var>tail-gen</var> <var>seed</var>)
-        (lseq-pair (<var>f</var> <var>seed</var>)
-              (lseq-unfold <var>p</var> <var>f</var> <var>g</var> (<var>g</var> <var>seed</var>))))
-</pre>
-<dl>
-<dt> <var>p</var> </dt><dd> Determines when to stop unfolding.
-</dd><dt> <var>f</var> </dt><dd> Maps each seed value to the corresponding lseq element.
-</dd><dt> <var>g</var> </dt><dd> Maps each seed value to next seed value.
-</dd><dt> <var>seed</var> </dt><dd> The "state" value for the unfold.
-</dd><dt> <var>tail-gen</var> </dt><dd> Creates the tail of the lseq; 
-                              defaults to <code>(lambda (x) '())</code>
-</dd></dl>
-<p>
-    In other words, we use <var>g</var> to generate a sequence of seed values
-</p><div class="indent">
-<var>seed</var>, <var>g</var>(<var>seed</var>), <var>g<sup>2</sup></var>(<var>seed</var>), <var>g<sup>3</sup></var>(<var>seed</var>), ...
-</div>
-    These seed values are mapped to lseq elements by <var>f</var>, 
-    producing the elements of the result lseq in a left-to-right order. 
-    <var>P</var> says when to stop.
+<code class="proc-def">lseq-unfold</code><var> stop? mapper successor seed -&gt; lseq</var>
+</dt><dd class="proc-def"><p>
+Creates a newly allocated lseq, and performs the following algorithm with the current seed set to <var>seed</var>:
 
-<p>
-    <code>lseq-unfold</code> is the fundamental recursive lseq constructor, 
-    just as <code>lseq-fold-right</code> is 
-    the fundamental recursive lseq consumer.
-    While <code>lseq-unfold</code> may seem a bit abstract
-    to novice functional programmers, it can be used in a number of ways:
+If the result of applying the predicate <var>stop?</var> to the current seed is true, return the lseq. Otherwise, apply the procedure <var>mapper</var> to the current seed, returning a value which is appended to the lseq. Then get a new seed by applying the procedure <var>successor</var> to the current seed, and repeat this algorithm. 
 
 </p><pre class="code-example">;; Lseq of squares: 1^2 ... 10^2
 (lseq-unfold (lambda (x) (&gt; x 10))
         (lambda (x) (* x x))
 	(lambda (x) (+ x 1))
 	1)
-		
-(lseq-unfold null-lseq? icar icdr lis) ; Copy a proper lseq.
-
-;; Read current input port into an lseq of values.
-(lseq-unfold eof-object? values (lambda (x) (read)) (read))
-
-;; Copy a possibly non-proper lseq:
-(lseq-unfold not-ipair? icar icdr lis 
-              values)
-
-;; Append HEAD onto TAIL:
-(lseq-unfold null-lseq? icar icdr head 
-              (lambda (x) tail))
 </pre>
-
-    Interested functional programmers may enjoy noting that 
-    <code>lseq-fold-right</code> and <code>lseq-unfold</code>
-    are in some sense inverses. 
-    That is, given operations <var>knull?</var>, <var>kar</var>, 
-    <var>kdr</var>, <var>kons</var>, and <var>knil</var> satisfying
-<div class="indent">
-<code>(<var>kons</var> (<var>kar</var> <var>x</var>) (<var>kdr</var> <var>x</var>))</code> = <code>x</code>
-    and 
-<code>(<var>knull?</var> <var>knil</var>)</code> = <code>#t</code>
-</div>
-    then
-<div class="indent">
-<code>(lseq-fold-right <var>kons</var> <var>knil</var> (lseq-unfold <var>knull?</var> <var>kar</var> <var>kdr</var> <var>x</var>))</code> = <var>x</var>
-</div>
-    and
-<div class="indent">
-<code>(lseq-unfold <var>knull?</var> <var>kar</var> <var>kdr</var> (lseq-fold-right <var>kons</var> <var>knil</var> <var>x</var>))</code> = <var>x</var>.
-</div>
-
-    This combinator sometimes is called an "anamorphism;" when an
-    explicit <var>tail-gen</var> procedure is supplied, it is called an
-    "apomorphism."
-
-
+		
 <!--
 ==== lseq-unfold-right
 ============================================================================-->
 </dd><dt class="proc-def">
 <a name="lseq-unfold-right"></a>
-<code class="proc-def">iunfold-right</code><var> p f g seed [tail] -&gt; lseq</var>
-</dt><dd class="proc-def">
-    <code>lseq-unfold-right</code> constructs an lseq with the following loop:
-<pre class="code-example">(let lp ((seed seed) (lis tail))
-  (if (p seed) lis
-      (lp (g seed)
-          (lseq-pair (f seed) lis))))
+<code class="proc-def">lseq-unfold-right</code><var> stop? mapper successor seed -&gt; lseq</var>
+</dt><dd class="proc-def">"><p>
+Creates a newly allocated lseq, and performs the following algorithm with the current seed set to <var>seed</var>:
+
+If the result of applying the predicate <var>stop?</var> to the current seed is true, return the lseq. Otherwise, apply the procedure <var>mapper</var> to the current seed, returning a value which is prepended to the lseq. Then get a new seed by applying the procedure <var>successor</var> to the current seed, and repeat this algorithm. 
+
+</p><pre class="code-example">;; Lseq of squares: 10^2 ... 1^2
+(lseq-unfold (lambda (x) (&gt; x 10))
+        (lambda (x) (* x x))
+	(lambda (x) (+ x 1))
+	1)
 </pre>
-<dl>
-<dt> <var>p</var> </dt><dd> Determines when to stop unfolding.
-</dd><dt> <var>f</var> </dt><dd> Maps each seed value to the corresponding lseq element.
-</dd><dt> <var>g</var> </dt><dd> Maps each seed value to next seed value.
-</dd><dt> <var>seed</var> </dt><dd> The "state" value for the unfold.
-</dd><dt> <var>tail</var> </dt><dd> lseq terminator; defaults to <code>'()</code>.
-</dd></dl>
-<p>
-    In other words, we use <var>g</var> to generate a sequence of seed values
-</p><div class="indent">
-<var>seed</var>, <var>g</var>(<var>seed</var>), <var>g<sup>2</sup></var>(<var>seed</var>), <var>g<sup>3</sup></var>(<var>seed</var>), ...
-</div>
-    These seed values are mapped to lseq elements by <var>f</var>, 
-    producing the elements of the result lseq in a right-to-left order. 
-    <var>P</var> says when to stop.
-
-<p>
-    <code>lseq-unfold-right</code> is the fundamental iterative lseq constructor, 
-    just as <code>lseq-fold</code> is the
-    fundamental iterative lseq consumer. 
-    While <code>lseq-unfold-right</code> may seem a bit abstract
-    to novice functional programmers, it can be used in a number of ways:
-</p><pre class="code-example">;; Lseq of squares: 1^2 ... 10^2
-(lseq-unfold-right zero? 
-              (lambda (x) (* x x))
-              (lambda (x) (- x 1))
-              10)
-	
-;; Reverse a proper lseq.
-(lseq-unfold-right null-lseq? icar icdr lis)
-
-;; Read current input port into an lseq of values.
-(lseq-unfold-right eof-object? values (lambda (x) (read)) (read))
-
-;; (lseq-append-reverse rev-head tail)
-(lseq-unfold-right null-lseq? icar icdr rev-head tail)
-</pre>
-
-    Interested functional programmers may enjoy noting that 
-    <code>lseq-fold</code> and <code>lseq-unfold-right</code>
-    are in some sense inverses. 
-    That is, given operations <var>knull?</var>, <var>kar</var>, 
-    <var>kdr</var>, <var>kons</var>, and <var>knil</var> satisfying
-<div class="indent">
-<code>(<var>kons</var> (<var>kar</var> <var>x</var>) (<var>kdr</var> <var>x</var>))</code> = <code>x</code>
-    and 
-<code>(<var>knull?</var> <var>knil</var>)</code> = <code>#t</code>
-</div>
-    then
-<div class="indent">
-<code>(lseq-fold <var>kons</var> <var>knil</var> (lseq-unfold-right <var>knull?</var> <var>kar</var> <var>kdr</var> <var>x</var>))</code> = <var>x</var>
-</div>
-    and
-<div class="indent">
-<code>(lseq-unfold-right <var>knull?</var> <var>kar</var> <var>kdr</var> (lseq-fold <var>kons</var> <var>knil</var> <var>x</var>))</code> = <var>x</var>.
-</div>
-
-    This combinator presumably has some pretentious mathematical name;
-    interested readers are invited to communicate it to the author.
 
 <!--========================================================================-->
 <h2><a name="Predicates">Predicates</a></h2>
