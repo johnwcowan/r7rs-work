@@ -18,7 +18,7 @@
   </li><li><a href="#FilteringPartitioning">Filtering and partitioning</a>
   </li><li><a href="#Searching">Searching</a>
   </li><li><a href="#Deletion">Deletion</a>
-  </li><li><a href="#lseq-mmutableassociationLists">Immutable association lists</a>
+  </li><li><a href="#LazyAssociationLists">Lazy association lists</a>
   </li><li><a href="#Conversion">Conversion</a>
   </li><li><a href="#Comparators">Comparators</a>
   </li><li><a href="#Realization">Realization</a>
@@ -196,7 +196,8 @@ The templates given below obey the following conventions for procedure formals:
 </dt><dd class="proc-def">
 
     <p>Like <code>lseq</code>, 
-    but the last argument is an lseq.</p>
+    but the last argument is an lseq.  This is the lseq equivalent of both
+    <code>cons</i> and SRFI 1's <code>cons*</code>.</p>
        
 <pre class="code-example">(lseq* 1 2 3 (lseq 4)) =&gt; (1 2 3 4)
 </pre>
@@ -545,7 +546,7 @@ Creates a newly allocated lseq, and performs the following algorithm with the cu
 ============================================================================-->
 </p></dd><dt class="proc-def">
 <a name="lseq-reverse"></a>
-<code class="proc-def">ireverse&nbsp;</code><var> lseq -&gt; lseq</var>
+<code class="proc-def">lseq-reverse&nbsp;</code><var> lseq -&gt; lseq</var>
 </dt><dd class="proc-def">
     
 
@@ -584,8 +585,6 @@ Creates a newly allocated lseq, and performs the following algorithm with the cu
 <a name="lseq-zip"></a>
 </dd><dt class="proc-def"><code class="proc-def">lseq-zip</code> <var>lseq<sub>1</sub> lseq<sub>2</sub> ... -&gt; lseq</var>
 </dt><dd class="proc-def">
-<pre>(lambda lseqs (lseq-apply imap lseq lseqs))
-</pre>
     <p>If <code>lseq-zip</code> is passed <var>n</var> lseqs, it returns an lseq as long as the shortest
     of these lseqs, each element of which is an <var>n</var>-element list comprised
     of the corresponding elements from the arguments.</p>
@@ -659,16 +658,16 @@ Creates a newly allocated lseq, and performs the following algorithm with the cu
 ============================================================================-->
 <dt class="proc-def">
 <a name="lseq-fold"></a>
-<code class="proc-def">ifold</code><var> kons knil lseq<sub>1</sub> lseq<sub>2</sub> ... -&gt; value</var>
+<code class="proc-def">lseq-fold</code><var> kons knil lseq<sub>1</sub> lseq<sub>2</sub> ... -&gt; value</var>
 </dt><dd class="proc-def">
-    The fundamental lseq iterator. 
-<p>
+    <p>The fundamental lseq iterator. 
+</p><p>
     First, consider the single lseq-parameter case. If <var>lseq<sub>1</sub></var> = (<var>e<sub>1</sub></var> <var>e<sub>2</sub></var> ... <var>e<sub>n</sub></var>),
     then this procedure returns
 </p><div class="indent">
 <code>(<var>kons</var> <var>e<sub>n</sub></var> ... (<var>kons</var> <var>e<sub>2</sub></var> (<var>kons</var> <var>e<sub>1</sub></var> <var>knil</var>)) ... )</code>
 </div>
-    That is, it obeys the (tail) recursion
+    <p>That is, it obeys the (tail) recursion</p>
 <pre class="code-example">(lseq-fold <var>kons</var> <var>knil</var> <var>lis</var>) = (lseq-fold <var>kons</var> (<var>kons</var> (lseq-first <var>lis</var>) <var>knil</var>) (lseq-last <var>lis</var>))
 (lseq-fold <var>kons</var> <var>knil</var> '()) = <var>knil</var>
 </pre>
@@ -676,25 +675,25 @@ Creates a newly allocated lseq, and performs the following algorithm with the cu
     Examples:
 <pre class="code-example">(lseq-fold + 0 lis)			; Add up the elements of LIS.
 
-(lseq-fold ipair '() lis)		; Reverse LIS.
+(lseq-fold lseq* (lseq) lseq)		; Reverse lseq.
 
-(lseq-fold ipair tail rev-head)	; See APPEND-REVERSE.
+(lseq-fold lseq* tail rev-head)	; See append-reverse.
 
 ;; How many symbols in LIS?
 (lseq-fold (lambda (x count) (if (symbol? x) (+ count 1) count))
       0
-      lis)
+      lseq)
 
-;; Length of the longest string in LIS:
+;; Length of the longest string in lseq:
 (lseq-fold (lambda (s max-len) (max max-len (string-length s)))
       0
-      lis)
+      lseq)
 </pre>
 
-    If <var>n</var> lseq arguments are provided, then the <var>kons</var> function must take
+    <p>If <var>n</var> lseq arguments are provided, then the <var>kons</var> function must take
     <var>n</var>+1 parameters: one element from each lseq, and the "seed" or fold
     state, which is initially <var>knil</var>. The fold operation terminates when
-    the shortest lseq runs out of values:
+    the shortest lseq runs out of values:</p>
 <pre class="code-example">(lseq-fold ipair* '() (lq a b c) (lq 1 2 3 4 5)) =&gt; (c 3 b 2 a 1)
 </pre>
    
@@ -703,92 +702,55 @@ Creates a newly allocated lseq, and performs the following algorithm with the cu
 ============================================================================-->
 </dd><dt class="proc-def">
 <a name="lseq-fold-right"></a>
-<code class="proc-def">ifold-right</code><var> kons knil lseq<sub>1</sub> lseq<sub>2</sub> ... -&gt; value</var>
-</dt><dd class="proc-def">
+<code class="proc-def">lseq-fold-right</code><var> kons knil lseq<sub>1</sub> lseq<sub>2</sub> ... -&gt; value</var>
+</dt><dd class="proc-def"><p>
     The fundamental lseq recursion operator. 
-<p>
+</p><p>
     First, consider the single lseq-parameter case. If <var>lseq<sub>1</sub></var> = <code>(<var>e<sub>1</sub></var> <var>e<sub>2</sub></var> ... <var>e<sub>n</sub></var>)</code>, 
     then this procedure returns
 </p><div class="indent"><code>
 (<var>kons</var> <var>e<sub>1</sub></var> (<var>kons</var> <var>e<sub>2</sub></var> ... (<var>kons</var> <var>e<sub>n</sub></var> <var>knil</var>)))
 </code></div>
-    That is, it obeys the recursion
+    <p>That is, it obeys the recursion</p>
 <pre class="code-example">(lseq-fold-right <var>kons</var> <var>knil</var> <var>lis</var>) = (<var>kons</var> (lseq-first <var>lis</var>) (lseq-fold-right <var>kons</var> <var>knil</var> (lseq-last <var>lis</var>)))
 (lseq-fold-right <var>kons</var> <var>knil</var> '()) = <var>knil</var>
 </pre>
         
     Examples:
-<pre class="code-example">(lseq-fold-right ipair '() lis)		; Copy LIS.
+<pre class="code-example">(lseq-fold-right ipair '() lseq)		; Copy lseq.
 
-;; Filter the even numbers out of LIS.
-(lseq-fold-right (lambda (x l) (if (even? x) (lseq-pair x l) l)) '() lis))
+;; Filter the even numbers out of lseq.
+(lseq-fold-right (lambda (x l) (if (even? x) (lseq-pair x l) l)) '() lseq))
 </pre>
 
-    If <var>n</var> lseq arguments are provided, then the <var>kons</var> procedure must take
+    <p>If <var>n</var> lseq arguments are provided, then the <var>kons</var> procedure must take
     <var>n</var>+1 parameters: one element from each lseq, and the "seed" or fold
     state, which is initially <var>knil</var>. The fold operation terminates when
-    the shortest lseq runs out of values:
-<pre class="code-example">(lseq-fold-right ipair* '() (lq a b c) (lq 1 2 3 4 5)) =&gt; (a 1 b 2 c 3)
+    the shortest lseq runs out of values:</p>
+<pre class="code-example">(lseq-fold-right lseq* '() (lq a b c) (lq 1 2 3 4 5)) =&gt; (a 1 b 2 c 3)
 </pre>
  
-<!--
-==== lseq-pair-fold
-============================================================================-->
-</dd><dt class="proc-def">
-<a name="lseq-pair-fold"></a>
-<code class="proc-def">ipair-fold</code><var> kons knil lseq<sub>1</sub> lseq<sub>2</sub> ... -&gt; value</var>
-</dt><dd class="proc-def">
-    Analogous to <code>fold</code>, but <var>kons</var> is applied to successive sub-lseqs of the 
-    lseqs, rather than successive elements — that is, <var>kons</var> is applied to the
-    ipairs making up the lists, giving this (tail) recursion:
-<pre class="code-example">(lseq-pair-fold <var>kons</var> <var>knil</var> <var>lis</var>) = (let ((tail (lseq-last <var>lis</var>)))
-                              (lseq-pair-fold <var>kons</var> (<var>kons</var> <var>lis</var> <var>knil</var>) tail))
-(lseq-pair-fold <var>kons</var> <var>knil</var> <code>'()</code>) = <var>knil</var>
-</pre>
-<p>
-    Example:
-</p><pre class="code-example">(lseq-pair-fold ipair '() (lq a b c)) =&gt; ((c) (b c) (a b c))
-</pre>
-
-    
-<!--
-==== lseq-pair-fold-right
-============================================================================-->
-</dd><dt class="proc-def">
-<a name="lseq-pair-fold-right"></a>
-<code class="proc-def">ipair-fold-right</code><var> kons knil lseq<sub>1</sub> lseq<sub>2</sub> ... -&gt; value</var>
-</dt><dd class="proc-def">
-    Holds the same relationship with <code>lseq-fold-right</code> that <code>lseq-pair-fold</code> holds with <code>lseq-fold</code>.
-    Obeys the recursion
-<pre class="code-example">(lseq-pair-fold-right <var>kons</var> <var>knil</var> <var>lis</var>) = 
-    (<var>kons</var> <var>lis</var> (lseq-pair-fold-right <var>kons</var> <var>knil</var> (lseq-last <var>lis</var>)))
-(lseq-pair-fold-right <var>kons</var> <var>knil</var> <code>'()</code>) = <var>knil</var>
-</pre>
-    
-    Example:
-<pre class="code-example">(lseq-pair-fold-right ipair '() (lq a b c)) =&gt; ((a b c) (b c) (c))
-</pre>
 <!--
 ==== lseq-reduce
 ============================================================================-->
 </dd><dt class="proc-def">
 <a name="lseq-reduce"></a>
-<code class="proc-def">ireduce</code><var> f ridentity lseq -&gt; value</var>
+<code class="proc-def">lseq-reduce</code><var> f ridentity lseq -&gt; value</var>
 </dt><dd class="proc-def">
-    <code>lseq-reduce</code> is a variant of <code>lseq-fold</code>. 
-<p>
+    <p><code>lseq-reduce</code> is a variant of <code>lseq-fold</code>. 
+</p><p>
     <var>ridentity</var> should be a "right identity" of the procedure <var>f</var> — that is, 
     for any value <var>x</var> acceptable to <var>f</var>,
 </p><pre class="code-example">(<var>f</var> <var>x</var> <var>ridentity</var>) = <var>x</var>
 </pre>
     
-    <code>lseq-reduce</code> has the following definition:
+    <p><code>lseq-reduce</code> has the following definition:
 <div class="indent">
 If <var>lseq</var> = (),  return <var>ridentity</var>;<br/>
 Otherwise,    return <code>(lseq-fold <var>f</var> (lseq-first <var>lseq</var>) (lseq-last <var>lseq</var>))</code>.
 </div>
     ...in other words, we compute 
-    <code>(lseq-fold <var>f</var> <var>ridentity</var> <var>lseq</var>)</code>.
+    <code>(lseq-fold <var>f</var> <var>ridentity</var> <var>lseq</var>)</code>.</p>
 <p>
     Note that <var>ridentity</var> is used <em>only</em> in an empty-lseq case.
     You typically use <code>lseq-reduce</code> when applying <var>f</var> is expensive and you'd
@@ -797,13 +759,14 @@ Otherwise,    return <code>(lseq-fold <var>f</var> (lseq-first <var>lseq</var>) 
     redundantly producing the same value passed in to <var>f</var>. 
     For example, if <var>f</var> involves searching a file directory or 
     performing a database query, this can be significant. 
-    In general, however, <code>lseq-fold</code> is useful in many contexts where <code>lseq-reduce</code> is not
+    In general, however, <code>lseq-fold</code> is useful
+    in many contexts where <code>lseq-reduce</code> is not
     (consider the examples given in the <code>lseq-fold</code> definition — only one of the
-    five folds uses a function with a right identity. 
+    folds uses a function with a right identity. 
     The other four may not be performed with <code>lseq-reduce</code>).
 
 </p><pre class="code-example">;; take the max of an lseq of non-negative integers.
-(lseq-reduce max 0 nums) ; i.e., (lseq-apply max 0 nums)
+(lseq-reduce max 0 nums)
 </pre>
 
 <!--
@@ -811,21 +774,20 @@ Otherwise,    return <code>(lseq-fold <var>f</var> (lseq-first <var>lseq</var>) 
 ============================================================================-->
 </dd><dt class="proc-def">
 <a name="lseq-reduce-right"></a>
-<code class="proc-def">ireduce-right</code><var> f ridentity lseq -&gt; value</var>
+<code class="proc-def">lseq-reduce-right</code><var> f ridentity lseq -&gt; value</var>
 </dt><dd class="proc-def">
-    <code>lseq-reduce-right</code> is the fold-right variant of <code>lseq-reduce</code>.
-    It obeys the following definition:
+    <p><code>lseq-reduce-right</code> is the fold-right variant of <code>lseq-reduce</code>.
+    It obeys the following definition:</p>
 <pre class="code-example">(lseq-reduce-right <var>f</var> <var>ridentity</var> '()) = <var>ridentity</var>
 (lseq-reduce-right <var>f</var> <var>ridentity</var> (lq <var>e<sub>1</sub></var>)) = (<var>f</var> <var>e<sub>1</sub></var> <var>ridentity</var>) = <var>e<sub>1</sub></var>
 (lseq-reduce-right <var>f</var> <var>ridentity</var> (lq <var>e<sub>1</sub></var> <var>e<sub>2</sub></var> ...)) =
     (<var>f</var> <var>e<sub>1</sub></var> (lseq-reduce <var>f</var> <var>ridentity</var> (<var>e<sub>2</sub></var> ...)))
 </pre>
-    ...in other words, we compute 
-    <code>(lseq-fold-right <var>f</var> <var>ridentity</var> <var>lseq</var>)</code>.
+    <p>...in other words, we compute 
+    <code>(lseq-fold-right <var>f</var> <var>ridentity</var> <var>lseq</var>)</code>.</p>
     
 <pre class="code-example">;; Append a bunch of lseqs together.
-;; I.e., (lseq-apply iappend lseq-of-lseqs)
-(lseq-reduce-right iappend '() lseq-of-lseqs)
+(lseq-reduce-right lseq-append '() lseq-of-lseqs)
 </pre>
 
 <!--
@@ -833,17 +795,17 @@ Otherwise,    return <code>(lseq-fold <var>f</var> (lseq-first <var>lseq</var>) 
 ============================================================================-->
 </dd><dt class="proc-def">
 <a name="lseq-map"></a>
-<code class="proc-def">imap</code><var> proc lseq<sub>1</sub> lseq<sub>2</sub> ... -&gt; lseq</var>
+<code class="proc-def">lseq-map</code><var> proc lseq<sub>1</sub> lseq<sub>2</sub> ... -&gt; lseq</var>
 </dt><dd class="proc-def">
     
 
-     <var>proc</var> is a procedure taking as many arguments 
+     <p><var>proc</var> is a procedure taking as many arguments 
      as there are lseq arguments and returning a single value.  
      <code>lseq-map</code> applies <var>proc</var> element-wise to the elements
      of the lseqs and returns an lseq of the results, 
      in order.  
      The dynamic order in which <var>proc</var> 
-     is applied to the elements of the lseqs is unspecified.
+     is applied to the elements of the lseqs is unspecified.</p>
     
 <pre class="code-example">(lseq-map icadr (lq (a b) (d e) (g h))) =&gt;  (b e h)
 
@@ -867,18 +829,18 @@ Otherwise,    return <code>(lseq-fold <var>f</var> (lseq-first <var>lseq</var>) 
 ============================================================================-->
 </p></dd><dt class="proc-def">
 <a name="lseq-for-each"></a>
-<code class="proc-def">ifor-each</code><var> proc lseq<sub>1</sub> lseq<sub>2</sub> ... -&gt; unspecified</var>
+<code class="proc-def">lseq-for-each</code><var> proc lseq<sub>1</sub> lseq<sub>2</sub> ... -&gt; unspecified</var>
 </dt><dd class="proc-def">
      
 
-     The arguments to <code>lseq-for-each</code> are like the arguments to 
+     <p>The arguments to <code>lseq-for-each</code> are like the arguments to 
      <code>lseq-map</code>, but
      <code>lseq-for-each</code> calls <var>proc</var> for its side effects rather
      than for its values.  
      Unlike <code>lseq-map</code>, <code>lseq-for-each</code> is guaranteed to call 
      <var>proc</var> on the elements of the lseqs in order from the first
      element(s) to the last, 
-     and the value returned by <code>lseq-for-each</code> is unspecified.
+     and the value returned by <code>lseq-for-each</code> is unspecified.</p>
 <pre class="code-example">(let ((v (make-vector 5)))
   (lseq-for-each (lambda (lseq-)
               (vector-set! v i (* i i)))
@@ -892,18 +854,9 @@ Otherwise,    return <code>(lseq-fold <var>f</var> (lseq-first <var>lseq</var>) 
 ============================================================================-->
 </p></dd><dt class="proc-def">
 <a name="lseq-append-map"></a>
-<code class="proc-def">iappend-map&nbsp;&nbsp;</code><var>f lseq<sub>1</sub> lseq<sub>2</sub> ... -&gt; value</var>
+<code class="proc-def">lseq-append-map&nbsp;&nbsp;</code><var>f lseq<sub>1</sub> lseq<sub>2</sub> ... -&gt; value</var>
 </dt><dd class="proc-def">
-    Equivalent to 
-<div class="indent"><code>
-(lseq-apply iappend  (lseq-map <var>f</var> <var>lseq<sub>1</sub></var> <var>lseq<sub>2</sub></var> ...))
-</code></div>
-    and
-<div class="indent"><code>
-(lseq-apply iappend (lseq-map <var>f</var> <var>lseq<sub>1</sub></var> <var>lseq<sub>2</sub></var> ...))
-</code></div>
-
-    Map <var>f</var> over the elements of the lseqs, just as in the <code>lseq-map</code> function.
+    <p>Map <var>f</var> over the elements of the lseqs, just as in the <code>lseq-map</code> function.
     However, the results of the applications are appended together (using <code>lseq-append</code>) to
     make the final result. 
 <p>
@@ -926,14 +879,14 @@ Otherwise,    return <code>(lseq-fold <var>f</var> (lseq-first <var>lseq</var>) 
 ============================================================================-->
 <dt class="proc-def">
 <a name="lseq-filter"></a>
-<code class="proc-def">ifilter</code><var> pred lseq -&gt; lseq</var>
+<code class="proc-def">lseq-filter</code><var> pred lseq -&gt; lseq</var>
 </dt><dd class="proc-def">
-    Return all the elements of <var>lseq</var> that satisfy predicate <var>pred</var>.
+    <p>Return all the elements of <var>lseq</var> that satisfy predicate <var>pred</var>.
     The lseq is not disordered — elements that appear in the result lseq
     occur in the same order as they occur in the argument lseq.
     The returned lseq may share a common tail with the argument lseq.
     The dynamic order in which the various applications of <var>pred</var> are made is
-    not specified.
+    not specified.</p>
     
 <pre class="code-example">(lseq-filter even? (lq 0 7 8 8 43 -4)) =&gt; (0 8 8 -4)
 </pre>
@@ -943,16 +896,16 @@ Otherwise,    return <code>(lseq-fold <var>f</var> (lseq-first <var>lseq</var>) 
 ============================================================================-->
 </dd><dt class="proc-def">
 <a name="lseq-remove"></a>
-<code class="proc-def">iremove</code><var> pred lseq -&gt; lseq</var>
+<code class="proc-def">lseq-remove</code><var> pred lseq -&gt; lseq</var>
 </dt><dd class="proc-def">
     Returns <var>lseq</var> without the elements that satisfy predicate <var>pred</var>:
 <pre class="code-example">(lambda (pred lseq) (lseq-filter (lambda (x) (not (pred x))) lseq))
 </pre>
-    The lseq is not disordered — elements that appear in the result lseq
+    <p>The lseq is not disordered — elements that appear in the result lseq
     occur in the same order as they occur in the argument lseq.
     The returned lseq may share a common tail with the argument lseq.
     The dynamic order in which the various applications of <var>pred</var> are made is 
-    not specified.
+    not specified.</p>
     
 <pre class="code-example">(lseq-remove even? (lq 0 7 8 8 43 -4)) =&gt; (7 43)
 </pre>
@@ -962,15 +915,15 @@ Otherwise,    return <code>(lseq-fold <var>f</var> (lseq-first <var>lseq</var>) 
 ============================================================================-->
 </dd><dt class="proc-def">
 <a name="lseq-partition"></a>
-<code class="proc-def">ipartition</code><var> pred lseq -&gt; [[lseq|lseq]]</var>
+<code class="proc-def">lseq-partition</code><var> pred lseq -&gt; [[lseq|lseq]]</var>
 </dt><dd class="proc-def">
-    Partitions the elements of <var>lseq</var> with predicate <var>pred</var>, and returns two
+    <p>Partitions the elements of <var>lseq</var> with predicate <var>pred</var>, and returns two
     values: the lseq of in-elements and the lseq of out-elements.
     The lseq is not disordered — elements occur in the result lseqs
     in the same order as they occur in the argument lseq.
     The dynamic order in which the various applications of <var>pred</var> are made is
     not specified. One of the returned lseqs may share a common tail with the
-    argument lseq.
+    argument lseq.</p>
 
 <pre class="code-example">(lseq-partition symbol? (lq one 2 3 four five 6)) =&gt; 
     (one four five)
@@ -990,22 +943,22 @@ some criteria.
 ============================================================================-->
 <dt class="proc-def">
 <a name="lseq-find"></a>
-<code class="proc-def">ifind</code><var> pred lseq -&gt; value</var>
+<code class="proc-def">lseq-find</code><var> pred lseq -&gt; value</var>
 </dt><dd class="proc-def">
-    Return the first element of <var>lseq</var> that satisfies predicate <var>pred</var>;
-    false if no element does.
+    <p>Return the first element of <var>lseq</var> that satisfies predicate <var>pred</var>;
+    false if no element does.</p>
 
 <pre class="code-example">(lseq-find even? (lq 3 1 4 1 5 9)) =&gt; 4
 </pre>
 
-    Note that <code>lseq-find</code> has an ambiguity in its lookup semantics — if <code>lseq-find</code>
-    returns <code>#f</code>, you cannot tell (lseq-n general) if it found a <code>#f</code> element
+    <p>Note that <code>lseq-find</code> has an ambiguity in its lookup semantics — if <code>lseq-find</code>
+    returns <code>#f</code>, you cannot tell (in general) if it found a <code>#f</code> element
     that satisfied <var>pred</var>, or if it did not find any element at all. In
     many situations, this ambiguity cannot arise — either the lseq being
     searched is known not to contain any <code>#f</code> elements, or the lseq is
     guaranteed to have an element satisfying <var>pred</var>. However, in cases
     where this ambiguity can arise, you should use <code>lseq-find-tail</code> instead of
-    <code>lseq-find</code> — <code>lseq-find-tail</code> has no such ambiguity:
+    <code>lseq-find</code> — <code>lseq-find-tail</code> has no such ambiguity:</p>
 <pre class="code-example">(cond ((lseq-find-tail pred lis) =&gt; (lambda (lseq-pair) ...)) ; Handle (lseq-first ipair)
       (else ...)) ; Search failed.
 </pre>
@@ -1015,11 +968,11 @@ some criteria.
 ============================================================================-->
 </dd><dt class="proc-def">
 <a name="lseq-find-tail"></a>
-<code class="proc-def">ifind-tail</code><var> pred lseq -&gt; ipair or false</var>
+<code class="proc-def">lseq-find-tail</code><var> pred lseq -&gt; ipair or false</var>
 </dt><dd class="proc-def">
-    Return the first ipair of <var>lseq</var> whose icar satisfies <var>pred</var>. If no ipair does,
+    <p>Return the longest tail of <var>lseq</var> whose first element satisfies <var>pred</var>. If no element does,
     return false.
-<p>
+</p><p>
     <code>lseq-find-tail</code> can be viewed as a general-predicate variant of the <code>lseq-member</code>
     function.
 </p><p>
@@ -1027,8 +980,8 @@ some criteria.
 </p><pre class="code-example">(lseq-find-tail even? (lq 3 1 37 -8 -5 0 0)) =&gt; (-8 -5 0 0)
 (lseq-find-tail even? (lq 3 1 37 -5)) =&gt; #f
 
-;; IMEMBER X LIS:
-(lseq-find-tail (lambda (elt) (equal? x elt)) lis)
+;; imember x lseq:
+(lseq-find-tail (lambda (elt) (equal? x elt)) lseq)
 </pre>
 
 <p>
@@ -1043,14 +996,13 @@ some criteria.
 ============================================================================-->
 </p></dd><dt class="proc-def">
 <a name="lseq-take-while"></a>
-<code class="proc-def">itake-while&nbsp;</code><var> pred lseq -&gt; lseq</var>
+<code class="proc-def">lseq-take-while&nbsp;</code><var> pred lseq -&gt; lseq</var>
 </dt><dd class="proc-def">
 
-Returns the longest initial prefix of <var>lseq</var> whose elements all
-satisfy the predicate <var>pred</var>.
+<p>Returns the longest initial prefix of <var>lseq</var> whose elements all
+satisfy the predicate <var>pred</var>.</p>
 
-<p>
-</p><pre class="code-example">(lseq-take-while even? (lq 2 18 3 10 22 9)) =&gt; (2 18)
+<pre class="code-example">(lseq-take-while even? (lq 2 18 3 10 22 9)) =&gt; (2 18)
 </pre>
 
 <!--
@@ -1058,10 +1010,10 @@ satisfy the predicate <var>pred</var>.
 ============================================================================-->
 </dd><dt class="proc-def">
 <a name="lseq-drop-while"></a>
-<code class="proc-def">idrop-while</code><var> pred lseq -&gt; lseq</var>
+<code class="proc-def">lseq-drop-while</code><var> pred lseq -&gt; lseq</var>
 </dt><dd class="proc-def">
-idrops the longest initial prefix of <var>lseq</var> whose elements all
-satisfy the predicate <var>pred</var>, and returns the rest of the lseq.
+<p>Drops the longest initial prefix of <var>lseq</var> whose elements all
+satisfy the predicate <var>pred</var>, and returns the rest of the lseq.</p>
 
 <pre class="code-example">(lseq-drop-while even? (lq 2 18 3 10 22 9)) =&gt; (3 10 22 9)
 </pre>
@@ -1071,17 +1023,17 @@ satisfy the predicate <var>pred</var>, and returns the rest of the lseq.
 ============================================================================-->
 </dd><dt class="proc-def1">
 <a name="lseq-span"></a>
-<code class="proc-def">ispan&nbsp;&nbsp;</code><var> pred lseq -&gt; [[lseq|lseq]]</var>
+<code class="proc-def">lseq-span&nbsp;&nbsp;</code><var> pred lseq -&gt; [[lseq|lseq]]</var>
 </dt><dt class="proc-defn">
 <a name="lseq-break"></a>
-<code class="proc-def">ibreak&nbsp;</code><var> pred lseq -&gt; [[lseq|lseq]]</var>
+<code class="proc-def">lseq-break&nbsp;</code><var> pred lseq -&gt; [[lseq|lseq]]</var>
 </dt><dd class="proc-def">
 
-<code>lseq-span</code> splits the lseq into the longest initial prefix whose
+<p><code>lseq-span</code> splits the lseq into the longest initial prefix whose
 elements all satisfy <var>pred</var>, and the remaining tail. 
 <code>lseq-break</code> inverts the sense of the predicate: 
 the tail commences with the first element of the input lseq
-that satisfies the predicate.
+that satisfies the predicate.</p>
 
 <p>
 In other words: 
@@ -1112,11 +1064,11 @@ and <code>lseq-break</code> breaks the lseq at the first element satisfying
 ============================================================================-->
 </dd><dt class="proc-def">
 <a name="lseq-any"></a>
-<code class="proc-def">iany</code><var> pred lseq<sub>1</sub> lseq<sub>2</sub> ... -&gt; value</var>
+<code class="proc-def">lseq-any</code><var> pred lseq<sub>1</sub> lseq<sub>2</sub> ... -&gt; value</var>
 </dt><dd class="proc-def">
-    Applies the predicate across the lseqs, returning true if the predicate
+    <p>Applies the predicate across the lseqs, returning true if the predicate
     returns true on any application.
-<p>
+</p><p>
     If there are <var>n</var> lseq arguments <var>lseq<sub>1</sub></var> ... <var>lseq<sub>n</sub></var>, then <var>pred</var> must be a
     procedure taking <var>n</var> arguments and returning a boolean result.
 </p><p>
@@ -1149,11 +1101,11 @@ and <code>lseq-break</code> breaks the lseq at the first element satisfying
 ============================================================================-->
 </dd><dt class="proc-def">
 <a name="lseq-every"></a>
-<code class="proc-def">ievery</code><var> pred lseq<sub>1</sub> lseq<sub>2</sub> ... -&gt; value</var>
+<code class="proc-def">lseq-every</code><var> pred lseq<sub>1</sub> lseq<sub>2</sub> ... -&gt; value</var>
 </dt><dd class="proc-def">
-    Applies the predicate across the lseqs, returning true if the predicate
+    <p>Applies the predicate across the lseqs, returning true if the predicate
     returns true on every application.
-<p>
+</p><p>
     If there are <var>n</var> lseq arguments <var>lseq<sub>1</sub></var> ... <var>lseq<sub>n</sub></var>, then <var>pred</var> must be a
     procedure taking <var>n</var> arguments and returning a boolean result.
 </p><p>
@@ -1180,8 +1132,8 @@ and <code>lseq-break</code> breaks the lseq at the first element satisfying
 <a name="lseq-index"></a>
 <code class="proc-def">lseq-index</code><var> pred lseq<sub>1</sub> lseq<sub>2</sub> ... -&gt; integer or false</var>
 </dt><dd class="proc-def">
-    Return the index of the leftmost element that satisfies <var>pred</var>.
-<p>
+    <p>Return the index of the leftmost element that satisfies <var>pred</var>.
+</p><p>
     If there are <var>n</var> lseq arguments <var>lseq<sub>1</sub></var> ... <var>lseq<sub>n</sub></var>, then <var>pred</var> must be a
     function taking <var>n</var> arguments and returning a boolean result.
 </p><p>
@@ -1201,22 +1153,22 @@ and <code>lseq-break</code> breaks the lseq at the first element satisfying
 </pre>
 
 <!--
-==== lseq-member imemq imemv
+==== lseq-member lseq-memq lseq-memv
 ============================================================================-->
 </dd><dt class="proc-def1">
 <a name="lseq-member"></a>
-<code class="proc-def">imember</code><var> x lseq [=] -&gt; lseq</var>
+<code class="proc-def">lseq-member</code><var> x lseq [=] -&gt; lseq</var>
 </dt><dt class="proc-defi">
 <a name="lseq-memq"></a>
-<code class="proc-def">imemq</code><var> x lseq -&gt; lseq</var>
+<code class="proc-def">lseq-memq</code><var> x lseq -&gt; lseq</var>
 </dt><dt class="proc-defn">
 <a name="lseq-memv"></a>
-<code class="proc-def">imemv</code><var> x lseq -&gt; lseq</var>
+<code class="proc-def">lseq-memv</code><var> x lseq -&gt; lseq</var>
 </dt><dd class="proc-def">
      
 
-    These procedures return the first sub-lseq of <var>lseq</var> whose icar is
-    <var>x</var>, where the sub-lseqs of <var>lseq</var> are the 
+    <p>These procedures return the longest tail of <var>lseq</var> whose first element is
+    <var>x</var>, where the tails of <var>lseq</var> are the 
     non-empty lseqs returned by 
         <code>(lseq-drop <var>lseq</var> <var>i</var>)</code>
     for <var>i</var> less than the length of <var>lseq</var>.  
@@ -1225,7 +1177,7 @@ and <code>lseq-break</code> breaks the lseq at the first element satisfying
     <code>lseq-memq</code> uses <code>eq?</code> to compare <var>x</var>
     with the elements of <var>lseq</var>, 
     while <code>lseq-memv</code> uses <code>eqv?</code>, and
-    <code>lseq-member</code> uses <code>equal?</code>.
+    <code>lseq-member</code> uses <var>=</var>, which defaults to <code>equal?</code>.</p>
 
 <pre class="code-example">    (lseq-memq 'a (lq a b c))           =&gt;  (a b c)
     (lseq-memq 'b (lq a b c))           =&gt;  (b c)
@@ -1244,12 +1196,12 @@ and <code>lseq-break</code> breaks the lseq at the first element satisfying
 </p><div class="indent"><code>
 (= <var>x</var> <var>e<sub>i</sub></var>)		; lseq is (E1 ... En)
 </code></div>
-    That is, the first argument is always <var>x</var>, and the second argument is
+    <p>That is, the first argument is always <var>x</var>, and the second argument is
     one of the lseq elements. Thus one can reliably find the first element
     of <var>lseq</var> that is greater than five with
 	<code>(lseq-member 5 <var>lseq</var> &lt;)</code>
 
-<p>
+</p><p>
     Note that fully general lseq searching may be performed with
     the <code>lseq-find-tail</code> and <code>lseq-find</code> procedures, <em>e.g.</em>
 </p><pre class="code-example">(lseq-find-tail even? lseq) ; Find the first elt with an even key.
@@ -1267,9 +1219,10 @@ and <code>lseq-break</code> breaks the lseq at the first element satisfying
 ============================================================================-->
 <dt class="proc-def">
 <a name="lseq-delete"></a>
-<code class="proc-def">idelete&nbsp;&nbsp;</code><var>x lseq [=] -&gt; lseq</var>
+<code class="proc-def">lseq-delete&nbsp;&nbsp;</code><var>x lseq [=] -&gt; lseq</var>
 </dt><dd class="proc-def">
-    <code>lseq-delete</code> uses the comparison procedure =, which defaults to <code>equal?</code>, to find
+    <p><code>lseq-delete</code> uses the comparison procedure =,
+    which defaults to <code>equal?</code>, to find
     all elements of <var>lseq</var> that are equal to <var>x</var>, and deletes them from <var>lseq</var>. The
     dynamic order in which the various applications of <var>=</var> are made is not
     specified.
@@ -1282,11 +1235,11 @@ and <code>lseq-break</code> breaks the lseq at the first element satisfying
 </p><p>
     Note that fully general element deletion can be performed with the <code>lseq-remove</code>
     procedures, <em>e.g.</em>:
-</p><pre class="code-example">;; idelete all the even elements from LIS:
-(lseq-remove even? lis)
+</p><pre class="code-example">;; delete all the even elements from lseq:
+(lseq-remove even? lseq)
 </pre>
 
-    The comparison procedure is used in this way:
+    <p>The comparison procedure is used in this way:
 	<code>(= <var>x</var> <var>e<sub>i</sub></var>)</code>.
     That is, <var>x</var> is always the first argument, 
     and an lseq element is always the
@@ -1294,26 +1247,27 @@ and <code>lseq-break</code> breaks the lseq at the first element satisfying
     element of <var>lseq</var> exactly once; the order in which it is applied to the
     various <var>e<sub>i</sub></var> is not specified.  Thus, one can reliably remove all the
     numbers greater than five from an lseq with
-	<code>(lseq-delete 5 lseq &lt;)</code>
+	<code>(lseq-delete 5 lseq &lt;)</code></p>
 
 
 <!--
-==== lseq-delete-duplicates
+==== lseq-delete-neighbor-dups
 ============================================================================-->
 </dd><dt class="proc-def">
-<a name="lseq-delete-duplicates"></a>
-<code class="proc-def">idelete-duplicates&nbsp;&nbsp;</code><var>lseq [=] -&gt; lseq</var>
+<a name="lseq-delete-neighbor-dups"></a>
+<code class="proc-def">lseq-delete-neighbor-dups&nbsp;&nbsp;</code><var>lseq [=] -&gt; lseq</var>
 </dt><dd class="proc-def">
-    <code>lseq-delete-duplicates</code> removes duplicate elements from the
+    <p><code>lseq-delete-neighbor-dups</code> removes consecutive duplicate elements from the
     lseq argument.
     If there are multiple equal elements in the argument lseq, the result lseq
-    only contains the first or leftmost of these elements in the result.
+    only contains the first or leftmost of these elements.
     The order of these surviving elements is the same as in the original
     lseq — <code>lseq-delete-duplicates</code> does not disorder the lseq (hence it is useful
-    for "cleaning up" immutable association lists).
-<p>
+    for "cleaning up" lazy association lists).
+</p><p>
     The <var>=</var> parameter is used to compare the elements of the lseq; it defaults
-    to <code>equal?</code>. If <var>x</var> comes before <var>y</var> in <var>lseq</var>, then the comparison is performed 
+    to <code>equal?</code>. If <var>x</var> comes before <var>y</var> in <var>lseq</var>,
+    then the comparison is performed 
 	<code>(= <var>x</var> <var>y</var>)</code>.
     The comparison procedure will be used to compare each pair of elements in 
     <var>lseq</var> no more than once; 
@@ -1324,65 +1278,59 @@ and <code>lseq-break</code> breaks the lseq at the first element satisfying
     between argument and result lseqs — for example, if the lseq argument
     contains only unique elements, it may simply return exactly
     this lseq.
-</p><p>
-    Be aware that, in general, <code>lseq-delete-duplicates</code>
-    runs in time O(n<sup>2</sup>) for <var>n</var>-element lseqs.
-    Uniquifying long lseqs can be accomplished in O(n lg n) time by sorting
-    the lseq to bring equal elements together, then using a linear-time
-    algorithm to remove equal elements. Alternatively, one can use algorithms
-    based on element-marking, with linear-time results.
-
-</p><pre class="code-example">(lseq-delete-duplicates (lq a b a c a b c z)) =&gt; (a b c z)
+</p>
+<pre class="code-example">(lseq-delete-duplicates (lq a b a c a b c z)) =&gt; (a b c z)
 
 ;; Clean up an lazy alist:
-(lseq-delete-duplicates (lq (a . 3) (b . 7) (a . 9) (c . 1))
+(lseq-delete-neighbor-dups (lq (a . 3) (b . 7) (a . 9) (c . 1))
                    (lambda (x y) (eq? (lseq-first x) (lseq-first y))))
     =&gt; ((a . 3) (b . 7) (c . 1))
 </pre>
 </dd></dl>
 
 <!--========================================================================-->
-<h2><a name="lseq-mmutableassociationLists">Immutable association lists</a></h2>
+<h2><a name="LazyAssociationLists">Lazy association lists</a></h2>
 <p>
-An "immutable association list" (or "lazy alist") is an lseq of ipairs. The icar of each ipair
-contains a key value, and the icdr contains the associated data value. They can
-be used to construct simple look-up tables in Scheme. Note that lazy alists are probably inappropriate for performance-critical use on large data;
+An "lazy association list" (or "lazy alist") is an lseq of pairs. The car of each pair
+contains a key value, and the cdr contains the associated data value. They can
+be used to construct simple look-up tables in Scheme.
+Note that lazy alists are probably inappropriate for performance-critical use on large data;
 in these cases, immutable maps or some other alternative should be employed.
 
 </p><dl>
 <!--
-==== lseq-assoc iassq iassv
+==== lseq-assoc lseq-assq lseq-assv
 ============================================================================-->
 <dt class="proc-def1">
 <a name="lseq-assoc"></a>
-<code class="proc-def">iassoc</code><var> key lazy alist [=] -&gt; ipair or #f</var>
+<code class="proc-def">lseq-assoc</code><var> key lazy-alist [=] -&gt; ipair or #f</var>
 </dt><dt class="proc-defi">
 <a name="lseq-assq"></a>
-<code class="proc-def">iassq</code><var> key lazy alist -&gt; ipair or #f</var>
+<code class="proc-def">lseq-assq</code><var> key lazy-alist -&gt; ipair or #f</var>
 </dt><dt class="proc-defn">
 <a name="lseq-assv"></a>
-<code class="proc-def">iassv</code><var> key lazy alist -&gt; ipair or #f</var>
+<code class="proc-def">lseq-assv</code><var> key lazy-alist -&gt; ipair or #f</var>
 </dt><dd class="proc-def">
 
   
-    <var>lazy alist</var> must be an immutable association list — an lseq of ipairs.  
-    These procedures
-    find the first ipair in <var>lazy alist</var> whose icar field is <var>key</var>, 
-    and returns that ipair.  
-    If no ipair in <var>lazy alist</var> has <var>key</var> as its icar, 
+    <p>These procedures
+    find the first pair in <var>lazy-alist</var> whose car field is <var>key</var>, 
+    and returns that pair.  
+    If no ipair in <var>lazy-alist</var> has <var>key</var> as its icar, 
     then <code>#f</code> is returned.  
     <code>lseq-assq</code> uses <code>eq?</code> to compare <var>key</var> 
-    with the icar fields of the ipairs in <var>lazy alist</var>, 
+    with the car fields of the ipairs in <var>lazy-alist</var>, 
     while <code>lseq-assv</code> uses <code>eqv?</code> 
-    and <code>lseq-assoc</code> uses <code>equal?</code>.
+    and <code>lseq-assoc</code> uses <var>=</var>, which defaults to <code>equal?</code>.</p>
+
 <pre class="code-example">(define e (lq (a 1) (b 2) (c 3)))
-(lseq-assq 'a e)                               =&gt;  (a 1)
-(lseq-assq 'b e)                               =&gt;  (b 2)
-(lseq-assq 'd e)                               =&gt;  #f
+(lseq-assq 'a e)                              =&gt;  (a 1)
+(lseq-assq 'b e)                              =&gt;  (b 2)
+(lseq-assq 'd e)                              =&gt;  #f
 (lseq-assq (lseq 'a) (lq ((a)) ((b)) ((c))))  =&gt;  #f
 (lseq-assoc (lseq 'a) (lq ((a)) ((b)) ((c)))) =&gt;  ((a))
-(lseq-assq 5 (lq (2 3) (5 7) (11 13)))	   =&gt;  *unspecified*
-(lseq-assv 5 (lq (2 3) (5 7) (11 13)))	   =&gt;  (5 7)
+(lseq-assq 5 (lq (2 3) (5 7) (11 13)))	      =&gt;  *unspecified*
+(lseq-assv 5 (lq (2 3) (5 7) (11 13)))	      =&gt;  (5 7)
 </pre>
 <p>
     The comparison procedure is used to compare the elements <var>e<sub>i</sub></var> of <var>lseq</var>
@@ -1396,7 +1344,7 @@ in these cases, immutable maps or some other alternative should be employed.
     of <var>lazy alist</var> whose key is greater than five with
 	<code>(lseq-assoc 5 <var>lazy alist</var> &lt;)</code>
      
-<p>
+</p><p>
     Note that fully general lazy alist searching may be performed with
     the <code>lseq-find-tail</code> and <code>lseq-find</code> procedures, <em>e.g.</em>
 </p><pre class="code-example">;; Look up the first association in <var>lazy alist</var> with an even key:
@@ -1409,25 +1357,26 @@ in these cases, immutable maps or some other alternative should be employed.
 ============================================================================-->
 </dd><dt class="proc-def">
 <a name="lseq-alist-cons"></a>
-<code class="proc-def">lazy alist-cons</code><var> key datum lazy alist -&gt; lazy alist</var>
+<code class="proc-def">lseq-alist-cons</code><var> key datum lazy-alist -&gt; lazy alist</var>
 </dt><dd class="proc-def">
-<pre>(lambda (key datum lazy alist) (lseq-pair (lseq-pair key datum) lazy alist))
+<pre>(lambda (key datum lazy-alist) (lseq* (cons key datum) lazy-alist))
 </pre>
-    Construct a new lazy alist entry mapping <var>key</var> -&gt; <var>datum</var> onto <var>lazy alist</var>.
+    <p>Construct a new lazy alist entry mapping <var>key</var> -&gt; <var>datum</var>
+    in front of <var>lazy alist</var>.</p>
 
 <!--
 ==== lseq-alist-delete
 ============================================================================-->
 </dd><dt class="proc-def">
 <a name="lseq-alist-delete"></a>
-<code class="proc-def">lazy alist-delete&nbsp;&nbsp;</code><var>key lazy alist [=] -&gt; lazy alist</var>
+<code class="proc-def">lseq-alist-delete&nbsp;&nbsp;</code><var>key lazy-alist [=] -&gt; lazy alist</var>
 </dt><dd class="proc-def">
-    <code>lseq-alist-delete</code> deletes all associations from <var>lazy alist</var> with the given <var>key</var>, 
-    using key-comparison procedure =, which defaults to <code>equal?</code>. 
+    <p><code>lseq-alist-delete</code> deletes all associations from <var>lazy-alist</var> with the given <var>key</var>, 
+    using key-comparison procedure <var>=</var>, which defaults to <code>equal?</code>. 
     The dynamic order in which the various applications of <var>=</var> are made is not 
     specified. 
-<p>
-    Return values may share common tails with the <var>lazy alist</var> argument.
+</p><p>
+    Return values may share common tails with the <var>lazy-alist</var> argument.
     The lazy alist is not disordered — elements that appear in the result lazy alist
     occur in the same order as they occur in the argument lazy alist.
 </p><p>
@@ -1473,7 +1422,7 @@ These procedures convert between mutable and immutable pair structures.
 <dl>
 <dt class="proc-def">
 <a name="lseq-comparator"></a>
-<code class="proc-def">ipair-comparator</code>
+<code class="proc-def">lseq-pair-comparator</code>
 </dt><dd class="proc-def">
      
      <p>The <code>lseq-comparator</code> object is a SRFI-114 comparator suitable for comparing lseqs.
