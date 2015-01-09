@@ -75,7 +75,8 @@ Here is a short list of the procedures provided by this SRFI.
 </dt><dd class="proc-index">
 <pre class="proc-index"><a href="#lseq-length">lseq-length</a> 
 <a href="#lseq-append">lseq-append</a>  <a href="#lseq-concatenate">lseq-concatenate</a>  <a href="#lseq-reverse">lseq-reverse</a>
-<a href="#lseq-zip">lseq-zip</a>     <a href="#lseq-unzip1">lseq-unzip1</a> <a href="#lseq-unzip2">lseq-unzip2</a> <a href="#lseq-unzip3">lseq-unzip3</a> <a href="#lseq-unzip4">lseq-unzip4</a> <a href="#lseq-unzip5">lseq-unzip5</a>
+<a href="#lseq-zip">lseq-zip</a>     <a href="#lseq-unzip1">lseq-unzip1</a>       <a href="#lseq-unzip2">lseq-unzip2</a>
+<a href="#lseq-unzip3">lseq-unzip3</a>  <a href="#lseq-unzip4">lseq-unzip4</a>       <a href="#lseq-unzip5">lseq-unzip5</a>
 <a href="#lseq-count">lseq-count</a>
 </pre>
 
@@ -89,8 +90,7 @@ Here is a short list of the procedures provided by this SRFI.
 
 </dd><dt class="proc-index"> Filtering and partitioning
 </dt><dd class="proc-index">
-<pre class="proc-index"><a href="#lseq-filter">lseq-filter</a>     <a href="#lseq-partition">lseq-partition</a>  <a href="#lseq-remove">lseq-remove</a>
-
+<pre class="proc-index"><a href="#lseq-filter">lseq-filter</a>     <a href="#lseq-remove">lseq-remove</a>      <a href="#lseq-partition">lseq-partition</a>
 </pre>
 
 </dd><dt class="proc-index"> Searching
@@ -232,7 +232,7 @@ The templates given below obey the following conventions for procedure formals:
 </dt><dd class="proc-def"><p>
 Creates a newly allocated lseq, and performs the following algorithm with the current seed set to <var>seed</var>:
 
-If the result of applying the predicate <var>stop?</var> to the current seed is true, return the lseq. Otherwise, apply the procedure <var>mapper</var> to the current seed, returning a value which is appended to the lseq. Then get a new seed by applying the procedure <var>successor</var> to the current seed, and repeat this algorithm. 
+</p><p>If the result of applying the predicate <var>stop?</var> to the current seed is true, return the lseq. Otherwise, apply the procedure <var>mapper</var> to the current seed, returning a value which is appended to the lseq. Then get a new seed by applying the procedure <var>successor</var> to the current seed, and repeat this algorithm. 
 
 </p><pre class="code-example">;; Lseq of squares: 1^2 ... 10^2
 (lseq-unfold (lambda (x) (&gt; x 10))
@@ -250,7 +250,7 @@ If the result of applying the predicate <var>stop?</var> to the current seed is 
 </dt><dd class="proc-def"><p>
 Creates a newly allocated lseq, and performs the following algorithm with the current seed set to <var>seed</var>:
 
-If the result of applying the predicate <var>stop?</var> to the current seed is true, return the lseq. Otherwise, apply the procedure <var>mapper</var> to the current seed, returning a value which is prepended to the lseq. Then get a new seed by applying the procedure <var>successor</var> to the current seed, and repeat this algorithm. 
+</p><p>If the result of applying the predicate <var>stop?</var> to the current seed is true, return the lseq. Otherwise, apply the procedure <var>mapper</var> to the current seed, returning a value which is prepended to the lseq. Then get a new seed by applying the procedure <var>successor</var> to the current seed, and repeat this algorithm. 
 
 </p><pre class="code-example">;; Lseq of squares: 10^2 ... 1^2
 (lseq-unfold (lambda (x) (&gt; x 10))
@@ -279,7 +279,7 @@ If the result of applying the predicate <var>stop?</var> to the current seed is 
 </dd><dt class="proc-def"><code class="proc-def">null-lseq?</code><var> lseq -&gt; boolean</var>
 </dt><dd class="proc-def">
     <p>This procedure returns <code>#t</code> if
-    the argument is the empty lseq, and <code>#f</code> otherwise.</p>
+    the argument is an empty lseq, and <code>#f</code> otherwise.</p>
 
 <!--
 ==== lseq=
@@ -399,11 +399,12 @@ If the result of applying the predicate <var>stop?</var> to the current seed is 
     
     <p>Returns an lseq with the contents of <var>lseq</i> except for the
     first element.
-    Note that it is an error to apply it to the empty lseq.</p>
-<pre class="code-example">(lseq-first (lq a b c))       =&gt;  a        (lseq-rest (lq a b c))     =&gt;  (b c)  
-(lseq-first (lq (a) b c d))   =&gt;  (a)	     (lseq-rest (lq (a) b c d)) =&gt;  (b c d)
-(lseq-first (lseq-pair 1 2))      =&gt;  1	     (lseq-rest (lseq-pair 1 2))    =&gt;  2      
-(lseq-first '())              =&gt;  *error*  (lseq-rest '())            =&gt;  *error*
+    Note that it is an error to apply it to an empty lseq.</p>
+<pre class="code-example">
+(lseq-first (lq a b c))       =&gt;  a        (lseq-rest (lq a b c))         =&gt;  (b c)  
+(lseq-first (lq (a) b c d))   =&gt;  (a)	      (lseq-rest (lq (a) b c d))     =&gt;  (b c d)
+(lseq-first (lseq-pair 1 2))  =&gt;  1	      (lseq-rest (lseq-pair 1 2))    =&gt;  2      
+(lseq-first '())              =&gt;  *error*  (lseq-rest '())                =&gt;  *error*
 </pre>
 
 
@@ -415,7 +416,7 @@ If the result of applying the predicate <var>stop?</var> to the current seed is 
 </dd><dt class="proc-def"><code class="proc-def">lseq-ref</code><var> lseq i -&gt; value</var>
 </dt><dd class="proc-def">
     
-    <p>Returns the <var>i</var><sup>th</sup> element of <var>lseq</var>.  
+    <p>Returns the <var>i</var>th element of <var>lseq</var>.  
     (This is the same as 
         <code>(lseq-first (lseq-drop <var>lseq</var> <var>i</var>))</code>.)
     It is an error if <var>i</var> &gt;= <var>n</var>, 
@@ -480,7 +481,7 @@ If the result of applying the predicate <var>stop?</var> to the current seed is 
 </dt><dd class="proc-def">
     <p>Splits the lseq <var>lseq</var> 
     at index <var>i</var>, returning two values, an lseq of the 
-    first <var>i</var> elements, and an lseq of the remaining tail. It is equivalent
+    first <var>i</var> elements, and an lseq of the remaining elements. It is equivalent
     to</p>
 <pre class="code-example">(values (lseq-take lseq i) (lseq-drop lseq i))
 </pre>
@@ -498,7 +499,7 @@ If the result of applying the predicate <var>stop?</var> to the current seed is 
 <code class="proc-def">lseq-length&nbsp;&nbsp;</code><var>lseq -&gt; integer</var>
 </dt><dd class="proc-def">
     <p>Returns the length of its argument, which is the non-negative integer <var>n</var> such that <code>lseq-last</code> 
-    applied <var>n</var> times to the lseq produces the empty lseq.</p>
+    applied <var>n</var> times to the lseq produces an empty lseq.</p>
 
 
 <!--
@@ -506,7 +507,7 @@ If the result of applying the predicate <var>stop?</var> to the current seed is 
 ============================================================================-->
 </p></dd><dt class="proc-def">
 <a name="lseq-append"></a>
-<code class="proc-def">iappend&nbsp;</code><var> lseq<sub>1</sub> ... -&gt; lseq</var>
+<code class="proc-def">lseq-append&nbsp;</code><var> lseq<sub>1</sub> ... -&gt; lseq</var>
 </dt><dd class="proc-def">
     
     <p>Returns an lseq consisting of the elements 
@@ -529,19 +530,15 @@ If the result of applying the predicate <var>stop?</var> to the current seed is 
 ============================================================================-->
 </dd><dt class="proc-def">
 <a name="lseq-concatenate"></a>
-<code class="proc-def">iconcatenate&nbsp;</code><var> list-of-lseqs -&gt; value</var>
+<code class="proc-def">lseq-concatenate&nbsp;</code><var> list-of-lseqs -&gt; value</var>
 </dt><dd class="proc-def">
     <p>Appends the elements of its argument together.</p> 
 <p>
     Note that some Scheme implementations do not support passing more than a
     certain number (<em>e.g.</em>, 64) of arguments to an n-ary procedure.  
-    In these implementations, the <code>(lseq-apply iappend ...)</code> idiom
+    In these implementations, the <code>(apply lseq-append ...)</code> idiom
     would fail when applied to long lists, 
     but <code>lseq-concatenate</code> would continue to function properly.
-
-</p><p>
-    As with <code>lseq-append</code>, 
-    the last element of the input list may be any value at all.
 
 <!--
 ==== lseq-reverse
@@ -565,7 +562,7 @@ If the result of applying the predicate <var>stop?</var> to the current seed is 
 ============================================================================-->
 </dd><dt class="proc-def">
 <a name="lseq-append-reverse"></a>
-<code class="proc-def">iappend-reverse&nbsp;&nbsp;</code><var>rev-head tail -&gt; lseq</var>
+<code class="proc-def">lseq-append-reverse&nbsp;&nbsp;</code><var>rev-head tail -&gt; lseq</var>
 </dt><dd class="proc-def">
     <p><code>lseq-append-reverse</code> returns
 	<code>(lseq-append (lseq-reverse <var>rev-head</var>) <var>tail</var>)</code>.
@@ -585,7 +582,7 @@ If the result of applying the predicate <var>stop?</var> to the current seed is 
 ==== lseq-zip
 ============================================================================-->
 <a name="lseq-zip"></a>
-</dd><dt class="proc-def"><code class="proc-def">izip</code> <var>lseq<sub>1</sub> lseq<sub>2</sub> ... -&gt; lseq</var>
+</dd><dt class="proc-def"><code class="proc-def">lseq-zip</code> <var>lseq<sub>1</sub> lseq<sub>2</sub> ... -&gt; lseq</var>
 </dt><dd class="proc-def">
 <pre>(lambda lseqs (lseq-apply imap lseq lseqs))
 </pre>
@@ -793,7 +790,7 @@ Otherwise,    return <code>(lseq-fold <var>f</var> (lseq-first <var>lseq</var>) 
     ...in other words, we compute 
     <code>(lseq-fold <var>f</var> <var>ridentity</var> <var>lseq</var>)</code>.
 <p>
-    Note that <var>ridentity</var> is used <em>only</em> in the empty-list case.
+    Note that <var>ridentity</var> is used <em>only</em> in an empty-lseq case.
     You typically use <code>lseq-reduce</code> when applying <var>f</var> is expensive and you'd
     like to avoid the extra application incurred when <code>lseq-fold</code> applies
     <var>f</var> to the head of <var>lseq</var> and the identity value,
@@ -942,6 +939,25 @@ Otherwise,    return <code>(lseq-fold <var>f</var> (lseq-first <var>lseq</var>) 
 </pre>
 
 <!--
+==== lseq-remove
+============================================================================-->
+</dd><dt class="proc-def">
+<a name="lseq-remove"></a>
+<code class="proc-def">iremove</code><var> pred lseq -&gt; lseq</var>
+</dt><dd class="proc-def">
+    Returns <var>lseq</var> without the elements that satisfy predicate <var>pred</var>:
+<pre class="code-example">(lambda (pred lseq) (lseq-filter (lambda (x) (not (pred x))) lseq))
+</pre>
+    The lseq is not disordered — elements that appear in the result lseq
+    occur in the same order as they occur in the argument lseq.
+    The returned lseq may share a common tail with the argument lseq.
+    The dynamic order in which the various applications of <var>pred</var> are made is 
+    not specified.
+    
+<pre class="code-example">(lseq-remove even? (lq 0 7 8 8 43 -4)) =&gt; (7 43)
+</pre>
+
+<!--
 ==== lseq-partition
 ============================================================================-->
 </dd><dt class="proc-def">
@@ -959,25 +975,6 @@ Otherwise,    return <code>(lseq-fold <var>f</var> (lseq-first <var>lseq</var>) 
 <pre class="code-example">(lseq-partition symbol? (lq one 2 3 four five 6)) =&gt; 
     (one four five)
     (2 3 6)
-</pre>
-
-<!--
-==== lseq-remove
-============================================================================-->
-</dd><dt class="proc-def">
-<a name="lseq-remove"></a>
-<code class="proc-def">iremove</code><var> pred lseq -&gt; lseq</var>
-</dt><dd class="proc-def">
-    Returns <var>lseq</var> without the elements that satisfy predicate <var>pred</var>:
-<pre class="code-example">(lambda (pred lseq) (lseq-filter (lambda (x) (not (pred x))) lseq))
-</pre>
-    The lseq is not disordered — elements that appear in the result lseq
-    occur in the same order as they occur in the argument lseq.
-    The returned lseq may share a common tail with the argument lseq.
-    The dynamic order in which the various applications of <var>pred</var> are made is 
-    not specified.
-    
-<pre class="code-example">(lseq-remove even? (lq 0 7 8 8 43 -4)) =&gt; (7 43)
 </pre>
 
 
