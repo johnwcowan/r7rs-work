@@ -49,8 +49,9 @@ Here is a short list of the procedures provided by this SRFI.
 <dl>
 <dt class="proc-index"> Constructors
 </dt><dd class="proc-index">
-<pre class="proc-index"><a href="#lseq">lseq</a>          <a href="#lseq*">lseq*</a>        <a href="#list->lseq">list->lseq</a> 
-<a href="#vector->lseq">vector->lseq</a>  <a href="#string->lseq">string->lseq</a> <a href="#generator->lseq">generator->lseq</a> 
+<pre class="proc-index"><a href="#lseq-cons">lseq-cons</a>     <a href="#lseq">lseq</a>         <a href="#lseq*">lseq*</a>
+<a href="#list->lseq">list->lseq</a>    <a href="#vector->lseq">vector->lseq</a>
+<a href="#string->lseq">string->lseq</a>  <a href="#generator->lseq">generator->lseq</a> 
 <a href="#lseq-unfold">lseq-unfold</a>   <a href="#lseq-unfold-right">lseq-unfold-right</a>
 </pre>
 
@@ -138,9 +139,8 @@ Here is a short list of the procedures provided by this SRFI.
 <h1><a name="Quotation">Quotation</a></h1>
 <p>The syntax keyword <code>lq</code> is
 provided as part of this SRFI.  It is analogous to <code>quote</code>,
-taking an arbitrary number of literals and constructing an lseq from them,
-with any pairs in the literals converted to ipairs. It is useful
-for providing constant lazy sequences.</p>
+taking an arbitrary number of literals and constructing an lseq from them.
+It is useful for providing constant lazy sequences.</p>
 
 
 <!--========================================================================-->
@@ -176,6 +176,19 @@ The templates given below obey the following conventions for procedure formals:
 </p><dl>
 
 <!--
+==== lseq-cons
+============================================================================-->
+<a name="lseq-cons"></a>
+</dd><dt class="proc-def"><code class="proc-def">lseq*</code><var> elt lseq -&gt; lseq</var>
+</dt><dd class="proc-def">
+
+    <p>Returns a newly allocated lseq whose members are <var>elt</i>
+    followed by the elements of <var>lseq</var>.</p>
+       
+<pre class="code-example">(lseq-cons 1 (lseq 2 3 4)) =&gt; (1 2 3 4)
+</pre>
+
+<!--
 ==== lseq
 ============================================================================-->
 </dd><dt class="proc-def">
@@ -196,8 +209,8 @@ The templates given below obey the following conventions for procedure formals:
 </dt><dd class="proc-def">
 
     <p>Like <code>lseq</code>, 
-    but the last argument is an lseq.  This is the lseq equivalent of both
-    <code>cons</i> and SRFI 1's <code>cons*</code>.</p>
+    but the last argument is an lseq.  This procedure is potentially more efficient
+    then calling <code>lseq-cons</code> repeatedly.</p>
        
 <pre class="code-example">(lseq* 1 2 3 (lseq 4)) =&gt; (1 2 3 4)
 </pre>
@@ -694,7 +707,7 @@ Creates a newly allocated lseq, and performs the following algorithm with the cu
     <var>n</var>+1 parameters: one element from each lseq, and the "seed" or fold
     state, which is initially <var>knil</var>. The fold operation terminates when
     the shortest lseq runs out of values:</p>
-<pre class="code-example">(lseq-fold ipair* '() (lq a b c) (lq 1 2 3 4 5)) =&gt; (c 3 b 2 a 1)
+<pre class="code-example">(lseq-fold lseq* '() (lq a b c) (lq 1 2 3 4 5)) =&gt; (c 3 b 2 a 1)
 </pre>
    
 <!--
@@ -717,10 +730,8 @@ Creates a newly allocated lseq, and performs the following algorithm with the cu
 </pre>
         
     Examples:
-<pre class="code-example">(lseq-fold-right ipair '() lseq)		; Copy lseq.
-
 ;; Filter the even numbers out of lseq.
-(lseq-fold-right (lambda (x l) (if (even? x) (lseq-pair x l) l)) '() lseq))
+(lseq-fold-right (lambda (x l) (if (even? x) (lseq-cons x l) l)) '() lseq))
 </pre>
 
     <p>If <var>n</var> lseq arguments are provided, then the <var>kons</var> procedure must take
@@ -959,7 +970,7 @@ some criteria.
     guaranteed to have an element satisfying <var>pred</var>. However, in cases
     where this ambiguity can arise, you should use <code>lseq-find-tail</code> instead of
     <code>lseq-find</code> — <code>lseq-find-tail</code> has no such ambiguity:</p>
-<pre class="code-example">(cond ((lseq-find-tail pred lis) =&gt; (lambda (lseq-pair) ...)) ; Handle (lseq-first ipair)
+<pre class="code-example">(cond ((lseq-find-tail pred lseq) =&gt; (lambda (lseq) ...))
       (else ...)) ; Search failed.
 </pre>
 
@@ -968,7 +979,7 @@ some criteria.
 ============================================================================-->
 </dd><dt class="proc-def">
 <a name="lseq-find-tail"></a>
-<code class="proc-def">lseq-find-tail</code><var> pred lseq -&gt; ipair or false</var>
+<code class="proc-def">lseq-find-tail</code><var> pred lseq -&gt; lseq or false</var>
 </dt><dd class="proc-def">
     <p>Return the longest tail of <var>lseq</var> whose first element satisfies <var>pred</var>. If no element does,
     return false.
@@ -1303,20 +1314,20 @@ in these cases, immutable maps or some other alternative should be employed.
 ============================================================================-->
 <dt class="proc-def1">
 <a name="lseq-assoc"></a>
-<code class="proc-def">lseq-assoc</code><var> key lazy-alist [=] -&gt; ipair or #f</var>
+<code class="proc-def">lseq-assoc</code><var> key lazy-alist [=] -&gt; lseq or #f</var>
 </dt><dt class="proc-defi">
 <a name="lseq-assq"></a>
-<code class="proc-def">lseq-assq</code><var> key lazy-alist -&gt; ipair or #f</var>
+<code class="proc-def">lseq-assq</code><var> key lazy-alist -&gt; lseq or #f</var>
 </dt><dt class="proc-defn">
 <a name="lseq-assv"></a>
-<code class="proc-def">lseq-assv</code><var> key lazy-alist -&gt; ipair or #f</var>
+<code class="proc-def">lseq-assv</code><var> key lazy-alist -&gt; lseq or #f</var>
 </dt><dd class="proc-def">
 
   
     <p>These procedures
     find the first pair in <var>lazy-alist</var> whose car field is <var>key</var>, 
     and returns that pair.  
-    If no ipair in <var>lazy-alist</var> has <var>key</var> as its icar, 
+    If no pair in <var>lazy-alist</var> has <var>key</var> as its icar, 
     then <code>#f</code> is returned.  
     <code>lseq-assq</code> uses <code>eq?</code> to compare <var>key</var> 
     with the car fields of the ipairs in <var>lazy-alist</var>, 
