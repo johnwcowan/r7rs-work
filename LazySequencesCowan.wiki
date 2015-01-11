@@ -179,7 +179,7 @@ The templates given below obey the following conventions for procedure formals:
 ==== lseq-cons
 ============================================================================-->
 <a name="lseq-cons"></a>
-</dd><dt class="proc-def"><code class="proc-def">lseq*</code><var> elt lseq -&gt; lseq</var>
+</dd><dt class="proc-def"><code class="proc-def">lseq-cons</code><var> elt lseq -&gt; lseq</var>
 </dt><dd class="proc-def">
 
     <p>Returns a newly allocated lseq whose members are <var>elt</i>
