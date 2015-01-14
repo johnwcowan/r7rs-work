@@ -5,6 +5,7 @@ This test examines whether the SRFI 6 procedure `get-output-string` retrieves th
 (write 32 p)
 (close-output-port p)
 (get-output-string p)
+}}}
 
 Returns 32:  Racket, Gauche, MIT, Gambit, Chicken, Kawa, Chez, !IronScheme, STklos, Sizzle, Foment
 
