@@ -24,7 +24,7 @@ Unfortunately, variable-arity procedures are often slow and may not interact wel
 
 As for shared substrings, they are no more common in 2015 than they were in 1999.  (Guile actually provides not only shared substrings but also copy-on-write and fully immutable strings.)  Fortunately, since then it has become normal for Schemes to provide user-defined records, and they are required by both R6RS and R7RS.  This makes it possible to portably provide a representation for a segment of a string, provided the string is never mutated.  The most portable such record consists of a string and two indexes, but other more efficient representations may be used instead.
 
-This proposal, therefore, is intended to help move the practice of Scheme programming away from mutable strings, string indexes, and SRFI 13, while maintaining only conceptual backward compatibility.  It does not require any particular run-time efficiencies from its procedures.
+This proposal, therefore, is intended to help move the practice of Scheme programming away from mutable strings, string indexes, and SRFI 13, while maintaining conceptual backward compatibility.  It does not require any particular run-time efficiencies from its procedures.
 
 The operations provided here (with the exception of those in the Case and Comparisons sections) are entirely independent of the character repertoire supported by the implementation.  In particular, this means that the case-insensitive procedures of SRFI 13 are excluded.  There is also no provision for [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-2.html#node_idx_54|R6RS normalization procedures]] or for an `string->integer` procedure that was proposed for SRFI 13 but not included.  These may appear in future SRFIs.
 
@@ -209,11 +209,11 @@ Returns a character span which contains the characters in ''span'' between the i
 
 Returns a span of length ''len'' consisting of ''span'' padded on the left/right by as many occurrences of the character ''char'' as needed.  If ''span'' has more than ''len'' characters, it is truncated on the left (right) to length ''len''.  If ''char'' is omitted, `#\space` is used.
 
-`(span-trim `''span [[|''pred'' ]]`)` [[SRFI|13]]
+`(span-trim `''span'' [[|''pred'' ]]`)` [[SRFI|13]]
 
-`(span-trim-right `''span [[|''pred'' ]][[|''char'' ]]`)` [[SRFI|13]]
+`(span-trim-right `''span'' [[|''pred'' ]]`)` [[SRFI|13]]
 
-`(span-trim-both `''span [[|''pred'' ]]`)` [[SRFI|13]]
+`(span-trim-both `''span'' [[|''pred'' ]]`)` [[SRFI|13]]
 
 Trim ''span'' by skipping over all characters on the left / on the right / on both sides that satisfy ''pred'' and returning the resulting span.
 
@@ -285,7 +285,7 @@ Drops the longest initial prefix of ''span'' whose characters all satisfy ''pred
 
 The `span-span` procedure splits ''span'', returning two values: the longest initial prefix whose characters all satisfy ''pred'', and the remainder of ''span''.  The `span-break` procedure inverts the sense of the predicate: the remainder commences with the first character of ''span'' that satisfies ''pred''.  In other words: `span-span` finds the intial span of characters satisfying ''pred'', and `span-break` breaks ''span'' at the first character satisfying ''pred''.
 
-The name "`span-span`" is unfortunate but unavoidable.
+The name "span-span" is unfortunate but unavoidable.
 
 `(span-contains `''haystack needle''`)` [[SRFI|13]]
 
@@ -329,18 +329,18 @@ when the shortest span runs out. The dynamic order in which ''proc'' is applied 
 
 It is an error if ''proc'' does not accept as many arguments as there are strings.
 
-The arguments to `span-for-each` are like the arguments to span-map, but it calls ''proc'' for its
+The arguments to `span-for-each` are like the arguments to `span-map`, but it calls ''proc'' for its
 side effects rather than for its values. Unlike `span-map`, this procedure is guaranteed to call ''proc'' exactly once on each of the characters of the spans in order from the first character(s) to the last.  The value returned is unspecified. If more than one span is given and not all spans have the same length, `span-for-each` terminates when the shortest string runs out.
 
-`(span-fold `''proc nil span''`)` [[SRFI|13]]
+`(span-fold `''proc nil span'' ...`)` [[SRFI|13]]
 
-`(span-fold-right `''proc nil span''`)` [[SRFI|13]]
+`(span-fold-right `''proc nil span'' ...`)` [[SRFI|13]]
 
-Invokes ''proc'' on each character of ''span'' in forward/reverse order, passing the result of the previous invocation as a second argument. For the first invocation, ''nil'' is used as the second argument. Returns the result of the last invocation, or ''nil'' if there was no invocation.
+Invokes ''proc'' on each character of the ''spans'' in forward/reverse order, passing the result of the previous invocation as a second argument. For the first invocation, ''nil'' is used as the second argument. Returns the result of the last invocation, or ''nil'' if there was no invocation.  It is an error if ''proc'' does not accept the same number of arguments as there are spans.
 
 == Parsing and unparsing ==
 
-`(span-split `''span [[''separator''|[ ''limit'' ]] ]`)`
+`(span-split `''span'' [[''separator''|[ ''limit'' ]] ]`)`
 
 Returns a list of the words contained in ''span''.  If ''separator'' (which is also a character span) is omitted, then the words are separated by one or more whitespace characters (those on which `char-whitespace?` returns `#t`). If ''separator'' is supplied, it specifies a string to be used as the word separator. The returned list will then have one more item than the number of non-overlapping occurrences of the separator in the string.  If ''separator'' is an empty span, then the returned list contains a list of the characters in ''span''.
 
