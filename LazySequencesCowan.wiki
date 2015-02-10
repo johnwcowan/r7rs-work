@@ -1056,20 +1056,20 @@ in these cases, immutable maps or some other alternative should be employed.
 <p>These procedures have no directly visible effects on their lseq arguments.
 However, they force the generator inside the lazy sequence to produce all its
 arguments and store them internally, which means that later operations may be
-faster, particularly if the generator is slow.  They return an unspecified value.</p>
+faster, particularly if the generator is slow.  They return their argument.</p>
 
 <dl>
 <dt class="proc-def">
-<a name="realize"></a>
-<code class="proc-def">realize!</code><var> lseq</var>
+<a name="lazy-realize"></a>
+<code class="proc-def">lazy-realize</code><var> lseq</var>
 </dt><dd class="proc-def">
      
      <p>Realizes all the values of <var>lseq</var>.</p>
 </dd>
  
 <dt class="proc-def">
-<a name="realize"></a>
-<code class="proc-def">realize-once!</code><var> lseq</var>
+<a name="lazy-realize-once"></a>
+<code class="proc-def">lazy-realize-once</code><var> lseq</var>
 </dt><dd class="proc-def">
      
      <p>Realizes exactly one additional value of <var>lseq</var>.  If no additional
@@ -1077,16 +1077,16 @@ values are available, does nothing.</p>
 </dd>
  
 <dt class="proc-def">
-<a name="realize"></a>
-<code class="proc-def">realize-steps!</code><var> lseq n</var>
+<a name="lazy-realize-steps"></a>
+<code class="proc-def">lazy-realize-steps</code><var> lseq n</var>
 </dt><dd class="proc-def">
      
      <p>Realizes at most <var>n</var> values of <var>lseq</var>.</p>
 </dd>
  
 <dt class="proc-def">
-<a name="realize"></a>
-<code class="proc-def">realize-until!</code><var> lseq pred</var>
+<a name="lazy-realize-until"></a>
+<code class="proc-def">lazy-realize-until</code><var> lseq pred</var>
 </dt><dd class="proc-def">
      
      <p>Realizes values of <var>lseq</var> until at least one value satisfies <var>pred</var>.</p>
