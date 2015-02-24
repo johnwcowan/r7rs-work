@@ -48,8 +48,6 @@ Regular expressions:  [[http://srfi.schemers.org/srfi-115/srfi-115.html|SRFI 115
 
 == Suggested ==
 
-Multidimensional general arrays:  ArraysCowan.
-
 Sparse vectors and maps:  [[http://practical-scheme.net/gauche/man/gauche-refe_208.html|Gauche util.sparse]].
 
 Ternary search trees:  No API proposal yet, but see [[http://en.wikipedia.org/wiki/Ternary_search_tree|Wikipedia]].
