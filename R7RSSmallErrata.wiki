@@ -8,7 +8,7 @@ Errata from the [[http://trac.sacrideo.us/wg/attachment/wiki/WikiStart/r7rs.pdf|
 
 4. In Section 4.1.2 (Literal expressions), the examples `'#` and `#` should be `'#\a` and `#\a` respectively.
 
-5. In section 7.1.1 (Lexical structure), the escape sequence `\|` is not shown as permitted in strings.  The list in Section 6.7 shows that it is equivalent to `|`.  This makes the same escape sequences valid in both strings and symbols.
+5. In section 7.1.1 (Lexical structure), the escape sequence `\|` is not shown as permitted in <string element>.  The list in Section 6.7 shows that it is equivalent to `|`.  Similarly, the escape sequences `\"` and `\\` should be allowed in <symbol element>.  This makes the same escape sequences valid in both strings and symbols.
 
 6. In Section 7.3 (Derived expression types), the syntax-rules definition of `case` is incorrect; the fourth syntax rule must be moved after the fifth to avoid an improper match against the fourth rule when `=>` is present.  Here is the correct version:
 
