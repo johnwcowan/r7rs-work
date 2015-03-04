@@ -96,4 +96,25 @@ Returns a newly allocated vector of length ''k'' after copying every ''stride''-
 
 Returns a newly allocated vector of the same length as ''vector''.  Each element is constructed by reducing (as if by `vector-reduce`) successive prefixes of the elements of ''vector''. (APL scan.)
 
-`vector-rotate`
+`(vector-rotate `''vector n''`)`
+
+Return a version of ''vector'' rotated left ''n'' elements, or rotated right ''-n'' elements if ''n'' is negative.
+
+{{{
+(vector-rotate #(1 2 3 4 5) 2) => #(3 4 5 1 2)
+
+(vector-rotate #(1 2 3 4 5) -2) => #(4 5 1 2 3)
+}}}
+
+`(vector-rotate! `''vector n''`)`
+
+Destructively rotates ''vector'' in the same way as `vector-rotate`.  Returns an unspecified value.
+
+`(vector-bisect-left `''vector comparator obj'' [[|''start'' [ ''end'' ]] ]`)`
+
+`(vector-bisect-right `''vector comparator obj'' [[|''start'' [ ''end'' ]] ]`)`
+
+Returns the insertion point for ''obj'' in ''vector'' to maintain the sorted order of the elements according to ''comparator''.  It is an error if ''vector'' is not already sorted.  If ''obj'' is equal to one or more elements of  ''vector'', `vector-bisect-left` will return the insertion point before (to the left of) all matching elements, whereas `vector-bisect-right` will return the insertion point after (to the right of) all matching elements.
+
+The returned value partitions ''vector'' into two halves so that all values with lower indexes are less than or equal to ''obj'' and all other values are greater than or equal to ''obj''.
+
