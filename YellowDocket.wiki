@@ -1,0 +1,14 @@
+Regular expressions:  [[http://srfi.schemers.org/srfi-115/srfi-115.html|SRFI 115]]
+
+Matching:  MatchingWise
+
+Combinators:  CombinatorsCowan
+
+Conditional procedures:  ConditionalProceduresSamizdat
+
+Lambda*:
+
+Void:  VoidCowan
+
+Named parameters:  NamedParametersCowan
+
