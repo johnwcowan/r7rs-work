@@ -46,8 +46,6 @@ Extended records:  [[http://srfi.schemers.org/srfi-99/srfi-99.html|SRFI 99]], po
 
 == Suggested ==
 
-Sparse vectors and maps:  [[http://practical-scheme.net/gauche/man/gauche-refe_208.html|Gauche util.sparse]].
-
 Ternary search trees:  No API proposal yet, but see [[http://en.wikipedia.org/wiki/Ternary_search_tree|Wikipedia]].
 
 Ephemerons: [[http://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Ephemerons.html|MIT Scheme]] or [[http://docs.racket-lang.org/reference/ephemerons.html|Racket]] (optional package).
