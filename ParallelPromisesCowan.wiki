@@ -1,6 +1,6 @@
 == Rationale ==
 
-''Parallel promises'', known to Racketeers as [[http://docs.racket-lang.org/reference/futures.html|futures]]'', are
+''Parallel promises'', known to Racketeers as ''[[http://docs.racket-lang.org/reference/futures.html|futures]]'', are
 analogous to ordinary Scheme promises, except that implementations are allowed to execute part or all of a promise
 in parallel with regular execution.  An ordinary promise is not evaluated (and does not perform any side effects)
 until it is forced, whereas parallel promises may be evaluated either completely or up to an implementation-determined
