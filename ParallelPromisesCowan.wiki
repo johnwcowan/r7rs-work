@@ -21,6 +21,14 @@ for example, any guarantee of sequential consistency.
 At the same time, operations that seem obviously safe may have a complex enough implementation internally
 that they cannot run in parallel on a particular implementation.
 
+== Issues ==
+
+1) Use "future" instead of "parallel promise" along with the Racket names?
+
+2) Always hyphenate rather than using CL conventions?
+
+3) Spell out 'parallel' in names?
+
 == Specification ==
 
 `(pardelay `<expression>`)` [syntax]
