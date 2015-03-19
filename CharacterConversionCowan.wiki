@@ -34,7 +34,7 @@ Uses ''ces,,1,,'' to decode ''bytevector'' into a string, which is then encoded 
 
 == Conversion ports ==
 
-All of these procedures accept an optional ''size'' argument, specifying the size of an internal conversion buffer in bytes.  It is an error if ''size'' is not a non-negative exact integer.  If the size is 0, there is no internal buffer.  If ''size'' is omitted, the size of the buffer is implementation-dependent.
+All of these procedures accept an optional ''size'' argument, specifying the size of an internal conversion buffer in bytes.  It is an error if ''size'' is not a non-negative exact integer.  If ''size'' is 0, there is no internal buffer.  If ''size'' is omitted, the size of the buffer is implementation-dependent.
 
 `(make-decoded-input-port `''binary-port ces'' [[|''size'' ]]`)`
 
