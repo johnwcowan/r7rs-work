@@ -28,7 +28,7 @@ The operations provided here (with the exception of those in the Case and Compar
 
 String cursors are pointers into strings or spans, and are not necessarily disjoint from other Scheme types.  For example, they may be exact integers that are character-based indexes into strings.  Alternatively, in an implementation whose internal representation of strings is UTF-8, string cursors may be indexes of individual bytes in the string.  It is also possible to implement string cursors as objects of a disjoint type.  The string cursor procedures of this proposal are mostly taken from Chibi Scheme.
 
-Given a span of length ''n'', there are ''n''+2 possible cursors that refer to it: one for each character in the span, one for the position just before the first character, and one for the position just after the last character.  These additional positions are provided for backward and forward iteration respectively, and also because when creating a span from cursors the second cursor argument is exclusive.
+Given a span of length ''n'', there are ''n''+2 possible cursors that refer to it: one for each character in the span, one for the position just before the first character (known as the "pre-start cursor"), and one for the position just after the last character (known as the "post-end cursor").  These additional positions are provided for backward and forward iteration respectively, and also because when creating a span from cursors the second cursor argument is exclusive. It is an error if a cursor argument is not one of the possible cursors for the string or span argument.
 
 Note: Procedures with similar names and purposes to R7RS-small or [[http://srfi.schemers.org/srfi-13/srfi-13.html|SRFI 13]] procedures are marked [R7RS-small] and [[SRFI|13]] respectively.
 
@@ -36,7 +36,7 @@ All predicates passed to procedures defined in this proposal may be called in an
 
 For security and efficiency reasons, there is no operation to retrieve the underlying string from a character span.
 
-== String cursors ==
+== String and span cursors ==
 
 These operations exist in pairs, as they apply to both strings and spans.
 
@@ -50,25 +50,25 @@ Returns a cursor referring to the first character in ''string'' or ''span''.
 
 `(span-cursor-end `''span''`)`
 
-Returns a cursor referring to the position following the last character in ''string'' or ''span''.
+Returns the post-end cursor of ''string'' or ''span''.
 
 `(string-cursor-ref `''string cursor''`)`
 
 `(span-cursor-ref `''span cursor''`)`
 
-Returns the character referred to by ''cursor''.  It is an error if ''cursor'' does not refer to a character in ''string'' or ''span''.
+Returns the character referred to by ''cursor''.  It is an error if ''cursor'' is the pre-start or post-end cursor of ''string'' or ''span''.
 
 `(string-cursor-next `''string cursor''`)`
 
 `(span-cursor-next `''span cursor''`)`
 
-Returns the cursor following ''cursor''.  It is an error if ''cursor'' does not refer to a character in ''string'' or ''span''.
+Returns the cursor following ''cursor''.    It is an error if ''cursor'' is the post-end cursor of ''string'' or ''span''.
 
 `(string-cursor-prev `''string cursor''`)`
 
 `(span-cursor-prev `''span cursor''`)`
 
-Returns the cursor preceding ''cursor''.  It is an error if ''cursor'' does not refer either to a character in ''string'' or ''span'' or the position following the last character in ''string'' or ''span''. 
+Returns the cursor preceding ''cursor''.  It is an error if ''cursor'' is the pre-start cursor of ''string'' or ''span''.
 
 `(string-cursor-forward `''string cursor n''`)`
 
@@ -79,18 +79,6 @@ Returns the cursor preceding ''cursor''.  It is an error if ''cursor'' does not 
 `(span-cursor-backward `''span cursor n''`)`
 
 Iterates `string-cursor-next` or `string-cursor-prev` ''n'' times.
-
-`(string-cursor-forward-until `''string cursor pred''`)`
-
-`(span-cursor-forward-until `''span cursor pred''`)`
-
-Iterates `string-cursor-next` until it refers to a character that satisfies ''pred'' or the position following the last character of ''string'' or ''span'' is reached, and returns that cursor.
-
-`(string-cursor-backward-until `''string cursor pred''`)`
-
-`(span-cursor-backward-until `''span cursor pred''`)`
-
-Iterates `span-cursor-prev` until it refers to a character that satisfies ''pred'' or the position preceding the first character of ''string'' or ''span'' is reached, and returns that cursor.
 
 `(string-cursor=? `''string cursor,,1,, cursor,,2,,''`)`
 
@@ -112,25 +100,25 @@ Iterates `span-cursor-prev` until it refers to a character that satisfies ''pred
 
 `(span-cursor>=? `''span cursor,,1,, cursor,,2,,''`)`
 
-Compare ''cursor,,1,,'' and ''cursor,,2,,''.  It is an error if the cursors do not refer to positions in ''string'' or ''span''.
+Compare ''cursor,,1,,'' and ''cursor,,2,,''.
 
 `(string-cursor->index `''string cursor''`)`
 
 `(span-cursor->index `''span cursor''`)`
 
-Return the character index into ''string'' or ''span'' corresponding to ''cursor''.  It is an error if ''cursor'' does not refer to a position in ''string'' or ''span''.
+Return the character index into ''string'' or ''span'' corresponding to ''cursor''.  If ''cursor'' is the pre-start cursor of ''string'' or ''span'', -1 is returned.  If ''cursor'' is the post-end cursor of ''string'' or ''span'', the length of ''string'' or ''span'' is returned.
 
 `(string-index->cursor `''string index''`)`
 
 `(span-index->cursor `''span index''`)`
 
-Return the cursor referring to ''string'' or ''span'' that corresponds to ''index''.  It is an error if ''index'' is less than zero or greater than the length of ''string'' or ''span''.
+Returns the cursor referring to ''string'' or ''span'' that corresponds to ''index''.  If ''index'' is -1, returns the pre-start cursor of ''string'' or ''span''.If ''index'' is equal to the length of ''string'' or ''span'', returns the post-end cursor of ''string'' or ''span''.
 
 `(string-cursor-difference `''string cursor,,1,, cursor,,2,,''`)`
 
 `(span-cursor-difference `''span cursor,,1,, cursor,,2,,''`)`
 
-Return the difference in characters between ''cursor,,2,,'' and ''cursor,,1,,''.  It is an error if the cursors do not refer to positions in ''string'' or ''span''.
+Return the difference in characters between ''cursor,,2,,'' and ''cursor,,1,,''.  The arguments are in reverse order from plain `-` so that they can be passed as start and end cursors respectively.
 
 == Span constructors ==
 
@@ -150,7 +138,7 @@ Returns a character span which contains the characters ''char'' in order.
 
 ''Proc'' is a procedure which accepts a string as its first argument and returns a string.  It is invoked on a string which contains the characters of ''span'' in order plus the ''obj'' arguments, if any.  The resulting string is returned as a character span by `span-transform`.  This procedure allows string-based procedures to be easily used in a context that provides and expects spans.
 
-`(span-unfold `''stop? mapper successor'' [[|''seed'' ]]`)`
+`(span-unfold `''stop? mapper successor seed''`)`
 
 `(span-unfold-right `''stop? mapper successor'' ''seed''`)`
 
@@ -172,11 +160,11 @@ Returns `#t` if ''obj'' is a character span, and `#f` otherwise.
 
 Returns `#t` if ''span'' contains zero characters, and `#f` otherwise.
 
-`(span-every `''pred span''`)` [[SRFI|13]]
+`(span-every? `''pred span''`)` [[SRFI|13]]
 
 Returns `#t` if ''pred'' returns true for every character in ''span'', and `#f` otherwise.
 
-`(span-any `''pred span''`)` [[SRFI|13]]
+`(span-any? `''pred span''`)` [[SRFI|13]]
 
 Returns `#f` if ''pred'' returns false for each character in ''span'', and `#t` otherwise.
 
@@ -267,11 +255,11 @@ Returns the length (in characters) of the span that would be returned by `span-p
 
 `(span-mismatch `''span,,1,,'' ''span,,2,,''`)`
 
-Returns a cursor referring to the first character in ''span,,2,,'' that is not equal to the corresponding character in ''span,,1,,''.  If the spans are equal, the cursor referring to the position after the last character in ''span,,2,,'' is returned.
+Returns a cursor referring to the first character in ''span,,2,,'' that is not equal to the corresponding character in ''span,,1,,''.  If the spans are equal, the post-end cursor of ''span,,2,,'' is returned.  If ''span,,2,,'' is empty, then the pre-start cursor of ''span,,2,,'' is returned.
 
 `(span-mismatch-right `''span,,1,,'' ''span,,2,,''`)`
 
-Returns a cursor referring to the first character in ''span,,2,,'', scanning in reverse order, that is not equal to the corresponding character in ''span,,1,,'', also processed in reverse order.  If the spans are equal, the cursor referring to the position before the first character in ''span,,2,,'' is returned.
+Returns a cursor referring to the first character in ''span,,2,,'', scanning in reverse order, that is not equal to the corresponding character in ''span,,1,,'', also processed in reverse order.  If the spans are equal, the pre-start cursor of ''span,,2,,'' is returned.  If ''span,,2,,'' is empty, then the post-end cursor of ''span,,2,,'' is returned.
 
 `(span-prefix? `''span,,1,,'' ''span,,2,,''`)` [[SRFI|13]]
 
@@ -291,7 +279,7 @@ Returns a cursor referring to the first character in ''span'' that satisfies ''p
 
 `(span-find-right `''pred span''`)`
 
-Returns a cursor referring to the first character in ''span'' that satisfies ''pred'', processing ''span'' in reverse order, or the cursor referring to the position before the first character if there is none.
+Returns a cursor referring to the first character in ''span'' that satisfies ''pred'', processing ''span'' in reverse order, or the pre-start cursor of ''span'' if there is none.
 
 Compatibility note:  These procedures are analogous to SRFI 13's `string-index` procedures, but return cursors rather than indexes or `#f` on failure.
 
@@ -299,7 +287,7 @@ Compatibility note:  These procedures are analogous to SRFI 13's `string-index` 
 
 `(span-skip-right `''pred span''`)` [[SRFI|13]]
 
-Returns a cursor pointing to the first/last character in ''span'' that does not satisfy ''pred'', or the end/start cursor if there is none.
+Returns a cursor pointing to the first/last character in ''span'' that does not satisfy ''pred'', or the post-end/pre-start cursor if there is none.
 
 `(span-take-while `''pred span''`)`
 
@@ -319,7 +307,7 @@ The name "span-span" is unfortunate but unavoidable.
 
 `(span-contains `''haystack needle''`)` [[SRFI|13]]
 
-It is an error if ''needle'' and ''haystack'' are not both spans.  Returns a cursor referring to ''haystack'' indicating the first position in which the characters of ''needle'' appear.  If there is no such position, `#f` is returned.
+It is an error if ''needle'' and ''haystack'' are not both spans.  Returns a cursor referring to ''haystack'' indicating the first position of the first subspan in which the characters of ''needle'' appear.  If there is no such position (in particular, if either ''needle'' or ''haystack'' is empty), `#f` is returned.
 
 == The whole character span or string ==
 
@@ -366,13 +354,13 @@ side effects rather than for its values. Unlike `span-map`, this procedure is gu
 
 `(span-fold-right `''proc nil span'' ...`)` [[SRFI|13]]
 
-Invokes ''proc'' on each character of the ''spans'' in forward/reverse order, passing the result of the previous invocation as a second argument. For the first invocation, ''nil'' is used as the second argument. Returns the result of the last invocation, or ''nil'' if there was no invocation.  It is an error if ''proc'' does not accept the same number of arguments as there are spans.
+Invokes ''proc'' on each character of the ''spans'' in forward/reverse order, passing the result of the previous invocation as an additional argument. For the first invocation, ''nil'' is used as the additional argument. Returns the result of the last invocation, or ''nil'' if there was no invocation.  It is an error if ''proc'' does not accept the same number of arguments as there are spans plus one.
 
 == Parsing and unparsing ==
 
 `(span-split `''span'' [[''separator''|[ ''limit'' ]] ]`)`
 
-Returns a list of the words contained in ''span''.  If ''separator'' (which is also a character span) is omitted, then the words are separated by one or more whitespace characters (those on which `char-whitespace?` returns `#t`). If ''separator'' is supplied, it specifies a string to be used as the word separator. The returned list will then have one more item than the number of non-overlapping occurrences of the separator in the string.  If ''separator'' is an empty span, then the returned list contains a list of the characters in ''span''.
+Returns a list of the words contained in ''span''.  If ''separator'' (which is also a character span) is omitted, then the words are separated by one or more whitespace characters (those on which `char-whitespace?` returns `#t`). If ''separator'' is supplied, it specifies a span whose characters are to be used as the word separator. The returned list will then have one more item than the number of non-overlapping occurrences of the separator in the string.  If ''separator'' is an empty span, then the returned list contains a list of spans, each of which contains a single character. 
 
 If ''limit'' is provided, at most that many splits occur, and the remainder of ''span'' is returned as the final element of the list (thus, the result will have at most ''limit''+1 elements). If ''limit'' is not specified, then as many splits as possible are made.  It is an error if ''limit'' is not a positive exact integer.
 
@@ -465,7 +453,7 @@ In any implementation of this proposal based on R7RS, the results of the span pr
 
 `span-comparator`
 
-This is a [[http://srfi.schemers.org/srfi-114/srfi-114.html|SRFI 114]] comparator for comparing strings.  Its procedures behave as if their arguments are converted to strings and then passed to the procedures of `string-comparator`.
+This is a variable containing a [[http://srfi.schemers.org/srfi-114/srfi-114.html|SRFI 114]] comparator for comparing strings.  Its procedures behave as if their arguments are converted to strings and then passed to the procedures of `string-comparator`.
 
 == Sample Implementation ==
 
