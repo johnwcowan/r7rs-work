@@ -10,27 +10,11 @@ Binary heaps are mutable collections that can contain any Scheme object provided
 
 Returns a newly allocated heap ordered by ''comparator'', and containing the ''elements''.  This operation should be O(n) in the size of the heap.
 
-`(heap-copy `''heap''`)`
-
-Returns a newly allocated heap containing the elements of ''heap'' with the same ''<'' procedure.
-
-`(list->heap `''comparator'' ''list''`)`
-
-Returns a newly allocated heap containing the elements of ''list'' and ordered by ''comparator''.
-
-`(vector->heap `''comparator'' ''vector''`)`
-
-Returns a newly allocated heap containing the elements of ''vector'' and ordered by ''comparator''.
-
 === Predicates ===
 
 `(heap? `''obj''`)`
 
 Returns `#t` if ''obj'' is a heap, and `#f` otherwise.
-
-`(heap-size `''heap''`)`
-
-Returns the number of elements in ''heap''.
 
 `(heap-member? `''heap'' ''element''`)`
 
@@ -44,7 +28,7 @@ Returns the smallest element of the heap (in the sense of the comparator).  This
 
 === Mutators ===
 
-`(heap-push! `''heap'' ''element''`)`
+`(heap-adjoin! `''heap'' ''element''`)`
 
 Adds ''element'' to ''heap''.  Returns an unspecified value.  This operation should be O(log N) in the size of the heap.
 
@@ -52,11 +36,11 @@ Adds ''element'' to ''heap''.  Returns an unspecified value.  This operation sho
 
 Removes the smallest element of the heap (in the sense of the comparator) and returns it.  This operation should be O(log N) in the size of the heap.
 
-`(heap-pop-push! `''heap'' ''element''`)`
+`(heap-pop-adjoin! `''heap'' ''element''`)`
 
 Removes the smallest element of the heap (in the sense of the comparator), pushes ''element'' on the heap, and returns the popped value.  This operation should be O(log N) in the size of the heap.
 
-`(heap-push-pop! `''heap'' ''element''`)`
+`(heap-adjoin-pop! `''heap'' ''element''`)`
 
 Pushes ''element'' on the heap, then removes the smallest element of the heap (in the sense of the comparator) and returns it.  This operation should be O(log N) in the size of the heap.
 
@@ -64,7 +48,15 @@ Pushes ''element'' on the heap, then removes the smallest element of the heap (i
 
 Returns a list containing the ''n'' smallest elements popped from ''heap''.
 
-=== Mapping ===
+=== The whole heap ===
+
+`(copy-heap `''heap''`)`
+
+Returns a newly allocated heap containing the elements of ''heap'' with the same ''<'' procedure.
+
+`(heap-size `''heap''`)`
+
+Returns the number of elements in ''heap''.
 
 `(heap-map `''proc'' ''comparator'' ''heap''`)`
 
@@ -82,17 +74,23 @@ Applies ''proc'' to each element of ''heap'' in arbitrary order, discarding the 
 
 Returns a newly allocated list or vector containing the members of ''heap'' in arbitrary order.
 
+`(list->heap `''comparator'' ''list''`)`
+
+`(vector->heap `''comparator'' ''vector''`)`
+
+Returns a newly allocated heap containing the elements of ''list'' or ''vector'' and ordered by ''comparator''.
+
 `(heap->sorted-list! `''heap''`)`
 
 `(heap->sorted-vector! `''heap''`)`
 
-Returns a newly allocated list or vector containing the members of ''heap'' in increasing order.  ''Heap'' may be destroyed in the process.
+Returns a newly allocated list or vector containing the members of ''heap'' in increasing order.  ''Heap'' will be destroyed in the process.
 
 === Generator functions ===
 
 `(heap->generator `''heap''`)`
 
-Returns a generator that yields the elements of ''heap'' in order, destroying ''heap'' in the process.
+Returns a generator that yields the elements of ''heap'' in increasing order, destroying ''heap'' in the process.
 
 `(generator->heap `''comparator generator''`)`
 
