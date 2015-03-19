@@ -4,7 +4,7 @@ This is a very preliminary description of edit buffers, basically mutable variab
 
  * There is no notion of the current buffer, so most procedures have the buffer as the first argument.
  * Buffers do not have intrinsic names, so ''buffer-or-name'' arguments accept only buffers.
- * Point and markers are zero-based, as is usual in Scheme.
+ * Point and markers are zero-based, as is usual in Scheme.  Point is an advancing marker and is acceptable to the marker API.
  * Ranges are min-inclusive and max-exclusive, also as is usual in Scheme.
  * The start and end arguments are optional everywhere, as in R7RS-small.
 
@@ -22,6 +22,8 @@ This list is ''very'' tentative, and may grow to include SRFI 13, or shrink to e
 
 (buffer-unmodified! buffer) == (set-buffer-modified-p nil)
 
+(buffer-length buffer) == (buffer-size buffer)
+
 === Constructors ===
 
 (make-buffer [size-hint]) == simple constructor, no name provided
@@ -31,10 +33,6 @@ This list is ''very'' tentative, and may grow to include SRFI 13, or shrink to e
 === Point ===
 
 (buffer-point buffer) == (point)
-
-(buffer-length buffer) == (buffer-size buffer)
-
-(buffer-set-point! buffer integer) == (goto-char integer)
 
 (buffer-point-increment) == (forward-char integer)
 
@@ -48,7 +46,7 @@ This list is ''very'' tentative, and may grow to include SRFI 13, or shrink to e
 
 === Markers ===
 
-If the ''advancing?'' argument to `make-marker` is true, then if an insertion is done at the marker, the marker will automatically be repositioned to point to the end of the insertion.
+If the ''advancing?'' argument to `make-marker` is true, then if an insertion is done at or before the marker, the marker will automatically be repositioned to point to the end of the insertion.
 
 (buffer-marker? obj) == (markerp obj)
 
