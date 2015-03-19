@@ -35,7 +35,7 @@ a <a href="http://srfi.schemers.org/srfi-121/srfi-121.html">SRFI 121</a> generat
 A generator is a procedure that can be invoked with no arguments
 in order to lazily supply additional elements of the lseq.
 When a generator has no more elements to return, it returns an
-end-of-file object.  Consequently, lazy sequences cannot contain
+end-of-file object.  Consequently, lazy sequences cannot reliably contain
 end-of-file objects.</p> 
 <p>This proposal provides a set of procedures
 suitable for operating on lazy sequences based
@@ -449,21 +449,14 @@ possible.</p>
     <p>Returns the length of its argument, which is the non-negative integer <var>n</var> such that <code>lazy-rest</code> 
     applied <var>n</var> times to the lseq produces an empty lseq.</p>
 
-
+</dd></dl>
 <!--
 ==== lazy-append
 ============================================================================-->
 <dl>
-<dt><code>gappend</code><i> gen &hellip;</i></dt>
-<dd><p>Returns a generator that yields the items from the first given
-generator, and once it is exhausted, use the second generator, and so on.
+<dt><code>lazy-append</code><i> lseq &hellip;</i></dt>
+<dd><p>Returns an lseq that lazily contains all the elements of the <var>lseqs</var>.
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (gappend (make-iota-generator 3) (make-iota-generator 2)))
- &rArr; (0 1 2 0 1)
-
-(generator-&gt;list (gappend))
- &rArr; ()
-</pre></td></tr></table>
 </dd></dl>
 
 <!--
@@ -475,15 +468,9 @@ generator, and once it is exhausted, use the second generator, and so on.
 Returns an lseq that whose elements are all the elements of the first lseq,
 then all the elements of the second one, then the third, etc.
 </p>
-<p>It is similar to <code>(apply lazy-append (lazy-realize gen))</code>, except
+<p>It is similar to <code>(apply lazy-append (lazy-realize lseq))</code>, except
 that <code>lazy-concatenate</code> can work even if <var>lseq</var> contains an infinite
 number of lseqs.</p>
-<table><tr><td>&nbsp;</td><td><pre class="example">
-(lazy-concatenate
-  (list (generator->lseq (make-iota-generator 3))
-        (generator->lseq (make-iota-generator 2))))
- &rArr; (0 1 2 0 1)
-</pre></td></tr></table>
 </dd></dl>
 
 <dl>
