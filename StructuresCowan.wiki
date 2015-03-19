@@ -4,11 +4,11 @@ Structures are an extension of the representation types of NumericVectorsCowan. 
 
 `(make-structure-descriptor `''name fieldspecs'' [[|''pad?'' ]] `)`
 
-''Name'' is a symbol used for documentation purposes only.  ''Fieldspecs'' is a vector each of whose elements is a list of three elements, a symbol denoting a name (again, for documentation purposes only), another symbol denoting a representation type and an exact non-negative integer denoting a repetition count.  The valid types are those of NumericVectorsCowan, plus the following:
+''Name'' is a symbol used for documentation purposes only.  ''Fieldspecs'' is a vector each of whose elements is a list of three elements, a symbol denoting a name (again, for documentation purposes only), another symbol denoting a representation type and an exact non-negative integer denoting a repetition count.  The valid types are those of ByteVectorsCowan, plus the following:
 
-* `char8`, `char16`, `char32` are equivalent to `u8`, `u16`, `u32` but are interpreted as characters when converting to and from Scheme, using the same conventions as `char->integer` and `integer->char` 
+* `char8`, `char16`, char16-be`, char16-le`, `char32`, `char32-be`, `char32-le` are equivalent to `u8`, `u16`, `u16-be`, `u16-le`, `u32`, `u32-le`, `u32-be` respectively, but are interpreted as characters when converting to and from Scheme, using the same conventions as `char->integer` and `integer->char` 
 
-* `bool8`, `bool16`, `bool32` are also equivalent to `u8`, `u16`, `u32`, but are interpreted as booleans when converting to and from Scheme, using the convention that 0 is `#f` and any other value is `#t`
+* `bool8`, `bool16`, `bool16-be`, `bool16-le`, `bool32-be`, `bool32-le`, `bool32` are also equivalent to `u8`, `u16`, `u16-be`, `u16-le`, `u32-be`, `u32-le`, `u32`, but are interpreted as booleans when converting to and from Scheme, using the convention that 0 is `#f` and any other value is `#t`
 
 The result is a newly allocated immutable object of a disjoint type from which ''name'' can be retrieved, called a structure descriptor.  It is also possible to retrieve fields, which are objects representing the name, type, repetition count, and the computed byte offset from the beginning of a struct to each field.  Fields may or may not be a disjoint type.
 
