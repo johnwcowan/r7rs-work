@@ -158,7 +158,7 @@ It is an error to operate on two hash tables that have different comparators or 
 
 `(make-hash-table `''equality-predicate'' [[|''hash-function'' ]] [[|''arg'' ... ]]`)`
 
-Returns a newly allocated hash table whose equality predicate and hash function are extracted from ''comparator''.  Alternatively, for backward compatibility with SRFI 69 the equality predicate and hash function can be passed as separate arguments; this usage is deprecated.  Note that SRFI 69 hash functions, unlike the hash functions packaged as part of SRFI 114 comparators, accept two arguments, the object to hash and a non-negative integer that bounds the hash code.
+Returns a newly allocated hash table whose equality predicate and hash function are extracted from ''comparator''.  Alternatively, for backward compatibility with SRFI 69 the equality predicate and hash function can be passed as separate arguments; this usage is deprecated.  Note that unlike the hash functions packaged as part of SRFI 114 comparators, SRFI 69 hash functions accept two arguments, the object to hash and a non-negative integer that bounds the hash code.
 
 If an equality predicate rather than a comparator is provided, the ability to omit the ''hash-function'' argument is severely limited.  The implementation must provide hash functions appropriate for use with the predicates `eq?`, `eqv?`, `equal?`, `string=?`, and `string-ci=?`, and may extend this list.  But if any unknown equality predicate is provided without a hash function, an error should be signaled.
 
@@ -176,7 +176,7 @@ Returns a newly allocated hash table, created as if by `make-hash-table` using '
 
 `(hash-table-unfold `''stop? mapper successor seed comparator arg'' ... ]`)`
 
-Create a new hash table as if by `make-hash-table` using ''comparator'' and the ''args''.  If the result of applying the predicate ''stop?'' to ''seed'' is `#t`, return the hash table.  Otherwise, apply the procedure ''mapper'' to ''seed''.  ''Mapper'' returns two values, which are inserted into the hash table as the key and the value respectively.  Then get a new seed by applying the procedure ''successor'' to ''seed'', and repeat this algorithm.
+Create a new hash table as if by `make-hash-table` using ''comparator'' and the ''args''.  If the result of applying the predicate ''stop?'' to ''seed'' is true, return the hash table.  Otherwise, apply the procedure ''mapper'' to ''seed''.  ''Mapper'' returns two values, which are inserted into the hash table as the key and the value respectively.  Then get a new seed by applying the procedure ''successor'' to ''seed'', and repeat this algorithm.
 
 `(alist->hash-table `''alist comparator arg'' ...`)`
 
@@ -297,7 +297,7 @@ Delete all the associations from ''hash-table''.  (R6RS `hashtable-clear!`; Comm
 
 === The whole hash table ===
 
-These procedures process the associations of the hash table in arbitrary order.
+These procedures process the associations of the hash table in an unspecified order.
 
 `(hash-table-size `''hash-table''`)`
 
@@ -313,7 +313,7 @@ Returns a newly allocated list of all the keys in ''hash-table''. (SRFI 69 `hash
 
 `(hash-table-entries `''hash-table''`)`
 
-Returns two values, a newly allocated list of all the keys in ''hash-table'' in an unspecified order and a newly allocated list of all the values in ''hash-table'' in the corresponding order.  (R6RS `hash-table-entries` returns vectors)
+Returns two values, a newly allocated list of all the keys in ''hash-table''and a newly allocated list of all the values in ''hash-table'' in the corresponding order.  (R6RS `hash-table-entries` returns vectors)
 
 `(hash-table-find `''hash-table proc''`)`
 
@@ -333,7 +333,7 @@ Calls ''proc'' for as many associations in ''hash-table'' as necessary with two 
 
 === Mapping and folding ===
 
-These procedures process the associations of the hash table in arbitrary order.
+These procedures process the associations of the hash table in an unspecified order.
 
 `(hash-table-map `''proc comparator merger hash-table''`)`
 
@@ -409,7 +409,27 @@ Deletes the associations of ''hash-table,,1,,'' whose keys are also present in '
 
 Adds the associations of ''hash-table,,2,,'' whose keys are not present in 'hash-table,,1,,'' to 'hash-table,,1,,'' , then deletes the associations of ''hash-table,,1,,'' whose keys are also present in ''hash-table,,2,,'', and returns ''hash-table,,1,,''.
 
-=== Bimaps ===
+=== Exceptions ===
+
+`(hash-table-key-not-found? `''obj''`)`
+
+Returns `#t` if ''obj'' is an object raised by the `hash-table-ref` procedure or any other procedure that accesses hash tables when the key is not found and there is no failure procedure, and `#f` otherwise.
+
+=== Comparators ===
+
+`hash-table-comparator`
+
+This comparator is suitable for comparing hash tables with the same key comparator for equality, and also provides a hash function for them.  It does not provide a comparison procedure, as there is no natural ordering between hash tables.  Values are compared with `default-comparator`.
+
+`(make-hash-table-comparator `''comparator''`)`
+
+Returns a comparator that behaves like `hash-table-comparator`, except that it compares values with ''comparator''.
+
+`bimap-comparator`
+
+This comparator is suitable for comparing bimaps with the same key and value comparators for equality, and also provides a hash function for them.  It does not provide a comparison procedure, as there is no natural ordering between bimaps.
+
+== Bimaps ==
 
 A bimap is built by starting with a hash table which represents the forward mapping from keys to values; it is an error if the values are not unique.  A second hash table is constructed and populated with the reverse mapping.  It is possible to retrieve either underlying hash table for read-only operations, but it is an error to mutate them, so bimap mutation procedures are provided.
 
@@ -462,22 +482,6 @@ Returns what `(hash-table-ref (bimap-reverse-hash-table `''bimap''`) `''value de
 Returns a newly allocated bimap with the same properties and associations as ''bimap''. If the second argument is present and is true, and the implementation supports immutable hash tables, the returned bimap is made from immutable hash tables and is itself immutable; otherwise it is mutable.
 
 The mutation procedures `bimap-set!`, `bimap-set-entries!`, `bimap-delete!`, `bimap-delete-keys!`, `bimap-extend!`, `bimap-extend/default!`, `bimap-replace!`, `bimap-replace/default!`, `bimap-update!`, `bimap-update/default!`, `bimap-clear!`, `bimap-filter!`, `bimap-remove!`, and `bimap-partition!` have the same behavior as their hash table analogues, mutating both hash tables appropriately.
-
-=== Exceptions ===
-
-`(hash-table-key-not-found? `''obj''`)`
-
-Returns `#t` if ''obj'' is an object raised by the `hash-table-ref` procedure or any other procedure that accesses hash tables when the key is not found and there is no failure procedure, and `#f` otherwise.
-
-=== Comparators ===
-
-`hash-table-comparator`
-
-This comparator is suitable for comparing hash tables with the same key comparator for equality, and also provides a hash function for them.  It does not provide a comparison procedure, as there is no natural ordering between hash tables.
-
-`bimap-comparator`
-
-This comparator is suitable for comparing bimaps with the same key and value comparators for equality, and also provides a hash function for them.  It does not provide a comparison procedure, as there is no natural ordering between hash tables.
 
 == Implementation ==
 
