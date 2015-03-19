@@ -4,7 +4,7 @@ Path objects represent filesystem pathnames with semantics appropriate for diffe
 
 Path objects are immutable objects of a disjoint type.  They are divided into two subtypes, Posix paths and Windows paths.  Most procedures in this proposal operate correctly on both subtypes.
 
-Every path object has a ''drive'', a ''root'', and a possibly empty sequence of ''components'', all of which are strings.
+Every path object has a ''drive'', a ''root'', and a possibly empty sequence of ''components'', all of which are strings.  The ''anchor'' of a pathname is the drive concatenated with the root.  The ''filename'' is the last component, and the ''suffix'' is the part of the filename after the rightmost period.
 
 == Constructors ==
 
@@ -62,9 +62,9 @@ Consecutive slashes or backslashes are collapsed, and components consisting of a
 
 If any of the characters of ''string'' are illegal in Windows pathnames, namely `< > " : | ? *`, an error is signaled.
 
-`(make-path `''string''`)`
+`(path `''windows? device root component'' ...`)`
 
-Invokes `make-posix-path` on non-Windows systems and `make-windows-path` on Windows systems.
+Returns a path object with the specified ''device'', ''root'', and ''components''.  If ''windows?'' is true, a Windows path object is returned; otherwise, a Posix path object is returned.
 
 == Predicates ==
 
@@ -82,15 +82,15 @@ Returns `#t` if ''obj'' is a Windows path object and `#f` otherwise.
 
 `(path-absolute? `''path''`)`
 
-Returns `#t` if ''path'' represents an absolute path and `#f` otherwise.  On Posix, a path is absolute if its root is non-empty.  On Windows, both the drive and the root must be non-empty.
+Returns `#t` if ''path'' represents an absolute path and `#f` otherwise.  On Posix, a path is absolute if its root is non-empty.  On Windows, a path is absolute if the anchor is non-empty.
 
 `(path-reserved? `''path''`)`
 
-Returns `#t` if ''path'' is a Windows path containing any of the reserved components `CON PRN AUX NUL COM1 COM2 COM3 COM4 COM5 COM6 COM7 COM8 COM9 LPT1 LPT2 LPT3 LPT4 LPT5 LPT6 LPT7 LPT8 LPT9` [[http://msdn.microsoft.com/en-us/library/aa365247.aspx|from this list]] with or without a suffix, and `#f` otherwise.  Posix paths always return `#f`.
+Returns `#t` if ''path'' is a Windows path object containing any of the reserved components `CON PRN AUX NUL COM1 COM2 COM3 COM4 COM5 COM6 COM7 COM8 COM9 LPT1 LPT2 LPT3 LPT4 LPT5 LPT6 LPT7 LPT8 LPT9` [[http://msdn.microsoft.com/en-us/library/aa365247.aspx|from this list]] with or without a suffix, and `#f` otherwise.  Posix path objects always return `#f`.
 
 `(path=? `''path,,1,, path,,2,,''`)`
 
-Returns `#t` if ''path,,1,,'' and ''path,,2,,'' are the same path; that is, the drive, root, and components are equal.  Posix paths are compared case-sensitively; Windows paths are compared case-insensitively.  It is implementation-defined whether a Windows path is ever `path=?` to a Posix path; for example, a Cygwin implementation might choose to treat `(make-posix-path "/cygdrive/c/Windows")` and `(make-windows-path "C:\\Windows")` as `path=?`.  In all other cases, `path=?` returns `#f`.  
+Returns `#t` if ''path,,1,,'' and ''path,,2,,'' represent the same path; that is, the drive, root, and components are equal.  Posix paths are compared case-sensitively; Windows paths are compared case-insensitively.  It is implementation-defined whether a Windows path is ever `path=?` to a Posix path; for example, a Cygwin implementation might choose to treat `(make-posix-path "/cygdrive/c/Windows")` and `(make-windows-path "C:\\Windows")` as `path=?`.  In all other cases, `path=?` returns `#f`.  
 
 == Accessors ==
 
@@ -110,14 +110,6 @@ Returns the drive and root parts of ''path'' concatenated.
 
 Returns a list whose car is the anchor of ''path'' and whose cdr is a list of the components of ''path''.
 
-`(path-parent `''path''`)`
-
-Returns a path representing the parent directory of ''path'', or ''path'' itself if it is a root directory.
-
-`(path-filename `''path''`)`
-
-Returns the filename (last component) of ''path'', or the empty string if there are no components.
-
 `(path-suffix `''path''`)`
 
 Returns the suffix (the rightmost part after a period) of the filename of ''path'', or the empty string if there are no periods.
@@ -125,10 +117,6 @@ Returns the suffix (the rightmost part after a period) of the filename of ''path
 `(path-suffixes `''path''`)`
 
 Returns a list of all the suffixes of the filename of ''path''.
-
-`(path-stem `''path''`)`
-
-Returns the filename of ''path'' with all suffixes removed.
 
 == Conversion ==
 
@@ -146,6 +134,18 @@ Returns a file URI corresponding to ''path''.  If ''path'' is not absolute, an e
 
 == Path operations ==
 
+`(path-parent `''path''`)`
+
+Returns a path representing the parent directory of ''path'', or ''path'' itself if it is a root directory.
+
+`(path-filename `''path''`)`
+
+Returns the filename (last component) of ''path'', or the empty string if there are no components.
+
+`(path-stem `''path''`)`
+
+Returns the filename of ''path'' with all suffixes removed.
+
 `(path-join `path string-or-path'' ...`)`
 
 If a single ''string-or-path'' argument is given, `path-join` returns a path object representing the results of appending the components of the ''string-or-path'' arguments to ''path'' in order.  If the ''string-or-path'' argument is a string, `path-join` behaves as if it was converted to a path first by `make-posix-path` or `make-windows-path`, depending on the subtype of ''path''.
@@ -154,22 +154,32 @@ If the ''string-or-path'' argument has a non-empty drive, the drive, root, and c
 
 If two ''string-or-path'' arguments are given, `path-join` returns what `(path-join (path-join `''path'' ''string-or-path,,1,,''`)` ''string-or-path,,2,,''`)` returns, and so on for any additional arguments.
 
-`(path-match `''path string''`)`
+`(path-match `''path glob''`)`
 
-Returns `#t` if ''path'' matches the glob pattern in ''string''.  Glob patterns may contain the wildcards `*`, `?`, and `[...]` where ... represents a set of characters to match.  If ''string'' is relative, the path can be either relative or absolute, and matching is done from the right.  If ''string'' is absolute, the path must be absolute, and the whole path must match.  Posix paths are compared case-sensitively; Windows paths are compared case-insensitively.
+Returns `#t` if ''path'' matches the glob pattern in ''glob'' (a path object).  Glob paths may contain the wildcards `*`, `?`, and `[...]` where `...` represents a set of characters to match.  If ''glob'' is relative, the path can be either relative or absolute, and matching is done from the right.  If ''glob'' is absolute, the path must be absolute, and the whole path must match.  Posix paths are compared case-sensitively; Windows paths are compared case-insensitively.  It is an error to attempt to match a Windows path object against a Posix glob pattern or vice versa.
 
 `(path-relative-to `''path,,1,, path,,2,,''`)`
 
-Return a version of ''path,,1,,'' that is relative to ''path,,2,,''.  If it is not possible to do so without introducing double-period components, an error is signaled.
+Returns a version of ''path,,1,,'' that is relative to ''path,,2,,''.  If it is not possible to do so without introducing double-period components, `#f` is returned.
 
-`(path-with-name `''path name''`)`
+`(path-with-filename `''path filename''`)`
 
-Returns a path object based on ''path'' with the name (including any suffixes) replaced by ''name''.  If the path does not contain a name, an error is signaled.
+Returns a path object based on ''path'' with the filename (including any suffixes) replaced by ''filename'' (a string).  If the path does not contain a filename, an error is signaled.
 
 `(path-with-suffix `''path suffix''`)`
 
-Returns a path object based on ''path'' with the final suffix of the name replaced by ''suffix''.  If the name does not contain a suffix, ''suffix'' is appended after a separating period.  If the path does not contain a name, an error is signaled.
+Returns a path object based on ''path'' with the final suffix of the filename replaced by ''suffix''.  If the filename does not contain a suffix, ''suffix'' is appended after a separating period.  If the path does not contain a filename, `#f` is returned.
 
+`(path-normalize `''path''`)`
 
+Returns a path object which is the same as ''path'', except that if any component other than the first is the string `".."`, then that component and the preceding component are removed from the returned path object.
+
+`(path-without-suffix `''path''`)`
+
+Returns a path object which is the same as ''path'', except that if the filename ends in a suffix, that suffix is removed from the returned path object.
+
+`(path-without-suffixes `''path''`)`
+
+Returns a path object which is the same as ''path'', except that if the filename ends in one or more suffixes, they are removed from the returned path object.
 
 
