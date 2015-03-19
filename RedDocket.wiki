@@ -12,8 +12,6 @@ Sorting and merging: SortingShivers (edited draft of withdrawn [[http://srfi.sch
 
 Sets and bags:  [[http://srfi.schemers.org/srfi-113/srfi-113.html|SRFI 113]].
 
-Integer sets and bit vectors:  IntegerSetsCowan.
-
 Character sets:  [[http://srfi.schemers.org/srfi-14/srfi-14.html|SRFI 14]].
 
 Hash tables and bimaps:  HashTablesCowan.
@@ -43,8 +41,6 @@ Comparators:  [[http://srfi.schemers.org/srfi-114/srfi-114.html|SRFI 114.]]
 Enumerations with sets and maps:  EnumsCowan
 
 Extended records:  [[http://srfi.schemers.org/srfi-99/srfi-99.html|SRFI 99]], possibly with simplified syntax.
-
-== Suggested ==
 
 Ternary search trees:  No API proposal yet, but see [[http://en.wikipedia.org/wiki/Ternary_search_tree|Wikipedia]].
 
