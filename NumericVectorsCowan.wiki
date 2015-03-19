@@ -1,4 +1,4 @@
-This is a proposal for a simple API for specialized numeric vectors distinguished by their ''representation type''.  The `u8` type is the same as the R7RS-small bytevector type, but the other types are all disjoint from all other Scheme types.  This API is more restricted than BytevectorsCowan, except that it is possible to dispatch on the different types of numeric vectors.  It may be useful for Schemes on the JVM or the CLR to use this API to provide access to the platform's native numeric vectors.
+This is a proposal for a simple API for specialized numeric vectors distinguished by their ''representation type''.  The `u8` type is the same as the R7RS bytevector type, but the other types are all disjoint from all other Scheme types.  This API is more restricted than BytevectorsCowan, except that it is possible to dispatch on the different types of numeric vectors.  It may be useful for Schemes on the JVM or the CLR to use this API to provide access to the platform's native numeric vectors.
 
 This design subsumes [[http://srfi.schemers.org/srfi-4/srfi-4.html|SRFI 4]].  There are many procedures, but many of them can be easily inlined by even a very dumb compiler, providing high efficiency.   The procedures provided in the present proposal are the numeric-vector analogues of the R7RS-small vector API.
 
@@ -35,7 +35,7 @@ The [type] values are:
 
 `(make-[type]vector `''k'' [[|''fill'' ]]`)`
 
-Returns a newly allocated numeric vector of length ''k''.''Fill'' is converted to a binary value according to `[type] and used to fill the vector; if ''fill'' is not specified, the values of the elements are unspecified.  It is an error if ''fill'' cannot be converted to [type].
+Returns a newly allocated numeric vector of length ''k''.  ''Fill'' is converted to a binary value according to [type] and used to fill the vector; if ''fill'' is not specified, the values of the elements are unspecified.  It is an error if ''fill'' cannot be converted to [type].
 
 `([type]vector ` ''v'' ... `)`
 
@@ -75,10 +75,6 @@ Returns a newly allocated [type]vector of length ''end - start'', filled with th
 
 Returns a newly allocated [type]vector whose length is the length of ''list'', filled with the elements of ''list''.
 
-`(bytevector->[type]vector `''bytevector'' [[|''start'' [ ''end'' ]] ]`)`
-
-Returns a [type]vector of length ''end / b - start / b'', filled with the elements of ''bytevector'' taken ''b'' at a time.
-
 `(vector->[type]vector! `''[type]vector at vector'' [[''start''|[ ''end'' ]] ]`)`
 
 Writes the elements of ''vector'' from ''start'' to ''end'' into ''[type]vector'' starting at ''at''.
@@ -86,10 +82,6 @@ Writes the elements of ''vector'' from ''start'' to ''end'' into ''[type]vector'
 `(list->[type]vector! `''list [type]vector at''`)`
 
 Writes the elements of ''list'' into ''[type]vector'' starting at ''at''.
-
-`(bytevector->[type]vector! `''[type]vector at vector'' [[''start''|[ ''end'' ]] ]`)`
-
-Writes the elements of ''bytevector'' from ''b * start'' to ''b * end'' taken ''b'' at a time into ''[type]vector'' starting at ''at''.
 
 == Conversions from numeric vectors ==
 
@@ -99,17 +91,9 @@ Writes the elements of ''bytevector'' from ''b * start'' to ''b * end'' taken ''
 
 Returns a newly allocated vector or list of length ''end - start'' with the elements of ''[type]vector'' from ''start'' to ''end''.
 
-`([type]vector->bytevector `''[type]vector'' [[|''start'' [ ''end'' ]] ]`)`
-
-Returns a newly allocated bytevector of length ''b * end - b * start'' with the elements of ''[type]vector'' from ''start'' to ''end''.
-
 `([type]vector->vector! `''vector at [type]vector'' [[''start''|[ ''end'' ]] ]`)`
 
-`([type]vector->bytevector! `''bytevector at [type]vector'' [[''start''|[ ''end'' ]] ]`)`
-
-Writes the elements of ''[type]vector'' from ''start'' to ''end'' into ''vector'' or ''bytevector'' starting at ''at''.
-
-== The whole numeric vector ==
+  == The whole numeric vector ==
 
 `([type]vector-length ` ''[type]vector''`)`
 
