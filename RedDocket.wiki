@@ -14,6 +14,8 @@ Sets and bags:  [[http://srfi.schemers.org/srfi-113/srfi-113.html|SRFI 113]].
 
 Character sets:  [[http://srfi.schemers.org/srfi-14/srfi-14.html|SRFI 14]].
 
+Ternary search trees:  No API proposal yet, but see [[http://en.wikipedia.org/wiki/Ternary_search_tree|Wikipedia]].
+
 Hash tables and bimaps:  HashTablesCowan.
 
 Immutable pairs and lists:  [[http://srfi.schemers.org/srfi-116/srfi-116.html|SRFI 116]].
@@ -41,7 +43,5 @@ Comparators:  [[http://srfi.schemers.org/srfi-114/srfi-114.html|SRFI 114.]]
 Enumerations with sets and maps:  EnumsCowan
 
 Extended records:  [[http://srfi.schemers.org/srfi-99/srfi-99.html|SRFI 99]], possibly with simplified syntax.
-
-Ternary search trees:  No API proposal yet, but see [[http://en.wikipedia.org/wiki/Ternary_search_tree|Wikipedia]].
 
 Ephemerons: [[http://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Ephemerons.html|MIT Scheme]] or [[http://docs.racket-lang.org/reference/ephemerons.html|Racket]] (optional package).
