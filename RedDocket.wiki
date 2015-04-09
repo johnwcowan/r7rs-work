@@ -45,5 +45,3 @@ Extended records:  [[http://srfi.schemers.org/srfi-99/srfi-99.html|SRFI 99]], po
 Ternary search trees:  No API proposal yet, but see [[http://en.wikipedia.org/wiki/Ternary_search_tree|Wikipedia]].
 
 Ephemerons: [[http://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Ephemerons.html|MIT Scheme]] or [[http://docs.racket-lang.org/reference/ephemerons.html|Racket]] (optional package).
-
-Gap buffers:  BuffersCowan (based on Emacs Lisp)
