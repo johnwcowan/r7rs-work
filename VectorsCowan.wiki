@@ -4,8 +4,8 @@ Some cleanup and improvement is needed to SRFI 43.
 
 The R7RS procedures `vector-map` and `vector-for-each` are incompatible with SRFI 43; they do not pass the current index, but only the values.  Here's a proposal to fork SRFI 43 to eliminate the problem:
 
-`vector-fold`, `vector-fold-right`, `vector-reduce`, `vector-reduce-right, `vector-map`, `vector-map!, `vector-for-each` are the R7RS-compatible
-versions that don't transmit index values to their procedure arguments.  `vector-index-fold`, `vector-index-fold-right`, `vector-index-reduce`, `vector-index-reduce-right, `vector-index-map`, `vector-index-map!, `vector-index-for-each` do transmit index values, and are compatible with SRFI 43 conceptually but not in name.
+ * `vector-fold`, `vector-fold-right`, `vector-reduce`, `vector-reduce-right`, `vector-map`, `vector-map!`, `vector-for-each` are the R7RS-compatible versions that don't transmit index values to their procedure arguments.
+ * `vector-index-fold`, `vector-index-fold-right`, `vector-index-reduce`, `vector-index-reduce-right`, `vector-index-map`, `vector-index-map!`, `vector-index-for-each` do transmit index values, and are compatible with SRFI 43 conceptually but not in name.
 
 == Partitioning ==
 
