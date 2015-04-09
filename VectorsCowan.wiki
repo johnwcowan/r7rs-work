@@ -1,114 +1,36 @@
-This is a preliminary list of procedures for the R7RS vector library.  It is an upward compatible extension of the vector libraries of [[http://www.schemers.org/Documents/Standards/R5RS/|R5RS]], [[http://trac.sacrideo.us/wg/raw-attachment/wiki/WikiStart/r7rs.pdf|R7RS-small]], and [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]], with additional procedures that are analogous to procedures in the [[http://srfi.schemers.org/srfi-1/srfi-1.html|SRFI 1]] list library.  As a single exception, the `vector-copy` procedure in R7RS-small does not provide the ''fill'' argument present in SRFI 43.
+Some cleanup and improvement is needed to SRFI 43.
 
-The procedures that are already in R7RS-small will not be overridden by this library, and are listed only for completeness.
+== R7RS vs. SRFI 43 ==
 
-== Notation ==
+The R7RS procedures `vector-map` and `vector-for-each` are incompatible with SRFI 43; they do not pass the current index, but only the values.  Here's a proposal to fork SRFI 43 to eliminate the problem:
 
-* R5RS means the procedure is available in R5RS and R7RS-small
+`vector-fold`, `vector-fold-right`, `vector-reduce`, `vector-reduce-right, `vector-map`, `vector-map!, `vector-for-each` are the R7RS-compatible
+versions that don't transmit index values to their procedure arguments.  `vector-index-fold`, `vector-index-fold-right`, `vector-index-reduce`, `vector-index-reduce-right, `vector-index-map`, `vector-index-map!, `vector-index-for-each` do transmit index values, and are compatible with SRFI 43 conceptually but not in name.
 
-* R5RS+ means the procedure is available in R5RS and with additional functionality in R7RS-small and SRFI 43.
+== Partitioning ==
 
-* R7RS means the procedure is available in R7RS-small and SRFI 43.
+`(vector-partition `''pred vector''`)`
 
-* SRFI 43 means the procedure is available in SRFI 43.
+Returns two values.  The first value is a vector index ''n'', and the second element is a newly allocated vector of the same length as ''vector'', reordered so that the elements which satisfy ''pred'' appear in the first ''n'' elements of the vector, and the elements which do not satisfy ''pred'' appear in the remaining elements.  The ordering of the elements is preserved in all other respects .  ''Pred'' may be called any number of times and in any order.
 
-* SRFI 43+ means either the procedure is available in SRFI 43 but additional functionality is proposed (typically ''start/end'' and possibly ''at'' arguments), or an analogous procedure is available in SRFI 43.
+`(vector-partition! `''pred vector''`)`
 
-* SRFI 1 means an analogous procedure is available in SRFI 1.
+The same as `vector-partition`, except that it mutates ''vector'' and returns only ''n''.
 
-== Constructors ==
 
-make-vector (R5RS), vector (R5RS), vector-iota (SRFI 1)  \\
-vector-unfold (SRFI 43), vector-unfold-right (SRFI 43) \\
-vector-copy (R7RS), vector-copy! (R7RS) \\
-vector-reverse-copy (SRFI 43+), vector-reverse-copy! (SRFI 43+) \\
-vector-append (R7RS), vector-append! (SRFI 1) \\
-vector-append-subvectors (see below) \\
-vector-concatenate (SRFI 43), vector-concatenate! (SRFI 1) \\
-vector-tabulate (SRFI 1), vector-tabulate! (SRFI 1)
+== Appending ==
 
-== Predicates ==
+`(vector-append-subvectors `''k fill'' ( ''at vector start end'' ) ...`)`
 
-vector? (R5RS), vector-empty? (SRFI 43), vector= (SRFI 43+)
+Returns a newly allocated vector of length ''k'' after copying every element of each ''vector'' from ''start'' to ''end'' into the new vector starting at ''at''.  Any additional locations in the new vector are initialized with ''fill''.  This procedure is a generalization of `vector-copy` and `vector-copy!`.  Implementations may optimize this procedure using an unsafe primitive that creates an uninitialized vector, in order to avoid touching each element of the result twice. 
 
-== Selectors ==
-
-vector-ref (R5RS), vector-length (R5RS) \\
-vector-take (SRFI 1), vector-take-right (SRFI 1) \\
-vector-drop (SRFI 1), vector-drop-right (SRFI 1) \\
-vector-split-at (SRFI 1)
-
-== Iteration ==
-
-vector-fold (SRFI 43+), vector-fold-right (SRFI 43+) \\
-vector-reduce (SRFI 43+), vector-reduce-right (SRFI 43+) \\
-vector-map (SRFI 43+), vector-map! (SRFI 43+) \\
-vector-for-each (R7RS)
-
-The above procedures do not pass the index value to the mapping function, for compatibility with R7RS `vector-map` and `vector-fold`.  The following versions, which are compatible with SRFI 43, pass the index value as the first argument.
-
-vector-fold-index (SRFI 43+), vector-fold-right-index (SRFI 43+) \\
-vector-reduce-index (SRFI 43+), vector-reduce-right-index (SRFI 43+) \\
-vector-map-index (SRFI 43+), vector-map-index! (SRFI 43+) \\
-vector-for-each-index (R7RS)
-
-== Filtering and partitioning ==
-
-vector-count (SRFI 43+) \\
-vector-filter (SRFI 1), vector-remove (SRFI 1), vector-partition (SRFI 1) \\
-vector-filter! (SRFI 1), vector-remove! (SRFI 1), vector-partition! (SRFI 1)
-
-== Deleting ==
-
-vector-delete (SRFI 1), vector-delete-duplicates (SRFI 1) \\
-vector-delete! (SRFI 1), vector-delete-duplicates! (SRFI 1)
-
-== Searching ==
-
-vector-find (SRFI 1) \\
-vector-index (SRFI 43+), vector-index-right (SRFI 43+) \\
-vector-skip (SRFI 43+), vector-skip-right (SRFI 43+) \\
-vector-any (SRFI 43+), vector-every (SRFI 43+) \\
-vector-take-while (SRFI 1+), vector-drop-while (SRFI 1+) \\
-vector-binary-search (SRFI 43+) \\
-vector-span (SRFI 1), vector-span! (SRFI 1) \\
-vector-break (SRFI 1), vector-break! (SRFI 1)
-
-== Mutators ==
-
-vector-set! (R5RS), vector-swap! (SRFI 43) \\
-vector-fill! (R5RS+), vector-reverse! (SRFI 43+) \\
-vector-copy! (R7RS), vector-reverse-copy! (SRFI 43+)
-
-== Conversion ==
-
-vector->list (R5RS+), reverse-vector->list (SRFI 43+) \\
-list->vector (R5RS), reverse-list->vector (SRFI 43) \\
-vector->string (R7RS), string->vector (R7RS)
-
-== Additional procedures ==
-
-`(vector-append-subvectors `''k fill'' ( ''at vector start end stride'' ) ...`)`
-
-Returns a newly allocated vector of length ''k'' after copying every ''stride''-th element of each ''vector'' from ''start'' to ''end'' into the new vector starting at ''at''.  Any additional locations in the new vector are initialized with ''fill''.  This procedure is a generalization of `vector-copy` and `vector-copy!`.  Implementations may optimize this procedure using an unsafe primitive that creates an uninitialized vector, in order to avoid touching each element of the result twice. 
+== Cumulation ==
 
 `(vector-cumulate `''proc seed vector''`)`
 
 Returns a newly allocated vector of the same length as ''vector''.  Each element is constructed by reducing (as if by `vector-reduce`) successive prefixes of the elements of ''vector''. (APL scan.)
 
-`(vector-rotate `''vector n''`)`
-
-Return a version of ''vector'' rotated left ''n'' elements, or rotated right ''-n'' elements if ''n'' is negative.
-
-{{{
-(vector-rotate #(1 2 3 4 5) 2) => #(3 4 5 1 2)
-
-(vector-rotate #(1 2 3 4 5) -2) => #(4 5 1 2 3)
-}}}
-
-`(vector-rotate! `''vector n''`)`
-
-Destructively rotates ''vector'' in the same way as `vector-rotate`.  Returns an unspecified value.
+== Bisecting ==
 
 `(vector-bisect-left `''vector comparator obj'' [[|''start'' [ ''end'' ]] ]`)`
 
