@@ -1,3 +1,5 @@
+'''This is not an R7RS page; it's just John Cowan's notes on an idea that used to live on a scrap of paper.'''
+
 Bottom Scheme is a tiny subset of R7RS-small.  It is not really a Scheme at all, because it omits assignment, macros, modules, proper tail calls except in named `let`, multiple values, `call/cc`, `dynamic-wind`, mutable pairs and strings, I/O (except for `read-char` and `write-char`), and essentially all non-primitive procedures.
 
 == Specification ==
