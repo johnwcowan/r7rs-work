@@ -6,7 +6,7 @@ List library:  [[http://srfi.schemers.org/srfi-1/srfi-1.html|SRFI 1]].
 
 String library:  [[http://srfi.schemers.org/srfi-13/srfi-13.html|SRFI 13]] and/or CharacterSpansCowan.
 
-Vector library:  [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]] or VectorsCowan.
+Vector library:  [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]], taking VectorsCowan into account.
 
 Sorting and merging: SortingShivers (edited draft of withdrawn [[http://srfi.schemers.org/srfi-32/srfi-32.txt|SRFI 32]]) or [[http://srfi.schemers.org/srfi-95/srfi-95.html|SRFI 95]] (from [[http://people.csail.mit.edu/jaffer/slib/Sorting.html|SLIB]]) or [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-5.html#node_chap_4|R6RS]].
 
