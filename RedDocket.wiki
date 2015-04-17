@@ -26,7 +26,7 @@ Immutable cyclic lists:  CyclesMedernach.
 
 Immutable deques, sets, and maps:  ImmutableDataStructuresWortman.
 
-Generators:  GeneratorsGauche.
+Generators:  [[http://srfi.schemers.org/srfi-121/srfi-121.html|SRFI 121]].
 
 Lazy sequences:  LazySequencesCowan.
 
