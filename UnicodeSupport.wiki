@@ -1,5 +1,7 @@
 I examined the results of `(integer->char 256)`, the first Unicode character outside the 8-bit range; `(integer->char 65536)`, the first Unicode character outside the Basic Multilingual Plane; `(integer->char 128)`, the first non-ASCII character; and `(integer->char 0)`, the ASCII NUL character.  I then attempted to wrap each character in a string.  In all cases where it was possible to create such a string, it correctly had a length of 1.
 
+I also checked that `(integer->char 65)` was the same as `#\A`; it was in all Schemes that support `integer->char`.  R5RS and earlier standards don't require that `integer->char` is an ASCII mapping, but in fact it always is.
+
 == Characters ==
 
 Full support:  Racket, Gauche, Gambit, MIT, Chicken, Scheme48/scsh, Guile, Kawa, Chez, Vicare, Larceny, Ypsilon, Mosh, STklos, KSi, !SigScheme, XLisp, BDC, Foment, Owl Lisp, Chibi, Sagittarius
