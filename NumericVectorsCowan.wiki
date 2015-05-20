@@ -93,6 +93,8 @@ Returns a newly allocated vector or list of length ''end - start'' with the elem
 
 `([type]vector->vector! `''vector at [type]vector'' [[''start''|[ ''end'' ]] ]`)`
 
+Writes the elements of ''[type]vector'' from ''start'' to ''end'' into ''vector'' starting at ''at''.
+
   == The whole numeric vector ==
 
 `([type]vector-length ` ''[type]vector''`)`
@@ -145,7 +147,7 @@ Write ''end * b - start * b'' bytes to ''port'' from ''[type]vector'' starting a
 
 == Extended numeric vector API ==
 
-See the procedures of VectorsCowan, with the exceptions of the ones defined here.
+See the procedures of [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]] and VectorsCowan, with the exceptions of the ones defined here.
 
 == Packaging ==
 
