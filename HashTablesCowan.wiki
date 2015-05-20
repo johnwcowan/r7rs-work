@@ -158,7 +158,7 @@ It is an error to operate on two hash tables that have different comparators or 
 
 `(make-hash-table `''equality-predicate'' [[|''hash-function'' ]] [[|''arg'' ... ]]`)`
 
-Returns a newly allocated hash table whose equality predicate and hash function are extracted from ''comparator''.  Alternatively, for backward compatibility with SRFI 69 the equality predicate and hash function can be passed as separate arguments; this usage is deprecated.  Note that unlike the hash functions packaged as part of SRFI 114 comparators, SRFI 69 hash functions accept two arguments, the object to hash and a non-negative integer that bounds the hash code.
+Returns a newly allocated hash table whose equality predicate and hash function are extracted from ''comparator''.  Alternatively, for backward compatibility with SRFI 69 the equality predicate and hash function can be passed as separate arguments; this usage is deprecated.  Note that unlike the hash functions packaged as part of SRFI 114 comparators, SRFI 69 hash functions accept two arguments, the object to be hashed and a non-negative integer that bounds the hash code.
 
 If an equality predicate rather than a comparator is provided, the ability to omit the ''hash-function'' argument is severely limited.  The implementation must provide hash functions appropriate for use with the predicates `eq?`, `eqv?`, `equal?`, `string=?`, and `string-ci=?`, and may extend this list.  But if any unknown equality predicate is provided without a hash function, an error should be signaled.
 
@@ -166,7 +166,7 @@ It is an error if the equality predicate does not accept two arguments and retur
 
 If the equality predicate, whether passed as part of a comparator or explicitly, is more fine-grained (in the sense of R7RS-small section 6.1) than `equal?`, the implementation is free to ignore the programmer-specified hash function and use something implementation-dependent.  This allows the use of addresses as hashes, in which case the keys must be rehashed if they are moved by the garbage collector.
 
-The meaning of any further arguments is implementation-dependent.  However, implementations which support the ability to specify the initial capacity of a hash table should interpret a non-negative exact integer as the specification of that capacity.  In addition, if the symbols `thread-safe`, `weak-keys` or  `weak-values` are present, implementations should create thread-safe hash tables, hash tables with weak keys, and hash tables with weak values respectively.  In an implementation which does not support these features, an error should be signaled if they are requested.  To avoid collision with the ''hash'' argument, none of these arguments can be procedures.
+The meaning of any further arguments is implementation-dependent.  However, implementations which support the ability to specify the initial capacity of a hash table should interpret a non-negative exact integer as the specification of that capacity.  In addition, if the symbols `thread-safe`, `weak-keys` or  `weak-values` are present, implementations should create thread-safe hash tables, hash tables with weak keys, and hash tables with weak values respectively.  In an implementation which does not support these features, an error should be signaled if they are requested.  To avoid collision with the ''hash-function'' argument, none of these arguments can be procedures.
 
 (SRFI 69 `make-hash-table`; R6RS `make-eq-hashtable`, `make-eqv-hashtable`, and `make-hashtable`; Common Lisp `make-hash-table`)
 
@@ -197,8 +197,6 @@ Returns `#t` if there is any association to ''key'' in ''hash-table'', and `#f` 
 `(hash-table-empty? `''hash-table''`)`
 
 Returns `#t` if ''hash-table'' contains no associations, and `#f` otherwise.
-
-Note:  The following three predicates do not obey the trichotomy law and therefore do not constitute a total order on hash tables.
 
 `(hash-table=? `''value-comparator hash-table,,1,, hash-table,,2,,''`)`
 
