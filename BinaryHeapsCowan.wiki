@@ -16,7 +16,7 @@ Returns a newly allocated heap ordered by ''comparator'', and containing the ''e
 
 Returns `#t` if ''obj'' is a heap, and `#f` otherwise.
 
-`(heap-member? `''heap'' ''element''`)`
+`(heap-contains? `''heap'' ''element''`)`
 
 Returns `#t` if ''element'' is a member of ''heap'' (in the sense of the comparator) and `#f` otherwise.
 
@@ -50,7 +50,7 @@ Returns a list containing the ''n'' smallest elements popped from ''heap''.
 
 === The whole heap ===
 
-`(copy-heap `''heap''`)`
+`(heap-copy `''heap''`)`
 
 Returns a newly allocated heap containing the elements of ''heap'' with the same ''<'' procedure.
 
