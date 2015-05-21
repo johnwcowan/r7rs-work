@@ -56,7 +56,7 @@ immediately, even if it is never used.</p>
 <p>In most cases this doesn't matter,
 because calculating one additional item is a negligible overhead.
 However, when you create a self-referential lazy structure,
-in which the earlier elements of a sequence are used to caculate
+in which the earlier elements of a sequence are used to calculate
 the latter elements of itself, a bit of caution is needed;
 code that is valid for circular streams may not terminate
 if it is mechanically converted to use lazy sequences.
@@ -65,10 +65,13 @@ for example, a lazy character sequence reading from a port
 may read one character ahead.</p>
  
 <p>This proposal is less comprehensive than SRFI 1, because it omits
-most procedures that process every element of the list (at least,
-when used in the absence of <code>call/cc</code>).  For example, there
-are left folds but no right folds, since it's just as efficient to
-use <code>lseq-realize</code> and then ordinary SRFI 1 <code>fold-right</code>.  The
+many procedures that process every element of their list arguments (at least,
+when used in the absence of <code>call/cc</code>).  Lseqs are meant
+to be used with ordinary Scheme functions, which are strict; consequently,
+neither left nor right folds are able to work on infinite sequences,
+so the only difference between folding over an lseq and realizing it as
+a list and using list fold is space efficiency (for which reason
+<code>lseq-fold</code> is provided).   The
 linear-update procedures of SRFI 1 are also left out, as lazy sequences
 are not intended to be mutated.</p> 
 <!--========================================================================-->
