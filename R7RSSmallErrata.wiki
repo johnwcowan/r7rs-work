@@ -1,4 +1,4 @@
-Errata from the [[http://trac.sacrideo.us/wg/attachment/wiki/WikiStart/r7rs.pdf|final draft of R7RS]]:
+Errata from the [[http://trac.sacrideo.us/wg/attachment/wiki/WikiStart/r7rs.pdf|final draft of R7RS]].  This list is unofficial.
 
 1.  In Section 3.1 (Variables, syntactic keywords, and regions), the claim in paragraph 2 that all variable binding constructs can be explained in terms of `lambda` does not apply to top-level bindings.
 
@@ -105,4 +105,4 @@ Note that evaluating `(means '(3 (1 4)))` returns three values: 8/3, 2.289428485
 
 23. In the definition of `string-for-each`, for "the elements of the ''lists''" read "the elements of the ''strings''".
 
-24. The value of the example `(real? 2.5+0.0i)` in Section 6.2.6 is incorrectly shown as `#f`, as in R6RS.  The correct value is `#t`.
+24. The value of the example `(real? 2.5+0.0i)` in Section 6.2.6 is shown as `#f`, as in R6RS.  This contradicts the prose explanation.  No resolution of the conflict has been reached as yet.
