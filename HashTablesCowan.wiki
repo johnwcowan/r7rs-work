@@ -281,13 +281,11 @@ Must execute in expected amortized constant time.  Returns an unspecified value.
 
 `(hash-table-push! `''hash-table key value''`)`
 
-Semantically equivalent to, but may be more efficient than, the following code:
-
-  `(hash-table-update!/default `''hash-table key''` (lambda (x) (cons `''value''` x)) (list `''value''`))`
+If an association with ''key'' is found in ''hash-table'', then update the value associated with of ''key'' to the result of invoking `cons` on ''value'' and  the original value.  The return value of `hash-table-push!` is unspecified.  If the value is not found, an error satisfied by `imap-key-not-found?` is signaled.  It is an error if the value is not a pair.
 
 `(hash-table-pop! `''hash-table key''`)`
 
-If an association with ''key'' is found in ''hash-table'', then return the car of the value, and update the value to its own cdr.  If the value is not found, an error satisfied by `hash-table-key-not-found` is signaled.  It is an error if the value is not a pair.
+If an association with ''key'' is found in ''hash-table'', then return the car of the value, and update the value to its own cdr.  If the value is not found, an error satisfied by `hash-table-key-not-found?` is signaled.  It is an error if the value is not a pair.
 
 `(hash-table-search! `''hash-table key failure success''`)`
 
@@ -304,18 +302,6 @@ These procedures process the associations of the hash table in an unspecified or
 `(hash-table-size `''hash-table''`)`
 
 Returns the number of associations in ''hash-table'' as an exact integer.  Should execute in constant time.  (SRFI 69 `hash-table-size`, R6RS `hashtable-size`; Common Lisp `hash-table-count`.)
-
-`(hash-table-keys `''hash-table''`)`
-
-Returns a newly allocated list of all the keys in ''hash-table''. (SRFI 69 `hash-table-keys`; R6RS `hashtable-keys` returns a vector)
-
-`(hash-table-values `''hash-table''`)`
-
-Returns a newly allocated list of all the keys in ''hash-table''. (SRFI 69 `hash-table-values`)
-
-`(hash-table-entries `''hash-table''`)`
-
-Returns two values, a newly allocated list of all the keys in ''hash-table''and a newly allocated list of all the values in ''hash-table'' in the corresponding order.  (R6RS `hash-table-entries` returns vectors)
 
 `(hash-table-find `''hash-table proc failure''`)`
 
@@ -377,21 +363,33 @@ Calls ''proc'' for every association in ''hash-table'' with two arguments, the k
 
 Returns a newly allocated hash table with the same properties and associations as ''hash-table''. If the second argument is present and is true, and the implementation supports immutable hash tables, the returned hash table is immutable; otherwise it is mutable.  (SRFI 69 `hash-table-copy` does not support second argument; R6RS `hashtable-copy`)
 
+`(hash-table-keys `''hash-table''`)`
+
+Returns a newly allocated list of all the keys in ''hash-table''. (SRFI 69 `hash-table-keys`; R6RS `hashtable-keys` returns a vector)
+
+`(hash-table-values `''hash-table''`)`
+
+Returns a newly allocated list of all the keys in ''hash-table''. (SRFI 69 `hash-table-values`)
+
+`(hash-table-entries `''hash-table''`)`
+
+Returns two values, a newly allocated list of all the keys in ''hash-table''and a newly allocated list of all the values in ''hash-table'' in the corresponding order.  (R6RS `hash-table-entries` returns vectors)
+
 `(hash-table->alist `''hash-table''`)`
 
 Returns an alist with the same associations as ''hash-table'' in an unspecified order.  (SRFI 69)
 
 === Hash tables as functions ===
 
-The following procedures allow hash tables to be used as functions with mutable behavior.  In this way, for example, lists can be processed by `map` using the procedure returned from a hash table by `hash-table-accessor`.
+The following procedures provide functions with mutable behavior based on hash tables.  In this way, for example, lists can be processed by `map` using the procedure returned from a hash table by `hash-table-accessor`.
 
 `(hash-table-accessor `''hash-table'' [[|''failure'' [ ''success'' ]] ]`)`
 
-Curried version of `hash-table-ref`.  Returns a procedure of one argument, a key, which returns what `hash-table-ref` returns when invoked with the ''hash-table'' argument, the passed key, and the ''failure'' and ''success'' arguments.
+Curried version of `hash-table-ref`.  Returns a procedure of one argument, a key, which returns what `hash-table-ref` returns when invoked with the the passed arguments.
 
 `(hash-table-accessor/default `''hash-table default''`)`
 
-Curried version of `hash-table-ref/default`.  Returns a procedure of one argument, a key, which returns what `hash-table-ref/default` returns when invoked with the ''hash-table'' argument, the passed key, and the ''default'' argument.
+Curried version of `hash-table-ref/default`.  Returns a procedure of one argument, a key, which returns what `hash-table-ref/default` returns when invoked with the passed arguments.
 
 === Hash tables as sets ===
 
