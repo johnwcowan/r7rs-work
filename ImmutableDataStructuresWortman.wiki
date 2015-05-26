@@ -4,7 +4,6 @@ This proposal defines ''immutable'' data structures for queues, sets, and maps. 
 
 Immutable structures are sometimes called ''persistent'' and are closely related to ''pure-functional'' (a.k.a. ''pure'') structures. The availability of immutable data structures facilitates writing efficient programs in the pure-functional style.
 
-
 == Efficiency bounds ==
 
 We specify required time efficiency upper bounds using big-O notation. We note when, in some cases, there is "slack" between the required bound and the theoretically optimal bound for an operation. Implementations may use data structures with amortized time bounds, but should document which bounds hold in only an amortized sense. The use of randomized data structures with expected time bounds is discouraged.
@@ -151,31 +150,31 @@ Returns a deque which contains the elements of ''deque'' that do/do not satisfy 
 
 `(ideque-find-right `''pred deque failure''`)`
 
-Returns the first/last element of ''deque'' that satisfies ''pred''.  If there is no such element, invokes the thunk ''failure'' and returns what it returns.
+Returns the first/last element of ''deque'' that satisfies ''pred''.  If there is no such element, invokes the thunk ''failure'' and returns what it returns.  Takes O(n) time.
 
 `(ideque-take-while `''pred deque''`)`
 
 `(ideque-take-while-right `''pred deque''`)`
 
-Returns a deque containing the longest initial/final prefix of elements in ''deque'' all of which satisfy ''pred''.
+Returns a deque containing the longest initial/final prefix of elements in ''deque'' all of which satisfy ''pred''.  Takes O(n) time.
 
 `(ideque-drop-while `''pred deque''`)`
 
 `(ideque-drop-while-right `''proc deque''`)`
 
-Returns a deque which omits the longest initial/final prefix of elements in ''deque'' all of which satisfy ''pred'', but includes all other elements of ''deque''.
+Returns a deque which omits the longest initial/final prefix of elements in ''deque'' all of which satisfy ''pred'', but includes all other elements of ''deque''.  Takes O(n) time.
 
 `(ideque-span `''pred deque''`)`
 
 `(ideque-break `''pred deque''`)`
 
-Returns two values, the initial prefix of the elements of ''deque'' which do/do not satisfy ''pred'', and the remaining elements.
+Returns two values, the initial prefix of the elements of ''deque'' which do/do not satisfy ''pred'', and the remaining elements.  Takes O(n) time.
 
 `(ideque-any? `''pred deque''`)`
 
 `(ideque-every? `''pred deque''`)`
 
-Invokes ''pred'' on the elements of ''deque'' in order until one of them returns a true/false value, which is then returned.  If there are no such elements, returns `#f`.
+Invokes ''pred'' on the elements of ''deque'' in order until one of them returns a true/false value, which is then returned.  If there are no such elements, returns `#f`/`#t`.  Takes O(n) time.
 
 === Conversion ===
 
@@ -199,174 +198,159 @@ These requirements can be satisfied by many flavors of ''self-balancing binary t
 
 === Construction ===
 
-`
-(iset/merger comparator merger [element...])
-(iset comparator [element...])
-`
-Returns a set using containing elements `element...`. `iset` uses `set-merger-right`. O(n log n) time.
+If two elements are to be inserted into a set that are equal in the sense of the set's comparator but are not `eqv?`, the first to be specified or generated prevails.
 
-=== Set-wide queries ===
+`(iset `''comparator'' [[|''element'' ...]]`)`
 
-`
-(iset? x)
-(iset-empty? set)
+Returns a set containing elements `element...`, where ''comparator'' provides the criterion of identity and ordering.  Takes O(n log n) time.
+
+`(iset-tabulate `''n proc''`)`
+
+Invokes ''proc'' successively on the integers 0 through ''n'' - 1 inclusive, and returns a set containing the results.  Takes O(n) time.
+
+`(iset-unfold `''stop? mapper successor seed''`)`
+
+Invokes the predicate ''stop?'' on ''seed''.  If it returns false, generate the next result by applying ''mapper'' to ''seed'', generate the next seed by applying ''successor'' to ''seed'', and repeat this algorithm with the new seed.  If ''stop?'' returns true, return a set containing the results.  Takes O(n) time.
+
+=== Predicates ===
+
+`(iset? `''obj''`)`
+
+Returns `#t` if ''obj'' is a set, and `#f` otherwise.  Takes O(1) time.
+
+`(iset-empty? `''set''`)`
+
+Returns `#t` if ''set'' contains zero elements, and `#f` otherwise.  Takes O(1) time.
+
 (iset-size set)
 (iset-comparator set)
 `
 
 `iset-size` may take O(n) time, though O(1) is optimal. The other procedures take O(1) time.
 
-=== Set-theoretic operations ===
-
-`
-(iset-union set... [merger])
-(iset-intersection set... [merger])
-(iset-difference left set...)
-(iset-xor set1 set2)
-`
-
-Returns a set containing the union/intersection/difference/symmetric difference of the arguments. All the arguments must be sets sharing an equivalent order predicate. The set operator is applied in a left-associative order. May take O(kn log n) time, where k is the number of sets and n is the number of elements involved, though O(kn) time is optimal.
-
 === Element queries ===
 
-`
-(iset-member? set x)
-`
+`(iset-member? `''set obj''`)`
 
-Returns non-`#f` iff `x` is an element of `set`, or `#f` otherwise. Takes O(log n) time.
+Returns `#t` if ''set'' contains ''obj'', and `#f` otherwise.  Takes O(log n) time.
 
-`
-(iset-min set)
-(iset-max set)
-`
+`(iset-min `''set''`)`
 
-Returns the least/greatest element of `set`. It is an error for `set` to be empty. Takes O(log n) time; O(1) is optimal.
+`(iset-max `''set''`)`
+
+Returns the least/greatest element of ''set''.  It is an error for''set'' to be empty. Takes O(log n) time; O(1) is optimal.
 
 === Element operations ===
 
-`
-(iset-update set x present-proc absent-proc)
-`
+`(iset-adjoin `''set obj''`)`
 
-A continuation-based universal update procedure. Attempts to find an element `match` equal to `x` in `set` according to the order predicate. When such a `match` is found, calls
-`
-(present-proc match update remove)
-`
-which must either tail-call
-`
-(update new-element ret)
-`
-to replace `match` with `new-element`, or tail-call
-`
-(remove ret)
-`
-to remove `match` from `set`. In either case `ret` will be one of the values returned from the enclosing `iset-update` call.
+Returns a set which contains the elements of ''set'' and ''obj'' as well.  If there is already an element of ''set'' that is equal (in the sense of the comparator) to ''obj'', the element of ''set'' prevails.  Takes O(log n) time.
 
-When no such `match` is found, `iset-update` calls
-`
-(absent-proc insert ignore)
-`
-which should either tail-call
-`
-(insert ret)
-`
-to insert `x` into `set`, or else tail-call
-`
-(ignore ret)
-`
-to leave `set` unchanged. Again, `ret` will be returned from the enclosing `iset-update` call.
+`(iset-adjoin-all `''set list''`)`
 
-In any case, `iset-update` returns
-`
-(values new-set ret)
-`
-where `new-set` is a set reflecting the indicated modification, if any; and `ret` is the returns value produced by one of the continuations. It runs in O(log n) time.
+Returns a set which contains the elements of ''set'' and the elements of ''list'' as well.  It is an error if the elements of ''list'' are not increasing in the sense of the comparator of ''set''.  If there is already an element of ''set'' which is equal (in the sense of the comparator) to an element of ''list'', the element of ''set'' prevails.  Takes O(k log n) time, where ''k'' is the length of ''list''.
+
+`(iset-replace `''set obj''`)`
+
+Returns a set which contains the elements of ''set'' and ''obj'' as well.  If there is already an element of ''set'' that is equal (in the sense of the comparator) to ''obj'', ''obj'' prevails.  Takes O(log n) time.
+
+`(iset-delete `''set obj''`)`
+
+Returns a set which contains the elements of ''set'' with the exception of ''obj'', if present.  If there is already an element of ''set'' that is equal (in the sense of the comparator) to ''obj'', the element of ''set'' prevails.  Takes O(log n) time.
+
+`(iset-delete-all `''set list''`)`
+
+Returns a set which contains the elements of ''set'', excluding the elements of ''list''.  It is an error if the elements of ''list'' are not increasing in the sense of the comparator of ''set''. Takes O(k log n) time, where ''k'' is the length of ''list''.
+
+`(iset-predecessor `''set obj failure''`)`
+
+`(iset-successor `''set obj failure''`)`
+
+Returns the element that immediately precedes/succeeds `x` in `set`'s ordering. If no such element exists because ''obj'' is the minimum/maximum element, or because ''set'' is empty, returns the result of invoking the thunk ''failure''. Takes O(log n) time.
+
+`(iset-search `''set obj failure success''`)`
+
+A continuation-based universal update procedure. Attempts to find an element equal (in the sense of the comparator) to ''obj'' in ''set''. When such an element is found,`iset-search` calls ''(success match update remove)''.  The ''success'' procedure either tail-calls '' (update new-element ret)'' to replace the matched element with the new element, or else tail-calls ''(remove ret)'' to remove the matched element  from ''set''.
+
+When no such match is found, `iset-search` calls ''(failure insert ignore)'', which either tail-calls ''(insert ret)'' to insert ''obj'' into ''set'', or else tail-calls ''(ignore ret)'' .`
+
+In all cases, `iset-search` returns two values, a set reflecting the indicated modification (if any) and the value ''ret'' produced by one of the continuations. It runs in O(log n) time.
 
 (This procedure is based on an analogous procedure for hash tables suggested by Alexey Radul and attributed to Taylor Campbell.)
 
-`
-(iset-find set x [absent-thunk])
-`
-Returns the element `match` equal to `x` in `set`, or the result of evaluating `(absent-thunk)` if no such element exists. If `absent-thunk` is unspecified then a default procedure that always returns `#f` is used. Takes O(log n) time.
+`(iset-find `''set obj failure''`)`
 
-`
-(iset-include set x [merger])
-(iset-exclude set x)
-`
-Returns a set that certainly does/doesn't include `x`. `merger` is called when `set` already includes an element equal to `x` according to the set's comparator, with `left` as the object already in `set` and `right` as `x`. Each operation takes O(log n) time.
+Returns the element equal (in the sense of the comparator of ''set'') to ''obj'' in ''set'', or the result of invoking the thunk ''failure'' if no such element exists. Takes O(log n) time.
 
-`
-(iset-predecessor set x [absent-thunk])
-(iset-successor set x [absent-thunk])
-`
-Returns the element that immediately precedes/succeeds `x` in `set`'s ordering. If no such element exists because `x` is the minimum/maximum element, or because `set` is empty, returns the result of evaluating `(absent-thunk)`. If `absent-thunk` is unspecified then a default procedure that always returns `#f` is used. Takes O(log n) time.
+=== Filtering ===
 
-=== Range queries ===
+`(iset-range= `''set obj''`)`
 
-`
-(iset-between set least include-least most include-most)
-`
+`(iset-range< `''set obj''`)`
 
-Returns a set containing the elements of `set` in the interval between `least` and `most`. If `include-least`/`include-most` is true then the result includes an element equal to `least`/`most` respectively; otherwise those elements are not included. Takes O(k log k + log n) time, where n is the number of elements in the set and k is the number of elements returned; O(k + log n) is optimal.
+`(iset-range> `''set obj''`)`
 
-`
-(iset-range< set x)
-(iset-range<= set x)
-(iset-range= set x)
-(iset-range>= set x)
-(iset-range> set x)
-`
+`(iset-range<= `''set obj''`)`
 
-Returns a set containing only the elements of `set` that are less/less-or-equal/equal/greater-or-equal/greater than `x`. Takes O(k log k + log n) time, where n is the number of elements in the set and k is the number of elements returned; O(k + log n) is optimal.
+`(iset-range>= `''set obj''`)`
+
+Returns a set containing only the elements of `set` that are equal to/less than/greater than / less than or equal to /greater than or equal to ''obj''.  Takes O(k log k + log n) time, where n is the number of elements in the set and k is the number of elements returned; O(k + log n) is optimal.
 
 Note that since set elements are unique, `iset-range=` returns a set of at most one element.
 
-=== Filter, fold, map ===
+`(iset-between `''set least include-least most include-most''`)`
 
-`
-(iset-filter predicate? set)
-`
+Returns a set containing the elements of ''set'' in the interval between ''least''and ''most''. If ''include-least/include-most'' is true then the result includes an element equal to ''least/most'' respectively; otherwise those elements are not included. Takes O(k log k + log n) time, where n is the number of elements in the set and k is the number of elements returned; O(k + log n) is optimal.
 
-Returns a set containing only those elements `x` for which `(predicate? x)` returns true. Takes O(n log n) time; O(n) is optimal.
+`(iset-filter `''pred set''`)`
 
-`
-(iset-fold proc base set)
-`
-The fundamental set iterator. Equivalent to, but may be more efficient than,
-`
-(fold proc base (iset->ordered-list set))
-`
-Takes O(n) time.
+`(iset-remove `''pred set''`)`
 
-`
-(iset-map/monotone proc set [comparator])
-`
-Returns a set containing the elements `(proc x)` for every `x` in `set`. `proc` must be a ''monotone'' unary procedure that preserves the order of set elements. Observe that mapping a set of unique elements with a monotone function yields a set of unique elements, so element uniqueness follows from the monotonicity assumption. If `comparator` is given, it is the comparator of the set; otherwise the set uses the same order predicate as `set`. Takes O(n) time.
+Returns a set containing only those elements `x` for which `(predicate? x)` returns true/false. Takes O(n log n) time; O(n) is optimal.
 
-`
-(iset-map proc set [[merger|[comparator]]])
-`
-As `iset-map/monotone`, except the `proc` is not required to be monotone. `merger` is used to select among any duplicates that might be created, and defaults to `set-merger-right`. O(n log n) time.
+`(iset-partition`''pred set''`)`
+
+Returns two values, `(iset-filter `''pred set''`)` and `(iset-remove `''pred set''`)` respectively.
+
+=== Folding and mapping ===
+
+`(iset-fold `''proc nil set''`)`
+
+The fundamental set iterator. Equivalent to, but may be more efficient than, `(fold `''proc base'' ` (iset->ordered-list `''set''`))`.  Takes O(n) time.
+
+`(iset-map/monotone `''proc set'' [[|''comparator'' ]]`)`
+
+Returns a set containing the values returned by ''(proc x'') for every ''x'' in ''set''.  It is an error unless ''proc'' is a ''monotone'' unary procedure that preserves the order of set elements. Observe that mapping a set of unique elements with a monotone function yields a set of unique elements, so element uniqueness follows from the monotonicity assumption. If ''comparator'' is given, it is the comparator of the result; otherwise the result uses the same comparator as ''set''. Takes O(n) time.
+
+`(iset-map`''proc set'' [[|''comparator'' [ ''merger'' ]] ]`)`
+
+Like `iset-map/monotone`, except that ''proc'' is not required to be monotone. The `merger` procedure is used to select among any duplicate elements (in the sense of the comparator of ''set'') that might be created; it returns the value to be used; if absent, the element chosen is implementation-specific.  Takes O(n log n) time.
 
 === Conversion ===
 
-`
-(iset->ordered-list set)
-`
+`(iset->list `''set''`)`
 
-Returns a list containing the elements of `set` in increasing order. O(n) time.
+Returns a list containing the elements of `set` in increasing order. Takes O(n) time.
 
-`
-(ordered-list->iset comparator list)
-`
+`(ordered-list->iset comparator list)`
 
-Returns a set containing the elements of `list` and using comparator `comparator`. It is an error for `list` to be anything other than a proper list of elements in increasing order. O(n log n) time; O(n) is optimal.
+Returns a set containing the elements of ''list'' and using ''comparator''. It is an error for ''list'' to be anything other than a proper list of elements in increasing order. Takes O(n log n) time; O(n) is optimal.
 
-`
-(list->iset comparator list [merger])
-`
+`(list->iset `''comparator list [[|''merger'' ]]`)`
 
-Returns a set containing the elements of `list` and using comparator `comparator`. `list` must be a proper list, but may contain duplicates and need not be in order. `merger` defaults to `set-merger-right`. O(n log n) time.
+Returns a set containing the elements of ''list'' and using ''comparator''. `list` must be a proper list, but may contain duplicates and need not be in order.  The `merger` procedure is used to select among any duplicate elements (in the sense of the comparator of ''set'') that might be created; it returns the value to be used.  Takes O(n log n) time.
+
+=== Set-theoretic operations ===
+
+`(iset-union `''set'' ... `)`
+
+`(iset-intersection `''set'' ... `)`
+
+`(iset-difference `''set'' ... `)`
+
+`(iset-xor `''set,,1,, set,,2,,''`)`
+
+Returns a set containing the union/intersection/difference/symmetric difference of the arguments. All the arguments must be sets sharing an equivalent comparator. The set operator is applied in a left-associative order. If an element is found in more than one set, the first set in the argument list prevails.  May take O(kn log n) time, where k is the number of sets and n is the number of elements involved, though O(kn) time is optimal.
 
 == Maps ==
 
@@ -421,12 +405,11 @@ Returns the value associated with `(imap-min-key map)` and `(imap-max-key map)` 
 (imap-update map key failure success)
 `
 
-A continuation-based universal update procedure. Attempts to find a key equal (in the sense of the comparator of ''map'') to ''key'' in ''map'', and its associated `value`. When no such key is found, returns the result of calling ''(absent-proc insert)'', where ''insert'' is a procedure such that ''(insert new-value)''
-returns a version of `map` in which `key` is associated with `new-value`.
+A continuation-based universal update procedure. Attempts to find a key equal (in the sense of the comparator of ''map'') to ''key'' in ''map'', and its associated `value`. When no such key is found, returns the result of calling ''(failure insert)'', where ''insert'' is a procedure such that ''(insert new-value)'' returns a version of `map` in which `key` is associated with `new-value`.
 
 When `key-match` exists, returns the result of calling
 `
-(present-proc key-match value replace remove)
+(success key-match value replace remove)
 `
 . `replace` is a procedure such that
 `
@@ -440,11 +423,11 @@ returns a new version of `map` in which the `key` maps to `new-value` instead of
 `
 returns a new version of `map` with no association for `key`. 
 
-The `imap-update`, `insert`, `replace`, and `remove` procedures may take O(log n) time each. Thus if `absent-proc` and `present-proc` take constant (or even O(log n)) time and call their passed-in continuations at most once (or even any constant number of times), the entire update process takes O(log n) time.
+The `imap-update`, `insert`, `replace`, and `remove` procedures may take O(log n) time each. Thus if `failure` and `success` take constant (or even O(log n)) time and call their passed-in continuations at most once (or even any constant number of times), the entire update process takes O(log n) time.
 `
-(imap-find map key [absent-thunk])
+(imap-find map key [failure])
 `
-Returns the value associated with `key` in `map`, or the result of evaluating `(absent-thunk)` if no such value exists. If `absent-thunk` is unspecified then a default procedure that always returns `#f` is used. O(log n) time.
+Returns the value associated with `key` in `map`, or the result of evaluating `(failure)` if no such value exists. If `failure` is unspecified then a default procedure that always returns `#f` is used. O(log n) time.
 
 `
 (imap-include map key value)
@@ -453,8 +436,8 @@ Returns the value associated with `key` in `map`, or the result of evaluating `(
 Returns a set that certainly does/doesn't include an association from `key`. `imap-include` will replace any prior association from `key` that might exist in `map`. O(log n) time.
 
 `
-(imap-key-predecessor map key [absent-thunk])
-(imap-key-successor map key [absent-thunk])
+(imap-key-predecessor map key [failure])
+(imap-key-successor map key [failure])
 `
 
 The behavior and efficiency of these operations is the same as the analogous set procedures.
