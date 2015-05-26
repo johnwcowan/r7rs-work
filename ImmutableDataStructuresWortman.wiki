@@ -12,7 +12,7 @@ We specify required time efficiency upper bounds using big-O notation. We note w
 
 Deques, sets, and maps are disjoint from all other Scheme types, and deques are disjoint from sets and maps.  It is unspecified whether sets and maps are disjoint.
 
-== Deque ==
+== Deques ==
 
 A deque (conventionally pronounced "deck") is a queue data structure that supports efficient manipulation of either of its ends. It may be used in place of a (LIFO) stack or (FIFO) queue.
 
@@ -190,7 +190,7 @@ Conversion between deque and list structures. FIFO order is preserved, so the fr
 
 A comparator suitable for comparing ideques.  It does not provide comparison procedures, as there is no ordering between ideques.
 
-== Set ==
+== Sets ==
 
 A sorted set data structure stores a finite collection of unique elements with a defined [[http://ccil.org/~cowan/temp/srfi-114.html|comparator]].
 
@@ -242,7 +242,7 @@ Returns the comparator of ''set''.  Takes O(1) time.
 
 `(iset-adjoin `''set obj''`)`
 
-Returns a set which contains the elements of ''set'' and ''obj'' as well.  If there is already an element of ''set'' that is equal (in the sense of the comparator) to ''obj'', the element of ''set'' prevails.  Takes O(log n) time.
+Returns a set which contains the elements of ''set'' and ''obj'' as well.  If there is already an element of ''set'' that is equal (in the sense of the comparator) to ''obj'', the existing element of ''set'' prevails.  Takes O(log n) time.
 
 `(iset-adjoin-all `''set list''`)`
 
@@ -264,11 +264,11 @@ Returns a set which contains the elements of ''set'', excluding the elements of 
 
 `(iset-successor `''set obj failure''`)`
 
-Returns the element that immediately precedes/succeeds `x` in `set`'s ordering. If no such element exists because ''obj'' is the minimum/maximum element, or because ''set'' is empty, returns the result of invoking the thunk ''failure''. Takes O(log n) time.
+Returns the element that immediately precedes/succeeds ''obj'' in ''set's'' ordering. If no such element exists because ''obj'' is the minimum/maximum element, or because ''set'' is empty, returns the result of invoking the thunk ''failure''. Takes O(log n) time.
 
 `(iset-search `''set obj failure success''`)`
 
-A continuation-based universal update procedure. Attempts to find an element equal (in the sense of the comparator) to ''obj'' in ''set''. When such an element is found,`iset-search` calls ''(success match update remove)''.  The ''success'' procedure either tail-calls '' (update new-element ret)'' to replace the matched element with the new element, or else tail-calls ''(remove ret)'' to remove the matched element  from ''set''.
+A continuation-based universal update procedure. Attempts to find an element in ''set'' equal (in the sense of the comparator) to ''obj''. When such an element is found, `iset-search` calls ''(success match update remove)''.  The ''success'' procedure either tail-calls '' (update new-element ret)'' to replace the matched element with the new element, or else tail-calls ''(remove ret)'' to remove the matched element  from ''set''.
 
 When no such match is found, `iset-search` calls ''(failure insert ignore)'', which either tail-calls ''(insert ret)'' to insert ''obj'' into ''set'', or else tail-calls ''(ignore ret)'' .`
 
@@ -380,7 +380,7 @@ Returns a set containing the elements of ''list'' and using ''comparator''. It i
 
 `(list->iset `''comparator list [[|''merger'' ]]`)`
 
-Returns a set containing the elements of ''list'' and using ''comparator''. `list` must be a proper list, but may contain duplicates and need not be in order.  The `merger` procedure is used to select among any duplicate elements (in the sense of the comparator of ''set'') that might be created; it returns the value to be used.  Takes O(n log n) time.
+Returns a set containing the elements of ''list'' and using ''comparator''. It is an error if `list` is not a proper list, but it may contain duplicates and need not be in order.  The `merger` procedure is used to select among any duplicate elements (in the sense of the comparator of ''set'') that might be created; it accepts the existing and new elements and returns the value to be used.  Takes O(n log n) time.
 
 === Set-theoretic operations ===
 
@@ -396,184 +396,214 @@ Returns a set containing the union/intersection/difference/symmetric difference 
 
 == Maps ==
 
-A map data structure stores key-value associations from a set of keys with an order predicate to arbitrary value objects. It is an alternative to an association list or hash table, which also store key-value associations, but with different key constraints and efficiency guarantees.
+A map data structure stores key-value associations from a map of keys with a comparator to arbitrary value objects. It is an alternative to an association list or hash table, which also store key-value associations, but with different key constraints and efficiency guarantees.
 
 In the same way that a list of key-value dotted pairs can implement an association list, a set of key-value dotted pairs can implement a map. Implementations may use this approach, or may implement a distinct data structure specific to maps.
 
 === Construction ===
 
-=== Map-wide queries ===
+If two associations are to be inserted into a map that are equal in the sense of the map's comparator but are not `eqv?`, the first to be specified or generated prevails.
 
-`
-(imap? x)
-(imap-empty? map)
-(imap-size map)
-(imap-order-predicate map)
-`
+`(imap `''comparator'' ( ''key value'' ...]`)`
 
-The behavior and efficiency of these operations is the same as the analogous set procedures.
+Returns a map using''comparator''.  For each pair of arguments, an association is added to the map with ''key'' as its key and ''value'' as its value.  Takes O(n log n) time.
 
-=== Set-theoretic operations ===
+`(imap-tabulate `''n proc''`)`
 
-`
-(imap-union map...)
-(imap-intersection map...)
-(imap-difference map...)
-(imap-xor map1 map2)
-`
+Invokes ''proc'' successively on the integers 0 through ''n'' - 1 inclusive, and returns a map containing the results.  Takes O(n) time.
 
-The behavior and efficiency of these operations is the same as the analogous set procedures.
+`(imap-unfold `''stop? mapper successor seed''`)`
 
-=== Element queries ===
+Invokes the predicate ''stop?'' on ''seed''.  If it returns false, generate the next result by applying ''mapper'' to ''seed'', generate the next seed by applying ''successor'' to ''seed'', and repeat this algorithm with the new seed.  If ''stop?'' returns true, return a map containing the results.  Takes O(n) time.
 
-`
-(imap-member? map key)
-(imap-min-key map)
-(imap-max-key map)
-`
+=== Predicates ===
 
-The behavior and efficiency of these operations is the same as the analogous set procedures.
+`(imap? `''obj''`)`
 
-`
-(imap-min-value map)
-(imap-max-value map)
-`
+Returns `#t` if ''obj'' is a map, and `#f` otherwise.  Takes O(1) time.
 
-Returns the value associated with `(imap-min-key map)` and `(imap-max-key map)` respectively. O(log n) time; O(1) is optimal.
+`(imap-empty? `''map''`)`
+
+Returns `#t` if ''map'' contains zero associations, and `#f` otherwise.  Takes O(1) time.
+
+`(imap-contains? `''map obj''`)`
+
+Returns `#t` if ''map'' contains ''obj'' as a key, and `#f` otherwise.  Takes O(log n) time.
+
+=== Accessors ===
+
+`(imap-min `''map''`)`
+
+`(imap-max `''map''`)`
+
+Returns the least/greatest key of ''map''.  It is an error for''map'' to be empty. Takes O(log n) time; O(1) is optimal.
+
+`(imap-comparator `''map''`)`
+
+Returns the comparator of ''map''.  Takes O(1) time.
 
 === Element operations ===
 
-`
-(imap-update map key failure success)
-`
+`(imap-add `''map key value''`)`
 
-A continuation-based universal update procedure. Attempts to find a key equal (in the sense of the comparator of ''map'') to ''key'' in ''map'', and its associated `value`. When no such key is found, returns the result of calling ''(failure insert)'', where ''insert'' is a procedure such that ''(insert new-value)'' returns a version of `map` in which `key` is associated with `new-value`.
+Returns a map which contains the associations of ''map'' and an association with ''key'' and ''value'' as well.  If there is already an association of ''map'' whose key is equal (in the sense of the comparator) to ''key'', the existing key prevails.  Takes O(log n) time.
 
-When `key-match` exists, returns the result of calling
-`
-(success key-match value replace remove)
-`
-. `replace` is a procedure such that
-`
-(replace new-value)
-`
-returns a new version of `map` in which the `key` maps to `new-value` instead of `value`.
+`(imap-add-all `''map key-list value-list''`)`
 
-`remove` is a thunk such that
-`
-(remove)
-`
-returns a new version of `map` with no association for `key`. 
+Returns a map which contains the associations of ''map'' and associations constructed from the corresponding associations of ''key-list'' and ''value-list'' as well.  It is an error if the associations of ''key-list'' are not increasing in the sense of the comparator of ''map''.  If there is already an association of ''map'' which is equal (in the sense of the comparator) to an association of ''list'', the key of ''map'' prevails.  Takes O(k log n) time, where ''k'' is the length of ''list''.
 
-The `imap-update`, `insert`, `replace`, and `remove` procedures may take O(log n) time each. Thus if `failure` and `success` take constant (or even O(log n)) time and call their passed-in continuations at most once (or even any constant number of times), the entire update process takes O(log n) time.
-`
-(imap-find map key [failure])
-`
-Returns the value associated with `key` in `map`, or the result of evaluating `(failure)` if no such value exists. If `failure` is unspecified then a default procedure that always returns `#f` is used. O(log n) time.
+`(imap-replace `''map key value''`)`
 
-`
-(imap-include map key value)
-(imap-exclude map key)
-`
-Returns a set that certainly does/doesn't include an association from `key`. `imap-include` will replace any prior association from `key` that might exist in `map`. O(log n) time.
+Returns a map which contains the associations of ''map'' and an association with ''key'' and ''value'' as well.  If there is already an association of ''map'' whose key is equal (in the sense of the comparator) to ''key'', ''key'' prevails.  Takes O(log n) time.
 
-`
-(imap-key-predecessor map key [failure])
-(imap-key-successor map key [failure])
-`
+`(imap-delete `''map key''`)`
 
-The behavior and efficiency of these operations is the same as the analogous set procedures.
+Returns a map which contains the associations of ''map'' with the exception of any association whose key is ''key''.  If there is already an association of ''map'' whose key is equal (in the sense of the comparator) to ''key'', the existing key prevails.  Takes O(log n) time.
 
-=== Range queries ===
+`(imap-delete-all `''map key-list''`)`
 
-`
-(imap-between map least include-least most include-most)
-`
+Returns a map which contains the associations of ''map'', excluding any associations whose keys appear in ''key-list''.  It is an error if the associations of ''list'' are not increasing in the sense of the comparator of ''map''. Takes O(k log n) time, where ''k'' is the length of ''key-list''.
 
-The behavior and efficiency of these operations is the same as the analogous set procedures. (Least and most are keys.)
+`(imap-predecessor `''map obj failure''`)`
 
-`
-(imap-range< map key)
-(imap-range<= map key)
-(imap-range= map key)
-(imap-range>= map key)
-(imap-range> map key)
-`
+`(imap-successor `''map obj failure''`)`
 
-The behavior and efficiency of these operations is the same as the analogous set procedures.
+Returns the key that immediately precedes/succeeds `obj` in `map`'s ordering. If no such association exists because ''obj'' is the minimum/maximum key, or because ''map'' is empty, returns the result of invoking the thunk ''failure''. Takes O(log n) time.
 
-=== Filter, fold, map ===
+`(imap-search `''map obj failure success''`)`
 
-`
-(imap-filter proc set)
-`
+A continuation-based universal update procedure. Attempts to find an association in ''map'' whose key is equal (in the sense of the comparator) to ''obj''.  When such an association is found, `imap-search` calls ''(success key update remove)''.  The ''success'' procedure either tail-calls '' (update new-value ret)'' to return a map that associates the matched key with ''new-value'', or else tail-calls ''(remove ret)'' to remove the matched association  from ''map''.
 
-Returns a set containing only those associations for which `(proc key value)` returns true. O(n log n) time; O(n) is optimal.
+When no such association is found, `imap-search` calls ''(failure insert ignore)'', which either tail-calls ''(insert new-value ret)'' to insert an association whose key is ''obj'' and whose value is ''new-value'' into ''map'', or else tail-calls ''(ignore ret)'' .`
 
-`
-(imap-fold proc base map)
-`
-The fundamental map iterator. Calls
-`
-(proc key value accum)
-`
-successively to accumulate a value initialized to `base`. O(n) time.
+In all cases, `imap-search` returns two values, a map reflecting the indicated modification (if any) and the value ''ret'' produced by one of the continuations. It runs in O(log n) time.
 
-`
-(imap-map-values proc map)
-`
-Returns a map where each `value` is replaced with the result of evaluating ''(proc key value)'' for that value's key. Takes O(n) time.
+(This procedure is based on an analogous procedure for hash tables suggested by Alexey Radul and attributed to Taylor Campbell.)
 
-`
-(imap-map/monotone proc map [precedes?])
-`
-Returns a map containing the association values returned by calls to
-`
-(proc key value)
-`
-for each key-value association in `map`. `proc` must returns `(values new-key new-value)`. The key mapping must be a ''monotone,'' preserving the order and uniqueness of keys. The value mapping need not be monotone. If `precedes?` is given, it is the key order predicate of the map; otherwise the map uses the same order predicate as `map`. Takes O(n) time.
+=== The whole map ===
 
-`
-(imap-map proc map [precedes?])
-`
-As `imap-map/monotone`, except the `proc` is not required to be monotone. When multiple keys are mapped to the same `new-key`, only the association originating from the greatest pre-mapped key is retained. O(n log n) time.
+`(imap-size `''map''`)`
+
+Returns the size of ''map'' as an exact integer.  May take O(n) time, though O(1) is optimal.
+
+`(imap-find `''map pred failure''`)`
+
+For each association of ''map'', invoke ''proc'' on its key and value. If ''proc'' returns true on a value, then return that value. If all the calls to ''proc'' return `#f`, return the result of invoking the thunk ''failure''.  Takes O(log n) time.
+
+`(imap-count `''pred map''`)`
+
+Returns the number of associations in ''map'' which satisfy ''pred'' as an exact integer.  Takes O(n) time.
+
+`(imap-any `''pred map''`)`
+
+`(imap-every `''pred map''`)`
+
+Invokes ''pred'' on the associations of ''map'' in order until one of them returns a true/false value, which is then returned.  If there are no such associations, returns `#f`/`#t`.  Takes O(n) time.
+
+=== Filtering ===
+
+`(imap-range= `''map obj''`)`
+
+`(imap-range< `''map obj''`)`
+
+`(imap-range> `''map obj''`)`
+
+`(imap-range<= `''map obj''`)`
+
+`(imap-range>= `''map obj''`)`
+
+Returns a map containing only the associations of `map` that are equal to / less than / greater than / less than or equal to / greater than or equal to ''obj''.  Takes O(k log k + log n) time, where n is the number of associations in the map and k is the number of associations returned; O(k + log n) is optimal.
+
+Note that since map associations are unique, `imap-range=` returns a map of at most one association.
+
+`(imap-between `''map least include-least most include-most''`)`
+
+Returns a map containing the associations of ''map'' in the interval between ''least''and ''most''. If ''include-least/include-most'' is true then the result includes an association equal to ''least/most'' respectively; otherwise those associations are not included. Takes O(k log k + log n) time, where n is the number of associations in the map and k is the number of associations returned; O(k + log n) is optimal.
+
+`(imap-filter `''pred map''`)`
+
+`(imap-remove `''pred map''`)`
+
+Returns a map containing only those associations `x` for which `(predicate? x)` returns true/false. Takes O(n log n) time; O(n) is optimal.
+
+`(imap-partition`''pred map''`)`
+
+Returns two values, `(imap-filter `''pred map''`)` and `(imap-remove `''pred map''`)` respectively.
+
+=== Folding and mapping ===
+
+`(imap-fold `''proc nil map''`)`
+
+The fundamental map iterator. Equivalent to, but may be more efficient than, `(fold `''proc base'' ` (imap->ordered-list `''map''`))`.  Takes O(n) time.
+
+`(imap-map/monotone `''proc map'' [[|''comparator'' ]]`)`
+
+Returns a map containing the result of invoking ''proc'' on every association in ''map''.  It is an error unless ''proc'' is a ''monotone'' unary procedure that preserves the order of map associations. Observe that mapping a map of unique associations with a monotone function yields a map of unique associations, so association uniqueness follows from the monotonicity assumption. If ''comparator'' is given, it is the comparator of the result; otherwise the result uses the same comparator as ''map''. Takes O(n) time.
+
+`(imap-map`''proc map'' [[|''comparator'' [ ''merger'' ]] ]`)`
+
+Like `imap-map/monotone`, except that ''proc'' is not required to be monotone. The `merger` procedure is used to select among any duplicate associations (in the sense of the comparator of ''map'') that might be created; it returns the value to be used; if absent, the association chosen is implementation-specific.  Takes O(n log n) time.
+
+`(imap-for-each `''proc map''`)`
+
+Invokes '''proc'' on every ''association'' in ''map''.  The result is unspecified. Takes O(n) time.
+
+=== Subsets ===
+
+Note: The following three predicates do not obey the trichotomy law and therefore do not constitute a total order on sets.
+
+`(imap=? `''set1 set2'' ...`)`
+
+Returns `#t` if each ''map'' contains the same associations, and `#f` otherwise.
+
+`(imap<? ''set1 set2'' ...`)`
+
+Returns `#t` if each ''map'' other than the last is a proper subset of the following map, and `#f` otherwise.
+
+`(imap>? ''set1 set2'' ...`)`
+
+Returns `#t` if each ''map'' other than the last is a proper superset of the following map, and `#f` otherwise.
+
+`(imap<=? ''set1 set2'' ...`)`
+
+Returns `#t` if each ''map'' other than the last is a subset of the following map, and `#f` otherwise.
+
+`(imap>=? ''set1 set2'' ...`)`
+
+Returns `#t` if each ''map'' other than the last is a superset of the following map, and `#f` otherwise.
 
 === Conversion ===
 
-`
-(imap->ordered-alist map)
-`
+`(imap-keys `''imap''`)`
 
-Returns an association list containing the associations of `map` in increasing order by key. O(n) time.
+`(imap-values `''imap''`)`
 
-`
-(imap-keys map)
-`
-Returns a set containing the keys of `map`. O(n log n) time; O(n) is optimal.
+Returns a list of the keys/values of ''imap'' in increasing order.
 
-`
-(imap-values map)
-`
-Returns a list containing the values of `map` in increasing order by key. O(n) time.
+`(imap-entries `''imap''`)`
 
-`
-(ordered-alist->imap precedes? alist)
-`
+Returns two values, lists of the keys and values of ''imap'' in increasing order.
 
-Returns a map containing the associations of `alist` and using order predicate `precedes?`. It is an error for `list` to be anything other than a proper association list in increasing order by key. O(n log n) time; O(n) is optimal.
+`(imap->alist `''map''`)`
 
-`
-(alist->imap precedes? alist)
-`
+Returns an association list containing the associations of `map` in increasing order. Takes O(n) time.
 
-The behavior and efficiency of these operations is the same as the analogous set procedures.
+`(ordered-alist->imap comparator list)`
 
-=== Key comparison ===
+Returns a map containing the associations of ''list'' and using ''comparator''. It is an error for ''alist'' to be anything other than an alist in increasing order. Takes O(n log n) time; O(n) is optimal.
 
-`
-(imap-key<? map x y)
-(imap-key=? map x y)
-(imap-key>? map x y)
-`
+`(alist->imap `''comparator list [[|''merger'' ]]`)`
 
-The behavior and efficiency of these operations is the same as the analogous set procedures.
+Returns a map containing the associations of ''alist'' and using ''comparator''.It is an error unless ''alist'' is a proper association list, but it may contain duplicates and need not be in order.  The ''merger'' procedure is used to select among any duplicate keys (in the sense of the comparator of ''map'') that might be created; it accepts the existing and new keys and returns the key to be used.  Takes O(n log n) time.
+
+=== Set-theoretic operations ===
+
+`(imap-union `''map'' ... `)`
+
+`(imap-intersection `''map'' ... `)`
+
+`(imap-difference `''map'' ... `)`
+
+`(imap-xor `''map,,1,, map,,2,,''`)`
+
+Returns a map containing the union/intersection/difference/symmetric difference of the arguments. All the arguments must be sets sharing an equivalent comparator. The map operator is applied in a left-associative order. If an association is found in more than one set, the first map in the argument list prevails.  May take O(kn log n) time, where k is the number of sets and n is the number of associations involved, though O(kn) time is optimal.
