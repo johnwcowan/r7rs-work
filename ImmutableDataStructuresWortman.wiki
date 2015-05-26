@@ -222,23 +222,21 @@ Returns `#t` if ''obj'' is a set, and `#f` otherwise.  Takes O(1) time.
 
 Returns `#t` if ''set'' contains zero elements, and `#f` otherwise.  Takes O(1) time.
 
-(iset-size set)
-(iset-comparator set)
-`
-
-`iset-size` may take O(n) time, though O(1) is optimal. The other procedures take O(1) time.
-
-=== Element queries ===
-
 `(iset-member? `''set obj''`)`
 
 Returns `#t` if ''set'' contains ''obj'', and `#f` otherwise.  Takes O(log n) time.
+
+=== Accessors ===
 
 `(iset-min `''set''`)`
 
 `(iset-max `''set''`)`
 
 Returns the least/greatest element of ''set''.  It is an error for''set'' to be empty. Takes O(log n) time; O(1) is optimal.
+
+`(iset-comparator `''set''`)`
+
+Returns the comparator of ''set''.  Takes O(1) time.
 
 === Element operations ===
 
@@ -278,9 +276,25 @@ In all cases, `iset-search` returns two values, a set reflecting the indicated m
 
 (This procedure is based on an analogous procedure for hash tables suggested by Alexey Radul and attributed to Taylor Campbell.)
 
+=== The whole set ===
+
+`(iset-size `''set''`)`
+
+Returns the size of ''set'' as an exact integer.  May take O(n) time, though O(1) is optimal.
+
 `(iset-find `''set obj failure''`)`
 
 Returns the element equal (in the sense of the comparator of ''set'') to ''obj'' in ''set'', or the result of invoking the thunk ''failure'' if no such element exists. Takes O(log n) time.
+
+`(iset-count `''pred set''`)`
+
+Returns the number of elements in ''set'' which satisfy ''pred'' as an exact integer.  Takes O(n) time.
+
+`(iset-any? `''pred set''`)`
+
+`(iset-every? `''pred set''`)`
+
+Invokes ''pred'' on the elements of ''set'' until one of them returns a true/false value, which is then returned.  If there are no such elements, returns `#f`/`#t`.  Takes O(n) time.
 
 === Filtering ===
 
@@ -294,7 +308,7 @@ Returns the element equal (in the sense of the comparator of ''set'') to ''obj''
 
 `(iset-range>= `''set obj''`)`
 
-Returns a set containing only the elements of `set` that are equal to/less than/greater than / less than or equal to /greater than or equal to ''obj''.  Takes O(k log k + log n) time, where n is the number of elements in the set and k is the number of elements returned; O(k + log n) is optimal.
+Returns a set containing only the elements of `set` that are equal to / less than / greater than / less than or equal to / greater than or equal to ''obj''.  Takes O(k log k + log n) time, where n is the number of elements in the set and k is the number of elements returned; O(k + log n) is optimal.
 
 Note that since set elements are unique, `iset-range=` returns a set of at most one element.
 
@@ -320,11 +334,39 @@ The fundamental set iterator. Equivalent to, but may be more efficient than, `(f
 
 `(iset-map/monotone `''proc set'' [[|''comparator'' ]]`)`
 
-Returns a set containing the values returned by ''(proc x'') for every ''x'' in ''set''.  It is an error unless ''proc'' is a ''monotone'' unary procedure that preserves the order of set elements. Observe that mapping a set of unique elements with a monotone function yields a set of unique elements, so element uniqueness follows from the monotonicity assumption. If ''comparator'' is given, it is the comparator of the result; otherwise the result uses the same comparator as ''set''. Takes O(n) time.
+Returns a set containing the result of invoking ''proc'' on every element in ''set''.  It is an error unless ''proc'' is a ''monotone'' unary procedure that preserves the order of set elements. Observe that mapping a set of unique elements with a monotone function yields a set of unique elements, so element uniqueness follows from the monotonicity assumption. If ''comparator'' is given, it is the comparator of the result; otherwise the result uses the same comparator as ''set''. Takes O(n) time.
 
 `(iset-map`''proc set'' [[|''comparator'' [ ''merger'' ]] ]`)`
 
 Like `iset-map/monotone`, except that ''proc'' is not required to be monotone. The `merger` procedure is used to select among any duplicate elements (in the sense of the comparator of ''set'') that might be created; it returns the value to be used; if absent, the element chosen is implementation-specific.  Takes O(n log n) time.
+
+`(iset-for-each `''proc set''`)`
+
+Invokes '''proc'' on every ''element'' in ''set''.  The result is unspecified. Takes O(n) time.
+
+=== Subsets ===
+
+Note: The following three predicates do not obey the trichotomy law and therefore do not constitute a total order on sets.
+
+`(iset=? `''set1 set2'' ...`)`
+
+Returns `#t` if each ''set'' contains the same elements, and `#f` otherwise.
+
+`(iset<? ''set1 set2'' ...`)`
+
+Returns `#t` if each ''set'' other than the last is a proper subset of the following set, and `#f` otherwise.
+
+`(iset>? ''set1 set2'' ...`)`
+
+Returns `#t` if each ''set'' other than the last is a proper superset of the following set, and `#f` otherwise.
+
+`(iset<=? ''set1 set2'' ...`)`
+
+Returns `#t` if each ''set'' other than the last is a subset of the following set, and `#f` otherwise.
+
+`(iset>=? ''set1 set2'' ...`)`
+
+Returns `#t` if each ''set'' other than the last is a superset of the following set, and `#f` otherwise.
 
 === Conversion ===
 
