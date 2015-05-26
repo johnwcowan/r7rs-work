@@ -31,7 +31,7 @@ Invokes ''proc'' successively on the integers 0 through ''n'' - 1 inclusive, and
 
 `(ideque-unfold `''stop? mapper successor seed''`)`
 
-Invokes the predicate ''stop?'' on ''seed''.  If it returns false, generate the next result by applying ''mapper'' to ''seed'', generate the next seed by applying ''successor'' to ''seed'', and repeat the algorithm with the new seed.  If ''stop?'' returns true, return a deque containing the results in order of accumulation.  Takes O(n) time.
+Invokes the predicate ''stop?'' on ''seed''.  If it returns false, generate the next result by applying ''mapper'' to ''seed'', generate the next seed by applying ''successor'' to ''seed'', and repeat this algorithm with the new seed.  If ''stop?'' returns true, return a deque containing the results in order of accumulation.  Takes O(n) time.
 
 `(ideque-unfold-right `''stop? mapper successor seed''`)`
 
@@ -59,7 +59,7 @@ Returns the front/back element of ''deque''. It is an error for ''deque'' to be 
 
 `(ideque-remove-back `''deque''`)`
 
-Returns a deque with the front/back element of ''deque'' removed. It is an error for `deque` to be empty. Each takes O(1) time.
+Returns a deque with the front/back element of ''deque'' removed. It is an error for ''deque'' to be empty. Each takes O(1) time.
 
 `(ideque-add-front `''deque obj''`)`
 
@@ -119,45 +119,63 @@ Returns a deque of lists (not deques) each of which contains the corresponding e
 
 `(ideque-map `''proc deque''`)`
 
+Applies ''proc'' to each element of ''deque'' and returns a deque containing the results in order.  Takes O(n) time.
+
 `(ideque-for-each `''proc deque''`)`
 
-`(ideque-fold `''proc deque''`)`
+Applies ''proc'' to each element of ''deque'' in order and returns an unspecified result.  Takes O(n) time.
 
-`(ideque-fold-right `''proc deque''`)`
+`(ideque-fold `''proc nil deque''`)`
+
+`(ideque-fold-right `''proc nil deque''`)`
+
+Invokes ''proc'' on each member of ''deque'' in order/reverse order, passing the result of the previous invocation as a second argument. For the first invocation, ''nil'' is used as the second argument. Returns the result of the last invocation, or ''nil'' if there was no invocation.  Takes O(n) time.
 
 `(ideque-append-map `''proc deque''`)`
 
+Applies ''proc'' to each element of ''deque''.  It is an error if the result is not a list.  Returns a deque containing the elements of the lists in order.  Takes O(n) time.
+
 === Filtering ===
 
-`(ideque-filter `''proc deque''`)`
+`(ideque-filter `''pred deque''`)`
 
-`(ideque-remove `''proc deque''`)`
+`(ideque-remove `''pred deque''`)`
+
+Returns a deque which contains the elements of ''deque'' that do/do not satisfy ''pred''.  Takes O(n) time.
 
 `(ideque-partition `''proc deque''`)`
 
 === Searching ===
 
-`(ideque-find `''proc deque''`)`
+`(ideque-find `''pred deque failure''`)`
 
-`(ideque-find-right `''proc deque''`)`
+`(ideque-find-right `''pred deque failure''`)`
 
-`(ideque-take-while `''proc deque''`)`
+Returns the first/last element of ''deque'' that satisfies ''pred''.  If there is no such element, invokes the thunk ''failure'' and returns what it returns.
 
-`(ideque-take-while-right `''proc deque''`)`
+`(ideque-take-while `''pred deque''`)`
 
-`(ideque-drop-while `''proc deque''`)`
+`(ideque-take-while-right `''pred deque''`)`
+
+Returns a deque containing the longest initial/final prefix of elements in ''deque'' all of which satisfy ''pred''.
+
+`(ideque-drop-while `''pred deque''`)`
 
 `(ideque-drop-while-right `''proc deque''`)`
 
-`(ideque-map `''proc deque''`)`
+Returns a deque which omits the longest initial/final prefix of elements in ''deque'' all of which satisfy ''pred'', but includes all other elements of ''deque''.
 
-`(ideque-span `''proc deque''`)`
+`(ideque-span `''pred deque''`)`
 
-`(ideque-break `''proc deque''`)`
+`(ideque-break `''pred deque''`)`
 
-`(ideque-any? `''proc deque''`)`
+Returns two values, the initial prefix of the elements of ''deque'' which do/do not satisfy ''pred'', and the remaining elements.
 
-`(ideque-every? `''proc deque''`)`
+`(ideque-any? `''pred deque''`)`
+
+`(ideque-every? `''pred deque''`)`
+
+Invokes ''pred'' on the elements of ''deque'' in order until one of them returns a true/false value, which is then returned.  If there are no such elements, returns `#f`.
 
 === Conversion ===
 
@@ -166,6 +184,12 @@ Returns a deque of lists (not deques) each of which contains the corresponding e
 `(ideque->list `''deque''`)`
 
 Conversion between deque and list structures. FIFO order is preserved, so the front of a list corresponds to the front of a deque. Each operation takes O(n) time.
+
+=== Comparator ===
+
+`ideque-comparator`
+
+A comparator suitable for comparing ideques.  It does not provide comparison procedures, as there is no ordering between ideques.
 
 == Set ==
 
@@ -209,7 +233,7 @@ Returns a set containing the union/intersection/difference/symmetric difference 
 (iset-member? set x)
 `
 
-Returns non-`#false` iff `x` is an element of `set`, or `#false` otherwise. Takes O(log n) time.
+Returns non-`#f` iff `x` is an element of `set`, or `#f` otherwise. Takes O(log n) time.
 
 `
 (iset-min set)
@@ -263,7 +287,7 @@ where `new-set` is a set reflecting the indicated modification, if any; and `ret
 `
 (iset-find set x [absent-thunk])
 `
-Returns the element `match` equal to `x` in `set`, or the result of evaluating `(absent-thunk)` if no such element exists. If `absent-thunk` is unspecified then a default procedure that always returns `#false` is used. Takes O(log n) time.
+Returns the element `match` equal to `x` in `set`, or the result of evaluating `(absent-thunk)` if no such element exists. If `absent-thunk` is unspecified then a default procedure that always returns `#f` is used. Takes O(log n) time.
 
 `
 (iset-include set x [merger])
@@ -275,7 +299,7 @@ Returns a set that certainly does/doesn't include `x`. `merger` is called when `
 (iset-predecessor set x [absent-thunk])
 (iset-successor set x [absent-thunk])
 `
-Returns the element that immediately precedes/succeeds `x` in `set`'s ordering. If no such element exists because `x` is the minimum/maximum element, or because `set` is empty, returns the result of evaluating `(absent-thunk)`. If `absent-thunk` is unspecified then a default procedure that always returns `#false` is used. Takes O(log n) time.
+Returns the element that immediately precedes/succeeds `x` in `set`'s ordering. If no such element exists because `x` is the minimum/maximum element, or because `set` is empty, returns the result of evaluating `(absent-thunk)`. If `absent-thunk` is unspecified then a default procedure that always returns `#f` is used. Takes O(log n) time.
 
 === Range queries ===
 
@@ -283,7 +307,7 @@ Returns the element that immediately precedes/succeeds `x` in `set`'s ordering. 
 (iset-between set least include-least most include-most)
 `
 
-Returns a set containing the elements of `set` in the interval between `least` and `most`. If `include-least`/`include-most` is non-`#false` then the result includes an element equal to `least`/`most` respectively; otherwise those elements are not included. Takes O(k log k + log n) time, where n is the number of elements in the set and k is the number of elements returned; O(k + log n) is optimal.
+Returns a set containing the elements of `set` in the interval between `least` and `most`. If `include-least`/`include-most` is true then the result includes an element equal to `least`/`most` respectively; otherwise those elements are not included. Takes O(k log k + log n) time, where n is the number of elements in the set and k is the number of elements returned; O(k + log n) is optimal.
 
 `
 (iset-range< set x)
@@ -303,7 +327,7 @@ Note that since set elements are unique, `iset-range=` returns a set of at most 
 (iset-filter predicate? set)
 `
 
-Returns a set containing only those elements `x` for which `(predicate? x)` returns non-`#false`. Takes O(n log n) time; O(n) is optimal.
+Returns a set containing only those elements `x` for which `(predicate? x)` returns true. Takes O(n log n) time; O(n) is optimal.
 
 `
 (iset-fold proc base set)
@@ -394,17 +418,10 @@ Returns the value associated with `(imap-min-key map)` and `(imap-max-key map)` 
 === Element operations ===
 
 `
-(imap-update map key absent-proc present-proc)
+(imap-update map key failure success)
 `
 
-A continuation-based universal update procedure. Attempts to find a key `key-match` equal to `key` in `map`, and its associated `value`. When such no such `key-match` is found, returns the result of calling
-`
-(absent-proc insert)
-`
-. `insert` is a procedure such that
-`
-(insert new-value)
-`
+A continuation-based universal update procedure. Attempts to find a key equal (in the sense of the comparator of ''map'') to ''key'' in ''map'', and its associated `value`. When no such key is found, returns the result of calling ''(absent-proc insert)'', where ''insert'' is a procedure such that ''(insert new-value)''
 returns a version of `map` in which `key` is associated with `new-value`.
 
 When `key-match` exists, returns the result of calling
@@ -427,7 +444,7 @@ The `imap-update`, `insert`, `replace`, and `remove` procedures may take O(log n
 `
 (imap-find map key [absent-thunk])
 `
-Returns the value associated with `key` in `map`, or the result of evaluating `(absent-thunk)` if no such value exists. If `absent-thunk` is unspecified then a default procedure that always returns `#false` is used. O(log n) time.
+Returns the value associated with `key` in `map`, or the result of evaluating `(absent-thunk)` if no such value exists. If `absent-thunk` is unspecified then a default procedure that always returns `#f` is used. O(log n) time.
 
 `
 (imap-include map key value)
@@ -466,7 +483,7 @@ The behavior and efficiency of these operations is the same as the analogous set
 (imap-filter proc set)
 `
 
-Returns a set containing only those associations for which `(proc key value)` returns non-`#false`. O(n log n) time; O(n) is optimal.
+Returns a set containing only those associations for which `(proc key value)` returns true. O(n log n) time; O(n) is optimal.
 
 `
 (imap-fold proc base map)
@@ -480,11 +497,7 @@ successively to accumulate a value initialized to `base`. O(n) time.
 `
 (imap-map-values proc map)
 `
-Returns a map where each `value` is replaced with the result of evaluating
-`
-(proc key value)
-`
-for that value's key. Takes O(n) time.
+Returns a map where each `value` is replaced with the result of evaluating ''(proc key value)'' for that value's key. Takes O(n) time.
 
 `
 (imap-map/monotone proc map [precedes?])
