@@ -485,7 +485,7 @@ The mutation procedures `bimap-set!`, `bimap-set-entries!`, `bimap-delete!`, `bi
 
 == Implementation ==
 
-The sample implementation (''not yet written'') is designed to be easily layered over any hash table implementation that supports either SRFI 69 or R6RS (there is an implementation of [[https://code.launchpad.net/~scheme-libraries-team/scheme-libraries/srfi|SRFI 69 on top of R6RS]]).  It was originally intended to support all the native hash table systems mentioned in [[#Sources|Sources]] above as well.  However, this turned out not to be practical for the following reasons:
+The sample implementation (''not yet written'') is designed to be easily layered over any hash table implementation that supports either SRFI 69 or R6RS (there is an implementation of [[https://github.com/larcenists/larceny/blob/master/lib/SRFI/srfi-69.sch|SRFI 69 on top of R6RS that is part of Larceny]]).  It was originally intended to support all the native hash table systems mentioned in [[#Sources|Sources]] above as well.  However, this turned out not to be practical for the following reasons:
 
 * Gauche does not support arbitrary equality predicates, only `eq?`, `eqv?`, `equal?`, and `string=?`.
 
