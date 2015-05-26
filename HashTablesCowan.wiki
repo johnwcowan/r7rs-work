@@ -128,7 +128,7 @@ It is an error to operate on two hash tables that have different comparators or 
 
 === Index ===
 
-* [[#Constructors|Constructors]]: `make-hash-table`, `hash-table`, `hash-table-unfold`, `alist->hash-table`
+* [[#Constructors|Constructors]]: `make-hash-table`, `hash-table`, `hash-table-tabulate`, `hash-table-unfold`, `alist->hash-table`
 
 * [[#Predicates|Predicates]]: `hash-table?`, `hash-table-contains?`, `hash-table-empty?`, `hash-table=?`, `hash-table-immutable?`
 
