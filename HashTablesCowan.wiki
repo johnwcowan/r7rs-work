@@ -88,7 +88,7 @@ The procedures in the present proposal are drawn primarily from SRFI 69 and R6RS
 
 * The `hash-table-push!` and `hash-table-pop!` procedures are from [[http://practical-scheme.net/gauche/man/gauche-refe_53.html|Gauche]].
 
-* The `hash-table-find` procedure is from [[http://www.iro.umontreal.ca/~gambit/doc/gambit-c.html#Tables|Gambit]].
+* The `hash-table-find` procedure is a modified version of the one in [[http://www.iro.umontreal.ca/~gambit/doc/gambit-c.html#Tables|Gambit]].
 
 * The procedure `hash-table-set-entries!` was suggested by the [[http://clhs.lisp.se/Body/f_pairli.htm|Common Lisp]] function `pairlis`.
 
@@ -317,9 +317,9 @@ Returns a newly allocated list of all the keys in ''hash-table''. (SRFI 69 `hash
 
 Returns two values, a newly allocated list of all the keys in ''hash-table''and a newly allocated list of all the values in ''hash-table'' in the corresponding order.  (R6RS `hash-table-entries` returns vectors)
 
-`(hash-table-find `''hash-table proc''`)`
+`(hash-table-find `''hash-table proc failure''`)`
 
-For each association of ''hash-table'', invoke ''proc'' on its key and value.   If ''proc'' returns true on a value, then return that value.  If all the calls to ''proc'' return `#f`, return `#f`.
+For each association of ''hash-table'', invoke ''proc'' on its key and value.   If ''proc'' returns true on a value, then return that value.  If all the calls to ''proc'' return `#f`, return the result of invoking the thunk ''failure''.
 
 `(hash-table-count `''hash-table pred''`)`
 
