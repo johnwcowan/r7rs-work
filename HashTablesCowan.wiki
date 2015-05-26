@@ -174,6 +174,10 @@ The meaning of any further arguments is implementation-dependent.  However, impl
 
 Returns a newly allocated hash table, created as if by `make-hash-table` using ''comparator''.  For each pair of arguments, an association is added to the new hash table with ''key'' as its key and ''value'' as its value.  If the implementation supports immutable hash tables, this procedure returns an immutable hash table.
 
+`(hash-table-tabulate `''comparator n proc''`)`
+
+Returns a newly allocated hash table, created as if by `make-hash-table` using ''comparator''.  For each integer from 0 to ''n'' - 1, ''proc'' is invoked on it, returning two values.  The values are used as the key and value of an association added to the new hash table.  If the implementation supports immutable hash tables, this procedure returns an immutable hash table.
+
 `(hash-table-unfold `''stop? mapper successor seed comparator arg'' ... ]`)`
 
 Create a new hash table as if by `make-hash-table` using ''comparator'' and the ''args''.  If the result of applying the predicate ''stop?'' to ''seed'' is true, return the hash table.  Otherwise, apply the procedure ''mapper'' to ''seed''.  ''Mapper'' returns two values, which are inserted into the hash table as the key and the value respectively.  Then get a new seed by applying the procedure ''successor'' to ''seed'', and repeat this algorithm.
@@ -337,7 +341,7 @@ These procedures process the associations of the hash table in an unspecified or
 
 Returns a newly allocated hash table as if by `make-hash-table`.  Calls ''proc'' for every association in ''hash-table'' with two arguments: the key of the association and the value of the association.  The two values returned by ''proc'' are inserted into the new hash table as a key and value.
 
-When the key being added already exists in the new hash table, the procedure ''merger'' is called with arguments ''oldkey oldvalue newkey newvalue'' and returns the value to be associated with ''newkey''.
+When the key being added is equal (in the sense of ''comparator'') to a key already inserted in the new hash table, the procedure ''merger'' is called with arguments ''oldkey oldvalue newkey newvalue'' and returns the key to be associated with the new value.
 
 `(hash-table-map-values `''proc comparator hash-table''`)`
 
