@@ -1,6 +1,6 @@
 == Introduction ==
 
-This proposal defines ''immutable'' data structures for queues, sets, and maps. A structure is immutable when all its operations leave the structure unchanged. Note that none of the procedures specified here ends with a `!`.
+This proposal defines ''immutable data structures'' for queues, sets, and maps. A structure is immutable when all its operations leave the structure unchanged. Note that none of the procedures specified here ends with a `!`.
 
 Immutable structures are sometimes called ''persistent'' and are closely related to ''pure-functional'' (a.k.a. ''pure'') structures. The availability of immutable data structures facilitates writing efficient programs in the pure-functional style.
 
@@ -82,7 +82,7 @@ Returns a deque containing all but the first/last ''n'' elements of ''deque''.  
 
 `(ideque-split-at `''deque n''`)`
 
-Returns two values, the results of `(ideque-take `''deque n''`)` and `(ideque-drop `''deque n''`)` respectively.  Takes O(n) time.
+Returns two values, the results of `(ideque-take `''deque n''`)` and `(ideque-drop `''deque n''`)` respectively, but may be more efficient.  Takes O(n) time.
 
 === The whole deque ===
 
@@ -112,7 +112,7 @@ Returns a deque containing the elements of ''deque'', except for those which sat
 
 `(ideque-zip `''deque'' ...`)`
 
-Returns a deque of lists (not deques) each of which contains the corresponding element of the argument deques in the order specified.  Processing stops when all the elements of any deque have been seen. Takes O(kn) time, where ''k'' is the number of deques and ''n'' is the number of elements involved.
+Returns a deque of lists (not deques) each of which contains the corresponding elements of the argument deques in the order specified.  Processing stops when all the elements of any deque have been seen. Takes O(kn) time, where ''k'' is the number of deques and ''n'' is the number of elements involved.
 
 === Mapping ===
 
@@ -128,7 +128,7 @@ Applies ''proc'' to each element of ''deque'' in order and returns an unspecifie
 
 `(ideque-fold-right `''proc nil deque''`)`
 
-Invokes ''proc'' on each member of ''deque'' in order/reverse order, passing the result of the previous invocation as a second argument. For the first invocation, ''nil'' is used as the second argument. Returns the result of the last invocation, or ''nil'' if there was no invocation.  Takes O(n) time.
+Invokes ''proc'' on each member of ''deque'' in forward/reverse order, passing the result of the previous invocation as a second argument. For the first invocation, ''nil'' is used as the second argument. Returns the result of the last invocation, or ''nil'' if there was no invocation.  Takes O(n) time.
 
 `(ideque-append-map `''proc deque''`)`
 
@@ -144,13 +144,15 @@ Returns a deque which contains the elements of ''deque'' that do/do not satisfy 
 
 `(ideque-partition `''proc deque''`)`
 
+Returns two values, the results of `(ideque-filter `''pred deque''`)` and `(ideque-remove `''pred deque''`)` respectively, but may be more efficient.  Takes O(n) time.
+
 === Searching ===
 
 `(ideque-find `''pred deque failure''`)`
 
 `(ideque-find-right `''pred deque failure''`)`
 
-Returns the first/last element of ''deque'' that satisfies ''pred''.  If there is no such element, invokes the thunk ''failure'' and returns what it returns.  Takes O(n) time.
+Returns the first/last element of ''deque'' that satisfies ''pred''.  If there is no such element, returns the result of invoking the thunk ''failure'' .  Takes O(n) time.
 
 `(ideque-take-while `''pred deque''`)`
 
@@ -170,9 +172,9 @@ Returns a deque which omits the longest initial/final prefix of elements in ''de
 
 Returns two values, the initial prefix of the elements of ''deque'' which do/do not satisfy ''pred'', and the remaining elements.  Takes O(n) time.
 
-`(ideque-any? `''pred deque''`)`
+`(ideque-any `''pred deque''`)`
 
-`(ideque-every? `''pred deque''`)`
+`(ideque-every `''pred deque''`)`
 
 Invokes ''pred'' on the elements of ''deque'' in order until one of them returns a true/false value, which is then returned.  If there are no such elements, returns `#f`/`#t`.  Takes O(n) time.
 
@@ -232,13 +234,19 @@ Returns `#t` if ''set'' contains ''obj'', and `#f` otherwise.  Takes O(log n) ti
 
 `(iset-max `''set''`)`
 
-Returns the least/greatest element of ''set''.  It is an error for''set'' to be empty. Takes O(log n) time; O(1) is optimal.
+Returns the least/greatest element of ''set''.  It is an error for ''set'' to be empty. Takes O(log n) time; O(1) is optimal.
 
 `(iset-comparator `''set''`)`
 
 Returns the comparator of ''set''.  Takes O(1) time.
 
-=== Element operations ===
+`(iset-predecessor `''set obj failure''`)`
+
+`(iset-successor `''set obj failure''`)`
+
+Returns the element that immediately precedes/succeeds ''obj'' in ''set's'' ordering. If no such element exists because ''obj'' is the minimum/maximum element, or because ''set'' is empty, returns the result of invoking the thunk ''failure''. Takes O(log n) time.
+
+=== Functional update ===
 
 `(iset-adjoin `''set obj''`)`
 
@@ -256,15 +264,9 @@ Returns a set which contains the elements of ''set'' and ''obj'' as well.  If th
 
 Returns a set which contains the elements of ''set'' with the exception of ''obj'', if present.  If there is already an element of ''set'' that is equal (in the sense of the comparator) to ''obj'', the element of ''set'' prevails.  Takes O(log n) time.
 
-`(iset-delete-all `''set list''`)`
+`(iset-delete-elements `''set list''`)`
 
 Returns a set which contains the elements of ''set'', excluding the elements of ''list''.  It is an error if the elements of ''list'' are not increasing in the sense of the comparator of ''set''. Takes O(k log n) time, where ''k'' is the length of ''list''.
-
-`(iset-predecessor `''set obj failure''`)`
-
-`(iset-successor `''set obj failure''`)`
-
-Returns the element that immediately precedes/succeeds ''obj'' in ''set's'' ordering. If no such element exists because ''obj'' is the minimum/maximum element, or because ''set'' is empty, returns the result of invoking the thunk ''failure''. Takes O(log n) time.
 
 `(iset-search `''set obj failure success''`)`
 
@@ -290,9 +292,9 @@ Returns the element equal (in the sense of the comparator of ''set'') to ''obj''
 
 Returns the number of elements in ''set'' which satisfy ''pred'' as an exact integer.  Takes O(n) time.
 
-`(iset-any? `''pred set''`)`
+`(iset-any `''pred set''`)`
 
-`(iset-every? `''pred set''`)`
+`(iset-every `''pred set''`)`
 
 Invokes ''pred'' on the elements of ''set'' until one of them returns a true/false value, which is then returned.  If there are no such elements, returns `#f`/`#t`.  Takes O(n) time.
 
@@ -331,6 +333,10 @@ Returns two values, `(iset-filter `''pred set''`)` and `(iset-remove `''pred set
 `(iset-fold `''proc nil set''`)`
 
 The fundamental set iterator. Equivalent to, but may be more efficient than, `(fold `''proc base'' ` (iset->ordered-list `''set''`))`.  Takes O(n) time.
+
+`(iset-fold-right `''proc nil set''`)`
+
+The fundamental set iterator. Equivalent to, but may be more efficient than, `(fold-right `''proc base'' ` (iset->ordered-list `''set''`))`.  Takes O(n) time.
 
 `(iset-map/monotone `''proc set'' [[|''comparator'' ]]`)`
 
@@ -430,19 +436,43 @@ Returns `#t` if ''map'' contains zero associations, and `#f` otherwise.  Takes O
 
 Returns `#t` if ''map'' contains ''obj'' as a key, and `#f` otherwise.  Takes O(log n) time.
 
+`(imap-key-not-found? `''obj''`)`
+
+Returns '#t' if 
+
 === Accessors ===
 
-`(imap-min `''map''`)`
+`(imap-ref `''map key'' [[|''failure'' [ ''success'' ]] ]`)`
 
-`(imap-max `''map''`)`
+Extracts the value associated to ''key'' in ''map'', invokes the procedure ''success'' on it, and returns its result; if ''success'' is not provided, then the value itself is returned.  Otherwise, `imap-ref` invokes the procedure ''failure'' on no arguments and returns its result; if ''failure'' is not provided, then an error that satisfies `imap-key-not-found?` is signaled.  Takes O(log n) time.
 
-Returns the least/greatest key of ''map''.  It is an error for''map'' to be empty. Takes O(log n) time; O(1) is optimal.
+`(imap-ref/default `''imap key default''`)`
+
+Semantically equivalent to, but may be more efficient than, `(imap-ref `''map key'' `(lambda () `''default''`))`.
+
+`(imap-min-key `''map''`)`
+
+`(imap-max-key `''map''`)`
+
+Returns the least/greatest key of ''map''.  It is an error for ''map'' to be empty. Takes O(log n) time; O(1) is optimal.
+
+`(imap-min-value `''map''`)`
+
+`(imap-max-value`''map''`)`
+
+Returns the value associated with the least/greatest key of ''map'' (''not'' the least/greatest value).  It is an error for ''map'' to be empty. Takes O(log n) time; O(1) is optimal.
 
 `(imap-comparator `''map''`)`
 
 Returns the comparator of ''map''.  Takes O(1) time.
 
-=== Element operations ===
+`(imap-key-predecessor `''map obj failure''`)`
+
+`(imap-key-successor `''map obj failure''`)`
+
+Returns the key that immediately precedes/succeeds `obj` in `map`'s ordering. If no such association exists because ''obj'' is the minimum/maximum key, or because ''map'' is empty, returns the result of invoking the thunk ''failure''. Takes O(log n) time.
+
+=== Functional update ===
 
 `(imap-add `''map key value''`)`
 
@@ -460,15 +490,17 @@ Returns a map which contains the associations of ''map'' and an association with
 
 Returns a map which contains the associations of ''map'' with the exception of any association whose key is ''key''.  If there is already an association of ''map'' whose key is equal (in the sense of the comparator) to ''key'', the existing key prevails.  Takes O(log n) time.
 
-`(imap-delete-all `''map key-list''`)`
+`(imap-delete-keys `''map key-list''`)`
 
 Returns a map which contains the associations of ''map'', excluding any associations whose keys appear in ''key-list''.  It is an error if the associations of ''list'' are not increasing in the sense of the comparator of ''map''. Takes O(k log n) time, where ''k'' is the length of ''key-list''.
 
-`(imap-predecessor `''map obj failure''`)`
+`(imap-push `''map key value''`)`
 
-`(imap-successor `''map obj failure''`)`
+If an association with ''key'' is found in ''map'', then return a map with the value of ''key'' updated to the result of invoking `cons` on ''value'' and  the original value.  If the value is not found, an error satisfied by `imap-key-not-found?` is signaled.  It is an error if the value is not a pair.  Takes O(log n) time.
 
-Returns the key that immediately precedes/succeeds `obj` in `map`'s ordering. If no such association exists because ''obj'' is the minimum/maximum key, or because ''map'' is empty, returns the result of invoking the thunk ''failure''. Takes O(log n) time.
+`(imap-pop `''map key''`)`
+
+If an association with ''key'' is found in ''map'', then return two values, ''map'' with the value of ''key'' updated to the cdr of the original value, and the car of the original value.  If the value is not found, an error satisfied by `imap-key-not-found?` is signaled.  It is an error if the value is not a pair.  Takes O(log n) time.
 
 `(imap-search `''map obj failure success''`)`
 
@@ -498,7 +530,7 @@ Returns the number of associations in ''map'' which satisfy ''pred'' as an exact
 
 `(imap-every `''pred map''`)`
 
-Invokes ''pred'' on the associations of ''map'' in order until one of them returns a true/false value, which is then returned.  If there are no such associations, returns `#f`/`#t`.  Takes O(n) time.
+Invokes ''pred'' in order on the keys and values of ''map'', passing a key and a value to each invocation, until one of them returns a true/false value, which is then returned.  If there are no such associations, returns `#f`/`#t`.  Takes O(n) time.
 
 === Filtering ===
 
@@ -530,11 +562,7 @@ Returns a map containing only those associations `x` for which `(predicate? x)` 
 
 Returns two values, `(imap-filter `''pred map''`)` and `(imap-remove `''pred map''`)` respectively.
 
-=== Folding and mapping ===
-
-`(imap-fold `''proc nil map''`)`
-
-The fundamental map iterator. Equivalent to, but may be more efficient than, `(fold `''proc base'' ` (imap->ordered-list `''map''`))`.  Takes O(n) time.
+=== Mapping and folding ===
 
 `(imap-map/monotone `''proc map'' [[|''comparator'' ]]`)`
 
@@ -544,9 +572,25 @@ Returns a map containing the result of invoking ''proc'' on every association in
 
 Like `imap-map/monotone`, except that ''proc'' is not required to be monotone. The `merger` procedure is used to select among any duplicate associations (in the sense of the comparator of ''map'') that might be created; it returns the value to be used; if absent, the association chosen is implementation-specific.  Takes O(n log n) time.
 
+`(imap-map-values `''proc map''`)`
+
+Invokes '''proc'' on the key and value of every ''association'' in ''map''.  The result is a map which associates each key with the result of the corresponding invocation.  Takes O(n) time.
+
 `(imap-for-each `''proc map''`)`
 
-Invokes '''proc'' on every ''association'' in ''map''.  The result is unspecified. Takes O(n) time.
+Invokes '''proc'' on the key and value of every ''association'' in ''map''.  The result is unspecified. Takes O(n) time.
+
+`(imap-collect `''proc map''`)`
+
+Invokes ''proc'' on the key and value of every ''association'' in ''map''.  The results are collected into a list in order, which is returned. Takes O(n) time.
+
+`(imap-fold `''proc nil map''`)`
+
+The fundamental map iterator. Equivalent to, but may be more efficient than, `(fold `''proc base'' ` (imap->ordered-list `''map''`))`.  Takes O(n) time.
+
+`(imap-fold `''proc nil map''`)`
+
+The fundamental map iterator. Equivalent to, but may be more efficient than, `(fold-right `''proc base'' ` (imap->ordered-list `''map''`))`.  Takes O(n) time.
 
 === Subsets ===
 
@@ -596,7 +640,19 @@ Returns a map containing the associations of ''list'' and using ''comparator''. 
 
 Returns a map containing the associations of ''alist'' and using ''comparator''.It is an error unless ''alist'' is a proper association list, but it may contain duplicates and need not be in order.  The ''merger'' procedure is used to select among any duplicate keys (in the sense of the comparator of ''map'') that might be created; it accepts the existing and new keys and returns the key to be used.  Takes O(n log n) time.
 
-=== Set-theoretic operations ===
+=== Maps as functions ===
+
+The following procedures provide functions based on maps.  In this way, for example, lists can be processed by `map` using the procedure returned from a map by `imap-accessor`.
+
+`(imap-accessor `''map'' [[|''failure'' [ ''success'' ]] ]`)`
+
+Curried version of `imap-ref`.  Returns a procedure of one argument, a key, which returns what `imap-ref` returns when invoked with the the passed arguments.
+
+`(imap-accessor/default `''map default''`)`
+
+Curried version of `imap-ref/default`.  Returns a procedure of one argument, a key, which returns what `imap-ref/default` returns when invoked with the passed arguments.
+
+=== Maps as sets ===
 
 `(imap-union `''map'' ... `)`
 
@@ -607,3 +663,12 @@ Returns a map containing the associations of ''alist'' and using ''comparator''.
 `(imap-xor `''map,,1,, map,,2,,''`)`
 
 Returns a map containing the union/intersection/difference/symmetric difference of the arguments. All the arguments must be sets sharing an equivalent comparator. The map operator is applied in a left-associative order. If an association is found in more than one set, the first map in the argument list prevails.  May take O(kn log n) time, where k is the number of sets and n is the number of associations involved, though O(kn) time is optimal.
+
+== Exceptions ==
+
+=== Exceptions ===
+
+`(imap-key-not-found? `''obj''`)`
+
+Returns `#t` if ''obj'' is an object raised by the `imap-ref` procedure or any other procedure that accesses maps when the key is not found and there is no failure procedure, and `#f` otherwise.
+
