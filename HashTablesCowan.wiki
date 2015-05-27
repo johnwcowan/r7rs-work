@@ -359,9 +359,9 @@ Calls ''proc'' for every association in ''hash-table'' with two arguments, the k
 
 === Copying and conversion ===
 
-`(hash-table-copy `''hash-table'' [[|''immutable?'' ]]`)`
+`(hash-table-copy `''hash-table'' [[|''mutable?'' ]]`)`
 
-Returns a newly allocated hash table with the same properties and associations as ''hash-table''. If the second argument is present and is true, and the implementation supports immutable hash tables, the returned hash table is immutable; otherwise it is mutable.  (SRFI 69 `hash-table-copy` does not support second argument; R6RS `hashtable-copy`)
+Returns a newly allocated hash table with the same properties and associations as ''hash-table''. If the second argument is present and is true, the new hash table is mutable.  Otherwise it is immutable provided that the implementation supports immutable hash tables.  (SRFI 69 `hash-table-copy` does not support a second argument; R6RS `hashtable-copy`)
 
 `(hash-table-keys `''hash-table''`)`
 
