@@ -94,11 +94,11 @@ Returns a newly allocated bytevector whose length is the length of ''list'' time
 
 `(vector->[type]-bytevector! `''bytevector at vector'' [[''start''|[ ''end'' ]] ]`)`
 
-Writes the elements of ''vector'' from ''start'' to ''end'' into ''bytevector'' starting at ''at''.
+Writes the elements of ''vector'' from ''start'' to ''end'' into ''bytevector'' starting at ''at * b''.
 
 `(list->[type]-bytevector! `''list bytevector at''`)`
 
-Writes the elements of ''list'' into ''bytevector'' starting at ''at''.
+Writes the elements of ''list'' into ''bytevector'' starting at ''at * b''.
 
 == Conversions from bytevectors ==
 
@@ -140,25 +140,21 @@ Applies ''proc'' to the elements of the ''bytevectors'', considered as typed vec
 
 == Input and output ==
 
-It is an error if the ports passed to these procedures are not binary ports.
+These are trivial variants of `read-bytevector`, `read-bytevector!`, and `write-bytevector` provided for uniformity.
 
-`(read-[type] ` [[|''port'' ]]`)`
+`(read-bytevector-[type] `''k'' [[|''port'' ]]`)`
 
-Reads the appropriate number of bytes from ''port'' and returns a number of the appropriate type (exact integer or inexact real or complex number).
+Read ''k'' * ''b'' bytes from ''port'' into a newly allocated [type]vector and returns it.
 
-`(write-[type] `''number'' [[|''port'' ]]`)`
+`(read-bytevector-[type]! `''bytevector'' [[|''port'' [ ''start'' [ ''end'' ]] ] ]`)`
 
-Writes ''number'' to ''port'' in the appropriate format.
+Read ''end * b - start * b'' bytes from ''port'' into ''[type]vector'' starting at ''start''.  Returns the number of bytes read divided by ''b'', or an eof object if no bytes are available.  If the number of bytes available is not a multiple of ''b'', the value of the element of ''[type]vector'' for which ''b'' bytes are not available is unspecified.
 
-`(read-ber-integer ` [[|''port'' ]]`)`
+`(write-bytevector-[type] `''bytevector [[|''port'' [ ''start'' [ ''end'' ]] ] ]`)`
 
-Reads a BER-encoded integer of arbitrary size from ''port''.
+Write ''end * b - start * b'' bytes to ''port'' from ''[type]vector'' starting at ''start''.  Returns an unspecified value.
 
-`(write-ber-integer ` ''k'' [[|''port'' ]]`)`
-
-Writes ''integer'' using BER encoding to ''port''.
-
-== Extended bytevector API ==
+=== Extended bytevector API ==
 
 See the procedures of VectorsCowan, with the exceptions of the ones defined here.
 
