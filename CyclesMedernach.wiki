@@ -172,13 +172,13 @@ Returns two values, a cycle containing those elements which satisfy ''predicate'
 
 == Searching ==
 
-`(cycle-any? `''cycle predicate''`)`
+`(cycle-any `''cycle predicate''`)`
 
-Returns `#t` if any element of ''cycle'' satisfies ''predicate'', and `#f` otherwise.
+If any element of ''cycle'' satisfies ''predicate'', that value is returned, and `#f` otherwise.
 
-`(cycle-every? `''cycle predicate''`)`
+`(cycle-every `''cycle predicate''`)`
 
-Returns `#t` if every element of ''cycle'' satisfies ''predicate'', and `#f` otherwise.
+If any element of ''cycle'' does not satisfy ''predicate'', `#f` is returned, and `#t` otherwise.
 
 `(cycle-find `''cycle predicate''`)`
 
