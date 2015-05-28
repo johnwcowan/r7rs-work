@@ -1064,7 +1064,9 @@ in these cases, immutable maps or some other alternative should be employed.
 Without the work of Olin Shivers on <a href="http://srfi.schemers.org/srfi-1/srfi-1.html">SRFI 1</a>,
 this SRFI would not exist. Everyone acknowledged there is transitively acknowledged here.
 This is not to imply that either Olin or anyone else necessarily endorses the final
-results, of course. 
+results, of course.</p>
+
+<p>Special thanks to Shiro Kawai, whose Gauche implementation of lazy sequences inspired this one.</p>
 
 
 }}}
