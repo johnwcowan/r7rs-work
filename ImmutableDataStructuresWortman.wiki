@@ -40,7 +40,7 @@ Invokes the predicate ''stop?'' on ''seed''.  If it returns false, generate the 
 
 `(ideque? `''x''`)`
 
-Returns `#t` if ''x'' is an ideque, and `#f` otherwise.  Takes O(1) time.
+Returns `#t` if ''x'' is a deque, and `#f` otherwise.  Takes O(1) time.
 
 `(ideque-empty? `''deque''`)`
 
@@ -105,10 +105,6 @@ Returns a deque containing the elements of ''deque'' in reverse order.  Takes O(
 `(ideque-count `''pred deque''`)`
 
 Returns the number of elements of ''deque'' which satisfy ''pred'' as an exact integer.  Takes O(n) time.
-
-`(ideque-delete `''pred deque''`)`
-
-Returns a deque containing the elements of ''deque'', except for those which satisfy ''pred''.  Takes O(n) time.
 
 `(ideque-zip `''deque'' ...`)`
 
@@ -190,21 +186,25 @@ Conversion between deque and list structures. FIFO order is preserved, so the fr
 
 `ideque-comparator`
 
-A comparator suitable for comparing ideques.  It does not provide comparison procedures, as there is no ordering between ideques.
+A comparator suitable for comparing ideques listwise (that is, if one ideque is a prefix of the other, it precedes it).  Elements are compared with `default-comparator`.
+
+`(make-ideque-comparator `''comparator''`)`
+
+Returns a comparator with the same behavior as `ideque-comparator`, except that elements are compared with ''comparator''.
 
 == Sets ==
 
-A sorted set data structure stores a finite collection of unique elements with a defined [[http://ccil.org/~cowan/temp/srfi-114.html|comparator]].
+A sorted set data structure stores a finite collection of unique elements with a defined [[http://ccil.org/~cowan/temp/srfi-114.html|comparator]].  It is an error if the comparator does not provide a comparison procedure.
 
 These requirements can be satisfied by many flavors of ''self-balancing binary trees.'' Red-black trees, 1-2 brother trees, and labeled 2-3 finger trees are particularly convenient in an immutable context.
 
 === Construction ===
 
-If two elements are to be inserted into a set that are equal in the sense of the set's comparator but are not `eqv?`, the first to be specified or generated prevails.
+If two elements are inserted into a set that are equal in the sense of the set's comparator but are not `eqv?`, the first to be specified or generated prevails.
 
 `(iset `''comparator'' [[|''element'' ...]]`)`
 
-Returns a set containing elements `element...`, where ''comparator'' provides the criterion of identity and ordering.  Takes O(n log n) time.
+Returns a set containing ''elements'', where ''comparator'' provides the criterion of identity and ordering.  Takes O(n log n) time.
 
 `(iset-tabulate `''n proc''`)`
 
@@ -254,7 +254,7 @@ Returns a set which contains the elements of ''set'' and ''obj'' as well.  If th
 
 `(iset-adjoin-all `''set list''`)`
 
-Returns a set which contains the elements of ''set'' and the elements of ''list'' as well.  It is an error if the elements of ''list'' are not increasing in the sense of the comparator of ''set''.  If there is already an element of ''set'' which is equal (in the sense of the comparator) to an element of ''list'', the element of ''set'' prevails.  Takes O(k log n) time, where ''k'' is the length of ''list''.
+Returns a set which contains the elements of ''set'' and the elements of ''list'' as well.  It is an error if the elements of ''list'' are not distinct and increasing in the sense of the comparator of ''set''.  If there is already an element of ''set'' which is equal (in the sense of the comparator) to an element of ''list'', the element of ''set'' prevails.  Takes O(k log n) time, where ''k'' is the length of ''list''.
 
 `(iset-replace `''set obj''`)`
 
@@ -266,7 +266,7 @@ Returns a set which contains the elements of ''set'' with the exception of ''obj
 
 `(iset-delete-elements `''set list''`)`
 
-Returns a set which contains the elements of ''set'', excluding the elements of ''list''.  It is an error if the elements of ''list'' are not increasing in the sense of the comparator of ''set''. Takes O(k log n) time, where ''k'' is the length of ''list''.
+Returns a set which contains the elements of ''set'', excluding the elements of ''list''.  It is an error if the elements of ''list'' are not distinct and increasing in the sense of the comparator of ''set''. Takes O(k log n) time, where ''k'' is the length of ''list''.
 
 `(iset-search `''set obj failure success''`)`
 
@@ -316,17 +316,17 @@ Note that since set elements are unique, `iset-range=` returns a set of at most 
 
 `(iset-between `''set least include-least most include-most''`)`
 
-Returns a set containing the elements of ''set'' in the interval between ''least''and ''most''. If ''include-least/include-most'' is true then the result includes an element equal to ''least/most'' respectively; otherwise those elements are not included. Takes O(k log k + log n) time, where n is the number of elements in the set and k is the number of elements returned; O(k + log n) is optimal.
+Returns a set containing the elements of ''set'' in the interval between ''least'' and ''most''. If ''include-least/include-most'' is true then the result includes an element equal to ''least/most'' respectively; otherwise those elements are not included. Takes O(k log k + log n) time, where ''n'' is the number of elements in the set and ''k'' is the number of elements returned; O(k + log n) is optimal.
 
 `(iset-filter `''pred set''`)`
 
 `(iset-remove `''pred set''`)`
 
-Returns a set containing only those elements `x` for which `(predicate? x)` returns true/false. Takes O(n log n) time; O(n) is optimal.
+Returns a set containing only those elements on which ''pred'' returns true/false. Takes O(n log n) time; O(n) is optimal.
 
 `(iset-partition`''pred set''`)`
 
-Returns two values, `(iset-filter `''pred set''`)` and `(iset-remove `''pred set''`)` respectively.
+Returns two values, `(iset-filter `''pred set''`)` and `(iset-remove `''pred set''`)` respectively, but may be more efficient.
 
 === Folding and mapping ===
 
@@ -348,7 +348,7 @@ Like `iset-map/monotone`, except that ''proc'' is not required to be monotone. T
 
 `(iset-for-each `''proc set''`)`
 
-Invokes '''proc'' on every ''element'' in ''set''.  The result is unspecified. Takes O(n) time.
+Invokes ''proc'' on every ''element'' in ''set''.  The result is unspecified. Takes O(n) time.
 
 === Subsets ===
 
@@ -412,7 +412,7 @@ If two associations are to be inserted into a map that are equal in the sense of
 
 `(imap `''comparator'' ( ''key value'' ...]`)`
 
-Returns a map using''comparator''.  For each pair of arguments, an association is added to the map with ''key'' as its key and ''value'' as its value.  Takes O(n log n) time.
+Returns a map using ''comparator''.  For each pair of arguments, an association is added to the map with ''key'' as its key and ''value'' as its value.  Takes O(n log n) time.
 
 `(imap-tabulate `''n proc''`)`
 
@@ -480,7 +480,7 @@ Returns a map which contains the associations of ''map'' and an association with
 
 `(imap-add-all `''map key-list value-list''`)`
 
-Returns a map which contains the associations of ''map'' and associations constructed from the corresponding associations of ''key-list'' and ''value-list'' as well.  It is an error if the associations of ''key-list'' are not increasing in the sense of the comparator of ''map''.  If there is already an association of ''map'' which is equal (in the sense of the comparator) to an association of ''list'', the key of ''map'' prevails.  Takes O(k log n) time, where ''k'' is the length of ''list''.
+Returns a map which contains the associations of ''map'' and associations constructed from the corresponding associations of ''key-list'' and ''value-list'' as well.  It is an error if the associations of ''key-list'' are not distinct and increasing in the sense of the comparator of ''map''.  If there is already an association of ''map'' which is equal (in the sense of the comparator) to an association of ''list'', the key of ''map'' prevails.  Takes O(k log n) time, where ''k'' is the length of ''list''.
 
 `(imap-replace `''map key value''`)`
 
@@ -492,7 +492,7 @@ Returns a map which contains the associations of ''map'' with the exception of a
 
 `(imap-delete-keys `''map key-list''`)`
 
-Returns a map which contains the associations of ''map'', excluding any associations whose keys appear in ''key-list''.  It is an error if the associations of ''list'' are not increasing in the sense of the comparator of ''map''. Takes O(k log n) time, where ''k'' is the length of ''key-list''.
+Returns a map which contains the associations of ''map'', excluding any associations whose keys appear in ''key-list''.  It is an error if the associations of ''list'' are not distinct and increasing in the sense of the comparator of ''map''. Takes O(k log n) time, where ''k'' is the length of ''key-list''.
 
 `(imap-push `''map key value''`)`
 
@@ -544,23 +544,23 @@ Invokes ''pred'' in order on the keys and values of ''map'', passing a key and a
 
 `(imap-range>= `''map obj''`)`
 
-Returns a map containing only the associations of `map` that are equal to / less than / greater than / less than or equal to / greater than or equal to ''obj''.  Takes O(k log k + log n) time, where n is the number of associations in the map and k is the number of associations returned; O(k + log n) is optimal.
+Returns a map containing only the associations of `map` whose keys are equal to / less than / greater than / less than or equal to / greater than or equal to ''obj''.  Takes O(k log k + log n) time, where ''n'' is the number of associations in the map and ''k'' is the number of associations returned; O(k + log n) is optimal.
 
-Note that since map associations are unique, `imap-range=` returns a map of at most one association.
+Note that since map keys are unique, `imap-range=` returns a map of at most one association.
 
 `(imap-between `''map least include-least most include-most''`)`
 
-Returns a map containing the associations of ''map'' in the interval between ''least''and ''most''. If ''include-least/include-most'' is true then the result includes an association equal to ''least/most'' respectively; otherwise those associations are not included. Takes O(k log k + log n) time, where n is the number of associations in the map and k is the number of associations returned; O(k + log n) is optimal.
+Returns a map containing the associations of ''map'' whose keys are in the interval between ''least'' and ''most''. If ''include-least/include-most'' is true then the result includes an association equal to ''least/most'' respectively; otherwise those associations are not included. Takes O(k log k + log n) time, where ''n'' is the number of associations in the map and ''k'' is the number of associations returned; O(k + log n) is optimal.
 
 `(imap-filter `''pred map''`)`
 
 `(imap-remove `''pred map''`)`
 
-Returns a map containing only those associations `x` for which `(predicate? x)` returns true/false. Takes O(n log n) time; O(n) is optimal.
+Returns a map containing only those associations on whose keys ''pred'' returns true/false. Takes O(n log n) time; O(n) is optimal.
 
 `(imap-partition`''pred map''`)`
 
-Returns two values, `(imap-filter `''pred map''`)` and `(imap-remove `''pred map''`)` respectively.
+Returns two values, `(imap-filter `''pred map''`)` and `(imap-remove `''pred map''`)` respectively, but may be more efficient.
 
 === Mapping and folding ===
 
@@ -578,7 +578,7 @@ Invokes '''proc'' on the key and value of every ''association'' in ''map''.  The
 
 `(imap-for-each `''proc map''`)`
 
-Invokes '''proc'' on the key and value of every ''association'' in ''map''.  The result is unspecified. Takes O(n) time.
+Invokes ''proc'' on the key and value of every ''association'' in ''map''.  The result is unspecified. Takes O(n) time.
 
 `(imap-collect `''proc map''`)`
 
@@ -622,11 +622,11 @@ Returns `#t` if each ''map'' other than the last is a superset of the following 
 
 `(imap-values `''imap''`)`
 
-Returns a list of the keys/values of ''imap'' in increasing order.
+Returns a list of the keys/values of ''imap'' in increasing order. Takes O(n) time.
 
 `(imap-entries `''imap''`)`
 
-Returns two values, lists of the keys and values of ''imap'' in increasing order.
+Returns two values, lists of the keys and values of ''imap'' in increasing order, but may be more efficient. Takes O(n) time.
 
 `(imap->alist `''map''`)`
 
