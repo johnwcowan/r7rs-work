@@ -245,7 +245,7 @@ Deletes any association to each ''key'' in ''hash-table'' and returns the number
 
 Semantically equivalent to, but may be more efficient than, the following code:
 
-  `(for-each (lambda (key) (hash-table-delete `''hash-table''` key)) `''keys-list''`)`
+  `(for-each (lambda (key) (hash-table-delete! `''hash-table''` key)) `''keys-list''`)`
 
 `(hash-table-extend! `''hash-table key'' [[|''failure'' [ ''success'' ]] ]`)`
 
@@ -281,7 +281,7 @@ Must execute in expected amortized constant time.  Returns an unspecified value.
 
 `(hash-table-push! `''hash-table key value''`)`
 
-If an association with ''key'' is found in ''hash-table'', then update the value associated with of ''key'' to the result of invoking `cons` on ''value'' and  the original value.  The return value of `hash-table-push!` is unspecified.  If the value is not found, an error satisfied by `imap-key-not-found?` is signaled.  It is an error if the value is not a pair.
+If an association with ''key'' is found in ''hash-table'', then update the value associated with of ''key'' to the result of invoking `cons` on ''value'' and  the original value.  The return value of `hash-table-push!` is unspecified.  If the value is not found, an error satisfied by `hash-table-key-not-found?` is signaled.  It is an error if the value is not a pair.
 
 `(hash-table-pop! `''hash-table key''`)`
 
@@ -479,7 +479,7 @@ Returns what `(hash-table-ref (bimap-reverse-hash-table `''bimap''`) `''value de
 
 `(bimap-copy `''bimap'' [[|''immutable?'' ]]`)`
 
-Returns a newly allocated bimap with the same properties and associations as ''bimap''. If the second argument is present and is true, and the implementation supports immutable hash tables, the returned bimap is made from immutable hash tables and is itself immutable; otherwise it is mutable.
+Returns a newly allocated bimap with the same properties and associations as ''bimap''. If the second argument is present and is true, the new bimap is mutable.  Otherwise it is made from immutable hash tables and itself immutable, provided the implementation supports immutable hash tables.
 
 The mutation procedures `bimap-set!`, `bimap-set-entries!`, `bimap-delete!`, `bimap-delete-keys!`, `bimap-extend!`, `bimap-extend/default!`, `bimap-replace!`, `bimap-replace/default!`, `bimap-update!`, `bimap-update/default!`, `bimap-clear!`, `bimap-filter!`, `bimap-remove!`, and `bimap-partition!` have the same behavior as their hash table analogues, mutating both hash tables appropriately.
 
