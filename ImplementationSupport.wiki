@@ -8,6 +8,7 @@ The following implementations support all or part of R7RS-small:
 ||Guile||(partial)||
 ||Husk|| ||
 ||Kawa|| ||
+||Larceny|| ||
 ||Mosh||(partial)||
 ||Picrin|| ||
 ||Sagittarius|| ||
