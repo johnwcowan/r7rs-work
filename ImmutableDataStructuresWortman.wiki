@@ -112,23 +112,23 @@ Returns a deque of lists (not deques) each of which contains the corresponding e
 
 === Mapping ===
 
-`(ideque-map `''proc deque''`)`
+`(ideque-map `''proc deque'' ...`)`
 
-Applies ''proc'' to each element of ''deque'' and returns a deque containing the results in order.  Takes O(n) time.
+Applies ''proc'' to the corresponding elements of ''deques'' and returns a deque containing the results in order.  Terminates when any deque is finished.  Takes O(n) time.
 
-`(ideque-for-each `''proc deque''`)`
+`(ideque-for-each `''proc deque'' ...`)`
 
-Applies ''proc'' to each element of ''deque'' in order and returns an unspecified result.  Takes O(n) time.
+Applies ''proc'' to the corresponding elements of ''deques'' in order and returns an unspecified result.  Terminates when any deque is finished.  Takes O(n) time.
 
-`(ideque-fold `''proc nil deque''`)`
+`(ideque-fold `''proc nil deque'' ...`)`
 
-`(ideque-fold-right `''proc nil deque''`)`
+`(ideque-fold-right `''proc nil deque'' ...`)`
 
-Invokes ''proc'' on each member of ''deque'' in forward/reverse order, passing the result of the previous invocation as a second argument. For the first invocation, ''nil'' is used as the second argument. Returns the result of the last invocation, or ''nil'' if there was no invocation.  Takes O(n) time.
+Invokes ''proc'' on the corresponding elements of ''deques'' in forward/reverse order, passing the result of the previous invocation as a second argument. For the first invocation, ''nil'' is used as the second argument. Returns the result of the last invocation, or ''nil'' if there was no invocation.  Terminates when any deque is finished.  Takes O(n) time.
 
-`(ideque-append-map `''proc deque''`)`
+`(ideque-append-map `''proc deque'' ...`)`
 
-Applies ''proc'' to each element of ''deque''.  It is an error if the result is not a list.  Returns a deque containing the elements of the lists in order.  Takes O(n) time.
+Applies ''proc'' to the corresponding elements of ''deques''.  It is an error if the result is not a list.  Returns a deque containing the elements of the lists in order.  Terminates when any deque is finished.  Takes O(n) time.
 
 === Filtering ===
 
@@ -208,11 +208,11 @@ Returns a set containing ''elements'', where ''comparator'' provides the criteri
 
 `(iset-tabulate `''n proc''`)`
 
-Invokes ''proc'' successively on the integers 0 through ''n'' - 1 inclusive, and returns a set containing the results.  Takes O(n) time.
+Invokes ''proc'' successively on the integers 0 through ''n'' - 1 inclusive, and returns a set containing the results.  Takes O(n log n) time.
 
 `(iset-unfold `''stop? mapper successor seed''`)`
 
-Invokes the predicate ''stop?'' on ''seed''.  If it returns false, generate the next result by applying ''mapper'' to ''seed'', generate the next seed by applying ''successor'' to ''seed'', and repeat this algorithm with the new seed.  If ''stop?'' returns true, return a set containing the results.  Takes O(n) time.
+Invokes the predicate ''stop?'' on ''seed''.  If it returns false, generate the next result by applying ''mapper'' to ''seed'', generate the next seed by applying ''successor'' to ''seed'', and repeat this algorithm with the new seed.  If ''stop?'' returns true, return a set containing the results.  Takes O(n log n) time.
 
 === Predicates ===
 
@@ -310,13 +310,9 @@ Invokes ''pred'' on the elements of ''set'' until one of them returns a true/fal
 
 `(iset-range>= `''set obj''`)`
 
-Returns a set containing only the elements of `set` that are equal to / less than / greater than / less than or equal to / greater than or equal to ''obj''.  Takes O(k log k + log n) time, where n is the number of elements in the set and k is the number of elements returned; O(k + log n) is optimal.
+Returns a set containing only the elements of `set` that are equal to / less than / greater than / less than or equal to / greater than or equal to ''obj''.  Takes O(log n) time, where n is the number of elements in the set.
 
 Note that since set elements are unique, `iset-range=` returns a set of at most one element.
-
-`(iset-between `''set least include-least most include-most''`)`
-
-Returns a set containing the elements of ''set'' in the interval between ''least'' and ''most''. If ''include-least/include-most'' is true then the result includes an element equal to ''least/most'' respectively; otherwise those elements are not included. Takes O(k log k + log n) time, where ''n'' is the number of elements in the set and ''k'' is the number of elements returned; O(k + log n) is optimal.
 
 `(iset-filter `''pred set''`)`
 
@@ -332,11 +328,11 @@ Returns two values, `(iset-filter `''pred set''`)` and `(iset-remove `''pred set
 
 `(iset-fold `''proc nil set''`)`
 
-The fundamental set iterator. Equivalent to, but may be more efficient than, `(fold `''proc base'' ` (iset->ordered-list `''set''`))`.  Takes O(n) time.
+The fundamental set iterator. Equivalent to, but may be more efficient than, `(fold `''proc base'' ` (iset->increasing-list `''set''`))`.  Takes O(n) time.
 
 `(iset-fold-right `''proc nil set''`)`
 
-The fundamental set iterator. Equivalent to, but may be more efficient than, `(fold-right `''proc base'' ` (iset->ordered-list `''set''`))`.  Takes O(n) time.
+The fundamental set iterator. Equivalent to, but may be more efficient than, `(fold-right `''proc base'' ` (iset->increasing-list `''set''`))`.  Takes O(n) time.
 
 `(iset-map/monotone `''proc set'' [[|''comparator'' ]]`)`
 
@@ -380,7 +376,7 @@ Returns `#t` if each ''set'' other than the last is a superset of the following 
 
 Returns a list containing the elements of `set` in increasing order. Takes O(n) time.
 
-`(ordered-list->iset comparator list)`
+`(increasing-list->iset comparator list)`
 
 Returns a set containing the elements of ''list'' and using ''comparator''. It is an error for ''list'' to be anything other than a proper list of elements in increasing order. Takes O(n log n) time; O(n) is optimal.
 
@@ -416,11 +412,11 @@ Returns a map using ''comparator''.  For each pair of arguments, an association 
 
 `(imap-tabulate `''n proc''`)`
 
-Invokes ''proc'' successively on the integers 0 through ''n'' - 1 inclusive, and returns a map containing the results.  Takes O(n) time.
+Invokes ''proc'' successively on the integers 0 through ''n'' - 1 inclusive, and returns a map containing the results.  Takes O(n log n) time.
 
 `(imap-unfold `''stop? mapper successor seed''`)`
 
-Invokes the predicate ''stop?'' on ''seed''.  If it returns false, generate the next result by applying ''mapper'' to ''seed'', generate the next seed by applying ''successor'' to ''seed'', and repeat this algorithm with the new seed.  If ''stop?'' returns true, return a map containing the results.  Takes O(n) time.
+Invokes the predicate ''stop?'' on ''seed''.  If it returns false, generate the next result by applying ''mapper'' to ''seed'', generate the next seed by applying ''successor'' to ''seed'', and repeat this algorithm with the new seed.  If ''stop?'' returns true, return a map containing the results.  Takes O(n log n) time.
 
 === Predicates ===
 
@@ -544,13 +540,9 @@ Invokes ''pred'' in order on the keys and values of ''map'', passing a key and a
 
 `(imap-range>= `''map obj''`)`
 
-Returns a map containing only the associations of `map` whose keys are equal to / less than / greater than / less than or equal to / greater than or equal to ''obj''.  Takes O(k log k + log n) time, where ''n'' is the number of associations in the map and ''k'' is the number of associations returned; O(k + log n) is optimal.
+Returns a map containing only the associations of `map` whose keys are equal to / less than / greater than / less than or equal to / greater than or equal to ''obj''.  Takes O(log n) time, where ''n'' is the number of associations in the map .
 
 Note that since map keys are unique, `imap-range=` returns a map of at most one association.
-
-`(imap-between `''map least include-least most include-most''`)`
-
-Returns a map containing the associations of ''map'' whose keys are in the interval between ''least'' and ''most''. If ''include-least/include-most'' is true then the result includes an association equal to ''least/most'' respectively; otherwise those associations are not included. Takes O(k log k + log n) time, where ''n'' is the number of associations in the map and ''k'' is the number of associations returned; O(k + log n) is optimal.
 
 `(imap-filter `''pred map''`)`
 
@@ -586,11 +578,11 @@ Invokes ''proc'' on the key and value of every ''association'' in ''map''.  The 
 
 `(imap-fold `''proc nil map''`)`
 
-The fundamental map iterator. Equivalent to, but may be more efficient than, `(fold `''proc base'' ` (imap->ordered-list `''map''`))`.  Takes O(n) time.
+The fundamental map iterator. Equivalent to, but may be more efficient than, `(fold `''proc base'' ` (imap->increasing-list `''map''`))`.  Takes O(n) time.
 
 `(imap-fold `''proc nil map''`)`
 
-The fundamental map iterator. Equivalent to, but may be more efficient than, `(fold-right `''proc base'' ` (imap->ordered-list `''map''`))`.  Takes O(n) time.
+The fundamental map iterator. Equivalent to, but may be more efficient than, `(fold-right `''proc base'' ` (imap->increasing-list `''map''`))`.  Takes O(n) time.
 
 === Subsets ===
 
