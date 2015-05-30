@@ -71,6 +71,7 @@ Not all these pages have information on all these Schemes.
  * SquareBrackets
  * StringSymbolConversion
  * SyntaxAbuse
+ * SyntaxDefinitions
  * UnicodeSupport
  * UnsignedImaginary
  * UpperCaseEscape
