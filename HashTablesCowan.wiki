@@ -150,8 +150,6 @@ It is an error to mutate a key during or after its insertion into a hash table.
 
 * [[#Exceptions|Exceptions]]: `hash-table-key-not-found?`
 
-* [[#Comparator|Comparator]]: `hash-table-comparator`
-
 * [[#Bimaps|Bimaps]]: `make-bimap`, `bimap?`, `bimap-forward-hash-table`, `bimap-reverse-hash-table`, `bimap-contains?`, `bimap-contains-value?`, `bimap=?`, `bimap-ref`, `bimap-value-ref`, `bimap-ref/default`, `bimap-value-ref/default`, `bimap-copy`, `bimap-set!`, `bimap-set-entries!`, `bimap-delete!`, `bimap-delete-keys!`, `bimap-extend!`, `bimap-extend/default!`, `bimap-replace!`, `bimap-replace/default!`, `bimap-update!`, `bimap-update/default!`, `bimap-clear!`, `bimap-filter!`, `bimap-remove!`, `bimap-partition!`
 
 === Constructors ===
@@ -307,7 +305,7 @@ Returns the number of associations in ''hash-table'' as an exact integer.  Shoul
 
 `(hash-table-find `''hash-table pred failure''`)`
 
-For each association of ''hash-table'', invoke ''proc'' on its key and value.   If ''pred'' returns true, then return two values, the key and the value of the association.  If all the calls to ''proc'' return `#f`, return the result of invoking the thunk ''failure''.
+For each association of ''hash-table'', invoke ''pred'' on its key and value.   If ''pred'' returns true, then return two values, the key and the value of the association.  If all the calls to ''pred'' return `#f`, return the result of invoking the thunk ''failure''.
 
 `(hash-table-count `''hash-table pred''`)`
 
