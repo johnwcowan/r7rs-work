@@ -397,9 +397,9 @@ Curried version of `hash-table-ref/default`.  Returns a procedure of one argumen
 
 Adds the associations of ''hash-table,,2,,'' to ''hash-table,,1,,'' and returns ''hash-table,,1,,''.  If a key appears in both hash tables, its value is set to the value appearing in ''hash-table,,1,,''.  Returns 'hash-table,,1,,''.  (SRFI 69 `hash-table-merge!`)
 
-`(hash-table-intersection! `''hash-table,,1,, hash-table,,2,,'' [[|''merger'' ]]`)`
+`(hash-table-intersection! `''hash-table,,1,, hash-table,,2,,''`)`
 
-Deletes the associations from ''hash-table,,1,,'' which don't also appear in ''hash-table,,2,,'' and returns ''hash-table,,1,,''.  Returns 'hash-table,,1,,''.
+Deletes the associations from ''hash-table,,1,,'' which don't also appear in ''hash-table,,2,,'' and returns ''hash-table,,1,,''.
 
 `(hash-table-difference! `''hash-table,,1,, hash-table,,2,,''`)`
 
