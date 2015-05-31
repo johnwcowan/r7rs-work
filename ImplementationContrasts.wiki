@@ -68,6 +68,7 @@ Not all these pages have information on all these Schemes.
  * RoundInf
  * SelfQuotingVectors
  * SetUndefinedVariable
+ * ShortEquality
  * SquareBrackets
  * StringSymbolConversion
  * SyntaxAbuse
