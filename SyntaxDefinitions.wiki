@@ -33,8 +33,12 @@ Not supported:  Gauche, MIT, Chicken, Bigloo, Scheme48/scsh, SCM, STklos, Scheme
 
 === Syntactic closures ===
 
-
+Syntactic closures is a low-level macro system supported by MIT and Chibi only.
 
 === Explicit renaming ===
 
+Explicit renaming is a low-level macro system supported by MIT, Chicken, Chibi [others?].
+
 === Implicit renaming ===
+
+Implicit renaming is a low-level macro system supported by Chicken only.
