@@ -4,7 +4,7 @@ Displays `ltr`: Racket, Gauche, Gambit, Chicken, Bigloo, Scheme48/scsh, Kawa, SC
 
 Displays `rtl`: MIT, BDC, XLisp, SXM, Chibi
 
-Unpredictable order: Chez
+Unpredictable order: Chez, Larceny
 
 Undeterminable order (no side effects): Owl Lisp
 
