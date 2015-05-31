@@ -37,7 +37,7 @@ Syntactic closures is a low-level macro system supported by MIT and Chibi only.
 
 === Explicit renaming ===
 
-Explicit renaming is a low-level macro system supported by MIT, Chicken, Chibi [others?].
+Explicit renaming is a low-level macro system supported by MIT, Chicken, Sagittarius, Picrin only.
 
 === Implicit renaming ===
 
