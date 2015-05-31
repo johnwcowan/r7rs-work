@@ -2,24 +2,26 @@
 These are the release dates of fairly recent releases (or sometimes updates, or sometimes just source-control update dates) of the Scheme implementations in (or formerly in) John Cowan's test suite.  I've tried to maintain a balance between churn and stability.
 
 ||'''date'''||'''name'''||'''release'''||
-||2013-11-23||[[https://code.google.com/p/foment/|Foment]]||20131123||
-||2013-10-03||[[http://www.call-cc.org/|Chicken]]||4.8.0.5||
-||2013-09-28||[[http://www.gnu.org/software/kawa/index.html|Kawa]]||1.14||
-||2013-09-15||[[http://ironscheme.codeplex.com|IronScheme]]||103113||
+||2015-05-26||[[http://ironscheme.codeplex.com|IronScheme]]||114008||
+||2015-05-15||[[https://code.google.com/p/sagittarius-scheme/|Sagittarius]]||0.6.4||
+||2015-05-10||[[https://code.google.com/p/chibi-scheme/|Chibi]]||0.7.3||
+||2015-03-07||[[http://www.larcenists.org/|Larceny]]||0.98||
+||2015-02-28||[[http://code.google.com/p/vicare-scheme/|Vicare]]||0.4d0pre1||
+||2014-13-29||[[https://code.google.com/p/foment/|Foment]]||0.4||
+||2014-12-02||[[http://www.gnu.org/software/kawa/index.html|Kawa]]||2.0||
+||2014-11-18||[[http://www.call-cc.org/|Chicken]]||4.9.0||
+||2014-11-??||[[http://racket-lang.org/|Racket]]||6.1.1||
+||2014-07-20||[[http://practical-scheme.net/gauche/|Gauche]]||0.9.4||
 ||2013-08-13||[[http://www-sop.inria.fr/indes/fp/Bigloo/bigloo-2.html|Bigloo]]||4.0b||
 ||2013-06-18||[[http://dynamo.iro.umontreal.ca/~gambit/wiki/index.php/Main_Page|Gambit]]||4.6.6||
 ||2013-05-31||[[http://code.google.com/p/femtolisp/|FemtoLisp]]||20130531||
 ||2013-05-13||[[http://people.csail.mit.edu/jaffer/SCM.html|SCM]]||5f1-1||
 ||2013-04-14||[[http://tinyscheme.sourceforge.net/home.html|TinyScheme]]||1.42||
 ||2013-04-10||[[http://www.gnu.org/software/guile/|Guile]]||2.0.9||
-||2013-02-28||[[http://code.google.com/p/vicare-scheme/|Vicare]]||0.2d18||
 ||2013-01-31||[[http://www.scsh.net/|scsh]]||1.9||
 ||2013-01-31||[[http://s48.org/|Scheme48]]||1.9||
 ||2013-01-10||[[http://www.t3x.org/s9fes/|Scheme 9]]||20120708||
 ||2013-01-01||[[http://www.rscheme.org/rs/index.html|RScheme]]||0.7.3.4-b7||
-||2012-12-31||[[https://code.google.com/p/chibi-scheme/|Chibi]]||0.6.1||
-||2012-08-01||[[http://racket-lang.org/|Racket]]||5.3||
-||2012-05-28||[[http://practical-scheme.net/gauche/|Gauche]]||0.9.3.3||
 ||2012-04-16||[[http://hakl.net/software/dfsch/|Dfsch]]||0.4||
 ||2012-01-28||[[http://schemik.sourceforge.net/|Schemik]]||1.2.40.0||
 ||2012-01-09||[[http://carlstrom.com/bdc-scheme/|BDC]]||20120109||
@@ -36,7 +38,6 @@ These are the release dates of fairly recent releases (or sometimes updates, or 
 ||2011-02-02||[[http://nexj-scheme.org/download.html|NexJ]]||7.1.13.0||
 ||2010-07-28||[[http://code.google.com/p/sigscheme/|SigScheme]]||0.8.5||
 ||2010-05-05||[[http://sourceforge.net/projects/ksi/files/|KSi]]||3.9.0||
-||2009-08-19||[[http://www.larcenists.org/|Larceny]]||0.97||
 ||2008-12-23||[[http://code.google.com/p/ypsilon/|Ypsilon]]||0.9.6u3||
 ||2008-06-15||[[http://llava.org/|Llava]]||20080615||
 ||2007-02-27||[[http://sisc-scheme.org/|SISC]]||1.16.6||
