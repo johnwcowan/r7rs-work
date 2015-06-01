@@ -8,7 +8,7 @@ Olin Shivers (edited by John Cowan)
 
 == Issues ==
 
-1. Maybe `vector-delete-neighbor-dups` should take a "target" vector to write?
+1. Maybe `vector-delete-neighbor-dups!` should take a "target" vector to write?
 
 2. Switch from quicksort to introsort?  Introsort is basically a restricted version of quicksort in which we switch to heap sorting when the recursion depth would exceed log(N).
 
