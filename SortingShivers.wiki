@@ -504,7 +504,7 @@ The `vector-merge-sort` procedure returns a newly allocated vector of length `en
 The `vector-merge-sort!` procedure leaves its result in ''v''[[''start'',|''end'')
 and returns an unspecified value.
 
-`vector-merge` returns a vector of length (''end1'' - ''start1'') + (''end2'' - ''start2'').
+`vector-merge-sort` returns a vector of length (''end1'' - ''start1'') + (''end2'' - ''start2'').
 
 `(heap-sort ` ''< v'' [ ''start'' [ ''end'' ]] ]`)`
 
