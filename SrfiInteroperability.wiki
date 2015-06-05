@@ -84,7 +84,7 @@ In the table below, an identifier whose SRFI semantics generalizes its R7RS sema
 ||SRFI 111|| || || || ||
 ||SRFI 112|| || || || ||
 ||SRFI 113|| || || `set?` `set-contains?` `set-delete` `set-delete!` `set-union` `set-union!` `set-intersection` `set-intersection!` `set-difference` `set-difference` (etc) || ||
-||SRFI 114|| || || || `if3` `if=?` `if<?` `if>?` `if<=?` `if>=?` `if-not=?` `=?` `<?` `>?` `<=?` `>=?` || ||
+||SRFI 114|| || || `if3` `if=?` `if<?` `if>?` `if<=?` `if>=?` `if-not=?` `=?` `<?` `>?` `<=?` `>=?` || ||
 ||SRFI 115|| || || || ||
 ||SRFI 116|| || || || ||
 
