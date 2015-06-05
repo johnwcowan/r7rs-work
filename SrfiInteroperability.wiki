@@ -59,7 +59,7 @@ In the table below, an identifier whose SRFI semantics generalizes its R7RS sema
 ||SRFI 63|| `equal?` || `equal?` || (supersedes SRFI 47) || ||
 ||SRFI 64|| || || || ||
 ||SRFI 66|| || || || ||
-||SRFI 67|| || || `string-compare` `string-compare-ci` || ||
+||SRFI 67|| || || `string-compare` `string-compare-ci` `if3` `if=?` `if<?` `if>?` `if<=?` `if>=?` `if-not=?` `=?` `<?` `>?` `<=?` `>=?` || ||
 ||SRFI 69|| || || `string-hash` || ||
 ||SRFI 70|| lexical syntax for NaNs; `quotient` `remainder` `modulo` `gcd` `lcm` `expt` || lexical syntax for NaNs; `quotient` `remainder` `modulo`  `gcd` `lcm` `expt` || || (many) ||
 ||SRFI 71|| `let` `let*` `letrec` || `let` `let*` `letrec` || `let` || ||
@@ -76,4 +76,17 @@ In the table below, an identifier whose SRFI semantics generalizes its R7RS sema
 ||SRFI 98|| || || || `get-environment-variable` `get-environment-variables` ||
 ||SRFI 99|| `define-record-type` || `define-record-type` || `define-record-type` || ||
 ||SRFI 100|| || || || ||
+||SRFI 101|| `quote` `cons` `list` `make-list` `pair?` `null?` `list?` `car` `cdr` `caar` ... `cddddr` `list-ref` `list-tail` `length` `append` `reverse` `for-each` `map` || (ditto) || || ||
+||SRFI 105|| extends lexical syntax || extends lexical syntax || || ||
+||SRFI 106|| || || || ||
+||SRFI 107|| extends lexical syntax || extends lexical syntax || || ||
+||SRFI 108|| extends lexical syntax || extends lexical syntax || || ||
+||SRFI 109|| extends lexical syntax || extends lexical syntax || || ||
+||SRFI 110|| extends lexical syntax || extends lexical syntax || || ||
+||SRFI 111|| || || || ||
+||SRFI 112|| || || || ||
+||SRFI 113|| || || `set?` `set-contains?` `set-delete` `set-delete!` `set-union` `set-union!` `set-intersection` `set-intersection!` `set-difference` `set-difference` (etc) || ||
+||SRFI 114|| || || || `if3` `if=?` `if<?` `if>?` `if<=?` `if>=?` `if-not=?` `=?` `<?` `>?` `<=?` `>=?` || ||
+||SRFI 115|| || || || ||
+||SRFI 116|| || || || ||
 
