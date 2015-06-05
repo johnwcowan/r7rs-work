@@ -47,6 +47,7 @@ In the table below, an identifier whose SRFI semantics generalizes its R7RS sema
 ||SRFI 48|| || || `format` || ||
 ||SRFI 49|| alternative lexical syntax || alternative lexical syntax || (yes) || ||
 ||SRFI 51|| || || || ||
+||SRFI 54|| || || || ||
 ||SRFI 55|| || || || ||
 ||SRFI 57|| `define-record-type` || `define-record-type` || `define-record-type` ||
 ||SRFI 58|| extends lexical syntax || extends lexical syntax || || ||
