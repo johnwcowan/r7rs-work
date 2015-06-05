@@ -39,7 +39,7 @@ In the table below, an identifier whose SRFI semantics generalizes its R7RS sema
 ||SRFI 40|| || || (deprecated by SRFI 41) || ||
 ||SRFI 41|| || || || ||
 ||SRFI 42|| || || || ||
-||SRFI 43|| `vector-copy` || `vector->list` `vector-fill!` || || `make-vector` `vector` `vector-append` `vector?` `vector-ref` `vector-length` `vector-map` `vector-for-each` `vector-set!` `vector-fill!` `vector-copy!` `vector->list` `list->vector` ||
+||SRFI 43|| `list->vector` `vector-copy` `vector-map` `vector-for-each` || `vector-fill!` `vector->list` `list->vector` `vector-map` `vector-for-each` || || `make-vector` `vector` `vector-append` `vector?` `vector-ref` `vector-length` `vector-set!` `vector-fill!` `vector-copy!` `vector->list` ||
 ||SRFI 44|| `equal?` `string-set!` `vector-set!` || `equal?` `string-set!` `vector-set!` || `set?` `set-contains?` `set-delete` `set-delete!` `set-union` `set-union!` `set-intersection` `set-intersection!` `set-difference` `set-difference` (etc) || `make-list` `list` `list?` `list-ref` `make-vector` `vector` `vector-copy` `vector->list` `vector?` `vector-ref` `vector-set!` `make-string` `string` `string-copy` `string->list` `string?` `string-ref` `string-set!` ||
 ||SRFI 45|| || `delay` `force` || || `delay` `force` ||
 ||SRFI 46|| || `syntax-rules` || || `syntax-rules` ||
