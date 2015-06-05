@@ -26,4 +26,33 @@ In the table below, an identifier whose SRFI semantics generalizes its R7RS sema
 ||SRFI 22|| extends lexical syntax || extends lexical syntax || || ||
 ||SRFI 23|| || || || `error` ||
 ||SRFI 25|| `equal?` || `equal?` || `equal?` `make-array` `array-rank` `array-ref` `array-set!` || ||
+||SRFI 26|| || || || ||
+||SRFI 27|| || || || ||
+||SRFI 28|| || || `format` || ||
+||SRFI 29|| || || `format` || ||
+||SRFI 30|| || || || ||
+||SRFI 31|| || || || ||
+||SRFI 34|| || || || `with-exception-handler` `guard` `raise` ||
+||SRFI 35|| || (??) || || ||
+||SRFI 36|| || (??) || || ||
+||SRFI 37|| || || || ||
+||SRFI 38|| || || || ||
+||SRFI 39|| || || || `make-parameter` `parameterize` ||
+||SRFI 40|| || || (deprecated by SRFI 41) || ||
+||SRFI 41|| || || || ||
+||SRFI 42|| || || || ||
+||SRFI 43|| `vector-copy` || `vector->list` `vector-fill!` || || `make-vector` `vector` `vector-append` `vector?` `vector-ref` `vector-length` `vector-map` `vector-for-each` `vector-set!` `vector-fill!` `vector-copy!` `vector->list` `list->vector` ||
+||SRFI 44|| `equal?` `string-set!` `vector-set!` || `equal?` `string-set!` `vector-set!` || `set?` `set-contains?` `set-delete` `set-delete!` `set-union` `set-union!` `set-intersection` `set-intersection!` `set-difference` `set-difference` (etc) || `make-list` `list` `list?` `list-ref` `make-vector` `vector` `vector-copy` `vector->list` `vector?` `vector-ref` `vector-set!` `make-string` `string` `string-copy` `string->list` `string?` `string-ref` `string-set!` ||
+||SRFI 45|| || `delay` `force` || || `delay` `force` ||
+||SRFI 46|| || `syntax-rules` || || `syntax-rules` ||
+||SRFI 47|| `equal?` || `equal?` || `equal?` `array?` `make-array` `array-rank` `array-ref` `array-set!` || ||
+||SRFI 48|| || || `format` || ||
+||SRFI 49|| alternative lexical syntax || alternative lexical syntax || (yes) || ||
+||SRFI 51|| || || || ||
+||SRFI 55|| || || || ||
+||SRFI 57|| `define-record-type` || `define-record-type` || `define-record-type` ||
+||SRFI 58|| extends lexical syntax || extends lexical syntax || || ||
+||SRFI 59|| || || || ||
+
+
 
