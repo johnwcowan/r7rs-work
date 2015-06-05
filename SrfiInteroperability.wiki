@@ -1,0 +1,29 @@
+
+
+Some SRFIs export identifiers that are exported by ``(scheme base)`` or by another SRFI.  When the libraries that export an identifier give it the same or a compatible semantics, the conflict can be resolved by arranging for all libraries that export the identifier to export the same binding, with its most general semantics.  When two libraries export the same identifier with truly incompatible semantics, the conflict is real cannot be resolved without renaming.
+
+In the table below, an identifier whose SRFI semantics generalizes its R7RS semantics is counted as a real conflict.  When an identifier's R7RS semantics generalizes its SRFI semantics, the conflict is counted as superficial.
+
+||'''SRFI'''||'''real conflicts with R7RS'''||'''real conflicts with R6RS'''||'''real conflicts with SRFIs'''||'''superficial conflicts with R7RS'''||
+||SRFI 0|| || || || `cond-expand` ||
+||SRFI 1|| || `assoc` `member` `for-each` `map` `make-list` `list-copy` || || `cons` `list` `make-list` `list-copy` `pair?` `null?` `car` `cdr` ... `cddddr` `list-ref` `length` `append` `reverse` `map` `for-each` `member` `memq` `memv` `assoc` `assq` `assv` `set-car!` `set-cdr!` ||
+||SRFI 2|| || || || ||
+||SRFI 4|| extends lexical syntax || extends lexical syntax || || ||
+||SRFI 5|| `let` || `let` || || ||
+||SRFI 6|| || || || ||
+||SRFI 7|| || || || ||
+||SRFI 8|| || || || ||
+||SRFI 9|| || `define-record-type` || || `define-record-type` ||
+||SRFI 10|| extends lexical syntax || extends lexical syntax || || ||
+||SRFI 11|| || || || ||
+||SRFI 13|| `string-downcase` `string-upcase` `string-for-each` `string-map` || (many) || `string-hash` `string-hash-ci` || `string?` `make-string` `string` `string->list` `list->string` `string-length` `string-ref` `string-copy` `string-copy` `string-set!` `string-fill!` `string-append` ||
+||SRFI 14|| || || || ||
+||SRFI 16|| || || || ||
+||SRFI 17|| `set!` || `set!` || || ||
+||SRFI 18|| || || `current-time` `time?` || `with-exception-handler` `raise` ||
+||SRFI 19|| || || `current-time` `time?` || ||
+||SRFI 21|| || || `current-time` `time?` || `with-exception-handler` `raise` ||
+||SRFI 22|| extends lexical syntax || extends lexical syntax || || ||
+||SRFI 23|| || || || `error` ||
+||SRFI 25|| `equal?` || `equal?` || `equal?` `make-array` `array-rank` `array-ref` `array-set!` || ||
+
