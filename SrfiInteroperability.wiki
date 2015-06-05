@@ -1,6 +1,4 @@
-
-
-Some SRFIs export identifiers that are exported by ``(scheme base)`` or by another SRFI.  When the libraries that export an identifier give it the same or a compatible semantics, the conflict can be resolved by arranging for all libraries that export the identifier to export the same binding, with its most general semantics.  When two libraries export the same identifier with truly incompatible semantics, the conflict is real cannot be resolved without renaming.
+Some SRFIs export identifiers that are exported by `(scheme base)` or by another SRFI.  When the libraries that export an identifier give it the same or a compatible semantics, there need not be any conflict; all libraries that export the identifier can export the same binding, with its most general semantics.  When two libraries export the same identifier with truly incompatible semantics, however, the conflict is real and cannot be resolved without renaming or other workarounds.
 
 In the table below, an identifier whose SRFI semantics generalizes its R7RS semantics is counted as a real conflict.  When an identifier's R7RS semantics generalizes its SRFI semantics, the conflict is counted as superficial.
 
