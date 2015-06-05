@@ -14,7 +14,7 @@ In the table below, an identifier whose SRFI semantics generalizes its R7RS sema
 ||SRFI 9|| || `define-record-type` || || `define-record-type` ||
 ||SRFI 10|| extends lexical syntax || extends lexical syntax || || ||
 ||SRFI 11|| || || || ||
-||SRFI 13|| `string-downcase` `string-upcase` `string-for-each` `string-map` || (many) || `string-hash` `string-hash-ci` `string-compare` `string-compare-ci` || `string?` `make-string` `string` `string->list` `list->string` `string-length` `string-ref` `string-copy` `string-copy` `string-set!` `string-fill!` `string-append` ||
+||SRFI 13|| `string-downcase` `string-upcase` `string-for-each` `string-map` `string-hash` || (many) || `string-hash` `string-hash-ci` `string-compare` `string-compare-ci` || `string?` `make-string` `string` `string->list` `list->string` `string-length` `string-ref` `string-copy` `string-copy` `string-set!` `string-fill!` `string-append` ||
 ||SRFI 14|| || || || ||
 ||SRFI 16|| || || || ||
 ||SRFI 17|| `set!` || `set!` || || ||
