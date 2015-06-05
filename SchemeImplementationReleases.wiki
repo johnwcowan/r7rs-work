@@ -6,14 +6,14 @@ These are the release dates of fairly recent releases (or sometimes updates, or 
 ||2015-05-15||[[https://code.google.com/p/sagittarius-scheme/|Sagittarius]]||0.6.4||
 ||2015-05-10||[[https://code.google.com/p/chibi-scheme/|Chibi]]||0.7.3||
 ||2015-05-09||[[http://dynamo.iro.umontreal.ca/~gambit/wiki/index.php/Main_Page|Gambit]]||4.7.6||
-||2015-03-07||[[http://www.larcenists.org/|Larceny]]||0.98||
+||2015-02-20||[[http://www.larcenists.org/|Larceny]]||0.98||
 ||2015-02-28||[[http://code.google.com/p/vicare-scheme/|Vicare]]||0.4d0pre1||
-||2014-13-29||[[https://code.google.com/p/foment/|Foment]]||0.4||
+||2015-13-29||[[https://code.google.com/p/foment/|Foment]]||0.3||
 ||2014-12-02||[[http://www.gnu.org/software/kawa/index.html|Kawa]]||2.0||
 ||2014-11-18||[[http://www.call-cc.org/|Chicken]]||4.9.0||
 ||2014-11-??||[[http://racket-lang.org/|Racket]]||6.1.1||
 ||2014-07-20||[[http://practical-scheme.net/gauche/|Gauche]]||0.9.4||
-||2013-08-13||[[http://www-sop.inria.fr/indes/fp/Bigloo/bigloo-2.html|Bigloo]]||4.0b||
+||2014-03-??||[[http://www-sop.inria.fr/indes/fp/Bigloo/bigloo-2.html|Bigloo]]||4.1a||
 ||2013-05-31||[[http://code.google.com/p/femtolisp/|FemtoLisp]]||20130531||
 ||2013-05-13||[[http://people.csail.mit.edu/jaffer/SCM.html|SCM]]||5f1-1||
 ||2013-04-14||[[http://tinyscheme.sourceforge.net/home.html|TinyScheme]]||1.42||
