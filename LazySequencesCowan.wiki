@@ -1,30 +1,6 @@
  `
 {{{
 #!html
-<h1>Table of contents</h1>
-
-<ul id="toc-table">
-<li><a href="#Abstract">Abstract</a>
-</li><li><a href="#Rationale">Rationale</a>
-</li><li><a href="#ProcedureIndex">Procedure index</a>
-<li><a href="#Specification">Specification</a>
-  <ul>
-  <li><a href="#Constructors">Constructors</a>
-  </li><li><a href="#Predicates">Predicates</a>
-  </li><li><a href="#Selectors">Selectors</a>
-  </li><li><a href="#Whole">The whole lazy sequence</a>
-  </li><li><a href="#FoldingMapping">Folding and mapping</a>
-  </li><li><a href="#Searching">Searching</a>
-  </li><li><a href="#LazyAssociationLists">Lazy association lists</a>
-  </li><li><a href="#Comparators">Comparators</a>
-  </li></ul>
-</li><li><a href="#SampleImplementation">Sample Implementation</a>
-</li><li><a href="#Acknowledgements">Acknowledgements</a>
-</li><li><a href="#ReferencesLinks">References &amp; links</a>
-</li><li><a href="#Copyright">Copyright</a>
-</li></ul>
-
-
 <!--========================================================================-->
 <h1><a name="Abstract">Abstract</a></h1>
 <p>
@@ -67,14 +43,36 @@ may read one character ahead.</p>
 <p>This proposal is less comprehensive than SRFI 1, because it omits
 many procedures that process every element of their list arguments (at least,
 when used in the absence of <code>call/cc</code>).  Lseqs are meant
-to be used with ordinary Scheme functions, which are strict; consequently,
-neither left nor right folds are able to work on infinite sequences,
-so the only difference between folding over an lseq and realizing it as
-a list and using list fold is space efficiency (for which reason
-<code>lseq-fold</code> is provided).   The
-linear-update procedures of SRFI 1 are also left out, as lazy sequences
+to be used with ordinary Scheme functions, which are strict, so
+neither left nor right folds are provided: it is just as efficient to
+use <code>lseq-realize</code> and then SRFI 1 <code>fold</code> or
+<code>fold-right</code>.
+
+<p>The linear-update procedures of SRFI 1 are also left out, as lazy sequences
 are not intended to be mutated.</p> 
 <!--========================================================================-->
+<h2>Table of contents</h2>
+
+<ul id="toc-table">
+</li><li><a href="#ProcedureIndex">Procedure index</a>
+<li><a href="#Specification">Specification</a>
+  <ul>
+  <li><a href="#Constructors">Constructors</a>
+  </li><li><a href="#Predicates">Predicates</a>
+  </li><li><a href="#Selectors">Selectors</a>
+  </li><li><a href="#Whole">The whole lazy sequence</a>
+  </li><li><a href="#MappingFiltering">Mapping and filtering</a>
+  </li><li><a href="#Searching">Searching</a>
+  </li><li><a href="#LazyAssociationLists">Lazy association lists</a>
+  </li><li><a href="#Comparators">Comparators</a>
+  </li></ul>
+</li><li><a href="#SampleImplementation">Sample Implementation</a>
+</li><li><a href="#Acknowledgements">Acknowledgements</a>
+</li><li><a href="#ReferencesLinks">References &amp; links</a>
+</li><li><a href="#Copyright">Copyright</a>
+</li></ul>
+
+
 <h1><a name="ProcedureIndex">Procedure Index</a></h1>
 <p>
 Here is a short list of the procedures provided by this SRFI.
@@ -111,11 +109,11 @@ Here is a short list of the procedures provided by this SRFI.
 <a href="#lseq-unzip3">lseq-unzip3</a>  <a href="#lseq-unzip4">lseq-unzip4</a>       <a href="#lseq-unzip5">lseq-unzip5</a>
 </pre>
 
-</dd><dt class="proc-index"> Folding and mapping
+</dd><dt class="proc-index"> Mapping and filtering
 </dt><dd class="proc-index">
-<pre class="proc-index"><a href="#lseq-map">lseq-map</a>
-<a href="#lseq-fold">lseq-fold</a>       <a href="#lseq-reduce">lseq-reduce</a> 
+<pre class="proc-index"><a href="#lseq-map">lseq-map</a>        <a href="#lseq-pair-map">lseq-pair-map</a>
 <a href="#lseq-for-each">lseq-for-each</a>   <a href="#lseq-pair-for-each">lseq-pair-for-each</a>
+<a href="#lseq-filter">lseq-filter</a>     <a href="#lseq-remove">lseq-remove</a>
 </pre>
 
 </dd><dt class="proc-index"> Searching
@@ -449,7 +447,8 @@ possible.</p>
 <code class="proc-def">lseq-length&nbsp;&nbsp;</code><var>lseq -&gt; integer</var>
 </dt><dd class="proc-def">
     <p>Returns the length of its argument, which is the non-negative integer <var>n</var> such that <code>lseq-rest</code> 
-    applied <var>n</var> times to the lseq produces an empty lseq.</p>
+    applied <var>n</var> times to the lseq produces an empty lseq.  <var>lseq</var> must be finite, or this procedure
+    will not return.</p>
 
 </dd></dl>
 <!--
@@ -527,99 +526,21 @@ number of lseqs.</p>
 </pre>
 </dd></dl>
 <!--========================================================================-->
-<h2><a name="FoldingMapping">Folding and mapping</a></h2>
+<h2><a name="MappingFiltering">Mapping and filtering</a></h2>
 
 <dl>
 <!--
-==== lseq-fold
-============================================================================-->
-<dt class="proc-def">
-<a name="lseq-fold"></a>
-<code class="proc-def">lseq-fold</code><var> kons knil lseq<sub>1</sub> lseq<sub>2</sub> ... -&gt; value</var>
-</dt><dd class="proc-def">
-    <p>The fundamental lseq iterator. 
-</p><p>
-    First, consider the single lseq-parameter case. If <var>lseq<sub>1</sub></var> = (<var>e<sub>1</sub></var> <var>e<sub>2</sub></var> ... <var>e<sub>n</sub></var>),
-    then this procedure returns
-</p><div class="indent">
-<code>(<var>kons</var> <var>e<sub>n</sub></var> ... (<var>kons</var> <var>e<sub>2</sub></var> (<var>kons</var> <var>e<sub>1</sub></var> <var>knil</var>)) ... )</code>
-</div>
-    <p>That is, it obeys the (tail) recursion</p>
-<pre class="code-example">(lseq-fold <var>kons</var> <var>knil</var> <var>lis</var>) = (lseq-fold <var>kons</var> (<var>kons</var> (lseq-first <var>lis</var>) <var>knil</var>) (lseq-last <var>lis</var>))
-(lseq-fold <var>kons</var> <var>knil</var> '()) = <var>knil</var>
-</pre>
-
-    Examples:
-<pre class="code-example">(lseq-fold + 0 lseq)			; Add up the elements of lseq.
-
-(lseq-fold cons '() lseq)		; Reverse lseq.
-
-;; How many symbols in lseq?
-(lseq-fold (lambda (x count) (if (symbol? x) (+ count 1) count))
-      0
-      lseq)
-
-;; Length of the longest string in lseq:
-(lseq-fold (lambda (s max-len) (max max-len (string-length s)))
-      0
-      lseq)
-</pre>
-
-    <p>If <var>n</var> lseq arguments are provided, then the <var>kons</var> function must take
-    <var>n</var>+1 parameters: one element from each lseq, and the "seed" or fold
-    state, which is initially <var>knil</var>. The fold operation terminates when
-    the shortest lseq runs out of values:</p>
-<pre class="code-example">(lseq-fold lseq* '() '(a b c) '(1 2 3 4 5)) =&gt; (c 3 b 2 a 1)
-</pre>
-   
-<!--
-==== lseq-reduce
-============================================================================-->
-</dd><dt class="proc-def">
-<a name="lseq-reduce"></a>
-<code class="proc-def">lseq-reduce</code><var> f ridentity lseq -&gt; value</var>
-</dt><dd class="proc-def">
-    <p><code>lseq-reduce</code> is a variant of <code>lseq-fold</code>. 
-</p><p>
-    <var>ridentity</var> should be a "right identity" of the procedure <var>f</var> — that is, 
-    for any value <var>x</var> acceptable to <var>f</var>,
-</p><pre class="code-example">(<var>f</var> <var>x</var> <var>ridentity</var>) = <var>x</var>
-</pre>
-    
-    <p><code>lseq-reduce</code> has the following definition:
-<div class="indent">
-If <var>lseq</var> = (),  return <var>ridentity</var>;<br/>
-Otherwise,    return <code>(lseq-fold <var>f</var> (lseq-first <var>lseq</var>) (lseq-last <var>lseq</var>))</code>.
-</div>
-    ...in other words, we compute 
-    <code>(lseq-fold <var>f</var> <var>ridentity</var> <var>lseq</var>)</code>.</p>
-<p>
-    Note that <var>ridentity</var> is used <em>only</em> in an empty-lseq case.
-    You typically use <code>lseq-reduce</code> when applying <var>f</var> is expensive and you'd
-    like to avoid the extra application incurred when <code>lseq-fold</code> applies
-    <var>f</var> to the head of <var>lseq</var> and the identity value,
-    redundantly producing the same value passed in to <var>f</var>. 
-    For example, if <var>f</var> involves searching a file directory or 
-    performing a database query, this can be significant. 
-    In general, however, <code>lseq-fold</code> is useful
-    in many contexts where <code>lseq-reduce</code> is not
-    (consider the examples given in the <code>lseq-fold</code> definition — only one of the
-    folds uses a function with a right identity. 
-    The other four may not be performed with <code>lseq-reduce</code>).
-
-</p><pre class="code-example">;; take the max of an lseq of non-negative integers.
-(lseq-reduce max 0 nums)
-</pre>
-
-
-<!--
 ==== lseq-map
+==== lseq-pair-map
 ============================================================================-->
-</dd><dt class="proc-def">
+</p></dd><dt class="proc-def1">
 <a name="lseq-map"></a>
-<code class="proc-def">lseq-map</code><var> proc lseq<sub>1</sub> lseq<sub>2</sub> ... -&gt; lseq</var>
+<code class="proc-def">lseq-map</code><var> proc lseq<sub>1</sub> lseq<sub>2</sub> ... -&gt; unspecified</var>
+</dt><dt class="proc-defn">
+<a name="lseq-pair-map"></a>
+<code class="proc-def">lseq-pair-map</code><var> proc lseq<sub>1</sub> lseq<sub>2</sub> ... -&gt; unspecified</var>
 </dt><dd class="proc-def">
-    
+     
 
      <p><var>proc</var> is a procedure taking as many arguments 
      as there are lseq arguments and returning a single value.  
@@ -628,6 +549,10 @@ Otherwise,    return <code>(lseq-fold <var>f</var> (lseq-first <var>lseq</var>) 
      in order.  
      The dynamic order in which <var>proc</var> 
      is applied to the elements of the lseqs is unspecified.</p>
+     <p>The procedure <code>lseq-pair-map</code> is the same as
+     <code>lseq-map</code>, except that it
+     calls <var>proc</var> on each pair rather than
+     each element.</p>
     
 <pre class="code-example">(lseq-map lseq-second '((a b) (d e) (g h))) =&gt;  (b e h)
 
@@ -671,6 +596,33 @@ Otherwise,    return <code>(lseq-fold <var>f</var> (lseq-first <var>lseq</var>) 
      <code>lseq-for-each</code>, except that it
      calls <var>proc</var> on each pair rather than
      each element.</p>
+
+<pre class="code-example">(let ((v (make-vector 5)))
+  (lseq-for-each (lambda (lseq-)
+              (vector-set! v i (* i i)))
+            '(0 1 2 3 4))
+  v)  =&gt;  #(0 1 4 9 16)
+</pre>
+  
+ <p>
+<!--
+==== lseq-filter
+==== lseq-remove
+============================================================================-->
+</p></dd><dt class="proc-def1">
+<a name="lseq-filter"></a>
+<code class="proc-def">lseq-filter</code><var> pred lseq -&gt; unspecified</var>
+</dt><dt class="proc-defn">
+<a name="lseq-remove"></a>
+<code class="proc-def">lseq-remove</code><var> pred lseq -&gt; unspecified</var>
+</dt><dd class="proc-def">
+     
+
+     <p>Return an lseq that contains only the elements of <var>lseq</var> that satisfy
+     <var>pred</var>.</p>
+     <p>The procedure <code>lseq-remove</code> is the same as
+     <code>lseq-filter</code>, except that it
+     returns elements that do not satisfy <var>pred</var>.</p>
 
 <pre class="code-example">(let ((v (make-vector 5)))
   (lseq-for-each (lambda (lseq-)
