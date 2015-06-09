@@ -204,7 +204,7 @@ cdr is <var>generator</var> is returned.</li>
 </dt><dd class="proc-def">
     <p>Returns <code>#t</code> iff <var>x</var> is an lseq, otherwise <code>#f</code>.
        This procedure may return <code>#t</code> if <var>x</var> is an improper list
-       whose last car is a procedure that requires arguments, since there is no
+       whose last cdr is a procedure that requires arguments, since there is no
        portable way to examine a procedure to determine how many arguments it requires.
     </p>
 
@@ -377,13 +377,13 @@ possible.</p>
 ============================================================================-->
 </dd><dt class="proc-def1">
 <a name="lseq-take"></a>
-<code class="proc-def">lseq-take</code><var> lseq i -&gt; list</var>
+<code class="proc-def">lseq-take</code><var> lseq i -&gt; lseq</var>
 </dt><dt class="proc-defi">
 <a name="lseq-drop"></a>
 <code class="proc-def">lseq-drop</code><var> lseq i -&gt; lseq</var>
 </dt><dt class="proc-def">
 </dt><dd class="proc-def">
-    <p><code>lseq-take</code> returns the first <var>i</var> elements of <var>lseq</var> as a proper list.<br/>
+    <p><code>lseq-take</code> returns the first <var>i</var> elements of <var>lseq</var>.<br/>
     <code>lseq-drop</code> returns all but the first <var>i</var> elements of <var>lseq</var>.<br/></p>
 <pre class="code-example">(lseq-take '(a b c d e)  2) =&gt; (a b)
 (lseq-drop '(a b c d e)  2) =&gt; (c d e)
@@ -466,7 +466,7 @@ possible.</p>
 <dl>
 <dt><code>lseq-concatenate</code><i> lseq</i></dt>
 <dd><p>The <var>lseq</var> argument is an lseq of lseqs.
-Returns an lseq that whose elements are all the elements of the first lseq,
+Returns an lseq whose elements are all the elements of the first lseq,
 then all the elements of the second one, then the third, etc.
 </p>
 <p>It is similar to <code>(apply lseq-append (lseq-realize lseq))</code>, except
@@ -483,7 +483,7 @@ number of lseqs.</p>
 </dt><dd class="proc-def">
     <p>If <code>lseq-zip</code> is passed <var>n</var> lseqs, it returns an lseq as long as the shortest
     of these lseqs, each element of which is an <var>n</var>-element list comprised
-    of the corresponding elements from the arguments.  The lseqs can be infinite, as long as they are not all infinite.</p>
+    of the corresponding elements from the arguments.</p>
 
 <pre class="code-example">(lseq-zip '(one two three) 
      (generator->lseq (make-iota-generator +inf.0 1 1))
@@ -501,17 +501,17 @@ number of lseqs.</p>
 ==== lseq-unzip1
 ============================================================================-->
 <a name="lseq-unzip1"></a>
-</dd><dt class="proc-def1">  <code class="proc-def">lseq-unzip1</code><var> list-of-lseqs -&gt; lseq</var>
+</dd><dt class="proc-def1">  <code class="proc-def">lseq-unzip1</code><var> lseq-of-lseqs -&gt; lseq</var>
 <a name="lseq-unzip2"></a>
-</dt><dt class="proc-defi"> <code class="proc-def">lseq-unzip2</code><var> list-of-lseqs -&gt; [[lseq|lseq]]</var>
+</dt><dt class="proc-defi"> <code class="proc-def">lseq-unzip2</code><var> lseq-of-lseqs -&gt; [[lseq|lseq]]</var>
 <a name="lseq-unzip3"></a>
-</dt><dt class="proc-defi"> <code class="proc-def">lseq-unzip3</code><var> list-of-lseqs -&gt; [[lseq|lseq lseq]]</var>
+</dt><dt class="proc-defi"> <code class="proc-def">lseq-unzip3</code><var> lseq-of-lseqs -&gt; [[lseq|lseq lseq]]</var>
 <a name="lseq-unzip4"></a>
-</dt><dt class="proc-defi"> <code class="proc-def">lseq-unzip4</code><var> list-of-lseqs -&gt; [[lseq|lseq lseq lseq]]</var>
+</dt><dt class="proc-defi"> <code class="proc-def">lseq-unzip4</code><var> lseq-of-lseqs -&gt; [[lseq|lseq lseq lseq]]</var>
 <a name="lseq-unzip5"></a>
-</dt><dt class="proc-defn"> <code class="proc-def">lseq-unzip5</code><var> lslist-of-lseqs -&gt; [[lseq|lseq lseq lseq lseq]]</var>
+</dt><dt class="proc-defn"> <code class="proc-def">lseq-unzip5</code><var> lseq-of-lseqs -&gt; [[lseq|lseq lseq lseq lseq]]</var>
 </dt><dd class="proc-def">
-    <p><code>lseq-unzip1</code> takes a list of lseqs, 
+    <p><code>lseq-unzip1</code> takes an lseq of lseqs, 
     where every lseq must contain at least one element, 
     and returns an lseq containing the initial element of each such lseq. 
     That is, it returns <code>(lseq-map lseq-first lseqs)</code>.  
@@ -611,14 +611,15 @@ number of lseqs.</p>
 ============================================================================-->
 </p></dd><dt class="proc-def1">
 <a name="lseq-filter"></a>
-<code class="proc-def">lseq-filter</code><var> pred lseq -&gt; unspecified</var>
+<code class="proc-def">lseq-filter</code><var> pred lseq -&gt; lseq</var>
 </dt><dt class="proc-defn">
 <a name="lseq-remove"></a>
-<code class="proc-def">lseq-remove</code><var> pred lseq -&gt; unspecified</var>
+<code class="proc-def">lseq-remove</code><var> pred lseq -&gt; lseq</var>
 </dt><dd class="proc-def">
      
 
-     <p>Return an lseq that contains only the elements of <var>lseq</var> that satisfy
+     <p>The procedure <code>lseq-filter</i> returns an lseq that contains
+     only the elements of <var>lseq</var> that satisfy
      <var>pred</var>.</p>
      <p>The procedure <code>lseq-remove</code> is the same as
      <code>lseq-filter</code>, except that it
