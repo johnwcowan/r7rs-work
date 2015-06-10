@@ -407,7 +407,7 @@ Deletes the associations of ''hash-table,,1,,'' whose keys are also present in '
 
 `(hash-table-xor! `''hash-table,,1,, hash-table,,2,,''`)`
 
-Adds the associations of ''hash-table,,2,,'' whose keys are not present in 'hash-table,,1,,'' to 'hash-table,,1,,'' , then deletes the associations of ''hash-table,,1,,'' whose keys are also present in ''hash-table,,2,,'', and returns ''hash-table,,1,,''.
+Deletes the associations of ''hash-table,,1,,'' whose keys are also present in ''hash-table,,2,,'', and then adds the associations of ''hash-table,,2,,'' whose keys are not present in 'hash-table,,1,,'' to 'hash-table,,1,,''.  Returns ''hash-table,,1,,''.
 
 === Exceptions ===
 
