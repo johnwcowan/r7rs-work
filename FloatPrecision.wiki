@@ -6,7 +6,7 @@ I asked the usual Schemes and some Common Lisps to evaluate `3.14159265358979323
 
 All four numbers are the same and have 53-bit precision:  Gauche, Gambit, Chicken (with or without the numbers egg)*, Guile*, Kawa, SISC, Chibi, SCM, Chez, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, STklos*, KSI†, S7†, UMB, VX*, SXM*, Spark, Dfsch†, Inlab*, Sagittarius
 
-All four numbers are the same and have 64-bit precision: Scheme 9*
+All four numbers are the same and have 18-digit precision (between 59 and 60 bits): Scheme 9
 
 All four numbers are the same and have 20-bit precision: Shoe
 
