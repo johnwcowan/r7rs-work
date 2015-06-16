@@ -8,7 +8,7 @@ Gauche, SCM, KSi, VX return an inexact infinity.
 
 Kawa returns one of two ''exact'' infinities depending on the sign of the numerator.  These are notated `1/0` and `-1/0`.  They are the same in the sense of `eqv?`, anomalously so since they are not operationally equivalent.  They are also distinct in the sense of `eqv?` from `+inf.0` and `-inf.0`, but `1/0` and `+inf.0` are the same in the sense of `=`, as are `-1/0` and `-inf.0`.
 
-Scheme 9 returns `+nan.0`.
+Scheme 9 returns its implementation-specific undefined value.
 
 Femtolisp returns an incorrect result.
 
@@ -20,7 +20,7 @@ MIT (with floating traps ignored), Gauche, Bigloo, Scheme48, Kawa, SISC, SCM, Ch
 
 !SigScheme, Dream, Oaklisp, Owl Lisp do not support inexact numbers.
 
-Scheme 9 returns `+nan.0`.
+Scheme 9 returns its implementation-specific undefined value.
 
 KSi, Femtolisp return an incorrect result.
 
@@ -32,7 +32,7 @@ Racket, Gauche, MIT (with floating traps ignored), Gambit, Chicken with the numb
 
 !SigScheme, Dream, Oaklisp, Owl Lisp do not support inexact numbers.
 
-Scheme 9 returns `+nan.0`.
+Scheme 9 returns its implementation-specific undefined value.
 
 KSi returns an incorrect result.
 
@@ -58,7 +58,7 @@ Scheme 9 does not have any form of NaN.
 
 Racket, Gambit, !TinyScheme, Sizzle, Spark return exact `0`.
 
-Gauche, Chicken (with or without the numbers egg), Bigloo, Scheme48/scsh, Guile, Kawa, SISC, Chibi, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, STklos, KSi, Shoe, S7, BDC, XLisp, Rep, Schemik, UMB, VX, Llava, SXM, Dfsch, Inlab, Sagittarius return inexact `0.0`.
+Gauche, Chicken (with or without the numbers egg), Bigloo, Scheme48/scsh, Guile, Kawa, SISC, Chibi, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, STklos, KSi, Shoe, Scheme 9, S7, BDC, XLisp, Rep, Schemik, UMB, VX, Llava, SXM, Dfsch, Inlab, Sagittarius return inexact `0.0`.
 
 !SigScheme, Dream, Oaklisp, Owl Lisp do not support inexact numbers.
 
@@ -139,11 +139,13 @@ MIT does not support `-0.0`.
 
 NexJ, RScheme, BDC, XLisp, Rep, Elk, Inlab do not support `angle`, but returns pi to `atan`.
 
-Bigloo, Scheme 9, SXM do not support `angle`, but raise an error to `atan`.
+Bigloo, SXM do not support `angle`, but raise an error to `atan`.
 
 VX does not support `angle`, but returns `-0.0` to `atan`.
 
 UMB does not support `angle`, but returns `0.0` to atan.
+
+Scheme 9 supports neither `angle` nor two-argument `atan`.
 
 Shoe, !TinyScheme, Schemik, Llava, !FemtoLisp do not support either `angle` or `atan`.
 
@@ -155,7 +157,9 @@ This situation involves the log of 0, and R6RS and R7RS permit implementations t
 
 Racket, Gauche, Gambit, Chicken, Bigloo, scsh, Kawa, Chibi, SCM, Chez, Ypsilon, Mosh, NexJ, STklos, XLisp, Rep, UMB, SXM, Spark, Dfsch, Inlab, Sagittarius return `inf.0`.
 
-Guile, Larceny, Scheme 9 return `+nan.0`.
+Guile, Larceny return `+nan.0`.
+
+Scheme 9 returns its implementation-specific undefined value.
 
 SISC, !IronScheme return `0.0`.
 
