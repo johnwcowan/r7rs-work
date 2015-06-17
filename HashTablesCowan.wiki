@@ -19,11 +19,9 @@ In addition, procedures for use on bimaps (bidirectional hash tables) are define
 == Issues ==
 
    * In the specification of `make-hash-table`, the discussion of SRFI 69 hash functions could give readers the (presumably incorrect) idea that hash functions must accept an optional second argument, which would make the hash tables of this proposal significantly more difficult to use correctly.  The reference implementation of this proposal never passes more than one argument to a hash function, so the extra effort needed to write hash functions that accept a second argument would be wasted in implementations derived from the reference implementation.  Furthermore, programmers who labor under the impression that hash functions must accept an optional second argument will write unnecessarily complex hash functions that will never be tested with two arguments outside of unit tests written by those programmers.
-   * As specified, the two-argument form of `hash-table-ref` ''must'' signal an error that satisfies `hash-table-key-not-found?` whenever its key is not found.  That specification implies `hash-table-ref` ''must'' guard against the possibility of exceptions being raised by the hash table's hash function.   The `guard` mechanism of R7RS is not guaranteed to operate in expected amortized constant time, so requiring `hash-table-ref` to run in expected amortized constant time is problematic.  The same goes for `hash-table-ref/default`.
-   * `hash-table-find` may return two values or may return whatever its failure thunk returns, which means the number of return values is variable, which makes `hash-table-find` awkward to use correctly.
    * Why is a bimap created by `make-bimap` required to share structure with its first argument?  Why are `bimap-forward-hash-table` and `bimap-reverse-hash-table` forbidden to return copies?  Copying hash tables would be cleaner, and would enable several procedures to run faster because they wouldn't have to guard against the possibility that one of the encapsulated hash tables had been mutated despite the contract.
-   * In the specification of `bimap=?`, the meaning of "same" is quite subtle.  See comment in reference implementation.
-   * The reference implementation currently defines libraries `(in-progress hash tables)` and `(in-progress hash bimaps)` with non-overlapping exports, but does not define the composite `(hash-tables)` library mentioned within the specification below.
+     * It shouldn't be necessary to guard against it, because it is an error to mutate them anyway.  Which procedures are affected?
+   * Should this SRFI provide two libraries, one for hash tables and one for bimaps?
 
 == Rationale ==
 
@@ -51,7 +49,7 @@ The names used in the present proposal are mostly derived from SRFI 69, with the
 
 * The `make-hash-table` and `alist->hash-table` procedures now accept a [[http://srfi.schemers.org/srfi-114/srfi-114.html|SRFI 114]] comparator in place of an equality predicate and optional hash function.  The old calling convention is retained for backward compatibility. 
 
-* The SRFI 69 `hash-table-fold` procedure places the hash table argument first.  For the same reasons as the reording of `hash-table-walk` arguments, in this proposal it appears last.
+* The SRFI 69 `hash-table-fold` procedure places the hash table argument first.  For the same reasons as the reordering of `hash-table-walk` arguments, in this proposal it appears last.
 
 * Unlike `hash-table-walk`, the `hash-table-for-each` procedure has the same argument order as R7RS `for-each`, `string-for-each`, and `vector-for-each`.  However, unlike those procedures it can only accept one hash table: coordinated access to multiple hash tables is meaningless, given that hash tables are unordered.
 
@@ -91,7 +89,7 @@ The procedures in the present proposal are drawn primarily from SRFI 69 and R6RS
 
 * The `hash-table-push!` and `hash-table-pop!` procedures are from [[http://practical-scheme.net/gauche/man/gauche-refe_53.html|Gauche]].
 
-* The `hash-table-find` procedure is a modified version of the one in [[http://www.iro.umontreal.ca/~gambit/doc/gambit-c.html#Tables|Gambit]].
+* The `hash-table-find` procedure is a modified version of `table-search` in [[http://www.iro.umontreal.ca/~gambit/doc/gambit-c.html#Tables|Gambit]].
 
 * The procedure `hash-table-set-entries!` was suggested by the [[http://clhs.lisp.se/Body/f_pairli.htm|Common Lisp]] function `pairlis`.
 
@@ -119,7 +117,7 @@ Some of the language of the present proposal is copied from SRFI 69 with thanks 
 
 == Specification ==
 
-The procedures in the present proposal are in the `(srfi xxx)` library (or `(srfi :xxx)` on R6RS).  However, the library in the sample implementation is currently named `(hash-tables)`.
+The procedures in the present proposal are in the `(srfi xxx)` library (or `(srfi :xxx)` on R6RS).
 
 All references to "executing in expected amortized constant time" presuppose that a satisfactory hash function is available.  Arbitrary or non-idempotent hash functions can make a hash of any implementation.
 
@@ -150,8 +148,6 @@ It is an error to mutate a key during or after its insertion into a hash table.
 * [[#Hashtablesasfunctions|Hash tables as functions]]: `hash-table-accessor`, `hash-table-accessor/default`
 
 * [[#Hashtablesassets|Hash tables as sets]]: `hash-table-union!`, `hash-table-intersection!`, `hash-table-difference!`, `hash-table-xor!`
-
-* [[#Exceptions|Exceptions]]: `hash-table-key-not-found?`
 
 * [[#Bimaps|Bimaps]]: `make-bimap`, `bimap?`, `bimap-forward-hash-table`, `bimap-reverse-hash-table`, `bimap-contains?`, `bimap-contains-value?`, `bimap=?`, `bimap-ref`, `bimap-value-ref`, `bimap-ref/default`, `bimap-value-ref/default`, `bimap-copy`, `bimap-set!`, `bimap-set-entries!`, `bimap-delete!`, `bimap-delete-keys!`, `bimap-extend!`, `bimap-extend/default!`, `bimap-replace!`, `bimap-replace/default!`, `bimap-update!`, `bimap-update/default!`, `bimap-clear!`, `bimap-filter!`, `bimap-remove!`
 
@@ -219,7 +215,7 @@ The following procedures, given a key, return the corresponding value.
 
 `(hash-table-ref `''hash-table key'' [[|''failure'' [ ''success'' ]] ]`)`
 
-Extracts the value associated to ''key'' in ''hash-table'', invokes the procedure ''success'' on it, and returns its result; if ''success'' is not provided, then the value itself is returned.  Otherwise, `hash-table-ref` invokes the procedure ''failure'' on no arguments and returns its result; if ''failure'' is not provided, then an error that satisfies `hash-table-key-not-found?` is signaled.  Must execute in expected amortized constant time, not counting the time to call the procedures.  (SRFI 69 `hash-table-ref` does not support the ''success'' procedure)
+Extracts the value associated to ''key'' in ''hash-table'', invokes the procedure ''success'' on it, and returns its result; if ''success'' is not provided, then the value itself is returned.  If ''key'' is not contained in ''hash-table'' and ''failure'' is supplied, then it is invoked on no arguments and its results is returned.  Otherwise, it is an error.  Must execute in expected amortized constant time, not counting the time to call the procedures.  (SRFI 69 `hash-table-ref` does not support the ''success'' procedure)
 
 `(hash-table-ref/default `''hash-table key default''`)`
 
@@ -282,13 +278,13 @@ Semantically equivalent to, but may be more efficient than, the following code:
 
 Must execute in expected amortized constant time.  Returns an unspecified value.  (SRFI 69 `hash-table-update!`)
 
-`(hash-table-push! `''hash-table key value''`)`
+`(hash-table-push! `''hash-table key value failure''`)`
 
-If an association with ''key'' is found in ''hash-table'', then update the value associated with of ''key'' to the result of invoking `cons` on ''value'' and  the original value.  The return value of `hash-table-push!` is unspecified.  If the value is not found, an error satisfied by `hash-table-key-not-found?` is signaled.  It is an error if the value is not a pair.
+If an association with ''key'' is found in ''hash-table'', then update the value associated with ''key'' to the result of invoking `cons` on ''value'' and  the original value.  If the key is not found, a new association between ''key'' and the result of invoking the thunk ''failure'' is added to ''hash-table''.  The return value of `hash-table-push!` is unspecified.  It is an error if an existing value is not a pair.
 
-`(hash-table-pop! `''hash-table key''`)`
+`(hash-table-pop! `''hash-table key failure''`)`
 
-If an association with ''key'' is found in ''hash-table'', then return the car of the value, and update the value to its own cdr.  If the value is not found, an error satisfied by `hash-table-key-not-found?` is signaled.  It is an error if the value is not a pair.
+If an association with ''key'' is found in ''hash-table'', then return the car of the value, and update the value to its own cdr.  If the value is not found, then the result of invoking the thunk ''failure'' is returned.  It is an error if the existing value is not a pair.
 
 `(hash-table-search! `''hash-table key failure success''`)`
 
@@ -306,9 +302,9 @@ These procedures process the associations of the hash table in an unspecified or
 
 Returns the number of associations in ''hash-table'' as an exact integer.  Should execute in constant time.  (SRFI 69 `hash-table-size`, R6RS `hashtable-size`; Common Lisp `hash-table-count`.)
 
-`(hash-table-find `''hash-table pred failure''`)`
+`(hash-table-find `''hash-table proc failure''`)`
 
-For each association of ''hash-table'', invoke ''pred'' on its key and value.   If ''pred'' returns true, then return two values, the key and the value of the association.  If all the calls to ''pred'' return `#f`, return the result of invoking the thunk ''failure''.
+For each association of ''hash-table'', invoke ''proc'' on its key and value.   If ''proc'' returns true, then `hash-table-find` returns what ''proc'' returns.  If all the calls to ''proc'' return `#f`, return the result of invoking the thunk ''failure''.
 
 `(hash-table-count `''hash-table pred''`)`
 
@@ -412,12 +408,6 @@ Deletes the associations of ''hash-table,,1,,'' whose keys are also present in '
 
 Deletes the associations of ''hash-table,,1,,'' whose keys are also present in ''hash-table,,2,,'', and then adds the associations of ''hash-table,,2,,'' whose keys are not present in 'hash-table,,1,,'' to 'hash-table,,1,,''.  Returns ''hash-table,,1,,''.
 
-=== Exceptions ===
-
-`(hash-table-key-not-found? `''obj''`)`
-
-Returns `#t` if ''obj'' is an object raised by the `hash-table-ref` procedure or any other procedure that accesses hash tables when the key is not found and there is no failure procedure, and `#f` otherwise.
-
 == Bimaps ==
 
 A bimap is built by starting with a hash table which represents the forward mapping from keys to values; it is an error if the values are not unique.  A second hash table is constructed and populated with the reverse mapping.  It is possible to retrieve either underlying hash table for read-only operations, but it is an error to mutate them, so bimap mutation procedures are provided.
@@ -448,7 +438,7 @@ Returns `#t` if ''value'' is contained in one of the associations of the bimap, 
 
 `(bimap=? `''bimap,,1,, bimap,,2,,''`)`
 
-Returns `#t` if ''bimap,,1,,'' and ''bimap,,2,,'' contain the same key-value associations, and `#f` otherwise.
+Returns `#t` if ''bimap,,1,,'' and ''bimap,,2,,'' contain the same key-value associations.  Two associations ''key,,1,,/value,,1,,'' and ''key,,2,,/value,,2,,'' are the same if and only if the reverse hash tables of both ''bimap,,1,,'' and ''bimap,,2,,'' map ''value,,1,,' and ''value,,2,,'' to keys that are the same in the sense of the equivalence procedures of both tables.  Returns `#f` otherwise.
 
 `(bimap-ref `''bimap key'' [[|''failure'' [ ''success'' ]] ]`)`
 
