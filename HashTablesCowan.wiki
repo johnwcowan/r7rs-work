@@ -23,9 +23,7 @@ In addition, procedures for use on bimaps (bidirectional hash tables) are define
    * `hash-table-find` may return two values or may return whatever its failure thunk returns, which means the number of return values is variable, which makes `hash-table-find` awkward to use correctly.
    * Why is a bimap created by `make-bimap` required to share structure with its first argument?  Why are `bimap-forward-hash-table` and `bimap-reverse-hash-table` forbidden to return copies?  Copying hash tables would be cleaner, and would enable several procedures to run faster because they wouldn't have to guard against the possibility that one of the encapsulated hash tables had been mutated despite the contract.
    * In the specification of `bimap=?`, the meaning of "same" is quite subtle.  See comment in reference implementation.
-   * This specification does not propose any organization for the libraries it might be presumed to specify.  The reference implementation currently defines libraries `(in-progress hash tables)` and `(in-progress hash bimaps)` with non-overlapping exports.
-
-None at present.
+   * The reference implementation currently defines libraries `(in-progress hash tables)` and `(in-progress hash bimaps)` with non-overlapping exports, but does not define the composite `(hash-tables)` library mentioned within the specification below.
 
 == Rationale ==
 
