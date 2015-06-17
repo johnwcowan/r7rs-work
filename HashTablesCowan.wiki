@@ -18,6 +18,13 @@ In addition, procedures for use on bimaps (bidirectional hash tables) are define
 
 == Issues ==
 
+   * In the specification of `make-hash-table`, the discussion of SRFI 69 hash functions could give readers the (presumably incorrect) idea that hash functions must accept an optional second argument, which would make the hash tables of this proposal significantly more difficult to use correctly.  The reference implementation of this proposal never passes more than one argument to a hash function, so the extra effort needed to write hash functions that accept a second argument would be wasted in implementations derived from the reference implementation.  Furthermore, programmers who labor under the impression that hash functions must accept an optional second argument will write unnecessarily complex hash functions that will never be tested with two arguments outside of unit tests written by those programmers.
+   * As specified, the two-argument form of `hash-table-ref` ''must'' signal an error that satisfies `hash-table-key-not-found?` whenever its key is not found.  That specification implies `hash-table-ref` ''must'' guard against the possibility of exceptions being raised by the hash table's hash function.   The `guard` mechanism of R7RS is not guaranteed to operate in expected amortized constant time, so requiring `hash-table-ref` to run in expected amortized constant time is problematic.  The same goes for `hash-table-ref/default`.
+   * `hash-table-find` may return two values or may return whatever its failure thunk returns, which means the number of return values is variable, which makes `hash-table-find` awkward to use correctly.
+   * Why is a bimap created by `make-bimap` required to share structure with its first argument?  Why are `bimap-forward-hash-table` and `bimap-reverse-hash-table` forbidden to return copies?  Copying hash tables would be cleaner, and would enable several procedures to run faster because they wouldn't have to guard against the possibility that one of the encapsulated hash tables had been mutated despite the contract.
+   * In the specification of `bimap=?`, the meaning of "same" is quite subtle.  See comment in reference implementation.
+   * This specification does not propose any organization for the libraries it might be presumed to specify.  The reference implementation currently defines libraries `(in-progress hash tables)` and `(in-progress hash bimaps)` with non-overlapping exports.
+
 None at present.
 
 == Rationale ==
@@ -259,7 +266,7 @@ Effectively invokes `hash-table-ref/default` with the given arguments and return
 
 Effectively invokes `hash-table-ref` with the given arguments and returns what it returns.  If ''key'' was found in ''hash-table'', its value is set to the result being returned.  Must execute in expected amortized constant time.
 
-`(hash-table-replace!/default `''hash-table key'' [[|''default'' ]]`)`
+`(hash-table-replace!/default `''hash-table key'' ''default''`)`
 
 Effectively invokes `hash-table-ref/default` with the given arguments and returns what it returns.  If ''key'' was found in ''hash-table'', its value is set to the result being returned.  Must execute in expected amortized constant time.
 
@@ -467,11 +474,16 @@ Returns what `(hash-table-ref (bimap-reverse-hash-table `''bimap''`) `''value de
 
 Returns a newly allocated bimap with the same properties and associations as ''bimap''. If the second argument is present and is true, the new bimap is mutable.  Otherwise it is made from immutable hash tables and itself immutable, provided the implementation supports immutable hash tables.
 
-The mutation procedures `bimap-set!`, `bimap-set-entries!`, `bimap-delete!`, `bimap-delete-keys!`, `bimap-extend!`, `bimap-extend/default!`, `bimap-replace!`, `bimap-replace/default!`, `bimap-update!`, `bimap-update/default!`, `bimap-clear!`, `bimap-filter!`, `bimap-remove!`, and `bimap-partition!` have the same behavior as their hash table analogues, mutating both hash tables appropriately.
+The mutation procedures `bimap-set!`, `bimap-set-entries!`, `bimap-delete!`, `bimap-delete-keys!`, `bimap-extend!`, `bimap-extend/default!`, `bimap-replace!`, `bimap-replace/default!`, `bimap-update!`, `bimap-update/default!`, `bimap-clear!`, `bimap-filter!`, and `bimap-remove!` have the same behavior as their hash table analogues, mutating both hash tables appropriately.
 
 == Implementation ==
 
-The sample implementation (''not yet written'') is designed to be easily layered over any hash table implementation that supports either SRFI 69 or R6RS (there is an implementation of [[https://github.com/larcenists/larceny/blob/master/lib/SRFI/srfi-69.sch|SRFI 69 on top of R6RS that is part of Larceny]]).  It was originally intended to support all the native hash table systems mentioned in [[#Sources|Sources]] above as well.  However, this turned out not to be practical for the following reasons:
+The [[https://github.com/larcenists/larceny/tree/master/tools/R7RS/in-progress/hash|sample implementation]] is easily layered over any hash table implementation that supports either SRFI 69 or R6RS.  The sample implementation is built directly on top of `(r6rs hashtables)` (available at http://snow-fort.org/pkg), whose portable implementation uses `(rnrs hashtables)` if that library is available, or SRFI 69 if that library is available, or a slightly improved version of the SRFI 69 reference implementation if no better alternative is available.  There is also an [[https://github.com/larcenists/larceny/blob/master/lib/SRFI/srfi-69.sch|implementation of SRFI 69]] on top of the `(rnrs hashtables)` library of R6RS, which shows how to construct an implementation of SRFI 69 that would be fully compatible with the sample implementation of this proposal.
+
+The hash tables specified here are fully compatible with hash tables as specified by SRFI 69 and the R6RS, but there 
+may be conflicts when particular implementations of the three libraries (this proposal, SRFI 69, and R6RS) are imported into a single library or program.  There will be no conflicts when the sample implementation of this proposal is imported along with the reference implementation of `(r6rs hashtables)` used by that sample implementation.  It should be easy to construct an implementation of SRFI 69 that does not conflict with those implementations of this proposal and `(r6rs hashtables)`, but all non-conflicting implementations of SRFI 69 must extend the `make-hash-table` and `alist->hash-table` procedures to accommodate their more general arguments as specified by this proposal, and must also take care never to call a hash function with more than one argument; as of this writing, there are no fully compatible implementations of SRFI 69.
+
+The sample implementation was originally intended to support all the native hash table systems mentioned in [[#Sources|Sources]] above as well.  However, this turned out not to be practical for the following reasons:
 
 * Gauche does not support arbitrary equality predicates, only `eq?`, `eqv?`, `equal?`, and `string=?`.
 
@@ -483,6 +495,4 @@ The sample implementation (''not yet written'') is designed to be easily layered
 
 * !FemtoLisp supports only `equal?` as the equality predicate.
 
-As a result, the sample implementation assumes the existence of a SRFI-69-compatible implementation that provides the following seven ''core procedures'': `make-hash-table`, `hash-table?`, `hash-table-exists?`, `hash-table-ref/default`, `hash-table-set!`, `hash-table-delete`, and `hash-table-walk`.  In addition, the procedures `hash-table-size`, `hash-table-update!/default`, `hash-table-keys`, `hash-table-values`, and `hash-table-copy` are imported from SRFI 69, on the assumption that the underlying implementation may be more efficient than portable code using the core procedures would be.  The sample implementation can also be layered on R6RS, Racket, MIT, Gambit, or Bigloo hash tables, all of which provide the core procedures, though often under different names.  In particular, any implementation having an O(1) version of `hash-table-clear` should use it.
-
-Native Guile hash tables are a special case.  The equivalents of `hash-table-ref/default`, `hash-table-set!`, and `hash-table-delete` require the equality predicate and hash function to be passed to them explicitly (although there are utility functions for `eq?`, `eqv?`, and `equal?` hash tables).  Consequently, hash tables corresponding to the present proposal would have to be records containing a Guile hash table, an equality predicate, and a hash function, which means that they could not interoperate directly with native Guile hash tables.
+Native Guile hash tables are a special case.  The equivalents of `hash-table-ref/default`, `hash-table-set!`, and `hash-table-delete` require the equality predicate and hash function to be passed to them explicitly (although there are utility functions for `eq?`, `eqv?`, and `equal?` hash tables).  Consequently, hash tables corresponding to the present proposal would have to be records containing a Guile hash table, an equality predicate, and a hash function, which means they could not interoperate directly with native Guile hash tables.
