@@ -55,8 +55,6 @@ The names used in the present proposal are mostly derived from SRFI 69, with the
 
 * Unlike `hash-table-walk`, the `hash-table-for-each` procedure has the same argument order as R7RS `for-each`, `string-for-each`, and `vector-for-each`.  However, unlike those procedures it can only accept one hash table: coordinated access to multiple hash tables is meaningless, given that hash tables are unordered.
 
-* The `hash-table-union!` procedure accepts a third argument specifying how to merge the values.
-
 ==== Reflection and hash-function procedures ====
 
 SRFI 69 provides reflective procedures that, given a hash table, returns its equality predicate and hash function, as well as procedures that expose the implementation's hash functions suitable for the equality predicates `eq?`, `equal?`, `string=?`, and `string-ci=?`.  The second of these can also be used for `eqv?`.  However, if the the value of `eq?` hash function is not idempotent but depends on the memory address of the key, and the garbage collector moves such a key, it must also rehash every hash table containing that key.  In such implementations, the `hash-by-identity` procedure is unsafe to use outside the context of implementation-provided hash tables.
@@ -478,8 +476,15 @@ The mutation procedures `bimap-set!`, `bimap-set-entries!`, `bimap-delete!`, `bi
 
 The [[https://github.com/larcenists/larceny/tree/master/tools/R7RS/in-progress/hash|sample implementation]] is easily layered over any hash table implementation that supports either SRFI 69 or R6RS.  The sample implementation is built directly on top of `(r6rs hashtables)` (available at http://snow-fort.org/pkg), whose portable implementation uses `(rnrs hashtables)` if that library is available, or SRFI 69 if that library is available, or a slightly improved version of the SRFI 69 reference implementation if no better alternative is available.  There is also an [[https://github.com/larcenists/larceny/blob/master/lib/SRFI/srfi-69.sch|implementation of SRFI 69]] on top of the `(rnrs hashtables)` library of R6RS, which shows how to construct an implementation of SRFI 69 that would be fully compatible with the sample implementation of this proposal.
 
-The hash tables specified here are fully compatible with hash tables as specified by SRFI 69 and the R6RS, but there 
-may be conflicts when particular implementations of the three libraries (this proposal, SRFI 69, and R6RS) are imported into a single library or program.  There will be no conflicts when the sample implementation of this proposal is imported along with the reference implementation of `(r6rs hashtables)` used by that sample implementation.  It should be easy to construct an implementation of SRFI 69 that does not conflict with those implementations of this proposal and `(r6rs hashtables)`, but all non-conflicting implementations of SRFI 69 must extend the `make-hash-table` and `alist->hash-table` procedures to accommodate their more general arguments as specified by this proposal, and must also take care never to call a hash function with more than one argument; as of this writing, there are no fully compatible implementations of SRFI 69.
+The hash tables specified here are fully compatible with hash tables as specified by the R6RS, but there may be conflicts when particular implementations of the two libraries (this proposal and R6RS) are imported into a single library or program.  There will be no conflicts when the sample implementation of this proposal is imported along with the reference implementation of `(r6rs hashtables)` used by that sample implementation.
+
+The hash tables specified here are mostly compatible with hash tables as specified by SRFI 69, but there will almost certainly be conflicts when a library or program imports both the library specified here and an implementation of SRFI 69.  It should be possible to construct an implementation of SRFI 69 that does not conflict with the sample implementation of this proposal or with `(r6rs hashtables)`, but all non-conflicting implementations of SRFI 69 must
+
+   * extend the `make-hash-table` and `alist->hash-table` procedures to accommodate their more general arguments as specified by this proposal
+   * extend the `hash-table-fold` procedure to accept arguments in the order specified here as well as in the order specified by SRFI 69
+   * take care never to call a hash function with more than one argument
+
+As of this writing, there are no fully compatible implementations of SRFI 69.
 
 The sample implementation was originally intended to support all the native hash table systems mentioned in [[#Sources|Sources]] above as well.  However, this turned out not to be practical for the following reasons:
 
