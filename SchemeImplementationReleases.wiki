@@ -2,9 +2,10 @@
 These are the release dates of fairly recent releases (or sometimes updates, or sometimes just source-control update dates) of the Scheme implementations in (or formerly in) John Cowan's test suite.  I've tried to maintain a balance between churn and stability.
 
 ||'''date'''||'''name'''||'''release'''||
+||2015-06-19||[[https://code.google.com/p/sagittarius-scheme/|Sagittarius]]||0.6.5||
 ||2015-06-18||[[http://www.t3x.org/s9fes/|Scheme 9]]||20150618||
+||2015-06-01||[[https://github.com/picrin-scheme/picrin|Picrin]]||(git only)
 ||2015-05-26||[[http://ironscheme.codeplex.com|IronScheme]]||114008||
-||2015-05-15||[[https://code.google.com/p/sagittarius-scheme/|Sagittarius]]||0.6.4||
 ||2015-05-10||[[https://code.google.com/p/chibi-scheme/|Chibi]]||0.7.3||
 ||2015-05-09||[[http://dynamo.iro.umontreal.ca/~gambit/wiki/index.php/Main_Page|Gambit]]||4.7.6||
 ||2015-03-29||[[https://code.google.com/p/foment/|Foment]]||0.4||
@@ -15,12 +16,13 @@ These are the release dates of fairly recent releases (or sometimes updates, or 
 ||2014-11-18||[[http://www.call-cc.org/|Chicken]]||4.9.0||
 ||2014-11-??||[[http://racket-lang.org/|Racket]]||6.1.1||
 ||2014-07-20||[[http://practical-scheme.net/gauche/|Gauche]]||0.9.4||
-||2014-03-??||[[http://www-sop.inria.fr/indes/fp/Bigloo/bigloo-2.html|Bigloo]]||4.1a||
+||2014-05-21||[[http://www.gnu.org/software/mit-scheme/|MIT]]||9.2||
+||2014-04-31||[[http://s48.org/|Scheme48]]||1.9.2||
+||2014-03-31||[[http://www-sop.inria.fr/indes/fp/Bigloo/bigloo-2.html|Bigloo]]||4.1a||
+||2014-03-20||[[http://www.gnu.org/software/guile/|Guile]]||2.0.11||
 ||2013-05-31||[[http://code.google.com/p/femtolisp/|FemtoLisp]]||20130531||
 ||2013-04-14||[[http://tinyscheme.sourceforge.net/home.html|TinyScheme]]||1.42||
-||2013-04-10||[[http://www.gnu.org/software/guile/|Guile]]||2.0.9||
 ||2013-01-31||[[http://www.scsh.net/|scsh]]||1.9||
-||2013-01-31||[[http://s48.org/|Scheme48]]||1.9||
 ||2013-01-01||[[http://www.rscheme.org/rs/index.html|RScheme]]||0.7.3.4-b7||
 ||2012-04-16||[[http://hakl.net/software/dfsch/|Dfsch]]||0.4||
 ||2012-01-28||[[http://schemik.sourceforge.net/|Schemik]]||1.2.40.0||
@@ -29,7 +31,6 @@ These are the release dates of fairly recent releases (or sometimes updates, or 
 ||2012-01-01||[[https://github.com/vijaymathew/spark-scheme|Spark]]||20120101||
 ||2011-12-31||[[http://www.stklos.net/|STklos]]||1.10||
 ||2011-12-01||[[http://code.google.com/p/owl-lisp/|Owl Lisp]]||0.1.6||
-||2011-11-09||[[http://www.gnu.org/software/mit-scheme/|MIT]]||9.1.1||
 ||2011-10-01||[[http://scheme.com/|Chez]]||8.4||
 ||2011-09-08||[[https://ccrma.stanford.edu/software/snd/snd/s7.html|S7]]||20110908||
 ||2011-07-07||[[http://www.stripedgazelle.org/joey/dream.html|Dream]]||20110707
