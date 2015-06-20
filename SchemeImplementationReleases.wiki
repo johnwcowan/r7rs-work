@@ -2,6 +2,7 @@
 These are the release dates of fairly recent releases (or sometimes updates, or sometimes just source-control update dates) of the Scheme implementations in (or formerly in) John Cowan's test suite.  I've tried to maintain a balance between churn and stability.
 
 ||'''date'''||'''name'''||'''release'''||
+||2015-06-18||[[http://www.t3x.org/s9fes/|Scheme 9]]||20150618||
 ||2015-05-26||[[http://ironscheme.codeplex.com|IronScheme]]||114008||
 ||2015-05-15||[[https://code.google.com/p/sagittarius-scheme/|Sagittarius]]||0.6.4||
 ||2015-05-10||[[https://code.google.com/p/chibi-scheme/|Chibi]]||0.7.3||
@@ -20,7 +21,6 @@ These are the release dates of fairly recent releases (or sometimes updates, or 
 ||2013-04-10||[[http://www.gnu.org/software/guile/|Guile]]||2.0.9||
 ||2013-01-31||[[http://www.scsh.net/|scsh]]||1.9||
 ||2013-01-31||[[http://s48.org/|Scheme48]]||1.9||
-||2013-01-10||[[http://www.t3x.org/s9fes/|Scheme 9]]||20120708||
 ||2013-01-01||[[http://www.rscheme.org/rs/index.html|RScheme]]||0.7.3.4-b7||
 ||2012-04-16||[[http://hakl.net/software/dfsch/|Dfsch]]||0.4||
 ||2012-01-28||[[http://schemik.sourceforge.net/|Schemik]]||1.2.40.0||
