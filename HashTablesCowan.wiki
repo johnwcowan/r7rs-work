@@ -100,8 +100,6 @@ The procedures in the present proposal are drawn primarily from SRFI 69 and R6RS
 
 * The procedures `hash-table=?`, `hash-table-map`, `hash-table-map-values`, and `hash-table-filter!` were suggested by [[http://hackage.haskell.org/packages/archive/containers/0.5.2.1/doc/html/Data-Map-Strict.html|Haskell's Data.Map.Strict module]].
 
-* The `hash-table-search!` procedure is based on a suggestion by Taylor Campbell.
-
 * The bimap procedures are based on Gauche's bimaps.
 
 The predicate `hash-table-empty?`, as well as the mutation procedures `hash-table-set-entries!`, `hash-table-replace!`, `hash-table-replace!/default`, `hash-table-map!`, `hash-table-intersection!`, and `hash-table-difference!`, were added for completeness. 
@@ -138,7 +136,7 @@ It is an error to mutate a key during or after its insertion into a hash table.
 
 * [[#Accessors|Accessors]]: `hash-table-ref`, `hash-table-ref/default`
 
-* [[#Mutators|Mutators]]: `hash-table-set!`, `hash-table-set-entries!`, `hash-table-delete!`, `hash-table-delete-keys!`, `hash-table-extend!`, `hash-table-extend!/default`, `hash-table-replace!`, `hash-table-replace!/default`, `hash-table-update!`, `hash-table-update!/default`, `hash-table-push!`, `hash-table-pop!`, `hash-table-search!`, `hash-table-clear!`
+* [[#Mutators|Mutators]]: `hash-table-set!`, `hash-table-set-entries!`, `hash-table-delete!`, `hash-table-delete-keys!`, `hash-table-extend!`, `hash-table-extend!/default`, `hash-table-replace!`, `hash-table-replace!/default`, `hash-table-update!`, `hash-table-update!/default`, `hash-table-push!`, `hash-table-pop!`, `hash-table-clear!`
 
 * [[#Thewholehashtable|The whole hash table]]: `hash-table-size`, `hash-table-keys`, `hash-table-values`, `hash-table-entries`, `hash-table-find`, `hash-table-count`, `hash-table-any`, `hash-table-every`
 
@@ -286,10 +284,6 @@ If an association with ''key'' is found in ''hash-table'', then update the value
 `(hash-table-pop! `''hash-table key failure''`)`
 
 If an association with ''key'' is found in ''hash-table'', then return the car of the value, and update the value to its own cdr.  If the value is not found, then the result of invoking the thunk ''failure'' is returned.  It is an error if the existing value is not a pair.
-
-`(hash-table-search! `''hash-table key failure success''`)`
-
-Search ''hash-table'' for ''key''.  If it is not found, invoke the ''failure'' procedure with one argument, a unary ''add'' procedure which if invoked will insert a new association between ''key'' and its argument.  If ''key'' is found, invoke the ''success'' procedure with three arguments: the value found, a unary ''set'' procedure that updates the association to have the value specified as its argument, and a nullary ''delete'' procedure that deletes the association.  Returns whatever ''success'' or ''failure'' returns, as the case may be.
 
 `(hash-table-clear! `''hash-table''`)`
 
