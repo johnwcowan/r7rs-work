@@ -182,6 +182,12 @@ Invokes ''pred'' on the elements of ''deque'' in order until one of them returns
 
 Conversion between deque and list structures. FIFO order is preserved, so the front of a list corresponds to the front of a deque. Each operation takes O(n) time.
 
+`(generator->ideque `''generator''`)
+
+`(ideque->generator `''ideque''`)`
+
+Converts a [[http://srfi.schemers.org/srfi-121/srfi-121.html|SRFI 121]] generator to and from a deque.
+
 === Comparator ===
 
 `ideque-comparator`
@@ -264,19 +270,9 @@ Returns a set which contains the elements of ''set'' and ''obj'' as well.  If th
 
 Returns a set which contains the elements of ''set'' with the exception of ''obj'', if present.  If there is already an element of ''set'' that is equal (in the sense of the comparator) to ''obj'', the element of ''set'' prevails.  Takes O(log n) time.
 
-`(iset-delete-elements `''set list''`)`
+`(iset-delete-all `''set list''`)`
 
 Returns a set which contains the elements of ''set'', excluding the elements of ''list''.  It is an error if the elements of ''list'' are not distinct and increasing in the sense of the comparator of ''set''. Takes O(k log n) time, where ''k'' is the length of ''list''.
-
-`(iset-search `''set obj failure success''`)`
-
-A continuation-based universal update procedure. Attempts to find an element in ''set'' equal (in the sense of the comparator) to ''obj''. When such an element is found, `iset-search` calls ''(success match update remove)''.  The ''success'' procedure either tail-calls '' (update new-element ret)'' to replace the matched element with the new element, or else tail-calls ''(remove ret)'' to remove the matched element  from ''set''.
-
-When no such match is found, `iset-search` calls ''(failure insert ignore)'', which either tail-calls ''(insert ret)'' to insert ''obj'' into ''set'', or else tail-calls ''(ignore ret)'' .`
-
-In all cases, `iset-search` returns two values, a set reflecting the indicated modification (if any) and the value ''ret'' produced by one of the continuations. It runs in O(log n) time.
-
-(This procedure is based on an analogous procedure for hash tables suggested by Alexey Radul and attributed to Taylor Campbell.)
 
 === The whole set ===
 
@@ -354,19 +350,19 @@ Note: The following three predicates do not obey the trichotomy law and therefor
 
 Returns `#t` if each ''set'' contains the same elements, and `#f` otherwise.
 
-`(iset<? ''set1 set2'' ...`)`
+`(iset<? `''set1 set2'' ...`)`
 
 Returns `#t` if each ''set'' other than the last is a proper subset of the following set, and `#f` otherwise.
 
-`(iset>? ''set1 set2'' ...`)`
+`(iset>? `''set1 set2'' ...`)`
 
 Returns `#t` if each ''set'' other than the last is a proper superset of the following set, and `#f` otherwise.
 
-`(iset<=? ''set1 set2'' ...`)`
+`(iset<=? `''set1 set2'' ...`)`
 
 Returns `#t` if each ''set'' other than the last is a subset of the following set, and `#f` otherwise.
 
-`(iset>=? ''set1 set2'' ...`)`
+`(iset>=? `''set1 set2'' ...`)`
 
 Returns `#t` if each ''set'' other than the last is a superset of the following set, and `#f` otherwise.
 
@@ -383,6 +379,12 @@ Returns a set containing the elements of ''list'' and using ''comparator''. It i
 `(list->iset `''comparator list [[|''merger'' ]]`)`
 
 Returns a set containing the elements of ''list'' and using ''comparator''. It is an error if `list` is not a proper list, but it may contain duplicates and need not be in order.  The `merger` procedure is used to select among any duplicate elements (in the sense of the comparator of ''set'') that might be created; it accepts the existing and new elements and returns the value to be used.  Takes O(n log n) time.
+
+`(generator->iset `''generator''`)
+
+`(iset->generator `''iset''`)`
+
+Converts a [[http://srfi.schemers.org/srfi-121/srfi-121.html|SRFI 121]] generator to and from a set.
 
 === Set-theoretic operations ===
 
@@ -692,6 +694,13 @@ Returns a map containing the associations of ''list'' and using ''comparator''. 
 `(alist->imap `''comparator list [[|''merger'' ]]`)`
 
 Returns a map containing the associations of ''alist'' and using ''comparator''.It is an error unless ''alist'' is a proper association list, but it may contain duplicates and need not be in order.  The ''merger'' procedure is used to select among any duplicate keys (in the sense of the comparator of ''map'') that might be created; it accepts the existing and new keys and returns the key to be used.  Takes O(n log n) time.
+
+`(generator->imap `''generator''`)
+
+`(imap->generator `''imap''`)`
+
+Converts a [[http://srfi.schemers.org/srfi-121/srfi-121.html|SRFI 121]] generator to and from a map.  The generator produces pairs containing
+the keys in the cars and the values in the cdrs.
 
 === Maps as functions ===
 
