@@ -57,10 +57,10 @@ Not all these pages have information on all these Schemes.
  * NonFiniteNumbers
  * NumericTower
  * OneArmedIf
+ * OnePlusEx
  * PetrofskyCatastrophe
  * PetrofskyLet
- * PlusOneEx
- * PrefixedStringToNumber
+  * PrefixedStringToNumber
  * QuoteDelimiter
  * ReadLine
  * RedefiningKeywords
