@@ -60,7 +60,7 @@ Not all these pages have information on all these Schemes.
  * OnePlusEx
  * PetrofskyCatastrophe
  * PetrofskyLet
-  * PrefixedStringToNumber
+ * PrefixedStringToNumber
  * QuoteDelimiter
  * ReadLine
  * RedefiningKeywords
