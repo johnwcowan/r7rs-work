@@ -50,4 +50,5 @@ These are the release dates of fairly recent releases (or sometimes updates, or 
 ||2000-12-20||[[http://www.malgil.com/sxm/|SXM]]||1.1||
 ||2000-01-07||[[http://www.bcl.hamilton.ie/~barak/oaklisp/|Oaklisp]]||07-Jan-2000||
 ||1999-10-10||[[http://www.nocrew.org/software-shoe.html|Shoe]]||0.20.2||
+||1996-06-16||[[http://people.delphiforums.com/gjc/siod.html|SIOD]]||3.4||
 ||1996-01-21||[[http://www.cs.umb.edu/~wrc/scheme/|UMB]]||3.2||
