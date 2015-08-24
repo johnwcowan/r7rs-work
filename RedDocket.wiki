@@ -44,4 +44,4 @@ Enumerations with sets and maps:  EnumsCowan
 
 Extended records:  [[http://srfi.schemers.org/srfi-99/srfi-99.html|SRFI 99]], possibly with ExtendedRecordSyntaxCowan.
 
-Ephemerons: [[http://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Ephemerons.html|MIT Scheme]] or [[http://docs.racket-lang.org/reference/ephemerons.html|Racket]] (optional package).
+Ephemerons: [[http://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Ephemerons.html|MIT Scheme]] or [[http://docs.racket-lang.org/reference/ephemerons.html|Racket]].
