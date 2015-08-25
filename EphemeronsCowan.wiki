@@ -104,8 +104,8 @@ And now I to thee point, \\
 A saving root, old friend! \\
 Thou shalt remain disjoint \\
 From free lists to the end. \\
-Old tree! The sweep still brave! \\
-And, GC, mark this well: \\
+Old tree! The [[https://en.wikipedia.org/wiki/Tracing_garbage_collection#Na.C3.AFve_mark-and-sweep|sweep]] still brave! \\
+And, GC, [[https://en.wikipedia.org/wiki/Tracing_garbage_collection#Na.C3.AFve_mark-and-sweep|mark]] this well: \\
 While I exist to save, \\
 Thou shan't reclaim one cell.
 
