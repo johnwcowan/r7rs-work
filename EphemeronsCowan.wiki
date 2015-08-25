@@ -1,0 +1,112 @@
+== Ephemerons ==
+
+An ephemeron is an object with two components called its ''key'' and its ''datum''.  It differs from an ordinary pair as follows:  if the garbage collector (GC) can prove that there are no references to the key except from the ephemeron itself and possibly from the datum, then it is free to ''break'' the ephemeron.  In other words, an ephemeron can be broken when nobody else cares about its key.  A broken ephemeron no longer holds references to either its key or its datum.  Ephemerons can be used to construct weak vectors or lists and (possibly in combination with finalizers) weak hash tables.
+
+== Rationale ==
+
+The original paper on ephemerons is Barry Hayes, “Ephemerons: a New Finalization Mechanism,” ''Object-Oriented Languages, Programming, Systems, and Applications'', 1997, and is [[https://static.aminer.org/pdf/PDF/000/522/273/ephemerons_a_new_finalization_mechanism.pdf|freely available on the web]].
+
+Ephemerons are available in MIT Scheme, in Racket, and in Chibi, though the 0.7.2 version of Chibi has a bug; the Chibi GC will not break an ephemeron if its datum refers to its key.  The MIT version allows ephemeron keys and datums to be mutated using `set-ephemeron-key!` and `set-ephemeron-datum!`, but this SRFI does not require this capacity, as it is tricky to implement on systems where the GC runs in a separate thread.  In Racket, `ephemeron-broken?` and `ephemeron-key` are not available and `ephemeron-datum` is called `ephemeron-value`, but the implementation given below layers ephemerons that conform to this SRFI on top of native ones.  Ephemerons are also available in GHC's implementation of Haskell under the name of [[https://hackage.haskell.org/package/base-4.8.1.0/docs/System-Mem-Weak.html|weak pointers]].
+
+Ephemerons are considerably heavier-weight than simple weak pairs, because garbage-collecting ephemerons is more complicated than garbage-collecting weak pairs. In MIT Scheme, each ephemeron needs five words of storage rather than the two words needed by a weak pair. However, while the GC needs to spend more time on ephemerons than on other objects, the amount of time it spends on ephemerons can be made to scale linearly with the number of live ephemerons, which is how a copying GC's running time scales with the total number of live objects anyway.
+
+== Specification ==
+
+`(ephemeron? `''object''`)`
+
+Returns `#t` if ''object'' is an ephemeron; otherwise returns `#f`.
+
+`(make-ephemeron `''key datum''`)`
+
+Returns a newly allocated ephemeron, with components ''key'' and ''datum''.  Note that if ''key'' and ''datum'' are the same in the sense of `eq?`, the ephemeron is effectively a weak reference to the object.
+
+`(ephemeron-broken? `''ephemeron''`)`
+
+Returns #t if ''ephemeron'' has been broken; otherwise returns #f.
+
+`(ephemeron-key `''ephemeron''`)`
+
+`(ephemeron-datum `''ephemeron''`)`
+
+These return the key or datum component, respectively, of ''ephemeron''. If ''ephemeron'' has been broken, these operations return `#f`, but they can also return `#f` if that is what was stored as the key or datum.
+
+This procedure must be used with care. If it returns `#f`, that guarantees only that prior evaluations of `ephemeron-key` or `ephemeron-datum` yielded the key or datum that was stored in ''ephemeron''.  However, it makes no guarantees about subsequent calls to `ephemeron-key` or `ephemeron-datum`, because the GC may run and break the ephemeron immediately after `ephemeron-broken?` returns. Thus, the correct idiom to fetch an ephemeron's key and datum and use them if the ephemeron is not broken is
+
+{{{
+     (let ((key (ephemeron-key ephemeron))
+           (datum (ephemeron-datum ephemeron)))
+       (if (ephemeron-broken? ephemeron)
+           ... broken case ...
+           ... code using key and datum ...))
+}}}
+
+== Implementations ==
+
+The following trivial implementation does not have any hooks to the GC, but it is still correct, because there are no guarantees that the GC will ever break any ephemerons, or run at all, or even exist.  (Thanks to Will Clinger for this insight.)  It is portable to any R7RS-small or R5RS + SRFI 9 system.
+
+{{{
+(define-record <ephemeron>
+  (%make-ephemeron key datum broken?)
+  ephemeron?
+  (key ephemeron-key)
+  (datum ephemeron-datum)
+  (broken? ephemeron-broken?))
+
+(define (make-ephemeron key datum) (%make-ephemeron key datum #f))
+}}}
+
+This implementation layers this SRFI's semantics on top of Racket's native ephemerons.  The idea here is that the native-level ephemeron value is a pair containing the key and the datum, so that the key can be reliably retrieved and a broken ephemeron can be distinguished from one whose key or value is `#f`.
+
+{{{
+(define %make-ephemeron make-ephemeron)
+
+;; ephemeron? is already defined correctly
+
+(define (make-ephemeron key datum) (%make-ephemeron key (car key datum)))
+
+(define (ephemeron-broken? ephemeron) (not (ephemeron-value ephemeron)))
+
+(define (ephemeron-key ephemeron) (car (ephemeron-value ephemeron)))
+
+(define (ephemeron-datum ephemeron) (cdr (ephemeron-value ephemeron)))
+}}}
+
+== Verse ==
+
+Reclaimer, spare that tree! \\
+Take not a single bit! \\
+It used to point to me, \\
+Now I'm protecting it. \\
+It was the reader's `cons` \\
+That made it, paired by dot; \\
+Now, GC, for the nonce, \\
+Thou shalt reclaim it not.
+
+That old familiar tree, \\
+Whose `cdr`s and whose `car`s \\
+Are spread o'er memory — \\
+And wouldst thou it [[http://catb.org/jargon/html/P/parse.html|unparse]]? \\
+GC, cease and desist! \\
+In it no free list store; \\
+Oh spare that [[http://catb.org/jargon/html/M/moby.html|moby]] list \\
+Now pointing throughout core!
+
+It was my parent tree \\
+When it was circular; \\
+It pointed then to me: \\
+I was its `cadadr`. \\
+My `cdr` was a list, \\
+My `car` a dotted pair — \\
+That tree will sore be missed \\
+If it remains not there.
+
+And now I to thee point, \\
+A saving root, old friend! \\
+Thou shalt remain disjoint \\
+From free lists to the end. \\
+Old tree! The sweep still brave! \\
+And, GC, mark this well: \\
+While I exist to save, \\
+Thou shan't reclaim one cell.
+
+         — [[https://en.wikipedia.org/wiki/Guy_L._Steele,_Jr.|The Great Quux]] (with [[http://www.bartleby.com/248/131.html|apologies]] to [[https://en.wikipedia.org/wiki/George_Pope_Morris|George Pope Morris]])
