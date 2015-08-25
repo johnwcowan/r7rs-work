@@ -6,7 +6,7 @@ An ephemeron is an object with two components called its ''key'' and its ''datum
 
 The original paper on ephemerons is Barry Hayes, “Ephemerons: a New Finalization Mechanism,” ''Object-Oriented Languages, Programming, Systems, and Applications'', 1997, and is [[https://static.aminer.org/pdf/PDF/000/522/273/ephemerons_a_new_finalization_mechanism.pdf|freely available on the web]].
 
-Ephemerons are available in MIT Scheme, in Racket, and in Chibi, though the 0.7.2 version of Chibi has a bug; the Chibi GC will not break an ephemeron if its datum refers to its key.  The MIT version allows ephemeron keys and datums to be mutated using `set-ephemeron-key!` and `set-ephemeron-datum!`, but this SRFI does not require this capacity, as it is tricky to implement on systems where the GC runs in a separate thread.  In Racket, `ephemeron-broken?` and `ephemeron-key` are not available and `ephemeron-datum` is called `ephemeron-value`, but the implementation given below layers ephemerons that conform to this SRFI on top of native ones.  Ephemerons are also available in GHC's implementation of Haskell under the name of [[https://hackage.haskell.org/package/base-4.8.1.0/docs/System-Mem-Weak.html|weak pointers]].
+Ephemerons are available in MIT Scheme, in Racket, and in Chibi, though the 0.7.2 version of Chibi has a bug; the Chibi GC will not break an ephemeron if its datum refers to its key.  The MIT version allows ephemeron keys and datums to be mutated using `set-ephemeron-key!` and `set-ephemeron-datum!`, but this SRFI does not require this capacity, as it is tricky to implement on systems where the GC runs in a separate thread.  In Racket, `ephemeron-broken?` and `ephemeron-key` are not available and `ephemeron-datum` is called `ephemeron-value`, but the implementation given below layers ephemerons that conform to this SRFI on top of native ones.  Ephemerons with built-in finalizers are also available in GHC's implementation of Haskell under the name of [[https://hackage.haskell.org/package/base-4.8.1.0/docs/System-Mem-Weak.html|weak pointers]].
 
 Ephemerons are considerably heavier-weight than simple weak pairs, because garbage-collecting ephemerons is more complicated than garbage-collecting weak pairs. In MIT Scheme, each ephemeron needs five words of storage rather than the two words needed by a weak pair. However, while the GC needs to spend more time on ephemerons than on other objects, the amount of time it spends on ephemerons can be made to scale linearly with the number of live ephemerons, which is how a copying GC's running time scales with the total number of live objects anyway.
 
@@ -62,7 +62,7 @@ This implementation layers this SRFI's semantics on top of Racket's native ephem
 
 ;; ephemeron? is already defined correctly
 
-(define (make-ephemeron key datum) (%make-ephemeron key (car key datum)))
+(define (make-ephemeron key datum) (%make-ephemeron key (cons key datum)))
 
 (define (ephemeron-broken? ephemeron) (not (ephemeron-value ephemeron)))
 
