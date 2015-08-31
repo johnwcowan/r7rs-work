@@ -11,7 +11,7 @@ The elements of an integer set are exact integers.  The procedures for creating 
 
 </p><p><code>(range-&gt;integer-set </code><em>low high</em><code>)</code></p><p>
 
-Returns a newly allocated integer set.  The set contains the elements from <em>low</em> (inclusive) to <em>high</em> (exclusive).
+Returns a newly allocated integer set.  The set contains the elements from <em>low</em> (inclusive) to <em>high</em> (exclusive).  (Iset: <code>make-iset</code>)
 
 </p><p><code>(integer-set-adjoin-range </code><em>integer-set low high</em><code>)</code></p><p>
 
@@ -57,3 +57,11 @@ Linear update procedures that return two values: the smallest or largest integer
 
 </p>
 }}}
+
+== SRFI 113 procedures not in Chicken iset ==
+
+Not useful: member, element-comparator, comparator
+
+Doubtful: replace, replace!, partition!
+
+Useful: disjoint?, find, count, remove, remove!, partition, set<?, set>?
