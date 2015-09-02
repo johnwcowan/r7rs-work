@@ -165,7 +165,8 @@ The templates given below obey the following conventions for procedure formals:
     </th><td> A boolean procedure taking two arguments
 </td></tr></tbody></table>
 
-<p>To interpret the examples, pretend that they are executed on a Scheme that prints lazy sequences with the syntax of lists.
+<p>To interpret the examples, pretend that they are executed on a Scheme that prints lazy sequences with the syntax of lists,
+truncating them when they get too long.
 
 <!--========================================================================-->
 </p><h2><a name="Constructors">Constructors</a></h2>
@@ -298,11 +299,11 @@ cdr is <var>generator</var> is returned.</li>
 
 <ul><li>If <var>lseq</var> is a pair whose cdr is a procedure, then the procedure
 is invoked with no arguments to produce an object <var>obj</var>.</li>
-<li>If <var>obj</var> is an end-of-file object, then the cdr of <var>lseq</var> is
+<ul><li>If <var>obj</var> is an end-of-file object, then the cdr of <var>lseq</var> is
 set to the empty list, which is returned.</li>
 <li>If <var>obj</var> is any other object, then a new pair is allocated whose car
 is <i>obj</i> and whose cdr is the cdr of <var>lseq</var> (i.e. the procedure).
-The cdr of <var>lseq</var> is set to the newly allocated pair, which is returned.</li>
+The cdr of <var>lseq</var> is set to the newly allocated pair, which is returned.</li></ul>
 <li>If <var>lseq</var> is a pair whose cdr is not a procedure, then the cdr is returned.</li>
 <li>If <var>lseq</var> is not a pair, it is an error.</li>
 <ul>
@@ -398,7 +399,7 @@ possible.</p>
 <a name="lseq-split-at"></a>
 <code class="proc-def">lseq-split-at&nbsp;</code><var> lseq i -&gt; [[list|lseq]]</var>
 </dt><dd class="proc-def">
-    <p>Splits the lseq <var>lseq</var> 
+    <p>Splits <var>lseq</var> 
     at index <var>i</var>, returning two values, a list of the 
     first <var>i</var> elements, and an lseq of the remaining elements. It is equivalent
     to</p>
@@ -456,7 +457,8 @@ possible.</p>
 ============================================================================-->
 <dl>
 <dt><code>lseq-append</code><i> lseq &hellip;</i></dt>
-<dd><p>Returns an lseq that lazily contains all the elements of the <var>lseqs</var>.
+<dd><p>Returns an lseq that lazily contains all the elements of all the <var>lseqs</var>
+in order.
 </p>
 </dd></dl>
 
@@ -493,38 +495,6 @@ number of lseqs.</p>
 (lseq-zip '(1 2 3)) =&gt; ((1) (2) (3))
 </pre>
     
-<!--
-==== lseq-unzip5
-==== lseq-unzip4
-==== lseq-unzip3
-==== lseq-unzip2
-==== lseq-unzip1
-============================================================================-->
-<a name="lseq-unzip1"></a>
-</dd><dt class="proc-def1">  <code class="proc-def">lseq-unzip1</code><var> lseq-of-lseqs -&gt; lseq</var>
-<a name="lseq-unzip2"></a>
-</dt><dt class="proc-defi"> <code class="proc-def">lseq-unzip2</code><var> lseq-of-lseqs -&gt; [[lseq|lseq]]</var>
-<a name="lseq-unzip3"></a>
-</dt><dt class="proc-defi"> <code class="proc-def">lseq-unzip3</code><var> lseq-of-lseqs -&gt; [[lseq|lseq lseq]]</var>
-<a name="lseq-unzip4"></a>
-</dt><dt class="proc-defi"> <code class="proc-def">lseq-unzip4</code><var> lseq-of-lseqs -&gt; [[lseq|lseq lseq lseq]]</var>
-<a name="lseq-unzip5"></a>
-</dt><dt class="proc-defn"> <code class="proc-def">lseq-unzip5</code><var> lseq-of-lseqs -&gt; [[lseq|lseq lseq lseq lseq]]</var>
-</dt><dd class="proc-def">
-    <p><code>lseq-unzip1</code> takes an lseq of lseqs, 
-    where every lseq must contain at least one element, 
-    and returns an lseq containing the initial element of each such lseq. 
-    That is, it returns <code>(lseq-map lseq-first lseqs)</code>.  
-    <code>lseq-unzip2</code> takes a list of lseqs, where every lseq must contain at least
-    two elements, and returns two values: an lseq of the first elements,
-    and an lseq of the second elements. <code>lseq-unzip3</code> does the same for the first
-    three elements of the lseqs, and so forth.</p>
-
-<pre class="code-example">(lseq-unzip2 (list '(1 one) '(2 two) '(3 three))) =&gt;
-    (1 2 3) 
-    (one two three)
-</pre>
-</dd></dl>
 <!--========================================================================-->
 <h2><a name="MappingFiltering">Mapping and filtering</a></h2>
 
@@ -544,7 +514,7 @@ number of lseqs.</p>
 
      <p><var>proc</var> is a procedure taking as many arguments 
      as there are lseq arguments and returning a single value.  
-     <code>lseq-map</code> applies <var>proc</var> element-wise to the elements
+     <code>lseq-map</code> lazily applies <var>proc</var> element-wise to the elements
      of the lseqs and returns an lseq of the results, 
      in order.  
      The dynamic order in which <var>proc</var> 
@@ -618,7 +588,7 @@ number of lseqs.</p>
 </dt><dd class="proc-def">
      
 
-     <p>The procedure <code>lseq-filter</i> returns an lseq that contains
+     <p>The procedure <code>lseq-filter</code> returns an lseq that contains
      only the elements of <var>lseq</var> that satisfy
      <var>pred</var>.</p>
      <p>The procedure <code>lseq-remove</code> is the same as
@@ -651,7 +621,7 @@ some criteria.
 <code class="proc-def">lseq-find</code><var> pred lseq -&gt; value</var>
 </dt><dd class="proc-def">
     <p>Return the first element of <var>lseq</var> that satisfies predicate <var>pred</var>;
-    false if no element does.</p>
+    <code>#f</code> if no element does.</p>
 
 <pre class="code-example">(lseq-find even? '(3 1 4 1 5 9)) =&gt; 4
 </pre>
@@ -673,10 +643,10 @@ some criteria.
 ============================================================================-->
 </dd><dt class="proc-def">
 <a name="lseq-find-tail"></a>
-<code class="proc-def">lseq-find-tail</code><var> pred lseq -&gt; lseq or false</var>
+<code class="proc-def">lseq-find-tail</code><var> pred lseq -&gt; lseq or <code>#f</code></var>
 </dt><dd class="proc-def">
     <p>Return the longest tail of <var>lseq</var> whose first element satisfies <var>pred</var>. If no element does,
-    return false.
+    return <code>#f</code>.
 </p><p>
     <code>lseq-find-tail</code> can be viewed as a general-predicate variant of the <code>lseq-member</code>
     function.
@@ -835,7 +805,7 @@ satisfying <var>pred</var>.
 ============================================================================-->
 </p></dd><dt class="proc-def">
 <a name="lseq-index"></a>
-<code class="proc-def">lseq-index</code><var> pred lseq<sub>1</sub> lseq<sub>2</sub> ... -&gt; integer or false</var>
+<code class="proc-def">lseq-index</code><var> pred lseq<sub>1</sub> lseq<sub>2</sub> ... -&gt; integer or <code>#f</code></var>
 </dt><dd class="proc-def">
     <p>Return the index of the leftmost element that satisfies <var>pred</var>.
 </p><p>
