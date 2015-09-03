@@ -47,7 +47,7 @@ to be used with ordinary Scheme functions, which are strict, so
 neither left nor right folds are provided: it is just as time-efficient to
 use <code>lseq-realize</code> and then SRFI 1 <code>fold</code> or
 <code>fold-right</code>, and just as space-efficient to use <code>lseq->generator</code>
-and SRFI 121's <code>generator-fold</generator>.
+and SRFI 121's <code>generator-fold</code>.</p>
 
 <p>The linear-update procedures of SRFI 1 are also left out, as lazy sequences
 are not intended to be mutated.</p> 
