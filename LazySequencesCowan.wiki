@@ -955,7 +955,7 @@ in these cases, immutable maps or some other alternative should be employed.
 <dl>
 <dt class="proc-def">
 <a name="lseq-comparator"></a>
-<code class="proc-def">lseq-pair-comparator</code>
+<code class="proc-def">lseq-comparator</code>
 </dt><dd class="proc-def">
      
      <p>The <code>lseq-comparator</code> object is a SRFI-114 comparator suitable for comparing lseqs.
