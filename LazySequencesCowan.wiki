@@ -990,7 +990,8 @@ this SRFI would not exist. Everyone acknowledged there is transitively acknowled
 This is not to imply that either Olin or anyone else necessarily endorses the final
 results, of course.</p>
 
-<p>Special thanks to Shiro Kawai, whose Gauche implementation of lazy sequences inspired this one.</p>
+<p>Special thanks to Shiro Kawai, whose Gauche implementation of lazy sequences inspired this one,
+and to Kragen Javier Sitaker, who did a thorough review.</p>
 
 
 }}}
