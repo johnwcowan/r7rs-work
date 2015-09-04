@@ -10,7 +10,6 @@ This WG2 proposal defines an interface to hash tables, which are widely recogniz
    * Provides an ''equality predicate'' which defines when a proposed key is the same as an existing key.  No table may contain more than one value for a given key.
    * Provides a ''hash function'' which maps a candidate key into a non-negative exact integer.
    * Supports mutation as the primary means of setting the contents of a table.
-   * Assumes that keys are immutable; mutating a key leads to unspecified behavior.
    * Provides key lookup and destructive update in (expected) amortized constant time, provided a satisfactory hash function is available.
    * Does not guarantee that whole-table operations work in the presence of concurrent mutation of the whole hash table (values may be mutated).
 
@@ -78,7 +77,7 @@ As usual, the Common Lisp names are completely different from the Scheme names. 
 
 * `With-hash-table-iterator` is a hash table external iterator implemented as a local macro.
 
-* `Sxhash` is a stable hash function.
+* `Sxhash` is a stable but implementation-specific hash function.
 
 === Sources ===
 
@@ -126,7 +125,7 @@ It is an error if the procedure argument of `hash-table-find`, `hash-table-count
 
 It is an error to operate on two hash tables that have different comparators or equality predicates.
 
-It is an error to mutate a key during or after its insertion into a hash table.
+It is an error to mutate a key during or after its insertion into a hash table in such a way that the hash function of the table will return a different result when applied to that key.
 
 === Index ===
 
