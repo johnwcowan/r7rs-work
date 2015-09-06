@@ -116,8 +116,6 @@ Thanks to Will Clinger for providing the sample implementation, and to Taylan Ul
 
 == Specification ==
 
-The procedures in this SRFI are in the `(srfi xxx)` library (or `(srfi :xxx)` on R6RS).
-
 All references to "executing in expected amortized constant time" presuppose that a satisfactory hash function is available.  Arbitrary or non-idempotent hash functions can make a hash of any implementation.
 
 Hash tables are allowed to cache the results of calling the equality predicate and hash function, so programs cannot rely on the hash function being called exactly once for every primitive hash table operation: it may be called zero, one, or more times.
@@ -460,9 +458,11 @@ The mutation procedures `bimap-set!`, `bimap-set-entries!`, `bimap-delete!`, `bi
 
 == Implementation ==
 
-The [[https://github.com/larcenists/larceny/tree/master/tools/R7RS/in-progress/hash|current sample implementation]] is easily layered over any hash table implementation that supports either SRFI 69 or R6RS.  The sample implementation is built directly on top of `(r6rs hashtables)` (available at http://snow-fort.org/pkg), whose portable implementation uses `(rnrs hashtables)` if that library is available, or SRFI 69 if that library is available, or a slightly improved version of the SRFI 69 sample implementation if no better alternative is available.  There is also an [[https://github.com/larcenists/larceny/blob/master/lib/SRFI/srfi-69.sch|implementation of SRFI 69]] on top of the `(rnrs hashtables)` library of R6RS, which shows how to construct an implementation of SRFI 69 that would be fully compatible with the sample implementation of this SRFI.
+The [[https://github.com/larcenists/larceny/tree/master/tools/R7RS/in-progress/hash|current sample implementation]] is easily layered over any hash table implementation that supports either SRFI 69 or R6RS.  The sample implementation is built directly on top of `(r6rs hashtables)` (available in the same repository or at http://snow-fort.org/pkg), whose portable implementation uses `(rnrs hashtables)` if that library is available, or SRFI 69 if that library is available, or a slightly improved version of the SRFI 69 sample implementation if no better alternative is available.
 
-The hash tables specified here are fully compatible with hash tables as specified by the R6RS, but there may be conflicts when particular implementations of the two libraries (this SRFI and R6RS) are imported into a single library or program.  There will be no conflicts when the sample implementation of this SRFI is imported along with the sample implementation of `(r6rs hashtables)` used by that sample implementation, or if both the local `(rnrs hashtables)` and a version of the sample implementation based on it are used.
+The procedures in this SRFI are currently in the `(in-progress hash tables)` and `(in-progress hash bimaps)` libraries.  This will change.
+
+There is also an [[https://github.com/larcenists/larceny/blob/master/lib/SRFI/srfi-69.sch|implementation of SRFI 69]] on top of the `(rnrs hashtables)` library of R6RS, which shows how to construct an implementation of SRFI 69 that would be fully compatible with the sample implementation of this SRFI.
 
 The hash tables specified here are mostly compatible with hash tables as specified by SRFI 69, but there will certainly be conflicts when a library or program imports both the library specified here and an implementation of SRFI 69.  It should be possible to construct an implementation of SRFI 69 that does not conflict with the sample implementation of this SRFI or with `(r6rs hashtables)`, but all non-conflicting implementations of SRFI 69 must:
 
