@@ -2,13 +2,13 @@ This is an early draft of proposals for the Orange Edition (numbers) of R7RS-lar
 
 Multidimensional generic arrays:  ArraysCowan.
 
-Integer sets and bit vectors:  IntegerSetsCowan, to be supplemented with [[http://http://wiki.call-cc.org/eggref/4/iset|IsetsShinn]].
+Integer sets and bit vectors:  [[http://http://wiki.call-cc.org/eggref/4/iset|IntegerSetsShinn]] supplemented with IntegerSetsCowan.
 
 Extended rational numbers:  ExtendedRationalsCowan (based on withdrawn [[http://srfi.schemers.org/srfi-73/srfi-73.html|SRFI 73]]).
 
 Numeric vectors and/or numeric bytevectors:  NumericVectorsCowan and/or BytevectorsCowan.
 
-C-style structs:  StructuresCowan.
+C-style structs:  [[https://github.com/TaylanUB/scheme-bytestructures|ByteStructuresTaylanub]].
 
 Descriptive statistics:  TallyCowan.
 
