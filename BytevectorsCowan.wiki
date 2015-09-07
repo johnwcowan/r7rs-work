@@ -154,13 +154,13 @@ Read ''end * b - start * b'' bytes from ''port'' into ''[type]vector'' starting 
 
 Write ''end * b - start * b'' bytes to ''port'' from ''[type]vector'' starting at ''start''.  Returns an unspecified value.
 
-=== Extended bytevector API ==
+=== Extended bytevector API ===
 
-See the procedures of VectorsCowan, with the exceptions of the ones defined here.
+See the procedures of [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]] and VectorsCowan, with the exceptions of the ones defined here.
 
 == Structured representation types ==
 
-For mapping C structs onto bytevectors, see StructuresCowan or [[https://gitorious.org/taylan-guile/bytestructures/source/0a5426d6b5a6bea66f0f6eea02690c22e11e251a:|StructuresTaylan]].
+For mapping C structs onto bytevectors, see StructuresCowan or [[https://github.com/TaylanUB/scheme-bytestructures|ByteStructuresTaylanub]].
 
 == Packaging ==
 
