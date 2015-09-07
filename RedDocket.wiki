@@ -18,7 +18,7 @@ Character sets:  [[http://srfi.schemers.org/srfi-14/srfi-14.html|SRFI 14]].
 
 Ternary search trees:  No API proposal yet, but see [[http://en.wikipedia.org/wiki/Ternary_search_tree|Wikipedia]].
 
-Hash tables and bimaps:  HashTablesCowan.
+Hash tables and bimaps:  [[http://srfi.schemers.org/srfi-125/srfi-125.html|SRFI 125]].
 
 ----
 
@@ -54,4 +54,4 @@ Enumerations with sets and maps:  EnumsCowan
 
 Extended records:  [[http://srfi.schemers.org/srfi-99/srfi-99.html|SRFI 99]], possibly with ExtendedRecordSyntaxCowan.
 
-Ephemerons: EphemeronsCowan.
+Ephemerons: [[http://srfi.schemers.org/srfi-124/srfi-124.html|SRFI 124]].
