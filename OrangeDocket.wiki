@@ -1,8 +1,8 @@
 This is an early draft of proposals for the Orange Edition (numbers) of R7RS-large. For other dockets, see [wiki:WG2Dockets].
 
-Multidimensional generic arrays:  ArraysCowan.
+Multidimensional generic arrays:  [[http://srfi.schemers.org/srfi-122/srfi-122.html|SRFI 122]].
 
-Integer sets and bit vectors:  [[http://http://wiki.call-cc.org/eggref/4/iset|IntegerSetsShinn]] supplemented with IntegerSetsCowan.
+Integer sets and bit vectors:  [[http://wiki.call-cc.org/eggref/4/iset|IntegerSetsShinn]] supplemented with IntegerSetsCowan.
 
 Extended rational numbers:  ExtendedRationalsCowan (based on withdrawn [[http://srfi.schemers.org/srfi-73/srfi-73.html|SRFI 73]]).
 
