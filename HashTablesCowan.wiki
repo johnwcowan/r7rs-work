@@ -1,1 +1,1 @@
-See [[http://www.ccil.org/~cowan/temp/srfi-125.html|pre-SRFI 125]].
+See [[http://srfi.schemers.org/srfi-125/srfi-125.html|SRFI 125]].
