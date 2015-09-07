@@ -6,7 +6,7 @@ Based on unique objects, not symbols.
 
 Each enum object has four properties:  enum type, name (a symbol), ordinal (a non-negative exact integer), value (anything).  Enum objects are unique across enum types.  Names and ordinals are unique within an enum type.  Accessors are `enum-type`, `enum-name`, `enum-ordinal`, `enum-value`.
 
-An enum type contains a map from names to enum objects and a vector indexed by the ordinal.  We need `enum-ordinal->enum` (uses the vector) and `enum-name->enum` (uses the map) as fundamental procedures on enum types.  Simple composition gives us `enum-name->ordinal`, `enum-ordinal->name`, `enum-ordinal->value`, and `enum->name->value`.  There is no way to work backward from an enum value because it need not be unique.  To step from one enum to another, `enum-next` and `enum-prev`.
+An enum type contains a map from names to enum objects and a vector indexed by the ordinal.  We need `enum-ordinal->enum` (uses the vector) and `enum-name->enum` (uses the map) as fundamental procedures on enum types.  Simple composition gives us `enum-name->ordinal`, `enum-ordinal->name`, `enum-ordinal->value`, and `enum->name->value`.  There is no way to work backward from an enum value because it need not be unique.  To step from one enum to another, `enum-next` and `enum-prev`.  To start somewhere, `enum-min` and `enum-max`.
 
 Having a single value is very handy for C definitions, etc.
 
@@ -14,11 +14,13 @@ Operations over the whole enum-type: `enum-type-size`, `enum-type-enums` and `en
 
 `Make-enumeration-type` accepts either names or `(name value)` lists.  Ordinals are assigned in order from 0 upward; values default to same as ordinals.  `Define-enumeration-type` binds an identifier to the enumeration type and an identifier per enum (same as the name) to each enum.
 
+Comparisons:  `enum=?`, `enum<?`, `enum>?`, `enum<=?`, `enum>=?`.
+
 == Enumeration sets ==
 
 Except as noted below, the procedures for creating and manipulating enumeration sets are the same as those for sets, except that `set` is replaced by `enum-set` in their names.  Wherever a newly allocated enumeration set is returned, it has the same enumeration type as the source sets.  It is an error to operate on enumeration sets of different types in a single procedure.
 
-`(universal-enum-set `''enum-type''`)`
+`(enum-type->enum-set `''enum-type''`)`
 
 Returns a newly allocated enumeration set.  The possible elements of the set are the enum objects in ''enum-type''.  The set contains all possible elements.  The approximate R6RS equivalent is `enum-set-universe`.
 
@@ -47,7 +49,7 @@ Based on vectors indexed by the enum's ordinal.  Procedures:
 {{{
 Constructors
 
-make-enum-map      enum-map                enum-map-unfold
+enum-type->enum-map                        enum-map-unfold
 
 Predicates
 
@@ -61,9 +63,6 @@ Mutators
 
 enum-map-set!      enum-map-set-entries!
 enum-map-delete!   enum-map-delete-keys!
-enum-map-extend!   enum-map-extend!/default
-enum-map-replace!  enum-map-replace!/default
-enum-map-update!   enum-map-updated!/default
 enum-map-push!     enum-map-pop!
 enum-map-search!   enum-map-clear!
 
@@ -88,4 +87,7 @@ Enum maps as functions
 enum-map-accessor  enum-map-accessor/default
 enum-map-union     enum-map-intersection
 enum-map-difference enum-map-xor
+
+Comparators
+enum-map-comparator make-enum-map-comparator
 }}}
