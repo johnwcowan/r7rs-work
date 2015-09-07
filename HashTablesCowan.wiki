@@ -70,13 +70,13 @@ It would be trivial to provide the R6RS names (or for that matter the SRFI 69 na
 
 As usual, the Common Lisp names are completely different from the Scheme names. Common Lisp provides the following capabilities that are not in this SRFI:
 
-* The constructor allows specifying the current capacity (as opposed to size), rehash size, and rehash threshold of the new hash table.  There are also accessors and mutators for these.
+* The constructor allows specifying the rehash size and rehash threshold of the new hash table.  There are also accessors and mutators for these and for the current capacity (as opposed to size).
 
 * There are hash tables based on `equalp` (which does not exist in Scheme).
 
 * `With-hash-table-iterator` is a hash table external iterator implemented as a local macro.
 
-* `Sxhash` is a stable but implementation-specific hash function.
+* `Sxhash` is a stable but implementation-specific hash function for the `equal` predicate.
 
 === Sources ===
 
@@ -112,7 +112,7 @@ The slash in the names of some procedures can be pronounced "with".
 
 Some of the language of this SRFIis copied from SRFI 69 with thanks to its author, Panu Kalliokoski.  However, he is not responsible for what I have done with it.
 
-Thanks to Will Clinger for providing the sample implementation, and to Taylan Ulrich Bayırlı/Kammer for his spirited review.
+Thanks to Will Clinger for providing the sample implementation, and to Taylan Ulrich !Bayırlı/Kammer for his spirited review.
 
 == Specification ==
 
@@ -125,7 +125,7 @@ It is an error if the procedure argument of `hash-table-find`, `hash-table-count
 It is an error to operate on two hash tables that have different comparators or equality predicates.
 
 It is an error to mutate a key during or after its insertion into a hash table in such a way that the hash function of the table will return a different result when applied to that key.  In particular, this means
-that mutating a key in a hash table based on `eq-comparator` or `eqv-comparator`, or the hash functions `eq?` or `eqv?`, is not a problem.
+that mutating a key in a hash table based on `eq-comparator` or `eqv-comparator`, or the hash functions `eq?` or `eqv?`, is unproblematic, but mutating a key in a hash table based on `equal-comparator` or `equal?` is almost always an error.
 
 === Index ===
 
