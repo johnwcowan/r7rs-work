@@ -244,8 +244,7 @@ In the procedures specified below,
 
 * A ''v'' parameter is a vector;
 
-* A ''comparator'' parameter is a
-[[http://srfi.schemers.org/srfi-114/srfi-114.html|SRFI 114]] comparator.
+* A ''comparator'' parameter is a [[http://srfi.schemers.org/srfi-114/srfi-114.html|SRFI 114]] comparator.
 
 * A ''start'' parameter or ''start'' and ''end'' parameter pair are exact non-negative integers such that 0 <= ''start'' <= ''end'' <= `(vector-length `''v''`)`, where ''v'' is the related vector parameter. If not specified, they default to 0 and the length of the vector, respectively. They are interpreted to select the range [[''start'',|''end''), that is, all elements from index ''start'' (inclusive) up to, but not including, index ''end''.
 
