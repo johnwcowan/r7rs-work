@@ -16,8 +16,6 @@ Sets and bags:  [[http://srfi.schemers.org/srfi-113/srfi-113.html|SRFI 113]].
 
 Character sets:  [[http://srfi.schemers.org/srfi-14/srfi-14.html|SRFI 14]].
 
-Ternary search trees:  No API proposal yet, but see [[http://en.wikipedia.org/wiki/Ternary_search_tree|Wikipedia]].
-
 Hash tables and bimaps:  [[http://srfi.schemers.org/srfi-125/srfi-125.html|SRFI 125]].
 
 ----
@@ -44,13 +42,9 @@ Boxes:  [[http://srfi.schemers.org/srfi-111/srfi-111.html|SRFI 111]].
 
 List queues:  [[http://srfi.schemers.org/srfi-117/srfi-117.html|SRFI 117]].
 
-Binary heaps: BinaryHeapsCowan.
-
 ----
 
 Comparators:  [[http://srfi.schemers.org/srfi-114/srfi-114.html|SRFI 114.]]
-
-Enumerations with sets and maps:  EnumsCowan
 
 Extended records:  [[http://srfi.schemers.org/srfi-99/srfi-99.html|SRFI 99]], possibly with ExtendedRecordSyntaxCowan.
 
