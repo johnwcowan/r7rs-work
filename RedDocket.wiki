@@ -16,7 +16,7 @@ Sets and bags:  [[http://srfi.schemers.org/srfi-113/srfi-113.html|SRFI 113]].
 
 Character sets:  [[http://srfi.schemers.org/srfi-14/srfi-14.html|SRFI 14]].
 
-Hash tables and bimaps:  [[http://srfi.schemers.org/srfi-125/srfi-125.html|SRFI 125]].
+Hash tables:  [[http://srfi.schemers.org/srfi-125/srfi-125.html|SRFI 125]], which is almost completely backward compatible with [[http://srfi.schemers.org/srfi-69/srfi-69.html|SRFI 69]] and includes bimaps; or [[http://srfi.schemers.org/srfi-126/srfi-126.html|SRFI 126]], which is backward compatible with [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-14.html#node_chap_13|R6RS]].
 
 ----
 
