@@ -187,11 +187,12 @@ reliably places the 4 of the first list before the equal-comparing -4
 of the second list: `(0 -1 -2 4 -4 7 8 -10)`.
 
 Here's a definition of `abs-comparator`, introduced just for examples
-(it is not part of this SRFI):
+(it is not part of this SRFI or SRFI 114, and is not optimal):
 
 {{{
 (define abs-comparator
   (make-comparator number? #t (lambda (x y) (- (abs x) (abs y))) #f))
+}}}
 
 === All vector operations accept optional subrange parameters ===
 
@@ -334,11 +335,11 @@ to the R6RS `vector-sort!` procedure.
 
 === Merge procedures ===
 
-All four merge operations are stable: an element of the initial list ''lis1'' or
-vector ''v1'' will come before an equal-comparing element in the second
-list ''lis2'' or vector ''v2'' in the result.
+All four merge operations are stable: an element of the initial list ''lis,,1,,'' or
+vector ''v,,1,,'' will come before an equal-comparing element in the second
+list ''lis,,2,,'' or vector ''v,,2,,'' in the result.
 
-`(list-merge `''comparator lis1 lis2''`)`
+`(list-merge `''comparator lis,,1,, lis,,2,,''`)`
 
 This procedure
 does not alter its inputs, and is allowed to return a value that shares 
@@ -347,7 +348,7 @@ a common tail with a list argument.
 This procedure is equivalent to the SRFI 95 `merge` procedure when applied to lists,
 except that it does not accept a key procedure.
 
-`(list-merge! `''comparator lis1 lis2''`)`
+`(list-merge! `''comparator lis,,1,, lis,,2,,''`)`
 
 This procedure
 makes only a single, iterative, linear-time pass over its argument lists,
@@ -368,22 +369,22 @@ This procedure is equivalent to the SRFI 95 `merge!` procedure when applied to l
 except that it does not accept a key procedure.
 
 
-`(vector-merge` ''comparator v1 v2'' [[|''start1'' [ ''end1'' [ ''start2'' [ ''end2'' ]] ] ] ]`)`
+`(vector-merge` ''comparator v,,1,, v,,2,,'' [[|''start,,1,,'' [ ''end,,1,,'' [ ''start,,2,,'' [ ''end,,2,,'' ]] ] ] ]`)`
 
 This procedure does not alter its inputs,
 and returns a newly allocated vector
-of length (''end1'' - ''start1'') + (''end2'' - ''start2''`)`.
+of length (''end,,1,,'' - ''start,,1,,'') + (''end,,2,,'' - ''start,,2,,''`)`.
 
 This procedure is equivalent to the SRFI 95 `merge` procedure when applied to vectors,
 except that it does not accept a key procedure.
 
-`(vector-merge!` ''comparator to from1 from2'' [[|''at'' [ ''start1'' [ ''end1'' [ ''start2'' [ ''end2'' ]] ] ] ] ]`)`
+`(vector-merge!` ''comparator to from,,1,, from,,2,,'' [[|''start'' [ ''start,,1,,'' [ ''end,,1,,'' [ ''start,,2,,'' [ ''end,,2,,'' ]] ] ] ] ]`)`
 
-This procedure writes its result into vector ''to'', beginning at index ''at'',
+This procedure writes its result into vector ''to'', beginning at index ''start'',
 for indices less than
-''end''  = ''start'' + (''end1'' - ''start1'') + (''end2'' - ''start2''`)`.
-The target subvector ''to''[[''start'',|''end'') may not overlap either source subvector,
-''from1''[''start1'', ''end1'') or ''from2''[''start2'', ''end2'').
+''end'', which is defined as ''start'' + (''end,,1,,'' - ''start,,1,,'') + (''end,,2,,'' - ''start,,2,,''`)`.
+The target subvector ''to''[[''start'',|''end'') may not overlap either of the source subvectors
+''from,,1,,''[''start,,1,,'', ''end,,1,,'']] and ''from,,2,,''[[''start,,2,,'',|''end,,2,,'']].
 It returns an unspecified value.
 
 This procedure is equivalent to the SRFI 95 `merge!` procedure when applied to lists,
@@ -398,7 +399,7 @@ vector is not otherwise disordered.
 
 These procedures are linear time — much faster than the O(n^2^) general
 duplicate-element deletion procedures that do not assume any "bunching" of elements
-(such as the ones provided by [http://srfi.schemers.org/srfi-1/srfi-1.html SRFI 1]]).
+(such as the ones provided by [[http://srfi.schemers.org/srfi-1/srfi-1.html|SRFI 1]]).
 If you want to delete duplicate
 elements from a large list or vector, sort the elements to bring equal
 items together, then use one of these procedures, for a total time of
@@ -434,18 +435,18 @@ The vector is not altered outside the range [''start, newend'').
 Examples:
 
 {{{
-	(list-delete-neighbor-dups = '(1 1 2 7 7 7 0 -2 -2))
+	(list-delete-neighbor-dups number-comparator '(1 1 2 7 7 7 0 -2 -2))
                => (1 2 7 0 -2)
 
-	(vector-delete-neighbor-dups = '#(1 1 2 7 7 7 0 -2 -2))
+	(vector-delete-neighbor-dups number-comparator '#(1 1 2 7 7 7 0 -2 -2))
                => #(1 2 7 0 -2)
 
-	(vector-delete-neighbor-dups = '#(1 1 2 7 7 7 0 -2 -2) 3 7))
+	(vector-delete-neighbor-dups number-comparator '#(1 1 2 7 7 7 0 -2 -2) 3 7))
                => #(7 0 -2)
 
 ;; Result left in v[3,9):
 (let ((v (vector 0 0 0 1 1 2 2 3 3 4 4 5 5 6 6)))
-  (cons (vector-delete-neighbor-dups! = v 3)
+  (cons (vector-delete-neighbor-dups! number-comparator v 3)
         v))
               => (9 . #(0 0 0 1 2 3 4 5 6 4 4 5 5 6 6))
 }}}
