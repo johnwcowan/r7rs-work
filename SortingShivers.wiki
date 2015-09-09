@@ -161,8 +161,7 @@ from the comparator and used internally by the sample implementation.
 
 A "stable" sort is one that preserves the pre-existing order of equal
 elements. Suppose, for example, that we sort a list of numbers by 
-comparing their absolute values, i.e., using comparison predicate
-`(lambda (x y) (< (abs x) (abs y)))`.
+comparing their absolute values using `abs-comparator` (defined below).
 If we sort a list that contains both 3 and -3,
 then a stable sort is an algorithm that will not swap the order
 of these two elements, that is, the answer will look like `... 3 -3 ...`,
@@ -176,15 +175,23 @@ of the first data set — elements of the first list come before equal
 elements in the second list.
 
 So, if we are merging two lists of numbers ordered by absolute value
-using the stable merge operation `list-merge`, then
+using the stable merge operation `list-merge` and `abs-comparator`
+compares numbers by their absolute values, then
 
 {{{
-(list-merge (lambda (x y) (< (abs x) (abs y)))
+(list-merge abs-comparator
             '(0 -2 4 8 -10) '(-1 3 -4 7))
 }}}
 
 reliably places the 4 of the first list before the equal-comparing -4
 of the second list: `(0 -1 -2 4 -4 7 8 -10)`.
+
+Here's a definition of `abs-comparator`, introduced just for examples
+(it is not part of this SRFI):
+
+{{{
+(define abs-comparator
+  (make-comparator number? #t (lambda (x y) (- (abs x) (abs y))) #f))
 
 === All vector operations accept optional subrange parameters ===
 
@@ -231,7 +238,7 @@ by composing a set of basic lexemes to indicate what they do.
 ||`vector`||The procedure operates upon vectors.||
 ||`list`||The procedure operates upon lists.||
 ||`stable`||This lexeme indicates that the sort is a stable one.||
-||`sort`||The procedure sorts its input data set by some < comparison predicate.||
+||`sort`||The procedure sorts its input data set by some comparator.||
 ||`merge`||The procedure merges two ordered data sets into a single ordered result.||
 ||`!`||Procedures that end in `!` are allowed, and sometimes required, to reuse their input storage to construct their answer.||
 
@@ -261,9 +268,9 @@ is said about what the procedure returns, except that it returns one value.
 `(vector-sorted? `''comparator v'' [''start'' [ ''end'' ]] ]
 
 These procedures return true iff their input list or vector
-is in sorted order, as determined by their < comparison parameter.
+is in sorted order, as determined by ''comparator''.
 Specifically, they return `#f` iff there is an adjacent pair ... X Y ... in the input
-list or vector such that Y < X. The optional ''start'' and ''end'' range 
+list or vector such that Y < X in the sense of ''comparator''. The optional ''start'' and ''end'' range 
 arguments restrict `vector-sorted?` to examining the indicated subvector.
 
 These procedures are equivalent to the SRFI 95 `sorted?` procedure when applied to lists or vectors
