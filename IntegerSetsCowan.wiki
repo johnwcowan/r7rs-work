@@ -4,28 +4,12 @@
 
 The elements of an integer set are exact integers.  The procedures for creating and manipulating integer sets are the same as those for <a href="http://srfi.schemers.org/srfi-113/srfi-113.html">SRFI 113 sets</a>, except that <code>set</code> is replaced by <code>integer-set</code> in their names.  However, <code>set-comparator</code> has no equivalent for integer sets, and in <code>integer-set</code>, <code>integer-set-unfold</code>, <code>integer-set-map</code>, and <code>integer-set-copy</code> the <em>comparator</em> argument is omitted.</p>
 
-<p>Although sets subsume integer sets, providing them separately allows for increased implementation efficiency.  There are two Chicken eggs that provide integer sets: <a href="http://wiki.call-cc.org/eggref/4/iset#integer-sets"><code>iset</code></a>, which is conceptually similar to the integer sets described here; and <a href="http://wiki.call-cc.org/eggref/4/cis"><code>cis</code></a>, which uses lists of integer intervals.</p>
+<p>Although sets subsume integer sets, providing them separately allows for increased implementation efficiency.  There are two Chicken eggs that provide integer sets: <a href="http://wiki.call-cc.org/eggref/4/iset#integer-sets"><code>iset</code></a>, on which this SRFI is based, which uses bit vectors (and underlying them, bytevectors); and <a href="http://wiki.call-cc.org/eggref/4/cis"><code>cis</code></a>, which uses lists of integer intervals.</p>
 
 
-<h3 id="Additionalintegersetprocedures">Additional integer set procedures</h3>
+<h3 id="Additionalintegersetprocedures">Procedures without SRFI-13 analogues</h3>
 
-</p><p><code>(range-&gt;integer-set </code><em>low high</em><code>)</code></p><p>
-
-Returns a newly allocated integer set.  The set contains the elements from <em>low</em> (inclusive) to <em>high</em> (exclusive).  (Iset: <code>make-iset</code>)
-
-</p><p><code>(integer-set-adjoin-range </code><em>integer-set low high</em><code>)</code></p><p>
-
-Returns a newly allocated integer set that contains all its values, and in addition each integer from <em>low</em> (inclusive) to <em>high</em> (exclusive) unless it is already equal to an existing member.
-
-</p><p><code>(integer-set-adjoin-range! </code><em>integer-set low high</em><code>)</code></p><p>
-
-A linear update procedure that returns an integer set that contains all its values, and in addition each integer from <em>low</em> (inclusive) to <em>high</em> (exclusive) unless it is already equal to an existing member.
-
-</p><p><code>(integer-set-complement </code><em>integer-set</em><code>)</code></p><p>
-
-Returns a newly allocated integer set that is the complement of <em>integer-set</em>.
-
-</p><p><code>(integer-set-min </code><em>integer-set</em><code>)</code></p><p><code>(integer-set-max </code><em>integer-set</em><code>)</code></p><p>
+<p><code>(integer-set-min </code><em>integer-set</em><code>)</code></p><p><code>(integer-set-max </code><em>integer-set</em><code>)</code></p><p>
 
 Returns the smallest or largest integer in <i>integer-set</i>, or <code>#f</code> if there is none.
 
@@ -60,8 +44,6 @@ Linear update procedures that return two values: the smallest or largest integer
 
 == SRFI 113 procedures not in Chicken iset ==
 
-Not useful: member, element-comparator, comparator
-
-Doubtful: replace, replace!, partition!
+Not useful: member, element-comparator, comparator, replace, replace!, partition!
 
 Useful: disjoint?, find, count, remove, remove!, partition, set<?, set>?
