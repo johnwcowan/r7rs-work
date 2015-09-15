@@ -41,6 +41,7 @@ Not all these pages have information on all these Schemes.
  * EmptyList
  * EmptyStringsVectors
  * EvalDefine
+ * ExactExpt
  * ExactSqrt
  * FixnumInfo
  * FloatPrecision
