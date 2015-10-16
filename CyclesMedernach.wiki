@@ -20,10 +20,6 @@ Returns a cycle whose elements are the elements of ''list''.  Order is preserved
 
 Returns a list whose elements are those of ''cycle''.  Order is preserved (reversed).
 
-`(cycle-tabulate `''i proc''`)`
-
-Invokes ''proc'' on 0, 1, ... ''i'' - 1 and converts the result to a cycle.
-
 `(cycle-unfold `''continue? successor mapper seed''`)`
 
 `(cycle-unfold/reverse `''stop? successor mapper seed''`)`
@@ -44,13 +40,9 @@ Returns `#t` if ''obj'' is an empty cycle, and otherwise returns `#f`.
 
 `(cycle=? `''equivalence cycle,,1,, cycle,,2,,''`)`
 
-Return `#t` if ''cycle,,1,,'' and ''cycle,,2,,'' contain the same values (in the sense of the ''equivalence'' predicate) in the same order; otherwise return `#f`.
-
-`(cycle=?/rotation `''equivalence cycle,,1,, cycle,,2,,''`)`
-
 Return `#t` if ''cycle,,1,,'' and ''cycle,,2,,'' contain the same values (in the sense of the ''equivalence'' predicate) in the same order, independent of their rotations; otherwise return `#f`.
 
-Example:  `(cycle=?/rotation eqv? (cycle 1 2 3) (3 1 2)) => t`
+Example:  `(cycle=? eqv? (cycle 1 2 3) (3 1 2)) => t`
 
 === Accessors ===
 
@@ -126,12 +118,6 @@ Returns the number of elements of ''cycle'' which satisfy ''predicate''.
 
 Returns a cycle containing all the elements of ''cycles'' in the order given, each in forward (reverse) order.  Note that `cycle-append/reverse` is not the same as appending the ''cycles'' and reversing the result.
 
-`(cycle-concatenate `''list-of-cycles''`)`
-
-`(cycle-concatenate/reverse `''list-of-cycles''`)`
-
-Returns a cycle containing all the elements of the cycles in ''list-of-cycles'', each in forward (reverse) order.  Note that `cycle-concatenate/reverse` is not the same as concatenating the ''cycles'' and reversing the result.
-
 `(cycle-zip `''stop? cycle'' ...`)`
 
 Returns a cycle of lists (not cycles) which contain the respective elements of each ''cycle''.  The predicate ''stop?'' is invoked on each such list before it is added to the result, and when it returns true, the procedure terminates.
@@ -174,7 +160,7 @@ Returns two values, a cycle containing those elements which satisfy ''predicate'
 
 `(cycle-any `''cycle predicate''`)`
 
-If any element of ''cycle'' satisfies ''predicate'', that value is returned, and `#f` otherwise.
+If any element of ''cycle'' satisfies ''predicate'', the result of ''predicate'' is returned, and `#f` otherwise.
 
 `(cycle-every `''cycle predicate''`)`
 
