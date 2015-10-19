@@ -1,4 +1,4 @@
-Some cleanup and improvement is needed to SRFI 43.
+Some cleanup and improvement is needed to [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]].
 
 == R7RS vs. SRFI 43 ==
 
