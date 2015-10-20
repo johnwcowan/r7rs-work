@@ -307,23 +307,8 @@ possible.</p>
 <pre class="code-example">(lseq-take '(a b c d e)  2) =&gt; (a b)
 (lseq-drop '(a b c d e)  2) =&gt; (c d e)
 </pre>
-    <p><code>lseq-drop</code> is exactly equivalent to performing <var>i</var> <code>lseq-rest</code> operations on <var>lseq</var>.</p>
+    <p><code>lseq-drop</code> is exactly equivalent to performing <var>i</var> <code>lseq-rest</code> operations on <var>lseq</var>.</p></dd>
 
-
-<!--
-==== lseq-split-at
-============================================================================-->
-</dd><dt class="proc-def">
-<a name="lseq-split-at"></a>
-<code class="proc-def">lseq-split-at&nbsp;</code><var> lseq i -&gt; [[list|lseq]]</var>
-</dt><dd class="proc-def">
-    <p>Splits <var>lseq</var> 
-    at index <var>i</var>, returning two values, a list of the 
-    first <var>i</var> elements, and an lseq of the remaining elements. It is equivalent
-    to</p>
-<pre class="code-example">(values (lseq-take lseq i) (lseq-drop lseq i))
-</pre>
-</dd></dl>
 
 <!--========================================================================-->
 <h2><a name="Whole">The whole lazy sequence</a></h2>
