@@ -65,7 +65,6 @@ are not intended to be mutated.</p>
   </li><li><a href="#MappingFiltering">Mapping and filtering</a>
   </li><li><a href="#Searching">Searching</a>
   </li><li><a href="#LazyAssociationLists">Lazy association lists</a>
-  </li><li><a href="#Comparators">Comparators</a>
   </li></ul>
 </li><li><a href="#SampleImplementation">Sample Implementation</a>
 </li><li><a href="#Acknowledgements">Acknowledgements</a>
@@ -95,20 +94,15 @@ Here is a short list of the procedures provided by this SRFI.
 </dt><dd class="proc-index">
 <pre class="proc-index">
 <a href="#lseq-car">lseq-car</a>     <a href="#lseq-cdr">lseq-cdr</a>
-<a href="#lseq-first">lseq-first</a>   <a href="#lseq-second">lseq-second</a>  <a href="#lseq-third">lseq-third</a>  <a href="#lseq-fourth">lseq-fourth</a> <a href="#lseq-fifth">lseq-fifth</a>
-<a href="#lseq-sixth">lseq-sixth</a>   <a href="#lseq-seventh">lseq-seventh</a> <a href="#lseq-eighth">lseq-eighth</a> <a href="#lseq-ninth">lseq-ninth</a>  <a href="#lseq-tenth">lseq-tenth</a>
-<a href="#lseq-rest">lseq-rest</a>    <a href="#lseq-ref">lseq-ref</a>
-<a href="#lseq-take">lseq-take</a>    <a href="#lseq-drop">lseq-drop</a> <a href="#lseq-split-at">lseq-split-at</a>   
+<a href="#lseq-first">lseq-first</a>   <a href="#lseq-rest">lseq-rest</a> <a href="#lseq-ref">lseq-ref</a>
+<a href="#lseq-take">lseq-take</a>    <a href="#lseq-drop">lseq-drop</a>   
 </pre>
 
 </dd><dt class="proc-index"> The whole lazy sequence
 </dt><dd class="proc-index">
 <pre class="proc-index"><a href="#lseq-realize">lseq-realize</a> <a href="#lseq->generator">lseq->generator</a>
 <a href="#lseq-length">lseq-length</a>
-<a href="#lseq-append">lseq-append</a>  <a href="#lseq-concatenate">lseq-concatenate</a> 
-<a href="#lseq-zip">lseq-zip</a>     <a href="#lseq-unzip1">lseq-unzip1</a>       <a href="#lseq-unzip2">lseq-unzip2</a>
-<a href="#lseq-unzip3">lseq-unzip3</a>  <a href="#lseq-unzip4">lseq-unzip4</a>       <a href="#lseq-unzip5">lseq-unzip5</a>
-</pre>
+<a href="#lseq-append">lseq-append</a>  <a href="#lseq-zip">lseq-zip</a></pre>
 
 </dd><dt class="proc-index"> Mapping and filtering
 </dt><dd class="proc-index">
@@ -124,7 +118,6 @@ Here is a short list of the procedures provided by this SRFI.
 <a href="#lseq-any">lseq-any</a>          <a href="#lseq-every">lseq-every</a>
 <a href="#lseq-index">lseq-index</a>
 <a href="#lseq-take-while">lseq-take-while</a>   <a href="#lseq-drop-while">lseq-drop-while</a>
-<a href="#lseq-span">lseq-span</a>         <a href="#lseq-break">lseq-break</a>
 </pre>
 
 </dd><dt class="proc-index"> Lazy association lists
@@ -132,10 +125,6 @@ Here is a short list of the procedures provided by this SRFI.
 <pre class="proc-index"><a href="#lseq-assoc">lseq-assoc</a>        <a href="#lseq-assq">lseq-assq</a>       <a href="#lseq-assv">lseq-assv</a>
 </pre>
 
-</dd><dt class="proc-index"> Comparators
-</dt><dd class="proc-index">
-<pre class="proc-index"><a href="#lseq-comparator">lseq-comparator</a>   <a href="#make-lseq-comparator">make-lseq-comparator</a>
-</pre>
 
 </dd></dl>
 <!--========================================================================-->
@@ -212,56 +201,28 @@ cdr is <var>generator</var> is returned.</li>
 
 
 <!--
-==== lseq=
+==== lseq=?
 ============================================================================-->
 </dd><dt class="proc-def">
 <a name="list="></a>
-<code class="proc-def">lseq=</code><var> elt= lseq<sub>1</sub> ... -&gt; boolean</var>
+<code class="proc-def">lseq=?</code><var> elt=? lseq<sub>1</sub> lseq<sub>2</sub> -&gt; boolean</var>
 </dt><dd class="proc-def">
     <p>Determines lseq equality, given an element-equality procedure.
-    The lseq <var>A</var> equals the lseq <var>B</var> 
+    Two lseqs are equal 
     if they are of the same length,
     and their corresponding elements are equal, 
-    as determined by <var>elt=</var>. 
-    If the element-comparison procedure's first argument is
-    from <var>lseq<sub>i</sub></var>, 
-    then its second argument is from <var>lseq<sub>i+1</sub></var>, 
-    <em>i.e.</em> it is always called as
-        <code>(<var>elt=</var> <var>a</var> <var>b</var>)</code>
-    for <var>a</var> an element of lseq <var>A</var>, 
-    and <var>b</var> an element of lseq <var>B</var>.</p>
+    as determined by <var>elt=?</var>. 
+    When <var>elt=?</var> is called, its first argument is always
+    from <var>lseq<sub>1</sub></var> 
+    and its second argument is from <var>lseq<sub>2</sub></var>.</p>
 <p>
-    In the <var>n</var>-ary case, 
-    every <var>lseq<sub>i</sub></var> is compared to 
-    <var>lseq<sub>i+1</sub></var> 
-    (as opposed, for example, to comparing 
-    <var>lseq<sub>1</sub></var> to    <var>lseq<sub>i</sub></var>, 
-    for <var>i</var>&gt;1). 
-    If there are no lseq arguments at all, 
-    <code>lseq=</code> simply returns true.
-</p><p>
-    The dynamic order in which the <var>elt=</var> procedure is
+    The dynamic order in which the <var>elt=?</var> procedure is
     applied to pairs of elements is not specified. 
-    For example, if <code>lseq=</code> is applied
-    to three lseqs, <var>A</var>, <var>B</var>, and <var>C</var>, 
-    it may first completely compare <var>A</var> to <var>B</var>,
-    then compare <var>B</var> to <var>C</var>, 
-    or it may compare the first elements of <var>A</var> and <var>B</var>,
-    then the first elements of <var>B</var> and <var>C</var>, 
-    then the second elements of <var>A</var> and <var>B</var>, and so forth.
 </p><p>
-    The equality procedure must be consistent with <code>eq?</code>. 
-    That is, it must be the case that
-</p><div class="indent">
-        <code>(eq? <var>x</var> <var>y</var>)</code> =&gt; <code>(<var>elt=</var> <var>x</var> <var>y</var>)</code>.
-</div>
-    <p>Note that this implies that two lseqs which are <code>eq?</code> 
-    are always <code>lseq=</code>, as well; implementations may exploit this
+    The <var>elt=?</var> procedure must be consistent with <code>eq?</code>. 
+    This implies that two lseqs which are <code>eq?</code> 
+    are always <code>lseq=?</code>, as well; implementations may exploit this
     fact to "short-cut" the element-by-element comparisons.</p>
-<pre class="code-example">(lseq= eq?) =&gt; #t       ; Trivial cases
-(lseq= eq? '(a)) =&gt; #t
-</pre>
-
 </dd></dl>
 
 
@@ -311,50 +272,6 @@ The cdr of <var>lseq</var> is set to the newly allocated pair, which is returned
 
 <p>Implementations that inline <code>cdr</code> are advised to inline <code>lseq-cdr</code> if
 possible.</p>
-<!--
-==== lseq-tenth
-==== lseq-ninth
-==== lseq-eighth
-==== lseq-seventh
-==== lseq-sixth
-==== lseq-fifth
-==== lseq-fourth
-==== lseq-third
-==== lseq-second
-============================================================================-->
-</dd><dt class="proc-def1">
-<a name="lseq-second"></a>
-<code class="proc-def">lseq-second&nbsp;&nbsp;</code><var>lseq -&gt; object </var>
-</dt><dt class="proc-defi">
-<a name="lseq-third"></a>
-<code class="proc-def">lseq-third&nbsp;&nbsp;&nbsp;</code><var>lseq -&gt; object </var>
-</dt><dt class="proc-defi">
-<a name="lseq-fourth"></a>
-<code class="proc-def">lseq-fourth&nbsp;&nbsp;</code><var>lseq -&gt; object </var>
-</dt><dt class="proc-defi">
-<a name="lseq-fifth"></a>
-<code class="proc-def">lseq-fifth&nbsp;&nbsp;&nbsp;</code><var>lseq -&gt; object </var>
-</dt><dt class="proc-defi">
-<a name="lseq-sixth"></a>
-<code class="proc-def">lseq-sixth&nbsp;&nbsp;&nbsp;</code><var>lseq -&gt; object </var>
-</dt><dt class="proc-defi">
-<a name="lseq-seventh"></a>
-<code class="proc-def">lseq-seventh&nbsp;</code><var>lseq -&gt; object </var>
-</dt><dt class="proc-defi">
-<a name="lseq-eighth"></a>
-<code class="proc-def">lseq-eighth&nbsp;&nbsp;</code><var>lseq -&gt; object </var>
-</dt><dt class="proc-defi">
-<a name="lseq-ninth"></a>
-<code class="proc-def">lseq-ninth&nbsp;&nbsp;&nbsp;</code><var>lseq -&gt; object </var>
-</dt><dt class="proc-defi">
-<a name="lseq-tenth"></a>
-<code class="proc-def">lseq-tenth&nbsp;&nbsp;&nbsp;</code><var>lseq -&gt; object  </var>
-</dt><dt class="proc-defn">
-</dt><dd class="proc-def">
-    <p>Returns the second, third, ..., or tenth element of <var>lseq</var>.</p> 
-
-<pre class="code-example">(lseq-third '(a b c d e)) =&gt; c
-</pre>
 
 
 <!--
@@ -494,7 +411,7 @@ number of lseqs.</p>
     =&gt; ((one 1 odd) (two 2 even) (three 3 odd))
 
 (lseq-zip '(1 2 3)) =&gt; ((1) (2) (3))
-</pre>
+</pre></dl>
     
 <!--========================================================================-->
 <h2><a name="MappingFiltering">Mapping and filtering</a></h2>
@@ -622,24 +539,13 @@ some criteria.
 <code class="proc-def">lseq-find</code><var> pred lseq -&gt; value</var>
 </dt><dd class="proc-def">
     <p>Return the first element of <var>lseq</var> that satisfies predicate <var>pred</var>;
-    <code>#f</code> if no element does.</p>
+    <code>#f</code> if no element does.  It cannot reliably be applied to lseqs that include
+    <code>#f</code> as an element; use <code>find-tail</code> instead.</p>
 
 <pre class="code-example">(lseq-find even? '(3 1 4 1 5 9)) =&gt; 4
 </pre>
 
-    <p>Note that <code>lseq-find</code> has an ambiguity in its lookup semantics — if <code>lseq-find</code>
-    returns <code>#f</code>, you cannot tell (in general) if it found a <code>#f</code> element
-    that satisfied <var>pred</var>, or if it did not find any element at all. In
-    many situations, this ambiguity cannot arise — either the lseq being
-    searched is known not to contain any <code>#f</code> elements, or the lseq is
-    guaranteed to have an element satisfying <var>pred</var>. However, in cases
-    where this ambiguity can arise, you should use <code>lseq-find-tail</code> instead of
-    <code>lseq-find</code> — <code>lseq-find-tail</code> has no such ambiguity:</p>
-<pre class="code-example">(cond ((lseq-find-tail pred lseq) =&gt; (lambda (lseq) ...))
-      (else ...)) ; Search failed.
-</pre>
-
-<!--
+ <!--
 ==== lseq-find-tail
 ============================================================================-->
 </dd><dt class="proc-def">
@@ -693,47 +599,6 @@ satisfy the predicate <var>pred</var>, and returns the rest of the lseq.</p>
 
 <pre class="code-example">(lseq-drop-while even? '(2 18 3 10 22 9)) =&gt; (3 10 22 9)
 </pre>
-
-<!--
-==== lseq-span lseq-break
-============================================================================-->
-</dd><dt class="proc-def1">
-<a name="lseq-span"></a>
-<code class="proc-def">lseq-span&nbsp;&nbsp;</code><var> pred lseq -&gt; [[lseq|lseq]]</var>
-</dt><dt class="proc-defn">
-<a name="lseq-break"></a>
-<code class="proc-def">lseq-break&nbsp;</code><var> pred lseq -&gt; [[lseq|lseq]]</var>
-</dt><dd class="proc-def">
-
-<p><code>lseq-span</code> splits the lseq into the longest initial prefix whose
-elements all satisfy <var>pred</var>, and the remaining tail. 
-<code>lseq-break</code> inverts the sense of the predicate: 
-the tail commences with the first element of the input lseq
-that satisfies the predicate.</p>
-
-<p>
-In other words: 
-<code>lseq-span</code> finds the initial span of elements 
-satisfying <var>pred</var>, 
-and <code>lseq-break</code> breaks the lseq at the first element
-satisfying <var>pred</var>.
-
-</p><p>
-<code>lseq-span</code> is equivalent to 
-</p><pre class="code-example">(values (lseq-take-while <var>pred</var> <var>lseq</var>) 
-        (lseq-drop-while <var>pred</var> <var>lseq</var>))
-</pre>
-
-<p>
-</p><pre class="code-example">(lseq-span even? '(2 18 3 10 22 9)) =&gt;
-  (2 18)
-  (3 10 22 9)
-
-(lseq-break even? '(3 1 4 1 5 9)) =&gt;
-  (3 1)
-  (4 1 5 9)
-</pre>
-
 
 <!--
 ==== lseq-any
@@ -950,35 +815,16 @@ in these cases, immutable maps or some other alternative should be employed.
 
 
 <!--========================================================================-->
-<h2><a name="Comparators">Comparators</a></h2>
-
-<dl>
-<dt class="proc-def">
-<a name="lseq-comparator"></a>
-<code class="proc-def">lseq-comparator</code>
-</dt><dd class="proc-def">
-     
-     <p>The <code>lseq-comparator</code> object is a SRFI-114 comparator suitable for comparing lseqs.
-     Note that it is <em>not</em> a procedure.
-     It compares lseqs using <code>default-comparator</code> on their first elements.  If they are not equal, that value is returned.  If they are equal, <code>lseq-comparator</code> is used on the <code>lseq-rest</code> of the lseqs and that value is returned.</p>
-</dd>
- 
-<dt class="proc-def">
-<a name="make-lseq-comparator"></a>
-<code class="proc-def">make-lseq-comparator</code><var> comparator -&gt; comparator</var>
-</dt><dd class="proc-def">
-     
-     <p>The <code>make-lseq-comparator</code> procedure returns a comparator suitable for comparing lseqs
-     using <var>element-comparator</var> to compare the elements.</p>
-</dd>
- 
-</dl>
- 
-<!--========================================================================-->
 <h1><a name="SampleImplementation">Sample Implementation</a></h1>
-<p>The files in the implementation are as follows:</p>
+<p>The files in the implementation are in the SRFI 127 repository, and are as follows:</p>
 
-<p>FIXME</p>
+<ul>
+<li><code>lseq.sld</code> - an R7RS library</li>
+<li><code>lseq.scm</code> - a Chicken library</li>
+<li><code>lseq-impl.scm</code> - portable implementation code</li>
+<li><code>lseq-test.scm</code> - a Chicken test-egg file</li>
+</ul>
+
 
 
 
