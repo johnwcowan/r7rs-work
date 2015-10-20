@@ -1,0 +1,96 @@
+'''This page is a pre-SRFI, but has nothing to do with R7RS.'''
+
+== Abstract ==
+
+The idea of role-based access control (RBAC) is that there are ''actions'' that can or cannot be performed on ''resources'' by ''principals'', depending on whether or not a principal belongs to a ''role''.  Actions are named by symbols, and are typically things like `read`, `write`, `modify`, and `delete`, though they can be anything at all.  Principals and roles are also named by symbols.  When setting up a rulebase for use by RBAC, we specify the actions, principals, and roles.  We can also say that a principal belongs to a role, or that a role is a sub-role of another role (meaning that all principals belonging to the first role automatically also belong to the second role).
+
+A resource is named by a list of symbols representing a path in an abstract hierarchy.  When specifying that a role is ''allowed'' to perform an action on a resource, it is implicit that it is also allowed to perform the same action on any sub-resources.  For example, if role `updater` is allowed to perform action `write` on the resource `(localhost pub)`, then it is also allowed to perform that action on the sub-resource `(localhost pub canada)`.  However, if a role is specified as being ''blocked'' from taking a given action on a given resource, then the principals belonging to that role cannot perform that action on the specified resource or its sub-resources.  By default, all roles are blocked from performing any action on the empty resource named `()`.  Resources are not declared in a rulebase, but are deduced from their presence in allow and block specifications.
+
+Finally, principals can be members of ''groups'', and groups can belong to roles in the same way that principals can.  We determine if a principal belongs to a group based on a procedure specified for the group that returns the principals in the group.  A group also has a ''lead member'' declared for it; at query time, if a group's procedure says that the lead member is not part of the group, an error is signaled.
+
+== Rulebase constructor ==
+
+`(make-rbac)`
+
+Return a rulebase with no actions, principals, roles, groups, or rules.
+
+== Adding and removing rulebase objects ==
+
+`(rbac-add-action `''rulebase action''`)`
+
+Add the symbol ''action'' to ''rulebase''.
+
+`(rbac-remove-action `''rulebase action''`)`
+
+Remove the symbol ''action'' from ''rulebase''.
+
+`(rbac-add-principal `''rulebase principal''`)`
+
+Add the symbol ''principal'' to ''rulebase''.
+
+`(rbac-remove-principal `''rulebase principal''`)`
+
+Remove the symbol ''principal'' from ''rulebase''.
+
+`(rbac-add-role `''rulebase role''`)`
+
+Add the symbol ''role'' to ''rulebase''.
+
+`(rbac-remove-role `''rulebase role''`)`
+
+`(rbac-add-group `''rulebase group all-members member? lead-member''`)`
+
+Add the symbol ''group'' to ''rulebase'', specifying ''proc'' as the procedure for retrieving and checking group membership
+and ''lead-member'' for the lead member of the group.  If ''all-members'' is called with no arguments, it returns a list of all
+the principals in the group.  If ''member?'' is called with one argument, a principal, it returns `#t` if the principal is a member of the
+group and `#f` otherwise.
+
+`(rbac-remove-group `''rulebase group''`)`
+
+== Adding and removing rulebase relationships ==
+
+`(rbac-add-in-role `''rulebase principals role''`)`
+
+Adds a rule specifying that the principals in the list ''principal'' belong to ''role''.
+
+`(rbac-remove-in-role `''rulebase principals role''`)`
+
+Removes a rule specifying that the principals in the list ''principals'' belong to ''role''.  Note that this is only
+effective if exactly the same arguments were passed to `rbac-add-in-role`.
+
+`(rbac-add-subrole `''rulebase subrole role''`)`
+
+Adds a rule specifying that the principals and/or groups belonging to ''subrole'' also belong to ''role''.
+
+`(rbac-remove-in-role `''rulebase principals role''`)`
+
+Removes a rule specifying that the principals and/or groups belonging to ''subrole'' belong to ''role''.  Note that this is only
+effective if exactly the same arguments were passed to `rbac-add-subrole`.
+
+`(rbac-add-allow `''rulebase role actions resource''`)`
+
+Adds a rule allowing ''role'' to perform any of the actions in the list ''actions'' on ''resource'' or any of its sub-resources.
+
+`(rbac-remove-allow `''rulebase role actions resource''`)`
+
+Removes a rule allowing ''role'' to perform any of the actions in the list ''actions'' on ''resource'' or any of its sub-resources.  Note that this is only
+effective if exactly the same arguments were passed to `rbac-add-allow`.
+
+`(rbac-add-block`''rulebase role actions resource''`)`
+
+Adds a rule blocking ''role'' from performing any of the actions in the list ''actions'' on ''resource'' or any of its sub-resources.
+
+`(rbac-remove-block `''rulebase role actions resource''`)`
+
+Removes a rule blocking ''role'' from performing any of the actions in the list ''actions'' on ''resource'' or any of its sub-resources.  Note that this is only effective if exactly the same arguments were passed to `rbac-add-block`.
+
+== Compiled rulebases ==
+
+`(rbac-compile `''rulebase''`)`
+
+Checks the ''rulebase'' for consistency: that is, actions, principals, roles, and groups referred to in rules have to exist in the rulebase.  Returns a compiled form of the rulebase which can be efficiently checked.  The objects and rules defined for compiled rulebases cannot be changed.
+
+`(rbac-allow? `''compiled-rulebase principal action resource''`)`
+
+Returns `#t` if ''principal'' (or some group it is a member of) belongs to a role which is allowed to perform ''action'' on ''resource'', as specified by ''compiled-rulebase'', and `#f` otherwise.
+
