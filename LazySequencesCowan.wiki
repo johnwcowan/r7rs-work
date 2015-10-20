@@ -365,20 +365,6 @@ in order.
 </p>
 </dd></dl>
 
-<!--
-==== lseq-concatenate
-============================================================================-->
-<dl>
-<dt><code>lseq-concatenate</code><i> lseq</i></dt>
-<dd><p>The <var>lseq</var> argument is an lseq of lseqs.
-Returns an lseq whose elements are all the elements of the first lseq,
-then all the elements of the second one, then the third, etc.
-</p>
-<p>It is similar to <code>(apply lseq-append (lseq-realize lseq))</code>, except
-that <code>lseq-concatenate</code> can work even if <var>lseq</var> contains an infinite
-number of lseqs.</p>
-</dd></dl>
-
 <dl>
 <!--
 ==== lseq-zip
