@@ -1,110 +1,199 @@
-== Arrays ==
+== Introduction ==
 
-This is a proposal for the WG2 multidimensional arrays package.  These arrays are general: that is, the components may be any Scheme object.  However, future proposals may add support for numeric-only arrays.
+TBD - arrays are multidimensional objects based on top of one-dimensional storage objects
 
-== Terminology ==
+== Specification ==
 
-The ''axes'' of an array are its dimensions: a vector has one axis, a matrix has two, and so on.  The ''rank'' of a vector is the number of axes it has.  Note that in this proposal, the objects called "vectors" in Scheme are referred to as "Scheme vectors".
+=== Terminology ===
 
-Every array has a ''shape'', which is a Scheme vector of non-negative exact integers that specify the number of distinct values on each of its axes.  Thus an array with shape `#(4)` is a vector whose axis contains 4 elements, by default labeled from 0 to 3, and an array with shape `#(2 7)` is a 2 x 7 matrix whose rows range by default from 0 to 1 and whose columns range by default from 0 to 6 respectively.  A component of the shape MAY be 0, in which case the vector has no components.  A rank-0 array's shape is `#()`, and it has exactly one component.
+TBD: array, storage class, storage object, index, dimension, rank, upper bound, lower bound, stride, offset, start, end
 
-It is possible to create arrays whose indices have a lower bound other than 0, in which case the upper bounds are not the same as the elements of the shape.  In addition, the valid index values of a specific axis may be restricted to the lower bound plus exact multiples of an integer known as the ''step''.  For example, a vector with a lower bound of 1 and an upper bound of 7 with a step of 2 has valid indices 1, 3, and 5.
+=== Storage classes ===
 
-The ''structure'' of an array is its shape, lower bounds, upper bounds, and steps.
+A storage class is a group of storage objects with the same behavior.  A storage object maps a non-negative exact integer index into a storage location.  There are standard storage classes, but it is also possible for programmers to create their own storage classes.  Each storage class allows creating a storage object of a given size, accessing a location by its index, and mutating a location by its index to a new value.  Note that the procedures used to do this need not be the standard procedures such as `make-vector`, `vector-ref`, and `vector-set!`; they may be more efficient equivalents.
 
-Each array has associated with it a ''storage object'', which for the purposes of this proposal is a Scheme vector.  It is possible for many arrays to be associated with a single storage object.  The locations associated with a storage object are known as ''storage elements''.  The values put into storage elements are `eqv?` to the values fetched from them.
+`vector-storage-class`
 
-An array's ''size'' is the total number of storage elements accessible from it.
+Used to create and manipulate a Scheme vector as storage.
 
-A ''subscript'' is an exact integer greater than or equal to the corresponding lower bound of an array and less than the corresponding upper bound.  To specify a particular storage element in the array requires as many subscripts as the rank of the array.  An ''index'' is a Scheme vector of subscripts whose length is equal to the rank.
+`bytevector-u8-storage-class`
 
-== Constructors ==
+`bytevector-s8-storage-class`
 
-`(make-array `''shape'' [''initial-value'']`)`
+`bytevector-u16-storage-class`
 
-`(make-array `''lower-bounds upper-bounds'' [[|''steps'' [ ''initial-value'' ]] ]`)`
+`bytevector-u16be-storage-class`
 
-The first form of this procedure returns a newly allocated array whose shape is ''shape''.  The second form specifies the lower bounds (inclusive) and the upper bounds (exclusive) of the dimensions, along with the step values, if any (which default to 1 in each axis).  All of these arguments are Scheme vectors.  It is an error if they do not have the same length.
+`bytevector-u16le-storage-class`
 
-All the components of the new array are set to ''initial-value'' (which can be any Scheme object) if it is specified; otherwise their values are undefined.  
+`bytevector-s16-storage-class`
 
-`(array `''shape obj'' ...`)`
+`bytevector-s16be-storage-class`
 
-Returns a newly allocated array whose shape is ''shape''.  Each ''obj'' is used to initialize the contents of the array in row-major order.  This procedure cannot specify lower bounds or steps.
+`bytevector-s16le-storage-class`
 
-`(vector->array `''shape'' ''vector''`)`
+`bytevector-u32-storage-class`
 
-`(vector->array `''lower-bounds upper-bounds'' [[|''steps'' ]] ''vector''`)`
+`bytevector-u32be-storage-class`
 
-`(list->array `''shape'' ''list''`)`
+`bytevector-u32le-storage-class`
 
-`(list->array `''lower-bounds upper-bounds'' [[|''steps'' ]] ''list''`)`
+`bytevector-s32-storage-class`
 
-Returns a newly allocated array with shape ''shape'', or with the specified lower-bounds, upper-bounds, and steps, containing the components of ''vector'' or ''list'' in row-major order.  If ''shape'' is omitted, the result has the same shape as ''vector''.
+`bytevector-s32be-storage-class`
 
-`(array-tabulate `''shape proc''`)`
+`bytevector-s32le-storage-class`
 
-`(array-tabulate `''lower-bounds upper-bounds'' [[|''steps'' ]] ''proc''`)`
+`bytevector-u64-storage-class`
 
-Returns a newly allocated array with the specified ''shape, lower-bounds, upper-bounds'', and ''steps''.   For each valid index value, ''proc'' is invoked in arbitrary order.  The index may or may not be the same Scheme vector for each call.  Whatever ''proc'' returns becomes the value of the storage element corresponding to that index.
+`bytevector-u64be-storage-class`
 
-== Predicates ==
+`bytevector-u64le-storage-class`
+
+`bytevector-s64-storage-class`
+
+`bytevector-s64be-storage-class`
+
+`bytevector-s64le-storage-class`
+
+`bytevector-f32-storage-class`
+
+`bytevector-f32be-storage-class`
+
+`bytevector-f32le-storage-class`
+
+`bytevector-f64-storage-class`
+
+`bytevector-f64be-storage-class`
+
+`bytevector-f64le-storage-class`
+
+`bytevector-c64-storage-class`
+
+`bytevector-c64be-storage-class`
+
+`bytevector-c64le-storage-class`
+
+`bytevector-c128-storage-class`
+
+`bytevector-c128be-storage-class`
+
+`bytevector-c128le-storage-class`
+
+Used to create and manipulate a Scheme bytevector as storage, viewed as one of the given kinds of numeric vectors:  signed or unsigned 8-bit, 16-bit, 32-bit, and 64-bit integers, 32-bit and 64-bit floats, and 64-bit and 128-bit float complex numbers.  All can be in native byte order, little-endian byte order, or big-endian byte order, though the u8 and s8 classes have only native byte order.
+
+`u8vector-storage-class`
+
+`s8vector-storage-class`
+
+`bytevector-u16-storage-class`
+
+`bytevector-s16-storage-class`
+
+`bytevector-u32-storage-class`
+
+`bytevector-s32-storage-class`
+
+`bytevector-u64-storage-class`
+
+`bytevector-s64-storage-class`
+
+`bytevector-f32-storage-class`
+
+`bytevector-f64-storage-class`
+
+`bytevector-c64-storage-class`
+
+`bytevector-c128-storage-class`
+
+Used to create and manipulate native numeric vectors as  as storage.  Note that only native byte order is provided.
+
+`sparse-storage-class`
+
+Used to create and manipulate an object of arbitrary type (run-length-encoded vector, hash table, tree, etc.) that provides a sparse representation of the mapping between indexes and arbitrary Scheme objects.
+
+`(make-storage-class `''constructor accessor mutator''`)`
+
+Returns a storage class with the specified procedures as constructor, accessor, and mutator.  The invocation protocols are `(`''constructor size''`)`, where ''size'' is a non-negative integer; `(`''accessor storage-object index''`)`, where ''storage-object'' is a storage object returned by a call to the constructor and ''index'' is a non-negative integer less than ''size'', and `(`''mutator storage-object index value''`)`, where ''value'' is a value which can be stored in ''storage-object''.  Storage classes created by this procedure do not have to have actual storage objects (they can access and mutate values algorithmicallly), in which case they can ignore the ''storage-object'' argument.
+
+=== Predicates ===
 
 `(array? `''obj''`)`
 
-Returns `#t` if ''obj'' is an array and `#f` otherwise.
+Returns `#t` if ''obj'' is an array, and `#f` otherwise.
 
-== Array structure ==
+=== Constructors ===
 
-`(array-shape `''array''`)`
+`(make-array `''storage-class'' [[|''lower-bounds'' ]] ''upper-bounds''`)`
 
-`(array-lower-bounds `''array''`)`
+Returns a newly allocated array with a newly allocated storage object.  The lower and upper bounds of the array's dimensions are specified as vectors: they must be of the same length.  If ''lower-bounds'' is not given, it is understood to be all zeros.
 
-`(array-upper-bounds `''array''`)`
+=== Metadata accessors ===
 
-`(array-steps `''array''`)`
+`(array-storage-class `''array''`)`
 
-`(array-strides `''array''`)`
-
-Returns the shape, lower bounds, upper bounds, steps, or strides of ''array'' as Scheme vectors.  It is an error to mutate any of the results, which may be the same (in the sense of `eqv?`) as those associated with other arrays.
+Returns the storage class with which ''array'' was created.  Note that there is no way to access the storage ''object'', as it may not exist.
 
 `(array-rank `''array''`)`
 
-Returns the rank of ''array''.
+Return the rank (number of dimensions) of ''array''.  Note that "rank" is an APL term that has nothing to do with matrix ranks.
 
-`(array-size `''array''`)`
+`(array-lower-bounds `''array''`)`
 
-Returns the size of ''array''.
+Return a vector containing the lower bounds of ''array''.  It is an error to mutate this vector.
 
-`(array-in-bounds? `''array subscript'' ...`)`
+`(array-upper-bounds `''array''`)`
 
-`(array-in-bounds? `''array index''`)`
+Return a vector containing the upper bounds of ''array''.  It is an error to mutate this vector.
 
-The first form returns `#t` if ''subscripts'', which MUST be exact integers, are valid subscripts for ''array'', and #f otherwise.  A subscript is valid if it is greater than or equal to the corresponding lower bound and less than the corresponding lower bound.  The second form passes the subscripts as a Scheme vector.
+`(array-strides `''array''`)`
 
-== Storage procedures ==
+Return a vector containing the strides of ''array''.  It is an error to mutate this vector.
 
-`(array-storage `''array''`)`
+`(array-lower-bound `''array n''`)`
 
-Returns the storage associated with an array.
+Return a vector containing the ''n''th lower bound of ''array''.
 
-`(array-copy `''array''`)`
+`(array-upper-bounds `''array n''`)`
 
-Returns a new array with the same shape, bounds, steps, and strides as ''array''.  However, the storage object is a copy of part or all of the storage object of ''array''.
+Return a vector containing the ''n''th upper bound of ''array''.
 
-`(array-ref `''array subscript'' ...`)`
+`(array-stride `''array n''`)`
+
+Return a vector containing the ''n''th stride of ''array''.
+
+`(array-offset `''array''`)`
+
+Returns the storage offset of ''array''.  This is the storage index of the location whose array index is specified by all zeros.
+
+=== Accessors ===
 
 `(array-ref `''array index''`)`
 
-Returns the component of ''array'' specified by ''subscripts'' or ''index''.  It is an error to specify an invalid index value.
+Returns the value of the element of ''array'' specified by ''index'', which is a vector.  Note that this is different from the `array-ref` of most Lisp systems, which specify the index as a sequence of arguments.
 
-`(array-set! `''array subscript'' ... ''value''`)`
+`(array-for-each `''proc array'' [[|''start'' [ ''end '' ]] ]`)`
+
+Iterates over the elements of ''array'' starting at the index ''start'' and ending at the index ''end'', and calling ''proc'' on each element.  Each invocation of ''proc'' receives ''array'', the current index, and the value of the element at that index.  It is an error to mutate the index.
+
+`(array-for-each-index `''proc array'' [[|''start'' [ ''end '' ]] ]`)`
+
+Iterates over the indexes of ''array'' starting at the index ''start'' and ending at the index ''end'', and calling ''proc'' on each element.  Each invocation of ''proc'' receives ''array'' and the current index.  The value returned by ''proc'' is discarded.  It is an error to mutate the index.
+
+=== Mutators ===
 
 `(array-set! `''array index value''`)`
 
-Sets the component of ''array'' specified by ''subscripts'' or ''index'' to ''value''.  Returns an undefined value.  It is an error to specify an invalid index value.
+Sets the value of the element of ''array'' specified by ''index'' to ''value''.  Note that this is different from the `array-set!` of most Lisp systems, which specify the index as a sequence of arguments.
 
-== Mapping and folding ==
+`(array-tabulate! `''proc array'' [[|''start'' [ ''end '' ]] ]`)`
+
+Iterates over the elements of ''array'' starting at the index ''start'' (each dimension is inclusive) and ending at the index ''end'' (each dimension is exclusive), and calling ''proc'' on each element.  Each invocation of ''proc'' receives ''array'' and the current index.  Whatever ''proc'' returns becomes the value of the array at the index.  It is an error for ''proc'' to mutate the index.
+
+FIXME from here down.
+
+== Maps ==
+
 
 `(array-map `''proc array'' ...`)`
 
@@ -114,9 +203,6 @@ Returns a newly allocated array with the same structure as the ''arrays'', which
 
 The ''arrays'' must all have the same structure.   For each valid index value, ''proc'' is invoked in arbitrary order, passing the index and all the arrays.  The index may or may not be the same Scheme vector for each call.  Whatever ''proc'' returns becomes the value of the storage element corresponding to that index in the first array argument.  The value returned is undefined.
 
-`(array-for-each `''proc array'' ...`)`
-
-The ''arrays'' must all have the same structure.   For each valid index value, ''proc'' is invoked in row-major order, passing the index and all the arrays.  The index may or may not be the same Scheme vector for each call.  The results are discarded and the value returned is undefined.
 
 `(array-fold `''proc seed array'' ...`)`
 
@@ -145,31 +231,16 @@ Each element of the result array results from applying ''proc2'' to the correspo
 In particular, if both arrays have rank 1, the last and first vectors are the whole of the arrays, and the result has rank 0; if both arrays have rank 2, the last vectors of ''array1'' are the column-wise vectors, and the first vectors of ''array2'' are the row-wise vectors, and the result has rank 2.  (APL inner product.)
 
 Example:  `(array-inner-product + * vector1 vector2)` computes the usual dot product of ''vector1'' and ''vector2''.
+
 == Conversions ==
-
-`(array->vector `''array''`)`
-
-Returns a newly allocated Scheme vector containing the components of ''array'' in row-major order.
-
-`(array->list `''array''`)`
-
-Returns a newly allocated list containing the components of ''array'' in row-major order.
 
 `(array->nested-vector `''array''`)`
 
 Returns a newly allocated Scheme vector whose components are also newly constructed Scheme vectors, and so on as far down as necessary to cover every axis of the array.  Bottom-level Scheme vectors contain the components of ''array''.  Thus, if ''array'' has rank 1, the result is a Scheme vector; if the array has rank 2, the result is a Scheme vector containing Scheme vectors, and so on.  As a special case, if ''array'' has rank 0, the sole component is returned.
 
-`(array->nested-list `''array''`)`
-
-Returns a newly allocated list whose components are also newly constructed list, and so on as far down as necessary to cover every axis of the array.  Bottom-level vectors contain the components of ''array''.  Thus, if ''array'' has rank 1, the result is a list if the array has rank 2, the result is a list of lists, and so on.  As a special case, if ''array'' has rank 0, the sole component is returned.
-
 `(nested-vector->array `''rank nested-vector''`)`
 
 Returns a newly allocated array with rank ''rank'' whose components are initialized from the Scheme vector''nested-vector''.  It is an error if ''nested-vector'' is not rectangular.  As a special case, if ''rank'' is 0, the sole component is ''nested-vector'', which need not be a Scheme vector.
-
-`(nested-list->array `''rank nested-list''`)`
-
-Returns an array with rank ''rank'' whose components are initialized from ''nested-list''.  It is an error if ''nested-list'' is not rectangular.  As a special case, if ''rank'' is 0, the sole component is ''nested-list'', which need not be a list.
 
 
 == Advanced procedures ==
