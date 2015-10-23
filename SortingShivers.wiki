@@ -74,8 +74,7 @@ There are only three functional changes.  The most important one is that the
 comparison predicate now precedes the data rather than following it.
 Most of the SRFI 32 commenters thought that this is the better order, despite
 the widespread precedent, and I've made the change.  The second point is that
-the procedures accept [[http://srfi.schemers.org/srfi-114/srfi-114.html|SRFI 114]]
-comparators rather than predicates.  The third point is that the algorithm-specific
+the procedures accept [[:ComparatorsCowan|comparators]] rather than predicates.  The third point is that the algorithm-specific
 procedures have been removed from the public API, though not from the sample implementation.
 
 Editorially, I have reorganized the text and removed the massive redundancies.
@@ -152,7 +151,7 @@ This SRFI uses the R6RS order throughout.
 
 === Comparators ===
 
-These routines take a SRFI 114 comparator, whereas their
+These routines take a comparator, whereas their
 SRFI 32 counterparts took a < predicate, or in a few cases a
 three-valued comparison function.  These are still extracted
 from the comparator and used internally by the sample implementation.
@@ -187,7 +186,7 @@ reliably places the 4 of the first list before the equal-comparing -4
 of the second list: `(0 -1 -2 4 -4 7 8 -10)`.
 
 Here's a definition of `abs-comparator`, introduced just for examples
-(it is not part of this SRFI or SRFI 114, and is not optimal):
+(it is not part of this SRFI or any SRFI, and is not optimal):
 
 {{{
 (define abs-comparator
@@ -252,7 +251,7 @@ In the procedures specified below,
 
 * A ''v'' parameter is a vector;
 
-* A ''comparator'' parameter is a [[http://srfi.schemers.org/srfi-114/srfi-114.html|SRFI 114]] comparator.
+* A ''comparator'' parameter is a [[:ComparatorsCowan|comparator]].
 
 * A ''start'' parameter or ''start'' and ''end'' parameter pair are exact non-negative integers such that 0 <= ''start'' <= ''end'' <= `(vector-length `''v''`)`, where ''v'' is the related vector parameter. If not specified, they default to 0 and the length of the vector, respectively. They are interpreted to select the range [[''start'',|''end''), that is, all elements from index ''start'' (inclusive) up to, but not including, index ''end''.
 
