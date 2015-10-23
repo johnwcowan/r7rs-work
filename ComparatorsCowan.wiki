@@ -220,7 +220,7 @@ Invokes the type test predicate of <em>comparator</em> on <em>obj</em> and retur
 <code>(&gt;=? </code><em>comparator</em> <em>object<sub>1</sub> object<sub>2</sub> object<sub>3</sub></em> ...<code>)</code>
 </p>
 <p>
-These procedures are analogous to the number, character, and string comparison predicates of Scheme.  They allow the convenient use of comparators in situations where the expression types are not usable.  They are also analogous to the similarly named procedures <a href="http://srfi.schemers.org/srfi-67/srfi-67.html#node_sec_4.6">SRFI 67</a>, but handle arbitrary numbers of arguments, which in SRFI 67 requires the use of the variants whose names begin with <code>chain</code>.</p>
+These procedures are analogous to the number, character, and string comparison predicates of Scheme.  They allow the convenient use of comparators to handle arbitrary data types.</p>
 <p>These procedures apply the comparison procedure of <em>comparator</em> to the <em>objects</em> as follows.  If the specified relation returns <code>#t</code> for all <em>object<sub>i</sub></em> and <em>object<sub>j</sub></em> where <em>n</em> is the number of objects and 1 &lt;= <em>i &lt; j &lt;= n</em>, then the procedures return <code>#t</code>, but otherwise <code>#f</code>.</p>
 
 <p>
