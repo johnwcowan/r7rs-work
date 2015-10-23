@@ -1,6 +1,4 @@
-Please see [[http://srfi.schemers.org/srfi-114/|SRFI 114]] for the successor to this proposal.
-
-SRFI 114 has been deprecated by its author.  Here is the first draft of a simpler and better replacement,  which will eventually become a new SRFI.
+Please see [[http://srfi.schemers.org/srfi-114/|SRFI 114]] for the predecessor to this proposal.  SRFI 114 has been deprecated by its author.  Here is the first draft of a simpler and better replacement,  which will eventually become a new SRFI.
 
 {{{
 #!html
