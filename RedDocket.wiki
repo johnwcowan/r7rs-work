@@ -34,7 +34,7 @@ Immutable deques, sets, and maps:  ImmutableDataStructuresWortman.
 
 Generators:  [[http://srfi.schemers.org/srfi-121/srfi-121.html|SRFI 121]].
 
-Lazy sequences:  LazySequencesCowan.
+Lazy sequences:  [[http://srfi.schemers.org/srfi-127/srfi-127.html|SRFI 127]].
 
 Streams:  [[http://srfi.schemers.org/srfi-41/srfi-41.html|SRFI 41]].
 
