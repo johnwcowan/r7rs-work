@@ -31,7 +31,7 @@ A <em>comparator</em> is an object of a disjoint type.  It is a bundle of proced
 </li>
 <li><p>The <em>hash function</em> takes one or more arguments and returns an exact non-negative integer; the first argument is the object to be hashed.  It is the programmer's responsibility to ensure that it can handle any argument that satisfies the type test predicate, and that it returns the same value on two objects if the equality predicate says they are the same (but not necessarily the converse).</p>
 
-<p>If a second argument is provided, it is a non-negative exact integer, hint from the caller of the hash function that the returned value should be bounded above by the second argument.  There is no requirement that a hash
+<p>If a second argument is provided, it is a non-negative exact integer, a hint from the caller of the hash function that the returned value should be bounded from above by the second argument.  There is no requirement that a hash
 function support this hint, and the caller cannot count on its being applied.  Supplying <code>#f</code>
 as the second argument is equivalent to providing no argument.</p>
 
@@ -87,31 +87,31 @@ Returns a comparator which bundles the <em>type-test, equality, ordering</em>, a
 <ul>
 <li><p><code>(make-comparator boolean? boolean=? (lambda (x y) (and (not x) y)) (lambda (x) (if x 1 0)))</code> will return a comparator for booleans, expressing the ordering <code>#f</code> &lt; <code>#t</code> and a plausible hash function.</p></li>
 <li><p><code>(make-comparator real? = < (lambda (x) (exact (abs x))))</code> will return a comparator expressing the natural ordering of real numbers and a plausible (but not optional) hash function.</p></li>
-<li><p><code>(make-comparator string? string=? string<? #f</code> will return a comparator expressing the implementation's ordering of strings.  On R5RS systems this is a lexicographic extension of some implementation-defined ordering of characters; on R6RS systems it is a lexicographic extension of Unicode codepoint order; on R7RS systems it is implementation-defined.</p></li>
-<li><p><code>(make-comparator string? string-ci=? string-ci<? #f</code> will return a comparator expressing the implementation's case-insensitive ordering of strings.</p></li>
+<li><p><code>(make-comparator string? string=? string&lt;? string-hash</code> will return a comparator expressing the implementation's ordering of strings.  On R5RS systems this is a lexicographic extension of some implementation-defined ordering of characters; on R6RS systems it is a lexicographic extension of Unicode codepoint order; on R7RS systems it is implementation-defined.</p></li>
+<li><p><code>(make-comparator string? string-ci=? string-ci&lt;? string-ci-hash</code> will return a comparator expressing the implementation's case-insensitive ordering of strings.</p></li>
 </ul>
 <p>
-<code>(make-pair-comparator </code><var>car-comparator cdr-comparator</var><code>)</code>
+<code>(make-pair-comparator </code> [[|<var>car-comparator cdr-comparator</var> ]]<code>)</code>
 </p>
-<p>This comparator compares pairs using a default comparator (see below) on their cars. If the cars are not equal, that value is returned. If they are equal, the default comparator is used on their cdrs and that value is returned.
+<p>This comparator compares pairs using <var>car-comparator</var> (a default comparator by default) on their cars. If the cars are not equal, that value is returned. If they are equal, <var>cdr-comparator</var> (also a default comparator by default) is used on their cdrs and that value is returned.  Hashing is done on both the car and cdr sides, and the results are hashed together.
 </p>
-<p><code>(make-list-comparator </code> [[|<em>element-comparator</em> [ <em>type-test</em> [ <em>empty? head tail</em> ]] ] ]<code>)</code>
+<p><code>(make-list-comparator </code> [[|<em>element-comparator</em> [ <em>type-test</em> <em>empty? head tail</em> ]] ]<code>)</code>
 </p>
 <p>
-Returns a comparator which compares two sequences that satisfy <em>type-test</em> lexicographically, as follows:</p>
+Returns a comparator which lexicographically compares two sequences that satisfy <em>type-test</em> (<code>list</code> by default), as follows:</p>
 <ul>
 <li>The empty sequence, as determined by calling <var>empty?</var> (<code>null?</code> by default) compares equal to itself.</li>
 <li>The empty sequence compares less than any non-empty sequence.</li>
 <li>Two non-empty sequences are compared by comparing the result of calling the <var>head</var> procedure (<code>car</code> by default).  If the heads are not equal when compared using <var>element-comparator</var> (a default comparator by default), then the result is the result of that comparison.  Otherwise, the results of calling the <var>tail</var> procedure (<code>cdr</code> by default) are compared recursively.
 </p>
 <p>In particular, <code>(make-list-comparator)</code> returns a comparator that compares lists using a default comparator for the elements, and <code>(make-list-comparator </code><var>element-comparator</var><code>)</code> returns a comparator that compares lists using <var>element-comparator for the elements.</p>
-<p><code>(make-vector-comparator </code> [[|<em>element-comparator</em> [ <em>type-test</em> [ <em>length ref</em> ]] ] ]<code>)</code>
+<p><code>(make-vector-comparator </code> [[|<em>element-comparator</em> [ <em>type-test</em> <em>length ref</em> ]] ]<code>)</code>
 </p>
 </p>
 <p>
-Returns a comparator which compares two sequences that satisfy <em>type-test</em> as vectors, using the <em>length</em> procedure (<code>vector-length</code> by default) to determine the lengths of the sequences, and the <em>ref</em> procedure (<code>vector-ref</code> by default) to access a particular elements.  If one sequence is shorter than the other, it compares less than the other.  If the sequences are the same length, they are compared element-wise using <var>element-comparator</var> (a default comparator by default) until they are exhausted.</p>
+Returns a comparator which compares two sequences that satisfy <em>type-test</em> (<code>vector?</code> by default), using the <em>length</em> procedure (<code>vector-length</code> by default) to determine the lengths of the sequences, and the <em>ref</em> procedure (<code>vector-ref</code> by default) to access a particular elements.  If one sequence is shorter than the other, it compares less than the other.  If the sequences are the same length, they are compared element-wise using <var>element-comparator</var> (a default comparator by default) until they are exhausted.</p>
 <p>
-In particular, <code>(make-vector-comparator</code> returns a comparator that compares vectors using a default comparator for the elements, and <code>(make-vector-comparator </code><var>element-comparator</var><code>)</code> returns a comparator that compares vectors using <var>element-comparator</var>.  Similarly, <code>(make-vector-comparator (make-default-comparator) bytevector? bytevector-length bytevector-u8-ref)</code> returns a comparator that compares bytevectors.
+In particular, <code>(make-vector-comparator)</code> returns a comparator that compares vectors using a default comparator for the elements, and <code>(make-vector-comparator </code><var>element-comparator</var><code>)</code> returns a comparator that compares vectors using <var>element-comparator</var>.  Similarly, <code>(make-vector-comparator (make-default-comparator) bytevector? bytevector-length bytevector-u8-ref)</code> returns a comparator that compares bytevectors.
 </p>
 <p>
 <code>(make-eq-comparator)</code>
@@ -133,27 +133,27 @@ does so) and NaNs.</p>
 <p>These are hash functions for standard Scheme types, suitable for passing to <code>make-comparator</code>.
 </p>
 <p>
-<code>(make-boolean-hash)</code>
+<code>(boolean-hash</code> obj [[|<var>bound</var> [ <var>salt</var> ]] ] <code>)</code>
 </p>
 <p>
-<code>(make-char-hash)</code>
+<code>(char-hash</code> obj [[|<var>bound</var> [ <var>salt</var> ]] ] <code>)</code>
 </p>
 <p>
-<code>(make-char-ci-hash)</code>
+<code>(char-ci-hash</code> obj [[|<var>bound</var> [ <var>salt</var> ]] ] <code>)</code>
 </p>
 <p>
-<code>(make-string-hash)</code>
+<code>(string-hash</code> obj [[|<var>bound</var> [ <var>salt</var> ]] ] <code>)</code>
 </p>
 <p>
-<code>(make-string-ci-hash)</code>
+<code>(string-ci-hash</code> obj [[|<var>bound</var> [ <var>salt</var> ]] ] <code>)</code>
 </p>
 <p>
-<code>(make-symbol-hash)</code>
+<code>(symbol-hash</code> obj [[|<var>bound</var> [ <var>salt</var> ]] ] <code>)</code>
 </p>
 <p>
-<code>(make-number-hash)</code>
+<code>(number-hash</code> obj [[|<var>bound</var> [ <var>salt</var> ]] ] <code>)</code>
 </p>
-<p>Return suitable hash functions for the specified types.  Each hash function has the signature <code>(</code><var>hash-function object</var> [[|<var>bound</var> [ <var>salt</var> ]] ] <code>)</code>.  The hash functions returned by <code>make-char-ci-hash</code> and <code>make-string-ci-hash</code> treat their first argument case-insensitively.
+<p>These are suitable hash functions for the specified types. The hash functions <code>char-ci-hash</code> and <code>string-ci-hash</code> treat their first argument case-insensitively.
 </p>
 
 
@@ -164,16 +164,16 @@ does so) and NaNs.</p>
 <p>
 Returns a comparator known as a <var>default comparator</var> that accepts any two Scheme values (with the exceptions listed in the Limitations section) and orders them in some implementation-defined way, subject to the following conditions:
 </p>
-<ul><li><p>The following ordering between types must hold: the empty list precedes pairs, which precede booleans, which precede characters, which precede strings, which precede symbols, which precede numbers, which precede vectors, which precede bytevectors, which precede all other objects.</p></li>
+<ul><li><p>The following arbitrary ordering between types must hold: the empty list precedes pairs, which precede booleans, which precede characters, which precede strings, which precede symbols, which precede numbers, which precede vectors, which precede bytevectors, which precede all other objects.</p></li>
 <li><p>When applied to pairs, it must behave the same as a comparator returned by <code>make-pair-comparator</code> when applied to no arguments.</p></li>
-<li><p>When applied to booleans, it must compare them using the total order <code>#f</code> &lt; <code>#t</code> and hash them using the hash function returned by <code>make-boolean-hash</code>.</p></li>
-<li><p>When applied to characters, it must compare them using <code>char=?</code> and <code>char&lt;?</code>.  In R5RS, this is an implementation-dependent order that is typically the same as Unicode codepoint order; in R6RS and R7RS, it is Unicode codepoint order.  It must also hash them using the hash function returned by <code>make-char-hash</code>.</p></li>
-<li><p>When applied to strings, it must compare them using <code>string=?</code> and <code>string&lt;?</code>.  In R5RS, this is lexicographic order on the implementation-dependent order defined by <code>char&lt;?</code>; in R6RS it is lexicographic order order on Unicode codepoint order; in R7RS it is an implementation-defined order.  It must also hash them using the hash function returned by <code>make-string-hash</code>.</p></li>
-<li><p>When applied to symbols, it must compare them using an implementation-dependent total order.  One possibility is to use the order obtained applying <code>symbol-&gt;string</code> to the symbols and comparing them using the total order implied by <code>string&lt;?</code>.  It must also hash them using the hash function returned by <code>make-symbol-hash</code>.  It is not a requirement that symbol hash functions be consistent with string hash functions, however.</p></li>
-<li><p>When applied to numbers where either number is complex, since non-real numbers cannot be compared with <code>&lt;</code>, the following least-surprising ordering is defined: If the real parts are &lt; or &gt;, so are the numbers; otherwise, the numbers are ordered by their imaginary parts.  This can still produce somewhat surprising results if one real part is exact and the other is inexact.  It must also hash them using the hash function returned by <code>make-number-hash</code>.</p></li>
-<li><p>When applied to real numbers, it must compare them using <code>=</code> and <code>&lt;</code>, and hash them using the hash function returned by <code>make-number-hash</code>.</p></li>
+<li><p>When applied to booleans, it must compare them using the total order <code>#f</code> &lt; <code>#t</code> and hash them using the hash function <code>boolean-hash</code>.</p></li>
+<li><p>When applied to characters, it must compare them using <code>char=?</code> and <code>char&lt;?</code>.  In R5RS, this is an implementation-dependent order that is typically the same as Unicode codepoint order; in R6RS and R7RS, it is Unicode codepoint order.  It must also hash them using the hash function <code>char-hash</code>.</p></li>
+<li><p>When applied to strings, it must compare them using <code>string=?</code> and <code>string&lt;?</code>.  In R5RS, this is lexicographic order on the implementation-dependent order defined by <code>char&lt;?</code>; in R6RS it is lexicographic order order on Unicode codepoint order; in R7RS it is an implementation-defined order.  It must also hash them using the hash function <code>string-hash</code>.</p></li>
+<li><p>When applied to symbols, it must compare them using an implementation-dependent total order.  One possibility is to use the order obtained applying <code>symbol-&gt;string</code> to the symbols and comparing them using the total order implied by <code>string&lt;?</code>.  It must also hash them using the hash function <code>symbol-hash</code>.  It is not a requirement that symbol hash functions be consistent with string hash functions, however.</p></li>
+<li><p>When applied to numbers where either number is complex, since non-real numbers cannot be compared with <code>&lt;</code>, the following least-surprising ordering is defined: If the real parts are &lt; or &gt;, so are the numbers; otherwise, the numbers are ordered by their imaginary parts.  This can still produce somewhat surprising results if one real part is exact and the other is inexact.  It must also hash them using the hash function<code>number-hash</code>.</p></li>
+<li><p>When applied to real numbers, it must compare them using <code>=</code> and <code>&lt;</code>, and hash them using the hash function <code>number-hash</code>.</p></li>
 <li><p>When applied to vectors, it must behave the same as a comparator returned by <code>make-vector-comparator</code> when applied to no arguments.</p></li>
-<li><p>When applied to bytevectors, it must behave the same as that of a comparator created by <code>(make-vector-comparator (make-default-comparator) bytevector? bytevector-length bytevector-u8-ref)</code>.</li>
+<li><p>When applied to bytevectors, it must behave the same as a comparator created by <code>(make-vector-comparator (make-default-comparator) bytevector? bytevector-length bytevector-u8-ref)</code>.</li>
 <li><p>When applied to types registered with <code>comparator-register-default!</code>, it must behave the same as the comparator registered using that function.</p></li>
 <li><p>Given disjoint types <em>a</em> and <em>b</em>, one of three conditions must hold:</p>
 <ul>
