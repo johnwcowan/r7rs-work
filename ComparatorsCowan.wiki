@@ -13,7 +13,9 @@ This SRFI provides <i>comparators</i>, procedure bundles that represent one or m
 <p>
 The four procedures above have complex dependencies on one another, and it is inconvenient to have to pass them individually to other procedures that might or might not make use of all of them.  For example, a set implementation by nature requires only an equality predicate, but if it is implemented using a hash table, an appropriate hash function is also required if the implementation does not provide one; alternatively, if it is implemented using a tree, an ordering predicate is required.  By passing a comparator rather than a bare equality predicate, the set implementation can make use of whatever procedures are available and useful to it.
 </p>
-<p>This SRFI is a simplified and enhanced rewrite of <a href="http://srfi.schemers.org/srfi-114/srfi-114">SRFI 114</a>, and shares some of its design rationale and all of its acknowledgements.  Special thanks to Taylan Ulrich Bayırlı/Kammer, whose insistence that SRFI 114 was over-complicated but also inadequate inspired this redesign.</p>
+<p>This SRFI is a simplified and enhanced rewrite of <a href="http://srfi.schemers.org/srfi-114/srfi-114">SRFI 114</a>, and shares some of its design rationale and all of its acknowledgements.  The largest change is the replacement of the comparison procedure with the ordering procedure.  This allowed most of the special-purpose comparators to be removed.  In addition, many of the more specialized 
+
+<p>Special thanks to Taylan Ulrich Bayırlı/Kammer, whose insistence that SRFI 114 was over-complicated but also inadequate inspired this redesign.</p>
 
 <h2 id="Specification">Specification</h2>
 
