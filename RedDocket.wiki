@@ -26,8 +26,6 @@ Immutable pairs and lists:  [[http://srfi.schemers.org/srfi-116/srfi-116.html|SR
 
 Random access pairs and lists:  [[http://srfi.schemers.org/srfi-101/srfi-101.html|SRFI 101]].
 
-Immutable cyclic lists:  CyclesMedernach.
-
 Immutable deques, sets, and maps:  ImmutableDataStructuresWortman.
 
 == Laziness ==
