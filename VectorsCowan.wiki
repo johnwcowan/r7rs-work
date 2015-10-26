@@ -1,4 +1,4 @@
-Some cleanup and improvement is needed to [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]].
+Some cleanup is needed to [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]].
 
 == R7RS vs. SRFI 43 ==
 
@@ -7,7 +7,11 @@ The R7RS procedures `vector-map` and `vector-for-each` are incompatible with SRF
  * `vector-fold`, `vector-fold-right`, `vector-reduce`, `vector-reduce-right`, `vector-map`, `vector-map!`, `vector-for-each` are the R7RS-compatible versions that don't transmit index values to their procedure arguments.
  * `vector-index-fold`, `vector-index-fold-right`, `vector-index-reduce`, `vector-index-reduce-right`, `vector-index-map`, `vector-index-map!`, `vector-index-for-each` do transmit index values, and are compatible with SRFI 43 conceptually but not in name.
 
-== Partitioning ==
+== Possible extensions ==
+
+Here are some vector procedures that might be Good Things if we are going to break SRFI 43 anyway.  Some are from Python, some from other sources.
+
+=== Partitioning ===
 
 `(vector-partition `''pred vector''`)`
 
@@ -18,19 +22,19 @@ Returns two values.  The first value is a vector index ''n'', and the second ele
 The same as `vector-partition`, except that it mutates ''vector'' and returns only ''n''.
 
 
-== Appending ==
+=== Appending ===
 
 `(vector-append-subvectors `''k fill'' ( ''at vector start end'' ) ...`)`
 
 Returns a newly allocated vector of length ''k'' after copying every element of each ''vector'' from ''start'' to ''end'' into the new vector starting at ''at''.  Any additional locations in the new vector are initialized with ''fill''.  This procedure is a generalization of `vector-copy` and `vector-copy!`.  Implementations may optimize this procedure using an unsafe primitive that creates an uninitialized vector, in order to avoid touching each element of the result twice. 
 
-== Cumulation ==
+=== Cumulation ===
 
 `(vector-cumulate `''proc seed vector''`)`
 
 Returns a newly allocated vector of the same length as ''vector''.  Each element is constructed by reducing (as if by `vector-reduce`) successive prefixes of the elements of ''vector''. (APL scan.)
 
-== Bisecting ==
+=== Bisecting ===
 
 `(vector-bisect-left `''vector comparator obj'' [[|''start'' [ ''end'' ]] ]`)`
 
