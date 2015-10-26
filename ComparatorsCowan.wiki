@@ -1,3 +1,5 @@
+= Comparators =
+
 Please see [[http://srfi.schemers.org/srfi-114/|SRFI 114]] for the predecessor to this proposal.  SRFI 114 has been deprecated by its author.  Here is the first draft of a simpler and better replacement,  which will eventually become a new SRFI.
 
 {{{
@@ -37,17 +39,17 @@ A <em>comparator</em> is an object of a disjoint type.  It is a bundle of proced
 function support this hint, and the caller cannot count on its being applied.  Supplying <code>#f</code>
 as the second argument is equivalent to providing no argument.</p>
 
-<p>If a third argument is provided, it is also a non-negative exact integer that serves as a <i>salt</i> value to be mixed in along with the first argument when performing the hash calculation.  If the caller is careful to provide a sufficiently random salt, attacks on the hash function become more difficult.  In addition, callers that need more than one hash function can easily obtain it by varying the salt.  Like the upper bound, the salt is a hint: no hash function is required to make use of it.</p>  
+<p>If a third argument is provided, it is a positive exact integer that serves as a <i>salt</i> value to be mixed in along with the first argument when performing the hash calculation.  If the caller is careful to provide a sufficiently random salt, attacks on the hash function become more difficult.  In addition, callers that need more than one hash function can easily obtain it by varying the salt.  Like the upper bound, the salt is a hint: no hash function is required to make use of it.</p>  
 </li></ul>
 <p>
 It is also the programmer's responsibility to ensure that all four procedures provide the same result whenever they are applied to the same object(s) (in the sense of <code>eqv?</code>), unless the object(s) have been mutated since the last invocation.  In particular, they must not depend in any way on memory addresses in implementations where the garbage collector can move objects in memory.
 </p>
 <h3>Limitations</h3>
-<p>The comparator objects defined in this SRFI are not applicable to circular structure or to NaNs or objects containing them.  Attempts to pass any such objects to any procedure defined here, or to any procedure that is part of a comparator defined here, is an error except as otherwise noted.</p>
+<p>The comparator objects defined in this SRFI are not applicable to circular structure or to NaNs, or to objects containing any of these.  Attempts to pass any such objects to any procedure defined here, or to any procedure that is part of a comparator defined here, is an error except as otherwise noted.</p>
 <h3>Index</h3>
 <ul>
 <li><p><a href="#Predicates">Predicates</a>: <code>comparator?, comparator-ordered?, comparator-hashable?</code></p></li>
-<li><p><a href="#Constructors">Constructors</a>: <code>make-comparator,  make-list-comparator, make-vector-comparator, make-eq-comparator, make-eqv-comparator, make-equal-comparator</code></p></li>
+<li><p><a href="#Constructors">Constructors</a>: <code>make-comparator,  make-pair-comparator, make-list-comparator, make-vector-comparator, make-eq-comparator, make-eqv-comparator, make-equal-comparator</code></p></li>
 <li><p><a href="Hashfunctions">Standard hash functions</a>: <code>boolean-hash, char-hash, char-ci-hash, string-hash, string-ci-hash, symbol-hash, number-hash</code></p></li>
 <li><p><a href="#Defaultcomparators">Default comparators</a>: <code>default-comparator, comparator-register-default!</code></p></li>
 <li><p><a href="#Accessors">Accessors</a>: <code>comparator-type-test-procedure, comparator-equality-predicate, comparator-ordering-predicate, comparator-hash-function, comparator-check-type</code></p></li>
@@ -77,19 +79,14 @@ The following comparator constructors all supply appropriate type test functions
 <code>(make-comparator </code><em>type-test equality ordering hash</em><code>)</code>
 </p>
 <p>
-Returns a comparator which bundles the <em>type-test, equality, ordering</em>, and <em>hash</em> procedures provided.  As a convenience, the following additional values are accepted:
+Returns a comparator which bundles the <em>type-test, equality, ordering</em>, and <em>hash</em> procedures provided.  As a convenience, if <em>ordering</em> or <em>hash</em> is <code>#f</code>, a procedure is provided that signals an error on application.  The predicates <code>comparator-ordered?</code> and/or <code>comparator-hashable?</code>, respectively, will return <code>#f</code> in these cases.
 </p>
-<ul><li>If <em>type-test</em> is <code>#t</code>, a type-test procedure that accepts any arguments is provided.
-</li>
-<li>If <em>ordering</em> or <em>hash</em> is <code>#f</code>, a procedure is provided that signals an error on application.  The predicates <code>comparator-ordered?</code> and/or <code>comparator-hashable?</code>, respectively, will return <code>#f</code> in these cases.
-</li>
-</ul>
 <p>Here are calls on <code>make-comparator</code> that will return useful comparators for standard Scheme types:
 <p>
 <ul>
 <li><p><code>(make-comparator boolean? boolean=? (lambda (x y) (and (not x) y)) (lambda (x) (if x 1 0)))</code> will return a comparator for booleans, expressing the ordering <code>#f</code> &lt; <code>#t</code> and a plausible hash function.</p></li>
-<li><p><code>(make-comparator real? = < (lambda (x) (exact (abs x))))</code> will return a comparator expressing the natural ordering of real numbers and a plausible (but not optional) hash function.</p></li>
-<li><p><code>(make-comparator string? string=? string&lt;? string-hash</code> will return a comparator expressing the implementation's ordering of strings.  On R5RS systems this is a lexicographic extension of some implementation-defined ordering of characters; on R6RS systems it is a lexicographic extension of Unicode codepoint order; on R7RS systems it is implementation-defined.</p></li>
+<li><p><code>(make-comparator real? = < (lambda (x) (exact (abs x))))</code> will return a comparator expressing the natural ordering of real numbers and a plausible (but not optimal) hash function.</p></li>
+<li><p><code>(make-comparator string? string=? string&lt;? string-hash)</code> will return a comparator expressing the implementation's ordering of strings.  On R5RS systems this is a lexicographic extension of some implementation-defined ordering of characters; on R6RS systems it is a lexicographic extension of Unicode codepoint order; on R7RS systems it is implementation-defined.</p></li>
 <li><p><code>(make-comparator string? string-ci=? string-ci&lt;? string-ci-hash</code> will return a comparator expressing the implementation's case-insensitive ordering of strings.</p></li>
 </ul>
 <p>
@@ -174,9 +171,9 @@ Returns a comparator known as a <var>default comparator</var> that accepts any t
 <li><p>When applied to symbols, it must compare them using an implementation-dependent total order.  One possibility is to use the order obtained applying <code>symbol-&gt;string</code> to the symbols and comparing them using the total order implied by <code>string&lt;?</code>.  It must also hash them using the hash function <code>symbol-hash</code>.  It is not a requirement that symbol hash functions be consistent with string hash functions, however.</p></li>
 <li><p>When applied to numbers where either number is complex, since non-real numbers cannot be compared with <code>&lt;</code>, the following least-surprising ordering is defined: If the real parts are &lt; or &gt;, so are the numbers; otherwise, the numbers are ordered by their imaginary parts.  This can still produce somewhat surprising results if one real part is exact and the other is inexact.  It must also hash them using the hash function<code>number-hash</code>.</p></li>
 <li><p>When applied to real numbers, it must compare them using <code>=</code> and <code>&lt;</code>, and hash them using the hash function <code>number-hash</code>.</p></li>
-<li><p>When applied to vectors, it must behave the same as a comparator returned by <code>make-vector-comparator</code> when applied to no arguments.</p></li>
-<li><p>When applied to bytevectors, it must behave the same as a comparator created by <code>(make-vector-comparator (make-default-comparator) bytevector? bytevector-length bytevector-u8-ref)</code>.</li>
-<li><p>When applied to types registered with <code>comparator-register-default!</code>, it must behave the same as the comparator registered using that function.</p></li>
+<li><p>When applied to vectors, it must behave the same as a comparator returned by <code>make-vector-comparator</code> with default arguments.</p></li>
+<li><p>When applied to bytevectors, it must behave the same as a comparator created by <code>(make-vector-comparator (make-comparator < = (lambda (x) x)) bytevector? bytevector-length bytevector-u8-ref)</code>.</li>
+<li><p>When applied to types registered with <code>comparator-register-default!</code>: it must behave the same as the comparator registered using that function.</p></li>
 <li><p>Given disjoint types <em>a</em> and <em>b</em>, one of three conditions must hold:</p>
 <ul>
 <li>All objects of type <em>a</em> compare less than all objects of type <em>b</em>.</li>
@@ -249,13 +246,12 @@ The order in which the values are compared is unspecified.  Because the relation
 </p>
 <h2>Implementation</h2>
 <p>The <a href="comparators.tar.gz">sample implementation</a> contains the following files: FIXME</p>
-<ul><li><code>basics.scm</code> - the syntax, record type definition, and simple constructors and procedures</li>
+<ul><li><code>comparators-impl.scm</code> - the record type definition and most of the procedures</li>
 <li><code>default.scm</code> - a simple implementation of the default constructor, which should be improved by implementers to handle records and implementation-specific types</li>
-<li><code>constructors.scm</code> - most of the constructors</li>
-<li><code>advanced.scm</code> - the more complex constructors</li>
+<li><code>hash.scm</code> - built-in hash functions</li>
 <li><code>r7rs-shim.scm</code> - procedures for R7RS compatibility, including a trivial implementation of bytevectors on top of <a href="http://srfi.schemers.org/srfi-4/srfi-4.html">SRFI 4</a> u8vectors</li>
 <li><code>complex-shim.scm</code> - a trivial implementation of <code>real-part</code> and <code>imag-part</code> for Schemes that don't have complex numbers</li>
 <li><code>comparators.sld</code> - an R7RS library</li>
-<li><code>comparators.scm</code> - a Chicken library</li></ul>
-<p>A future release will include a test program using the Chicken <code>test</code> egg, which is available on Chibi as the <code>(chibi test)</code> library.</p>
+<li><code>comparators.scm</code> - a Chicken library</li>
+<li><code>comparators-test.scm</code> - a test file using the Chicken <code>test</code> egg</li></ul>
 }}}
