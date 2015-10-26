@@ -21,7 +21,7 @@ Olin Shivers (edited by John Cowan)
 * Design rationale
   * What vs. how
   * Consistency across predicate signatures
-  * Data parameter first, less-than parameter after
+  * Comparison parameter before data parameter
   * Comparators
   * Stability
   * All vector operations accept optional subrange parameters
@@ -119,7 +119,7 @@ In SRFI 32 there were two different interfaces: "what" (simple) and "how" (detai
 
 * Detailed: you specified the actual algorithm (quick, heap, insert, merge). Different algorithms have different properties, both semantic and pragmatic, so these exports are necessary.
 
-However, the difficulty with naming specific algorithms is that the
+However, the difficulty with exposing specific algorithms by name is that the
 local optima in the search space of algorithms changes over time.
 For example, the "qsort" in musl C library is actually smooth sort, not
 quick sort; Python and Java have switched from quick sort to timsort;
