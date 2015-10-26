@@ -67,7 +67,7 @@ list-delete-neighbor-dups!	vector-delete-neighbor-dups!
 What happened to [[http://srfi.schemers.org/srfi-32/srfi-32.txt|SRFI 32]]?
 It's been twelve years since it was withdrawn.
 R7RS-large needs a sorting package, and this is a substantial one.  I've made
-as few adjustments as practical in order to bring the specification into 2014.
+as few adjustments as practical in order to bring the specification into 2016.
 (In this section, "I" means John Cowan; elsewhere, "I" means Olin Shivers.)
 
 There are only three functional changes.  The most important one is that the
@@ -80,7 +80,7 @@ procedures have been removed from the public API, though not from the sample imp
 Editorially, I have reorganized the text and removed the massive redundancies.
 In accordance with R5RS and R7RS, I have specified that procedures returning
 an unspecified value actually do return one value.  I have removed the multiple
-packages, most with only a few procedures, into which SRFI 32 is divided.  I have added
+packages, most with only a few procedures, into which SRFI 32 is divided.  I have added notes on
 [[http://srfi.schemers.org/srfi-95/srfi-95.html|SRFI 95]] and [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-5.html#node_chap_4|R6RS]] equivalents.
 
 The implementation is Olin's, with a few bug fixes from Scheme 48.  My changes
