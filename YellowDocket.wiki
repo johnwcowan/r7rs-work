@@ -12,3 +12,8 @@ Void:  VoidCowan
 
 Named parameters:  NamedParametersCowan
 
+Generalized `set!`: [[http://srfi.schemers.org/srfi-17/srfi-17.html|SRFI 17]]
+
+`Cut/cute`:  [[http://srfi.schemers.org/srfi-26/srfi-26.html|SRFI 26]]
+
+Loops: [[http://srfi.schemers.org/srfi-42/srfi-42|SRFI 42]] or [[http://mumble.net/~campbell/scheme/foof-loop.txt|Riastradh's foof-loop]] or [[http://synthcode.com/scheme/chibi/lib/chibi/loop.html|Chibi loop]]
