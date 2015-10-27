@@ -12,7 +12,7 @@ Sorting and merging: SortingShivers (edited draft of withdrawn [[http://srfi.sch
 
 == Sets and maps ==
 
-Comparators:  ComparatorsCowan (stripped-down SRFI 114).
+Comparators:  [[http://srfi.schemers.org/srfi-128/srfi-128.html|SRFI 128]] (stripped-down SRFI 114).
 
 Sets and bags:  [[http://srfi.schemers.org/srfi-113/srfi-113.html|SRFI 113]].
 
