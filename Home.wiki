@@ -1,6 +1,6 @@
 = Welcome to the Scheme Working Groups =
 
-'''The [[http://trac.sacrideo.us/wg/raw-attachment/wiki/WikiStart/r7rs.pdf|final R7RS-small report]] has been endorsed by a unanimous vote of the Scheme Language Steering Committee.  A formal announcement will be made at [[http://webyrd.net/scheme-2013|Scheme 2013]].  The [[http://trac.sacrideo.us/wg/raw-attachment/wiki/WikiStart/r7rs-small-spec.zip|TeX source code for the report]] has been released by the editors.'''
+'''The [[http://trac.sacrideo.us/wg/raw-attachment/wiki/WikiStart/r7rs.pdf|final R7RS-small report]] has been endorsed by a unanimous vote of the Scheme Language Steering Committee.  A formal announcement was made at [[http://webyrd.net/scheme-2013|Scheme 2013]].  The [[http://trac.sacrideo.us/wg/raw-attachment/wiki/WikiStart/r7rs-small-spec.zip|TeX source code for the report]] has been released by the editors.'''
 
 For a list of Scheme implementations supporting R7RS-small see ImplementationSupport.
 
