@@ -18,21 +18,21 @@ When SRFI 13 was defined in 1999, it was intended to provide efficient string op
 
 Unfortunately, variable-arity procedures are often slow and may not interact well with type checking in Schemes that provide it.  In addition, it is now fairly common to store strings internally as UTF-8 or UTF-16 code unit sequences, which means that indexing operations are often O(n) rather than O(1), and string mutation can be extremely expensive if the storage used for the string needs to be expanded and the implementation does not use an indirect pointer to it (as in Chicken).
 
-As for shared substrings, they are no more common in 2015 than they were in 1999.  (Guile actually provides not only shared substrings but also copy-on-write and fully immutable strings.)  Fortunately, since then it has become normal for Schemes to provide user-defined records, and they are required by both R6RS and R7RS.  This makes it possible to portably provide a representation for a segment of a string, provided the string is never mutated.  The most portable such record consists of a string and two indexes, but other more efficient representations may be used instead.
+As for shared substrings, they are no more common in 2016 than they were in 1999.  (Guile actually provides not only shared substrings but also copy-on-write and fully immutable strings.)  Fortunately, since then it has become normal for Schemes to provide user-defined records, and they are required by both R6RS and R7RS.  This makes it possible to portably provide a representation for a segment of a string, provided the string is never mutated.  The most portable such record consists of a string and two indexes, but other more efficient representations may be used instead.
 
-This proposal, therefore, is intended to help move the practice of Scheme programming away from mutable strings, string indexes, and SRFI 13, while maintaining some degree of conceptual backward compatibility.  It does not require any particular run-time efficiencies from its procedures.
+This SRFI, therefore, is intended to help move the practice of Scheme programming away from mutable strings, string indexes, and SRFI 13, while maintaining some degree of conceptual backward compatibility.  It does not require any particular run-time efficiencies from its procedures.
 
 The operations provided here (with the exception of those in the Case and Comparisons sections) are entirely independent of the character repertoire supported by the implementation.  In particular, this means that the case-insensitive procedures of SRFI 13 are excluded.  There is also no provision for [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-2.html#node_idx_54|R6RS normalization procedures]] or for an `string->integer` procedure that was proposed for SRFI 13 but not included.  These may appear in future SRFIs.
 
 == Specification ==
 
-Cursors are pointers into strings or spans, and are not necessarily disjoint from other Scheme types.  For example, they may be exact integers that are character-based indexes into strings.  Alternatively, in an implementation whose internal representation of strings is UTF-8, string cursors may be indexes of individual bytes in the string.  It is also possible to implement string cursors as objects of a disjoint type.  The string cursor procedures of this proposal are mostly taken from Chibi Scheme.
+Cursors are pointers into strings or spans, and are not necessarily disjoint from other Scheme types.  For example, they may be exact integers that are character-based indexes into strings.  Alternatively, in an implementation whose internal representation of strings is UTF-8, string cursors may be indexes of individual bytes in the string.  It is also possible to implement string cursors as objects of a disjoint type.  The string cursor procedures of this SRFI are mostly taken from Chibi Scheme.
 
 Given a span of length ''n'', there are ''n''+2 possible cursors that refer to it: one for each character in the span, one for the position just before the first character (known as the "pre-start cursor"), and one for the position just after the last character (known as the "post-end cursor").  These additional positions are provided for backward and forward iteration respectively, and also because when creating a span from cursors the second cursor argument is exclusive. It is an error if a cursor argument is not one of the possible cursors for the string or span argument.
 
 Note: Procedures with similar names and purposes to R7RS-small or [[http://srfi.schemers.org/srfi-13/srfi-13.html|SRFI 13]] procedures are marked [R7RS-small] and [[SRFI|13]] respectively.
 
-All predicates passed to procedures defined in this proposal may be called in any order and any number of times, except as otherwise noted.  In SRFI 13, there is no such provision, and so character sets are inherently more efficient than predicates [[http://srfi.schemers.org/srfi-13/mail-archive/msg00052.html|because testing them is fast and free of side effects]], though how fast character sets are if they support full Unicode is very implementation-dependent.
+All predicates passed to procedures defined in this SRFI may be called in any order and any number of times, except as otherwise noted.  In SRFI 13, there is no such provision, and so character sets are inherently more efficient than predicates [[http://srfi.schemers.org/srfi-13/mail-archive/msg00052.html|because testing them is fast and free of side effects]], though how fast character sets are if they support full Unicode is very implementation-dependent.
 
 For security and efficiency reasons, there is no operation to retrieve the underlying string from a character span.
 
@@ -421,9 +421,13 @@ Returns a span whose characters are the elements of ''list'' in reverse order.  
 
 `(span-downcase `''span''`)` [R7RS-small]
 
+`(span-titlecase `''span''`)` [R7RS-small]
+
 `(span-foldcase `''span''`)` [R7RS-small]
 
-In any implementation of this proposal based on R7RS, these procedures must behave analogously to the corresponding string procedures.  That is, if a call to string procedure ''x'' (such as `string-upcase` or `string=?` on a string containing characters ''y,,0,, ... y,,n,,'' produces a string containing characters ''z,,0,, ... z,,n,,'', then a call to the analogous span procedure ''x′'' on a span containing characters ''y,,0,, ... y,,n,,'' must produce a span containing characters ''z,,0,, ... z,,n,,''.
+In any implementation of this SRFI based on R6RS or R7RS, these procedures must behave analogously to the corresponding string procedures.  That is, if a call to string procedure ''x'' (such as `string-upcase` or `string=?` on a string containing characters ''y,,0,, ... y,,n,,'' produces a string containing characters ''z,,0,, ... z,,n,,'', then a call to the analogous span procedure ''x′'' on a span containing characters ''y,,0,, ... y,,n,,'' must produce a span containing characters ''z,,0,, ... z,,n,,''.
+
+R7RS-small systems may not have `string-titlecase`.  In that case, this SRFI requires that the definition in SRFI 129 be used.
 
 == Comparison ==
 
@@ -447,7 +451,7 @@ In any implementation of this proposal based on R7RS, these procedures must beha
 
 `(span-ci>=? `''span,,1,, span,,2,, span'' ...`)` [R7RS-small]
 
-In any implementation of this proposal based on R7RS, the results of the span procedures must behave as if the arguments were converted to strings and then passed to the corresponding string procedures.
+In any implementation of this SRFI based on R7RS, the results of the span procedures must behave as if the arguments were converted to strings and then passed to the corresponding string procedures.
 
 == Comparator ==
 
@@ -457,6 +461,8 @@ This is a variable containing a [[http://srfi.schemers.org/srfi-114/srfi-114.htm
 
 == Sample Implementation ==
 
+FIXME
+
 The sample implementation (which is not yet written) represents spans as records containing a string and two string cursors, and provides two implementations of string cursors, one using string indexes directly and one that layers UTF-8 character spans on top of single-byte native strings.
 
-In addition, it provides a library with the same API as this proposal, but operating on strings rather than spans and using `string-` in their names instead of `span-`.  This library can assist in converting SRFI-13-based programs that do not exploit the substring facilities.  There is also a shim for R5RS systems that do not yet provide the full R7RS-small string API.
+In addition, it provides a library with the same API as this SRFI, but operating on strings rather than spans and using `string-` in their names instead of `span-`.  This library can assist in converting SRFI-13-based programs that do not exploit the substring facilities.  There is also a shim for R5RS systems that do not yet provide the full R7RS-small string API.
