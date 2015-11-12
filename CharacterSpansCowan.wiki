@@ -1,6 +1,6 @@
 == Character span library ==
 
-This is a library for manipulating textual content based on ''character spans'', also known as just ''spans''.  These are references to a string and two delimiting ''string cursors'', which are references to positions within a string.  Character spans are immutable, and except as noted below, it is an error to mutate the string that underlies a span.  
+This is a library for manipulating textual content based on ''character spans'', also known as just ''spans''.  A span is a sequence of characters of a fixed length, like a string.  Unlike strings, spans are immutable and can share storage with other spans.  
 
 == Issues ==
 
@@ -22,7 +22,7 @@ As for shared substrings, they are no more common in 2016 than they were in 1999
 
 This SRFI, therefore, is intended to help move the practice of Scheme programming away from mutable strings, string indexes, and SRFI 13, while maintaining some degree of conceptual backward compatibility.  It does not require any particular run-time efficiencies from its procedures.
 
-The operations provided here (with the exception of those in the Case and Comparisons sections) are entirely independent of the character repertoire supported by the implementation.  In particular, this means that the case-insensitive procedures of SRFI 13 are excluded.  There is also no provision for [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-2.html#node_idx_54|R6RS normalization procedures]] or for an `string->integer` procedure that was proposed for SRFI 13 but not included.  These may appear in future SRFIs.
+The operations provided here (with the exception of those in the Case and Comparisons sections) are entirely independent of the character repertoire supported by the implementation.  In particular, this means that most of the case-insensitive procedures of SRFI 13 are excluded.  There is also no provision for [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-2.html#node_idx_54|R6RS normalization procedures]] or for an `string->integer` procedure that was proposed for SRFI 13 but not included.  These may appear in future SRFIs.
 
 == Specification ==
 
@@ -37,8 +37,6 @@ All predicates passed to procedures defined in this SRFI may be called in any or
 For security and efficiency reasons, there is no operation to retrieve the underlying string from a character span.
 
 == Span cursors ==
-
-These operations exist in pairs, as they apply to both strings and spans.
 
 `(span-cursor-start `''span''`)`
 
