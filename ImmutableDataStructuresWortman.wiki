@@ -1,8 +1,10 @@
 == Introduction ==
 
-This proposal defines ''immutable data structures'' for queues, sets, bags, and maps. A structure is immutable when all its operations leave the structure unchanged. Note that none of the procedures specified here ends with a `!`.
+This proposal defines ''immutable data structures'' for queues, sets, bags, and maps. A structure is immutable when all its operations leave the structure unchanged. Note that none of the procedures specified here ends with a `!`.  
 
 Immutable structures are sometimes called ''persistent'' and are closely related to ''pure-functional'' (a.k.a. ''pure'') structures. The availability of immutable data structures facilitates writing efficient programs in the pure-functional style.
+
+This proposal will be divided into three SRFIs: one for deques, one for sets and bags, and one for maps, even though they share a substantial chunk of implementation code.  This is basically to simplify review.
 
 == Efficiency bounds ==
 
@@ -629,7 +631,7 @@ Like `imap-map/monotone`, except that ''proc'' is not required to be monotone. T
 
 `(imap-map-values `''proc map''`)`
 
-Invokes '''proc'' on the key and value of every ''association'' in ''map''.  The result is a map which associates each key with the result of the corresponding invocation.  Takes O(n) time.
+Invokes ''proc'' on the key and value of every ''association'' in ''map''.  The result is a map which associates each key with the result of the corresponding invocation.  Takes O(n) time.
 
 `(imap-for-each `''proc map''`)`
 
