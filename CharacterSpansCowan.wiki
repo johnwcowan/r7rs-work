@@ -98,7 +98,7 @@ Returns a character span which contains the characters ''char'' in order.
 
 Returns a character span which contains all the characters of ''string'' in order.
 
-`(substring->span `''string start end''`)`
+`(make-span `''string start end''`)`
 
 Returns a character span which contains the characters of ''string'' in order from indexes ''start'' (inclusive) to ''end'' (exclusive).
 
@@ -357,7 +357,7 @@ Returns two values, a span containing the characters of ''span'' which satisfy '
 
 == Conversion ==
 
-`(string-copy->span `''string''`)`
+`(string->span `''string''`)`
 
 Returns a span that contains the characters of ''string'' in order.  Later mutation of ''string'' will not affect the value of ''span''.
 
