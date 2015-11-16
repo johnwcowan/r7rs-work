@@ -90,17 +90,17 @@ Return the difference in characters between ''cursor,,2,,'' and ''cursor,,1,,''.
 
 == Span constructors ==
 
-`(span `''char'' ...`)` [R7RS-small]
-
-Returns a character span which contains the characters ''char'' in order.
-
-`(string->span `''string''`)`
+`(make-whole-span `''string''`)`
 
 Returns a character span which contains all the characters of ''string'' in order.
 
 `(make-span `''string start end''`)`
 
 Returns a character span which contains the characters of ''string'' in order from indexes ''start'' (inclusive) to ''end'' (exclusive).
+
+`(span `''char'' ...`)` [R7RS-small]
+
+Returns a character span which contains the characters ''char'' in order.
 
 `(span-transform `''proc span obj'' ...`)`
 
