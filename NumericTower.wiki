@@ -8,12 +8,12 @@ There are therefore 16 possible numeric towers.  9 of them are known to have imp
 ||-||-||-||-||Bounded exact integers only||!SigScheme*||
 ||-||-||+||-||Fixnums and flonums||Plain Chicken 4, Shoe*, !TinyScheme*, RScheme, JScheme*, BDC*, XLisp*, Schemik*, VX, SXM*, Inlab, Llava, Sixx, Sizzle, Dfsch*, Stalin (also Elisp*, C*)||
 ||-||+||+||+||Limited-range exact and inexact numbers||S7, Wraith||
-||+||-||+||-||Exact integers and inexact real numbers||Chicken 5, Bigloo, Scheme 9, Elk (also ISLisp)||
+||+||-||+||-||Exact integers and inexact real numbers||Bigloo, Scheme 9, Elk (also ISLisp)||
 ||+||-||+||+||Exact integers, inexact real numbers, and complex numbers||SCM||
 ||+||+||-||-||Exact rational numbers only||Dream, Oaklisp
 ||+||+||-||+||Exact numbers only||Owl Lisp
 ||+||+||+||-||Real numbers only||Psyche, Ikarus, Rep, Dfsch (also Clojure)||
-||+||+||+||+||Full numeric tower||Racket, Gauche, MIT, Gambit, Chicken with the `numbers` egg, Scheme48/scsh, Kawa, SISC, Chibi, Guile, Chez, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, STklos, KSi, UMB, Spark, Sagittarius (also R6RS, Common Lisp, Pure)||
+||+||+||+||+||Full numeric tower||Racket, Gauche, MIT, Gambit, Chicken 4 with the `numbers` egg, Chicken 5, Scheme48/scsh, Kawa, SISC, Chibi, Guile, Chez, Vicare, Larceny, Ypsilon, Mosh, !IronScheme, STklos, KSi, UMB, Spark, Sagittarius (also R6RS, Common Lisp, Pure)||
 
 *These systems are technically exactness-preserving, but silently return the wrong answers when their arithmetic operations overflow.  This makes them non-conformant.
 
