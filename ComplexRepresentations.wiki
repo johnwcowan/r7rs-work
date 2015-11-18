@@ -4,13 +4,13 @@ Exact, inexact, and mixed complex number representations, where inexact and mixe
 
 Exact, inexact, and mixed complex number representations, where inexact and mixed numbers that are `=` are the same in the sense of `eqv?`: MIT, STklos.
 
-Exact and inexact complex number representations only (mixed complex numbers become inexact): Racket, Chicken with the numbers egg, Scheme48/scsh, Kawa, Chez, Vicare, Larceny, Ypsilon, !IronScheme, Spark, Wraith, Sagittarius.  (Also ABCL, Allegro CL, Clozure CL, CMUCL, ECL, GNU CL, !LispWorks, SBCL, Scieneer CL.)
+Exact and inexact complex number representations only (mixed complex numbers become inexact): Racket, Chicken 4 with the numbers egg, Chicken 5, Scheme48/scsh, Kawa, Chez, Vicare, Larceny, Ypsilon, !IronScheme, Spark, Wraith, Sagittarius.  (Also ABCL, Allegro CL, Clozure CL, CMUCL, ECL, GNU CL, !LispWorks, SBCL, Scieneer CL.)
 
 Inexact complex number representations only: Gauche, Guile, SISC, SCM, KSi, S7, UMB, Stalin.  (Also Fortran, C/C++, Python, etc.)
 
 Exact complex number representations only: Owl Lisp (which has no inexact numbers).
 
-No complex numbers: plain Chicken, Bigloo, Ikarus, NexJ, !SigScheme, Shoe, !TinyScheme, Scheme 9, Dream, RScheme, BDC, XLisp, Rep, Schemik, Elk, VX, Oaklisp, Llava, SXM, Sizzle, !FemtoLisp, Dfsch, Inlab.
+No complex numbers: plain Chicken 4, Bigloo, Ikarus, NexJ, !SigScheme, Shoe, !TinyScheme, Scheme 9, Dream, RScheme, BDC, XLisp, Rep, Schemik, Elk, VX, Oaklisp, Llava, SXM, Sizzle, !FemtoLisp, Dfsch, Inlab.
 
 Mosh has a bug whereby numbers that are `=` are always `eqv?` even if they differ in exactness; it supports exact, inexact, and mixed complex number representations, but doesn't differentiate exact from inexact properly.
 
