@@ -16,6 +16,6 @@ Returns the titlecase equivalent of ''char'', if that character exists in the im
 
 `(string-titlecase `''string''`)`
 
-This procedure applies the Unicode full string lowercasing algorithm to its argument.  However, any character preceded by a non-cased character, or whose index is ''start'', is processed by a different algorithm.  If such a character has a multi-character titlecase mapping specified by Unicode, and all the characters of the mapping are supported by the implementation, then it is replaced by that mapping.  Otherwise, it is replaced by its single-character titlecase mapping as if by `char-titlecase`.  The result of the application of these algorithms is returned.
+This procedure applies the Unicode full string lowercasing algorithm to its argument.  However, any character preceded by a non-cased character, or which is the first character of ''string'', is processed by a different algorithm.  If such a character has a multi-character titlecase mapping specified by Unicode, and all the characters of the mapping are supported by the implementation, then it is replaced by that mapping.  Otherwise, it is replaced by its single-character titlecase mapping as if by `char-titlecase`.  The result of the application of these algorithms is returned.
 
 In certain cases, the result differs in length from the argument. If the result is equal to the argument in the sense of `string=?`, the argument may be returned. Note that language-sensitive mappings are not used.  (The R6RS version does not make use of multi-character titlecase mappings.)
