@@ -6,7 +6,7 @@ Consider the string `ﬂoo bar`, which begins with a ligature of the characters 
 
 == Specification ==
 
-`(char-titlecase? `''char''`)`
+`(char-title-case? `''char''`)`
 
 Returns `#t` if ''char'' is a character with the Unicode property Titlecase, and `#f` otherwise.  (Not in R6RS.)
 
