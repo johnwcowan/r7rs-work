@@ -4,6 +4,8 @@
 
 == R6RS flonum library ==
 
+The R6RS-specific integer division procedures have been removed, as have the condition types.
+
 {{{
 #!html
 <p>
@@ -207,44 +209,6 @@ Returns the absolute value of <i>fl</i>.
 <p>
 </p>
 <p></p>
-<div align=left><tt>(<a name="node_idx_1000"></a>fldiv-and-mod<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
-
-<div align=left><tt>(<a name="node_idx_1002"></a>fldiv<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
-
-<div align=left><tt>(<a name="node_idx_1004"></a>flmod<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
-
-<div align=left><tt>(<a name="node_idx_1006"></a>fldiv0-and-mod0<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
-
-<div align=left><tt>(<a name="node_idx_1008"></a>fldiv0<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
-
-<div align=left><tt>(<a name="node_idx_1010"></a>flmod0<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
-<p>
-These procedures implement number-theoretic integer division and
-return the results of the corresponding mathematical operations
-specified in report section&nbsp;on &ldquo;Integer division&rdquo;.  For zero divisors, these
-procedures may return a NaN or some unspecified flonum.</p>
-<p>
-</p>
-
-<tt>(fldiv&nbsp;<i>fl<sub>1</sub></i>&nbsp;<i>fl<sub>2</sub></i>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;<i>fl<sub>1</sub></i>&nbsp;<em>d</em><em>i</em><em>v</em>&nbsp;<i>fl<sub>2</sub></i>
-<p class=nopadding>(flmod&nbsp;<i>fl<sub>1</sub></i>&nbsp;<i>fl<sub>2</sub></i>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;<i>fl<sub>1</sub></i>&nbsp;<em>m</em><em>o</em><em>d</em>&nbsp;<i>fl<sub>2</sub></i></p>
-
-<p class=nopadding>(fldiv-and-mod&nbsp;<i>fl<sub>1</sub></i>&nbsp;<i>fl<sub>2</sub></i>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><span style="margin-left: 2em">&zwnj;</span><span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;<i>fl<sub>1</sub></i>&nbsp;<em>d</em><em>i</em><em>v</em>&nbsp;<i>fl<sub>2</sub></i>,&nbsp;<i>fl<sub>1</sub></i>&nbsp;<em>m</em><em>o</em><em>d</em>&nbsp;<i>fl<sub>2</sub></i><br>
-;&nbsp;two&nbsp;return&nbsp;values</p>
-
-<p class=nopadding>(fldiv0&nbsp;<i>fl<sub>1</sub></i>&nbsp;<i>fl<sub>2</sub></i>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;<i>fl<sub>1</sub></i>&nbsp;<em>d</em><em>i</em><em>v</em><sub>0</sub>&nbsp;<i>fl<sub>2</sub></i></p>
-
-<p class=nopadding>(flmod0&nbsp;<i>fl<sub>1</sub></i>&nbsp;<i>fl<sub>2</sub></i>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;<i>fl<sub>1</sub></i>&nbsp;<em>m</em><em>o</em><em>d</em><sub>0</sub>&nbsp;<i>fl<sub>2</sub></i></p>
-
-<p class=nopadding>(fldiv0-and-mod0&nbsp;<i>fl<sub>1</sub></i>&nbsp;<i>fl<sub>2</sub></i>)&nbsp;&nbsp;&nbsp;<br><span style="margin-left: 2em">&zwnj;</span><span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;<i>fl<sub>1</sub></i>&nbsp;<em>d</em><em>i</em><em>v</em><sub>0</sub>&nbsp;<i>fl<sub>2</sub></i>,&nbsp;<i>fl<sub>1</sub></i>&nbsp;<em>m</em><em>o</em><em>d</em><sub>0</sub>&nbsp;<i>fl<sub>2</sub></i><br>
-;&nbsp;two&nbsp;return&nbsp;values</p>
-<p></tt></p>
-<p>
-</p>
-<p></p>
-<p>
-</p>
-<p></p>
 <div align=left><tt>(<a name="node_idx_1012"></a>flnumerator<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
 
 <div align=left><tt>(<a name="node_idx_1014"></a>fldenominator<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
@@ -402,47 +366,7 @@ the result is zero.
 <p></p>
 <p>
 </p>
-<p><a name="node_idx_1048"></a></p>
-<div align=left><tt><tt>&amp;no-infinities</tt></tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>condition type&nbsp;</div>
 
-<div align=left><tt>(<a name="node_idx_1050"></a>make-no-infinities-violation<i> obj</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
-
-<div align=left><tt>(<a name="node_idx_1052"></a>no-infinities-violation?<i> obj</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
-
-<a name="node_idx_1054"></a><div align=left><tt><tt>&amp;no-nans</tt></tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>condition type&nbsp;</div>
-
-<div align=left><tt>(<a name="node_idx_1056"></a>make-no-nans-violation<i> obj</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
-
-<div align=left><tt>(<a name="node_idx_1058"></a>no-nans-violation?<i> obj</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
-<p>
-These condition types could be defined by the following code:</p>
-<p>
-</p>
-
-<tt>(define-condition-type&nbsp;&amp;no-infinities
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&amp;implementation-restriction</p>
-
-<p class=nopadding>&nbsp;&nbsp;make-no-infinities-violation</p>
-
-<p class=nopadding>&nbsp;&nbsp;no-infinities-violation?)</p>
-
-<p class=nopadding></p>
-
-<p class=nopadding>(define-condition-type&nbsp;&amp;no-nans</p>
-
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&amp;implementation-restriction</p>
-
-<p class=nopadding>&nbsp;&nbsp;make-no-nans-violation&nbsp;no-nans-violation?)</p>
-<p></tt></p>
-<p>
-These types describe that a program has executed an arithmetic
-operations that is specified to return an infinity or a NaN,
-respectively, on a Scheme implementation that is not able to represent
-the infinity or NaN.  (See report section&nbsp;on &ldquo;Representability of infinities and NaNs&rdquo;.)
-</p>
-<p></p>
-<p>
-</p>
 <p></p>
 <div align=left><tt>(<a name="node_idx_1060"></a>fixnum-&gt;flonum<i> fx</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
 <p>
@@ -458,6 +382,43 @@ may be greater than the flonum precision.
 <p>
 </p>
 }}}
+
+== Integer division ==
+
+{{{
+#!html
+<p>
+<tt>(floor/ </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
+<tt>(floor-quotient </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
+<tt>(floor-remainder </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
+</p>
+<p>
+<tt>(ceiling/ </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
+<tt>(ceiling-quotient </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
+<tt>(ceiling-remainder </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
+</p>
+<p>
+<tt>(truncate/ </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
+<tt>(truncate-quotient </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
+<tt>(truncate-remainder </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
+</p>
+<p>
+<tt>(round/ </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
+<tt>(round-quotient </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
+<tt>(round-remainder </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
+<p>
+<tt>(euclidean/ </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
+<tt>(euclidean-quotient </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
+<tt>(euclidean-remainder </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
+</p>
+<p>
+<tt>(balanced/ </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
+<tt>(balanced-quotient </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
+<tt>(balanced-remainder </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
+</p>
+}}}
+
+These are variants of the DivisionRiastradh integer division functions that accept flonums and return a flonum.
 
 `(decode-float `''z''`)` and friends
 
@@ -484,8 +445,8 @@ The following constants are defined in terms of the constants of the <math.h> he
 ||`fl:one-over-sqrt-2`||`M_SQRT1_2`||Value of 1/sqrt(2)||
 ||`fl:maximum-flonum`||`HUGE_VAL`||`+inf.0` or else\\the largest finite flonum||
 ||`fl:fast-multiply-add`||`#t` if `FP_FAST_FMA` is 1,\\or `#f` otherwise||multiply-add is fast||
-||`fl:integer-exponent-zero`||`FP_ILOGB0`||what `(integer-binary-log 0)` returns||
-||`fl:integer-exponent-nan`||`FP_ILOGBNAN`||what `(integer-binary-log +0.nan)` returns||
+||`fl:integer-exponent-zero`||`FP_ILOGB0`||what `(flinteger-binary-log 0)` returns||
+||`fl:integer-exponent-nan`||`FP_ILOGBNAN`||what `(flinteger-binary-log +0.nan)` returns||
 
 == C99 <math.h> procedures ==
 
@@ -535,6 +496,7 @@ In the event that these operations do not yield a real result for the given argu
 
 Implementations that use IEEE binary floating-point arithmetic should follow the relevant standards for these procedures.
 
+== FIXME from here down ==
 == Compnum procedures from <complex.h> ==
 
 A ''compnum'' is a general complex number whose `real-part` and `imag-part` are both flonums.  The following procedures should be in a different library from the flonum procedures.
