@@ -22,7 +22,6 @@ Olin Shivers (edited by John Cowan)
   * What vs. how
   * Consistency across predicate signatures
   * Comparison parameter before data parameter
-  * Comparators
   * Stability
   * All vector operations accept optional subrange parameters
   * Required vs. allowed side-effects
@@ -70,18 +69,18 @@ R7RS-large needs a sorting package, and this is a substantial one.  I've made
 as few adjustments as practical in order to bring the specification into 2016.
 (In this section, "I" means John Cowan; elsewhere, "I" means Olin Shivers.)
 
-There are only three functional changes.  The most important one is that the
+There are only two functional changes.  The most important one is that the
 comparison predicate now precedes the data rather than following it.
 Most of the SRFI 32 commenters thought that this is the better order, despite
-the widespread precedent, and I've made the change.  The second point is that
-the procedures accept [[:ComparatorsCowan|comparators]] rather than predicates.  The third point is that the algorithm-specific
+the widespread precedent, and I've made the change.  The second point is that the algorithm-specific
 procedures have been removed from the public API, though not from the sample implementation.
 
 Editorially, I have reorganized the text and removed the massive redundancies.
 In accordance with R5RS and R7RS, I have specified that procedures returning
 an unspecified value actually do return one value.  I have removed the multiple
 packages, most with only a few procedures, into which SRFI 32 is divided.  I have added notes on
-[[http://srfi.schemers.org/srfi-95/srfi-95.html|SRFI 95]] and [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-5.html#node_chap_4|R6RS]] equivalents.
+[[http://srfi.schemers.org/srfi-95/srfi-95.html|SRFI 95]] and
+[[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-5.html#node_chap_4|R6RS]] equivalents.
 
 The implementation is Olin's, with a few bug fixes from Scheme 48.  My changes
 were essentially mechanical.
@@ -149,18 +148,11 @@ put the procedure first — the "operation currying" convention,
 as in `for-each` or `map` or `find`.
 This SRFI uses the R6RS order throughout.
 
-=== Comparators ===
-
-These routines take a comparator, whereas their
-SRFI 32 counterparts took a < predicate, or in a few cases a
-three-valued comparison function.  These are still extracted
-from the comparator and used internally by the sample implementation.
- 
 === Stability ===
 
 A "stable" sort is one that preserves the pre-existing order of equal
 elements. Suppose, for example, that we sort a list of numbers by 
-comparing their absolute values using `abs-comparator` (defined below).
+comparing their absolute values using `abs<` (defined below).
 If we sort a list that contains both 3 and -3,
 then a stable sort is an algorithm that will not swap the order
 of these two elements, that is, the answer will look like `... 3 -3 ...`,
@@ -174,23 +166,22 @@ of the first data set — elements of the first list come before equal
 elements in the second list.
 
 So, if we are merging two lists of numbers ordered by absolute value
-using the stable merge operation `list-merge` and `abs-comparator`
+using the stable merge operation `list-merge` and `abs<`
 compares numbers by their absolute values, then
 
 {{{
-(list-merge abs-comparator
+(list-merge abs<
             '(0 -2 4 8 -10) '(-1 3 -4 7))
 }}}
 
 reliably places the 4 of the first list before the equal-comparing -4
 of the second list: `(0 -1 -2 4 -4 7 8 -10)`.
 
-Here's a definition of `abs-comparator`, introduced just for examples
-(it is not part of this SRFI or any SRFI, and is not optimal):
+Here's a definition of `abs<`, introduced just for the examples
+(it is not part of this SRFI or any SRFI):
 
 {{{
-(define abs-comparator
-  (make-comparator number? #t (lambda (x y) (- (abs x) (abs y))) #f))
+(define (abs< x y) (< (abs x) (abs y))))
 }}}
 
 === All vector operations accept optional subrange parameters ===
@@ -238,7 +229,7 @@ by composing a set of basic lexemes to indicate what they do.
 ||`vector`||The procedure operates upon vectors.||
 ||`list`||The procedure operates upon lists.||
 ||`stable`||This lexeme indicates that the sort is a stable one.||
-||`sort`||The procedure sorts its input data set by some comparator.||
+||`sort`||The procedure sorts its input data set by some ordering function.||
 ||`merge`||The procedure merges two ordered data sets into a single ordered result.||
 ||`!`||Procedures that end in `!` are allowed, and sometimes required, to reuse their input storage to construct their answer.||
 
@@ -251,7 +242,7 @@ In the procedures specified below,
 
 * A ''v'' parameter is a vector;
 
-* A ''comparator'' parameter is a [[:ComparatorsCowan|comparator]].
+* A ''<'' parameter is an ordering function.  See [[http://srfi.schemers.org/srfi-128/srfi-128.html|SRFI 128]] for the requirements on ordering functions.
 
 * A ''start'' parameter or ''start'' and ''end'' parameter pair are exact non-negative integers such that 0 <= ''start'' <= ''end'' <= `(vector-length `''v''`)`, where ''v'' is the related vector parameter. If not specified, they default to 0 and the length of the vector, respectively. They are interpreted to select the range [[''start'',|''end''), that is, all elements from index ''start'' (inclusive) up to, but not including, index ''end''.
 
@@ -263,14 +254,14 @@ is said about what the procedure returns, except that it returns one value.
 
 === Predicates ===
 
-`(list-sorted? `''comparator lis''`)`
+`(list-sorted? `''< lis''`)`
 
-`(vector-sorted? `''comparator v'' [''start'' [ ''end'' ]] ]
+`(vector-sorted? `''< v'' [''start'' [ ''end'' ]] ]
 
 These procedures return true iff their input list or vector
-is in sorted order, as determined by ''comparator''.
+is in sorted order, as determined by ''<''.
 Specifically, they return `#f` iff there is an adjacent pair ... X Y ... in the input
-list or vector such that Y < X in the sense of ''comparator''. The optional ''start'' and ''end'' range 
+list or vector such that Y < X in the sense of ''<''. The optional ''start'' and ''end'' range 
 arguments restrict `vector-sorted?` to examining the indicated subvector.
 
 These procedures are equivalent to the SRFI 95 `sorted?` procedure when applied to lists or vectors
@@ -282,9 +273,9 @@ These procedures provide basic sorting and merging functionality suitable for
 general programming. The procedures are named by their semantic properties,
 i.e., what they do to the data (sort, stable sort, and so forth).
 
-`(list-sort ` ''comparator lis''`)`
+`(list-sort ` ''< lis''`)`
 
-`(list-stable-sort ` ''comparator lis''`)`
+`(list-stable-sort ` ''< lis''`)`
 
 These procedures
 do not alter their inputs and are allowed to return a value that shares 
@@ -294,9 +285,9 @@ The `list-stable-sort` procedure is equivalent to the R6RS `list-sort` procedure
 equivalent to the SRFI 95 `sort` procedure when applied to lists, except that it does not accept a key
 procedure.
 
-`(list-sort! ` ''comparator lis''`)`
+`(list-sort! ` ''< lis''`)`
 
-`(list-stable-sort! ` ''comparator lis''`)`
+`(list-stable-sort! ` ''< lis''`)`
 
 These procedures
 are "linear update" operators — they are allowed, but not required, to
@@ -306,9 +297,9 @@ The `list-stable-sort!` procedure is
 equivalent to the SRFI 95 `sort!` procedure when applied to lists, except that it does not accept a key
 procedure.
 
-`(vector-sort ` ''comparator v'' [[|''start'' [ ''end'' ]] ]`)`
+`(vector-sort ` ''< v'' [[|''start'' [ ''end'' ]] ]`)`
 
-`(vector-stable-sort ` ''comparator v'' [[|''start'' [ ''end'' ]] ]`)`
+`(vector-stable-sort ` ''< v'' [[|''start'' [ ''end'' ]] ]`)`
 
 These procedures
 do not alter their inputs, but allocate a fresh vector for their result,
@@ -319,9 +310,9 @@ is equivalent to the R6RS `vector-sort` procedure.    It is also
 equivalent to the SRFI 95 `sort` procedure when applied to vectors, except that it does not accept a key
 procedure.
 
-`(vector-sort! ` ''comparator v'' [[|''start'' [ ''end'' ]] ]`)`
+`(vector-sort! ` ''< v'' [[|''start'' [ ''end'' ]] ]`)`
 
-`(vector-stable-sort! ` ''comparator v'' [[|''start'' [ ''end'' ]] ]`)`
+`(vector-stable-sort! ` ''< v'' [[|''start'' [ ''end'' ]] ]`)`
 
 These procedures
 sort their data in-place. (But note that `vector-stable-sort!` may 
@@ -338,7 +329,7 @@ All four merge operations are stable: an element of the initial list ''lis,,1,,'
 vector ''v,,1,,'' will come before an equal-comparing element in the second
 list ''lis,,2,,'' or vector ''v,,2,,'' in the result.
 
-`(list-merge `''comparator lis,,1,, lis,,2,,''`)`
+`(list-merge `''< lis,,1,, lis,,2,,''`)`
 
 This procedure
 does not alter its inputs, and is allowed to return a value that shares 
@@ -347,7 +338,7 @@ a common tail with a list argument.
 This procedure is equivalent to the SRFI 95 `merge` procedure when applied to lists,
 except that it does not accept a key procedure.
 
-`(list-merge! `''comparator lis,,1,, lis,,2,,''`)`
+`(list-merge! `''< lis,,1,, lis,,2,,''`)`
 
 This procedure
 makes only a single, iterative, linear-time pass over its argument lists,
@@ -368,7 +359,7 @@ This procedure is equivalent to the SRFI 95 `merge!` procedure when applied to l
 except that it does not accept a key procedure.
 
 
-`(vector-merge` ''comparator v,,1,, v,,2,,'' [[|''start,,1,,'' [ ''end,,1,,'' [ ''start,,2,,'' [ ''end,,2,,'' ]] ] ] ]`)`
+`(vector-merge` ''< v,,1,, v,,2,,'' [[|''start,,1,,'' [ ''end,,1,,'' [ ''start,,2,,'' [ ''end,,2,,'' ]] ] ] ]`)`
 
 This procedure does not alter its inputs,
 and returns a newly allocated vector
@@ -377,7 +368,7 @@ of length (''end,,1,,'' - ''start,,1,,'') + (''end,,2,,'' - ''start,,2,,''`)`.
 This procedure is equivalent to the SRFI 95 `merge` procedure when applied to vectors,
 except that it does not accept a key procedure.
 
-`(vector-merge!` ''comparator to from,,1,, from,,2,,'' [[|''start'' [ ''start,,1,,'' [ ''end,,1,,'' [ ''start,,2,,'' [ ''end,,2,,'' ]] ] ] ] ]`)`
+`(vector-merge!` ''< to from,,1,, from,,2,,'' [[|''start'' [ ''start,,1,,'' [ ''end,,1,,'' [ ''start,,2,,'' [ ''end,,2,,'' ]] ] ] ] ]`)`
 
 This procedure writes its result into vector ''to'', beginning at index ''start'',
 for indices less than
@@ -404,15 +395,15 @@ elements from a large list or vector, sort the elements to bring equal
 items together, then use one of these procedures, for a total time of
 O(n lg n).
 
-The equality procedure extracted from the comparator passed to these procedures is always
+The equality procedure extracted from the < passed to these procedures is always
 applied as `(= x y)`, where ''x'' comes before ''y'' in the containing list or vector.
 
-`(list-delete-neighbor-dups `''comparator v''`)`
+`(list-delete-neighbor-dups `''< v''`)`
 
 This procedure does not alter its input list; its result may share
 storage with the input list.
 
-`(list-delete-neighbor-dups! ` ''comparator lis''`)`
+`(list-delete-neighbor-dups! ` ''< lis''`)`
 
 This procedure mutates its input list in order to construct its result.
 It makes only a single, iterative, linear-time pass over its
@@ -420,12 +411,12 @@ argument, using `set-cdr!`s to rearrange the cells of the list
 into the final result — it works "in place." Hence, any cons cell appearing
 in the result must have originally appeared in the input.
 
-`(vector-delete-neighbor-dups ` ''comparator v'' [[|''start'' [ ''end'' ]] ]`)`
+`(vector-delete-neighbor-dups ` ''< v'' [[|''start'' [ ''end'' ]] ]`)`
 
 This procedure does not alter its input vector, but rather
 newly allocates and returns a vector to hold the result.
 
-`(vector-delete-neighbor-dups! ` ''comparator v'' [[|''start'' [ ''end'' ]] ]`)`
+`(vector-delete-neighbor-dups! ` ''< v'' [[|''start'' [ ''end'' ]] ]`)`
 
 This procedure reuses its input vector to hold the answer, packing its answer into the index range [[start,newend),|
 where `newend` is the non-negative exact integer that is returned as its value.
@@ -434,18 +425,18 @@ The vector is not altered outside the range [''start, newend'').
 Examples:
 
 {{{
-	(list-delete-neighbor-dups number-comparator '(1 1 2 7 7 7 0 -2 -2))
+	(list-delete-neighbor-dups < '(1 1 2 7 7 7 0 -2 -2))
                => (1 2 7 0 -2)
 
-	(vector-delete-neighbor-dups number-comparator '#(1 1 2 7 7 7 0 -2 -2))
+	(vector-delete-neighbor-dups < '#(1 1 2 7 7 7 0 -2 -2))
                => #(1 2 7 0 -2)
 
-	(vector-delete-neighbor-dups number-comparator '#(1 1 2 7 7 7 0 -2 -2) 3 7))
+	(vector-delete-neighbor-dups < '#(1 1 2 7 7 7 0 -2 -2) 3 7))
                => #(7 0 -2)
 
 ;; Result left in v[3,9):
 (let ((v (vector 0 0 0 1 1 2 2 3 3 4 4 5 5 6 6)))
-  (cons (vector-delete-neighbor-dups! number-comparator v 3)
+  (cons (vector-delete-neighbor-dups! < v 3)
         v))
               => (9 . #(0 0 0 1 2 3 4 5 6 4 4 5 5 6 6))
 }}}
