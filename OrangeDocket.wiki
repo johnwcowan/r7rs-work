@@ -16,7 +16,7 @@ Descriptive statistics:  TallyCowan.
 
 Flonums and compnums:  FlonumsCowan.
 
-Fixnums:  [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.2|R6RS]].
+Fixnums:  [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.2|R6RS]], only without preposterous mustard.
 
 String to bytevector conversion:  StringBytevectorConversionCowan
 
