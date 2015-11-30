@@ -28,7 +28,7 @@ relation
   ''r'' = ''n'' - ''dq'',
 
 provided that this choice of ''q'' induced an ''r'' satisfying |''r''| < |''d''|.  For
-an extensive discussion of the five division operator pairs proposed
+an extensive discussion of five of the six division operator pairs proposed
 here, and some broken but standardized operator pairs that fail to
 satisfy properties (1)-(3), see Raymond T. Boute, `The Euclidean
 Definition of the Functions DIV and MOD', ACM TOPLAS 14(2), April 1992,
@@ -42,8 +42,8 @@ divisors can arise, but perhaps may not often arise during testing.
 
 == Specification ==
 
-For each of five division operator pairs -- floor, ceiling, truncate,
-round, and Euclidean --, there are three procedures: one, named
+For each of six division operator pairs — floor, ceiling, truncate,
+round, Euclidean and balanced — there are three procedures: one, named
 `<operator>/`, to compute the division and to return both quotient and
 remainder as multiple return values; one, named `<operator>-quotient`,
 to compute the quotient; and one, named `<operator>-remainder`, to
@@ -123,6 +123,21 @@ length is at least the absolute value of ''divisor''.
 This division operator pair is so
 named because it is the subject of the Euclidean division algorithm.
 
+`(balanced/ `''dividend''` `''divisor''`)`[[BR]]
+`(balanced-quotient `''dividend''` `''divisor''`)`[[BR]]
+`(balanced-remainder `''dividend''` `''divisor''`)`[[BR]]
+
+This division operator pair satisfies the property
+
+  -|d/2| <= r < |d/2|.
+
+When ''d'' is a power of 2, say 2^''k''^ for some ''k'', this reduces to
+
+  -2^(''k'' - 1)^ <= ''r'' < 2^(''k'' - 1)^.
+
+Computer scientists will immediately recognize this as the interval of
+integers representable in two's-complement with (''k'' - 1) bits.
+
 == Related Standards ==
 
 === R5RS ===
@@ -136,19 +151,8 @@ nonzero integer.
 === R6RS ===
 
 The R6RS gives the names `div` and `mod` to the Euclidean division operator
-pair, and the names `div0` and `mod0` to a division operator pair not
-listed here that satisfies the peculiar property
-
-  -|d/2| <= r < |d/2|.
-
-When ''d'' is a power of 2, say 2^''k''^ for some ''k'', this reduces to
-
-  -2^(''k'' - 1)^ <= ''r'' < 2^(''k'' - 1)^.
-
-Computer scientists will immediately recognize this as the interval of
-integers representable in two's-complement with (''k'' - 1) bits.  What
-useful function this division operator pair serves, however, the author
-does not know.  For all four of these procedures, the dividend may be
+pair, and the names `div0` and `mod0` to the balanced operator pair.
+For all four of these procedures, the dividend may be
 any real number, and the divisor may be any nonzero real number.
 
 === Common Lisp ===
@@ -186,7 +190,7 @@ worldwide, without royalty, in any medium, provided this notice, and
 the copyright notice, are preserved.
 
 This is a draft.  If you wish to derive a work from this article,
-contact the author.  [[This|has been done.  --John Cowan]]
+contact the author.  [[This|has been done.  —John Cowan]]
 
 == Implementation ==
 
