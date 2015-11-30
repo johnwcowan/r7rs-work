@@ -4,15 +4,463 @@
 
 The procedures in this package don't have hard-coded prefixes.  The intent is that they be placed in a module.  Users can then import this module with their own prefix such as `fl`, or `ƒ` if their Scheme implementation supports that character, or with no prefix at all if the intent is to override the normal Scheme arithmetic routines.
 
-== Basic procedures ==
+== R6RS flonum library ==
 
-`(flonum? `''obj''`)`
+{{{
+#!html
+<p>
+This section uses <i>fl</i>, <i>fl<sub>1</sub></i>, <i>fl<sub>2</sub></i>, etc., as
+parameter names for flonum arguments, and <i>ifl</i>
+as a name for integer-valued flonum arguments, i.e., flonums for which the
+<tt>integer?</tt> predicate returns true.</p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_950"></a>flonum?<i> obj</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<p>
+Returns <tt>#t</tt> if <i>obj</i> is a flonum, <tt>#f</tt> otherwise.
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_952"></a>real-&gt;flonum<i> x</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<p>
+Returns the best flonum representation of
+<i>x</i>.</p>
+<p>
+The value returned is a flonum that is numerically closest to the
+argument.</p>
+<p>
+</p>
+<blockquote><em>Note:<span style="margin-left: .5em">&zwnj;</span></em>
+If flonums are represented in binary floating point, then
+implementations should break ties by preferring
+the floating-point representation whose least significant bit is
+zero.
+</blockquote>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_954"></a>fl=?<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i> <i>fl<sub>3</sub></i> <tt>...</tt></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
 
-Returns #t if obj is a flonum, #f otherwise.
+<div align=left><tt>(<a name="node_idx_956"></a>fl&lt;?<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i> <i>fl<sub>3</sub></i> <tt>...</tt></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
 
-`(real->flonum `''x''`)`
+<div align=left><tt>(<a name="node_idx_958"></a>fl&lt;=?<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i> <i>fl<sub>3</sub></i> <tt>...</tt></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
 
-Returns the best flonum representation of x.
+<div align=left><tt>(<a name="node_idx_960"></a>fl&gt;?<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i> <i>fl<sub>3</sub></i> <tt>...</tt></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_962"></a>fl&gt;=?<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i> <i>fl<sub>3</sub></i> <tt>...</tt></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<p>
+These procedures return <tt>#t</tt> if their arguments are (respectively):
+equal, monotonically increasing, monotonically decreasing,
+monotonically nondecreasing, or monotonically nonincreasing,
+<tt>#f</tt> otherwise.  These
+predicates must be transitive.</p>
+<p>
+</p>
+
+<tt>(fl=&nbsp;+inf.0&nbsp;+inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;<tt>#t</tt>
+<p class=nopadding>(fl=&nbsp;-inf.0&nbsp;+inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;<tt>#f</tt></p>
+
+<p class=nopadding>(fl=&nbsp;-inf.0&nbsp;-inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;<tt>#t</tt></p>
+
+<p class=nopadding>(fl=&nbsp;0.0&nbsp;-0.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;<tt>#t</tt></p>
+
+<p class=nopadding>(fl&lt;&nbsp;0.0&nbsp;-0.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;<tt>#f</tt></p>
+
+<p class=nopadding>(fl=&nbsp;+nan.0&nbsp;<i>fl</i>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;<tt>#f</tt></p>
+
+<p class=nopadding>(fl&lt;&nbsp;+nan.0&nbsp;<i>fl</i>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;<tt>#f</tt></p>
+<p></tt>
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_964"></a>flinteger?<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_966"></a>flzero?<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_968"></a>flpositive?<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_970"></a>flnegative?<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_972"></a>flodd?<i> ifl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_974"></a>fleven?<i> ifl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_976"></a>flfinite?<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_978"></a>flinfinite?<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_980"></a>flnan?<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<p>
+These numerical predicates test a flonum for a particular property,
+returning <tt>#t</tt> or <tt>#f</tt>.
+The <tt>flinteger?</tt> procedure tests whether the number object is an integer,
+<tt>flzero?</tt> tests whether
+it is <tt>fl=?</tt> to zero, <tt>flpositive?</tt> tests whether it is greater
+than zero, <tt>flnegative?</tt> tests whether it is less
+than zero, <tt>flodd?</tt> tests whether it is odd, 
+<tt>fleven?</tt> tests whether it is even,
+<tt>flfinite?</tt> tests whether it is not an infinity and not a NaN,
+<tt>flinfinite?</tt> tests whether it is an infinity, and
+<tt>flnan?</tt> tests whether it is a NaN.</p>
+<p>
+</p>
+
+<tt>(flnegative?&nbsp;-0.0)&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;<tt>#f</tt>
+<p class=nopadding>(flfinite?&nbsp;+inf.0)&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;<tt>#f</tt></p>
+
+<p class=nopadding>(flfinite?&nbsp;5.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;<tt>#t</tt></p>
+
+<p class=nopadding>(flinfinite?&nbsp;5.0)&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;<tt>#f</tt></p>
+
+<p class=nopadding>(flinfinite?&nbsp;+inf.0)&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;<tt>#t</tt></p>
+<p></tt></p>
+<p>
+</p>
+<blockquote><em>Note:<span style="margin-left: .5em">&zwnj;</span></em>
+<tt>(flnegative? -0.0)</tt> must return <tt>#f</tt>,
+else it would lose the correspondence with
+<tt>(fl&lt; -0.0 0.0)</tt>, which is <tt>#f</tt>
+according to IEEE 754&nbsp;[[<a|href="r6rs-lib-Z-H-21.html#node_bib_7">7</a>]].
+</blockquote>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_982"></a>flmax<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i> <tt>...</tt></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_984"></a>flmin<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i> <tt>...</tt></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<p>
+These procedures return the maximum or minimum of their arguments.
+They always return a NaN when one or more of the arguments is a NaN.
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_986"></a>fl+<i> <i>fl<sub>1</sub></i> <tt>...</tt></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_988"></a>fl*<i> <i>fl<sub>1</sub></i> <tt>...</tt></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<p>
+These procedures return the flonum sum or product of their flonum
+arguments.  In general, they should return the flonum that best
+approximates the mathematical sum or product.  (For implementations
+that represent flonums using IEEE binary floating point, the
+meaning of &ldquo;best&rdquo; is defined by the IEEE standards.)</p>
+<p>
+</p>
+
+<tt>(fl+&nbsp;+inf.0&nbsp;-inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;+nan.0
+<p class=nopadding>(fl+&nbsp;+nan.0&nbsp;<i>fl</i>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;+nan.0</p>
+
+<p class=nopadding>(fl*&nbsp;+nan.0&nbsp;<i>fl</i>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;+nan.0</p>
+<p></tt>
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_990"></a>fl-<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i> <tt>...</tt></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_992"></a>fl-<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_994"></a>fl/<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i> <tt>...</tt></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_996"></a>fl/<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<p>
+With two or more arguments, these procedures return the flonum
+difference or quotient of their flonum arguments, associating to the
+left.  With one argument, however, they return the additive or
+multiplicative flonum inverse of their argument.  In general, they
+should return the flonum that best approximates the mathematical
+difference or quotient.  (For implementations that represent flonums
+using IEEE binary floating point, the meaning of &ldquo;best&rdquo; is
+reasonably well-defined by the IEEE standards.)</p>
+<p>
+</p>
+
+<tt>(fl-&nbsp;+inf.0&nbsp;+inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;+nan.0<p></tt></p>
+<p>
+For undefined quotients, <tt>fl/</tt> behaves as specified by the
+IEEE standards:</p>
+<p>
+</p>
+
+<tt>(fl/&nbsp;1.0&nbsp;0.0)&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;+inf.0
+<p class=nopadding>(fl/&nbsp;-1.0&nbsp;0.0)&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;-inf.0</p>
+
+<p class=nopadding>(fl/&nbsp;0.0&nbsp;0.0)&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;+nan.0</p>
+<p></tt>
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_998"></a>flabs<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<p>
+Returns the absolute value of <i>fl</i>.
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_1000"></a>fldiv-and-mod<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_1002"></a>fldiv<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_1004"></a>flmod<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_1006"></a>fldiv0-and-mod0<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_1008"></a>fldiv0<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_1010"></a>flmod0<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<p>
+These procedures implement number-theoretic integer division and
+return the results of the corresponding mathematical operations
+specified in report section&nbsp;on &ldquo;Integer division&rdquo;.  For zero divisors, these
+procedures may return a NaN or some unspecified flonum.</p>
+<p>
+</p>
+
+<tt>(fldiv&nbsp;<i>fl<sub>1</sub></i>&nbsp;<i>fl<sub>2</sub></i>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;<i>fl<sub>1</sub></i>&nbsp;<em>d</em><em>i</em><em>v</em>&nbsp;<i>fl<sub>2</sub></i>
+<p class=nopadding>(flmod&nbsp;<i>fl<sub>1</sub></i>&nbsp;<i>fl<sub>2</sub></i>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;<i>fl<sub>1</sub></i>&nbsp;<em>m</em><em>o</em><em>d</em>&nbsp;<i>fl<sub>2</sub></i></p>
+
+<p class=nopadding>(fldiv-and-mod&nbsp;<i>fl<sub>1</sub></i>&nbsp;<i>fl<sub>2</sub></i>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><span style="margin-left: 2em">&zwnj;</span><span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;<i>fl<sub>1</sub></i>&nbsp;<em>d</em><em>i</em><em>v</em>&nbsp;<i>fl<sub>2</sub></i>,&nbsp;<i>fl<sub>1</sub></i>&nbsp;<em>m</em><em>o</em><em>d</em>&nbsp;<i>fl<sub>2</sub></i><br>
+;&nbsp;two&nbsp;return&nbsp;values</p>
+
+<p class=nopadding>(fldiv0&nbsp;<i>fl<sub>1</sub></i>&nbsp;<i>fl<sub>2</sub></i>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;<i>fl<sub>1</sub></i>&nbsp;<em>d</em><em>i</em><em>v</em><sub>0</sub>&nbsp;<i>fl<sub>2</sub></i></p>
+
+<p class=nopadding>(flmod0&nbsp;<i>fl<sub>1</sub></i>&nbsp;<i>fl<sub>2</sub></i>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;<i>fl<sub>1</sub></i>&nbsp;<em>m</em><em>o</em><em>d</em><sub>0</sub>&nbsp;<i>fl<sub>2</sub></i></p>
+
+<p class=nopadding>(fldiv0-and-mod0&nbsp;<i>fl<sub>1</sub></i>&nbsp;<i>fl<sub>2</sub></i>)&nbsp;&nbsp;&nbsp;<br><span style="margin-left: 2em">&zwnj;</span><span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;<i>fl<sub>1</sub></i>&nbsp;<em>d</em><em>i</em><em>v</em><sub>0</sub>&nbsp;<i>fl<sub>2</sub></i>,&nbsp;<i>fl<sub>1</sub></i>&nbsp;<em>m</em><em>o</em><em>d</em><sub>0</sub>&nbsp;<i>fl<sub>2</sub></i><br>
+;&nbsp;two&nbsp;return&nbsp;values</p>
+<p></tt></p>
+<p>
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_1012"></a>flnumerator<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_1014"></a>fldenominator<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<p>
+These procedures return the numerator or denominator of <i>fl</i>
+as a flonum; the result is computed as if <i>fl</i> was represented as
+a fraction in lowest terms.  The denominator is always positive.  The
+denominator of 0.0 is defined to be 1.0.
+</p>
+
+<tt>(flnumerator&nbsp;+inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;+inf.0
+<p class=nopadding>(flnumerator&nbsp;-inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;-inf.0</p>
+
+<p class=nopadding>(fldenominator&nbsp;+inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;1.0</p>
+
+<p class=nopadding>(fldenominator&nbsp;-inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;1.0</p>
+
+<p class=nopadding>(flnumerator&nbsp;0.75)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;3.0&nbsp;;&nbsp;probably</p>
+
+<p class=nopadding>(fldenominator&nbsp;0.75)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;4.0&nbsp;;&nbsp;probably</p>
+<p></tt></p>
+<p>
+Implementations should implement following behavior:</p>
+<p>
+</p>
+
+<tt>(flnumerator&nbsp;-0.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;-0.0<p></tt>
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_1016"></a>flfloor<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_1018"></a>flceiling<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_1020"></a>fltruncate<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_1022"></a>flround<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<p>
+These procedures return integral flonums for flonum arguments that are
+not infinities or NaNs.  For such arguments, <tt>flfloor</tt> returns the
+largest integral flonum not larger than <i>fl</i>.  The <tt>flceiling</tt>
+procedure
+returns the smallest integral flonum not smaller than <i>fl</i>.
+The <tt>fltruncate</tt> procedure returns the integral flonum closest to <i>fl</i> whose
+absolute value is not larger than the absolute value of <i>fl</i>.
+The <tt>flround</tt> procedure returns the closest integral flonum to <i>fl</i>,
+rounding to even when <i>fl</i> represents a number halfway between two integers.</p>
+<p>
+Although infinities and NaNs are not integer objects, these procedures return
+an infinity when given an infinity as an argument, and a NaN when
+given a NaN:</p>
+<p>
+</p>
+
+<tt>(flfloor&nbsp;+inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;+inf.0
+<p class=nopadding>(flceiling&nbsp;-inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;-inf.0</p>
+
+<p class=nopadding>(fltruncate&nbsp;+nan.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;+nan.0</p>
+<p></tt>
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_1024"></a>flexp<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_1026"></a>fllog<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_1028"></a>fllog<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_1030"></a>flsin<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_1032"></a>flcos<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_1034"></a>fltan<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_1036"></a>flasin<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_1038"></a>flacos<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_1040"></a>flatan<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_1042"></a>flatan<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<p>
+These procedures compute the usual transcendental functions.  
+The <tt>flexp</tt> procedure computes the base-<em>e</em> exponential of <i>fl</i>.
+The <tt>fllog</tt> procedure with a single argument computes the natural logarithm of
+<i>fl</i> (not the base ten logarithm); <tt>(fllog <i>fl<sub>1</sub></i>
+<i>fl<sub>2</sub></i>)</tt> computes the base-<i>fl<sub>2</sub></i> logarithm of <i>fl<sub>1</sub></i>.
+The <tt>flasin</tt>, <tt>flacos</tt>, and <tt>flatan</tt> procedures compute arcsine,
+arccosine, and arctangent, respectively.  <tt>(flatan <i>fl<sub>1</sub></i>
+<i>fl<sub>2</sub></i>)</tt> computes the arc tangent of <i>fl<sub>1</sub></i>/<i>fl<sub>2</sub></i>.</p>
+<p>
+See report
+section&nbsp;on &ldquo;Transcendental functions&rdquo; for the underlying
+mathematical operations.  In the event that these operations do not
+yield a real result for the given arguments, the result may be a NaN,
+or may be some unspecified flonum.</p>
+<p>
+Implementations that use IEEE binary floating-point arithmetic 
+should follow the relevant standards for these procedures.</p>
+<p>
+</p>
+
+<tt>(flexp&nbsp;+inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;+inf.0
+<p class=nopadding>(flexp&nbsp;-inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;0.0</p>
+
+<p class=nopadding>(fllog&nbsp;+inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;+inf.0</p>
+
+<p class=nopadding>(fllog&nbsp;0.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;-inf.0</p>
+
+<p class=nopadding>(fllog&nbsp;-0.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;<i>unspecified</i><br>
+;&nbsp;if&nbsp;-0.0&nbsp;is&nbsp;distinguished</p>
+
+<p class=nopadding>(fllog&nbsp;-inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;+nan.0</p>
+
+<p class=nopadding>(flatan&nbsp;-inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><span style="margin-left: 2em">&zwnj;</span><span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;-1.5707963267948965<br>
+;&nbsp;approximately</p>
+
+<p class=nopadding>(flatan&nbsp;+inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><span style="margin-left: 2em">&zwnj;</span><span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;1.5707963267948965<br>
+;&nbsp;approximately</p>
+<p></tt>
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_1044"></a>flsqrt<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<p>
+Returns the principal square root of <i>fl</i>. For &minus;0.0,
+<tt>flsqrt</tt> should return &minus;0.0; for other negative arguments,
+the result may be a NaN or some unspecified flonum.</p>
+<p>
+</p>
+
+<tt>(flsqrt&nbsp;+inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;+inf.0
+<p class=nopadding>(flsqrt&nbsp;-0.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;-0.0</p>
+<p></tt>
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_1046"></a>flexpt<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<p>
+Either <i>fl<sub>1</sub></i> should be non-negative, or, if <i>fl<sub>1</sub></i> is
+negative, <i>fl<sub>2</sub></i> should be an integer object.
+The <tt>flexpt</tt> procedure returns <i>fl<sub>1</sub></i> raised to the power <i>fl<sub>2</sub></i>.  If <i>fl<sub>1</sub></i> is
+negative and <i>fl<sub>2</sub></i> is not an integer object, the result may be a
+NaN, or may be some unspecified flonum.  If <i>fl<sub>1</sub></i> is zero, then
+the result is zero.
+</p>
+<p></p>
+<p>
+</p>
+<p><a name="node_idx_1048"></a></p>
+<div align=left><tt><tt>&amp;no-infinities</tt></tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>condition type&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_1050"></a>make-no-infinities-violation<i> obj</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_1052"></a>no-infinities-violation?<i> obj</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<a name="node_idx_1054"></a><div align=left><tt><tt>&amp;no-nans</tt></tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>condition type&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_1056"></a>make-no-nans-violation<i> obj</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+
+<div align=left><tt>(<a name="node_idx_1058"></a>no-nans-violation?<i> obj</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<p>
+These condition types could be defined by the following code:</p>
+<p>
+</p>
+
+<tt>(define-condition-type&nbsp;&amp;no-infinities
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&amp;implementation-restriction</p>
+
+<p class=nopadding>&nbsp;&nbsp;make-no-infinities-violation</p>
+
+<p class=nopadding>&nbsp;&nbsp;no-infinities-violation?)</p>
+
+<p class=nopadding></p>
+
+<p class=nopadding>(define-condition-type&nbsp;&amp;no-nans</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&amp;implementation-restriction</p>
+
+<p class=nopadding>&nbsp;&nbsp;make-no-nans-violation&nbsp;no-nans-violation?)</p>
+<p></tt></p>
+<p>
+These types describe that a program has executed an arithmetic
+operations that is specified to return an infinity or a NaN,
+respectively, on a Scheme implementation that is not able to represent
+the infinity or NaN.  (See report section&nbsp;on &ldquo;Representability of infinities and NaNs&rdquo;.)
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_1060"></a>fixnum-&gt;flonum<i> fx</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<p>
+Returns a flonum that is numerically closest to <i>fx</i>.</p>
+<p>
+</p>
+<blockquote><em>Note:<span style="margin-left: .5em">&zwnj;</span></em>
+The result of this procedure may not be
+numerically equal to <i>fx</i>, because the fixnum precision
+may be greater than the flonum precision.
+</blockquote>
+<p></p>
+<p>
+</p>
+}}}
+
 
 == R7RS-small-compatible procedures ==
 
