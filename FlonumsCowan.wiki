@@ -462,20 +462,6 @@ may be greater than the flonum precision.
 }}}
 
 
-== R7RS-small-compatible procedures ==
-
-The following R7RS-small procedures have flonum equivalents:
-
-{{{
-= < <= > >= 
-integer? zero? positive? negative? odd? even? finite? infinite? nan?
-+ - * /
-abs numerator denominator floor ceiling truncate round
-log sin cos tan asin acos atan
-sqrt expt
-}}}
-
-TODO: need to see about integer division procedures
 
 == C99 <math.h> constants ==
 
