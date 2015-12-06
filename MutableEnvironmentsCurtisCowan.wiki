@@ -48,7 +48,7 @@ Returns `#t` if ''symbol'' is bound as a variable and is assigned a value in the
 
 `(environment-ref `''environment symbol''`)`
 
-If ''symbol'' is bound as a variable that has been assigned a value in the environment specified by ''environment'', returns the value bound to it.  If ''symbol'' is bound as a syntax keyword, returns an implementation-defined object.  If ''symbol'' is not bound or not assigned, returns `#f`.
+If ''symbol'' is bound as a variable that has been assigned a value in the environment specified by ''environment'', returns the value bound to it.  If ''symbol'' is bound as a syntax keyword, returns an implementation-defined object which specifies whatever is bound to it such that it can be passed to `environment-set!`.  If ''symbol'' is not bound or not assigned, returns `#f`.
 
 `(environment-imports `''environment''`)`
 
@@ -58,7 +58,7 @@ Returns a list of environments that have been imported into ''environment''.  It
 
 `(environment-bind `''mutable-environment symbol syntax-keyword?''`)`
 
-Binds ''symbol'' in ''mutable-environment as a syntax keyword or variable.  The value is unassigned.
+Binds ''symbol'' in ''mutable-environment'' as a syntax keyword or variable.  The value is unassigned.
 
 `(environment-import! `''mutable-environment environment'' ...`)`
 
@@ -70,7 +70,7 @@ Modifies ''mutable-environment'' to not import ''environments''.  Unimporting an
 
 `(environment-set! `''mutable-environment symbol value''`)`
 
-In ''mutable-environment '', assigns ''symbol'' (which must be bound as a variable or syntax keyword) to ''value''.  It is an error if symbol is bound to a syntax keyword but ''value'' is not derived from a call on `environment-ref` passing an already existing syntax keyword.  Returns an unspecified value.
+In ''mutable-environment '', assigns ''symbol'' (which must be bound as a variable or syntax keyword) to ''value''.  It is an error if ''symbol'' is bound to a syntax keyword but ''value'' is not derived from a call on `environment-ref` passing an already existing syntax keyword.  Returns an unspecified value.
 
 `(environment-remove! `''mutable-environment symbol''`)`
 
