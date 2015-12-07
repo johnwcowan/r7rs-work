@@ -4,15 +4,15 @@ This is a draft of proposals for the Red Edition (data structures) of R7RS-large
 
 List library:  [[http://srfi.schemers.org/srfi-1/srfi-1.html|SRFI 1]].
 
-String library:  [[http://srfi.schemers.org/srfi-13/srfi-13.html|SRFI 13]] and/or CharacterSpansCowan.
+String library:  [[http://srfi.schemers.org/srfi-13/srfi-13.html|SRFI 13]] and/or [[http://srfi.schemers.org/srfi-130/srfi-130.html|SRFI 130]].
 
-Vector library:  [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]], taking VectorsCowan into account.
+Vector library:  [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]], adding VectorsCowan into account (to be SRFI 133).
 
 Sorting and merging: SortingShivers (edited draft of withdrawn [[http://srfi.schemers.org/srfi-32/srfi-32.txt|SRFI 32]]) or [[http://srfi.schemers.org/srfi-95/srfi-95.html|SRFI 95]] (from [[http://people.csail.mit.edu/jaffer/slib/Sorting.html|SLIB]]) or [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-5.html#node_chap_4|R6RS]].
 
 == Sets and maps ==
 
-Comparators:  [[http://srfi.schemers.org/srfi-128/srfi-128.html|SRFI 128]] (stripped-down SRFI 114).
+Comparators:  [[http://srfi.schemers.org/srfi-128/srfi-128.html|SRFI 128]] (stripped-down version of SRFI 114).
 
 Sets and bags:  [[http://srfi.schemers.org/srfi-113/srfi-113.html|SRFI 113]].
 
@@ -26,7 +26,7 @@ Immutable pairs and lists:  [[http://srfi.schemers.org/srfi-116/srfi-116.html|SR
 
 Random access pairs and lists:  [[http://srfi.schemers.org/srfi-101/srfi-101.html|SRFI 101]].
 
-Immutable deques, sets, and maps:  ImmutableDataStructuresWortman.
+Immutable deques, sets, and maps:  ImmutableDataStructuresWortman, to be SRFIs 134, 135, 136
 
 == Laziness ==
 
@@ -42,6 +42,6 @@ Boxes:  [[http://srfi.schemers.org/srfi-111/srfi-111.html|SRFI 111]].
 
 List queues:  [[http://srfi.schemers.org/srfi-117/srfi-117.html|SRFI 117]].
 
-Extended records:  [[http://srfi.schemers.org/srfi-99/srfi-99.html|SRFI 99]], possibly with ExtendedRecordSyntaxCowan.
+Extended records:  [[http://srfi.schemers.org/srfi-99/srfi-99.html|SRFI 99]], possibly with [[http://srfi.schemers.org/srfi-129/srfi-129.html|SRFI 129]].
 
 Ephemerons: [[http://srfi.schemers.org/srfi-124/srfi-124.html|SRFI 124]].
