@@ -421,7 +421,13 @@ the functional changes mentioned above.  It is very portable and freely reusable
 It is tightly bummed, as far as could be done in portable Scheme, and
 is commented in Olin's usual
 voluminous style, including notes on porting and implementation-specific
-optimisations.  It should be trivial to port.
+optimizations.  It should be trivial to port.
+
+The natural merge sorts (pure list, destructive list, and vector) are not only
+Olin's code, but are implementations of an algorithm of his own devising. They
+run in O(n lg n) worst case, O(n) best case, and require only a logarithmic
+number of stack frames. And they are stable. And the destructive-list variant
+allocates zero cons cells; it simply rearranges the cells of the input list.
 
 The code includes:
 
@@ -454,15 +460,15 @@ is designed to enable this — each file usually exports one or two "safe"
 procedures that end up calling an internal "dangerous" primitive. The
 little exported cover procedures are where you move the error checks.
 
-This should provide ''big'' speedups. In fact, all the code bumming Olin did
+This should provide ''big'' speedups. In fact, all the code bumming in the source
 pretty much disappears in the noise unless you have a good compiler and also
-can dump the vector-index checks and generic arithmetic — so I've really just
-set things up for you to exploit.
+can dump the vector-index checks and generic arithmetic — so it's really set up
+for optimization rather than fully optimized.
 
 The optional-arg parsing, defaulting, and error checking is done with a
-portable R4RS macro. But if your Scheme has a faster mechanism (e.g., Chez),
-you should definitely port over to it. Note that argument defaulting and
-error-checking are interleaved — you don't have to error-check defaulted
+portable R4RS macro. But if the target Scheme has a faster mechanism (e.g., Chez),
+it's definitely better to switch to using it. Note that argument defaulting and
+error-checking are interleaved — there's no need to error-check defaulted
 ''start'' and ''end'' args to see if they are fixnums that are legal vector indices for
 the corresponding vector, etc.
 
@@ -504,12 +510,6 @@ Short summary: no restrictions.
 While Olin wrote all of this code himself, he read a lot of code before he began
 writing. However, all such code is, itself, either open source or public
 domain, rendering irrelevant any issue of "copyright taint."
-
-The natural merge sorts (pure list, destructive list, and vector) are not only
-his own code, but are implementations of an algorithm of his own devising. They
-run in O(n lg n) worst case, O(n) best case, and require only a logarithmic
-number of stack frames. And they are stable. And the destructive-list variant
-allocates zero cons cells; it simply rearranges the cells of the input list.
 
 Hence the sample implementation is Copyright © 1998 by Olin Shivers
 and made available under the same copyright as the SRFI text (see above).
