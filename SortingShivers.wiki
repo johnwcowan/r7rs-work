@@ -10,8 +10,6 @@ Olin Shivers (edited by John Cowan)
 
 1. Maybe `vector-delete-neighbor-dups!` should take a "target" vector to write?
 
-2-4. (closed)
-
 == Table of contents ==
 
 * Abstract
@@ -80,19 +78,6 @@ packages, most with only a few procedures, into which SRFI 32 is divided have be
 and references to
 [[http://srfi.schemers.org/srfi-95/srfi-95.html|SRFI 95]] and
 [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-5.html#node_chap_4|R6RS]] equivalents added.
-
-The implementation is Olin's original from SRFI 32, with a few bug fixes from Scheme 48 and
-the functional changes mentioned above.  It is very portable and freely reusable.
-The code includes:
-
-* Vector insert sort (stable)
-* Vector heap sort
-* Vector quick sort (with median-of-3 pivot picking)
-* Vector merge sort (stable)
-* Pure and destructive list merge sort (stable)
-* Stable vector and list merge
-* Miscellaneous sort-related procedures: Vector and list merging, `*-sorted?` predicates, vector and list delete-equal-neighbor procedures.
-* A general, non-algorithmic set of procedure names for general sorting and merging, exposed in the API
 
 
 == Design rationale ==
@@ -431,10 +416,23 @@ Examples:
 
 == Implementation ==
 
-The sample implementation is tightly bummed, as far as could be done in portable Scheme.
-It is commented in Olin's usual
+The sample implementation is Olin's original from SRFI 32, with a few bug fixes from Scheme 48 and
+the functional changes mentioned above.  It is very portable and freely reusable.
+It is tightly bummed, as far as could be done in portable Scheme, and
+is commented in Olin's usual
 voluminous style, including notes on porting and implementation-specific
 optimisations.  It should be trivial to port.
+
+The code includes:
+
+* Vector insert sort (stable)
+* Vector heap sort
+* Vector quick sort (with median-of-3 pivot picking)
+* Vector merge sort (stable)
+* Pure and destructive list merge sort (stable)
+* Stable vector and list merge
+* Miscellaneous sort-related procedures: Vector and list merging, `*-sorted?` predicates, vector and list delete-equal-neighbor procedures.
+* A general, non-algorithmic set of procedure names for general sorting and merging, exposed in the API
 
 There are only four non-R4RS bits in the code:
 
@@ -456,7 +454,7 @@ is designed to enable this — each file usually exports one or two "safe"
 procedures that end up calling an internal "dangerous" primitive. The
 little exported cover procedures are where you move the error checks.
 
-This should provide ''big'' speedups. In fact, all the code bumming I've done
+This should provide ''big'' speedups. In fact, all the code bumming Olin did
 pretty much disappears in the noise unless you have a good compiler and also
 can dump the vector-index checks and generic arithmetic — so I've really just
 set things up for you to exploit.
