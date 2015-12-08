@@ -61,7 +61,7 @@ list-delete-neighbor-dups!	vector-delete-neighbor-dups!
 
 == Rationale ==
 
-This SRFI is a lightly edited version of [[http://srfi.schemers.org/srfi-32/srfi-32.txt|SRFI 32]]
+This SRFI is an edited version of [[http://srfi.schemers.org/srfi-32/srfi-32.txt|SRFI 32]]
 by Olin Shivers, which was withdrawn twelve years ago.
 
 There are only two changes to the API.  The most important one is that the
@@ -215,7 +215,7 @@ In the procedures specified below,
 
 * A ''v'' parameter is a vector.
 
-* An ''='' parameter is an equality predicates.  See [[http://srfi.schemers.org/srfi-128/srfi-128.html|SRFI 128]] for the requirements on equality predicates.
+* An ''='' parameter is an equality predicate.  See [[http://srfi.schemers.org/srfi-128/srfi-128.html|SRFI 128]] for the requirements on equality predicates.
 
 * A ''<'' parameter is an ordering predicate.  See [[http://srfi.schemers.org/srfi-128/srfi-128.html|SRFI 128]] for the requirements on ordering predicates.
 
