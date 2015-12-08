@@ -193,7 +193,7 @@ already-ordered runs of list structure as-is when doing the merges.
 
 === Procedure naming and functionality ===
 
-Almost all of the procedures described below are variants of two basic
+Most of the procedures described below are variants of two basic
 operations: sorting and merging. These procedures are consistently named
 by composing a set of basic lexemes to indicate what they do.
 
@@ -211,11 +211,13 @@ by composing a set of basic lexemes to indicate what they do.
 
 In the procedures specified below,
 
-* A ''lis'' parameter is a list;
+* A ''lis'' parameter is a list.
 
-* A ''v'' parameter is a vector;
+* A ''v'' parameter is a vector.
 
-* A ''<'' parameter is an ordering function.  See [[http://srfi.schemers.org/srfi-128/srfi-128.html|SRFI 128]] for the requirements on ordering functions.
+* An ''='' parameter is an equality predicates.  See [[http://srfi.schemers.org/srfi-128/srfi-128.html|SRFI 128]] for the requirements on equality predicates.
+
+* A ''<'' parameter is an ordering predicate.  See [[http://srfi.schemers.org/srfi-128/srfi-128.html|SRFI 128]] for the requirements on ordering predicates.
 
 * A ''start'' parameter or ''start'' and ''end'' parameter pair are exact non-negative integers such that 0 <= ''start'' <= ''end'' <= `(vector-length `''v''`)`, where ''v'' is the related vector parameter. If not specified, they default to 0 and the length of the vector, respectively. They are interpreted to select the range [[''start'',|''end''), that is, all elements from index ''start'' (inclusive) up to, but not including, index ''end''.
 
@@ -371,12 +373,12 @@ O(n lg n).
 The equality procedure extracted from the < passed to these procedures is always
 applied as `(= x y)`, where ''x'' comes before ''y'' in the containing list or vector.
 
-`(list-delete-neighbor-dups `''< v''`)`
+`(list-delete-neighbor-dups `''= lis''`)`
 
 This procedure does not alter its input list; its result may share
 storage with the input list.
 
-`(list-delete-neighbor-dups! `''< lis''`)`
+`(list-delete-neighbor-dups! `''= lis''`)`
 
 This procedure mutates its input list in order to construct its result.
 It makes only a single, iterative, linear-time pass over its
@@ -384,24 +386,24 @@ argument, using `set-cdr!`s to rearrange the cells of the list
 into the final result — it works "in place." Hence, any cons cell appearing
 in the result must have originally appeared in the input.
 
-`(vector-delete-neighbor-dups `''< v'' [[|''start'' [ ''end'' ]] ]`)`
+`(vector-delete-neighbor-dups `''= v'' [[|''start'' [ ''end'' ]] ]`)`
 
 This procedure does not alter its input vector, but rather
 newly allocates and returns a vector to hold the result.
 
-`(vector-delete-neighbor-dups! `''< v'' [[|''start'' [ ''end'' ]] ]`)`
+`(vector-delete-neighbor-dups! `''= v'' [[|''start'' [ ''end'' ]] ]`)`
 
-This procedure reuses its input vector to hold the answer, packing its answer into the index range [[start,newend),|
+This procedure reuses its input vector to hold the answer, packing its answer into the index range [start,newend), 
 where `newend` is the non-negative exact integer that is returned as its value.
 The vector is not altered outside the range [''start, newend'').
 
 Examples:
 
 {{{
-	(list-delete-neighbor-dups < '(1 1 2 7 7 7 0 -2 -2))
+	(list-delete-neighbor-dups = '(1 1 2 7 7 7 0 -2 -2))
                => (1 2 7 0 -2)
 
-	(vector-delete-neighbor-dups < '#(1 1 2 7 7 7 0 -2 -2))
+	(vector-delete-neighbor-dups = '#(1 1 2 7 7 7 0 -2 -2))
                => #(1 2 7 0 -2)
 
 	(vector-delete-neighbor-dups < '#(1 1 2 7 7 7 0 -2 -2) 3 7))
@@ -416,8 +418,10 @@ Examples:
 
 == Implementation ==
 
-The sample implementation is Olin's original from SRFI 32, with a few bug fixes from Scheme 48 and
-the functional changes mentioned above.  It is very portable and freely reusable.
+The sample implementation is the Scheme 48 implementation of the `sorting` structure.
+This is close to the original SRFI 32 reference implementation, but includes some
+bug fixes and switches the < and = arguments to the initial position.
+The code is very portable and freely reusable.
 It is tightly bummed, as far as could be done in portable Scheme, and
 is commented in Olin's usual
 voluminous style, including notes on porting and implementation-specific
@@ -440,15 +444,8 @@ The code includes:
 * Miscellaneous sort-related procedures: Vector and list merging, `*-sorted?` predicates, vector and list delete-equal-neighbor procedures.
 * A general, non-algorithmic set of procedure names for general sorting and merging, exposed in the API
 
-There are only four non-R4RS bits in the code:
-
-* Use of multiple-value return, with the R5RS `values` procedure, and the simple [http://srfi.schemers.org/srfi-8/srfi-8.html SRFI 8]] `(receive  (`''var'' ...`)` ''mv-exp body'' ... `)` multiple-value binding macro.
-
-* A `vector-copy` procedure. This is a tiny little procedure: `(vector-copy `''v'' [[|''start'' [ ''end'' ]] ]`)`.  It is part of R7RS-small.
-
-* The `let-optionals` macro from scsh to parse and default optional arguments to three routines. Again, easy to port the macro or rewrite the code to parse, default, and error check the args by hand. 
-
-* An `error` procedure for complaining about bad arguments.  It is part of R7RS-small.
+The only non-R4RS feature in the code
+is the use of multiple-value return, with the R5RS `values` procedure.
 
 You could speed up the vector code a lot by error-checking the procedure
 parameters and then shifting over to fixnum-specific arithmetic and
