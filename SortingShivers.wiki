@@ -72,7 +72,7 @@ The second point is that the algorithm-specific
 procedures have been removed from the public API, though not from the sample implementation.
 
 Editorially, the text has been reorganized, removing the massive redundancies.
-In accordance with R5RS and R7RS, procedures rocedures that in SRFI 32 returned zero or
+In accordance with R5RS and R7RS, procedures that in SRFI 32 returned zero or
 more unspecified values now return one value.  The multiple
 packages, most with only a few procedures, into which SRFI 32 is divided have been removed,
 and references to
