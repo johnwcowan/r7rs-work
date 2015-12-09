@@ -393,7 +393,7 @@ newly allocates and returns a vector to hold the result.
 
 `(vector-delete-neighbor-dups! `''= v'' [[|''start'' [ ''end'' ]] ]`)`
 
-This procedure reuses its input vector to hold the answer, packing its answer into the index range [start,newend), 
+This procedure reuses its input vector to hold the answer, packing its answer into the index range [[start,newend),|
 where `newend` is the non-negative exact integer that is returned as its value.
 The vector is not altered outside the range [''start, newend'').
 
@@ -427,25 +427,40 @@ is commented in Olin's usual
 voluminous style, including notes on porting and implementation-specific
 optimizations.  It should be trivial to port.
 
+The following files are included:
+
+`delndups.scm` - the `delete-neighbor-dups` functions
+`lmsort.scm` - merge sort
+`sort.scm` - generic sort and merge functions
+`sorting-test.scm` - test file using the Chicken `test` egg
+`sorting.scm` - a Chicken library providing this SRFI and additional functions
+`sorting.sld` - an R7RS counterpart of `sorting.scm`
+`sortp.scm` - sort predicates
+`srfi-132.scm` - a Chicken library providing this SRFI only
+`srfi-132.sld` - an R7RS counterpart of `srfi-132.scm`
+`vbinsearch.scm` - binary search routines for `sorting` library
+`vector-util.scm` - vector utilities
+`vhsort.scm` - vector heap sort
+`visort.scm` - vector insert sort
+`vmsort.scm` - vector merge sort
+`vqsort2.scm` - vector quick sort
+`vqsort3.scm` - vector quick sort using comparison functions
+
+The `sorting` libraries include the following additional functions:
+`(vector-binary-search `''key< elt->key key v'' [ ''start'' [ ''end'' ]]]`)`
+`vector-binary-search3 `''compare v'' [[|''start'' [ ''end'' ]]]`)`)
+`(vector-quick-sort3! `''comp v'' [[|''start'' [ ''end'' ]]]`)`)
+`(vector-quick-sort3 `''comp v'' [[|''start'' [ ''end'' ]]]`)`)
+
 The natural merge sorts (pure list, destructive list, and vector) are not only
 Olin's code, but are implementations of an algorithm of his own devising. They
 run in O(n lg n) worst case, O(n) best case, and require only a logarithmic
 number of stack frames. And they are stable. And the destructive-list variant
 allocates zero cons cells; it simply rearranges the cells of the input list.
 
-The code includes:
-
-* Vector insert sort (stable)
-* Vector heap sort
-* Vector quick sort (with median-of-3 pivot picking)
-* Vector merge sort (stable)
-* Pure and destructive list merge sort (stable)
-* Stable vector and list merge
-* Miscellaneous sort-related procedures: Vector and list merging, `*-sorted?` predicates, vector and list delete-equal-neighbor procedures.
-* A general, non-algorithmic set of procedure names for general sorting and merging, exposed in the API
-
-The only non-R4RS feature in the code
-is the use of multiple-value return, with the R5RS `values` procedure.
+The only non-R4RS features in the code
+are the use of R5RS/R6RS/R7RS multiple-value return, with `values` and `call-with-values` procedures,
+and the use of R7RS-style `error` to report an assertion violation.
 
 You could speed up the vector code a lot by error-checking the procedure
 parameters and then shifting over to fixnum-specific arithmetic and
