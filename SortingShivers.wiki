@@ -69,13 +69,15 @@ comparison predicate now precedes the data rather than following it.
 Most of the SRFI 32 commenters thought that this is the better order, despite
 the widespread precedent.
 The second point is that the algorithm-specific
-procedures have been removed from the public API, though not from the sample implementation.
+procedures have been removed from the SRFI, though not from the sample implementation.
+Two libraries are provided: one for just the SRFI, one for all the sample implementation's
+public procedures.
 
 Editorially, the text has been reorganized, removing the massive redundancies.
-In accordance with R5RS and R7RS, procedures that in SRFI 32 returned zero or
-more unspecified values now return one value.  The multiple
-packages, most with only a few procedures, into which SRFI 32 is divided have been removed,
-and references to
+As in R5RS and R7RS, procedures that return nothing of interest, and in SRFI 32 returned zero or
+more unspecified values, are now specified to return one value.  The multiple
+packages, most with only a few procedures, into which SRFI 32 is divided have been removed.
+References to
 [[http://srfi.schemers.org/srfi-95/srfi-95.html|SRFI 95]] and
 [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-5.html#node_chap_4|R6RS]] equivalents added.
 
@@ -88,7 +90,7 @@ In SRFI 32 there were two different interfaces: "what" (simple) and "how" (detai
 
 * Simple: you specified semantics: datatype (list or vector), mutability, and stability.
 
-* Detailed: you specified the actual algorithm (quick, heap, insert, merge). Different algorithms have different properties, both semantic and pragmatic, so these exports are necessary.
+* Detailed: you specified the actual algorithm (quick, heap, insert, merge).
 
 However, the difficulty with exposing specific algorithms by name is that the
 local optima in the search space of algorithms changes over time.
@@ -108,10 +110,11 @@ Procedures share common signatures wherever
 possible, to facilitate switching a given call from one procedure
 to another.
 	
-=== Comparison parameter before data parameter ===
+=== Ordering parameter before data parameter ===
 
 These procedures uniformly observe the following parameter order:
-the comparison predicate comes before the data to be sorted.
+the ordering, equality, or comparison argument
+precedes the argument(s) denoting the data to be sorted.
 In SRFI 32, the reverse convention was used, because it was
 consistent with all the implementations examined in 2002, with
 the sole exception of Chez Scheme.
@@ -151,7 +154,7 @@ reliably places the 4 of the first list before the equal-comparing -4
 of the second list: `(0 -1 -2 4 -4 7 8 -10)`.
 
 Here's a definition of `abs<`, introduced just for the examples
-(it is not part of this SRFI or any SRFI):
+as it is not part of this SRFI or any SRFI:
 
 {{{
 (define (abs< x y) (< (abs x) (abs y))))
@@ -165,12 +168,10 @@ arguments indicating a selected subrange of a vector's elements.
 === Required vs. allowed side-effects ===
 
 `list-sort!` and `list-stable-sort!` are allowed, but not required,
-to alter their arguments' cons cells to construct the result list. This is
-consistent with the what-not-how character of the group of procedures
-to which they belong.
+to alter their arguments' cons cells to construct the result list.
 
 The `list-delete-neighbor-dups!`, `list-merge!` and `list-sort!` procedures,
-on the other hand, provide specific algorithms, and, as such, explicitly
+on the other hand, explicitly
 commit to the use of side-effects on their input lists in order to guarantee
 their key algorithmic properties (e.g., linear-time operation, constant-space
 stack use).
@@ -370,8 +371,8 @@ elements from a large list or vector, sort the elements to bring equal
 items together, then use one of these procedures, for a total time of
 O(n lg n).
 
-The equality procedure extracted from the < passed to these procedures is always
-applied as `(= x y)`, where ''x'' comes before ''y'' in the containing list or vector.
+The equality procedure is always
+invoked as `(= x y)`, where ''x'' comes before ''y'' in the containing list or vector.
 
 `(list-delete-neighbor-dups `''= lis''`)`
 
@@ -393,8 +394,9 @@ newly allocates and returns a vector to hold the result.
 
 `(vector-delete-neighbor-dups! `''= v'' [[|''start'' [ ''end'' ]] ]`)`
 
-This procedure reuses its input vector to hold the answer, packing its answer into the index range [[start,newend),|
-where `newend` is the non-negative exact integer that is returned as its value.
+This procedure reuses its input vector to hold the answer,
+packing it into the index range [[''start,|newend''), 
+where ''newend'' is the non-negative exact integer that is returned as its value.
 The vector is not altered outside the range [''start, newend'').
 
 Examples:
@@ -429,11 +431,11 @@ optimizations.  It should be trivial to port.
 
 === Files ===
 
-`delndups.scm` - the `delete-neighbor-dups` functions \\
+`delndups.scm` - the `delete-neighbor-dups` procedures \\
 `lmsort.scm` - merge sort \\
-`sort.scm` - generic sort and merge functions \\
+`sort.scm` - generic sort and merge procedures \\
 `sorting-test.scm` - test file using the Chicken `test` egg \\
-`sorting.scm` - a Chicken library providing this SRFI and additional functions \\
+`sorting.scm` - a Chicken library providing this SRFI and additional procedures \\
 `sorting.sld` - an R7RS counterpart of `sorting.scm` \\
 `sortp.scm` - sort predicates \\
 `srfi-132.scm` - a Chicken library providing this SRFI only \\
@@ -444,7 +446,7 @@ optimizations.  It should be trivial to port.
 `visort.scm` - vector insert sort \\
 `vmsort.scm` - vector merge sort \\
 `vqsort2.scm` - vector quick sort \\
-`vqsort3.scm` - vector quick sort using comparison functions
+`vqsort3.scm` - vector quick sort using comparison procedures 
 
 === Additional procedures ===
 
@@ -459,7 +461,7 @@ The `sorting` library includes the following additional procedures:
 `(vector-merge-sort! ` ''< v'' [[|''start'' [ ''end'' ]] ]`)`
 
 Equivalent to `list-sort`, `list-sort!` `vector-sort`, and `vector-sort!` respectively,
-but explicitly using implementations of Olin's own merge sort algorithm.  They
+but explicitly use implementations of Olin's own merge sort algorithm.  They
 run in O(n lg n) worst case, O(n) best case, and require only a logarithmic
 number of stack frames. And they are stable. And the destructive-list variant
 allocates zero cons cells; it simply rearranges the cells of the input list.
@@ -477,7 +479,7 @@ allocates zero cons cells; it simply rearranges the cells of the input list.
 `(vector-quick-sort! ` ''< v'' [[|''start'' [ ''end'' ]] ]`)`
 
 Equivalent to `vector-sort` and `vector-sort!`, but explicitly
-using implementations of insert sort, heap sort, and quick sort.
+use implementations of insert sort, heap sort, and quick sort.
 See [[http://srfi.schemers.org/srfi-32/srfi-32.html|SRFI 32]] or
 any textbook on sorting for explanations.
 
@@ -485,7 +487,7 @@ any textbook on sorting for explanations.
 
 Searches ''v'' between ''start'' and ''end'', which must be in increasing
 order according to `key<`, for an element which (after being transformed
-by the `elt->key` procedure) matches ''key''.
+by the `elt->key` procedure) is equal to ''key'' in the sense of ''key<''.
 
 `vector-binary-search3 `''compare v'' [[|''start'' [ ''end'' ]]]`)`)
 
