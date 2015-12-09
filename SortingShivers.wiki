@@ -427,36 +427,87 @@ is commented in Olin's usual
 voluminous style, including notes on porting and implementation-specific
 optimizations.  It should be trivial to port.
 
-The following files are included:
+=== Files ===
 
-`delndups.scm` - the `delete-neighbor-dups` functions
-`lmsort.scm` - merge sort
-`sort.scm` - generic sort and merge functions
-`sorting-test.scm` - test file using the Chicken `test` egg
-`sorting.scm` - a Chicken library providing this SRFI and additional functions
-`sorting.sld` - an R7RS counterpart of `sorting.scm`
-`sortp.scm` - sort predicates
-`srfi-132.scm` - a Chicken library providing this SRFI only
-`srfi-132.sld` - an R7RS counterpart of `srfi-132.scm`
-`vbinsearch.scm` - binary search routines for `sorting` library
-`vector-util.scm` - vector utilities
-`vhsort.scm` - vector heap sort
-`visort.scm` - vector insert sort
-`vmsort.scm` - vector merge sort
-`vqsort2.scm` - vector quick sort
+`delndups.scm` - the `delete-neighbor-dups` functions \\
+`lmsort.scm` - merge sort \\
+`sort.scm` - generic sort and merge functions \\
+`sorting-test.scm` - test file using the Chicken `test` egg \\
+`sorting.scm` - a Chicken library providing this SRFI and additional functions \\
+`sorting.sld` - an R7RS counterpart of `sorting.scm` \\
+`sortp.scm` - sort predicates \\
+`srfi-132.scm` - a Chicken library providing this SRFI only \\
+`srfi-132.sld` - an R7RS counterpart of `srfi-132.scm` \\
+`vbinsearch.scm` - binary search routines for `sorting` library \\
+`vector-util.scm` - vector utilities \\
+`vhsort.scm` - vector heap sort \\
+`visort.scm` - vector insert sort \\
+`vmsort.scm` - vector merge sort \\
+`vqsort2.scm` - vector quick sort \\
 `vqsort3.scm` - vector quick sort using comparison functions
 
-The `sorting` libraries include the following additional functions:
-`(vector-binary-search `''key< elt->key key v'' [ ''start'' [ ''end'' ]]]`)`
-`vector-binary-search3 `''compare v'' [[|''start'' [ ''end'' ]]]`)`)
-`(vector-quick-sort3! `''comp v'' [[|''start'' [ ''end'' ]]]`)`)
-`(vector-quick-sort3 `''comp v'' [[|''start'' [ ''end'' ]]]`)`)
+=== Additional procedures ===
 
-The natural merge sorts (pure list, destructive list, and vector) are not only
-Olin's code, but are implementations of an algorithm of his own devising. They
+The `sorting` library includes the following additional procedures:
+
+`(list-merge-sort ` ''< lis''`)`
+
+`(list-merge-sort! ` ''< lis''`)`
+
+`(vector-merge-sort ` ''< v'' [ ''start'' [ ''end'' ]] ]`)`
+
+`(vector-merge-sort! ` ''< v'' [[|''start'' [ ''end'' ]] ]`)`
+
+Equivalent to `list-sort`, `list-sort!` `vector-sort`, and `vector-sort!` respectively,
+but explicitly using implementations of Olin's own merge sort algorithm.  They
 run in O(n lg n) worst case, O(n) best case, and require only a logarithmic
 number of stack frames. And they are stable. And the destructive-list variant
 allocates zero cons cells; it simply rearranges the cells of the input list.
+
+`(vector-insert-sort ` ''< v'' [[|''start'' [ ''end'' ]] ]`)`
+
+`(vector-insert-sort! ` ''< v'' [[|''start'' [ ''end'' ]] ]`)`
+
+`(vector-heap-sort ` ''< v'' [[|''start'' [ ''end'' ]] ]`)`
+
+`(vector-heap-sort! ` ''< v'' [[|''start'' [ ''end'' ]] ]`)`
+
+`(vector-quick-sort ` ''< v'' [[|''start'' [ ''end'' ]] ]`)`
+
+`(vector-quick-sort! ` ''< v'' [[|''start'' [ ''end'' ]] ]`)`
+
+Equivalent to `vector-sort` and `vector-sort!`, but explicitly
+using implementations of insert sort, heap sort, and quick sort.
+See [[http://srfi.schemers.org/srfi-32/srfi-32.html|SRFI 32]] or
+any textbook on sorting for explanations.
+
+`(vector-binary-search `''key< elt->key key v'' [[|''start'' [ ''end'' ]]]`)`
+
+Searches ''v'' between ''start'' and ''end'', which must be in increasing
+order according to `key<`, for an element which (after being transformed
+by the `elt->key` procedure) matches ''key''.
+
+`vector-binary-search3 `''compare v'' [[|''start'' [ ''end'' ]]]`)`)
+
+Equivalent to `vector-binary-search`, except that it specifies the key
+implicitly using a comparison procedure which accepts an element of ''v''.
+This procedure returns a negative number if the key precedes the
+element, zero if they are equal, and a positive number if the key
+follows the element.
+
+`(vector-quick-sort3 `''compare v'' [[|''start'' [ ''end'' ]]]`)`)
+
+`(vector-quick-sort3! `''compare v'' [[|''start'' [ ''end'' ]]]`)`)
+
+Equivalent to `vector-quick-sort` and `vector-quick-sort!` respectively,
+except that a comparison procedure is called which accepts two elements from ''v''.
+This procedure returns a negative number if the first element precedes the
+second, zero if they are equal, and a positive number if the first element
+follows the second element.  This is more efficient than the standard
+quick sort if the ordering test is expensive and there are many equal elements
+in the vector.
+
+=== Notes ===
 
 The only non-R4RS features in the code
 are the use of R5RS/R6RS/R7RS multiple-value return, with `values` and `call-with-values` procedures,
