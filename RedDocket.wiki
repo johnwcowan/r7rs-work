@@ -8,7 +8,7 @@ String library:  [[http://srfi.schemers.org/srfi-13/srfi-13.html|SRFI 13]] and/o
 
 Vector library:  [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]], adding VectorsCowan into account (to be SRFI 133).
 
-Sorting and merging: SortingShivers (edited draft of withdrawn [[http://srfi.schemers.org/srfi-32/srfi-32.txt|SRFI 32]]) or [[http://srfi.schemers.org/srfi-95/srfi-95.html|SRFI 95]] (from [[http://people.csail.mit.edu/jaffer/slib/Sorting.html|SLIB]]) or [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-5.html#node_chap_4|R6RS]].
+Sorting and merging: [[http://srfi.schemers.org/srfi-132/srfi-132.txt|SRFI 132]]) or [[http://srfi.schemers.org/srfi-95/srfi-95.html|SRFI 95]] (from [[http://people.csail.mit.edu/jaffer/slib/Sorting.html|SLIB]]) or [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-5.html#node_chap_4|R6RS]].
 
 == Sets and maps ==
 
@@ -26,7 +26,13 @@ Immutable pairs and lists:  [[http://srfi.schemers.org/srfi-116/srfi-116.html|SR
 
 Random access pairs and lists:  [[http://srfi.schemers.org/srfi-101/srfi-101.html|SRFI 101]].
 
-Immutable deques, sets, and maps:  ImmutableDataStructuresWortman, to be SRFIs 134, 135, 136
+Immutable deques:  ImmutableDataStructuresWortman, to be SRFI 134
+
+Immutable sets:  ImmutableDataStructuresWortman, to be SRFI 135
+
+Immutable maps:  ImmutableDataStructuresWortman, to be SRFI 136
+
+
 
 == Laziness ==
 
