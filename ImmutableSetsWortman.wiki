@@ -1,20 +1,16 @@
 == Introduction ==
 
-This proposal defines ''immutable data structures'' for queues, sets, bags, and maps. A structure is immutable when all its operations leave the structure unchanged. Note that none of the procedures specified here ends with a `!`.  
+This proposal defines immutable data structures for sets and bags. A structure is immutable when all its operations leave the structure unchanged and still available to any procedure that holds a pointer to it. Note that none of the procedures specified here ends with a `!`.  
 
 Immutable structures are sometimes called ''persistent'' and are closely related to ''pure-functional'' (a.k.a. ''pure'') structures. The availability of immutable data structures facilitates writing efficient programs in the pure-functional style.
 
-This proposal will be divided into three SRFIs: one for deques, one for sets and bags, and one for maps, even though they share a substantial chunk of implementation code.  This is basically to simplify review.
-
-== Efficiency bounds ==
-
 We specify required time efficiency upper bounds using big-O notation. We note when, in some cases, there is "slack" between the required bound and the theoretically optimal bound for an operation. Implementations may use data structures with amortized time bounds, but should document which bounds hold in only an amortized sense. The use of randomized data structures with expected time bounds is discouraged.
 
-== Disjoint types ==
+== Specification ==
 
-Deques, sets, bags, and maps are disjoint from all other Scheme types, and deques are disjoint from the other types.
+Immutable sets and bags are disjoint from all other Scheme types with the possible exception of immutable maps.  They may or may not be disjoint from one another.
 
-A sorted set data structure stores a finite collection of unique elements with a defined [[http://ccil.org/~cowan/temp/srfi-114.html|comparator]].  It is an error if the comparator does not provide a comparison procedure.
+A sorted set data structure stores a finite collection of unique elements with a defined [[http://ccil.org/~cowan/temp/srfi-128.html|comparator]].  It is an error if the comparator does not provide an ordering procedure.
 
 These requirements can be satisfied by many flavors of ''self-balancing binary trees.'' Red-black trees, 1-2 brother trees, and labeled 2-3 finger trees are particularly convenient in an immutable context.
 
@@ -25,10 +21,6 @@ If two elements are inserted into a set that are equal in the sense of the set's
 `(iset `''comparator'' [[|''element'' ...]]`)`
 
 Returns a set containing ''elements'', where ''comparator'' provides the criterion of identity and ordering.  Takes O(n log n) time.
-
-`(iset-tabulate `''n proc''`)`
-
-Invokes ''proc'' successively on the integers 0 through ''n'' - 1 inclusive, and returns a set containing the results.  Takes O(n log n) time.
 
 `(iset-unfold `''stop? mapper successor seed''`)`
 
