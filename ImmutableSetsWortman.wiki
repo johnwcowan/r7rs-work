@@ -12,7 +12,7 @@ Immutable structures are sometimes called ''persistent'' and are closely related
 
 <p>Bags are useful for counting anything from a fixed set of possibilities, e.g. the number of each type of error in a log file or the number of uses of each word in a lexicon drawn from a body of documents.  Although other data structures can serve the same purpose, using bags clearly expresses the programmer's intent and allows for optimization.</p>
 
-<p>Insofar as possible, the names in this SRFI are harmonized with the names used for <a href="http://srfi.schemers.org/srfi-113/srfi-113.html">SRFI 113</a>.  The SRFI 113 sets and bags are linear-update: that is, a modification to the data structure returns a modified version and may or may not mutate the original version.  In this SRFI, the data structures are guaranteed not to be mutated.</p>
+<p>Insofar as possible, the names in this SRFI are harmonized with the names used for <a href="http://srfi.schemers.org/srfi-113/srfi-113.html">SRFI 113</a>.  SRFI 113 sets and bags are linear-update: that is, a modification to the data structure returns a modified version and may or may not mutate the original version.  In this SRFI, the data structures are guaranteed not to be mutated.</p>
 
 <p>It's possible to use the general sets of this SRFI to contain characters, but the use of the linear-update sets of <a href="http://srfi.schemers.org/srfi-14/srfi-14.html">SRFI 14</a> is recommended instead.</p>
 
@@ -23,7 +23,7 @@ Immutable structures are sometimes called ''persistent'' and are closely related
 
 == Specification ==
 
-Immutable sets and bags are disjoint from all other Scheme types with the possible exception of immutable maps.  They may or may not be disjoint from one another.
+Immutable sets (also known as isets) and immutable bags (also known as ibags) are disjoint from all other Scheme types with the possible exception of immutable maps.  They may or may not be disjoint from one another.
 
 We specify required time efficiency upper bounds using big-O notation. We note when, in some cases, there is "slack" between the required bound and the theoretically optimal bound for an operation. Implementations may use data structures with amortized time bounds, but should document which bounds hold in only an amortized sense. The use of randomized data structures with expected time bounds is discouraged.
 
@@ -43,7 +43,7 @@ The following conditions are errors:
 
 These requirements can be satisfied by many flavors of ''self-balancing binary trees.'' Red-black trees, 1-2 brother trees, and labeled 2-3 finger trees are particularly convenient in an immutable context.
 
-=== Construction ===
+=== Constructors ===
 
 If two elements are inserted into a set that are equal in the sense of the set's comparator but are not `eqv?`, the first to be specified or generated prevails.
 
@@ -105,7 +105,7 @@ Returns a set which contains the elements of ''set'' and ''obj'' as well.  If th
 
 Returns a set which contains the elements of ''set'' with the exception of ''obj'', if present.  If there is already an element of ''set'' that is equal (in the sense of the comparator) to ''obj'', the element of ''set'' prevails.  Takes O(log n) time.
 
-`(iset-delete-all `''set list''`)`
+`(iset-delete-keys `''set list''`)`
 
 Returns a set which contains the elements of ''set'', excluding the elements of ''list''.  It is an error if the elements of ''list'' are not distinct and increasing in the sense of the comparator of ''set''. Takes O(k log n) time, where ''k'' is the length of ''list''.
 
