@@ -2,20 +2,21 @@ Some cleanup is needed to [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 4
 
 == R7RS vs. SRFI 43 ==
 
-The R7RS procedures `vector-map` and `vector-for-each` are incompatible with SRFI 43; they do not pass the current index, but only the values.  Here's a proposal to fork SRFI 43 to eliminate the problem:
+The R7RS procedures `vector-map` and `vector-for-each` are incompatible with SRFI 43; they do not pass the current index, but only the values.  This proposal modifies SRFI 43 to eliminate the problem:
 
  * `vector-fold`, `vector-fold-right`, `vector-reduce`, `vector-reduce-right`, `vector-map`, `vector-map!`, `vector-for-each` are the R7RS-compatible versions that don't transmit index values to their procedure arguments.
- * `vector-index-fold`, `vector-index-fold-right`, `vector-index-reduce`, `vector-index-reduce-right`, `vector-index-map`, `vector-index-map!`, `vector-index-for-each` do transmit index values, and are compatible with SRFI 43 conceptually but not in name.
 
-== Possible extensions ==
+ * `vector-fold/index`, `vector-fold-right/index`, `vector-map/index`, `vector-map!/index`, `vector-for-each/index` do transmit index values, and are compatible with SRFI 43 conceptually but not in name.
 
-Here are some vector procedures that might be Good Things if we are going to break SRFI 43 anyway.  Some are from Python, some from other sources.
+== Extensions ==
+
+Here are some additional vector procedures that might be Good Things if we are going to break SRFI 43 anyway.  Some are from Python, some from other sources.
 
 === Partitioning ===
 
 `(vector-partition `''pred vector''`)`
 
-Returns two values.  The first value is a vector index ''n'', and the second element is a newly allocated vector of the same length as ''vector'', reordered so that the elements which satisfy ''pred'' appear in the first ''n'' elements of the vector, and the elements which do not satisfy ''pred'' appear in the remaining elements.  The ordering of the elements is preserved in all other respects .  ''Pred'' may be called any number of times and in any order.
+Returns two values.  The first value is a newly allocated vector of the same length as ''vector'', reordered so that the elements which satisfy ''pred'' appear in the first ''n'' elements of the vector, and the elements which do not satisfy ''pred'' appear in the remaining elements.  The second value is a vector index ''n'' which is the index of the first element not satisfying ''pred''.  The ordering of the elements is preserved in all other respects .  ''Pred'' may be called any number of times and in any order.
 
 `(vector-partition! `''pred vector''`)`
 
@@ -24,23 +25,17 @@ The same as `vector-partition`, except that it mutates ''vector'' and returns on
 
 === Appending ===
 
-`(vector-append-subvectors `''k fill'' ( ''at vector start end'' ) ...`)`
+`(vector-append-subvectors `( ''vector start end'' ) ...`)`
 
-Returns a newly allocated vector of length ''k'' after copying every element of each ''vector'' from ''start'' to ''end'' into the new vector starting at ''at''.  Any additional locations in the new vector are initialized with ''fill''.  This procedure is a generalization of `vector-copy` and `vector-copy!`.  Implementations may optimize this procedure using an unsafe primitive that creates an uninitialized vector, in order to avoid touching each element of the result twice. 
+Returns a vector that contains every element of each ''vector'' from ''start'' to ''end'' in the specified order.  This procedure is a generalization of `vector-copy`.
+
+`(vector-copy-subvectors! `''result'' ( ''at vector start end'' ) ...`)`
+
+Copies every element of each ''vector'' from ''start'' to ''end'' into the vector ''result'', starting at ''at''.  The source vectors are copied in the specified order.  This procedure is a generalization of `vector-copy!`.
 
 === Cumulation ===
 
 `(vector-cumulate `''proc seed vector''`)`
 
 Returns a newly allocated vector of the same length as ''vector''.  Each element is constructed by reducing (as if by `vector-reduce`) successive prefixes of the elements of ''vector''. (APL scan.)
-
-=== Bisecting ===
-
-`(vector-bisect-left `''vector comparator obj'' [[|''start'' [ ''end'' ]] ]`)`
-
-`(vector-bisect-right `''vector comparator obj'' [[|''start'' [ ''end'' ]] ]`)`
-
-Returns the insertion point for ''obj'' in ''vector'' to maintain the sorted order of the elements according to ''comparator''.  It is an error if ''vector'' is not already sorted.  If ''obj'' is equal to one or more elements of  ''vector'', `vector-bisect-left` will return the insertion point before (to the left of) all matching elements, whereas `vector-bisect-right` will return the insertion point after (to the right of) all matching elements.
-
-The returned value partitions ''vector'' into two halves so that all values with lower indexes are less than or equal to ''obj'' and all other values are greater than or equal to ''obj''.
 
