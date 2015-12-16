@@ -4,7 +4,9 @@ This SRFI defines immutable deques. A structure is immutable when all its operat
 
 == Rationale ==
 
-Immutable structures are sometimes called ''persistent'' and are closely related to ''pure-functional'' (a.k.a. ''pure'') structures. The availability of immutable data structures facilitates writing efficient programs in the pure-functional style.  Unlike the immutable lists of [[http://srfi.schemers.org/srfi-117/srfi-117.html|SRFI 117]], it is possible to efficiently return an updated version of a deque without disturbing any earlier versions of it. 
+A double-ended queue, or ''deque'' (pronounced "deck") is a sequential data structure which allows elements to be added or removed from either end efficiently.  It is a generalization of both a queue and a stack, and can be used as either by disregarding the irrelevant procedures.  
+
+This SRFI describes immutable deques, or ''ideques''.  Immutable structures are sometimes called ''persistent'' and are closely related to ''pure functional'' (a.k.a. ''pure'') structures. The availability of immutable data structures facilitates writing efficient programs in the pure-functional style.  Unlike the immutable lists of [[http://srfi.schemers.org/srfi-116/srfi-116.html|SRFI 116]], it is efficient to produce modified versions of a deque; unlike the list queues of [[http://srfi.schemers.org/srfi-117/srfi-117.html|SRFI 117]], it is possible to efficiently return an updated version of a deque without mutating any earlier versions of it.
 
 == Specification ==
 
@@ -82,7 +84,7 @@ Returns the length of ''deque'' as an exact integer.  May take O(n) time, though
 
 `(ideque-append `''deque'' ...`)`
 
-Returns a deque with the contents of the first argument deque followed by the others. Takes O(kn) time, where k is the number of deques and n is the number of elements involved, though O(k log n) is possible.
+Returns a deque with the contents of the ''deque'' followed by the others, or an empty deque if there are none. Takes O(kn) time, where k is the number of deques and n is the number of elements involved, though O(k log n) is possible.
 
 `(ideque-concatenate `''list-of-deques''`)`
 
@@ -148,7 +150,7 @@ Returns a deque containing the longest initial/final prefix of elements in ''deq
 
 `(ideque-drop-while `''pred deque''`)`
 
-`(ideque-drop-while-right `''proc deque''`)`
+`(ideque-drop-while-right `''pred deque''`)`
 
 Returns a deque which omits the longest initial/final prefix of elements in ''deque'' all of which satisfy ''pred'', but includes all other elements of ''deque''.  Takes O(n) time.
 
