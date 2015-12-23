@@ -26,12 +26,7 @@ Immutable pairs and lists:  [[http://srfi.schemers.org/srfi-116/srfi-116.html|SR
 
 Random access pairs and lists:  [[http://srfi.schemers.org/srfi-101/srfi-101.html|SRFI 101]].
 
-Immutable deques:  ImmutableDequesWortman, to be SRFI 134
-
-Immutable sets and bags:  ImmutableDataStructuresWortman, to be SRFI 135
-
-Immutable maps:  ImmutableDataStructuresWortman, to be SRFI 136
-
+Immutable deques:  [[http://srfi.schemers.org/srfi-134/srfi-134.html|SRFI 134]]
 
 
 == Laziness ==
@@ -51,3 +46,5 @@ List queues:  [[http://srfi.schemers.org/srfi-117/srfi-117.html|SRFI 117]].
 Extended records:  [[http://srfi.schemers.org/srfi-99/srfi-99.html|SRFI 99]], possibly with [[http://srfi.schemers.org/srfi-129/srfi-129.html|SRFI 129]].
 
 Ephemerons: [[http://srfi.schemers.org/srfi-124/srfi-124.html|SRFI 124]].
+
+Titlecase: [[http://srfi.schemers.org/srfi-131/srfi-131.html|SRFI 131]]
