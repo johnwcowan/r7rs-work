@@ -18,12 +18,10 @@ Hard limit is 126937 arguments: MIT
 
 Hard limit is 8192 arguments: Gambit, Vicare
 
-Hard limit is 2048 arguments: Chicken, on CPUs with an assembler routine
+Hard limit is 2048 arguments: Chicken
 
 Hard limit is 2026 arguments: Foment
 
 Hard limit is 998 arguments: RScheme
-
-Hard limit is 126 arguments: Chicken, built with portable C only
 
 Cannot run test: UMB, Owl Lisp
