@@ -145,9 +145,19 @@ Read ''end * b - start * b'' bytes from ''port'' into ''[type]vector'' starting 
 
 Write ''end * b - start * b'' bytes to ''port'' from ''[type]vector'' starting at ''start''.  Returns an unspecified value.
 
-== Extended numeric vector API ==
+== TODO ==
 
-See the procedures of [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]] and VectorsCowan, with the exceptions of the ones defined here.
+{{{
+[type]vector-fold, [type]vector-fold-right
+[type]vector-unfold, [type]vector-unfold-right, [type]vector-unfold!
+[type]vector-index, [type]vector-index-right
+[type]vector-skip, [type]vector-skip-right
+[type]vector-any, [type]vector-every, [type]vector-partition
+[type]vector-reverse-copy, [type]vector-reverse-copy!
+[type]vector-append-subvectors
+[type]vector-count, [type]vector-cumulate
+[type]vector-swap!, [type]vector-reverse!
+}}}
 
 == Packaging ==
 
