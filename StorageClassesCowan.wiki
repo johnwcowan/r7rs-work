@@ -1,0 +1,88 @@
+== Abstract ==
+
+A storage class is a group of storage objects with the same behavior.  A storage object maps a non-negative exact integer index into a storage location.  There are standard storage classes, but it is also possible for programmers to create their own storage classes.  Each storage class allows creating a storage object of a given size, accessing a location by its index, and mutating a location by its index to a new value.  Note that the procedures used to do this need not be the standard procedures such as `make-vector`, `vector-ref`, and `vector-set!`; they may be more efficient equivalents.
+
+== Constructors ==
+
+`(make-storage-class `''constructor accessor mutator sizer''`)`
+
+Returns a storage class with the specified procedures as constructor, accessor, and mutator.  The invocation protocols are `(`''constructor size''`)`, where ''size'' is a non-negative integer; `(`''accessor storage-object index''`)`, where ''storage-object'' is a storage object returned by a call to the constructor and ''index'' is a non-negative integer less than ''size'', `(`''mutator storage-object index value''`)`, where ''value'' is a value which can be stored in ''storage-object'', and `(`''sizer storage-object''`), which returns the length of ''storage-object''.  Storage classes created by this procedure do not have to have actual storage objects (they can access and mutate values algorithmically), in which case they can ignore the ''storage-object'' argument.
+
+`(make-bytestructure-storage-class `''bytestructure-descriptor''`)`
+
+TBD.
+
+== Predicates ==
+
+`(storage-class? `''obj''`)`
+
+Returns `#t` if ''obj'' is a storage class, and `#f` otherwise.
+
+`(in-storage-class? `''storage-class obj''`)`
+
+Returns `#t` if ''obj'' is a storage object of class ''storage-class''.
+
+== Accessors ==
+
+`(storage-class-constructor `''storage-class''`)`
+
+`(storage-class-accessor `''storage-class''`)`
+
+`(storage-class-mutator `''storage-class''`)`
+
+Returns the constructor, accessor, mutator of ''storage-class''.
+
+== Invokers ==
+
+`(make-storage-object ''storage-class n''`)`
+
+Returns a newly allocated storage object with class ''storage-class'' and length ''n''.
+
+`(storage-object-ref `''storage-class storage-object n''`)`
+
+Returns the ''nth'' element of ''storage-object'' seen through the lens of ''storage-class''.  It is an error if ''n'' is not less than the length of ''storage-object''.
+
+`(storage-object-set! `''storage-class storage-object n value''`)`
+
+Mutates the ''nth'' element of ''storage-object'' seen through the lens of ''storage-class'' so that its value is ''value''.  It is an error if ''n'' is not less than the length of ''storage-object''.
+
+`(storage-object-length `''storage-class storage-object''`)` seen through the lens of ''storage-class''.
+
+Returns the number of elements of ''storage-object'' seen through the lens of ''storage-class''.
+
+== Standard storage classes ===
+
+`vector-storage-class`
+
+Used to create and manipulate a Scheme vector as storage.
+
+`u8vector-storage-class`
+
+`s8vector-storage-class`
+
+`bytevector-u16-storage-class`
+
+`bytevector-s16-storage-class`
+
+`bytevector-u32-storage-class`
+
+`bytevector-s32-storage-class`
+
+`bytevector-u64-storage-class`
+
+`bytevector-s64-storage-class`
+
+`bytevector-f32-storage-class`
+
+`bytevector-f64-storage-class`
+
+`bytevector-c64-storage-class`
+
+`bytevector-c128-storage-class`
+
+Used to create and manipulate native numeric vectors as storage.  Note that only native byte order is provided.
+
+`sparse-storage-class`
+
+Used to create and manipulate an object of arbitrary type (run-length-encoded vector, hash table, tree, etc.) that provides a sparse representation of the mapping between indexes and arbitrary Scheme objects.
+
