@@ -8,6 +8,8 @@ As of 2015-07-12, the list of Scheme implementations tested is:
 
 My test system now runs 64-bit Linux, but most of the pages below report the results from using 32-bit Linux.  Most of my Schemes (except Racket and JVM-based and CLR-based ones) are built from source, usually the latest release but in some cases the head of source control.  However, not all versions are up to date, and the versions tested have changed over the past few years, so some of the claims in the pages below are surely obsolete.  Implementers and users are urged to [[mailto:cowan@ccil.org|notify me]] when they see something incorrect.
 
+As of 2016-04-01, Oaklisp is not building on my 64-bit Linux system again.
+
 As of 2014-11-29, I successfully built 32-bit Oaklisp on 64-bit Linux, and restored it to the list above.
 
 As of 2013-07-29, I could not build Oaklisp (it doesn't seem to like 64-bit systems) or Dream (link dead), so they were excluded from the suite from then on.
@@ -48,7 +50,7 @@ Not all these pages have information on all these Schemes.
  * ForceNonPromise
  * GetFromClosedStringPort
  * GuardBehavior
- * HashInSymbols
+ * HashInIdentifiers
  * HashQuote
  * HygienicInclusion
  * ImmediateStringsCoalesced
