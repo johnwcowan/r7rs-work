@@ -26,5 +26,7 @@ Random numbers: [[http://srfi.schemers.org/srfi-27/srfi-27.html|SRFI 27]] plus A
 
 Prime numbers:  PrimesGauche.
 
+Carryover from the Red Edition:  ImmutableSetsWortman, ImmutableMapsWortman
+
 
 
