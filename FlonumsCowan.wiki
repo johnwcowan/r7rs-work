@@ -496,35 +496,44 @@ In the event that these operations do not yield a real result for the given argu
 
 Implementations that use IEEE binary floating-point arithmetic should follow the relevant standards for these procedures.
 
-== FIXME from here down ==
+== C99 <complex.h> constants ==
+
+The following constants are defined in terms of the constants of the <math.h> header of ISO/IEC 9899:1999 (C language).
+
+||Scheme name||C name||Comments||
+||cx:i||I||0+1i as a compnum||
+
+
 == Compnum procedures from <complex.h> ==
 
 A ''compnum'' is a general complex number whose `real-part` and `imag-part` are both flonums.  The following procedures should be in a different library from the flonum procedures.
 
 ||Scheme name||C signature||Comments||
-||`abs`||`double cabs(double complex)`||same as magnitude||
-||`acos`||`double complex cacos(double complex)`||-||
-||`acosh`||`double complex cacosh(double complex)`||-||
-||`angle`||`double carg(double complex)`||-||
-||`asin`||`double complex casin(double complex)`||-||
-||`asinh`||`double complex casinh(double complex)`||-||
-||`atan`||`double complex catan(double complex)`||-||
-||`atanh`||`double complex catanh(double complex)`||-||
-||`conjugate`||`double complex conj(double complex)`||complex conjugate||
-||`cos`||`double complex ccos(double complex)`||-||
-||`cosh`||`double complex ccosh(double complex)`||-||
-||`exp`||`double complex cexp(double complex)`||-||
-||`expt`||`double complex cpow(double complex, double complex)`||-||
-||`imag-part`||`double cimag(double complex)`||-||
-||`log`||`double complex clog(double complex)`||-||
-||`magnitude`||`double cabs(double complex)`||same as abs||
-||`projection`||`double complex  cproj(double complex)`||projects to Riemann sphere
-||`real-part`||`double creal(double complex)`||-||
-||`sin`||`double complex csin(double complex)`||-||
-||`sinh`||`double complex csinh(double complex)`||-||
-||`sqrt`||`double complex csqrt(double complex)`||-||
-||`tan`||`double complex ctan(double complex)`||-||
-||`tanh`||`double complex ctanh(double complex)`||-||
+||`cxabs`||`double cabs(double complex)`||same as magnitude||
+||`cxacos`||`double complex cacos(double complex)`||-||
+||`cxacosh`||`double complex cacosh(double complex)`||-||
+||`cxangle`||`double carg(double complex)`||-||
+||`cxasin`||`double complex casin(double complex)`||-||
+||`cxasinh`||`double complex casinh(double complex)`||-||
+||`cxatan`||`double complex catan(double complex)`||-||
+||`cxatanh`||`double complex catanh(double complex)`||-||
+||`cxconjugate`||`double complex conj(double complex)`||complex conjugate||
+||`cxcos`||`double complex ccos(double complex)`||-||
+||`cxcosh`||`double complex ccosh(double complex)`||-||
+||`cxexp`||`double complex cexp(double complex)`||-||
+||`cxexpt`||`double complex cpow(double complex, double complex)`||-||
+||`cximag-part`||`double cimag(double complex)`||-||
+||`cxlog`||`double complex clog(double complex)`||-||
+||`cxmagnitude`||`double cabs(double complex)`||same as abs||
+||`cxprojection`||`double complex  cproj(double complex)`||projects to Riemann sphere
+||`cxreal-part`||`double creal(double complex)`||-||
+||`cxsin`||`double complex csin(double complex)`||-||
+||`cxsinh`||`double complex csinh(double complex)`||-||
+||`cxsqrt`||`double complex csqrt(double complex)`||-||
+||`cxtan`||`double complex ctan(double complex)`||-||
+||`cxtanh`||`double complex ctanh(double complex)`||-||
+
+The following are general complex number functions, not just for compnums.
 
 `(cis `''z''`)`
 
