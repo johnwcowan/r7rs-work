@@ -69,6 +69,7 @@ Not all these pages have information on all these Schemes.
  * PrefixedStringToNumber
  * QuoteDelimiter
  * ReadLine
+ * ReadMutable
  * RedefiningKeywords
  * RedefiningSyntax
  * RedundantImports
