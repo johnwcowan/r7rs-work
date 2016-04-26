@@ -18,7 +18,7 @@ I also tried evaluating `(eof-object? #!eof)` in the REPL for a subset of the ab
 
 Reports premature EOF: MIT, Detroit, KSi, S7
 
-Attempts to evaluate an EOF object: Vicare
+Attempts to evaluate an EOF object: Vicare (will return `#t` to `(eof-object? '#!eof)`)
 
 Lexical syntax error: Mosh
 
