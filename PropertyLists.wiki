@@ -5,7 +5,7 @@ The following Schemes have implementations of property lists:
 ||Chez||getprop||putprop||remprop||property-list (returns copy)||
 ||Ikarus||getprop||putprop||remprop||property-list (returns copy)||
 ||Larceny||getprop||putprop||remprop||(none)||
-||Bigloo||getprop||putprop!||remprop! ||symbol-plist||
+||Bigloo||getprop||putprop! ||remprop! ||symbol-plist||
 ||Guile||symbol-property||set-symbol-property! ||symbol-property-remove! ||(none)||
 ||
 
