@@ -48,13 +48,13 @@ The following keys are defined by this proposal:
 
  `encoding`::
 
- Specifies what character encoding to use on a textual port.  The (case insensitive) value `us-ascii` MUST be supported.  The values `iso-8859-1` and `utf-8` SHOULD be supported if the implementation contains the appropriate repertoire of characters.  Other values MAY be supported by an implementation; if so, they SHOULD appear in the [[http://www.iana.org/assignments/character-sets|IANA list of encodings]].  The default value is implementation-dependent.
+ Specifies what character encoding to use on a textual port.  The (case insensitive) value `us-ascii` MUST be supported.  The values `iso-8859-1` and `utf-8` SHOULD be supported if the implementation contains the appropriate repertoire of characters.  The value `native` means to use whatever the environmental default encoding is, and is the same as not providing this key.  Other values MAY be supported by an implementation; if so, they SHOULD appear in the [[http://www.iana.org/assignments/character-sets|IANA list of encodings]].  The default value is implementation-dependent.
 
  If a BOM (Byte Order Mark, U+FEFF) is present at the beginning of input on a port encoded as UTF-8, it is skipped.  A BOM is not automatically written on output.  Implementations MAY provide a way around this.
 
  `newline`::
 
- Specifies how to translate newlines on a textual port.  The value `none` means that no translation is performed.  The values `cr`, `lf`, and `crlf` cause `#\newline` to be translated to CR, LF, or CR+LF respectively on output; all of them also cause all of CR, LF, and CR+LF to be translated to `#\newline` on input.  Other values MAY be supported by an implementation.  The default value is implementation-dependent.
+ Specifies how to translate newlines on a textual port.  The value `none` means that no translation is performed.  The values `cr`, `lf`, and `crlf` cause `#\newline` to be translated to CR, LF, or CR+LF respectively on output; all of them also cause all of CR, LF, and CR+LF to be translated to `#\newline` on input.  The value `native` means whatever is the native line-end encoding, and is the same as not providing this key.  Other values MAY be supported by an implementation.  The default value is implementation-dependent.
 
  `encoding-error`::
 
@@ -72,16 +72,6 @@ It's efficient to do both I/O and character conversion en bloc when possible, bu
 not be converted.
 
 Of course, when the character encoding is an 8-bit one, the implementation doesn't need to jump through these hoops.
-
-== Procedures ==
-
-`(native-encoding)`
-
-Returns a symbol suitable for use in a settings list to represent the native encoding used by the implementation.
-
-`(native-newline)`
-
-Returns a symbol suitable for use in a settings list to represent the native newline translation used by the implementation.
 
 == Possible additions ==
 
