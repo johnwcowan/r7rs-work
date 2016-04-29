@@ -6,7 +6,7 @@ There are therefore 16 possible numeric towers.  9 of them are known to have imp
 
 ||`exactness-preserving`||`ratios`||`inexact`||`complex`||Description||Implementations
 ||-||-||-||-||Bounded exact integers only||!SigScheme*, !MiniScheme*||
-||-||-||+||-||Fixnums and flonums||Plain Chicken 4, Shoe*, !TinyScheme*, RScheme, JScheme*, SIOD, BDC*, XLisp*, Schemik*, VX, SXM*, Inlab, Llava, Sixx, Sizzle, Dfsch*, Stalin (also Elisp*, C*)||
+||-||-||+||-||Fixnums and flonums||Plain Chicken 4, Shoe*, !TinyScheme*, RScheme, JScheme*, SIOD, BDC*, XLisp*, Schemik*, VX, SXM*, Inlab, Llava, Sixx, Picrin*, Sizzle, Dfsch*, Stalin (also Elisp*, C*)||
 ||-||+||+||+||Limited-range exact and inexact numbers||S7, Wraith||
 ||+||-||+||-||Exact integers and inexact real numbers||Bigloo, Scheme 9, Unlikely Scheme+, Elk (also ISLisp)||
 ||+||-||+||+||Exact integers, inexact real numbers, and complex numbers||SCM||
