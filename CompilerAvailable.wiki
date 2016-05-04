@@ -1,6 +1,6 @@
 The following Schemes come with compilers (which does not necessarily mean that they can produce standalone executables):
 
-Native compilers: Chez, Larceny, Vicare
+Native compilers: Chez, Larceny, MIT, Vicare
 
 Compilers to C: Bigloo, Chicken, Gambit, Larceny, Owl Lisp, Rhizome/pi, Scheme->C, SCM, Stalin
 
@@ -8,9 +8,9 @@ Compilers to JVM bytecode: Bigloo, Kawa
 
 Compilers to CLR bytecode: Bigloo, !IronScheme, Larceny (older version), Luna
 
-Compilers to private bytecode (with JIT): Pycket (port of Racket to RPython)
+Compilers to private bytecode (with JIT): Pycket (port of Racket to RPython), Racket
 
-Compilers to private bytecode (without JIT):  Chibi, Guile, Oaklisp, Owl Lisp, Scheme 48, SXM, Racket, Vx, Wraith (probably incomplete)
+Compilers to private bytecode (without JIT):  Chibi, Guile, Oaklisp, Owl Lisp, Scheme 48, SXM, Vx, Wraith (probably incomplete)
 
 Schemes for specialized CPUs are not listed here.  I have not tested most of these compilers.  This list is almost certainly incomplete.
 
