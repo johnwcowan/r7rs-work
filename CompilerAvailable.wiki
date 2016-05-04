@@ -8,9 +8,9 @@ Compilers to JVM bytecode: Bigloo, Kawa
 
 Compilers to CLR bytecode: Bigloo, !IronScheme, Larceny (older version), Luna
 
-Compilers to private bytecode (with JIT): none known
+Compilers to private bytecode (with JIT): Pycket (port of Racket to RPython)
 
 Compilers to private bytecode (without JIT):  Chibi, Guile, Oaklisp, Owl Lisp, Scheme 48, SXM, Racket, Vx, Wraith (probably incomplete)
 
-Schemes for specialized CPUs are not listed here.  I have not tested most of these compilers.3
+Schemes for specialized CPUs are not listed here.  I have not tested most of these compilers.  This list is almost certainly incomplete.
 
