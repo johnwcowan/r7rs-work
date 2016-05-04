@@ -30,6 +30,7 @@ Not all these pages have information on all these Schemes.
  * CaseInsensitivity
  * CharEq
  * CommaInIdentifiers
+ * CompilerAvailable
  * ComplexLog
  * ComplexRepresentations
  * CondExpand
