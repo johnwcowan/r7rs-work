@@ -11,5 +11,6 @@ The following implementations support all or part of R7RS-small:
 ||Larceny|| ||
 ||Mosh||(partial)||
 ||Picrin|| ||
+||Racket||[[https://github.com/lexi-lambda/racket-r7rs|unofficial]]||
 ||Sagittarius|| ||
 
