@@ -2,15 +2,15 @@ The following Schemes come with compilers (which does not necessarily mean that 
 
 Native compilers: Chez, Larceny, MIT, Vicare
 
-Compilers to C: Bigloo, Chicken, Gambit, Larceny, Owl Lisp, Rhizome/pi, Scheme->C, SCM, Stalin
+Compilers to C: Bigloo, Chicken, Gambit, Hotdog (port of Scheme48), Larceny, Owl Lisp, Rhizome/pi, RScheme, Scheme->C, SCM, Stalin
 
-Compilers to JVM bytecode: Bigloo, Kawa
+Compilers to JVM bytecode: Bigloo, Hotdog (port of Scheme48), JScheme, Kawa
 
-Compilers to CLR bytecode: Bigloo, !IronScheme, Larceny (older version), Luna
+Compilers to CLR bytecode: Bigloo, Hotdog (port of Scheme48), !IronScheme, Larceny (older version), Luna
 
 Compilers to private bytecode (with JIT): Pycket (port of Racket to RPython), Racket
 
-Compilers to private bytecode (without JIT):  Chibi, Guile, Oaklisp, Owl Lisp, Scheme 48, SXM, Vx, Wraith (probably incomplete)
+Compilers to private bytecode (without JIT):  Chibi, !FemtoLisp, Elk, Foment, Guile, Mosh, Oaklisp, Owl Lisp, Picrin, Rep, RScheme, Sagittarius, Scheme 48, STkos, SXM, Vx, Unlikely, VSCM, Wraith, XLisp, Ypsilon (probably incomplete)
 
-Schemes for specialized CPUs are not listed here.  I have not tested most of these compilers.  This list is almost certainly incomplete.
+Schemes for specialized CPUs are not listed here.  I have not tested most of these compilers.
 
