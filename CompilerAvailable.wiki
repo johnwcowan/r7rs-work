@@ -10,7 +10,7 @@ Compilers to CLR bytecode: Bigloo, Hotdog (port of Scheme48), !IronScheme, Larce
 
 Compilers to private bytecode (with JIT): Pycket (port of Racket to RPython), Racket
 
-Compilers to private bytecode (without JIT):  Chibi, !FemtoLisp, Elk, Foment, Guile, Mosh, Oaklisp, Owl Lisp, Picrin, Rep, RScheme, Sagittarius, Scheme 48, STkos, SXM, Vx, Unlikely, VSCM, Wraith, XLisp, Ypsilon (probably incomplete)
+Compilers to private bytecode (without JIT):  Chibi, Elk, !FemtoLisp, Foment, Guile, Mosh, Oaklisp, Owl Lisp, Picrin, Rep, RScheme, Sagittarius, Scheme 48, STkos, SXM, Vx, Unlikely, VSCM, Wraith, XLisp, Ypsilon (probably incomplete)
 
 Schemes for specialized CPUs are not listed here.  I have not tested most of these compilers.
 
