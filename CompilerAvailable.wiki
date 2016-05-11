@@ -2,7 +2,7 @@ The following Schemes come with compilers (which does not necessarily mean that 
 
 Native compilers: Chez, Larceny, MIT, Vicare
 
-Compilers to C: Bigloo, Chicken, Gambit, Hotdog (port of Scheme48), Larceny, Owl Lisp, Rhizome/pi, RScheme, Scheme->C, SCM, Stalin
+Compilers to C: Bigloo, Chicken, Gambit, Hotdog (port of Scheme48), Larceny, MIT, Owl Lisp, Rhizome/pi, RScheme, Scheme->C, SCM, Stalin
 
 Compilers to JVM bytecode: Bigloo, Hotdog (port of Scheme48), JScheme, Kawa
 
