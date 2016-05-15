@@ -6,19 +6,19 @@ List library:  [[http://srfi.schemers.org/srfi-1/srfi-1.html|SRFI 1]].
 
 String library:  [[http://srfi.schemers.org/srfi-13/srfi-13.html|SRFI 13]] and/or [[http://srfi.schemers.org/srfi-130/srfi-130.html|SRFI 130]].
 
-Vector library:  [[http://srfi.schemers.org/srfi-43/srfi-43.html|SRFI 43]], adding VectorsCowan into account (to be SRFI 133).
+Vector library:  [[http://srfi.schemers.org/srfi-133/srfi-133.html|SRFI 133]] (version of SRFI 43 made compatible with R7RS-small).
 
 Sorting and merging: [[http://srfi.schemers.org/srfi-132/srfi-132.txt|SRFI 132]]) or [[http://srfi.schemers.org/srfi-95/srfi-95.html|SRFI 95]] (from [[http://people.csail.mit.edu/jaffer/slib/Sorting.html|SLIB]]) or [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-5.html#node_chap_4|R6RS]].
 
 == Sets and maps ==
 
-Comparators:  [[http://srfi.schemers.org/srfi-128/srfi-128.html|SRFI 128]] (stripped-down version of SRFI 114).
+Comparators:  [[http://srfi.schemers.org/srfi-128/srfi-128.html|SRFI 128]] (stripped-down version of deprecated SRFI 114).
 
 Sets and bags:  [[http://srfi.schemers.org/srfi-113/srfi-113.html|SRFI 113]].
 
 Character sets:  [[http://srfi.schemers.org/srfi-14/srfi-14.html|SRFI 14]].
 
-Hash tables:  [[http://srfi.schemers.org/srfi-125/srfi-125.html|SRFI 125]], which is backward compatible with [[http://srfi.schemers.org/srfi-69/srfi-69.html|SRFI 69]] and includes bimaps; or [[http://srfi.schemers.org/srfi-126/srfi-126.html|SRFI 126]], which is backward compatible with [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-14.html#node_chap_13|R6RS]].
+Hash tables:  [[http://srfi.schemers.org/srfi-125/srfi-125.html|SRFI 125]], which is backward compatible with [[http://srfi.schemers.org/srfi-69/srfi-69.html|SRFI 69]]; or [[http://srfi.schemers.org/srfi-126/srfi-126.html|SRFI 126]], which is backward compatible with [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-14.html#node_chap_13|R6RS]].
 
 == Immutability ==
 
