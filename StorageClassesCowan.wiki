@@ -57,7 +57,7 @@ Mutates the ''nth'' element of ''storage-object'' as seen through the lens of ''
 
 Returns the size of ''storage-object'' as seen through the lens of ''storage-class''.
 
-== Standard storage classes ===
+== Standard storage classes ==
 
 `vector-storage-class`
 
