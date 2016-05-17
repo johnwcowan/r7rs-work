@@ -41,6 +41,66 @@ Returns a newly allocated numeric vector of length ''k''.  ''Fill'' is converted
 
 Returns a newly allocated numeric vector of length ''k'', where ''k'' is the number of arguments to the procedure.  It is filled with the binary values resulting from encoding the ''v'' arguments according to [type].  It is an error if an argument cannot be converted to [type].
 
+`([type]vector-unfold `''proc length initial-seed''`)`
+
+Returns a newly allocated [type]vector whose length is ''length'' and iterates across each index ''k'' between 0 and ''length'', applying ''proc'' at each iteration to the current index and current seed, in that order, to receive 2 values: first, the element to put in the ''k''th slot of the new vector and a new seed for the next iteration.  Note that the termination condition is different from the unfold procedure of SRFI 1. 
+
+Examples: 
+
+{{{
+(s8vector-unfold (lambda (i x) (values x (- x 1))) 
+                 10 0) 
+=> #s8(0 -1 -2 -3 -4 -5 -6 -7 -8 -9)
+}}}
+
+Construct a vector of the sequence of integers in the range [[0,n).
+
+{{{
+(u8vector-unfold|values n) 
+=> #u8(0 1 2 ... n-2 n-1)
+}}} 
+
+Copy vector. 
+
+{{{
+(f64vector-unfold (λ (i) (vector-ref vector i)) 
+                 (vector-length vector))
+}}} 
+
+`([type]]vector-unfold-right `''proc length initial-seed''`)`
+
+Like `[type]vector-unfold`, but it uses ''proc'' to generate elements from right-to-left, rather than left-to-right. The first index used is ''length'' - 1. Note that the termination condition is different from the unfold-right procedure of SRFI 1. 
+
+Examples: 
+
+Construct a vector of pairs of non-negative integers whose values sum to 4. 
+
+{{{
+(u8vector-unfold-right (λ (i x) (values (cons i x) (+ x 1))) 5 0) 
+=> #u8((0 . 4) (1 . 3) (2 . 2) (3 . 1) (4 . 0)) 
+}}}
+
+Reverse vector. 
+
+{{{
+(float64-vector-unfold-right (λ (i x) (values (f64vector-ref vector x) (+ x 1))) 
+                       (f64vector-length vector) 
+                       0)
+}}}
+
+`([type]vector-copy `''[type]vec'' [[''start''|[''end'']]]`)`
+
+Allocates a new [type]vector whose length is ''end - start'' and fills it with elements from ''[type]vec''.
+Examples: 
+
+`([type]vector-reverse-copy [type]vec `[[''start''|[''end'']]]`)`
+
+Like `[type]vector-copy`, but it copies the elements in the reverse order from ''[type]vec''. 
+
+`([type]vector-append `''[type]vec'' ...`)`
+
+Returns a newly allocated vector that contains all elements in order from the locations in the ''[type]vec''s.
+
 == Predicates ==
 
 `([type]vector? `''obj''`)`
@@ -152,11 +212,13 @@ Write ''end * b - start * b'' bytes to ''port'' from ''[type]vector'' starting a
 [type]vector-unfold, [type]vector-unfold-right, [type]vector-unfold!
 [type]vector-index, [type]vector-index-right
 [type]vector-skip, [type]vector-skip-right
+[type]vector-binary-search
 [type]vector-any, [type]vector-every, [type]vector-partition
 [type]vector-reverse-copy, [type]vector-reverse-copy!
-[type]vector-append-subvectors
 [type]vector-count, [type]vector-cumulate
-[type]vector-swap!, [type]vector-reverse!
+[type]vector-swap!, [type]vector-fill!
+[type]vector-reverse!, [type]vector-copy!, [type]vector-reverse-copy!
+[type]vector-unfold!, [type]vector-unfold-right!
 }}}
 
 == Packaging ==
