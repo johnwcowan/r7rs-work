@@ -1,4 +1,4 @@
-'''Note:  The author has now abandoned this library in favor of the leaner CharacterSpansCowan, but is leaving the original intact as a fine example of [[https://en.wikipedia.org/wiki/House_of_Cards_(Cohan_book)|hubris and wretched excess]].'''
+'''Note:  The author has now abandoned this library in favor of the leaner CharacterSpansCowan, which has evolved to [[http://srfi.schemers.org/srfi-130/srfi-130.html|SRFI 130]], but is leaving the original intact as a fine example of [[https://en.wikipedia.org/wiki/House_of_Cards_(Cohan_book)|hubris and wretched excess]].'''
 
 == Character span library ==
 
