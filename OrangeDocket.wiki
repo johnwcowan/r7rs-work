@@ -22,7 +22,7 @@ String to bytevector conversion:  StringBytevectorConversionCowan
 
 Integers as bit vectors:  BitwiseCowan (refers to other proposals as well).
 
-Random numbers: [[http://srfi.schemers.org/srfi-27/srfi-27.html|SRFI 27]] plus AdvancedRandomGauche.
+Random numbers: [[http://srfi.schemers.org/srfi-27/srfi-27.html|SRFI 27]] plus AdvancedRandomGauche or RandomnessArcfide or RandomnessCowan
 
 Prime numbers:  PrimesGauche.
 
