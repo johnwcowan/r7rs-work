@@ -1,3 +1,5 @@
+Low-level macros:  MinimalSyntaxCaseCowan, explicit renaming, syntactic closures, R6RS syntax-case, [[http://srfi.schemers.org/srfi-72/srfi-72.html|SRFI 72]].
+
 Matching:  MatchingWise
 
 Combinators:  CombinatorsCowan
@@ -14,7 +16,7 @@ Named parameters:  NamedParametersCowan or [[http://srfi.schemers.org/srfi-89/sr
 
 `and-let*`: [[http://srfi.schemers.org/srfi-2/srfi-2.html|SRFI 2]]
 
-Generalized `set!`: [[http://srfi.schemers.org/srfi-17/srfi-17.html|SRFI 17]]
+Generalized `set!`: [[http://srfi.schemers.org/srfi-17/srfi-17.html|SRFI 17]], possibly plus [wiki:Srfi17ExtensionsCowan]
 
 `receive`: [[http://srfi.schemers.org/srfi-8/srfi-8.html|SRFI 8]]
 
@@ -25,3 +27,5 @@ Generalized `set!`: [[http://srfi.schemers.org/srfi-17/srfi-17.html|SRFI 17]]
 Loops: [[http://srfi.schemers.org/srfi-42/srfi-42|SRFI 42]] or [[http://mumble.net/~campbell/scheme/foof-loop.txt|Riastradh's foof-loop]] or [[http://synthcode.com/scheme/chibi/lib/chibi/loop.html|Chibi loop]]
 
 Generic accessors/mutators: [[http://srfi.schemers.org/srfi-123/srfi-123.html|SRFI 123]]
+
+Conditions: ConditionsCowan
