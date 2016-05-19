@@ -1,0 +1,14 @@
+Green docket.   For other dockets, see [wiki:WG2Dockets].
+
+Threads: [[http://srfi.schemers.org/srfi-18/srfi-18.html|SRFI 18]]
+
+Real-time threads: [[http://srfi.schemers.org/srfi-21/srfi-21.html|SRFI 21]]
+
+Time types: [[http://srfi.schemers.org/srfi-19/srfi-19.html|SRFI 19]]
+
+Format strings: [[http://srfi.schemers.org/srfi-28/srfi-28.html|SRFI 28]] (basic) or [[http://srfi.schemers.org/srfi-48/srfi-48.html|SRFI 48]] (intermediate), possibly with [[http://srfi.schemers.org/srfi-29/srfi-29.html|SRFI 29]]
+
+Sockets: [[http://srfi.schemers.org/srfi-106/srfi-106.html|SRFI 106]]
+
+Timers: [[http://srfi.schemers.org/srfi-120/srfi-120.html|SRFI 120]]
+
