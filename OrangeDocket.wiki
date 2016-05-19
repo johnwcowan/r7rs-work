@@ -1,6 +1,6 @@
 This is an early draft of proposals for the Orange Edition (numbers) of R7RS-large. For other dockets, see [wiki:WG2Dockets].
 
-Multidimensional generic arrays: ArraysCowan (will be heavily revised).  Notation: CL or [[http://srfi.schemers.org/srfi-58/srfi-58.html|SRFI 58]]
+Multidimensional generic arrays: ArraysCowan (will be heavily revised).  Storage classes:  StorageClassesCowan.  Notation: CL or [[http://srfi.schemers.org/srfi-58/srfi-58.html|SRFI 58]] or something else.
 
 Integer sets and bit vectors:  [[http://wiki.call-cc.org/eggref/4/iset|IntegerSetsShinn]] supplemented with IntegerSetsCowan.
 
@@ -14,7 +14,7 @@ C-style structs:  [[https://github.com/TaylanUB/scheme-bytestructures|ByteStruct
 
 Descriptive statistics:  TallyCowan.
 
-Flonums and compnums:  FlonumsCowan.
+Flonums and compnums:  FlonumsCowan maybe and NanMedernach
 
 Fixnums:  [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.2|R6RS]], only without preposterous mustard.
 
@@ -26,7 +26,7 @@ Random numbers: [[http://srfi.schemers.org/srfi-27/srfi-27.html|SRFI 27]] plus A
 
 Prime numbers:  PrimesGauche.
 
-Carryover from the Red Edition:  ImmutableSetsWortman, ImmutableMapsWortman
+Carryovers from the Red Edition:  ImmutableSetsWortman, ImmutableMapsWortman, BinaryHeapsCowan
 
 
 
