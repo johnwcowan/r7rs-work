@@ -1,6 +1,6 @@
 Green docket for non-portable things.   For other dockets, see [wiki:WG2Dockets].
 
-File I/O: FilesAdvancedCowan plus SettingsListsCowan
+File I/O: FilesAdvancedCowan plus SettingsListsCowan and maybe LetSettingsKendal
 
 Threads: [[http://srfi.schemers.org/srfi-18/srfi-18.html|SRFI 18]] or ThreadsCowan (simplified)
 
@@ -49,3 +49,7 @@ Directory creation/deletion: DirectoriesCowan
 Port operations: PortOperationsCowan
 
 System commands: SystemCommandCowan
+
+Pure delay/force: PureDelayedGloria
+
+Environment:  MiscEnvironmentSchudy
