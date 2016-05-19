@@ -11,3 +11,5 @@ Quasi-literals: [[http://srfi.schemers.org/srfi-108/srfi-108.html|SRFI 108]]
 String interpolation: [[http://srfi.schemers.org/srfi-109/srfi-109.html|SRFI 109]]
 
 Indentation syntax: [[http://srfi.schemers.org/srfi-105/srfi-105.html|SRFI 105]] (curly-infix-expressions) or [[http://srfi.schemers.org/srfi-110/srfi-110.html|SRFI 110]] (sweet-expressions) or [[http://srfi.schemers.org/srfi-119/srfi-119.html|SRFI 119]] (wisp)
+
+See also SrfiLexicalSyntax
