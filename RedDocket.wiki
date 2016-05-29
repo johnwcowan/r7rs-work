@@ -20,16 +20,13 @@ Character sets:  [[http://srfi.schemers.org/srfi-14/srfi-14.html|SRFI 14]].
 
 Hash tables:  [[http://srfi.schemers.org/srfi-125/srfi-125.html|SRFI 125]], which is backward compatible with [[http://srfi.schemers.org/srfi-69/srfi-69.html|SRFI 69]]; or [[http://srfi.schemers.org/srfi-126/srfi-126.html|SRFI 126]], which is backward compatible with [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-14.html#node_chap_13|R6RS]].
 
-== Immutability ==
+== Immutability and Laziness ==
 
 Immutable pairs and lists:  [[http://srfi.schemers.org/srfi-116/srfi-116.html|SRFI 116]].
 
 Random access pairs and lists:  [[http://srfi.schemers.org/srfi-101/srfi-101.html|SRFI 101]].
 
 Immutable deques:  [[http://srfi.schemers.org/srfi-134/srfi-134.html|SRFI 134]]
-
-
-== Laziness ==
 
 Generators:  [[http://srfi.schemers.org/srfi-121/srfi-121.html|SRFI 121]].
 
