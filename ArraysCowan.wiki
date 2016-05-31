@@ -10,11 +10,17 @@ TBD: array, storage class, storage object, index, dimension, rank, upper bound, 
 
 See StorageClassesCowan for the storage class API.
 
+Note that "rank" is an APL term that has nothing to do with matrix ranks.
+
 === Predicates ===
 
 `(array? `''obj''`)`
 
 Returns `#t` if ''obj'' is an array, and `#f` otherwise.
+
+`(array-mutable? `''array''`)`
+
+Returns `#t` if ''array'' is mutable, and `#f` otherwise.
 
 === Constructors ===
 
@@ -26,49 +32,41 @@ Returns a newly allocated array with a newly allocated storage object.  The lowe
 
 `(array-storage-class `''array''`)`
 
-Returns the storage class with which ''array'' was created.  Note that there is no way to access the storage ''object'', as it may not exist.
+Returns the storage class with which ''array'' was created.
+
+`(array-storage-object`''array''`)`
+
+Returns the storage object underlying this array.  Note that this may be `#f` in the case of storage classes without actual storage.
 
 `(array-rank `''array''`)`
 
-Return the rank (number of dimensions) of ''array''.  Note that "rank" is an APL term that has nothing to do with matrix ranks.
+Return the rank (number of dimensions) of ''array''.
+ 
+`(array-lower-bound `''array''`)`
 
-`(array-lower-bounds `''array''`)`
+Returns the index specifying the lower bound of ''array''.  It is an error to mutate this index.
 
-Return a vector containing the lower bounds of ''array''.  It is an error to mutate this vector.
+`(array-upper-bound `''array''`)`
 
-`(array-upper-bounds `''array''`)`
-
-Return a vector containing the upper bounds of ''array''.  It is an error to mutate this vector.
+Returns the index specifying the upper bound of ''array''.  It is an error to mutate this index.
 
 `(array-strides `''array''`)`
 
 Return a vector containing the strides of ''array''.  It is an error to mutate this vector.
 
-`(array-lower-bound `''array n''`)`
-
-Return a vector containing the ''n''th lower bound of ''array''.
-
-`(array-upper-bounds `''array n''`)`
-
-Return a vector containing the ''n''th upper bound of ''array''.
-
-`(array-stride `''array n''`)`
-
-Return a vector containing the ''n''th stride of ''array''.
-
 `(array-offset `''array''`)`
 
-Returns the storage offset of ''array''.  This is the storage index of the location whose array index is specified by all zeros.
+Returns the storage offset of ''array''.  This is the storage index of the location whose index is all zeros.
 
 === Accessors ===
 
 `(array-ref `''array index''`)`
 
-Returns the value of the element of ''array'' specified by ''index'', which is a vector.  Note that this is different from the `array-ref` of most Lisp systems, which specify the index as a sequence of arguments.
+Returns the value of the element of ''array'' specified by ''index''.  Note that this is different from the `array-ref` of most Lisp systems, which specify the index as a sequence of arguments.
 
 `(array-for-each `''proc array'' [[|''start'' [ ''end '' ]] ]`)`
 
-Iterates over the elements of ''array'' starting at the index ''start'' and ending at the index ''end'', and calling ''proc'' on each element.  Each invocation of ''proc'' receives ''array'', the current index, and the value of the element at that index.  It is an error to mutate the index.
+Iterates over the elements of ''array'' starting at the index ''start'' and ending at the index ''end'', and calling ''proc'' on each element.  Each invocation of ''proc'' receives ''array'', the current index, and the value of the element at that index.  The value returned by ''proc'' is discarded.  It is an error to mutate the index.
 
 `(array-for-each-index `''proc array'' [[|''start'' [ ''end '' ]] ]`)`
 
@@ -136,8 +134,91 @@ Returns a newly allocated Scheme vector whose components are also newly construc
 
 Returns a newly allocated array with rank ''rank'' whose components are initialized from the Scheme vector''nested-vector''.  It is an error if ''nested-vector'' is not rectangular.  As a special case, if ''rank'' is 0, the sole component is ''nested-vector'', which need not be a Scheme vector.
 
-
 == Advanced procedures ==
 
-See AdvancedArraysCowan.
+These procedures are mostly derived in function, and sometimes in name, from ISO/IEC 8485 and ISO 17351, which standardize basic and extended APL respectively.
+
+`(array-collapse `''array''` `''j''`)`
+
+Let ''k'' be the rank of ''array''.  This procedure constructs and returns an array of rank ''j'', which MUST be less than or equal to ''k'', whose components are arrays of rank ''k'' - ''j''.  The shape of the returned array is equal to the first ''j'' components of the shape of ''array'', and the shapes of its subarrays are equal to the remaining ''k''-''j'' components.
+
+`(array-explode `''array''` `''j''`)`
+
+Let ''k'' be the rank of ''array''.  This procedure constructs and returns an array of rank ''j'', which MUST be greater than or equal to ''k''.  Each component of ''array'' MUST be an array of rank ''j'' - ''k'', all of which MUST have the same shape.  The shape of the returned array is the shape of ''array'' concatenated with the shape of any of its components, and each component is the corresponding component of the corresponding subarray of ''array''.
+
+`(array-reshape `''shape''` `''array''`)`
+
+Constructs and returns a new array of shape ''shape'' whose components in row-major order are the same (in the sense of `eqv?`) as the components of ''array'' in row-major order.  (APL reshape.)
+
+`(array-reverse `''array''` `''axis''`)`
+
+Constructs and returns an array with the same shape as ''array'', but whose elements on the specified ''axis'' are reversed.  ''Axis'' must be a non-negative integer less than the rank of ''array''.  (APL reverse.)
+
+`(array-compress `''array''` `''booleans''` `''axis''`)`
+
+Constructs and returns an array with the same shape as ''array'' except possibly along the ''axis'' dimension.  The array is sliced along ''axis'' and the elements of ''booleans'' (a vector of boolean values) are used to decide which slices to incorporate into the result: if the corresponding boolean is `#t`, the slice is incorporated, otherwise not.  (APL compress.)
+
+`(array-expand `''array''` `''booleans''` `''nil''` `''axis''`)`
+
+Constructs and returns an array with the same shape as ''array'' except possibly along the ''axis'' dimension.  ''Array'' is sliced along ''axis'' and the elements of ''booleans'' (which MUST be a vector of boolean values) are used to decide where, if anywhere, ''nil'' (which must have the same shape as a slice) is to be interpolated: if the corresponding boolean is `#t`, ''nil'' is interpolated, otherwise the next slice is incorporated.  The size of ''booleans'' MUST be equal to the value of the ''axis'' dimension in the result.  (APL expand.)
+
+`(array-rearrange `''array''` `''vector''` `''axis''`)`
+
+Constructs and returns an array with the same shape as ''array''.  ''Array'' is sliced along the ''axis'' dimension, and the slices are reassembled in the order given by ''vector'', which MUST be a vector of exact integers.  The slice whose number appears in the first element of ''vector'' appears first in the result, and so on.  (Generalized version of APL rotate.)
+
+`(array-rearrange-axes `''array''` `''vector''`)`
+
+Constructs and returns an array whose shape is a permutation of the shape of ''array''.  ''Vector'', which MUST be a vector of exact integers, specifies how to permute it.  The axis whose number appears in the first element of ''vector'' appears as the first axis of the result, and so on.  (APL dyadic transpose with integer-valued vector.)
+
+`(subarray `''array''` `''start-subscripts''` `''end-subscripts''`)`
+
+Constructs and returns a smaller array with the same rank as ''array'' whose elements begin at the "lower left" corner specified by the list ''start-subscripts'' and end at the "upper right" corner specified by the list ''end-subscripts''.  (APL take and drop.)
+
+`(array-recursive-ref `''array''` `''subscript'' ...`)`
+
+Applies `array-ref` to the ''array'' using the first ''i'' subscripts, where ''i'' is the rank of ''array''.  If there are more subscripts, the result MUST be an array. Apply `array-ref` to the result using the next ''j'' subscripts, where ''j'' is the rank of the result.  Repeat until there are no more subscripts, returning the last result.  (APL enlist.)
+
+
+== Higher-order procedures ==
+
+These procedures are mostly derived in function, and sometimes in name, from ISO/IEC 8485 and ISO 17351, which standardize basic and extended APL respectively.
+
+== More ==
+
+transpose
+
+dyadic transpose
+
+append
+
+concatenate
+
+Numeric:  identity, inverse
+
+circular shift
+
+rotate-90, -180, -270 on two dimensions
+
+I/O: read, write, lexical syntax
+
+index->offset, offset-index
+
+
+diagonal
+
+rotate
+
+flatten
+
+flip
+
+squeeze
+
+expand
+
+repeate
+
+choose
+
+broadcast
 
