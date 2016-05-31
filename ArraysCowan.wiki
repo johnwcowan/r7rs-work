@@ -16,6 +16,8 @@ An array is an object with components arranged according to a rectilinear coordi
 
 An array may be a general array, meaning each element may be any Lisp object, or it may be a specialized array, meaning that each element must be of a given restricted type.
 
+Lexicographic order:  (that is, with the last component of the index varying most rapidly) 
+
 A Fortran 90 p g ro ram uses the DIMENSION
 attribute to declare arrays.
 zThe DIMENSION attribute requires three
@@ -90,7 +92,7 @@ Returns the storage object underlying this array.  Note that this may be `#f` in
 `(array-rank `''array''`)`
 
 Return the rank (number of dimensions) of ''array''.
- 
+
 `(array-lower-bound `''array''`)`
 
 Returns the index specifying the lower bound of ''array''.  It is an error to mutate this index.
@@ -115,11 +117,11 @@ Returns the value of the element of ''array'' specified by ''index''.  Note that
 
 `(array-for-each `''proc array'' [[|''start'' [ ''end '' ]] ]`)`
 
-Iterates over the elements of ''array'' starting at the index ''start'' and ending at the index ''end'', and calling ''proc'' on each element.  Each invocation of ''proc'' receives ''array'', the current index, and the value of the element at that index.  The value returned by ''proc'' is discarded.  It is an error to mutate the index.
+Iterates over the elements of ''array'' in lexicographic orderstarting at the index ''start'' and ending at the index ''end'', and calling ''proc'' on each element.  Each invocation of ''proc'' receives ''array'', the current index, and the value of the element at that index.  The value returned by ''proc'' is discarded.  It is an error to mutate the index.
 
 `(array-for-each-index `''proc array'' [[|''start'' [ ''end '' ]] ]`)`
 
-Iterates over the indexes of ''array'' starting at the index ''start'' and ending at the index ''end'', and calling ''proc'' on each element.  Each invocation of ''proc'' receives ''array'' and the current index.  The value returned by ''proc'' is discarded.  It is an error to mutate the index.
+Iterates over the indexes of ''array'' in lexicographic order, starting at the index ''start'' and ending at the index ''end'', and calling ''proc'' on each index.  Each invocation of ''proc'' receives the current index.  The value returned by ''proc'' is discarded.  It is an error to mutate the index.
 
 === Mutators ===
 
@@ -133,45 +135,51 @@ Iterates over the elements of ''array'' starting at the index ''start'' (each di
 
 FIXME from here down.
 
-== Maps ==
+== The whole array ==
 
 
 `(array-map `''proc array'' ...`)`
 
-Returns a newly allocated array with the same structure as the ''arrays'', which must all have the same structure.   For each valid index value, ''proc'' is invoked in arbitrary order, passing the index and all the arrays.  The index may or may not be the same Scheme vector for each call.  Whatever ''proc'' returns becomes the value of the storage element corresponding to that index in the result array.
+Returns a newly allocated array with the same bounds as the ''arrays'', which must all have the same bounds.   For each valid index value, ''proc'' is invoked, passing each corresponding element of the ''arrays''.  The index may or may not be the same object for each call.  Whatever ''proc'' returns becomes the value of the storage element corresponding to that index in the result array.  The order of invocations of ''proc'' is not specified.
 
 `(array-map! `''proc array'' ...`)`
 
-The ''arrays'' must all have the same structure.   For each valid index value, ''proc'' is invoked in arbitrary order, passing the index and all the arrays.  The index may or may not be the same Scheme vector for each call.  Whatever ''proc'' returns becomes the value of the storage element corresponding to that index in the first array argument.  The value returned is undefined.
+The ''arrays'' must all have the same bounds.  For each valid index value, ''proc'' is invoked, passing each corresponding element of the ''arrays''.  The index may or may not be the same object for each call.  Whatever ''proc'' returns becomes the value of the storage element corresponding to that index in the first specified array.  The order of invocations of ''proc'' is not specified.  The result is an undefined value.
 
 
 `(array-fold `''proc seed array'' ...`)`
 
-The ''arrays'' must all have the same structure.   For each valid index value, ''proc'' is invoked in row-major order, passing the index, all the arrays, and the seed value.  The index may or may not be the same Scheme vector for each call.  The result is used as the seed for the next call to 'proc', and the final seed is returned.
+Returns a newly allocated array with the same bounds as the ''arrays'', which must all have the same bounds.   For each valid index value, ''proc'' is invoked, passing each corresponding element of the ''arrays'' and a seed, whose initial value is ''seed''.  The index may or may not be the same object for each call.  ''Proc'' returns two values, the value of the storage element corresponding to that index in the result array, and the new value of the seed.  The invocations of ''proc'' are in lexicographic order.
 
 `(array-reduce `''proc''` `''array''` `''axis'' [[|''n'' ]]`)`
 
-Returns a newly allocated array whose rank is one less than the rank of ''array'', by combining all the groups of elements of length ''n'' (default 1) along ''axis'' using ''proc'', which MUST be a two-argument procedure.  The order and number of invocations of ''proc'' is unspecified.  If there is only one such element, it is unchanged.  (APL reduce.)
+Returns a newly allocated array whose rank is one less than the rank of ''array'', by combining all the groups of elements of length ''n'' (default 1) along ''axis'' using ''proc'', a two-argument procedure.  The order and number of invocations of ''proc'' is unspecified.  If there is only one such element, it is unchanged.  (APL reduce.)
 
 `(array-cumulate `''proc''` `''array''` `''axis''`)`
 
-Returns a newly allocated array whose shape is the same as the shape of ''array''.  Each element along ''axis'' is constructed by reducing (as if by `array-reduce`) successive prefixes of the elements of ''array'' along that axis.  (APL scan.)
+Returns a newly allocated array whose bounds are the same as the bounds of ''array''.  Each element along ''axis'' is constructed by reducing (as if by `array-reduce`) successive prefixes of the elements of ''array'' along that axis.  (APL scan.)
+
+TBD: count, index, any, every
+
+== Copying ==
+
+TBD: copy, copy!, append
 
 == Outer and inner products ==
 
 `(array-outer-product `''proc''` `''array1''` `''array2''`)`
 
-Returns a newly allocated array whose shape is the concatenation of the shapes of ''array1'' and ''array2''.  Each component of the new array is the result of applying ''proc'' to every element of ''array1'' and every element of ''array2''.  The order and number of invocations of ''proc'' is unspecified.  (APL outer product.)
+Returns a newly allocated array whose bounds are the concatenation of the bounds of ''array1'' and ''array2''.  Each component of the new array is the result of applying ''proc'' to every element of ''array1'' and every element of ''array2''.  The order and number of invocations of ''proc'' is unspecified.  (APL outer product.)
 
 `(array-inner-product `''proc1''` `''proc2''` `''array1''` `''array2''`)`
 
-Returns a newly allocated array whose shape is equal to the shape of ''array1'' without its last element concatenated with the shape of ''array2'' without its first element; these elements MUST be numerically equal.  It is an error if both arrays have rank 0.
+Returns a newly allocated array whose bounds are equal to the bounds of ''array1'' without their last elements, concatenated with the bounds of ''array2'' without their first elements.  It is an error if the omitted upper bounds are not numerically equal; it is also an error if the omitted lower bounds are not numerically equal.  It is an error if both arrays have rank 0.
 
 Each element of the result array results from applying ''proc2'' to the corresponding elements of the last vectors of ''array1'' and the first vectors of ''array2'' and then reducing them with ''proc1'' to a single value.  The order and number of invocations of the procedures is unspecified.
 
 In particular, if both arrays have rank 1, the last and first vectors are the whole of the arrays, and the result has rank 0; if both arrays have rank 2, the last vectors of ''array1'' are the column-wise vectors, and the first vectors of ''array2'' are the row-wise vectors, and the result has rank 2.  (APL inner product.)
 
-Example:  `(array-inner-product + * vector1 vector2)` computes the usual dot product of ''vector1'' and ''vector2''.
+Example:  `(array-inner-product + * array1 array2)`, where the arrays have rank 1, computes the usual dot product of two vectors.
 
 == Conversions ==
 
@@ -182,6 +190,12 @@ Returns a newly allocated Scheme vector whose components are also newly construc
 `(nested-vector->array `''rank nested-vector''`)`
 
 Returns a newly allocated array with rank ''rank'' whose components are initialized from the Scheme vector''nested-vector''.  It is an error if ''nested-vector'' is not rectangular.  As a special case, if ''rank'' is 0, the sole component is ''nested-vector'', which need not be a Scheme vector.
+
+TBD: array->nested-list, nested-list->array
+
+== Transforms ==
+
+TBD: reshape, reverse, rearrange-axes, subarray, transpose, transform (SRFI 25)
 
 == Advanced procedures ==
 
