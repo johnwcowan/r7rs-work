@@ -115,6 +115,10 @@ Returns the storage offset of ''array''.  This is the storage index of the locat
 
 Returns the value of the element of ''array'' specified by ''index''.  Note that this is different from the `array-ref` of most Lisp systems, which specify the index as a sequence of arguments.
 
+`(array-recursive-ref `''array''` `''index'' ...`)`
+
+Applies `array-ref` to the ''array'' using the first ''index''.  If there are more arguments, apply `array-ref` to the result using the next ''index''.  Repeat until there are no more indexes, returning the last result.  It is an error if any intermediate result is not an array.  (APL enlist.)
+
 `(array-for-each `''proc array'' [[|''start'' [ ''end '' ]] ]`)`
 
 Iterates over the elements of ''array'' in lexicographic orderstarting at the index ''start'' and ending at the index ''end'', and calling ''proc'' on each element.  Each invocation of ''proc'' receives ''array'', the current index, and the value of the element at that index.  The value returned by ''proc'' is discarded.  It is an error to mutate the index.
@@ -165,7 +169,9 @@ TBD: count, index, any, every
 
 TBD: copy, copy!, append
 
-== Outer and inner products ==
+== Sums and products ==
+
+TBD: append
 
 `(array-outer-product `''proc''` `''array1''` `''array2''`)`
 
@@ -185,17 +191,35 @@ Example:  `(array-inner-product + * array1 array2)`, where the arrays have rank 
 
 `(array->nested-vector `''array''`)`
 
-Returns a newly allocated Scheme vector whose components are also newly constructed Scheme vectors, and so on as far down as necessary to cover every axis of the array.  Bottom-level Scheme vectors contain the components of ''array''.  Thus, if ''array'' has rank 1, the result is a Scheme vector; if the array has rank 2, the result is a Scheme vector containing Scheme vectors, and so on.  As a special case, if ''array'' has rank 0, the sole component is returned.
+`(array->nested-list `''array''`)`
+
+Returns a newly allocated vector/list whose components are also newly constructed vectors/lists, and so on as far down as necessary to cover every axis of the array.  Bottom-level Scheme vectors/lists contain the components of ''array''.  Thus, if ''array'' has rank 1, the result is a vector/list; if the array has rank 2, the result is a vector/list whose elements are vectors/lists, and so on.  As a special case, if ''array'' has rank 0, the sole component is returned.
 
 `(nested-vector->array `''rank nested-vector''`)`
 
-Returns a newly allocated array with rank ''rank'' whose components are initialized from the Scheme vector''nested-vector''.  It is an error if ''nested-vector'' is not rectangular.  As a special case, if ''rank'' is 0, the sole component is ''nested-vector'', which need not be a Scheme vector.
+`(nested-vector->array `''rank nested-list''`)`
 
-TBD: array->nested-list, nested-list->array
+Returns a newly allocated array with rank ''rank'' whose components are initialized from the vector ''nested-vector'' or list ''nested-list''.  It is an error if this argument is not rectangular.  As a special case, if ''rank'' is 0, the sole component is ''nested-vector'' or ''nested-list'', which need not be a Scheme vector/list.
 
 == Transforms ==
 
-TBD: reshape, reverse, rearrange-axes, subarray, transpose, transform (SRFI 25)
+`(array-reshape `''shape''` `''array''`)`
+
+Constructs and returns a new array of shape ''shape'' whose components in row-major order are the same (in the sense of `eqv?`) as the components of ''array'' in row-major order.  (APL reshape.)
+
+`(array-reverse `''array''` `''axis''`)`
+
+Constructs and returns an array with the same shape as ''array'', but whose elements on the specified ''axis'' are reversed.  ''Axis'' must be a non-negative integer less than the rank of ''array''.  (APL reverse.)
+
+`(array-rearrange-axes `''array''` `''vector''`)`
+
+Constructs and returns an array whose shape is a permutation of the shape of ''array''.  ''Vector'', which MUST be a vector of exact integers, specifies how to permute it.  The axis whose number appears in the first element of ''vector'' appears as the first axis of the result, and so on.  (APL dyadic transpose with integer-valued vector.)
+
+`(subarray `''array''` `''start-subscripts''` `''end-subscripts''`)`
+
+Constructs and returns a smaller array with the same rank as ''array'' whose elements begin at the "lower left" corner specified by the list ''start-subscripts'' and end at the "upper right" corner specified by the list ''end-subscripts''.  (APL take and drop.)
+
+TBD: transpose, transform (SRFI 25)
 
 == Advanced procedures ==
 
@@ -209,14 +233,6 @@ Let ''k'' be the rank of ''array''.  This procedure constructs and returns an ar
 
 Let ''k'' be the rank of ''array''.  This procedure constructs and returns an array of rank ''j'', which MUST be greater than or equal to ''k''.  Each component of ''array'' MUST be an array of rank ''j'' - ''k'', all of which MUST have the same shape.  The shape of the returned array is the shape of ''array'' concatenated with the shape of any of its components, and each component is the corresponding component of the corresponding subarray of ''array''.
 
-`(array-reshape `''shape''` `''array''`)`
-
-Constructs and returns a new array of shape ''shape'' whose components in row-major order are the same (in the sense of `eqv?`) as the components of ''array'' in row-major order.  (APL reshape.)
-
-`(array-reverse `''array''` `''axis''`)`
-
-Constructs and returns an array with the same shape as ''array'', but whose elements on the specified ''axis'' are reversed.  ''Axis'' must be a non-negative integer less than the rank of ''array''.  (APL reverse.)
-
 `(array-compress `''array''` `''booleans''` `''axis''`)`
 
 Constructs and returns an array with the same shape as ''array'' except possibly along the ''axis'' dimension.  The array is sliced along ''axis'' and the elements of ''booleans'' (a vector of boolean values) are used to decide which slices to incorporate into the result: if the corresponding boolean is `#t`, the slice is incorporated, otherwise not.  (APL compress.)
@@ -229,32 +245,12 @@ Constructs and returns an array with the same shape as ''array'' except possibly
 
 Constructs and returns an array with the same shape as ''array''.  ''Array'' is sliced along the ''axis'' dimension, and the slices are reassembled in the order given by ''vector'', which MUST be a vector of exact integers.  The slice whose number appears in the first element of ''vector'' appears first in the result, and so on.  (Generalized version of APL rotate.)
 
-`(array-rearrange-axes `''array''` `''vector''`)`
-
-Constructs and returns an array whose shape is a permutation of the shape of ''array''.  ''Vector'', which MUST be a vector of exact integers, specifies how to permute it.  The axis whose number appears in the first element of ''vector'' appears as the first axis of the result, and so on.  (APL dyadic transpose with integer-valued vector.)
-
-`(subarray `''array''` `''start-subscripts''` `''end-subscripts''`)`
-
-Constructs and returns a smaller array with the same rank as ''array'' whose elements begin at the "lower left" corner specified by the list ''start-subscripts'' and end at the "upper right" corner specified by the list ''end-subscripts''.  (APL take and drop.)
-
-`(array-recursive-ref `''array''` `''subscript'' ...`)`
-
-Applies `array-ref` to the ''array'' using the first ''i'' subscripts, where ''i'' is the rank of ''array''.  If there are more subscripts, the result MUST be an array. Apply `array-ref` to the result using the next ''j'' subscripts, where ''j'' is the rank of the result.  Repeat until there are no more subscripts, returning the last result.  (APL enlist.)
-
 
 == Higher-order procedures ==
 
 These procedures are mostly derived in function, and sometimes in name, from ISO/IEC 8485 and ISO 17351, which standardize basic and extended APL respectively.
 
 == More ==
-
-transpose
-
-dyadic transpose
-
-append
-
-concatenate
 
 Numeric:  identity, inverse
 
@@ -264,14 +260,10 @@ rotate-90, -180, -270 on two dimensions
 
 I/O: read, write, lexical syntax
 
-index->offset, offset-index
+index->offset, offset->index
 
 
 diagonal
-
-rotate
-
-flatten
 
 flip
 
