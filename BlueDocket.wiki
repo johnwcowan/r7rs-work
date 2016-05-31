@@ -1,0 +1,20 @@
+Portable but advanced things:
+
+Time types: [[http://srfi.schemers.org/srfi-19/srfi-19.html|SRFI 19]] and/or TimeAdvancedCowan with TimePeriodsCowan
+
+Format strings: [[http://srfi.schemers.org/srfi-28/srfi-28.html|SRFI 28]] (basic) or [[http://srfi.schemers.org/srfi-48/srfi-48.html|SRFI 48]] (intermediate), possibly with [[http://srfi.schemers.org/srfi-29/srfi-29.html|SRFI 29]] or GettextCowan
+
+Binary I/O: BinaryIoCowan
+
+Character conversion: CharacterConversionCowan
+
+Parallel promises: ParallelPromisesCowan
+
+Pathname objects: PathnamesPython
+
+URI objects: [[http://practical-scheme.net/gauche/man/gauche-refe_182.html|UrisGauche]]
+
+Unicode character database: UcdCowan, AdvancedUcdCowan
+
+Environment:  MiscEnvironmentSchudy
+
