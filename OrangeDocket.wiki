@@ -1,5 +1,7 @@
 This is an early draft of proposals for the Orange Edition (numbers) of R7RS-large. For other dockets, see [wiki:WG2Dockets].
 
+Integer division: DivisionRiastradh
+
 Multidimensional generic arrays: ArraysCowan (will be heavily revised).  Storage classes:  StorageClassesCowan.  Notation: CL or [[http://srfi.schemers.org/srfi-58/srfi-58.html|SRFI 58]] or something else.
 
 Integer sets and bit vectors:  [[http://wiki.call-cc.org/eggref/4/iset|IntegerSetsShinn]] supplemented with IntegerSetsCowan.
