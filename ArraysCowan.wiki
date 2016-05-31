@@ -10,7 +10,56 @@ TBD: array, storage class, storage object, index, dimension, rank, upper bound, 
 
 See StorageClassesCowan for the storage class API.
 
-Note that "rank" is an APL term that has nothing to do with matrix ranks.
+Note that "rank" is a Fortran, Common Lisp, and APL term that has nothing to do with matrix ranks.
+
+An array is an object with components arranged according to a rectilinear coordinate system. In principle, an array in Common Lisp may have any number of dimensions, including zero. (A zero-dimensional array has exactly one element.) In practice, an implementation may limit the number of dimensions supported, but every Common Lisp implementation must support arrays of up to seven dimensions. Each dimension is a non-negative integer; if any dimension of an array is zero, the array has no elements.
+
+An array may be a general array, meaning each element may be any Lisp object, or it may be a specialized array, meaning that each element must be of a given restricted type.
+
+A Fortran 90 p g ro ram uses the DIMENSION
+attribute to declare arrays.
+zThe DIMENSION attribute requires three
+components in order to complete an array
+specification, rank, shape, and extent.
+zThe rank of an array is the number of “indices”
+or “subscripts.” The maximum rank is 7 (i.e.,
+seven-dimensional).
+zThe shape of an array indicates the number of
+elements in each “dimension.”
+
+The rank and shape of an array is represented The rank and shape of an array is represented
+as (s1,s2,…,sn), where n is the rank of the array
+and si (1≤ i ≤ n) is the number of elements in the i (1≤ i ≤ n) is the number of elements in the
+i-th dimension.
+(7) means a rank 1 array with 7 elements means a rank 1 array with 7 elements
+(5,9) means a rank 2 array (i.e., a table)
+wh fi t d d di i h 5 hose first and second dimensions have 5
+and 9 elements, respectively.
+(10,10,10,10) means a rank 4 array that has
+10 elements in each dimension.
+
+zThe extent is written as is written as m:n, where , where m and n (m
+≤ n) are INTEGERs. We saw this in the SELECT
+CASE, g, substring, etc.
+zEach dimension has its own extent.
+zAn ext t f di i tent of a dimension is th f it the range of its
+index. If m: is omitted, the default is 1.
+-3:2 means possi ii blend ces are -3, -2 , -1 0,,
+1, 2
+5:8 means possible indices are 5,6,7,8
+7 means possible indices are 1,2,3,4,5,6,7
+
+Note that each index must be an INTEGER or an
+expression evaluated to an INTEGER, and the
+val f i d tb lue o
+f an
+i
+n
+dex mus
+t
+be i th f th in the range of the
+corresponding extent. 
+
 
 === Predicates ===
 
