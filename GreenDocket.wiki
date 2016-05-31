@@ -6,10 +6,6 @@ Threads: [[http://srfi.schemers.org/srfi-18/srfi-18.html|SRFI 18]] or ThreadsCow
 
 Real-time threads: [[http://srfi.schemers.org/srfi-21/srfi-21.html|SRFI 21]]
 
-Time types: [[http://srfi.schemers.org/srfi-19/srfi-19.html|SRFI 19]] and/or TimeAdvancedCowan with TimePeriodsCowan
-
-Format strings: [[http://srfi.schemers.org/srfi-28/srfi-28.html|SRFI 28]] (basic) or [[http://srfi.schemers.org/srfi-48/srfi-48.html|SRFI 48]] (intermediate), possibly with [[http://srfi.schemers.org/srfi-29/srfi-29.html|SRFI 29]] or GettextCowan
-
 Sockets: [[http://srfi.schemers.org/srfi-106/srfi-106.html|SRFI 106]] or NetworkPortsCowan with NetworkEndpointsCowan
 
 Datagram channels (UDP sockets): DatagramChannelsCowan
@@ -18,21 +14,9 @@ Timers: [[http://srfi.schemers.org/srfi-120/srfi-120.html|SRFI 120]]
 
 Mutable environments: MutableEnvironmentsCurtisCowan
 
-Binary I/O: BinaryIoCowan
-
-Parallel promises: ParallelPromisesCowan
-
-Pathname objects: PathnamesPython
-
-URI objects: UrisGauche
-
-Unicode character database: UcdCowan, AdvancedUcdCowan
-
 Simple POSIX: SimplePosixCowan
 
 Access to the REPL: ReplCowan
-
-Character conversion: CharacterConversionCowan
 
 Library declarations: LibraryDeclarationsCowan
 
@@ -52,4 +36,3 @@ System commands: SystemCommandCowan
 
 Pure delay/force: PureDelayedGloria
 
-Environment:  MiscEnvironmentSchudy
