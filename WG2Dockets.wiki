@@ -34,10 +34,13 @@ This is a list of voting dockets for WG2 work items (packages):
     Proposals for the Yellow Edition (syntax) of R7RS-large.
 
  GreenDocket::
-    Proposals for the Green Edition (I/O etc.) of R7RS-large.
+    Proposals for the Green Edition (non-portable) of R7RS-large.
 
  BlueDocket::
-    Proposals for the Blue Edition (extensions of doubtful merit) of R7RS-large.
+    Proposals for the Blue Edition (further extensions) of R7RS-large.
+
+IndigoDocket::
+    Proposals for the Indigo Edition (extensions of doubtful merit) of R7RS-large.
 
  LexicalDocket::
     Proposals for lexical syntax extensions to R7RS-large.
