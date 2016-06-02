@@ -12,6 +12,8 @@ See StorageClassesCowan for the storage class API.
 
 Note that "rank" is a Fortran, Common Lisp, and APL term that has nothing to do with matrix ranks.
 
+''Move along to the end of this section, nothing but junk here''
+
 An array is an object with components arranged according to a rectilinear coordinate system. In principle, an array in Common Lisp may have any number of dimensions, including zero. (A zero-dimensional array has exactly one element.) In practice, an implementation may limit the number of dimensions supported, but every Common Lisp implementation must support arrays of up to seven dimensions. Each dimension is a non-negative integer; if any dimension of an array is zero, the array has no elements.
 
 An array may be a general array, meaning each element may be any Lisp object, or it may be a specialized array, meaning that each element must be of a given restricted type.
