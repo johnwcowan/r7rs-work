@@ -7,3 +7,5 @@ The report on the small language was finalized on July 6, 2013.  It is available
 The development of the large language is still in progress.  For details on the development process of both languages, see the [[http://scheme-reports.org|Scheme Reports home page]] and the [[http://trac.sacrideo.us/wg/wiki|Working Groups home page]].
 
 For R7RS-small implementations, see ImplementationSupport.
+
+For R7RS benchmarks on many Schemes, see [[http://ecraven.github.io/r7rs-benchmarks/benchmark.html|this graphic]].  Some adjustments were made to accommodate the differences between Schemes.  The source is [[https://github.com/ecraven/r7rs-benchmarks|here]].
