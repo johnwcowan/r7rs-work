@@ -2,19 +2,21 @@
 
 == Terminology ==
 
-An ''array'' is an object with elements arranged according to a rectilinear coordinate system.  An array may have any number of dimensions or ''axes'', including zero; this number is called the ''rank'' of the array.  Arrays of rank zero are supported and contain exactly one element.  Note that "rank" is a Fortran, Common Lisp, and APL term that has nothing to do with matrix ranks in the sense of linear algebra.
+An ''array'' is an object of a disjoint type, a container with elements arranged according to a rectilinear coordinate system.  An array may have any number of dimensions or ''axes'', including zero; this number is called the ''rank'' of the array.  Arrays of rank zero are supported and contain exactly one element.  Note that "rank" is a Fortran, Common Lisp, and APL term that has nothing to do with matrix ranks in the sense of linear algebra.
 
-Each axis has an ''extent'' represented by two exact integers, the first representing the smallest possible coordinate for that axis, and the second representing the largest possible coordinate plus one.  The smallest coordinates are collected into a Scheme vector known as the ''lower bound'' of the array; the largest coordinates are collected into another Scheme vector known as the ''upper bound'' of the array.  An ''index'' of the array is any Scheme vector of exact integers which has the same number of elements as the array's rank, and whose values lie between the lower bound (inclusive) and the upper bound (exclusive) of the corresponding axis.
+Each axis has an ''extent'' represented by two exact integers, the first representing the smallest possible coordinate for that axis, and the second representing the largest possible coordinate plus one.  ''Extent'' is also used, by a mild abuse of language, for the difference between the two values.  The smallest coordinates are collected into a Scheme vector known as the ''lower bound'' of the array; the largest coordinates are collected into another Scheme vector known as the ''upper bound'' of the array.  An ''index'' of the array is any Scheme vector of exact integers which has the same number of elements as the array's rank, and whose values lie between the lower bound (inclusive) and the upper bound (exclusive) of the corresponding axis.
 
-An array may be a general array, meaning each element may be any Scheme object, or it may be a specialized array, meaning that each element must be of a given restricted type.  This is accomplished by separating array objects from the underlying ''storage objects'', which can be Scheme vectors or numeric vectors or other objects.  Any object which can map a non-negative exact integer into an appropriate value can serve as a storage object by writing a ''storage class'' for it.  See StorageClassesCowan for the storage class API.
+An array may be a general array, meaning each element may be any Scheme object, or it may be a specialized array, meaning that each element must be of a given restricted type.  This is accomplished by separating array objects from the underlying ''storage objects'', which can be Scheme vectors or numeric vectors or other objects.  Any object which can map a non-negative exact integer into an appropriate value can serve as a storage object by writing a ''storage class'' for it.  See StorageClassesCowan for the storage class API.  Note that if the extent of any axis is non-positive, the array has no elements.
 
-In order to map an array index (a Scheme vector of exact integers) into a storage index (a single exact integer), each array maintains another associated vector of exact integers: the ''stride'', and an exact integer, the ''offset''.  Multiplying each element of the stride by the corresponding element of the array index, summing the results, and adding the offset produces the corresponding storage index.  Therefore, the offset is the storage index of the element whose array index consists of all zeros.  Except as otherwise specified, the stride and offset of an array returned by the procedures of this SRFI is implementation-dependent.
+In order to map an array index (a Scheme vector of exact integers) into a storage index (a single exact integer), each array maintains another associated vector of exact integers: the ''stride'', and an exact integer, the ''offset''.  Multiplying each element of the stride by the corresponding element of the array index, summing the results, and adding the offset produces the corresponding storage index.  Therefore, the offset is the storage index of the element whose array index consists of all zeros.  Except as otherwise specified, the stride and offset of an array returned by the procedures of this SRFI are implementation-dependent.
 
-Procedures that accept an array object and return a new array sharing the same storage object but with different upper bound, lower bound, stride, and/or offset are known as ''array transformations'', and this SRFI provides a number of them.  The SRFI also provides other procedures for operating on arrays, all of which have the property that they are meaningful no matter what the elements of the array may be.  So `array-map` may be used to sum two matrices, since that is done element-wise over the `+` operation; but there is no operation provided for matrix inversion.
+Procedures that accept an array object and return a new array sharing the same storage object but with different upper bound, lower bound, stride, and/or offset are known as ''array transformations'', and this SRFI provides a number of them.  The SRFI also provides other procedures for operating on arrays, all of which have the property that they are meaningful no matter what the elements of the array may be.  So `array-map` may be used to sum two matrices, since that is done element-wise over the `+` operation; but there is no operation provided for matrix inversion, because it depends on the array elements being solely numeric.
 
 In the same way that the names ''start'' and ''end'' are applied to optional numerical indexes that default to the smallest element of a sequence (list, vector, string, or whatever) and the largest element plus one, in this SRFI they default to the lower bound and the upper bound of an array.
 
 Note that array objects are immutable, but their storage objects are usually mutable.  It is possible to create arrays that are prohibited from mutating their storage objects.
+
+In certain cases, the elements of an array are processed in ''lexicographic order'', also known as ''array-major order''.  This means the order in which the highest-numbered axis changes most rapidly, and the other axes change only when the following axis returns to its lowest value.
 
 === Predicates ===
 
@@ -33,6 +35,10 @@ FIXME:
 `(make-array `''storage-class'' [[|''lower-bounds'' ]] ''upper-bounds''`)`
 
 Returns a newly allocated array with a newly allocated storage object.  The lower and upper bounds of the array's dimensions are specified as vectors: they must be of the same length.  If ''lower-bounds'' is not given, it is understood to be all zeros.
+
+`(array-broadcast `''array obj''`)`
+
+Returns a newly allocated array whose bounds are the same as ''array'' and all of whose elements are ''obj''.
 
 === Metadata accessors ===
 
@@ -56,13 +62,13 @@ Returns the index specifying the lower bound of ''array''.  It is an error to mu
 
 Returns the index specifying the upper bound of ''array''.  It is an error to mutate this index.
 
-`(array-strides `''array''`)`
+`(array-stride `''array''`)`
 
-Return a vector containing the strides of ''array''.  It is an error to mutate this vector.
+Return the stride of ''array''.  It is an error to mutate this vector.
 
 `(array-offset `''array''`)`
 
-Returns the storage offset of ''array''.  This is the storage index of the location whose index is all zeros.
+Returns the offset of ''array''.  This is the storage index of the location whose index is all zeros.
 
 === Accessors ===
 
@@ -80,9 +86,11 @@ Iterates over the elements of ''array'' in lexicographic orderstarting at the in
 
 `(array-for-each-index `''proc array'' [[|''start'' [ ''end '' ]] ]`)`
 
-Iterates over the indexes of ''array'' in lexicographic order, starting at the index ''start'' and ending at the index ''end'', and calling ''proc'' on each index.  Each invocation of ''proc'' receives the current index.  The value returned by ''proc'' is discarded.  It is an error to mutate the index.
+Iterates over the indexes of ''array'' in lexicographic order, starting at the index ''start'' and ending at the index ''end'', and calling ''proc'' on each index.  The value returned by ''proc'' is discarded.  It is an error for ''proc'' to mutate the index.
 
 === Mutators ===
+
+These procedures return an unspecified value.
 
 `(array-set! `''array index value''`)`
 
@@ -90,81 +98,52 @@ Sets the value of the element of ''array'' specified by ''index'' to ''value''. 
 
 `(array-tabulate! `''proc array'' [[|''start'' [ ''end '' ]] ]`)`
 
-Iterates over the elements of ''array'' starting at the index ''start'' (each dimension is inclusive) and ending at the index ''end'' (each dimension is exclusive), and calling ''proc'' on each element.  Each invocation of ''proc'' receives ''array'' and the current index.  Whatever ''proc'' returns becomes the value of the array at the index.  It is an error for ''proc'' to mutate the index.
+Iterates over the indexes of ''array'' starting at the index ''start'' (each dimension is inclusive) and ending at the index ''end'' (each dimension is exclusive), and calling ''proc'' on each index.  Whatever ''proc'' returns becomes the value of the array at the index.  It is an error for ''proc'' to mutate the index.
 
 == The whole array ==
 
+In all cases where a procedure passed to these procedures receives an index as an argument, it is an error for the procedure to mutate the index.
+
 `(array-map `''proc array'' ...`)`
 
-Returns a newly allocated array with the same bounds as the ''arrays''; it is an error if they do not all have the same bounds.   For each valid index value, ''proc'' is invoked, passing each corresponding element of the ''arrays''.  The index may or may not be the same object for each call.  Whatever ''proc'' returns becomes the value of the storage element corresponding to that index in the result array.  The order of invocations of ''proc'' is not specified.
+Returns a newly allocated array with the same bounds as the ''arrays''; it is an error if they do not all have the same bounds.   For each valid index value, ''proc'' is invoked, passing each corresponding element of the ''arrays''.  TWhatever ''proc'' returns becomes the value of the storage element corresponding to that index in the result array.  The order of invocations of ''proc'' is not specified.
 
 `(array-map! `''proc array'' ...`)`
 
-It is an error if the ''arrays'' do not all have the same bounds.  For each valid index value, ''proc'' is invoked, passing each corresponding element of the ''arrays''.  The index may or may not be the same object for each call.  Whatever ''proc'' returns becomes the value of the storage element corresponding to that index in the first specified array.  The order of invocations of ''proc'' is not specified.  The result is an undefined value.
+It is an error if the ''arrays'' do not all have the same bounds.  For each valid index value, ''proc'' is invoked, passing each corresponding element of the ''arrays''.  Whatever ''proc'' returns becomes the value of the storage element corresponding to that index in the first specified array.  The order of invocations of ''proc'' is not specified.  Returns an undefined value.
 
 `(array-fold `''proc seed array'' ...`)`
 
-Returns a newly allocated array with the same bounds as the ''arrays''; it is an error if they do not all have the same bounds.   For each valid index value, ''proc'' is invoked, passing each corresponding element of the ''arrays'' and a seed, whose initial value is ''seed''.  The index may or may not be the same object for each call.  ''Proc'' returns two values, the value of the storage element corresponding to that index in the result array, and the new value of the seed.  The invocations of ''proc'' are in lexicographic order.
+Returns a newly allocated array with the same bounds as the ''arrays''; it is an error if they do not all have the same bounds.   For each valid index value, ''proc'' is invoked in lexicographic order, passing each corresponding element of the ''arrays'' and a seed, whose initial value is ''seed''.  'Proc'' returns two values, the value of the storage element corresponding to that index in the result array, and the new value of the seed.
 
 `(array-reduce `''proc array axis'' [[|''n'' ]]`)`
 
-Returns a newly allocated array whose rank is one less than the rank of ''array'', by combining all the groups of elements of length ''n'' (default 1) along ''axis'' using ''proc'', a two-argument procedure.  The order and number of invocations of ''proc'' is unspecified.  If there is only one such element, it is unchanged.  (APL reduce.)
+Returns a newly allocated array whose rank is one less than the rank of ''array'', by combining all the groups of elements of length ''n'' (where the default is the extent of ''axis'') along ''axis'' using ''proc'', a two-argument procedure.  The order and number of invocations of ''proc'' is unspecified.  If there is only one such element, it is unchanged.  (APL reduce.)
 
 `(array-cumulate `''proc array axis''`)`
 
 Returns a newly allocated array whose bounds are the same as the bounds of ''array''.  Each element along ''axis'' is constructed by reducing (as if by `array-reduce`) successive prefixes of the elements of ''array'' along that axis.  (APL scan.)
 
-TBD: count, index, any, every
+`(array-count `''pred array''`)`
 
-== Copying ==
+Returns an exact integer containing the number of elements in ''array'' that satisfy ''pred''.
 
-`(array-copy `''array'' [[|''start'' [ ''end'' ]] ]`)`
+`(array-index `''pred array''`)`
 
-Returns a newly allocated array including the elements of ''array'', starting at ''start'' (inclusive) and ending at ''end'' (exclusive).  The lower bound of the resulting array is all zeros, and the upper bound is determined by subtracting ''start'' from ''end'' element-wise.  The stride and offset are implementation-defined.  The storage object is copied as well.
+Returns the index of the first element of ''array'' in lexicographic order that satisfies ''pred''.
 
-`(array-copy! `''to at from'' [[|''start'' [ ''end'' ]] ]`)`
+`(array-compress `''array booleans axis''`)`
 
-Copies the elements of array ''from'' from index ''start'' (inclusive) to index ''end'' (inclusive) onto array ''to'' starting at index ''at''.  It is an error if there are not enough elements in ''to'' to make this possible.
+Returns an array with the same bounds as ''array'' except possibly along the ''axis'' dimension.  The array is sliced along ''axis'' and the elements of ''booleans'' (a vector of boolean values) are used to decide which slices to incorporate into the result: if the corresponding boolean is `#t`, the slice is incorporated, otherwise not.  (APL compress.)
 
-`(array-append `''axis array'' ...`)`
+`(array-expand `''array booleans nil axis''`)`
 
-Returns a newly allocated array consisting of the ''arrays'' concatenated along ''axis''.  With the exception of ''axis'', the bounds of all the arrays must be the same.  The ''axis''th element of the lower bound of the result is 0; the corresponding element of the upper bound is the sum of the extents of the ''arrays''.
+Returns an array with the same bounds as ''array'' except possibly along the ''axis'' dimension.  ''Array'' is sliced along ''axis'' and the elements of ''booleans'' (a vector of boolean values) are used to decide where, if anywhere, ''nil'' (which must have the same bounds as a slice) is to be interpolated: if the corresponding boolean is `#t`, ''nil'' is interpolated, otherwise the next slice is incorporated.  The size of ''booleans'' MUST be equal to the value of the ''axis'' dimension in the result.  (APL expand.)
 
-`(array-repeat `''array axis repeat''`)`
+`(array-rearrange `''array vector axis''`)`
 
-Append ''repeat'' copies of ''array'' along axis ''axis'', as if by `array-append`.  (Variant of !NumPy repeat.)
-
-== Inner and outer products ==
-
-`(array-inner-product `''proc1 proc2 array1 array2''`)`
-
-Returns a newly allocated array whose bounds are equal to the bounds of ''array1'' without their last elements, concatenated with the bounds of ''array2'' without their first elements.  It is an error if the omitted upper bounds are not numerically equal; it is also an error if the omitted lower bounds are not numerically equal.  It is an error if both arrays have rank 0.
-
-Each element of the result array results from applying ''proc2'' to the corresponding elements of the last vectors of ''array1'' and the first vectors of ''array2'' and then reducing them with ''proc1'' to a single value.  The order and number of invocations of the procedures is unspecified.
-
-In particular, if both arrays have rank 1, the last and first vectors are the whole of the arrays, and the result has rank 0; if both arrays have rank 2, the last vectors of ''array1'' are the column-wise vectors, and the first vectors of ''array2'' are the row-wise vectors, and the result has rank 2.  (APL inner product.)
-
-Example:  `(array-inner-product + * array1 array2)`, where the arrays have rank 1, computes the usual dot product of two vectors.
-
-`(array-outer-product `''proc array1 array2''`)`
-
-Returns a newly allocated array whose bounds are the concatenation of the bounds of ''array1'' and ''array2''.  Each element of the new array is the result of applying ''proc'' to every element of ''array1'' and every element of ''array2''.  The order and number of invocations of ''proc'' is unspecified.  (APL outer product.)
-
-== Conversions ==
-
-`(array->nested-vector `''array''`)`
-
-`(array->nested-list `''array''`)`
-
-Returns a newly allocated vector/list whose elements are also newly constructed vectors/lists, and so on as far down as necessary to cover every axis of the array.  Bottom-level Scheme vectors/lists contain the elements of ''array''.  Thus, if ''array'' has rank 1, the result is a vector/list; if the array has rank 2, the result is a vector/list whose elements are vectors/lists, and so on.  As a special case, if ''array'' has rank 0, the sole element is returned.
-
-`(nested-vector->array `''rank nested-vector''`)`
-
-`(nested-vector->array `''rank nested-list''`)`
-
-Returns a newly allocated array with rank ''rank'' whose elements are initialized from the vector ''nested-vector'' or list ''nested-list''.  It is an error if this argument is not rectangular.  As a special case, if ''rank'' is 0, the sole element is ''nested-vector'' or ''nested-list'', which need not be a Scheme vector/list.
-
-== Transformations ==
+Returns an array with the same bounds as ''array''.  ''Array'' is sliced along the ''axis'' dimension, and the slices are reassembled in the order given by ''vector'', which MUST be a vector of exact integers.  The slice whose number appears in the first element of ''vector'' appears first in the result, and so on.  (Generalized version of APL rotate.)
+ransformations ==
 
 These procedures return arrays which share their storage object with the array argument.
 
@@ -178,7 +157,7 @@ Returns a one-dimensional array which contains the diagonal elements of ''array'
 
 `(array-reshape `''lower-bound upper-bound array''`)`
 
-Returns an array with the specified ''bounds'' whose elements in row-major order are the same (in the sense of `eqv?`) as the elements of ''array'' in row-major order.  It is an error if there are too many or too few elements.  (APL reshape.)
+Returns an array with the specified ''bounds'' whose elements in lexicographic order are the same (in the sense of `eqv?`) as the elements of ''array'' in lexicographc order.  It is an error if there are too many or too few elements.  (APL reshape.)
 
 `(array-reverse `''array axis''`)`
 
@@ -204,15 +183,33 @@ Returns an array with the ranks specified by the elements of ''vector'' removed 
 
 Returns an array whose rank is one greater than the rank of ''array''.  This is accomplished by inserting a new axis numbered 'axis' whose extent is (0:1).  (!NumPy expand.)
 
-== Other procedures ==
+== Copying and conversion ==
 
-These procedures return arrays which do not share storage with any other existing arrays.
+These procedures return arrays which do not share their storage objects with any existing arrays.
 
-`(array-broadcast `''array obj''`)`
+When these procedures return arrays, both the array and the underlying storage object are newly allocated
 
-Returns a newly allocated array whose bounds are the same as ''array'' and all of whose elements are ''obj''.
+`(array-copy `''array'' mutable? [[|''start'' [ ''end'' ]] ]`)`
 
-`(array-collapse `''array j''`)`
+Returns an array containing the elements of ''array'' starting at ''start'' (inclusive) and ending at ''end'' (exclusive).  The lower bound of the resulting array is all zeros, and the upper bound is determined by subtracting ''start'' from ''end'' element-wise.  The stride and offset are implementation-defined.  The resulting array is mutable if ''mutable?'' is true.
+
+`(array-copy! `''to at from'' [[|''start'' [ ''end'' ]] ]`)`
+
+Copies the elements of array ''from'' from index ''start'' (inclusive) to index ''end'' (inclusive) onto array ''to'' starting at index ''at''.  It is an error if there are not enough elements in ''to'' to make this possible.  The storage objects need not belong to the same storage classes.
+
+`(array-append `''axis array'' ...`)`
+
+Returns a newly allocated array consisting of the ''arrays'' concatenated along ''axis''.  With the exception of ''axis'', the bounds of all the arrays must be the same.  The ''axis''th element of the lower bound of the result is 0; the corresponding element of the upper bound is the sum of the extents of the ''arrays''.
+
+`(array-repeat `''array axis repeat''`)`
+
+Append ''repeat'' copies of ''array'' along axis ''axis'', as if by `array-append`.  (Variant of !NumPy repeat.)
+
+`(array-reclassify `''array storage-class''`)`
+
+Returns an array with the same bounds and elements as ''array'', but whose storage class is specified by ''storage-class''.
+
+`(`(array-collapse `''array j''`)`
 
 Let ''k'' be the rank of ''array''.  This procedure returns an array of rank ''j'' whose elements are arrays of rank ''k'' - ''j''.  It is an error if ''j > k''.  The bounds of the returned array are equal to the first ''j'' elements of the bounds of ''array'', and the bounds of its subarrays are equal to the remaining ''k''-''j'' elements of the bounds.
 
@@ -220,26 +217,43 @@ Let ''k'' be the rank of ''array''.  This procedure returns an array of rank ''j
 
 Let ''k'' be the rank of ''array''.  This procedure returns an array of rank ''j''.  It is an error if ''j < k''.  Each element of ''array'' MUST be an array of rank ''j'' - ''k'', all of which MUST have the same bounds.  The bounds of the returned array are the bounds of ''array'' concatenated with the bounds of any of its elements, and each element is the corresponding element of the corresponding subarray of ''array''.
 
-`(array-compress `''array booleans axis''`)`
+array->nested-vector `''array''`)`
 
-Returns an array with the same bounds as ''array'' except possibly along the ''axis'' dimension.  The array is sliced along ''axis'' and the elements of ''booleans'' (a vector of boolean values) are used to decide which slices to incorporate into the result: if the corresponding boolean is `#t`, the slice is incorporated, otherwise not.  (APL compress.)
+`(array->nested-list `''array''`)`
 
-`(array-expand `''array booleans nil axis''`)`
+Returns a newly allocated vector/list whose elements are also newly constructed vectors/lists, and so on as far down as necessary to cover every axis of the array.  Bottom-level Scheme vectors/lists contain the elements of ''array''.  Thus, if ''array'' has rank 1, the result is a vector/list; if the array has rank 2, the result is a vector/list whose elements are vectors/lists, and so on.  As a special case, if ''array'' has rank 0, the sole element is returned.
 
-Returns an array with the same bounds as ''array'' except possibly along the ''axis'' dimension.  ''Array'' is sliced along ''axis'' and the elements of ''booleans'' (a vector of boolean values) are used to decide where, if anywhere, ''nil'' (which must have the same bounds as a slice) is to be interpolated: if the corresponding boolean is `#t`, ''nil'' is interpolated, otherwise the next slice is incorporated.  The size of ''booleans'' MUST be equal to the value of the ''axis'' dimension in the result.  (APL expand.)
+`(nested-vector->array `''nested-vector rank''`)`
 
-`(array-rearrange `''array vector axis''`)`
+`(nested-vector->array `''nested-list rank''`)`
 
-Returns an array with the same bounds as ''array''.  ''Array'' is sliced along the ''axis'' dimension, and the slices are reassembled in the order given by ''vector'', which MUST be a vector of exact integers.  The slice whose number appears in the first element of ''vector'' appears first in the result, and so on.  (Generalized version of APL rotate.)
+Returns a newly allocated array with rank ''rank'' whose elements are initialized from the vector ''nested-vector'' or list ''nested-list''.  It is an error if this argument is not rectangular.  As a special case, if ''rank'' is 0, the sole element is ''nested-vector'' or ''nested-list'', which need not be a Scheme vector/list.
+
+== Inner and outer products ==
+
+These procedures return arrays which do not share their storage objects with any existing arrays.
+
+`(array-inner-product `''proc1 proc2 array1 array2''`)`
+
+Returns a newly allocated array whose bounds are equal to the bounds of ''array1'' without their last elements, concatenated with the bounds of ''array2'' without their first elements.  It is an error if the omitted upper bounds are not numerically equal; it is also an error if the omitted lower bounds are not numerically equal.  It is an error if both arrays have rank 0.
+
+Each element of the result array results from applying ''proc2'' to the corresponding elements of the last vectors of ''array1'' and the first vectors of ''array2'' and then reducing them with ''proc1'' to a single value.  The order and number of invocations of the procedures is unspecified.
+
+In particular, if both arrays have rank 1, the last and first vectors are the whole of the arrays, and the result has rank 0; if both arrays have rank 2, the last vectors of ''array1'' are the column-wise vectors, and the first vectors of ''array2'' are the row-wise vectors, and the result has rank 2.  (APL inner product.)
+
+Example:  `(array-inner-product + * array1 array2)`, where the arrays have rank 1, computes the usual dot product of two vectors.
+
+`(array-outer-product `''proc array1 array2''`)`
+
+Returns a newly allocated array whose bounds are the concatenation of the bounds of ''array1'' and ''array2''.  Each element of the new array is the result of applying ''proc'' to every element of ''array1'' and every element of ''array2''.  The order and number of invocations of ''proc'' is unspecified.  (APL outer product.)
 
 == TODO ==
 
-rotate-90, -180, -270 on two dimensions
+TBD: any, every
 
 I/O: read, write, lexical syntax
 
 index->offset, offset->index
 
-repeate
 
 
