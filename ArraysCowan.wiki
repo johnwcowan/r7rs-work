@@ -18,6 +18,8 @@ Note that array objects are immutable, but their storage objects are usually mut
 
 In certain cases, the elements of an array are processed in ''lexicographic order'', also known as ''array-major order''.  This means the order in which the highest-numbered axis changes most rapidly, and the other axes change only when the following axis returns to its lowest value.
 
+Where a procedure passed to any procedure defined in this SRFI receives an index as an argument, it is an error for that procedure to mutate the index.
+
 === Predicates ===
 
 `(array? `''obj''`)`
@@ -26,15 +28,17 @@ Returns `#t` if ''obj'' is an array, and `#f` otherwise.
 
 `(array-mutable? `''array''`)`
 
-Returns `#t` if ''array'' is mutable, and `#f` otherwise.
+Returns `#t` if ''array'' can mutate its storage object, and `#f` otherwise.
 
 === Constructors ===
 
-FIXME:
+`(make-array `''storage-class lower-bound upper-bound'' [[|''fill'' ]]`)`
 
-`(make-array `''storage-class'' [[|''lower-bounds'' ]] ''upper-bounds''`)`
+Returns a newly allocated mutable array (with a newly allocated storage object of the specified storage-class) that has the specified bounds.  The values of the elements are unspecified if the ''fill'' argument is omitted.
 
-Returns a newly allocated array with a newly allocated storage object.  The lower and upper bounds of the array's dimensions are specified as vectors: they must be of the same length.  If ''lower-bounds'' is not given, it is understood to be all zeros.
+`(array-tabulate `''proc storage-class lower-bound upper-bound mutable?''`)`
+
+Returns a newly allocated array (with a newly allocated storage object of the specified storage-class) that has the specified bounds.  The values of the elements are computed by calling ''proc'' on every possible index of the array in lexicographic order.  If ''mutable?'' is true, the array can mutate its storage object.
 
 `(array-broadcast `''array obj''`)`
 
@@ -82,11 +86,11 @@ Applies `array-ref` to the ''array'' using the first ''index''.  If there are mo
 
 `(array-for-each `''proc array'' [[|''start'' [ ''end '' ]] ]`)`
 
-Iterates over the elements of ''array'' in lexicographic orderstarting at the index ''start'' and ending at the index ''end'', and calling ''proc'' on each element.  Each invocation of ''proc'' receives ''array'', the current index, and the value of the element at that index.  The value returned by ''proc'' is discarded.  It is an error to mutate the index.
+Iterates over the elements of ''array'' in lexicographic order, starting at the index ''start'' and ending just before the index ''end'', and calling ''proc'' on each element.  Each invocation of ''proc'' receives ''array'', the current index, and the value of the element at that index.  The value returned by ''proc'' is discarded.
 
 `(array-for-each-index `''proc array'' [[|''start'' [ ''end '' ]] ]`)`
 
-Iterates over the indexes of ''array'' in lexicographic order, starting at the index ''start'' and ending at the index ''end'', and calling ''proc'' on each index.  The value returned by ''proc'' is discarded.  It is an error for ''proc'' to mutate the index.
+Iterates over the indexes of ''array'' in lexicographic order, starting at the index ''start'' and ending at the index ''end'', and calling ''proc'' on each index.  The value returned by ''proc'' is discarded.
 
 === Mutators ===
 
@@ -98,11 +102,9 @@ Sets the value of the element of ''array'' specified by ''index'' to ''value''. 
 
 `(array-tabulate! `''proc array'' [[|''start'' [ ''end '' ]] ]`)`
 
-Iterates over the indexes of ''array'' starting at the index ''start'' (each dimension is inclusive) and ending at the index ''end'' (each dimension is exclusive), and calling ''proc'' on each index.  Whatever ''proc'' returns becomes the value of the array at the index.  It is an error for ''proc'' to mutate the index.
+Iterates over the indexes of ''array'' starting at the index ''start'' (each dimension is inclusive) and ending at the index ''end'' (each dimension is exclusive), and calling ''proc'' on each index.  Whatever ''proc'' returns becomes the value of the array at the index.
 
 == The whole array ==
-
-In all cases where a procedure passed to these procedures receives an index as an argument, it is an error for the procedure to mutate the index.
 
 `(array-map `''proc array'' ...`)`
 
@@ -143,7 +145,8 @@ Returns an array with the same bounds as ''array'' except possibly along the ''a
 `(array-rearrange `''array vector axis''`)`
 
 Returns an array with the same bounds as ''array''.  ''Array'' is sliced along the ''axis'' dimension, and the slices are reassembled in the order given by ''vector'', which MUST be a vector of exact integers.  The slice whose number appears in the first element of ''vector'' appears first in the result, and so on.  (Generalized version of APL rotate.)
-ransformations ==
+
+== Transformations ==
 
 These procedures return arrays which share their storage object with the array argument.
 
@@ -157,7 +160,11 @@ Returns a one-dimensional array which contains the diagonal elements of ''array'
 
 `(array-reshape `''lower-bound upper-bound array''`)`
 
-Returns an array with the specified ''bounds'' whose elements in lexicographic order are the same (in the sense of `eqv?`) as the elements of ''array'' in lexicographc order.  It is an error if there are too many or too few elements.  (APL reshape.)
+Returns an array with the specified ''bounds'' whose elements in lexicographic order are the same as the elements of ''array'' in lexicographic order.  It is an error if there are too many or too few elements.  (APL reshape.)
+
+`(array-restride `''stride offset array''`)`
+
+Returns an array with the specified stride and offset whose elements in lexicographic order are the same as the elements of ''array'' in lexicographic order.  The strides and offset can be arbitrary, and no attempt is made to recalculate the bounds, so the result may be unusable or only partly usable.
 
 `(array-reverse `''array axis''`)`
 
