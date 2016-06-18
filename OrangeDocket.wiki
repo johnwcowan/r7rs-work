@@ -1,14 +1,28 @@
 This is an early draft of proposals for the Orange Edition (numbers) of R7RS-large. For other dockets, see [wiki:WG2Dockets].
 
+'''Numeric types and operations'''
+
 Integer division: DivisionRiastradh
 
-Multidimensional generic arrays: ArraysCowan (will be heavily revised).  Storage classes:  StorageClassesCowan.  Notation: CL or [[http://srfi.schemers.org/srfi-58/srfi-58.html|SRFI 58]] or something else.
+Fixnums:  [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.2|R6RS]], without preposterous mustard and with DivisionRiastradh
 
-Integer sets and bit vectors:  [[http://wiki.call-cc.org/eggref/4/iset|IntegerSetsShinn]] supplemented with IntegerSetsCowan.
+Flonums:  FlonumsCowan and maybe NanMedernach
 
-Enumerations with sets and maps:  EnumsCowan
+Compnums: CompnumsCowan
 
 Extended rational numbers:  ExtendedRationalsCowan (based on withdrawn [[http://srfi.schemers.org/srfi-73/srfi-73.html|SRFI 73]]).
+
+Random numbers: [[http://srfi.schemers.org/srfi-27/srfi-27.html|SRFI 27]] plus AdvancedRandomGauche or RandomnessArcfide or RandomnessCowan
+
+Prime numbers:  PrimesGauche.
+
+'''Numeric and semi-numeric data structures'''
+
+Integer sets:  [[http://wiki.call-cc.org/eggref/4/iset|IntegerSetsShinn]] supplemented with IntegerSetsCowan.
+
+Bit vectors:  [[http://wiki.call-cc.org/eggref/4/iset|IntegerSetsShinn]] supplemented with IntegerSetsCowan.
+
+Integers as bit vectors:  BitwiseCowan (refers to other proposals as well).
 
 Numeric vectors and/or numeric bytevectors:  NumericVectorsCowan and/or BytevectorsCowan.
 
@@ -16,19 +30,23 @@ C-style structs:  [[https://github.com/TaylanUB/scheme-bytestructures|ByteStruct
 
 Descriptive statistics:  TallyCowan.
 
-Flonums and compnums:  FlonumsCowan maybe and NanMedernach
+Multidimensional generic arrays: ArraysCowan.  Storage classes:  StorageClassesCowan.  Notation: CL or [[http://srfi.schemers.org/srfi-58/srfi-58.html|SRFI 58]] or something else.
 
-Fixnums:  [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.2|R6RS]], only without preposterous mustard.
+'''Enumerations'''
 
-String to bytevector conversion:  StringBytevectorConversionCowan
+Enumerations:  EnumsCowan
 
-Integers as bit vectors:  BitwiseCowan (refers to other proposals as well).
+Enumeration sets:  EnumsCowan
 
-Random numbers: [[http://srfi.schemers.org/srfi-27/srfi-27.html|SRFI 27]] plus AdvancedRandomGauche or RandomnessArcfide or RandomnessCowan
+Enumeration maps:  EnumsCowan
 
-Prime numbers:  PrimesGauche.
+'''Carryovers from the Red Edition'''
 
-Carryovers from the Red Edition:  ImmutableSetsWortman, ImmutableMapsWortman, BinaryHeapsCowan
+Immutable sets and bags:  ImmutableSetsWortman
+
+Immutable maps: ImmutableMapsWortman
+
+Binary heaps: BinaryHeapsCowan
 
 
 
