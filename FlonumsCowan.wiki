@@ -24,7 +24,7 @@ Returns <tt>#t</tt> if <i>obj</i> is a flonum, <tt>#f</tt> otherwise.
 <p>
 </p>
 <p></p>
-<div align=left><tt>(<a name="node_idx_952"></a>real-&gt;flonum<i> x</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<div align=left><tt>(<a name="node_idx_952"></a>flonum<i> x</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
 <p>
 Returns the best flonum representation of
 <i>x</i>.</p>
@@ -496,51 +496,3 @@ In the event that these operations do not yield a real result for the given argu
 
 Implementations that use IEEE binary floating-point arithmetic should follow the relevant standards for these procedures.
 
-== C99 <complex.h> constants ==
-
-The following constants are defined in terms of the constants of the <math.h> header of ISO/IEC 9899:1999 (C language).
-
-||Scheme name||C name||Comments||
-||cx:i||I||0+1i as a compnum||
-
-
-== Compnum procedures from <complex.h> ==
-
-A ''compnum'' is a general complex number whose `real-part` and `imag-part` are both flonums.  The following procedures should be in a different library from the flonum procedures.
-
-||Scheme name||C signature||Comments||
-||`cxabs`||`double cabs(double complex)`||same as magnitude||
-||`cxacos`||`double complex cacos(double complex)`||-||
-||`cxacosh`||`double complex cacosh(double complex)`||-||
-||`cxangle`||`double carg(double complex)`||-||
-||`cxasin`||`double complex casin(double complex)`||-||
-||`cxasinh`||`double complex casinh(double complex)`||-||
-||`cxatan`||`double complex catan(double complex)`||-||
-||`cxatanh`||`double complex catanh(double complex)`||-||
-||`cxconjugate`||`double complex conj(double complex)`||complex conjugate||
-||`cxcos`||`double complex ccos(double complex)`||-||
-||`cxcosh`||`double complex ccosh(double complex)`||-||
-||`cxexp`||`double complex cexp(double complex)`||-||
-||`cxexpt`||`double complex cpow(double complex, double complex)`||-||
-||`cximag-part`||`double cimag(double complex)`||-||
-||`cxlog`||`double complex clog(double complex)`||-||
-||`cxmagnitude`||`double cabs(double complex)`||same as abs||
-||`cxprojection`||`double complex  cproj(double complex)`||projects to Riemann sphere
-||`cxreal-part`||`double creal(double complex)`||-||
-||`cxsin`||`double complex csin(double complex)`||-||
-||`cxsinh`||`double complex csinh(double complex)`||-||
-||`cxsqrt`||`double complex csqrt(double complex)`||-||
-||`cxtan`||`double complex ctan(double complex)`||-||
-||`cxtanh`||`double complex ctanh(double complex)`||-||
-
-The following are general complex number functions, not just for compnums.
-
-`(cis `''z''`)`
-
-Returns e^i''z''^, a complex number whose real part is cos ''z'' and whose imaginary part is sin ''z''.
-
-`(signum `''z''`)`
-
-Returns a complex number whose phase is the same as ''z'' but whose magnitude is 1, unless ''z'' is zero, in which case it returns ''z''.  As a consequence of this definition, negative real numbers return -1, positive real numbers return 1, and zero returns zero.
-
- 
