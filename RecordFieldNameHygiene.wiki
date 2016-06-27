@@ -46,6 +46,12 @@ Regarding 1, the problem for SRFI 9 arises with the potential renaming of field 
   (newline))
 }}}
 
+== Compatibility ==
+
+For the {{{define-tuple}}} form above, MIT Scheme reports {{{The object (tmp tmp), passed as an argument to make-record-type, is not a list of unique symbols.}}}  I presume that this means that it matches unhygienically.
+
+What do other implementations do?
+
 == Arguments Supporting the Hygienic Interpretation of SRFI 9 Field Names ==
 
 1. SRFI 9 lists the field names as "identifiers" in the sense of section 8.1.6 of the R5RS, the same context in which ''define'' defines an identifier.
