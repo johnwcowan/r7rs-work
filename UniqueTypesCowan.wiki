@@ -28,15 +28,15 @@ Calling `make-type` on ''type-payload'', which can be any Scheme object, returns
 
  * return five more procedures associated with a subtype of this type
 
-Details are given for a sample type in the next section.
+Details are given for a sample type in the next section.  The type payload might contain metadata (such as field names or class variables) associated with the type as a whole.
 
 == Sample procedures for a type ==
 
-For the purposes of this section, we will suppose that `(define-values (reia-payload make-reia reia? reia-ref make-reia-subtype) (make-type 'reia))` has been evaluated, and document each of the five variables that it binds.  "Reia" is an acronym for "remarkably 'evil' in appearance", and has no particular significance.  Fnord!
+For the purposes of this section, we will suppose that `(define-values (reia-metadata make-reia reia? reia-ref make-reia-subtype) (make-type 'reia))` has been evaluated, and document each of the five variables that it binds.  "Reia" is an acronym for "remarkably 'evil' in appearance", and has no particular significance.  Fnord!
 
-`(reia-payload)` → ''object''
+`(reia-metadata)` → ''object''
 
-Returns the symbol 'reia'.  In an actual application, this object would contain useful information associated with the `reia` type as a whole.
+Returns the symbol 'reia'. 
 
 `(make-reia `''instance-payload''`)`→ ''reia''
 
