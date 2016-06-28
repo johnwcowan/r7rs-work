@@ -36,7 +36,7 @@ For the purposes of this section, we will suppose that `(define-values (reia-met
 
 `(reia-metadata)` → ''object''
 
-Returns the symbol 'reia'. 
+Returns the symbol `reia`. 
 
 `(make-reia `''instance-payload''`)`→ ''reia''
 
@@ -44,7 +44,7 @@ Returns a newly allocated instance associated with ''instance-payload''.  This a
 
 `(reia? `''object''`)`→ ''boolean''
 
-Returns `#t`  iff ''object'' was returned by a call to `make-reia` or any constructor created by a direct or indirect subtype of the `reia` type.
+Returns `#t`  iff ''object'' was returned by a call to `make-reia` or any constructor created as part of a direct or indirect subtype of the `reia` type.
 
 `(reia-ref `''reia''`)`→ ''object''
 
