@@ -59,8 +59,7 @@ This is a frozen version of the Red Edition ballot, with hyperlinks.  To vote, g
  * No vote
  * None
  * [[http://srfi.schemers.org/srfi-69/srfi-69.html|SRFI 69]]
- * [[http://srfi.schemers.org/srfi-125/srfi-125
-html|SRFI 125]]
+ * [[http://srfi.schemers.org/srfi-125/srfi-125.html|SRFI 125]]
  * [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-14.html#node_chap_13|R6RS]]
  * [[http://srfi.schemers.org/srfi-126/srfi-126.html|SRFI 126]]
 
