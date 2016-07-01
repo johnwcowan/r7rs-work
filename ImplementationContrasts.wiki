@@ -60,6 +60,7 @@ Not all these pages have information on all these Schemes.
  * LetrecStar
  * MaxInfNan
  * MultipleValues
+ * NegativeRationalize
  * NegativeSqrt
  * NilIsFalse
  * NonFiniteNumbers
