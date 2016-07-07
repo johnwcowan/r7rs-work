@@ -178,9 +178,9 @@ Returns an array whose axes appear in the reverse order of the axes of ''array''
 
 Returns an array whose axes are an arbitrary permutation of the axes of ''array''.  ''Vector'' specifies how to do the permutation: the axis whose number appears in the first element of ''vector'' appears as the first axis of the result, and so on.  (APL dyadic transpose with integer-valued vector.)
 
-`(subarray `''array start end''`)`
+`(array-slice `''array start end''`)`
 
-Returns a smaller array with the same rank as ''array'' whose elements begin at the "lower left" corner specified by ''start-'' and end at the "upper right" corner specified by the list ''end-subscripts''.  Unlike ''array-copy'', the result shares its storage object with ''array''. (APL take and drop.)
+Returns a smaller array with the same rank as ''array'' whose elements begin at the "lower left" corner specified by ''start'' and end at the "upper right" corner specified by''end''.  Unlike ''array-copy'', the result shares its storage object with ''array''. (APL take and drop.)
 
 `(array-squeeze `''array vector''`)`
 
@@ -216,7 +216,7 @@ Append ''repeat'' copies of ''array'' along axis ''axis'', as if by `array-appen
 
 Returns an array with the same bounds and elements as ''array'', but whose storage class is specified by ''storage-class''.
 
-`(`(array-collapse `''array j''`)`
+`(array-collapse `''array j''`)`
 
 Let ''k'' be the rank of ''array''.  This procedure returns an array of rank ''j'' whose elements are arrays of rank ''k'' - ''j''.  It is an error if ''j > k''.  The bounds of the returned array are equal to the first ''j'' elements of the bounds of ''array'', and the bounds of its subarrays are equal to the remaining ''k''-''j'' elements of the bounds.
 
@@ -224,7 +224,7 @@ Let ''k'' be the rank of ''array''.  This procedure returns an array of rank ''j
 
 Let ''k'' be the rank of ''array''.  This procedure returns an array of rank ''j''.  It is an error if ''j < k''.  Each element of ''array'' MUST be an array of rank ''j'' - ''k'', all of which MUST have the same bounds.  The bounds of the returned array are the bounds of ''array'' concatenated with the bounds of any of its elements, and each element is the corresponding element of the corresponding subarray of ''array''.
 
-array->nested-vector `''array''`)`
+`(array->nested-vector `''array''`)`
 
 `(array->nested-list `''array''`)`
 
@@ -232,7 +232,7 @@ Returns a newly allocated vector/list whose elements are also newly constructed 
 
 `(nested-vector->array `''nested-vector rank''`)`
 
-`(nested-vector->array `''nested-list rank''`)`
+`(nested-list->array `''nested-list rank''`)`
 
 Returns a newly allocated array with rank ''rank'' whose elements are initialized from the vector ''nested-vector'' or list ''nested-list''.  It is an error if this argument is not rectangular.  As a special case, if ''rank'' is 0, the sole element is ''nested-vector'' or ''nested-list'', which need not be a Scheme vector/list.
 
