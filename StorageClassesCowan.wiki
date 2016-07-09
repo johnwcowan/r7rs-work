@@ -38,7 +38,7 @@ Returns the mutator of ''storage-class'' as a procedure.  This procedure takes t
 
 `(storage-class-sizer `''storage-class''`)`
 
-Returns the sizr of ''storage-class'' as a procedure.  This procedure takes one argument, a storage object.  It returns the size of the object specified when the object was created.  This may be an exact non-negative integer or `#f`.
+Returns the sizer of ''storage-class'' as a procedure.  This procedure takes one argument, a storage object.  It returns the size of the object specified when the object was created.  This may be an exact non-negative integer or `#f`.
 
 == Invokers ==
 
@@ -85,7 +85,7 @@ Used to create and manipulate a Scheme vector as storage.
 
 `c64vector-storage-class`
 
-`c128-storage-class`
+`c128vector-storage-class`
 
 Used to create and manipulate native numeric vectors (see NumericVectorsCowan) as storage.
 
