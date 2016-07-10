@@ -20,7 +20,7 @@ Integers as bit vectors:  BitwiseCowan (refers to other proposals as well).
 
 Bit vectors:  [[http://wiki.call-cc.org/eggref/4/iset|IntegerSetsShinn]] supplemented with IntegerSetsCowan.
 
-Numeric vectors and/or numeric bytevectors:  NumericVectorsCowan and/or BytevectorsCowan.
+Numeric vectors:  NumericVectorsCowan.
 
 C-style structs:  [[https://github.com/TaylanUB/scheme-bytestructures|ByteStructuresTaylanub]].
 
