@@ -10,27 +10,25 @@ Flonums:  FlonumsCowan and maybe NanMedernach
 
 Compnums: CompnumsCowan
 
-Extended rational numbers:  ExtendedRationalsCowan (based on withdrawn [[http://srfi.schemers.org/srfi-73/srfi-73.html|SRFI 73]]).
-
-Random numbers: [[http://srfi.schemers.org/srfi-27/srfi-27.html|SRFI 27]] plus AdvancedRandomGauche or RandomnessArcfide or RandomnessCowan
+Random numbers: [[http://srfi.schemers.org/srfi-27/srfi-27.html|SRFI 27]] plus AdvancedRandomGauche or RandomnessArcfide or RandomCowan or RandomnessCommonLisp
 
 Prime numbers:  PrimesGauche.
 
 '''Numeric and semi-numeric data structures'''
 
-Integer sets:  [[http://wiki.call-cc.org/eggref/4/iset|IntegerSetsShinn]] supplemented with IntegerSetsCowan.
+Integers as bit vectors:  BitwiseCowan (refers to other proposals as well).
 
 Bit vectors:  [[http://wiki.call-cc.org/eggref/4/iset|IntegerSetsShinn]] supplemented with IntegerSetsCowan.
-
-Integers as bit vectors:  BitwiseCowan (refers to other proposals as well).
 
 Numeric vectors and/or numeric bytevectors:  NumericVectorsCowan and/or BytevectorsCowan.
 
 C-style structs:  [[https://github.com/TaylanUB/scheme-bytestructures|ByteStructuresTaylanub]].
 
+Integer sets:  [[http://wiki.call-cc.org/eggref/4/iset|IntegerSetsShinn]] supplemented with IntegerSetsCowan.
+
 Descriptive statistics:  TallyCowan.
 
-Multidimensional generic arrays: ArraysCowan.  Storage classes:  StorageClassesCowan.  Notation: CL or [[http://srfi.schemers.org/srfi-58/srfi-58.html|SRFI 58]] or something else.
+Multidimensional generic arrays: ArraysCowan.  Storage classes:  StorageClassesCowan.
 
 '''Enumerations'''
 
