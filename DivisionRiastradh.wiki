@@ -1,10 +1,14 @@
 = Integral Division and Remainder Operators =
 
+== Abstract ==
+
+This SRFI provides a fairly complete set of integral division and remainder operators.
+
 == Rationale ==
 
 Most programming languages provide at least one operation for division,
 and sometimes related operations for computing integral quotients and
-remainders.  (The author is aware of one (fortunately today defunct)
+remainders.  (There is at least one (fortunately today defunct)
 programming language that provides addition, subtraction, and division,
 with multiplication notably absent, being expressible as division.)
 Everyone agrees that a pair of operators for computing integral
@@ -38,19 +42,25 @@ Unfortunately, most programming languages give nondescript names such
 as DIV(IDE), QUOT(IENT), MOD(ULO), and REM(AINDER) to these operations.
 The language should make clear to programmers what division operations
 their programs are performing, especially when negative dividends and
-divisors can arise, but perhaps may not often arise during testing.
+divisors can arise, but perhaps may not often be tested.
 
 == Specification ==
 
 For each of six division operator pairs — floor, ceiling, truncate,
-round, Euclidean and balanced — there are three procedures: one, named
+round, Euclidean and balanced — there is a family of three procedures: one, named
 `<operator>/`, to compute the division and to return both quotient and
 remainder as multiple return values; one, named `<operator>-quotient`,
 to compute the quotient; and one, named `<operator>-remainder`, to
 compute the remainder.  Each division operator pair is specified by
 defining the quotient ''q'' in terms of the dividend ''a'' and the divisor ''n''.
-Tacitly the remainder ''r'' is as above: ''r'' = ''n'' - ''dq''.  The consequences of
-supplying zero as a divisor to any of these procedures are undefined.
+Tacitly the remainder ''r'' is as above: ''r'' = ''n'' - ''dq''.
+
+It is an error if any of the arguments are not integers (exact or inexact).
+It is also an error to
+supply zero as a divisor to any of these procedures.
+If any argument is inexact, the result is inexact, unless the implementation
+can prove that the inexactness cannot affect the result, as in the case of
+dividing an exact zero by an inexact number.
 
 `(floor/ `''dividend''` `''divisor''`)`[[BR]]
 `(floor-quotient `''dividend''` `''divisor''`)`[[BR]]
@@ -155,6 +165,13 @@ pair, and the names `div0` and `mod0` to the balanced operator pair.
 For all four of these procedures, the dividend may be
 any real number, and the divisor may be any nonzero real number.
 
+=== R7RS ===
+
+The truncate and floor families are part of R7RS-small.  Three of them
+are also available under their R5RS names, for backward compatibility.
+The dividend may be any integer, and the divisor may be any
+nonzero integer.
+
 === Common Lisp ===
 
 Common Lisp provides four integral division functions, `floor`, `ceiling`,
@@ -172,14 +189,6 @@ For all six of these functions in Common Lisp, the dividend may be any
 real number, and the divisor may be any nonzero real number.  Common
 Lisp also provides four extra functions `ffloor`, `fceiling`, `ftruncate`,
 and `fround`, which differ from their `f`-less variants only in floating-point contagion rules.
-
-== Issues ==
-
-Zero as a divisor aside, what should the domain of the proposed
-procedures be?  Obviously they should all share a common domain, but
-should the proposed procedures accept any real numbers, or only
-integers, or only exact integers?  If inexact arguments are provided,
-what exactness should the results exhibit?  (See Implementation.)
 
 == Copying ==
 
