@@ -1,0 +1,517 @@
+{{{
+#!html
+<p>
+Fixnums are an implementation-defined subset of the exact integers.
+Every implementation must define its fixnum range as a closed
+interval [[-2<sup>w-1</sup>,|2<sup>w-1</sup>-1]],
+such that <em>w</em> is an integer <em>w</em> greater than or equal to 24.  Every
+mathematical integer within an implementation's fixnum range must
+correspond to an exact integer that is representable within the
+implementation.
+A fixnum is an exact integer whose value lies within this
+fixnum range.</p>
+<p>
+Fixnum operations perform integer arithmetic on their fixnum
+arguments.  If any argument is not a fixnum, or if the mathematical result
+is not representable as a fixnum, it is an error.  In particular, this means
+that fixnum operations may return a mathematically incorrect fixnum in these
+situations without raising an error.</p>
+<p>
+This section uses <i>fx</i>, <i>fx<sub>1</sub></i>, <i>fx<sub>2</sub></i>, etc., as parameter
+names for fixnum arguments.</p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_856"></a>fixnum?<i> obj</i>)</tt></div>
+<p>
+Returns <tt>#t</tt> if <i>obj</i> is an exact
+integer within the fixnum range, <tt>#f</tt> otherwise.
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_858"></a>fixnum-width<i></i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_860"></a>least-fixnum<i></i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_862"></a>greatest-fixnum<i></i>)</tt></div>
+<p>
+These procedures return <em>w</em>,
+&minus;2<sup><em>w</em>&minus;1</sup> and 2<sup><em>w</em>&minus;1</sup> &minus; 1: the
+width, minimum and the maximum value of the fixnum range, respectively.
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_864"></a>fx=?<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i> <i>fx<sub>3</sub></i> <tt>...</tt></i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_866"></a>fx&gt;?<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i> <i>fx<sub>3</sub></i> <tt>...</tt></i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_868"></a>fx&lt;?<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i> <i>fx<sub>3</sub></i> <tt>...</tt></i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_870"></a>fx&gt;=?<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i> <i>fx<sub>3</sub></i> <tt>...</tt></i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_872"></a>fx&lt;=?<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i> <i>fx<sub>3</sub></i> <tt>...</tt></i>)</tt></div>
+<p>
+These procedures return <tt>#t</tt> if their arguments are (respectively):
+equal, monotonically increasing, monotonically decreasing,
+monotonically nondecreasing, or monotonically nonincreasing,
+<tt>#f</tt> otherwise.
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_874"></a>fxzero?<i> fx</i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_876"></a>fxpositive?<i> fx</i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_878"></a>fxnegative?<i> fx</i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_880"></a>fxodd?<i> fx</i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_882"></a>fxeven?<i> fx</i>)</tt></div>
+<p>
+These numerical predicates test a fixnum for a particular property,
+returning <tt>#t</tt> or <tt>#f</tt>.  The five properties tested by
+these procedures are: whether the number object is zero, greater than zero,
+less than zero, odd, or even.
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_884"></a>fxmax<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i> <tt>...</tt></i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_886"></a>fxmin<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i> <tt>...</tt></i>)</tt></div>
+<p>
+These procedures return the maximum or minimum of their arguments.
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_888"></a>fx+<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i></i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_890"></a>fx*<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i></i>)</tt></div>
+<p>
+These procedures return the sum or product of their arguments.
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_892"></a>fx-<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i></i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_894"></a>fx-<i> fx</i>)</tt></div>
+<p>
+With two arguments, this procedure returns the difference
+<i>fx<sub>1</sub></i>&minus;<i>fx<sub>2</sub></i>.</p>
+<p>
+With one argument, this procedure returns the additive
+inverse of its argument.
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_896a"></a>fxfloor/<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i></i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_898a"></a>fxfloor-quotient<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i></i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_900a"></a>fxfloor-remainder<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i></i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_896b"></a>fxceiling/<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i></i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_898b"></a>fxceiling-quotient<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i></i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_900b"></a>fxceiling-remainder<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i></i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_896c"></a>fxtruncate/<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i></i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_898c"></a>fxtruncate-quotient<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i></i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_900c"></a>fxtruncate-remainder<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i></i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_896d"></a>fxround/<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i></i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_898d"></a>fxround-quotient<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i></i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_900d"></a>fxround-remainder<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i></i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_896e"></a>fxeuclidean/<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i></i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_898e"></a>fxeuclidean-quotient<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i></i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_900e"></a>fxeuclidean-remainder<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i></i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_896f"></a>fxbalanced/<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i></i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_898f"></a>fxbalanced-quotient<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i></i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_900f"></a>fxbalanced-remainder<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i></i>)</tt></div>
+
+
+<p>It is an error if <i>fx<sub>2</sub></i> is zero.
+These procedures implement integer division and
+return the results of the corresponding operations
+specified in <a href="DivisionRiastradh">DivisionRiastradh</a>.</p>
+<p>
+</p>
+
+
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_908"></a>fx+/carry<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i> <i>fx<sub>3</sub></i></i>)</tt></div>
+<p>
+Returns the two fixnum results of the following computation:
+</p>
+
+<tt>(let*&nbsp;((s&nbsp;(+&nbsp;<i>fx<sub>1</sub></i>&nbsp;<i>fx<sub>2</sub></i>&nbsp;<i>fx<sub>3</sub></i>))
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(s0&nbsp;(mod0&nbsp;s&nbsp;(expt&nbsp;2&nbsp;(fixnum-width))))</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(s1&nbsp;(div0&nbsp;s&nbsp;(expt&nbsp;2&nbsp;(fixnum-width)))))</p>
+
+<p class=nopadding>&nbsp;&nbsp;(values&nbsp;s0&nbsp;s1))</p>
+<p></tt>
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_910"></a>fx-/carry<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i> <i>fx<sub>3</sub></i></i>)</tt></div>
+<p>
+Returns the two fixnum results of the following computation:
+</p>
+
+<tt>(let*&nbsp;((d&nbsp;(-&nbsp;<i>fx<sub>1</sub></i>&nbsp;<i>fx<sub>2</sub></i>&nbsp;<i>fx<sub>3</sub></i>))
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(d0&nbsp;(mod0&nbsp;d&nbsp;(expt&nbsp;2&nbsp;(fixnum-width))))</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(d1&nbsp;(div0&nbsp;d&nbsp;(expt&nbsp;2&nbsp;(fixnum-width)))))</p>
+
+<p class=nopadding>&nbsp;&nbsp;(values&nbsp;d0&nbsp;d1))</p>
+<p></tt>
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_912"></a>fx*/carry<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i> <i>fx<sub>3</sub></i></i>)</tt></div>
+<p>
+Returns the two fixnum results of the following computation:
+</p>
+
+<tt>(let*&nbsp;((s&nbsp;(+&nbsp;(*&nbsp;<i>fx<sub>1</sub></i>&nbsp;<i>fx<sub>2</sub></i>)&nbsp;<i>fx<sub>3</sub></i>))
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(s0&nbsp;(mod0&nbsp;s&nbsp;(expt&nbsp;2&nbsp;(fixnum-width))))</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(s1&nbsp;(div0&nbsp;s&nbsp;(expt&nbsp;2&nbsp;(fixnum-width)))))</p>
+
+<p class=nopadding>&nbsp;&nbsp;(values&nbsp;s0&nbsp;s1))</p>
+<p></tt>
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_914"></a>fxnot<i> <i>fx</i></i>)</tt></div>
+<p>
+Returns the unique fixnum that is congruent
+mod 2<sup><em>w</em></sup> to the one's-complement of <i>fx</i>.
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_916"></a>fxand<i> <i>fx<sub>1</sub></i> <tt>...</tt></i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_918"></a>fxior<i> <i>fx<sub>1</sub></i> <tt>...</tt></i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_920"></a>fxxor<i> <i>fx<sub>1</sub></i> <tt>...</tt></i>)</tt></div>
+<p>
+These procedures return the fixnum that is the bit-wise &ldquo;and&rdquo;,
+&ldquo;inclusive or&rdquo;, or &ldquo;exclusive or&rdquo; of the two's complement
+representations of their arguments.  If they are passed only one
+argument, they return that argument.  If they are passed no arguments,
+they return the fixnum (either &minus;1 or 0) that acts as identity for the
+operation.
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_922"></a>fxif<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i> <i>fx<sub>3</sub></i></i>)</tt></div>
+<p>
+Returns the fixnum that is the bit-wise &ldquo;if&rdquo; of the two's complement
+representations of its arguments, i.e. for each bit, if it is 1 in
+<i>fx<sub>1</sub></i>, the corresponding bit in <i>fx<sub>2</sub></i> becomes the value of
+the corresponding bit in the result, and if it is 0, the corresponding
+bit in <i>fx<sub>3</sub></i> becomes the corresponding bit in the value of the
+result.  This is the fixnum result of the following computation:
+</p>
+
+<tt>(fxior&nbsp;(fxand&nbsp;<i>fx<sub>1</sub></i>&nbsp;<i>fx<sub>2</sub></i>)
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxand&nbsp;(fxnot&nbsp;<i>fx<sub>1</sub></i>)&nbsp;<i>fx<sub>3</sub></i>))</p>
+<p></tt>
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_924"></a>fxbit-count<i> <i>fx</i></i>)</tt></div>
+<p>
+If <i>fx</i> is non-negative, this procedure returns the
+number of 1 bits in the two's complement representation of <i>fx</i>.
+Otherwise it returns the result of the following computation:
+</p>
+
+<tt>(fxnot&nbsp;(fxbit-count&nbsp;(fxnot&nbsp;<i>ei</i>)))<p></tt>
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_926"></a>fxlength<i> <i>fx</i></i>)</tt></div>
+<p>
+Returns the number of bits needed to represent <i>fx</i> if it is
+positive, and the number of bits needed to represent <tt>(fxnot
+<i>fx</i>)</tt> if it is negative, which is the fixnum result of the
+following computation:
+</p>
+
+<tt>(do&nbsp;((result&nbsp;0&nbsp;(+&nbsp;result&nbsp;1))
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(bits&nbsp;(if&nbsp;(fxnegative?&nbsp;<i>fx</i>)</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxnot&nbsp;<i>fx</i>)</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>fx</i>)</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxarithmetic-shift-right&nbsp;bits&nbsp;1)))</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;((fxzero?&nbsp;bits)</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result))</p>
+<p></tt>
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_928"></a>fxfirst-bit-set<i> <i>fx</i></i>)</tt></div>
+<p>
+Returns the index of the least significant 1 bit in
+the two's complement representation of <i>fx</i>.  If 
+<i>fx</i> is 0, then &minus;1 is returned.
+</p>
+
+<tt>(fxfirst-bit-set&nbsp;0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;-1
+<p class=nopadding>(fxfirst-bit-set&nbsp;1)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;0</p>
+
+<p class=nopadding>(fxfirst-bit-set&nbsp;-4)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;2</p>
+<p></tt>
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_930"></a>fxbit-set?<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i></i>)</tt></div>
+<p>
+It is an error if <i>fx<sub>2</sub></i> is negative, or is greater than or equal to <tt>(fixnum-width)</tt>.  The <tt>fxbit-set?</tt> procedure returns
+<tt>#t</tt> if the <i>fx<sub>2</sub></i>th bit is 1 in the two's complement
+representation of <i>fx<sub>1</sub></i>, and <tt>#f</tt> otherwise.  This is the
+fixnum result of the following computation:
+</p>
+
+<tt>(not
+<p class=nopadding>&nbsp;&nbsp;(fxzero?</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;(fxand&nbsp;<i>fx<sub>1</sub></i></p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxarithmetic-shift-left&nbsp;1&nbsp;<i>fx<sub>2</sub></i>))))</p>
+<p></tt>
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_932"></a>fxcopy-bit<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i> <i>fx<sub>3</sub></i></i>)</tt></div>
+<p>
+It is an error if <i>fx<sub>2</sub></i> is negative, or is greater than or equal to <tt>(fixnum-width)</tt>. It is also an error if <i>Fx<sub>3</sub></i> is neither 0 nor
+1.  The <tt>fxcopy-bit</tt> procedure returns the result of replacing
+the <i>fx<sub>2</sub></i>th bit of <i>fx<sub>1</sub></i> by <i>fx<sub>3</sub></i>, which is
+the result of the following computation:
+</p>
+
+<tt>(let*&nbsp;((mask&nbsp;(fxarithmetic-shift-left&nbsp;1&nbsp;<i>fx<sub>2</sub></i>)))
+<p class=nopadding>&nbsp;&nbsp;(fxif&nbsp;mask</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxarithmetic-shift-left&nbsp;<i>fx<sub>3</sub></i>&nbsp;<i>fx<sub>2</sub></i>)</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>fx<sub>1</sub></i>))</p>
+<p></tt>
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_934"></a>fxbit-field<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i> <i>fx<sub>3</sub></i></i>)</tt></div>
+<p>
+It is an error if either of <i>Fx<sub>2</sub></i> and <i>fx<sub>3</sub></i> is negative, or if either is greater than or equal to
+<tt>(fixnum-width)</tt>.  It is also an error if <i>fx<sub>2</sub></i> is greater than
+<i>fx<sub>3</sub></i>.  The <tt>fxbit-field</tt> procedure returns the
+number represented by the bits at the positions from <i>fx<sub>2</sub></i> (inclusive) to
+<i>fx<sub>3</sub></i> (exclusive), which is
+the fixnum result of the following computation:
+</p>
+
+<tt>(let*&nbsp;((mask&nbsp;(fxnot
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxarithmetic-shift-left&nbsp;-1&nbsp;<i>fx<sub>3</sub></i>))))</p>
+
+<p class=nopadding>&nbsp;&nbsp;(fxarithmetic-shift-right&nbsp;(fxand&nbsp;<i>fx<sub>1</sub></i>&nbsp;mask)</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>fx<sub>2</sub></i>))</p>
+<p></tt>
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_936"></a>fxcopy-bit-field<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i> <i>fx<sub>3</sub></i> <i>fx<sub>4</sub></i></i>)</tt></div>
+<p>
+It is an error if either <i>fx<sub>2</sub></i> or <i>fx<sub>3</sub></i> or if either is greater than
+<tt>(fixnum-width)</tt>.  It is also an error if <i>fx<sub>2</sub></i> is greater than
+<i>fx<sub>3</sub></i>.  The <tt>fxcopy-bit-field</tt> procedure returns
+the result of replacing in <i>fx<sub>1</sub></i> the bits at positions from
+<i>fx<sub>2</sub></i> (inclusive) to <i>fx<sub>3</sub></i> (exclusive) by the corresponding bits in <i>fx<sub>4</sub></i>, which
+is the fixnum result of the following computation:
+</p>
+
+<tt>(let*&nbsp;((to&nbsp;&nbsp;&nbsp;&nbsp;<i>fx<sub>1</sub></i>)
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start&nbsp;<i>fx<sub>2</sub></i>)</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(end&nbsp;&nbsp;&nbsp;<i>fx<sub>3</sub></i>)</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(from&nbsp;&nbsp;<i>fx<sub>4</sub></i>)</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mask1&nbsp;(fxarithmetic-shift-left&nbsp;-1&nbsp;start))</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mask2&nbsp;(fxnot</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxarithmetic-shift-left&nbsp;-1&nbsp;end)))</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mask&nbsp;(fxand&nbsp;mask1&nbsp;mask2)))</p>
+
+<p class=nopadding>&nbsp;&nbsp;(fxif&nbsp;mask</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxarithmetic-shift-left&nbsp;from&nbsp;start)</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to))</p>
+<p></tt>
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_938"></a>fxarithmetic-shift<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i></i>)</tt></div>
+<p>
+It is an error if the absolute value of <i>fx<sub>2</sub></i> is greater than or equal to 
+<tt>(fixnum-width)</tt>.  If
+</p>
+
+<tt>(floor&nbsp;(*&nbsp;<i>fx<sub>1</sub></i>&nbsp;(expt&nbsp;2&nbsp;<i>fx<sub>2</sub></i>)))<p></tt>
+is a fixnum, then that fixnum is returned; otherwise it is an error.
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_940"></a>fxarithmetic-shift-left<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i></i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_942"></a>fxarithmetic-shift-right<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i></i>)</tt></div>
+<p>
+It is an error if <i>fx<sub>2</sub></i> is negative, or is greater than or equal to <tt>(fixnum-width)</tt>.
+The <tt>fxarithmetic-shift-left</tt> procedure behaves the same as <tt>fxarithmetic-shift</tt>, and <tt>(fxarithmetic-shift-right <i>fx<sub>1</sub></i>
+<i>fx<sub>2</sub></i>)</tt> behaves the same as <tt>(fxarithmetic-shift <i>fx<sub>1</sub></i>
+(fx- <i>fx<sub>2</sub></i>))</tt>.
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_944"></a>fxrotate-bit-field<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i> <i>fx<sub>3</sub></i> <i>fx<sub>4</sub></i></i>)</tt></div>
+<p>
+It is an error if any of <i>Fx<sub>2</sub></i>, <i>fx<sub>3</sub></i>, and <i>fx<sub>4</sub></i>
+are negative, or are greater than or equal to
+<tt>(fixnum-width)</tt>.  It is also an error if <i>Fx<sub>2</sub></i> is greater than
+<i>fx<sub>3</sub></i>, or if <i>Fx<sub>4</sub></i> is greater than or equal to the difference
+between <i>fx<sub>3</sub></i> and <i>fx<sub>2</sub></i>.  The <tt>fxrotate-bit-field</tt>
+procedure returns the result of cyclically permuting in <i>fx<sub>1</sub></i> the
+bits at positions from <i>fx<sub>2</sub></i> (inclusive) to <i>fx<sub>3</sub></i>
+(exclusive) by <i>fx<sub>4</sub></i> bits
+towards the more significant bits, which is the result of the
+following computation:
+</p>
+
+<tt>(let*&nbsp;((n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>fx<sub>1</sub></i>)
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start&nbsp;<i>fx<sub>2</sub></i>)</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(end&nbsp;&nbsp;&nbsp;<i>fx<sub>3</sub></i>)</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(count&nbsp;<i>fx<sub>4</sub></i>)</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(width&nbsp;(fx-&nbsp;end&nbsp;start)))</p>
+
+<p class=nopadding>&nbsp;&nbsp;(if&nbsp;(fxpositive?&nbsp;width)</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let*&nbsp;((count&nbsp;(fxmod&nbsp;count&nbsp;width))</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(field0</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxbit-field&nbsp;n&nbsp;start&nbsp;end))</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(field1</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxarithmetic-shift-left</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field0&nbsp;count))</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(field2</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxarithmetic-shift-right</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field0&nbsp;(fx-&nbsp;width&nbsp;count)))</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(field&nbsp;(fxior&nbsp;field1&nbsp;field2)))</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxcopy-bit-field&nbsp;n&nbsp;start&nbsp;end&nbsp;field))</p>
+
+<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n))</p>
+<p></tt></p>
+<p>
+</p>
+<p></p>
+<p>
+</p>
+<p></p>
+<div align=left><tt>(<a name="node_idx_946"></a>fxreverse-bit-field<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i> <i>fx<sub>3</sub></i></i>)</tt></div>
+<p>
+It is an error if either of <i>Fx<sub>2</sub></i> and <i>fx<sub>3</sub></i> is negative, or if either is
+greater than
+<tt>(fixnum-width)</tt>.  It is also an error if <i>fx<sub>2</sub></i> is greater than
+<i>fx<sub>3</sub></i>.  The <tt>fxreverse-bit-field</tt> procedure
+returns
+the fixnum obtained from <i>fx<sub>1</sub></i> by reversing the
+order of the bits at positions from <i>fx<sub>2</sub></i> (inclusive) to
+<i>fx<sub>3</sub></i> (exclusive).
+</p>
+
+<tt>(fxreverse-bit-field&nbsp;<tt>#</tt>b1010010&nbsp;1&nbsp;4)&nbsp;&nbsp;&nbsp;&nbsp;<br><span style="margin-left: 2em">&zwnj;</span><span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;88&nbsp;;&nbsp;<tt>#</tt>b1011000<p></tt></p>
+<p>
+</p>
+<p></p>
+<p>
+</p>
+}}}
