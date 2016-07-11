@@ -18,7 +18,7 @@ have been calculated and remain in memory, since the
 head of the sequence is held in <code>all-primes</code>.  Sometimes you know
 you need no more prime numbers and you wish the ones that have already been computed
 to be garbage-collected.  Calling <code>reset-primes</code> rebinds
-<code>primes</code> to an unrealized lazy sequence, allowing the previously
+<code>all-primes</code> to a fully unrealized lazy sequence, allowing the previously
 realized primes to be garbage collected.
 </p></dd></dl>
 
@@ -97,7 +97,7 @@ the Baillie-PSW primality test
 (<a href="http://www.trnicely.net/misc/bpsw.html">http://www.trnicely.net/misc/bpsw.html</a>).   It is deterministic,
 and is known to return a definitive answer for all numbers less than 2<super>64</super>.
 For larger integers this can return <code>#t</code> on a composite number,
-although nosuch number has been found yet.  This procedure never returns <code>#f</code>
+although no such number has been found yet.  This procedure never returns <code>#f</code>
 on a prime number.
 </p>
 <p>This test is slower than Miller-Rabin but fast enough for casual use,
