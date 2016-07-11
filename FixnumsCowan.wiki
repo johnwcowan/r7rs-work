@@ -171,12 +171,13 @@ specified in <a href="DivisionRiastradh">DivisionRiastradh</a>.</p>
 Returns the two fixnum results of the following computation:
 </p>
 
-<tt>(let*&nbsp;((s&nbsp;(+&nbsp;<i>fx<sub>1</sub></i>&nbsp;<i>fx<sub>2</sub></i>&nbsp;<i>fx<sub>3</sub></i>))
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(s0&nbsp;(mod0&nbsp;s&nbsp;(expt&nbsp;2&nbsp;(fixnum-width))))</p>
+<tt>(let*&nbsp;((s&nbsp;(+&nbsp;<i>fx<sub>1</sub></i>&nbsp;<i>fx<sub>2</sub></i>&nbsp;<i>fx<sub>3</sub></i>))<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(s1&nbsp;(div0&nbsp;s&nbsp;(expt&nbsp;2&nbsp;(fixnum-width)))))</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(s0&nbsp;(mod0&nbsp;s&nbsp;(expt&nbsp;2&nbsp;(fixnum-width))))<br/>
 
-<p class=nopadding>&nbsp;&nbsp;(values&nbsp;s0&nbsp;s1))</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(s1&nbsp;(div0&nbsp;s&nbsp;(expt&nbsp;2&nbsp;(fixnum-width)))))<br/>
+
+&nbsp;&nbsp;(values&nbsp;s0&nbsp;s1))</p>
 <p></tt>
 </p>
 <p></p>
@@ -188,12 +189,13 @@ Returns the two fixnum results of the following computation:
 Returns the two fixnum results of the following computation:
 </p>
 
-<tt>(let*&nbsp;((d&nbsp;(-&nbsp;<i>fx<sub>1</sub></i>&nbsp;<i>fx<sub>2</sub></i>&nbsp;<i>fx<sub>3</sub></i>))
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(d0&nbsp;(mod0&nbsp;d&nbsp;(expt&nbsp;2&nbsp;(fixnum-width))))</p>
+<tt>(let*&nbsp;((d&nbsp;(-&nbsp;<i>fx<sub>1</sub></i>&nbsp;<i>fx<sub>2</sub></i>&nbsp;<i>fx<sub>3</sub></i>))<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(d1&nbsp;(div0&nbsp;d&nbsp;(expt&nbsp;2&nbsp;(fixnum-width)))))</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(d0&nbsp;(mod0&nbsp;d&nbsp;(expt&nbsp;2&nbsp;(fixnum-width))))<br/>
 
-<p class=nopadding>&nbsp;&nbsp;(values&nbsp;d0&nbsp;d1))</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(d1&nbsp;(div0&nbsp;d&nbsp;(expt&nbsp;2&nbsp;(fixnum-width)))))<br/>
+
+&nbsp;&nbsp;(values&nbsp;d0&nbsp;d1))</p>
 <p></tt>
 </p>
 <p></p>
@@ -205,12 +207,13 @@ Returns the two fixnum results of the following computation:
 Returns the two fixnum results of the following computation:
 </p>
 
-<tt>(let*&nbsp;((s&nbsp;(+&nbsp;(*&nbsp;<i>fx<sub>1</sub></i>&nbsp;<i>fx<sub>2</sub></i>)&nbsp;<i>fx<sub>3</sub></i>))
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(s0&nbsp;(mod0&nbsp;s&nbsp;(expt&nbsp;2&nbsp;(fixnum-width))))</p>
+<tt>(let*&nbsp;((s&nbsp;(+&nbsp;(*&nbsp;<i>fx<sub>1</sub></i>&nbsp;<i>fx<sub>2</sub></i>)&nbsp;<i>fx<sub>3</sub></i>))<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(s1&nbsp;(div0&nbsp;s&nbsp;(expt&nbsp;2&nbsp;(fixnum-width)))))</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(s0&nbsp;(mod0&nbsp;s&nbsp;(expt&nbsp;2&nbsp;(fixnum-width))))<br/>
 
-<p class=nopadding>&nbsp;&nbsp;(values&nbsp;s0&nbsp;s1))</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(s1&nbsp;(div0&nbsp;s&nbsp;(expt&nbsp;2&nbsp;(fixnum-width)))))<br/>
+
+=&nbsp;&nbsp;(values&nbsp;s0&nbsp;s1))</p>
 <p></tt>
 </p>
 <p></p>
@@ -253,8 +256,8 @@ bit in <i>fx<sub>3</sub></i> becomes the corresponding bit in the value of the
 result.  This is the fixnum result of the following computation:
 </p>
 
-<tt>(fxior&nbsp;(fxand&nbsp;<i>fx<sub>1</sub></i>&nbsp;<i>fx<sub>2</sub></i>)
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxand&nbsp;(fxnot&nbsp;<i>fx<sub>1</sub></i>)&nbsp;<i>fx<sub>3</sub></i>))</p>
+<tt>(fxior&nbsp;(fxand&nbsp;<i>fx<sub>1</sub></i>&nbsp;<i>fx<sub>2</sub></i>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxand&nbsp;(fxnot&nbsp;<i>fx<sub>1</sub></i>)&nbsp;<i>fx<sub>3</sub></i>))</p>
 <p></tt>
 </p>
 <p></p>
@@ -282,18 +285,18 @@ positive, and the number of bits needed to represent <tt>(fxnot
 following computation:
 </p>
 
-<tt>(do&nbsp;((result&nbsp;0&nbsp;(+&nbsp;result&nbsp;1))
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(bits&nbsp;(if&nbsp;(fxnegative?&nbsp;<i>fx</i>)</p>
+<tt>(do&nbsp;((result&nbsp;0&nbsp;(+&nbsp;result&nbsp;1))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(bits&nbsp;(if&nbsp;(fxnegative?&nbsp;<i>fx</i>)<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxnot&nbsp;<i>fx</i>)</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxnot&nbsp;<i>fx</i>)<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>fx</i>)</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>fx</i>)<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxarithmetic-shift-right&nbsp;bits&nbsp;1)))</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxarithmetic-shift-right&nbsp;bits&nbsp;1)))<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;((fxzero?&nbsp;bits)</p>
+&nbsp;&nbsp;&nbsp;&nbsp;((fxzero?&nbsp;bits)<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result))</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result))</p>
 <p></tt>
 </p>
 <p></p>
@@ -307,10 +310,10 @@ the two's complement representation of <i>fx</i>.  If
 <i>fx</i> is 0, then &minus;1 is returned.
 </p>
 
-<tt>(fxfirst-bit-set&nbsp;0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;-1
-<p class=nopadding>(fxfirst-bit-set&nbsp;1)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;0</p>
+<tt>(fxfirst-bit-set&nbsp;0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;-1<br/>
+(fxfirst-bit-set&nbsp;1)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;0<br/>
 
-<p class=nopadding>(fxfirst-bit-set&nbsp;-4)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;2</p>
+(fxfirst-bit-set&nbsp;-4)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;2</p>
 <p></tt>
 </p>
 <p></p>
@@ -326,11 +329,11 @@ fixnum result of the following computation:
 </p>
 
 <tt>(not
-<p class=nopadding>&nbsp;&nbsp;(fxzero?</p>
+<br/>&nbsp;&nbsp;(fxzero?</p>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;(fxand&nbsp;<i>fx<sub>1</sub></i></p>
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;(fxand&nbsp;<i>fx<sub>1</sub></i><br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxarithmetic-shift-left&nbsp;1&nbsp;<i>fx<sub>2</sub></i>))))</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxarithmetic-shift-left&nbsp;1&nbsp;<i>fx<sub>2</sub></i>))))</p>
 <p></tt>
 </p>
 <p></p>
@@ -345,12 +348,13 @@ the <i>fx<sub>2</sub></i>th bit of <i>fx<sub>1</sub></i> by <i>fx<sub>3</sub></i
 the result of the following computation:
 </p>
 
-<tt>(let*&nbsp;((mask&nbsp;(fxarithmetic-shift-left&nbsp;1&nbsp;<i>fx<sub>2</sub></i>)))
-<p class=nopadding>&nbsp;&nbsp;(fxif&nbsp;mask</p>
+<tt>(let*&nbsp;((mask&nbsp;(fxarithmetic-shift-left&nbsp;1&nbsp;<i>fx<sub>2</sub></i>)))<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxarithmetic-shift-left&nbsp;<i>fx<sub>3</sub></i>&nbsp;<i>fx<sub>2</sub></i>)</p>
+&nbsp;&nbsp;(fxif&nbsp;mask<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>fx<sub>1</sub></i>))</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxarithmetic-shift-left&nbsp;<i>fx<sub>3</sub></i>&nbsp;<i>fx<sub>2</sub></i>)<br/>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>fx<sub>1</sub></i>))</p>
 <p></tt>
 </p>
 <p></p>
@@ -367,12 +371,13 @@ number represented by the bits at the positions from <i>fx<sub>2</sub></i> (incl
 the fixnum result of the following computation:
 </p>
 
-<tt>(let*&nbsp;((mask&nbsp;(fxnot
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxarithmetic-shift-left&nbsp;-1&nbsp;<i>fx<sub>3</sub></i>))))</p>
+<tt>(let*&nbsp;((mask&nbsp;(fxnot<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxarithmetic-shift-left&nbsp;-1&nbsp;<i>fx<sub>3</sub></i>))))<br/>
 
-<p class=nopadding>&nbsp;&nbsp;(fxarithmetic-shift-right&nbsp;(fxand&nbsp;<i>fx<sub>1</sub></i>&nbsp;mask)</p>
+&nbsp;&nbsp;(fxarithmetic-shift-right&nbsp;(fxand&nbsp;<i>fx<sub>1</sub></i>&nbsp;mask)<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>fx<sub>2</sub></i>))</p>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>fx<sub>2</sub></i>))</p>
 <p></tt>
 </p>
 <p></p>
@@ -389,26 +394,26 @@ the result of replacing in <i>fx<sub>1</sub></i> the bits at positions from
 is the fixnum result of the following computation:
 </p>
 
-<tt>(let*&nbsp;((to&nbsp;&nbsp;&nbsp;&nbsp;<i>fx<sub>1</sub></i>)
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start&nbsp;<i>fx<sub>2</sub></i>)</p>
+<tt>(let*&nbsp;((to&nbsp;&nbsp;&nbsp;&nbsp;<i>fx<sub>1</sub></i>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start&nbsp;<i>fx<sub>2</sub></i>)<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(end&nbsp;&nbsp;&nbsp;<i>fx<sub>3</sub></i>)</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(end&nbsp;&nbsp;&nbsp;<i>fx<sub>3</sub></i>)<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(from&nbsp;&nbsp;<i>fx<sub>4</sub></i>)</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(from&nbsp;&nbsp;<i>fx<sub>4</sub></i>)<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mask1&nbsp;(fxarithmetic-shift-left&nbsp;-1&nbsp;start))</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mask1&nbsp;(fxarithmetic-shift-left&nbsp;-1&nbsp;start))<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mask2&nbsp;(fxnot</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mask2&nbsp;(fxnot<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxarithmetic-shift-left&nbsp;-1&nbsp;end)))</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxarithmetic-shift-left&nbsp;-1&nbsp;end)))<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mask&nbsp;(fxand&nbsp;mask1&nbsp;mask2)))</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mask&nbsp;(fxand&nbsp;mask1&nbsp;mask2)))<br/>
 
-<p class=nopadding>&nbsp;&nbsp;(fxif&nbsp;mask</p>
+&nbsp;&nbsp;(fxif&nbsp;mask<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxarithmetic-shift-left&nbsp;from&nbsp;start)</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxarithmetic-shift-left&nbsp;from&nbsp;start)<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to))</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to))</p>
 <p></tt>
 </p>
 <p></p>
@@ -455,40 +460,41 @@ towards the more significant bits, which is the result of the
 following computation:
 </p>
 
-<tt>(let*&nbsp;((n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>fx<sub>1</sub></i>)
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start&nbsp;<i>fx<sub>2</sub></i>)</p>
+<tt>(let*&nbsp;((n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>fx<sub>1</sub></i>)<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(end&nbsp;&nbsp;&nbsp;<i>fx<sub>3</sub></i>)</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start&nbsp;<i>fx<sub>2</sub></i>)<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(count&nbsp;<i>fx<sub>4</sub></i>)</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(end&nbsp;&nbsp;&nbsp;<i>fx<sub>3</sub></i>)<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(width&nbsp;(fx-&nbsp;end&nbsp;start)))</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(count&nbsp;<i>fx<sub>4</sub></i>)<br/>
 
-<p class=nopadding>&nbsp;&nbsp;(if&nbsp;(fxpositive?&nbsp;width)</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(width&nbsp;(fx-&nbsp;end&nbsp;start)))<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let*&nbsp;((count&nbsp;(fxmod&nbsp;count&nbsp;width))</p>
+&nbsp;&nbsp;(if&nbsp;(fxpositive?&nbsp;width)<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(field0</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let*&nbsp;((count&nbsp;(fxmod&nbsp;count&nbsp;width))<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxbit-field&nbsp;n&nbsp;start&nbsp;end))</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(field0<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(field1</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxbit-field&nbsp;n&nbsp;start&nbsp;end))<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxarithmetic-shift-left</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(field1<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field0&nbsp;count))</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxarithmetic-shift-left<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(field2</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field0&nbsp;count))<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxarithmetic-shift-right</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(field2<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field0&nbsp;(fx-&nbsp;width&nbsp;count)))</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxarithmetic-shift-right<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(field&nbsp;(fxior&nbsp;field1&nbsp;field2)))</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field0&nbsp;(fx-&nbsp;width&nbsp;count)))<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxcopy-bit-field&nbsp;n&nbsp;start&nbsp;end&nbsp;field))</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(field&nbsp;(fxior&nbsp;field1&nbsp;field2)))<br/>
 
-<p class=nopadding>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n))</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fxcopy-bit-field&nbsp;n&nbsp;start&nbsp;end&nbsp;field))<br/>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n))</p>
 <p></tt></p>
 <p>
 </p>
