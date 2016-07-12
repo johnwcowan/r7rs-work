@@ -363,7 +363,7 @@ the result of the following computation:
 <p></p>
 <div align=left><tt>(<a name="node_idx_934"></a>fxbit-field<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i> <i>fx<sub>3</sub></i></i>)</tt></div>
 <p>
-It is an error if either of <i>Fx<sub>2</sub></i> and <i>fx<sub>3</sub></i> is negative, or if either is greater than or equal to
+It is an error if either of <i>fx<sub>2</sub></i> and <i>fx<sub>3</sub></i> is negative, or if either is greater than or equal to
 <tt>(fixnum-width)</tt>.  It is also an error if <i>fx<sub>2</sub></i> is greater than
 <i>fx<sub>3</sub></i>.  The <tt>fxbit-field</tt> procedure returns the
 number represented by the bits at the positions from <i>fx<sub>2</sub></i> (inclusive) to
@@ -387,7 +387,7 @@ the fixnum result of the following computation:
 <div align=left><tt>(<a name="node_idx_936"></a>fxcopy-bit-field<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i> <i>fx<sub>3</sub></i> <i>fx<sub>4</sub></i></i>)</tt></div>
 <p>
 It is an error if either <i>fx<sub>2</sub></i> or <i>fx<sub>3</sub></i> or if either is greater than
-<tt>(fixnum-width)</tt>.  It is also an error if <i>fx<sub>2</sub></i> is greater than
+or equal to <tt>(fixnum-width)</tt>.  It is also an error if <i>fx<sub>2</sub></i> is greater than
 <i>fx<sub>3</sub></i>.  The <tt>fxcopy-bit-field</tt> procedure returns
 the result of replacing in <i>fx<sub>1</sub></i> the bits at positions from
 <i>fx<sub>2</sub></i> (inclusive) to <i>fx<sub>3</sub></i> (exclusive) by the corresponding bits in <i>fx<sub>4</sub></i>, which
@@ -448,7 +448,7 @@ The <tt>fxarithmetic-shift-left</tt> procedure behaves the same as <tt>fxarithme
 <p></p>
 <div align=left><tt>(<a name="node_idx_944"></a>fxrotate-bit-field<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i> <i>fx<sub>3</sub></i> <i>fx<sub>4</sub></i></i>)</tt></div>
 <p>
-It is an error if any of <i>Fx<sub>2</sub></i>, <i>fx<sub>3</sub></i>, and <i>fx<sub>4</sub></i>
+It is an error if any of <i>fx<sub>2</sub></i>, <i>fx<sub>3</sub></i>, and <i>fx<sub>4</sub></i>
 are negative, or are greater than or equal to
 <tt>(fixnum-width)</tt>.  It is also an error if <i>Fx<sub>2</sub></i> is greater than
 <i>fx<sub>3</sub></i>, or if <i>Fx<sub>4</sub></i> is greater than or equal to the difference
@@ -504,8 +504,8 @@ following computation:
 <p></p>
 <div align=left><tt>(<a name="node_idx_946"></a>fxreverse-bit-field<i> <i>fx<sub>1</sub></i> <i>fx<sub>2</sub></i> <i>fx<sub>3</sub></i></i>)</tt></div>
 <p>
-It is an error if either of <i>Fx<sub>2</sub></i> and <i>fx<sub>3</sub></i> is negative, or if either is
-greater than
+It is an error if either of <i>fx<sub>2</sub></i> and <i>fx<sub>3</sub></i> is negative, or if either is
+greater than or equal to
 <tt>(fixnum-width)</tt>.  It is also an error if <i>fx<sub>2</sub></i> is greater than
 <i>fx<sub>3</sub></i>.  The <tt>fxreverse-bit-field</tt> procedure
 returns
