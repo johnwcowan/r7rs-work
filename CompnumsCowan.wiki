@@ -18,15 +18,6 @@ parameter names for compnum arguments.</p>
 
 {{{
 #!html
-</p>
-<p></p>
-<div align=left><tt><a name="node_idx_950"></a>cx:i</tt></div>
-<p>
-This is not a procedure, but the compnum 0.0+1.0i.
-</p>
-<p></p>
-<p>
-</p>
 <p></p>
 <div align=left><tt>(<a name="node_idx_952"></a>compnum<i> x</i>)</tt></div>
 <p>
@@ -51,7 +42,6 @@ The value returned is a compnum whose real part is the flonum <i>fl<sub>1</sub><
 The value returned is a compnum whose magnitude is the flonum <i>fl<sub>1</sub></i>
 and whose angle is the flonum <i>fl<sub>2</sub></i></p>
 <p></p>
-<div align=left><tt>(<a name="node_idx_954"></a>cx=?<i> <i>cx<sub>1</sub></i> <i>cx<sub>2</sub></i> <i>cx<sub>3</sub></i> <tt>...</tt></i>)</tt></div>
 }}}
 
 === Predicates ===
@@ -66,9 +56,10 @@ Returns <tt>#t</tt> if <i>obj</i> is a compnum, <tt>#f</tt> otherwise.
 <p></p>
 <p>
 </p>
+<div align=left><tt>(<a name="node_idx_954"></a>cx=?<i> <i>cx<sub>1</sub></i> <i>cx<sub>2</sub></i> <i>cx<sub>3</sub></i> <tt>...</tt></i>)</tt></div>
 
 <p>
-This procedure returns <tt>#t</tt> if its arguments are equal.</p>
+This procedure returns <tt>#t</tt> if its arguments are numerically equal.</p>
 <p>
 </p>
 
@@ -83,7 +74,7 @@ This procedure returns <tt>#t</tt> if its arguments are equal.</p>
 These numerical predicates test a compnum for a particular property,
 returning <tt>#t</tt> or <tt>#f</tt>.
 The <tt>cxzero?</tt> procedure tests whether
-it is <tt>cx=?</tt> to <tt>0.0+0.0i</i>,
+it is <tt>cx=?</tt> to <tt>0.0+0.0i</tt>,
 <tt>cxfinite?</tt> tests whether both the real and the imaginary parts
 are not an infinity and not a NaN,
 <tt>cxinfinite?</tt> tests whether either the real or the imaginary parts or both is an infinity, and
@@ -126,10 +117,9 @@ reasonably well-defined by the IEEE standards.)</p>
 <p>
 </p>
 
-<tt>(cx-&nbsp;+inf.0&nbsp;+inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;+nan.0<p></tt></p>
 <p>
 For undefined quotients, <tt>cx/</tt> behaves as specified by the
-IEEE standards</p>
+IEEE standards.</p>
 <p>
 </p>
 
@@ -186,14 +176,15 @@ unless <i>z</z> is zero, in which case it returns <i>z</z>.
 </p>
 <p></p>
 
-<p></p>
-<div align=left><tt>(<a name="node_idx_1024"></a>cxexp<i> cx</i>)</tt></div>
 }}}
 
 === Transcendental functions ===
 
 {{{
 #!html
+
+<p></p>
+<div align=left><tt>(<a name="node_idx_1024"></a>cxexp<i> cx</i>)</tt></div>
 
 <div align=left><tt>(<a name="node_idx_1026"></a>cxlog<i> cx</i>)</tt></div>
 
