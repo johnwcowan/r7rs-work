@@ -1,43 +1,39 @@
-A ''compnum'' is a general complex number whose `real-part` and `imag-part` are both flonums.  The following procedures should be in a different library from the flonum procedures.
+The compnums are the subset of the inexact complex numbers whose real part and imaginary part are both flonums.
+This library is based on the R6RS flonum library lifted to compnums, except that the
+R6RS-specific integer division procedures have been removed, as have the condition types, and
+a few procedures have been added from the C99 `<complex.h>` library.
 
-
-== Compnum operations paralleling R6RS flonum library ==
-
-The R6RS-specific integer division procedures have been removed, as have the condition types.
+== Specification ==
 
 {{{
 #!html
 <p>
 This section uses <i>cx</i>, <i>cx<sub>1</sub></i>, <i>cx<sub>2</sub></i>, etc., as
-parameter names for compnum arguments, and <i>icx</i>
-as a name for integer-valued compnum arguments, i.e., compnums for which the
-<tt>integer?</tt> predicate returns true.</p>
+parameter names for compnum arguments.</p>
+<p>
+}}}
+
+
+=== Constructors ===
+
+{{{
+#!html
+</p>
+<p></p>
+<div align=left><tt><a name="node_idx_950"></a>cx:i</tt></div>
+<p>
+This is not a procedure, but the compnum 0.0+1.0i.
+</p>
+<p></p>
 <p>
 </p>
 <p></p>
-<div align=left><tt>(<a name="node_idx_950"></a>compnum?<i> obj</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<div align=left><tt>(<a name="node_idx_952"></a>compnum<i> x</i>)</tt></div>
 <p>
-Returns <tt>#t</tt> if <i>obj</i> is a compnum, <tt>#f</tt> otherwise.
-</p>
-<p></p>
-<p>
-</p>
-<p></p>
-<div align=left><tt>(<a name="node_idx_952"></a>compnum<i> x</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
-<p>
-Returns the best compnum representation of
-<i>x</i>.</p>
-<p>
-The value returned is a compnum that is numerically closest to the
-argument.</p>
+The value returned is a compnum that is numerically closest to
+<i>x</i>.  This procedure can be used to transform a flonum to a compnum.
 <p>
 </p>
-<blockquote><em>Note:<span style="margin-left: .5em">&zwnj;</span></em>
-If compnums are represented in binary floating point, then
-implementations should break ties by preferring
-the floating-point representation whose least significant bit is
-zero.
-</blockquote>
 <p></p>
 <p>
 </p>
@@ -55,20 +51,34 @@ The value returned is a compnum whose real part is the flonum <i>fl<sub>1</sub><
 The value returned is a compnum whose magnitude is the flonum <i>fl<sub>1</sub></i>
 and whose angle is the flonum <i>fl<sub>2</sub></i></p>
 <p></p>
-<div align=left><tt>(<a name="node_idx_954"></a>cx=?<i> <i>cx<sub>1</sub></i> <i>cx<sub>2</sub></i> <i>cx<sub>3</sub></i> <tt>...</tt></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<div align=left><tt>(<a name="node_idx_954"></a>cx=?<i> <i>cx<sub>1</sub></i> <i>cx<sub>2</sub></i> <i>cx<sub>3</sub></i> <tt>...</tt></i>)</tt></div>
+}}}
+
+=== Predicates ===
+
+{{{
+#!html
+<p></p>
+<div align=left><tt>(<a name="node_idx_950"></a>compnum?<i> obj</i>)</tt></div>
+<p>
+Returns <tt>#t</tt> if <i>obj</i> is a compnum, <tt>#f</tt> otherwise.
+</p>
+<p></p>
+<p>
+</p>
 
 <p>
 This procedure returns <tt>#t</tt> if its arguments are equal.</p>
 <p>
 </p>
 
-<div align=left><tt>(<a name="node_idx_966"></a>cxzero?<i> cx</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<div align=left><tt>(<a name="node_idx_966"></a>cxzero?<i> cx</i>)</tt></div>
 
-<div align=left><tt>(<a name="node_idx_976"></a>cxfinite?<i> cx</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<div align=left><tt>(<a name="node_idx_976"></a>cxfinite?<i> cx</i>)</tt></div>
 
-<div align=left><tt>(<a name="node_idx_978"></a>cxinfinite?<i> cx</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<div align=left><tt>(<a name="node_idx_978"></a>cxinfinite?<i> cx</i>)</tt></div>
 
-<div align=left><tt>(<a name="node_idx_980"></a>cxnan?<i> cx</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<div align=left><tt>(<a name="node_idx_980"></a>cxnan?<i> cx</i>)</tt></div>
 <p>
 These numerical predicates test a compnum for a particular property,
 returning <tt>#t</tt> or <tt>#f</tt>.
@@ -81,11 +91,17 @@ are not an infinity and not a NaN,
 <p>
 </p>
 
+}}}
+
+=== Arithmetic operations ===
+
+{{{
+#!html
 
 <p></p>
-<div align=left><tt>(<a name="node_idx_986"></a>cx+<i> <i>cx<sub>1</sub></i> <tt>...</tt></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<div align=left><tt>(<a name="node_idx_986"></a>cx+<i> <i>cx<sub>1</sub></i> <tt>...</tt></i>)</tt></div>
 
-<div align=left><tt>(<a name="node_idx_988"></a>cx*<i> <i>cx<sub>1</sub></i> <tt>...</tt></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<div align=left><tt>(<a name="node_idx_988"></a>cx*<i> <i>cx<sub>1</sub></i> <tt>...</tt></i>)</tt></div>
 <p>
 These procedures return the compnum sum or product of their compnum
 arguments.  In general, they should return the compnum that best
@@ -95,9 +111,9 @@ meaning of &ldquo;best&rdquo; is defined by the IEEE standards.)</p>
 <p>
 </p>
 
-<div align=left><tt>(<a name="node_idx_994"></a>cx/<i> <i>cx<sub>1</sub></i> <i>cx<sub>2</sub></i> <tt>...</tt></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<div align=left><tt>(<a name="node_idx_994"></a>cx/<i> <i>cx<sub>1</sub></i> <i>cx<sub>2</sub></i> <tt>...</tt></i>)</tt></div>
 
-<div align=left><tt>(<a name="node_idx_996"></a>cx/<i> cx</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<div align=left><tt>(<a name="node_idx_996"></a>cx/<i> cx</i>)</tt></div>
 <p>
 With two or more arguments, these procedures return the compnum
 difference or quotient of their compnum arguments, associating to the
@@ -117,66 +133,99 @@ IEEE standards</p>
 <p>
 </p>
 
-<div align=left><tt>(<a name="node_idx_998"></a>cxreal-part<i> cx</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<div align=left><tt>(<a name="node_idx_998"></a>cxreal-part<i> cx</i>)</tt></div>
 <p>
-This procedure returns the real part of <i>cx</i>.
+This procedure returns the real part of <i>cx</i> as a flonum.
 </p>
 <p>
 </p>
 
-<div align=left><tt>(<a name="node_idx_998"></a>cximag-part<i> cx</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<div align=left><tt>(<a name="node_idx_998"></a>cximag-part<i> cx</i>)</tt></div>
 <p>
-This procedure returns the imaginary part of <i>cx</i>.
+This procedure returns the imaginary part of <i>cx</i> as a flonum.
 </p>
 <p>
 </p>
 
-<div align=left><tt>(<a name="node_idx_998"></a>cxangle<i> cx</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<div align=left><tt>(<a name="node_idx_998"></a>cxangle<i> cx</i>)</tt></div>
 <p>
-This procedure returns the angle of <i>cx</i>.
+This procedure returns the nearest approximation to the angle of <i>cx</i> that is a flonum.
 </p>
 <p>
 </p>
 
-<div align=left><tt>(<a name="node_idx_998"></a>cxabs<i> cx</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
-<div align=left><tt>(<a name="node_idx_998"></a>cxmagnitude<i> cx</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<div align=left><tt>(<a name="node_idx_998"></a>cxabs<i> cx</i>)</tt></div>
+<div align=left><tt>(<a name="node_idx_998"></a>cxmagnitude<i> cx</i>)</tt></div>
 <p>
-These procedures return the absolute value (magnitude) of <i>cx</i>.
+These procedures return the nearest approximation to the absolute value (magnitude)
+of <i>cx</i> that is a compnum.
+</p>
+<p></p>
+
+<div align=left><tt>(<a name="node_idx_998c"></a>cxconj<i> cx</i>)</tt></div>
+<p>
+This procedure returns the complex conjugate
+of <i>cx</i>. The result has the same as the real part of <i>cx</i>.  Its imaginary part
+is the negation of the imaginary part of <i>cx</i>.
+</p>
+<p></p>
+
+<div align=left><tt>(<a name="node_idx_998p"></a>cxproj<i> cx</i>)</tt></div>
+<p>
+This procedure returns the Riemann projection
+of <i>cx</i>. This is the same as <i>cx</i> unless <i>cx</i> has an infinite real part
+or complex part.  In this case, the result is a compnum whose real part is 0.0 and whose
+imaginary part is either 0.0 or -0.0, depending on the sign of the imaginary part of <i>cx</i>.
+</p>
+<p></p>
+
+<div align=left><tt>(<a name="node_idx_998g"></a>cxsignum<i> cx</i>)</tt></div>
+<p>
+This procedure returns a complex number whose phase is the same as <i>z</i> but whose magnitude is 1,
+unless <i>z</z> is zero, in which case it returns <i>z</z>.
 </p>
 <p></p>
 
 <p></p>
-<div align=left><tt>(<a name="node_idx_1024"></a>cxexp<i> cx</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<div align=left><tt>(<a name="node_idx_1024"></a>cxexp<i> cx</i>)</tt></div>
+}}}
 
-<div align=left><tt>(<a name="node_idx_1026"></a>cxlog<i> cx</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+=== Transcendental functions ===
 
-<div align=left><tt>(<a name="node_idx_1028"></a>cxlog<i> <i>cx<sub>1</sub></i> <i>cx<sub>2</sub></i></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+{{{
+#!html
 
-<div align=left><tt>(<a name="node_idx_1030"></a>cxsin<i> cx</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<div align=left><tt>(<a name="node_idx_1026"></a>cxlog<i> cx</i>)</tt></div>
 
-<div align=left><tt>(<a name="node_idx_1032"></a>cxcos<i> cx</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<div align=left><tt>(<a name="node_idx_1028"></a>cxlog<i> <i>cx<sub>1</sub></i> <i>cx<sub>2</sub></i></i>)</tt></div>
 
-<div align=left><tt>(<a name="node_idx_1034"></a>cxtan<i> cx</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<div align=left><tt>(<a name="node_idx_1030"></a>cxsin<i> cx</i>)</tt></div>
 
-<div align=left><tt>(<a name="node_idx_1036"></a>cxasin<i> cx</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<div align=left><tt>(<a name="node_idx_1032"></a>cxcos<i> cx</i>)</tt></div>
 
-<div align=left><tt>(<a name="node_idx_1038"></a>cxacos<i> cx</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<div align=left><tt>(<a name="node_idx_1032i"></a>cxcis<i> cx</i>)</tt></div>
 
-<div align=left><tt>(<a name="node_idx_1040"></a>cxatan<i> cx</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<div align=left><tt>(<a name="node_idx_1034"></a>cxtan<i> cx</i>)</tt></div>
 
-<div align=left><tt>(<a name="node_idx_1030h"></a>cxsinh<i> cx</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<div align=left><tt>(<a name="node_idx_1036"></a>cxasin<i> cx</i>)</tt></div>
 
-<div align=left><tt>(<a name="node_idx_1032h"></a>cxcosh<i> cx</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<div align=left><tt>(<a name="node_idx_1038"></a>cxacos<i> cx</i>)</tt></div>
 
-<div align=left><tt>(<a name="node_idx_1034h"></a>cxtanh<i> cx</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<div align=left><tt>(<a name="node_idx_1040"></a>cxatan<i> cx</i>)</tt></div>
 
-<div align=left><tt>(<a name="node_idx_1036h"></a>cxasinh<i> cx</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<div align=left><tt>(<a name="node_idx_1030h"></a>cxsinh<i> cx</i>)</tt></div>
 
-<div align=left><tt>(<a name="node_idx_1038h"></a>cxacosh<i> cx</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<div align=left><tt>(<a name="node_idx_1032h"></a>cxcosh<i> cx</i>)</tt></div>
 
-<div align=left><tt>(<a name="node_idx_1040h"></a>cxatanh<i> cx</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<div align=left><tt>(<a name="node_idx_1034h"></a>cxtanh<i> cx</i>)</tt></div>
 
-These procedures compute the usual transcendental functions.  
+<div align=left><tt>(<a name="node_idx_1036h"></a>cxasinh<i> cx</i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_1038h"></a>cxacosh<i> cx</i>)</tt></div>
+
+<div align=left><tt>(<a name="node_idx_1040h"></a>cxatanh<i> cx</i>)</tt></div>
+
+<p>These procedures compute the usual transcendental functions.  
 The <tt>cxexp</tt> procedure computes the base-<em>e</em> exponential of <i>cx</i>.
 The <tt>cxlog</tt> procedure with a single argument computes the natural logarithm of
 <i>cx</i> (not the base ten logarithm); <tt>(cxlog <i>cx<sub>1</sub></i>
@@ -187,13 +236,12 @@ The <tt>cxsin</tt>, <tt>cxcosh</tt>, <tt>cxtanh</tt>,
 <tt>cxasinh</tt>, <tt>cxacosh</tt>, and <tt>cxatanh</tt> procedures compute
 the sine, cosine, tangent, arcsine,
 arccosine, arctangent, and their hyperbolic analogues respectively.  <tt>(cxatan[h] <i>cx<sub>1</sub></i>
-<i>cx<sub>2</sub></i>)</tt> computes the (hyperbolic) arc tangent of <i>cx<sub>1</sub></i>/<i>cx<sub>2</sub></i>.</p>
+<i>cx<sub>2</sub></i>)</tt> computes the (hyperbolic) arc tangent of <i>cx<sub>1</sub></i>/<i>cx<sub>2</sub></i>.
+Finally, the <tt>cxcis</tt> function computes the compnum whose real part is the cosine of <i>cx</i>
+and whose imaginary part is the sine of <i>cx</i>.</p>
 <p>
-See report
-section&nbsp;on &ldquo;Transcendental functions&rdquo; for the underlying
-mathematical operations.  In the event that these operations do not
-yield a real result for the given arguments, the result may be a NaN,
-or may be some unspecified compnum.</p>
+See the corresponding section of R<sup>7</sup>RS-small for the underlying
+mathematical operations.</p>
 <p>
 Implementations that use IEEE binary floating-point arithmetic 
 should follow the relevant standards for these procedures.</p>
@@ -202,15 +250,14 @@ should follow the relevant standards for these procedures.</p>
 
 
 <p></p>
-<div align=left><tt>(<a name="node_idx_1044"></a>cxsqrt<i> cx</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<div align=left><tt>(<a name="node_idx_1044"></a>cxsqrt<i> cx</i>)</tt></div>
 <p>
-Returns the principal square root of <i>cx</i>. For negative arguments,
-the result may be a NaN or some unspecified compnum.</p>
+Returns the principal square root of <i>cx</i>..</p>
 <p>
 </p>
 
 <p></p>
-<div align=left><tt>(<a name="node_idx_1046"></a>cxexpt<i> <i>cx<sub>1</sub></i> <i>cx<sub>2</sub></i></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<div align=left><tt>(<a name="node_idx_1046"></a>cxexpt<i> <i>cx<sub>1</sub></i> <i>cx<sub>2</sub></i></i>)</tt></div>
 <p>
 Either <i>cx<sub>1</sub></i> should be non-negative, or, if <i>cx<sub>1</sub></i> is
 negative, <i>cx<sub>2</sub></i> should be an integer object.
@@ -225,29 +272,5 @@ the result is zero.
 
 }}}
 
-== C99 <complex.h> constants ==
-
-The following constants are defined in terms of the constants of the <math.h> header of ISO/IEC 9899:1999 (C language).
-
-||Scheme name||C name||Comments||
-||cx:i||I||0+1i as a compnum||
-
-
-== Compnum procedures from <complex.h> ==
-
-||Scheme name||C signature||Comments||
-||`cxconjugate`||`double complex conj(double complex)`||complex conjugate||
-||`cxexp`||`double complex cexp(double complex)`||-||
-||`cxprojection`||`double complex cproj(double complex)`||projects to Riemann sphere
-
-The following are general complex number functions, not just for compnums.
-
-`(cis `''z''`)`
-
-Returns e^i''z''^, a complex number whose real part is cos ''z'' and whose imaginary part is sin ''z''.
-
-`(signum `''z''`)`
-
-Returns a complex number whose phase is the same as ''z'' but whose magnitude is 1, unless ''z'' is zero, in which case it returns ''z''.  As a consequence of this definition, negative real numbers return -1, positive real numbers return 1, and zero returns zero.
 
  
