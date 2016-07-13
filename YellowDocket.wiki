@@ -10,7 +10,7 @@ Conditional procedures:  ConditionalProceduresSamizdat
 
 `cond` guards: [[http://srfi.schemers.org/srfi-61/srfi-61.html|SRFI 61]]
 
-Lambda*:
+Lambda*: BeyondCurryingHemann
 
 Void:  VoidCowan
 
