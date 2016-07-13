@@ -1,0 +1,1 @@
+[[http://webyrd.net/scheme-2013/papers/HemannCurrying2013.pdf|λ* : Beyond Currying]]
