@@ -1,0 +1,45 @@
+The following are the elements of the expression language.
+
+Integer literals, rational literals, floating-point literals.
+
+Quoted empty lists.
+
+Variables.
+
+Procedures:
+{{{
+bitwise-not not
+string-append
+* / modulo
++ -
+arithmetic-shift
+arithmetic-shift-right
+bitwise-and
+bitwise-or
+< <= > >=
+= eqv? in (like glob match regexp)
+and
+or
+}}}
+
+Syntax:
+{{{
+if if-case
+}}}
+
+More procedures:
+{{{
+coerce
+abs
+string
+coalesce
+string-contains
+string-length
+string-lowercase
+string-uppercase
+string-trim
+string-trim-right
+round-quotient
+substring
+string-trim-both
+}}}
