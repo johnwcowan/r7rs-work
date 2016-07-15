@@ -2,6 +2,8 @@ These are things to consider making mandatory in the large language that are opt
 
 Full numeric tower support (bignums, ratios, flonums, compnums)
 
+Forbid mutation of literals
+
 Exact complex numbers
 
 IEEE 64-bit binary inexact numbers
