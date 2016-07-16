@@ -1,5 +1,7 @@
 Low-level macros:  MinimalSyntaxCaseCowan, explicit renaming, syntactic closures, R6RS syntax-case, [[http://srfi.schemers.org/srfi-72/srfi-72.html|SRFI 72]].
 
+Macro uses in syntax definitions:
+
 Syntax parameters: [[http://srfi.schemers.org/srfi-139/srfi-139.html|SRFI 139]]
 
 Matching:  MatchingWise
