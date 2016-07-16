@@ -1,10 +1,12 @@
-These are things to consider making mandatory in the large language that are optional in the small language.  See [wiki:WG2Dockets] for other dockets.
+These are things to consider making mandatory in the large language that are optional in the small language or in SRFIs that form part of the large language.  See [wiki:WG2Dockets] for other dockets.
 
-Full numeric tower support (bignums, ratios, flonums, compnums)
+Full numeric tower support:  arbitrary rationals and inexact complex numbers
 
 Forbid mutation of literals
 
-Exact complex numbers
+Exact complex numbers: not required
+
+Ephemeron-based hash tables
 
 IEEE 64-bit binary inexact numbers
 
@@ -46,7 +48,7 @@ Forcing a non-promise returns the object
 
 Implicit forcing of promises by primitives
 
-Require Unicodely-correct downcasing of Σ.
+Require Unicodely-correct (but not AI-correct) downcasing of Σ.
 
 Support multiple inexact-number precisions
 
