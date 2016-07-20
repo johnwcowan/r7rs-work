@@ -1,6 +1,6 @@
-Low-level macros:  MinimalSyntaxCaseCowan, explicit renaming, syntactic closures, R6RS syntax-case, [[http://srfi.schemers.org/srfi-72/srfi-72.html|SRFI 72]].
+Low-level macros:  MinimalSyntaxCaseCowan, [[https://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Explicit-Renaming.html|explicit renaming]], [[https://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Syntactic-Closures.html|syntactic closures]], [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html|R6RS syntax-case]], [[http://srfi.schemers.org/srfi-72/srfi-72.html|SRFI 72]].
 
-Macro uses in syntax definitions:
+Macro uses in syntax definitions: yes, no
 
 Syntax parameters: [[http://srfi.schemers.org/srfi-139/srfi-139.html|SRFI 139]]
 
