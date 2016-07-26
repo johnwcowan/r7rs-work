@@ -2,12 +2,6 @@
 
 The following items will be approved without a formal vote unless someone objects, in which case they will be moved to another docket.  See [[:WG2Dockets|WG2Dockets]] for other dockets.
 
-Note: "Prefix stripping" means that prefixes such as `fx`, `fl`, or `bitwise-` are removed from identifiers exported by this package.  That way, users can add back their own prefixes using the facilities of `import`.
-
-Explicit renaming macros: Uses the `er-macro-transformer` keyword (bare lambdas are unsupported).  Three arguments are provided to transformers: `form rename compare`.
-
-Fixnum arithmetic: The R6RS `arithmetic fixnum` library with prefix stripping.  [Orange]
-
 Format combinators: Alex Shinn's [[http://synthcode.com/scheme/fmt/|fmt library]], with possibly a touch of renaming.  The C formatting library is excluded.
 
 Generalized getters and setters: [[http://srfi.schemers.org/srfi-17/srfi-17.html|SRFI 17]].
