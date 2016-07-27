@@ -1,6 +1,6 @@
 = Bitwise arithmetic procedures =
 
-This proposal is based mainly on [[http://srfi.schemers.org/srfi-33/srfi-33.html|SRFI 33]], with some changes and additions from [[http://srfi.schemers.org/srfi-33/mail-archive/msg00023.html|Olin's late revisions to SRFI 33]] (which were never consummated) and from [[http://srfi.schemers.org/srfi-60/srfi-60.html|SRFI 60]].  Until a full spec is written, see the final column of the table in BitwiseComparison.
+This proposal is based mainly on [[http://srfi.schemers.org/srfi-33/srfi-33.html|SRFI 33]], with some changes and additions from [[http://srfi.schemers.org/srfi-33/mail-archive/msg00023.html|Olin's late revisions to SRFI 33]] (which were never consummated) and from [[http://srfi.schemers.org/srfi-60/srfi-60.html|SRFI 60]].  Until a full spec is written, see the final column of the following table.
 
 == Comparison of proposals ==
 
