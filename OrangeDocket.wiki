@@ -10,7 +10,7 @@ Flonums:  FlonumsCowan and maybe NanMedernach
 
 Compnums: CompnumsCowan
 
-Random numbers: [[http://srfi.schemers.org/srfi-27/srfi-27.html|SRFI 27]] or RandomnessCommonLisp, plus AdvancedRandomGauche
+Random numbers: [[http://srfi.schemers.org/srfi-27/srfi-27.html|SRFI 27]], plus AdvancedRandomGauche
 
 Prime numbers:  PrimesGauche.
 
