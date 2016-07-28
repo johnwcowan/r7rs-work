@@ -1,4 +1,4 @@
-This is a frozen version of the Red Edition ballot, with hyperlinks.  To vote, go to the [[https://docs.google.com/forms/d/1-6PFezzGTR10IHQtYNuhXZJCP-abXzjc77zZ-_QVMAI/viewform|Google Forms version]].
+This is a frozen version of the Red Edition ballot, with hyperlinks.
 
 == Basic libraries ==
 
