@@ -1,7 +1,5 @@
 The compnums are the subset of the inexact complex numbers whose real part and imaginary part are both flonums.
-This library is based on the R6RS flonum library lifted to compnums, except that the
-R6RS-specific integer division procedures have been removed, as have the condition types, and
-a few procedures have been added from the C99 `<complex.h>` library.
+This library is based on parts of FlonumsCowan lifted to compnums.  A few procedures have been added from the C99 `<complex.h>` library.
 
 == Specification ==
 
@@ -29,15 +27,13 @@ The value returned is a compnum that is numerically closest to
 <p>
 </p>
 <p></p>
-<div align=left><tt>(<a name="node_idx_982"></a>cxmake-rectangular<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i> </i>)</tt><span style="margin-left: .5em">&zwnj;</span>
-<span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<div align=left><tt>(<a name="node_idx_982"></a>cxmake-rectangular<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i> </i>)</tt>/div>
 <p>
 The value returned is a compnum whose real part is the flonum <i>fl<sub>1</sub></i> and whose imaginary part is the flonum <i>fl<sub>2</sub></i></p>
 <p></p>
 <p></p>
 <div align=left><tt>(<a name="node_idx_982"></a>cxmake-polar<i> <i>fl<sub>1</sub></i> <i>fl
-<sub>2</sub></i> </i>)</tt><span style="margin-left: .5em">&zwnj;</span>
-<span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+<sub>2</sub></i> </i>)</tt></div>
 <p>
 The value returned is a compnum whose magnitude is the flonum <i>fl<sub>1</sub></i>
 and whose angle is the flonum <i>fl<sub>2</sub></i></p>
@@ -77,7 +73,7 @@ The <tt>cxzero?</tt> procedure tests whether
 it is <tt>cx=?</tt> to <tt>0.0+0.0i</tt>,
 <tt>cxfinite?</tt> tests whether both the real and the imaginary parts
 are not an infinity and not a NaN,
-<tt>cxinfinite?</tt> tests whether either the real or the imaginary parts or both is an infinity, and
+<tt>cxinfinite?</tt> tests whether either the real part or the imaginary part or both is an infinity, and
 <tt>cxnan?</tt> tests whether either the real part or the imaginary part or both is a NaN.</p>
 <p>
 </p>
@@ -147,15 +143,15 @@ This procedure returns the nearest approximation to the angle of <i>cx</i> that 
 <div align=left><tt>(<a name="node_idx_998"></a>cxabs<i> cx</i>)</tt></div>
 <div align=left><tt>(<a name="node_idx_998"></a>cxmagnitude<i> cx</i>)</tt></div>
 <p>
-These procedures return the nearest approximation to the absolute value (magnitude)
-of <i>cx</i> that is a compnum.
+These procedures return the flonum that is the nearest approximation to the absolute value (magnitude)
+of <i>cx</i>.
 </p>
 <p></p>
 
 <div align=left><tt>(<a name="node_idx_998c"></a>cxconj<i> cx</i>)</tt></div>
 <p>
 This procedure returns the complex conjugate
-of <i>cx</i>. The result has the same as the real part of <i>cx</i>.  Its imaginary part
+of <i>cx</i>. The result has the same real part as the real part of <i>cx</i>; its imaginary part
 is the negation of the imaginary part of <i>cx</i>.
 </p>
 <p></p>
@@ -164,7 +160,7 @@ is the negation of the imaginary part of <i>cx</i>.
 <p>
 This procedure returns the Riemann projection
 of <i>cx</i>. This is the same as <i>cx</i> unless <i>cx</i> has an infinite real part
-or complex part.  In this case, the result is a compnum whose real part is 0.0 and whose
+or imaginary part.  In this case, the result is a compnum whose real part is 0.0 and whose
 imaginary part is either 0.0 or -0.0, depending on the sign of the imaginary part of <i>cx</i>.
 </p>
 <p></p>
@@ -172,7 +168,7 @@ imaginary part is either 0.0 or -0.0, depending on the sign of the imaginary par
 <div align=left><tt>(<a name="node_idx_998g"></a>cxsignum<i> cx</i>)</tt></div>
 <p>
 This procedure returns a complex number whose phase is the same as <i>z</i> but whose magnitude is 1,
-unless <i>z</z> is zero, in which case it returns <i>z</z>.
+unless <i>z</i> is zero, in which case it returns <i>z</i>.
 </p>
 <p></p>
 
@@ -216,6 +212,8 @@ unless <i>z</z> is zero, in which case it returns <i>z</z>.
 
 <div align=left><tt>(<a name="node_idx_1040h"></a>cxatanh<i> cx</i>)</tt></div>
 
+<div align=left><tt>(<a name="node_idx_1040c"></a>cxcis<i> cx</i>)</tt></div>
+
 <p>These procedures compute the usual transcendental functions.  
 The <tt>cxexp</tt> procedure computes the base-<em>e</em> exponential of <i>cx</i>.
 The <tt>cxlog</tt> procedure with a single argument computes the natural logarithm of
@@ -226,8 +224,7 @@ The <tt>cxsin</tt>, <tt>cxcos</tt>, <tt>cxtan</tt>,
 The <tt>cxsin</tt>, <tt>cxcosh</tt>, <tt>cxtanh</tt>,
 <tt>cxasinh</tt>, <tt>cxacosh</tt>, and <tt>cxatanh</tt> procedures compute
 the sine, cosine, tangent, arcsine,
-arccosine, arctangent, and their hyperbolic analogues respectively.  <tt>(cxatan[h] <i>cx<sub>1</sub></i>
-<i>cx<sub>2</sub></i>)</tt> computes the (hyperbolic) arc tangent of <i>cx<sub>1</sub></i>/<i>cx<sub>2</sub></i>.
+arccosine, arctangent, and their hyperbolic analogues respectively.
 Finally, the <tt>cxcis</tt> function computes the compnum whose real part is the cosine of <i>cx</i>
 and whose imaginary part is the sine of <i>cx</i>.</p>
 <p>
@@ -243,24 +240,18 @@ should follow the relevant standards for these procedures.</p>
 <p></p>
 <div align=left><tt>(<a name="node_idx_1044"></a>cxsqrt<i> cx</i>)</tt></div>
 <p>
-Returns the principal square root of <i>cx</i>..</p>
+Returns the principal square root of <i>cx</i>.</p>
 <p>
 </p>
 
 <p></p>
 <div align=left><tt>(<a name="node_idx_1046"></a>cxexpt<i> <i>cx<sub>1</sub></i> <i>cx<sub>2</sub></i></i>)</tt></div>
 <p>
-Either <i>cx<sub>1</sub></i> should be non-negative, or, if <i>cx<sub>1</sub></i> is
-negative, <i>cx<sub>2</sub></i> should be an integer object.
 The <tt>cxexpt</tt> procedure returns <i>cx<sub>1</sub></i> raised to the power <i>cx<sub>2</sub></i>.  If <i>cx<sub>1</sub></i> is
-negative and <i>cx<sub>2</sub></i> is not an integer object, the result may be a
+negative and <i>cx<sub>2</sub></i> is not an integer, the result may be a
 NaN, or may be some unspecified compnum.  If <i>cx<sub>1</sub></i> is zero, then
 the result is zero.
 </p>
-<p></p>
-<p>
-</p>
-
 }}}
 
 
