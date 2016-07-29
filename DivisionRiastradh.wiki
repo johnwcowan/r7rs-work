@@ -34,8 +34,8 @@ relation
 provided that this choice of ''q'' induced an ''r'' satisfying |''r''| < |''d''|.  For
 an extensive discussion of five of the six division operator pairs proposed
 here, and some broken but standardized operator pairs that fail to
-satisfy properties (1)-(3), see Raymond T. Boute, `The Euclidean
-Definition of the Functions DIV and MOD', ACM TOPLAS 14(2), April 1992,
+satisfy properties (1)-(3), see Raymond T. Boute, [[http://dl.acm.org/citation.cfm?id=128862
+"The|Euclidean Definition of the Functions DIV and MOD"]], ACM TOPLAS 14(2), April 1992,
 pp. 127-144.
 
 Unfortunately, most programming languages give nondescript names such
@@ -124,7 +124,7 @@ quotient.
 
 This division operator pair satisfies the stronger property
 
-    2'. 0 <= ''r'' < |''d''|,
+    0 <= ''r'' < |''d''|,
 
 used often in mathematics.  Thus, for example,
 `(euclidean-remainder `''dividend''` `''divisor''`)`
@@ -160,10 +160,11 @@ nonzero integer.
 
 === R6RS ===
 
-The R6RS gives the names `div` and `mod` to the Euclidean division operator
-pair, and the names `div0` and `mod0` to the balanced operator pair.
-For all four of these procedures, the dividend may be
-any real number, and the divisor may be any nonzero real number.
+The R6RS gives the names `div`, `mod`, and `div-and-mod` to the Euclidean division operator
+family, and the names `div0`, `mod0`, and `div0-and-mod0` to the balanced operator family.
+For all six of these procedures, the dividend may be
+any real number, and the divisor may be any nonzero real number.  The R5RS procedures
+are also available in the R5RS compatibility library.
 
 === R7RS ===
 
@@ -188,7 +189,8 @@ any part of the Euclidean division operator pair.
 For all six of these functions in Common Lisp, the dividend may be any
 real number, and the divisor may be any nonzero real number.  Common
 Lisp also provides four extra functions `ffloor`, `fceiling`, `ftruncate`,
-and `fround`, which differ from their `f`-less variants only in floating-point contagion rules.
+and `fround`, which differ from their `f`-less variants only in
+floating-point contagion rules.
 
 == Copying ==
 
