@@ -1,8 +1,20 @@
+This SRFI defines a set of SRFI 121 generators and generator makers
+that yield random data of specific type and distribution.  It is intended to be
+implemented on top of [[http://srfi.schemers.org/srfi-27/srfi-27.html|SRFI 27]].
+
+
 {{{
 #!html
-<p>This module defines a set of generators and generator makers
-that yield random data of specific type and distribution.
-</p></dd></dl>
+<a name="Random-source-parameter"></a>
+<h3 class="subheading">Random source parameter</h3>
+
+<dl>
+<dt><a name="index-integers_002dbetween_0024"></a><code>random-source-parameter</code> [Variable]</dt>
+<dd><p>A SRFI 39 or R7RS parameter whose value, when invoked as a thunk, is the random
+source used by the procedures in this SRFI.  By using <code>parameterize</code>, it is
+possible to substitute another random source during the dynamic extent of the body.
+</p>
+</dd></dl>
 
 <a name="Generators-of-primitive-data-types"></a>
 <h3 class="subheading">Generators of primitive data types</h3>
@@ -17,44 +29,44 @@ some concrete data from the generators.
 <dd><p>Create exact integer generators.  Creates a generator that generates integers between
 <var>lower-bound</var> (inclusive) and <var>upper-bound</var> (exclusive) uniformly.
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">;; A dice roller
-(define dice (make-random-integer-generator 1 7))
+<table><tr><td>&nbsp;</td><td><pre class="example">;; A die roller
+(define die (make-random-integer-generator 1 7))
 
-;; Roll the dice 10 times
-(generator-&gt;list dice 10)
+;; Roll the die 10 times
+(generator-&gt;list die 10)
  &rArr; (6 6 2 4 2 5 5 1 2 2)
 </pre></td></tr></table>
 </dd></dl>
 
 <dl>
-<dt><a name="index-int8s"></a><code>make-random-u8-generator</code></dt>
-<dt><a name="index-uint8s"></a><code>make-random-s8-generator</code></dt>
-<dt><a name="index-int16s"></a><code>make-random-u16-generator</code></dt>
-<dt><a name="index-uint16s"></a><code>make-random-s16-generator</code></dt>
-<dt><a name="index-int32s"></a><code>make-random-u32-generator</code></dt>
-<dt><a name="index-uint32s"></a><code>make-random-s32-generator</code></dt>
-<dt><a name="index-int64s"></a><code>make-random-u64-generator</code></dt>
-<dt><a name="index-uint64s"></a><code>make-random-s64-generator</code></dt>
-<dd><p>Uniform integer generators.  Generate integers in the ranges of
-8, 16, 32, and 64bit signed and unsigned integers.
+<dt><a name="index-int8s"></a><code>random-u8-generator</code></dt>
+<dt><a name="index-uint8s"></a><code>random-s8-generator</code></dt>
+<dt><a name="index-int16s"></a><code>random-u16-generator</code></dt>
+<dt><a name="index-uint16s"></a><code>random-s16-generator</code></dt>
+<dt><a name="index-int32s"></a><code>random-u32-generator</code></dt>
+<dt><a name="index-uint32s"></a><code>random-s32-generator</code></dt>
+<dt><a name="index-int64s"></a><code>random-u64-generator</code></dt>
+<dt><a name="index-uint64s"></a><code>random-s64-generator</code></dt>
+<dd><p>Uniform integer generators that generate integers in the ranges of
+8, 16, 32, and 64-bit signed and unsigned integers.
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list int8s 10)
+<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list random-s8-generator 10)
  &rArr; (20 -101 50 -99 -111 -28 -19 -61 39 110)
 </pre></td></tr></table>
 </dd></dl>
 
 <dl>
-<dt><a name="index-booleans"></a><code>make-random-boolean-generator</code></dt>
+<dt><a name="index-booleans"></a><code>random-boolean-generator</code></dt>
 <dd><p>Generates boolean values (<code>#f</code> and <code>#t</code>) with equal probability.
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list booleans 10)
+<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list random-boolean-generator 10)
  &rArr; (#f #f #t #f #f #t #f #f #f #f)
 </pre></td></tr></table>
 </dd></dl>
 
 <dl>
 <dt><a name="index-chars_0024"></a><code>make-random-char-generator</code><i> [[|char-set ]]</i></dt>
-<dd><p>Creates a generator that generates characters in the SRFI 14 <var>char-set</var> uniformly.
+<dd><p>Returns a generator that generates characters in the SRFI 14 <var>char-set</var> uniformly.
 The default <var>char-set</var> is <code>[A-Za-z0-9]</code>.
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">(define alphanumeric-chars (make-random-char-generator))
@@ -66,7 +78,7 @@ The default <var>char-set</var> is <code>[A-Za-z0-9]</code>.
 
 <dl>
 <dt><a name="index-reals_002dbetween_0024"></a><code>make-random-real-generator</code><i> lower-bound upper-bound</i></dt>
-<dd><p>Create a generator that generates inexact real numbers uniformly with given range.
+<dd><p>Returns a generator that generates inexact real numbers uniformly.
 The procedure returns reals between
 lower-bound and upper-bound, both exclusive.
 </p>
@@ -77,11 +89,11 @@ lower-bound and upper-bound, both exclusive.
 </pre></td></tr></table>
 
 <p>Note that a generator from <code>make-random-real-generator</code> can generate the upper-bound, as opposed to <code>make-random-integer-generator</code>.  If you need to exclude
-the bound value, just discard it; <code>gfilter</code> may come
+the bound value, just discard it; SRFI 121 <code>gfilter</code> may come
 handy.
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">(define generate-from-0-below-1
-  (gfilter (lambda (r) (not (= r 1.0))) (make-random-real-generator$ 0.0 1.0)))
+  (gfilter (lambda (r) (not (= r 1.0))) (make-random-real-generator 0.0 1.0)))
 </pre></td></tr></table>
 </dd></dl>
 
@@ -114,8 +126,8 @@ variance is <code>(1-p)/p^2</code>.
 mean <var>L</var>, variance <var>L</var>.
 </p></dd></dl>
 
-<a name="Generator "></a>
-<h3 class="subheading">Aggregate data generator operations</h3>
+<a name="Generator-operations"></a>
+<h3 class="subheading">Generator operations</h3>
 
 <dl>
 <dt><a name="index-samples_002dfrom"></a><code>gsamples</code><i> generator</i> ...</dt>
@@ -137,7 +149,7 @@ be 1.0.
 <dt><a name="index-permutations_002dof"></a><code>gpermutations</code><i> vector</i></dt>
 <dd><p>Returns a generator that yields random permutations of <var>vector</var>.
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (permutations-of '(1 2 3)) 3)
+<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (gpermutations '(1 2 3)) 3)
  &rArr; ((1 2 3) (2 3 1) (3 2 1))
 
 (generator-&gt;list (gpermutations &quot;abc&quot;) 3)
@@ -147,7 +159,7 @@ be 1.0.
 
 <dl>
 <dt><a name="index-combinations_002dof"></a><code>gcombinations</code><i> size vector</i></dt>
-<dd><p>Returns a generator that yields a vector of <var>size</var> elements
+<dd><p>Returns a generator that yields vectors of <var>size</var> elements
 randomly picked from <var>vector</var>.
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (gcombinations 2 #(a b c)) 5)
