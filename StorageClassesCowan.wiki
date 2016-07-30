@@ -18,10 +18,6 @@ TBD.
 
 Returns `#t` if ''obj'' is a storage class, and `#f` otherwise.
 
-`(in-storage-class? `''storage-class obj''`)`
-
-Returns `#t` if ''obj'' is a storage object of class ''storage-class'', and `#f` otherwise.
-
 == Accessors ==
 
 `(storage-class-constructor `''storage-class''`)`
@@ -45,6 +41,7 @@ Returns the sizer of ''storage-class'' as a procedure.  This procedure takes one
 `(make-storage-object ''storage-class n'' [[|''fill'' ]]`)`
 
 Returns a newly allocated storage object with class ''storage-class'' and length ''n'', filled with value ''fill'', if specified.
+
 `(storage-object-ref `''storage-class storage-object n''`)`
 
 Returns the ''nth'' element of ''storage-object'' as seen through the lens of ''storage-class''.  It is an error if ''n'' is not less than the size of ''storage-object''.
