@@ -1,30 +1,14 @@
 {{{
 #!html
 <p>This SRFI provides utilities related to prime numbers.
-</p><dl>
-<dt><a name="index-_002aprimes_002a"></a><code>all-primes</code> [Variable]</dt>
-<dd><p>An infinite SRFI 127 lazy sequence of primes.
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">;; show 10 prime numbers from 100-th one.
-(lseq-take (lseq-drop all-primes 100) 10)
- &rArr; (547 557 563 569 571 577 587 593 599 601)
-</pre></td></tr></table>
-</dd></dl>
 
-<dl>
-<dt><a name="index-reset_002dprimes"></a> <code>reset-primes</code></dt>
-<dd><p>Once you take a prime out of <code>all-primes</code>, all smaller primes
-have been calculated and remain in memory, since the
-head of the sequence is held in <code>all-primes</code>.  Sometimes you know
-you need no more prime numbers and you wish the ones that have already been computed
-to be garbage-collected.  Calling <code>reset-primes</code> rebinds
-<code>all-primes</code> to a fully unrealized lazy sequence, allowing the previously
-realized primes to be garbage collected.
-</p></dd></dl>
+<a name="Generating-primes"></a>
+<h3 class="subheading">Generating primes</h3>
 
 <dl>
 <dt><a name="index-primes"></a><code>primes</code></dt>
-<dd><p>Returns a fresh lazy sequence of primes.  It is useful when
+<dd><p>Returns a fresh SRFI 127 lazy sequence of primes.  It is useful when
 you need primes for a short period of time &mdash; if you don&rsquo;t keep
 a reference to the returned sequence, it will be garbage
 collected after you&rsquo;re done with the primes.
@@ -40,10 +24,16 @@ each sequence returned by <code>primes</code> is computed individually,
 duplicating computation.  
 </p>
 <p>The rule of thumb is: if you use primes repeatedly throughout
-the program, just use <code>all-primes</code> and you&rsquo;ll save computation.
-If you need primes just once, call <code>primes</code> and abandon the result
+the program, invoke <code>primes</code> and store its value in
+a global variable, and you&rsquo;ll save computation.
+If you need primes just once, invoke <code>primes</code>
+at the point they are needed and abandon the result,
 and you&rsquo;ll save space.
-</p></dd></dl>
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">;; show 10 prime numbers from 100-th one.
+(lseq-take (lseq-drop (primes) 100) 10)
+ &rArr; (547 557 563 569 571 577 587 593 599 601)
+</pre></td></tr></table></dd></dl>
 
 <a name="Testing-primality"></a>
 <h3 class="subheading">Testing primality</h3>
