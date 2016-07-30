@@ -8,16 +8,14 @@ Variables.
 
 Procedures:
 {{{
-bitwise-not not
+not
 string-append
-* / modulo
+* / truncate-modulo
 + -
 arithmetic-shift
 arithmetic-shift-right
-bitwise-and
-bitwise-or
 < <= > >=
-= eqv? in (like glob match regexp)
+= eqv? in like
 and
 or
 }}}
@@ -31,15 +29,13 @@ More procedures:
 {{{
 coerce
 abs
-string
-coalesce
 string-contains
 string-length
 string-lowercase
 string-uppercase
 string-trim
 string-trim-right
-round-quotient
+round-quotient (?)
 substring
 string-trim-both
 }}}
