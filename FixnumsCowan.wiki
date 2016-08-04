@@ -521,3 +521,25 @@ order of the bits at positions from <i>fx<sub>2</sub></i> (inclusive) to
 <p>
 </p>
 }}}
+
+== Logical shift ==
+
+"Logical" right or left shift operations are not
+well defined on general integers; they are only defined
+on integers in some finite range. Remember that, in this library, integers
+are interpreted as *semi-infinite* bit strings that have only a finite
+number of ones or a finite number of zeroes. "Logical" shifting shifts bit
+strings of some fixed size. If we shift left, then leftmost bits "fall off"
+the end (and zeroes shift in on the right). If we shift right, then zeroes
+shift into the string on the left (and rightmost bits fall off the end). So
+to define a logical shift operation, *we must specify the size of the
+window.* Typically this is the width of the underlying machine's register
+set (e.g., 32 bits). This is blatantly machine-specific & unportable, and
+clearly not the right thing for Scheme's more machine-independent general
+integers. For Scheme's integers, arithmetic shift is the right thing. Note
+that this situation pertains as well in Common Lisp, and Common Lisp does
+exactly what this SRFI does: arithmetic shift, but no logical shift.
+
+If we were to define a "width 32" or "width 64" or "fixnum" integer datatype,
+then we could meaningfully define logical shift for these values.
+
