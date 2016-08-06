@@ -12,9 +12,9 @@ Returns a newly allocated tally with no observations.  The ''key'' is an arbitra
 
 Some of the statistics may be meaningless if more than one of these injectors is used on any one tally.
 
-`(tally! `''tally'' ''value''`)`
+`(tally! `''tally'' ''value'' [[|''weight'' ]]`)`
 
-Injects ''value'' into ''tally'' and updatse all descriptive statistics.
+Injects ''value'' into ''tally'' and updates all descriptive statistics.
 
 `(tally-weighted! `''tally'' ''value'' ''weight''`)`
 
@@ -26,7 +26,7 @@ The same as `tally-weighted!`, except that the weight is ''timestamp'' minus the
 
 `(tally-correlated! `''tally'' ''value,,1,,'' ''value,,2,,''`)`
 
-Injects ''value,,1,,'' into ''tally'', tracking ''value,,2,,'' separately for the purpose of calculating correlation and covariance.
+Injects ''value,,1,,'' into ''tally'', tracking ''value,,2,,'' separately for the purpose of calculating covariance and correlation.
 
 == Basic statistics ==
 
@@ -74,6 +74,16 @@ Returns the maximum observation injected so far.  If no observations have been i
 
 Returns the minimum observation injected so far.  If no observations have been injected, returns `-inf.0`.
 
+`(tally-weighted-sum `''tally''`)`
+
+Returns the weighted sum of the observations and weights injected so far.
+
+`(tally-weighted-mean `''tally''`)`
+
+Returns the weighted arithmetic mean of the observations and weights injected so far.  If no observations have been injected, returns `+nan.0`.
+
+== Range and variance ==
+
 `(tally-range `''tally''`)`
 
 Returns the difference between the maximum and the minimum.  If no observations have been injected, returns `+nan.0`.
@@ -93,24 +103,6 @@ Returns the sample standard deviation of the observations injected so far.  If n
 `(tally-population-standard-deviation `''tally''`)`
 
 Returns the population standard deviation of the observations injected so far.  If no observations have been injected, returns `+nan.0`.
-
-== Weighted and timed statistics ==
-
-`(tally-weighted-sum `''tally''`)`
-
-Returns the weighted sum of the observations and weights injected so far.
-
-`(tally-weighted-mean `''tally''`)`
-
-Returns the weighted arithmetic mean of the observations and weights injected so far.  If no observations have been injected, returns `+nan.0`.
-
-`(tally-timed-sum `''tally''`)`
-
-Returns the weighted sum of the observations and weights (based on timestamps) injected so far.
-
-`(tally-timed-mean `''tally''`)`
-
-Returns the weighted arithmetic mean of the observations and weights (based on timestamps) injected so far.  If no observations have been injected, returns `+nan.0`.
 
 == Covariance and correlation ==
 
