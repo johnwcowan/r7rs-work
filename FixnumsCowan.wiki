@@ -28,23 +28,26 @@ situations without raising an error.  Exceptions to the fixnum rule
 are noted below.
 
 This SRFI uses ''fx'', ''fx,,1,,'', ''fx,,2,,'', etc., as parameter
-names for fixnum arguments.  The name of every fixnum procedure begins with
-the letters `fx`, and in most cases corresponds to an R7RS-small or
+names for fixnum arguments.  Except as noted, the name of fixnum procedures begin with
+the letters `fx`.  In most cases they correspond to an R7RS-small or
 DivisionRiastradh or BitwiseCowan operation on general integers.
 
 === Constants ===
 
 `fx-width`
 
-Bound to the value ''w'' that specifies the implementation-defined precision.  (R6RS `fixnum-width` is a procedure that always returns this value.)
+Bound to the value ''w'' that specifies the implementation-defined range.
+(R6RS `fixnum-width` is a procedure that always returns this value.)
 
 `fx-greatest`
 
-Bound to the value 2^''w''-1^-1, the largest representable fixnum.  (R6RS `greatest-fixnum` is a procedure that always returns this value.)
+Bound to the value 2^''w''-1^-1, the largest representable fixnum.
+(R6RS `greatest-fixnum` is a procedure that always returns this value.)
 
 `fx-least`
 
-Bound to the value -2^''w''-1^, the smallest representable fixnum.  (R6RS `least-fixnum` is a procedure that always returns this value.)
+Bound to the value -2^''w''-1^, the smallest representable fixnum.
+(R6RS `least-fixnum` is a procedure that always returns this value.)
 
 === Predicate ===
 
@@ -129,6 +132,8 @@ have the same arguments and semantics as their generic counterparts,
 with the following additional modifications:
 
 * Despite the fixnum rule, the `fxarithmetic-shift` procedure produces a defined result on all fixnums by discarding any higher-order bits that do not fit into the fixnum width.
+
+* The fixnum versions of `integer->list` and `list->integer` are called `fixnum->list` and `list->fixnum` respectively.
 
 The following additional bitwise procedure is provided:
 
