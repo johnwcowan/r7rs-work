@@ -19,8 +19,9 @@ parameter names for compnum arguments.</p>
 <p></p>
 <div align=left><tt>(<a name="node_idx_952"></a>compnum<i> x</i>)</tt></div>
 <p>
-The value returned is a compnum that is numerically closest to
-<i>x</i>.  This procedure can be used to transform a flonum to a compnum.
+The value returned is the compnum that is numerically closest to
+<i>x</i>.  This procedure can be used to transform any complex number,
+exact or inexact, to a compnum.
 <p>
 </p>
 <p></p>
@@ -29,13 +30,13 @@ The value returned is a compnum that is numerically closest to
 <p></p>
 <div align=left><tt>(<a name="node_idx_982"></a>cxmake-rectangular<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i> </i>)</tt>/div>
 <p>
-The value returned is a compnum whose real part is the flonum <i>fl<sub>1</sub></i> and whose imaginary part is the flonum <i>fl<sub>2</sub></i></p>
+The value returned is the compnum whose real part is the flonum <i>fl<sub>1</sub></i> and whose imaginary part is the flonum <i>fl<sub>2</sub></i></p>
 <p></p>
 <p></p>
 <div align=left><tt>(<a name="node_idx_982"></a>cxmake-polar<i> <i>fl<sub>1</sub></i> <i>fl
 <sub>2</sub></i> </i>)</tt></div>
 <p>
-The value returned is a compnum whose magnitude is the flonum <i>fl<sub>1</sub></i>
+The value returned is the compnum that is numerically closest to the complex number whose magnitude is the flonum <i>fl<sub>1</sub></i>
 and whose angle is the flonum <i>fl<sub>2</sub></i></p>
 <p></p>
 }}}
@@ -135,7 +136,7 @@ This procedure returns the imaginary part of <i>cx</i> as a flonum.
 
 <div align=left><tt>(<a name="node_idx_998"></a>cxangle<i> cx</i>)</tt></div>
 <p>
-This procedure returns the nearest approximation to the angle of <i>cx</i> that is a flonum.
+This procedure returns the flonum that is the nearest approximation to the angle of <i>cx</i>.
 </p>
 <p>
 </p>
