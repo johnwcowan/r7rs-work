@@ -454,7 +454,7 @@ Returns the integer coded by the `bool` arguments.
 
 For each bit ''b'' of ''i'' from bit 0 to `(integer-length `''i''`)`, ''proc'' is called as
 `(`''proc b r''`)`, where ''r'' is the current accumulated result.  The initial value of ''r''
-is ''seed', and the value returned by ''proc'' becomes the next accumulated result.  When
+is ''seed'', and the value returned by ''proc'' becomes the next accumulated result.  When
 all bits are exhausted, the final accumulated result becomes the result of `bitwise-fold`.
 
 `(bitwise-for-each `''proc i''`)` -> unspecified
