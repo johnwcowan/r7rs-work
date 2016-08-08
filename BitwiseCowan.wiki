@@ -1,16 +1,16 @@
 = Bitwise arithmetic procedures =
 
-This proposal is based mainly on [[http://srfi.schemers.org/srfi-33/srfi-33.html|SRFI 33]], with some changes and additions from [[http://srfi.schemers.org/srfi-33/mail-archive/msg00023.html|Olin's late revisions to SRFI 33]] (which were never consummated) and from [[http://srfi.schemers.org/srfi-60/srfi-60.html|SRFI 60]].
+This proposal is based mainly on [[http://srfi.schemers.org/srfi-33/srfi-33.html|SRFI 33]], with some changes and additions from [[http://srfi.schemers.org/srfi-33/mail-archive/msg00023.html|Olin's late revisions to SRFI 33]] (which were never consummated) and a few procedures from [[http://srfi.schemers.org/srfi-60/srfi-60.html|SRFI 60]] and
+the general vector [[http://srfi.schemers.org/srfi-133/srfi-133.html|SRFI 133]].
 
 == Abstract ==
 
-Scheme has no standard procedures for performing bitwise logical operations on
-integers, which is a problem for authors of portable code.  This
-SRFI proposes a coherent and comprehensive set of these functions; it is
+This SRFI proposes a coherent and comprehensive set of procedures for
+performing bitwise logical operations on integers; it is
 accompanied by a reference implementation of the spec in terms of a set of
 seven core operators. The sample implementation is portable, as efficient
-as practical with pure Scheme arithmetic (it is worthwhile replacing certain
-primitive operations with C or assembly language if possible), and open source.
+as practical with pure Scheme arithmetic (it is worthwhile replacing the
+core ops with C or assembly language if possible), and open source.
 The precise semantics of these operators is almost never an issue. A
 consistent, portable set of ''names'' and ''parameter conventions'', however, is.
 Hence this SRFI.
@@ -70,7 +70,7 @@ bitwise-fold bitwise-for-each bitwise-unfold
    choice of names makes it easier to read
    code that uses these sorts of operations. It also means computations
    can be clearly expressed using the more powerful ops rather than
-   synthesized with a snarled mess of `BITWISE-AND`s, -`OR`s, and -`NOT`s.
+   synthesized with a snarled mess of `bitwise-and`s, `bitwise-or`s, and `bitwise-not`s.
    What we gain is having an agreed-upon set of names by which we can refer
    to these functions. If you believe in "small is beautiful," then what is your motivation
    for including anything beyond `bitwise-nand`?
@@ -102,9 +102,6 @@ The core of this design design mirrors the structure of Common Lisp's pretty clo
 
       * "load" and "deposit" are the wrong verbs (e.g., Common Lisp's `ldb` and `dpb` ops),
         since these guys have nothing to do with the store.  
-    
-      * Common Lisp's byte datatype doesn't buy you anything over just 
-        spelling out start and end values.
     
       * `boole` has been removed; it is not one with the Way of Scheme.  Boolean functions
         are directly encoded in Scheme as first-class functions.
@@ -139,17 +136,20 @@ BitwiseCowan retains SRFI 33 names for procedures adapted from SRFI 33, with the
 
 === SRFI 60 ===
 
-SRFI 60 includes five procedures that do not have SRFI 33 equivalents.  They are incorporated into this SRFI as follows:
+SRFI 60 includes six procedures that do not have SRFI 33 equivalents.  They are incorporated into this SRFI as follows:
 
 * The names `rotate-bit-field` and `reverse-bit-field` are replaced by `bit-field-rotate` and `bit-field-reverse`, in parallel with Olin's revisions.
 
-* The procedures `integer->list` and `list->integer` are incorporated into this SRFI unchanged.
+* The procedures `copy-bit`, `integer->list` and `list->integer` are incorporated into this SRFI unchanged.
 
-* The procedure `booleans->integer` is a convenient way to specify a bitwise integer in the absence of datum syntax: it accepts an arbitrary number of boolean arguments and returns a non-negative integer.  So I gave it the short name `bits`, roughly analogous to `list`, `string`, and `vector`.
+* The procedure `booleans->integer` is a convenient way to specify a bitwise integer in the absence of datum syntax: it accepts an arbitrary number of boolean arguments and returns a non-negative integer.  So in this SRFI it has the short name `bits`, roughly analogous to `list`, `string`, and `vector`.
 
-=== SRFI 133 ===
+=== Other sources ===
 
-The following procedures are inspired by SRFI 133:  `bit-swap`, `bit-field-fill`, `bit-field-append`, `bitwise-fold`, `bitwise-for-each`, `bitwise-unfold`.
+The following procedures are inspired by SRFI 133:  `bit-swap`, `bit-field-append`,
+`bitwise-fold`, `bitwise-for-each`, `bitwise-unfold`.
+
+* The procedure `bit-field-set` is the counterpart of `bit-field-clear`.
 
 === Argument ordering and semantics ===
 
@@ -381,14 +381,14 @@ Return -1 if I contains no 1 bits (i.e., if I is zero).
 === Bit field operations ===
 
 These functions operate on a contiguous field of bits (a "byte," in
-Common-Lisp parlance) in a given bitstring I. The ''start'' and ''end''
+Common-Lisp parlance) in a given bitstring. The ''start'' and ''end''
 arguments, which are not optional, are
 non-negative exact integers specifying the field: it is the ''end-start'' bits
 running from bit ''start'' to bit ''end''-1.
 
 `(bit-field `''i start end''`)` -> exact-integer
 
-Returns the designated bit field from I, shifted
+Returns the designated bit field from ''i'', shifted
 down to the least-significant position in the result.
 
 `(bit-field-any? `''i start end''`)` -> boolean
@@ -399,9 +399,10 @@ Returns true if any of the field's bits are set in bitstring ''i'', and false ot
 
 Returns false if any of the field's bits are not set in bitstring ''i'', and true otherwise.
 
-`(bit-field-clear `''i start end''`)` -> exact-integer
+`(bit-field-clear `''i start end''`)` -> exact-integer[[BR]]
+`(bit-field-set `''i start end''`)` -> exact-integer
 
-Returns ''i'' with the selected field's bits zeroed out.
+Returns ''i'' with the selected field's bits set to all 0s/1s.
 
 `(bit-field-replace `''dst src start end''`)` -> exact-integer
 
@@ -412,11 +413,6 @@ by the least-significant ''end-start'' bits in ''src''.
 
 Returns ''dst'' with the selected field's bits replaced
 by the corresponding field's bits in ''src''.
-
-`(bit-field-fill `''i boolean start end''`)` -> exact-integer
-
-Returns ''i'' with the selected field's bits replaced
-by all zeros if ''boolean'' is `#f` or by all ones if ''boolean'' is `#t`.
 
 `(bit-field-rotate `''i count start end''`)` -> exact-integer
 
@@ -429,9 +425,9 @@ Returns ''i'' with the order of the bits in the selected field reversed.
 
 `(bit-field-append { ''i start end '' }`)` -> exact-integer
 
-The number of arguments must be a multiple of three.  In each triple of
-(''i, start, end'') arguments, the specified field is extracted, and the
-bits are concatenated in left-to-right order and returned as an integer.
+The number of arguments must be a multiple of three.  The field specified
+by each triple of (''i, start, end'') arguments is extracted, and the
+fields are concatenated in left-to-right order and returned as an integer.
 
 === Bits as booleans ===
 
