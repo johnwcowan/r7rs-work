@@ -118,8 +118,6 @@ The core of this design design mirrors the structure of Common Lisp's pretty clo
       * The six trivial binary boolean ops that return constants, the left or right arguments,
         and the `bitwise-not` of the left or right arguments, do not appear in this SRFI.
 
-
-
 === Changes to SRFI 33 names ===
 
 BitwiseCowan retains SRFI 33 names for procedures adapted from SRFI 33, with these exceptions:
@@ -150,6 +148,24 @@ SRFI 60 includes five procedures that do not have SRFI 33 equivalents.  They are
 === SRFI 133 ===
 
 The following procedures are inspired by SRFI 133:  `bit-swap`, `bit-field-fill`, `bit-field-append`, `bitwise-fold`, `bitwise-for-each`, `bitwise-unfold`.
+
+=== Argument ordering and semantics ===
+
+* In general, these procedures place the bitstring arguments to be operated on first.
+  Where the operation is not commutative, the "destination" argument that provides
+  the background to be operated on is placed before the "source" argument that provides
+  the bits to be transferred to it.
+
+* In SRFI 33, `bitwise-nand` and `bitwise-or` accepted an arbitrary number of arguments
+  even though they are not commutative.  Olin's late revisions made them dyadic, and so
+  does this SRFI.
+
+* Common Lisp bit-field operations use a ''byte spec'' to encapsulate the position and
+  size of the field.  SRFI 33 bit-field operations had leading ''position'' and ''size''
+  arguments instead.  These
+  have been replaced in this SRFI by ''start'' (inclusive) and ''end'' (exclusive)
+  arguments, the convention used not only in SRFI 60 and R6RS but also in most other
+  subsequence operations in Scheme standards and SRFIs.
 
 == Specification ==
 
@@ -338,13 +354,11 @@ and the ''index,,2,,''th bit have been exchanged.
 (bit-swap 0 2 4) => #b1
 }}}
 
-
-
 `(any-bit-set? `''test-bits i''`)` -> boolean[[BR]]
 `(every-bit-set? `''test-bits i''`)` -> boolean
 
 Determines if any/all of the bits set in bitstring ''test-bits'' are set
-in bitstring 'i''. I.e.,  return `(not (zero? (bitwise-and ''test-bits i''`)))`
+in bitstring 'i''. I.e.,  returns `(not (zero? (bitwise-and ''test-bits i''`)))`
 or `(= `''test-bits''` (bitwise-and ''test-bits i'')))` respectively.
 
 `(first-set-bit `''i''`)` -> exact-integer
@@ -364,7 +378,58 @@ Return -1 if I contains no 1 bits (i.e., if I is zero).
 
 === Bit field operations ===
 
-TBD
+These functions operate on a contiguous field of bits (a "byte," in
+Common-Lisp parlance) in a given bitstring I. The ''start'' and ''end''
+arguments, which are not optional, are
+non-negative exact integers specifying the field: it is the ''end-start'' bits
+running from bit ''start'' to bit ''end''-1.
+
+`(bit-field `''i start end''`)` -> exact-integer
+
+Returns the designated bit field from I, shifted
+down to the least-significant position in the result.
+
+`(bit-field-any? `''i start end''`)` -> boolean
+
+Returns true if any of the field's bits are set in bitstring ''i'', and false otherwise.
+
+`(bit-field-every? `''i start end''`)` -> boolean
+
+Returns false if any of the field's bits are not set in bitstring ''i'', and true otherwise.
+
+`(bit-field-clear `''i start end''`)` -> exact-integer
+
+Returns ''i'' with the selected field's bits zeroed out.
+
+`(bit-field-replace `''dst src start end''`)` -> exact-integer
+
+Returns ''dst'' with the designated bit field replaced
+by the least-significant ''end-start'' bits in ''src''.
+
+`(bit-field-replace-same `''dst src start end''`)` -> exact-integer
+
+Returns ''dst'' with the selected field's bits replaced
+by the corresponding field's bits in ''src''.
+
+`(bit-field-fill `''i boolean start end''`)` -> exact-integer
+
+Returns ''i'' with the selected field's bits replaced
+by all zeros if ''boolean'' is `#f` or by all ones if ''boolean'' is `#t`.
+
+`(bit-field-rotate `''i count start end''`)` -> exact-integer
+
+Returns ''i'' with the selected field cyclically permuted
+by ''count'' bits towards high-order.
+
+`(bit-field-reverse `''i start end''`)` -> exact-integer
+
+Returns ''i'' with the order of the bits in the selected field reversed.
+
+`(bit-field-append { ''i start end '' }`)` -> exact-integer
+
+The number of arguments must be a multiple of three.  In each triple of
+(''i, start, end'') arguments, the specified field is extracted, and the
+bits are concatenated in left-to-right order and returned as an integer.
 
 === Bits as booleans ===
 
@@ -411,7 +476,8 @@ by applying ''successor'' to the current state, and repeat this algorithm.
 
 `(make-bitwise-generator `''i''`)` -> generator
 
-Returns a SRFI 121 generator that generates all the bits of ''i'' starting
+Returns a [[http://srfi.schemers.org/srfi-121/srfi-121.html|SRFI 121]]
+generator that generates all the bits of ''i'' starting
 with bit 0.  Note that it is an infinite generator.
 
 == Comparison of proposals ==
@@ -420,12 +486,12 @@ The following table compares the names of the bitwise (aka logical) functions of
 
 ||=Function=||=CL=||=SRFI 33=||=SRFI 33 late revs=||=SRFI 60=||=R6RS=||=This SRFI=||
 ||Bitwise NOT||`lognot`||`bitwise-not`||`bitwise-not`||`lognot`, `bitwise-not`||`bitwise-not`||`bitwise-not`||
-||Bitwise AND (variadic)||`logand`||`bitwise-and`||`bitwise-and`||`logand`, `bitwise-and`||`bitwise-and`||`bitwise-and`||
-||Bitwise IOR (variadic)||`logior`||`bitwise-ior`||`bitwise-ior`||`logior`, `bitwise-ior`||`bitwise-ior`||`bitwise-ior`||
-||Bitwise XOR (variadic)||`logxor`||`bitwise-xor`||`bitwise-xor`||`logxor`, `bitwise-xor`||`bitwise-xor`||`bitwise-xor`||
-||Bitwise EQV (variadic)||`logeqv`||`bitwise-eqv`||`bitwise-eqv`||---||---||`bitwise-eqv`||
-||Bitwise NAND (variadic*)||`lognand`||`bitwise-nand`||`bitwise-nand`||---||---||`bitwise-nand`||
-||Bitwise NOR (variadic*)||`lognor`||`bitwise-nor`||`bitwise-nor`||---||---||`bitwise-nor`||
+||Bitwise AND||`logand`||`bitwise-and`||`bitwise-and`||`logand`, `bitwise-and`||`bitwise-and`||`bitwise-and`||
+||Bitwise IOR||`logior`||`bitwise-ior`||`bitwise-ior`||`logior`, `bitwise-ior`||`bitwise-ior`||`bitwise-ior`||
+||Bitwise XOR||`logxor`||`bitwise-xor`||`bitwise-xor`||`logxor`, `bitwise-xor`||`bitwise-xor`||`bitwise-xor`||
+||Bitwise EQV||`logeqv`||`bitwise-eqv`||`bitwise-eqv`||---||---||`bitwise-eqv`||
+||Bitwise NAND||`lognand`||`bitwise-nand`||`bitwise-nand`||---||---||`bitwise-nand`||
+||Bitwise NOR||`lognor`||`bitwise-nor`||`bitwise-nor`||---||---||`bitwise-nor`||
 ||Bitwise AND with NOT of first arg||`logandc1`||`bitwise-andc1`||`bitwise-andc1`||---||---||`bitwise-andc1`||
 ||Bitwise AND with NOT of second arg||`logandc2`||`bitwise-andc2`||`bitwise-andc2`||---||---||`bitwise-andc2`||
 ||Bitwise OR with NOT of first arg||`logorc1`||`bitwise-orc1`||`bitwise-orc1`||---||---||`bitwise-orc1`||
@@ -440,15 +506,15 @@ The following table compares the names of the bitwise (aka logical) functions of
 ||Replace single bit||---||---||`copy-bit`||`bitwise-copy-bit`||---||`copy-bit`||
 ||Swap bits||---||---||---||---||---||bit-swap||
 ||Find first bit set||---||`first-bit-set`||`first-set-bit`||`log2-binary-factors`, `first-set-bit`||---||`first-set-bit`||
-||Extract bit field†||`ldb`||`extract-bit-field`||`extract-bit-field`||`bit-field`||`bitwise-bit-field`||`bit-field`||
-||Test bit field (any)†||`ldb-test`||`test-bit-field?`||`bit-field-any?`||---||---||`bit-field-any?`||
-||Test bit field (every)†||---||---||`bit-field-every?`||---||---||`bit-field-every?`||
-||Clear bit field†||`mask-field`||`clear-bit-field`||`bit-field-clear`||---||---||`bit-field-clear`||
-||Replace bit field†||`dpb`||`replace-bit-field`||`bit-field-replace`||`copy-bit-field`||`bitwise-copy-bit-field`||`bit-field-replace`||
-||Replace corresponding bit field†||`deposit-field`||`deposit-field`||`copy-bit-field`||---||---||`bit-field-copy-same`||
+||Extract bit field||`ldb`||`extract-bit-field`||`extract-bit-field`||`bit-field`||`bitwise-bit-field`||`bit-field`||
+||Test bit field (any)||`ldb-test`||`test-bit-field?`||`bit-field-any?`||---||---||`bit-field-any?`||
+||Test bit field (every)||---||---||`bit-field-every?`||---||---||`bit-field-every?`||
+||Clear bit field||`mask-field`||`clear-bit-field`||`bit-field-clear`||---||---||`bit-field-clear`||
+||Replace bit field||`dpb`||`replace-bit-field`||`bit-field-replace`||`copy-bit-field`||`bitwise-copy-bit-field`||`bit-field-replace`||
+||Replace corresponding bit field||`deposit-field`||`deposit-field`||`copy-bit-field`||---||---||`bit-field-copy-same`||
 ||Fill bit field||---||---||---||---||---||bit-field-fill||
-||Rotate bit field†||---||---||---||`rotate-bit-field`||`bitwise-rotate-bit-field`||`bit-field-rotate`||
-||Reverse bit field†||---||---||---||`reverse-bit-field`||`bitwise-reverse-bit-field`||`bit-field-reverse`||
+||Rotate bit field||---||---||---||`rotate-bit-field`||`bitwise-rotate-bit-field`||`bit-field-rotate`||
+||Reverse bit field||---||---||---||`reverse-bit-field`||`bitwise-reverse-bit-field`||`bit-field-reverse`||
 ||Append bit fields||---||---||---||---||---||bit-field-append||
 ||Integer to boolean list||---||---||---||`integer->list`||---||`integer->list`||
 ||Boolean list to integer||---||---||---||`list->integer`||---||`list->integer`||
@@ -457,8 +523,6 @@ The following table compares the names of the bitwise (aka logical) functions of
 ||Bitwise for-each||---||---||---||---||---||bitwise-for-each||
 ||Bitwise unfold||---||---||---||---||---||bitwise-unfold||
 
-*These procedures were made dyadic in [[http://srfi.schemers.org/srfi-33/mail-archive/msg00023.html|late revisions to SRFI 33]] that were never consummated.  BitwiseCowan adopts this change.
 
-†These procedures take a byte-spec object in Common Lisp (which encodes size and position), leading ''size'' and ''position'' arguments in SRFI-33, and trailing ''start'' and ''end'' arguments in SRFI-60, R6RS, and BitwiseCowan.  Consequently, they are not quite compatible across specifications.  Note that `copy-bit-field` corresponds to different procedures in SRFI 33 and SRFI 60.
 
 
