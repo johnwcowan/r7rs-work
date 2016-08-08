@@ -4,9 +4,9 @@ This is an early draft of proposals for the Orange Edition (numbers) of R7RS-lar
 
 Integer division: DivisionRiastradh
 
-Fixnums:  FixnumsCowan, equivalent to [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.2|R6RS]], without preposterous mustard and with DivisionRiastradh
+Fixnums:  FixnumsCowan, [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.2|R6RS]]
 
-Flonums:  FlonumsCowan and maybe NanMedernach
+Flonums:  FlonumsCowan with NanMedernach
 
 Compnums: CompnumsCowan
 
@@ -16,15 +16,15 @@ Prime numbers:  PrimesGauche.
 
 '''Numeric and semi-numeric data structures'''
 
-Integers as bit vectors:  BitwiseCowan (refers to other proposals as well).
+Integers as bit vectors:  BitwiseCowan, [[http://srfi.schemers.org/srfi-60/srfi-60.html|SRFI 60]], [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.4|R6RS]].
 
-Bit vectors:  [[http://wiki.call-cc.org/eggref/4/iset|IntegerSetsShinn]] supplemented with IntegerSetsCowan.
+Bit vectors:  BitVectorsCowan.
 
 Numeric vectors:  NumericVectorsCowan.
 
 C-style structs:  [[https://github.com/TaylanUB/scheme-bytestructures|ByteStructuresTaylanub]].
 
-Integer sets:  [[http://wiki.call-cc.org/eggref/4/iset|IntegerSetsShinn]] supplemented with IntegerSetsCowan.
+Integer sets:  IntegerSetsCowan.
 
 Descriptive statistics:  TallyCowan.
 
@@ -38,7 +38,7 @@ Enumeration sets:  EnumsCowan
 
 Enumeration maps:  EnumsCowan
 
-'''Carryovers from the Red Edition'''
+'''Carryovers from the Red Edition without implementations'''
 
 Immutable sets and bags:  ImmutableSetsWortman
 
