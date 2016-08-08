@@ -504,7 +504,7 @@ The following table compares the names of the bitwise (aka logical) functions of
 ||See if any mask bits set||`logtest`||`any-bits-set?`||`any-bit-set?`||`logtest`, `any-bit-set?`||---||`any-bit-set`||
 ||See if all mask bits set||---||`all-bits-set?`||`every-bit-set?`||---||---||`every-bit-set?`||
 ||Replace single bit||---||---||`copy-bit`||`bitwise-copy-bit`||---||`copy-bit`||
-||Swap bits||---||---||---||---||---||bit-swap||
+||Swap bits||---||---||---||---||---||`bit-swap`||
 ||Find first bit set||---||`first-bit-set`||`first-set-bit`||`log2-binary-factors`, `first-set-bit`||---||`first-set-bit`||
 ||Extract bit field||`ldb`||`extract-bit-field`||`extract-bit-field`||`bit-field`||`bitwise-bit-field`||`bit-field`||
 ||Test bit field (any)||`ldb-test`||`test-bit-field?`||`bit-field-any?`||---||---||`bit-field-any?`||
@@ -515,13 +515,13 @@ The following table compares the names of the bitwise (aka logical) functions of
 ||Fill bit field||---||---||---||---||---||bit-field-fill||
 ||Rotate bit field||---||---||---||`rotate-bit-field`||`bitwise-rotate-bit-field`||`bit-field-rotate`||
 ||Reverse bit field||---||---||---||`reverse-bit-field`||`bitwise-reverse-bit-field`||`bit-field-reverse`||
-||Append bit fields||---||---||---||---||---||bit-field-append||
+||Append bit fields||---||---||---||---||---||`bit-field-append`||
 ||Integer to boolean list||---||---||---||`integer->list`||---||`integer->list`||
 ||Boolean list to integer||---||---||---||`list->integer`||---||`list->integer`||
 ||Booleans to integer||---||---||---||`booleans->integer`||---||`bits`||
-||Bitwise fold||---||---||---||---||---||bitwise-fold|
-||Bitwise for-each||---||---||---||---||---||bitwise-for-each||
-||Bitwise unfold||---||---||---||---||---||bitwise-unfold||
+||Bitwise fold||---||---||---||---||---||`bitwise-fold`|
+||Bitwise for-each||---||---||---||---||---||`bitwise-for-each`||
+||Bitwise unfold||---||---||---||---||---||`bitwise-unfold`||
 
 
 
