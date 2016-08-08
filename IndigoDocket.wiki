@@ -6,6 +6,4 @@ Substitute/transform: SubstituteCowan
 
 More multiple values: MultipleValuesCowan
 
-String<->bytevector conversion: http://trac.sacrideo.us/wg/wiki/StringBytevectorConversionCowan
-
 MiscAlexandria
