@@ -100,7 +100,7 @@ bitwise-fold bitwise-for-each bitwise-unfold
    clearly not the right thing for Scheme's more machine-independent general
    integers.
 
-=== Differences from Common Lisp ===
+=== Common Lisp ===
 
 The core of this design design mirrors the structure of Common Lisp's pretty closely.  Here are some differences:
 
@@ -121,9 +121,9 @@ The core of this design design mirrors the structure of Common Lisp's pretty clo
       * The six trivial binary boolean ops that return constants, the left or right arguments,
         and the `bitwise-not` of the left or right arguments, do not appear in this SRFI.
 
-=== Changes to SRFI 33 names ===
+=== SRFI 33 ===
 
-BitwiseCowan retains SRFI 33 names for procedures adapted from SRFI 33, with these exceptions:
+This SRFI contains all the procedures of SRFI 33, and retains their original names with these exceptions:
 
 * The name `bitwise-merge` is replaced by `bitwise-if`, the name used in SRFI 60 and R6RS.
 
@@ -180,7 +180,7 @@ are exact integers unless otherwise indicated (except that procedures with
 names ending in `?` are predicates, as usual). It is
 an error to pass values of other types as arguments to these functions.
 
-Bitstrings are represented by integers, using a two's-complement encoding of
+Bitstrings are represented by exact integers, using a two's-complement encoding of
 the bitstring. Thus every integer represents a semi-infinite bitstring, having
 either a finite number of zeros (negative integers) or a finite number of
 ones (non-negative integers). The bits of a bitstring are numbered from the
