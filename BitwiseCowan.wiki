@@ -1,8 +1,5 @@
 = Bitwise arithmetic procedures =
 
-This proposal is based mainly on [[http://srfi.schemers.org/srfi-33/srfi-33.html|SRFI 33]], with some changes and additions from [[http://srfi.schemers.org/srfi-33/mail-archive/msg00023.html|Olin's late revisions to SRFI 33]] (which were never consummated) and a few procedures from [[http://srfi.schemers.org/srfi-60/srfi-60.html|SRFI 60]] and
-the general vector [[http://srfi.schemers.org/srfi-133/srfi-133.html|SRFI 133]].
-
 == Abstract ==
 
 This SRFI proposes a coherent and comprehensive set of procedures for
@@ -13,7 +10,14 @@ as practical with pure Scheme arithmetic (it is worthwhile replacing the
 core ops with C or assembly language if possible), and open source.
 The precise semantics of these operators is almost never an issue. A
 consistent, portable set of ''names'' and ''parameter conventions'', however, is.
-Hence this SRFI.
+
+Hence this SRFI, which is based mainly on [[http://srfi.schemers.org/srfi-33/srfi-33.html|SRFI 33]], with some changes and additions from [[http://srfi.schemers.org/srfi-33/mail-archive/msg00023.html|Olin's late revisions to SRFI 33]] (which were never consummated) and a few procedures from [[http://srfi.schemers.org/srfi-60/srfi-60.html|SRFI 60]] and
+the general vector [[http://srfi.schemers.org/srfi-133/srfi-133.html|SRFI 133]].  
+SRFI 33 was never finalized, but is a reasonably comprehensive proposal.
+SRFI 60 (based on SLIB) is smaller but has a few procedures of its own;
+some of its procedures have both native (often CL) and SRFI 33 names.
+[[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.4|R6RS]]
+is a subset of SRFI 60, except that all procedure names begin with a `bitwise-` prefix.
 
 Among the applications of bitwise operations are: hashing,
 Galois-field calculations of error-detecting and error-correcting codes,
@@ -158,7 +162,7 @@ The following procedures are inspired by SRFI 133:  `bit-swap`, `bit-field-appen
   the background to be operated on is placed before the "source" argument that provides
   the bits to be transferred to it.
 
-* In SRFI 33, `bitwise-nand` and `bitwise-or` accepted an arbitrary number of arguments
+* In SRFI 33, `bitwise-nand` and `bitwise-nor` accepted an arbitrary number of arguments
   even though they are not commutative.  Olin's late revisions made them dyadic, and so
   does this SRFI.
 
@@ -171,8 +175,9 @@ The following procedures are inspired by SRFI 133:  `bit-swap`, `bit-field-appen
 
 == Specification ==
 
-In the following procedure specifications all parameters are exact integers;
-unless otherwise indicated, all return values are exact integers. It is
+In the following procedure specifications all parameters and return values
+are exact integers unless otherwise indicated (except that procedures with
+names ending in `?` are predicates, as usual). It is
 an error to pass values of other types as arguments to these functions.
 
 Bitstrings are represented by integers, using a two's-complement encoding of
@@ -184,9 +189,10 @@ the next or 2^1^ bit, and so forth.
 
 === Basic operations ===
 
-`(bitwise-not `''i''`)` -> exact-integer
+`(bitwise-not `''i''`)`
 
-  Bitwise logical negation.
+Returns the bitwise complement of ''i''; that is, all 1 bits are changed
+to 0 bits and all 0 bits to 1 bits.
 
 {{{
   (bitwise-not 10) => -11
@@ -201,24 +207,24 @@ maps that function across a pair of bitstrings in a bit-wise fashion.
 The core idea of this group of functions is this bitwise "lifting"
 of the set of dyadic boolean functions to bitstring parameters.
 
-`(bitwise-and `''i'' ...`)` -> exact-integer[[BR]]
-`(bitwise-ior `''i'' ...`)` -> exact-integer[[BR]]
-`(bitwise-xor `''i'' ...`)` -> exact-integer[[BR]]
-`(bitwise-eqv `''i'' ...`)` -> exact-integer
+`(bitwise-and `''i'' ...`)`[[BR]]
+`(bitwise-ior `''i'' ...`)`[[BR]]
+`(bitwise-xor `''i'' ...`)`[[BR]]
+`(bitwise-eqv `''i'' ...`)`
 
 These operations are associative.  When passed no arguments, the procedures
 return the identity values -1, 0, 0, and -1 respectively.
 
 The `bitwise-eqv` procedure produces the
-negation of the `bitwise-xor` procedure.  When applied to three
+complement of the `bitwise-xor` procedure.  When applied to three
 arguments, it does ''not'' produce a 1 bit
 everywhere that a, b and c all agree. That is, it does ''not'' produce
 
 {{{
      (bitwise-ior (bitwise-and a b c)
-                     (bitwise-and (bitwise-not a)
-                                  (bitwise-not b)
-                                  (bitwise-not c)))
+                  (bitwise-and (bitwise-not a)
+                               (bitwise-not b)
+                               (bitwise-not c)))
 }}}
 
 Rather, it produces `(bitwise-eqv a (bitwise-eqv b c))` or the equivalent
@@ -232,12 +238,12 @@ Rather, it produces `(bitwise-eqv a (bitwise-eqv b c))` or the equivalent
       (bitwise-and 37 12)     =>   4
 }}}
 
-`(bitwise-nand `''i j''`)` -> exact-integer[[BR]]
-`(bitwise-nor `''i j''`)` -> exact-integer[[BR]]
-`(bitwise-andc1 `''i j''`)` -> exact-integer[[BR]]
-`(bitwise-andc2 `''i j''`)` -> exact-integer[[BR]]
-`(bitwise-orc1 `''i j''`)` -> exact-integer[[BR]]
-`(bitwise-orc2 `''i j''`)` -> exact-integer
+`(bitwise-nand `''i j''`)`[[BR]]
+`(bitwise-nor `''i j''`)`[[BR]]
+`(bitwise-andc1 `''i j''`)`[[BR]]
+`(bitwise-andc2 `''i j''`)`[[BR]]
+`(bitwise-orc1 `''i j''`)`[[BR]]
+`(bitwise-orc2 `''i j''`)`
 
 These operations are not associative.
 
@@ -252,9 +258,9 @@ These operations are not associative.
 
 === Integer operations ===
 
-`(arithmetic-shift `''i count''`)` -> exact-integer
+`(arithmetic-shift `''i count''`)`
 
-Arithmetic left shift when ''count''>0; right shift when ''count''<0.
+Returns the arithmetic left shift when ''count''>0; right shift when ''count''<0.
 
 {{{
     (arithmetic-shift 8 2) => 32
@@ -263,9 +269,9 @@ Arithmetic left shift when ''count''>0; right shift when ''count''<0.
     (arithmetic-shift -100000000000000000000000000000000 -100) => -79
 }}}
 
-`(bit-count `''i''`)` -> nonnegative-exact-integer
+`(bit-count `''i''`)`
 
-Population count of 1's (''i'' >= 0) or 0's (''i'' < 0).
+Returns the population count of 1's (''i'' >= 0) or 0's (''i'' < 0).  The result is always non-negative.
 
 {{{
     (bit-count 0) =>  0
@@ -280,7 +286,7 @@ Population count of 1's (''i'' >= 0) or 0's (''i'' < 0).
     (bit-count (- (1+ (expt 2 100)))) =>  1
 }}}
 
-`(integer-length `''i''`)` -> nonnegative-exact-integer
+`(integer-length `''i''`)`
 
 The number of bits needed to represent ''i'', i.e.
 
@@ -290,6 +296,8 @@ The number of bits needed to represent ''i'', i.e.
 			     (+ 1 integer)))
 		    (log 2)))
 }}}
+
+The result is always non-negative.
     
 For non-negative ''i'', this is the number of bits needed to
 represent I in an unsigned binary representation. For all ''i'',
@@ -307,7 +315,7 @@ representation.
     (integer-length -8) => 3
 }}}
 
-`(bitwise-if `''mask i j''`)` -> exact-integer
+`(bitwise-if `''mask i j''`)`
 
 Merge the bitstrings ''i'' and ''j'', with bitstring ''mask'' determining
 from which string to take each bit. That is, if the ''k''th bit of ''mask''
@@ -321,7 +329,7 @@ the ''k''th bit of ''j''.  This is equivalent to:
 
 === Single-bit operations ===
 
-`(bit-set? `''index i''`)` -> boolean
+`(bit-set? `''index i''`)`
 
 Is bit ''index'' set in bitstring ''i'' (where ''index'' is a non-negative exact
 integer)?  As always, the rightmost/least-significant bit in ''i'' is bit 0.
@@ -335,7 +343,7 @@ integer)?  As always, the rightmost/least-significant bit in ''i'' is bit 0.
     (bit-set? 0 6) =>  false
 }}}
 
-`(copy-bit `''index i boolean''`)` -> integer
+`(copy-bit `''index i boolean''`)`
 
 Returns an integer the same as ''i'' except in the ''index''th bit,
 which is 1 if ''boolean'' is `#t` and 0 if ''boolean'' is `#f`.
@@ -347,7 +355,7 @@ which is 1 if ''boolean'' is `#t` and 0 if ''boolean'' is `#f`.
 }}}
 
 
-`(bit-swap `''index,,1,, index,,2,, i''`)` -> integer
+`(bit-swap `''index,,1,, index,,2,, i''`)`
 
 Returns an integer the same as ''i'' except that the ''index,,1,,''th bit
 and the ''index,,2,,''th bit have been exchanged.
@@ -356,17 +364,17 @@ and the ''index,,2,,''th bit have been exchanged.
 (bit-swap 0 2 4) => #b1
 }}}
 
-`(any-bit-set? `''test-bits i''`)` -> boolean[[BR]]
-`(every-bit-set? `''test-bits i''`)` -> boolean
+`(any-bit-set? `''test-bits i''`)`[[BR]]
+`(every-bit-set? `''test-bits i''`)`
 
 Determines if any/all of the bits set in bitstring ''test-bits'' are set
-in bitstring 'i''. I.e.,  returns `(not (zero? (bitwise-and ''test-bits i''`)))`
+in bitstring 'i''. I.e.,  returns `(not (zero? (bitwise-and `''test-bits i''`)))`
 or `(= `''test-bits''` (bitwise-and ''test-bits i'')))` respectively.
 
-`(first-set-bit `''i''`)` -> exact-integer
+`(first-set-bit `''i''`)`
 
-Return the index of the first (smallest index) 1 bit in bitstring I.
-Return -1 if I contains no 1 bits (i.e., if I is zero).
+Return the index of the first (smallest index) 1 bit in bitstring ''i''.
+Return -1 if ''i'' contains no 1 bits (i.e., if I is zero).
 
 {{{
     (first-set-bit 1) => 0
@@ -386,44 +394,44 @@ arguments, which are not optional, are
 non-negative exact integers specifying the field: it is the ''end-start'' bits
 running from bit ''start'' to bit ''end''-1.
 
-`(bit-field `''i start end''`)` -> exact-integer
+`(bit-field `''i start end''`)`
 
 Returns the designated bit field from ''i'', shifted
 down to the least-significant position in the result.
 
-`(bit-field-any? `''i start end''`)` -> boolean
+`(bit-field-any? `''i start end''`)`
 
 Returns true if any of the field's bits are set in bitstring ''i'', and false otherwise.
 
-`(bit-field-every? `''i start end''`)` -> boolean
+`(bit-field-every? `''i start end''`)`
 
 Returns false if any of the field's bits are not set in bitstring ''i'', and true otherwise.
 
-`(bit-field-clear `''i start end''`)` -> exact-integer[[BR]]
-`(bit-field-set `''i start end''`)` -> exact-integer
+`(bit-field-clear `''i start end''`)`[[BR]]
+`(bit-field-set `''i start end''`)`
 
 Returns ''i'' with the selected field's bits set to all 0s/1s.
 
-`(bit-field-replace `''dst src start end''`)` -> exact-integer
+`(bit-field-replace `''dst src start end''`)`
 
 Returns ''dst'' with the designated bit field replaced
 by the least-significant ''end-start'' bits in ''src''.
 
-`(bit-field-replace-same `''dst src start end''`)` -> exact-integer
+`(bit-field-replace-same `''dst src start end''`)`
 
 Returns ''dst'' with the selected field's bits replaced
 by the corresponding field's bits in ''src''.
 
-`(bit-field-rotate `''i count start end''`)` -> exact-integer
+`(bit-field-rotate `''i count start end''`)`
 
 Returns ''i'' with the selected field cyclically permuted
 by ''count'' bits towards high-order.
 
-`(bit-field-reverse `''i start end''`)` -> exact-integer
+`(bit-field-reverse `''i start end''`)`
 
 Returns ''i'' with the order of the bits in the selected field reversed.
 
-`(bit-field-append { ''i start end '' }`)` -> exact-integer
+`(bit-field-append `{ ''i start end '' }`)`
 
 The number of arguments must be a multiple of three.  The field specified
 by each triple of (''i, start, end'') arguments is extracted, and the
@@ -431,12 +439,12 @@ fields are concatenated in left-to-right order and returned as an integer.
 
 === Bits as booleans ===
 
-`(integer->list `''i'' [[|''len'' ]]`)` -> list
+`(integer->list `''i'' [[|''len'' ]]`)`
 
 Returns a list of ''len'' booleans corresponding to each bit of the non-negative integer ''i''.
 `#t` is returned for each 1; `#f` for 0. The len argument defaults to `(integer-length `''i''`)`.
 
-`(list->integer `''list''`)` -> integer
+`(list->integer `''list''`)`
 
 Returns an integer formed from the booleans in ''list'';
 it is an error if ''list'' contains non-booleans.
@@ -444,26 +452,30 @@ A 1 bit is coded for each `#t`; a 0 bit for `#f`.
 Note that the result is never a negative integer.
 `integer->list` and `list->integer` are inverses in the sense of `equal?`.
 
-`(bits `''bool'' ...`)` -> integer
+`(bits `''bool'' ...`)`
 
 Returns the integer coded by the `bool` arguments.
 
 === Fold, unfold, and generate ===
 
-`(bitwise-fold `''proc seed i''`)` -> obj
+It is an error if the arguments named ''proc, stop?, mapper, successor''
+are not procedures.
+The arguments named ''seed'' may be any Scheme object.
+
+`(bitwise-fold `''proc seed i''`)`
 
 For each bit ''b'' of ''i'' from bit 0 to `(integer-length `''i''`)`, ''proc'' is called as
 `(`''proc b r''`)`, where ''r'' is the current accumulated result.  The initial value of ''r''
 is ''seed'', and the value returned by ''proc'' becomes the next accumulated result.  When
 all bits are exhausted, the final accumulated result becomes the result of `bitwise-fold`.
 
-`(bitwise-for-each `''proc i''`)` -> unspecified
+`(bitwise-for-each `''proc i''`)`
 
 Repeatedly applies ''proc'' to the bits of ''i'' starting with 0 and ending with
 `(integer-length `''i''`)`.  The values returned by ''proc'' are discarded.  Returns
 an unspecified value.
 
-`(bitwise-unfold `''stop? mapper successor seed''`)` -> integer
+`(bitwise-unfold `''stop? mapper successor seed''`)`
 
 Generates a non-negative integer bit by bit, starting with bit 0.
 If the result of applying ''stop?'' to the current state
@@ -472,7 +484,7 @@ currently accumulated bits as an integer.  Otherwise, apply ''mapper''
 to the current state to obtain the next bit of the result.  Then get a new state
 by applying ''successor'' to the current state, and repeat this algorithm.
 
-`(make-bitwise-generator `''i''`)` -> generator
+`(make-bitwise-generator `''i''`)`
 
 Returns a [[http://srfi.schemers.org/srfi-121/srfi-121.html|SRFI 121]]
 generator that generates all the bits of ''i'' starting
@@ -480,7 +492,7 @@ with bit 0.  Note that it is an infinite generator.
 
 == Comparison of proposals ==
 
-The following table compares the names of the bitwise (aka logical) functions of [[http://www.lispworks.com/documentation/HyperSpec/Body/c_number.htm|Common Lisp]], [[http://srfi.schemers.org/srfi-33/srfi-33.html|SRFI 33]], [[http://srfi.schemers.org/srfi-60/srfi-60.html|SRFI 60]], [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.4|R6RS]], and this SRFI.  SRFI 33 was never finalized, but is a comprehensive proposal.  SRFI 60 (based on SLIB) is smaller but has a few procedures of its own; some of its procedures have both native (often CL) and SRFI 33 names.  R6RS is a subset of SRFI 60, but all procedure names begin with a `bitwise-` prefix.
+The following table compares the names of the bitwise (aka logical) functions of Common Lisp, SRFI 33, Olin's revisions, SRFI 60, R6RS, and this SRFI.
 
 ||=Function=||=CL=||=SRFI 33=||=SRFI 33 late revs=||=SRFI 60=||=R6RS=||=This SRFI=||
 ||Bitwise NOT||`lognot`||`bitwise-not`||`bitwise-not`||`lognot`, `bitwise-not`||`bitwise-not`||`bitwise-not`||
