@@ -4,7 +4,7 @@ This is the home page for R7RS, the Revised⁷ Report on the Algorithmic Languag
 
 The report on the small language was finalized on July 6, 2013.  It is available [[http://trac.sacrideo.us/wg/raw-attachment/wiki/WikiStart/r7rs.pdf|in PDF format]] and as [[http://trac.sacrideo.us/wg/raw-attachment/wiki/WikiStart/r7rs-small-spec.zip|LaTeX source code]].  There are [[:R7RSSmallErrata|errata]].
 
-A frozen copy of the Red Edition ballot is available at RedEditionBallot.  The results, ''which are not yet final'', can be seen at [[http://tinyurl.com/wg2-red-results|http://tinyurl.com/wg2-red-results]].  The actual report is not yet available.
+A frozen copy of the Red Edition ballot is available at RedEditionBallot.  The results, which are now final, can be seen at [[http://tinyurl.com/wg2-red-results|http://tinyurl.com/wg2-red-results]].  The actual report is not yet available.
 
 For R7RS-small implementations, see ImplementationSupport.
 
