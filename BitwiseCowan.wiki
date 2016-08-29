@@ -11,9 +11,10 @@ core ops with C or assembly language if possible), and open source.
 The precise semantics of these operators is almost never an issue. A
 consistent, portable set of ''names'' and ''parameter conventions'', however, is.
 
-Hence this SRFI, which is based mainly on [[http://srfi.schemers.org/srfi-33/srfi-33.html|SRFI 33]], with some changes and additions from [[http://srfi.schemers.org/srfi-33/mail-archive/msg00023.html|Olin's late revisions to SRFI 33]] (which were never consummated) and a few procedures from [[http://srfi.schemers.org/srfi-60/srfi-60.html|SRFI 60]] and
-the general vector [[http://srfi.schemers.org/srfi-133/srfi-133.html|SRFI 133]].  
+Hence this SRFI, which is based mainly on [[http://srfi.schemers.org/srfi-33/srfi-33.html|SRFI 33]], with some changes and additions from [[http://srfi.schemers.org/srfi-33/mail-archive/msg00023.html|Olin's late revisions to SRFI 33]] (which were never consummated).
 SRFI 33 was never finalized, but is a reasonably comprehensive proposal.
+A few procedures have been added from [[http://srfi.schemers.org/srfi-60/srfi-60.html|SRFI 60]] and
+the general vector [[http://srfi.schemers.org/srfi-133/srfi-133.html|SRFI 133]].  
 SRFI 60 (based on SLIB) is smaller but has a few procedures of its own;
 some of its procedures have both native (often CL) and SRFI 33 names.
 [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.4|R6RS]]
@@ -146,7 +147,7 @@ SRFI 60 includes six procedures that do not have SRFI 33 equivalents.  They are 
 
 * The procedures `copy-bit`, `integer->list` and `list->integer` are incorporated into this SRFI unchanged.
 
-* The procedure `booleans->integer` is a convenient way to specify a bitwise integer in the absence of datum syntax: it accepts an arbitrary number of boolean arguments and returns a non-negative integer.  So in this SRFI it has the short name `bits`, roughly analogous to `list`, `string`, and `vector`.
+* The procedure `booleans->integer` is a convenient way to specify a bitwise integer: it accepts an arbitrary number of boolean arguments and returns a non-negative integer.  So in this SRFI it has the short name `bits`, roughly analogous to `list`, `string`, and `vector`.
 
 === Other sources ===
 
@@ -431,26 +432,29 @@ by ''count'' bits towards high-order.
 
 Returns ''i'' with the order of the bits in the selected field reversed.
 
-`(bit-field-append `{ ''i start end '' }`)`
+`(bit-field-append `''i start end'' ...`)`
 
-The number of arguments must be a multiple of three.  The field specified
-by each triple of (''i, start, end'') arguments is extracted, and the
+It is an error if the number of arguments is not a multiple of three.  The field specified
+by each triple of ''i start end'' arguments is extracted, and the
 fields are concatenated in left-to-right order and returned as an integer.
 
 === Bits as booleans ===
 
-`(integer->list `''i'' [[|''len'' ]]`)`
+`(integer->list `''i'' [[|''len'' ]]`)`[[BR]]
+`(integer->vector `''i'' [[|''len'' ]]`)`
 
-Returns a list of ''len'' booleans corresponding to each bit of the non-negative integer ''i''.
+Returns a list/vector of ''len'' booleans corresponding to each bit of the non-negative integer ''i''.
 `#t` is returned for each 1; `#f` for 0. The len argument defaults to `(integer-length `''i''`)`.
 
+`(list->integer `''list''`)`[[BR]]
 `(list->integer `''list''`)`
 
-Returns an integer formed from the booleans in ''list'';
-it is an error if ''list'' contains non-booleans.
+Returns an integer formed from the booleans in ''list/vector'';
+it is an error if ''list/vector'' contains non-booleans.
 A 1 bit is coded for each `#t`; a 0 bit for `#f`.
 Note that the result is never a negative integer.
-`integer->list` and `list->integer` are inverses in the sense of `equal?`.
+`integer->list` and `list->integer` are inverses in the sense of `equal?`,
+and so are `integer->vector` and `vector->integer`.
 
 `(bits `''bool'' ...`)`
 
@@ -522,14 +526,16 @@ The following table compares the names of the bitwise (aka logical) functions of
 ||Clear bit field||`mask-field`||`clear-bit-field`||`bit-field-clear`||---||---||`bit-field-clear`||
 ||Replace bit field||`dpb`||`replace-bit-field`||`bit-field-replace`||`copy-bit-field`||`bitwise-copy-bit-field`||`bit-field-replace`||
 ||Replace corresponding bit field||`deposit-field`||`deposit-field`||`copy-bit-field`||---||---||`bit-field-copy-same`||
-||Fill bit field||---||---||---||---||---||bit-field-fill||
+||Fill bit field||---||---||---||---||---||`bit-field-fill`||
 ||Rotate bit field||---||---||---||`rotate-bit-field`||`bitwise-rotate-bit-field`||`bit-field-rotate`||
 ||Reverse bit field||---||---||---||`reverse-bit-field`||`bitwise-reverse-bit-field`||`bit-field-reverse`||
 ||Append bit fields||---||---||---||---||---||`bit-field-append`||
 ||Integer to boolean list||---||---||---||`integer->list`||---||`integer->list`||
+||Integer to boolean vector||---||---||---||---||---||`integer->vector`||
 ||Boolean list to integer||---||---||---||`list->integer`||---||`list->integer`||
+||Boolean vector to integer||---||---||---||---||---||`vector->integer`||
 ||Booleans to integer||---||---||---||`booleans->integer`||---||`bits`||
-||Bitwise fold||---||---||---||---||---||`bitwise-fold`|
+||Bitwise fold||---||---||---||---||---||`bitwise-fold`||
 ||Bitwise for-each||---||---||---||---||---||`bitwise-for-each`||
 ||Bitwise unfold||---||---||---||---||---||`bitwise-unfold`||
 
