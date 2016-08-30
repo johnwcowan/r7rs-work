@@ -28,7 +28,7 @@ Integer sets:  IntegerSetsCowan.
 
 Descriptive statistics:  TallyCowan.
 
-Multidimensional generic arrays: ArraysCowan.  Storage classes:  StorageClassesCowan.
+Multidimensional generic arrays: [[http://srfi.schemers.org/srfi-122/srfi-122.html|SRFI 122]] or ArraysCowan.  Storage classes:  StorageClassesCowan.
 
 '''Enumerations'''
 
