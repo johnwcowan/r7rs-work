@@ -2,8 +2,6 @@ Portable but advanced things:
 
 Time types: [[http://srfi.schemers.org/srfi-19/srfi-19.html|SRFI 19]] and/or TimeAdvancedCowan with TimePeriodsCowan
 
-Formatting: [http://synthcode.com/scheme/fmt/] FmtShinn or [[http://srfi.schemers.org/srfi-28/srfi-28.html|SRFI 28]] (basic) or [[http://srfi.schemers.org/srfi-48/srfi-48.html|SRFI 48]] (intermediate), possibly with [[http://srfi.schemers.org/srfi-29/srfi-29.html|SRFI 29]] or GettextCowan
-
 Binary I/O: BinaryIoCowan
 
 Character conversion: CharacterConversionCowan
@@ -17,4 +15,6 @@ URI objects: [[http://practical-scheme.net/gauche/man/gauche-refe_182.html|UrisG
 Unicode character database: UcdCowan, AdvancedUcdCowan
 
 Environment:  MiscEnvironmentSchudy
+
+Trees: (no proposal yet)
 
