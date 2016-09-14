@@ -58,15 +58,13 @@ and `#f` otherwise.
 
 === Basic arithmetic ===
 
-The following procedures from R7RS-small have fixnum equivalents
-provided by this SRFI.
-
+The following procedures are the fixnum counterparts of procedures from R7RS-small:
 {{{
-zero? positive? negative? odd? even?
-= < > <= >=
-max min
-+ - *
-abs square exact-integer-sqrt expt
+fxzero? fxpositive? fxnegative? fxodd? fxeven?
+fx= fx< fx> fx<= fx>=
+fxmax fxmin
+fx+ fx- fx*
+fxabs fxsquare fxsqrt fxexpt
 }}}
 
 Except for the effects of the fixnum rule, the `fx` versions
@@ -77,10 +75,10 @@ with the following additional modifications:
 
  * The procedure `fx-` accepts either one or two arguments.
 
- * For brevity, the fixnum version of `exact-integer-sqrt` is called `fxsqrt`.
+ * The `fxsqrt` procedure is the counterpart of `exact-integer-sqrt` rather than `sqrt`.
 
 Note that in accordance with the fixnum rule the procedure `fxabs` has undefined
-results when applied to `fx:least`.
+results when applied to `fx-least`.
 
 === Arithmetic with carry ===
 
@@ -120,20 +118,57 @@ Returns the two fixnum results of the following computation:
 
 === Integer division ===
 
-All the procedures of DivisionRiastradh have fixnum counterparts provided by
-this SRFI.  Except for the effects of the fixnum rule, the `fx` versions
+The following procedures are the fixnum counterparts of procedures
+from [[http://srfi.schemers.org/srfi-141/srfi-141.html|SRFI 141]]:
+{{{
+fxfloor/ fxfloor-quotient fxfloor-remainder
+fxceiling/ fxceiling-quotient fxceiling-remainder
+fxtruncate/ fxtruncate-quotient fxtruncate-remainder
+fxround/ fxround-quotient fxround-remainder
+fxeuclidean/ fxeuclidean-quotient fxeuclidean-remainder
+fxrbalanced/ fxbalanced-quotient fxbalanced-remainder
+}}}
+Except for the effects of the fixnum rule, the `fx` versions
 have the same arguments and semantics as their generic counterparts.
 
 === Bitwise operations ===
 
-All the procedures of BitwiseCowan have fixnum counterparts provided by
-this SRFI.  Except for the effects of the fixnum rule, the `fx` versions
+The following procedures are the fixnum counterparts of procedures
+from [[http://srfi.schemers.org/srfi-141/srfi-141.html|SRFI 141]]:
+{{{
+fxnot
+fxand   fxior   fxxor   fxeqv
+fxnand  fxnor 
+fxandc1 fxandc2 fxorc1  fxorc2 
+
+farithmetic-shift fxbit-count fxinteger-length
+
+fxif 
+fxbit-set? fxcopy-bit fxbit-swap
+fxany-bit-set? fxevery-bit-set?
+fxfirst-set-bit
+
+fxbit-field fxbit-field-any? fxbit-field-every?
+fxbit-field-clear fxbit-field-set
+fxbit-field-replace  fbit-field-replace-same
+fxbit-field-rotate fxbit-field-reverse
+fxbit-field-append
+
+fixnum->list list->fixnum
+fixnum->vector vector->fixnum
+fxbits
+fxfold fxfor-each fxunfold
+|||
+Except for the effects of the fixnum rule, the `fx` versions
 have the same arguments and semantics as their generic counterparts,
 with the following additional modifications:
 
+* The prefix `bitwise-` in the SRFI 141 functions is dropped for brevity and compatibility.
+
 * Despite the fixnum rule, the `fxarithmetic-shift` procedure produces a defined result on all fixnums by discarding any higher-order bits that do not fit into the fixnum width.
 
-* The fixnum versions of `integer->list` and `list->integer` are called `fixnum->list` and `list->fixnum` respectively.
+* The `fixnum->list` and `list->fixnum` procedures correspond to the `integer->list` and `list->integer`
+procedures respectively, and the same for their vector analogues.
 
 The following additional bitwise procedure is provided:
 
