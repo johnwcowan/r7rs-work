@@ -89,6 +89,10 @@ Value of `(flinteger-binary-log 0)`.  (C99 `FP_ILOGB0`)
 
 Value of `(flinteger-binary-log +0.nan)`.  (C99 `FP_ILOGBNAN`)
 
+`fl-radix`
+
+Value of the floating-point radix (2 on most machines).
+
 == Constructors ==
 
 `(flonum `''number''`)`
@@ -170,13 +174,13 @@ is `#f`, it will definitely be faster.  (C99 `fma`)
 With two or more arguments, these procedures return the 
 difference or quotient of their arguments, associating to the
 left.  With one argument, however, they return the additive or
-multiplicative inverse of their argument.  In general, they
+multiplicative inverse of their argument.
+
+In general, they
 should return the flonum that best approximates the mathematical
 difference or quotient.  For undefined quotients, `fl/`
 behaves as specified by the
-IEEE standards.
-
-For implementations that represent flonums
+IEEE standards.  For implementations that represent flonums
 using IEEE binary floating point, the meaning of "best" is
 reasonably well-defined by the IEEE standards.
 
@@ -184,7 +188,9 @@ reasonably well-defined by the IEEE standards.
 
 `(flmin `''x'' ...`)`
 
-Return the maximum/minimum argument.  If there are no arguments, these procedures return `+inf.0`/`-inf.0` if the implementation provides these numbers, and `fl-maximum` / its negation otherwise.
+Return the maximum/minimum argument.  If there are no arguments,
+these procedures return `+inf.0`/`-inf.0` if the implementation
+provides these numbers, and `fl-maximum` / its negation otherwise.
 
 `(flabs `''x''`)`
 
@@ -226,13 +232,43 @@ The `flround` procedure returns the closest integral flonum to ''x'',
 rounding to even when ''x'' represents a number halfway between two integers.
 
 
-Although infinities and NaNs are not integer objects, these procedures return
+Although infinities and NaNs are not integers, these procedures return
 an infinity when given an infinity as an argument, and a NaN when
 given a NaN.
 
 === Exponents and logarithms ===
 
+{{{
+flexp	double exp(double)	ex
+fl2	double exp2(double)	base-2 exponential
+flexp-minus-1	double expm1(double)	exp-1
+flsquare
+flsqrt
+flcbrt	double cbrt(double)	cube root
+flhypot	double hypot(double, double)	sqrt(x2+y2)
+flexp
+fl2exp	double ldexp(double x, int n)	x*2n
+flexponent	double logb(double x)	the exponent of x, which is the integral part of
+log_r(|x|), as a signed floating-point value, for non-zero x, where r is the radix of the machine's floating-point arithmetic
+flfraction-exponent	double modf(double, double *)	returns two values, fraction and int exponent
+flinteger-exponent	int ilogb(double)	binary log as int
+fllog
+fllog2	double log2(double)	log base 2
+fllog10	double log10(double)	log base 10
+fllog+1	double log1p(double x)	log (1+x)
+flnormalized-fraction-exponent	double frexp(double, int *)
+returns two values, fraction in range [[1/2,1)|and int exponent
+flscalbn	double scalbn(double x, int y)	x*ry, where r is the machine float radix
+}}}
 
+The `flsqrt` procedure returns the principal square root of ''x''. For -0.0,
+`flsqrt` should return -0.0.
+
+The `flexpt` procedure returns ''x'' raised to the power 'y''
+if ''x'' is non-negative or ''y'' is an integral flonum.  If ''x'' is
+negative and ''y'' is not an integer, the result may be a
+NaN, or may be some unspecified flonum.  If ''x'' is zero, then
+the result is zero.
 
 === Trigonometric functions ===
 
@@ -246,7 +282,7 @@ given a NaN.
 
 `(flacos `''x''`)`  (C99 `acos`)
 
-`(flatan `''x'' [''y'']`)`  (C99 `atan` and `atan2`)
+`(flatan `''x'' [''y'']]`)`  (C99 `atan` and `atan2`)
 
 `(flsinh `''x''`)`  (C99 `sinh`)
 
@@ -264,7 +300,9 @@ These are the usual trigonometric functions.  Note that if the result is not a r
 Implementations that use IEEE binary floating-point arithmetic 
 should follow the relevant standards for these procedures.
 
-||`flremquo`||`double      remquo(double, double, int *)`||returns two values, rounded remainder and low-order ''n'' bits of the quotient (''n'' is implementation-defined)
+`(flremquo `''x y''`)`
+
+Returns two values, the result of `(flround-remainder x y)` and the low-order ''n'' bits (as a correctly signed exact integer) of the rounded quotient.  The value of ''n'' is implementation-dependent but at least 3.  This function can be used to reduce the argument of the inverse trigonometric functions, while preserving the correct quadrant or octant.
 
 
 === Integer division ===
@@ -292,92 +330,6 @@ except that it is an error if the arguments are not flonums.
 ||`flgamma`||`double      tgamma(double)`||-||
 ||`fllog-gamma`||`double      lgamma(double)`||returns two values, log(|gamma(x)|) and sgn(gamma(x))||
 ||`flsecond-bessel`||`double      yn(int n, double)`||bessel function of the second kind, order ''n''||
-
-=== Junk ===
-
-{{{
-#!html
-Returns the principal square root of <i>fl</i>. For &minus;0.0,
-<tt>flsqrt</tt> should return &minus;0.0; for other negative arguments,
-the result may be a NaN or some unspecified flonum.</p>
-<p>
-</p>
-
-<div align=left><tt>(<a name="node_idx_1046"></a>flexpt<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
-<p>
-Either <i>fl<sub>1</sub></i> should be non-negative, or, if <i>fl<sub>1</sub></i> is
-negative, <i>fl<sub>2</sub></i> should be an integer object.
-The <tt>flexpt</tt> procedure returns <i>fl<sub>1</sub></i> raised to the power <i>fl<sub>2</sub></i>.  If <i>fl<sub>1</sub></i> is
-negative and <i>fl<sub>2</sub></i> is not an integer object, the result may be a
-NaN, or may be some unspecified flonum.  If <i>fl<sub>1</sub></i> is zero, then
-the result is zero.
-
-}}}
-
-
-=== Decoding flonums ===
-
-decode-float float => significand, exponent, sign
-
-scale-float float integer => scaled-float
-
-float-radix float => float-radix
-
-float-sign float-1 &optional float-2 => signed-float
-
-float-digits float => digits1
-
-float-precision float => digits2
-
-integer-decode-float float => significand, exponent, integer-sign
-
-
-
-Description:
-
-decode-float computes three values that characterize float. The first value is of the same type as float and represents the significand. The second value represents the exponent to which the radix (notated in this description by b) must be raised to obtain the value that, when multiplied with the first result, produces the absolute value of float. If float is zero, any integer value may be returned, provided that the identity shown for scale-float holds. The third value is of the same type as float and is 1.0 if float is greater than or equal to zero or -1.0 otherwise.
-
-decode-float divides float by an integral power of b so as to bring its value between 1/b (inclusive) and 1 (exclusive), and returns the quotient as the first value. If float is zero, however, the result equals the absolute value of float (that is, if there is a negative zero, its significand is considered to be a positive zero).
-
-scale-float returns `(* float (expt (float b float) integer))`, where b is the radix of the floating-point representation. float is not necessarily between 1/b and 1.
-
-float-radix returns the radix of float.
-
-float-sign returns a number z such that z and float-1 have the same sign and also such that z and float-2 have the same absolute value. If float-2 is not supplied, its value is `(float 1 float-1)`. If an implementation has distinct representations for negative zero and positive zero, then `(float-sign -0.0) => -1.0`.
-
-float-digits returns the number of radix b digits used in the representation of float (including any implicit digits, such as a ``hidden bit'').
-
-float-precision returns the number of significant radix b digits present in float; if float is a float zero, then the result is an integer zero.
-
-For normalized floats, the results of float-digits and float-precision are the same, but the precision is less than the number of representation digits for a denormalized or zero number.
-
-integer-decode-float computes three values that characterize float - the significand scaled so as to be an integer, and the same last two values that are returned by decode-float. If float is zero, integer-decode-float returns zero as the first value. The second value bears the same relationship to the first value as for decode-float:
-
-{{{
- (multiple-value-bind (signif expon sign)
-                      (integer-decode-float f)
-   (scale-float (float signif f) expon)) ==  (abs f)
-}}}
-
-=== NaN functions ===
-
-The following functions are applicable not only to flonum NaNs but to all inexact real NaNs, which is why their names do not begin with `fl`.
-
-`(make-nan `''payload''`)`
-
-Returns a NaN, using the exact integer ''payload'' in an implementation-defined way to generate the payload bits.  In particular, the sign bit of the NaN is set from the sign of `payload`.  If the implementation does not support NaNs, it is an error.
-
-`(nan-payload `''nan''`)`
-
-Returns the payload of ''nan''.
-
-`(nan-signaling? `''nan''`)`
-
-Returns `#t` if ''nan'' is a signaling NaN, and `#f` otherwise.  This function is required because different floating-point processors implement the signaling bit in different ways: on most processors, the most significant bit of the payload is clear if the NaN is signaling, but on the PA-RISC and MIPS processors it is set.
-
-`(nan= `''x y''`)`
-
-Returns `#t` if ''x'' and ''y'' are both NaNs the same payload.
 
 
 
