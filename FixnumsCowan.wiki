@@ -126,7 +126,7 @@ fxceiling/ fxceiling-quotient fxceiling-remainder
 fxtruncate/ fxtruncate-quotient fxtruncate-remainder
 fxround/ fxround-quotient fxround-remainder
 fxeuclidean/ fxeuclidean-quotient fxeuclidean-remainder
-fxrbalanced/ fxbalanced-quotient fxbalanced-remainder
+fxbalanced/ fxbalanced-quotient fxbalanced-remainder
 }}}
 Except for the effects of the fixnum rule, the `fx` versions
 have the same arguments and semantics as their generic counterparts.
