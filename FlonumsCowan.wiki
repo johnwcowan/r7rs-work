@@ -1,359 +1,308 @@
-== Flonums package ==
+== Abstract ==
 
-''Flonums'' are a subset of the inexact real numbers provided by a Scheme implementation.  In most Schemes, the flonums and the inexact reals are the same.
+''Flonums'' are a subset of the inexact real numbers provided by a Scheme implementation.  In most Schemes, the flonums and the inexact reals are the same.  It is required that if two flonums are equal in the sense of `=`, they are also equal in the sense of `eqv?`.  That is, if 12.0f0 is a 32-bit inexact number, and 12.0 is a 64-bit inexact number, they cannot both be flonums.  In this situation, it is recommended that the 64-bit numbers be flonums.
 
-== R6RS flonum library ==
+== Rationale ==
 
-The R6RS-specific integer division procedures have been removed, as have the condition types.
+Flonum arithmetic is already supported by many systems, mainly to remove type-dispatching overhead. Standardizing flonum arithmetic increases the portability of code that uses it. Standardizing the range of flonums would make flonum operations inefficient on some systems, which would defeat their purpose. Therefore, this SRFI specifies some of the semantics of flonums, but makes the range implementation-dependent.
 
-{{{
-#!html
-<p>
-This section uses <i>fl</i>, <i>fl<sub>1</sub></i>, <i>fl<sub>2</sub></i>, etc., as
-parameter names for flonum arguments, and <i>ifl</i>
+The sources of the procedures in this SRFI are R7RS-small, [[http://srfi.schemers.org/srfi-141/srfi-141.html|SRFI 141]], [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.3|the R6RS flonum library]], and the [[http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/math.h.html|C99/Posix library]] `<math.h>`, which should be available directly or indirectly to Scheme implementers.  (The C90 version of `<math.h>` lacks ``arcsinh``, ``arccosh``, ``arctanh``, ``erf``, and ``tgamma``.)
+
+== Specification ==
+
+Flonum operations must be at least as accurate as their generic counterparts applied to flonum arguments.  It is an error, except as otherwise noted, for an argument not to be a flonum.  In some cases, operations should be more accurate than their naive generic expansions because they have a smaller total roundoff error.  If the generic result is a non-real number, the result is `+nan.0` if the implementation supports that number, or an arbitrary flonum if not.
+
+This SRFI uses ''x, y, z'' as
+parameter names for flonum arguments, and ''ix, iy, iz''
 as a name for integer-valued flonum arguments, i.e., flonums for which the
-<tt>integer?</tt> predicate returns true.</p>
-<p>
-</p>
-<p></p>
-<div align=left><tt>(<a name="node_idx_950"></a>flonum?<i> obj</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
-<p>
-Returns <tt>#t</tt> if <i>obj</i> is a flonum, <tt>#f</tt> otherwise.
-</p>
-<p></p>
-<p>
-</p>
-<p></p>
-<div align=left><tt>(<a name="node_idx_952"></a>flonum<i> x</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
-<p>
-Returns the best flonum representation of
-<i>x</i>.</p>
-<p>
-The value returned is a flonum that is numerically closest to the
-argument.</p>
-<p>
-</p>
-<blockquote><em>Note:<span style="margin-left: .5em">&zwnj;</span></em>
-If flonums are represented in binary floating point, then
-implementations should break ties by preferring
-the floating-point representation whose least significant bit is
-zero.
-</blockquote>
-<p></p>
-<p>
-</p>
-<p></p>
-<div align=left><tt>(<a name="node_idx_954"></a>fl=?<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i> <i>fl<sub>3</sub></i> <tt>...</tt></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+`integer?` predicate returns true.
 
-<div align=left><tt>(<a name="node_idx_956"></a>fl&lt;?<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i> <i>fl<sub>3</sub></i> <tt>...</tt></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+=== Constants ===
 
-<div align=left><tt>(<a name="node_idx_958"></a>fl&lt;=?<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i> <i>fl<sub>3</sub></i> <tt>...</tt></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+The following C99 constants are provided as Scheme variables.
 
-<div align=left><tt>(<a name="node_idx_960"></a>fl&gt;?<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i> <i>fl<sub>3</sub></i> <tt>...</tt></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+`fl-e`
 
-<div align=left><tt>(<a name="node_idx_962"></a>fl&gt;=?<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i> <i>fl<sub>3</sub></i> <tt>...</tt></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
-<p>
-These procedures return <tt>#t</tt> if their arguments are (respectively):
-equal, monotonically increasing, monotonically decreasing,
-monotonically nondecreasing, or monotonically nonincreasing,
-<tt>#f</tt> otherwise.  These
-predicates must be transitive.</p>
-<p>
-</p>
+Value of the mathematical constant ''e''.  (C99 `M_E`)
 
-<tt>(fl=&nbsp;+inf.0&nbsp;+inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;<tt>#t</tt>
-<p class=nopadding>(fl=&nbsp;-inf.0&nbsp;+inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;<tt>#f</tt></p>
+`fl-log2-e`
 
-<p class=nopadding>(fl=&nbsp;-inf.0&nbsp;-inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;<tt>#t</tt></p>
+Value of `(fllog fl-e 2.0)`.  (C99 `M_LOG2E`)
 
-<p class=nopadding>(fl=&nbsp;0.0&nbsp;-0.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;<tt>#t</tt></p>
+`fl-log10-e`
 
-<p class=nopadding>(fl&lt;&nbsp;0.0&nbsp;-0.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;<tt>#f</tt></p>
+Value of `(fllog fl-e 10.0)`.  (C99 `M_LOG10E`)
 
-<p class=nopadding>(fl=&nbsp;+nan.0&nbsp;<i>fl</i>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;<tt>#f</tt></p>
+`fl-ln-2`
 
-<p class=nopadding>(fl&lt;&nbsp;+nan.0&nbsp;<i>fl</i>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;<tt>#f</tt></p>
-<p></tt>
-</p>
-<p></p>
-<p>
-</p>
-<p></p>
-<div align=left><tt>(<a name="node_idx_964"></a>flinteger?<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+Value of `(fllog 2.0)`  (C99 `M_LN2`)
 
-<div align=left><tt>(<a name="node_idx_966"></a>flzero?<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+`fl-ln-10`
 
-<div align=left><tt>(<a name="node_idx_968"></a>flpositive?<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+Value of `(fllog 10.0)`  (C99 `M_LN10`)
 
-<div align=left><tt>(<a name="node_idx_970"></a>flnegative?<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+`fl-pi`
 
-<div align=left><tt>(<a name="node_idx_972"></a>flodd?<i> ifl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+Value of the mathematical constant π.  (C99 `M_PI`)
 
-<div align=left><tt>(<a name="node_idx_974"></a>fleven?<i> ifl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+`fl-pi/2`
 
-<div align=left><tt>(<a name="node_idx_976"></a>flfinite?<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+Value of `(fl/ fl-pi 2.0)`  (C99 `M_PI_2`)
 
-<div align=left><tt>(<a name="node_idx_978"></a>flinfinite?<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+`fl-pi/4`
 
-<div align=left><tt>(<a name="node_idx_980"></a>flnan?<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
-<p>
-These numerical predicates test a flonum for a particular property,
-returning <tt>#t</tt> or <tt>#f</tt>.
-The <tt>flinteger?</tt> procedure tests whether the number object is an integer,
-<tt>flzero?</tt> tests whether
-it is <tt>fl=?</tt> to zero, <tt>flpositive?</tt> tests whether it is greater
-than zero, <tt>flnegative?</tt> tests whether it is less
-than zero, <tt>flodd?</tt> tests whether it is odd, 
-<tt>fleven?</tt> tests whether it is even,
-<tt>flfinite?</tt> tests whether it is not an infinity and not a NaN,
-<tt>flinfinite?</tt> tests whether it is an infinity, and
-<tt>flnan?</tt> tests whether it is a NaN.</p>
-<p>
-</p>
+Value of `(fl/ fl-pi 4.0)`  (C99 `M_PI_4`)
 
-<tt>(flnegative?&nbsp;-0.0)&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;<tt>#f</tt>
-<p class=nopadding>(flfinite?&nbsp;+inf.0)&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;<tt>#f</tt></p>
+`fl-1/pi`
 
-<p class=nopadding>(flfinite?&nbsp;5.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;<tt>#t</tt></p>
+Value of `(fl/ 1.0 fl-pi)`.  (C99 `M_1_PI`)
 
-<p class=nopadding>(flinfinite?&nbsp;5.0)&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;<tt>#f</tt></p>
+`fl-2/pi`
 
-<p class=nopadding>(flinfinite?&nbsp;+inf.0)&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;<tt>#t</tt></p>
-<p></tt></p>
-<p>
-</p>
-<blockquote><em>Note:<span style="margin-left: .5em">&zwnj;</span></em>
-<tt>(flnegative? -0.0)</tt> must return <tt>#f</tt>,
-else it would lose the correspondence with
-<tt>(fl&lt; -0.0 0.0)</tt>, which is <tt>#f</tt>
-according to IEEE 754&nbsp;[[<a|href="r6rs-lib-Z-H-21.html#node_bib_7">7</a>]].
-</blockquote>
-<p></p>
-<p>
-</p>
-<p></p>
-<div align=left><tt>(<a name="node_idx_982"></a>flmax<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i> <tt>...</tt></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+Value of `(fl/ 2.0 fl-pi)`.  (C99 `M_2_PI`)
 
-<div align=left><tt>(<a name="node_idx_984"></a>flmin<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i> <tt>...</tt></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
-<p>
-These procedures return the maximum or minimum of their arguments.
-They always return a NaN when one or more of the arguments is a NaN.
-</p>
-<p></p>
-<p>
-</p>
-<p></p>
-<div align=left><tt>(<a name="node_idx_986"></a>fl+<i> <i>fl<sub>1</sub></i> <tt>...</tt></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+`fl-2/sqrt-pi`
 
-<div align=left><tt>(<a name="node_idx_988"></a>fl*<i> <i>fl<sub>1</sub></i> <tt>...</tt></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
-<p>
-These procedures return the flonum sum or product of their flonum
+Value of `(fl/ 2.0 (flsqrt fl-pi))`.  (C99 `M_2_SQRTPI`)
+
+`fl-sqrt-2`
+
+Value of `(flsqrt 2.0)`.  (C99 `M_SQRT2`)
+
+`fl-1/sqrt-2`
+
+Value of `(fl/ 1,0 (flsqrt 2.0))`.  (C99 `M_SQRT1_2`)
+
+`fl-maximum`
+
+Value of the largest finite flonum.
+
+`fl-fast-multiply-add`
+
+Equal to `#t` if `(fl+* x y z)` is known to be faster than `(fl+ (fl* x y) z), or `#f` otherwise.  (C99 `FP_FAST_FMA`)
+
+`fl-integer-exponent-zero`
+
+Value of `(flinteger-binary-log 0)`.  (C99 `FP_ILOGB0`)
+
+`fl-integer-exponent-nan`
+
+Value of `(flinteger-binary-log +0.nan)`.  (C99 `FP_ILOGBNAN`)
+
+== Constructors ==
+
+`(flonum `''number''`)`
+
+Returns the closest flonum equivalent to ''number'' in the sense of `=` and `<`.
+
+`(fladjacent `''x y''`)`
+
+Returns a flonum adjacent to ''x'' in the direction of ''y''.  Specifically: if ''x < y'', returns the smallest flonum larger than ''x''; if ''x > y'', returns the largest flonum smaller than ''x''; if ''x = y'', returns ''x''.  (C99 `nextafter`)
+
+`(flcopysign `''x y''`)`
+
+Returns a flonum whose magnitude is the magnitude of ''x'' and whose sign is the sign of ''y''.  (C99 `copysign`)
+
+=== Predicates ===
+
+`(flonum? `''obj''`)`
+
+Returns `#t` if ''obj'' is a flonum and `#f` otherwise.
+
+`(fl= `''x y z'' ...`)`
+
+`(fl< `''x y z'' ...`)`
+
+`(fl> `''x y z'' ...`)`
+
+`(fl<= `''x y z'' ...`)`
+
+`(fl>= `''x y z'' ...`)`
+
+These procedures return `#t` if their arguments are (respectively): equal, monotonically increasing, monotonically decreasing, monotonically nondecreasing, or monotonically nonincreasing; they return `#f` otherwise. These predicates must be transitive.
+
+`(flinteger? `''x''`)‌‌
+
+`(flzero? `''x''`)`
+
+`(flpositive? `''x''`)`
+
+`(flnegative? `''x''`)`
+
+`(flodd? `''ix''`)`
+
+`(fleven? `''ix''`)`
+
+`(flfinite? `''ix''`)`
+
+`(flinfinite? `''ix''`)`
+
+`(flnan? `''ix''`)`
+
+These numerical predicates test a flonum for a particular property, returning `#t` or `#f`. The `flinteger?` procedure tests whether the flonum is an integer, `flzero?` tests whether it is `fl=?` to zero, `flpositive?` tests whether it is greater than zero, `flnegative?` tests whether it is less than zero, `flodd?` tests whether it is odd, `fleven?` tests whether it is even, `flfinite?` tests whether it is not an infinity and not a NaN, `flinfinite?` tests whether it is an infinity, and `flnan?` tests whether it is a NaN.
+
+Note that `(flnegative? -0.0)<` must return `#f`;
+otherwise it would lose the correspondence with
+`(fl< -0.0 0.0)`, which is `#f`
+according to IEEE 754.
+
+=== Arithmetic ===
+
+`(fl+ `''x''`)`
+
+`(fl* `''x''`)`
+
+Return the flonum sum or product of their flonum
 arguments.  In general, they should return the flonum that best
 approximates the mathematical sum or product.  (For implementations
 that represent flonums using IEEE binary floating point, the
-meaning of &ldquo;best&rdquo; is defined by the IEEE standards.)</p>
-<p>
-</p>
+meaning of "best" is defined by the IEEE standards.)
 
-<tt>(fl+&nbsp;+inf.0&nbsp;-inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;+nan.0
-<p class=nopadding>(fl+&nbsp;+nan.0&nbsp;<i>fl</i>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;+nan.0</p>
+`(fl+* `''x y z''`)`
 
-<p class=nopadding>(fl*&nbsp;+nan.0&nbsp;<i>fl</i>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;+nan.0</p>
-<p></tt>
-</p>
-<p></p>
-<p>
-</p>
-<p></p>
-<div align=left><tt>(<a name="node_idx_990"></a>fl-<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i> <tt>...</tt></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+Returns `(fl+ (fl* x y) z)`, possibly faster.  If the constant `fl-fast-fl+*`
+is `#f`, it will definitely be faster.  (C99 `fma`)
 
-<div align=left><tt>(<a name="node_idx_992"></a>fl-<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+`(fl- `''x y'' ...`)`
 
-<div align=left><tt>(<a name="node_idx_994"></a>fl/<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i> <tt>...</tt></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+`(fl/ `''x y'' ...`)`
 
-<div align=left><tt>(<a name="node_idx_996"></a>fl/<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
-<p>
-With two or more arguments, these procedures return the flonum
-difference or quotient of their flonum arguments, associating to the
+With two or more arguments, these procedures return the 
+difference or quotient of their arguments, associating to the
 left.  With one argument, however, they return the additive or
-multiplicative flonum inverse of their argument.  In general, they
+multiplicative inverse of their argument.  In general, they
 should return the flonum that best approximates the mathematical
-difference or quotient.  (For implementations that represent flonums
-using IEEE binary floating point, the meaning of &ldquo;best&rdquo; is
-reasonably well-defined by the IEEE standards.)</p>
-<p>
-</p>
+difference or quotient.  For undefined quotients, `fl/`
+behaves as specified by the
+IEEE standards.
 
-<tt>(fl-&nbsp;+inf.0&nbsp;+inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;+nan.0<p></tt></p>
-<p>
-For undefined quotients, <tt>fl/</tt> behaves as specified by the
-IEEE standards:</p>
-<p>
-</p>
+For implementations that represent flonums
+using IEEE binary floating point, the meaning of "best" is
+reasonably well-defined by the IEEE standards.
 
-<tt>(fl/&nbsp;1.0&nbsp;0.0)&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;+inf.0
-<p class=nopadding>(fl/&nbsp;-1.0&nbsp;0.0)&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;-inf.0</p>
+`(flmax `''x'' ...`)`
 
-<p class=nopadding>(fl/&nbsp;0.0&nbsp;0.0)&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;+nan.0</p>
-<p></tt>
-</p>
-<p></p>
-<p>
-</p>
-<p></p>
-<div align=left><tt>(<a name="node_idx_998"></a>flabs<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
-<p>
-Returns the absolute value of <i>fl</i>.
-</p>
-<p></p>
-<p>
-</p>
-<p></p>
-<div align=left><tt>(<a name="node_idx_1012"></a>flnumerator<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+`(flmin `''x'' ...`)`
 
-<div align=left><tt>(<a name="node_idx_1014"></a>fldenominator<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
-<p>
-These procedures return the numerator or denominator of <i>fl</i>
-as a flonum; the result is computed as if <i>fl</i> was represented as
+Return the maximum/minimum argument.  If there are no arguments, these procedures return `+inf.0`/`-inf.0` if the implementation provides these numbers, and `fl-maximum` / its negation otherwise.
+
+`(flabs `''x''`)`
+
+Returns the absolute value of ''x''.
+
+`(flabsdiff `''x y''`)`
+
+Returns `(flabs (fl- x y))`.  (C99 `fdim`)
+
+`(flsgn `''x''`)`
+
+Returns `(flcopy-sign 1.0 x)`.
+
+`(flnumerator `''x''`)`
+
+`(fldenominator `''x''`)`
+
+Returns the numerator/enominator of ``x``
+as a flonum; the result is computed as if <i>x</i> was represented as
 a fraction in lowest terms.  The denominator is always positive.  The
 denominator of 0.0 is defined to be 1.0.
-</p>
 
-<tt>(flnumerator&nbsp;+inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;+inf.0
-<p class=nopadding>(flnumerator&nbsp;-inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;-inf.0</p>
+`(flfloor `''x''`)`
 
-<p class=nopadding>(fldenominator&nbsp;+inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;1.0</p>
+`(flceiling `''x''`)`
 
-<p class=nopadding>(fldenominator&nbsp;-inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;1.0</p>
+`(flround `''x''`)`
 
-<p class=nopadding>(flnumerator&nbsp;0.75)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;3.0&nbsp;;&nbsp;probably</p>
+`(fltruncate `''x''`)`
 
-<p class=nopadding>(fldenominator&nbsp;0.75)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;4.0&nbsp;;&nbsp;probably</p>
-<p></tt></p>
-<p>
-Implementations should implement following behavior:</p>
-<p>
-</p>
-
-<tt>(flnumerator&nbsp;-0.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;-0.0<p></tt>
-</p>
-<p></p>
-<p>
-</p>
-<p></p>
-<div align=left><tt>(<a name="node_idx_1016"></a>flfloor<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
-
-<div align=left><tt>(<a name="node_idx_1018"></a>flceiling<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
-
-<div align=left><tt>(<a name="node_idx_1020"></a>fltruncate<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
-
-<div align=left><tt>(<a name="node_idx_1022"></a>flround<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
-<p>
 These procedures return integral flonums for flonum arguments that are
-not infinities or NaNs.  For such arguments, <tt>flfloor</tt> returns the
-largest integral flonum not larger than <i>fl</i>.  The <tt>flceiling</tt>
+not infinities or NaNs.  For such arguments, `flfloor` returns the
+largest integral flonum not larger than ''x''.  The `flceiling`
 procedure
-returns the smallest integral flonum not smaller than <i>fl</i>.
-The <tt>fltruncate</tt> procedure returns the integral flonum closest to <i>fl</i> whose
-absolute value is not larger than the absolute value of <i>fl</i>.
-The <tt>flround</tt> procedure returns the closest integral flonum to <i>fl</i>,
-rounding to even when <i>fl</i> represents a number halfway between two integers.</p>
-<p>
+returns the smallest integral flonum not smaller than ''x''.
+The `fltruncate` procedure returns the integral flonum closest to ''x'' whose
+absolute value is not larger than the absolute value of ''x''.
+The `flround` procedure returns the closest integral flonum to ''x'',
+rounding to even when ''x'' represents a number halfway between two integers.
+
+
 Although infinities and NaNs are not integer objects, these procedures return
 an infinity when given an infinity as an argument, and a NaN when
-given a NaN:</p>
-<p>
-</p>
+given a NaN.
 
-<tt>(flfloor&nbsp;+inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;+inf.0
-<p class=nopadding>(flceiling&nbsp;-inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;-inf.0</p>
+=== Exponents and logarithms ===
 
-<p class=nopadding>(fltruncate&nbsp;+nan.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;+nan.0</p>
-<p></tt>
-</p>
-<p></p>
-<p>
-</p>
-<p></p>
-<div align=left><tt>(<a name="node_idx_1024"></a>flexp<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
 
-<div align=left><tt>(<a name="node_idx_1026"></a>fllog<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
 
-<div align=left><tt>(<a name="node_idx_1028"></a>fllog<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+=== Trigonometric functions ===
 
-<div align=left><tt>(<a name="node_idx_1030"></a>flsin<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+`(flsin `''x''`)`  (C99 `sin`)
 
-<div align=left><tt>(<a name="node_idx_1032"></a>flcos<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+`(flcos `''x''`)`  (C99 `cos`)
 
-<div align=left><tt>(<a name="node_idx_1034"></a>fltan<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+`(fltan `''x''`)`  (C99 `tan`)
 
-<div align=left><tt>(<a name="node_idx_1036"></a>flasin<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+`(flasin `''x''`)`  (C99 `asin`)
 
-<div align=left><tt>(<a name="node_idx_1038"></a>flacos<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+`(flacos `''x''`)`  (C99 `acos`)
 
-<div align=left><tt>(<a name="node_idx_1040"></a>flatan<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
+`(flatan `''x'' [''y'']`)`  (C99 `atan` and `atan2`)
 
-<div align=left><tt>(<a name="node_idx_1042"></a>flatan<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
-<p>
-These procedures compute the usual transcendental functions.  
-The <tt>flexp</tt> procedure computes the base-<em>e</em> exponential of <i>fl</i>.
-The <tt>fllog</tt> procedure with a single argument computes the natural logarithm of
-<i>fl</i> (not the base ten logarithm); <tt>(fllog <i>fl<sub>1</sub></i>
-<i>fl<sub>2</sub></i>)</tt> computes the base-<i>fl<sub>2</sub></i> logarithm of <i>fl<sub>1</sub></i>.
-The <tt>flasin</tt>, <tt>flacos</tt>, and <tt>flatan</tt> procedures compute arcsine,
-arccosine, and arctangent, respectively.  <tt>(flatan <i>fl<sub>1</sub></i>
-<i>fl<sub>2</sub></i>)</tt> computes the arc tangent of <i>fl<sub>1</sub></i>/<i>fl<sub>2</sub></i>.</p>
-<p>
-See report
-section&nbsp;on &ldquo;Transcendental functions&rdquo; for the underlying
-mathematical operations.  In the event that these operations do not
-yield a real result for the given arguments, the result may be a NaN,
-or may be some unspecified flonum.</p>
-<p>
+`(flsinh `''x''`)`  (C99 `sinh`)
+
+`(flcosh `''x''`)`  (C99 `cosh`)
+
+`(fltanh `''x''`)`  (C99 `tanh`)
+
+`(flasinh `''x''`)`  (C99 `asinh`)
+
+`(flacosh `''x''`)`  (C99 `acosh`)
+
+`(flatanh `''x''`)`  (C99 `atanh`)
+
+These are the usual trigonometric functions.  Note that if the result is not a real number, `+nan.0` is returned if available, or if not, an arbitrary flonum.  The `flatan` function, when passed two arguments, returns `(flatan (/ y x))` without requiring the use of complex numbers.
 Implementations that use IEEE binary floating-point arithmetic 
-should follow the relevant standards for these procedures.</p>
-<p>
-</p>
+should follow the relevant standards for these procedures.
 
-<tt>(flexp&nbsp;+inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;+inf.0
-<p class=nopadding>(flexp&nbsp;-inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;0.0</p>
+||`flremquo`||`double      remquo(double, double, int *)`||returns two values, rounded remainder and low-order ''n'' bits of the quotient (''n'' is implementation-defined)
 
-<p class=nopadding>(fllog&nbsp;+inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;+inf.0</p>
 
-<p class=nopadding>(fllog&nbsp;0.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;-inf.0</p>
+=== Integer division ===
 
-<p class=nopadding>(fllog&nbsp;-0.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;<i>unspecified</i><br>
-;&nbsp;if&nbsp;-0.0&nbsp;is&nbsp;distinguished</p>
+The following procedures are the flonum counterparts of procedures from [[http://srfi.schemers.org/srfi-141/srfi-141.html|​SRFI 141]]:
 
-<p class=nopadding>(fllog&nbsp;-inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;+nan.0</p>
+{{{
+flfloor/ flfloor-quotient flfloor-remainder
+flceiling/ flceiling-quotient flceiling-remainder
+fltruncate/ fltruncate-quotient fltruncate-remainder
+flround/ flround-quotient flround-remainder
+fleuclidean/ fleuclidean-quotient fleuclidean-remainder
+flbalanced/ flbalanced-quotient flbalanced-remainder
+}}}
 
-<p class=nopadding>(flatan&nbsp;-inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><span style="margin-left: 2em">&zwnj;</span><span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;-1.5707963267948965<br>
-;&nbsp;approximately</p>
+They have the same arguments and semantics as their generic counterparts,
+except that it is an error if the arguments are not flonums.
 
-<p class=nopadding>(flatan&nbsp;+inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><span style="margin-left: 2em">&zwnj;</span><span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;1.5707963267948965<br>
-;&nbsp;approximately</p>
-<p></tt>
-</p>
-<p></p>
-<p>
-</p>
-<p></p>
-<div align=left><tt>(<a name="node_idx_1044"></a>flsqrt<i> fl</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
-<p>
+=== Special functions ===
+
+||Scheme name||C signature||Comments||
+||`flcomplementary-error-function`||`double      erfc(double)`||-||
+||`flerror-function`||`double      erf(double)`||-||
+||`flfirst-bessel`||`double      jn(int n, double)`||bessel function of the first kind, order n||
+||`flgamma`||`double      tgamma(double)`||-||
+||`fllog-gamma`||`double      lgamma(double)`||returns two values, log(|gamma(x)|) and sgn(gamma(x))||
+||`flsecond-bessel`||`double      yn(int n, double)`||bessel function of the second kind, order ''n''||
+
+=== Junk ===
+
+{{{
+#!html
 Returns the principal square root of <i>fl</i>. For &minus;0.0,
 <tt>flsqrt</tt> should return &minus;0.0; for other negative arguments,
 the result may be a NaN or some unspecified flonum.</p>
 <p>
 </p>
 
-<tt>(flsqrt&nbsp;+inf.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;+inf.0
-<p class=nopadding>(flsqrt&nbsp;-0.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left: 2em">&zwnj;</span>&rArr;&nbsp;&nbsp;-0.0</p>
-<p></tt>
-</p>
-<p></p>
-<p>
-</p>
-<p></p>
 <div align=left><tt>(<a name="node_idx_1046"></a>flexpt<i> <i>fl<sub>1</sub></i> <i>fl<sub>2</sub></i></i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
 <p>
 Either <i>fl<sub>1</sub></i> should be non-negative, or, if <i>fl<sub>1</sub></i> is
@@ -362,137 +311,74 @@ The <tt>flexpt</tt> procedure returns <i>fl<sub>1</sub></i> raised to the power 
 negative and <i>fl<sub>2</sub></i> is not an integer object, the result may be a
 NaN, or may be some unspecified flonum.  If <i>fl<sub>1</sub></i> is zero, then
 the result is zero.
-</p>
-<p></p>
-<p>
-</p>
 
-<p></p>
-<div align=left><tt>(<a name="node_idx_1060"></a>fixnum-&gt;flonum<i> fx</i>)</tt><span style="margin-left: .5em">&zwnj;</span><span style="margin-left: .5em">&zwnj;</span>procedure&nbsp;</div>
-<p>
-Returns a flonum that is numerically closest to <i>fx</i>.</p>
-<p>
-</p>
-<blockquote><em>Note:<span style="margin-left: .5em">&zwnj;</span></em>
-The result of this procedure may not be
-numerically equal to <i>fx</i>, because the fixnum precision
-may be greater than the flonum precision.
-</blockquote>
-<p></p>
-<p>
-</p>
 }}}
 
-== Integer division ==
+
+=== Decoding flonums ===
+
+decode-float float => significand, exponent, sign
+
+scale-float float integer => scaled-float
+
+float-radix float => float-radix
+
+float-sign float-1 &optional float-2 => signed-float
+
+float-digits float => digits1
+
+float-precision float => digits2
+
+integer-decode-float float => significand, exponent, integer-sign
+
+
+
+Description:
+
+decode-float computes three values that characterize float. The first value is of the same type as float and represents the significand. The second value represents the exponent to which the radix (notated in this description by b) must be raised to obtain the value that, when multiplied with the first result, produces the absolute value of float. If float is zero, any integer value may be returned, provided that the identity shown for scale-float holds. The third value is of the same type as float and is 1.0 if float is greater than or equal to zero or -1.0 otherwise.
+
+decode-float divides float by an integral power of b so as to bring its value between 1/b (inclusive) and 1 (exclusive), and returns the quotient as the first value. If float is zero, however, the result equals the absolute value of float (that is, if there is a negative zero, its significand is considered to be a positive zero).
+
+scale-float returns `(* float (expt (float b float) integer))`, where b is the radix of the floating-point representation. float is not necessarily between 1/b and 1.
+
+float-radix returns the radix of float.
+
+float-sign returns a number z such that z and float-1 have the same sign and also such that z and float-2 have the same absolute value. If float-2 is not supplied, its value is `(float 1 float-1)`. If an implementation has distinct representations for negative zero and positive zero, then `(float-sign -0.0) => -1.0`.
+
+float-digits returns the number of radix b digits used in the representation of float (including any implicit digits, such as a ``hidden bit'').
+
+float-precision returns the number of significant radix b digits present in float; if float is a float zero, then the result is an integer zero.
+
+For normalized floats, the results of float-digits and float-precision are the same, but the precision is less than the number of representation digits for a denormalized or zero number.
+
+integer-decode-float computes three values that characterize float - the significand scaled so as to be an integer, and the same last two values that are returned by decode-float. If float is zero, integer-decode-float returns zero as the first value. The second value bears the same relationship to the first value as for decode-float:
 
 {{{
-#!html
-<p>
-<tt>(floor/ </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
-<tt>(floor-quotient </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
-<tt>(floor-remainder </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
-</p>
-<p>
-<tt>(ceiling/ </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
-<tt>(ceiling-quotient </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
-<tt>(ceiling-remainder </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
-</p>
-<p>
-<tt>(truncate/ </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
-<tt>(truncate-quotient </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
-<tt>(truncate-remainder </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
-</p>
-<p>
-<tt>(round/ </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
-<tt>(round-quotient </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
-<tt>(round-remainder </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
-<p>
-<tt>(euclidean/ </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
-<tt>(euclidean-quotient </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
-<tt>(euclidean-remainder </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
-</p>
-<p>
-<tt>(balanced/ </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
-<tt>(balanced-quotient </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
-<tt>(balanced-remainder </tt><em>dividend</em><tt> </tt><em>divisor</em><tt>)</tt><br />
-</p>
+ (multiple-value-bind (signif expon sign)
+                      (integer-decode-float f)
+   (scale-float (float signif f) expon)) ==  (abs f)
 }}}
 
-These are variants of the DivisionRiastradh integer division functions that accept flonums and return a flonum.
+=== NaN functions ===
 
-`(decode-float `''z''`)` and friends
+The following functions are applicable not only to flonum NaNs but to all inexact real NaNs, which is why their names do not begin with `fl`.
 
-See [[http://www.lispworks.com/documentation/lw50/CLHS/Body/f_dec_fl.htm|CL DECODE-FLOAT and friends]].
+`(make-nan `''payload''`)`
 
+Returns a NaN, using the exact integer ''payload'' in an implementation-defined way to generate the payload bits.  In particular, the sign bit of the NaN is set from the sign of `payload`.  If the implementation does not support NaNs, it is an error.
 
-== C99 <math.h> constants ==
+`(nan-payload `''nan''`)`
 
-The following constants are defined in terms of the constants of the <math.h> header of ISO/IEC 9899:1999 (C language).
+Returns the payload of ''nan''.
 
-||Scheme name||C name||Comments||
-||`fl:e`||`M_E`||Value of e||
-||`fl:log2-e`||`M_LOG2E`||Value of log,,2,, e||
-||`fl:log10-e`||`M_LOG10E`||Value of log,,10,, e||
-||`fl:ln-2`||`M_LN2`||Value of log,,e,, 2||
-||`fl:ln-10`||`M_LN10`||Value of log,,e,, 10||
-||`fl:pi`||`M_PI`||Value of pi||
-||`fl:pi/2`||`M_PI_2`||Value of pi/2||
-||`fl:pi/4`||`M_PI_4`||Value of pi/4||
-||`fl:one-over-pi`||`M_1_PI`||Value of 1/pi||
-||`fl:two-over-pi`||`M_2_PI`||Value of 2/pi||
-||`fl:two-over-sqrt-pi`||`M_2_SQRTPI`||Value of 2/sqrt(pi)||
-||`fl:sqrt-2`||`M_SQRT2`||Value of sqrt(2)||
-||`fl:one-over-sqrt-2`||`M_SQRT1_2`||Value of 1/sqrt(2)||
-||`fl:maximum-flonum`||`HUGE_VAL`||`+inf.0` or else\\the largest finite flonum||
-||`fl:fast-multiply-add`||`#t` if `FP_FAST_FMA` is 1,\\or `#f` otherwise||multiply-add is fast||
-||`fl:integer-exponent-zero`||`FP_ILOGB0`||what `(flinteger-binary-log 0)` returns||
-||`fl:integer-exponent-nan`||`FP_ILOGBNAN`||what `(flinteger-binary-log +0.nan)` returns||
+`(nan-signaling? `''nan''`)`
 
-== C99 <math.h> procedures ==
+Returns `#t` if ''nan'' is a signaling NaN, and `#f` otherwise.  This function is required because different floating-point processors implement the signaling bit in different ways: on most processors, the most significant bit of the payload is clear if the NaN is signaling, but on the PA-RISC and MIPS processors it is set.
 
-The following procedures are defined in terms of the functions of the <math.h> header of ISO/IEC 9899:1999 (C language).  In the C signatures, the types "double" and "int" are mapped to Scheme flonums and (suitably bounded) Scheme exact integers respectively.
+`(nan= `''x y''`)`
 
-||Scheme name||C signature||Comments||
-||`flacosh`||`double      acosh(double)`||hyperbolic arc cosine||
-||`flasinh`||`double      asinh(double)`||hyperbolic arc sine||
-||`flatanh`||`double      atanh(double)`||hyperbolic arc tangent||
-||`flcbrt`||`double      cbrt(double);`||cube root||
-||`flcomplementary-error-function`||`double      erfc(double)`||-||
-||`flcopy-sign`||`double      copysign(double x, double y)`||result has magnitude of x and sign of y||
-||`flcosh`||`double      cosh(double)`||hyperbolic cosine||
-||`flmake-flonum`||`double      ldexp(double x, int n)`||x*2^n^||
-||`flerror-function`||`double      erf(double)`||-||
-||`flexp`||`double exp(double)`||e^x^||
-||`flexp-binary`||`double      exp,,2,,(double)`||base-2 exponential||
-||`flexp-minus-1`||`double      expm1(double)`||e^x^-1||
-||`flexponent`||`double      logb(double x)`||the exponent of x, which is the integral part of log_r(|x|), as a signed floating-point value, for non-zero x, where r is the radix of the machine's floating-point arithmetic||
-||`flfirst-bessel-order-0`||`double      j0(double)`||bessel function of the first kind, order 0||
-||`flfirst-bessel-order-1`||`double      j1(double)`||bessel function of the first kind, order 1||
-||`flfirst-bessel`||`double      jn(int n, double)`||bessel function of the first kind, order n||
-||`flfraction-exponent`||`double      modf(double, double *)`||returns two values, fraction and int exponent||
-||`flgamma`||`double      tgamma(double)`||-||
-||`flhypotenuse`||`double      hypot(double, double)`||sqrt(x^2^+y^2^)||
-||`flinteger-exponent`||`int         ilogb(double)`||binary log as int||
-||`fllog-binary`||`double      log2(double)`||log base 2||
-||`fllog-decimal`||`double      log10(double)`||log base 10||
-||`fllog-gamma`||`double      lgamma(double)`||returns two values, log(|gamma(x)|) and sgn(gamma(x))||
-||`fllog-one-plus`||`double      log1p(double x)`||log (1+x)||
-||`flmultiply-add`||`double      fma(double a, double b, double c)`||a*b+c||
-||`flnext-after`||`double      nextafter(double, double)`||next flonum following x in the direction of y||
-||`flnormalized-fraction-exponent`||`double      frexp(double, int *)`||returns two values, fraction in range [1/2,1) and int exponent||
-||`flpositive-difference`||`double      fdim(double, double)`||-||
-||`flremquo`||`double      remquo(double, double, int *)`||returns two values, rounded remainder and low-order ''n'' bits of the quotient (''n'' is implementation-defined)
-||`flscalbn`||`double      scalbn(double x, int y)`||x*r^y^, where r is the machine float radix||
-||`flsecond-bessel-order-0`||`double      y0(double)`||bessel function of the second kind, order 0||
-||`flsecond-bessel-order-1`||`double      y1(double)`||bessel function of the second kind, order 1||
-||`flsecond-bessel`||`double      yn(int n, double)`||bessel function of the second kind, order ''n''||
-||`flsinh`||`double      sinh(double)`||hyperbolic sine||
-||`fltanh`||`double      tanh(double)`||hyperbolic tangent||
+Returns `#t` if ''x'' and ''y'' are both NaNs the same payload.
 
 
-== General remarks ==
 
-In the event that these operations do not yield a real result for the given arguments, the result may be `+nan.0`, or may be some unspecified flonum.
-
-Implementations that use IEEE binary floating-point arithmetic should follow the relevant standards for these procedures.
 
