@@ -13,7 +13,7 @@ fixnum range.
 
 == Rationale ==
 
-Fixnum arithmetic is already supported by many systems, mainly for efficiency. Standardizing fixnum arithmetic increases the portability of code that uses it. Standardizing the range of fixnums would make fixnum operations inefficient on some systems, which would defeat their purpose. Therefore, this SRFI specifies some of the semantics of fixnum, but makes the range implementation-dependent.
+Fixnum arithmetic is already supported by many systems, mainly for efficiency. Standardizing fixnum arithmetic increases the portability of code that uses it. Standardizing the range of fixnums would make fixnum operations inefficient on some systems, which would defeat their purpose. Therefore, this SRFI specifies some of the semantics of fixnums, but makes the range implementation-dependent.
 
 Existing implementations employ different implementation strategies for fixnums: Some implement the model specified by R6RS (overflows cause exceptions), some implement modular arithmetic (overflows “wrap around”), and others do not handle arithmetic overflows at all.  In programs that use fixnums instead of generic arithmetic, overflows are typically programming mistakes.
 
