@@ -158,7 +158,7 @@ fixnum->list list->fixnum
 fixnum->vector vector->fixnum
 fxbits
 fxfold fxfor-each fxunfold
-|||
+}}}
 Except for the effects of the fixnum rule, the `fx` versions
 have the same arguments and semantics as their generic counterparts,
 with the following additional modifications:
