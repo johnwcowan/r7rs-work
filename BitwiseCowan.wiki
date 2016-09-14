@@ -65,7 +65,7 @@ bitwise-fold bitwise-for-each bitwise-unfold
 
 * These operations interpret exact integers using two's-complement representation.
 
-* It is not optional for the associative bitwise ops to be n-ary instead of merely binary. They are required to be n-ary. Programmers can ''reliably'' write `bitwise-and` with 3 arguments, for example.
+* The associative bitwise ops are required to be n-ary. Programmers can ''reliably'' write `bitwise-and` with 3 arguments, for example.
 
  * The word `or` is never used by itself, only with modifiers: `xor`, `ior`, `nor`,
    `orc1`, or `orc2`.  This is the same rule as Common Lisp.
@@ -106,7 +106,7 @@ bitwise-fold bitwise-for-each bitwise-unfold
 The core of this design design mirrors the structure of Common Lisp's pretty closely.  Here are some differences:
 
       * "load" and "deposit" are the wrong verbs (e.g., Common Lisp's `ldb` and `dpb` ops),
-        since these guys have nothing to do with the store.  
+        since they have nothing to do with the store.  
     
       * `boole` has been removed; it is not one with the Way of Scheme.  Boolean functions
         are directly encoded in Scheme as first-class functions.
@@ -151,7 +151,7 @@ SRFI 60 includes six procedures that do not have SRFI 33 equivalents.  They are 
 
 === Other sources ===
 
-The following procedures are inspired by SRFI 133:  `bit-swap`, `bit-field-append`,
+* The following procedures are inspired by SRFI 133:  `bit-swap`, `bit-field-append`,
 `bitwise-fold`, `bitwise-for-each`, `bitwise-unfold`.
 
 * The procedure `bit-field-set` is the counterpart of `bit-field-clear`.
@@ -170,7 +170,7 @@ The following procedures are inspired by SRFI 133:  `bit-swap`, `bit-field-appen
 * Common Lisp bit-field operations use a ''byte spec'' to encapsulate the position and
   size of the field.  SRFI 33 bit-field operations had leading ''position'' and ''size''
   arguments instead.  These
-  have been replaced in this SRFI by ''start'' (inclusive) and ''end'' (exclusive)
+  have been replaced in this SRFI by trailing ''start'' (inclusive) and ''end'' (exclusive)
   arguments, the convention used not only in SRFI 60 and R6RS but also in most other
   subsequence operations in Scheme standards and SRFIs.
 
@@ -204,7 +204,6 @@ The following ten procedures correspond to the useful set
 of non-trivial two-argument boolean functions. For each such function,
 the corresponding bitwise operator
 maps that function across a pair of bitstrings in a bit-wise fashion.
-
 The core idea of this group of functions is this bitwise "lifting"
 of the set of dyadic boolean functions to bitstring parameters.
 
@@ -301,7 +300,7 @@ The number of bits needed to represent ''i'', i.e.
 The result is always non-negative.
     
 For non-negative ''i'', this is the number of bits needed to
-represent I in an unsigned binary representation. For all ''i'',
+represent ''i'' in an unsigned binary representation. For all ''i'',
 `(+ 1 (integer-length `''i''`))` is the number of bits needed
 to represent ''i'' in a signed twos-complement 
 representation.
@@ -369,13 +368,13 @@ and the ''index,,2,,''th bit have been exchanged.
 `(every-bit-set? `''test-bits i''`)`
 
 Determines if any/all of the bits set in bitstring ''test-bits'' are set
-in bitstring 'i''. I.e.,  returns `(not (zero? (bitwise-and `''test-bits i''`)))`
+in bitstring ''i''. I.e.,  returns `(not (zero? (bitwise-and `''test-bits i''`)))`
 or `(= `''test-bits''` (bitwise-and ''test-bits i'')))` respectively.
 
 `(first-set-bit `''i''`)`
 
 Return the index of the first (smallest index) 1 bit in bitstring ''i''.
-Return -1 if ''i'' contains no 1 bits (i.e., if I is zero).
+Return -1 if ''i'' contains no 1 bits (i.e., if ''i'' is zero).
 
 {{{
     (first-set-bit 1) => 0
@@ -397,7 +396,7 @@ running from bit ''start'' to bit ''end''-1.
 
 `(bit-field `''i start end''`)`
 
-Returns the designated bit field from ''i'', shifted
+Returns the field from ''i'', shifted
 down to the least-significant position in the result.
 
 `(bit-field-any? `''i start end''`)`
@@ -411,26 +410,26 @@ Returns false if any of the field's bits are not set in bitstring ''i'', and tru
 `(bit-field-clear `''i start end''`)`[[BR]]
 `(bit-field-set `''i start end''`)`
 
-Returns ''i'' with the selected field's bits set to all 0s/1s.
+Returns ''i'' with the field's bits set to all 0s/1s.
 
 `(bit-field-replace `''dst src start end''`)`
 
-Returns ''dst'' with the designated bit field replaced
+Returns ''dst'' with the field replaced
 by the least-significant ''end-start'' bits in ''src''.
 
 `(bit-field-replace-same `''dst src start end''`)`
 
-Returns ''dst'' with the selected field's bits replaced
-by the corresponding field's bits in ''src''.
+Returns ''dst'' with its field replaced
+by the corresponding field in ''src''.
 
 `(bit-field-rotate `''i count start end''`)`
 
-Returns ''i'' with the selected field cyclically permuted
+Returns ''i'' with the field cyclically permuted
 by ''count'' bits towards high-order.
 
 `(bit-field-reverse `''i start end''`)`
 
-Returns ''i'' with the order of the bits in the selected field reversed.
+Returns ''i'' with the order of the bits in the field reversed.
 
 `(bit-field-append `''i start end'' ...`)`
 
@@ -444,7 +443,7 @@ fields are concatenated in left-to-right order and returned as an integer.
 `(integer->vector `''i'' [[|''len'' ]]`)`
 
 Returns a list/vector of ''len'' booleans corresponding to each bit of the non-negative integer ''i''.
-`#t` is returned for each 1; `#f` for 0. The len argument defaults to `(integer-length `''i''`)`.
+`#t` is returned for each 1; `#f` for 0. The ''len'' argument defaults to `(integer-length `''i''`)`.
 
 `(list->integer `''list''`)`[[BR]]
 `(list->integer `''list''`)`
@@ -485,7 +484,8 @@ Generates a non-negative integer bit by bit, starting with bit 0.
 If the result of applying ''stop?'' to the current state
 (whose initial value is ''seed'') is true, return the
 currently accumulated bits as an integer.  Otherwise, apply ''mapper''
-to the current state to obtain the next bit of the result.  Then get a new state
+to the current state to obtain the next bit of the result by interpreting
+a true value as a 1 bit and a false value as a 0 bit.  Then get a new state
 by applying ''successor'' to the current state, and repeat this algorithm.
 
 `(make-bitwise-generator `''i''`)`
@@ -524,9 +524,9 @@ The following table compares the names of the bitwise (aka logical) functions of
 ||Test bit field (any)||`ldb-test`||`test-bit-field?`||`bit-field-any?`||---||---||`bit-field-any?`||
 ||Test bit field (every)||---||---||`bit-field-every?`||---||---||`bit-field-every?`||
 ||Clear bit field||`mask-field`||`clear-bit-field`||`bit-field-clear`||---||---||`bit-field-clear`||
+||Set bit field||---||---||---||---||---||`bit-field-set`||
 ||Replace bit field||`dpb`||`replace-bit-field`||`bit-field-replace`||`copy-bit-field`||`bitwise-copy-bit-field`||`bit-field-replace`||
 ||Replace corresponding bit field||`deposit-field`||`deposit-field`||`copy-bit-field`||---||---||`bit-field-copy-same`||
-||Fill bit field||---||---||---||---||---||`bit-field-fill`||
 ||Rotate bit field||---||---||---||`rotate-bit-field`||`bitwise-rotate-bit-field`||`bit-field-rotate`||
 ||Reverse bit field||---||---||---||`reverse-bit-field`||`bitwise-reverse-bit-field`||`bit-field-reverse`||
 ||Append bit fields||---||---||---||---||---||`bit-field-append`||
