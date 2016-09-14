@@ -1,6 +1,6 @@
 == Abstract ==
 
-''Flonums'' are a subset of the inexact real numbers provided by a Scheme implementation.  In most Schemes, the flonums and the inexact reals are the same.  It is required that if two flonums are equal in the sense of `=`, they are also equal in the sense of `eqv?`.  That is, if 12.0f0 is a 32-bit inexact number, and 12.0 is a 64-bit inexact number, they cannot both be flonums.  In this situation, it is recommended that the 64-bit numbers be flonums.
+''Flonums'' are a subset of the inexact real numbers provided by a Scheme implementation.  In most Schemes, the flonums and the inexact reals are the same.  
 
 == Rationale ==
 
@@ -9,6 +9,8 @@ Flonum arithmetic is already supported by many systems, mainly to remove type-di
 The sources of the procedures in this SRFI are R7RS-small, [[http://srfi.schemers.org/srfi-141/srfi-141.html|SRFI 141]], [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.3|the R6RS flonum library]], and the [[http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/math.h.html|C99/Posix library]] `<math.h>`, which should be available directly or indirectly to Scheme implementers.  (The C90 version of `<math.h>` lacks ``arcsinh``, ``arccosh``, ``arctanh``, ``erf``, and ``tgamma``.)
 
 == Specification ==
+
+It is required that if two flonums are equal in the sense of `=`, they are also equal in the sense of `eqv?`.  That is, if 12.0f0 is a 32-bit inexact number, and 12.0 is a 64-bit inexact number, they cannot both be flonums.  In this situation, it is recommended that the 64-bit numbers be flonums.
 
 Flonum operations must be at least as accurate as their generic counterparts applied to flonum arguments.  It is an error, except as otherwise noted, for an argument not to be a flonum.  In some cases, operations should be more accurate than their naive generic expansions because they have a smaller total roundoff error.  If the generic result is a non-real number, the result is `+nan.0` if the implementation supports that number, or an arbitrary flonum if not.
 
