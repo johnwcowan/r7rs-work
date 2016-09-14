@@ -55,7 +55,9 @@ bit-field-replace  bit-field-replace-same
 bit-field-rotate bit-field-reverse
 bit-field-append
 
-integer->list list->integer bits
+integer->list list->integer
+integer->vector vector->integer
+bits
 bitwise-fold bitwise-for-each bitwise-unfold
 }}}
 
