@@ -89,15 +89,15 @@ Bound to `#t` if `(fl+* x y z)` is known to be faster than `(fl+ (fl* x y) z), o
 
 `fl-integer-exponent-zero`
 
-Bound to whatever value is returned by `(flinteger-binary-log 0)`.  (C99 `FP_ILOGB0`)
+Bound to whatever exact integer is returned by `(flinteger-binary-log 0)`.  (C99 `FP_ILOGB0`)
 
 `fl-integer-exponent-nan`
 
-Bound to whatever value is returned by `(flinteger-binary-log +0.nan)`.  (C99 `FP_ILOGBNAN`)
+Bound to whatever exact integer is returned by `(flinteger-binary-log +0.nan)`.  (C99 `FP_ILOGBNAN`)
 
 `fl-radix`
 
-Value of the floating-point radix (2 on most machines).
+Bound to the floating-point radix as an exact integer (2 on most machines).  (C99 `FLT_RADIX`)
 
 == Constructors ==
 
@@ -112,6 +112,32 @@ Returns a flonum adjacent to ''x'' in the direction of ''y''.  Specifically: if 
 `(flcopysign `''x y''`)`
 
 Returns a flonum whose magnitude is the magnitude of ''x'' and whose sign is the sign of ''y''.  (C99 `copysign`)
+
+`(make-flonum `''x n''`)`
+
+Returns the flonum (fl* x (expt 2 n)), where ''n'' is a non-negative integer with an implementation-dependent maximum value.  (C99 `ldexp`)
+
+`(make-binary-flonum `''x n''`)`
+
+Returns the flonum (fl* x (expt fl-radix n)), where ''n'' is a non-negative integer with an implementation-dependent maximum value.  (C99 `scalbn`)
+
+=== Accessors ===
+
+`(flinteger-fraction `''x''`)`
+
+Returns two values, the integral part of ''x'' as a flonum and the fractional part of ''x'' as a flonum.  (C99 `modf`)
+
+`(flexponent `''x''`)`
+
+Returns the value of `(* (fltrunc (fllog (flabs x) fl-radix)) (flsgn x))`.  (C99 `logb`)
+
+`(flinteger-exponent `''x''`)`
+
+Returns the same as `flexponent` as an exact integer.  If ''x'' is zero, returns `fl-integer-exponent-zero`; if ''x'' is a NaN, returns `fl-integer-exponent-nan`; if ''x'' is infinite, returns a large implementation-dependent exact integer.  (C99 `ilogb`)
+
+`(flnormalized-fraction-exponent `''x''`)`
+
+Returns two values, a correctly signed fraction ''y'' whose absolute value is between 0.5 (inclusive) and 1.0 (exclusive), and an exponent ''n'' such that `(fl* y (flexpt 2 n))` is equal to ''x''.  (C99 `frexp`)
 
 === Predicates ===
 
@@ -169,7 +195,7 @@ approximates the mathematical sum or product.
 `(fl+* `''x y z''`)`
 
 Returns `(fl+ (fl* x y) z)`, possibly faster.  If the constant `fl-fast-fl+*`
-is `#f`, it will definitely be faster.  (C99 `fma`)
+is `#t`, it will definitely be faster.  (C99 `fma`)
 
 `(fl- `''x y'' ...`)`
 
@@ -238,73 +264,86 @@ given a NaN.
 
 === Exponents and logarithms ===
 
-{{{
-flexp	double exp(double)	ex
-fl2	double exp2(double)	base-2 exponential
-flexp-minus-1	double expm1(double)	exp-1
-flsquare
-flsqrt
-flcbrt	double cbrt(double)	cube root
-flhypot	double hypot(double, double)	sqrt(x2+y2)
-flexp
-fl2exp	double ldexp(double x, int n)	x*2n
-flexponent	double logb(double x)	the exponent of x,
-which is the integral part of
-log_r(|x|), as a signed floating-point value, for non-zero x,
-where r is the radix of the machine's floating-point arithmetic
-flfraction-exponent	double modf(double, double *
-returns two values, fraction and int exponent
-flinteger-exponent	int ilogb(double)	binary log as int
-fllog
-fllog2	double log2(double)	log base 2
-fllog10	double log10(double)	log base 10
-fllog+1	double log1p(double x)	log (1+x)
-flnormalized-fraction-exponent	double frexp(double, int *)
-returns two values, fraction in range [[1/2,1)|and int exponent
-flscalbn	double scalbn(double x, int y)	x*ry,
-where r is the machine float radix
-}}}
+`(flexp `''x''`)`
 
-The `flsqrt` procedure returns the principal square root of ''x''. For -0.0,
+Corresponds to `exp`.
+
+`(flexp2 `''x''`)`
+
+Corresponds to `(expt 2.0 x)`.  (C99 `exp2`)
+
+`(flexp-1 `''x''`)`
+
+Equivalent to `(flexp (fl- x 1))`, but is much more accurate for values of x near 1.  It is recommended for use in algorithms where accuracy is important.  (C99 `expm1`)
+
+`(flsquare `''x''`)`
+
+Returns the square of ''x''.
+
+`(flsqrt `''x''`)`
+
+Returns the principal square root of ''x''. For -0.0,
 `flsqrt` should return -0.0.
 
-The `flexpt` procedure returns ''x'' raised to the power ''y''
+`(flcbrt `''x''`)`
+
+Returns the cube root of ''x''.
+
+`(flhypot `''x y''`)`
+
+Returns `(flsqrt (+ (flsquare x) (flsquare y))).
+
+`(flexpt `''x y''`)`
+
+Returns ''x'' raised to the power ''y''
 if ''x'' is non-negative or ''y'' is an integral flonum.  If ''x'' is
 negative and ''y'' is not an integer, the result may be a
 NaN, or may be some unspecified flonum.  If ''x'' is zero, then
 the result is zero.
 
+`(fllog `''x''`)`
+
+Returns the natural logarithm of ''x''.
+
+`(fllog1+ `''x''`)`
+
+Equivalent to `(fllog (fl+ 1 x))`, but is much more accurate for values of x near 1.  It is recommended for use in algorithms where accuracy is important.  (C99 `log1p`)
+
+`(fllog2 `''x''`)`
+
+Returns the base-2 logarithm of ''x''.
+
+`(fllog10 `''x''`)`
+
+Returns the base-10 logarithm of ''x''.
+
 === Trigonometric functions ===
 
-`(flsin `''x''`)`  (C99 `sin`)
+`(flsin `''x''`)`
 
-`(flcos `''x''`)`  (C99 `cos`)
+`(flcos `''x''`)`
 
-`(fltan `''x''`)`  (C99 `tan`)
+`(fltan `''x''`)`
 
-`(flasin `''x''`)`  (C99 `asin`)
+`(flasin `''x''`)`
 
-`(flacos `''x''`)`  (C99 `acos`)
+`(flacos `''x''`)`
 
-`(flatan `''x'' [''y'']]`)`  (C99 `atan` and `atan2`)
+`(flatan `''x'' [''y'']`)`
 
-`(flsinh `''x''`)`  (C99 `sinh`)
+`(flsinh `''x''`)`
 
-`(flcosh `''x''`)`  (C99 `cosh`)
+`(flcosh `''x''`)`
 
-`(fltanh `''x''`)`  (C99 `tanh`)
+`(fltanh `''x''`)`
 
-`(flasinh `''x''`)`  (C99 `asinh`)
+`(flasinh `''x''`)`
 
-`(flacosh `''x''`)`  (C99 `acosh`)
+`(flacosh `''x''`)`
 
-`(flatanh `''x''`)`  (C99 `atanh`)
+`(flatanh `''x''`)`
 
-These are the usual trigonometric functions. The `flatan` function, when passed two arguments, returns `(flatan (/ y x))` without requiring the use of complex numbers.
-
-`(flremquo `''x y''`)`
-
-Returns two values, the result of `(flround-remainder x y)` and the low-order ''n'' bits (as a correctly signed exact integer) of the rounded quotient.  The value of ''n'' is implementation-dependent but at least 3.  This function can be used to reduce the argument of the inverse trigonometric functions, while preserving the correct quadrant or octant.
+These are the usual trigonometric functions. The `flatan` function, when passed two arguments, returns `(flatan (/ y x))` without requiring the use of complex numbers (C99 `atan2`).
 
 
 === Integer division ===
@@ -322,6 +361,10 @@ flbalanced/ flbalanced-quotient flbalanced-remainder
 
 They have the same arguments and semantics as their generic counterparts,
 except that it is an error if the arguments are not flonums.
+
+`(flremquo `''x y''`)`
+
+Returns two values, the result of `(flround-remainder x y)` and the low-order ''n'' bits (as a correctly signed exact integer) of the rounded quotient.  The value of ''n'' is implementation-dependent but at least 3.  This function can be used to reduce the argument of the inverse trigonometric functions, while preserving the correct quadrant or octant.
 
 === Special functions ===
 
