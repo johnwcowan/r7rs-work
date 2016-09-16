@@ -115,11 +115,11 @@ Returns a flonum whose magnitude is the magnitude of ''x'' and whose sign is the
 
 `(make-flonum `''x n''`)`
 
-Returns the flonum (fl* x (expt 2 n)), where ''n'' is a non-negative integer with an implementation-dependent maximum value.  (C99 `ldexp`)
+Returns the flonum `(fl* x (expt 2 n))`, where ''n'' is a non-negative integer with an implementation-dependent maximum value.  (C99 `ldexp`)
 
 `(make-binary-flonum `''x n''`)`
 
-Returns the flonum (fl* x (expt fl-radix n)), where ''n'' is a non-negative integer with an implementation-dependent maximum value.  (C99 `scalbn`)
+Returns the flonum `(fl* x (expt fl-radix n))`, where ''n'' is a non-negative integer with an implementation-dependent maximum value.  (C99 `scalbn`)
 
 === Accessors ===
 
@@ -291,14 +291,11 @@ Returns the cube root of ''x''.
 
 `(flhypot `''x y''`)`
 
-Returns `(flsqrt (+ (flsquare x) (flsquare y))).
+Returns `(flsqrt (+ (flsquare x) (flsquare y)))`.
 
 `(flexpt `''x y''`)`
 
-Returns ''x'' raised to the power ''y''
-if ''x'' is non-negative or ''y'' is an integral flonum.  If ''x'' is
-negative and ''y'' is not an integer, the result may be a
-NaN, or may be some unspecified flonum.  If ''x'' is zero, then
+Returns ''x'' raised to the power ''y''.  If ''x'' is zero, then
 the result is zero.
 
 `(fllog `''x''`)`
