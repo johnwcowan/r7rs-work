@@ -2,11 +2,11 @@ This is an early draft of proposals for the Orange Edition (numbers) of R7RS-lar
 
 '''Numeric types and operations'''
 
-Integer division: DivisionRiastradh
+Integer division: [[http://srfi.schemers.org/srfi-141/srfi-141.html|SRFI 141]]
 
-Fixnums:  FixnumsCowan, [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.2|R6RS]]
+Fixnums:  FixnumsCowan (soon SRFI 143), [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.2|R6RS]]
 
-Flonums:  FlonumsCowan with NanMedernach
+Flonums:  FlonumsCowan (soon SRFI 144)
 
 Compnums: CompnumsCowan
 
@@ -16,7 +16,7 @@ Prime numbers:  PrimesGauche.
 
 '''Numeric and semi-numeric data structures'''
 
-Integers as bit vectors:  BitwiseCowan, [[http://srfi.schemers.org/srfi-60/srfi-60.html|SRFI 60]], [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.4|R6RS]].
+Bitwise integer operations:  BitwiseCowan (soon SRFI 142), [[http://srfi.schemers.org/srfi-60/srfi-60.html|SRFI 60]], [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.4|R6RS]].
 
 Bit vectors:  BitVectorsCowan.
 
