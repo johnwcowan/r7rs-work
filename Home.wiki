@@ -75,6 +75,7 @@ Click on "Attachments" below to access the first-year progress report and all dr
 Note:  Proposals and issue summaries are linked from the Docket pages below.
 
 '''Work Item Dockets'''
+    * [[:WG2Dockets|WG2Dockets]] (full list of dockets)
     * InputDocket (new work items not yet accepted by WG2)
     * PreStandardDocket (work items to be moved to StandardDocket unless there are objections)
     * StandardDocket (main list of WG2 work items with proposals)
