@@ -12,6 +12,6 @@ The following implementations support all or part of R7RS-small:
 ||[[http://larcenists.org/|Larceny]]|| ||
 ||[[http://mosh.monaos.org/files/doc/text/About-txt.html|Mosh]]||(partial)||
 ||[[https://github.com/picrin-scheme/picrin|Picrin]]|| ||
-||Racket||[[https://github.com/lexi-lambda/racket-r7rs|unofficial]]||
+||[[http://racket-lang.org/|Racket]]||[[https://github.com/lexi-lambda/racket-r7rs|unofficial]]||
 ||[[https://gitlab.com/nieper/rapid-scheme|Rapid]]|| ||
 ||[[https://bitbucket.org/ktakashi/sagittarius-scheme/wiki/Home|Sagittarius]]|| ||
