@@ -1,5 +1,7 @@
 This is a frozen version of the Red Edition ballot, with hyperlinks.  It serves as a definition of the Red Edition, since a single document is not being prepared at this time.
 
+By unanimous consent, the libraries of R7RS-small are all required in implementations of the Red Edition.  The following additional libraries are required:
+
 == Basic libraries ==
 
 1. What list library should R7RS-large provide?
@@ -158,4 +160,8 @@ Laziness
  * No vote
  * None (passed, so no library)
  * [[http://srfi.schemers.org/srfi-129/srfi-129.html|SRFI 129]]
+
+19. What comparator library should R7RS-large provide?
+
+  [[http://srfi.schemers.org/srfi-128/srfi-128.html|SRFI 128]] is a comparator library whose interface is used by SRFI 113 and SRFI 125.  It was not formally balloted but was voted in based on the votes for those libraries, as `(scheme comparator)`.
 
