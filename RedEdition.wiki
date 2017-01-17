@@ -79,7 +79,13 @@ No final result: this will be reballoted.
 
 9. What random access pair/list library should R7RS-large provide?
 
-   SRFI 101 is a library for purely functional pairs and lists with O(log n) access time. To avoid conflicts, procedure names will be prefixed with "r" for R7RS-large purposes.
+   SRFI 101 is a library for purely functional pairs and lists with O(log n) access time. To avoid conflicts, procedure names will be modified for R7RS-large purposes as follows:
+
+ * `make-list` to become `make-rlist`
+ * `random-access-list->linear-access-list` to become `rlist->list`
+ * `linear-access-list->random-access-list` to become `list->rlist`
+ * all other identifiers to be prefixed with `r` (`rcons`, `rpair?`, `rcar`, `rmap`, etc.)
+
 
  * No vote
  * None
