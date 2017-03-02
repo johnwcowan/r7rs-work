@@ -12,7 +12,7 @@ Having a single value is very handy for C definitions, etc.
 
 Operations over the whole enum-type: `enum-type-size`, `enum-type-enums` and `enum-type-names`.  Maybe `enum-type-values` as well.
 
-`Make-enumeration-type` accepts either names or `(name value)` lists.  Ordinals are assigned in order from 0 upward; values default to same as ordinals.  `Define-enumeration-type` binds an identifier to the enumeration type and an identifier per enum (the type name plus a hyphen plus the enum name) to each enum.
+`Make-enumeration-type` accepts either names or `(name value)` lists.  Ordinals are assigned in order from 0 upward; values default to same as ordinals.  `Define-enumeration-type` binds an identifier to the enumeration type and an identifier per enum (either just the enum name, or the type name plus a hyphen plus the enum name) to each enum.
 
 Comparisons:  `enum=?`, `enum<?`, `enum>?`, `enum<=?`, `enum>=?`.
 
