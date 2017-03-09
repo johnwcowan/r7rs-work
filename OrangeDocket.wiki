@@ -8,10 +8,8 @@ Bitwise integer operations:  [[http://srfi.schemers.org/srfi-142/srfi-142.html|S
 
 Fixnums:  [[http://srfi.schemers.org/srfi-143/srfi-143.html|SRFI 143]], [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.2|R6RS]]
 
-Flonums:  [[http://srfi.schemers.org/srfi-143/srfi-143.html|SRFI 143]],
+Flonums:  [[http://srfi.schemers.org/srfi-144/srfi-1443.html|SRFI 144]],
 [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.3|R6RS]]
-
-Compnums: CompnumsCowan
 
 Random numbers: [[http://srfi.schemers.org/srfi-27/srfi-27.html|SRFI 27]], plus AdvancedRandomGauche
 
@@ -47,9 +45,6 @@ Formatting: [[http://synthcode.com/scheme/fmt/|FmtShinn]] or [[http://srfi.schem
 
 Immutable sets and bags:  ImmutableSetsWortman
 
-Immutable maps: ImmutableMapsWortman
-
-Binary heaps: BinaryHeapsCowan
-
+Immutable maps: [[http://srfi.schemers.org/srfi-146/srfi-146.html|SRFI 146]]
 
 
