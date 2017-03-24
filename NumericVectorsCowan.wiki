@@ -6,8 +6,10 @@ This design subsumes [[http://srfi.schemers.org/srfi-4/srfi-4.html|SRFI 4]].  Th
 
 The [type] values are:
 
- `uq::
-  unsigned q-bit integer (bit)
+ `u1`::
+  unsigned 1-bit integer (bit)
+ `u8`::
+  unsigned 8-bit integer
  `s8`::
   signed 8-bit integer
  `u16`::
