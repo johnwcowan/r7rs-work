@@ -17,8 +17,6 @@ Prime numbers:  PrimesGauche.
 
 '''Numeric and semi-numeric data structures'''
 
-Bit vectors:  BitVectorsCowan.
-
 Numeric vectors:  NumericVectorsCowan.
 
 C-style structs:  [[https://github.com/TaylanUB/scheme-bytestructures|ByteStructuresTaylanub]].
@@ -27,7 +25,7 @@ Integer sets:  IntegerSetsCowan.
 
 Descriptive statistics:  TallyCowan.
 
-Multidimensional generic arrays: [[http://srfi.schemers.org/srfi-122/srfi-122.html|SRFI 122]] or ArraysCowan + StorageClassesCowan.
+Multidimensional generic arrays: [[http://srfi.schemers.org/srfi-122/srfi-122.html|SRFI 122]]
 
 '''Enumerations'''
 
