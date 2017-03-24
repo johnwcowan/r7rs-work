@@ -6,8 +6,8 @@ This design subsumes [[http://srfi.schemers.org/srfi-4/srfi-4.html|SRFI 4]].  Th
 
 The [type] values are:
 
- `u8`::
-  unsigned 8-bit integer
+ `uq::
+  unsigned q-bit integer (bit)
  `s8`::
   signed 8-bit integer
  `u16`::
@@ -171,15 +171,15 @@ Returns a newly allocated [type]vector ''new'' with the same length as ''[type]v
 
 FIXME: markup
 
-(vector-index pred? vec1 vec2 ...)
+`(vector-index `pred? vec1 vec2 ...)
 
 Finds & returns the index of the first elements in vec1 vec2 ... that satisfy pred?. If no matching element is found by the end of the shortest vector, #f is returned. 
 
-(vector-index-right pred? vec1 vec2 ...)
+`(vector-index-right `pred? vec1 vec2 ...)
 
 Like vector-index, but it searches right-to-left, rather than left-to-right, and all of the vectors must have the same length. 
 
-(vector-skip pred? vec1 vec2 ...)
+`(vector-skip `pred? vec1 vec2 ...)
 
 Finds & returns the index of the first elements in vec1 vec2 ... that do not satisfy pred?. If all the values in the vectors satisfy pred? until the end of the shortest vector, this returns #f.
 
