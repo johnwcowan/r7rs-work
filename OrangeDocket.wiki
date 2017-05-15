@@ -4,7 +4,7 @@ This is an early draft of proposals for the Orange Edition (numbers) of R7RS-lar
 
 Integer division: [[http://srfi.schemers.org/srfi-141/srfi-141.html|SRFI 141]]
 
-Bitwise integer operations:  [[http://srfi.schemers.org/srfi-142/srfi-142.html|SRFI 142]], [[http://srfi.schemers.org/srfi-60/srfi-60.html|SRFI 60]], [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.4|R6RS]].
+Bitwise integer operations:  [[http://srfi.schemers.org/srfi-151/srfi-151.html|SRFI 151]] (superseding SRFI 142), [[http://srfi.schemers.org/srfi-60/srfi-60.html|SRFI 60]], [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.4|R6RS]].
 
 Fixnums:  [[http://srfi.schemers.org/srfi-143/srfi-143.html|SRFI 143]], [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.2|R6RS]]
 
