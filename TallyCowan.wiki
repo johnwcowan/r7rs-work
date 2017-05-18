@@ -1,24 +1,30 @@
 == Introduction ==
 
-A ''tally'' is a member of a disjoint type whose purpose is to keep running descriptive statistics on ''observations'', consisting of one or two Scheme numbers, that are injected into it.  It can compute a variety of simple statistics such as the arithmetic mean, the variance, and the standard deviation.  It does not record the observations themselves, and therefore cannot compute the median or the mode.
+A ''tally'' is a member of a disjoint type whose purpose is to keep running descriptive statistics on ''observations'', consisting of one or two Scheme numbers, that are injected into it.  It can compute a variety of simple statistics such as the arithmetic mean, the variance, and the standard deviation.  It does not record the observations themselves, and therefore cannot compute the median or the mode.  It is also possible to inject a secondary observation at the same time as the primary one; this does not affect the basic statistics, but is used for covariance and correlation computations.
 
-== Constructor ==
+A ''histogram'' is a type of tally which also maintains a number of ''bins'' decided in advance, and counts how many observations fall into each bins.  It can return bucket counts and indicate the current median and modal bins.
+
+== Constructors ==
 
 `(make-tally `[[|''key'' ]]`)`
 
-Returns a newly allocated tally with no observations.  The ''key'' is an arbitrary Scheme object useful for distinguishing this tally from other tallies; for example, it can be used when tallying observations into multiple bins to record the lower and/or upper limit of each bin.  The default value is `#f`.
+Returns a newly allocated tally with no observations.  The ''key'' is an arbitrary Scheme object useful for distinguishing this tally from other tallies; the default key is `#f`.
+
+`(make-histogram ` ''low high width'' `[[|''key'' ]]`)`
+
+Returns a newly allocated histogram with no observations.  It will have sufficient bins to count observations from ''low'' (inclusive) to ''high'' (exclusive) with the specified ''width''.  Observations that fall on a bin boundary are always placed in the higher bin.  There are two additional bins for observations lower than ''low'' and higher than ''high''.  The ''key'' is as for `make-tally`.
 
 == Injectors ==
 
 Some of the statistics may be meaningless if more than one of these injectors is used on any one tally.
 
-`(tally! `''tally'' ''value'' [[|''weight'' ]]`)`
+`(tally! `''tally'' ''value''`)`
 
 Injects ''value'' into ''tally'' and updates all descriptive statistics.
 
 `(tally-weighted! `''tally'' ''value'' ''weight''`)`
 
-Injects ''value'' into ''tally'', assigning it a weight of ''weight'' (from 0 to 1) for the purpose of calculating weighted sums and weighted averages, and updates all descriptive statistics.
+Injects ''value'' into ''tally'', assigning it a weight of ''weight'' for the purpose of calculating weighted sums and weighted averages, and updates all descriptive statistics.
 
 `(tally-timed! `''tally'' ''value'' ''timestamp''`)`
 
@@ -76,11 +82,11 @@ Returns the minimum observation injected so far.  If no observations have been i
 
 `(tally-weighted-sum `''tally''`)`
 
-Returns the weighted sum of the observations and weights injected so far.
+Returns the weighted sum (that is, the sum of observations multiplied by their weights, treating a missing weight as 1) of the observations and weights injected so far.
 
 `(tally-weighted-mean `''tally''`)`
 
-Returns the weighted arithmetic mean of the observations and weights injected so far.  If no observations have been injected, returns `+nan.0`.
+Returns the weighted arithmetic mean  (that is, the arithmetic mean) of observations multiplied by their weights, treating a missing weight as 1) of the observations and weights injected so far.  If no observations have been injected, returns `+nan.0`.
 
 == Range and variance ==
 
@@ -117,3 +123,29 @@ Returns the population covariance of the pairs of observations injected so far. 
 `(tally-correlation `''tally''`)`
 
 Returns the correlation based on the pairs of observations injected so far.
+
+== Histogram values ==
+
+`(histogram-low `''histogram''`)`
+
+`(histogram-high `''histogram''`)`
+
+`(histogram-width `''histogram''`)`
+
+Return the basic parameters of ''histogram''.
+
+`(histogram-bins `''histogram''`)`
+
+Return the number of bins in ''histogram''.
+
+`(histogram-bin-ref `''histogram index''`)`
+
+Return the number of observations in the histogram bin numbered ''index'', from 0 to the number of bins minus 1.
+
+`(histogram-underflow `''histogram''`)`
+
+Return the number of observations less than the ''low'' parameter of ''histogram''.
+
+`(histogram-overflow `''histogram''`)`
+
+Return the number of observations greater than or equal to the ''high'' parameter of ''histogram''.
