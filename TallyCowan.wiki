@@ -48,9 +48,9 @@ Returns the number of observations injected so far as an exact integer.
 
 Returns the sum of all observations injected so far.
 
-`(tally-sum `''tally''`)`
+`(tally-sum-squares `''tally''`)`
 
-Returns the sum of all observations injected so far.
+Returns the sum of the squares of all observations injected so far.
 
 `(tally-product `''tally''`)`
 
@@ -74,11 +74,11 @@ Returns the sum of all observations injected so far.  This is the count divided 
 
 `(tally-max `''tally''`)`
 
-Returns the maximum observation injected so far.  If no observations have been injected, returns `+inf.0`.
+Returns the maximum observation injected so far.  If no observations have been injected, returns `-inf.0`.
 
 `(tally-min `''tally''`)`
 
-Returns the minimum observation injected so far.  If no observations have been injected, returns `-inf.0`.
+Returns the minimum observation injected so far.  If no observations have been injected, returns `+inf.0`.
 
 `(tally-weighted-sum `''tally''`)`
 
@@ -158,5 +158,5 @@ Return a list of the indexes to the bins that contain the maximum number of obse
 
 `(histogram-median-bins `''histogram''`)`
 
-Return two values, the indexes to the bins that most probably contain the median observation.  If there are an odd number of observations, the indexes are equal and the bin definitely contains the median.  If there are an even number of observations and the bins up to and including the first result contains half the observations, then the median might be in either bin.
+Return two values, the indexes to the bins that contain the median observation.  If there are an even number of observations and the bins up to and including the first result contains half the observations, then the median might be in either bin.  Otherwise, the indexes are equal and the bin definitely contains the median.  The underflow and overflow bins are excluded.
  
