@@ -18,13 +18,13 @@ Specialized sets of enums and specialized mappings from enums to arbitrary value
 
 Returns a newly allocated enum type containing a fixed set of newly allocated enums.  Both enums and enum types are immutable, and it is not possible to create an enum except as part of creating an enum type.
 
-The elements of ''list'' are either symbols or pairs, where each such pair has a symbol in the car and any value in the cdr.  All the symbols must be distinct within an enum type.  Each element causes a single enum to be generated whose name is specified by the symbol.  If a value is given, it becomes the value of the enum; otherwise the enum's value is the same as its name.  The position of the element in ''list'' determines the ordinal of the corresponding enum, so ordinals within an enum type are also distinct.
+The elements of ''list'' are either symbols or pairs, where each such pair has a symbol in the car and any value in the cdr.  Each list element causes a single enum to be generated. whose name is specified by the symbol.  All the symbols must be distinct within an enum type.  The position of the element in ''list'' is the ordinal of the corresponding enum, so ordinals within an enum type are also distinct.  If a value is given, it becomes the value of the enum; otherwise the enum's value is the same as the ordinal.  
 
 === Enum accessors ===
 
 `(enum-type `''enum''`)`
 
-Returns the enum type that contains ''enum''.
+Returns the enum type to which ''enum'' belongs.
 
 `(enum-name `''enum''`)`
 
