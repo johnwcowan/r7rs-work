@@ -1,0 +1,133 @@
+Trees, like lists, are an application of Scheme pairs.  A ''leaf'' is any Scheme object that is neither a pair nor the empty list.  A ''tree'' is either a leaf, or a proper list of trees.  Parts of trees are called ''nodes''.  Improper and circular lists cannot be trees or parts of trees.  The words ''parent, child, ancestor, descendant, sibling'' are used with the usual meanings.
+
+== Predicates ==
+
+`(leaf? `''obj''`)`
+
+Returns `#t` if ''obj'' is a leaf, and `#f` otherwise.
+
+`(tree? `''obj''`)`
+
+Returns `#t` if ''obj'' is a tree, and `#f` otherwise.
+
+`(tree-contains? `''tree node''`)`
+
+Returns `#t` if ''node'' is a node of ''tree'', and `#f` otherwise.
+
+`(tree-ancestor? `''tree ancestor descendant''`)`
+
+If ''ancestor'' is an ancestor node of ''descendant'' in ''tree'', return `#t`; otherwise return `#f`.  It is an error if either ''ancestor'' or ''descendant'' is not a node of ''root''.
+
+`(tree-c-commands? `''tree commander commanded''`)`
+
+If the node ''commander'' c-commands the node ''commanded'' in ''tree'', return `#t`; otherwise return `#f`.  It is an error if either ''ancestor'' or ''descendant'' is not a node of ''root''.
+
+A node in a tree c-commands its sibling node(s) and all of its siblings' descendants; however, a node without siblings c-commands everything that its parent node c-commands.
+
+`(tree=? `''same? tree1 tree2''`)`
+
+Returns `#t` if ''tree1'' and ''tree2'' are isomorphic and their leaves are the same in the sense of ''same?''
+
+== Tree operations ==
+
+`(tree-copy `''tree''`)`
+
+Return a copy of ''tree''.  Leaves are shared, but tree structure is not.
+
+`(tree-depth-of `''tree node''`)`
+
+Return the depth of ''node'' within ''tree'' as an exact integer.
+
+`(tree-depth `''tree''`)`
+
+Return the maximum depth of ''tree'' as an exact integer.  Leaves have depth 0.
+
+`(tree-parent `''tree node''`)`
+
+Returns the parent node of ''node'' within ''tree''.  This involves a search from the root of ''tree''.  It is an error if ''node'' is not a descendant of ''tree''.
+
+`(tree-node-path `''tree node''`)`
+
+Returns a list of nodes containing ''node'' and all of ''node''s ancestors ending with ''tree''.  It is an error if ''node'' is not a descendant of ''tree''.
+
+== Node examination
+
+The following functions examine all nodes in the tree in an unspecified order.  ''Pred'' is a predicate which has no side effects and always returns the same result on the same argument.
+
+`(tree-size `''tree''`)`
+
+Returns the number of nodes in ''tree'' as an exact integer.
+
+`(tree-count `''pred tree''`)`
+
+`(tree-count-leaves `''pred tree''`)`
+
+Returns the number of nodes/leaves of ''tree'' that satisfy ''pred'' as an exact integer.
+
+`(tree-any? `''pred tree''`)`
+
+`(tree-any-leaves? `''pred tree''`)`
+
+Examines the nodes/leaves of ''tree'' to determine if any of them satisfy ''pred''.
+
+`(tree-every? `''pred tree''`)`
+
+`(tree-every-leaf? `''pred tree''`)`
+
+Returns the number of nodes/leaves of ''tree'' to determine if all of them satisfy ''pred''.
+
+== Tree walkers ==
+
+The following procedures return finite SRFI 121 generators that step through the nodes of a tree in any of a variety of orders.  When all the nodes have been returned, the generator returns an EOF object.
+
+`(tree-make-preorder-node-generator `''tree''`)`
+
+`(tree-make-preorder-leaf-generator `''tree''`)`
+
+Returns a generator that when invoked returns the nodes/leaves of ''tree'' in preorder: parents are generated before children, and children are generated in left-to-right order.
+
+`(tree-make-postorder-node-generator `''tree''`)`
+
+`(tree-make-postorder-leaf-generator `''tree''`)`
+
+Returns a generator that when invoked returns the nodes/leaves of ''tree'' in postorder: children are generated in left-to-right order and then their parent is generated.
+
+`(tree-make-depthfirst-node-generator `''tree''`)`
+
+`(tree-make-depthfirst-leaf-generator `''tree''`)`
+
+Returns a generator that when invoked returns the nodes/leaves of ''tree'' in depth-first order: the root is generated, then all children of the root in left-to-right order, then all grandchildren of the root, and so on.
+
+== Tree rewriting ==
+
+These procedures do not mutate the tree they work on, but return a new tree isomorphic to the old tree and with the same elements, except as specified below.  The new tree may share storage with the old.
+
+`(tree-add `''tree node newnode''`)`
+
+Returns a tree where ''node'' has an additional child, ''newnode'',  which is placed to the right of all existing children.  It is an error if ''node'' is not a descendant of ''tree'', if ''newnode'' is a descendant of ''tree'', or if ''node'' is a leaf.
+
+`(tree-insert `''tree node index newnode''`)`
+
+Returns a tree where ''node'' has an additional child, ''newnode'',  which is placed immediately to the left of the child whose position in ''node'' is ''index'' (an exact integer).  It is an error if ''node'' is not a descendant of ''tree'', if ''newnode'' is a descendant of ''tree'', if ''node'' is a leaf, or if ''index'' is greater than or equal to   the number of child nodes of ''node''.
+
+`(tree-prune `''tree node''`)`
+
+Returns a tree where ''node'' and all its descendants are not part of the new tree.  It is an error if ''node'' is not a descendant of ''tree''.
+
+`(tree-replace `''tree node newnode''`)`
+
+Returns a tree where ''node'' has been replaced by ''newnode'' in the new tree.  It is an error if ''node'' is not a descendant of ''tree'' or if ''newnode'' is a descendant of ''tree''.
+
+
+== Node numbering ==
+
+TBD
+
+== Output ==
+
+`(tree-display-leaves `''tree'' [[|''port'' ]]`)`
+
+Walks through the leaves of ''tree'' in postorder and displays them (as if using `display`) to ''port'', which defaults to the value of `(current-output-port)`.
+
+
+
