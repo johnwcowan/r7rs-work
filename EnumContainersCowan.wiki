@@ -1,20 +1,5 @@
 '''THIS IS NOT A PROPOSAL.  It's just a dumping ground for some stuff I don't want to lose track of.  There will be a proper proposal later.'''
 
-== Enumerations ==
-
-Based on unique objects, not symbols.
-
-Each enum object has four properties:  enum type, name (a symbol), ordinal (a non-negative exact integer), value (anything).  Enum objects are unique across enum types.  Names and ordinals are unique within an enum type.  Accessors are `enum-type`, `enum-name`, `enum-ordinal`, `enum-value`.
-
-An enum type contains a map from names to enum objects and a vector indexed by the ordinal.  We need `enum-ordinal->enum` (uses the vector) and `enum-name->enum` (uses the map) as fundamental procedures on enum types.  Simple composition gives us `enum-name->ordinal`, `enum-ordinal->name`, `enum-ordinal->value`, and `enum->name->value`.  There is no way to work backward from an enum value because it need not be unique.  To step from one enum to another, `enum-next` and `enum-prev`.  To start somewhere, `enum-min` and `enum-max`.
-
-Having a single value is very handy for C definitions, etc.
-
-Operations over the whole enum-type: `enum-type-size`, `enum-type-enums` and `enum-type-names`.  Maybe `enum-type-values` as well.
-
-`Make-enumeration-type` accepts either names or `(name value)` lists.  Ordinals are assigned in order from 0 upward; values default to same as ordinals.  `Define-enumeration-type` binds an identifier to the enumeration type and an identifier per enum (either just the enum name, or the type name plus a hyphen plus the enum name) to each enum.
-
-Comparisons:  `enum=?`, `enum<?`, `enum>?`, `enum<=?`, `enum>=?`.
 
 == Enumeration sets ==
 
