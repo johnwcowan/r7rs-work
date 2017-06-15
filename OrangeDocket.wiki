@@ -25,7 +25,7 @@ Integer sets:  IntegerSetsCowan.
 
 Descriptive statistics:  TallyCowan.
 
-Multidimensional generic arrays: [[http://srfi.schemers.org/srfi-122/srfi-122.html|SRFI 122]]
+Multidimensional arrays: [[http://srfi.schemers.org/srfi-122/srfi-122.html|SRFI 122]]
 
 '''Enumerations'''
 
@@ -40,6 +40,8 @@ Enumeration maps:  EnumsCowan
 Formatting: [[http://synthcode.com/scheme/fmt/|FmtShinn]] or [[http://srfi.schemers.org/srfi-28/srfi-28.html|SRFI 28]] (basic) or [[http://srfi.schemers.org/srfi-48/srfi-48.html|SRFI 48]] (intermediate), possibly with [[http://srfi.schemers.org/srfi-29/srfi-29.html|SRFI 29]] or GettextCowan
 
 '''Carryovers from the Red Edition without implementations'''
+
+Strings: [[http://srfi.schemers.org/srfi-152/srfi-152.html|SRFI 152]]
 
 Immutable sets and bags:  ImmutableSetsWortman
 
