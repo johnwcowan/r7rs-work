@@ -1,0 +1,27 @@
+{{{
+#!html
+<dl>
+<dt><a name="index-permutations_002dof"></a><code>make-permutation-generator</code><i> vector</i></dt>
+<dd><p>Returns a generator that yields random permutations of <var>vector</var>.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (make-permutation-generator '(1 2 3)) 3)
+ &rArr; ((1 2 3) (2 3 1) (3 2 1))
+
+(generator-&gt;list (make-permutation-generator &quot;abc&quot;) 3)
+ &rArr; (&quot;cba&quot; &quot;cba&quot; &quot;cab&quot;)
+</pre></td></tr></table>
+</dd></dl>
+
+<dl>
+<dt><a name="index-combinations_002dof"></a><code>make-combination-generator</code><i> size vector</i></dt>
+<dd><p>Returns a generator that yields vectors of <var>size</var> elements
+randomly picked from <var>vector</var>.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (make-combination-generatorh 2 #(a b c)) 5)
+ &rArr; (#(a c) #(a b) #(a c) #(b a) #(a c))
+
+(generator-&gt;list (make-combination-generator 2 '#(a b c)) 5)
+ &rArr; (#(a c) #(b c) #(c b) #(b a) #(b c))
+</pre></td></tr></table>
+</dd></dl>
+}}}
