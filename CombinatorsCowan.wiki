@@ -11,7 +11,7 @@ Returns the ''objs'' as its values, ignoring ''args''.
 
 `((complement `''proc''`)` ''obj''`)`
 
-Returns `#t` when `(''proc obj''`)` returns `#f`, and `#f` otherwise.
+Returns `#t` when `(`''proc obj''`)` returns `#f`, and `#f` otherwise.
 
 `((compose `''proc'' ... `)` ''arg'' ...`)`
 
