@@ -1,5 +1,5 @@
 This SRFI defines a set of SRFI 121 generators and generator makers
-that yield random data of specific type and distribution.  It is intended to be
+that yield random data of specific types and distributions.  It is intended to be
 implemented on top of [[http://srfi.schemers.org/srfi-27/srfi-27.html|SRFI 27]].
 
 
@@ -69,13 +69,20 @@ some concrete data from the generators.
 <dd><p>Returns a generator that generates characters in the SRFI 14 <var>char-set</var> uniformly.
 The default <var>char-set</var> is <code>[A-Za-z0-9]</code>.
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">(define alphanumeric-chars (make-random-char-generator))
+<table><tr><td>&nbsp;</td>
+<td><pre class="example">(define alphanumeric-chars (make-random-char-generator))
 
 (generator-&gt;list alphanumeric-chars 10)
  &rArr; (#\f #\m #\3 #\S #\z #\m #\x #\S #\l #\y)
 </pre></td></tr></table>
 </dd></dl>
 
+<dl>
+<dt><a name="index-chars_0024"></a><code>make-random-string-generator</code><i> [[|k char-set ]]</i></dt>
+<dd><p>Returns a generator that generates random strings whose characters are in the SRFI 14 <var>char-set</var>.
+The default <var>char-set</var> is <code>[A-Za-z0-9]</code>.  The strings are all less than <var>k</var> characters in length.
+</p>
+</dd></dl>
 <dl>
 <dt><a name="index-reals_002dbetween_0024"></a><code>make-random-real-generator</code><i> lower-bound upper-bound</i></dt>
 <dd><p>Returns a generator that generates inexact real numbers uniformly.
@@ -130,7 +137,7 @@ mean <var>L</var>, variance <var>L</var>.
 <h3 class="subheading">Generator operations</h3>
 
 <dl>
-<dt><a name="index-samples_002dfrom"></a><code>gsamples</code><i> generator</i> ...</dt>
+<dt><a name="index-samples_002dfrom"></a><code>make-sampling-generator</code><i> generator</i> ...</dt>
 <dd><p>Takes the <i>generators</i>
 and returns a new generator.  Every time the resulting generator is called,
 it picks one of the input generators with equal probability, then
@@ -138,35 +145,11 @@ calls it to get a value.
 </p></dd></dl>
 
 <dl>
-<dt><a name="index-weighted_002dsamples_002dfrom"></a><code>gweighted-samples</code> (<i>weight generator</i>) ...</dt>
+<dt><a name="index-weighted_002dsamples_002dfrom"></a><code>make-weighted-sampling-generator</code> (<i>weight generator</i>) ...</dt>
 <dd><p>The arguments alternate between nonnegative real numbers and generators.
 The real number determines the weight, or the relative probability
 that the generator which follows it is chosen.  The sum of the weights doesn&rsquo;t need to
 be 1.0.
 </p></dd></dl>
 
-<dl>
-<dt><a name="index-permutations_002dof"></a><code>gpermutations</code><i> vector</i></dt>
-<dd><p>Returns a generator that yields random permutations of <var>vector</var>.
-</p>
-<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (gpermutations '(1 2 3)) 3)
- &rArr; ((1 2 3) (2 3 1) (3 2 1))
-
-(generator-&gt;list (gpermutations &quot;abc&quot;) 3)
- &rArr; (&quot;cba&quot; &quot;cba&quot; &quot;cab&quot;)
-</pre></td></tr></table>
-</dd></dl>
-
-<dl>
-<dt><a name="index-combinations_002dof"></a><code>gcombinations</code><i> size vector</i></dt>
-<dd><p>Returns a generator that yields vectors of <var>size</var> elements
-randomly picked from <var>vector</var>.
-</p>
-<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (gcombinations 2 #(a b c)) 5)
- &rArr; (#(a c) #(a b) #(a c) #(b a) #(a c))
-
-(generator-&gt;list (combinations-of 2 '#(a b c)) 5)
- &rArr; (#(a c) #(b c) #(c b) #(b a) #(b c))
-</pre></td></tr></table>
-</dd></dl>
 }}}
