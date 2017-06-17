@@ -13,7 +13,7 @@ A condition is said to be "belong to type ''sym''" if (a) it was created by a ca
 
 `(make-condition `''symlist'' ( ''sym'' ''obj'' ) ...`)`
 
-Returns a newly allocated condition which belongs to the types whose names are given in `symlist`.  The remainder of the arguments are alternating property names (which are symbols) and values (which can be any object) that specify the information encapsulated by this condition.  It is an error if the value associated with the property name `message` is not a string; it is also an error if the value associated with the property name `irritants` is not a list.
+Returns a newly allocated condition which belongs to the types whose names are given in `symlist`.  The remainder of the arguments are alternating property names (which are symbols) and values (which can be any object) that specify the information encapsulated by this condition.  It is an error if the value associated with the property name `message` (if it exists) is not a string; it is also an error if the value associated with the property name `irritants` (if it exists) is not a list.
 
 `(alist->condition `''symlist alist''`)`
 
