@@ -16,5 +16,5 @@ Unicode character database: UcdCowan, AdvancedUcdCowan
 
 Environment:  MiscEnvironmentSchudy
 
-Trees: (no proposal yet)
+Trees: TreesCowan
 
