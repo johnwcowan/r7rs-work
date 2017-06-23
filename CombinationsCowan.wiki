@@ -3,16 +3,21 @@
 <p>This SRFI implements several useful procedures of
 combinations, permutations and related operations.
 </p>
-<p>Many procedures have two variants: a procedure without
+
+<h3>Set operations</h3>
+
+<p>Sets in the following procedures are in
+the sense of SRFI 1, that is, lists.
+Some of these procedures have two variants: a procedure without
 star (e.g. <code>permutations</code>) treats all elements in the given
 set distinct, while a procedure with star (e.g. <code>permutations*</code>)
-considers duplication.  The procedures with star take optional <var>eq</var>
-argument that is used to test equality, which defaults to <code>eqv?</code>.
+considers duplication.  The procedures with star take a <var>pred</var>
+argument that is used to test equality.
 </p>
 
 <dl>
 <dt><a name="index-permutations"></a><code>permutations</code> <em>set</em></dt>
-<dt><a name="index-permutations_002a"></a><code>permutations*</code> <em>set :optional eq</em></dt>
+<dt><a name="index-permutations_002a"></a><code>permutations*</code> <em>pred set</em></dt>
 <dd><p>Returns a list of all permutations of a list <var>set</var>.
 </p>
 <div class="example">
@@ -33,14 +38,14 @@ each permutation at a time, consider <code>permutations-for-each</code> below.
 
 <dl>
 <dt><a name="index-permutations_002dfor_002deach"></a><code>permutations-for-each</code> <em>proc set</em></dt>
-<dt><a name="index-permutations_002a_002dfor_002deach"></a><code>permutations*-for-each</code> <em>proc set :optional eq</em></dt>
+<dt><a name="index-permutations_002a_002dfor_002deach"></a><code>permutations*-for-each</code> <em>proc pred set</em></dt>
 <dd><p>For each permutation of a list <var>set</var>, calls <var>proc</var>.
 Returns an undefined value.
 </p></dd></dl>
 
 <dl>
 <dt><a name="index-combinations"></a><code>combinations</code> <em>set n</em></dt>
-<dt><a name="index-combinations_002a"></a><code>combinations*</code> <em>set n :optional eq</em></dt>
+<dt><a name="index-combinations_002a"></a><code>combinations*</code> <em>pred set n</em></dt>
 <dd><p>Returns a list of all possible combinations of <var>n</var> elements out
 of a list <var>set</var>.
 </p>
@@ -55,19 +60,19 @@ of a list <var>set</var>.
   &rArr; ((a a) (a b))
 </pre></div>
 
-<p>Watch out the explosion of combinations when <var>set</var> is large.
+<p>Watch out for the explosion of combinations when <var>set</var> is large.
 </p></dd></dl>
 
 <dl>
 <dt><a name="index-combinations_002dfor_002deach"></a><code>combinations-for-each</code> <em>proc set n</em></dt>
-<dt><a name="index-combinations_002a_002dfor_002deach"></a><code>combinations*-for-each</code> <em>proc set n :optional eq</em></dt>
+<dt><a name="index-combinations_002a_002dfor_002deach"></a><code>combinations*-for-each</code> <em>proc pred set n</em></dt>
 <dd><p>Calls <var>proc</var> for each combination of <var>n</var> elements out of <var>set</var>.
 Returns an undefined value.
 </p></dd></dl>
 
 <dl>
 <dt><a name="index-power_002dset"></a><code>power-set</code> <em>set</em></dt>
-<dt><a name="index-power_002dset_002a"></a><code>power-set*</code> <em>set :optional eq</em></dt>
+<dt><a name="index-power_002dset_002a"></a><code>power-set*</code> <em>pred set</em></dt>
 <dd><p>Returns power set (all subsets) of a list <var>set</var>.
 </p>
 <div class="example">
@@ -81,7 +86,7 @@ Returns an undefined value.
 
 <dl>
 <dt><a name="index-power_002dset_002dfor_002deach"></a><code>power-set-for-each</code> <em>proc set</em></dt>
-<dt><a name="index-power_002dset_002a_002dfor_002deach"></a><code>power-set*-for-each</code> <em>proc set :optional eq</em></dt>
+<dt><a name="index-power_002dset_002a_002dfor_002deach"></a><code>power-set*-for-each</code> <em>proc pred set</em></dt>
 <dd><p>Calls <var>proc</var> for each subset of <var>set</var>.
 </p></dd></dl>
 
@@ -116,31 +121,6 @@ while <code>power-set</code> in breadth-first order.
 </dd></dl>
 
 <dl>
-<dt><a name="index-permutations_002dof"></a><code>make-permutation-generator</code><i> vector</i></dt>
-<dd><p>Returns a generator that yields random permutations of <var>vector</var>.
-</p>
-<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (make-permutation-generator '(1 2 3)) 3)
- &rArr; ((1 2 3) (2 3 1) (3 2 1))
-
-(generator-&gt;list (make-permutation-generator &quot;abc&quot;) 3)
- &rArr; (&quot;cba&quot; &quot;cba&quot; &quot;cab&quot;)
-</pre></td></tr></table>
-</dd></dl>
-
-<dl>
-<dt><a name="index-combinations_002dof"></a><code>make-combination-generator</code><i> size vector</i></dt>
-<dd><p>Returns a generator that yields vectors of <var>size</var> elements
-randomly picked from <var>vector</var>.
-</p>
-<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (make-combination-generatorh 2 #(a b c)) 5)
- &rArr; (#(a c) #(a b) #(a c) #(b a) #(a c))
-
-(generator-&gt;list (make-combination-generator 2 '#(a b c)) 5)
- &rArr; (#(a c) #(b c) #(c b) #(b a) #(b c))
-</pre></td></tr></table>
-</dd></dl>
-
-<dl>
 <dt><a name="index-group_002dlist"></a><code>group-list</code> <em>list [[|key [ test ]]
  ]</em></dt>
 <dd><p>Groups consecutive elements in a list <var>list</var> which
@@ -168,15 +148,11 @@ whose default is <code>eqv?</code>.
   &rArr; ((#\a #\a) (#\b #\b) (#\c) (#\d #\d))
 </pre></div>
 
-<p>This method is similar to Haskell&rsquo;s <code>group</code>.
-If you want to group elements that are not adjacent,
-use <code>group-collection</code>
-(see <a href="Collection-framework.html#Selection-and-searching-in-collection">Selection and searching in collection</a>).
-</p></dd></dl>
+</dd></dl>
 
 <dl>
-<dt><a name="index-permute"></a><code>permute</code> <em>src permuter [[|fallback ]]</em></dt>
-<dd><p>Returns a newly created list of the same type as <var>src</var>, in which
+<dt><a name="index-permute"></a><code>permute</code> <em>vector permuter [[|fallback ]]</em></dt>
+<dd><p>Returns a newly created vector, in which
 the elements are permuted from <var>src</var> according to <var>permuter</var>.
 </p>
 <p><var>Permuter</var> is a list of exact integers.  When the <var>k</var>-th element
@@ -185,20 +161,17 @@ is <code>(ref <var>src</var> <var>i</var>)</code>.   Therefore, the size of the 
 list is the same as the size of <var>permuter</var>.  <var>Permuter</var>
 can be any kind of list, unrelated to the type of <var>src</var>.
 </p>
-<p>It is allowed that the same index <var>i</var> can appear more than once
+<p>The same index <var>i</var> can appear more than once
 in <var>permuter</var>.
 </p>
 <div class="example">
-<pre class="example">(permute '(a b c d) '(3 2 0 1))     &rArr; (d c a b)
-(permute '(a b c d) '(0 2))         &rArr; (a c)
-(permute '(a b c d) '(0 0 1 1 2 2)) &rArr; (a a b b c c)
+<pre class="example">(permute '#(a b c d) '(3 2 0 1))     &rArr; #(d c a b)
+(permute '#(a b c d) '(0 2))         &rArr; #(a c)
+(permute '#(a b c d) '(0 0 1 1 2 2)) &rArr; #(a a b b c c)
 </pre></div>
 
-<p>If an integer in <var>permuter</var> is out of the valid range as the index
-of <var>src</var>, then an error is signaled unless <var>fallback</var> is given.
-If <var>fallback</var> is given, what value is used depends on the result of
-<code>(ref <var>src</var> <var>i</var> <var>fallback</var>)</code>&mdash;which usually returns
-<var>fallback</var> for the out-of-range index <var>i</var>.
+<p>If an integer in <var>permuter</var> is out of the valid range for an index
+of <var>vector</var>, then <var>fallback</var> is returned.
 </p>
 <div class="example">
 <pre class="example">(permute '#(a b c) '(3 2 1 0) 'foo) &rArr; #(foo c b a)
@@ -208,20 +181,46 @@ If <var>fallback</var> is given, what value is used depends on the result of
 </pre></div>
 </dd></dl>
 
+<h3>Random operations</h3>
+
+These procedures use <code>default-random-source</code> from
+<a href="http://srfi.schemers.org/srfi-27/srfi-27.html">SRFI 27</a>.
+
 <dl>
-<dt><a name="index-shuffle"></a><code>shuffle</code> <em>src [[|random-source ]]</em></dt>
-<dd><p>Returns a new list of the same type and size as <var>src</var>,
+<dt><a name="index-permutations_002dof"></a><code>make-permutation-generator</code><i> vector</i></dt>
+<dd><p>Returns a generator that yields random permutations of <var>vector</var>.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (make-permutation-generator '(1 2 3)) 3)
+ &rArr; ((1 2 3) (2 3 1) (3 2 1))
+
+(generator-&gt;list (make-permutation-generator &quot;abc&quot;) 3)
+ &rArr; (&quot;cba&quot; &quot;cba&quot; &quot;cab&quot;)
+</pre></td></tr></table>
+</dd></dl>
+
+<dl>
+<dt><a name="index-combinations_002dof"></a><code>make-combination-generator</code><i> size vector</i></dt>
+<dd><p>Returns a generator that yields vectors of <var>size</var> elements
+randomly picked from <var>vector</var>.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (make-combination-generatorh 2 #(a b c)) 5)
+ &rArr; (#(a c) #(a b) #(a c) #(b a) #(a c))
+
+(generator-&gt;list (make-combination-generator 2 '#(a b c)) 5)
+ &rArr; (#(a c) #(b c) #(c b) #(b a) #(b c))
+</pre></td></tr></table>
+</dd></dl>
+
+
+<dl>
+<dt><a name="index-shuffle"></a><code>shuffle</code> <em>vector [[|random-source ]]</em></dt>
+<dd><p>Returns a new vector of the same size as <var>vector</var>,
 in which elements are randomly permuted.
 </p>
 <div class="example">
-<pre class="example">(shuffle '(a b c d e))  &rArr; (e b d c a)
-(shuffle &quot;abcde&quot;)       &rArr; &quot;bacde&quot;
+<pre class="example">(shuffle '#(a b c d e))  &rArr; #(e b d c a)
 </pre></div>
-
-<p>This generic function uses <a href="http://srfi.schemers.org/srfi-27/srfi-27">SRFI 27</a>.
-By default it uses <code>default-random-source</code>, but you can pass
-an alternative random source by the optional argument.
-</p></dd></dl>
+</dd></dl>
 
 
 
