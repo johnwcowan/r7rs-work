@@ -129,3 +129,10 @@ Creates an enum type as if with `make-enum-type`, passing the <symbol-or-list> a
 (define other (enum-name->enum direction other))
 }}}
 
+=== Comparators ===
+
+`(make-enum-comparator `''enum-type''`)`
+
+Returns a [[http://srfi.schemers.org/srfi-128/srfi-128.html|SRFI 128]] comparator suitable for comparing enums that belong to ''enum-type''.  The comparator contains both an ordering predicate and a hash function, and orders enums based on their ordinal values.
+
+
