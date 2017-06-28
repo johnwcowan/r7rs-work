@@ -34,6 +34,26 @@ The same as `tally-weighted!`, except that the weight is ''timestamp'' minus the
 
 Injects ''value,,1,,'' into ''tally'', tracking ''value,,2,,'' separately for the purpose of calculating covariance and correlation.
 
+== Generators ==
+
+These generator procedures can be mixed with the corresponding injectors, but not with each other.  Generators are defined in [[http://srfi.schemers.org/srfi-121/srfi-121.html|SRFI 121]].
+
+`(generator->tally! `''tally'' ''generator''`)`
+
+Injects the values returned by ''generator'' into ''tally'' and updates all descriptive statistics.
+
+`(weighted-generator->tally! `''tally'' ''generator,,v,,'' ''generator,,w,,''`)`
+
+Injects the values returned by ''generator,,1,,'' into ''tally'', assigning each a weight returned from ''generator,,2,,'' for the purpose of calculating weighted sums and weighted averages, and updates all descriptive statistics.  Tallying stops when either generator is exhausted, at which point the other generator is in an undefined state.
+
+`(timed-generator->tally! `''tally'' ''generator,,v,,'' ''generator,,t,,''`)`
+
+The same as `weighted-generator->tally!`, except that the weight for each value returned by ''generator,,v,,'' is the value returned by''generator,,t,,'' minus the previous value of ''generator,,t,,'', or the timestamp provided to the previous call to `tally-timed!`, or 0 if there was no previous call. Tallying stops when either generator is exhausted, at which point the other generator is in an undefined state.
+
+`(correlated-generator->tally! `''tally'' ''generator,,v1,,'' ''generator,,v2,,''`)`
+
+Injects the values returned by ''generator,,v1,,'' into ''tally'', tracking the alues returned by ''generator,,v2,,'' separately for the purpose of calculating covariance and correlation. Tallying stops when either generator is exhausted, at which point the other generator is in an undefined state.
+
 == Basic statistics ==
 
 `(tally-key `''tally''`)`
@@ -66,7 +86,7 @@ Returns the arithmetic mean of all observations injected so far.  This is the qu
 
 `(tally-geometric-mean `''tally''`)`
 
-Returns the geometric mean of all observations injected so far.  This is the nth root of the product, where n = the count.
+Returns the geometric mean of all observations injected so far.  This is the ''n''th root of the product, where ''n'' is the count of observations.
 
 `(tally-harmonic-mean `''tally''`)`
 
@@ -126,7 +146,7 @@ Returns the correlation based on the pairs of observations injected so far.
 
 == Histogram values ==
 
-Note:  A tally that is not a histogram looks to these functions like a histogram whose low, high, and width are all zero.
+Note:  A tally that is not a histogram looks to these functions like a histogram whose low, high, and width values are all zero.
 
 `(histogram-low `''histogram''`)`
 
@@ -158,9 +178,9 @@ Return the number of observations greater than or equal to the ''high'' paramete
 
 `(histogram-modal-bins `''histogram''`)`
 
-Return a list of the indexes to the bins that contain the maximum number of observations.  The underflow and overflow bins are excluded.
+Return a list of the indexes to the bins that contain the maximum number of observations.  The underflow and overflow bins are excluded. Note that the modal ''bin'' does not necessarily contain the modal ''value''; if the width of a bin is 1.0 and the values are {1, 1.1, 1.2, 1.3, 1.4, 1.5, 2.0, 2.0, 2.0}, then the modal bin is 1.0-2.0 whereas the modal value, 2.0, is in the non-modal bin 2.0-3.0.
 
-`(histogram-median-bins `''histogram''`)`
+`(histogram-median-interval `''histogram''`)`
 
-Return two values, the indexes to the bins that contain the median observation.  If there are an even number of observations and the bins up to and including the first result contains half the observations, then the median might be in either bin.  Otherwise, the indexes are equal and the bin definitely contains the median.  The underflow and overflow bins are excluded.
+Return two values, a lower and upper bound for the median observation.  Normally the upper and lower bounds are one bin width apart, but if the number of items in bins lower than ''k'' for some ''k'' is equal to the number of items in higher bins, the values will be two bin widths apart.  The underflow and overflow bins are excluded.
  
