@@ -2,7 +2,7 @@
 
 A ''tally'' is a member of a disjoint type whose purpose is to keep running descriptive statistics on ''observations'', consisting of one or two Scheme numbers, that are injected into it.  It can compute a variety of simple statistics such as the arithmetic mean, the variance, and the standard deviation.  It does not record the observations themselves, and therefore cannot compute the median or the mode.  It is also possible to inject a secondary observation at the same time as the primary one; this does not affect the basic statistics, but is used for covariance and correlation computations.
 
-A ''histogram'' is a type of tally which also maintains a number of ''bins'' decided in advance, and counts how many observations fall into each bins.  It can return bin counts and indicate the current median and modal bins.  The bins are of equal width.
+A ''histogram'' is a type of tally which also maintains a number of ''bins'' decided in advance, and counts how many observations fall into each bin.  It can return bin counts and indicate the current median and modal bins.  The bins are of equal width.
 
 == Constructors ==
 
