@@ -31,9 +31,9 @@ Multidimensional arrays: [[http://srfi.schemers.org/srfi-122/srfi-122.html|SRFI 
 
 Enumerations:  EnumsCowan
 
-Enumeration sets:  EnumsCowan
+Enumeration sets:  EnumContainersCowan
 
-Enumeration maps:  EnumsCowan
+Enumeration maps:  EnumContainersCowan
 
 '''Formatting'''
 
@@ -43,7 +43,7 @@ Formatting: [[http://synthcode.com/scheme/fmt/|FmtShinn]] or [[http://srfi.schem
 
 Strings: [[http://srfi.schemers.org/srfi-152/srfi-152.html|SRFI 152]]
 
-Immutable sets and bags:  ImmutableSetsWortman
+Immutable sets and bags:  [[http://srfi.schemers.org/srfi-153/srfi-153.html|SRFI 153]]
 
 Immutable maps: [[http://srfi.schemers.org/srfi-146/srfi-146.html|SRFI 146]]
 
