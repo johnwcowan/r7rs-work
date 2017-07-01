@@ -10,7 +10,7 @@ Parallel promises: ParallelPromisesCowan
 
 Pathname objects: PathnamesPython
 
-URI objects: [[http://practical-scheme.net/gauche/man/gauche-refe_182.html|UrisGauche]]
+URI objects: [[http://practical-scheme.net/gauche/man/gauche-refe/URI-parsing-and-construction.html#URI-parsing-and-construction|UrisGauche]]
 
 Unicode character database: UcdCowan, AdvancedUcdCowan
 
