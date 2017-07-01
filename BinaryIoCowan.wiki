@@ -36,5 +36,5 @@ Convert the characters of ''string'' to UTF-8, UTF-16LE, or UTF-16BE, and write 
 
 `(read-utf8-string-until `''byte'' [[|''port'' ]]`)`
 
-Read bytes from ''port'' until a byte equal to ''byte'' is read.  Discard the final byte, interpret all the other bytes as a sequence of characters encoded in UTF-8, UTF-16LE, or UTF-16BE, and return the sequence as a string.
+Read bytes from ''port'' until a byte equal to ''byte'' is read.  Discard the final byte, interpret all the other bytes as a sequence of characters encoded in UTF-8, and return the sequence as a string.
 
