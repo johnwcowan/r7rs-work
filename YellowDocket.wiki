@@ -33,3 +33,5 @@ Loops: [[http://srfi.schemers.org/srfi-42/srfi-42|SRFI 42]] or [[http://mumble.n
 Generic accessors/mutators: [[http://srfi.schemers.org/srfi-123/srfi-123.html|SRFI 123]]
 
 Conditions: ConditionsCowan
+
+Restarts:  [[http://mumble.net/~campbell/proposals/restart.text|RestartsRiastradh]]
