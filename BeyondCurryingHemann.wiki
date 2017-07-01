@@ -1,1 +1,9 @@
 [[http://webyrd.net/scheme-2013/papers/HemannCurrying2013.pdf|λ* : Beyond Currying]]
+
+Notes:
+
+The proposed name is `lambda*`, not `λ*`.
+
+The proposal is Variant 5, which has no support for zero-argument or zero-or-more-arguments procedures, with the additional feature of Variant 8, supporting multi-expression bodies.  Section 4 says "nullary `λ∗` functions seem to be of little to no use", and I agree:  they seem to be provided only so that `lambda*` can fully subsume `lambda`, which I think is a mistake (it makes detecting an error in the number of arguments at compile time impossible).
+
+
