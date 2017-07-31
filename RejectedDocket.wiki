@@ -1,6 +1,6 @@
 == WG2 Rejected Docket ==
 
-This docket contains work items that were rejected by a vote.  It is provided to make it easy to see if a proposal has already been shot down.  See [[:WG2Dockets|WG2Dockets]] for other dockets.
+This docket contains work items that were rejected by a vote.  It is provided to make it easy to see if a proposal has already been shot down.  However, some of these items may return, or have already returned.  See [[:WG2Dockets|WG2Dockets]] for other dockets.
 
 9p protocol 
 
@@ -54,7 +54,7 @@ Format, CL-style
 
 FTP protocol 
 
-Generalized equality and comparison functions 
+Generalized equality and comparison functions (has returned as comparators)
 
 Generic collection functions (sequences, dictionaries, sets, bags) 
 
@@ -82,7 +82,7 @@ HTTP protocol
 
 IMAP protocol 
 
-Integer sets 
+Integer sets (has returned)
 
 Interval arithmetic 
 
@@ -92,7 +92,7 @@ Java classfile parsing and constructing
 
 JPEG parsing and construction 
 
-JSON parser and serializer 
+JSON parser and serializer (will return)
 
 LAPACK scientific library interface 
 
@@ -104,7 +104,7 @@ Levenshtein distance
 
 Lexical syntax for mantissa widths 
 
-List comprehensions 
+List comprehensions (may return)
 
 Mailbox format parser 
 
@@ -122,7 +122,7 @@ OpenGL
 
 OpenSSL 
 
-Packed binary (Perl-style) 
+Packed binary (Perl-style) (has returned)
 
 Parser combinators 
 
@@ -152,11 +152,11 @@ Red-black trees
 
 Regex-case 
 
-Relational tables 
+Relational tables (may return)
 
 RSS parser 
 
-Run-time symbol package (CL) 
+Run-time symbol package (CL) (may return)
 
 Schelog 
 
@@ -174,27 +174,27 @@ Sparse vectors
 
 SQL statement constructors 
 
-SQLite3 interface 
+SQLite3 interface (may return)
 
-SRFI 26: Cut/cute 
+SRFI 26: Cut/cute (has returned)
 
-SSAX 
+SSAX (will return in simpler form)
 
 String templates 
 
 stty/termios 
 
-SXML serialization 
+SXML serialization  (will return in simpler form)
 
-SXML templating 
+SXML templating  (will return in simpler form)
 
-SXPath 
+SXPath  (may return in simpler form)
 
-Symbol property lists 
+Symbol property lists (may return)
 
-Syntactic closures 
+Syntactic closures (will return)
 
-Syntax-case 
+Syntax-case (will return)
 
 Syslog interface 
 
@@ -208,11 +208,11 @@ Turtle graphics
 
 Unification 
 
-Uninterned symbols 
+Uninterned symbols (may return)
 
 Unit test framework 
 
-URI parser 
+URI parser (may return)
 
 URI templates 
 
