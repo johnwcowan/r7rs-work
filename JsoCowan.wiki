@@ -1,0 +1,121 @@
+This library allows the creation and use of ''JavaScript-style objects (JSOs)'', which are chained mappings, represented using a variant of alists, that map keys (which must be symbols) to arbitrary values.
+
+When you create a JSO, you can specify a ''prototype JSO''. The recursive sequence of a JSO's prototype, the prototype of its prototype, and so on, is called the ''prototype chain''. If a JSO doesn't contain a particular key, the prototype chain will be searched for it. Modifications, however, are only applied to the JSO proper, never to anything along the prototype chain. An attempt to look up an unknown key returns (by default) a unique value known as ''the undefined value'', which can be tested with `jso-undef?`. Note that this value is not itself a JSO.  A JSO without a prototype chain is called a ''free JSO''.
+
+A JSO is represented as a Scheme pair whose car is the symbol `@` and whose cdr is the concatenation of zero or more two-element lists with another JSO or the empty list.  The first element of each two-element list is a symbol known as the ''key'' and the second element is an arbitrary Scheme object known as the ''value''.  It is no accident that the attribute list of an SXML element has the same representation as a JSO.
+
+== Undefined value and null JSO ==
+
+`(jso-undef `''obj''`)`
+
+Returns `#t` if ''obj'' is the undefined value, and `#f` otherwise.  The undefined value is distinct in the sense of `eqv?` from every other Scheme object.
+
+`jso-null?`
+
+A variable whose value is ''the null JSO'', a unique free JSO with no keys or values.  It is an error to mutate the null JSO in any way.
+
+(`jso-null? `''obj''`)`
+
+Returns `#t if ''obj'' is the null JSO and `#f` otherwise.
+
+== Constructors ==
+
+`(make-jso `''prototype obj'' ...`)`
+
+Returns a newly allocated JSO with the specified ''prototype''.  If ''prototype'' is the undefined object, the JSO is free.  Additional arguments are alternating keys and values of the JSO.
+
+`(alist->jso `''alist prototype''`)`
+
+Creates a newly allocated JSO with the specified ''prototype'' (or a free JSO if ''prototype'' is the undefined value).  The key-value pairs of ''alist'' become the corresponding keys and values of the JSO.
+
+`(jso->alist ''jso'')
+
+Creates a newly allocated alist whose key-value pairs are the keys and values of the JSO. The prototype chain is left unexamined.
+
+`(full-jso->alist ''jso'')
+
+Creates a newly allocated alist whose key-value pairs are the keys and values of the JSO, including its prototype chain.
+
+`(jso? `''obj''`)`
+
+Returns `#t` if the car of ''jso'' is the symbol `@`, and `#f` otherwise.  The rest of the JSO is left unexamined.
+
+`(jso-ref `''jso key'' [[|''failure'' [ ''success'' ]] ]`)`
+
+Searches 'jso', including the prototype chain, for the key ''key'', invokes the procedure ''success'' on it, and returns the result.  If ''key'' is not found, invokes the thunk ''failure'' and returns the result.  If ''success'' is not specified, it is the identity function; if ''fail'' is not specified, it is a procedure that returns the undefined value.
+
+`(jso-set! `''jso key value''`)`
+
+Searches ''jso''for the key ''key'', and if found changes its value to ''value''.  If ''key'' is not found, ''key'' and ''value'' are added as the last key before the prototype chain. The prototype chain is left unexamined.  Returns an undefined value (not necessarily ''the'' undefined value).
+
+`(jso-delete! `''jso key'' ...`)`
+
+Searches ''jso'' and removes any key-value pairs whose key is equal to any of the ''keys''. The prototype chain is left unexamined. Unknown keys are ignored.  Returns an undefined value (not necessarily ''the'' undefined value).
+
+`(jso-delete-all! `''jso key-list''`)`
+
+Does the same as `jso-delete!`, except that the keys to be deleted are specified as a list.
+
+`(jso-prototype `''jso''`)`
+
+Returns the prototype of ''jso'', or the undefined value if ''jso'' is free.
+
+`(jso-set-prototype `''jso prototype''`)`
+
+Replaces the prototype of ''jso'' with ''prototype''.  If ''prototype'' is the undefined value, ''jso'' becomes free.
+
+`(jso-contains? `''jso key''`)`
+
+Returns `#t` if ''jso'' contains ''key'', and `#f` otherwise.  The prototype chain is left unexamined.
+
+`(jso-keys `''jso''`)`
+
+Returns a list of the keys of ''jso''.  The prototype chain is left unexamined.
+
+`(jso-values `''jso''`)`
+
+Returns a list of the values of ''jso'' in the same order as `jso-keys` returns the keys.  The prototype chain is left unexamined.
+
+`(jso-empty? `''jso''`)`
+
+Returns `#t` if the JSO has no keys, and `#f` otherwise.  The prototype chain is left unexamined.
+
+`(jso-size `''jso''`)`
+
+Returns the number of keys in ''jso'' as an exact integer.  The prototype chain is left unexamined.
+
+`(jso-copy `''jso''`)`
+
+Returns a copy of ''jso'', sharing the same prototype chain.  The keys and values are shared, but not the structural pairs.
+
+`(jso-full-copy `''jso''`)`
+
+Returns a copy of ''jso'', including the prototype chain.  The keys and values are shared, but not the structural pairs.
+
+`(jso-map `''proc jso''`)`
+
+Returns a newly allocated JSO after applying ''proc'' to each key and value of ''jso''.  The prototype chains are shared.
+
+`(jso-map! `''proc jso''`)`
+
+Mutates ''jso'' by applying ''proc'' to each value.  The prototype chain is left unexained.
+
+`(jso-full-map `''proc jso''`)`
+
+Returns a newly allocated JSO after applying ''proc'' to each key, including those in the prototype chain.
+
+`(jso-for-each `''proc jso''`)`
+
+Applies ''proc'' to each key and value.  The prototype chain is left unexamined.  Returns an undefined value (not necessarily ''the'' undefined value).
+
+`(jso-full-for-each `''proc jso''`)`
+
+Applies ''proc'' to each key and value, including those in the prototype chain.  Returns an undefined value (not necessarily ''the'' undefined value).
+
+`(jso-apply `''jso key argument'' ...`)`
+
+Applies the result of `(jso-ref `''jso key''`)` on ''jso'' and the ''arguments'', returning the result.  If the result does not exist or is not a procedure, it is an error.`(jso-apply `''jso key argument'' ...`)`
+
+`(jso-apply/fallback `''jso key failure argument'' ...`)`
+
+Applies the result of `(jso-ref `''jso key''`)` on ''jso'' and the ''arguments'', returning the result.  If the result does not exist, the thunk ''failure'' is invoked.  If the result is not a procedure, it is an error.
