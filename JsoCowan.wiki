@@ -72,9 +72,9 @@ Does the same as `jso-delete!`, except that the keys to be deleted are specified
 
 Returns the prototype of ''jso'', or the undefined value if ''jso'' is free.
 
-`(jso-set-prototype `''jso prototype''`)`
+`(jso-set-prototype! `''jso prototype''`)`
 
-Replaces the prototype of ''jso'' with ''prototype''.  If ''prototype'' is the undefined value, ''jso'' becomes free.
+Replaces the prototype of ''jso'' with ''prototype''.  If ''prototype'' is the undefined value, ''jso'' becomes free.  Returns an undefined value (not necessarily ''the'' undefined value).
 
 == Conversions ==
 
@@ -102,7 +102,7 @@ Returns a copy of ''jso'', sharing the same prototype chain.  The keys and value
 
 `(jso-free-copy `''jso''`)`
 
-Returns a copy of ''jso''.  The keys and values are shared, but not the structural pairs.
+Returns a copy of ''jso'' that is free.  The keys and values are shared, but not the structural pairs.
 
 `(jso-full-copy `''jso''`)`
 
@@ -132,11 +132,11 @@ Applies ''proc'' to each key and value, including those in the prototype chain. 
 
 `(jso-apply `''jso key argument'' ...`)`
 
-Applies the result of `(jso-ref `''jso key''`)` on ''jso'' and the ''arguments'', returning the result(s).  If the result does not exist or is not a procedure, it is an error.
+Applies the result of `(jso-ref `''jso key''`)` to ''jso'' and the ''arguments'', returning the result(s).  If the result does not exist or is not a procedure, it is an error.
 
 `(jso-apply/fallback `''jso key failure argument'' ...`)`
 
-Applies the result of `(jso-ref `''jso key''`)` on ''jso'' and the ''arguments'', returning the result(s).  If the result does not exist, the thunk ''failure'' is invoked.  If the result is not a procedure, it is an error.
+Applies the result of `(jso-ref `''jso key''`)` to ''jso'' and the ''arguments'', returning the result(s).  If the result does not exist, the thunk ''failure'' is invoked.  If the result is not a procedure, it is an error.
 
 == JSON ==
 
@@ -146,9 +146,19 @@ Returns `#t` if ''obj'' is a JSON value: that is, a finite real number, a string
 
 Note that when discriminating between JSON values, they should be tested in the following order:  the empty list representing an empty JSON array, the null JSO representing JSON `null`, any other JSO representing a JSON object, and any other list representing a non-empty JSON array.
 
-`(json-write ''obj'' [[|''port'' ]]`)`
+`(json-encode-string `''string'' [[|''unicode?'' ]]`)`
 
-Output ''obj'' to ''port'' (which defaults to the value of `(current-output-port)`) in [[https://tools.ietf.org/html/rfc7159|JSON format]].  Exact rationals other than integers are converted to inexact numbers before being output.  The null JSO is output as the keyword `null`.  If ''obj'' is not a JSON value, an error is signaled before any output is done.
+Inserts escapes into a plain Scheme string to make it a valid JSON string.  In particular, all characters that cannot appear directly in a JSON string, or that have single-character escape sequences, are escaped.  As JSON requires, characters larger than `#\xFFFF` are encoded as two consecutive `\u` sequences.
+
+If the ''unicode?'' argument is false or omitted, all non-ASCII characters are escaped.
+
+`(json-decode-string `''string''`)`
+
+Interprets all escape sequences in a valid JSON string and returns the result.  An error is signaled if a malformed escape sequence is found.
+
+`(json-write ''obj'' [[|''unicode?'' [ ''port'' ]] ]`)`
+
+Output ''obj'' to ''port'' (which defaults to the value of `(current-output-port)`) in [[https://tools.ietf.org/html/rfc7159|JSON format]].  Exact rationals other than integers are converted to inexact numbers before being output.  The argument ''unicode?'' (which defaults to false) is passed to `json-string-decode` whenever a string is output.  The null JSO is output as the keyword `null`.  If ''obj'' is not a JSON value, an error is signaled before any output is done.
 
 `(json-read `[[|''prototype'' [ ''port'' ]] ]`)`
 
