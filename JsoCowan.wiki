@@ -6,7 +6,7 @@ A JSO is represented as a Scheme pair whose car is the symbol `@` and whose cdr 
 
 == Undefined value and null JSO ==
 
-`(jso-undef `''obj''`)`
+`(jso-undef? `''obj''`)`
 
 Returns `#t` if ''obj'' is the undefined value, and `#f` otherwise.  The undefined value is distinct in the sense of `eqv?` from every other Scheme object.
 
@@ -16,7 +16,7 @@ A variable whose value is ''the null JSO'', a unique free JSO with no keys or va
 
 (`jso-null? `''obj''`)`
 
-Returns `#t if ''obj'' is the null JSO and `#f` otherwise.
+Returns `#t` if ''obj'' is the null JSO and `#f` otherwise.
 
 == Constructors ==
 
@@ -28,21 +28,31 @@ Returns a newly allocated JSO with the specified ''prototype''.  If ''prototype'
 
 Creates a newly allocated JSO with the specified ''prototype'' (or a free JSO if ''prototype'' is the undefined value).  The key-value pairs of ''alist'' become the corresponding keys and values of the JSO.
 
-`(jso->alist ''jso'')
-
-Creates a newly allocated alist whose key-value pairs are the keys and values of the JSO. The prototype chain is left unexamined.
-
-`(full-jso->alist ''jso'')
-
-Creates a newly allocated alist whose key-value pairs are the keys and values of the JSO, including its prototype chain.
+== Predicates ==
 
 `(jso? `''obj''`)`
 
 Returns `#t` if the car of ''jso'' is the symbol `@`, and `#f` otherwise.  The rest of the JSO is left unexamined.
 
+`(jso-empty? `''jso''`)`
+
+Returns `#t` if the JSO has no keys, and `#f` otherwise.  The prototype chain is left unexamined.
+
+`(jso-contains? `''jso key''`)`
+
+Returns `#t` if ''jso'' contains ''key'', and `#f` otherwise.  The prototype chain is left unexamined.
+
+== Accessors ==
+
 `(jso-ref `''jso key'' [[|''failure'' [ ''success'' ]] ]`)`
 
 Searches 'jso', including the prototype chain, for the key ''key'', invokes the procedure ''success'' on it, and returns the result.  If ''key'' is not found, invokes the thunk ''failure'' and returns the result.  If ''success'' is not specified, it is the identity function; if ''fail'' is not specified, it is a procedure that returns the undefined value.
+
+`(jso-size `''jso''`)`
+
+Returns the number of keys in ''jso'' as an exact integer.  The prototype chain is left unexamined.
+
+== Mutators ==
 
 `(jso-set! `''jso key value''`)`
 
@@ -64,9 +74,7 @@ Returns the prototype of ''jso'', or the undefined value if ''jso'' is free.
 
 Replaces the prototype of ''jso'' with ''prototype''.  If ''prototype'' is the undefined value, ''jso'' becomes free.
 
-`(jso-contains? `''jso key''`)`
-
-Returns `#t` if ''jso'' contains ''key'', and `#f` otherwise.  The prototype chain is left unexamined.
+== Conversions ==
 
 `(jso-keys `''jso''`)`
 
@@ -76,17 +84,23 @@ Returns a list of the keys of ''jso''.  The prototype chain is left unexamined.
 
 Returns a list of the values of ''jso'' in the same order as `jso-keys` returns the keys.  The prototype chain is left unexamined.
 
-`(jso-empty? `''jso''`)`
+`(jso->alist `''jso'')
 
-Returns `#t` if the JSO has no keys, and `#f` otherwise.  The prototype chain is left unexamined.
+Creates a newly allocated alist whose key-value pairs are the keys and values of the JSO. The prototype chain is left unexamined.
 
-`(jso-size `''jso''`)`
+`(full-jso->alist `''jso'')
 
-Returns the number of keys in ''jso'' as an exact integer.  The prototype chain is left unexamined.
+Creates a newly allocated alist whose key-value pairs are the keys and values of the JSO, including its prototype chain.
+
+== Copying, mapping, and folding ==
 
 `(jso-copy `''jso''`)`
 
 Returns a copy of ''jso'', sharing the same prototype chain.  The keys and values are shared, but not the structural pairs.
+
+`(jso-free-copy `''jso''`)`
+
+Returns a copy of ''jso''.  The keys and values are shared, but not the structural pairs.
 
 `(jso-full-copy `''jso''`)`
 
@@ -98,7 +112,7 @@ Returns a newly allocated JSO after applying ''proc'' to each key and value of '
 
 `(jso-map! `''proc jso''`)`
 
-Mutates ''jso'' by applying ''proc'' to each value.  The prototype chain is left unexained.
+Mutates ''jso'' by applying ''proc'' to each value.  The prototype chain is left unexamined.
 
 `(jso-full-map `''proc jso''`)`
 
@@ -112,10 +126,26 @@ Applies ''proc'' to each key and value.  The prototype chain is left unexamined.
 
 Applies ''proc'' to each key and value, including those in the prototype chain.  Returns an undefined value (not necessarily ''the'' undefined value).
 
+== Method calls ==
+
 `(jso-apply `''jso key argument'' ...`)`
 
-Applies the result of `(jso-ref `''jso key''`)` on ''jso'' and the ''arguments'', returning the result.  If the result does not exist or is not a procedure, it is an error.`(jso-apply `''jso key argument'' ...`)`
+Applies the result of `(jso-ref `''jso key''`)` on ''jso'' and the ''arguments'', returning the result.  If the result does not exist or is not a procedure, it is an error.
 
 `(jso-apply/fallback `''jso key failure argument'' ...`)`
 
 Applies the result of `(jso-ref `''jso key''`)` on ''jso'' and the ''arguments'', returning the result.  If the result does not exist, the thunk ''failure'' is invoked.  If the result is not a procedure, it is an error.
+
+== JSON ==
+
+`(json-valid? `''obj''`)`
+
+Returns `#t` if ''obj'' is a JSON value: that is, a number, a string, a boolean, a list whose elements are JSON values, or a JSO whose keys are symbols and whose values are JSON values (the prototype chains are left unexamined).
+
+`(json-write ''obj'' [[|''port'' ]]`)`
+
+Output ''obj'' to ''port'' (which defaults to the value of `(current-output-port)`) in JSON format.  If ''obj'' is not a JSON value, an error is signaled.
+
+`(json-read `[[|''prototype'' [ ''port'' ]] ]`)`
+
+Reads the representation of a JSON value from ''port'' (which defaults to the value of `(current-input-port)`) and returns the value.  Any JSOs returned are created with ''prototype'', or as free JSOs if ''prototype'' is the undefined value.  If the representation is not JSON
