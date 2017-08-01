@@ -41,15 +41,15 @@ Injects the values returned by ''generator'' into ''tally'' and updates all desc
 
 `(weighted-generators->tally! `''tally'' ''generator,,v,,'' ''generator,,w,,''`)`
 
-Injects the values returned by ''generator,,1,,'' into ''tally'', assigning each a weight returned from ''generator,,2,,'' for the purpose of calculating weighted sums and weighted averages, and updates all descriptive statistics.  Tallying stops when either generator is exhausted, at which point the other generator is in an undefined state.
+Injects the values returned by ''generator,,v,,'' into ''tally'', assigning each a weight returned from ''generator,,w,,'' for the purpose of calculating weighted sums and weighted averages, and updates all descriptive statistics.  Tallying stops when either generator is exhausted, at which point the other generator is in an undefined state.
 
 `(correlated-generators->tally! `''tally'' ''generator,,v1,,'' ''generator,,v2,,''`)`
 
 Injects the values returned by ''generator,,v1,,'' into ''tally'', tracking the alues returned by ''generator,,v2,,'' separately for the purpose of calculating covariance and correlation. Tallying stops when either generator is exhausted, at which point the other generator is in an undefined state.
 
-`(weighted-correlated-generators->tally! `''tally'' ''generator,,v1,,'' ''generator,,v2,,'' ''generator,,v3,,''`)`
+`(weighted-correlated-generators->tally! `''tally'' ''generator,,v1,,'' ''generator,,w,,'' ''generator,,v2,,''`)`
 
-Injects the values returned by ''generator,,v1,,'' into ''tally'', weighted by the values returned by ''generator,,v2,,'' and tracking the alues returned by ''generator,,v3,,'' separately for the purpose of calculating covariance and correlation. Tallying stops when any generator is exhausted, at which point the other generators are in an undefined state.
+Injects the values returned by ''generator,,v1,,'' into ''tally'', weighted by the values returned by ''generator,,w,,'' and tracking the alues returned by ''generator,,v2,,'' separately for the purpose of calculating covariance and correlation. Tallying stops when any generator is exhausted, at which point the other generators are in an undefined state.
 
 == Basic statistics ==
 
