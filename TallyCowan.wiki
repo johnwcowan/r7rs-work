@@ -10,13 +10,11 @@ A ''histogram'' is a type of tally which also maintains a number of ''bins'' dec
 
 Returns a newly allocated tally with no observations.  The ''key'' is an arbitrary Scheme object useful for distinguishing this tally from other tallies; the default key is `#f`.
 
-`(make-histogram ` ''low high width'' `[[|''key'' ]]`)`
+`(make-histogram ` ''low high width'' [[|''key'' ]]`)`
 
 Returns a newly allocated histogram with no observations.  It will have sufficient bins to count observations from ''low'' (inclusive) to ''high'' (exclusive) with the specified ''width''.  Observations that fall on a bin boundary are always placed in the higher bin.  There are two additional bins for observations lower than ''low'' and higher than ''high''.  The ''key'' is as for `make-tally`.
 
 == Injectors ==
-
-Some of the statistics may be meaningless if more than one of these injectors is used on any one tally.
 
 `(tally! `''tally'' ''value''`)`
 
@@ -26,33 +24,32 @@ Injects ''value'' into ''tally'' and updates all descriptive statistics.
 
 Injects ''value'' into ''tally'', assigning it a weight of ''weight'' for the purpose of calculating weighted sums and weighted averages, and updates all descriptive statistics.
 
-`(tally-timed! `''tally'' ''value'' ''timestamp''`)`
-
-The same as `tally-weighted!`, except that the weight is ''timestamp'' minus the value of ''timestamp'' on the previous call to `tally-timed!`, or 0 if there was no previous call.
-
 `(tally-correlated! `''tally'' ''value,,1,,'' ''value,,2,,''`)`
 
 Injects ''value,,1,,'' into ''tally'', tracking ''value,,2,,'' separately for the purpose of calculating covariance and correlation.
 
+`(tally-weighted-correlated! `''tally'' ''value,,1,,'' ''weight'' ''value,,2,,''`)`
+
+Injects ''value,,1,,'' into ''tally'', assigning it a weight of ''weight'' and tracking ''value,,2,,'' separately for the purpose of calculating covariance and correlation.
+
 == Generators ==
 
-These generator procedures can be mixed with the corresponding injectors, but not with each other.  Generators are defined in [[http://srfi.schemers.org/srfi-121/srfi-121.html|SRFI 121]].
 
 `(generator->tally! `''tally'' ''generator''`)`
 
 Injects the values returned by ''generator'' into ''tally'' and updates all descriptive statistics.
 
-`(weighted-generator->tally! `''tally'' ''generator,,v,,'' ''generator,,w,,''`)`
+`(weighted-generators->tally! `''tally'' ''generator,,v,,'' ''generator,,w,,''`)`
 
 Injects the values returned by ''generator,,1,,'' into ''tally'', assigning each a weight returned from ''generator,,2,,'' for the purpose of calculating weighted sums and weighted averages, and updates all descriptive statistics.  Tallying stops when either generator is exhausted, at which point the other generator is in an undefined state.
 
-`(timed-generator->tally! `''tally'' ''generator,,v,,'' ''generator,,t,,''`)`
-
-The same as `weighted-generator->tally!`, except that the weight for each value returned by ''generator,,v,,'' is the value returned by''generator,,t,,'' minus the previous value of ''generator,,t,,'', or the timestamp provided to the previous call to `tally-timed!`, or 0 if there was no previous call. Tallying stops when either generator is exhausted, at which point the other generator is in an undefined state.
-
-`(correlated-generator->tally! `''tally'' ''generator,,v1,,'' ''generator,,v2,,''`)`
+`(correlated-generators->tally! `''tally'' ''generator,,v1,,'' ''generator,,v2,,''`)`
 
 Injects the values returned by ''generator,,v1,,'' into ''tally'', tracking the alues returned by ''generator,,v2,,'' separately for the purpose of calculating covariance and correlation. Tallying stops when either generator is exhausted, at which point the other generator is in an undefined state.
+
+`(weighted-correlated-generators->tally! `''tally'' ''generator,,v1,,'' ''generator,,v2,,'' ''generator,,v3,,''`)`
+
+Injects the values returned by ''generator,,v1,,'' into ''tally'', weighted by the values returned by ''generator,,v2,,'' and tracking the alues returned by ''generator,,v3,,'' separately for the purpose of calculating covariance and correlation. Tallying stops when any generator is exhausted, at which point the other generators are in an undefined state.
 
 == Basic statistics ==
 
@@ -90,7 +87,7 @@ Returns the geometric mean of all observations injected so far.  This is the ''n
 
 `(tally-harmonic-mean `''tally''`)`
 
-Returns the sum of all observations injected so far.  This is the count divided by the harmonic sum.
+Returns the harmonic mean of all observations injected so far.  This is the count divided by the harmonic sum, or `+nan.0` if the count is zero.
 
 `(tally-max `''tally''`)`
 
@@ -182,5 +179,5 @@ Return a list of the indexes to the bins that contain the maximum number of obse
 
 `(histogram-median-interval `''histogram''`)`
 
-Return two values, a lower and upper bound for the median observation.  Normally the upper and lower bounds are one bin width apart, but if the number of items in bins lower than ''k'' for some ''k'' is equal to the number of items in higher bins, the values will be two bin widths apart.  The underflow and overflow bins are excluded.
+Return two values, a lower (inclusive) and upper (exclusive) bound for the median observation.  Normally the upper and lower bounds are one bin width apart, but if the number of items in bins lower than ''k'' for some ''k'' is equal to the number of items in higher bins, the values will be two bin widths apart.  The underflow and overflow bins are excluded.
  
