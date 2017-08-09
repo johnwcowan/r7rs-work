@@ -84,6 +84,10 @@ Returns `#t` if ''string'' matches the MicroXML name production if ''attribute?'
 
 Returns `#t` if all the characters in ''string'' are allowed in MicroXML character content and `#f` otherwise.
 
+`(sxml-wf-element? `''element''`)`
+
+Returns `#t` if ''element'' is well-formed.  The first element of ''element'' must be a symbol whose print name satisfies `sxml-wf-name`.  The second element of ''element'' must be a JSO that satisfies 
+
 `(sxml-attribute? `''element attr-name''`)`
 
 Returns `#t` if ''attr-name'' (a symbol) is an attribute of ''element'' and `#f` otherwise.
@@ -92,41 +96,186 @@ Returns `#t` if ''attr-name'' (a symbol) is an attribute of ''element'' and `#f`
 
 Returns `#t` if all idref attributes contain valid ids.  An id is valid if it appears as a key in ''id-mapping'' (see `make-id-mapping`).  ''Idref-list'' is a list of 2-element sublists, where the first element of each sublist is an element name and the second element is an attribute name.
 
-`(sxml-normalized-element `''element''`)`
+`(sxml-language? FIXME)`
 
-Returns a normalized version of an SXML element that does not necessarily conform to the definition.  In particular:
+== Element procedures ==
 
- * If the attribute-list is missing, an empty attribute-list is provided.
+`(sxml-element-name `''element''`)`
+
+Returns the name of ''element'' as a symbol.
+
+`(sxml-set-name `''element name''`)`
+
+`(sxml-set-name! `''element name''`)`
+
+Changes the name of ''element'' to the symbol ''name'', purely or with mutation.
+
+`(sxml-attr-list `''element''`)`
+
+Returns the attribute list of ''element'' as a JSO.
+
+`(sxml-set-attr-list `''element jso''`)`
+
+`(sxml-set-attr-list! `''element jso''`)`
+
+Changes the attribute list of ''element'' to ''jso'', purely or with mutation.
+
+`(sxml-element-content`''element''`)`
+
+Returns the name of ''element'' as a list.
+
+`(sxml-set-content `''element list''`)`
+
+`(sxml-set-content! `''element list''`)`
+
+Changes the name of ''element'' to the ''list'', purely or with mutation.
+
+`(sxml-value `''element''`)`
+
+Returns the results of concatenating all string content children in ''element'' and all its descendants in depth-first left-to-right preorder.
+
+`(sxml-defaults `''element attribute-defaults element-defaults inherited-attributes''`)`
+
+`(sxml-defaults! `''element attribute-defaults element-defaults inherited-attributes''`)`
+
+Returns ``element`` with default values expanded in itself and all its descendants (purely or with mutation) as follows:
+
+ * ''attribute-defaults'' is a list of 3-element sublists.  Each sublist contains an element name (a symbol), an attribute name (a symbol), and a default value (a string).  All elements with those names are checked for the presence of the corresponding attribute.  If it is missing, the attribute is added with the specified default value.  If the element name is `*`, the default applies to all elements.
+ * ''element-defaults'' is a list of 2-element sublists.  Each sublist contains an element name (a symbol) and a default value (a string).  All empty elements with any of those names have the default value installed as the only content child.
+ * ''inherited-attributes'' is a list of symbols.  All elements are checked for an attribute whose name is one of the list.  If absent, then the most recent ancestor of the element that has this attribute is found (note that no parent map is required), and the attribute is added to the element being processed with the same value as in the ancestor.
+
+`(sxml-element position `''element parent-map''`)`
+
+Returns the position of ''element'' among the element children of the parent of ''element'' as an exact integer, with 1 meaning the first element child.
+
+`(sxml-element-size `''element''`)`
+
+Return the number of content children of 'element'' as an exact integer.
+
+`(sxml-normalize-element! `''element''`)`
+
+Returns a normalized version (using mutation) of an SXML element that does not necessarily conform to the definition.  In particular:
+
+ * If the attribute-list is missing, an empty JSO is provided.
  * If the attribute-list does not begin with an `@` element, one is provided.
- * If the attribute-list considered as a JSO has a prototype, it is removed.
  * If one of the content children or an attribute value is a number, it is converted to a string with `number->string'.
  * If one of the content children or an attribute value is a boolean, it is converted to a string with `boolean->string'.
  * If one of the content children is some other type of Scheme object or else removed.
  * If an attribute value is some other type of Scheme object, it is converted to a string by some implementation-defined means or else that attribute is removed.
  * If after the above transformations are completed, two or more consecutive content children are strings, they are consolidated.
+ * If any content children are elements, they are recursively normalized.
 
-`(sxml-language? FIXME)`
+`(sxml-trace `''element traceproc''`)`
 
-== Element procedures ==
+Displays information on `(current-error-port)` about ''element''.  The precise nature of the information displayed is undefined, except that it should end with a newline.  ''Element'' is returned.
 
-`(sxml-normalize-space `''string''`)`
+== String procedures ==
+
+`(uxml-escape-string `''string attribute? apos? ascii?''`)`
+
+Converts ''string'' to contain the necessary entity references for MicroXML.  If ''attribute?'' is false, only `< & >` are escaped.  Otherwise, if ''apos?'' is true, `'` is escaped, but if not, `"' is escaped.  Finally, if ''ascii?'' is true, non-ASCII characters are escaped with numeric chaacter references.  All other characters are left unchanged.  The escaped result is returned.
+
+`(uxml-unescape-string `''string''`)`
+
+Converts ''string'' by tranlating all MicroXML escapes, both entity names and numeric character references, to single characters.  All other characters are left unchanged.  The result is returned.
+
+`(uxml-normalize-space `''string''`)`
 
 Returns a string that is equal to ''string'', but with all leading and trailing whitespace removed, and all other consecutive whitespace characters replaced by a single space.
 
+== Mapping functions ==
+
+Mappings are opaque data structures that map keys to values.  A ''parent mapping'' maps an element to its parent element.  An ''id mapping'' maps an id (a symbol) to the element bearing that id.
+
+`(sxml-make-parent-mapping `''document''`)`
+
+Creates a parent mapping based on the SXML element ''document'' that maps each descendant element of ''element'' to its parent element.  The element itself does not appear in the mapping.  Returns the parent mapping.
+
+`(sxml-parent `''element parent-mapping''`)`
+
+Uses ''parent-mapping'' to determine the parent of ''element'' and returns it, or `#f` if there is none.
+
+`(sxml-detach-parent `''element parent-mapping''`)`
+
+Removes the mapping from `''element'' to its parent from ''parent-mapping'' and returns the revised version of ''parent-mapping''.  If ''element'' does not have a parent, returns ''parent-mapping'' unchanged.
+
+`(sxml-make-id-mapping `''document''`)`
+
+Creates an id mapping based on the SXML element ''document''.  The element and all its descendants are checked for the presence of an attribute named `id` or `xml:id` (the latter is not well-formed MicroXML but is allowed in SXML for backward compatibility).  If found, an entry is created in the id mapping that maps the corresponding attribute value ''as a symbol'' to the element.  Returns the id mapping.
+
+`(sxml-id `''id id-mapping''`)`
+
+Looks up the symbol ''id'' in ''id-mapping'' and returns the corresponding element, or `#f` if there is none.
+
+== Boolean conversions ==
+
+These use the conventions of XPath and XML Schema.
+
+`(sxml-string->boolean `''string''`)`
+
+Converts the strings `"1"` and `"true"` to `#t`, and the strings `"0"` and `false` to `#f`.  It is an error to pass any other string.
+
+`(sxml-boolean->string `''boolean''`)`
+
+Converts `#t` to `"true"` and `#f` to `"false"`.
+
+`(sxml-number->boolean `''number''`)`
+
+If ''number'' returns `#t` when `zero?` is applied to it, returns `#f`; otherwise returns `#t`;
+
+`(sxml-boolean->number `''boolean''`)`
+
+If ''boolean'' is true, returns 1, otherwise returns 0.
+
+== Axes ==
+
+The following procedures are generator operations:  they accept a generator (of SXML elements) and return a generator (also of SXML elements).  After the `sxml-` prefix, they begin with `g`, using the convention of [[http://srfi.schemers.org/srfi-121/srfi-121.html|SRFI 121]] for generator operations.
+
+`(sxml-gparent `''gen''`)`
+
+Returns a generator of SXML elements which invokes SXML elements from ''gen'' and returns their parent elements.
+
+`(sxml-gancestor `''gen''`)`
+
+Returns a generator of SXML elements which invokes SXML elements from ''gen'' and returns their ancestor elements from parent to root on successive invocations.
+
+`(sxml-gancestor-or-self `''gen''`)`
+
+Returns a generator of SXML elements which invokes SXML elements from ''gen'' and returns their element itself and then its ancestor elements from parent to root on successive invocations.
+
+`(sxml-gchild `''gen''`)`
+
+Returns a generator of SXML elements which invokes SXML elements from ''gen'' and returns their descendant elements in depth-first order from left to right on successive invocations.
+
+`(sxml-gdescendant `''gen''`)`
+
+Returns a generator of SXML elements which invokes SXML elements from ''gen'' and returns their child elements from left to right on successive invocations.
+
+`(sxml-gdescendant-or-self `''gen''`)`
+
+Returns a generator of SXML elements which invokes SXML elements from ''gen'' and returns their element itself and then its child elements from left to right on successive invocations.
+
+`(sxml-gfollowing `''gen''`)`
+
+Returns a generator of SXML elements which invokes SXML elements from ''gen'' and returns all of their following elements in document order on successive invocations.
+
+`(sxml-gfollowing-or-self `''gen''`)`
+
+Returns a generator of SXML elements which invokes SXML elements from ''gen'' and returns the elements themselves and then all of their following elements in document order on successive invocations.
+
+`(sxml-gpreceding `''gen''`)`
+
+Returns a generator of SXML elements which invokes SXML elements from ''gen'' and returns all of their preceding elements in reverse document order on successive invocations.
+
+`(sxml-gpreceding-or-self `''gen''`)`
+
+Returns a generator of SXML elements which invokes SXML elements from ''gen'' and returns the elements themselves and then all of their preceding elements in reverse document order on successive invocations.
+
+== Paths ==
+
 {{{
-escape-string value defaults make-parent-mapping parent detach make-id-mapping id
-normalize-space normalize-string normalize-attr-list
-name set-name(!) attr-list set-attr-list(!) content set-content(!)
-position last trace
+sxml-path
 
-string->boolean boolean->string number->boolean boolean->number
-
-parent-axis ancestor-axis aos-axis child-axis descendant-axis dos-axis
-following-axis preceding-axis following-sibling-axis preceding-sibling-axis
-}}}
-
-== Magic atoms ==
-{{{
 / // .// $trace $parent $ancestor $aos $child $descendant $dos
          $following $preceding $following-sibling $preceding-sibling
 }}}
