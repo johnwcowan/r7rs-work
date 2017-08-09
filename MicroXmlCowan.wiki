@@ -1,0 +1,132 @@
+== Events ==
+
+A MicroXML event is a list representing a parsing event, in one of the following formats.  ``Stack`` is a list of element names currently being processed; the first element of the list is the current element.
+
+`($start `''stack attr-list''`)`
+
+Represents a start-tag.  ''Attr-list'' is a JSO representing the attributes.
+
+`($end `''stack''`)`
+
+Represents an end-tag.
+
+`($text `''text''`)`
+
+Represents character content.  ''Text'' is the character content as a string.
+
+`($error `''stack error-code . other''`)`
+
+Represents a parsing error.  ''Error-code'' is a symbol.  ''Other'' is implementation-dependent.
+
+`($pi `''stack target content''`)`
+
+Represents a processing instruction (which is not part of MicroXML).  ''Target'' is a symbol; ''content'' is a string.
+
+`($end)`
+
+Represents the end of the document.
+
+== SXML ==
+
+MicroXML uses a simplified version of SXML as the internal representation of documents.  Each SXML element is a list whose first member is a symbol representing the element name, whose second member is a JSO mapping the attribute names (as symbols) to their values (as strings), and whose remaining members (if any) are either SXML elements or strings.
+
+== Input-output ==
+
+''Options'' is a list of symbols that control how MicroXML is written.  All implementations recognize `apos` to wrap attribute values in apostrophes, `empty` to write empty tags for empty elements, and `ascii` to escape all characters outside the ASCII range.  Other symbols are also allowed.
+
+`(uxml->sxml `''port'' [[|''handler'' ]]`)`
+
+Reads a MicroXML document from ''port'' and returns the SXML equivalent.  The procedure ''handler'' is invoked when a `$error` or `$pi` event is produced.  The default handler signals an error that satisfies `uxml-error?`.  If the handler is `#f`, errors and processing instructions are ignored.
+
+`(sxml->uxml `''element port options''`)`
+
+Writes the SXML ''element'' in MicroXML format to ''port'', using the symbols in ''options''.
+
+`(make-uxml-generator `''port''`)
+
+Returns a generator of event objects representing a MicroXML document read from ''port''.
+
+`(make-sxml-generator `''element''`)`
+
+Returns a generator of event objects representing the SXML ''element''.
+
+`(event-generator->uxml `''gen port options''`)`
+
+Invokes the generator ''gen'' to obtain event objects and writes the corresponding MicroXML document to ''port'', using the symbols in ''options''.  If the resulting document would not be well-formed MicroXML, an error is signaled that satisfies `uxml-error?`.
+
+`(event-generator->sxml `''gen''`)`
+
+Invokes the generator ''gen'' to obtain event objects, constructs the corresponding SXML element, and returns it.  If the resulting object would not be well-formed SXML, an error is signaled that satisfies `uxml-error?`.
+
+`(write-xml `''port options''`)`
+
+Returns a procedure that accepts an event object.  When invoked repeatedly, it writes the corresponding MicroXML representation to ''port'' using the symbols in ''options''.    If the resulting document would not be well-formed MicroXML, an error is signaled that satisfies `uxml-error?`.
+
+`(build-sxml)`
+
+Returns a procedure that accepts an event object.  When invoked repeatedly, it builds the corresponding SXML representation.  If the document has been fully built, the procedure returns the SXML element; if not, it returns `#f`.  If the resulting document would not be well-formed MicroXML, an error is signaled that satisfies `uxml-error?`.
+
+== SXML predicates ==
+
+`(sxml-element? `''obj''`)`
+
+Returns `#t` if ''obj'' is an SXML element and `#f` otherwise.  The procedure checks that the first element is a symbol and the second element is a JSO; child elements are not checked.
+
+`(sxml-empty? `''element''`)`
+
+Returns `#t` if ''element'' is an empty SXML element and `#f` otherwise.
+
+`(sxml-wf-name? `''string attribute''`)`
+
+Returns `#t` if ''string'' matches the MicroXML name production if ''attribute?'' is false, or the MicroXML attribute name production if ''attribute?'' is true; returns `#f` otherwise.
+
+`(sxml-wf-string? `''string''`)`
+
+Returns `#t` if all the characters in ''string'' are allowed in MicroXML character content and `#f` otherwise.
+
+`(sxml-attribute? `''element attr-name''`)`
+
+Returns `#t` if ''attr-name'' (a symbol) is an attribute of ''element'' and `#f` otherwise.
+
+`(id-valid? `''element id-mapping idref-list''`)`
+
+Returns `#t` if all idref attributes contain valid ids.  An id is valid if it appears as a key in ''id-mapping'' (see `make-id-mapping`).  ''Idref-list'' is a list of 2-element sublists, where the first element of each sublist is an element name and the second element is an attribute name.
+
+`(sxml-normalized-element `''element''`)`
+
+Returns a normalized version of an SXML element that does not necessarily conform to the definition.  In particular:
+
+ * If the attribute-list is missing, an empty attribute-list is provided.
+ * If the attribute-list does not begin with an `@` element, one is provided.
+ * If the attribute-list considered as a JSO has a prototype, it is removed.
+ * If one of the content children or an attribute value is a number, it is converted to a string with `number->string'.
+ * If one of the content children or an attribute value is a boolean, it is converted to a string with `boolean->string'.
+ * If one of the content children is some other type of Scheme object or else removed.
+ * If an attribute value is some other type of Scheme object, it is converted to a string by some implementation-defined means or else that attribute is removed.
+ * If after the above transformations are completed, two or more consecutive content children are strings, they are consolidated.
+
+`(sxml-language? FIXME)`
+
+== Element procedures ==
+
+`(sxml-normalize-space `''string''`)`
+
+Returns a string that is equal to ''string'', but with all leading and trailing whitespace removed, and all other consecutive whitespace characters replaced by a single space.
+
+{{{
+escape-string value defaults make-parent-mapping parent detach make-id-mapping id
+normalize-space normalize-string normalize-attr-list
+name set-name(!) attr-list set-attr-list(!) content set-content(!)
+position last trace
+
+string->boolean boolean->string number->boolean boolean->number
+
+parent-axis ancestor-axis aos-axis child-axis descendant-axis dos-axis
+following-axis preceding-axis following-sibling-axis preceding-sibling-axis
+}}}
+
+== Magic atoms ==
+{{{
+/ // .// $trace $parent $ancestor $aos $child $descendant $dos
+         $following $preceding $following-sibling $preceding-sibling
+}}}
