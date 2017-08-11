@@ -1,6 +1,6 @@
 == Events ==
 
-A MicroXML event is a list representing a parsing event, in one of the following formats.  ''Stack'' is a list of element names currently being processed; the first element of the list is the current element.
+A MicroXML event is either an end-of-file object or a list representing a parsing event, in one of the following formats.  ''Stack'' is a list of element names currently being processed; the first element of the list is the current element.
 
 `($start `''stack attr-list''`)`
 
@@ -20,31 +20,27 @@ Represents a parsing error.  ''Error-code'' is a symbol.  ''Other'' is implement
 
 `($pi `''stack target content''`)`
 
-Represents a processing instruction (which is not part of MicroXML).  ''Target'' is a symbol; ''content'' is a string.
-
-`($eof)`
-
-Represents the end of the document.
+Represents a processing instruction (which is not part of MicroXML).  ''Target'' is a symbol; ''content'' is a string.  Parsers may return `$error` objects instead of `$pi` objects; they are provided as a way of allowing a MicroXML parser to read some (but not all) XML documents. Note that the XML declaration is taken to be a processing instruction, as in SGML.
 
 == SXML ==
 
-MicroXML uses a simplified version of SXML as the internal representation of documents.  Each SXML element is a list whose first member is a symbol representing the element name, whose second member is a JSO mapping the attribute names (as symbols) to their values (as strings), and whose remaining members (if any) are either SXML elements or strings.
+MicroXML uses a simplified version of SXML as the internal representation of documents.  Each SXML element is a list whose first member is a symbol representing the element name, whose second member is a JSO mapping the attribute names (as symbols) to their values (as strings), and whose remaining members (if any) are either SXML elements or strings.  The prototype of a JSO representing an attribute list is ignored.  There is no representation of comments or processing instructions in this version of SXML, and no notion of document objects (a document is just an element that has no parent).  The parent of an element that has one is stored as an attribute named `$parent` whose value is a SRFI 111 box containing the parent element.  This pseudo-attribute is ignored by all other attribute processing.  The box is used to prevent SXML elements from being circular tree structure.
 
-== Input-output ==
+== Parsing, building, and printing procedures ==
 
-''Options'' is a list of symbols that control how MicroXML is written.  All implementations recognize `apos` to wrap attribute values in apostrophes, `empty` to write empty tags for empty elements, and `ascii` to escape all characters outside the ASCII range.  Other symbols are also allowed.
+''Options'' is a list of symbols that control how MicroXML is written.  All implementations recognize `apos` to wrap attribute values in apostrophes, `end-tags` to write end-tags for empty elements, and `ascii` to escape all characters outside the ASCII range.  Other symbols are also allowed.
 
 `(uxml->sxml `''port'' [[|''handler'' ]]`)`
 
-Reads a MicroXML document from ''port'' and returns the SXML equivalent.  The procedure ''handler'' is invoked when a `$error` or `$pi` event is produced.  The default handler signals an error that satisfies `uxml-error?`.  If the handler is `#f`, errors and processing instructions are ignored.
+Reads all the characters from the textual input port ''port'' as a MicroXML document and returns the SXML equivalent.  The procedure ''handler'' is invoked when a `$error` or `$pi` event is produced.  The default handler signals an error that satisfies `uxml-error?`.  If the handler is `#f`, errors and processing instructions are ignored; this relaxed parsing mode allows some XML documents that are not well-formed MicroXML to be parsed.
 
 `(sxml->uxml `''element port options''`)`
 
-Writes the SXML ''element'' in MicroXML format to ''port'', using the symbols in ''options''.
+Writes the SXML ''element'' in MicroXML format to the textual output port ''port'', using the symbols in ''options''.
 
 `(make-uxml-generator `''port''`)`
 
-Returns a generator of event objects representing a MicroXML document read from ''port''.
+Returns a generator of event objects representing a MicroXML document read from the textual input port ''port''.  Processing continues no matter how many errors there are until all characters have been read.
 
 `(make-sxml-generator `''element''`)`
 
@@ -52,33 +48,37 @@ Returns a generator of event objects representing the SXML ''element''.
 
 `(event-generator->uxml `''gen port options''`)`
 
-Invokes the generator ''gen'' to obtain event objects and writes the corresponding MicroXML document to ''port'', using the symbols in ''options''.  If the resulting document would not be well-formed MicroXML, an error is signaled that satisfies `uxml-error?`.
+Invokes the generator ''gen'' to obtain event objects and writes the corresponding MicroXML document to the textual output port ''port'', using the symbols in ''options''.  If the resulting document would not be well-formed MicroXML, an error is signaled that satisfies `uxml-error?`.
 
 `(event-generator->sxml `''gen''`)`
 
 Invokes the generator ''gen'' to obtain event objects, constructs the corresponding SXML element, and returns it.  If the resulting object would not be well-formed SXML, an error is signaled that satisfies `uxml-error?`.
 
-`(write-xml `''port options''`)`
+`(write-uxml `''port options''`)`
 
-Returns a procedure that accepts an event object.  When invoked repeatedly, it writes the corresponding MicroXML representation to ''port'' using the symbols in ''options''.    If the resulting document would not be well-formed MicroXML, an error is signaled that satisfies `uxml-error?`.
+Returns a procedure that accepts an event object.  When invoked repeatedly, it writes the corresponding MicroXML representation to the textual output port ''port'' using the symbols in ''options''.    If the resulting document would not be well-formed MicroXML, an error is signaled that satisfies `uxml-error?`.
 
 `(build-sxml)`
 
-Returns a procedure that accepts an event object.  When invoked repeatedly, it builds the corresponding SXML representation.  If the document has been fully built, the procedure returns the SXML element; if not, it returns `#f`.  If the resulting document would not be well-formed MicroXML, an error is signaled that satisfies `uxml-error?`.
+Returns a builder procedure that accepts an event object or an end of file object.  When invoked repeatedly, it builds the corresponding SXML representation.  If the object is an end of file object, the procedure returns the SXML element; if not, it returns an unspecified value.  If the resulting document would not be well-formed MicroXML, an error is signaled that satisfies `uxml-error?`.
 
 == Predicates ==
 
 `(sxml-element? `''obj''`)`
 
-Returns `#t` if ''obj'' is an SXML element and `#f` otherwise.  The procedure checks that ''obj'' is a list whose first element is a symbol and the second element is a JSO; further elements of the list are not examined.
+Returns `#t` if ''obj'' is an SXML element and `#f` otherwise.  The procedure checks that ''obj'' is a list whose first element is a symbol and whose second element is a JSO; further elements of the list are not examined.
 
 `(sxml-empty? `''element''`)`
 
 Returns `#t` if ''element'' is an empty SXML element and `#f` otherwise.
 
-`(sxml-wf-name? `''string attribute''`)`
+`(sxml-wf-element-name? `''string attribute''`)`
 
-Returns `#t` if ''string'' matches the MicroXML name production if ''attribute?'' is false, or the MicroXML attribute name production if ''attribute?'' is true; returns `#f` otherwise.
+Returns `#t` if ''string'' matches the MicroXML name production; returns `#f` otherwise.
+
+`(sxml-wf-attribute-name? `''string attribute''`)`
+
+Returns `#t` if ''string'' matches the MicroXML attribute name production; returns `#f` otherwise.
 
 `(sxml-wf-string? `''string''`)`
 
@@ -86,13 +86,13 @@ Returns `#t` if all the characters in ''string'' are allowed in MicroXML charact
 
 `(sxml-wf-element? `''element''`)`
 
-Returns `#t` if ''element'' is well-formed.  The first element of ''element'' must be a symbol whose print name satisfies `sxml-wf-name`.  The second element of ''element'' must be a JSO that maps symbols to strings that satisfy `sxml-wf-string?`.  The remaining elements must be either strings that satisfy `sxml-wf-string?` or lists that satisfy `sxml-wf-element?`.
+Returns `#t` if ''element'' is well-formed.  The first element of ''element'' must be a symbol whose print name satisfies `sxml-wf-element-name?`.  The second element of ''element'' must be a JSO that maps symbols whose print name satisfies `sxml-wf-attribute-name?` to strings that satisfy `sxml-wf-string?`.  The remaining elements must be either strings that satisfy `sxml-wf-string?` or lists that satisfy `sxml-wf-element?`.
 
 `(sxml-attribute? `''element attr-name''`)`
 
 Returns `#t` if ''attr-name'' (a symbol) is an attribute of ''element'' and `#f` otherwise.
 
-`(id-valid? `''element id-mapping idref-list''`)`
+`(sxml-id-valid? `''element id-mapping idref-list''`)`
 
 Returns `#t` if all idref attributes contain valid ids.  An id is valid if it appears as a key in ''id-mapping'' (see `make-id-mapping`).  ''Idref-list'' is a list of 2-element sublists, where the first element of each sublist is an element name and the second element is an attribute name.
 
@@ -144,7 +144,7 @@ Returns the results of concatenating all string content children in ''element'' 
 
 Returns ''element'' with default values expanded in itself and all its descendants (purely or with mutation) as follows:
 
- * ''attribute-defaults'' is a list of 3-element sublists.  Each sublist contains an element name (a symbol), an attribute name (a symbol), and a default value (a string).  All elements with those names are checked for the presence of the corresponding attribute.  If it is missing, the attribute is added with the specified default value.  If the element name is `*`, the default applies to all elements.
+ * ''attribute-defaults'' is a list of 3-element sublists.  Each sublist contains an element name (a symbol), an attribute name (a symbol), and a default value (a string).  All elements with those names are checked for the presence of the corresponding attribute.  If it is missing, the attribute is added with the specified default value.
 
  * ''element-defaults'' is a list of 2-element sublists.  Each sublist contains an element name (a symbol) and a default value (a string).  All empty elements with any of those names have the default value installed as the only content child.
 
@@ -156,7 +156,7 @@ Returns the position of ''element'' among the element children of the parent of 
 
 `(sxml-element-size `''element''`)`
 
-Return the number of content children of 'element'' as an exact integer.
+Return the number of content children of ''element'' as an exact integer.
 
 `(sxml-normalize-element! `''element''`)`
 
@@ -183,7 +183,7 @@ Returns the root element of ''element''.
 
 `(sxml-parent `''element''`)`
 
-Uses the parent link to determine the parent of ''element'' and returns it, or `#f` if there is none.  The parent link is stored as an attribute named `$parent` whose value is a SRFI 111 box containing the parent element.  This pseudo-attribute is ignored by all other attribute processing.  The box is used to prevent SXML elements from being circular tree structure.
+Uses the `$parent` pseudo-attribute to determine the parent of ''element'' and returns it, or `#f` if there is none.
 
 `(sxml-detach-parent! `''element parent-mapping''`)`
 
@@ -201,7 +201,7 @@ Looks up the symbol ''id'' in ''id-mapping'' and returns the corresponding eleme
 
 `(uxml-escape-string `''string attribute? apos? ascii?''`)`
 
-Converts ''string'' to contain the necessary entity references for MicroXML.  If ''attribute?'' is false, only `< & >` are escaped.  Otherwise, if ''apos?'' is true, `'` is escaped, but if not, `"` is escaped.  Finally, if ''ascii?'' is true, non-ASCII characters are escaped with numeric character references.  All other characters are left unchanged.  The escaped result is returned.
+Converts ''string'' to contain the necessary entity references for MicroXML.  In all cases, the characters `< & >` are escaped with entity references.  If ''attribute?'' is true, then if ''apos?'' is true, `'` is escaped, but if ''apos?'' is false, then `"` is escaped, in both cases with an entity reference.  Finally, if ''ascii?'' is true, non-ASCII characters are escaped with numeric character references.  All other characters are left unchanged.  The escaped result is returned.
 
 `(uxml-unescape-string `''string''`)`
 
