@@ -4,7 +4,7 @@ A MicroXML event is either an end-of-file object or a list representing a parsin
 
 `($start `''stack attr-list''`)`
 
-Represents a start-tag.  ''Attr-list'' is a JSO representing the attributes.
+Represents a start-tag.  ''Attr-list'' is a [[:JsoCowan|JSO]] representing the attributes.
 
 `($end `''stack''`)`
 
@@ -20,7 +20,7 @@ Represents a parsing error.  ''Error-code'' is a symbol.  ''Other'' is implement
 
 `($pi `''stack target content''`)`
 
-Represents a processing instruction (which is not part of MicroXML).  ''Target'' is a symbol; ''content'' is a string.  Parsers may return `$error` objects instead of `$pi` objects; they are provided as a way of allowing a MicroXML parser to read some (but not all) XML documents. Note that the XML declaration is taken to be a processing instruction, as in SGML.
+Represents a processing instruction (which is not part of MicroXML).  ''Target'' is a symbol; ''content'' is a string.  Parsers may return `$error` objects instead of `$pi` objects; they are provided as a way of allowing a MicroXML parser to read some (but not all) XML documents. Note that any XML declaration is taken to be a processing instruction, as in SGML.
 
 == SXML ==
 
@@ -160,7 +160,7 @@ Return the number of content children of ''element'' as an exact integer.
 
 `(sxml-normalize-element! `''element''`)`
 
-Returns a normalized version (using mutation) of an SXML element that does not necessarily conform to the definition.  In particular:
+Returns a normalized version (using mutation) of an SXML element that does not necessarily conform to the definition.  In particular, at least the following repairs are made:
 
  * If the name is a string, it is converted to a symbol with `string-symbol`.
  * If the attribute-list is missing, an empty JSO is provided.
@@ -277,7 +277,7 @@ Returns a generator of SXML elements which invokes SXML elements from ''gen'' an
 
 == Paths ==
 
-`sxml-path`
+TBD
 
 == Error handling ==
 
