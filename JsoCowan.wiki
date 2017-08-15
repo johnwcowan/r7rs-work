@@ -1,24 +1,10 @@
-This library allows the creation and use of ''!JavaScript-style objects (JSOs)'', which are chained mappings, represented using a variant of alists, that map keys (which are symbols) to arbitrary values.
+This library allows the creation and use of ''!JavaScript-style objects (JSOs)'', which are chained mappings that map keys (which are symbols) to arbitrary values.  JSOs are represented using a variant of alists, but they are not compatible with alist procedures.
 
 When you create a JSO, you can specify a ''prototype JSO''. The recursive sequence of a JSO's prototype, the prototype of its prototype, and so on, is called the ''prototype chain''. If a JSO doesn't contain a particular key, the prototype chain will be searched for it. Modifications, however, are only applied to the JSO proper, never to anything along the prototype chain. Note that this value is not itself a JSO.  A JSO without a prototype chain is called a ''free JSO''.
 
 An attempt to look up an unknown key returns (by default) a unique value known as ''the undefined value'', which can be tested with `jso-undef?`. This is not to be confused with the general Scheme concept of returning an undefined value from a procedure, which may be any value and need not be consistent between two invocations of the same procedure.
 
 A JSO is represented as a Scheme pair whose car is the symbol `@` and whose cdr is the concatenation of zero or more two-element lists with another JSO or the empty list.  The first element of each two-element list is a symbol known as the ''key'' and the second element is an arbitrary Scheme object known as the ''value''.  Keys are tested for equality with `eqv?`.  It is no accident that the attribute list of an SXML element has the same representation as a JSO.
-
-== Undefined value and null JSO ==
-
-`(jso-undef? `''obj''`)`
-
-Returns `#t` if ''obj'' is the undefined value, and `#f` otherwise.  The undefined value is distinct in the sense of `eqv?` from every other Scheme object.
-
-`jso-null?`
-
-A variable whose value is ''the null JSO'', a unique free JSO with no keys or values.  It is an error to mutate the null JSO in any way.
-
-(`jso-null? `''obj''`)`
-
-Returns `#t` if ''obj'' is the null JSO and `#f` otherwise.
 
 == Constructors ==
 
@@ -30,11 +16,23 @@ Returns a newly allocated JSO with the specified ''prototype''.  If ''prototype'
 
 Creates a newly allocated JSO with the specified ''prototype'' (or a free JSO if ''prototype'' is the undefined value).  The key-value pairs of ''alist'' become the corresponding keys and values of the JSO.
 
+`jso-null`
+
+A variable whose value is ''the null JSO'', a unique free JSO with no keys or values.  It is an error to mutate the null JSO in any way.
+
 == Predicates ==
+
+`(jso-undef? `''obj''`)`
+
+Returns `#t` if ''obj'' is the undefined value, and `#f` otherwise.  The undefined value is distinct in the sense of `eqv?` from every other Scheme object.
 
 `(jso? `''obj''`)`
 
 Returns `#t` if the car of ''jso'' is the symbol `@`, and `#f` otherwise.  The rest of the JSO is left unexamined.
+
+(`jso-null? `''obj''`)`
+
+Returns `#t` if ''obj'' is the null JSO and `#f` otherwise.
 
 `(jso-empty? `''jso''`)`
 
@@ -50,31 +48,17 @@ Returns `#t` if ''jso'' contains ''key'', and `#f` otherwise.  The prototype cha
 
 Searches ''jso'', including the prototype chain, for the key ''key'', invokes the procedure ''success'' on it, and returns the result.  If ''key'' is not found, invokes the thunk ''failure'' and returns the result.  If ''success'' is not specified, it is the identity function; if ''fail'' is not specified, it is a procedure that returns the undefined value.
 
+`(jso-local-ref `''jso key'' [[|''failure'' [ ''success'' ]] ]`)`
+
+The same as `jso-ref`, except that it does not search the prototype chain.
+
 `(jso-size `''jso''`)`
 
 Returns the number of keys in ''jso'' as an exact integer.  The prototype chain is left unexamined.
 
-== Mutators ==
-
-`(jso-set! `''jso key value''`)`
-
-Searches ''jso'' for the key ''key'', and if found changes its value to ''value''.  If ''key'' is not found, ''key'' and ''value'' are added as the last key before the prototype chain. The prototype chain is left unexamined.  Returns an undefined value (not necessarily ''the'' undefined value).
-
-`(jso-delete! `''jso key'' ...`)`
-
-Searches ''jso'' and removes all keys that are equal to any of the ''keys''. The prototype chain is left unexamined. Unknown keys are ignored.  Returns an undefined value (not necessarily ''the'' undefined value).
-
-`(jso-delete-all! `''jso key-list''`)`
-
-Does the same as `jso-delete!`, except that the keys to be deleted are specified as a list.
-
 `(jso-prototype `''jso''`)`
 
 Returns the prototype of ''jso'', or the undefined value if ''jso'' is free.
-
-`(jso-set-prototype! `''jso prototype''`)`
-
-Replaces the prototype of ''jso'' with ''prototype''.  If ''prototype'' is the undefined value, ''jso'' becomes free.  Returns an undefined value (not necessarily ''the'' undefined value).
 
 == Conversions ==
 
@@ -94,6 +78,10 @@ Creates a newly allocated alist whose key-value pairs are the keys and values of
 
 Creates a newly allocated alist whose key-value pairs are the keys and values of the JSO, including its prototype chain.
 
+`(alist->jso `''alist''`)`
+
+Creates a free JSO whose keys and values are the key-value pairs of the alist.  If any key is not a symbol, an error is signaled.
+
 == Copying, mapping, and folding ==
 
 `(jso-copy `''jso''`)`
@@ -112,10 +100,6 @@ Returns a copy of ''jso'', including the prototype chain.  The keys and values a
 
 Returns a newly allocated JSO after applying ''proc'' to each key and value of ''jso''.  The prototype chains are shared.
 
-`(jso-map! `''proc jso''`)`
-
-Mutates ''jso'' by applying ''proc'' to each value.  The prototype chain is left unexamined.  Returns an undefined value (not necessarily ''the'' undefined value).
-
 `(jso-full-map `''proc jso''`)`
 
 Returns a newly allocated JSO after applying ''proc'' to each key, including those in the prototype chain.
@@ -127,6 +111,28 @@ Applies ''proc'' to each key and value.  The prototype chain is left unexamined.
 `(jso-full-for-each `''proc jso''`)`
 
 Applies ''proc'' to each key and value, including those in the prototype chain.  Returns an undefined value (not necessarily ''the'' undefined value).
+
+== Mutators ==
+
+`(jso-set! `''jso key value''`)`
+
+Searches ''jso'' for ''key'', and if found changes its value to ''value''.  If ''key'' is not found, ''key'' and ''value'' are added as the last key before the prototype chain. The prototype chain is left unexamined.  Returns an undefined value (not necessarily ''the'' undefined value).
+
+`(jso-delete! `''jso key'' ...`)`
+
+Searches ''jso'' and removes all keys (and their values) that are equal to any of the ''keys''. The prototype chain is left unexamined. Unknown keys are ignored.  Returns an undefined value (not necessarily ''the'' undefined value).
+
+`(jso-delete-all! `''jso key-list''`)`
+
+Does the same as `jso-delete!`, except that the keys to be deleted are specified as a list.
+
+`(jso-set-prototype! `''jso prototype''`)`
+
+Replaces the prototype of ''jso'' with ''prototype''.  If ''prototype'' is the undefined value, ''jso'' becomes free.  Returns an undefined value (not necessarily ''the'' undefined value).
+
+`(jso-map! `''proc jso''`)`
+
+Mutates ''jso'' by applying ''proc'' to each value.  The prototype chain is left unexamined.  Returns an undefined value (not necessarily ''the'' undefined value).
 
 == Method calls ==
 
@@ -146,25 +152,27 @@ Returns `#t` if ''obj'' is a JSON value: that is, a finite real number, a string
 
 Note that when discriminating between JSON values, they should be tested in the following order:  the empty list representing an empty JSON array, the null JSO representing JSON `null`, any other JSO representing a JSON object, and any other list representing a non-empty JSON array.
 
-`(json-encode-string `''string'' [[|''unicode?'' ]]`)`
+`(json-escape-string `''string ascii?''`)`
 
-Inserts escapes into a plain Scheme string to make it a valid JSON string.  In particular, all characters that cannot appear directly in a JSON string, or that have single-character escape sequences, are escaped.  As JSON requires, characters larger than `#\xFFFF` are encoded as two consecutive `\u` sequences.
+Inserts JSON escapes into a plain Scheme string to make it a valid JSON string.  In particular, all characters that cannot appear directly in a JSON string, or that have single-character escape sequences, are escaped.  As JSON requires, characters larger than `#\xFFFF` are encoded as two consecutive `\u` sequences.
 
-If the ''unicode?'' argument is false or omitted, all non-ASCII characters are escaped.
+If the ''ascii?'' argument is true, all non-ASCII characters are also escaped.
 
-`(json-decode-string `''string''`)`
+`(json-unescape-string `''string''`)`
 
 Interprets all escape sequences in a valid JSON string and returns the result.  An error is signaled if a malformed escape sequence is found.
 
-`(json-write `''obj'' [[|''unicode?'' [ ''port'' ]] ]`)`
+`(json-write `''obj options'' [[|''port'' ]] ]`)`
 
-Output ''obj'' to ''port'' (which defaults to the value of `(current-output-port)`) in [[https://tools.ietf.org/html/rfc7159|JSON format]].  Exact rationals other than integers are converted to inexact numbers before being output.  The argument ''unicode?'' (which defaults to false) is passed to `json-string-decode` whenever a string is output.  The null JSO is output as the keyword `null`.  If ''obj'' is not a JSON value, an error is signaled before any output is done.
+Output ''obj'' to ''port'' (which defaults to the value of `(current-output-port)`) in [[https://tools.ietf.org/html/rfc7159|JSON format]].  Exact rationals other than integers are converted to inexact numbers before being output.  The null JSO is output as the keyword `null`.  If ''obj'' is not a JSON value, an error is signaled before any output is done.
+
+The ''options'' argument is a list of symbols.  The symbol `ascii` causes all non-ASCII characters in strings to be escaped.  The symbol `pretty` may cause the JSON to be pretty-printed.  All other symbols are implementation-dependent.
 
 `(json-read `[[|''prototype'' [ ''port'' ]] ]`)`
 
 Reads the [[https://tools.ietf.org/html/rfc7159|JSON representation]] of a JSON value from ''port'' (which defaults to the value of `(current-input-port)`) and returns the appropriate value.  Any leading whitespace is skipped.
  
-Integers are returned as exact numbers in accordance with Scheme rules; all other JSON numbers are returned as inexact numbers.  The keyword ''null'' is returned as the null JSO.  If the representation is not syntactically correct JSON, an error is signaled.  If the an end of file is read from ''port'', then if nothing has been read yet an end-of-file object is returned; otherwise, an error that satisfies `file-error?` is signaled.
+Integers are returned as exact numbers in accordance with Scheme rules; all other JSON numbers are returned as inexact numbers.  The keyword ''null'' is returned as the null JSO.  If the representation is not syntactically correct JSON, an error is signaled.  If an end of file is read from ''port'', then if nothing has been read yet an end-of-file object is returned; otherwise, an error is signaled.
 
 Any JSOs returned are created with ''prototype'', or as free JSOs if ''prototype'' is the undefined value or omitted.
 
