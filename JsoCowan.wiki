@@ -14,7 +14,7 @@ Returns a newly allocated JSO with the specified ''prototype''.  If ''prototype'
 
 `(alist->jso `''alist prototype''`)`
 
-Creates a newly allocated JSO with the specified ''prototype'' (or a free JSO if ''prototype'' is the undefined value).  The key-value pairs of ''alist'' become the corresponding keys and values of the JSO.
+Returns a newly allocated JSO with the specified ''prototype'' (or a free JSO if ''prototype'' is the undefined value).  The key-value pairs of ''alist'' become the corresponding keys and values of the JSO.  Duplicate alist keys are ignored.
 
 `jso-null`
 
