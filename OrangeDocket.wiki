@@ -37,14 +37,16 @@ Enumeration maps:  EnumContainersCowan
 
 '''Formatting'''
 
-Formatting: [[http://synthcode.com/scheme/fmt/|FmtShinn]] or [[http://srfi.schemers.org/srfi-28/srfi-28.html|SRFI 28]] (basic) or [[http://srfi.schemers.org/srfi-48/srfi-48.html|SRFI 48]] (intermediate), possibly with [[http://srfi.schemers.org/srfi-29/srfi-29.html|SRFI 29]] or GettextCowan
+Formatting: [[http://srfi.schemers.org/srfi-159/srfi-159.html|SRFI 159]] or [[http://srfi.schemers.org/srfi-48/srfi-48.html|SRFI 48]] (intermediate), possibly with [[http://srfi.schemers.org/srfi-29/srfi-29.html|SRFI 29]] or GettextCowan
 
 '''Carryovers from the Red Edition without implementations'''
 
 Strings: [[http://srfi.schemers.org/srfi-152/srfi-152.html|SRFI 152]]
 
-Immutable sets and bags:  [[http://srfi.schemers.org/srfi-153/srfi-153.html|SRFI 153]]
+Ordered sets and bags:  [[http://srfi.schemers.org/srfi-153/srfi-153.html|SRFI 153]]
 
-Immutable maps: [[http://srfi.schemers.org/srfi-146/srfi-146.html|SRFI 146]]
+Mappings: [[http://srfi.schemers.org/srfi-146/srfi-146.html|SRFI 146]]
+
+Regular expressions: [[http://srfi.schemers.org/srfi-115/srfi-115.html|SRFI 115]]
 
 
