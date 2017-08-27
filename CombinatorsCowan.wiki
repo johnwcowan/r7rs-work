@@ -1,9 +1,9 @@
-This proposal contains various procedures that return procedures, as well as a few others, drawn from an earlier version of Chicken.  Common Lisp has a few of them too, and more come from [[http://programmingpraxis.com/contents/standard-prelude/|the Standard Prelude from ''Programming Praxis'']].
+This proposal contains various procedures that accept and return procedures, as well as a few others, drawn from an earlier version of Chicken.  Common Lisp has a few of them too, and more come from [[http://programmingpraxis.com/contents/standard-prelude/|the Standard Prelude from ''Programming Praxis'']].
 
 
 == Combinators ==
 
-These procedures are documented in an unusual style.  Rather than showing only how the procedures themselves are invoked, it also shows how the returned procedures would be invoked.  This is done in order to make the descriptions easier to understand.  For example, if `complement` were documented in the standard style, the description would say "Returns a procedure which, when applied to an argument, returns `#t` when ''proc'' would return `#f` when applied to the same argument, and `#f` otherwise", which is more convoluted.
+These procedures are documented in an unusual style.  Rather than showing only how the procedures themselves are invoked, it also shows how the returned procedures would be invoked.  This is done in order to make the descriptions easier to understand.  For example, if `complement` were documented in the standard style, the description would say "Returns a procedure which, when applied to an argument, returns `#t` when ''proc'' would return `#f` when applied to the same argument, and `#f` otherwise", which is more convoluted and harder to understand.  However, this is merely a documentation style; it would be pointless to actually invoke these procedures in this fashion.
 
 `((constantly `''obj'' ...`)` ''arg'' ...`)`
 
@@ -25,6 +25,10 @@ Passes ''arg'' to the first ''proc'', which returns one value.  This is then pas
 
 Invokes `(`''proc obj,,2,, obj,,1,,''`)`.
 
+`((flip `''proc''`)` ''arg1 arg2''`)`
+
+Returns `(`''proc arg2 arg1''`)`.
+
 `((fst `''proc''`)` ''obj,,1,, obj,,2,,''`)`
 
 Returns ''obj,,1,,''.
@@ -41,13 +45,9 @@ Returns `#t` if the ''args'' satisfy all the ''predicates'', and `#f` otherwise.
 
 Returns `#t` if the ''args'' satisfy any of the ''predicate''s.
 
-`((each `''proc'' ... `)` ''arg'' ...`)`
+`((each-of `''proc'' ... `)` ''arg'' ...`)`
 
 Applies each of the ''proc''s in turn to ''args'', discarding the results and returning an unspecified value.
-
-`((flip `''proc''`)` ''arg1 arg2''`)`
-
-Returns `(`''proc arg2 arg1''`)`.
 
 `((all-of? `''predicate''`)`
 
