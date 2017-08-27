@@ -112,11 +112,11 @@ Invokes ''thunk'' repeatedly until it returns `#f`.  Returns an unspecified valu
 
 == Other procedures ==
 
-`(always `''obj''`)`
+`(always `''obj'' ...`)`
 
 Ignores its arguments and always returns `#t`. 
 
-`(never `''obj''`)`
+`(never `''obj'' ...`)`
 
 Ignores its arguments and always returns `#f`.
 
