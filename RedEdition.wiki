@@ -1,4 +1,4 @@
-This is a frozen version of the Red Edition ballot, with hyperlinks.  It serves as a definition of the Red Edition, since a single document is not being prepared at this time.
+This is a frozen version of the Red Edition ballot, with hyperlinks.  It serves as a definition of the Red Edition, since a single document is not yet ready.
 
 By unanimous consent, the libraries of R7RS-small are all required in implementations of the Red Edition.  The following additional libraries are required:
 
