@@ -42,7 +42,7 @@ Formatting: [[http://srfi.schemers.org/srfi-159/srfi-159.html|SRFI 159]] or [[ht
 '''Carryovers from the Red Edition without implementations'''
 
 Strings: [[http://srfi.schemers.org/srfi-13/srfi-13.html|SRFI 13]] (comprehensive), [[http://srfi.schemers.org/srfi-118/srfi-118.html|SRFI 118]] (adjustable), [[http://srfi.schemers.org/srfi-130/srfi-130.html|SRFI 130]] (cursor-based), [[http://srfi.schemers.org/srfi-140/srfi-140.html|SRFI 140]] (immutable), [[http://srfi.schemers.org/srfi-152/srfi-152.html|SRFI 152]] (basic)
-, 
+
 Ordered sets and bags:  [[http://srfi.schemers.org/srfi-153/srfi-153.html|SRFI 153]]
 
 Mappings: [[http://srfi.schemers.org/srfi-146/srfi-146.html|SRFI 146]]
