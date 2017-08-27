@@ -1,25 +1,4 @@
 == WG2 Consent Docket ==
 
-The following items will be approved without a formal vote unless someone objects, in which case they will be moved to another docket.  See [[:WG2Dockets|WG2Dockets]] for other dockets.
+This docket is no longer in use.  See [[:WG2Dockets|WG2Dockets]] for other dockets.
 
-Format combinators: Alex Shinn's [[http://synthcode.com/scheme/fmt/|fmt library]], with possibly a touch of renaming.  The C formatting library is excluded.
-
-Generalized getters and setters: [[http://srfi.schemers.org/srfi-17/srfi-17.html|SRFI 17]].
-
-Getopt/args-fold:  [[http://srfi.schemers.org/srfi-37/srfi-37.html|SRFI 37]].
-
-Pretty-printer: see Format combinators
-
-[[http://srfi.schemers.org/srfi-1/srfi-1.html|SRFI 1]], list library: As written, but excluding  `cons`, `pair?`, `null?`, `car`, `cdr`, `caar` ... `cddddr`, `set-car!`, `set-cdr!`, `list`, `append`, `reverse`, `length`, `list-ref`, `map`, `for-each`, `memq`, `memv`, `member`, `assq`, `assv`, `assoc`, which are all in the `(scheme base)` and `(scheme cxr)` libraries in a SRFI-1-compatible way.  '''Specification bug in SRFI 1: `any`, `every`, and `list-index` should omit the words "and returning a boolean result".'''  [Red]
-
-[[http://srfi.schemers.org/srfi-2/srfi-2.html|SRFI 2]], `and-let*` macro: As written.
-
-[[http://srfi.schemers.org/srfi-14/srfi-14.html|SRFI 14]], character set library: As written. [Red]
-
-[[http://srfi.schemers.org/srfi-31/srfi-31.html|SRFI 31]], `rec` macro: As written.
-
-[[http://srfi.schemers.org/srfi-115|SRFI 115]], regular expressions.
-
-=== Obsolete items ===
-
-The following items formerly on this docket are now part of R7RS-small:  binary ports, the R6RS exception (not condition) system, datum labels (SRFI 38), `when` and `unless`.
