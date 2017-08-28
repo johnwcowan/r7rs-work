@@ -34,8 +34,6 @@ Maximal and minimal elements of lists and vectors:
 
 `number->string` variant with control for significant digits: [[http://lists.scheme-reports.org/pipermail/scheme-reports/2011-May/000709.html|Vincent Manis proposal]], R6RS
 
-`number->string` and `string->number` with non-ASCII decimal digits: NumberStringUnicode
-
 Observable objects: [[http://docs.oracle.com/javase/6/docs/api/java/util/Observable.html#clearChanged()|Java]]
 
 Port type detector: see #177
