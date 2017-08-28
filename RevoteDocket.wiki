@@ -1,4 +1,4 @@
 == WG2 Revote Docket ==
 
-This docket contains work items that for whatever reason require a re-vote.  See [[:WG2Dockets|WG2Dockets]] for other dockets.  For the former contents of this docket (new items), see InputDocket.
+This docket is no longer in use.  See [[:WG2Dockets|WG2Dockets]] for other dockets.  For the former contents of this docket (new items), see InputDocket.
 
