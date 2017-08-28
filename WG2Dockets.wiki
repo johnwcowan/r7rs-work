@@ -4,13 +4,10 @@ This is a list of voting dockets for WG2 work items (packages):
    Items proposed but not yet moved to a specific docket.
 
  StandardDocket::
-  Items to be discussed and voted on individually.
+  Items voted up by the WG but not yet moved to a specific docket.
 
  ReassignedDocket::
   Items that WG2 is not working on because it is asking the Steering Committee to assign them to future WGs.
-
- RevoteDocket::
-  Items that require a revote.
 
  RejectedDocket::
   Items that were rejected by a WG2 vote.
