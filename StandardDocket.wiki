@@ -1,6 +1,6 @@
 == WG2 Standard Docket ==
 
-This is a list of work items that WG2 has voted to work on, and proposals for those work items.  If no more than one proposal gets written for an item, the item may migrate to the ConsentDocket.  See [[:WG2Dockets|WG2Dockets]] for other dockets.
+This is a list of work items that WG2 has voted to work on, and proposals for those work items.  See [[:WG2Dockets|WG2Dockets]] for other dockets.
 
 Applicable record instances: [[http://www.r6rs.org/formal-comments/comment-6.txt|R6RS formal comment]]
 
@@ -18,19 +18,11 @@ Date-time parser: [[https://code.google.com/p/hato/source/browse/hato-date.scm|H
 
 Evaluator arguments to procedures like `load`: see #277
 
-Extended exact numbers:  ExtendedRationalsCowan [Orange]
-
 File system directories (reading): [[http://www.scsh.net/docu/html/man-Z-H-4.html#node_sec_3.3|SCSH directory stream interface]], DirectoryPortsCowan, `directory-files` to return a list of all files in the dir (in WG1 vote order) [Yellow]
 
 File system directories (creation, removal): DirectoriesCowan
 
-Flonum arithmetic: FlonumsCowan [Orange]
-
 Futures:  [[http://docs.racket-lang.org/reference/futures.html|Racket API]]
-
-`hex-digit-value`: same as `digit value`, but understands A-F and a-f too
-
-Homogeneous numeric arrays: [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-3.html#node_chap_2,|R6RS]], [[http://srfi.schemers.org/srfi-4/srfi-4.html|SRFI 4]], [[http://srfi.schemers.org/srfi-63/srfi-63.html|SRFI 63]] (supersedes SRFI 25 and SRFI 47; lexical syntax in [[http://srfi.schemers.org/srfi-58/srfi-58.html|SRFI 58]]), [[http://srfi.schemers.org/srfi-66/srfi-66.html|SRFI 66]], [[http://srfi.schemers.org/srfi-74/srfi-74.html|SRFI 74]], NumericVectorsCowan [Orange]
 
 `if` with arbitrarily many arguments: [[http://dpk.io/r7rs/naryif-20130406|David Kendal's rationale]]
 
@@ -49,14 +41,6 @@ Multiple values passed through => in `cond`: see #90
 Mutable environments for `eval`:  MutableEnvironmentsCurtisCowan
 
 Mutexes, condition variables: [[http://srfi.schemers.org/srfi-18/srfi-18.html|SRFI 18]]
-
-NaN dissector API (sign, quiet/signaling status, and integer tag): NanMedernach
-
-Natural number predicates (from WG1):  `exact-positive-integer?` and `exact-non-negative-integer?`.
-
-`number->string` and `string->number` with non-ASCII decimal digits: NumberStringUnicode
-
-Octet vectors, bytevectors, blobs: NumericVectorsCowan + StringBytevectorConversionCowan
 
 Optional arguments (other than by `case-lambda`): [[http://mumble.net/~campbell/proposals/optional.text|OptionalsRiastradh]]
 
