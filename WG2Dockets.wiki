@@ -1,16 +1,10 @@
 This is a list of voting dockets for WG2 work items (packages):
 
  InputDocket::
-   Items proposed but not yet voted on.
-
- PreStandardDocket::
-   Items being moved by the chair to StandardDocket unless objections are raised.
+   Items proposed but not yet moved to a specific docket.
 
  StandardDocket::
   Items to be discussed and voted on individually.
-
- ConsentDocket::
-  Items that will pass using the given specifications unless there is an objection.
 
  ReassignedDocket::
   Items that WG2 is not working on because it is asking the Steering Committee to assign them to future WGs.
