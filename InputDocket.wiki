@@ -18,8 +18,6 @@ Default exception handler controls:
 
 Features, allowing libraries to add:
 
-Generators: GeneratorsGauche, [[http://srfi.schemers.org/srfi-41/srfi-41.html|SRFI 41]] [Red]
-
 Greek lambda syntax: define syntax equivalent to "lambda" whose identifier is a single Unicode U+03BB character (http://www.fileformat.info/info/unicode/char/3bb/index.htm)
 
 Identifier-syntax: [[http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_sec_11.19|R6RS]]
@@ -47,8 +45,6 @@ R6RS compatibility: whole libraries or cherry-picked procedures:
 Record external representations: [[http://srfi.schemers.org/srfi-108/srfi-108.html|SRFI 108]]
 
 `standard-*-port` routines:  [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html|R6RS]]
-
-Shuffle vectors, sample their contents: 
 
 Tree library: at least `tree=?` and `tree-copy`, probably Common Lisp [[http://www.lispworks.com/documentation/lw50/CLHS/Body/f_sublis.htm|SUBLIS and NSUBLIS]], fold, unfold, map ... 
 
