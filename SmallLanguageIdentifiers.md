@@ -1,6 +1,6 @@
 This is a list of the 335 standard R7RS-small identifiers in alphabetical order along with the packages they are in:
 
-{{{
+```
 -                                       base
 *                                       base
 ...                                     base
@@ -336,4 +336,4 @@ write-simple                            write
 write-string                            base
 write-u8                                base
 zero?                                   base
-}}}
+```

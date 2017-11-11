@@ -1,10 +1,10 @@
-I didn't anticipate this being a WG1 issue, but recent interest in binary I/O on the mailing list has compelled me to write up this proposal, which I originally intended as an implementation proposal for Chicken Scheme. As I said, I don't think this should be in WG1, but it may offer inspiration for whatever aspects of BinaryData we *do* put in WG1.
+I didn't anticipate this being a WG1 issue, but recent interest in binary I/O on the mailing list has compelled me to write up this proposal, which I originally intended as an implementation proposal for Chicken Scheme. As I said, I don't think this should be in WG1, but it may offer inspiration for whatever aspects of [BinaryData](BinaryData.md) we *do* put in WG1.
 
 See ticket #50 for relevant work and decisions in this area.
 
 So I offer it up.
 
-= The Problem =
+# The Problem
 
 Although you can do anything with just pairs, people like having vectors for efficiency; not just simple "Oh look it goes faster" efficiency, but they have a fundamentally better big-O access characterstic for indexed operations, than the traditional linked lists of pairs. Many would agree that this justifies their inclusion in WG1, rather than being a mere "implementation performance hack".
 
@@ -18,7 +18,7 @@ This leads one to assume that an SRFI-4 u8vector or s8vector is a logical model 
 
 But hang on - we often communicate multibyte numbers via binary I/O using some endianness convention or other. Or we communicate things like bit streams (mainly in the data compression world), padded to integer byte lengths. It's rash to assume that we're actually communicating in eight-bit chunks at all, even though our I/O interface gives us the byte as the unit of I/O granularity. We might well communicate a stream of floats over an I/O port.
 
-= The Solution =
+# The Solution
 
 This lead me to deduce that a "vague sea of bytes" type is needed *in addition* to the SRFI-4 homogenous vectors. One that states nothing about the interpretation of the bytes within it, but which provides a central rallying point for interpretations to be added.
 

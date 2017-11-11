@@ -1,11 +1,11 @@
-== Date and Time Arithmetic (WG2) ==
+## Date and Time Arithmetic (WG2)
 
-See TimeAdvancedCowan.
+See [TimeAdvancedCowan](TimeAdvancedCowan.md).
 
-== Time Durations and Periods (WG2) ==
+## Time Durations and Periods (WG2)
 
-See TimePeriodsCowan.
+See [TimePeriodsCowan](TimePeriodsCowan.md).
 
-== Time formatting (WG2) ==
+## Time formatting (WG2)
 
-See TimeFormattingCowan.
+See [TimeFormattingCowan](TimeFormattingCowan.md).

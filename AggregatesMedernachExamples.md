@@ -1,8 +1,8 @@
-== Examples ==
+## Examples
 
-Could be used with test implementation at AggregatesMedernachImplementation and AggregatesMedernachInheritanceImplementation. 
+Could be used with test implementation at [AggregatesMedernachImplementation](AggregatesMedernachImplementation.md) and [AggregatesMedernachInheritanceImplementation](AggregatesMedernachInheritanceImplementation.md).
 
-{{{
+```
 
 (define-syntax multi-define
    (syntax-rules ()   
@@ -48,9 +48,9 @@ Could be used with test implementation at AggregatesMedernachImplementation and 
      (display (datatype-info->designation pair-info)) (newline)
      (display (datatype-info->fields pair-info)) (newline))
 
-}}}
+```
 
-{{{
+```
 ;; 3d point example
 
 (define-datatype point3d-type point3d-info
@@ -85,9 +85,9 @@ Could be used with test implementation at AggregatesMedernachImplementation and 
 
 (display ((point3d-switch list error) p3d)) ;; (3 -1 5)
 
-}}}
+```
 
-{{{
+```
 (define-syntax variant-case
   (syntax-rules (else)
     ((variant-case <obj>)
@@ -150,9 +150,9 @@ Could be used with test implementation at AggregatesMedernachImplementation and 
 (display (tree->list (map-tree symbol->string mytree)))
 (newline)
 
-}}}
+```
 
-{{{
+```
 ;; Unforgeable aggregate with built-in assertion checking.
 (define-syntax create-aggregate-with-assertion
   (syntax-rules ()
@@ -183,4 +183,4 @@ Could be used with test implementation at AggregatesMedernachImplementation and 
     
 (newline)
 
-}}}
+```

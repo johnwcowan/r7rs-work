@@ -1,6 +1,6 @@
-== Rationale ==
+## Rationale
 
-''Parallel promises'', known to Racketeers as ''[[http://docs.racket-lang.org/reference/futures.html|futures]]'', are
+*Parallel promises*, known to Racketeers as *[futures](http://docs.racket-lang.org/reference/futures.html)*, are
 analogous to ordinary Scheme promises, except that implementations are allowed to execute part or all of such a promise
 in parallel with regular execution.  An ordinary promise is not evaluated (and does not perform any side effects)
 until it is forced, whereas parallel promises may be evaluated either completely or up to an implementation-determined
@@ -21,20 +21,20 @@ for example, any guarantee of sequential consistency.
 At the same time, operations that seem obviously safe may have a complex enough implementation internally
 that they cannot run in parallel on a particular implementation.
 
-== Issues ==
+## Issues
 
 1) Use "future" instead of "parallel promise" along with the Racket names?
 
 2-3) Resolved.
 
-== Specification ==
+## Specification
 
 `(parallel-delay `<expression>`)` [syntax]
 
 Semantics: The `parallel-delay` construct is used together with
 the procedure `parallel-force` to implement potentially parallel evaluation
 `(parallel-delay `<expression>`)` returns an object called a
-''parallel promise'' which at some point in the future can be asked (by
+*parallel promise* which at some point in the future can be asked (by
 the `parallel-force` procedure) to complete the evaluation of <expression>, and deliver
 the resulting value. The effect of <expression> returning
 multiple values is unspecified.  (Racket `future` is a procedure taking a thunk)
@@ -51,17 +51,17 @@ long series of chains of `delay` and `force` can be rewritten
 using `delay-force` to prevent consuming unbounded space
 during evaluation.
 
-`(parallel-force `''parpromise''`)`
+`(parallel-force `*parpromise*`)`
 
 The `parallel-force` procedure forces the value of a parallel promise created
 by `parallel-delay`, `parallel-delay-force`, or `make-parallel-promise`. If no value has
 been computed for the promise, then a value is computed
 and returned. The value of the promise must be cached
-(or ''memoized'') so that if it is forced a second time, the
+(or *memoized*) so that if it is forced a second time, the
 previously computed value is returned. Consequently, a
 delayed expression is evaluated using the parameter values
 and exception handler of the call to `parallel-force` which first requested
-its value. If ''parpromise'' is not a parallel promise, it may be
+its value. If *parpromise* is not a parallel promise, it may be
 returned unchanged.  (Racket `touch`)
 
 Various extensions to the semantics of `parallel-delay`, `parallel-force` and
@@ -71,31 +71,31 @@ Various extensions to the semantics of `parallel-delay`, `parallel-force` and
 
 * It may be the case that there is no means by which a parallel promise can be operationally distinguished from its forced value. That is, expressions like the following may evaluate to either `#t` or to `#f`, depending on the implementation:
 
-{{{
+```
 (eqv? (parallel-delay 1) 1) => unspecified
 (pair? (parallel-delay (cons 1 2))) => unspecified
-}}}
+```
 
-* Implementations may implement ''implicit forcing'', where the value of a parallel promise is forced by procedures that operate only on arguments of a certain type, like `cdr` and `*`. However, procedures that operate uniformly on their arguments, like `list`, must not force them.
+* Implementations may implement *implicit forcing*, where the value of a parallel promise is forced by procedures that operate only on arguments of a certain type, like `cdr` and `*`. However, procedures that operate uniformly on their arguments, like `list`, must not force them.
 
-{{{
+```
 (+ (parallel-delay (* 3 7)) 13) => unspecified
 
 (car (list (parallel-delay (* 3 7)) 13)) => unspecified
-}}}
+```
 
-`(parallel-promise? `''obj''`)`
+`(parallel-promise? `*obj*`)`
 
 Returns `#t` if its argument is a
 parallel promise, and `#f` otherwise. Note that parallel promises are not
 necessarily disjoint from other Scheme types such as procedures.
 
-`(make-parallel-promise `''obj''`)`
+`(make-parallel-promise `*obj*`)`
 
 Returns a parallel promise which,
-when forced, will return ''obj'' . It is similar to `parallel-delay`, but
+when forced, will return *obj* . It is similar to `parallel-delay`, but
 does not delay its argument: it is a procedure rather than
-syntax. If ''obj'' is already a parallel promise, it is returned.
+syntax. If *obj* is already a parallel promise, it is returned.
 
 `(current-parallel-promise)`
 
@@ -105,7 +105,7 @@ Returns the parallel promise whose execution is the current continuation. If a p
 
 Semantics:  Wrap <func> and each <arg> in a parallel promise.  Force the parallel promises in an unspecified order.  Then apply the value of the <func> promise to the value of the <arg> promises and return the result.
 
-== Implementation ==
+## Implementation
 
 Parallel implementation of this proposal is necessarily very system-dependent.  However, it is correct to implement
 `parallel-delay`, `parallel-delay-force`, `parallel-force`, `parallel-promise?`, `make-parallel-promise`, `current-parallel-promise`, and `parallel-call` as

@@ -1,9 +1,9 @@
-= Condition/Exception Taxonomies =
+# Condition/Exception Taxonomies
 
 This page lists the condition/exception system taxonomies for several Scheme implementations and SRFIs and for R6RS.
 
-== Bigloo ==
-{{{
+## Bigloo
+```
   &exception
     &error
       &http-error
@@ -23,10 +23,10 @@ This page lists the condition/exception system taxonomies for several Scheme imp
     &http-redirection
     &warning
       &eval-warning
-}}}
+```
 
-== Chez Scheme ==
-{{{
+## Chez Scheme
+```
   &condition
     &irritants
     &message
@@ -55,13 +55,13 @@ This page lists the condition/exception system taxonomies for several Scheme imp
               &i/o-file-is-read-only
     &warning
     &who
-}}}
+```
 
-== Chicken ==
+## Chicken
 
-  Chicken supports SRFI-12.
+> Chicken supports SRFI-12.
 
-{{{
+```
   exn
     arity
     type
@@ -74,13 +74,13 @@ This page lists the condition/exception system taxonomies for several Scheme imp
       limit
     match
     syntax
-}}}
+```
 
-== Gambit ==
+## Gambit
 
-  Gambit doesn't have a hierarchy, but it does have a set of standard
-  exceptions.
-{{{
+> Gambit doesn't have a hierarchy, but it does have a set of standard
+> exceptions.
+```
   heap-overflow-exception
   stack-overflow-exception
 
@@ -117,10 +117,10 @@ This page lists the condition/exception system taxonomies for several Scheme imp
   wrong-number-of-arguments-exception
 
   error-exception
-}}}
+```
 
-== Gauche ==
-{{{
+## Gauche
+```
   <condition>
     <compound-condition>
     <message-condition>
@@ -136,26 +136,26 @@ This page lists the condition/exception system taxonomies for several Scheme imp
         <unhandled-signal-error>
     <serious-condition>
       <serious-compound-condition>
-}}}
+```
 
-== Guile ==
+## Guile
 
-  Guile implements SRFI 18, SRFI 34, and R6RS exceptions.
+> Guile implements SRFI 18, SRFI 34, and R6RS exceptions.
 
-== Ikarus ==
+## Ikarus
 
-  Ikarus implements R6RS exceptions.
+> Ikarus implements R6RS exceptions.
 
-== Kawa ==
+## Kawa
 
-  Kawa gets its taxonomy of exceptions from Java.
+> Kawa gets its taxonomy of exceptions from Java.
 
-== Larceny ==
+## Larceny
 
-  Larceny implements R6RS exceptions.
+> Larceny implements R6RS exceptions.
 
-== MIT/GNU Scheme ==
-{{{
+## MIT/GNU Scheme
+```
   serious-condition
     error
       simple-error
@@ -187,10 +187,10 @@ This page lists the condition/exception system taxonomies for several Scheme imp
       simple-warning
     simple-condition
     breakpoint
-}}}
+```
 
-== Racket ==
-{{{
+## Racket
+```
   exn
     exn:break
     exn:fail
@@ -211,10 +211,10 @@ This page lists the condition/exception system taxonomies for several Scheme imp
       exn:fail:syntax
       exn:fail:unsupported
       exn:fail:user
-}}}
+```
 
-== R6RS ==
-{{{
+## R6RS
+```
   &condition
     &irritants
     &message
@@ -241,16 +241,16 @@ This page lists the condition/exception system taxonomies for several Scheme imp
          &undefined
     &warning
     &who
-}}}
+```
 
-== Scheme48 ==
+## Scheme48
 
-  Scheme48 implements SRFI 34, SRFI 35, and SRFI 36.
+> Scheme48 implements SRFI 34, SRFI 35, and SRFI 36.
 
-== SCM ==
+## SCM
 
-  SCM doesn't have an exception system, although it does have a way of handling the following exceptions reported by C code:
-{{{
+> SCM doesn't have an exception system, although it does have a way of handling the following exceptions reported by C code:
+```
   alarm-interrupt
   arithmetic-error
   end-of-program
@@ -259,46 +259,46 @@ This page lists the condition/exception system taxonomies for several Scheme imp
   thrashing
   user-interrupt
   virtual-alarm-interrupt
-}}}
+```
 
-== Scsh ==
+## Scsh
 
-  Scsh has no condition system.  It does include an exception system for handling errors reported by Unix system calls.
+> Scsh has no condition system.  It does include an exception system for handling errors reported by Unix system calls.
 
-== SISC ==
+## SISC
 
-  SISC gets its taxonomy of exceptions from Java.  It also implements SRFI 18, SRFI 34, and SRFI 35.
+> SISC gets its taxonomy of exceptions from Java.  It also implements SRFI 18, SRFI 34, and SRFI 35.
 
-== SRFI 12: Exception Handling ==
+## SRFI 12: Exception Handling
 
-  Any object can be used to represent a condition in this system.  There is no standard taxonomy of conditions, but there are two types of condition for which special support is included:
-{{{
+> Any object can be used to represent a condition in this system.  There is no standard taxonomy of conditions, but there are two types of condition for which special support is included:
+```
   composite condition
   property condition
-}}}
+```
 
-== SRFI 18: Multithreading support ==
-{{{
+## SRFI 18: Multithreading support
+```
   abandoned-mutex-exception
   join-timeout-exception
   terminated-thread-exception
   uncaught-exception
-}}}
+```
 
-== SRFI 34: Exception Handling for Programs ==
+## SRFI 34: Exception Handling for Programs
 
-  No condition taxonomy is defined.  However, it does refer to SRFI 35 and SRFI 36.
+> No condition taxonomy is defined.  However, it does refer to SRFI 35 and SRFI 36.
 
-== SRFI 35: Conditions ==
-{{{
+## SRFI 35: Conditions
+```
   &condition
     &message
     &serious
       &error
-}}}
+```
 
-== SRFI 36: I/O Conditions ==
-{{{
+## SRFI 36: I/O Conditions
+```
   &error
     &i/o-error
       &i/o-filename-error
@@ -312,8 +312,8 @@ This page lists the condition/exception system taxonomies for several Scheme imp
         &i/o-read-error
         &i/o-write-error
   &read-error
-}}}
+```
 
-== STklos ==
+## STklos
 
-  STklos supports SRFI 34, SRFI 35, and SRFI 36.
+> STklos supports SRFI 34, SRFI 35, and SRFI 36.

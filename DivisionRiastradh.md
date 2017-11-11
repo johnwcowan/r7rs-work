@@ -1,10 +1,10 @@
-= Integral Division and Remainder Operators =
+# Integral Division and Remainder Operators
 
-== Abstract ==
+## Abstract
 
 This SRFI provides a fairly complete set of integral division and remainder operators.
 
-== Rationale ==
+## Rationale
 
 Most programming languages provide at least one operation for division,
 and sometimes related operations for computing integral quotients and
@@ -12,12 +12,12 @@ remainders.  (There is at least one (fortunately today defunct)
 programming language that provides addition, subtraction, and division,
 with multiplication notably absent, being expressible as division.)
 Everyone agrees that a pair of operators for computing integral
-quotients ''q'' and remainders ''r'' from division of dividend ''n'' by divisor ''d'',
+quotients *q* and remainders *r* from division of dividend *n* by divisor *d*,
 should satisfy the relations
 
-  1. ''n'' = ''dq'' + ''r'',
-  1. |''r''| < |''d''|, and
-  1. ''q'' is an integer.
+1. *n* = *dq* + *r*,
+1. |*r*| < |*d*|, and
+1. *q* is an integer.
 
 Such a pair of operators will be called a division operator pair.  Many
 programming languages provide only one division operator pair.  Some,
@@ -26,15 +26,15 @@ dividend and the divisor is negative.  If the dividend and divisor are
 both integers, then the remainder will also be an integer.
 
 To describe the semantics of a division operator pair, it suffices to
-define the integer ''q'', from which ''r'' can be uniquely derived by the
+define the integer *q*, from which *r* can be uniquely derived by the
 relation
 
-  ''r'' = ''n'' - ''dq'',
+*r* = *n* - *dq*,
 
-provided that this choice of ''q'' induced an ''r'' satisfying |''r''| < |''d''|.  For
+provided that this choice of *q* induced an *r* satisfying |*r*| < |*d*|.  For
 an extensive discussion of five of the six division operator pairs proposed
 here, and some broken but standardized operator pairs that fail to
-satisfy properties (1)-(3), see Raymond T. Boute, [[http://dl.acm.org/citation.cfm?id=128862
+satisfy properties (1)-(3), see Raymond T. Boute, [#http://dl.acm.org/citation.cfm?id=128862
 "The|Euclidean Definition of the Functions DIV and MOD"]], ACM TOPLAS 14(2), April 1992,
 pp. 127-144.
 
@@ -44,7 +44,7 @@ The language should make clear to programmers what division operations
 their programs are performing, especially when negative dividends and
 divisors can arise, but perhaps may not often be tested.
 
-== Specification ==
+## Specification
 
 For each of six division operator pairs — floor, ceiling, truncate,
 round, Euclidean and balanced — there is a family of three procedures: one, named
@@ -52,8 +52,8 @@ round, Euclidean and balanced — there is a family of three procedures: one, na
 remainder as multiple return values; one, named `<operator>-quotient`,
 to compute the quotient; and one, named `<operator>-remainder`, to
 compute the remainder.  Each division operator pair is specified by
-defining the quotient ''q'' in terms of the dividend ''a'' and the divisor ''n''.
-Tacitly the remainder ''r'' is as above: ''r'' = ''n'' - ''dq''.
+defining the quotient *q* in terms of the dividend *a* and the divisor *n*.
+Tacitly the remainder *r* is as above: *r* = *n* - *dq*.
 
 It is an error if any of the arguments are not integers (exact or inexact).
 It is also an error to
@@ -62,50 +62,50 @@ If any argument is inexact, the result is inexact, unless the implementation
 can prove that the inexactness cannot affect the result, as in the case of
 dividing an exact zero by an inexact number.
 
-`(floor/ `''dividend''` `''divisor''`)`[[BR]]
-`(floor-quotient `''dividend''` `''divisor''`)`[[BR]]
-`(floor-remainder `''dividend''` `''divisor''`)`[[BR]]
+`(floor/ `*dividend*` `*divisor*`)`[#BR]]
+`(floor-quotient `*dividend*` `*divisor*`)`[#BR]]
+`(floor-remainder `*dividend*` `*divisor*`)`[#BR]]
 
-  ''q'' = floor(''n''/''d'')
+*q* = floor(*n*/*d*)
 
-Thus ''r'' is negative iff ''d'' is negative.
+Thus *r* is negative iff *d* is negative.
 
-`(ceiling/ `''dividend''` `''divisor''`)`[[BR]]
-`(ceiling-quotient `''dividend''` `''divisor''`)`[[BR]]
-`(ceiling-remainder `''dividend''` `''divisor''`)`[[BR]]
+`(ceiling/ `*dividend*` `*divisor*`)`[#BR]]
+`(ceiling-quotient `*dividend*` `*divisor*`)`[#BR]]
+`(ceiling-remainder `*dividend*` `*divisor*`)`[#BR]]
 
-  ''q'' = ceiling(''n''/''d'')
+*q* = ceiling(*n*/*d*)
 
-Thus ''r'' is negative iff ''d'' is non-negative.
+Thus *r* is negative iff *d* is non-negative.
 
-If ''divisor'' is the number of units in a block, and <dividend> is
-some number of units, then `(ceiling-quotient `''dividend''` `''divisor''`)`
-gives the number of blocks needed to cover ''dividend'' units.  For
-example, ''divisor'' might be the number of bytes in a disk sector, and
-''dividend'' the number of bytes in a file; then the quotient is the
+If *divisor* is the number of units in a block, and <dividend> is
+some number of units, then `(ceiling-quotient `*dividend*` `*divisor*`)`
+gives the number of blocks needed to cover *dividend* units.  For
+example, *divisor* might be the number of bytes in a disk sector, and
+*dividend* the number of bytes in a file; then the quotient is the
 number of disk sectors needed to store the contents of the file.  For
-another example, ''divisor'' might be the number of octets in the
-output of a cryptographic hash function, and ''dividend'' the number of
+another example, *divisor* might be the number of octets in the
+output of a cryptographic hash function, and *dividend* the number of
 octets desired in a key for a symmetric cipher, to be derived using
 the cryptographic hash function; then the quotient is the number of
 hash values needed to concatenate to make a key.
 
-`(truncate/ `''dividend''` `''divisor''`)`[[BR]]
-`(truncate-quotient `''dividend''` `''divisor''`)`[[BR]]
-`(truncate-remainder `''dividend''` `''divisor''`)`[[BR]]
+`(truncate/ `*dividend*` `*divisor*`)`[#BR]]
+`(truncate-quotient `*dividend*` `*divisor*`)`[#BR]]
+`(truncate-remainder `*dividend*` `*divisor*`)`[#BR]]
 
-  ''q'' = truncate(''n''/''d'')
+*q* = truncate(*n*/*d*)
 
-Thus ''r'' is negative iff ''n'' is negative.  However, by any divisor, the
+Thus *r* is negative iff *n* is negative.  However, by any divisor, the
 quotient of +1, 0, or -1 is 0; that is, three contiguous dividends by
 a common divisor share a common quotient.  Of the other division
 operator pairs, only the round pair exhibits this property.
 
-`(round/ `''dividend''` `''divisor''`)`[[BR]]
-`(round-quotient `''dividend''` `''divisor''`)`[[BR]]
-`(round-remainder `''dividend''` `''divisor''`)`[[BR]]
+`(round/ `*dividend*` `*divisor*`)`[#BR]]
+`(round-quotient `*dividend*` `*divisor*`)`[#BR]]
+`(round-remainder `*dividend*` `*divisor*`)`[#BR]]
 
-  ''q'' = round(''n''/''d'')
+*q* = round(*n*/*d*)
 
 The round function rounds to the nearest integer,
 breaking ties by choosing the nearest even integer.
@@ -115,42 +115,42 @@ that three contiguous dividends by a common divisor share a common
 quotient.
 
 
-`(euclidean/ `''dividend''` `''divisor''`)`[[BR]]
-`(euclidean-quotient `''dividend''` `''divisor''`)`[[BR]]
-`(euclidean-remainder `''dividend''` `''divisor''`)`[[BR]]
+`(euclidean/ `*dividend*` `*divisor*`)`[#BR]]
+`(euclidean-quotient `*dividend*` `*divisor*`)`[#BR]]
+`(euclidean-remainder `*dividend*` `*divisor*`)`[#BR]]
 
-  If ''d'' > 0, ''q'' = floor(''n''/''d'');
-  if ''d'' < 0, ''q'' = ceiling(''n''/''d'').
+> If *d* > 0, *q* = floor(*n*/*d*);
+> if *d* < 0, *q* = ceiling(*n*/*d*).
 
 This division operator pair satisfies the stronger property
 
-    0 <= ''r'' < |''d''|,
+0 <= *r* < |*d*|,
 
 used often in mathematics.  Thus, for example,
-`(euclidean-remainder `''dividend''` `''divisor''`)`
+`(euclidean-remainder `*dividend*` `*divisor*`)`
 is always a valid index into a vector whose
-length is at least the absolute value of ''divisor''.
+length is at least the absolute value of *divisor*.
 This division operator pair is so
 named because it is the subject of the Euclidean division algorithm.
 
-`(balanced/ `''dividend''` `''divisor''`)`[[BR]]
-`(balanced-quotient `''dividend''` `''divisor''`)`[[BR]]
-`(balanced-remainder `''dividend''` `''divisor''`)`[[BR]]
+`(balanced/ `*dividend*` `*divisor*`)`[#BR]]
+`(balanced-quotient `*dividend*` `*divisor*`)`[#BR]]
+`(balanced-remainder `*dividend*` `*divisor*`)`[#BR]]
 
 This division operator pair satisfies the property
 
-  -|d/2| <= r < |d/2|.
+> -|d/2| <= r < |d/2|.
 
-When ''d'' is a power of 2, say 2^''k''^ for some ''k'', this reduces to
+When *d* is a power of 2, say 2^*k*^ for some *k*, this reduces to
 
-  -2^(''k'' - 1)^ <= ''r'' < 2^(''k'' - 1)^.
+> -2^(*k* - 1)^ <= *r* < 2^(*k* - 1)^.
 
 Computer scientists will immediately recognize this as the interval of
-integers representable in two's-complement with (''k'' - 1) bits.
+integers representable in two's-complement with (*k* - 1) bits.
 
-== Related Standards ==
+## Related Standards
 
-=== R5RS ===
+### R5RS
 
 The R5RS gives the names `quotient` and `remainder` to the truncating
 division operator pair, and the name `modulo` to the remainder half of
@@ -158,7 +158,7 @@ the flooring division operator pair.  For all these three procedures in
 the R5RS, the dividend may be any integer, and the divisor may be any
 nonzero integer.
 
-=== R6RS ===
+### R6RS
 
 The R6RS gives the names `div`, `mod`, and `div-and-mod` to the Euclidean division operator
 family, and the names `div0`, `mod0`, and `div0-and-mod0` to the balanced operator family.
@@ -166,14 +166,14 @@ For all six of these procedures, the dividend may be
 any real number, and the divisor may be any nonzero real number.  The R5RS procedures
 are also available in the R5RS compatibility library.
 
-=== R7RS ===
+### R7RS
 
 The truncate and floor families are part of R7RS-small.  Three of them
 are also available under their R5RS names, for backward compatibility.
 The dividend may be any integer, and the divisor may be any
 nonzero integer.
 
-=== Common Lisp ===
+### Common Lisp
 
 Common Lisp provides four integral division functions, `floor`, `ceiling`,
 `truncate`, and `round`; and two remainder functions, `mod` and `rem`.  The
@@ -192,7 +192,7 @@ Lisp also provides four extra functions `ffloor`, `fceiling`, `ftruncate`,
 and `fround`, which differ from their `f`-less variants only in
 floating-point contagion rules.
 
-== Copying ==
+## Copying
 
 Copyright (c) 2009, 2010, Taylor R. Campbell.
 
@@ -201,9 +201,9 @@ worldwide, without royalty, in any medium, provided this notice, and
 the copyright notice, are preserved.
 
 This is a draft.  If you wish to derive a work from this article,
-contact the author.  [[This|has been done.  —John Cowan]]
+contact the author.  [has been done.  —John Cowan](This)
 
-== Implementation ==
+## Implementation
 
 Code: http://git.savannah.gnu.org/cgit/mit-scheme.git/plain/src/runtime/division.scm
 Tests: http://git.savannah.gnu.org/cgit/mit-scheme.git/plain/tests/runtime/test-division.scm

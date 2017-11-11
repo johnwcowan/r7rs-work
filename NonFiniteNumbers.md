@@ -1,49 +1,49 @@
-== Syntax ==
+## Syntax
 
 Here's how various Schemes deal with syntax for non-finite inexact numbers.  "Standard syntax" means what R6RS prescribes: `+inf.0` for positive infinity, `-inf.0` for negative infinity, and both `+nan.0` and `-nan.0` for NaN.
 
-Racket, Gauche, Chicken (with or without the numbers egg), Scheme48, Guile, Kawa, Chez, !Ikarus/Vicare, Larceny, Ypsilon, Mosh, !IronScheme, STklos, Spark, Sagittarius accept and print the standard syntax.
+Racket, Gauche, Chicken (with or without the numbers egg), Scheme48, Guile, Kawa, Chez, Ikarus/Vicare, Larceny, Ypsilon, Mosh, IronScheme, STklos, Spark, Sagittarius accept and print the standard syntax.
 
 Gambit, Bigloo, Chibi accept and print the standard syntax, except that they do not accept `-nan.0`.
 
-!SigScheme, Scheme 9, Dream, Oaklisp, Owl Lisp are excluded because they do not have inexact non-finite numbers.
+SigScheme, Scheme 9, Dream, Oaklisp, Owl Lisp are excluded because they do not have inexact non-finite numbers.
 
 The following table concisely describes the other Schemes in the test suite.  "Std syntax" is "yes" if the Scheme can read the standard syntax, "print" shows what `(let* ((i (* 1.0e200 1.0e200)) (n (- i i))) (list i (- i) n))` prints, and "own syntax" is "yes" if the Scheme can reread what it prints.  The implementations are listed in roughly decreasing order of standardosity.
 
-||Scheme||std syntax||prints||own syntax||
-||KSi||yes||`(+inf.0 -inf.0 nan.0)`||yes||
-||NexJ||yes||`(Infinity -Infinity NaN)`||no||
-||VX||yes||`(inf. -inf. -nan.)`||no||
-||SCM||*||`(+inf.0 -inf.0 0/0)`||yes||
-||S7||no||`(inf.0 -inf.0 -nan.0)`||no||
-||SXM||no||`(inf.0 -inf.0 -nan.0)`||no||
-||Inlab||no||`(inf.0 -inf.0 -nan.0)`||no||
-||UMB||no||`(inf.0 -inf.0 -nan)`||no||
-||Shoe||no||`(inf -inf -nan)`||no||
-||!TinyScheme||no||`(inf -inf -nan)`||no||
-||XLisp||no||`(inf -inf -nan)`||no||
-||Schemik||no||`(inf -inf -nan)`||no||
-||scsh||no||`(inf. -inf. -nan.)`||no||
-||Rep||no||`(inf. -inf. -nan.)`||no||
-||RScheme||no||`(inf. -inf. -nan.)`||no||
-||Elk||no||`(inf -inf -nan.0)`||no||
-||SISC||no||`(infinity.0 -infinity.0 nan.0)`||no||
-||BDC||no||`(Infinity -Infinity NaN)`||no||
-||MIT||no||`(#[+inf] #[-inf] #[NaN])`||no||
+|Scheme|std syntax|prints|own syntax|
+|KSi|yes|`(+inf.0 -inf.0 nan.0)`|yes|
+|NexJ|yes|`(Infinity -Infinity NaN)`|no|
+|VX|yes|`(inf. -inf. -nan.)`|no|
+|SCM|*|`(+inf.0 -inf.0 0/0)`|yes|
+|S7|no|`(inf.0 -inf.0 -nan.0)`|no|
+|SXM|no|`(inf.0 -inf.0 -nan.0)`|no|
+|Inlab|no|`(inf.0 -inf.0 -nan.0)`|no|
+|UMB|no|`(inf.0 -inf.0 -nan)`|no|
+|Shoe|no|`(inf -inf -nan)`|no|
+|!TinyScheme|no|`(inf -inf -nan)`|no|
+|XLisp|no|`(inf -inf -nan)`|no|
+|Schemik|no|`(inf -inf -nan)`|no|
+|scsh|no|`(inf. -inf. -nan.)`|no|
+|Rep|no|`(inf. -inf. -nan.)`|no|
+|RScheme|no|`(inf. -inf. -nan.)`|no|
+|Elk|no|`(inf -inf -nan.0)`|no|
+|SISC|no|`(infinity.0 -infinity.0 nan.0)`|no|
+|BDC|no|`(Infinity -Infinity NaN)`|no|
+|MIT|no|`(#[+inf] #[-inf] #[NaN])`|no|
 
 [*] Accepts `+inf.0` and `-inf.0` but not `+nan.0` or `-nan.0`
 
-== NaN equivalence ==
+## NaN equivalence
 
-The following implementations return `#t` for `(eqv +nan.0 +nan.0)`: Chez, Gambit, Guile, !Ikarus/Vicare, Kawa, Larceny, Racket, STklos, Sagittarius.
+The following implementations return `#t` for `(eqv +nan.0 +nan.0)`: Chez, Gambit, Guile, Ikarus/Vicare, Kawa, Larceny, Racket, STklos, Sagittarius.
 
 The following implementations return `#f` for `(eqv +nan.0 +nan.0)`: Bigloo, Chibi, Chicken, Gauche, MIT Scheme, Scheme48.
 
-== Infinity examples ==
+## Infinity examples
 
 These are the R6RS examples involving `+inf.0` and `-inf.0` (already accounted for verbally in the "Implementation extensions" section of R7RS):
 
-{{{
+```
 (complex? +inf.0)    => #t     ; infinities are real but not rational
 (real? -inf.0)       => #t
 (rational? -inf.0)   => #f
@@ -106,13 +106,13 @@ These are the R6RS examples involving `+inf.0` and `-inf.0` (already accounted f
 (angle +inf.0)       => 0.0
 (angle -inf.0)       => 3.141592653589793
 (magnitude (make-rectangular x y)) => +inf.0 where x or y or both are infinite
-}}}
+```
 
-== NaN examples ==
+## NaN examples
 
-These are the R6RS examples involving !NaNs (already accounted for verbally in the "Implementation extensions" section of R7RS):
+These are the R6RS examples involving NaNs (already accounted for verbally in the "Implementation extensions" section of R7RS):
 
-{{{
+```
 (number? +nan.0)   => #t ; NaN is real but not rational
 (complex? +nan.0)  => #t
 (real? +nan.0)     => #t
@@ -145,4 +145,4 @@ These are the R6RS examples involving !NaNs (already accounted for verbally in t
 (round +nan.0)     => +nan.0 ; Nan rounds (etc.) to NaN
 
 (rationalize +inf.0 +inf.0) => +nan.0 ; Rationalizing infinity to nearest infinity is NaN
-}}}
+```

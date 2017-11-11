@@ -2,9 +2,9 @@ The Scheme standards say that a one-armed `if` returns an unspecified value if t
 
 `(if #f #f)` => `#f`:  Bigloo, JScheme, Dream, Owl Lisp
 
-`(if #f #f)` => `()`:  NexJ, !TinyScheme, Elk, UMB, Llava, Dfsch, Inlab
+`(if #f #f)` => `()`:  NexJ, TinyScheme, Elk, UMB, Llava, Dfsch, Inlab
 
-`(if #f #f)` => `#t`:  Shoe, !FemtoLisp
+`(if #f #f)` => `#t`:  Shoe, FemtoLisp
 
 `(if #f #f)` => a value which is both `#f` and `()`: XLisp, Rep
 

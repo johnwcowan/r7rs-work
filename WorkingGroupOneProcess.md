@@ -2,13 +2,13 @@ This is a rough outline of the process for
 Working Group 1, leading up to the first
 public draft milestone:
 
-  * Introductions and initial position statements (1 month)
-  * Fact-Finding and Issue Cataloging (1 month)
-  * Make Proposals, independently or in groups
-  * Debate Proposals via email and the wiki
-  * Update Proposals based on feedback
-  * Preferential Voting
-  * Draft the winning proposals and submit for public review
+* Introductions and initial position statements (1 month)
+* Fact-Finding and Issue Cataloging (1 month)
+* Make Proposals, independently or in groups
+* Debate Proposals via email and the wiki
+* Update Proposals based on feedback
+* Preferential Voting
+* Draft the winning proposals and submit for public review
 
 For voting we will use a preferential voting mechanism,
 so that any number of proposals can be made without detracting
@@ -20,7 +20,7 @@ at least a minimum percentage, yet to be decided but likely in the
 (no-change) option.
 
 A detailed example of the voting process can be found
-in the [[SampleVoteYakHandler|Yak Handler]] proposal.
+in the [Yak Handler](SampleVoteYakHandler) proposal.
 
 The hope is that with this system and a more or less balanced
 representation of Scheme implementations and ideals among the

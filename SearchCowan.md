@@ -1,1 +1,1 @@
-This was a small WG2 proposal for Scheme procedures corresponding to the Common Lisp function [[http://www.lispworks.com/documentation/lw50/CLHS/Body/f_search.htm|SEARCH]].  `Vector-contains` and `list-contains` have been flushed as unnecessary.
+This was a small WG2 proposal for Scheme procedures corresponding to the Common Lisp function [SEARCH](http://www.lispworks.com/documentation/lw50/CLHS/Body/f_search.htm).  `Vector-contains` and `list-contains` have been flushed as unnecessary.

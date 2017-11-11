@@ -1,4 +1,4 @@
-=== Decoding flonums ===
+### Decoding flonums
 
 decode-float float => significand, exponent, sign
 
@@ -28,7 +28,7 @@ float-radix returns the radix of float.
 
 float-sign returns a number z such that z and float-1 have the same sign and also such that z and float-2 have the same absolute value. If float-2 is not supplied, its value is `(float 1 float-1)`. If an implementation has distinct representations for negative zero and positive zero, then `(float-sign -0.0) => -1.0`.
 
-float-digits returns the number of radix b digits used in the representation of float (including any implicit digits, such as a ``hidden bit'').
+float-digits returns the number of radix b digits used in the representation of float (including any implicit digits, such as a ``hidden bit*).
 
 float-precision returns the number of significant radix b digits present in float; if float is a float zero, then the result is an integer zero.
 
@@ -36,28 +36,28 @@ For normalized floats, the results of float-digits and float-precision are the s
 
 integer-decode-float computes three values that characterize float - the significand scaled so as to be an integer, and the same last two values that are returned by decode-float. If float is zero, integer-decode-float returns zero as the first value. The second value bears the same relationship to the first value as for decode-float:
 
-{{{
+```
  (multiple-value-bind (signif expon sign)
                       (integer-decode-float f)
    (scale-float (float signif f) expon)) ==  (abs f)
-}}}
+```
 
-=== NaN functions ===
+### NaN functions
 
-The following functions are applicable not only to flonum NaNs but to all inexact real NaNs, which is why their names do not begin with `fl`.
+The following functions are applicable not only to flonum [NaNs](NaNs.md) but to all inexact real [NaNs](NaNs.md), which is why their names do not begin with `fl`.
 
-`(make-nan `''payload''`)`
+`(make-nan `*payload*`)`
 
-Returns a NaN, using the exact integer ''payload'' in an implementation-defined way to generate the payload bits.  In particular, the sign bit of the NaN is set from the sign of `payload`.  If the implementation does not support NaNs, it is an error.
+Returns a NaN, using the exact integer *payload* in an implementation-defined way to generate the payload bits.  In particular, the sign bit of the NaN is set from the sign of `payload`.  If the implementation does not support [NaNs](NaNs.md), it is an error.
 
-`(nan-payload `''nan''`)`
+`(nan-payload `*nan*`)`
 
-Returns the payload of ''nan''.
+Returns the payload of *nan*.
 
-`(nan-signaling? `''nan''`)`
+`(nan-signaling? `*nan*`)`
 
-Returns `#t` if ''nan'' is a signaling NaN, and `#f` otherwise.  This function is required because different floating-point processors implement the signaling bit in different ways: on most processors, the most significant bit of the payload is clear if the NaN is signaling, but on the PA-RISC and MIPS processors it is set.
+Returns `#t` if *nan* is a signaling NaN, and `#f` otherwise.  This function is required because different floating-point processors implement the signaling bit in different ways: on most processors, the most significant bit of the payload is clear if the NaN is signaling, but on the PA-RISC and MIPS processors it is set.
 
-`(nan= `''x y''`)`
+`(nan= `*x y*`)`
 
-Returns `#t` if ''x'' and ''y'' are both NaNs the same payload.
+Returns `#t` if *x* and *y* are both [NaNs](NaNs.md) the same payload.

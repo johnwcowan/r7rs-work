@@ -1,4 +1,4 @@
-== Comparing empty strings and vectors with eq? ==
+## Comparing empty strings and vectors with eq?
 
 The vast majority of the Schemes in the test suite return `#f` to both `(eq? (vector) (vector))` and
 `(eq? (string) (string))`.  I also tested bytevectors in those implementations that made it easy to do so.  Here are the cases that returned `#t`:

@@ -1,5 +1,3 @@
-{{{
-#!html
 <h2 id="Integersetprocedures">Integer set procedures</h2><p>
 
 The elements of an integer set are exact integers.  The procedures for creating and manipulating integer sets are the same as those for <a href="http://srfi.schemers.org/srfi-113/srfi-113.html">SRFI 113 sets</a>, except that <code>set</code> is replaced by <code>integer-set</code> in their names.  However, <code>set-comparator</code> has no equivalent for integer sets, and in <code>integer-set</code>, <code>integer-set-unfold</code>, <code>integer-set-map</code>, and <code>integer-set-copy</code> the <em>comparator</em> argument is omitted.</p>
@@ -40,9 +38,8 @@ Note that the result <code>integer-set-range=</code> contains at most one elemen
 Linear update procedures that return two values: the smallest or largest integer in <em>integer-set</em> or <code>#f</code> if there is none, and a set which contains all the elements of <em>set</em> except the integer being returned.
 
 </p>
-}}}
 
-== SRFI 113 procedures not in Chicken iset ==
+## SRFI 113 procedures not in Chicken iset
 
 Not useful: member, element-comparator, comparator, replace, replace!, partition!
 

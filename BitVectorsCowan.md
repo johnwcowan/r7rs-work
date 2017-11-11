@@ -1,26 +1,26 @@
-== Specification ==
+## Specification
 
-=== Constructor ===
+### Constructor
 
-`(make-bitvector ` [[|''size'' [ ''fill'' ]] ]`)`
+`(make-bitvector ` [#|*size* []] ]( *fill*)`)`
 
-Returns a newly allocated bitvector.  If ''fill'' is omitted or `#f`, then all the bits are `#f`; if ''fill'' is `#t`, the the first ''size'' bits are `#t` and all other bits are `#f`.
+Returns a newly allocated bitvector.  If *fill* is omitted or `#f`, then all the bits are `#f`; if *fill* is `#t`, the the first *size* bits are `#t` and all other bits are `#f`.
 
-=== Predicate ===
+### Predicate
 
-`(bitvector? `''obj''`)`
+`(bitvector? `*obj*`)`
 
-Returns `#t` if ''obj'' is a bitvector, and `#f` otherwise.
+Returns `#t` if *obj* is a bitvector, and `#f` otherwise.
 
-=== Bitwise operations ===
+### Bitwise operations
 
-Same as BitwiseCowan, with appropriate name changes.
+Same as [BitwiseCowan](BitwiseCowan.md), with appropriate name changes.
 
-=== Mutators ===
+### Mutators
 
 Issue:  Linear update, or guaranteed mutation?
 
-{{{
+```
 bitvector-not!
 bitvector-and!   bitvector-ior!
 bitvector-xor!   bitvector-eqv!
@@ -33,15 +33,15 @@ copy-bit!      bit-swap!
 bitvector-field-clear!   bitvector-field-set
 bitvector-field-replace  bitvector-field-replace-same
 bitvector-field-rotate!  bitvector-field-reverse
-}}}
+```
 
-=== Conversion ===
+### Conversion
 
-`(bitvector->vector `''bv''`)`
+`(bitvector->vector `*bv*`)`
 
-`(vector->bitvector `''vec''`)`
+`(vector->bitvector `*vec*`)`
 
-`(bitvector->integer `''bv''`)`
+`(bitvector->integer `*bv*`)`
 
-`(integer->bitvector `''integer''`)`
+`(integer->bitvector `*integer*`)`
 

@@ -1,33 +1,33 @@
-== Named Parameters ==
+## Named Parameters
 
 In this design, keywords are disjoint from symbols, but there is no special syntax for them: for each keyword, a variable is bound to the value of that keyword.  Keywords must be compared with `keyword=?` rather than with `eq?`.
 
-== Syntax ==
+## Syntax
 
-`(keywords-lambda `''arg'' ... `(`''key''` `''value''`) `...`) ''body'' ...`)`  [syntax]
+`(keywords-lambda `*arg* ... `(`*key*` `*value*`) `...`) *body* ...`)`  [syntax]
 
-Returns a procedure whose body is ''body'' that accepts non-keyword arguments ''args'' and keyword arguments whose names are ''keys''.  ''Values'' specify the default value for the corresponding ''keys''.
+Returns a procedure whose body is *body* that accepts non-keyword arguments *args* and keyword arguments whose names are *keys*.  *Values* specify the default value for the corresponding *keys*.
 
-Note that ''keys'' need not have any particular syntax such as beginning with or ending with a colon, but they may do so by convention.  As identifiers, keywords must be explicitly exported from modules.
+Note that *keys* need not have any particular syntax such as beginning with or ending with a colon, but they may do so by convention.  As identifiers, keywords must be explicitly exported from modules.
 
-`(keywords-define (`''name''` `''arg'' ... `(`''key''` `''value''`) `...`) ''body'' ...`)`  [syntax]
+`(keywords-define (`*name*` `*arg* ... `(`*key*` `*value*`) `...`) *body* ...`)`  [syntax]
 
-Defines a procedure named ''name'' with body `(lambda/keywords `''arg'' ... `(`''key''` `''value''`) `...`) `''body'' ...`)`
+Defines a procedure named *name* with body `(lambda/keywords `*arg* ... `(`*key*` `*value*`) `...`) `*body* ...`)`
 
-== Procedures ==
+## Procedures
 
-`(make-keyword `''symbol''`)`
+`(make-keyword `*symbol*`)`
 
-Constructs and returns a keyword object whose name is ''symbol''.
+Constructs and returns a keyword object whose name is *symbol*.
 
-`(keyword? `''obj''`)`
+`(keyword? `*obj*`)`
 
-Returns `#t` if ''obj'' is a keyword object, and `#f` otherwise.
+Returns `#t` if *obj* is a keyword object, and `#f` otherwise.
 
-`(keyword=? `''kw1''` `''kw2''`)`
+`(keyword=? `*kw1*` `*kw2*`)`
 
-Returns `#t` if ''kw1'' and ''kw2'' are keywords with the same name, and `#f` if they have different names.  It is an error if ''kw1'' and ''kw2'' are not keyword objects.
+Returns `#t` if *kw1* and *kw2* are keywords with the same name, and `#f` if they have different names.  It is an error if *kw1* and *kw2* are not keyword objects.
 
-== Rationale and implementation ==
+## Rationale and implementation
 
-See KeywordArgumentsArcfide.  The syntax keywords `keywords-define` and `keywords-lambda` here correspond to `define/optional` and `lambda/opt` there.
+See [KeywordArgumentsArcfide](KeywordArgumentsArcfide.md).  The syntax keywords `keywords-define` and `keywords-lambda` here correspond to `define/optional` and `lambda/opt` there.

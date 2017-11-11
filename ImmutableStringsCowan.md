@@ -1,4 +1,4 @@
-== Removing `string-set!` from R7RS small Scheme ==
+## Removing `string-set!` from R7RS small Scheme
 
 This is a proposal for the removal of `string-set!` (and consequently `string-fill!`) from the R7RS small Scheme language.  I believe that despite the prescription of the WG1 charter that no features of IEEE Scheme (a subset of R4RS) should be removed from R7RS small Scheme, an exception should be made for `string-set!`, for at least the following reasons:
 

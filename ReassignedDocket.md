@@ -1,6 +1,6 @@
-== WG2 Reassigned Docket ==
+## WG2 Reassigned Docket
 
-The following items have been chosen by WG2 to be reassigned to another WG.  The Steering Committee decides which one(s) go to which WG, so this is just a tracker.  See [[:WG2Dockets|WG2Dockets]] for other dockets.
+The following items have been chosen by WG2 to be reassigned to another WG.  The Steering Committee decides which one(s) go to which WG, so this is just a tracker.  See [WG2Dockets](WG2Dockets.md) for other dockets.
 
 C FFI, libffi:  No SC action yet.
 
@@ -12,7 +12,7 @@ Contracts:  No SC action yet.
 
 DBM interface:  No SC action yet.
 
-Full !Berkeley/Posix sockets:  No SC action yet.
+Full Berkeley/Posix sockets:  No SC action yet.
 
 GC control:  No SC action yet.
 

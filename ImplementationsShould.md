@@ -1,4 +1,4 @@
-Things that R7RS-small implementations explicitly ''should'' do:
+Things that R7RS-small implementations explicitly *should* do:
 
 * Produce exact results from exact arguments passed to rational procedures
 * Produce inexact results if exact results are not possible

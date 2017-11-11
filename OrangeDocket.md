@@ -1,62 +1,62 @@
 This is an early draft of proposals for the Orange Edition (numbers) of R7RS-large. For other dockets, see [wiki:WG2Dockets].
 
-'''Numeric types and operations'''
+**Numeric types and operations**
 
-Integer division: [[http://srfi.schemers.org/srfi-141/srfi-141.html|SRFI 141]]
+Integer division: [SRFI 141](http://srfi.schemers.org/srfi-141/srfi-141.html)
 
-Bitwise integer operations:  [[http://srfi.schemers.org/srfi-151/srfi-151.html|SRFI 151]] (superseding SRFI 142), [[http://srfi.schemers.org/srfi-60/srfi-60.html|SRFI 60]], [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.4|R6RS]].
+Bitwise integer operations:  [SRFI 151](http://srfi.schemers.org/srfi-151/srfi-151.html) (superseding SRFI 142), [SRFI 60](http://srfi.schemers.org/srfi-60/srfi-60.html), [R6RS](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.4).
 
-Fixnums:  [[http://srfi.schemers.org/srfi-143/srfi-143.html|SRFI 143]], [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.2|R6RS]]
+Fixnums:  [SRFI 143](http://srfi.schemers.org/srfi-143/srfi-143.html), [R6RS](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.2)
 
-Flonums:  [[http://srfi.schemers.org/srfi-144/srfi-1443.html|SRFI 144]],
-[[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.3|R6RS]]
+Flonums:  [SRFI 144](http://srfi.schemers.org/srfi-144/srfi-1443.html),
+[R6RS](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-12.html#node_sec_11.3)
 
-Random numbers: [[http://srfi.schemers.org/srfi-27/srfi-27.html|SRFI 27]], plus AdvancedRandomGauche
+Random numbers: [SRFI 27](http://srfi.schemers.org/srfi-27/srfi-27.html), plus [AdvancedRandomGauche](AdvancedRandomGauche.md)
 
-Prime numbers:  PrimesGauche.
+Prime numbers:  [PrimesGauche](PrimesGauche.md).
 
-Extended exact numbers:  ExtendedRationalsCowan [Orange]
+Extended exact numbers:  [ExtendedRationalsCowan](ExtendedRationalsCowan.md) [Orange]
 
 Natural number predicates (from WG1):  `exact-positive-integer?` and `exact-non-negative-integer?`.
 
-NaN dissector API (sign, quiet/signaling status, and integer tag): NanMedernach
+NaN dissector API (sign, quiet/signaling status, and integer tag): [NanMedernach](NanMedernach.md)
 
-'''Numeric and semi-numeric data structures'''
+**Numeric and semi-numeric data structures**
 
-Numeric vectors:  [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-3.html#node_chap_2,|R6RS]], [[http://srfi.schemers.org/srfi-4/srfi-4.html|SRFI 4]], [[http://srfi.schemers.org/srfi-63/srfi-63.html|SRFI 63]] (supersedes SRFI 25 and SRFI 47; lexical syntax in [[http://srfi.schemers.org/srfi-58/srfi-58.html|SRFI 58]]), [[http://srfi.schemers.org/srfi-66/srfi-66.html|SRFI 66]], [[http://srfi.schemers.org/srfi-74/srfi-74.html|SRFI 74]], NumericVectorsCowan.
+Numeric vectors:  [R6RS](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-3.html#node_chap_2,), [SRFI 4](http://srfi.schemers.org/srfi-4/srfi-4.html), [SRFI 63](http://srfi.schemers.org/srfi-63/srfi-63.html) (supersedes SRFI 25 and SRFI 47; lexical syntax in [SRFI 58](http://srfi.schemers.org/srfi-58/srfi-58.html)), [SRFI 66](http://srfi.schemers.org/srfi-66/srfi-66.html), [SRFI 74](http://srfi.schemers.org/srfi-74/srfi-74.html), [NumericVectorsCowan](NumericVectorsCowan.md).
 
-C-style structs:  [[https://github.com/TaylanUB/scheme-bytestructures|ByteStructuresTaylanub]].
+C-style structs:  [ByteStructuresTaylanub](https://github.com/TaylanUB/scheme-bytestructures).
 
-Integer sets:  IntegerSetsCowan
+Integer sets:  [IntegerSetsCowan](IntegerSetsCowan.md)
 
-Descriptive statistics:  TallyCowan
+Descriptive statistics:  [TallyCowan](TallyCowan.md)
 
-Multidimensional arrays: [[http://srfi.schemers.org/srfi-122/srfi-122.html|SRFI 122]] .
+Multidimensional arrays: [SRFI 122](http://srfi.schemers.org/srfi-122/srfi-122.html) .
 
-'''Enumerations'''
+**Enumerations**
 
-Enumerations:  EnumsCowan
+Enumerations:  [EnumsCowan](EnumsCowan.md)
 
-Enumeration sets:  EnumContainersCowan
+Enumeration sets:  [EnumContainersCowan](EnumContainersCowan.md)
 
-Enumeration maps:  EnumContainersCowan
+Enumeration maps:  [EnumContainersCowan](EnumContainersCowan.md)
 
-'''Formatting'''
+**Formatting**
 
-`number->string` and `string->number` with non-ASCII decimal digits: NumberStringUnicode
+`number->string` and `string->number` with non-ASCII decimal digits: [NumberStringUnicode](NumberStringUnicode.md)
 
 `hex-digit-value`: same as `digit value`, but understands A-F and a-f too
 
-Formatting: [[http://srfi.schemers.org/srfi-159/srfi-159.html|SRFI 159]] or [[http://srfi.schemers.org/srfi-48/srfi-48.html|SRFI 48]] (intermediate), possibly with [[http://srfi.schemers.org/srfi-29/srfi-29.html|SRFI 29]] or GettextCowan
+Formatting: [SRFI 159](http://srfi.schemers.org/srfi-159/srfi-159.html) or [SRFI 48](http://srfi.schemers.org/srfi-48/srfi-48.html) (intermediate), possibly with [SRFI 29](http://srfi.schemers.org/srfi-29/srfi-29.html) or [GettextCowan](GettextCowan.md)
 
-'''Carryovers from the Red Edition'''
+**Carryovers from the Red Edition**
 
-Strings: [[http://srfi.schemers.org/srfi-13/srfi-13.html|SRFI 13]] (comprehensive), [[http://srfi.schemers.org/srfi-118/srfi-118.html|SRFI 118]] (adjustable), [[http://srfi.schemers.org/srfi-130/srfi-130.html|SRFI 130]] (cursor-based), [[http://srfi.schemers.org/srfi-140/srfi-140.html|SRFI 140]] (immutable), [[http://srfi.schemers.org/srfi-152/srfi-152.html|SRFI 152]] (basic)
+Strings: [SRFI 13](http://srfi.schemers.org/srfi-13/srfi-13.html) (comprehensive), [SRFI 118](http://srfi.schemers.org/srfi-118/srfi-118.html) (adjustable), [SRFI 130](http://srfi.schemers.org/srfi-130/srfi-130.html) (cursor-based), [SRFI 140](http://srfi.schemers.org/srfi-140/srfi-140.html) (immutable), [SRFI 152](http://srfi.schemers.org/srfi-152/srfi-152.html) (basic)
 
-Ordered sets and bags:  [[http://srfi.schemers.org/srfi-153/srfi-153.html|SRFI 153]]
+Ordered sets and bags:  [SRFI 153](http://srfi.schemers.org/srfi-153/srfi-153.html)
 
-Mappings: [[http://srfi.schemers.org/srfi-146/srfi-146.html|SRFI 146]]
+Mappings: [SRFI 146](http://srfi.schemers.org/srfi-146/srfi-146.html)
 
-Regular expressions: [[http://srfi.schemers.org/srfi-115/srfi-115.html|SRFI 115]]
+Regular expressions: [SRFI 115](http://srfi.schemers.org/srfi-115/srfi-115.html)
 
 

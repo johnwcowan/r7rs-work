@@ -1,4 +1,4 @@
-Things that implementations explicitly ''may'' do:
+Things that implementations explicitly *may* do:
 
 * Define external representations for additional types of objects
 * Share empty strings, vectors, and bytevectors (detectably by `eq?` or `eqv?` or neither)

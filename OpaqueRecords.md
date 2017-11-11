@@ -1,10 +1,10 @@
 
-= Opaque records =
+# Opaque records
 
-== Benefits: ==
+## Benefits:
 
-* OpaqueRecordsBenefits
+* [OpaqueRecordsBenefits](OpaqueRecordsBenefits.md)
 
-== Downsides: ==
+## Downsides:
 
-* OpaqueRecordsDownsides
+* [OpaqueRecordsDownsides](OpaqueRecordsDownsides.md)

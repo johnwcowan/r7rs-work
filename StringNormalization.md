@@ -1,40 +1,40 @@
-= String Normalization =
+# String Normalization
 
-== Introduction ==
+## Introduction
 
 There are four Unicode normalization forms defined in
-[[http://unicode.org/reports/tr15/|UAX #15]], corresponding to two types
+[UAX #15](http://unicode.org/reports/tr15/), corresponding to two types
 of character equivalence.
 
 The first, and most important, is canonical equivalence.  This is
 equivalence between sequences of codepoints which represent the same
 abstract character.  This includes:
 
-  * pre-composed characters and their separate base+combining forms
-  * pre-composed Hangul and their Jamo sequences
-  * unified singleton characters (e.g. mapping the Ohm sign to the Greek capital Omega by which it is represented)
-  * canonical ordering for combining marks when multiple combining marks are used
+* pre-composed characters and their separate base+combining forms
+* pre-composed Hangul and their Jamo sequences
+* unified singleton characters (e.g. mapping the Ohm sign to the Greek capital Omega by which it is represented)
+* canonical ordering for combining marks when multiple combining marks are used
 
 The second character equivalence is compatibility equivalence.
 Compatibility equivalence is where two characters represent the same
 abstract character but differ in appearance or behavior.  Differences
 include:
 
-  * Font variants - cursive, bold, mathematical
-  * Breaking differences - different hyphen and space types
-  * Circled characters
-  * Width, size, rotated - variations common in Japanese scripts
-  * Superscripts and subscripts - 2**5 becomes "2"+"5"
-  * Squared characters - Japanese words written in a single character square
-  * Fractions - representing the single 1/2 character as "1"+"/"+"2"
+* Font variants - cursive, bold, mathematical
+* Breaking differences - different hyphen and space types
+* Circled characters
+* Width, size, rotated - variations common in Japanese scripts
+* Superscripts and subscripts - 2**5 becomes "2"+"5"
+* Squared characters - Japanese words written in a single character square
+* Fractions - representing the single 1/2 character as "1"+"/"+"2"
 
 These two equivalences can be combined to provide four normalization
 forms:
 
-  * NFD - canonical decomposition
-  * NFC - canonical decomposition, followed by canonical composition
-  * NFKD - compatibility decomposition
-  * NFKC - compatibility decomposition, followed by canonical composition
+* NFD - canonical decomposition
+* NFC - canonical decomposition, followed by canonical composition
+* NFKD - compatibility decomposition
+* NFKC - compatibility decomposition, followed by canonical composition
 
 Order matters, since the canonical and compatibility normalizations
 are not commutative.  Normalizing by performing canonical composition
@@ -46,7 +46,7 @@ do they attempt to unify characters which look alike, such as Latin
 and Cyrillic "o", so spoofing is a security issue regardless of
 Unicode normalization.
 
-== Problems with Normalization ==
+## Problems with Normalization
 
 The problem inherent in a character set as complex as Unicode is the
 "same" (by any of the definitions above) character can have multiple
@@ -59,7 +59,7 @@ approximate art to begin with, this is perhaps not directly perceived
 as a "bug" by users, though certainly their experience would be
 improved if searching gave the same results.
 
-Googling for [[http://www.google.com/search?q=unicode+normalization+bug|unicode normalization bug]],
+Googling for [unicode normalization bug](http://www.google.com/search?q=unicode+normalization+bug),
 on the other hand, turns up a large number of hits for interoperability
 problems with filenames, and with systems sharing data between
 multiple users such as wikis.
@@ -70,7 +70,7 @@ the Mac HFS filesystem automatically normalizes to NFD (as well as
 doing full Unicode case-folding).  But even if this were not the case
 problems would arise, just less predictably.
 
-== Approaches to Normalization ==
+## Approaches to Normalization
 
 R6RS provided four separate procedures to convert explicitly between
 the four Unicode normalization forms.  This is the obvious choice, and

@@ -1,6 +1,6 @@
 
-= From R. Kent Dybvig =
-[[http://groups.csail.mit.edu/mac/ftpdir/scheme-mail/HTML/rrrs-1996/msg00101.html|Reference]]
+# From R. Kent Dybvig
+[Reference](http://groups.csail.mit.edu/mac/ftpdir/scheme-mail/HTML/rrrs-1996/msg00101.html)
 
 I object to the procedural interface and prefer a syntactic
 interface for two reasons.  First, the procedural interface is verbose,

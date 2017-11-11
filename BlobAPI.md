@@ -1,1 +1,1 @@
-See NumericVectorsCowan and StringBytevectorConversionCowan.
+See [NumericVectorsCowan](NumericVectorsCowan.md) and [StringBytevectorConversionCowan](StringBytevectorConversionCowan.md).

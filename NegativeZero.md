@@ -1,1 +1,1 @@
-See [[:Zero|Zero]].
+See [Zero](Zero.md).

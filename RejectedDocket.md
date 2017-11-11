@@ -1,178 +1,178 @@
-== WG2 Rejected Docket ==
+## WG2 Rejected Docket
 
-This docket contains work items that were rejected by a vote.  It is provided to make it easy to see if a proposal has already been shot down.  However, some of these items may return, or have already returned.  See [[:WG2Dockets|WG2Dockets]] for other dockets.
+This docket contains work items that were rejected by a vote.  It is provided to make it easy to see if a proposal has already been shot down.  However, some of these items may return, or have already returned.  See [WG2Dockets](WG2Dockets.md) for other dockets.
 
-9p protocol 
+9p protocol
 
-Adjustable arrays 
+Adjustable arrays
 
-Advice, aspect, method combination 
+Advice, aspect, method combination
 
-AMB 
+AMB
 
-ASCII armor (base64, uuencode, quoted-printable) 
+ASCII armor (base64, uuencode, quoted-printable)
 
-Awk 
+Awk
 
-BLAS scientific library interface 
+BLAS scientific library interface
 
-Bloom filters 
+Bloom filters
 
-B-trees 
+B-trees
 
-CGI parser 
+CGI parser
 
-Color system conversion 
+Color system conversion
 
-Cond and case extensions (SRFIs 61 and 87, case-using) 
+Cond and case extensions (SRFIs 61 and 87, case-using)
 
-CSS generation 
+CSS generation
 
-CSV parser 
+CSV parser
 
-CURL interface 
+CURL interface
 
-Curses 
+Curses
 
-Data format validation 
+Data format validation
 
-Datalog 
+Datalog
 
-Deep and shallow copiers 
+Deep and shallow copiers
 
-DNS resolver 
+DNS resolver
 
-Erlang protocol 
+Erlang protocol
 
-Execution time 
+Execution time
 
-FastCGI 
+FastCGI
 
-Fibonacci heap 
+Fibonacci heap
 
-Format, CL-style 
+Format, CL-style
 
-FTP protocol 
+FTP protocol
 
 Generalized equality and comparison functions (has returned as comparators)
 
-Generic collection functions (sequences, dictionaries, sets, bags) 
+Generic collection functions (sequences, dictionaries, sets, bags)
 
-Generic sequence functions 
+Generic sequence functions
 
-Globbing 
+Globbing
 
-GNU Scientific Library interface 
+GNU Scientific Library interface
 
-Gnuplot interface 
+Gnuplot interface
 
-Graph traversal 
+Graph traversal
 
-GTK+ interface 
+GTK+ interface
 
-Gzip encode and decode 
+Gzip encode and decode
 
-HOF convenience functions 
+HOF convenience functions
 
-HTML generation/templating 
+HTML generation/templating
 
-HTML parser 
+HTML parser
 
-HTTP protocol 
+HTTP protocol
 
-IMAP protocol 
+IMAP protocol
 
 Integer sets (has returned)
 
-Interval arithmetic 
+Interval arithmetic
 
-IRC protocol 
+IRC protocol
 
-Java classfile parsing and constructing 
+Java classfile parsing and constructing
 
-JPEG parsing and construction 
+JPEG parsing and construction
 
 JSON parser and serializer (will return)
 
-LAPACK scientific library interface 
+LAPACK scientific library interface
 
-Lattices and topological sorting 
+Lattices and topological sorting
 
-LDAP protocol 
+LDAP protocol
 
-Levenshtein distance 
+Levenshtein distance
 
-Lexical syntax for mantissa widths 
+Lexical syntax for mantissa widths
 
 List comprehensions (may return)
 
-Mailbox format parser 
+Mailbox format parser
 
-MIDI format parser 
+MIDI format parser
 
-MIME parsing and construction 
+MIME parsing and construction
 
-MPI (message-passing interface) 
+MPI (message-passing interface)
 
-NNTP protocol 
+NNTP protocol
 
-ODBC interface 
+ODBC interface
 
-OpenGL 
+OpenGL
 
-OpenSSL 
+OpenSSL
 
 Packed binary (Perl-style) (has returned)
 
-Parser combinators 
+Parser combinators
 
-PDF generation 
+PDF generation
 
-Physical units conversion 
+Physical units conversion
 
-PNG parsing and generation 
+PNG parsing and generation
 
-POP3 protocol 
+POP3 protocol
 
-Postscript generation 
+Postscript generation
 
-Priority queues 
+Priority queues
 
-Probability distributions 
+Probability distributions
 
-Python FFI 
+Python FFI
 
-Qt interface 
+Qt interface
 
-Readline/editline 
+Readline/editline
 
-Readtables 
+Readtables
 
-Red-black trees 
+Red-black trees
 
-Regex-case 
+Regex-case
 
 Relational tables (may return)
 
-RSS parser 
+RSS parser
 
 Run-time symbol package (CL) (may return)
 
-Schelog 
+Schelog
 
-Simple 2-D graphics 
+Simple 2-D graphics
 
-SMTP protocol 
+SMTP protocol
 
-SNMP protocol 
+SNMP protocol
 
-SOAP protocol 
+SOAP protocol
 
-Soundex 
+Soundex
 
-Sparse vectors 
+Sparse vectors
 
-SQL statement constructors 
+SQL statement constructors
 
 SQLite3 interface (may return)
 
@@ -180,9 +180,9 @@ SRFI 26: Cut/cute (has returned)
 
 SSAX (will return in simpler form)
 
-String templates 
+String templates
 
-stty/termios 
+stty/termios
 
 SXML serialization  (will return in simpler form)
 
@@ -196,36 +196,36 @@ Syntactic closures (will return)
 
 Syntax-case (will return)
 
-Syslog interface 
+Syslog interface
 
-Telnet protocol 
+Telnet protocol
 
-Tk interface 
+Tk interface
 
-Treaps 
+Treaps
 
-Turtle graphics 
+Turtle graphics
 
-Unification 
+Unification
 
 Uninterned symbols (may return)
 
-Unit test framework 
+Unit test framework
 
 URI parser (may return)
 
-URI templates 
+URI templates
 
-UUID generation 
+UUID generation
 
-Variable-length byte ports 
+Variable-length byte ports
 
-while/until 
+while/until
 
-Xlib interface 
+Xlib interface
 
-XML-RPC protocol 
+XML-RPC protocol
 
-XMPP protocol 
+XMPP protocol
 
-ZIP files 
+ZIP files

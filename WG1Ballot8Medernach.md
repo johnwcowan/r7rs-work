@@ -1,26 +1,26 @@
-== WG1 - Core ==
+## WG1 - Core
 
-=== #121 The semantics of expt for zero bases has been refined ===
+### #121 The semantics of expt for zero bases has been refined
 
 The R5RS definition of expt is:
 
-{{{
+```
  -- procedure: expt z1 z2
      Returns Z1 raised to the power Z2.  For z_1 ~= 0
 
                           z_1^z_2 = e^z_2 log z_1
 
      0^z is 1 if z = 0 and 0 otherwise.
-}}}
+```
 
 however exponents with negative real parts are undefined.
 R6RS attempted to clarify this with:
 
-{{{
+```
      0.0^z is 1.0 if z = 0.0, and 0.0 if (real-part z) is positive.
      For other cases in which the first argument is zero, either
      an error is signalled or an unspecified number is returned.
-}}}
+```
 
 (Ignore the change in exactness, which was strictly editorial
 and the examples clarify that the rules ignore exactness.)
@@ -34,26 +34,26 @@ this situation.
 An alternative, `r5rs-error`, is to restore the "is an error"
 text since we are not avoiding this in R7RS:
 
-{{{
+```
      The value of 0^z is 1 if (zero? z), 0 if (real-part z)
      is positive, and an error otherwise.  Similarly for 0.0^z,
      with inexact results.
-}}}
+```
 
 The `/real` variant restricts the domain for the zero
 base exception to the real numbers.  This is because
 0^z^ is mathematically undefined for non-real z, and
 implementations do not agree on the result.
 
-  * '''Options:''' r5rs, r5rs-error, r5rs-error/real, r6rs, r6rs/real, undecided
-  * '''Default:''' r6rs
-  * '''Preferences:''' r5rs-error, r5rs, undecided, r5rs-error/real, r6rs, r6rs/real
+* **Options:** r5rs, r5rs-error, r5rs-error/real, r6rs, r6rs/real, undecided
+* **Default:** r6rs
+* **Preferences:** r5rs-error, r5rs, undecided, r5rs-error/real, r6rs, r6rs/real
 
 As I understand the above text is just false: 0^0^ and 0.0^0.0^ are mathematicaly undefined, this is because it is not continuous there. Just take x^(-1/log(x))^, when x -> 0 it is equal (and therefore converges) to 1/e instead of 1 ! Provided this is changed I prefer the openness of r5rs-error.
 Bradley's argument convinces me to retain 0^0^=1 (i.e. only if we have an exact 0 as exponent) as a practical convention.
 
 
-=== #472 clarify semantics of non-library library declarations ===
+### #472 clarify semantics of non-library library declarations
 
 In items #91, #148 and #150 we voted to allow the
 use of `include`, `include-ci` and `cond-expand`
@@ -84,11 +84,11 @@ Alternately, we could provide `both`.  If you think
 this is all too confusing you could also vote `remove`,
 to drop these extensions.
 
-  * '''Options:''' declaration, syntax, both, remove
-  * '''Default:''' 
-  * '''Preferences:''' syntax, remove, declaration, both
+* **Options:** declaration, syntax, both, remove
+* **Default:**
+* **Preferences:** syntax, remove, declaration, both
 
-=== #473 library declaration locations in top-level ===
+### #473 library declaration locations in top-level
 
 R6RS allows only a single library declaration, `import`,
 at the beginning of a program body, and this must
@@ -123,23 +123,23 @@ of this is that you can cut&paste repl sessions
 as a program.  The disadvantage is that programs
 can no longer be resolved separately from expansion.
 
-  * '''Options:''' r6rs, beginning-only, any-top-level
-  * '''Default:''' 
-  * '''Preferences:'''  beginning-only, r6rs, any-top-level
+* **Options:** r6rs, beginning-only, any-top-level
+* **Default:**
+* **Preferences:**  beginning-only, r6rs, any-top-level
 
-=== #405 Retract language requiring force to accept non-promises ===
+### #405 Retract language requiring force to accept non-promises
 
 #405 lumped together several issues, one of which was a requirement
 (as opposed to an option) to make `force` applied to a non-promise
 return its argument, as opposed to it being an error.  Thus, it would
 require `(force 2) => 2`.  However, R6RS
 requires `(force 2)` to signal an error, and many non-R6RS Schemes also
-signal an error (see ForceNonPromise for details).  These facts were not
+signal an error (see [ForceNonPromise](ForceNonPromise.md) for details).  These facts were not
 considered at the time.
 
 Vote `retain` to retain this requirement, or `retract` to retract it
 and leave the result of `(force 2)` implementation-dependent.
 
-  * '''Options:''' retain, retract
-  * '''Default:''' retain
-  * '''Preferences:''' retract
+* **Options:** retain, retract
+* **Default:** retain
+* **Preferences:** retract

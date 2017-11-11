@@ -6,4 +6,4 @@ Proposal for core and standard modules:
 
 3) Every conformant implementation that provides a standard module MUST provide the whole module.
 
-See also ReplSemanticsCowan.
+See also [ReplSemanticsCowan](ReplSemanticsCowan.md).

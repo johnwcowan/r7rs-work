@@ -1,11 +1,11 @@
 
 
-= Translucent Records =
+# Translucent Records
 
-== Benefits: ==
+## Benefits:
 
-* TranslucentRecordsBenefits
+* [TranslucentRecordsBenefits](TranslucentRecordsBenefits.md)
 
-== Downsides: ==
+## Downsides:
 
-* TranslucentRecordsDownsides
+* [TranslucentRecordsDownsides](TranslucentRecordsDownsides.md)

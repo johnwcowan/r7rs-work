@@ -1,6 +1,6 @@
-This implementation of `rationalize` is taken from the IEEE Scheme standard, which is not freely available.  The code is by Alan Bawden, and the theory is from Hardy and Wright's ''Introduction to the Theory of Numbers'', 5th edition (1979).
+This implementation of `rationalize` is taken from the IEEE Scheme standard, which is not freely available.  The code is by Alan Bawden, and the theory is from Hardy and Wright's *Introduction to the Theory of Numbers*, 5th edition (1979).
 
-{{{
+```
 (define (rationalize x e)
   (simplest-rational (- x e) (+ x e)))
 (define (simplest-rational x y)
@@ -32,4 +32,4 @@ This implementation of `rationalize` is taken from the IEEE Scheme standard, whi
          (if (and (exact? x) (exact? y))
              0
            0.0))))
-}}}
+```

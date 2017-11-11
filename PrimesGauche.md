@@ -1,5 +1,3 @@
-{{{
-#!html
 <p>This SRFI provides utilities related to prime numbers.
 </p>
 
@@ -171,4 +169,3 @@ Euler&rsquo;s totient function</a> of the nonnegative integer <var>n</var>.
 <p>The current implementation relies on <code>mc-factorize</code> above,
 so it may take a very long time if <var>n</var> contains large prime factors.
 </p></dd></dl>
-}}}

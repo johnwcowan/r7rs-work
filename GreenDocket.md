@@ -1,38 +1,38 @@
 Green docket for non-portable things.   For other dockets, see [wiki:WG2Dockets].
 
-File I/O: FilesAdvancedCowan plus SettingsListsCowan and maybe LetSettingsKendal
+File I/O: [FilesAdvancedCowan](FilesAdvancedCowan.md) plus [SettingsListsCowan](SettingsListsCowan.md) and maybe [LetSettingsKendal](LetSettingsKendal.md)
 
-Threads: [[http://srfi.schemers.org/srfi-18/srfi-18.html|SRFI 18]] or ThreadsCowan (simplified)
+Threads: [SRFI 18](http://srfi.schemers.org/srfi-18/srfi-18.html) or [ThreadsCowan](ThreadsCowan.md) (simplified)
 
-Real-time threads: [[http://srfi.schemers.org/srfi-21/srfi-21.html|SRFI 21]]
+Real-time threads: [SRFI 21](http://srfi.schemers.org/srfi-21/srfi-21.html)
 
-Sockets: [[http://srfi.schemers.org/srfi-106/srfi-106.html|SRFI 106]] or NetworkPortsCowan with NetworkEndpointsCowan
+Sockets: [SRFI 106](http://srfi.schemers.org/srfi-106/srfi-106.html) or [NetworkPortsCowan](NetworkPortsCowan.md) with [NetworkEndpointsCowan](NetworkEndpointsCowan.md)
 
-Datagram channels (UDP sockets): DatagramChannelsCowan
+Datagram channels (UDP sockets): [DatagramChannelsCowan](DatagramChannelsCowan.md)
 
-Timers: [[http://srfi.schemers.org/srfi-120/srfi-120.html|SRFI 120]]
+Timers: [SRFI 120](http://srfi.schemers.org/srfi-120/srfi-120.html)
 
-Mutable environments: MutableEnvironmentsCurtisCowan
+Mutable environments: [MutableEnvironmentsCurtisCowan](MutableEnvironmentsCurtisCowan.md)
 
-Simple POSIX: SimplePosixCowan
+Simple POSIX: [SimplePosixCowan](SimplePosixCowan.md)
 
-Access to the REPL: ReplCowan
+Access to the REPL: [ReplCowan](ReplCowan.md)
 
-Library declarations: LibraryDeclarationsCowan
+Library declarations: [LibraryDeclarationsCowan](LibraryDeclarationsCowan.md)
 
-Symbols: SymbolsCowan
+Symbols: [SymbolsCowan](SymbolsCowan.md)
 
-Interfaces: InterfacesCowan
+Interfaces: [InterfacesCowan](InterfacesCowan.md)
 
-Process ports: ProcessPortsCowan
+Process ports: [ProcessPortsCowan](ProcessPortsCowan.md)
 
-Directory ports: DirectoryPortsCowan
+Directory ports: [DirectoryPortsCowan](DirectoryPortsCowan.md)
 
-Directory creation/deletion: DirectoriesCowan
+Directory creation/deletion: [DirectoriesCowan](DirectoriesCowan.md)
 
-Port operations: PortOperationsCowan
+Port operations: [PortOperationsCowan](PortOperationsCowan.md)
 
-System commands: SystemCommandCowan
+System commands: [SystemCommandCowan](SystemCommandCowan.md)
 
-Pure delay/force: PureDelayedGloria
+Pure delay/force: [PureDelayedGloria](PureDelayedGloria.md)
 

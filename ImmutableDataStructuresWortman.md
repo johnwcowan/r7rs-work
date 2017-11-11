@@ -1,1 +1,1 @@
-See ImmutableDequesWortman, ImmutableSetsWortman, and ImmutableMapsWortman.
+See [ImmutableDequesWortman](ImmutableDequesWortman.md), [ImmutableSetsWortman](ImmutableSetsWortman.md), and [ImmutableMapsWortman](ImmutableMapsWortman.md).

@@ -1,6 +1,6 @@
 This is not yet a formal proposal.
 
-{{{
+```
 In pretty much all modern array languages, the array type is a descriptor
 for the layout of shared storage, and this is reflected throughout the
 entire design and API of the array facility.
@@ -80,5 +80,5 @@ Just to be clear: the above isn't some complicated generalization from other
 array languages, it's pretty much the standard functionality that is
 available in many array languages.  (There are some details I have glossed
 over related to array bounds etc.)
-}}}
+```
 

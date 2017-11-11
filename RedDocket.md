@@ -1,2 +1,2 @@
-See RedEditionBallot.  For other dockets, see [wiki:WG2Dockets].
+See [RedEditionBallot](RedEditionBallot.md).  For other dockets, see [wiki:WG2Dockets].
 

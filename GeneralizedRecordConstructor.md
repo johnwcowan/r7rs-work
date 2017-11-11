@@ -1,7 +1,7 @@
 
-= Generalized Record Constructor = 
+# Generalized Record Constructor =
 
-== Benefits: ==
+## Benefits:
 
-== Downsides: ==
+## Downsides:
 

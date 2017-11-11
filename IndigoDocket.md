@@ -1,9 +1,9 @@
-Stuff of dubious utility.  See 
+Stuff of dubious utility.  See
 
-Edit buffers: BuffersCowan
+Edit buffers: [BuffersCowan](BuffersCowan.md)
 
-Substitute/transform: SubstituteCowan
+Substitute/transform: [SubstituteCowan](SubstituteCowan.md)
 
-More multiple values: MultipleValuesCowan
+More multiple values: [MultipleValuesCowan](MultipleValuesCowan.md)
 
-MiscAlexandria
+[MiscAlexandria](MiscAlexandria.md)

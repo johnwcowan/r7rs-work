@@ -1,1 +1,1 @@
-This proposal has been withdrawn by the author.  See SearchCowan.
+This proposal has been withdrawn by the author.  See [SearchCowan](SearchCowan.md).

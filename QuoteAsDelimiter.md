@@ -1,1 +1,1 @@
-See QuoteDelimiter.
+See [QuoteDelimiter](QuoteDelimiter.md).

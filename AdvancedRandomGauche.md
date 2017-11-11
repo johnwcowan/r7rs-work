@@ -1,10 +1,8 @@
 This SRFI defines a set of SRFI 121 generators and generator makers
 that yield random data of specific types and distributions.  It is intended to be
-implemented on top of [[http://srfi.schemers.org/srfi-27/srfi-27.html|SRFI 27]].
+implemented on top of [SRFI 27](http://srfi.schemers.org/srfi-27/srfi-27.html).
 
 
-{{{
-#!html
 <a name="Random-source-parameter"></a>
 <h3 class="subheading">Random source parameter</h3>
 
@@ -152,4 +150,3 @@ that the generator which follows it is chosen.  The sum of the weights doesn&rsq
 be 1.0.
 </p></dd></dl>
 
-}}}

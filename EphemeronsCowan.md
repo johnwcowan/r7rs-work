@@ -1,1 +1,1 @@
-See [[http://srfi.schemers.org/srfi-124/srfi-124.html|SRFI 124]]
+See [SRFI 124](http://srfi.schemers.org/srfi-124/srfi-124.html)

@@ -1,3 +1,3 @@
-= Survey of existing and proposed module systems =
+# Survey of existing and proposed module systems
 
-See FactoringModuleProposals.
+See [FactoringModuleProposals](FactoringModuleProposals.md).

@@ -1,28 +1,28 @@
-= Instructions =
+# Instructions
 
-    * You may list as many of the options as you want in order of preference.
-    * Options are comma-delimited (ignoring space) and case-insensitive.
-    * You can pipe-delimit (|) options you want to give equal weight to.
-    * You may write in your own option if you announce it to the list first.
-    * You may specify a variant with option/variant, for example srfi-1/module to vote for srfi-1 but clarify it should be in a separate module. Please also include the srfi-1 option in this case.
-    * You can write a free-form rationale after the "preferences" line,
-    * module means "yes, but I want it in a separate module",
-    * wg2 means "no, but I think it should go in WG2".
-    * undecided means I want to discuss this issue further.
-    * Abstain on any item by leaving the preferences blank. 
+* You may list as many of the options as you want in order of preference.
+* Options are comma-delimited (ignoring space) and case-insensitive.
+* You can pipe-delimit (|) options you want to give equal weight to.
+* You may write in your own option if you announce it to the list first.
+* You may specify a variant with option/variant, for example srfi-1/module to vote for srfi-1 but clarify it should be in a separate module. Please also include the srfi-1 option in this case.
+* You can write a free-form rationale after the "preferences" line,
+* module means "yes, but I want it in a separate module",
+* wg2 means "no, but I think it should go in WG2".
+* undecided means I want to discuss this issue further.
+* Abstain on any item by leaving the preferences blank.
 
-= WG1 Ballot Items To Finalize By Sep. 9 =
+# WG1 Ballot Items To Finalize By Sep. 9
 
-== WG1 - Core ==
+## WG1 - Core
 
-=== #102 module syntax name ===
+### #102 module syntax name
 
 We decided on `module` earlier, and the current draft reflects that,
 but some comments from the community suggest we revisit this issue.
 
 Emails from Aaron Hsu and Denis Washington:
 
-{{{
+```
 [AH] I do not buy the argument that we are making things better by
 using `module` instead of `library` in this case. The module term is
 much more common throughout, including systems in Chez, PLT, Scheme48
@@ -44,7 +44,7 @@ Google search reveals, at least [[as|well as direct testing --JC]]) and
 preserves the "library" term, which is common, well-known, clear and
 in line with previous Scheme specs (R6RS and, in a way, R5RS' usage of
 the term "library procedure").
-}}}
+```
 
 If we choose a unique name such as `define-library` then there is no
 chance of conflicts, but the name itself may not be aesthetically
@@ -57,18 +57,18 @@ possibly requiring a command-line flag for "R7RS mode" or some such.
 TODO: Create a list of existing names used, and ways implementations
 may detect the difference in the event of a conflict.
 
-  * '''Options:''' module, library, define-library
-  * '''Default:''' module
-  * '''Preferences:''' define-library
+* **Options:** module, library, define-library
+* **Default:** module
+* **Preferences:** define-library
 
 Reversed from my earlier decision, we need
 to avoid conflicts and I haven't seen any better
 names.
 
-=== #145 RFC 2119 compliance ===
+### #145 RFC 2119 compliance
 
 R6RS introduces a description of requirement levels following
-[[http://tools.ietf.org/html/rfc2119|RFC 2119]] use of the modal verbs
+[RFC 2119](http://tools.ietf.org/html/rfc2119) use of the modal verbs
 "may", "should", "must", "shall", "should not", "must not", "shall
 not."
 
@@ -76,22 +76,22 @@ Do we want to incorporate this?  If so, we'll also need to revise
 existing uses of those phrases, and possibly introduce them where
 needed.
 
-  * '''Options:''' yes, no, undecided
-  * '''Default:''' no
-  * '''Preferences:''' yes
+* **Options:** yes, no, undecided
+* **Default:** no
+* **Preferences:** yes
 
-=== #185 Add sixth "centered" division operator ===
+### #185 Add sixth "centered" division operator
 
 We are re-opening the sixth "centered" division operator:
 
-  * `(centered/ x y)`
-  * `(centered-quotient x y)`
-  * `(centered-remainder x y)`
+* `(centered/ x y)`
+* `(centered-quotient x y)`
+* `(centered-remainder x y)`
 
 These correspond to the R6RS operators `div0`, `mod0` and
 `div0-and-mod0` defined as in the Guile manual:
 
-{{{
+```
 These procedures accept two real numbers x and y, where the divisor y
 must be non-zero. centered-quotient returns the integer q and
 centered-remainder returns the real number r such that x = q*y + r and
@@ -104,21 +104,21 @@ is broken according to the sign of y. If y > 0, ties are rounded
 toward positive infinity, otherwise they are rounded toward negative
 infinity. This is a consequence of the requirement that -|y/2| <= r <
 |y/2|.
-}}}
+```
 
 Vote `centered` to add the sixth operator, `no` to stick with the five
 operators, and `remove` to drop the full five sets of operators from
 the small language.
 
-  * '''Options:''' centered, no, remove, undecided
-  * '''Default:''' no
-  * '''Preferences:''' remove, no
+* **Options:** centered, no, remove, undecided
+* **Default:** no
+* **Preferences:** remove, no
 
 We need to use and understand all of these operators more before
 deciding.  Some of the newly proposed operators have no known use in
 existing programs to my knowledge.
 
-=== #193 values and procedure arguments ===
+### #193 values and procedure arguments
 
 A suggestion was made to specify that arguments in a procedure call
 and "init bindings" (presumably in `let` and friends) should evaluate
@@ -131,13 +131,13 @@ Do we want to require implementations to signal an error in these
 cases?  Not currently many implementations of MV would not be able to
 detect these cases efficiently.
 
-  * '''Options:''' yes, no, undecided
-  * '''Default:''' no
-  * '''Preferences:''' no
+* **Options:** yes, no, undecided
+* **Default:** no
+* **Preferences:** no
 
 No, this is silly.
 
-=== #202 Semi-Editorial: Should we remove the specific syntaxes from the BNF in section 7? ===
+### #202 Semi-Editorial: Should we remove the specific syntaxes from the BNF in section 7?
 
 These date back to R4RS, when Scheme had a fixed syntax and it made
 sense to enumerate it here.  Are they still doing useful work, now
@@ -145,40 +145,40 @@ that syntax forms can be changed at will?
 
 Vote `yes` to remove them.
 
-  * '''Options:''' yes, no, undecided
-  * '''Default:''' no
-  * '''Preferences:''' yes
+* **Options:** yes, no, undecided
+* **Default:** no
+* **Preferences:** yes
 
 Drop these, they don't belong when describing a language without fixed
 syntax.
 
-=== #212 Let LOAD take an optional environment argument ===
+### #212 Let LOAD take an optional environment argument
 
 Change `load` to take a second argument which is the environment to
 load into.  The default is `(interaction-environment)`.
 
 See also #161.
 
-  * '''Options:''' yes, no, undecided
-  * '''Default:''' no
-  * '''Preferences:''' yes
+* **Options:** yes, no, undecided
+* **Default:** no
+* **Preferences:** yes
 
-=== #220 New DIGIT-VALUE procedure ===
+### #220 New DIGIT-VALUE procedure
 
 This accepts a character which is a numeric digit and returns its
 value as a digit, or `#f` if it's not a digit:
 
-{{{
+```
 (digit-value #\3) => 3
 (digit-value #\x0664) => 4
 (digit-value #\x0EA6) => 0
-}}}
+```
 
 You need the following list of zero-value characters to implement this
 for all of Unicode (currently); implementations that support only a
 subset of Unicode need only a subset of the list, of course:
 
-{{{
+```
 (define zeros '(
   #\x0030 ;DIGIT ZERO
   #\x0660 ;ARABIC-INDIC DIGIT ZERO
@@ -239,25 +239,25 @@ subset of Unicode need only a subset of the list, of course:
           (- val val0)
           (digit-value* ch (cdr zeros))))))
 
-}}}
+```
 
 CL provides this as `digit-char-p`, which is its substitute for
 `char-numeric?`.
 
-  * '''Options:''' yes, no, undecided
-  * '''Default:''' no
-  * '''Preferences:''' yes
+* **Options:** yes, no, undecided
+* **Default:** no
+* **Preferences:** yes
 
 This belongs in the `(scheme char)` module.
 
-=== #221 Editorial: Consolidate and clarify formal-parameter conventions ===
+### #221 Editorial: Consolidate and clarify formal-parameter conventions
 
 Page 4 shows a naming convention for procedure
 parameters:
 
-  * obj - any object
-  * list - list
-  * z - complex
+* obj - any object
+* list - list
+* z - complex
 
 and so on.
 
@@ -266,26 +266,26 @@ It feels a bit funny that the document uses this notation and
 then x, x_1, x_2 are used for reals, but then uses "char_1"
 and "char_2" for characters.
 
-  * '''Proposals:'''
-    * '''abbrev:''' abbreviate `char` => `ch` and `string` => `str`
-    * '''list:''' just add `char` and `string` to the list of conventions
-  * '''Options:''' abbrev, list, none, undecided
-  * '''Default:''' none
-  * '''Preferences:''' none
+* **Proposals:**
+* **abbrev:** abbreviate `char` => `ch` and `string` => `str`
+* **list:** just add `char` and `string` to the list of conventions
+* **Options:** abbrev, list, none, undecided
+* **Default:** none
+* **Preferences:** none
 
 I think this is self-explanatory.
 
-=== #222 Rename character ports to textual ports ===
+### #222 Rename character ports to textual ports
 
 The term "textual port" is R6RS compatible.
 
-  * '''Options:''' textual, character, undecided
-  * '''Default:''' character
-  * '''Preferences:''' textual
+* **Options:** textual, character, undecided
+* **Default:** character
+* **Preferences:** textual
 
 Bikeshed, go with R6RS.
 
-=== #223 Converting current-{input,output}-ports to binary ===
+### #223 Converting current-{input,output}-ports to binary
 
 The standard input and output ports which `current-input-port` and
 `current-output-port` are initially bound to are not opened
@@ -293,42 +293,42 @@ explicitly.  They default to character ports.  Should they be
 replaceable with equivalent binary ports using the following
 procedures?
 
-  * (standard-input-is-binary!)
-  * (standard-output-is-binary!)
+* (standard-input-is-binary!)
+* (standard-output-is-binary!)
 
 It is an error to call either of these if the corresponding
 `current-{input,output}-port` is not the original value, or if any I/O
 has been performed on them, or if they cannot reasonably be treated as
 binary.
 
-  * '''Options:''' yes, no, undecided
-  * '''Default:''' no
-  * '''Preferences:''' no
+* **Options:** yes, no, undecided
+* **Default:** no
+* **Preferences:** no
 
 This needs more thought.
 
-=== #224 Additional blob I/O ===
+### #224 Additional blob I/O
 
-See BlobIoShinn, which provides the ability to read and write blobs,
+See [BlobIoShinn](BlobIoShinn.md), which provides the ability to read and write blobs,
 and simple conversions between blobs (interpreted as UTF-8) and
 strings.
 
-  * '''Options:''' yes, no, undecided
-  * '''Default:''' no
-  * '''Preferences:''' yes
+* **Options:** yes, no, undecided
+* **Default:** no
+* **Preferences:** yes
 
-=== #226 Remove property-list file specs from WG1 ===
+### #226 Remove property-list file specs from WG1
 
 Getting rid of file-specs was the motivation for the new binary I/O
 API we agreed on, but it was not made explicit in the proposal.
 Consequently, although all references to `file-spec` have been removed
 from the current draft, we should vote on this for completeness.
 
-  * '''Options:''' remove, keep, undecided
-  * '''Default:''' remove
-  * '''Preferences:''' remove
+* **Options:** remove, keep, undecided
+* **Default:** remove
+* **Preferences:** remove
 
-=== #229 EQV? and NaN ===
+### #229 EQV? and NaN
 
 For good reasons, `+nan.0` is not `=` to any other number, including
 itself.  However, `eqv?` is about "sameness" rather than "equality".
@@ -354,19 +354,19 @@ ikarus, kawa, racket, stklos.
 The following 7 implementations return `#f`: bigloo, chibi, chicken,
 gauche, larceny, mit-scheme, scheme48.
 
-SigScheme and Scheme 9 don't have +nan.0.  SISC currently has a bug
+[SigScheme](SigScheme.md) and Scheme 9 don't have +nan.0.  SISC currently has a bug
 where `(= nan.0 x)` is true for any `x`.
 
 Since implementations currently disagree on these semantics, it may
 make the most sense to leave this `unspecified`.
 
-  * '''Options:''' same, different, unspecified, undecided
-  * '''Default:''' unspecified
-  * '''Preferences:''' unspecified
+* **Options:** same, different, unspecified, undecided
+* **Default:** unspecified
+* **Preferences:** unspecified
 
 It is de facto unspecified.
 
-=== #230 Reserve module names for current and future standards ===
+### #230 Reserve module names for current and future standards
 
 Do we want to add a clause stating that all module names under the
 `(scheme ...)` name are reserved for current and future standards?
@@ -374,25 +374,25 @@ Do we want to reserve the `(srfi ...)` names?
 
 Note the name `scheme` may be changed pending the result of #237.
 
-  * '''Options:''' scheme, srfi, both, neither, undecided
-  * '''Default:''' no
-  * '''Preferences:''' both
+* **Options:** scheme, srfi, both, neither, undecided
+* **Default:** no
+* **Preferences:** both
 
-=== #232 define-values ===
+### #232 define-values
 
 Several implementations provide a `define-values` macro.  This allows
 cleanly writing multiple definitions with a shared state for example.
 
 Should we have it on WG1 or not?
 
-  * '''Options:''' yes, no, undecided
-  * '''Default:''' no
-  * '''Preferences:''' no
+* **Options:** yes, no, undecided
+* **Default:** no
+* **Preferences:** no
 
 Enough with the syntactic sugar!  Let people write their own, or refer
 to the large language for common macros.
 
-=== #234 Add EAGER from SRFI 45 ===
+### #234 Add EAGER from SRFI 45
 
 `eager`, like `delay`, returns a promise object that can be forced by
 `force`, but it evaluates its argument up front (it is a procedure,
@@ -407,27 +407,27 @@ something is known in advance to be eager you don't want to make it a
 promise to begin with.  Use cases should be provided if we want to
 include this.
 
-  * '''Options:''' yes, no, undecided
-  * '''Default:''' no
-  * '''Preferences:''' no
+* **Options:** yes, no, undecided
+* **Default:** no
+* **Preferences:** no
 
 I'm not convinced the uses for this are common enough to add it as a
 procedure instead of just writing `(let ((value expression)) (delay value))`.
 
-=== #235 Should bytevector constants be self-quoting? ===
+### #235 Should bytevector constants be self-quoting?
 
 They are in R6RS, apparently because they are considered more closely
 related to strings rather than vectors.
 
 Note currently vectors are not self-quoting.
 
-  * '''Options:''' yes, no, undecided
-  * '''Default:''' no
-  * '''Preferences:''' yes
+* **Options:** yes, no, undecided
+* **Default:** no
+* **Preferences:** yes
 
 There's no reason they shouldn't be.
 
-=== #237 Change "scheme" in module names to "rsn" or "rs11" or something else ===
+### #237 Change "scheme" in module names to "rsn" or "rs11" or something else
 
 The term "scheme" is already in use in module names on some Scheme
 implementations.  We need to pick something that nobody is using.
@@ -438,20 +438,20 @@ either way would cause conflicts with existing R6RS modules.
 
 Feel free to write in a name.
 
-  * '''Options:''' scheme, r7rs, scheme2011, undecided
-  * '''Default:''' scheme
-  * '''Preferences:''' r7rs, scheme
+* **Options:** scheme, r7rs, scheme2011, undecided
+* **Default:** scheme
+* **Preferences:** r7rs, scheme
 
 "r7rs" avoids the issue that we don't have explicit
 versioning capabilities.  When and if we have the
 same modules unchanged across two or more standards,
 we can use the "scheme" name.
 
-=== #238 Reserve #! for read directives ===
+### #238 Reserve #! for read directives
 
 From Denis Washington:
 
-{{{
+```
 Reading chapter 2 of the third draft, I was thinking: now that we have
 `#!fold-case` and `#!no-fold-case` and other directives might follow
 in WG2, wouldn't it be appropriate for section 2.3 (Other notations)
@@ -460,28 +460,28 @@ encourage implementations to use the same syntax for their own
 directives, which helps portability (an implementation could just
 ignore unknown directives which might just be used by another for
 optimization purposes).
-}}}
+```
 
 Note that since the only use we have alters the reader, the `!` is
 consistent with the existing convention for `!`.
 
-  * '''Options:''' yes, no, undecided
-  * '''Default:''' no
-  * '''Preferences:''' no
+* **Options:** yes, no, undecided
+* **Default:** no
+* **Preferences:** no
 
 This conflicts with other uses of "#!".
 
-=== #240 Rename current-second to current-tai ===
+### #240 Rename current-second to current-tai
 
 The procedure, as currently spec'd, may return a fraction of a second,
 and there should be a mention of TAI in it.  `Current-tai-time` is
-redundant, since the T in TAI stands for Time (or ''Temps'').
+redundant, since the T in TAI stands for Time (or *Temps*).
 
-  * '''Options:''' current-second, current-tai-time, current-tai, undecided
-  * '''Default:''' current-second
-  * '''Preferences:''' current-second
+* **Options:** current-second, current-tai-time, current-tai, undecided
+* **Default:** current-second
+* **Preferences:** current-second
 
-=== #243 Add optional support for -0.0 ===
+### #243 Add optional support for -0.0
 
 Implementations should be permitted to distinguish 0.0 from -0.0 in
 accordance with IEEE 754.  `0.0` and `-0.0` should be the same to `=`
@@ -496,30 +496,30 @@ smallest representable positive inexact number.
 Vote `yes` to adapt the description of -0.0 from R6RS and include
 examples where appropriate.
 
-  * '''Options:''' yes, no, undecided
-  * '''Default:''' no
-  * '''Preferences:''' yes
+* **Options:** yes, no, undecided
+* **Default:** no
+* **Preferences:** yes
 
-=== #244 Extended "Overview of Scheme" chapter ===
+### #244 Extended "Overview of Scheme" chapter
 
 Denis Washington said (<http://lists.scheme-reports.org/pipermail/scheme-reports/2011-August/001255.html>):
 
-{{{
+```
 I would love to see a ticket added about possibly including (some of)
 the detailed "Overview of Scheme" chapter from R6RS into the report;
 it helps very much to understand the rest of the report and is
 invaluable for e.g. students. Would someone from the working group do
 this (provided that anyone actually agrees with me)? It would be sad
 if this consideration were forgotten.
-}}}
+```
 
 The "Overview of Scheme" in R6RS contains a similar introduction as in
 the section of the same name in R5RS, followed by a rough tutorial
 describing the basic syntax and data types.
 
-  * '''Options:''' yes, no, undecided
-  * '''Default:''' no
-  * '''Preferences:''' no
+* **Options:** yes, no, undecided
+* **Default:** no
+* **Preferences:** no
 
 This is not a normative part of the report, nor do I feel does it
 provide a particularly good tutorial, which should be tailored to
@@ -527,7 +527,7 @@ different types of students.  It just presents a watered-down version
 of the same descriptions provided later in the same, relatively short
 document.
 
-=== #245 Editorial: Case-folding should refer to UAX ===
+### #245 Editorial: Case-folding should refer to UAX
 
 In the string case conversion, it mentions the context sensitivity of
 Greek sigma: A small final sigma needs to be used when it is at the
@@ -538,24 +538,24 @@ lead inconsistent behavior among implementations.  We can refer to UAX
 Vote `uax-29` for the reference, or `unspecified` to leave this up to
 the implementation.
 
-  * '''Options:''' uax-29, unspecified, undecided
-  * '''Default:''' unspecified
-  * '''Preferences:''' undecided, uax-29
+* **Options:** uax-29, unspecified, undecided
+* **Default:** unspecified
+* **Preferences:** undecided, uax-29
 
 We can say "_should_ follow UAX-29" here.
 
-=== #248 fill-string and fill-vector: optional start/end arguments? ===
+### #248 fill-string and fill-vector: optional start/end arguments?
 
 Should we provide the obvious way to fill part of a string or vector?
 
-  * '''Options:''' yes, no, undecided
-  * '''Default:''' no
-  * '''Preferences:''' no
+* **Options:** yes, no, undecided
+* **Default:** no
+* **Preferences:** no
 
 Fill-string is an abomination, fill-vector belongs in a larger vector
 library.
 
-=== #254 Behavior of open-output-file on existing files ===
+### #254 Behavior of open-output-file on existing files
 
 Currently this is unspecified, and different implementations behave
 differently.  WG2 will likely provide explicit control for this, but
@@ -564,15 +564,15 @@ we may want to specify the default behavior in WG1.
 Vote `overwrite` to truncate and overwrite the existing file, or
 `error` to require an error be signalled.
 
-  * '''Options:''' overwrite, error, unspecified, undecided
-  * '''Default:''' unspecified
-  * '''Preferences:''' overwrite
+* **Options:** overwrite, error, unspecified, undecided
+* **Default:** unspecified
+* **Preferences:** overwrite
 
 This seems to be the most common behavior among implementations.
 
-=== #262 module factoring (scheme io) ===
+### #262 module factoring (scheme io)
 
-This is one of several issues raised by ModuleFactoringSummary.
+This is one of several issues raised by [ModuleFactoringSummary](ModuleFactoringSummary.md).
 
 This and the following items ask you to decide whether a current set
 of procedures under discussion belongs in the core or a separate
@@ -582,37 +582,37 @@ separate modules at all.
 Should the basic I/O procedures (not involving file I/O or reading or
 writing) be in the core or a separate module?
 
-  * '''Options:''' core, separate
-  * '''Default:''' core
-  * '''Preferences:''' separate
+* **Options:** core, separate
+* **Default:** core
+* **Preferences:** separate
 
 The I/O system is controversial, hence the complete (though unpopular)
 rewrite in R6RS.  We should leave room for people to experiment with
 alternatives without them being second-class.
 
-=== #263 module factoring (scheme repl) ===
+### #263 module factoring (scheme repl)
 
-This is one of several issues raised by ModuleFactoringSummary (see #262).
+This is one of several issues raised by [ModuleFactoringSummary](ModuleFactoringSummary.md) (see #262).
 
 Should `interaction-environment` be in the core, the REPL module, or
 the `eval` module?
 
-  * '''Options:''' core, eval, repl
-  * '''Default:''' core
-  * '''Preferences:''' eval
+* **Options:** core, eval, repl
+* **Default:** core
+* **Preferences:** eval
 
 `interaction-environment` is an abstract utility, not necessarily
 restricted to a traditional REPL.
 
-=== #264 module factoring (scheme case-lambda) ===
+### #264 module factoring (scheme case-lambda)
 
-This is one of several issues raised by ModuleFactoringSummary.
+This is one of several issues raised by [ModuleFactoringSummary](ModuleFactoringSummary.md).
 
 Should `case-lambda` be in the core or a separate module?
 
-  * '''Options:''' remove, core, separate
-  * '''Default:''' core
-  * '''Preferences:''' remove, separate
+* **Options:** remove, core, separate
+* **Default:** core
+* **Preferences:** remove, separate
 
 `case-lambda` is one of the worst things that has ever happened to
 Scheme.  It requires a quadratic explosion in duplicate code to handle
@@ -622,24 +622,24 @@ only useful as a niche form for procedures whose behavior actually
 changes depending on the number of arguments - an uncommon and
 debatable type of API, which should not be encouraged.
 
-=== #265 module factoring (scheme multiple-values) ===
+### #265 module factoring (scheme multiple-values)
 
-This is one of several issues raised by ModuleFactoringSummary.
+This is one of several issues raised by [ModuleFactoringSummary](ModuleFactoringSummary.md).
 
 Should `values` and `call-with-values` be in the core or a separate
 module?
 
-  * '''Options:''' core, separate
-  * '''Default:''' core
-  * '''Preferences:''' separate
+* **Options:** core, separate
+* **Default:** core
+* **Preferences:** separate
 
 Multiple values are another wart in the language, which unecessarily
 complicate both the implementation and all user code which deals with
 HOFs.
 
-=== #266 module factoring (scheme char normalization) ===
+### #266 module factoring (scheme char normalization)
 
-This is one of several issues raised by ModuleFactoringSummary.
+This is one of several issues raised by [ModuleFactoringSummary](ModuleFactoringSummary.md).
 
 Should the Unicode normalization procedures be in the core, the `char`
 module, or their own separate module?
@@ -648,31 +648,31 @@ This is a controversial new feature, not yet implemented in any
 Schemes, and thus the option of `remove` is being added here to remove
 the feature altogether.
 
-  * '''Options:''' core, char, separate, remove
-  * '''Default:''' core
-  * '''Preferences:''' separate, char
+* **Options:** core, char, separate, remove
+* **Default:** core
+* **Preferences:** separate, char
 
-=== #267 module factoring all I/O ===
+### #267 module factoring all I/O
 
-This is one of several issues raised by ModuleFactoringSummary.
+This is one of several issues raised by [ModuleFactoringSummary](ModuleFactoringSummary.md).
 
 Should we provide an aggregate module for the three (or four) proposed
 I/O modules, where `(scheme io)` provides all of:
 
-  * `(scheme io base)`   (if not in the core)
-  * `(scheme file)`
-  * `(scheme read)`
-  * `(scheme write)`
+* `(scheme io base)`   (if not in the core)
+* `(scheme file)`
+* `(scheme read)`
+* `(scheme write)`
 
-  * '''Options:''' yes, no
-  * '''Default:''' no
-  * '''Preferences:''' no
+* **Options:** yes, no
+* **Default:** no
+* **Preferences:** no
 
 I've changed my mind here.  We can leave aggregate modules up to WG2.
 
-=== #268 module factoring (scheme parameters) ===
+### #268 module factoring (scheme parameters)
 
-This is one of several issues raised by ModuleFactoringSummary.
+This is one of several issues raised by [ModuleFactoringSummary](ModuleFactoringSummary.md).
 
 Should `make-parameter` and `parameterize` be in the core or their own
 separate module?
@@ -680,47 +680,47 @@ separate module?
 Note `current-in/output/error-port` are parameters, though they do not
 require the parameter API to be useful as is.
 
-  * '''Options:''' core, separate
-  * '''Default:''' core
-  * '''Preferences:''' core
+* **Options:** core, separate
+* **Default:** core
+* **Preferences:** core
 
 This is intertwined with the core language.
 
-=== #269 module factoring (scheme records) ===
+### #269 module factoring (scheme records)
 
-This is one of several issues raised by ModuleFactoringSummary.
+This is one of several issues raised by [ModuleFactoringSummary](ModuleFactoringSummary.md).
 
 Should `define-record-type` be in the core or in its own separate module?
 
-  * '''Options:''' core, separate
-  * '''Default:''' core
-  * '''Preferences:''' separate
+* **Options:** core, separate
+* **Default:** core
+* **Preferences:** separate
 
 No one thinks SRFI-9 is the one true record system, just that it's the
 only one we can agree on.  We should leave room for other record
 systems, and not give this one special status.
 
-=== #270 module factoring (scheme char) ===
+### #270 module factoring (scheme char)
 
-This is one of several issues raised by ModuleFactoringSummary.
+This is one of several issues raised by [ModuleFactoringSummary](ModuleFactoringSummary.md).
 
 Should the Unicode character case and property utilities be in the
 core or their own separate module?
 
-  * '''Options:''' core, separate
-  * '''Default:''' core
-  * '''Preferences:''' separate
+* **Options:** core, separate
+* **Default:** core
+* **Preferences:** separate
 
 These require pretty large tables to load into a small implementation.
 
-=== #231 WG1/WG2 Scheme naming proposal ===
+### #231 WG1/WG2 Scheme naming proposal
 
 Denis Washington made the following proposal for the names of the
 variants of Scheme defined by WG1 and WG2:
 
-  * WG1: "Report on the Algorithmic Language Scheme, Revised 2011" (abbr.: RS11)
+* WG1: "Report on the Algorithmic Language Scheme, Revised 2011" (abbr.: RS11)
 
-  * WG2: "Report on Standard Extensions to the Algorithmic Language Scheme, Revised 2011" (abbr.: RSES11; alternatively, "[...] Commobn Extensions [...]", abbr. RCES11; should probably be "Published 2011" as there is no original document to revise.)
+* WG2: "Report on Standard Extensions to the Algorithmic Language Scheme, Revised 2011" (abbr.: RSES11; alternatively, "[...] Commobn Extensions [...]", abbr. RCES11; should probably be "Published 2011" as there is no original document to revise.)
 
 The current draft is written in the same style and layout as all the
 drafts through R5RS, and by default has kept the same naming
@@ -728,33 +728,33 @@ convention.  Do we want to change the name?
 
 Note the name for WG2 is beyond the scope of this ballot.
 
-  * '''References:'''
-    * http://lists.scheme-reports.org/pipermail/scheme-reports/2011-July/001170.html
-  * '''Proposals:'''
-    * '''r7rs:''' "R7RS" as in the current draft
-    * '''2011 :''' "Scheme 2011" as in the proposal above
-  * '''Options:''' r7rs, 2011, undecided
-  * '''Default:''' r7rs
-  * '''Preferences:''' r7rs
+* **References:**
+* http://lists.scheme-reports.org/pipermail/scheme-reports/2011-July/001170.html
+* **Proposals:**
+* **r7rs:** "R7RS" as in the current draft
+* **2011 :** "Scheme 2011" as in the proposal above
+* **Options:** r7rs, 2011, undecided
+* **Default:** r7rs
+* **Preferences:** r7rs
 
 I think changing the name at this point would give the misleading
 impression that the new report somehow deviates from tradition even
 more so than R6RS.
 
-=== #189 List changes from R6RS ===
+### #189 List changes from R6RS
 
 An incomplete list of the differences between this language and the
 R6RS is available.  Do we want to include this directly into the
 document?  Alternately it can go into a separate document, or be
 included in the WG2 document.
 
-  * '''Options:''' yes, no, undecided
-  * '''Default:''' no
-  * '''Preferences:''' no
+* **Options:** yes, no, undecided
+* **Default:** no
+* **Preferences:** no
 
 This would be too long, and more properly belongs in WG2.
 
-=== #227 quasiquote and cycles ===
+### #227 quasiquote and cycles
 
 Some doubts were raised as to whether reader label cycles were allowed
 in `quasiquote`.  Since cycles in code are "an error", and
@@ -768,28 +768,28 @@ it's already covered?
 
 Vote `note` to add a note.
 
-  * '''References:'''
-    * http://lists.scheme-reports.org/pipermail/scheme-reports/2011-July/001142.html
-  * '''Proposals:'''
-    * '''note:''' make a note
-  * '''Options:''' note, nothing, undecided
-  * '''Default:''' nothing
-  * '''Preferences:''' nothing
+* **References:**
+* http://lists.scheme-reports.org/pipermail/scheme-reports/2011-July/001142.html
+* **Proposals:**
+* **note:** make a note
+* **Options:** note, nothing, undecided
+* **Default:** nothing
+* **Preferences:** nothing
 
 If we include error examples for this case, we should include one for
 quasiquote.
 
-== WG1 - Reader Syntax ==
+## WG1 - Reader Syntax
 
-=== #214 string/symbol escape sequence confusing ===
+### #214 string/symbol escape sequence confusing
 
 From Felix Winkelmann:
 
-{{{
+```
 Using "\xX...;" as escape sequence is suboptimal, as it confuses
 syntax highlighters. I also have no knowledge of any precedent
 of this syntax. Also: how is this sequence handled inside "|...|"?
-}}}
+```
 
 Prior to R6RS no implementations to my knowledge used this syntax, and
 "\xXX" with a fixed two characters and no trailing semi-colon, as well
@@ -801,19 +801,19 @@ with existing code.
 Note the escapes for symbols will be the same unless someone proposed
 otherwise.
 
-  * '''Proposals:'''
-    * '''semi-colon:''' the current draft and R6RS option
-    * '''brace:''' "\x{X...}" where the braces are required
-    * '''brace-or-semi-colon:''' either of the two above
-    * '''fixed-two:''' "\xXX" with two fixed hex-digits (can't support all chars)
-    * '''optional-semi-colon:''' use semi-colon as a terminator if present, otherwise only read the first two hex-digits
-  * '''Options:''' semi-colon, brace, brace-or-semi-colon, fixed-two, optional-semi-colon, undecided
-  * '''Default:''' semi-colon
-  * '''Preferences:''' brace
+* **Proposals:**
+* **semi-colon:** the current draft and R6RS option
+* **brace:** "\x{X...}" where the braces are required
+* **brace-or-semi-colon:** either of the two above
+* **fixed-two:** "\xXX" with two fixed hex-digits (can't support all chars)
+* **optional-semi-colon:** use semi-colon as a terminator if present, otherwise only read the first two hex-digits
+* **Options:** semi-colon, brace, brace-or-semi-colon, fixed-two, optional-semi-colon, undecided
+* **Default:** semi-colon
+* **Preferences:** brace
 
 This is unambiguous and doesn't conflict with existing syntax.
 
-=== #218 infinity/nan syntax ===
+### #218 infinity/nan syntax
 
 The current BNF for symbol syntax is rather cumbersome, having to
 account for the fact that +inf.0, -inf.0 and +nan.0 are numbers even
@@ -826,20 +826,20 @@ not conflict with the definition of symbol syntax.
 Alternately we can just require a numeric prefix on the existing
 names.
 
-  * '''Proposals:'''
-    * '''r6rs:''' +inf.0, -inf.0, +nan.0
-    * '''short:''' 1/0, -1/0, 0/0
-    * '''dotted:''' 1/0.0, -1/0.0, 0/0.0
-    * '''prefix:''' 0+inf, 0-inf, 0+nan
-    * '''prefix-dotted:''' 0+inf.0, 0-inf.0, 0+nan.0
-  * '''Options:''' r6rs, short, dotted, prefix, prefix-dotted, undecided
-  * '''Default:''' r6rs
-  * '''Preferences:''' dotted, r6rs
+* **Proposals:**
+* **r6rs:** +inf.0, -inf.0, +nan.0
+* **short:** 1/0, -1/0, 0/0
+* **dotted:** 1/0.0, -1/0.0, 0/0.0
+* **prefix:** 0+inf, 0-inf, 0+nan
+* **prefix-dotted:** 0+inf.0, 0-inf.0, 0+nan.0
+* **Options:** r6rs, short, dotted, prefix, prefix-dotted, undecided
+* **Default:** r6rs
+* **Preferences:** dotted, r6rs
 
 This fits well with our definition of symbol syntax, and keeps the BNF
 simple and free of exceptions.
 
-=== #219 bring back readable boolean literals ===
+### #219 bring back readable boolean literals
 
 Scheme used to use `#!true` and `#!false` before abbreviating to the
 unfortunate `#t` and `#f` syntax, which look far too much alike.
@@ -851,17 +851,17 @@ ambiguity.
 Note - this proposal is to add alternate names.  `#t` and `#f` will be
 kept however we vote.
 
-  * '''Proposals:'''
-    * '''long:''' `#true` and `#false`
-    * '''bang-long:''' `#!true` and `#!false`
-  * '''Options:''' long, bang-long, none, undecided
-  * '''Default:''' none
-  * '''Preferences:''' long, none
+* **Proposals:**
+* **long:** `#true` and `#false`
+* **bang-long:** `#!true` and `#!false`
+* **Options:** long, bang-long, none, undecided
+* **Default:** none
+* **Preferences:** long, none
 
 Most languages use `true` and `false` spelled out, and `#t` and `#f`
 are maddenlingly difficult to distinguish.
 
-=== #22 mantissa widths and placeholders ===
+### #22 mantissa widths and placeholders
 
 Previously we voted to keep the R5RS `#` placeholders for "unknown"
 digits, and leave out the new R6RS mantissa widths.
@@ -876,11 +876,11 @@ reconsider removing it from the language.
 
 Vote `no` to remove the `#` placeholders.
 
-  * '''Options:''' r5rs, no, undecided
-  * '''Default:''' r5rs
-  * '''Preferences:''' no
+* **Options:** r5rs, no, undecided
+* **Default:** r5rs
+* **Preferences:** no
 
-=== #68 "Undefined value" vs. "undefined values" ===
+### #68 "Undefined value" vs. "undefined values"
 
 Previously we voted to keep the R5RS semantics of returning a single,
 unspecified value for the results of side-effecting expressions.
@@ -902,9 +902,9 @@ but not be portable to others.
 
 We should reconsider this item.
 
-  * '''Options:''' r5rs, r6rs, undecided
-  * '''Default:''' r5rs
-  * '''Preferences:''' r5rs
+* **Options:** r5rs, r6rs, undecided
+* **Default:** r5rs
+* **Preferences:** r5rs
 
 This is the de facto standard.  Although R6RS loosened the
 requirements, existing implementations continue to return

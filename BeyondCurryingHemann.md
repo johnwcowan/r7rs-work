@@ -1,4 +1,4 @@
-[[http://webyrd.net/scheme-2013/papers/HemannCurrying2013.pdf|λ* : Beyond Currying]]
+[λ* : Beyond Currying](http://webyrd.net/scheme-2013/papers/HemannCurrying2013.pdf)
 
 Notes:
 
@@ -8,7 +8,7 @@ The proposal is Variant 5, which has no support for zero-argument or zero-or-mor
 
 Here is the (not yet debugged) source code:
 
-{{{
+```
 (import (scheme case-lambda))
 
 (define-syntax lambda*
@@ -46,5 +46,5 @@ Here is the (not yet debugged) source code:
           (some ((lambda more (apply rec (append some more))))))))
       rec))))
 
-}}}
+```
 

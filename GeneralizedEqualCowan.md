@@ -1,1 +1,1 @@
-This proposal has been withdrawn.  See [[http://srfi.schemers.org/srfi-128/srfi-128.html|SRFI 128]].
+This proposal has been withdrawn.  See [SRFI 128](http://srfi.schemers.org/srfi-128/srfi-128.html).

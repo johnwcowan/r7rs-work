@@ -1,4 +1,4 @@
-= Charter for working group 2 =
+# Charter for working group 2
 
 This charter has been approved by the Scheme Steering Committee, though it is not yet up at scheme-reports.org.
 New paragraphs relative to the version there
@@ -10,7 +10,7 @@ The membership and internal process sections have been rewritten.
 Because SRFI processes are open to all members of the Scheme
 community, the final community vote has been removed from the process.
 
-== Purpose ==
+## Purpose
 
 Working group 2 will develop specifications, documents, and
 proofs of practical implementability for a language that embodies
@@ -30,7 +30,7 @@ or embedded use, though such uses are not prohibited.  Therefore,
 it may be a "heavyweight" language compared to the language
 designed by working group 1.
 
-== Requirements and Goals ==
+## Requirements and Goals
 
 To promote extensibility, the language developed by working group 2
 must include support for macros and modules in a way that is
@@ -52,7 +52,7 @@ the timeliness of its primary mission.
 Self consistency is an important objective, which may require
 adding new features.
 
-== Deliverable Artifacts ==
+## Deliverable Artifacts
 
 Working group 2 must develop written specifications for the
 language. These specifications must be accompanied by concise
@@ -63,7 +63,7 @@ rationale, executable reference implementations, test suites, and
 other artifacts that would assist with constructive debate or
 increase acceptance of the language.
 
-== Compatibility with R7RS-small ==
+## Compatibility with R7RS-small
 
 Every implementation of the specifications produced by working group 2
 must be an implementation of the specifications produced by working
@@ -73,9 +73,9 @@ by those specifications) must also be a program that conforms to the
 specifications produced by working group 2.
 
 
-== Membership ==
+## Membership
 
-'''New:'''
+**New:**
 Any member of the Scheme community may become a member of the working
 group with the consent of the chair, which consent must not be unreasonably
 withheld.  Membership decisions made by the chair may be appealed
@@ -86,7 +86,7 @@ Members of the working group should endorse the goals of the
 working group and be willing and able to work toward consensus.
 Working groups 1 and 2 will have some members in common.
 
-== Publicity ==
+## Publicity
 
 All technical discussions must be made public. This requirement
 can be satisfied by timely posting of email and the technical
@@ -94,15 +94,15 @@ minutes of meetings at a public web site, and by maintaining
 a publicly readable mailing list devoted to working group 2's
 technical discussions.
 
-== Internal Decision Making Process ==
+## Internal Decision Making Process
 
 The chair of the working group is expected to develop an
 internal process that allows the working group to achieve
 its objectives.
 
-'''New:'''
+**New:**
 Insofar as practical, the working group should leverage the
-existing [[http://srfi.schemers.org/srfi-process.html|SRFI process]]
+existing [SRFI process](http://srfi.schemers.org/srfi-process.html)
 to develop the standard.  Any member of the working
 group can propose that a SRFI, existing or to be created, should
 become part of the language.  It is expected that many existing
@@ -110,7 +110,7 @@ and new SRFIs will be added to the language in this fashion.
 Sections of the R6RS standards may be treated as SRFIs for this
 purpose.
 
-'''New:'''
+**New:**
 If the working group agrees, the SRFI as a whole will become
 an optional part of the language, usually constituting one or more
 libraries.  If the chair believes a proposal is sufficiently
@@ -127,14 +127,14 @@ group may proceed on the basis of a vote, but the results of
 such votes must be preserved within the public record, along
 with the reasons for dissent.
 
-'''New:'''
+**New:**
 When the working group votes yes or no on a proposal, a simple
 majority of the legal votes cast (ignoring abstentions) shall
 determine the vote.  A process similar to the ranked-pairs
 voting used by working group 1 may be used in the case of multiple
 competing proposals.
 
-== Endorsement Process ==
+## Endorsement Process
 
 The work products developed by working group 2 will be submitted
 to the Steering Committee for endorsement. The Steering Committee
@@ -144,7 +144,7 @@ the work products, the Steering Committee will consider whether
 the work products meet the charter requirements, as well as the
 level of support that they enjoy.
 
-'''New:'''
+**New:**
 Given the modular nature of the standard, the working group is
 encouraged to submit work products for endorsement on a rolling basis
 rather than waiting for the effort to be complete.
@@ -153,15 +153,15 @@ If the Steering Committee believes that support could be increased
 by revising work products in response to specific objections, then
 it may request another draft/review cycle of the working group.
 
-== Officers ==
+## Officers
 
 The Steering Committee selects, and may replace, the working group's chair.
 
 The working group may elect or appoint other officers as it sees fit.
 
-== Termination ==
+## Termination
 
-'''New:'''
+**New:**
 The Steering Committee may terminate the working group on request of the
 chair or on its own motion at any time.
 

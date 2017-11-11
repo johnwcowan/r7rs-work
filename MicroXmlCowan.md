@@ -1,294 +1,294 @@
-== Events ==
+## Events
 
-A MicroXML event is either an end-of-file object or a list representing a parsing event, in one of the following formats.  ''Stack'' is a list of SXML element names currently being processed; the car of the list is the name of the current element.
+A MicroXML event is either an end-of-file object or a list representing a parsing event, in one of the following formats.  *Stack* is a list of SXML element names currently being processed; the car of the list is the name of the current element.
 
-`($start `''stack attr-list''`)`
+`($start `*stack attr-list*`)`
 
-Represents a start-tag.  ''Attr-list'' is a [[:JsoCowan|JSO]] representing the attributes.
+Represents a start-tag.  *Attr-list* is a [JSO](JsoCowan.md) representing the attributes.
 
-`($end `''stack''`)`
+`($end `*stack*`)`
 
 Represents an end-tag.
 
-`($text `''text''`)`
+`($text `*text*`)`
 
-Represents character content.  ''Text'' is the character content as a string.
+Represents character content.  *Text* is the character content as a string.
 
-`($error `''stack error-code . other''`)`
+`($error `*stack error-code . other*`)`
 
-Represents a parsing error.  ''Error-code'' is a symbol.  ''Other'' is implementation-dependent.
+Represents a parsing error.  *Error-code* is a symbol.  *Other* is implementation-dependent.
 
-`($pi `''stack target content''`)`
+`($pi `*stack target content*`)`
 
-Represents a processing instruction (which is not part of MicroXML).  ''Target'' is a symbol; ''content'' is a string.  Parsers may return `$error` objects instead of `$pi` objects; they are provided as a way of allowing a MicroXML parser to read some (but not all) XML documents. Note that any XML declaration is taken to be a processing instruction, as in SGML.
+Represents a processing instruction (which is not part of MicroXML).  *Target* is a symbol; *content* is a string.  Parsers may return `$error` objects instead of `$pi` objects; they are provided as a way of allowing a MicroXML parser to read some (but not all) XML documents. Note that any XML declaration is taken to be a processing instruction, as in SGML.
 
-== SXML ==
+## SXML
 
 MicroXML uses a simplified version of SXML as the internal representation of documents.  Each SXML element is a list whose first member is a symbol representing the element name, whose second member is a JSO mapping the attribute names (as symbols) to their values (as strings), and whose remaining members (if any) are either SXML elements or strings.  The prototype of a JSO representing an attribute list is ignored.  There is no representation of comments or processing instructions in this version of SXML, and no notion of document objects (a document is just an element that has no parent).
 
-== Parsing, building, and printing procedures ==
+## Parsing, building, and printing procedures
 
-''Options'' is a list of symbols that control how MicroXML is written.  All implementations recognize `apos` to wrap attribute values in apostrophes, `end-tags` to write end-tags for empty elements, and `ascii` to escape all characters outside the ASCII range.  The symbol `pretty` causes pretty-printing in implementations that support it.  Other symbols are also allowed; their effects are implementation-defined.
+*Options* is a list of symbols that control how MicroXML is written.  All implementations recognize `apos` to wrap attribute values in apostrophes, `end-tags` to write end-tags for empty elements, and `ascii` to escape all characters outside the ASCII range.  The symbol `pretty` causes pretty-printing in implementations that support it.  Other symbols are also allowed; their effects are implementation-defined.
 
-`(uxml->sxml `''port handler''`)`
+`(uxml->sxml `*port handler*`)`
 
-Reads all the characters from the textual input port ''port'' as a MicroXML document and returns the SXML equivalent.  The procedure ''handler'' is invoked when a `$error` or `$pi` event is produced.  The default handler signals an error that satisfies `uxml-error?`.  If the handler is `#f`, errors and processing instructions are ignored; this relaxed parsing mode allows some XML documents that are not well-formed MicroXML to be parsed.
+Reads all the characters from the textual input port *port* as a MicroXML document and returns the SXML equivalent.  The procedure *handler* is invoked when a `$error` or `$pi` event is produced.  The default handler signals an error that satisfies `uxml-error?`.  If the handler is `#f`, errors and processing instructions are ignored; this relaxed parsing mode allows some XML documents that are not well-formed MicroXML to be parsed.
 
-`(sxml->uxml `''element port options''`)`
+`(sxml->uxml `*element port options*`)`
 
-Writes the SXML ''element'' in MicroXML format to the textual output port ''port'', using the symbols in ''options''.
+Writes the SXML *element* in MicroXML format to the textual output port *port*, using the symbols in *options*.
 
-`(make-uxml-generator `''port''`)`
+`(make-uxml-generator `*port*`)`
 
-Returns a [[http://srfi.schemers.org/srfi-158/srfi-158.html|SRFI 158]] generator of event objects that represent a MicroXML document read from the textual input port ''port''.  Processing continues no matter how many errors there are until all characters have been read.
+Returns a [SRFI 158](http://srfi.schemers.org/srfi-158/srfi-158.html) generator of event objects that represent a MicroXML document read from the textual input port *port*.  Processing continues no matter how many errors there are until all characters have been read.
 
-`(make-sxml-generator `''element''`)`
+`(make-sxml-generator `*element*`)`
 
-Returns a generator of event objects representing the SXML ''element''.
+Returns a generator of event objects representing the SXML *element*.
 
-`(event-generator->uxml `''gen port options''`)`
+`(event-generator->uxml `*gen port options*`)`
 
-Invokes the generator ''gen'' to obtain event objects and writes the corresponding MicroXML document to the textual output port ''port'', using the symbols in ''options''.  If the resulting document would not be well-formed MicroXML, an error is signaled that satisfies `uxml-error?`.
+Invokes the generator *gen* to obtain event objects and writes the corresponding MicroXML document to the textual output port *port*, using the symbols in *options*.  If the resulting document would not be well-formed MicroXML, an error is signaled that satisfies `uxml-error?`.
 
-`(event-generator->sxml `''gen''`)`
+`(event-generator->sxml `*gen*`)`
 
-Invokes the generator ''gen'' to obtain event objects, constructs the corresponding SXML element, and returns it.  If the resulting object would not be structurally sound SXML, an error is signaled that satisfies `uxml-error?`.
+Invokes the generator *gen* to obtain event objects, constructs the corresponding SXML element, and returns it.  If the resulting object would not be structurally sound SXML, an error is signaled that satisfies `uxml-error?`.
 
-`(write-uxml `''port options''`)`
+`(write-uxml `*port options*`)`
 
-Returns a procedure that accepts an event object.  When invoked repeatedly, the procedure writes the corresponding MicroXML representation to the textual output port ''port'' using the symbols in ''options'', and returns an undefined value.    If the resulting document would not be well-formed MicroXML, an error is signaled that satisfies `uxml-error?`.
+Returns a procedure that accepts an event object.  When invoked repeatedly, the procedure writes the corresponding MicroXML representation to the textual output port *port* using the symbols in *options*, and returns an undefined value.    If the resulting document would not be well-formed MicroXML, an error is signaled that satisfies `uxml-error?`.
 
 `(build-sxml)`
 
-Returns a [[http://srfi.schemers.org/srfi-158/srfi-158.html|SRFI 158]] accumulator that accepts an event object or an end of file object.  When invoked repeatedly, it builds the corresponding SXML representation.  If the object is an end of file object, the procedure returns the SXML element; if not, it returns an unspecified value.  If the resulting document would not be well-formed MicroXML, an error is signaled that satisfies `uxml-error?`.
+Returns a [SRFI 158](http://srfi.schemers.org/srfi-158/srfi-158.html) accumulator that accepts an event object or an end of file object.  When invoked repeatedly, it builds the corresponding SXML representation.  If the object is an end of file object, the procedure returns the SXML element; if not, it returns an unspecified value.  If the resulting document would not be well-formed MicroXML, an error is signaled that satisfies `uxml-error?`.
 
-== Predicates ==
+## Predicates
 
-`(sxml-element? `''obj''`)`
+`(sxml-element? `*obj*`)`
 
-Returns `#t` if ''obj'' is an SXML element and `#f` otherwise.  The procedure checks that ''obj'' is a list whose first element is a symbol and whose second element's car is the symbol `@`; further elements of the list are not examined.
+Returns `#t` if *obj* is an SXML element and `#f` otherwise.  The procedure checks that *obj* is a list whose first element is a symbol and whose second element's car is the symbol `@`; further elements of the list are not examined.
 
-`(sxml-empty? `''element''`)`
+`(sxml-empty? `*element*`)`
 
-Returns `#t` if ''element'' is an empty SXML element and `#f` otherwise.
+Returns `#t` if *element* is an empty SXML element and `#f` otherwise.
 
-`(sxml-wf-element-name? `''string attribute''`)`
+`(sxml-wf-element-name? `*string attribute*`)`
 
-Returns `#t` if ''string'' matches the MicroXML name production; returns `#f` otherwise.
+Returns `#t` if *string* matches the MicroXML name production; returns `#f` otherwise.
 
-`(sxml-wf-attribute-name? `''string attribute''`)`
+`(sxml-wf-attribute-name? `*string attribute*`)`
 
-Returns `#t` if ''string'' matches the MicroXML attribute name production; returns `#f` otherwise.
+Returns `#t` if *string* matches the MicroXML attribute name production; returns `#f` otherwise.
 
-`(sxml-wf-string? `''string''`)`
+`(sxml-wf-string? `*string*`)`
 
-Returns `#t` if all the characters in ''string'' are allowed in MicroXML character content and `#f` otherwise.
+Returns `#t` if all the characters in *string* are allowed in MicroXML character content and `#f` otherwise.
 
-`(sxml-wf-element? `''element''`)`
+`(sxml-wf-element? `*element*`)`
 
-Returns `#t` if ''element'' is well-formed.  The first element of ''element'' must be a symbol whose print name satisfies `sxml-wf-element-name?`.  The second element of ''element'' must be a JSO that maps symbols whose print name satisfies `sxml-wf-attribute-name?` to strings that satisfy `sxml-wf-string?`.  The remaining elements must be either strings that satisfy `sxml-wf-string?` or lists that satisfy `sxml-wf-element?`.
+Returns `#t` if *element* is well-formed.  The first element of *element* must be a symbol whose print name satisfies `sxml-wf-element-name?`.  The second element of *element* must be a JSO that maps symbols whose print name satisfies `sxml-wf-attribute-name?` to strings that satisfy `sxml-wf-string?`.  The remaining elements must be either strings that satisfy `sxml-wf-string?` or lists that satisfy `sxml-wf-element?`.
 
-`(sxml-attribute? `''element attr-name''`)`
+`(sxml-attribute? `*element attr-name*`)`
 
-Returns `#t` if ''attr-name'' (a symbol) is an attribute of ''element'' and `#f` otherwise.
+Returns `#t` if *attr-name* (a symbol) is an attribute of *element* and `#f` otherwise.
 
-`(sxml-id-valid? `''element id-mapping idref-list''`)`
+`(sxml-id-valid? `*element id-mapping idref-list*`)`
 
-Returns `#t` if all idref attributes contain valid ids.  An id is valid if it appears as a key in ''id-mapping'' (see `make-id-mapping`).  ''Idref-list'' is a list of 2-element sublists, where the first element of each sublist is an element name and the second element is an attribute name.
+Returns `#t` if all idref attributes contain valid ids.  An id is valid if it appears as a key in *id-mapping* (see `make-id-mapping`).  *Idref-list* is a list of 2-element sublists, where the first element of each sublist is an element name and the second element is an attribute name.
 
-`(sxml-language? `''element language''`)`
+`(sxml-language? `*element language*`)`
 
-Returns `#t` if the language of ''element'', as specified by the value of a `lang` or `xml:lang` attribute (the latter is not well-formed MicroXML but is supported for backward compatibility) matches ''language''; returns `#f` otherwise. If ''element'' has no such attribute, the language of the nearest ancestor of ''element'' that has such an attribute is used. If there is no such attribute at all, then `sxml-language?` returns `#f`.
+Returns `#t` if the language of *element*, as specified by the value of a `lang` or `xml:lang` attribute (the latter is not well-formed MicroXML but is supported for backward compatibility) matches *language*; returns `#f` otherwise. If *element* has no such attribute, the language of the nearest ancestor of *element* that has such an attribute is used. If there is no such attribute at all, then `sxml-language?` returns `#f`.
 
-The attribute value matches ''language'' if, in a case-insensitive comparison, ''language'' exactly equals the attribute value, or if ''language'' exactly equals a prefix of the attribute value such that the first character following the prefix is "-". 
+The attribute value matches *language* if, in a case-insensitive comparison, *language* exactly equals the attribute value, or if *language* exactly equals a prefix of the attribute value such that the first character following the prefix is "-".
 
-== Element procedures ==
+## Element procedures
 
-`(sxml-copy `''element''`)`
+`(sxml-copy `*element*`)`
 
-Returns a copy of ''element'' that shares nothing with it except possibly strings.
+Returns a copy of *element* that shares nothing with it except possibly strings.
 
-`(sxml-name `''element''`)`
+`(sxml-name `*element*`)`
 
-Returns the name of ''element'' as a symbol.
+Returns the name of *element* as a symbol.
 
-`(sxml-set-name! `''element name''`)`
+`(sxml-set-name! `*element name*`)`
 
-Replaces the name of ''element'' with the symbol ''name'' by mutation.
+Replaces the name of *element* with the symbol *name* by mutation.
 
-`(sxml-attr-list `''element''`)`
+`(sxml-attr-list `*element*`)`
 
-Returns the attribute list of ''element'' as a JSO.
+Returns the attribute list of *element* as a JSO.
 
-`(sxml-set-attr-list! `''element jso''`)`
+`(sxml-set-attr-list! `*element jso*`)`
 
-Replaces the attribute list of ''element'' with the JSO ''jso'' by mutation.
+Replaces the attribute list of *element* with the JSO *jso* by mutation.
 
-`(sxml-content`''element''`)`
+`(sxml-content`*element*`)`
 
-Returns the name of ''element'' as a list.
+Returns the name of *element* as a list.
 
-`(sxml-set-content! `''element list''`)`
+`(sxml-set-content! `*element list*`)`
 
-Replaces the content of ''element'' with ''list'' by mutation.
+Replaces the content of *element* with *list* by mutation.
 
-`(sxml-value `''element''`)`
+`(sxml-value `*element*`)`
 
-Returns the results of concatenating all string content children in ''element'' and all its descendants in depth-first left-to-right preorder.
+Returns the results of concatenating all string content children in *element* and all its descendants in depth-first left-to-right preorder.
 
-`(sxml-defaults! `''element attribute-defaults element-defaults inherited-attributes''`)`
+`(sxml-defaults! `*element attribute-defaults element-defaults inherited-attributes*`)`
 
-Returns ''element'' with default values expanded in itself and all its descendants by mutation.  The following transformations are made:
+Returns *element* with default values expanded in itself and all its descendants by mutation.  The following transformations are made:
 
- * ''attribute-defaults'' is a list of 3-element sublists.  Each sublist contains an element name (a symbol), an attribute name (a symbol), and a default value (a string).  All elements with those names are checked for the presence of the corresponding attribute.  If it is missing, the attribute is added with the specified default value.
+* *attribute-defaults* is a list of 3-element sublists.  Each sublist contains an element name (a symbol), an attribute name (a symbol), and a default value (a string).  All elements with those names are checked for the presence of the corresponding attribute.  If it is missing, the attribute is added with the specified default value.
 
- * ''element-defaults'' is a list of 2-element sublists.  Each sublist contains an element name (a symbol) and a default value (a string).  All empty elements with any of those names have the default value installed as the only content child.
+* *element-defaults* is a list of 2-element sublists.  Each sublist contains an element name (a symbol) and a default value (a string).  All empty elements with any of those names have the default value installed as the only content child.
 
- * ''inherited-attributes'' is a list of symbols.  All elements are checked for an attribute whose name is one of the list.  If absent, then the most recent ancestor of the element that has this attribute is found (note that no parent map is required), and the attribute is added to the element being processed with the same value as in the ancestor.
+* *inherited-attributes* is a list of symbols.  All elements are checked for an attribute whose name is one of the list.  If absent, then the most recent ancestor of the element that has this attribute is found (note that no parent map is required), and the attribute is added to the element being processed with the same value as in the ancestor.
 
-`(sxml-element-position `''element parent-map''`)`
+`(sxml-element-position `*element parent-map*`)`
 
-Returns the position of ''element'' among the element children of the parent of ''element'' as an exact integer, with 1 meaning the first element child.  If there is no parent, return 0.
+Returns the position of *element* among the element children of the parent of *element* as an exact integer, with 1 meaning the first element child.  If there is no parent, return 0.
 
-`(sxml-element-size `''element''`)`
+`(sxml-element-size `*element*`)`
 
-Return the number of content children of ''element'' as an exact integer.
+Return the number of content children of *element* as an exact integer.
 
-`(sxml-normalize-element! `''element''`)`
+`(sxml-normalize-element! `*element*`)`
 
 Returns a normalized version (using mutation) of an SXML element that does not necessarily conform to the definition.  In particular, at least the following repairs are made:
 
- * If the name is a string, it is converted to a symbol with `string-symbol`.
- * If the attribute-list is missing, an empty JSO is provided.
- * If the attribute-list does not begin with an `@` element, one is provided.
- * If one of the content children or an attribute value is a number, it is converted to a string with `number->string`.
- * If one of the content children or an attribute value is a boolean, it is converted to a string with `boolean->string`.
- * If one of the content children or an attribute value is a symbol, it is converted to a string with `symbol->string`.
- * If one of the content children is some other type of Scheme object, it is converted to a string by some implementation-defined means or else removed.
- * If an attribute value is some other type of Scheme object, it is converted to a string by some implementation-defined means or else that attribute is removed.
- * If after the above transformations are completed, two or more consecutive content children are strings, they are consolidated.
- * If any content children are elements, they are recursively normalized.
+* If the name is a string, it is converted to a symbol with `string-symbol`.
+* If the attribute-list is missing, an empty JSO is provided.
+* If the attribute-list does not begin with an `@` element, one is provided.
+* If one of the content children or an attribute value is a number, it is converted to a string with `number->string`.
+* If one of the content children or an attribute value is a boolean, it is converted to a string with `boolean->string`.
+* If one of the content children or an attribute value is a symbol, it is converted to a string with `symbol->string`.
+* If one of the content children is some other type of Scheme object, it is converted to a string by some implementation-defined means or else removed.
+* If an attribute value is some other type of Scheme object, it is converted to a string by some implementation-defined means or else that attribute is removed.
+* If after the above transformations are completed, two or more consecutive content children are strings, they are consolidated.
+* If any content children are elements, they are recursively normalized.
 
-`(sxml-write `''element''`)`
+`(sxml-write `*element*`)`
 
-Displays information on `(current-error-port)` about ''element''.  The precise nature of the information displayed is undefined, except that it should end with a newline; there is no guarantee that it can be re-read.  ''Element'' is returned.
+Displays information on `(current-error-port)` about *element*.  The precise nature of the information displayed is undefined, except that it should end with a newline; there is no guarantee that it can be re-read.  *Element* is returned.
 
-`(sxml-root `''element''`)`
+`(sxml-root `*element*`)`
 
-Returns the root element of ''element''.
+Returns the root element of *element*.
 
-== Mapping procedures ==
+## Mapping procedures
 
-`(sxml-make-parent-mapping `''document''`)`
+`(sxml-make-parent-mapping `*document*`)`
 
-Creates a parent mapping based on the SXML element ''document''.  A parent mapping is an opaque object that maps an element to its parent.  Returns the parent mapping.
+Creates a parent mapping based on the SXML element *document*.  A parent mapping is an opaque object that maps an element to its parent.  Returns the parent mapping.
 
-`(sxml-parent `''element parent-mapping''`)`
+`(sxml-parent `*element parent-mapping*`)`
 
-Uses ''parent-mapping'' to determine the parent of ''element'' and returns it, or `#f` if there is none.
+Uses *parent-mapping* to determine the parent of *element* and returns it, or `#f` if there is none.
 
-`(sxml-detach-parent! `''element parent-mapping''`)`
+`(sxml-detach-parent! `*element parent-mapping*`)`
 
-Removes the mapping from ''element'' to its parent from ''parent-mapping''.  If ''element'' does not have a parent, nothing is done.  Returns an unspecified value.
+Removes the mapping from *element* to its parent from *parent-mapping*.  If *element* does not have a parent, nothing is done.  Returns an unspecified value.
 
-`(sxml-make-id-mapping `''document''`)`
+`(sxml-make-id-mapping `*document*`)`
 
-Creates an id mapping based on the SXML element ''document''.  An id mapping is an opaque object that maps an id (a symbol) to an element.  The element and all its descendants are checked for the presence of an attribute named `id` or `xml:id` (the latter is not well-formed MicroXML but is allowed in SXML for backward compatibility).  If found, an entry is created in the id mapping that maps the corresponding attribute value ''as a symbol'' to the element.  Returns the id mapping.
+Creates an id mapping based on the SXML element *document*.  An id mapping is an opaque object that maps an id (a symbol) to an element.  The element and all its descendants are checked for the presence of an attribute named `id` or `xml:id` (the latter is not well-formed MicroXML but is allowed in SXML for backward compatibility).  If found, an entry is created in the id mapping that maps the corresponding attribute value *as a symbol* to the element.  Returns the id mapping.
 
-`(sxml-id `''id id-mapping''`)`
+`(sxml-id `*id id-mapping*`)`
 
-Looks up the symbol ''id'' in ''id-mapping'' and returns the corresponding element, or `#f` if there is none.
+Looks up the symbol *id* in *id-mapping* and returns the corresponding element, or `#f` if there is none.
 
-== String procedures ==
+## String procedures
 
-`(uxml-escape-string `''string attribute? apos? ascii?''`)`
+`(uxml-escape-string `*string attribute? apos? ascii?*`)`
 
-Converts ''string'' to contain the necessary entity references for MicroXML.  In all cases, the characters `< & >` are escaped with entity references.  If ''attribute?'' is true, then if ''apos?'' is true, `'` is escaped, but if ''apos?'' is false, then `"` is escaped, in both cases with an entity reference.  Finally, if ''ascii?'' is true, non-ASCII characters are escaped with numeric character references.  All other characters are left unchanged.  The escaped result is returned.
+Converts *string* to contain the necessary entity references for MicroXML.  In all cases, the characters `< & >` are escaped with entity references.  If *attribute?* is true, then if *apos?* is true, `'` is escaped, but if *apos?* is false, then `"` is escaped, in both cases with an entity reference.  Finally, if *ascii?* is true, non-ASCII characters are escaped with numeric character references.  All other characters are left unchanged.  The escaped result is returned.
 
-`(uxml-unescape-string `''string''`)`
+`(uxml-unescape-string `*string*`)`
 
-Converts ''string'' by translating all MicroXML escapes, both entity references and numeric character references, to single characters.  All other characters are left unchanged.  The result is returned.
+Converts *string* by translating all MicroXML escapes, both entity references and numeric character references, to single characters.  All other characters are left unchanged.  The result is returned.
 
-`(uxml-normalize-space `''string''`)`
+`(uxml-normalize-space `*string*`)`
 
-Returns a string that is equal to ''string'', but with all leading and trailing whitespace removed, and all other consecutive whitespace characters replaced by a single space.
+Returns a string that is equal to *string*, but with all leading and trailing whitespace removed, and all other consecutive whitespace characters replaced by a single space.
 
-== Boolean conversions ==
+## Boolean conversions
 
 These use the conventions of XPath and XML Schema.
 
-`(sxml-string->boolean `''string''`)`
+`(sxml-string->boolean `*string*`)`
 
 Converts the strings `"1"` and `"true"` to `#t`, and the strings `"0"` and `false` to `#f`.  If any other string is passed, an error is signaled that satisfies `uxml-error?`.
 
-`(sxml-boolean->string `''boolean''`)`
+`(sxml-boolean->string `*boolean*`)`
 
 Converts `#t` to `"true"` and `#f` to `"false"`.
 
-`(sxml-number->boolean `''number''`)`
+`(sxml-number->boolean `*number*`)`
 
-If ''number'' returns `#t` when `zero?` is applied to it, returns `#f`; otherwise returns `#t`.
+If *number* returns `#t` when `zero?` is applied to it, returns `#f`; otherwise returns `#t`.
 
-`(sxml-boolean->number `''boolean''`)`
+`(sxml-boolean->number `*boolean*`)`
 
-If ''boolean'' is true, returns 1, otherwise returns 0.
+If *boolean* is true, returns 1, otherwise returns 0.
 
-== Axis procedures ==
+## Axis procedures
 
-The following procedures are generator operations:  they accept a generator (of SXML elements) and return a generator (also of SXML elements).  After the `sxml-` prefix, they begin with `g`, using the convention of [[http://srfi.schemers.org/srfi-158/srfi-121.html|SRFI 158]] for generator operations.
+The following procedures are generator operations:  they accept a generator (of SXML elements) and return a generator (also of SXML elements).  After the `sxml-` prefix, they begin with `g`, using the convention of [SRFI 158](http://srfi.schemers.org/srfi-158/srfi-121.html) for generator operations.
 
-`(sxml-gparent `''parent-mapping gen''`)`
+`(sxml-gparent `*parent-mapping gen*`)`
 
-Returns a generator of SXML elements which invokes SXML elements from ''gen'' and returns their parent elements on successive invocations.
+Returns a generator of SXML elements which invokes SXML elements from *gen* and returns their parent elements on successive invocations.
 
-`(sxml-gancestor `''parent-mapping gen''`)`
+`(sxml-gancestor `*parent-mapping gen*`)`
 
-Returns a generator of SXML elements which invokes SXML elements from ''gen'' and returns their ancestor elements from parent to root on successive invocations.
+Returns a generator of SXML elements which invokes SXML elements from *gen* and returns their ancestor elements from parent to root on successive invocations.
 
-`(sxml-gancestor-or-self `''parent-mapping gen''`)`
+`(sxml-gancestor-or-self `*parent-mapping gen*`)`
 
-Returns a generator of SXML elements which invokes SXML elements from ''gen'' and returns their element itself and then its ancestor elements from parent to root on successive invocations.
+Returns a generator of SXML elements which invokes SXML elements from *gen* and returns their element itself and then its ancestor elements from parent to root on successive invocations.
 
-`(sxml-gchild `''parent-mapping gen''`)`
+`(sxml-gchild `*parent-mapping gen*`)`
 
-Returns a generator of SXML elements which invokes SXML elements from ''gen'' and returns their descendant elements in depth-first order from left to right on successive invocations.
+Returns a generator of SXML elements which invokes SXML elements from *gen* and returns their descendant elements in depth-first order from left to right on successive invocations.
 
-`(sxml-gdescendant `''parent-mapping gen''`)`
+`(sxml-gdescendant `*parent-mapping gen*`)`
 
-Returns a generator of SXML elements which invokes SXML elements from ''gen'' and returns their child elements from left to right on successive invocations.
+Returns a generator of SXML elements which invokes SXML elements from *gen* and returns their child elements from left to right on successive invocations.
 
-`(sxml-gdescendant-or-self `''parent-mapping gen''`)`
+`(sxml-gdescendant-or-self `*parent-mapping gen*`)`
 
-Returns a generator of SXML elements which invokes SXML elements from ''gen'' and returns their element itself and then its child elements from left to right on successive invocations.
+Returns a generator of SXML elements which invokes SXML elements from *gen* and returns their element itself and then its child elements from left to right on successive invocations.
 
-`(sxml-gfollowing `''parent-mapping gen''`)`
+`(sxml-gfollowing `*parent-mapping gen*`)`
 
-Returns a generator of SXML elements which invokes SXML elements from ''gen'' and returns all of their following elements in document order on successive invocations.
+Returns a generator of SXML elements which invokes SXML elements from *gen* and returns all of their following elements in document order on successive invocations.
 
-`(sxml-gfollowing-or-self `''parent-mapping gen''`)`
+`(sxml-gfollowing-or-self `*parent-mapping gen*`)`
 
-Returns a generator of SXML elements which invokes SXML elements from ''gen'' and returns the elements themselves and then all of their following elements in document order on successive invocations.
+Returns a generator of SXML elements which invokes SXML elements from *gen* and returns the elements themselves and then all of their following elements in document order on successive invocations.
 
-`(sxml-gpreceding `''parent-mapping gen''`)`
+`(sxml-gpreceding `*parent-mapping gen*`)`
 
-Returns a generator of SXML elements which invokes SXML elements from ''gen'' and returns all of their preceding elements in reverse document order on successive invocations.
+Returns a generator of SXML elements which invokes SXML elements from *gen* and returns all of their preceding elements in reverse document order on successive invocations.
 
-`(sxml-gpreceding-or-self `''parent-mapping gen''`)`
+`(sxml-gpreceding-or-self `*parent-mapping gen*`)`
 
-Returns a generator of SXML elements which invokes SXML elements from ''gen'' and returns the elements themselves and then all of their preceding elements in reverse document order on successive invocations.
+Returns a generator of SXML elements which invokes SXML elements from *gen* and returns the elements themselves and then all of their preceding elements in reverse document order on successive invocations.
 
-== Paths ==
+## Paths
 
-`(sxml-path `''element parent-map item'' ...`)`
+`(sxml-path `*element parent-map item* ...`)`
 
-== Error handling ==
+## Error handling
 
 Errors are signaled using objects of a disjoint type.  They contain an `$error` or `$pi` event.
 
-`(uxml-error? `''obj''`)`
+`(uxml-error? `*obj*`)`
 
-Returns `#t` if ''obj'' belongs to the error type, and `#f` otherwise.
+Returns `#t` if *obj* belongs to the error type, and `#f` otherwise.
 
-`(uxml-error-event `''xml-error''`)`
+`(uxml-error-event `*xml-error*`)`
 
-Returns an `$error` or `$pi` event (i.e. a list) encapsulated in ''xml-error''.
+Returns an `$error` or `$pi` event (i.e. a list) encapsulated in *xml-error*.

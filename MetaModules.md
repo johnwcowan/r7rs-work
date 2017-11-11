@@ -1,4 +1,4 @@
-== MetaModules ==
+## [MetaModules](MetaModules.md)
 
 Using a separate language is a powerful yet clean way to allow for
 extensible module syntax.  The separation of the module language and
@@ -6,7 +6,7 @@ the actual Scheme code in the body of the module helps avoid phasing
 issues and naming conflicts, and allows for static analysis of the
 module dependencies and imports and exports.
 
-As an example of issues with naming conflicts, ChezWeb is an extension
+As an example of issues with naming conflicts, [ChezWeb](ChezWeb.md) is an extension
 to a syntactic module system which basically allows for mixing
 documentation in with the module syntax.  One problem with this is
 that it must be "installed" globally (into the top-level REPL, or as a

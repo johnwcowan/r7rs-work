@@ -8,6 +8,6 @@ Result is `ﬂoo`: Scheme48/scsh, Guile, Kawa, SCM, Ypsilon, Mosh, STklos, Dfsch
 
 Result is `ﬂOo`: Gauche, plain Chicken, Chez, Vicare, Sizzle
 
-No `string-titlecase` procedure that I could find: MIT, Gambit, Bigloo, JScheme, KSi, !Sigscheme, Shoe !MiniScheme, !TinyScheme, Scheme 9, S7, XLisp, Rep, Schemik, UMB, Elk, Llava, SXi, !FemtoLisp, LMU, Inlab, Foment, Picrin, Owl Lisp, Chibi
+No `string-titlecase` procedure that I could find: MIT, Gambit, Bigloo, JScheme, KSi, Sigscheme, Shoe MiniScheme, TinyScheme, Scheme 9, S7, XLisp, Rep, Schemik, UMB, Elk, Llava, SXi, FemtoLisp, LMU, Inlab, Foment, Picrin, Owl Lisp, Chibi
 
-Failure of some other kind: !IronScheme, NexJ, RScheme, Unlikely, SIOD, BD
+Failure of some other kind: IronScheme, NexJ, RScheme, Unlikely, SIOD, BD

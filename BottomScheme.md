@@ -1,8 +1,8 @@
-'''This is not an R7RS page; it's just John Cowan's notes on an idea that used to live on a scrap of paper.'''
+**This is not an R7RS page; it's just John Cowan's notes on an idea that used to live on a scrap of paper.**
 
 Bottom Scheme is a tiny subset of R7RS-small.  It is not really a Scheme at all, because it omits assignment, macros, modules, proper tail calls except in named `let`, multiple values, `call/cc`, `dynamic-wind`, mutable pairs and strings, I/O (except for `read-char` and `write-char`), and essentially all non-primitive procedures.
 
-== Specification ==
+## Specification
 
 This list is organized according to the R7RS-small report.
 
@@ -96,20 +96,20 @@ Only `error`.
 
 Only `read-char` (no arguments), `eof-object`, `eof-object?`, `write-char` (no arguments), `display` (mostly for debugging).
 
-== Implementation ==
+## Implementation
 
 These notes assume a 64-bit system.
 
 With the basic object 64 bits in size, NaN-boxing is a plausible technique.  In this scheme, IEEE doubles are represented as immediates, and all other objects are stuffed into the signaling NaN space (high-order bit is 0, next 11 bits are 1, next bit is 1).  This limits them to 52 bits in size, which is enough to hold 64-bit pointers in current architectures, since they are only 47 bits in size (excluding the kernel area).  Because a pointer to a 64-bit value always has the low-order three bits zero, they can be used for the following tagging scheme:
 
- * 000 - 48-bit fixnum
- * 001 - pointer to compnum
- * 010 - immediate `#t`, `#f`, end of file object, and undefined-value pseudo-object
- * 011 - pointer to vector (the -1 element is a 48-bit fixnum length)
- * 100 - pointer to Scheme pair (direct dereference gets the cdr)
- * 101 - pointer to bytevector (padded to multiple of 64 bits, preceded by a 48-bit fixnum length)
- * 110 - pointer to string (padded to multiple of 64 bits, preceded by a 48-bit fixnum length)
- * 111 - pointer to procedure, symbol, or record (first word points to a type object)
+* 000 - 48-bit fixnum
+* 001 - pointer to compnum
+* 010 - immediate `#t`, `#f`, end of file object, and undefined-value pseudo-object
+* 011 - pointer to vector (the -1 element is a 48-bit fixnum length)
+* 100 - pointer to Scheme pair (direct dereference gets the cdr)
+* 101 - pointer to bytevector (padded to multiple of 64 bits, preceded by a 48-bit fixnum length)
+* 110 - pointer to string (padded to multiple of 64 bits, preceded by a 48-bit fixnum length)
+* 111 - pointer to procedure, symbol, or record (first word points to a type object)
 
 
 
