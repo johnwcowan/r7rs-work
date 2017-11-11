@@ -1,4 +1,4 @@
-= Port I/O =
+# Port I/O
 
 A port is a type of abstraction to a data source or sink,
 fundamentally sequential in nature though in some cases a
@@ -6,7 +6,7 @@ limited amount of random access is allowed.  The data
 typically corresponds to files or other devices, such as
 network sockets, but may also be entirely virtual in nature.
 
-== Port Types ==
+## Port Types
 
 Ports may have a wide range of properties, but are usually
 classified along two orthogonal categories, the port
@@ -25,7 +25,7 @@ encryption.  A textual port is conceptually a stream of
 characters, which is often layered on top of a binary port
 representing some specific character encoding system (CES),
 but may also be represented directly as in a
-[[http://srfi.schemers.org/srfi-6/srfi-6.html|string port]].
+[string port](http://srfi.schemers.org/srfi-6/srfi-6.html).
 
 There can be other types of ports corresponding to streams
 of different types of data - the Pascal language provides
@@ -50,7 +50,7 @@ or paragraph (of either natural or programming languages),
 and parsing or searching for text in a multitude of formats.
 Output textual ports have libraries for writing at the same
 levels, and various formatting approaches such as
-[[http://srfi.schemers.org/srfi-48/srfi-48.html|templated formatting]],
+[templated formatting](http://srfi.schemers.org/srfi-48/srfi-48.html),
 combinator formatting and logging.
 
 Binary and textual ports may be distinguished both at the
@@ -77,7 +77,7 @@ question that arises is what type are the standard input and
 output ports, and can they be changed?  Usually they are
 textual, but there is not always a means to change this -
 C++ for instance
-[[http://www.parashift.com/c++-faq-lite/input-output.html#faq-15.13|has no standard way to make stdin binary.]]
+[has no standard way to make stdin binary.](http://www.parashift.com/c++-faq-lite/input-output.html#faq-15.13)
 
 The R6RS provides `current-input-port` etc. as textual
 ports, and also `standard-input-port` etc. to create a
@@ -87,9 +87,9 @@ same file descriptor backend, which would result in
 inconsistent behavior if both were used.  Thus safe usage
 should always look like:
 
-  (close-port (current-input-port))
-  (define in (standard-input-port))
-  ...
+> (close-port (current-input-port))
+> (define in (standard-input-port))
+> ...
 
 and an API which enforces this might be worth considering.
 
@@ -101,7 +101,7 @@ may be included as part of other encoding and meta
 information supplied when opening the file (see
 `file-options` in the R6RS).
 
-== Port Extensions ==
+## Port Extensions
 
-    * PortEncodings
-    * PortRandomAccess
+* [PortEncodings](PortEncodings.md)
+* [PortRandomAccess](PortRandomAccess.md)

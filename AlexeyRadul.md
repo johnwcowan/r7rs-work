@@ -1,4 +1,4 @@
-= Alexey Radul's member page =
+# Alexey Radul's member page
 
 I am a member of working group 1.
 

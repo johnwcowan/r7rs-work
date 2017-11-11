@@ -1,10 +1,10 @@
-= Eager Comprehensions =
+# Eager Comprehensions
 
 Eager comprehensions are a loop facility for Scheme based on list comprehensions.  Unlike Haskell's, and like Python's, they execute eagerly, in keeping with Scheme's general eager evaluation.
 
-The details are at [[http://srfi.schemers.org/srfi-42/srfi-42.html|SRFI 42]].  This is just an epitome except for the comprehensions and generators derived from the [[http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.128.5560&rep=rep1&type=pdf|Shivers loop]] (PDF) and [[http://mumble.net/~campbell/scheme/foof-loop.txt|foof-loop]] loop macros, marked by subdivisions below.
+The details are at [SRFI 42](http://srfi.schemers.org/srfi-42/srfi-42.html).  This is just an epitome except for the comprehensions and generators derived from the [Shivers loop](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.128.5560&rep=rep1&type=pdf) (PDF) and [foof-loop](http://mumble.net/~campbell/scheme/foof-loop.txt) loop macros, marked by subdivisions below.
 
-== Comprehensions ==
+## Comprehensions
 
 These macros assemble streams of results from generators invoked inside them to produce a single (composite or summary) result.  There may be multiple generators, in which case they are understood to be nested and are run rightmost-fastest.
 
@@ -40,7 +40,7 @@ These macros assemble streams of results from generators invoked inside them to 
 
 `fold-ec3` does what `fold-ec` does, but the value is used only if the sequence is empty.  Otherwise, a specified unary procedure is applied to the first member of the sequence, and further reduction is done using the binary procedure.
 
-=== Suggested comprehensions ===
+### Suggested comprehensions
 
 The following comprehensions are suggested by SRFI 42 but are not part of it.
 
@@ -48,11 +48,11 @@ The following comprehensions are suggested by SRFI 42 but are not part of it.
 
 `bitwise-ec` evaluates an expression as a boolean repeatedly, mapping true values to 1 bits and false values to 0 bits, and returning an integer based on those bits taken in little-endian order.
 
-`stream-ec` lazily generates a [[http://srfi.schemers.org/srfi-40/srfi-40.html|SRFI 40]] stream, running generators only as needed.
+`stream-ec` lazily generates a [SRFI 40](http://srfi.schemers.org/srfi-40/srfi-40.html) stream, running generators only as needed.
 
-The SRFI also mentions the possibility of `begin-ec`, `|-ec`, `||-ec`, and `&&-ec` for [[http://www.scsh.net/|scsh]].
+The SRFI also mentions the possibility of `begin-ec`, `|-ec`, `|-ec`, and `&&-ec` for [scsh](http://www.scsh.net/).
 
-=== Not-recommended comprehensions ===
+### Not-recommended comprehensions
 
 The following comprehensions are mentioned by the SRFI but are considered too specialized:
 
@@ -60,13 +60,13 @@ The following comprehensions are mentioned by the SRFI but are considered too sp
 
 `lcm-ec` evaluates an expression (which must return a number) repeatedly, returning the least common multiple of the results.
 
-=== Proposed comprehensions from foof-loop ===
+### Proposed comprehensions from foof-loop
 
 `reverse-ec` is like `list-ec` but produces its values in reverse (potentially more efficiently).
 
 `append-reverse-ec` is like `append-ec` but appends the reverse of each of its values (potentially more efficiently).
 
-== Generators ==
+## Generators
 
 These macros are used within comprehensions to specify how streams of values are generated.  Each generator binds a variable to the value currently being generated; it may also bind another variable to an index number, an exact integer counting the number of generated values so far.  These variables are visible in expressions of generators to the right.
 
@@ -98,7 +98,7 @@ These macros are used within comprehensions to specify how streams of values are
 
 `:until` evaluates a guard expression repeatedly and runs a sub-generator until the guard expression is true.
 
-=== Suggested generators ===
+### Suggested generators
 
 The following generators are suggested by SRFI 42 but are not part of it:
 
@@ -110,7 +110,7 @@ The following generators are suggested by SRFI 42 but are not part of it:
 
 `:bitwise` generates a sequence of bits obtained by appending the binary digits of specified integers.
 
-`:stream` is like `:list`, but generates results from one or more [[http://srfi.schemers.org/srfi-40/srfi-40.html|SRFI 40]] streams.
+`:stream` is like `:list`, but generates results from one or more [SRFI 40](http://srfi.schemers.org/srfi-40/srfi-40.html) streams.
 
 `:lines-of-file` is like `:port`, but the reader is `read-line` and the optional index variable indexes lines.
 
@@ -122,7 +122,7 @@ The following generators are suggested by SRFI 42 but are not part of it:
 
 `:env` generates a sequence of environment variables.
 
-=== Proposed generators from foof-loop ===
+### Proposed generators from foof-loop
 
 `:substring` iterates over the characters of part of a string specified by low (inclusive) and high (exclusive) bounds.
 
@@ -140,11 +140,11 @@ The following generators are suggested by SRFI 42 but are not part of it:
 
 `:let-values` is like `:let`, but captures the multiple values of its expression in multiple variables.
 
-=== Proposed generators from Shivers loop ===
+### Proposed generators from Shivers loop
 
-`:previous` binds ''n'' variables to the last ''n'' values of the loop.
+`:previous` binds *n* variables to the last *n* values of the loop.
 
-== Qualifiers ==
+## Qualifiers
 
 These macros can be intermixed with generators to control the behavior of generators to the right of them.
 
@@ -156,7 +156,7 @@ These macros can be intermixed with generators to control the behavior of genera
 
 `nested` groups qualifiers and generators into a single parenthesized form, without any special semantic effect.
 
-== Extensibility ==
+## Extensibility
 
 The basic approach to extension is to write new comprehensions and generators as syntax-rules macros which invoke an explicit continuation argument.  There are some macros and procedures that assist with this:
 

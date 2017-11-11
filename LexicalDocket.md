@@ -1,15 +1,15 @@
 This is a docket for lexical-syntax proposals.   For other dockets, see [wiki:WG2Dockets].
 
-`#,` external forms:  [[http://srfi.schemers.org/srfi-10/srfi-10.html|SRFI 10]]
+`#,` external forms:  [SRFI 10](http://srfi.schemers.org/srfi-10/srfi-10.html)
 
-Keywords: [[http://srfi.schemers.org/srfi-88/srfi-88.html|SRFI 88]]
+Keywords: [SRFI 88](http://srfi.schemers.org/srfi-88/srfi-88.html)
 
-XML syntax: [[http://srfi.schemers.org/srfi-107/srfi-107.html|SRFI 107]]
+XML syntax: [SRFI 107](http://srfi.schemers.org/srfi-107/srfi-107.html)
 
-Quasi-literals: [[http://srfi.schemers.org/srfi-108/srfi-108.html|SRFI 108]]
+Quasi-literals: [SRFI 108](http://srfi.schemers.org/srfi-108/srfi-108.html)
 
-String interpolation: [[http://srfi.schemers.org/srfi-109/srfi-109.html|SRFI 109]]
+String interpolation: [SRFI 109](http://srfi.schemers.org/srfi-109/srfi-109.html)
 
-Indentation syntax: [[http://srfi.schemers.org/srfi-105/srfi-105.html|SRFI 105]] (curly-infix-expressions) or [[http://srfi.schemers.org/srfi-110/srfi-110.html|SRFI 110]] (sweet-expressions) or [[http://srfi.schemers.org/srfi-119/srfi-119.html|SRFI 119]] (wisp)
+Indentation syntax: [SRFI 105](http://srfi.schemers.org/srfi-105/srfi-105.html) (curly-infix-expressions) or [SRFI 110](http://srfi.schemers.org/srfi-110/srfi-110.html) (sweet-expressions) or [SRFI 119](http://srfi.schemers.org/srfi-119/srfi-119.html) (wisp)
 
-See also SrfiLexicalSyntax
+See also [SrfiLexicalSyntax](SrfiLexicalSyntax.md)

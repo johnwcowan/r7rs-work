@@ -1,9 +1,9 @@
-This is a proposed repository format for R7RS.  It is intended to address the major issues and leave room for growth.  The idea is that anyone can provide their own repository, and implementations can write their own tools (or modify existing ones) to download packages from a repo. 
+This is a proposed repository format for R7RS.  It is intended to address the major issues and leave room for growth.  The idea is that anyone can provide their own repository, and implementations can write their own tools (or modify existing ones) to download packages from a repo.
 
-There will be a central repo and a common tool which will aim to support all R7RS 
+There will be a central repo and a common tool which will aim to support all R7RS
 implementations.
 
-{{{
+```
 ;; A minimal repository describing a single package containing two
 ;; libraries.  The tarball must expand to a single directory, and the
 ;; paths, pointing to files containing a single `define-library' form,
@@ -329,4 +329,4 @@ implementations.
 ;; `created', `updated' and `expires' are RFC 3339 date-time strings.
 ;; `modulus', `exponent' and the checksum values and signatures are
 ;; hexidecimal strings.
-}}}
+```

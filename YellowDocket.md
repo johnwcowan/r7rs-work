@@ -1,37 +1,37 @@
-Low-level macros:  MinimalSyntaxCaseCowan, [[https://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Explicit-Renaming.html|explicit renaming]], [[https://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Syntactic-Closures.html|syntactic closures]], [[http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html|R6RS syntax-case]], [[http://srfi.schemers.org/srfi-72/srfi-72.html|SRFI 72]].
+Low-level macros:  [MinimalSyntaxCaseCowan](MinimalSyntaxCaseCowan.md), [explicit renaming](https://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Explicit-Renaming.html), [syntactic closures](https://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Syntactic-Closures.html), [R6RS syntax-case](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html), [SRFI 72](http://srfi.schemers.org/srfi-72/srfi-72.html).
 
-More syntax-rules extensions: [[http://srfi.schemers.org/srfi-149/srfi-149.html|SRFI 139]]
+More syntax-rules extensions: [SRFI 139](http://srfi.schemers.org/srfi-149/srfi-149.html)
 
-Macro uses in syntax definitions: [[http://srfi.schemers.org/srfi-147/srfi-147.html|SRFI 147]]
+Macro uses in syntax definitions: [SRFI 147](http://srfi.schemers.org/srfi-147/srfi-147.html)
 
-Syntax parameters: [[http://srfi.schemers.org/srfi-139/srfi-139.html|SRFI 139]]
+Syntax parameters: [SRFI 139](http://srfi.schemers.org/srfi-139/srfi-139.html)
 
-Matching:  MatchingWise
+Matching:  [MatchingWise](MatchingWise.md)
 
-Combinators:  CombinatorsCowan
+Combinators:  [CombinatorsCowan](CombinatorsCowan.md)
 
-`cond` guards: [[http://srfi.schemers.org/srfi-61/srfi-61.html|SRFI 61]]
+`cond` guards: [SRFI 61](http://srfi.schemers.org/srfi-61/srfi-61.html)
 
-Lambda*: BeyondCurryingHemann
+Lambda*: [BeyondCurryingHemann](BeyondCurryingHemann.md)
 
-Void:  VoidCowan
+Void:  [VoidCowan](VoidCowan.md)
 
-Named parameters:  NamedParametersCowan or [[http://srfi.schemers.org/srfi-89/srfi-89.html|SRFI 89]]
+Named parameters:  [NamedParametersCowan](NamedParametersCowan.md) or [SRFI 89](http://srfi.schemers.org/srfi-89/srfi-89.html)
 
-`and-let*`: [[http://srfi.schemers.org/srfi-2/srfi-2.html|SRFI 2]]
+`and-let*`: [SRFI 2](http://srfi.schemers.org/srfi-2/srfi-2.html)
 
-Generalized `set!`: [[http://srfi.schemers.org/srfi-17/srfi-17.html|SRFI 17]], possibly plus [wiki:Srfi17ExtensionsCowan]
+Generalized `set!`: [SRFI 17](http://srfi.schemers.org/srfi-17/srfi-17.html), possibly plus [wiki:Srfi17ExtensionsCowan]
 
-`receive`: [[http://srfi.schemers.org/srfi-8/srfi-8.html|SRFI 8]]
+`receive`: [SRFI 8](http://srfi.schemers.org/srfi-8/srfi-8.html)
 
-`rec`: [[http://srfi.schemers.org/srfi-31/srfi-31.html|SRFI 31]]
+`rec`: [SRFI 31](http://srfi.schemers.org/srfi-31/srfi-31.html)
 
-`Cut/cute`:  [[http://srfi.schemers.org/srfi-26/srfi-26.html|SRFI 26]]
+`Cut/cute`:  [SRFI 26](http://srfi.schemers.org/srfi-26/srfi-26.html)
 
-Loops: [[http://srfi.schemers.org/srfi-42/srfi-42|SRFI 42]] or [[http://mumble.net/~campbell/scheme/foof-loop.txt|Riastradh's foof-loop]] or [[http://synthcode.com/scheme/chibi/lib/chibi/loop.html|Chibi loop]]
+Loops: [SRFI 42](http://srfi.schemers.org/srfi-42/srfi-42) or [Riastradh's foof-loop](http://mumble.net/~campbell/scheme/foof-loop.txt) or [Chibi loop](http://synthcode.com/scheme/chibi/lib/chibi/loop.html)
 
-Generic accessors/mutators: [[http://srfi.schemers.org/srfi-123/srfi-123.html|SRFI 123]]
+Generic accessors/mutators: [SRFI 123](http://srfi.schemers.org/srfi-123/srfi-123.html)
 
-Conditions: ConditionsCowan
+Conditions: [ConditionsCowan](ConditionsCowan.md)
 
-Restarts:  [[http://mumble.net/~campbell/proposals/restart.text|RestartsRiastradh]]
+Restarts:  [RestartsRiastradh](http://mumble.net/~campbell/proposals/restart.text)

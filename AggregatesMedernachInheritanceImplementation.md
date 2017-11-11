@@ -1,5 +1,5 @@
 
-{{{
+```
 
 ;; Optional inheritance 
 
@@ -51,4 +51,4 @@
                          (<parent-fieldname-spec> ... <fieldname-spec> ...)
                          () ()))))
 
-}}}
+```

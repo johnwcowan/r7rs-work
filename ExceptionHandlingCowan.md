@@ -1,13 +1,13 @@
-''' I've replaced this with [[:R6RSExceptionHandlingCowan|R6RSExceptionHandlingCowan]].'''''
+** I've replaced this with [R6RSExceptionHandlingCowan](R6RSExceptionHandlingCowan.md).***
 
-= Design =
+# Design
 
 When a situation calling for exceptional handling is
 detected either by the implementation or by a
-user program, a representation of that situation called a ''condition''
+user program, a representation of that situation called a *condition*
 is constructed, and the exception is
-announced by an action called ''signaling
-the condition''.  This action allows a dynamically established ''condition handler''
+announced by an action called *signaling
+the condition*.  This action allows a dynamically established *condition handler*
 an opportunity to resolve the problem.  At any given time, only one handler
 is active.  Note that in this proposal, any object may be a condition; the term is not
 reserved for a particular type of Scheme object.
@@ -16,7 +16,7 @@ When a condition is signaled, the active handler is called with one
 argument, a condition which represents the situation.  The
 handler function will execute in the dynamic environment of the call to
 `signal`, except that the current condition handler
-becomes the ''enclosing handler'', which is the handler that was current at the point that the
+becomes the *enclosing handler*, which is the handler that was current at the point that the
 current handler function was established as the active handler.  This means that
 a handler is not expected to handle conditions signaled within its dynamic extent.
 
@@ -40,18 +40,18 @@ an interactive debugger that lets the programmer perform actions other
 than invoking the top-level exit continuation, perhaps invoking retries
 or other arbitrary continuations.
 
-See StandardConditionPredicatesCowan for standard constructors, predicates and accessors useful
+See [StandardConditionPredicatesCowan](StandardConditionPredicatesCowan.md) for standard constructors, predicates and accessors useful
 with implementation-defined conditions.
 
-= Procedures =
+# Procedures
 
- * `(current-condition-handler)`
+* `(current-condition-handler)`
 
 Returns the current condition handler.
 
- * `(with-condition-handler `''handler''` `''thunk''`)`
+* `(with-condition-handler `*handler*` `*thunk*`)`
 
-Applies ''thunk'' within a dynamic environment in
+Applies *thunk* within a dynamic environment in
 which  ``handler`` is the current condition handler.  The supplied handler is executed
 in the dynamic environment of the call to `signal` that signals the condition,
 except that the condition handler which was in effect when `with-condition-handler` was called is
@@ -59,32 +59,32 @@ reinstated for the dynamic extent of the handler.  So if it signals any conditio
 explicitly changing to a different dynamic environment through applying continuations,
 they will be passed to the previous handler, not the same one.
 
-  * `(signal `''object''`)`
+* `(signal `*object*`)`
 
-Signals the condition ''object''.  Never returns normally.
+Signals the condition *object*.  Never returns normally.
 
-  * `(error-in `''who''` `''message''`. ` ''irritants''`)`
+* `(error-in `*who*` `*message*`. ` *irritants*`)`
 
 Constructs a condition and signals it.  Never returns normally.
 This procedure is compatible with R6RS `error`.
 
-The `who` argument must be a string or a symbol that describes the procedure or operation that detected the exception. The ''message'' argument must be a string that describes the exceptional situation. The ''irritants'' should be the arguments to the operation that detected the operation, but may be any objects relevant to the exception.
+The `who` argument must be a string or a symbol that describes the procedure or operation that detected the exception. The *message* argument must be a string that describes the exceptional situation. The *irritants* should be the arguments to the operation that detected the operation, but may be any objects relevant to the exception.
 
-  * `(error `''message''`. ` ''irritants''`)`
+* `(error `*message*`. ` *irritants*`)`
 
 Constructs a condition and signals it.  Never returns normally.
 This procedure is compatible with SRFI 23.
 
-The ''message'' argument must be a string that describes the exceptional situation. The ''irritants'' should be the arguments to the operation that detected the operation, but may be any objects relevant to the exception.
+The *message* argument must be a string that describes the exceptional situation. The *irritants* should be the arguments to the operation that detected the operation, but may be any objects relevant to the exception.
 
-= Comments and Positions = 
+# Comments and Positions =
 
 Rather than write out my own exception proposal, I will just put my comments here. This system is very close to R6RS, but does not provide good reasons for deviating from R6RS' in the ways that it does. In the name of backwards compatibility, I see no good reason to not use R6RS' system over this one, given that the system would only change names and introduce only two extra names. This gains backwards compatibility with the most widely implemented exception system (across implementations, if not in total code base), doesn't lose simplicity, gains usability and convenience, maintains expressiveness, and makes life at least no more difficult for those trying to port code from non-R6RS systems. - Aaron W. Hsu (arcfide)
 
-= Thanks =
+# Thanks
 
 Thanks to Taylor Campbell, Alaric Snell-Pym as the author of
-ErrorsSnellPym, Kent Pitman as the author of the ISLisp specification,
+[ErrorsSnellPym](ErrorsSnellPym.md), Kent Pitman as the author of the ISLisp specification,
 and the editors of R6RS and the ANSI CL standard,
 from all of whom I have derived inspiration and stolen descriptions.  They bear no responsibility
 for infelicities in this proposal.

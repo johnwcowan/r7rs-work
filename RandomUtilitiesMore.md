@@ -1,6 +1,6 @@
 This is an unformatted dump of things that Mikael More thinks R7RS-large should provide somehow, from #scheme:
 
-== Utilities ==
+## Utilities
 
 Also some kind of general purpose routines for strings, chars   (there are some fundamental things here that are clearly not in SRFI 13 and 14, like, `string-strip`, `string-replace-char`, `join`, a `string-append` form that takes non-string arguments too a bit like `print`, `string<->object` serialization), lists (same here - `list-add!`, `list-rm!`, `filter!`).
 
@@ -10,15 +10,15 @@ u8vector/blob (same here - `u8vector<->string` and file) tree structures like WT
 
 `map-w-index` and `for-each-w-index` add a first argument to the called lambda, which is the zero-based index  of the element you are at.
 
-== Custom ports ==
+## Custom ports
 
 Scheme brings an ports/IO API with open-file, call-with-input-file , open-tcp-client etc. where the Scheme environment exports this functionality to the program this is great. it can include char encoding for instance. and object serialization of course.
 
 I've gotten into uses like HTTPS and GZIP and HTTP and really any protocol out there.
 
-My firm conclusion is that the absolutely finest, and possibly only really reliable way to implement these in Scheme (apart from as block procedures that take or deliver an u8vector/blob) is that they need to export ''Scheme ports''.
+My firm conclusion is that the absolutely finest, and possibly only really reliable way to implement these in Scheme (apart from as block procedures that take or deliver an u8vector/blob) is that they need to export *Scheme ports*.
 
-e.g., `(open-ssl-channel (open-tcp-client args))` => ''ssl-channel-port''.
+e.g., `(open-ssl-channel (open-tcp-client args))` => *ssl-channel-port*.
 
 The only major detail to be added to this is that there's a certain need of mixing binary and character data, as is done in HTTP for instance.
 

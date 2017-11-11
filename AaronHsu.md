@@ -1,51 +1,51 @@
-= Aaron W. Hsu Member Page =
+# Aaron W. Hsu Member Page
 
-== Proposals ==
+## Proposals
 
-ModulesAndPackagesArcfide[[BR]]
-CaseSensitivityArcfide[[BR]]
-MacrosArcfide[[BR]]
-ChezReplSemantics[[BR]]
-RecordBindersArcfide[[BR]]
-KeywordArgumentsArcfide[[BR]]
-RecordsArcfide[[BR]]
-LetSyntaxArcfide[[BR]]
-RandomnessArcfide
+[ModulesAndPackagesArcfide](ModulesAndPackagesArcfide.md)[#BR]]
+[CaseSensitivityArcfide](CaseSensitivityArcfide.md)[#BR]]
+[MacrosArcfide](MacrosArcfide.md)[#BR]]
+[ChezReplSemantics](ChezReplSemantics.md)[#BR]]
+[RecordBindersArcfide](RecordBindersArcfide.md)[#BR]]
+[KeywordArgumentsArcfide](KeywordArgumentsArcfide.md)[#BR]]
+[RecordsArcfide](RecordsArcfide.md)[#BR]]
+[LetSyntaxArcfide](LetSyntaxArcfide.md)[#BR]]
+[RandomnessArcfide](RandomnessArcfide.md)
 
-== Ballots ==
+## Ballots
 
-[wiki:WG1BallotHsu][[BR]]
+[wiki:WG1BallotHsu][#BR]]
 [wiki:WG1ReBallotHsu]
 
-== Contact Information ==
+## Contact Information
 
-Nickname: arcfide[[BR]]
-Email: arcfide@sacrideo.us[[BR]]
-IRC: arcfide {!FreeNode,OFTC,IRCnet}[[BR]]
+Nickname: arcfide[#BR]]
+Email: arcfide@sacrideo.us[#BR]]
+IRC: arcfide {!FreeNode,OFTC,IRCnet}[#BR]]
 Phone: (812) 339-5113
 
-== About Me ==
+## About Me
 
 I'm a Scheme programmer, and have been for quite a while. I'm also a bit of an academic, but I was that way long before I entered the University system. I learned Scheme pretty early on and whenever I came upon some cool language with feature X, I was always kept back because I ended up being able to implement a nicer, cleaner version in Scheme that allowed me to integrate that solution or feature with the other features of other languages. At some point along this arc I became a professional programmer and did contract based programming and consulting. I did almost all of it in Scheme. I still use Scheme in my work, both industry and academic, almost as the sole language. I do have an agenda here, but I believe that the agenda is pretty much in line with the charter: I want to help to evolve Scheme into a language that is not only eminently practical, but also practical in the most elegant sense. I hope that we can avoid the relatively easy pitfall of feature creep and ensure a Scheme that is minimal, while at the same time being intensely practical and effective. When I say minimal, I mean a Scheme that doesn't do more than it should, but doesn't lack where it shouldn't.
- 
+>
 And that's my little speech. I'm not here to change Scheme. I really just want to standardize the clean and neat evolution of Scheme that we can point to today.
 
-== Some Projects of Mine ==
+## Some Projects of Mine
 
 ChezWEB::
-  A Hygienic Literate Programming environment for Scheme.
+> A Hygienic Literate Programming environment for Scheme.
 Descot::
-  A combination of metalanguage, protocol, server, api and other components that forms a framework for the distributing, packaging, sharing, and indexing of code libraries. This includes an SRDF encoding of RDF into s-expressions.
+> A combination of metalanguage, protocol, server, api and other components that forms a framework for the distributing, packaging, sharing, and indexing of code libraries. This includes an SRDF encoding of RDF into s-expressions.
 Arctic Repository::
-  A set of libraries for Chez Scheme, including somewhat portable libraries written by myself.
+> A set of libraries for Chez Scheme, including somewhat portable libraries written by myself.
 Sockets::
-  A portable Sockets Library for Scheme written in R6RS.
+> A portable Sockets Library for Scheme written in R6RS.
 
-Various other miscellaneous libraries of varying usefulness. 
+Various other miscellaneous libraries of varying usefulness.
 
-== PGP Key == 
+## PGP Key ==
 
-{{{
+```
 -----BEGIN PGP PUBLIC KEY BLOCK-----
 Version: 9.8.2.3005
 
@@ -84,4 +84,4 @@ pvg+8X97rbPxDSiOZRevN66t4ZbLu1tX+8Le8b7XDVy8liNNrDzq3Xd5F7AgCQVS
 fPYv57YNWPM8J2weDCBn
 =cdwO
 -----END PGP PUBLIC KEY BLOCK-----
-}}}
+```

@@ -1,10 +1,10 @@
 
-= Procedural Records =
+# Procedural Records
 
-== Benefits: ==
+## Benefits:
 
-* ProceduralRecordsBenefits
+* [ProceduralRecordsBenefits](ProceduralRecordsBenefits.md)
 
-== Downsides: ==
+## Downsides:
 
-* ProceduralRecordsDownsides
+* [ProceduralRecordsDownsides](ProceduralRecordsDownsides.md)

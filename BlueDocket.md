@@ -1,20 +1,20 @@
 Portable but advanced things:
 
-Time types: [[http://srfi.schemers.org/srfi-19/srfi-19.html|SRFI 19]] and/or TimeAdvancedCowan with TimePeriodsCowan
+Time types: [SRFI 19](http://srfi.schemers.org/srfi-19/srfi-19.html) and/or [TimeAdvancedCowan](TimeAdvancedCowan.md) with [TimePeriodsCowan](TimePeriodsCowan.md)
 
-Binary I/O: BinaryIoCowan
+Binary I/O: [BinaryIoCowan](BinaryIoCowan.md)
 
-Character conversion: CharacterConversionCowan
+Character conversion: [CharacterConversionCowan](CharacterConversionCowan.md)
 
-Parallel promises: ParallelPromisesCowan
+Parallel promises: [ParallelPromisesCowan](ParallelPromisesCowan.md)
 
-Pathname objects: PathnamesPython
+Pathname objects: [PathnamesPython](PathnamesPython.md)
 
-URI objects: [[http://practical-scheme.net/gauche/man/gauche-refe/URI-parsing-and-construction.html#URI-parsing-and-construction|UrisGauche]]
+URI objects: [UrisGauche](http://practical-scheme.net/gauche/man/gauche-refe/URI-parsing-and-construction.html#URI-parsing-and-construction)
 
-Unicode character database: UcdCowan, AdvancedUcdCowan
+Unicode character database: [UcdCowan](UcdCowan.md), [AdvancedUcdCowan](AdvancedUcdCowan.md)
 
-Environment:  MiscEnvironmentSchudy
+Environment:  [MiscEnvironmentSchudy](MiscEnvironmentSchudy.md)
 
-Trees: TreesCowan
+Trees: [TreesCowan](TreesCowan.md)
 

@@ -1,21 +1,16 @@
 The compnums are the subset of the inexact complex numbers whose real part and imaginary part are both flonums.
-This library is based on parts of FlonumsCowan lifted to compnums.  A few procedures have been added from the C99 `<complex.h>` library.
+This library is based on parts of [FlonumsCowan](FlonumsCowan.md) lifted to compnums.  A few procedures have been added from the C99 `<complex.h>` library.
 
-== Specification ==
+## Specification
 
-{{{
-#!html
 <p>
 This section uses <i>cx</i>, <i>cx<sub>1</sub></i>, <i>cx<sub>2</sub></i>, etc., as
 parameter names for compnum arguments.</p>
 <p>
-}}}
 
 
-=== Constructors ===
+### Constructors
 
-{{{
-#!html
 <p></p>
 <div align=left><tt>(<a name="node_idx_952"></a>compnum<i> x</i>)</tt></div>
 <p>
@@ -39,12 +34,9 @@ The value returned is the compnum whose real part is the flonum <i>fl<sub>1</sub
 The value returned is the compnum that is numerically closest to the complex number whose magnitude is the flonum <i>fl<sub>1</sub></i>
 and whose angle is the flonum <i>fl<sub>2</sub></i></p>
 <p></p>
-}}}
 
-=== Predicates ===
+### Predicates
 
-{{{
-#!html
 <p></p>
 <div align=left><tt>(<a name="node_idx_950"></a>compnum?<i> obj</i>)</tt></div>
 <p>
@@ -79,12 +71,9 @@ are not an infinity and not a NaN,
 <p>
 </p>
 
-}}}
 
-=== Arithmetic operations ===
+### Arithmetic operations
 
-{{{
-#!html
 
 <p></p>
 <div align=left><tt>(<a name="node_idx_986"></a>cx+<i> <i>cx<sub>1</sub></i> <tt>...</tt></i>)</tt></div>
@@ -173,12 +162,9 @@ unless <i>z</i> is zero, in which case it returns <i>z</i>.
 </p>
 <p></p>
 
-}}}
 
-=== Transcendental functions ===
+### Transcendental functions
 
-{{{
-#!html
 
 <p></p>
 <div align=left><tt>(<a name="node_idx_1024"></a>cxexp<i> cx</i>)</tt></div>
@@ -253,7 +239,6 @@ negative and <i>cx<sub>2</sub></i> is not an integer, the result may be a
 NaN, or may be some unspecified compnum.  If <i>cx<sub>1</sub></i> is zero, then
 the result is zero.
 </p>
-}}}
 
 
- 
+>

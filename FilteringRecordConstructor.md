@@ -1,10 +1,10 @@
 
-= Filtering Constructor =
+# Filtering Constructor
 
-== Benefits: ==
+## Benefits:
 
-* FilteringRecordConstructorBenefits
+* [FilteringRecordConstructorBenefits](FilteringRecordConstructorBenefits.md)
 
-== Downsides: ==
+## Downsides:
 
-* FilteringRecordConstructorDownsides
+* [FilteringRecordConstructorDownsides](FilteringRecordConstructorDownsides.md)

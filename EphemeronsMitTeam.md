@@ -1,9 +1,7 @@
-== Ephemerons ==
+## Ephemerons
 
-Snapshot of [[http://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Ephemerons.html|MIT Scheme 9.1 documentation]]:
+Snapshot of [MIT Scheme 9.1 documentation](http://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Ephemerons.html):
 
-{{{
-#!html
 <!--
 This manual documents MIT/GNU Scheme 9.1.
 
@@ -105,4 +103,3 @@ ephemeron is not broken is
            ... <span class="roman">broken case</span> ...
            ... <span class="roman">code using </span><var>key</var><span class="roman"> and </span><var>datum</var> ...))
 </pre>
-}}}

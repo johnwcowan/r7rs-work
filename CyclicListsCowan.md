@@ -1,3 +1,3 @@
-== Circular lists ==
+## Circular lists
 
-Now subsumed by CyclesMedernach.
+Now subsumed by [CyclesMedernach](CyclesMedernach.md).

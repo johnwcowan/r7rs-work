@@ -1,5 +1,3 @@
-{{{
-#!html
 <p>This SRFI implements several useful procedures of
 combinations, permutations and related operations.
 </p>
@@ -227,4 +225,3 @@ in which elements are randomly permuted.
 
 
 
-}}}

@@ -1,1 +1,1 @@
-This proposal has been withdrawn by the author.  See ConditionsCowan instead.
+This proposal has been withdrawn by the author.  See [ConditionsCowan](ConditionsCowan.md) instead.

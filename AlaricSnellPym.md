@@ -16,8 +16,8 @@ More about me can be found at http://www.snell-pym.org.uk/alaric/ - remind me to
 
 My ballots: wiki:WG1BallotSnellPym wiki:WG1ReBallotSnellPym
 
-= Proposals =
+# Proposals
 
- * UniqueTypesSnellPym
- * ErrorsSnellPym
- * ParametersSnellPym
+* [UniqueTypesSnellPym](UniqueTypesSnellPym.md)
+* [ErrorsSnellPym](ErrorsSnellPym.md)
+* [ParametersSnellPym](ParametersSnellPym.md)

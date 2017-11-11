@@ -1,20 +1,20 @@
-= Background =
+# Background
 
-Parameters, as per [[http://srfi.schemers.org/srfi-39/srfi-39.html|SRFI-39]], are certainly useful.
+Parameters, as per [SRFI-39](http://srfi.schemers.org/srfi-39/srfi-39.html), are certainly useful.
 
- 1. They can be labour-savers, passing "configuration information" down through complex call stacks without needing explicit parameter passing through functions that do nothing with the parameter other than pass it to all child procedures called, until a lower layer actually uses it
+1. They can be labour-savers, passing "configuration information" down through complex call stacks without needing explicit parameter passing through functions that do nothing with the parameter other than pass it to all child procedures called, until a lower layer actually uses it
 
- 2. They allow isolation of concerns; as per the previous point, the intermediate procedures do not need to know what configuration information is sent to which child procedures, which is useful when the child procedures are provided by external libraries, or are arbitrary closures which might invoke arbitrary external libraries.
+2. They allow isolation of concerns; as per the previous point, the intermediate procedures do not need to know what configuration information is sent to which child procedures, which is useful when the child procedures are provided by external libraries, or are arbitrary closures which might invoke arbitrary external libraries.
 
- 3. They allow dynamically scoped state, for tasks like exception handling and thread-local storage
+3. They allow dynamically scoped state, for tasks like exception handling and thread-local storage
 
- 4. They generalise a mechanism that must be present within the implementation to support `current-input-port` and `current-output-port`, making it portably available to library authors.
+4. They generalise a mechanism that must be present within the implementation to support `current-input-port` and `current-output-port`, making it portably available to library authors.
 
 I think that parameters should be specified as part of WG1 scheme rather than implemented by portable libraries, as a portable library has no way of knowing if the implementation provides threads; and if it does, it has no portable way of implementing dynamically scoped state in a thread-safe manner.
 
-= The Proposal =
+# The Proposal
 
-We support [[http://srfi.schemers.org/srfi-39/srfi-39.html|SRFI-39]] parameters.
+We support [SRFI-39](http://srfi.schemers.org/srfi-39/srfi-39.html) parameters.
 
 However, in order to promote portability, we must take this opportunity to specify the behaviour of parameters in the presence of threads; even if WG1 does not specify a threading system, any implementation of WG1 parameters that does provide threads must conform with the following specification, or else libraries using parameters will not operate safely in threaded programs.
 
@@ -26,7 +26,7 @@ When `parameterize` is used, the specified parameters are bound to newly created
 
 Eg:
 
-{{{
+```
 (define foo (make-parameter 123))
 
 Thread 1: (foo) => 123
@@ -50,7 +50,7 @@ Thread 1: (foo) => 45678
 Thread 1: ) ; close parameterize
 Thread 1: (foo) => 12345
 Thread 2: (foo) => 12345
-}}}
+```
 
 Note that when thread 1 forked off thread 3 from within its
 parameterized dynamic scope, thread 3 inherited it - so thread 3's

@@ -1,6 +1,6 @@
-= Efficiency Concerns and Analysis for Records = 
+# Efficiency Concerns and Analysis for Records =
 
-== Syntactic vs. Procedural Interfaces ==
+## Syntactic vs. Procedural Interfaces
 
 While procedural interfaces provide a low level, assembly-like basis for records, they have some performance considerations. SRFI-99 attempts to dispel these concerns. However, the arguments for SRFI-99 rely on compilers and code patterns to achieve its efficiency. Absent the presence of a compiler or a recognized/malleable code pattern for optimization, these benefits are not as readily available.
 
@@ -8,7 +8,7 @@ Below is a bit of an analysis concerning the efficiency of procedural records ve
 
 Using the R6RS record form, let's consider the following transcript:
 
-{{{
+```
 Chez Scheme Transcript [[Mon|Apr  5 20:12:47 2010]]
 > (library (parent)
     (export p p-x rtd)
@@ -144,7 +144,7 @@ Chez Scheme Transcript [[Mon|Apr  5 20:12:47 2010]]
             ((#3%record-accessor (#3%$top-level-value 'rtd.57) 0)
               (make-b.69 3))))))))
 > (transcript-off)
-}}}
+```
 
 Observe that the procedural interface must default into cross-library references that can't be resolved at expand time. On the other hand, the syntactic interface can be resolved and optimized more readily.
 

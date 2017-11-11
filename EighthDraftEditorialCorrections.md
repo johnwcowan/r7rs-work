@@ -17,7 +17,7 @@ These are the editorial corrections to the eighth draft in reverse order.  All a
 * Removing `eqv?` example of procedures with local state
 * Using `exact-integer?` in radix example for `parameterize`
 * Changed "when" to "given-that" in let-syntax example
-* Define terms ''commands'' and ''thunks''
+* Define terms *commands* and *thunks*
 * Enhance definition of predicates
 * Moving domain to the beginning of `parameterize`
 * Adding missing newline after `letrec` proto

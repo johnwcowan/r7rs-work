@@ -1,4 +1,4 @@
-== It is an error ==
+## It is an error
 
 Here's a list of places where R7RS-small says something "is an error".  The names in brackets represent a rough-and-ready classification of these errors, and don't constitute a proposal.  The list is [domain], [mismatch], [syntax], [read], [immutable], [undefined], [non-continuable].
 
@@ -140,7 +140,7 @@ Here's a list of places where R7RS-small says something "is an error".  The name
 
 7.1 identifier starting with a combining character [read]
 
-== Implementation restrictions ==
+## Implementation restrictions
 
 And here's a list of places where R7RS-small speaks of implementation restrictions:
 

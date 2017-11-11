@@ -1,4 +1,4 @@
-== R5RS Incompatibilities ==
+## R5RS Incompatibilities
 
 The one instance where we deliberately broke compatibility with R5RS
 in favor of R6RS is by defaulting the reader to case-sensitivity.
@@ -7,7 +7,7 @@ for changing the case-sensitivity, and have structured the module
 system to allow using existing case-insensitive R5RS source
 unmodified.
 
-== R6RS Base Incompatibilities ==
+## R6RS Base Incompatibilities
 
 The module system does not support phase distinctions, which are
 unnecessary in the absense of low-level macros (see below), nor
@@ -19,22 +19,22 @@ to be syntactically different from R6RS, using `define-library` instead of
 `library` and putting an extra level of indirection around the body,
 for the following reasons:
 
-  * Allows easy disambiguation between R6RS and R7RS modules.
+* Allows easy disambiguation between R6RS and R7RS modules.
 
-  * Makes it easier to `include` separate files, optionally with the
-    `include-ci` form to case-insensitive files.
+* Makes it easier to `include` separate files, optionally with the
+> `include-ci` form to case-insensitive files.
 
-  * Provides the `cond-expand` form from SRFI 0, allowing for a more
-    deterministic alternative to the R6RS ".impl.sls" file naming
-    convention.
+* Provides the `cond-expand` form from SRFI 0, allowing for a more
+> deterministic alternative to the R6RS ".impl.sls" file naming
+> convention.
 
-  * Allows room for extensibility.  The R6RS syntax provides two
-    positional forms which must be present and must have the correct
-    keywords, `export` and `import`, which does not allow for
-    unambiguous extensions.  We think extensibility is important
-    (we've already added three forms in the points above), and so
-    chose a syntax which provides a clear separation between the
-    module declarations and the Scheme code which makes up the body.
+* Allows room for extensibility.  The R6RS syntax provides two
+> positional forms which must be present and must have the correct
+> keywords, `export` and `import`, which does not allow for
+> unambiguous extensions.  We think extensibility is important
+> (we've already added three forms in the points above), and so
+> chose a syntax which provides a clear separation between the
+> module declarations and the Scheme code which makes up the body.
 
 Since the system is simple, it is expected that R6RS implementations
 will be able to support the `module` syntax in addition to their
@@ -109,7 +109,7 @@ We've kept R5RS `#` inexact "placeholder" digits in the
 interest of backwards compatibility, but not adopted the R6RS
 mantissa widths.
 
-== R6RS Library Incompatibilities ==
+## R6RS Library Incompatibilities
 
 The low-level macro system and syntax-case were not adopted.  There
 are two general families of macro systems in widespread use -- the
@@ -154,7 +154,7 @@ arithmetic to WG2.
 
 We did not relegate pair and string mutators to separate modules.
 
-== Certain Additions (Technical Incompatibilities) to R6RS ==
+## Certain Additions (Technical Incompatibilities) to R6RS
 
 We've added support for CL-style #<n>=(... #<n># ...) reader labels.
 `write` is required to detect cycles and use these labels in this

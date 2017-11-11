@@ -1,44 +1,44 @@
-This and that from [[http://common-lisp.net/project/alexandria/draft/alexandria.html|Alexandria]]
+This and that from [Alexandria](http://common-lisp.net/project/alexandria/draft/alexandria.html)
 
-== Macros ==
+## Macros
 
-{{{
+```
 if-let
 when-let
 when-let*
 xor
-}}}
+```
 
-== Random ==
+## Random
 
-{{{
+```
 rotate
 shuffle
 random-element
-}}}
+```
 
-== I/O ==
+## I/O
 
-{{{
+```
 read-whole-file
 read-whole-binary-file
-}}}
+```
 
-== Features ==
+## Features
 
-{{{
+```
 feature?
-}}}
+```
 
-== Combinations ==
+## Combinations
 
-[[http://en.wikipedia.org/wiki/Derangement|Derangements]]
+[Derangements](http://en.wikipedia.org/wiki/Derangement)
 
-{{{
+```
 binomial-coefficient
 count-permutations
 clamp
 linear-interpolation
 factorial
 subfactorial
-}}}
+```

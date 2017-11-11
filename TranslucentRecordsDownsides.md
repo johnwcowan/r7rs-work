@@ -1,7 +1,7 @@
 
-= From Jeff Dalton =
+# From Jeff Dalton
 
-[[http://groups.csail.mit.edu/mac/ftpdir/scheme-mail/HTML/rrrs-1996/msg00162.html|Reference]]
+[Reference](http://groups.csail.mit.edu/mac/ftpdir/scheme-mail/HTML/rrrs-1996/msg00162.html)
 
 Perhaps I misunderstood what people meant by "opaque".  I
 thought it meant the fields of the record could be accessed
@@ -22,7 +22,7 @@ Nor would someone writing client code be likely to use them.
 Neither of these things would happen except in fairly unusual
 cases.
 
-=== R6RS ===
+### R6RS
 
 In an R6RS context, opaqueness means that you can neither identify the record instance as a record, nor discover its type, nor retrieve its constructors, predicate, accessors, and mutators.  Such opaque records might be used to implement bignums or even conses.
 

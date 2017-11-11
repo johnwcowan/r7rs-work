@@ -1,1 +1,1 @@
-This proposal has been withdrawn by the author in favor of the [[http://trac.sacrideo.us/wg/wiki/ContainerSrfiComparison#Maximalistproposal|''maximalist proposal'' given in ContainerSrfiComparison]].
+This proposal has been withdrawn by the author in favor of the [*maximalist proposal* given in [ContainerSrfiComparison](ContainerSrfiComparison.md)](http://trac.sacrideo.us/wg/wiki/ContainerSrfiComparison#Maximalistproposal).

@@ -1,4 +1,4 @@
-== Chronometer ==
+## Chronometer
 
 {{{(make-chronometer)}}}
 

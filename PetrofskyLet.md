@@ -4,5 +4,5 @@ Shoe, BDC do not support named let.
 
 Rep, Owl Lisp return 1.
 
-Llava reports that SymbolImpl cannot be cast to Pair.
+Llava reports that [SymbolImpl](SymbolImpl.md) cannot be cast to Pair.
 

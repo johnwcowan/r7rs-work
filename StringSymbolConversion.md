@@ -4,10 +4,10 @@ An interesting difference was the way in which the resulting symbol was printed 
 
 Racket, Gauche, MIT, Gambit, Chicken, SISC, Chibi, STklos, Sagittarius printed the symbol name as `|foo)(bar|`.
 
-Guile, Chez, !Icarus/Vicare, Larceny, Ypsilon, KSi printed it as `foo\x29;\x28;bar`, R6RS-style.
+Guile, Chez, Icarus/Vicare, Larceny, Ypsilon, KSi printed it as `foo\x29;\x28;bar`, R6RS-style.
 
 SCM, Shoe, Elk printed it as `foo\)\(bar`.
 
-Bigloo, Scheme48/scsh, Kawa, Mosh, !IronScheme, NexJ, !SigScheme, !TinyScheme, Scheme 9, Dream, RScheme, S7, BDC, XLisp, UMB, VX, Owl Lisp displayed the symbol as `foo)(bar` (this is arguably a bug in Mosh and !IronScheme, which are R6RS implementations).
+Bigloo, Scheme48/scsh, Kawa, Mosh, IronScheme, NexJ, SigScheme, TinyScheme, Scheme 9, Dream, RScheme, S7, BDC, XLisp, UMB, VX, Owl Lisp displayed the symbol as `foo)(bar` (this is arguably a bug in Mosh and IronScheme, which are R6RS implementations).
 
-Note that this list does not match the list of implementations which ''accept'' vertical bars, hex escapes, and backslashes.
+Note that this list does not match the list of implementations which *accept* vertical bars, hex escapes, and backslashes.

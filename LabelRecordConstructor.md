@@ -1,11 +1,11 @@
 
-= Label Record Constructor =
+# Label Record Constructor
 
-== Benefits: ==
+## Benefits:
 
-* LabelRecordConstructorBenefits
+* [LabelRecordConstructorBenefits](LabelRecordConstructorBenefits.md)
 
-== Downsides: ==
+## Downsides:
 
-* LabelRecordConstructorDownsides
+* [LabelRecordConstructorDownsides](LabelRecordConstructorDownsides.md)
 

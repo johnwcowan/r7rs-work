@@ -1,1 +1,1 @@
-See [[https://github.com/TaylanUB/scheme-bytestructures|ByteStructuresTaylanub]].
+See [ByteStructuresTaylanub](https://github.com/TaylanUB/scheme-bytestructures).

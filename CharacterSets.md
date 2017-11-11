@@ -19,4 +19,4 @@ case mappings.
 
 Current Proposals:
 
-  * UnicodeCowan
+* [UnicodeCowan](UnicodeCowan.md)

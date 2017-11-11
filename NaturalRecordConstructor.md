@@ -1,10 +1,10 @@
 
-= Natural Record Constructor =
+# Natural Record Constructor
 
-== Benefits: ==
+## Benefits:
 
-* NaturalRecordConstructorBenefits
+* [NaturalRecordConstructorBenefits](NaturalRecordConstructorBenefits.md)
 
-== Downsides: ==
+## Downsides:
 
-* NaturalRecordConstructorDownsides
+* [NaturalRecordConstructorDownsides](NaturalRecordConstructorDownsides.md)

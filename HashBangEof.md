@@ -2,17 +2,17 @@ I tested the REPLs of the usual Schemes to determine which ones terminated when 
 
 Terminated: Chicken, SISC, Detroit, Chez, Vicare, KSi
 
-Lexical syntax error: Racket, Gauche, Scheme48/scsh, Guile, Larceny, NexJ, !SigScheme, !MiniScheme, S7, Unlikely, SIOD, Rep, SXM, Sizzle, Foment, Chibi
+Lexical syntax error: Racket, Gauche, Scheme48/scsh, Guile, Larceny, NexJ, SigScheme, MiniScheme, S7, Unlikely, SIOD, Rep, SXM, Sizzle, Foment, Chibi
 
 Self-quoting object:  MIT, Gambit, Kawa
 
 Special object: Llava, Owl Lisp
 
-Unknown identifier: !SigScheme, Shoe, BDC, XLisp, Schemik, UMB, Inlab
+Unknown identifier: SigScheme, Shoe, BDC, XLisp, Schemik, UMB, Inlab
 
 Attempts to evaluate an eof-object: Mosh
 
-Apparently ignores it:  Bigloo, SCM, Ypsilon, !IronScheme, JScheme, STklos, !TinyScheme, Scheme 9, RScheme, Elk, !FemtoLisp, Dfsch, Sagittarius, Picrin
+Apparently ignores it:  Bigloo, SCM, Ypsilon, IronScheme, JScheme, STklos, TinyScheme, Scheme 9, RScheme, Elk, FemtoLisp, Dfsch, Sagittarius, Picrin
 
 I also tried evaluating `(eof-object? #!eof)` in the REPL for a subset of the above.  Schemes that report a lexical syntax error or treat `#!eof` as an identifier were not retested.  Schemes that ignore `#!eof` usually ignored the closing `)` as well; when one was supplied, they reported a missing argument to `eof-object?`.
 

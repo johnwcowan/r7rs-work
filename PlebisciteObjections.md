@@ -1,6 +1,6 @@
 I (John Cowan) have extracted the following formal and informal objections to draft 9 of R7RS-small from votes cast in the R7RS-small plebiscite (and a few other email messages), and filed a ticket for each: the tickets are linked via their numbers.
 
-Almost all of the tickets take the following form: an attributed quotation from one or more ballots or emails (I have consolidated the complaints into a single ticket if I thought they were substantially the same), followed by the names of people who substantially agreed but did not seem worth quoting, followed by my comments.  When my comments are factual in nature (by intent), they appear as part of the description; if they involve personal opinions, they appear as ticket comments.  In all cases the ticket titles are my own responsibility. 
+Almost all of the tickets take the following form: an attributed quotation from one or more ballots or emails (I have consolidated the complaints into a single ticket if I thought they were substantially the same), followed by the names of people who substantially agreed but did not seem worth quoting, followed by my comments.  When my comments are factual in nature (by intent), they appear as part of the description; if they involve personal opinions, they appear as ticket comments.  In all cases the ticket titles are my own responsibility.
 
 * #478: Procedure equivalence should return.
 * #479: Character names like 'xbeef' can be read two ways
@@ -64,7 +64,7 @@ Almost all of the tickets take the following form: an attributed quotation from 
 * #537: Minimal interface to sockets, concurrency, and hierarchical file systems
 * #538: Falling off a cond-expand should be unspecified behavior
 
-Here is an author index, specifying which tickets each person's ballot or email is referred to in.  See PlebisciteIndex for links to the actual ballots.  Links to non-ballots are inside the tickets.
+Here is an author index, specifying which tickets each person's ballot or email is referred to in.  See [PlebisciteIndex](PlebisciteIndex.md) for links to the actual ballots.  Links to non-ballots are inside the tickets.
 
 * Barzilay: #485
 * Bex: #525, #526, #527, #528, #529

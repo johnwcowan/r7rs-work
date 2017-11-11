@@ -1,1 +1,1 @@
-Superceded by [[http://srfi.schemers.org/srfi-117/srfi-117.html|SRFI 117]].
+Superceded by [SRFI 117](http://srfi.schemers.org/srfi-117/srfi-117.html).

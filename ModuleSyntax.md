@@ -1,60 +1,60 @@
-== ModuleSyntax ==
+## [ModuleSyntax](ModuleSyntax.md)
 
 Whatever implementation strategy is used, a syntax for the standard
 module form must be chosen.  Modulo keyword names, options include:
 
-  * Unwrapped:
+* Unwrapped:
 
-    (module <declarations ...)
-    <body> ...
+> (module <declarations ...)
+> <body> ...
 
-    Seen in most other programming languages, the `module` form is
-    just a single declaration, and the rest of the file contains the
-    actual code.  This has the distinct disadvantage that it can't be
-    implemented easily in many strategies, or on top of existing
-    module systems.  Guile and Gauche use this syntax, although Gauche
-    allows including the body inside the module form.
+> Seen in most other programming languages, the `module` form is
+> just a single declaration, and the rest of the file contains the
+> actual code.  This has the distinct disadvantage that it can't be
+> implemented easily in many strategies, or on top of existing
+> module systems.  Guile and Gauche use this syntax, although Gauche
+> allows including the body inside the module form.
 
-  * Simple wrapper:
+* Simple wrapper:
 
-    (module <declarations> ... <body> ...)
+> (module <declarations> ... <body> ...)
 
-    Used in the R6RS proposal and many Scheme implementations, this is
-    simple but opens questions of whether declarations may be expanded
-    from macros, and if so makes any static analysis of the module
-    impossible without expanding the body.  Sometimes disliked because
-    it requires indenting the body of the module.
+> Used in the R6RS proposal and many Scheme implementations, this is
+> simple but opens questions of whether declarations may be expanded
+> from macros, and if so makes any static analysis of the module
+> impossible without expanding the body.  Sometimes disliked because
+> it requires indenting the body of the module.
 
-  * Delimited wrapper:
+* Delimited wrapper:
 
-    (module (<declarations> ...) <body> ...)
+> (module (<declarations> ...) <body> ...)
 
-    This avoids the issues above, simply by delimiting the
-    declarations with a pair of parentheses so they are all known in
-    advance.  If they are static (can't be expanded from macros), then
-    a simple rule of allowing and ignoring any unknown declaration
-    keyword allows for easy forward-compatibility and
-    implementation-specific extensions.
+> This avoids the issues above, simply by delimiting the
+> declarations with a pair of parentheses so they are all known in
+> advance.  If they are static (can't be expanded from macros), then
+> a simple rule of allowing and ignoring any unknown declaration
+> keyword allows for easy forward-compatibility and
+> implementation-specific extensions.
 
-  * Declaration-only:
+* Declaration-only:
 
-    (module <declarations> ...)
+> (module <declarations> ...)
 
-    The module form only allows declarations - any code needs to be
-    specified with declarations such as (include <file>) or (body
-    <code> ...).  This is the syntax used in Scheme48 and
-    Chibi-Scheme.  It is equivalent in expressiveness to the delimited
-    wrapper approach, trading an additional level of indentation for
-    no extra parens around the declarations.
+> The module form only allows declarations - any code needs to be
+> specified with declarations such as (include <file>) or (body
+> <code> ...).  This is the syntax used in Scheme48 and
+> Chibi-Scheme.  It is equivalent in expressiveness to the delimited
+> wrapper approach, trading an additional level of indentation for
+> no extra parens around the declarations.
 
-  * Declaration-only with embedded body shortcut:
+* Declaration-only with embedded body shortcut:
 
-    (module <declarations> ... ---- <body> ...)
+> (module <declarations> ... ---- <body> ...)
 
-    where `----` is some arbitrary symbol chosen to act as a delimiter
-    between the declarations and the body of the library.  Otherwise
-    the same as above, the shortcut syntax allows the body to have
-    only one level of indentation instead of two.
+> where `----` is some arbitrary symbol chosen to act as a delimiter
+> between the declarations and the body of the library.  Otherwise
+> the same as above, the shortcut syntax allows the body to have
+> only one level of indentation instead of two.
 
 In addition, with all of these syntaxes, some declarations
 that are frequently used may get fixed positions.  The name

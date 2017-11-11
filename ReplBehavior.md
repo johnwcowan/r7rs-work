@@ -1,12 +1,12 @@
-From: "Øivind Binde"[[BR]]
-To: John Cowan[[BR]]
-Date: Sun, 14 Mar 2010 13:28:29 +0100[[BR]]
+From: "Øivind Binde"[#BR]]
+To: John Cowan[#BR]]
+Date: Sun, 14 Mar 2010 13:28:29 +0100[#BR]]
 Subject: Standardize the Scheme REPL behavior and interface
 
 First off, sorry for not introducing myself more specifically. But very short: I'm a Comp. Sci. student, and I'm primarily concerned with the end user experience I experience with most Scheme implementations. And thus I would like for Scheme to have standard on how it behaves in the repl-mode.
 
-One can ask:[[BR]]
-I.  What does the REPL interface got to do with the language standardization process?[[BR]]
+One can ask:[#BR]]
+I.  What does the REPL interface got to do with the language standardization process?[#BR]]
 II. Why do so many new Schemers prefer getting started with Dr.Scheme?
 
 From a personal point of view, the easy to use, and getting up and running very fast (without clutter), was the main reason for choosing Dr.Scheme as my first editing environment. The cluttered editing within the REPL that Chicken (an implementation) gave me was enough to start looking for other alternatives.
@@ -19,8 +19,8 @@ Abstract solution:
 
 1) Provide a unified (standard) user experience at the REPL. Example: Launch it by passing along a argument flag:
 
-mzscheme --r7rs-repl[[BR]]
-or[[BR]]
+mzscheme --r7rs-repl[#BR]]
+or[#BR]]
 csi --r7rs-repl
 
 And they will behave the same across different implementation (!)
@@ -39,10 +39,10 @@ IV)  I want to be able to edit the name-space. Like: edit merge-sort -> which th
 
 Maybe someone thinks specifying the REPL behavior is a too far a stretch, and irrelevant to the language standard it self. But I think there might be worth considering this for providing some consistency between the different REPLs out there.  I think its important to have some consistency between the REPLs -- and ultimately I think we can get rid of the 'must learn a emacs/development environment' to play around with Scheme.
 
-= Comments = 
+# Comments =
 
 Aaron W. Hsu comments:
 
-  These are some good points, but I have two major comments here. 
-    * Most of these are about program and implementation level interface standardization, which I think is beyond the scope of either WG.
-    * I am strongly opposed to general attitude in favor of excessive "modes" in Schemes. I don't want to have to remember a flag every time I want standard Scheme. Rather, I want standard Scheme, and if I want the extensions, I'll add a flag then. IMO, we are defeating the idea of standards if we automatically presume that, in effect, no Scheme implementation is going to actually use the standard by default. 
+> These are some good points, but I have two major comments here.
+* Most of these are about program and implementation level interface standardization, which I think is beyond the scope of either WG.
+* I am strongly opposed to general attitude in favor of excessive "modes" in Schemes. I don't want to have to remember a flag every time I want standard Scheme. Rather, I want standard Scheme, and if I want the extensions, I'll add a flag then. IMO, we are defeating the idea of standards if we automatically presume that, in effect, no Scheme implementation is going to actually use the standard by default.

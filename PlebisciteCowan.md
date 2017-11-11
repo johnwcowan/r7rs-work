@@ -1,4 +1,4 @@
-'''This page is no longer active.  See [[http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003299.html|this page]] for instructions on how to vote.'''
+**This page is no longer active.  See [this page](http://lists.scheme-reports.org/pipermail/scheme-reports/2013-April/003299.html) for instructions on how to vote.**
 
 The purpose of this ballot is for you to register your views about the work of Working Group 1. In particular, you are being asked whether the ninth draft of R7RS-small at <http://trac.sacrideo.us/wg/raw-attachment/wiki/WikiStart/r7rs-draft-9.pdf>, Chibi Scheme, the sample implementation at <https://code.google.com/p/chibi-scheme>, and the test cases at <https://code.google.com/p/chibi-scheme/source/browse/#hg%2Ftests> satisfy the requirements of the WG1 charter at <http://scheme-reports.org/2009/working-group-1-charter.html> (excluding the section labeled "Timeline").  Please send your vote to the mailing list scheme-reports@scheme-reports.org between Friday, April 19, 2013, and the deadline of Sunday, May 13, 2013, inclusive.
 

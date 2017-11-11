@@ -1,10 +1,10 @@
-= Working Group 2 Member Page =
+# Working Group 2 Member Page
 
 The following are members of the Working Group Two:
 
-Working Group Chair: [[:JohnCowan|John Cowan]]
+Working Group Chair: [John Cowan](JohnCowan.md)
 
 Members:
 
-  * [[:AaronHsu|Aaron W. Hsu]]
-  * [[:EmmanuelMedernach|Emmanuel Medernach]]
+* [Aaron W. Hsu](AaronHsu.md)
+* [Emmanuel Medernach](EmmanuelMedernach.md)

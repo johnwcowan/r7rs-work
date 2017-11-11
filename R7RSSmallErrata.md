@@ -1,4 +1,4 @@
-Errata from the [[http://trac.sacrideo.us/wg/attachment/wiki/WikiStart/r7rs.pdf|final draft of R7RS]].  This list is unofficial.
+Errata from the [final draft of R7RS](http://trac.sacrideo.us/wg/attachment/wiki/WikiStart/r7rs.pdf).  This list is unofficial.
 
 1.  In Section 3.1 (Variables, syntactic keywords, and regions), the claim in paragraph 2 that all variable binding constructs can be explained in terms of `lambda` does not apply to top-level bindings.
 
@@ -12,7 +12,7 @@ Errata from the [[http://trac.sacrideo.us/wg/attachment/wiki/WikiStart/r7rs.pdf|
 
 6. In Section 7.3 (Derived expression types), the syntax-rules definition of `case` is incorrect; the fourth syntax rule must be moved after the fifth to avoid an improper match against the fourth rule when `=>` is present.  Here is the correct version:
 
-{{{
+```
  (define-syntax case
    (syntax-rules (else =>)
      ((case (key ...)
@@ -45,15 +45,15 @@ Errata from the [[http://trac.sacrideo.us/wg/attachment/wiki/WikiStart/r7rs.pdf|
       (if (memv key '(atoms ...))
           (begin result1 result2 ...)
           (case key clause clauses ...)))))
-}}}
+```
 
 7. In Section 7.1.1, the lexical rule <special initial> incorrectly omits `@`.
 
-8. Bibliographic reference ![13] should link to [[http://srfi.schemers.org/srfi-4/srfi-4.html|SRFI 4]].
+8. Bibliographic reference ![13] should link to [SRFI 4](http://srfi.schemers.org/srfi-4/srfi-4.html).
 
 9. In section 4.2.2, add "interleaving evaluations with assignments" to the definition of `letrec*`.  Replace the meaningless example with this:
 
-{{{
+```
 ;; Returns the arithmetic, geometric, and
 ;; harmonic means of a nested list of numbers
 (define (means ton)
@@ -73,7 +73,7 @@ Errata from the [[http://trac.sacrideo.us/wg/attachment/wiki/WikiStart/r7rs.pdf|
     (values (mean values values)
             (mean exp log)
             (mean / /))))
-}}}
+```
 
 Note that evaluating `(means '(3 (1 4)))` returns three values: 8/3, 2.28942848510666 (approximately), and 36/19.
 
@@ -97,13 +97,13 @@ Note that evaluating `(means '(3 (1 4)))` returns three values: 8/3, 2.289428485
 
 19. In numeric tower bullet of the "Incompatibilities with R6RS" section, for "but the R6RS procedures `real-valued?`, `rational-valued?`, and `integer-valued?` were not" read "but the semantics of the R6RS procedures `real?`, `rational?`, and `integer?` were not adopted.  (Note that the R5RS/R7RS semantics are available in R6RS using `real-valued?`, `rational-valued?`, and `integer-valued?`)".
 
-20. From [[http://www.mumble.net/~kelsey/r5rs-errata.html|Richard Kelsey's R5RS errata]]: In the explanation of `list-ref`, for "fewer than ''k'' elements", read "''k'' or fewer elements". Thus, `(list-ref '(x) 1)` is an error.
+20. From [Richard Kelsey's R5RS errata](http://www.mumble.net/~kelsey/r5rs-errata.html): In the explanation of `list-ref`, for "fewer than *k* elements", read "*k* or fewer elements". Thus, `(list-ref '(x) 1)` is an error.
 
 21. In Appendix B, for "All algebraic operations except `/` produce exact values given exact inputs" read "The algebraic operations `+`, `-`, `*`, and `expt` where the second argument is a non-negative integer all produce exact values given exact inputs".
 
 22. In Appendix A, the `(scheme r5rs)` library should export `syntax-rules`, `else`, `...`, `=>` and `_`.
 
-23. In the definition of `string-for-each`, for "the elements of the ''lists''" read "the elements of the ''strings''".
+23. In the definition of `string-for-each`, for "the elements of the *lists*" read "the elements of the *strings*".
 
 24. The value of the example `(real? 2.5+0.0i)` in Section 6.2.6 is shown as `#f`, as in R6RS.  This contradicts the prose explanation.  No resolution of the conflict has been reached as yet.
 
