@@ -44,11 +44,11 @@ Returns `#t` if *jso* contains *key*, and `#f` otherwise.  The prototype chain i
 
 ## Accessors
 
-`(jso-ref `*jso key* [#|*failure* []] ]( *success*)`)`
+`(jso-ref `*jso key* [[|*failure* []] ]( *success*)`)`
 
 Searches *jso*, including the prototype chain, for the key *key*, invokes the procedure *success* on it, and returns the result.  If *key* is not found, invokes the thunk *failure* and returns the result.  If *success* is not specified, it is the identity function; if *fail* is not specified, it is a procedure that returns the undefined value.
 
-`(jso-local-ref `*jso key* [#|*failure* []] ]( *success*)`)`
+`(jso-local-ref `*jso key* [[|*failure* []] ]( *success*)`)`
 
 The same as `jso-ref`, except that it does not search the prototype chain.
 
@@ -162,13 +162,13 @@ If the *ascii?* argument is true, all non-ASCII characters are also escaped.
 
 Interprets all escape sequences in a valid JSON string and returns the result.  An error is signaled if a malformed escape sequence is found.
 
-`(json-write `*obj options* [#|*port* ]] ]`)`
+`(json-write `*obj options* [[|*port* ]] ]`)`
 
 Output *obj* to *port* (which defaults to the value of `(current-output-port)`) in [JSON format](https://tools.ietf.org/html/rfc7159).  Exact rationals other than integers are converted to inexact numbers before being output.  The null JSO is output as the keyword `null`.  If *obj* is not a JSON value, an error is signaled before any output is done.
 
 The *options* argument is a list of symbols.  The symbol `ascii` causes all non-ASCII characters in strings to be escaped.  The symbol `pretty` may cause the JSON to be pretty-printed.  All other symbols are implementation-dependent.
 
-`(json-read `[#|*prototype* []] ]( *port*)`)`
+`(json-read `[[|*prototype* []] ]( *port*)`)`
 
 Reads the [JSON representation](https://tools.ietf.org/html/rfc7159) of a JSON value from *port* (which defaults to the value of `(current-input-port)`) and returns the appropriate value.  Any leading whitespace is skipped.
 >

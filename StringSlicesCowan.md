@@ -74,7 +74,7 @@ Returns a character span which contains the characters of *string* in order.  La
 
 ## String constructors
 
-`(make-string ` *k* [#|*char* ]]`)` [R7RS-small]
+`(make-string ` *k* [[|*char* ]]`)` [R7RS-small]
 
 Returns a string containing *k* characters, all of which are *char*.  If *char* is omitted, the contents of the string are implementation-dependent.
 
@@ -82,9 +82,9 @@ Returns a string containing *k* characters, all of which are *char*.  If *char* 
 
 Returns a string consisting of the *char* arguments.
 
-`(string-unfold `*stop? mapper successor* [#|*seed* ]]`)`
+`(string-unfold `*stop? mapper successor* [[|*seed* ]]`)`
 
-`(string-unfold-right `*stop? mapper successor* [#|*seed* ]]`)`
+`(string-unfold-right `*stop? mapper successor* [[|*seed* ]]`)`
 
 Returns a newly allocated string, whose characters are generated in forward/reverse order using the following algorithm: If the result of applying the predicate *stop?* to *seed* is true, the string is complete and is returned.  Otherwise, apply the procedure *mapper* to seed. The value that *mapper* returns becomes the next character of the string.  Then a new seed is obtained by applying the procedure *successor* to *seed*, and this algorithm is repeated.
 
@@ -200,33 +200,33 @@ Returns a character span which contains the characters in *span* between the ind
 
 ## Padding, trimming, and compressing
 
-`(span-pad `*span len* [#|*char* ]]`)`
+`(span-pad `*span len* [[|*char* ]]`)`
 
-`(string-pad `*string  len* [#|*char* ]]`)` [13](SRFI)
+`(string-pad `*string  len* [[|*char* ]]`)` [13](SRFI)
 
-`(span-pad-right `*span len* [#|*char* ]]`)`
+`(span-pad-right `*span len* [[|*char* ]]`)`
 
-`(string-pad-right `*string  len* [#|*char* ]]`)` [13](SRFI)
+`(string-pad-right `*string  len* [[|*char* ]]`)` [13](SRFI)
 
 Returns a span of length *len* consisting of *span* padded on the left/right by as many occurrences of the character *char* as needed.  If *span* has more than *len* characters, it is truncated on the left (right) to length *len*.  If *char* is omitted, `#\space` is used.
 
-`(span-trim `*span [#|*pred* ]]`)`
+`(span-trim `*span [[|*pred* ]]`)`
 
-`(string-trim `*string [#|*pred* ]]`)` [13](SRFI)
+`(string-trim `*string [[|*pred* ]]`)` [13](SRFI)
 
-`(span-trim-right `*span [#|*pred* ]][#|*char* ]]`)`
+`(span-trim-right `*span [[|*pred* ]][[|*char* ]]`)`
 
-`(string-trim-right `*string [#|*pred* ]]`)` [13](SRFI)
+`(string-trim-right `*string [[|*pred* ]]`)` [13](SRFI)
 
-`(span-trim-both `*span [#|*pred* ]]`)`
+`(span-trim-both `*span [[|*pred* ]]`)`
 
-`(string-trim-both `*string [#|*pred* ]]`)` [13](SRFI)
+`(string-trim-both `*string [[|*pred* ]]`)` [13](SRFI)
 
 Trim *span* by skipping over all characters on the left / on the right / on both sides that satisfy *pred* and returning the resulting span.
 
-`(span-compress `*span* [#|*char* ]]`)`
+`(span-compress `*span* [[|*char* ]]`)`
 
-`(string-compress `*string* [#|*char* ]]`)`
+`(string-compress `*string* [[|*char* ]]`)`
 
 Return a span which differs from *span* in that every sequence of consecutive occurrences of *char* has been replaced by a single *char*.  If *char* is omitted, `#\space` is used.
 
@@ -407,17 +407,17 @@ Invokes *proc* on each member of *span* in forward/reverse order, passing the re
 
 ## Parsing and unparsing
 
-`(span-split `*span [#*separator*|[]] ]( *limit*)`)`
+`(span-split `*span [[*separator*|[]] ]( *limit*)`)`
 
-`(span-split `*span [#*separator*|[]] ]( *limit*)`)`
+`(span-split `*span [[*separator*|[]] ]( *limit*)`)`
 
 Returns a list of the words contained in *span*.  If *separator* (which is also a character span) is omitted, then the words are separated by one or more whitespace characters (those on which `char-whitespace?` returns `#t`). If *separator* is supplied, it specifies a string to be used as the word separator. The returned list will then have one more item than the number of non-overlapping occurrences of the separator in the string.  If *separator* is an empty span, then the returned list contains a list of the characters in *span*.
 
 If *limit* is provided, at most that many splits occur, and the remainder of *span* is returned as the final element of the list (thus, the result will have at most *limit*+1 elements). If *limit* is not specified, then as many splits as possible are made.  It is an error if *limit* is not a positive exact integer.
 
-`(span-join `*list* [#|*delim* []] ]( *grammar*)`)`
+`(span-join `*list* [[|*delim* []] ]( *grammar*)`)`
 
-`(string-join `*list* [#|*delim* []] ]( *grammar*)`)`
+`(string-join `*list* [[|*delim* []] ]( *grammar*)`)`
 
 This procedure pastes the elements of *list* together using *delimiter*, which is a span.  For convenience, *list* elements are allowed to be strings or spans or both.  If *delimiter* is omitted, it is a single space.  The *grammar* argument is a symbol that determines how the delimiter is used, and defaults to `infix`.  The following values are understood:
 
@@ -452,23 +452,23 @@ Returns two values, a span containing the characters of *span* which satisfy *pr
 
 `(span-copy `*span*`)`
 
-`(string-copy `*string* [#|*start* []] ]( *end*)`)` [R7RS-small]
+`(string-copy `*string* [[|*start* []] ]( *end*)`)` [R7RS-small]
 
 Makes a copy of *span* such that any future mutation of any string underlying *span* does not affect the characters of *span*.  The *start* and *end* arguments are for compatibility with R7RS-small.
 
 `(span->list `*span*`)`
 
-`(string->list `*string* [#|*start* []] ]( *end*)`)` [R7RS-small]
+`(string->list `*string* [[|*start* []] ]( *end*)`)` [R7RS-small]
 
 `(span->vector `*span*`)`
 
-`(string->vector `*string*[#|*start* []] ]( *end*)`)` [R7RS-small]
+`(string->vector `*string*[[|*start* []] ]( *end*)`)` [R7RS-small]
 
 Returns a newly allocated list/vector containing the characters of *span* in order.  The *start* and *end* arguments are for compatibility with R7RS-small.
 
 `(list->string `*list*`)` [R7RS-small]
 
-`(vector->string `*vector* [#|*start* []] ]( *end*)`)` [R7RS-small]
+`(vector->string `*vector* [[|*start* []] ]( *end*)`)` [R7RS-small]
 
 Returns a newly allocated string whose characters are the elements of *list/vector* in order.  It is an error if the elements are not characters.  The *start* and *end* arguments are for compatibility with R7RS-small.
 
@@ -572,7 +572,7 @@ Return the difference in characters between *cursor,,2,,* and *cursor,,1,,*.  It
 
 ## Output
 
-`(write-string-tree `*obj* [#|*port* ]]`)`
+`(write-string-tree `*obj* [[|*port* ]]`)`
 
 It is an error if *port* is not a textual output port.  If *port* is omitted, the value of `(current-output-port)` is used.
 

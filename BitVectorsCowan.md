@@ -2,7 +2,7 @@
 
 ### Constructor
 
-`(make-bitvector ` [#|*size* []] ]( *fill*)`)`
+`(make-bitvector ` [[|*size* []] ]( *fill*)`)`
 
 Returns a newly allocated bitvector.  If *fill* is omitted or `#f`, then all the bits are `#f`; if *fill* is `#t`, the the first *size* bits are `#t` and all other bits are `#f`.
 

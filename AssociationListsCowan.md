@@ -6,7 +6,7 @@ FIXME: More will be added later.
 
 An "association list" (or "alist") is a list of pairs. The car of each pair contains a key value, and the cdr contains the associated data value. They can be used to construct simple look-up tables in Scheme. Note that association lists are probably inappropriate for performance-critical use on large data; in these cases, hash tables or some other alternative should be employed.
 
-`(assoc `*key alist* [#|*=* ]]`)`
+`(assoc `*key alist* [[|*=* ]]`)`
 
 `(assq `*key alist*`)`
 
@@ -25,7 +25,7 @@ The *alist* argument must be an association list -- a list of pairs. These proce
 (assv 5 '((2 3) (5 7) (11 13)))	       =>  (5 7)
 ```
 
-`(reverse-assoc `*obj alist* [#|*=* ]] `)`
+`(reverse-assoc `*obj alist* [[|*=* ]] `)`
 
 `(reverse-assq `*obj alist*`)`
 
@@ -56,9 +56,9 @@ Cons a new alist entry that maps *key* to *datum* onto the beginning of *alist*.
 
 Make a newly allocated copy of *alist*. This means copying each pair that forms an association as well as the spine of the list.  (SRFI 1, Common Lisp COPY-ALIST.)
 
-`(alist-delete `*key alist* [#|*=* ]]`)`
+`(alist-delete `*key alist* [[|*=* ]]`)`
 
-`(alist-delete! `*key alist* [#|*=* ]]`)`
+`(alist-delete! `*key alist* [[|*=* ]]`)`
 
 `alist-delete` deletes all associations from *alist* with the given *key*, using the key-comparison procedure *=*, which defaults to `equal?`. The dynamic order in which the various applications of *= *are made is not specified.  Return values may share common tails with the *alist* argument. The *alist *is not disordered -- elements that appear in the result occur in the same order as they occur in *alist*.  The comparison procedure is used in the same way as by `assoc`. (SRFI 1.)
 

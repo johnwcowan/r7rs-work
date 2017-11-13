@@ -44,7 +44,7 @@ These requirements can be satisfied by many flavors of *self-balancing binary tr
 
 If two elements are inserted into a set that are equal in the sense of the set's comparator but are not `eqv?`, the first to be specified or generated prevails.
 
-`(iset `*comparator* [#|*element* ...]]`)`
+`(iset `*comparator* [[|*element* ...]]`)`
 
 Returns a set containing *elements*, where *comparator* provides the criterion of identity and ordering.  Takes O(n log n) time.
 
@@ -162,11 +162,11 @@ The fundamental set iterator. Equivalent to, but may be more efficient than, `(f
 
 The fundamental set iterator. Equivalent to, but may be more efficient than, `(fold-right `*proc base* ` (iset->increasing-list `*set*`))`.  Takes O(n) time.
 
-`(iset-map/monotone `*proc set* [#|*comparator* ]]`)`
+`(iset-map/monotone `*proc set* [[|*comparator* ]]`)`
 
 Returns a set containing the result of invoking *proc* on every element in *set*.  It is an error unless *proc* is a *monotone* unary procedure that preserves the order of set elements. Observe that mapping a set of unique elements with a monotone function yields a set of unique elements, so element uniqueness follows from the monotonicity assumption. If *comparator* is given, it is the comparator of the result; otherwise the result uses the same comparator as *set*. Takes O(n) time.
 
-`(iset-map`*proc set* [#|*comparator* []] ]( *merger*)`)`
+`(iset-map`*proc set* [[|*comparator* []] ]( *merger*)`)`
 
 Like `iset-map/monotone`, except that *proc* is not required to be monotone. The `merger` procedure is used to select among any duplicate elements (in the sense of the comparator of *set*) that might be created; it returns the value to be used; if absent, the element chosen is implementation-specific.  Takes O(n log n) time.
 
@@ -208,7 +208,7 @@ Returns a list containing the elements of `set` in increasing order. Takes O(n) 
 
 Returns a set containing the elements of *list* and using *comparator*. It is an error for *list* to be anything other than a proper list of elements in increasing order. Takes O(n log n) time; O(n) is optimal.
 
-`(list->iset `*comparator list [#|*merger* ]]`)`
+`(list->iset `*comparator list [[|*merger* ]]`)`
 
 Returns a set containing the elements of *list* and using *comparator*. It is an error if `list` is not a proper list, but it may contain duplicates and need not be in order.  The `merger` procedure is used to select among any duplicate elements (in the sense of the comparator of *set*) that might be created; it accepts the existing and new elements and returns the value to be used.  Takes O(n log n) time.
 

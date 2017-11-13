@@ -1,1 +1,1 @@
-See [#wiki:FloatCLMedernach]]
+See [[wiki:FloatCLMedernach]]

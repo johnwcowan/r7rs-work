@@ -6,11 +6,11 @@ A *histogram* is a type of tally which also maintains a number of *bins* decided
 
 ## Constructors
 
-`(make-tally `[#|*key* ]]`)`
+`(make-tally `[[|*key* ]]`)`
 
 Returns a newly allocated tally with no observations.  The *key* is an arbitrary Scheme object useful for distinguishing this tally from other tallies; the default key is `#f`.
 
-`(make-histogram ` *low high width* [#|*key* ]]`)`
+`(make-histogram ` *low high width* [[|*key* ]]`)`
 
 Returns a newly allocated histogram with no observations.  It will have sufficient bins to count observations from *low* (inclusive) to *high* (exclusive) with the specified *width*.  Observations that fall on a bin boundary are always placed in the higher bin.  There are two additional bins for observations lower than *low* and higher than *high*.  The *key* is as for `make-tally`.
 

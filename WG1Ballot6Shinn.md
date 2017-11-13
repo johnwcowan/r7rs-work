@@ -849,8 +849,8 @@ forms for write, and the names really are an improvement.
 
 Currently, we allow implementations to provide their own names for
 characters, but provide no guidance for them.  There are two plausible
-sources: the [#http://unicode.org/Public/UNIDATA/NamesList.txt|names in
-the Unicode Standard]], and the [#http://www.w3.org/TR/xml-entity-names/
+sources: the [[http://unicode.org/Public/UNIDATA/NamesList.txt|names in
+the Unicode Standard]], and the [[http://www.w3.org/TR/xml-entity-names/
 entity|names specified by W3C]] for use in HTML, MathML, and other
 markup standards (ultimately derived from ISO SGML character entity
 sets).
@@ -927,7 +927,7 @@ uses get-features.
 Under this proposal, the name would be `bytevector-copy` and the
 signature would be
 
-> `(bytevector-copy `*bytevector* [#*start*|[*end*]]]`)`
+> `(bytevector-copy `*bytevector* [[*start*|[*end*]]]`)`
 
 Vote `yes` for this simplification.
 
@@ -941,14 +941,14 @@ The *-partial interfaces are not used in existing implementations.
 
 One proposal is `port-last` with a signature of:
 
-> `(write-bytevector *bytevector* [#*start*|[*end* [*port*]]]])`
+> `(write-bytevector *bytevector* [[*start*|[*end* [*port*]]]])`
 
 This has the disadvantage of being required to call
 `bytevector-length` when writing to a specific port.
 
 Alternately we could do `offsets-last`:
 
-> `(write-bytevector *bytevector* [#*port*|[*start* [*end*]]]])`
+> `(write-bytevector *bytevector* [[*port*|[*start* [*end*]]]])`
 
 which has the disadvantage of separating the bytevector from its
 offsets.
