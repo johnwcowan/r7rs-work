@@ -10,7 +10,7 @@ It is useful to be able to explicitly indicate a phase or level for definitions.
 
 Standardize two forms:
 
-`(meta` `.` *definition*`)`[#BR]]
+`(meta` `.` *definition*`)`[[BR]]
 `(at-meta` *levels* `.` *definition*`)`
 
 The first `meta` evaluates the *definition* one phase up from where the `meta` call occurs. `at-meta` allows the evaluation to be visible at a number of phases specified by *levels*. *Levels* is a list of exact non-negative integers or the keyword `..`. The keyword `..` should follow and come before integers. `n .. m` is the same as spelling out all the integers from *n* to *m*.

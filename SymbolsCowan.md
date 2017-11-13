@@ -36,7 +36,7 @@ Returns a newly allocated uninterned symbol whose human-readable name is *string
 
 Return the name of *symbol* if it is a standard symbol, or its unique name if it is an uninterned symbol.
 
-`(gensym ` [#|*string* ]] `)`
+`(gensym ` [[|*string* ]] `)`
 
 Returns a newly allocated uninterned symbol whose human-readable name is distinct from that of any symbol returned by a previous call to `gensym`.  If *string* is present, it is used as a prefix of the human-readable name.
 
@@ -44,7 +44,7 @@ Returns a newly allocated uninterned symbol whose human-readable name is distinc
 
 A property list (plist) is a list that can be bound to a symbol.  The original value of a symbol's plist is implementation-dependent.  The structure of a plist is a sequence of symbols known as *indicators*, some of which may be followed by an arbitrary object known as the indicator's *value*.  Note that plists are a list of objects, unlike alists which are a list of pairs.
 
-`(get-property `*symbol indicator* [#|*obj* ]] `)`
+`(get-property `*symbol indicator* [[|*obj* ]] `)`
 
 If a symbol that is `symbol=?` to *indicator* is found on the list, the next object on the plist of *symbol* is returned; it is an error if there is no next object.  If there is not, *obj* is returned if it is present, and if absent, `#f` is returned.
 

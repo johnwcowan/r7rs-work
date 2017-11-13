@@ -14,7 +14,7 @@ Returns `#t` if it is possible to convert between *ces* and the implementation-d
 
 Returns `#t` if it is possible to convert between *ces,,1,,* and *ces,,2,,* and `#f` otherwise.
 
-`(ces-guess `*bytevector* [#|*hint* ]]`)`
+`(ces-guess `*bytevector* [[|*hint* ]]`)`
 
 Returns a CES which might be the correct encoding of the bytes in *bytevector*.  If *hint* is provided, it is a possible CES which gives a possibly helpful indication of the correct CES.  For example, given a hint of "UTF-8", this procedure might return "UTF-8" if *bytevector* contains well-formed UTF-8, or "ISO-8859-1" if it does not.
 
@@ -36,27 +36,27 @@ Uses *ces,,1,,* to decode *bytevector* into a string, which is then encoded into
 
 All of these procedures accept an optional *size* argument, specifying the size of an internal conversion buffer in bytes.  It is an error if *size* is not a non-negative exact integer.  If *size* is 0, there is no internal buffer.  If *size* is omitted, the size of the buffer is implementation-dependent.
 
-`(make-decoded-input-port `*binary-port ces* [#|*size* ]]`)`
+`(make-decoded-input-port `*binary-port ces* [[|*size* ]]`)`
 
 Returns a textual input port which, when read from, reads bytes from *binary-port*, decodes them as characters using *ces*, and provides the characters to the reader.
 
-`(make-encoded-output-port `*binary-port ces* [#|*size* ]]`)`
+`(make-encoded-output-port `*binary-port ces* [[|*size* ]]`)`
 
 Returns a textual output port which, when characters are written to it, encodes them as characters using *ces*, and writes the bytes to *binary-port*.
 
-`(make-encoded-binary-input-port `*textual-port ces* [#|*size* ]]`)`
+`(make-encoded-binary-input-port `*textual-port ces* [[|*size* ]]`)`
 
 Returns a binary input port which, when read from, reads characters from *textual-port*, encodes them as characters using *ces*, and provides the bytes to the reader.
 
-`(make-decoded-binary-output-port `*textual-port ces* [#|*size* ]]`)`
+`(make-decoded-binary-output-port `*textual-port ces* [[|*size* ]]`)`
 
 Returns a binary output port which, when bytes are written to it, decodes them as characters using *ces*, and writes the characters to *textual-port*.
 
-`(make-transcoded-binary-input-port `*binary-port ces,,1,, ces,,2,,* [#|*size* ]]`)`
+`(make-transcoded-binary-input-port `*binary-port ces,,1,, ces,,2,,* [[|*size* ]]`)`
 
 Returns a binary input port which, when read from, reads bytes from *binary-port*, decodes them as characters using *ces,,1,,*, encodes the resulting characters as bytes using *ces,,2,,*, and provides the bytes to the reader.
 
-`(make-transcoded-binary-output-port `*binary-port ces,,1,, ces,,2,,* [#|*size* ]]`)`
+`(make-transcoded-binary-output-port `*binary-port ces,,1,, ces,,2,,* [[|*size* ]]`)`
 
 Returns a binary output port which, when bytes are written on it, decodes them as characters using *ces,,1,,*, encodes the resulting characters as bytes using *ces,,2,,*, and writes the bytes on *binary-port*.
 

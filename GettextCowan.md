@@ -26,7 +26,7 @@ The same as the previous case, except that the returned value is a bytevector.  
 
 A translation is an immutable object of a disjoint type.
 
-`(make-translation `*domain*` `[#*localedir*|[*languages* [*fallback?* [*encoding*]]]]]`)`
+`(make-translation `*domain*` `[[*localedir*|[*languages* [*fallback?* [*encoding*]]]]]`)`
 
 Locates and returns a translation for *domain* (a string, typically the name of an application or a library).  *Localedir* is a directory in which to search for translations; if not specified or `#f`, an implementation-dependent directory is used.  *Languages* is a list of strings which are language tags; if not specified or `#f`, an implementation-dependent list is used, usually derived from an environment variable.  *Encoding* is used to specify the name of the encoding used by the translation to create bytevectors; if not specified or `#f`, an implementation-defined encoding is used.  If *fallback?* is true and no appropriate translation object can be located, a null translation object is returned; if it is not specified or `#f`, an error is signaled.
 

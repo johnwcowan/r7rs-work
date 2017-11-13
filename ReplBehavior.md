@@ -1,12 +1,12 @@
-From: "Øivind Binde"[#BR]]
-To: John Cowan[#BR]]
-Date: Sun, 14 Mar 2010 13:28:29 +0100[#BR]]
+From: "Øivind Binde"[[BR]]
+To: John Cowan[[BR]]
+Date: Sun, 14 Mar 2010 13:28:29 +0100[[BR]]
 Subject: Standardize the Scheme REPL behavior and interface
 
 First off, sorry for not introducing myself more specifically. But very short: I'm a Comp. Sci. student, and I'm primarily concerned with the end user experience I experience with most Scheme implementations. And thus I would like for Scheme to have standard on how it behaves in the repl-mode.
 
-One can ask:[#BR]]
-I.  What does the REPL interface got to do with the language standardization process?[#BR]]
+One can ask:[[BR]]
+I.  What does the REPL interface got to do with the language standardization process?[[BR]]
 II. Why do so many new Schemers prefer getting started with Dr.Scheme?
 
 From a personal point of view, the easy to use, and getting up and running very fast (without clutter), was the main reason for choosing Dr.Scheme as my first editing environment. The cluttered editing within the REPL that Chicken (an implementation) gave me was enough to start looking for other alternatives.
@@ -19,8 +19,8 @@ Abstract solution:
 
 1) Provide a unified (standard) user experience at the REPL. Example: Launch it by passing along a argument flag:
 
-mzscheme --r7rs-repl[#BR]]
-or[#BR]]
+mzscheme --r7rs-repl[[BR]]
+or[[BR]]
 csi --r7rs-repl
 
 And they will behave the same across different implementation (!)

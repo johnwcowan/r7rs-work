@@ -16,7 +16,7 @@ Deques are disjoint from all other Scheme types.
 
 ### Constructors
 
-`(ideque `[#|*element* ...]]`)`
+`(ideque `[[|*element* ...]]`)`
 
 Returns a deque containing the *elements*. The leftmost element (if any) will be at the front of the deque and the rightmost element (if any) will be at the back. Takes O(n) time, where *n* is the number of elements.
 

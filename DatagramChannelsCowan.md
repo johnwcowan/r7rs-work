@@ -22,11 +22,11 @@ Returns `#t` if *obj* is a datagram channel and `#f` otherwise.
 
 Returns the local endpoint or `#f` if there is none.  The value returned may not be the same as the value passed to `make-datagram-channel` (in particular, the port must not be 0), but it must be acceptable to another invocation of `make-datagram-channel`.
 
-`(datagram-channel-send-to `*channel*` `*endpoint*` `*bytevector*` `[#*start*|[*end*]]]`)`
+`(datagram-channel-send-to `*channel*` `*endpoint*` `*bytevector*` `[[*start*|[*end*]]]`)`
 
 Send the portion of *bytevector* defined by *start* (inclusive) and *end* (exclusive) to *endpoint* using *channel*.  If *end* is omitted, it is the length of *bytevector* plus one; if *start* is omitted, it is 0.  Returns an undefined value.  In Posix terms this is `send()`.
 
-`(datagram-channel-receive-from `*channel*` `*bytevector*` `[#*start*|[*end*]]]`)`
+`(datagram-channel-receive-from `*channel*` `*bytevector*` `[[*start*|[*end*]]]`)`
 
 Receives a datagram from *channel* into the portion of *bytevector* defined by *start* (inclusive) and *end* (exclusive).  If *end* is omitted, it is the length of *bytevector* plus one; if *start* is omitted, it is 0.  Returns two values: the sending endpoint and the number of bytes received, which may be greater than, equal to, or less than *end - start*.  If it is greater, excess bytes in the datagram are discarded; if it is less, the remaining bytes of the bytevector are unchanged. It is an error to invoke this procedure on an output-only datagram channel.  In Posix terms this is `recvfrom()`.
 
@@ -42,7 +42,7 @@ Disconnects *channel*.  Returns an undefined value.  In Posix terms this is `con
 
 Returns the remote endpoint to which *channel* is connected, or `#f` if it is not connected.  The value returned need not be the same as the value passed to `datagram-channel-connect!`, but must be acceptable to another invocation of `datagram-channel-connect!`.
 
-`(datagram-channel-send `*channel*` `*bytevector*` `[#*start*|[*end*]]]`)`
+`(datagram-channel-send `*channel*` `*bytevector*` `[[*start*|[*end*]]]`)`
 
 Send the portion of *bytevector* defined by *start* (inclusive) and *end* (exclusive) to the remote endpoint of *channel*.  If *end* is omitted, it is the length of *bytevector* plus one; if *start* is omitted, it is 0.  It is an error if *channel* is not connected.  Returns an undefined value.  In Posix terms this is `send()`.
 

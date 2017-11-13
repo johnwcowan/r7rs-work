@@ -1,6 +1,6 @@
 ## Proposed R7RS definition for `eqv?` on numbers
 
-[#477 for detailed background](See)
+[[477 for detailed background](See)
 
 Objects *obj,,1,,* and *obj,,2,,* are *substantially different* if and only if one of the following holds:
 

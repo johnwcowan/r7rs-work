@@ -38,7 +38,7 @@ Returns the sizer of *storage-class* as a procedure.  This procedure takes one a
 
 ## Invokers
 
-`(make-storage-object *storage-class n* [#|*fill* ]]`)`
+`(make-storage-object *storage-class n* [[|*fill* ]]`)`
 
 Returns a newly allocated storage object with class *storage-class* and length *n*, filled with value *fill*, if specified.
 

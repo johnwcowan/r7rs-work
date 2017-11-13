@@ -2,26 +2,26 @@
 
 ## Proposals
 
-[ModulesAndPackagesArcfide](ModulesAndPackagesArcfide.md)[#BR]]
-[CaseSensitivityArcfide](CaseSensitivityArcfide.md)[#BR]]
-[MacrosArcfide](MacrosArcfide.md)[#BR]]
-[ChezReplSemantics](ChezReplSemantics.md)[#BR]]
-[RecordBindersArcfide](RecordBindersArcfide.md)[#BR]]
-[KeywordArgumentsArcfide](KeywordArgumentsArcfide.md)[#BR]]
-[RecordsArcfide](RecordsArcfide.md)[#BR]]
-[LetSyntaxArcfide](LetSyntaxArcfide.md)[#BR]]
+[ModulesAndPackagesArcfide](ModulesAndPackagesArcfide.md)[[BR]]
+[CaseSensitivityArcfide](CaseSensitivityArcfide.md)[[BR]]
+[MacrosArcfide](MacrosArcfide.md)[[BR]]
+[ChezReplSemantics](ChezReplSemantics.md)[[BR]]
+[RecordBindersArcfide](RecordBindersArcfide.md)[[BR]]
+[KeywordArgumentsArcfide](KeywordArgumentsArcfide.md)[[BR]]
+[RecordsArcfide](RecordsArcfide.md)[[BR]]
+[LetSyntaxArcfide](LetSyntaxArcfide.md)[[BR]]
 [RandomnessArcfide](RandomnessArcfide.md)
 
 ## Ballots
 
-[wiki:WG1BallotHsu][#BR]]
+[wiki:WG1BallotHsu][[BR]]
 [wiki:WG1ReBallotHsu]
 
 ## Contact Information
 
-Nickname: arcfide[#BR]]
-Email: arcfide@sacrideo.us[#BR]]
-IRC: arcfide {!FreeNode,OFTC,IRCnet}[#BR]]
+Nickname: arcfide[[BR]]
+Email: arcfide@sacrideo.us[[BR]]
+IRC: arcfide {!FreeNode,OFTC,IRCnet}[[BR]]
 Phone: (812) 339-5113
 
 ## About Me
