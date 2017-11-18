@@ -76,7 +76,7 @@ Returns the number of nodes of *tree* to determine if all of them satisfy *pred*
 
 The following procedures return finite [SRFI 121](http://srfi.schemers.org/srfi-121/srfi-121.html) generators that return some of the nodes of a tree in any of a variety of orders. When all the nodes have been returned, the generator returns an EOF object.
 
-`(tree-make-preorder-generator [#`*tree*`)`
+`(tree-make-preorder-generator [[`*tree*`)`
 
 Returns|a generator that when invoked returns the nodes of *tree* in depth-first preorder: parents are generated before children, and children are generated in left-to-right order.
 

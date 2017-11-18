@@ -45,12 +45,12 @@ Returns `#t` if the next attempt to read a byte from *port* would return an eof-
 
 Returns `#t` if the next attempt to read a character from *port* would return an eof-object, and `#f` otherwise.
 
-`(read-string! `*string* [#|*port* [ *start* []] ] ]( *end*) `)`
+`(read-string! `*string* [[|*port* [ *start* []] ] ]( *end*) `)`
 
 Reads the next *end* − *start* characters, or as many as are available before the end of file, from the binary input *port* into *string* in left-to-right order beginning at the *start* position. If *end* is not supplied, reads until the end of *string* has been reached. If *start* is not supplied, reads beginning at position 0. Returns the number of characters read.
 If no characters are available, an end-of-file object is returned.
 
-`(read-lines ` [#|*input-port* ]]`)`
+`(read-lines ` [[|*input-port* ]]`)`
 
 Read all remaining characters in *input-port* as if by `read-line`, and return a list of strings representing the lines.
 
@@ -58,25 +58,25 @@ Read all remaining characters in *input-port* as if by `read-line`, and return a
 
 Returns a bytevector consisting of all the bytes that can be read from *port* before an eof-object is returned, or an eof-object if there are none.  The default port is the value of `(current-input-port)`.
 
-`(read-all-chars ` [#|*port* ]]`)`
+`(read-all-chars ` [[|*port* ]]`)`
 
 Returns a string consisting of all the characters that can be read from *port* before an eof-object is returned, or an eof-object if there are none.  The default port is the value of `(current-input-port)`.
 
-`(read-all ` [#|*port* ]]`)`
+`(read-all ` [[|*port* ]]`)`
 
 Returns a list consisting of all the Scheme objects that can be read from *port* (as if by `read`) before an eof-object is returned, or an eof-object if there are none.  The default port is the value of `(current-input-port)`.
 
-`(write-line `*string* [#|*port* ]]`)`
+`(write-line `*string* [[|*port* ]]`)`
 
 Write *string* to *port* as if by `write-string`, then write a newline to *port* as if by *newline*.
 
 ## Conversion procedures ==
 
-`(string->bytevector `*string* [#|*settings-list* [ *start* []] ] ]( *end*) `)`
+`(string->bytevector `*string* [[|*settings-list* [ *start* []] ] ]( *end*) `)`
 
 Converts *string* from *start* to *end* to a bytevector using the keys `encoding`, `newline`, `encoding-error`, and possibly other implementation-specific keys in *settings-list*, and returns the string.
 
-`(bytevector->string `*bytevector* [#|*settings-list* [ *start* []] ] ]( *end*) `)`
+`(bytevector->string `*bytevector* [[|*settings-list* [ *start* []] ] ]( *end*) `)`
 
 Converts *bytevector* from *start* to *end* to a string using the keys `encoding`, `newline`, `encoding-error`, and possibly other implementation-specific keys in *settings-list*, and returns the bytevector.
 

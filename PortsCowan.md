@@ -86,7 +86,7 @@ Same as R5RS.  These are binary ports whose character encoding is implementation
 
 From R6RS.  This is a binary port whose character encoding is implementation-dependent.
 
-`(flush-output-port ` [#|*output-port* ]] ` ` [#|*character-only?* ]]`)`
+`(flush-output-port ` [[|*output-port* ]] ` ` [[|*character-only?* ]]`)`
 
 Same as R6RS, except that if the *output-port* is omitted, the default port is the current output port.  Drains the character buffer of *output-port*, if any.  Then, if the port is a binary port, drains the binary buffer, if any.
 
@@ -114,19 +114,19 @@ Return the settings list of *port* as a list in no particular order.  Additional
 
 Returns `#t` if *obj* is a character port.  SRFI 91 calls this `char-port`.  Implementations may define other kinds of character ports.
 
-`(read-char `[#|*character-input-port* ]]`)`
+`(read-char `[[|*character-input-port* ]]`)`
 
-`(write-char `[#|*character-output-port* ]]`)`
+`(write-char `[[|*character-output-port* ]]`)`
 
-`(newline `[#|*character-output-port* ]]`)`
+`(newline `[[|*character-output-port* ]]`)`
 
-`(peek-char `[#|*character-input-port* ]]`)`
+`(peek-char `[[|*character-input-port* ]]`)`
 
-`(char-ready? `[#|*character-input-port* ]]`)`
+`(char-ready? `[[|*character-input-port* ]]`)`
 
 Same as R5RS.  It is an error to output characters not present in the encoding of a *character-output-port*.
 
-`(read-line `[#|*character-input-port* ]]`)`
+`(read-line `[[|*character-input-port* ]]`)`
 
 Same as R6RS.  Reads a line from *port* (or the current input port) terminated by a `#\newline` character (which may be the result of newline conversion in the port).   The `#\newline` is not part of the returned string.  This is a convenience function.
 
@@ -148,13 +148,13 @@ Mixing binary I/O with character I/O on the same port is safe if there is no cha
 
 Returns `#t` if *obj* is a binary port.  SRFI 91 calls this `byte-port?`.
 
-`(read-u8 `[#|*binary-input-port* ]]`)`
+`(read-u8 `[[|*binary-input-port* ]]`)`
 
-`(write-u8 `[#|*binary-output-port* ]]`)`
+`(write-u8 `[[|*binary-output-port* ]]`)`
 
-`(peek-u8 `[#|*binary-input-port* ]]`)`
+`(peek-u8 `[[|*binary-input-port* ]]`)`
 
-`(u8-ready? `[#|*binary-input-port* ]]`)`
+`(u8-ready? `[[|*binary-input-port* ]]`)`
 
 The direct binary analogues of `read-char`, `write-char`, `peek-char`, and `char-ready?` respectively.  They return an exact integer between 0 and 255 rather than a character.  SRFI 91 talks of `byte` rather than `u8`.
 
@@ -201,17 +201,17 @@ Note that implementations may provide ports that are not character ports, such a
 
 ### Reader Module
 
-`(read ` [#|*input-port* ]]`)`
+`(read ` [[|*input-port* ]]`)`
 
 Same as R5RS.
 
 ### Writer Module
 
-`(write `*obj* [#|*output-port* ]]`)`
+`(write `*obj* [[|*output-port* ]]`)`
 
 Same as R5RS, but specifies that only ASCII characters may be output (for re-readability).  Non-ASCII characters in symbols, strings, and character literals MUST be escaped.
 
-`(display `*obj* [#|*port* ]]`)`
+`(display `*obj* [[|*port* ]]`)`
 
 Same as R5RS.  It is an error to output characters not present in the encoding of *output-port*.
 

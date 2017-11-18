@@ -36,7 +36,7 @@ Returns `#t` if *array* can mutate its storage object, and `#f` otherwise.
 
 ### Constructors
 
-`(make-array `*storage-class lower-bound upper-bound* [#|*fill* ]]`)`
+`(make-array `*storage-class lower-bound upper-bound* [[|*fill* ]]`)`
 
 Returns a newly allocated mutable array (with a newly allocated storage object of the specified storage-class) that has the specified bounds.  The values of the elements are unspecified if the *fill* argument is omitted.
 
@@ -92,11 +92,11 @@ Returns the value of the element of *array* specified by *index*.  Note that thi
 
 Applies `array-ref` to the *array* using the first *index*.  If there are more arguments, apply `array-ref` to the result using the next *index*.  Repeat until there are no more indexes, returning the last result.  It is an error if any intermediate result is not an array.  (APL enlist.)
 
-`(array-for-each `*proc array* [#|*start* [* ]] ]( *end)`)`
+`(array-for-each `*proc array* [[|*start* [* ]] ]( *end)`)`
 
 Iterates over the elements of *array* in lexicographic order, starting at the index *start* and ending just before the index *end*, and calling *proc* on each element.  Each invocation of *proc* receives the value of the element at that index.  The value returned by *proc* is discarded.
 
-`(array-for-each-index `*proc array* [#|*start* [* ]] ]( *end)`)`
+`(array-for-each-index `*proc array* [[|*start* [* ]] ]( *end)`)`
 
 Iterates over the indexes of *array* in lexicographic order, starting at the index *start* and ending at the index *end*, and calling *proc* on each index.  The value returned by *proc* is discarded.
 
@@ -108,7 +108,7 @@ These procedures return an unspecified value.
 
 Sets the value of the element of *array* specified by *index* to *value*.  Note that this is different from the `array-set!` of most Lisp systems, which specifies the index as a sequence of arguments.
 
-`(array-tabulate! `*proc array* [#|*start* [* ]] ]( *end)`)`
+`(array-tabulate! `*proc array* [[|*start* [* ]] ]( *end)`)`
 
 Iterates over the indexes of *array* in lexicographical order starting at the index *start* (each dimension is inclusive) and ending at the index *end* (each dimension is exclusive), and calling *proc* on each index.  Whatever *proc* returns becomes the value of the array at the index.
 
@@ -126,7 +126,7 @@ It is an error if the *arrays* do not all have the same bounds.  For each valid 
 
 Returns a newly allocated array with the same bounds as the *arrays*; it is an error if they do not all have the same bounds.   For each valid index value, *proc* is invoked in lexicographic order, passing each corresponding element of the *arrays* and a seed, whose initial value is *seed*.  *Proc* returns two values, the value of the storage element corresponding to that index in the result array, and the new value of the seed.
 
-`(array-reduce `*proc array axis* [#|*n* ]]`)`
+`(array-reduce `*proc array axis* [[|*n* ]]`)`
 
 Returns a newly allocated array whose rank is one less than the rank of *array*, by combining all the groups of elements of length *n* (where the default is the extent of *axis*) along *axis* using *proc*, a two-argument procedure.  The order and number of invocations of *proc* is unspecified.  If there is only one such element, it is unchanged.  (APL reduce.)
 
@@ -204,11 +204,11 @@ These procedures return arrays which do not share their storage objects with any
 
 When these procedures return arrays, both the array and the underlying storage object are newly allocated
 
-`(array-copy `*array mutable?* [#|*start* []] ]( *end*)`)`
+`(array-copy `*array mutable?* [[|*start* []] ]( *end*)`)`
 
 Returns an array containing the elements of *array* starting at *start* (inclusive) and ending at *end* (exclusive).  The lower bound of the resulting array is all zeros, and the upper bound is determined by subtracting *start* from *end* element-wise.  The stride and offset are implementation-defined.  The resulting array is mutable if *mutable?* is true.  The returned array has the same storage class as *array*.
 
-`(array-copy! `*to at from* [#|*start* []] ]( *end*)`)`
+`(array-copy! `*to at from* [[|*start* []] ]( *end*)`)`
 
 Copies the elements of array *from* from index *start* (inclusive) to index *end* (inclusive) onto array *to* starting at index *at*.  It is an error if there are not enough elements in *to* to make this possible.  The storage objects of *from* and *to* need not belong to the same storage classes.
 
@@ -260,11 +260,11 @@ The external representation of an array consists of a `#` character, followed by
 
 Standard numeric storage classes are encoded by using the first few characters of the name of the storage class.  Thus, the representation of an array of rank 2 using `u32-storage-class` begins with `#2au32`.  Other storage classes, including `vector-storage-class`, `sparse-storage-class`, and user-created storage classes, are encoded using the empty string.
 
-`(array-read ` [#|*input-port* ]]`)`
+`(array-read ` [[|*input-port* ]]`)`
 
 Reads the external representation of an array from *input-port* (the current input port if *input-port* is not specified) and returns the corresponding array.  If the coded representation of the storage class is not recognized, `vector-storage-class` is used; this permits the addition of new coded storage classes in a backward compatible way.
 
-`(array-write `*array* [#|*stream* ]]`)`
+`(array-write `*array* [[|*stream* ]]`)`
 
 Writes the external representation of *array* from *output-port* (the current output port if *output-port* is not specified) and returns an unspecified value.
 

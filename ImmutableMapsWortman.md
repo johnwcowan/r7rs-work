@@ -58,7 +58,7 @@ Returns `#t` if *map* contains *obj* as a key, and `#f` otherwise.  Takes O(log 
 
 ### Accessors
 
-`(imap-ref `*map key* [#|*failure* []] ]( *success*)`)`
+`(imap-ref `*map key* [[|*failure* []] ]( *success*)`)`
 
 Extracts the value associated to *key* in *map*, invokes the procedure *success* on it, and returns its result; if *success* is not provided, then the value itself is returned.  Otherwise, `imap-ref` invokes the procedure *failure* on no arguments and returns its result, but if *failure* is not provided, it is an error.  Takes O(log n) time.
 
@@ -176,11 +176,11 @@ Returns two values, `(imap-filter `*pred map*`)` and `(imap-remove `*pred map*`)
 
 ### Mapping and folding
 
-`(imap-map/monotone `*proc map* [#|*comparator* ]]`)`
+`(imap-map/monotone `*proc map* [[|*comparator* ]]`)`
 
 Returns a map containing the result of invoking *proc* on every association in *map*.  It is an error unless *proc* is a *monotone* unary procedure that preserves the order of map associations. Observe that mapping a map of unique associations with a monotone function yields a map of unique associations, so association uniqueness follows from the monotonicity assumption. If *comparator* is given, it is the comparator of the result; otherwise the result uses the same comparator as *map*. Takes O(n) time.
 
-`(imap-map`*proc map* [#|*comparator* []] ]( *merger*)`)`
+`(imap-map`*proc map* [[|*comparator* []] ]( *merger*)`)`
 
 Like `imap-map/monotone`, except that *proc* is not required to be monotone. The `merger` procedure is used to select among any duplicate associations (in the sense of the comparator of *map*) that might be created; it returns the value to be used; if absent, the association chosen is implementation-specific.  Takes O(n log n) time.
 
@@ -248,7 +248,7 @@ Returns an association list containing the associations of `map` in increasing o
 
 Returns a map containing the associations of *list* and using *comparator*. It is an error for *alist* to be anything other than an alist in increasing order. Takes O(n log n) time; O(n) is optimal.
 
-`(alist->imap `*comparator list [#|*merger* ]]`)`
+`(alist->imap `*comparator list [[|*merger* ]]`)`
 
 Returns a map containing the associations of *alist* and using *comparator*.It is an error unless *alist* is a proper association list, but it may contain duplicates and need not be in order.  The *merger* procedure is used to select among any duplicate keys (in the sense of the comparator of *map*) that might be created; it accepts the existing and new keys and returns the key to be used.  Takes O(n log n) time.
 
@@ -263,7 +263,7 @@ the keys in the cars and the values in the cdrs.
 
 The following procedures provide functions based on maps.  In this way, for example, lists can be processed by `map` using the procedure returned from a map by `imap-accessor`.
 
-`(imap-accessor `*map* [#|*failure* []] ]( *success*)`)`
+`(imap-accessor `*map* [[|*failure* []] ]( *success*)`)`
 
 Curried version of `imap-ref`.  Returns a procedure of one argument, a key, which returns what `imap-ref` returns when invoked with the the passed arguments.
 

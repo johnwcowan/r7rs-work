@@ -46,7 +46,7 @@ Note that since map keys are unique, `imap-range=` returns a map with at most on
 
 ### Mapping and folding
 
-`(imap-map/monotone `*proc map* [#|*comparator* ]]`)`
+`(imap-map/monotone `*proc map* [[|*comparator* ]]`)`
 
 Returns a map containing the result of invoking *proc* on every association in *map*.  It is an error unless *proc* is a *monotone* unary procedure that preserves the order of map associations. Observe that mapping a map of unique associations with a monotone function yields a map of unique associations, so association uniqueness follows from the monotonicity assumption. If *comparator* is given, it is the comparator of the result; otherwise the result uses the same comparator as *map*. Takes O(n) time.
 

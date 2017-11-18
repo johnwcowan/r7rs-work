@@ -1,6 +1,6 @@
 ## Read-eval-print loop
 
-`(repl` [#*eval*|[*write* [*read*]]]]`)`
+`(repl` [[*eval*|[*write* [*read*]]]]`)`
 
 This procedure invokes an implementation-dependent read-eval-print loop (REPL), which reads a datum representing an expression or definition using *read*, evaluates it using *eval*, and prints the results if any using *write*.  It then loops until an eof-object is read.
 

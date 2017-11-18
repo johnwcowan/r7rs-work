@@ -38,8 +38,8 @@ while improving SRFI-9 in the following ways:
 
 Syntax: `define-disjoint-type`
 
-Auxiliary Keyword: `fields`[#BR]]
-Auxiliary Keyword: `mutable`[#BR]]
+Auxiliary Keyword: `fields`[[BR]]
+Auxiliary Keyword: `mutable`[[BR]]
 Auxiliary Keyword: `immutable`
 
 The general syntax for `define-disjoint-type` is as follows:
@@ -55,7 +55,7 @@ others may be provided by implementations:
 Only one `fields` clause should appear in the list.
 In a `fields` clause the `field-spec` has one of the following forms:
 
-`(field-name immutable field-accessor)`[#BR]]
+`(field-name immutable field-accessor)`[[BR]]
 `(field-name mutable field-accessor field-mutator)`
 
 This has the following effect in the scope of the call

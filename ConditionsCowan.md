@@ -43,7 +43,7 @@ Returns the list of types to which *condition* belongs.  It is an error to attem
 
 Returns the list of property names associated with this condition.  It is an error to attempt to mutate this list.
 
-`(condition-ref `*condition sym* [#|*default* ]] `)`
+`(condition-ref `*condition sym* [[|*default* ]] `)`
 
 Returns the property value associated with the property named *sym* of *condition*.  If it has no such property, returns *default*.  If *default* is not specified, returns `#f`.
 
@@ -51,11 +51,11 @@ Returns the property value associated with the property named *sym* of *conditio
 
 Returns a predicate which will return `#t` if applied to a condition belonging to any of the types specified in *symlist*, and `#f` otherwise.
 
-`(condition-accessor `*sym* [#|*default* ]] `)`
+`(condition-accessor `*sym* [[|*default* ]] `)`
 
 Returns an accessor which will return the value of *sym* if applied to a condition object and *default* otherwise.  If *default* is not specified, the accessor will return `#f`.
 
-`(condition-<property-name> `*condition* [#|*default* ]]`)`
+`(condition-<property-name> `*condition* [[|*default* ]]`)`
 
 Returns the value of the property named `<property-name>` (from the standard list of property names below) of *condition*, or *default* if it has no such property, or `#f` if no default is specified.
 

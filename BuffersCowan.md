@@ -80,7 +80,7 @@ buffer-comparator == No Emacs Lisp equivalent, not sure if ordering is appropria
 
 (buffer-insert! buffer . strings) == (buffer-insert . strings)
 
-(buffer-insert-substring! to-buffer from-buffer [#start|[end]]]) == (insert-buffer-substring ...)
+(buffer-insert-substring! to-buffer from-buffer [[start|[end]]]) == (insert-buffer-substring ...)
 
 (buffer-erase! buffer) == (erase-buffer)
 

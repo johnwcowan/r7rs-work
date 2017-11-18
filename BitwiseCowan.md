@@ -209,9 +209,9 @@ maps that function across a pair of bitstrings in a bit-wise fashion.
 The core idea of this group of functions is this bitwise "lifting"
 of the set of dyadic boolean functions to bitstring parameters.
 
-`(bitwise-and `*i* ...`)`[#BR]]
-`(bitwise-ior `*i* ...`)`[#BR]]
-`(bitwise-xor `*i* ...`)`[#BR]]
+`(bitwise-and `*i* ...`)`[[BR]]
+`(bitwise-ior `*i* ...`)`[[BR]]
+`(bitwise-xor `*i* ...`)`[[BR]]
 `(bitwise-eqv `*i* ...`)`
 
 These operations are associative.  When passed no arguments, the procedures
@@ -240,11 +240,11 @@ Rather, it produces `(bitwise-eqv a (bitwise-eqv b c))` or the equivalent
       (bitwise-and 37 12)     =>   4
 ```
 
-`(bitwise-nand `*i j*`)`[#BR]]
-`(bitwise-nor `*i j*`)`[#BR]]
-`(bitwise-andc1 `*i j*`)`[#BR]]
-`(bitwise-andc2 `*i j*`)`[#BR]]
-`(bitwise-orc1 `*i j*`)`[#BR]]
+`(bitwise-nand `*i j*`)`[[BR]]
+`(bitwise-nor `*i j*`)`[[BR]]
+`(bitwise-andc1 `*i j*`)`[[BR]]
+`(bitwise-andc2 `*i j*`)`[[BR]]
+`(bitwise-orc1 `*i j*`)`[[BR]]
 `(bitwise-orc2 `*i j*`)`
 
 These operations are not associative.
@@ -366,7 +366,7 @@ and the *index,,2,,*th bit have been exchanged.
 (bit-swap 0 2 4) => #b1
 ```
 
-`(any-bit-set? `*test-bits i*`)`[#BR]]
+`(any-bit-set? `*test-bits i*`)`[[BR]]
 `(every-bit-set? `*test-bits i*`)`
 
 Determines if any/all of the bits set in bitstring *test-bits* are set
@@ -409,7 +409,7 @@ Returns true if any of the field's bits are set in bitstring *i*, and false othe
 
 Returns false if any of the field's bits are not set in bitstring *i*, and true otherwise.
 
-`(bit-field-clear `*i start end*`)`[#BR]]
+`(bit-field-clear `*i start end*`)`[[BR]]
 `(bit-field-set `*i start end*`)`
 
 Returns *i* with the field's bits set to all 0s/1s.
@@ -441,13 +441,13 @@ fields are concatenated in left-to-right order and returned as an integer.
 
 ### Bits as booleans
 
-`(integer->list `*i* [#|*len* ]]`)`[#BR]]
-`(integer->vector `*i* [#|*len* ]]`)`
+`(integer->list `*i* [[|*len* ]]`)`[[BR]]
+`(integer->vector `*i* [[|*len* ]]`)`
 
 Returns a list/vector of *len* booleans corresponding to each bit of the non-negative integer *i*.
 `#t` is returned for each 1; `#f` for 0. The *len* argument defaults to `(integer-length `*i*`)`.
 
-`(list->integer `*list*`)`[#BR]]
+`(list->integer `*list*`)`[[BR]]
 `(list->integer `*list*`)`
 
 Returns an integer formed from the booleans in *list/vector*;
