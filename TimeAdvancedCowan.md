@@ -48,7 +48,7 @@ Returns a list of the symbols naming the possible fields in date objects backed 
 
 Returns `#t` if *obj* is a chronology and `#f` otherwise.
 
-`(derived-chronology `*name* [#|*chronology* ]] *timezone*`)`
+`(derived-chronology `*name* [[|*chronology* ]] *timezone*`)`
 
 Returns a chronology named *name* (a symbol).  The returned value is based on *chronology*, by default the value of `(current-chronology)`, but using the time zone specified by *timezone*.    In the ISO and Gregorian chronologies, if *timezone* is an integer, it represents the number of minutes ahead of UTC, but if the implementation supports the `tz` database, and *time-zone* is a string containing a time zone name defined by that database, it represents the time zone with that name.  Otherwise, the interpretation of *timezone* is chronology- and implementation-dependent.
 
@@ -66,7 +66,7 @@ A *date object* is an immutable member of a disjoint type that provides informat
 
 ## Date procedures
 
-`(make-date `[#|*chronology* ]]` `*alist*`)`
+`(make-date `[[|*chronology* ]]` `*alist*`)`
 
 Returns a date object using *chronology*, defaulting to the value of `(current-chronology)`.  *Alist* is an association list that maps symbols which are field names meaningful to *chronology* to associated numeric values.  An error that satisfies `date-error?` is signaled if the field values are unknown to the chronology, insufficient to specify a particular date object (for example, a month without a year) or mutually inconsistent.
 
@@ -82,9 +82,9 @@ Returns a newly allocated alist containing the fields of *date*.  Implementation
 
 Returns the numeric value of the field named *fieldname* (a symbol) within *date*, or `#f` if there is no such field.  If the specified field was not provided when *date* was constructed, the value is computed and returned.
 
-`(convert-date `[#|*chronology* ]]` `*date*`)`
+`(convert-date `[[|*chronology* ]]` `*date*`)`
 
-Equivalent to `(make-date `[#|*chronology* ]]` (date->alist `*date*`))`, but potentially much more efficient.
+Equivalent to `(make-date `[[|*chronology* ]]` (date->alist `*date*`))`, but potentially much more efficient.
 
 `(date-update `*date*` `*fieldname*` `*value*`)`
 

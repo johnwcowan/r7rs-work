@@ -34,7 +34,7 @@ relation
 provided that this choice of *q* induced an *r* satisfying |*r*| < |*d*|.  For
 an extensive discussion of five of the six division operator pairs proposed
 here, and some broken but standardized operator pairs that fail to
-satisfy properties (1)-(3), see Raymond T. Boute, [#http://dl.acm.org/citation.cfm?id=128862
+satisfy properties (1)-(3), see Raymond T. Boute, [[http://dl.acm.org/citation.cfm?id=128862
 "The|Euclidean Definition of the Functions DIV and MOD"]], ACM TOPLAS 14(2), April 1992,
 pp. 127-144.
 
@@ -62,17 +62,17 @@ If any argument is inexact, the result is inexact, unless the implementation
 can prove that the inexactness cannot affect the result, as in the case of
 dividing an exact zero by an inexact number.
 
-`(floor/ `*dividend*` `*divisor*`)`[#BR]]
-`(floor-quotient `*dividend*` `*divisor*`)`[#BR]]
-`(floor-remainder `*dividend*` `*divisor*`)`[#BR]]
+`(floor/ `*dividend*` `*divisor*`)`[[BR]]
+`(floor-quotient `*dividend*` `*divisor*`)`[[BR]]
+`(floor-remainder `*dividend*` `*divisor*`)`[[BR]]
 
 *q* = floor(*n*/*d*)
 
 Thus *r* is negative iff *d* is negative.
 
-`(ceiling/ `*dividend*` `*divisor*`)`[#BR]]
-`(ceiling-quotient `*dividend*` `*divisor*`)`[#BR]]
-`(ceiling-remainder `*dividend*` `*divisor*`)`[#BR]]
+`(ceiling/ `*dividend*` `*divisor*`)`[[BR]]
+`(ceiling-quotient `*dividend*` `*divisor*`)`[[BR]]
+`(ceiling-remainder `*dividend*` `*divisor*`)`[[BR]]
 
 *q* = ceiling(*n*/*d*)
 
@@ -90,9 +90,9 @@ octets desired in a key for a symmetric cipher, to be derived using
 the cryptographic hash function; then the quotient is the number of
 hash values needed to concatenate to make a key.
 
-`(truncate/ `*dividend*` `*divisor*`)`[#BR]]
-`(truncate-quotient `*dividend*` `*divisor*`)`[#BR]]
-`(truncate-remainder `*dividend*` `*divisor*`)`[#BR]]
+`(truncate/ `*dividend*` `*divisor*`)`[[BR]]
+`(truncate-quotient `*dividend*` `*divisor*`)`[[BR]]
+`(truncate-remainder `*dividend*` `*divisor*`)`[[BR]]
 
 *q* = truncate(*n*/*d*)
 
@@ -101,9 +101,9 @@ quotient of +1, 0, or -1 is 0; that is, three contiguous dividends by
 a common divisor share a common quotient.  Of the other division
 operator pairs, only the round pair exhibits this property.
 
-`(round/ `*dividend*` `*divisor*`)`[#BR]]
-`(round-quotient `*dividend*` `*divisor*`)`[#BR]]
-`(round-remainder `*dividend*` `*divisor*`)`[#BR]]
+`(round/ `*dividend*` `*divisor*`)`[[BR]]
+`(round-quotient `*dividend*` `*divisor*`)`[[BR]]
+`(round-remainder `*dividend*` `*divisor*`)`[[BR]]
 
 *q* = round(*n*/*d*)
 
@@ -115,9 +115,9 @@ that three contiguous dividends by a common divisor share a common
 quotient.
 
 
-`(euclidean/ `*dividend*` `*divisor*`)`[#BR]]
-`(euclidean-quotient `*dividend*` `*divisor*`)`[#BR]]
-`(euclidean-remainder `*dividend*` `*divisor*`)`[#BR]]
+`(euclidean/ `*dividend*` `*divisor*`)`[[BR]]
+`(euclidean-quotient `*dividend*` `*divisor*`)`[[BR]]
+`(euclidean-remainder `*dividend*` `*divisor*`)`[[BR]]
 
 > If *d* > 0, *q* = floor(*n*/*d*);
 > if *d* < 0, *q* = ceiling(*n*/*d*).
@@ -133,9 +133,9 @@ length is at least the absolute value of *divisor*.
 This division operator pair is so
 named because it is the subject of the Euclidean division algorithm.
 
-`(balanced/ `*dividend*` `*divisor*`)`[#BR]]
-`(balanced-quotient `*dividend*` `*divisor*`)`[#BR]]
-`(balanced-remainder `*dividend*` `*divisor*`)`[#BR]]
+`(balanced/ `*dividend*` `*divisor*`)`[[BR]]
+`(balanced-quotient `*dividend*` `*divisor*`)`[[BR]]
+`(balanced-remainder `*dividend*` `*divisor*`)`[[BR]]
 
 This division operator pair satisfies the property
 

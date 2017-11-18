@@ -25,10 +25,10 @@ rushed ratification of R6RS was a mistake, and that more time should
 have been given to adopting a less controversial version of the draft.
 In particular, I feel that R6RS violates the spirit of Scheme, as
 embodied in the first sentence of every recent Scheme Report as follows:
-[#BR]]
-> > Programming languages should be designed not by piling feature on top [#BR]]
-> > of feature, but by removing the weaknesses and restrictions that make [#BR]]
-> > additional features appear necessary." [#BR]]
+[[BR]]
+> > Programming languages should be designed not by piling feature on top [[BR]]
+> > of feature, but by removing the weaknesses and restrictions that make [[BR]]
+> > additional features appear necessary." [[BR]]
 
 Specifically, I believe that the following features of R6RS go against
 this spirit:
@@ -54,15 +54,15 @@ this spirit:
 
 2) So many standard libraries render R6RS Scheme impractical for most current embedded systems, which are limited in available memory and processing power.  Since Scheme is often used as a scripting language, a small collection of standard libraries would encourage the use of Scheme for developing embedded systems; the set of standard libraries in R6RS Scheme, on the other hand, discourages such development.  Instead, Chris Hanson proposed an [alternative](http://www.r6rs.org/ratification/results.html#X78) to the current module system, as follows:
 
-> > Rather than invent a new language to do this, it's possible to build [#BR]]
-> > the linker such that the programmer can insert code to control aspects [#BR]]
-> > of the linking process.  Such code could do _more_ than the current [#BR]]
-> > module system does, and because of the added expressivity, it could do [#BR]]
-> > so more concisely in many cases.  For example, I sometimes use a [#BR]]
-> > trivial module system in which names starting with "%" are local, and [#BR]]
-> > all other names are exported.  This is a trivial program to write, and [#BR]]
-> > doesn't depend on the details of the names, but it can't be said at all [#BR]]
-> > with the proposed module system.[#BR]]
+> > Rather than invent a new language to do this, it's possible to build [[BR]]
+> > the linker such that the programmer can insert code to control aspects [[BR]]
+> > of the linking process.  Such code could do _more_ than the current [[BR]]
+> > module system does, and because of the added expressivity, it could do [[BR]]
+> > so more concisely in many cases.  For example, I sometimes use a [[BR]]
+> > trivial module system in which names starting with "%" are local, and [[BR]]
+> > all other names are exported.  This is a trivial program to write, and [[BR]]
+> > doesn't depend on the details of the names, but it can't be said at all [[BR]]
+> > with the proposed module system.[[BR]]
 
 Hanson's alternative is, I believe, much more in keeping with the spirit
 of Scheme than the current module system, since it allows writing more
@@ -128,23 +128,23 @@ programming language should be the following:
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;course in computer science was that Scheme did not provide any means for supporting software development by teams of programmers.  According to the <a href="http://www.cs.berkeley.edu/~bh/ssch0/preface.html">Preface</a> of _Simply Scheme: <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Introducing Computer Science, Second Edition_ <a href="http://mitpress.mit.edu/catalog/item/default.asp?ttype=2&tid=3662">&#91;1&#93;</a>, by Brian Harvey and Matthew Wright:  <BR>
 
-> > There are two schools of thought about teaching computer science.[#BR]]
-> > We might caricature the two views this way:[#BR]]
-> > [#BR]]
-> > •	    	The conservative view: Computer programs have become too[#BR]]
-> > large and complex to encompass in a human mind. Therefore, the job[#BR]]
-> > of computer science education is to teach people how to discipline[#BR]]
-> > their work in such a way that 500 mediocre programmers can join[#BR]]
-> > together and produce a program that correctly meets its[#BR]]
-> > specification.[#BR]]
-> > [#BR]]
-> > •	    	The radical view: Computer programs have become too[#BR]]
-> > large and complex to encompass in a human mind. Therefore, the job[#BR]]
-> > of computer science education is to teach people how to expand[#BR]]
-> > their minds so that the programs can fit, by learning to think in[#BR]]
-> > a vocabulary of larger, more powerful, more flexible ideas than[#BR]]
-> > the obvious ones. Each unit of programming thought must have a big[#BR]]
-> > payoff in the capabilities of the program.[#BR]]
+> > There are two schools of thought about teaching computer science.[[BR]]
+> > We might caricature the two views this way:[[BR]]
+> > [[BR]]
+> > •	    	The conservative view: Computer programs have become too[[BR]]
+> > large and complex to encompass in a human mind. Therefore, the job[[BR]]
+> > of computer science education is to teach people how to discipline[[BR]]
+> > their work in such a way that 500 mediocre programmers can join[[BR]]
+> > together and produce a program that correctly meets its[[BR]]
+> > specification.[[BR]]
+> > [[BR]]
+> > •	    	The radical view: Computer programs have become too[[BR]]
+> > large and complex to encompass in a human mind. Therefore, the job[[BR]]
+> > of computer science education is to teach people how to expand[[BR]]
+> > their minds so that the programs can fit, by learning to think in[[BR]]
+> > a vocabulary of larger, more powerful, more flexible ideas than[[BR]]
+> > the obvious ones. Each unit of programming thought must have a big[[BR]]
+> > payoff in the capabilities of the program.[[BR]]
 
 > I believe that, historically, Scheme has represented "the radical
 > view," while Python, at least as it is currently used in teaching
@@ -166,19 +166,19 @@ programming language should be the following:
 
 > [Scheme:](In)
 
-> {{{(define (square num)}}}[#BR]]
-> {{{(* num num))}}}[#BR]]
+> {{{(define (square num)}}}[[BR]]
+> {{{(* num num))}}}[[BR]]
 
 > [Pascal:](In)
 
-> {{{function [SquareOfWholeNumber](SquareOfWholeNumber.md)(num: integer): integer;}}}[#BR]]
-> {{{begin}}}[#BR]]
-> {{{SquareOfWholeNumber := num * num}}}[#BR]]
-> {{{end;}}}[#BR]]
-> {{{function [SquareOfDecimalNumber](SquareOfDecimalNumber.md)(num: real): real;}}}[#BR]]
-> {{{begin}}}[#BR]]
-> {{{SquareOfDecimalNumber := num * num}}}[#BR]]
-> {{{end;}}}[#BR]]
+> {{{function [SquareOfWholeNumber](SquareOfWholeNumber.md)(num: integer): integer;}}}[[BR]]
+> {{{begin}}}[[BR]]
+> {{{SquareOfWholeNumber := num * num}}}[[BR]]
+> {{{end;}}}[[BR]]
+> {{{function [SquareOfDecimalNumber](SquareOfDecimalNumber.md)(num: real): real;}}}[[BR]]
+> {{{begin}}}[[BR]]
+> {{{SquareOfDecimalNumber := num * num}}}[[BR]]
+> {{{end;}}}[[BR]]
 
 > In Scheme, when we want to tell the computer to multiply a number by
 > itself, we just tell it to do so.
@@ -190,11 +190,11 @@ programming language should be the following:
 > according to Harvey and Wright, is that proponents of the
 > "500-mediocre-programmer school" (as Harvey and Wright term it) are:
 
-> > afraid that you might write the square program with whole numbers [#BR]]
-> > in mind, and then apply it to a decimal fraction by mistake. If [#BR]]
-> > you're on a team with 499 other programmers, it's easy to have [#BR]]
-> > failures of communication so that one programmer uses another's [#BR]]
-> > program in unintended ways." [#BR]]
+> > afraid that you might write the square program with whole numbers [[BR]]
+> > in mind, and then apply it to a decimal fraction by mistake. If [[BR]]
+> > you're on a team with 499 other programmers, it's easy to have [[BR]]
+> > failures of communication so that one programmer uses another's [[BR]]
+> > program in unintended ways." [[BR]]
 
 > However, this style of development stifles creativity and encourages
 > inefficiency.  It's hard to be creative when forced to think in the
@@ -246,7 +246,7 @@ Japanese are not represented by "Sunday, "Monday," and "Tuesday," but by
 the corresponding Japanese Kanji characters ("日" ("Nichi"), "月"
 ("Getsu"), and "火" ("Ka")).  Here is the commented code for the listed
 function:
-[#BR]]
+[[BR]]
 > > (html:tr (map html:td (list "日" "月" "火"))) ;; html:tdをmapでリストに適用
 
 This code performs a useful function, and requires Unicode support in
@@ -263,7 +263,7 @@ characters not representable in ASCII:  Hebrew, Latin, Cyrillic, Greek,
 Georgian, Armenian, Ethiopic, Arabic, Devanagari, Bengali, Gurmukhi,
 Gujarati, Oriya, Tamil, Telugu, Kannada, Malayalam, Sinhala, Myanmar,
 Khmer, Thai, Lao, Tibetan, Chinese, Hangul, and Mongolian, to name a few
-examples (see [#http://homepage2.nifty.com/PAF00305/lib/unicode.html|"Unicode Test Page ♦ ユニコード テスト ページ [Test Page]]"](Unicode)).
+examples (see [[http://homepage2.nifty.com/PAF00305/lib/unicode.html|"Unicode Test Page ♦ ユニコード テスト ページ [Test Page]]"](Unicode)).
 
 Therefore, I believe that support for Unicode does not constitute an
 instance of "piling feature upon feature," but provides functionality

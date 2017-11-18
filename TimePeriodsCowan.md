@@ -7,7 +7,7 @@ A *time interval* is an immutable object belonging to a distinct type and repres
 
 ## Duration procedures
 
-`(make-duration `[#|*chronology* ]]` `*alist*`)`
+`(make-duration `[[|*chronology* ]]` `*alist*`)`
 
 Returns a duration based on *chronology*, defaulting to the value of `(current-chronology)`.  *Alist* is an alist mapping duration field names understood by that chronology to their values.  In the ISO, Gregorian, and Julian calendars, the field names are
 `years`, `months`, `weeks`, `days`, `hours`, `minutes`, and `seconds`.
@@ -31,7 +31,7 @@ particular unit, `#f` is returned instead.  No conversion is done: a 7-day inter
 
 An interval represents the time between two or more instants, possibly repeated more than once.  Intervals belong to an immutable disjoint type.
 
-`(make-interval `*date-or-duration-1*` `*date-or-duration-2*` ` [#|*repetition* ]] `)`
+`(make-interval `*date-or-duration-1*` `*date-or-duration-2*` ` [[|*repetition* ]] `)`
 
 Returns an interval which:
 

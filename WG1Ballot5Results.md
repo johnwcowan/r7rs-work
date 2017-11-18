@@ -432,7 +432,7 @@ trivially whether the two arguments in `(* a b)` are `eq?` before
 calling the appropriate algorithm.  Generally, it may be better to be
 able to express this primitive directly.
 
-[#He|also points out that given `square` in the small language, we can
+[[He|also points out that given `square` in the small language, we can
 have `flsquare` in the large language, though having the
 latter doesn't actually require having the former.]]
 
@@ -924,7 +924,7 @@ circular list with the corresponding mapped results.
 ### #310 Rationalize start/end/(fill) arguments in sequence procedures
 
 When we approved [CompleteSequenceCowan](CompleteSequenceCowan.md) in ticket #64, we adopted
-[#http://srfi.schemers.org/srfi-43/srfi-43.html#vector-fill-bang|SRFI
+[[http://srfi.schemers.org/srfi-43/srfi-43.html#vector-fill-bang|SRFI
 43]] syntax and semantics for `vector-copy`, meaning that it takes
 optional *start, end, fill* arguments.  This is inconsistent with
 various other copier procedures in R7RS as inherited from R5RS, as
@@ -1431,7 +1431,7 @@ fundamental operation that it should be added, IMO, considering that
 it's tedious to write if "by hand", and that a standard library
 routine is likely to be much more efficient (especially for strings,
 since that avoids the need for boxing and unboxing the characters).
-[#JC:|Many implementations represent characters as immediates,
+[[JC:|Many implementations represent characters as immediates,
 however.]]
 
 One could also argue that "character" operations don't really make
@@ -1950,7 +1950,7 @@ Vote `eof-object` for a procedure of that name, or `none` to not add any such pr
 
 Currently the identifiers in library names can be any identifier.
 Under this proposal, the identifiers must not include any of `| \ ?* <
-" : > + [#|]] /` or control characters after escapes are expanded.
+" : > + [[|]] /` or control characters after escapes are expanded.
 
 If this proposal fails, its content will be included non-normatively
 as a *should not*.

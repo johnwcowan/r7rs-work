@@ -67,7 +67,7 @@ Returns `#t` if there is any association to *key* in *table*. (SRFI-69 `hash-tab
 
 ## Accessors
 
-`(table-ref `*table*` `*key* [#|*thunk* ]]`)`
+`(table-ref `*table*` `*key* [[|*thunk* ]]`)`
 
 Returns the value associated to *key* in *table*. If no value is associated to *key* and *thunk* is given, it is called with no arguments and its value is returned; if *thunk* is not given, an error is signalled.  (SRFI-69 `hash-table-ref`)
 
@@ -99,7 +99,7 @@ Sets the *value* associated to *key* in *table*. The previous association (if an
 
 Removes any association to *key* in *table*. It is not an error if no association for that *key* exists.  (SRFI-69 `hash-table-delete!`)
 
-`(table-update! `*table*` `*key*` `*procedure* [#|*thunk* ]]`)`
+`(table-update! `*table*` `*key*` `*procedure* [[|*thunk* ]]`)`
 
 Semantically equivalent to, but may be implemented more efficiently than, the following code:
 

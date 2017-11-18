@@ -90,6 +90,6 @@ The current thread exits the running state as if its quantum had expired. Return
 
 The current thread waits until the value of `(elapsed-time)` is greater than or equal to *timeout*. This blocks the thread only if *timeout* represents a point in the future.  Returns an unspecified value.
 
-`(thread-join! `*thread* [#*timeout*|[*timeout-result*]]]`)`
+`(thread-join! `*thread* [[*timeout*|[*timeout-result*]]]`)`
 
 The current thread waits until *thread* terminates (normally or not) or until the timeout is reached if *timeout* is supplied. If *timeout* is reached, returns *timeout-result* if it is supplied, otherwise a FIXME exception is raised. If *thread* terminated normally, the content of its *end-result* field is returned, otherwise the content of the *end-condition* field is raised.

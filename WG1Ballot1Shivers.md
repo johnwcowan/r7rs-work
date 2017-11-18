@@ -542,7 +542,7 @@ either or both of these?
 
 ### 16 symbol escapes
 
-[#This|ticket was originally about string escapes, but commenters have
+[[This|ticket was originally about string escapes, but commenters have
 been talking about symbol escapes instead.]]
 
 R6RS provides character escapes in symbols of the form `\xnnnn;`,
