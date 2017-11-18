@@ -2,7 +2,7 @@
 
 This is the home page for R7RS, the Revised⁷ Report on the Algorithmic Language Scheme.  This version of Scheme has been divided into a small language, suitable for educators, researchers, and users of embedded languages; and a large language focused on the practical needs of mainstream software development.
 
-The report on the small language was finalized on July 6, 2013.  It is available [in PDF format](http://www.bitbucket.org/cowan/draft-10/rnrs/r7rs.pdf) and as [LaTeX source code](http://www.bitbucket.org/cowan/draft-10/spec).  There are [errata](R7RSSmallErrata.md).
+The report on the small language was finalized on July 6, 2013.  It is available [in PDF format](https://bitbucket.org/cowan/r7rs/src/draft-10/rnrs/r7rs.pdf) and as [LaTeX source code](https://bitbucket.org/cowan/r7rs/src/draft-10/spec).  There are [errata](R7RSSmallErrata.md).
 
 A concise definition of the first partial edition of R7RS-large, known as the [Red Edition](RedEdition), is now available.  It is a frozen copy of the Red Edition ballot plus the names of the libraries, which were passed by unanimous consent.  The results, which are now final, can be seen at [http://tinyurl.com/wg2-red-results](http://tinyurl.com/wg2-red-results).  A single physical document is in preparation.
 
