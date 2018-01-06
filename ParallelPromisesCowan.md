@@ -4,7 +4,8 @@
 analogous to ordinary Scheme promises, except that implementations are allowed to execute part or all of such a promise
 in parallel with regular execution.  An ordinary promise is not evaluated (and does not perform any side effects)
 until it is forced, whereas parallel promises may be evaluated either completely or up to an implementation-determined
-point when they are created.  If any evaluation is left to do when a parallel promise is forced, it is done
+point either as soon as they are created or at any time after that.  If any evaluation is left to do when a parallel
+promise is forced, it is done
 at that time.
 
 A parallel promise, unlike a thread, is intended to provide parallelism for potentially limited computations.
@@ -16,7 +17,7 @@ if it depends in some way on the current continuation, such as raising an except
 Parallel promises are not intended to be used for concurrency, so there are no facilities for mutual exclusion.
 A computation in a parallel promise might use `set!` to modify a shared variable, in which case concurrent
 assignment to the variable can be visible in other parallel promises or threads. Furthermore, guarantees
-about the visibility of effects and ordering are determined by the operating system and hardware â€” which rarely support,
+about the visibility of effects and ordering are determined by the operating system and hardware — which rarely support,
 for example, any guarantee of sequential consistency.
 At the same time, operations that seem obviously safe may have a complex enough implementation internally
 that they cannot run in parallel on a particular implementation.
