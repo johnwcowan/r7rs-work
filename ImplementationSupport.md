@@ -1,17 +1,17 @@
 The following implementations support all or part of R7RS-small:
 
 | **Implementation** | **Notes** |
-|[Chibi](https://github.com/ashinn/chibi-scheme)| |
+|[Chibi](https://github.com/ashinn/chibi-scheme)||
 |[Chicken](https://www.call-cc.org/)|(partial)|
-|[Cyclone](http://justinethier.github.io/cyclone/)| |
-|[Foment](https://github.com/leftmike/foment)| |
-|[Gauche](http://practical-scheme.net/gauche/)| |
+|[Cyclone](http://justinethier.github.io/cyclone/)||
+|[Foment](https://github.com/leftmike/foment)||
+|[Gauche](http://practical-scheme.net/gauche/)||
 |[Guile](https://www.gnu.org/software/guile/)|(partial)|
-|[Husk](https://github.com/justinethier/husk-scheme)| |
-|[Kawa](https://www.gnu.org/software/kawa/index.html)| |
-|[Larceny](http://larcenists.org/)| |
+|[Husk](https://github.com/justinethier/husk-scheme)||
+|[Kawa](https://www.gnu.org/software/kawa/index.html)||
+|[Larceny](http://larcenists.org/)||
 |[Mosh](http://mosh.monaos.org/files/doc/text/About-txt.html)|(partial)|
-|[Picrin](https://github.com/picrin-scheme/picrin)| |
-|[Racket](http://racket-lang.org/)|[unofficial](https://github.com/lexi-lambda/racket-r7rs)|
-|[Rapid](https://gitlab.com/nieper/rapid-scheme)| |
-|[Sagittarius](https://bitbucket.org/ktakashi/sagittarius-scheme/wiki/Home)| |
+|[Picrin](https://github.com/picrin-scheme/picrin)||
+|[Racket](http://racket-lang.org/)|[unofficial](https://github.com/lexi-lambda/racket-r7rs)|(unofficial)|
+|[Rapid](https://gitlab.com/nieper/rapid-scheme)||
+|[Sagittarius](https://bitbucket.org/ktakashi/sagittarius-scheme/wiki/Home)|
