@@ -1,6 +1,7 @@
 The following implementations support all or part of R7RS-small:
 
 | **Implementation** | **Notes** |
+|||
 |[Chibi](https://github.com/ashinn/chibi-scheme)||
 |[Chicken](https://www.call-cc.org/)|(partial)|
 |[Cyclone](http://justinethier.github.io/cyclone/)||
@@ -12,6 +13,6 @@ The following implementations support all or part of R7RS-small:
 |[Larceny](http://larcenists.org/)||
 |[Mosh](http://mosh.monaos.org/files/doc/text/About-txt.html)|(partial)|
 |[Picrin](https://github.com/picrin-scheme/picrin)||
-|[Racket](http://racket-lang.org/)|[unofficial](https://github.com/lexi-lambda/racket-r7rs)|(unofficial)|
+|[Racket](http://racket-lang.org/)|[unofficial](https://github.com/lexi-lambda/racket-r7rs)|
 |[Rapid](https://gitlab.com/nieper/rapid-scheme)||
-|[Sagittarius](https://bitbucket.org/ktakashi/sagittarius-scheme/wiki/Home)|
+|[Sagittarius](https://bitbucket.org/ktakashi/sagittarius-scheme/wiki/Home)||
