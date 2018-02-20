@@ -8,28 +8,40 @@ The [type] values are:
 
 `u1`::
 > unsigned 1-bit integer (bit)
+
 `u8`::
 > unsigned 8-bit integer
+
 `s8`::
 > signed 8-bit integer
+
 `u16`::
 > unsigned 16-bit integer
+
 `s16`::
 > signed 16-bit integer
+
 `u32`::
 > unsigned 32-bit integer
+
 `s32`::
 > signed 32-bit integer
+
 `u64`::
 > unsigned 64-bit integer
+
 `s64`::
 > signed 64-bit integer
+
 `f32`::
 32-bit float
+
 `f64`::
 64-bit float
+
 `c64`::
 64-bit complex number
+
 `c128`::
 128-bit complex number
 
