@@ -32,20 +32,20 @@ has the same representation as a JSO.
 A variable whose value is *the null JSO*, a unique free JSO with no 
 keys or values.  It is an error to mutate the null JSO in any way.
 
-`(make-jso `*prototype obj* ...`)`
+`(make-jso` *prototype obj* ...`)`
 
 Returns a newly allocated JSO with the specified *prototype*.  If 
 *prototype* is the undefined object, the JSO is free.  Additional 
 arguments are alternating keys and values of the JSO.
 
-`(alist->jso `*alist prototype*`)`
+`(alist->jso` *alist prototype*`)`
 
 Returns a newly allocated JSO with the specified *prototype* (or a free 
 JSO if *prototype* is the undefined value).  The key-value pairs of 
 *alist* become the corresponding keys and values of the JSO.  It is an error 
 if the alist has duplicate keys.
 
-`(jso-unfold `*stop? mapper successor seed*`)`
+`(jso-unfold` *stop? mapper successor seed*`)`
 
 Create a new JSO.  If the result of applying the predicate *stop?* to
 *seed* is true, return the JSO.  Otherwise, apply the procedure *mapper*
@@ -56,36 +56,36 @@ to the current seed and repeat this algorithm.
 
 ## Predicates
 
-`(jso-undef? `*obj*`)`
+`(jso-undef?` *obj*`)`
 
 Returns `#t` if *obj* is the undefined value, and `#f` otherwise.  The 
 undefined value is distinct in the sense of `eqv?` from every other 
 Scheme object.
 
-`(jso? `*obj*`)`
+`(jso?` *obj*`)`
 
 Returns `#t` if the car of *jso* is the symbol `@`, and `#f` otherwise. 
 The rest of the JSO is left unexamined.
 
-(`jso-null? `*obj*`)`
+(`jso-null?` *obj*`)`
 
 Returns `#t` if *obj* is the null JSO and `#f` otherwise.
 
-`(jso-empty? `*jso*`)`
+`(jso-empty?` *jso*`)`
 
 Returns `#t` if the JSO has no keys, and `#f` otherwise.  The prototype 
 chain is left unexamined.
 
-`(jso-contains? `*jso key*`)`
+`(jso-contains?` *jso key*`)`
 
 Returns `#t` if *jso* contains *key*, and `#f` otherwise.  The 
 prototype chain is left unexamined.
 
 ## Accessors
 
-`(jso-ref `*jso key* [ *failure* [ *success* ] ]`)`
+`(jso-ref` *jso key* [ *failure* [ *success* ] ]`)`
 
-`(jso-ref/default `*jso key default*`)`
+`(jso-ref/default` *jso key default*`)`
 
 Searches *jso*, including the prototype chain, for the key *key*, 
 invokes the procedure *success* on it, and returns the result.  If 
@@ -96,97 +96,88 @@ is not specified, it is a procedure that returns the undefined value.
 The *jso-ref/default* procedure is the same, but returns *default*
 if the *key* is not found.
 
-`(jso-local-ref `*jso key* [ *failure* [ *success* ] ]`)`
+`(jso-local-ref` *jso key* [ *failure* [ *success* ] ]`)`
 
-`(jso-local-ref/default `*jso key* default*`)`
+`(jso-local-ref/default` *jso key* default*`)`
 
 The same as `jso-ref` and `jso-ref/default, except that the prototype
 chain is not searched.
 
-`(jso-size `*jso*`)`
+`(jso-size` *jso*`)`
 
 Returns the number of keys in *jso* as an exact integer.  The prototype 
 chain is left unexamined.
 
-`(jso-prototype `*jso*`)`
+`(jso-prototype` *jso*`)`
 
 Returns the prototype of *jso*, or the undefined value if *jso* is free.
 
 ## Conversions
 
-`(jso-keys `*jso*`)`
+`(jso-keys` *jso*`)`
 
 Returns a list of the keys of *jso*.  The prototype chain is left 
 unexamined.
 
-`(jso-values `*jso*`)`
+`(jso-values` *jso*`)`
 
 Returns a list of the values of *jso* in the same order as `jso-keys` 
 returns the keys.  The prototype chain is left unexamined.
 
-`(jso->alist `*jso*)
+`(jso->alist` *jso*)
 
 Creates a newly allocated alist whose key-value pairs are the keys and 
 values of the JSO. The prototype chain is left unexamined.
 
-`(full-jso->alist `*jso*)
+`(full-jso->alist` *jso*)
 
 Creates a newly allocated alist whose key-value pairs are the keys and 
 values of the JSO, including its prototype chain.
 
-`(alist->jso `*alist*`)`
+`(alist->jso` *alist*`)`
 
 Creates a free JSO whose keys and values are the key-value pairs of the 
 alist.  If any key is not a symbol, an error is signaled.
 
 ## Copying, mapping, and folding
 
-`(jso-copy `*jso*`)`
+`(jso-copy` *jso*`)`
 
 Returns a copy of *jso*, sharing the same prototype chain.  The keys 
 and values are shared, but not the structural pairs.
 
-`(jso-free-copy `*jso*`)`
+`(jso-free-copy` *jso*`)`
 
 Returns a copy of *jso* that is free.  The keys and values are shared, 
 but not the structural pairs.
 
-`(jso-full-copy `*jso*`)`
+`(jso-full-copy` *jso*`)`
 
 Returns a copy of *jso*, including the prototype chain.  The keys and 
 values are shared, but not the structural pairs.
 
-`(jso-map `*proc jso*`)`
+`(jso-map` *proc jso*`)`
 
 Returns a newly allocated JSO after applying *proc* to each key and
 value in *jso*; *proc* returns the new key and value.  The prototype
 chains are shared.
 
-`(jso-map! `*proc jso*`)`
+`(jso-full-map` *proc jso*`)`
 
-Modifies *jso* by applying *proc* to each key and value in *jso*;
-*proc* returns the new value.  The prototype chain is not examined.
-Returns an unspecified value (not necessarily *the* unspecified value).
+The same as `jso-map`, except that the prototype chain is also processed.
 
-`(jso-full-map `*proc jso*`)`
-
-`(jso-full-map! `*proc jso*`)`
-
-The same as `jso-map` and `jso-map!`, except that the prototype
-chain is also processed.
-
-`(jso-for-each `*proc jso*`)`
+`(jso-for-each` *proc jso*`)`
 
 Applies *proc* to each key and value.  The prototype chain is left 
 unexamined.  Returns an undefined value (not necessarily *the* 
 undefined value).
 
-`(jso-full-for-each `*proc jso*`)`
+`(jso-full-for-each` *proc jso*`)`
 
 Applies *proc* to each key and value, including those in the prototype 
 chain.  Returns an undefined value (not necessarily *the* undefined value).
 
-`(jso-fold `*proc seed jso*`)`
+`(jso-fold` *proc seed jso*`)`
 
 Calls *proc* for every association in *jso* with three arguments: the
 key of the association, the value of the association, and an accumulated
@@ -195,54 +186,74 @@ subsequent invocations of *proc*, the returned value of the previous
 invocation. The value returned by `jso-fold` is the return value
 of the last invocation of *proc*.  The prototype chain is not examined.
 
+`(jso-filter` *pred jso*`)`
 
-`(jso-full-fold `*proc seed jso*`)`
+Returns a JSO containing the associations of *jso* whose
+key and value satisfy *pred*.
+
+`(jso-remove` *pred jso*`)`
+
+Returns a JSO containing the associations of *jso*, except those whose
+key and value do not satisfy *pred*.
+
+`(jso-partition` *pred jso*`)`
+
+Returns two values, both JSOs.  The first JSO contains the
+associations of *jso* whose key and value satisfy *pred*, and
+the second JSO contains those that do not.
+
+`(jso-full-fold` *proc seed jso*`)`
+
+`(jso-full-filter` *pred jso*`)`
+
+`(jso-full-remove` *pred jso*`)`
+
+`(jso-full-partition` *pred jso*`)`
 
 The same as `jso-fold`, `jso-filter`, `jso-remove`, `jso-partition` except that 
 the prototype chain is processed.
 
 ## Mutators
 
-`(jso-set! `*jso key value*`)`
+These procedures return an undefined value (not necessarily *the*
+undefined value).
+
+`(jso-set!` *jso key value*`)`
 
 Searches *jso* for *key*, and if found changes its value to *value*.  
 If *key* is not found, *key* and *value* are added as the last key 
-before the prototype chain. The prototype chain is left unexamined.  
-Returns an undefined value (not necessarily *the* undefined value).
+before the prototype chain. The prototype chain is left unexamined.
 
-`(jso-delete! `*jso key* ...`)`
+`(jso-delete!` *jso key* ...`)`
 
 Searches *jso* and removes all keys (and their values) that are equal 
 to any of the *keys*. The prototype chain is left unexamined. Unknown 
-keys are ignored.  Returns an undefined value (not necessarily *the* 
-undefined value).
+keys are ignored.  
 
-`(jso-delete-all! `*jso key-list*`)`
+`(jso-delete-all!` *jso key-list*`)`
 
-Does the same as `jso-delete!`, except that the keys to be deleted are 
+Does the same as` jso-delete!`, except that the keys to be deleted are 
 specified as a list.
 
-`(jso-set-prototype! `*jso prototype*`)`
+`(jso-set-prototype!` *jso prototype*`)`
 
 Replaces the prototype of *jso* with *prototype*.  If *prototype* is 
-the undefined value, *jso* becomes free.  Returns an undefined value 
-(not necessarily *the* undefined value).
+the undefined value, *jso* becomes free.  
 
-`(jso-map! `*proc jso*`)`
+`(jso-map!` *proc jso*`)`
 
-Mutates *jso* by applying *proc* to each value.  The prototype chain is 
-left unexamined.  Returns an undefined value (not necessarily *the* 
-undefined value).
+Modifies *jso* by applying *proc* to each key and value in *jso*;
+*proc* returns the new value.  The prototype chain is not examined.
 
 ## Method calls
 
-`(jso-apply `*jso key argument* ...`)`
+`(jso-apply` *jso key argument* ...`)`
 
 Applies the result of `(jso-ref `*jso key*`)` to *jso* and the 
 *arguments*, returning the result(s).  If the result does not exist or 
 is not a procedure, it is an error.
 
-`(jso-apply/fallback `*jso key failure argument* ...`)`
+`(jso-apply/fallback` *jso key failure argument* ...`)`
 
 Applies the result of `(jso-ref `*jso key*`)` to *jso* and the 
 *arguments*, returning the result(s).  If the result does not exist, 
@@ -251,7 +262,7 @@ is an error.
 
 ## JSON
 
-`(json-value? `*obj*`)`
+`(json-value?` *obj*`)`
 
 Returns `#t` if *obj* is a JSON value: that is, a finite real number, a 
 string, a boolean, a proper list whose elements (if any) are JSON 
@@ -265,7 +276,7 @@ an empty JSON array, the null JSO representing JSON `null`, any other JSO
 representing a JSON object, and any other list representing a non-empty
 JSON array.
 
-`(json-escape-string `*string ascii?*`)`
+`(json-escape-string` *string ascii?*`)`
 
 Inserts JSON escapes into a plain Scheme string to make it a valid JSON 
 string.  In particular, all characters that cannot appear directly in a 
@@ -276,13 +287,13 @@ encoded as two consecutive `\u` sequences.
 If the *ascii?* argument is true, all non-ASCII characters are also 
 escaped.
 
-`(json-unescape-string `*string*`)`
+`(json-unescape-string` *string*`)`
 
 Interprets all escape sequences in a valid JSON string and returns the
 result.  An error satisfying `json-error?` is signaled if a malformed
 escape sequence is found.
 
-`(json-write `*obj options* [[|*port* ]] ]`)`
+`(json-write` *obj options* [[|*port* ]] ]`)`
 
 Output *obj* to *port* (which defaults to the value of 
 `(current-output-port)`) in [JSON 
@@ -296,7 +307,7 @@ all non-ASCII characters in strings to be escaped.  The symbol `pretty`
 may cause the JSON to be pretty-printed.  All other symbols are 
 implementation-dependent.
 
-`(json-read `*prototype* [ *jso* [ *port* ] ]`)`
+`(json-read` *prototype* [ *jso* [ *port* ] ]`)`
 
 Reads the [JSON representation](https://tools.ietf.org/html/rfc7159) of 
 a JSON value from *port* (which defaults to the value of 
@@ -313,7 +324,7 @@ Any JSOs returned are created with *prototype*, or as free JSOs if
 *prototype* is the undefined value or omitted.
 
 
-`(json-error? `*obj*`)`
+`(json-error?` *obj*`)`
 
 Returns true if *obj* is an error specified by any of the errors of
 the above procedures.
