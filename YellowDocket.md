@@ -1,6 +1,6 @@
 Low-level macros:  [MinimalSyntaxCaseCowan](MinimalSyntaxCaseCowan.md), [explicit renaming](https://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Explicit-Renaming.html), [syntactic closures](https://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Syntactic-Closures.html), [R6RS syntax-case](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html), [SRFI 72](http://srfi.schemers.org/srfi-72/srfi-72.html).
 
-More syntax-rules extensions: [SRFI 139](http://srfi.schemers.org/srfi-149/srfi-149.html)
+More syntax-rules extensions: [SRFI 149](http://srfi.schemers.org/srfi-149/srfi-149.html)
 
 Macro uses in syntax definitions: [SRFI 147](http://srfi.schemers.org/srfi-147/srfi-147.html)
 
@@ -35,3 +35,5 @@ Generic accessors/mutators: [SRFI 123](http://srfi.schemers.org/srfi-123/srfi-12
 Conditions: [ConditionsCowan](ConditionsCowan.md)
 
 Restarts:  [RestartsRiastradh](http://mumble.net/~campbell/proposals/restart.text)
+
+Arity inspection: [SRFI 102](http://srfi.schemers.org/srfi-102/srfi-102.html) or [ArityInspectionDybvig](https://srfi-email.schemers.org/srfi-102/msg/2771967)
