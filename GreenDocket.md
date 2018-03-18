@@ -36,3 +36,5 @@ System commands: [SystemCommandCowan](SystemCommandCowan.md)
 
 Pure delay/force: [PureDelayedGloria](PureDelayedGloria.md)
 
+Finalizers: [FinalizersCowan](FinalizersCowan.md)
+
