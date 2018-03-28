@@ -1,4 +1,5 @@
-This is an early draft of proposals for the Orange Edition (numbers) of R7RS-large. For other dockets, see [wiki:WG2Dockets].
+This is an early draft of proposals for the Orange Edition (numbers) of R7RS-large.
+For other dockets, see [WG2Dockets](WG2Dockets.md).
 
 **Numeric types and operations**
 
