@@ -1,4 +1,4 @@
-This is a docket for lexical-syntax proposals.   For other dockets, see [wiki:WG2Dockets].
+This is a docket for lexical-syntax proposals.   For other dockets, see [WG2Dockets](WG2Dockets.md).
 
 `#,` external forms:  [SRFI 10](http://srfi.schemers.org/srfi-10/srfi-10.html)
 
