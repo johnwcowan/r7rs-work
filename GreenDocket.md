@@ -1,4 +1,4 @@
-Green docket for non-portable things.   For other dockets, see [wiki:WG2Dockets].
+Green docket for non-portable things.   For other dockets, see [WG2Dockets](WG2Dockets.md).
 
 File I/O: [FilesAdvancedCowan](FilesAdvancedCowan.md) plus [SettingsListsCowan](SettingsListsCowan.md) and maybe [LetSettingsKendal](LetSettingsKendal.md)
 
@@ -37,4 +37,7 @@ System commands: [SystemCommandCowan](SystemCommandCowan.md)
 Pure delay/force: [PureDelayedGloria](PureDelayedGloria.md)
 
 Finalizers: [FinalizersCowan](FinalizersCowan.md)
+
+Delimited continuations:
+
 
