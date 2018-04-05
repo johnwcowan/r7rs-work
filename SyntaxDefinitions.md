@@ -37,7 +37,7 @@ Syntactic closures is a low-level macro system supported by MIT, Picrin, Chibi.
 
 ### Explicit renaming
 
-Explicit renaming is a low-level macro system supported by MIT, Chicken, Sagittarius, Picrin, Chibi, Larceny (with different syntax).
+Explicit renaming is a low-level macro system supported by MIT, Chicken, Scheme48/scsh, Sagittarius, Picrin, Chibi, Larceny (with different syntax).
 
 ### Implicit renaming
 
