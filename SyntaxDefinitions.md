@@ -4,7 +4,7 @@ These tests show the type of syntax definitions the Schemes in the suite underst
 
 `Define-macro` is a low-level bare macro definition, analogous to Common Lisp `defmacro`.  I tested `(define-macro x (lambda (y) y))` followed by `(x (+ 3 4))`, expecting it to return 7 on Schemes that support `define-macro` and an error otherwise.  `Define-macro` is not part of any Scheme standard.
 
-Supported: Gambit, Bigloo, Guile, Kawa, SISC, Ypsilon, SigScheme, S7[*], Scheme 9, STklos, RScheme, Rep, Elk, Dfsch[*], Picrin
+Supported: Gambit, Bigloo, Guile, Kawa, SISC, Ypsilon, SigScheme, S7\[*], Scheme 9, STklos, RScheme, Rep, Elk, Dfsch\[*], Picrin
 
 Not supported: Racket, Gauche, MIT, Chicken, Scheme48/scsh, SCM, Chez, Vicare, Larceny, Mosh, IronScheme, SXM, Sagittarius, Foment, Owl Lisp, Chibi, Sizzle[*]
 
