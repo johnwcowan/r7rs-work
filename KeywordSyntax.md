@@ -18,6 +18,6 @@ Keywords look like `:foo`, `foo:`, or `#:foo`, depending on the Scheme implement
 
 If we adopt the :foo style, Gauche, Bigloo, S7, STklos will work out of the box, and Chicken and Guile will support it with an option.
 
-If we adopt the foo: style, Gambit, Chicken, Kawa, STklos, Bigloo, S7 will work out of the box, and Guile will support it with an option.
+If we adopt the foo: style, Gambit, Chicken, STklos, Bigloo, S7 will work out of the box, and Guile, Kawa will support it with an option.
 
 If we adopt the #:foo style, Racket, Chicken, Bigloo, Guile, S7, Kawa will work out of the box.
