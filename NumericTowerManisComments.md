@@ -7,7 +7,7 @@ I'd prefer to couch my reply in terms of what data types are provided by an impl
 Of the towers John lists, the following seem worth standardizing.
 
 1. ----: this seems appropriate in implementations for limited embedded processors.
-2. --+-, --++: there seem to be two kinds of possible implementation: a Chicken-like system that provides fixnums and flonums, and a system that provides flonums only (and therefore there is no such thing as an exact integer). Lua, with default build options, works this way, as does [JavaScript](JavaScript.md). Both variations seem defensible to me. [second variation will not work, because exact numbers must exist and be disjoint from inexact ones.  --cowan](The)
+2. --+-, --++: there seem to be two kinds of possible implementation: a Chicken-like system that provides fixnums and flonums, and a system that provides flonums only (and therefore there is no such thing as an exact integer). Lua 5.2 and earlier, with default build options, works this way, as does JavaScript. Both variations seem defensible to me. \[The second variation will not work, because exact numbers must exist and be disjoint from inexact ones.  --cowan]
 3. +-+-, +-++: I believe that the implication here is that bignums are provided as well. \[Yes, but they might be very small bignums.  --cowan]
 4. +++-, ++++: This adds ratios to the previous towers.
 
