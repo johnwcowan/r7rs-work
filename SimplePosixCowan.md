@@ -1,7 +1,8 @@
 ## Interfaces
 
-WG2 voted to provide a Posix package, but rejected a "full Posix" package that would provide all 1191 interfaces from POSIX.1-2008.  What is proposed here is a subset of 209 interfaces that are provided primitively (that is, as a system call) in at least one of FreeBSD, NetBSD, OpenBSD, Linux, and Solaris.  The links are to the OpenGroup page describing the interface.
-
+WG2 voted to provide a Posix package, but rejected a "full Posix" package that would provide all 1191 interfaces
+from POSIX.1-2008.  What is proposed here is
+based on the Fortran bindings for POSIX.1:1990.
 ```
 
 fork => pid
