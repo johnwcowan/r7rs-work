@@ -2,250 +2,74 @@
 
 WG2 voted to provide a Posix package, but rejected a "full Posix" package that would provide all 1191 interfaces from POSIX.1-2008.  What is proposed here is a subset of 209 interfaces that are provided primitively (that is, as a system call) in at least one of FreeBSD, NetBSD, OpenBSD, Linux, and Solaris.  The links are to the OpenGroup page describing the interface.
 
+```
 
-[_exit](http://pubs.opengroup.org/onlinepubs/9699919799/functions/_exit.html),
-[accept](http://pubs.opengroup.org/onlinepubs/9699919799/functions/accept.html),
-[access](http://pubs.opengroup.org/onlinepubs/9699919799/functions/access.html),
-[aio_cancel](http://pubs.opengroup.org/onlinepubs/9699919799/functions/aio_cancel.html),
-[aio_error](http://pubs.opengroup.org/onlinepubs/9699919799/functions/aio_error.html),
-[aio_fsync](http://pubs.opengroup.org/onlinepubs/9699919799/functions/aio_fsync.html),
-[aio_read](http://pubs.opengroup.org/onlinepubs/9699919799/functions/aio_read.html),
-[aio_return](http://pubs.opengroup.org/onlinepubs/9699919799/functions/aio_return.html),
-[aio_suspend](http://pubs.opengroup.org/onlinepubs/9699919799/functions/aio_suspend.html),
-[aio_write](http://pubs.opengroup.org/onlinepubs/9699919799/functions/aio_write.html),
-[alarm](http://pubs.opengroup.org/onlinepubs/9699919799/functions/alarm.html),
-[bind](http://pubs.opengroup.org/onlinepubs/9699919799/functions/bind.html),
-[chdir](http://pubs.opengroup.org/onlinepubs/9699919799/functions/chdir.html),
-[chmod](http://pubs.opengroup.org/onlinepubs/9699919799/functions/chmod.html),
-[chown](http://pubs.opengroup.org/onlinepubs/9699919799/functions/chown.html),
-[clock_getres](http://pubs.opengroup.org/onlinepubs/9699919799/functions/clock_getres.html),
-[clock_gettime](http://pubs.opengroup.org/onlinepubs/9699919799/functions/clock_gettime.html),
-[clock_settime](http://pubs.opengroup.org/onlinepubs/9699919799/functions/clock_settime.html),
-[close](http://pubs.opengroup.org/onlinepubs/9699919799/functions/close.html),
-[connect](http://pubs.opengroup.org/onlinepubs/9699919799/functions/connect.html),
-[creat](http://pubs.opengroup.org/onlinepubs/9699919799/functions/creat.html),
-[dup](http://pubs.opengroup.org/onlinepubs/9699919799/functions/dup.html),
-[dup2](http://pubs.opengroup.org/onlinepubs/9699919799/functions/dup2.html),
-[execl](http://pubs.opengroup.org/onlinepubs/9699919799/functions/execl.html),
-[execle](http://pubs.opengroup.org/onlinepubs/9699919799/functions/execle.html),
-[execlp](http://pubs.opengroup.org/onlinepubs/9699919799/functions/execlp.html),
-[execv](http://pubs.opengroup.org/onlinepubs/9699919799/functions/execv.html),
-[execve](http://pubs.opengroup.org/onlinepubs/9699919799/functions/execve.html),
-[execvp](http://pubs.opengroup.org/onlinepubs/9699919799/functions/execvp.html),
-[exit](http://pubs.opengroup.org/onlinepubs/9699919799/functions/exit.html),
-[faccessat](http://pubs.opengroup.org/onlinepubs/9699919799/functions/faccessat.html),
-[fchdir](http://pubs.opengroup.org/onlinepubs/9699919799/functions/fchdir.html),
-[fchmod](http://pubs.opengroup.org/onlinepubs/9699919799/functions/fchmod.html),
-[fchmodat](http://pubs.opengroup.org/onlinepubs/9699919799/functions/fchmodat.html),
-[fchown](http://pubs.opengroup.org/onlinepubs/9699919799/functions/fchown.html),
-[fchownat](http://pubs.opengroup.org/onlinepubs/9699919799/functions/fchownat.html),
-[fcntl](http://pubs.opengroup.org/onlinepubs/9699919799/functions/fcntl.html),
-[fdatasync](http://pubs.opengroup.org/onlinepubs/9699919799/functions/fdatasync.html),
-[fexecve](http://pubs.opengroup.org/onlinepubs/9699919799/functions/fexecve.html),
-[fork](http://pubs.opengroup.org/onlinepubs/9699919799/functions/fork.html),
-[fpathconf](http://pubs.opengroup.org/onlinepubs/9699919799/functions/fpathconf.html),
-[fstat](http://pubs.opengroup.org/onlinepubs/9699919799/functions/fstat.html),
-[fstatat](http://pubs.opengroup.org/onlinepubs/9699919799/functions/fstatat.html),
-[fstatvfs](http://pubs.opengroup.org/onlinepubs/9699919799/functions/fstatvfs.html),
-[fsync](http://pubs.opengroup.org/onlinepubs/9699919799/functions/fsync.html),
-[ftruncate](http://pubs.opengroup.org/onlinepubs/9699919799/functions/ftruncate.html),
-[getegid](http://pubs.opengroup.org/onlinepubs/9699919799/functions/getegid.html),
-[geteuid](http://pubs.opengroup.org/onlinepubs/9699919799/functions/geteuid.html),
-[getgid](http://pubs.opengroup.org/onlinepubs/9699919799/functions/getgid.html),
-[getgroups](http://pubs.opengroup.org/onlinepubs/9699919799/functions/getgroups.html),
-[gethostid](http://pubs.opengroup.org/onlinepubs/9699919799/functions/gethostid.html),
-[gethostname](http://pubs.opengroup.org/onlinepubs/9699919799/functions/gethostname.html),
-[getitimer](http://pubs.opengroup.org/onlinepubs/9699919799/functions/getitimer.html),
-[getlogin](http://pubs.opengroup.org/onlinepubs/9699919799/functions/getlogin.html),
-[getmsg](http://pubs.opengroup.org/onlinepubs/9699919799/functions/getmsg.html),
-[getpeername](http://pubs.opengroup.org/onlinepubs/9699919799/functions/getpeername.html),
-[getpgid](http://pubs.opengroup.org/onlinepubs/9699919799/functions/getpgid.html),
-[getpgrp](http://pubs.opengroup.org/onlinepubs/9699919799/functions/getpgrp.html),
-[getpid](http://pubs.opengroup.org/onlinepubs/9699919799/functions/getpid.html),
-[getpmsg](http://pubs.opengroup.org/onlinepubs/9699919799/functions/getpmsg.html),
-[getppid](http://pubs.opengroup.org/onlinepubs/9699919799/functions/getppid.html),
-[getpriority](http://pubs.opengroup.org/onlinepubs/9699919799/functions/getpriority.html),
-[getrlimit](http://pubs.opengroup.org/onlinepubs/9699919799/functions/getrlimit.html),
-[getrusage](http://pubs.opengroup.org/onlinepubs/9699919799/functions/getrusage.html),
-[getsid](http://pubs.opengroup.org/onlinepubs/9699919799/functions/getsid.html),
-[getsockname](http://pubs.opengroup.org/onlinepubs/9699919799/functions/getsockname.html),
-[getsockopt](http://pubs.opengroup.org/onlinepubs/9699919799/functions/getsockopt.html),
-[gettimeofday](http://pubs.opengroup.org/onlinepubs/9699919799/functions/gettimeofday.html),
-[getuid](http://pubs.opengroup.org/onlinepubs/9699919799/functions/getuid.html),
-[ioctl](http://pubs.opengroup.org/onlinepubs/9699919799/functions/ioctl.html),
-[kill](http://pubs.opengroup.org/onlinepubs/9699919799/functions/kill.html),
-[killpg](http://pubs.opengroup.org/onlinepubs/9699919799/functions/killpg.html),
-[lchown](http://pubs.opengroup.org/onlinepubs/9699919799/functions/lchown.html),
-[link](http://pubs.opengroup.org/onlinepubs/9699919799/functions/link.html),
-[linkat](http://pubs.opengroup.org/onlinepubs/9699919799/functions/linkat.html),
-[lio_listio](http://pubs.opengroup.org/onlinepubs/9699919799/functions/lio_listio.html),
-[listen](http://pubs.opengroup.org/onlinepubs/9699919799/functions/listen.html),
-[lseek](http://pubs.opengroup.org/onlinepubs/9699919799/functions/lseek.html),
-[lstat](http://pubs.opengroup.org/onlinepubs/9699919799/functions/lstat.html),
-[mkdir](http://pubs.opengroup.org/onlinepubs/9699919799/functions/mkdir.html),
-[mkdirat](http://pubs.opengroup.org/onlinepubs/9699919799/functions/mkdirat.html),
-[mkfifo](http://pubs.opengroup.org/onlinepubs/9699919799/functions/mkfifo.html),
-[mkfifoat](http://pubs.opengroup.org/onlinepubs/9699919799/functions/mkfifoat.html),
-[mknod](http://pubs.opengroup.org/onlinepubs/9699919799/functions/mknod.html),
-[mknodat](http://pubs.opengroup.org/onlinepubs/9699919799/functions/mknodat.html),
-[mlock](http://pubs.opengroup.org/onlinepubs/9699919799/functions/mlock.html),
-[mlockall](http://pubs.opengroup.org/onlinepubs/9699919799/functions/mlockall.html),
-[mmap](http://pubs.opengroup.org/onlinepubs/9699919799/functions/mmap.html),
-[mprotect](http://pubs.opengroup.org/onlinepubs/9699919799/functions/mprotect.html),
-[mq_close](http://pubs.opengroup.org/onlinepubs/9699919799/functions/mq_close.html),
-[mq_getattr](http://pubs.opengroup.org/onlinepubs/9699919799/functions/mq_getattr.html),
-[mq_notify](http://pubs.opengroup.org/onlinepubs/9699919799/functions/mq_notify.html),
-[mq_open](http://pubs.opengroup.org/onlinepubs/9699919799/functions/mq_open.html),
-[mq_receive](http://pubs.opengroup.org/onlinepubs/9699919799/functions/mq_receive.html),
-[mq_send](http://pubs.opengroup.org/onlinepubs/9699919799/functions/mq_send.html),
-[mq_setattr](http://pubs.opengroup.org/onlinepubs/9699919799/functions/mq_setattr.html),
-[mq_timedreceive](http://pubs.opengroup.org/onlinepubs/9699919799/functions/mq_timedreceive.html),
-[mq_timedsend](http://pubs.opengroup.org/onlinepubs/9699919799/functions/mq_timedsend.html),
-[mq_unlink](http://pubs.opengroup.org/onlinepubs/9699919799/functions/mq_unlink.html),
-[msgctl](http://pubs.opengroup.org/onlinepubs/9699919799/functions/msgctl.html),
-[msgget](http://pubs.opengroup.org/onlinepubs/9699919799/functions/msgget.html),
-[msgrcv](http://pubs.opengroup.org/onlinepubs/9699919799/functions/msgrcv.html),
-[msgsnd](http://pubs.opengroup.org/onlinepubs/9699919799/functions/msgsnd.html),
-[msync](http://pubs.opengroup.org/onlinepubs/9699919799/functions/msync.html),
-[munlock](http://pubs.opengroup.org/onlinepubs/9699919799/functions/munlock.html),
-[munlockall](http://pubs.opengroup.org/onlinepubs/9699919799/functions/munlockall.html),
-[munmap](http://pubs.opengroup.org/onlinepubs/9699919799/functions/munmap.html),
-[nanosleep](http://pubs.opengroup.org/onlinepubs/9699919799/functions/nanosleep.html),
-[nice](http://pubs.opengroup.org/onlinepubs/9699919799/functions/nice.html),
-[open](http://pubs.opengroup.org/onlinepubs/9699919799/functions/open.html),
-[openat](http://pubs.opengroup.org/onlinepubs/9699919799/functions/openat.html),
-[pathconf](http://pubs.opengroup.org/onlinepubs/9699919799/functions/pathconf.html),
-[pause](http://pubs.opengroup.org/onlinepubs/9699919799/functions/pause.html),
-[pipe](http://pubs.opengroup.org/onlinepubs/9699919799/functions/pipe.html),
-[poll](http://pubs.opengroup.org/onlinepubs/9699919799/functions/poll.html),
-[posix_fadvise](http://pubs.opengroup.org/onlinepubs/9699919799/functions/posix_fadvise.html),
-[posix_fallocate](http://pubs.opengroup.org/onlinepubs/9699919799/functions/posix_fallocate.html),
-[posix_madvise](http://pubs.opengroup.org/onlinepubs/9699919799/functions/posix_madvise.html),
-[posix_openpt](http://pubs.opengroup.org/onlinepubs/9699919799/functions/posix_openpt.html),
-[pread](http://pubs.opengroup.org/onlinepubs/9699919799/functions/pread.html),
-[pselect](http://pubs.opengroup.org/onlinepubs/9699919799/functions/pselect.html),
-[putmsg](http://pubs.opengroup.org/onlinepubs/9699919799/functions/putmsg.html),
-[putpmsg](http://pubs.opengroup.org/onlinepubs/9699919799/functions/putpmsg.html),
-[pwrite](http://pubs.opengroup.org/onlinepubs/9699919799/functions/pwrite.html),
-[read](http://pubs.opengroup.org/onlinepubs/9699919799/functions/read.html),
-[readdir](http://pubs.opengroup.org/onlinepubs/9699919799/functions/readdir.html),
-[readlink](http://pubs.opengroup.org/onlinepubs/9699919799/functions/readlink.html),
-[readlinkat](http://pubs.opengroup.org/onlinepubs/9699919799/functions/readlinkat.html),
-[readv](http://pubs.opengroup.org/onlinepubs/9699919799/functions/readv.html),
-[recv](http://pubs.opengroup.org/onlinepubs/9699919799/functions/recv.html),
-[recvfrom](http://pubs.opengroup.org/onlinepubs/9699919799/functions/recvfrom.html),
-[recvmsg](http://pubs.opengroup.org/onlinepubs/9699919799/functions/recvmsg.html),
-[rename](http://pubs.opengroup.org/onlinepubs/9699919799/functions/rename.html),
-[renameat](http://pubs.opengroup.org/onlinepubs/9699919799/functions/renameat.html),
-[rmdir](http://pubs.opengroup.org/onlinepubs/9699919799/functions/rmdir.html),
-[sched_get_priority_max](http://pubs.opengroup.org/onlinepubs/9699919799/functions/sched_get_priority_max.html),
-[sched_get_priority_min](http://pubs.opengroup.org/onlinepubs/9699919799/functions/sched_get_priority_min.html),
-[sched_getparam](http://pubs.opengroup.org/onlinepubs/9699919799/functions/sched_getparam.html),
-[sched_getscheduler](http://pubs.opengroup.org/onlinepubs/9699919799/functions/sched_getscheduler.html),
-[sched_rr_get_interval](http://pubs.opengroup.org/onlinepubs/9699919799/functions/sched_rr_get_interval.html),
-[sched_setparam](http://pubs.opengroup.org/onlinepubs/9699919799/functions/sched_setparam.html),
-[sched_setscheduler](http://pubs.opengroup.org/onlinepubs/9699919799/functions/sched_setscheduler.html),
-[sched_yield](http://pubs.opengroup.org/onlinepubs/9699919799/functions/sched_yield.html),
-[select](http://pubs.opengroup.org/onlinepubs/9699919799/functions/select.html),
-[semctl](http://pubs.opengroup.org/onlinepubs/9699919799/functions/semctl.html),
-[semget](http://pubs.opengroup.org/onlinepubs/9699919799/functions/semget.html),
-[semop](http://pubs.opengroup.org/onlinepubs/9699919799/functions/semop.html),
-[send](http://pubs.opengroup.org/onlinepubs/9699919799/functions/send.html),
-[sendmsg](http://pubs.opengroup.org/onlinepubs/9699919799/functions/sendmsg.html),
-[sendto](http://pubs.opengroup.org/onlinepubs/9699919799/functions/sendto.html),
-[setegid](http://pubs.opengroup.org/onlinepubs/9699919799/functions/setegid.html),
-[seteuid](http://pubs.opengroup.org/onlinepubs/9699919799/functions/seteuid.html),
-[setgid](http://pubs.opengroup.org/onlinepubs/9699919799/functions/setgid.html),
-[setitimer](http://pubs.opengroup.org/onlinepubs/9699919799/functions/setitimer.html),
-[setpgid](http://pubs.opengroup.org/onlinepubs/9699919799/functions/setpgid.html),
-[setpgrp](http://pubs.opengroup.org/onlinepubs/9699919799/functions/setpgrp.html),
-[setpriority](http://pubs.opengroup.org/onlinepubs/9699919799/functions/setpriority.html),
-[setregid](http://pubs.opengroup.org/onlinepubs/9699919799/functions/setregid.html),
-[setreuid](http://pubs.opengroup.org/onlinepubs/9699919799/functions/setreuid.html),
-[setrlimit](http://pubs.opengroup.org/onlinepubs/9699919799/functions/setrlimit.html),
-[setsid](http://pubs.opengroup.org/onlinepubs/9699919799/functions/setsid.html),
-[setsockopt](http://pubs.opengroup.org/onlinepubs/9699919799/functions/setsockopt.html),
-[setuid](http://pubs.opengroup.org/onlinepubs/9699919799/functions/setuid.html),
-[shm_open](http://pubs.opengroup.org/onlinepubs/9699919799/functions/shm_open.html),
-[shm_unlink](http://pubs.opengroup.org/onlinepubs/9699919799/functions/shm_unlink.html),
-[shmat](http://pubs.opengroup.org/onlinepubs/9699919799/functions/shmat.html),
-[shmctl](http://pubs.opengroup.org/onlinepubs/9699919799/functions/shmctl.html),
-[shmdt](http://pubs.opengroup.org/onlinepubs/9699919799/functions/shmdt.html),
-[shmget](http://pubs.opengroup.org/onlinepubs/9699919799/functions/shmget.html),
-[shutdown](http://pubs.opengroup.org/onlinepubs/9699919799/functions/shutdown.html),
-[sigaction](http://pubs.opengroup.org/onlinepubs/9699919799/functions/sigaction.html),
-[sigaltstack](http://pubs.opengroup.org/onlinepubs/9699919799/functions/sigaltstack.html),
-[signal](http://pubs.opengroup.org/onlinepubs/9699919799/functions/signal.html),
-[sigpause](http://pubs.opengroup.org/onlinepubs/9699919799/functions/sigpause.html),
-[sigpending](http://pubs.opengroup.org/onlinepubs/9699919799/functions/sigpending.html),
-[sigprocmask](http://pubs.opengroup.org/onlinepubs/9699919799/functions/sigprocmask.html),
-[sigqueue](http://pubs.opengroup.org/onlinepubs/9699919799/functions/sigqueue.html),
-[sigsuspend](http://pubs.opengroup.org/onlinepubs/9699919799/functions/sigsuspend.html),
-[sigtimedwait](http://pubs.opengroup.org/onlinepubs/9699919799/functions/sigtimedwait.html),
-[sigwait](http://pubs.opengroup.org/onlinepubs/9699919799/functions/sigwait.html),
-[sigwaitinfo](http://pubs.opengroup.org/onlinepubs/9699919799/functions/sigwaitinfo.html),
-[socket](http://pubs.opengroup.org/onlinepubs/9699919799/functions/socket.html),
-[socketpair](http://pubs.opengroup.org/onlinepubs/9699919799/functions/socketpair.html),
-[stat](http://pubs.opengroup.org/onlinepubs/9699919799/functions/stat.html),
-[statvfs](http://pubs.opengroup.org/onlinepubs/9699919799/functions/statvfs.html),
-[symlink](http://pubs.opengroup.org/onlinepubs/9699919799/functions/symlink.html),
-[symlinkat](http://pubs.opengroup.org/onlinepubs/9699919799/functions/symlinkat.html),
-[sync](http://pubs.opengroup.org/onlinepubs/9699919799/functions/sync.html),
-[syslog](http://pubs.opengroup.org/onlinepubs/9699919799/functions/syslog.html),
-[time](http://pubs.opengroup.org/onlinepubs/9699919799/functions/time.html),
-[timer_create](http://pubs.opengroup.org/onlinepubs/9699919799/functions/timer_create.html),
-[timer_delete](http://pubs.opengroup.org/onlinepubs/9699919799/functions/timer_delete.html),
-[timer_getoverrun](http://pubs.opengroup.org/onlinepubs/9699919799/functions/timer_getoverrun.html),
-[timer_gettime](http://pubs.opengroup.org/onlinepubs/9699919799/functions/timer_gettime.html),
-[timer_settime](http://pubs.opengroup.org/onlinepubs/9699919799/functions/timer_settime.html),
-[times](http://pubs.opengroup.org/onlinepubs/9699919799/functions/times.html),
-[truncate](http://pubs.opengroup.org/onlinepubs/9699919799/functions/truncate.html),
-[ulimit](http://pubs.opengroup.org/onlinepubs/9699919799/functions/ulimit.html),
-[umask](http://pubs.opengroup.org/onlinepubs/9699919799/functions/umask.html),
-[uname](http://pubs.opengroup.org/onlinepubs/9699919799/functions/uname.html),
-[unlink](http://pubs.opengroup.org/onlinepubs/9699919799/functions/unlink.html),
-[unlinkat](http://pubs.opengroup.org/onlinepubs/9699919799/functions/unlinkat.html),
-[utime](http://pubs.opengroup.org/onlinepubs/9699919799/functions/utime.html),
-[utimes](http://pubs.opengroup.org/onlinepubs/9699919799/functions/utimes.html),
-[wait](http://pubs.opengroup.org/onlinepubs/9699919799/functions/wait.html),
-[waitid](http://pubs.opengroup.org/onlinepubs/9699919799/functions/waitid.html),
-[waitpid](http://pubs.opengroup.org/onlinepubs/9699919799/functions/waitpid.html),
-[write](http://pubs.opengroup.org/onlinepubs/9699919799/functions/write.html),
-[writev](http://pubs.opengroup.org/onlinepubs/9699919799/functions/writev.html).
+fork => pid
+kill(pid, sig) => void
+sigaction(sig, sigact) => sigact
+sigprocmask(how, sigset) => sigset
+sigpending(sigset) => void
+sigsuspend(sigset) => void
+alarm(seconds) => seconds-left
+pause() => void
+sleep(seconds) => seconds-left
+getgroups(ngroups) => grouplist
+getlogin() => string
+getpgrp() => pgrp
+setsid() => sid
+setpgid(pid) => pgid
+uname() => utsname
+time() => time
+times(tms) => time
+ctermid() => string
+sysconf(name) => value
+chdir(path) => void
+getcwd() => path
+open(path, flags, mode) => fd
+creat(path, flags, mode) => fd
+umask(cmask) => cmask
+link(old, new) => void
+mkdir(path, mode) => void
+mkfifo(path, mode) => void
+rmdir(path) => void
+rename(old, new) => void
+chmod(path, mode) => void
+chown(path, owner, group) => void
+utime(path) => timbuf
+pipe() => readfd, writefd
+close(fd) => void
+read(fd, buf, start, end) => bytes-read
+write(fd, buf, start, end) => bytes-written
+fcntl(fd, command, argin) => argout
+fseek(fd, offset, whence) => position
+tcgetpgrp(fd) => pgid
+tcsetpgrp(fd, pgid) => void
+const(name) => value
+posixio(new) => old
+fileno(port) => fd
+fdopen(fd, port, access) => void
+fseek(port, offset, whence) => void
+ftell(port) => offset
+localtime(seconds) => atime
 
-## Headers
+execv/execve/execvp(path, file, argv, env)
+wait/waitpid(pid, options) => stat, retpid
+wifexited/wexitstatus/wifsignaled/wtermsig/wifstopped/wstopsig
+sigemptyset/sigfillset/sigaddset/sigdelset/sigismember(sigset, signo) => various
+getpid/getppid() => pid/ppid
+getuid/geteuid/getgid/getegid() => uid/gid
+setuid/setgid(uid/gid) => void
+getenv/setenv/clearenv(name, value, new, overwrite) => void
+ttyname(fd) => string, isatty(fd) => bool
+opendir/readdir/rewinddir/closedir(dirname/dirid) => dirid/dirent
+stat/fstad(path/fd) => stat
+fdup(fd) => fd, fdup2(oldfd, newfd) => fd
+cfgetospeed/cfgetispeed/cfsetospeed/cfsetispeed(termios, speed) => speed
+tcgetattr(fd) => termios, tcsetattr(fd. optacts, termios) => void
+tcsendbreak/tcdrain/tcflush/tcflow(fd, duration/queue/action) => void
+getgrgid/getgrnam(gid/name) => group
+getpwuid/getpwnam(gid/name) => passwd
 
-Types defined in the following header files must have Scheme representations (not necessarily opaque ones):
-[assert.h](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/assert.h.html),
-[dirent.h](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/dirent.h.html),
-[errno.h](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/errno.h.html),
-[fcntl.h](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/fcntl.h.html),
-[grp.h](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/grp.h.html),
-[langinfo.h](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/langinfo.h.html),
-[limits.h](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/limits.h.html),
-[locale.h](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/locale.h.html),
-[mqueue.h](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/mqueue.h.html),
-[poll.h](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/poll.h.html),
-[pthread.h](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/pthread.h.html),
-[pwd.h](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/pwd.h.html),
-[signal.h](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/signal.h.html),
-[stdint.h](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/stdint.h.html),
-[stdio.h](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/stdio.h.html),
-[stdlib.h](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/stdlib.h.html),
-[string.h](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/string.h.html),
-[stropts.h](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/stropts.h.html),
-[sys/ipc.h](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/sys/ipc.h.html),
-[sys/mman.h](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/sys/mman.h.html),
-[sys/msg.h](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/sys/msg.h.html),
-[sys/resource.h](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/sys/resource.h.html),
-[sys/sem.h](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/sys/sem.h.html),
-[sys/stat.h](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/sys/stat.h.html),
-[sys/statvfs.h](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/sys/statvfs.h.html),
-[sys/times.h](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/sys/times.h.html),
-[sys/types.h](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/sys/types.h.html),
-[sys/uio.h](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/sys/uio.h.html),
-[sys/wait.h](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/sys/wait.h.html),
-[syslog.h](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/syslog.h.html),
-[time.h](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/time.h.html),
-[unistd.h](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/unistd.h.html).
 
+records: sigset, sigaction, utsname, tms, dirent, stat, utimbuf, flock, termios, group, passwd
+```
