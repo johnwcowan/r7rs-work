@@ -17,7 +17,7 @@ posix-errno: set_errno (n)
 posix-fcntl: fcntl (fd, cmd\[, arg=0])
 posix-fcntl: open (path, oflags\[, mode=511])
 posix-fcntl: posix_fadvise (fd, offset, len, advice)
-posix-fcntl: flock
+posix-fcntl: flock [???]
 posix-fnmatch: fnmatch (pat, name\[, flags=0])
 posix-glob: glob (\[pat="\*"], flags)
 posix-grp: endgrent ()
@@ -58,10 +58,8 @@ posix-sys-msg: msgctl (id, cmd)
 posix-sys-msg: msgget (key\[, flags=0])
 posix-sys-msg: msgrcv (id, size, type\[, flags=0])
 posix-sys-msg: msgsnd (id, type, message\[, flags=0])
-posix-sys-msg: posix.sys.msg
 posix-sys-resource: getrlimit (resource)
 posix-sys-resource: setrlimit (resource\[, softlimit[, hardlimit]])
-posix-sys-resource: posix.sys.resource
 posix-sys-socket: accept (fd)
 posix-sys-socket: bind (fd, addr)
 posix-sys-socket: connect (fd, addr)
@@ -79,7 +77,6 @@ posix-sys-socket: shutdown (fd, how)
 posix-sys-socket: socket (domain, type, options)
 posix-sys-socket: socketpair (domain, socktype, options)
 posix-sys-socket: sockaddr
-posix-sys-socket: posix.sys.socket
 posix-sys-stat: S_ISBLK (mode)
 posix-sys-stat: S_ISCHR (mode)
 posix-sys-stat: S_ISDIR (mode)
@@ -94,15 +91,12 @@ posix-sys-stat: mkdir (path\[, mode=511])
 posix-sys-stat: mkfifo (path\[, mode=511])
 posix-sys-stat: stat (path)
 posix-sys-stat: umask (\[mode])
-posix-sys-stat: posix.sys.stat
 posix-sys-statvfs: statvfs (path)
-posix-sys-statvfs: posix.sys.statvfs
 posix-sys-time: gettimeofday ()
 posix-sys-times: times ()
 posix-sys-utsname: uname ()
 posix-sys-utsname: utsname
 posix-sys-wait: wait (\[pid=-1\[, options]])
-posix-sys-wait: posix.sys.wait
 posix-syslog: LOG_MASK (priority)
 posix-syslog: closelog ()
 posix-syslog: openlog (ident\[, option\[, facility=`LOG_USER`]])
