@@ -1,126 +1,192 @@
 ## Interfaces
 
 WG2 voted to provide a Posix package, but rejected a "full Posix" package that would provide all 1191 interfaces
-from POSIX.1-2008.  What is proposed here is
-based on the Fortran bindings for POSIX.1:1990.
+from POSIX.1-2008.  What is proposed here is based directly on the Posix bindings for Lua, which are modern
+and thorough without being insanely comprehensive.
+
+Headers and functions:
+
 ```
 
-fork => pid
-kill(pid, sig) => void
-sigaction(sig, sigact) => sigact
-sigprocmask(how, sigset) => sigset
-sigpending(sigset) => void
-sigsuspend(sigset) => void
-alarm(seconds) => seconds-left
-pause() => void
-sleep(seconds) => seconds-left
-getgroups(ngroups) => grouplist
-getlogin() => string
-getpgrp() => pgrp
-setsid() => sid
-setpgid(pid) => pgid
-uname() => utsname
-time() => time
-times(tms) => time
-ctermid() => string
-sysconf(name) => value
-chdir(path) => void
-getcwd() => path
-open(path, flags, mode) => fd
-creat(path, flags, mode) => fd
-umask(cmask) => cmask
-link(old, new) => void
-mkdir(path, mode) => void
-mkfifo(path, mode) => void
-rmdir(path) => void
-rename(old, new) => void
-chmod(path, mode) => void
-chown(path, owner, group) => void
-utime(path) => timbuf
-pipe() => readfd, writefd
-close(fd) => void
-read(fd, buf, start, end) => bytes-read
-write(fd, buf, start, end) => bytes-written
-fcntl(fd, command, argin) => argout
-fseek(fd, offset, whence) => position
-tcgetpgrp(fd) => pgid
-tcsetpgrp(fd, pgid) => void
-const(name) => value
-posixio(new) => old
-fileno(port) => fd
-fdopen(fd, port, access) => void
-fseek(port, offset, whence) => void
-ftell(port) => offset
-localtime(seconds) => atime
+posix-ctype: isgraph (character)
+posix-ctype: isprint (character)
+posix-dirent: dir (\[path="."])
+posix-dirent: files (\[path="."])
+posix-errno: errno (\[n=current errno])
+posix-errno: set_errno (n)
+posix-fcntl: fcntl (fd, cmd\[, arg=0])
+posix-fcntl: open (path, oflags\[, mode=511])
+posix-fcntl: posix_fadvise (fd, offset, len, advice)
+posix-fcntl: flock
+posix-fnmatch: fnmatch (pat, name\[, flags=0])
+posix-glob: glob (\[pat="\*"], flags)
+posix-grp: endgrent ()
+posix-grp: getgrent ()
+posix-grp: getgrgid (gid)
+posix-grp: getgrnam (name)
+posix-grp: setgrent ()
+posix-libgen: basename (path)
+posix-libgen: dirname (path)
+posix-poll: poll (fds[, timeout=-1])
+posix-poll: rpoll (fd[, timeout=-1])
+posix-pwd: endpwent ()
+posix-pwd: getpwent ()
+posix-pwd: getpwnam (name)
+posix-pwd: getpwuid (uid)
+posix-pwd: setpwent ()
+posix-sched: sched_getscheduler ([pid=0])
+posix-sched: sched_setscheduler ([pid=0[, policy=`SCHED_OTHER`[, priority=0]]])
+posix-signal: kill (pid, opt)
+posix-signal: killpg (pgrp[, sig=`SIGTERM`])
+posix-signal: raise (sig)
+posix-signal: signal (signum[, handler=SIG_DFL[, flags]])
+posix-stdio: ctermid ()
+posix-stdio: fdopen (fd, mode)
+posix-stdio: fileno (file)
+posix-stdio: rename (oldpath, newpath)
+posix-stdlib: abort ()
+posix-stdlib: getenv ([name])
+posix-stdlib: grantpt (fd)
+posix-stdlib: mkdtemp (templ)
+posix-stdlib: mkstemp (templ)
+posix-stdlib: openpt (oflags)
+posix-stdlib: ptsname (fd)
+posix-stdlib: realpath (path)
+posix-stdlib: setenv (name\[, value[, overwrite]])
+posix-stdlib: unlockpt (fd)
+posix-sys-msg: msgctl (id, cmd)
+posix-sys-msg: msgget (key\[, flags=0])
+posix-sys-msg: msgrcv (id, size, type\[, flags=0])
+posix-sys-msg: msgsnd (id, type, message\[, flags=0])
+posix-sys-msg: posix.sys.msg
+posix-sys-resource: getrlimit (resource)
+posix-sys-resource: setrlimit (resource\[, softlimit[, hardlimit]])
+posix-sys-resource: posix.sys.resource
+posix-sys-socket: accept (fd)
+posix-sys-socket: bind (fd, addr)
+posix-sys-socket: connect (fd, addr)
+posix-sys-socket: getaddrinfo (host, service\[, hints])
+posix-sys-socket: getpeername (sockfd)
+posix-sys-socket: getsockname (sockfd)
+posix-sys-socket: getsockopt (fd, level, name)
+posix-sys-socket: listen (fd, backlog)
+posix-sys-socket: recv (fd, count)
+posix-sys-socket: recvfrom (fd, count)
+posix-sys-socket: send (fd, buffer)
+posix-sys-socket: sendto (fd, buffer, destination)
+posix-sys-socket: setsockopt (fd, level, name, value1\[, value2])
+posix-sys-socket: shutdown (fd, how)
+posix-sys-socket: socket (domain, type, options)
+posix-sys-socket: socketpair (domain, socktype, options)
+posix-sys-socket: sockaddr
+posix-sys-socket: posix.sys.socket
+posix-sys-stat: S_ISBLK (mode)
+posix-sys-stat: S_ISCHR (mode)
+posix-sys-stat: S_ISDIR (mode)
+posix-sys-stat: S_ISFIFO (mode)
+posix-sys-stat: S_ISLNK (mode)
+posix-sys-stat: S_ISREG (mode)
+posix-sys-stat: S_ISSOCK (mode)
+posix-sys-stat: chmod (path, mode)
+posix-sys-stat: fstat (fd)
+posix-sys-stat: lstat (path)
+posix-sys-stat: mkdir (path\[, mode=511])
+posix-sys-stat: mkfifo (path\[, mode=511])
+posix-sys-stat: stat (path)
+posix-sys-stat: umask (\[mode])
+posix-sys-stat: posix.sys.stat
+posix-sys-statvfs: statvfs (path)
+posix-sys-statvfs: posix.sys.statvfs
+posix-sys-time: gettimeofday ()
+posix-sys-times: times ()
+posix-sys-utsname: uname ()
+posix-sys-utsname: utsname
+posix-sys-wait: wait (\[pid=-1\[, options]])
+posix-sys-wait: posix.sys.wait
+posix-syslog: LOG_MASK (priority)
+posix-syslog: closelog ()
+posix-syslog: openlog (ident\[, option\[, facility=`LOG_USER`]])
+posix-syslog: setlogmask (mask)
+posix-syslog: syslog (priority, message)
+posix-termio: tcdrain (fd)
+posix-termio: tcflow (fd, action)
+posix-termio: tcflush (fd, action)
+posix-termio: tcgetattr (fd)
+posix-termio: tcsendbreak (fd, duration)
+posix-termio: tcsetattr (fd, actions, a)
+posix-termio: ccs
+posix-termio: termios
+posix-time: clock_getres (clk)
+posix-time: clock_gettime (clk)
+posix-time: gmtime (t)
+posix-time: localtime (t)
+posix-time: mktime (broken)
+posix-time: nanosleep (requested)
+posix-time: strftime (format, tm)
+posix-time: strptime (s, format)
+posix-time: time ()
+posix-unistd: _exit (status)
+posix-unistd: access (path[, mode="f"])
+posix-unistd: alarm (seconds)
+posix-unistd: chdir (path)
+posix-unistd: chown (path, uid, gid)
+posix-unistd: close (fd)
+posix-unistd: crypt (trypass, salt)
+posix-unistd: dup (fd)
+posix-unistd: dup2 (fd, newfd)
+posix-unistd: exec (path, argt)
+posix-unistd: execp (path, argt)
+posix-unistd: fdatasync (fd)
+posix-unistd: fork ()
+posix-unistd: fsync (fd)
+posix-unistd: ftruncate (fd, length)
+posix-unistd: getcwd ()
+posix-unistd: getegid ()
+posix-unistd: geteuid ()
+posix-unistd: getgid ()
+posix-unistd: getgroups ()
+posix-unistd: gethostid ()
+posix-unistd: getopt (arg, opts[, opterr=0[, optind=1]])
+posix-unistd: getpgrp ()
+posix-unistd: getpid ()
+posix-unistd: getppid ()
+posix-unistd: getuid ()
+posix-unistd: isatty (fd)
+posix-unistd: lchown (path, uid, gid)
+posix-unistd: link (target, link[, soft=false])
+posix-unistd: linkat (targetdir, target, linkdir, link, flags)
+posix-unistd: lseek (fd, offset, whence)
+posix-unistd: nice (inc)
+posix-unistd: pathconf (path, key)
+posix-unistd: pipe ()
+posix-unistd: read (fd, count)
+posix-unistd: readlink (path)
+posix-unistd: rmdir (path)
+posix-unistd: setpid (what, id[, gid])
+posix-unistd: sleep (seconds)
+posix-unistd: sync ()
+posix-unistd: sysconf (key)
+posix-unistd: tcgetpgrp (fd)
+posix-unistd: tcsetpgrp (fd, pgid)
+posix-unistd: truncate (path, length)
+posix-unistd: ttyname ([fd=0])
+posix-unistd: unlink (path)
+posix-unistd: write (fd, buf)
+posix-utime: utime (path[, mtime=now[, atime=now]])
+```
 
-execv/execve/execvp(path, file, argv, env)
-wait/waitpid(pid, options) => stat, retpid
-wifexited/wexitstatus/wifsignaled/wtermsig/wifstopped/wstopsig
-sigemptyset/sigfillset/sigaddset/sigdelset/sigismember(sigset, signo) => various
-getpid/getppid() => pid/ppid
-getuid/geteuid/getgid/getegid() => uid/gid
-setuid/setgid(uid/gid) => void
-getenv/setenv/clearenv(name, value, new, overwrite) => void
-ttyname(fd) => string, isatty(fd) => bool
-opendir/readdir/rewinddir/closedir(dirname/dirid) => dirid/dirent
-stat/fstad(path/fd) => stat
-fdup(fd) => fd, fdup2(oldfd, newfd) => fd
-cfgetospeed/cfgetispeed/cfsetospeed/cfsetispeed(termios, speed) => speed
-tcgetattr(fd) => termios, tcsetattr(fd. optacts, termios) => void
-tcsendbreak/tcdrain/tcflush/tcflow(fd, duration/queue/action) => void
-getgrgid/getgrnam(gid/name) => group
-getpwuid/getpwnam(gid/name) => passwd
+Headers and record types:
+```
 
-
-records: sigset, sigaction, utsname, tms, dirent, stat, utimbuf, flock, termios, group, passwd
-
-3. Process Primitives .............................................................................................................................................12
-3.1 Process Creation and Execution............................................................................................................... 12
-3.2 Process Termination................................................................................................................................. 13
-3.3 Signals...................................................................................................................................................... 15
-3.4 Timer Operations ..................................................................................................................................... 21
-4. Process Environment.........................................................................................................................................23
-4.1 Process Identification............................................................................................................................... 23
-4.2 User Identification.................................................................................................................................... 24
-4.3 Process Groups......................................................................................................................................... 27
-4.4 System Identification ............................................................................................................................... 29
-4.5 Time ......................................................................................................................................................... 30
-4.6 Environment Variables ............................................................................................................................ 32
-4.7 Terminal Identification ............................................................................................................................ 33
-4.8 Configurable System Variables ............................................................................................................... 35
-5. Files and Directories .........................................................................................................................................36
-5.1 Directories................................................................................................................................................ 36
-5.2 Get Working Directory ............................................................................................................................ 38
-5.3 General File Creation ............................................................................................................................... 39
-5.4 Special File Creation................................................................................................................................ 42
-5.5 File Removal ............................................................................................................................................ 44
-5.6 File Characteristics................................................................................................................................... 46
-5.7 Configurable Pathname Variables............................................................................................................ 51
-6. Input and Output Primitives..............................................................................................................................52
-6.1 Pipes ......................................................................................................................................................... 52
-6.2 File Descriptor Manipulation ................................................................................................................... 53
-6.3 File Descriptor Deassignment.................................................................................................................. 54
-6.4 Input and Output ...................................................................................................................................... 54
-6.5 Control Operations on Files ..................................................................................................................... 56
-7. Device- and Class-Specific Procedures ............................................................................................................58
-7.1 General Terminal Interface ...................................................................................................................... 58
-7.2 General Terminal Interface Control Subroutines..................................................................................... 61
-8. FORTRAN 77 Language Library .....................................................................................................................64
-8.1 FORTRAN 77 Intrinsics .......................................................................................................................... 64
-8.2 System Symbolic Constant Access .......................................................................................................... 64
-8.3 Structure Creation and Manipulation....................................................................................................... 65
-8.4 Subroutine-Handle Manipulation............................................................................................................. 69
-8.5 External Unit and File Description Interaction ........................................................................................ 70
-8.6 Stream I/O ................................................................................................................................................ 78
-8.7 Bit Field Manipulation ............................................................................................................................. 81
-8.8 System Date and Time ............................................................................................................................. 83
-8.9 Command-Line Arguments...................................................................................................................... 84
-8.10 Character String Procedures..................................................................................................................... 85
-8.11 Extended Range Integer Manipulation .................................................................................................... 86
-8.12 Process Termination................................................................................................................................. 87
-9. System Databases..............................................................................................................................................87
-9.1 System Databases..................................................................................................................................... 87
-9.2 Database Access....................................................................................................................................... 87
-10. Data Interchange Format...................................................................................................................................91
-10.1 Archive/interchange File Format ............................................................................................................. 91
+posix-grp: PosixGroup
+posix-pwd: PosixPasswd
+posix-sys-msg: PosixMsqid
+posix-sys-resource: PosixRlimit
+posix-sys-socket: PosixAddrInfo
+posix-sys-stat: PosixStat
+posix-sys-statvfs: PosixStatvfs
+posix-sys-time: PosixTimeval
+posix-sys-times: PosixTms
+posix-time: PosixTimespec
+posix-time: PosixTm
 ```
