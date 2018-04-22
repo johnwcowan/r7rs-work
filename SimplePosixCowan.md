@@ -1,8 +1,9 @@
 ## Interfaces
 
-WG2 voted to provide a Posix package, but rejected a "full Posix" package that would provide all 1191 interfaces
-from POSIX.1-2008.  What is proposed here is based directly on the Posix bindings for Lua, which are modern
-and thorough without being insanely comprehensive.
+WG2 voted to provide a Posix package, but rejected a "full Posix" package that would provide all 81
+headers, 1191 interfaces, and 51 data types from POSIX.1-2008.  What is proposed here is based
+directly on the Posix bindings for Lua, which are modern and thorough
+(28 headers, 159 interfaces, and 11 data types) without being insanely comprehensive.
 
 Headers and functions:
 
