@@ -3,7 +3,7 @@ The following implementations support all or part of R7RS-small:
 | **Implementation** | **Notes** |
 |---|---|
 |[Chibi](https://github.com/ashinn/chibi-scheme)||
-|[Chicken](https://www.call-cc.org/)|(partial)|
+|[Chicken](https://www.call-cc.org/)||
 |[Cyclone](http://justinethier.github.io/cyclone/)||
 |[Foment](https://github.com/leftmike/foment)||
 |[Gauche](http://practical-scheme.net/gauche/)||
