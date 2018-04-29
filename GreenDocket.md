@@ -40,4 +40,7 @@ Finalizers: [FinalizersCowan](FinalizersCowan.md)
 
 Delimited continuations:
 
+Extended exact numbers:  [ExtendedRationalsCowan](ExtendedRationalsCowan.md)
 
+Adjustable strings: [SRFI 118](http://srfi.schemers.org/srfi-118/srfi-118.html) (basic)
+or [SRFI 140](http://srfi.schemers.org/srfi-140/srfi-140.html) (mutable/immutable)
