@@ -16,3 +16,10 @@ Integer sets:  [IntegerSetsCowan](IntegerSetsCowan.md)
 
 Descriptive statistics:  [TallyCowan](TallyCowan.md)
 
+**Enumerations**
+
+Enumerations: [EnumsCowan](EnumsCowan.md)
+
+Enumeration sets and maps: [EnumContainersCowan](EnumContainersCowan.md)
+
+Enumeration maps: EnumContainersCowan
