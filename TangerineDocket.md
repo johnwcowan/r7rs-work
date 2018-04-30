@@ -38,14 +38,6 @@ Numeric vectors:  [R6RS](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-3.
 
 Multidimensional arrays: [SRFI 122](http://srfi.schemers.org/srfi-122/srfi-122.html) .
 
-**Enumerations**
-
-Enumerations:  [EnumsCowan](EnumsCowan.md)
-
-Enumeration sets:  [EnumContainersCowan](EnumContainersCowan.md)
-
-Enumeration maps:  [EnumContainersCowan](EnumContainersCowan.md)
-
 **Formatting**
 
 `number->string` and `string->number` with non-ASCII decimal digits: [NumberStringUnicode](NumberStringUnicode.md)
