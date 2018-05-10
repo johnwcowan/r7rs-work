@@ -108,3 +108,7 @@ Note that evaluating `(means '(3 (1 4)))` returns three values: 8/3, 2.289428485
 24\. The value of the example `(real? 2.5+0.0i)` in Section 6.2.6 is shown as `#f`, as in R6RS.  This contradicts the prose explanation.  No resolution of the conflict has been reached as yet.
 
 25\. In the definition of `fold-char`, the sentence "If the argument is an uppercase letter, the result will be either a lowercase letter or the same as the argument if the lowercase letter does not exist or is not supported by the implementation" is no longer appropriate as of Unicode 8.0, when folding began to convert Cherokee lower-case letters to upper case.  Replace it with "If the result of folding is not supported by the implementation, the argument is returned".
+
+26\. In the definition of \<feature requirement> in Section 7.1.7, for \<library name>
+read `(library `\<library-name>`)`.
+
