@@ -34,7 +34,7 @@ Flonums:  [SRFI 144](http://srfi.schemers.org/srfi-144/srfi-1443.html),
 Numeric vectors:  [R6RS](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-3.html#node_chap_2,),
 [SRFI 4](http://srfi.schemers.org/srfi-4/srfi-4.html),
 [SRFI 74](http://srfi.schemers.org/srfi-74/srfi-74.html), 
-[NumericVectorsCowan](NumericVectorsCowan.md).
+[SRFI 160](http://srfi.schemers.org/srfi-160/srfi-160.html).
 
 Multidimensional arrays: [SRFI 122](http://srfi.schemers.org/srfi-122/srfi-122.html) .
 
