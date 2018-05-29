@@ -2,6 +2,7 @@ This is a list of voting dockets for WG2 work items (packages):
 
 [StandardDocket](StandardDocket.md)::
 > Items voted up by the WG but not yet moved to a specific docket.
+
 [RedDocket](RedDocket.md)::
 > Proposals for the Red Edition (data structures) of R7RS-large.
 
