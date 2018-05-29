@@ -1,6 +1,9 @@
 ## WG2 Rejected Docket
 
-This docket contains work items that were rejected by a vote.  It is provided to make it easy to see if a proposal has already been shot down.  However, some of these items may return, or have already returned.  See [WG2Dockets](WG2Dockets.md) for other dockets.
+This docket contains work items that were rejected by a vote. 
+It is provided to make it easy to see if a proposal has already been shot down.
+However, some of these items may return, or have already returned.
+See [WG2Dockets](WG2Dockets.md) for other dockets.
 
 9p protocol
 
@@ -50,7 +53,7 @@ FastCGI
 
 Fibonacci heap
 
-Format, CL-style
+Format, CL-style (done anyway)
 
 FTP protocol
 
@@ -58,9 +61,9 @@ Generalized equality and comparison functions (has returned as comparators)
 
 Generic collection functions (sequences, dictionaries, sets, bags)
 
-Generic sequence functions
+Generic sequence functions (done anyway)
 
-Globbing
+Globbing (trivial given regular expressions)
 
 GNU Scientific Library interface
 
@@ -104,7 +107,7 @@ Levenshtein distance
 
 Lexical syntax for mantissa widths
 
-List comprehensions (may return)
+List comprehensions (have returned as loops)
 
 Mailbox format parser
 
@@ -136,7 +139,7 @@ POP3 protocol
 
 Postscript generation
 
-Priority queues
+Priority queues (part of ordered sets)
 
 Probability distributions
 
@@ -188,7 +191,7 @@ SXML serialization  (will return in simpler form)
 
 SXML templating  (will return in simpler form)
 
-SXPath  (may return in simpler form)
+SXPath  (will return in simpler form)
 
 Symbol property lists (may return)
 
