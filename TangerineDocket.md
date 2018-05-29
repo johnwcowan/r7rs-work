@@ -44,5 +44,7 @@ Multidimensional arrays: [SRFI 122](http://srfi.schemers.org/srfi-122/srfi-122.h
 
 `number->string` and `string->number` with non-ASCII decimal digits: [NumberStringUnicode](NumberStringUnicode.md)
 
+`number->string` variant with control for significant digits: [Vincent Manis proposal](http://lists.scheme-reports.org/pipermail/scheme-reports/2011-May/000709.html), R6RS
+
 Formatting: [SRFI 159](http://srfi.schemers.org/srfi-159/srfi-159.html) (combinators),
 [SRFI 48](http://srfi.schemers.org/srfi-48/srfi-48.html) (string templates).
