@@ -1,15 +1,28 @@
-This is a docket for lexical-syntax proposals.   For other dockets, see [WG2Dockets](WG2Dockets.md).
+This is a docket for lexical-syntax proposals.
+SRFIs 30, 38, 62 are incorporated into R7RS.
+For other dockets, see [WG2Dockets](WG2Dockets.md).
 
-`#,` external forms:  [SRFI 10](http://srfi.schemers.org/srfi-10/srfi-10.html)
+This is a list of the SRFIs in final state that extend the R7RS lexical syntax.
 
-Keywords: [SRFI 88](http://srfi.schemers.org/srfi-88/srfi-88.html)
+SRFI 4 provides lexical syntax for homogeneous numerical vectors of the form `#u8 list`, `#s8 list`, `#f32 list`, etc..  PLT, Gauche, Gambit, Chicken, Bigloo, Guile, Kawa, Scheme48, STklos, RScheme provide this SRFI.  A close variant of this syntax, `#vu8` for unsigned byte vectors is provided in R6RS, which means that IronScheme, Ikarus, Larceny/R6RS, Ypsilon, and Mosh also support it.
 
-XML syntax: [SRFI 107](http://srfi.schemers.org/srfi-107/srfi-107.html)
+SRFI 10 provides `#,(tag datum ...)`, which causes a procedure bound to `keyword` to be applied to `args` at read time.  This is similar to, but not the same as, CL `#,` syntax.  Gauche, Chicken, Guile, SISC, STklos, RScheme support this SRFI.
 
-Quasi-literals: [SRFI 108](http://srfi.schemers.org/srfi-108/srfi-108.html)
+SRFI 49 provides indentation-sensitive syntax.  There is no known support for this anywhere except in the SRFI itself, which is written in Guile.
 
-String interpolation: [SRFI 109](http://srfi.schemers.org/srfi-109/srfi-109.html)
+SRFI 58 provides CL-compatible `#nA datum` for multi-dimensional general arrays.  This SRFI is supported only in SCM, though Chicken provides a non-SRFI egg that supports the same syntax.
 
-Indentation syntax: [SRFI 105](http://srfi.schemers.org/srfi-105/srfi-105.html) (curly-infix-expressions) or [SRFI 110](http://srfi.schemers.org/srfi-110/srfi-110.html) (sweet-expressions) or [SRFI 119](http://srfi.schemers.org/srfi-119/srfi-119.html) (wisp)
+SRFI 88 provides self-evaluating keywords, similar to those in CL but with trailing colons.  This is DSSSL-compatible.  Chicken, Guile, Kawa, STklos, S7 support this SRFI.
 
-See also [SrfiLexicalSyntax](SrfiLexicalSyntax.md)
+SRFI 105 provides curly infix expressions.
+
+SRFI 107 provides XML syntax literals.
+
+SRFI 108 provides named quasi-literals (analogous to quasiquotations)
+
+SRFI 109 provides extended string literals.
+
+SRFI 110 provides sweet-expressions.
+
+SRFI 119 provides WISP syntax.
+
