@@ -38,4 +38,8 @@ Conditions: [ConditionsCowan](ConditionsCowan.md)
 
 Restarts:  [RestartsRiastradh](http://mumble.net/~campbell/proposals/restart.text)
 
-Arity inspection: [SRFI 102](http://srfi.schemers.org/srfi-102/srfi-102.html) or [ArityInspectionDybvig](https://srfi-email.schemers.org/srfi-102/msg/2771967)
+Arity inspection: [SRFI 102](http://srfi.schemers.org/srfi-102/srfi-102.html),
+[ArityInspectionDybvig](https://srfi-email.schemers.org/srfi-102/msg/2771967)
+
+Observable objects: [Java](http://docs.oracle.com/javase/6/docs/api/java/util/Observable.html#clearChanged())
+
