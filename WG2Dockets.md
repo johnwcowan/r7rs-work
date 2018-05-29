@@ -1,20 +1,7 @@
 This is a list of voting dockets for WG2 work items (packages):
 
-[InputDocket](InputDocket.md)::
-> Items proposed but not yet moved to a specific docket.
-
 [StandardDocket](StandardDocket.md)::
 > Items voted up by the WG but not yet moved to a specific docket.
-
-[ReassignedDocket](ReassignedDocket.md)::
-> Items that WG2 is not working on because it is asking the Steering Committee to assign them to future WGs.
-
-[RejectedDocket](RejectedDocket.md)::
-> Items that were rejected by a WG2 vote.
-
-[MandatoryDocket](MandatoryDocket.md)::
-> Things to consider making mandatory in R7RS-large that are optional in R7RS-small.
-
 [RedDocket](RedDocket.md)::
 > Proposals for the Red Edition (data structures) of R7RS-large.
 
@@ -35,4 +22,14 @@ This is a list of voting dockets for WG2 work items (packages):
 
 [LexicalDocket](LexicalDocket.md)::
 > Proposals for lexical syntax extensions to R7RS-large.
+
+
+[ReassignedDocket](ReassignedDocket.md)::
+> Items that WG2 is not working on because it is asking the Steering Committee to assign them to future WGs.
+
+[RejectedDocket](RejectedDocket.md)::
+> Items that were rejected by a WG2 vote.
+
+[MandatoryDocket](MandatoryDocket.md)::
+> Things to consider making mandatory in R7RS-large that are optional in R7RS-small.
 
