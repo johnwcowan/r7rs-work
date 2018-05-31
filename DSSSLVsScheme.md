@@ -1,4 +1,4 @@
-[DSSSL](http://en.wikipedia.org/wiki/Document_Style_Semantics_and_Specification_Language), the Document Style Semantics and Specification Language, is a language for specifying stylesheets for SGML documents, and is semantically an ancestor of XSLT.  It includes as part of itself something called the [expression language](http://home.ccil.org/~cowan/dsssl/), a large subset (with extensions) of R4RS Scheme.  This page tells you in a coarse way (see the previous link for details) what the differences are between the two.
+[DSSSL](http://en.wikipedia.org/wiki/Document_Style_Semantics_and_Specification_Language), the Document Style Semantics and Specification Language, is a language for specifying stylesheets for SGML documents, and is semantically an ancestor of XSLT.  It includes as part of itself something called the [expression language](http://vrici.lojban.org/~cowan/dsssl/), a large subset (with extensions) of R4RS Scheme.  This page tells you in a coarse way (see the previous link for details) what the differences are between the two.
 
 Here's the list provided at the top of Clause 8:
 

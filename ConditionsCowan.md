@@ -90,58 +90,58 @@ Returns `#t` if *obj* is a condition belonging to type `implementation-restricti
 
 The following condition types are standardized.  Conditions of each type may be created by the implementation in the specified situations as well as any analogous situations.  The only constraint is that the implementation must not raise a condition of a specified type unless that type of external situation is in fact present.  The list is intended to be comprehensive but not complete: it draws on R6RS, Java, and other sources.
 
-|`simple`|error created by `error`|
+|`already-exists`|file already exists|
+|`arithmetic`|arithmetic error|
+|`arity`|too many or too few arguments|
 |`assert`|error created by `assert`|
+|`bignum`|exact number too large to represent|
+|`circular-list`|circular lists not supported|
+|`closed`|I/O operation on closed port|
+|`concurrency`|invalid concurrent modification|
+|`continuation`|escape procedure invoked when not supported|
+|`conversion`|attempted impossible conversion|
+|`deadlock`|scheduler deadlock|
+|`divide`|division by exact zero|
+|`domain`|argument has wrong type or value|
+|`encoding`|encoding or decoding error|
+|`eof`|EOF inside a lexical construct|
 |`file`|file-related error|
 |`filename`|mangled filename|
-|`protection`|file protection error|
-|`input`|input error|
-|`output`|output error|
-|`network`|socket or network error|
-|`closed`|I/O operation on closed port|
-|`already-exists`|file already exists|
-|`not-found`|file not found|
-|`read`|textual error during reading|
-|`lexical`|lexical syntax error|
-|`eof`|EOF inside a lexical construct|
-|`syntax`|Scheme syntax error|
-|`domain`|argument has wrong type or value|
-|`type`|wrong type|
-|`value`|wrong value|
-|`state`|invalid state event|
-|`arithmetic`|arithmetic error|
-|`divide`|division by exact zero|
 |`fixnum`|sufficiently small exact integer expected|
-|`conversion`|attempted impossible conversion|
-|`improper-list`|improper lists not supported|
-|`circular-list`|circular lists not supported|
-|`arity`|too many or too few arguments|
 |`immutability`|modifying immutable data|
-|`undefined`|getting the value of a variable that has not been defined|
-|`non-continuable`|continuing from an exception raised by `raise`|
-|`match`|unsatisfied pattern match|
-|`uncaught`|uncaught exception|
-|`nonexistent`|reference to something that does not exist|
-|`range`|violation of start-end conditions|
-|`scheduler`|task scheduler error|
-|`deadlock`|scheduler deadlock|
-|`timeout`|operation timed out|
-|`termination`|thread termination|
-|`concurrency`|invalid concurrent modification|
-|`invalid-position`|invalid file position|
-|`encoding`|encoding or decoding error|
-|`os`|operating system reported error|
 |`implementation-restriction`|implementation restriction|
+|`implementation-restriction`|the implementation has insufficient resources though the program is correct|
+|`improper-list`|improper lists not supported|
+|`input`|input error|
+|`invalid-position`|invalid file position|
+|`lexical`|lexical syntax error|
+|`low-level-error`|problem with the implementation|
+|`match`|unsatisfied pattern match|
 |`memory`|out of memory|
-|`unsupported`|unsupported operation|
+|`network`|socket or network error|
 |`no-infinities`|implementation does not support infinities|
 |`no-nans`|implementation does not support NaNs|
-|`continuation`|escape procedure invoked when not supported|
-|`bignum`|exact number too large to represent|
-|`version-skew`|mismatched versions of code|
+|`non-continuable`|continuing from an exception raised by `raise`|
+|`nonexistent`|reference to something that does not exist|
+|`not-found`|file not found|
+|`os`|operating system reported error|
+|`output`|output error|
+|`protection`|file protection error|
+|`range`|violation of start-end conditions|
+|`read`|textual error during reading|
+|`scheduler`|task scheduler error|
 |`security`|security violation|
-|`low-level-error`|problem with the implementation|
-|`implementation-restriction`|the implementation has insufficient resources though the program is correct|
+|`simple`|error created by `error`|
+|`state`|invalid state event|
+|`syntax`|Scheme syntax error|
+|`termination`|thread termination|
+|`timeout`|operation timed out|
+|`type`|wrong type|
+|`uncaught`|uncaught exception|
+|`undefined`|getting the value of a variable that has not been defined|
+|`unsupported`|unsupported operation|
+|`value`|wrong value|
+|`version-skew`|mismatched versions of code|
 
 ## Standard property names
 

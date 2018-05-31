@@ -1,0 +1,221 @@
+<p>This library allows the creation and use of <em>JavaScript-style objects
+(JSOs)</em>, which are chained mappings that map keys (which are symbols)
+to arbitrary values.  JSOs are represented using a variant of alists,
+but they are not compatible with alist procedures.</p>
+<p>When you create a JSO, you can specify a <em>prototype JSO</em>. The recursive
+sequence of a JSO's prototype, the prototype of its prototype, and so on,
+is called the <em>prototype chain</em>. If a JSO doesn't contain a particular
+key, the prototype chain will be searched for it. Modifications,
+however, are only applied to the JSO proper, never to anything along
+the prototype chain. A JSO without a prototype chain is called a <em>free JSO</em>.</p>
+<p>An attempt to look up an unknown key returns (by default) a unique
+value known as <em>the undefined value</em>, which can be tested with
+<code>jso-undef?</code>.  Note that this value is not itself a JSO.
+This value is not to be confused with the general Scheme concept
+of returning an undefined value from a procedure, which may be any value
+and need not be consistent between two invocations of the same procedure.</p>
+<p>A JSO is represented as a Scheme pair whose car is the symbol <code>@</code> and
+whose cdr is the concatenation of zero or more two-element lists with
+another JSO or the empty list.  The first element of each two-element list
+is a symbol known as the <em>key</em> and the second element is an arbitrary
+Scheme object known as the <em>value</em>.  Keys are tested for equality with
+<code>eqv?</code>.  It is no accident that the attribute list of an SXML element
+has the same representation as a JSO.</p>
+<h2>Constructors</h2>
+<p><code>jso-null</code></p>
+<p>A variable whose value is <em>the null JSO</em>, a unique free JSO with no 
+keys or values.  It is an error to mutate the null JSO in any way.</p>
+<p><code>(make-jso</code> <em>prototype obj</em> ...<code>)</code></p>
+<p>Returns a newly allocated JSO with the specified <em>prototype</em>.  If 
+<em>prototype</em> is the undefined object, the JSO is free.  Additional 
+arguments are alternating keys and values of the JSO.</p>
+<p><code>(alist-&gt;jso</code> <em>alist prototype</em><code>)</code></p>
+<p>Returns a newly allocated JSO with the specified <em>prototype</em> (or a free 
+JSO if <em>prototype</em> is the undefined value).  The key-value pairs of 
+<em>alist</em> become the corresponding keys and values of the JSO.  It is an error 
+if the alist has duplicate keys.</p>
+<p><code>(jso-unfold</code> <em>stop? mapper successor seed</em><code>)</code></p>
+<p>Create a new JSO.  If the result of applying the predicate <em>stop?</em> to
+<em>seed</em> is true, return the JSO.  Otherwise, apply the procedure <em>mapper</em>
+to the current seed, which is initialized to <em>seed</em>.  <em>Mapper</em> returns
+two values, which are inserted into the JSO as the key and the value
+respectively.  Then get a new seed by applying the procedure <em>successor</em>
+to the current seed and repeat this algorithm.</p>
+<h2>Predicates</h2>
+<p><code>(jso-undef?</code> <em>obj</em><code>)</code></p>
+<p>Returns <code>#t</code> if <em>obj</em> is the undefined value, and <code>#f</code> otherwise.  The 
+undefined value is distinct in the sense of <code>eqv?</code> from every other 
+Scheme object.</p>
+<p><code>(jso?</code> <em>obj</em><code>)</code></p>
+<p>Returns <code>#t</code> if the car of <em>jso</em> is the symbol <code>@</code>, and <code>#f</code> otherwise. 
+The rest of the JSO is left unexamined.</p>
+<p>(<code>jso-null?</code> <em>obj</em><code>)</code></p>
+<p>Returns <code>#t</code> if <em>obj</em> is the null JSO and <code>#f</code> otherwise.</p>
+<p><code>(jso-empty?</code> <em>jso</em><code>)</code></p>
+<p>Returns <code>#t</code> if the JSO has no keys, and <code>#f</code> otherwise.  The prototype 
+chain is left unexamined.</p>
+<p><code>(jso-contains?</code> <em>jso key</em><code>)</code></p>
+<p>Returns <code>#t</code> if <em>jso</em> contains <em>key</em>, and <code>#f</code> otherwise.  The 
+prototype chain is left unexamined.</p>
+<h2>Accessors</h2>
+<p><code>(jso-ref</code> <em>jso key</em> [ <em>failure</em> [ <em>success</em> ] ]<code>)</code></p>
+<p><code>(jso-ref/default</code> <em>jso key default</em><code>)</code></p>
+<p>Searches <em>jso</em>, including the prototype chain, for the key <em>key</em>, 
+invokes the procedure <em>success</em> on it, and returns the result.  If 
+<em>key</em> is not found, invokes the thunk <em>failure</em> and returns the result. 
+If <em>success</em> is not specified, it is the identity function; if <em>fail</em> 
+is not specified, it is a procedure that returns the undefined value.</p>
+<p>The <em>jso-ref/default</em> procedure is the same, but returns <em>default</em>
+if the <em>key</em> is not found.</p>
+<p><code>(jso-local-ref</code> <em>jso key</em> [ <em>failure</em> [ <em>success</em> ] ]<code>)</code></p>
+<p><code>(jso-local-ref/default</code> <em>jso key</em> default*<code>)</code></p>
+<p>The same as <code>jso-ref</code> and `jso-ref/default, except that the prototype
+chain is not searched.</p>
+<p><code>(jso-size</code> <em>jso</em><code>)</code></p>
+<p>Returns the number of keys in <em>jso</em> as an exact integer.  The prototype 
+chain is left unexamined.</p>
+<p><code>(jso-prototype</code> <em>jso</em><code>)</code></p>
+<p>Returns the prototype of <em>jso</em>, or the undefined value if <em>jso</em> is free.</p>
+<h2>Conversions</h2>
+<p><code>(jso-keys</code> <em>jso</em><code>)</code></p>
+<p>Returns a list of the keys of <em>jso</em>.  The prototype chain is left 
+unexamined.</p>
+<p><code>(jso-values</code> <em>jso</em><code>)</code></p>
+<p>Returns a list of the values of <em>jso</em> in the same order as <code>jso-keys</code> 
+returns the keys.  The prototype chain is left unexamined.</p>
+<p><code>(jso-&gt;alist</code> <em>jso</em>)</p>
+<p>Creates a newly allocated alist whose key-value pairs are the keys and 
+values of the JSO. The prototype chain is left unexamined.</p>
+<p><code>(full-jso-&gt;alist</code> <em>jso</em>)</p>
+<p>Creates a newly allocated alist whose key-value pairs are the keys and 
+values of the JSO, including its prototype chain.</p>
+<p><code>(alist-&gt;jso</code> <em>alist</em><code>)</code></p>
+<p>Creates a free JSO whose keys and values are the key-value pairs of the 
+alist.  If any key is not a symbol, an error is signaled.</p>
+<h2>Copying, mapping, and folding</h2>
+<p><code>(jso-copy</code> <em>jso</em><code>)</code></p>
+<p>Returns a copy of <em>jso</em>, sharing the same prototype chain.  The keys 
+and values are shared, but not the structural pairs.</p>
+<p><code>(jso-free-copy</code> <em>jso</em><code>)</code></p>
+<p>Returns a copy of <em>jso</em> that is free.  The keys and values are shared, 
+but not the structural pairs.</p>
+<p><code>(jso-full-copy</code> <em>jso</em><code>)</code></p>
+<p>Returns a copy of <em>jso</em>, including the prototype chain.  The keys and 
+values are shared, but not the structural pairs.</p>
+<p><code>(jso-map</code> <em>proc jso</em><code>)</code></p>
+<p>Returns a newly allocated JSO after applying <em>proc</em> to each key and
+value in <em>jso</em>; <em>proc</em> returns the new key and value.  The prototype
+chains are shared.</p>
+<p><code>(jso-full-map</code> <em>proc jso</em><code>)</code></p>
+<p>The same as <code>jso-map</code>, except that the prototype chain is also processed.</p>
+<p><code>(jso-for-each</code> <em>proc jso</em><code>)</code></p>
+<p>Applies <em>proc</em> to each key and value.  The prototype chain is left 
+unexamined.  Returns an undefined value (not necessarily <em>the</em> 
+undefined value).</p>
+<p><code>(jso-full-for-each</code> <em>proc jso</em><code>)</code></p>
+<p>Applies <em>proc</em> to each key and value, including those in the prototype 
+chain.  Returns an undefined value (not necessarily <em>the</em> undefined value).</p>
+<p><code>(jso-fold</code> <em>proc seed jso</em><code>)</code></p>
+<p>Calls <em>proc</em> for every association in <em>jso</em> with three arguments: the
+key of the association, the value of the association, and an accumulated
+value <em>val</em>. <em>Val</em> is <em>seed</em> for the first invocation of <em>proc</em>, and for
+subsequent invocations of <em>proc</em>, the returned value of the previous
+invocation. The value returned by <code>jso-fold</code> is the return value
+of the last invocation of <em>proc</em>.  The prototype chain is not examined.</p>
+<p><code>(jso-filter</code> <em>pred jso</em><code>)</code></p>
+<p>Returns a JSO containing the associations of <em>jso</em> whose
+key and value satisfy <em>pred</em>.</p>
+<p><code>(jso-remove</code> <em>pred jso</em><code>)</code></p>
+<p>Returns a JSO containing the associations of <em>jso</em>, except those whose
+key and value do not satisfy <em>pred</em>.</p>
+<p><code>(jso-partition</code> <em>pred jso</em><code>)</code></p>
+<p>Returns two values, both JSOs.  The first JSO contains the
+associations of <em>jso</em> whose key and value satisfy <em>pred</em>, and
+the second JSO contains those that do not.</p>
+<p><code>(jso-full-fold</code> <em>proc seed jso</em><code>)</code></p>
+<p><code>(jso-full-filter</code> <em>pred jso</em><code>)</code></p>
+<p><code>(jso-full-remove</code> <em>pred jso</em><code>)</code></p>
+<p><code>(jso-full-partition</code> <em>pred jso</em><code>)</code></p>
+<p>The same as <code>jso-fold</code>, <code>jso-filter</code>, <code>jso-remove</code>, <code>jso-partition</code> except that 
+the prototype chain is processed.</p>
+<h2>Mutators</h2>
+<p>These procedures return an undefined value (not necessarily <em>the</em>
+undefined value).</p>
+<p><code>(jso-set!</code> <em>jso key value</em><code>)</code></p>
+<p>Searches <em>jso</em> for <em>key</em>, and if found changes its value to <em>value</em>.<br />
+If <em>key</em> is not found, <em>key</em> and <em>value</em> are added as the last key 
+before the prototype chain. The prototype chain is left unexamined.</p>
+<p><code>(jso-delete!</code> <em>jso key</em> ...<code>)</code></p>
+<p>Searches <em>jso</em> and removes all keys (and their values) that are equal 
+to any of the <em>keys</em>. The prototype chain is left unexamined. Unknown 
+keys are ignored.  </p>
+<p><code>(jso-delete-all!</code> <em>jso key-list</em><code>)</code></p>
+<p>Does the same as<code>jso-delete!</code>, except that the keys to be deleted are 
+specified as a list.</p>
+<p><code>(jso-set-prototype!</code> <em>jso prototype</em><code>)</code></p>
+<p>Replaces the prototype of <em>jso</em> with <em>prototype</em>.  If <em>prototype</em> is 
+the undefined value, <em>jso</em> becomes free.  </p>
+<p><code>(jso-map!</code> <em>proc jso</em><code>)</code></p>
+<p>Modifies <em>jso</em> by applying <em>proc</em> to each key and value in <em>jso</em>;
+<em>proc</em> returns the new value.  The prototype chain is not examined.</p>
+<h2>Method calls</h2>
+<p><code>(jso-apply</code> <em>jso key argument</em> ...<code>)</code></p>
+<p>Applies the result of <code>(jso-ref</code><em>jso key</em><code>)</code> to <em>jso</em> and the 
+<em>arguments</em>, returning the result(s).  If the result does not exist or 
+is not a procedure, it is an error.</p>
+<p><code>(jso-apply/fallback</code> <em>jso key failure argument</em> ...<code>)</code></p>
+<p>Applies the result of <code>(jso-ref</code><em>jso key</em><code>)</code> to <em>jso</em> and the 
+<em>arguments</em>, returning the result(s).  If the result does not exist, 
+the thunk <em>failure</em> is invoked.  If the result is not a procedure, it 
+is an error.</p>
+<h2>JSON</h2>
+<p><code>(json-value?</code> <em>obj</em><code>)</code></p>
+<p>Returns <code>#t</code> if <em>obj</em> is a JSON value: that is, a finite real number, a 
+string, a boolean, a proper list whose elements (if any) are JSON 
+values, or a JSO whose values are JSON values (the prototype chains are 
+left unexamined).  The procedure verifies that any JSO's keys are 
+symbols.</p>
+<p>Note that when discriminating between JSON values represented by lists,
+they should be tested in the following order:  the empty list representing
+an empty JSON array, the null JSO representing JSON <code>null</code>, any other JSO
+representing a JSON object, and any other list representing a non-empty
+JSON array.</p>
+<p><code>(json-escape-string</code> <em>string ascii?</em><code>)</code></p>
+<p>Inserts JSON escapes into a plain Scheme string to make it a valid JSON 
+string.  In particular, all characters that cannot appear directly in a 
+JSON string, or that have single-character escape sequences, are 
+escaped.  As JSON requires, characters larger than <code>#\xFFFF</code> are 
+encoded as two consecutive <code>\u</code> sequences.</p>
+<p>If the <em>ascii?</em> argument is true, all non-ASCII characters are also 
+escaped.</p>
+<p><code>(json-unescape-string</code> <em>string</em><code>)</code></p>
+<p>Interprets all escape sequences in a valid JSON string and returns the
+result.  An error satisfying <code>json-error?</code> is signaled if a malformed
+escape sequence is found.</p>
+<p><code>(json-write</code> <em>obj options</em> [[|<em>port</em> ]] ]<code>)</code></p>
+<p>Output <em>obj</em> to <em>port</em> (which defaults to the value of 
+<code>(current-output-port)</code>) in <a href="https://tools.ietf.org/html/rfc7159">JSON 
+format</a>.  Exact rationals other 
+than integers are converted to inexact numbers before being output.<br />
+The null JSO is output as the keyword <code>null</code>.  If <em>obj</em> is not a JSON 
+value, an error satisfying <code>json-error?</code> is signaled before any output is done.</p>
+<p>The <em>options</em> argument is a list of symbols.  The symbol <code>ascii</code> causes 
+all non-ASCII characters in strings to be escaped.  The symbol <code>pretty</code> 
+may cause the JSON to be pretty-printed.  All other symbols are 
+implementation-dependent.</p>
+<p><code>(json-read</code> <em>prototype</em> [ <em>jso</em> [ <em>port</em> ] ]<code>)</code></p>
+<p>Reads the <a href="https://tools.ietf.org/html/rfc7159">JSON representation</a> of 
+a JSON value from <em>port</em> (which defaults to the value of 
+<code>(current-input-port)</code>) and returns the appropriate value.  Any leading 
+whitespace is skipped.
+Integers are returned as exact numbers in accordance with Scheme rules; 
+all other JSON numbers are returned as inexact numbers.  The keyword 
+<em>null</em> is returned as the null JSO.  If the representation is not 
+syntactically correct JSON, an error is signaled.  If an end of file is 
+read from <em>port</em>, then if nothing has been read yet an end-of-file 
+object is returned; otherwise, an error is signaled.</p>
+<p>Any JSOs returned are created with <em>prototype</em>, or as free JSOs if 
+<em>prototype</em> is the undefined value or omitted.</p>
+<p><code>(json-error?</code> <em>obj</em><code>)</code></p>
+<p>Returns true if <em>obj</em> is an error specified by any of the errors of
+the above procedures.</p>
