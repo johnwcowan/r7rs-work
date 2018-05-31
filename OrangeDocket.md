@@ -6,7 +6,7 @@ Prime numbers:  [PrimesGauche](PrimesGauche.md).
 
 Natural number predicates (from WG1):  `exact-positive-integer?` and `exact-non-negative-integer?`.
 
-NaN dissector API (sign, quiet/signaling status, and integer tag): [NanMedernach](NanMedernach.md)
+Float and NaN dissector API (sign, quiet/signaling status, and integer tag): [FloatCLMedernach](FloatCLMedernach.md)
 
 R6RS versions of `real?`, `rational?`, `integer?`: these are false if the imaginary part is an inexact zero; the issue here is what to name them to avoid confusion
 

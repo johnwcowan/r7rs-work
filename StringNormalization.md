@@ -53,7 +53,7 @@ The problem inherent in a character set as complex as Unicode is the
 representations.  Thus the same conceptual word may be represented
 with different sets of codepoints, and not match as a search term or
 database key or filename, etc.  For example, Googling the same word
-with different forms for NFC and NFK will return a different set of
+with different forms for NFC and NFKC will return a different set of
 results, which makes no sense.  Since web search is inherently an
 approximate art to begin with, this is perhaps not directly perceived
 as a "bug" by users, though certainly their experience would be
