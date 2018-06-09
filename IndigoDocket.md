@@ -13,3 +13,9 @@ Custom I/O ports: [R6RS](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.
 
 Macro expander(s) available at run time:
 
+Association lists: [AssociationListsCowan](AssociationListsCowan.md)
+
+Edit buffers: [BuffersCowan](BuffersCowan.md)
+
+Immutable cycles: [CyclesMedernach](CyclesMedernach.md)
+
