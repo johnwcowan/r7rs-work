@@ -1,4 +1,4 @@
-Green docket for non-portable things.   For other dockets, see [WG2Dockets](WG2Dockets.md).
+﻿Green docket for non-portable things.   For other dockets, see [WG2Dockets](WG2Dockets.md).
 
 File I/O: [FilesAdvancedCowan](FilesAdvancedCowan.md) plus [SettingsListsCowan](SettingsListsCowan.md) and maybe [LetSettingsKendal](LetSettingsKendal.md)
 
@@ -26,7 +26,7 @@ Interfaces: [InterfacesCowan](InterfacesCowan.md)
 
 Process ports: [ProcessPortsCowan](ProcessPortsCowan.md)
 
-Directory ports: [DirectoryPortsCowan](DirectoryPortsCowan.md)
+File system directories (reading): [SCSH directory stream interface](http://www.scsh.net/docu/html/man-Z-H-4.html#node_sec_3.3), [DirectoryPortsCowan](DirectoryPortsCowan.md), `directory-files` to return a list of all files in the dir (in WG1 vote order)
 
 Directory creation/deletion: [DirectoriesCowan](DirectoriesCowan.md)
 
@@ -45,4 +45,11 @@ Extended exact numbers:  [ExtendedRationalsCowan](ExtendedRationalsCowan.md)
 Adjustable strings: [SRFI 118](http://srfi.schemers.org/srfi-118/srfi-118.html) (basic)
 or [SRFI 140](http://srfi.schemers.org/srfi-140/srfi-140.html) (mutable/immutable)
 
-Arity inspection: [SRFI 102](http://srfi.schemers.org/srfi-102/srfi-102.html) or [ArityInspectionDybvig](https://srfi-email.schemers.org/srfi-102/msg/2771967)
+Mutable environments for `eval`:  [MutableEnvironmentsCurtisCowan](MutableEnvironmentsCurtisCowan.md)
+
+Mutexes, condition variables: [SRFI 18](http://srfi.schemers.org/srfi-18/srfi-18.html)
+
+Port type detector: see ticket #177
+
+Applicable record instances: [R6RS formal comment](http://www.r6rs.org/formal-comments/comment-6.txt)
+

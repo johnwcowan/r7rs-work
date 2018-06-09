@@ -1,4 +1,4 @@
-For other dockets see [WG2Dockets](WG2Dockets.md).
+﻿For other dockets see [WG2Dockets](WG2Dockets.md).
 
 Low-level macros:  [MinimalSyntaxCaseCowan](MinimalSyntaxCaseCowan.md), [explicit renaming](https://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Explicit-Renaming.html), [syntactic closures](https://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Syntactic-Closures.html), [R6RS syntax-case](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html), [SRFI 72](http://srfi.schemers.org/srfi-72/srfi-72.html).
 
@@ -16,7 +16,7 @@ Combinators:  [CombinatorsCowan](CombinatorsCowan.md)
 
 Lambda*: [BeyondCurryingHemann](BeyondCurryingHemann.md)
 
-Void:  [VoidCowan](VoidCowan.md)
+Tri-logic:  [VoidCowan](VoidCowan.md)
 
 Named parameters:  [NamedParametersCowan](NamedParametersCowan.md) or [SRFI 89](http://srfi.schemers.org/srfi-89/srfi-89.html)
 
@@ -37,3 +37,12 @@ Generic accessors/mutators: [SRFI 123](http://srfi.schemers.org/srfi-123/srfi-12
 Conditions: [ConditionsCowan](ConditionsCowan.md)
 
 Restarts:  [RestartsRiastradh](http://mumble.net/~campbell/proposals/restart.text)
+
+Multiple values passed through => in `cond`: see #90
+
+Optional arguments (other than by `case-lambda`): [OptionalsRiastradh](http://mumble.net/~campbell/proposals/optional.text)
+
+`Record-let`: #45
+
+`if` with arbitrarily many arguments: [David Kendal's rationale](http://dpk.io/r7rs/naryif-20130406)
+

@@ -1,4 +1,4 @@
-Portable but advanced things. 
+﻿Portable but advanced things. 
 For other dockets, see [WG2Dockets](WG2Dockets.md)
 
 Time types: [SRFI 19](http://srfi.schemers.org/srfi-19/srfi-19.html) and/or [TimeAdvancedCowan](TimeAdvancedCowan.md) with [TimePeriodsCowan](TimePeriodsCowan.md)
@@ -22,3 +22,24 @@ Trees: [TreesCowan](TreesCowan.md)
 JSON: [JsoCowan](JsoCowan.md)
 
 μXml: [MicroXMLCowan](MicroXmlCowan.md)
+
+Unicode string normalization: [StringNormalizationCowan](StringNormalizationCowan.md)
+
+Binary heap: [BinaryHeapsCowan](BinaryHeapsCowan.md)
+
+Date and time arithmetic: [TimeAdvancedCowan](TimeAdvancedCowan.md) plus [TimePeriodsCowan](TimePeriodsCowan.md), [SRFI 19](http://srfi.schemers.org/srfi-19/srfi-19.html)
+
+Date-time parser: [Hato date parser](https://code.google.com/p/hato/source/browse/hato-date.scm), [SRFI 19](http://srfi.schemers.org/srfi-19/srfi-19.html)
+
+Memoization: [wiki:Memoize] (not a proposal yet), [Racket](http://planet.racket-lang.org/display.ss?package=memoize.plt&owner=dherman), [Haskell](http://hackage.haskell.org/package/memoize-0.1/docs/Data-Function-Memoize.html)
+
+Message digests (CRC, MD5, SHA1, SHA2):
+
+Assertions: [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_750), R6RS with optional message and irritants.
+
+Predicate general functions:
+
+Maybe/Either:
+
+Monad/Monoid:
+

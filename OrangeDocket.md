@@ -1,6 +1,6 @@
 **Numeric types and operations**
 
-Random numbers: [SRFI 27](http://srfi.schemers.org/srfi-27/srfi-27.html), plus [AdvancedRandomGauche](AdvancedRandomGauche.md)
+Random numbers: [SRFI 27](http://srfi.schemers.org/srfi-27/srfi-27.html), plus [AdvancedRandomGauche](AdvancedRandomGauche.md) or [RandomnessCommonLisp](RandomnessCommonLisp.md)
 
 Prime numbers:  [PrimesGauche](PrimesGauche.md).
 
@@ -26,3 +26,6 @@ Enumerations: [EnumsCowan](EnumsCowan.md)
 
 Enumeration sets and maps: [EnumContainersCowan](EnumContainersCowan.md)
 
+Combinations: [CombinationsCowan](CombinationsCowan.md)
+
+Number to string with Unicode: [NumberStringUnicode](NumberStringUnicode.md)
