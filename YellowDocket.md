@@ -46,3 +46,9 @@ Optional arguments (other than by `case-lambda`): [OptionalsRiastradh](http://mu
 
 `if` with arbitrarily many arguments: [David Kendal's rationale](http://dpk.io/r7rs/naryif-20130406)
 
+Custom macro transformers: [SRFI 147](http://srfi.schemers.org/srfi-147/srfi-147.html)
+
+Syntax-rules extensions: [SRFI 149](http://srfi.schemers.org/srfi-149/srfi-149.html)
+
+Assumptions: [SRFI 145](http://srfi.schemers.org/srfi-145/srfi-145.html)
+
