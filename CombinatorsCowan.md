@@ -57,9 +57,9 @@ Applies *predicate* to each element of *list* in turn, and immediately returns `
 
 Applies *predicate* to each element of *list* in turn, and immediately returns `#t` if *predicate* is satisfied by that element; otherwise returns `#f`.
 
-`((map-reduce `*mapper reducer*`)` *list*`)`
+`((on `*reducer mapper*`)` *obj* ...`)`
 
-Returns `(apply *reducer* `(`*mapper list*`))`.
+Applies *mapper* to each *obj* and then applies *reducer* to the results.
 
 `((left-section `*proc arg* ...`)` *obj* ...`)`
 
