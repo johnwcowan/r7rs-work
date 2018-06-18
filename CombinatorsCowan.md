@@ -21,21 +21,21 @@ Passes the *args* to the first *proc*, which returns any number of values.  Thes
 
 Passes *arg* to the first *proc*, which returns one value.  This is then passed to the next *proc*, and so on until the final *proc* is reached.  If there are no *procs*, returns its argument.
 
-`((swap `*proc*`)` *obj,,1,, obj,,2,,*`)`
+`((swap `*proc*`)` *obj₁ obj₂*`)`
 
-Invokes `(`*proc obj,,2,, obj,,1,,*`)`.
+Invokes `(`*proc obj₂ obj₁*`)`.
 
 `((flip `*proc*`)` *arg1 arg2*`)`
 
 Returns `(`*proc arg2 arg1*`)`.
 
-`((fst `*proc*`)` *obj,,1,, obj,,2,,*`)`
+`((on-left `*proc*`)` *obj₁ obj₂*`)`
 
-Returns *obj,,1,,*.
+Returns (*proc obj₁*).
 
-`((snd `*proc*`)` *obj,,1,, obj,,2,,*`)`
+`((on-right `*proc*`)` *obj₁ obj₂*`)`
 
-Returns *obj,,2,,*.
+Returns (*proc obj₂*).
 
 `((conjoin `*predicate* ...`)` *arg* ...`)`
 
@@ -59,7 +59,7 @@ Applies *predicate* to each element of *list* in turn, and immediately returns `
 
 `((map-reduce `*mapper reducer*`)` *list*`)`
 
-Returns ``(apply *reducer* `(`*mapper list*`))`.
+Returns `(apply *reducer* `(`*mapper list*`))`.
 
 `((left-section `*proc arg* ...`)` *obj* ...`)`
 
