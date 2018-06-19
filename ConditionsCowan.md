@@ -43,7 +43,7 @@ Returns the list of types to which *condition* belongs.  It is an error to attem
 
 Returns the list of property names associated with this condition.  It is an error to attempt to mutate this list.
 
-`(condition-ref `*condition sym* [[|*default* ]] `)`
+`(condition-ref `*condition sym* \[ *default* ] `)`
 
 Returns the property value associated with the property named *sym* of *condition*.  If it has no such property, returns *default*.  If *default* is not specified, returns `#f`.
 
@@ -51,11 +51,9 @@ Returns the property value associated with the property named *sym* of *conditio
 
 Returns a predicate which will return `#t` if applied to a condition belonging to any of the types specified in *symlist*, and `#f` otherwise.
 
-`(condition-accessor `*sym* [[|*default* ]] `)`
+`(condition-accessor `*sym* \[ *default* ]`)`
 
 Returns an accessor which will return the value of *sym* if applied to a condition object and *default* otherwise.  If *default* is not specified, the accessor will return `#f`.
-
-`(condition-<property-name> `*condition* [[|*default* ]]`)`
 
 Returns the value of the property named `<property-name>` (from the standard list of property names below) of *condition*, or *default* if it has no such property, or `#f` if no default is specified.
 
@@ -90,6 +88,8 @@ Returns `#t` if *obj* is a condition belonging to type `implementation-restricti
 
 The following condition types are standardized.  Conditions of each type may be created by the implementation in the specified situations as well as any analogous situations.  The only constraint is that the implementation must not raise a condition of a specified type unless that type of external situation is in fact present.  The list is intended to be comprehensive but not complete: it draws on R6RS, Java, and other sources.
 
+|Type|Explanation|
+|---|---|
 |`already-exists`|file already exists|
 |`arithmetic`|arithmetic error|
 |`arity`|too many or too few arguments|
@@ -109,7 +109,6 @@ The following condition types are standardized.  Conditions of each type may be 
 |`filename`|mangled filename|
 |`fixnum`|sufficiently small exact integer expected|
 |`immutability`|modifying immutable data|
-|`implementation-restriction`|implementation restriction|
 |`implementation-restriction`|the implementation has insufficient resources though the program is correct|
 |`improper-list`|improper lists not supported|
 |`input`|input error|
@@ -145,6 +144,8 @@ The following condition types are standardized.  Conditions of each type may be 
 
 ## Standard property names
 
+|Property|Explanation|
+|---|---|
 |`message`|human-readable description string|
 |`irritants`|list of problematic arguments|
 |`who`|an object reporting a problem with another object|
