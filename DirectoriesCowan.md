@@ -9,7 +9,7 @@ or implementation-defined objects.
 `(directory? `*filename*`)`
 
 Returns `#t` if *filename* is the name of a directory,
-or `#f` if it is not, or the answer is not determinable.
+or `#f` if it is not or the answer is not determinable.
 
 `(make-directory `*filename*`)`
 
