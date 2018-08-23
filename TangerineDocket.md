@@ -15,6 +15,10 @@ Mappings: [SRFI 146](http://srfi.schemers.org/srfi-146/srfi-146.html)
 
 Regular expressions: [SRFI 115](http://srfi.schemers.org/srfi-115/srfi-115.html)
 
+Generators: [SRFI 127](http://srfi.schemers.org/srfi-127/srfi-127.html) (Red Edition),
+[SRFI 158](http://srfi.schemers.org/srfi-158/srfi-158.html) (upward compatible
+enhancement with accumulators)
+
 **Numeric types and operations**
 
 Integer division: [SRFI 141](http://srfi.schemers.org/srfi-141/srfi-141.html)
