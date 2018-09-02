@@ -14,16 +14,16 @@ and no notion of document objects (a document is just an element that has no par
 All implementations recognize `apos` to wrap attribute values in apostrophes,
 `end-tags` to write end-tags for empty elements,
 and `ascii` to escape all characters outside the ASCII range.
-The symbol `pretty` causes pretty-printing in implementations that support it.
+The symbol `pretty` may cause pretty-printing.
 Other symbols are also allowed; their effects are implementation-defined.
 
 `(uxml->sxml `*port handler*`)`
 
 Reads all the characters from the textual input port *port*
 as a MicroXML document and returns the SXML equivalent.
-The procedure *handler* is invoked when a `$error` or `$pi` event is produced.
+The procedure *handler* is invoked when a `$error`event (see Events) is produced.
 The default handler signals an error that satisfies `uxml-error?`.
-If the handler is `#f`, errors and processing instructions are ignored;
+If the handler is `#f`, errors are ignored;
 this relaxed parsing mode allows some XML documents
 that are not well-formed MicroXML to be parsed.
 
@@ -53,21 +53,22 @@ If the resulting document would not be well-formed MicroXML, an error is signale
 
 Invokes the generator *gen* to obtain event objects,
 constructs the corresponding SXML element, and returns it.
-If the resulting object would not be structurally sound SXML,
+If the resulting object would not be structurally correct SXML,
 an error is signaled that satisfies `uxml-error?`.
 
 `(write-uxml `*port options*`)`
 
-Returns a procedure that accepts an event object.
-When invoked repeatedly, the procedure writes the corresponding MicroXML representation
+Returns a [SRFI 158](http://srfi.schemers.org/srfi-158/srfi-158.html) accumulator
+that accepts an event object or an end of file object.
+When invoked repeatedly, the accumulator writes the corresponding MicroXML representation
 to the textual output port *port* using the symbols in *options*,
-and returns an undefined value.
+and returns an unspecified value.  An end of file object is written as a newline.
 If the resulting document would not be well-formed MicroXML,
 an error is signaled that satisfies `uxml-error?`.
 
 `(build-sxml)`
 
-Returns a [SRFI 158](http://srfi.schemers.org/srfi-158/srfi-158.html) accumulator
+Returns an accumulator
 that accepts an event object or an end of file object.
 When invoked repeatedly, it builds the corresponding SXML representation.
 If the object is an end of file object, the procedure returns the SXML element;
