@@ -149,7 +149,8 @@ It specifies for each element name which of its attributes are idrefs.
 
 `(sxml-language? `*element language*`)`
 
-Returns `#t` if the language of *element*, as specified by the value of a `lang` or `xml:lang` attribute
+Returns `#t` if the language of *element*,
+as specified by the value of a `lang` or `xml:lang` attribute
 (the latter is not well-formed MicroXML but is supported for backward compatibility)
 matches *language*; returns `#f` otherwise.
 If *element* has no such attribute, the language of the nearest ancestor of *element*
@@ -166,13 +167,14 @@ such that the first character following the prefix is "-".
 `(sxml-make-parent-mapping `*document*`)`
 
 Creates a parent mapping based on the SXML element *document*.
-A parent mapping is an opaque object that maps an element to its parent.
+A parent mapping is an opaque object that maps each element to its parent,
+or to `#f` if there is no parent.
 Returns the parent mapping.
 
 `(sxml-parent `*element parent-mapping*`)`
 
 Uses *parent-mapping* to determine the parent of *element* and returns it,
-or `#f` if there is none.
+or `#f` if there is no parent.
 
 `(sxml-detach-parent! `*element parent-mapping*`)`
 
@@ -195,6 +197,9 @@ Returns the id mapping.
 Looks up the symbol *id* in *id-mapping* and returns the corresponding element,
 or `#f` if there is none.
 
+`(sxml-root `*element*`)`
+
+Returns the root element of *element*.
 
 ## Element procedures
 
@@ -277,10 +282,6 @@ The precise nature of the information displayed is undefined,
 except that it should end with a newline;
 there is no guarantee that it can be re-read.
 *Element* is returned.
-
-`(sxml-root `*element*`)`
-
-Returns the root element of *element*.
 
 ## String procedures
 
