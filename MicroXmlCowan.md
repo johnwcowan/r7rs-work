@@ -1,27 +1,3 @@
-## Events
-
-A MicroXML event is either an end-of-file object or a list representing a parsing event, in one of the following formats.  *Stack* is a list of SXML element names currently being processed; the car of the list is the name of the current element.
-
-`($start `*stack attr-list*`)`
-
-Represents a start-tag.  *Attr-list* is a [JSO](JsoCowan.md) representing the attributes.
-
-`($end `*stack*`)`
-
-Represents an end-tag.
-
-`($text `*text*`)`
-
-Represents character content.  *Text* is the character content as a string.
-
-`($error `*stack error-code . other*`)`
-
-Represents a parsing error.  *Error-code* is a symbol.  *Other* is implementation-dependent.
-
-`($pi `*stack target content*`)`
-
-Represents a processing instruction (which is not part of MicroXML).  *Target* is a symbol; *content* is a string.  Parsers may return `$error` objects instead of `$pi` objects; they are provided as a way of allowing a MicroXML parser to read some (but not all) XML documents. Note that any XML declaration is taken to be a processing instruction, as in SGML.
-
 ## SXML
 
 MicroXML uses a simplified version of SXML as the internal representation of documents.  Each SXML element is a list whose first member is a symbol representing the element name, whose second member is a JSO mapping the attribute names (as symbols) to their values (as strings), and whose remaining members (if any) are either SXML elements or strings.  The prototype of a JSO representing an attribute list is ignored.  There is no representation of comments or processing instructions in this version of SXML, and no notion of document objects (a document is just an element that has no parent).
@@ -61,6 +37,29 @@ Returns a procedure that accepts an event object.  When invoked repeatedly, the 
 `(build-sxml)`
 
 Returns a [SRFI 158](http://srfi.schemers.org/srfi-158/srfi-158.html) accumulator that accepts an event object or an end of file object.  When invoked repeatedly, it builds the corresponding SXML representation.  If the object is an end of file object, the procedure returns the SXML element; if not, it returns an unspecified value.  If the resulting document would not be well-formed MicroXML, an error is signaled that satisfies `uxml-error?`.
+
+## Events
+
+A MicroXML event is either an end-of-file object or a list representing a parsing event, in one of the following formats.  *Stack* is a list of SXML element names currently being processed; the car of the list is the name of the current element.
+
+`($start `*stack attr-list*`)`
+
+Represents a start-tag.  *Attr-list* is a [JSO](JsoCowan.md) representing the attributes.
+
+`($end `*stack*`)`
+
+Represents an end-tag.
+
+`($text `*text*`)`
+
+Represents character content.  *Text* is the character content as a string.
+
+`($error `*stack error-code . other*`)`
+
+Represents a parsing error.  *Error-code* is a symbol.  *Other* is implementation-dependent.
+In particular, if *error-code* is `$pi`, this error indicates the presence of a processing
+instruction or XML declaration, which are not part of MicroXML.  In that case, the
+first two elements of *other* are the PI target and the PI content.
 
 ## Predicates
 
