@@ -103,7 +103,9 @@ first two elements of *other* are the PI target and the PI content.
 
 `(sxml-element? `*obj*`)`
 
-Returns `#t` if *obj* is an SXML element and `#f` otherwise.  The procedure checks that *obj* is a list whose first element is a symbol and whose second element's car is the symbol `@`; further elements of the list are not examined.
+Returns `#t` if *obj* is an SXML element and `#f` otherwise.
+The procedure checks that *obj* is a list whose first element is a symbol
+and whose second element's car is the symbol `@`; further elements of the list are not examined.
 
 `(sxml-empty? `*element*`)`
 
@@ -123,7 +125,11 @@ Returns `#t` if all the characters in *string* are allowed in MicroXML character
 
 `(sxml-wf-element? `*element*`)`
 
-Returns `#t` if *element* is well-formed.  The first element of *element* must be a symbol whose print name satisfies `sxml-wf-element-name?`.  The second element of *element* must be a JSO that maps symbols whose print name satisfies `sxml-wf-attribute-name?` to strings that satisfy `sxml-wf-string?`.  The remaining elements must be either strings that satisfy `sxml-wf-string?` or lists that satisfy `sxml-wf-element?`.
+Returns `#t` if *element* is well-formed.
+The first element of *element* must be a symbol whose print name satisfies `sxml-wf-element-name?`.
+The second element of *element* must be a JSO that maps symbols
+whose print name satisfies `sxml-wf-attribute-name?` to strings that satisfy `sxml-wf-string?`.
+The remaining elements must be either strings that satisfy `sxml-wf-string?` or lists that satisfy `sxml-wf-element?`.
 
 `(sxml-attribute? `*element attr-name*`)`
 
@@ -131,13 +137,24 @@ Returns `#t` if *attr-name* (a symbol) is an attribute of *element* and `#f` oth
 
 `(sxml-id-valid? `*element id-mapping idref-list*`)`
 
-Returns `#t` if all idref attributes contain valid ids.  An id is valid if it appears as a key in *id-mapping* (see `make-id-mapping`).  *Idref-list* is a list of 2-element sublists, where the first element of each sublist is an element name and the second element is an attribute name.
+Returns `#t` if all idref attributes contain valid ids.
+An id is valid if it appears as a key in *id-mapping* (see `make-id-mapping`).
+*Idref-list* is a list of 2-element sublists,
+where the first element of each sublist is an element name and the second element is an attribute name.
 
 `(sxml-language? `*element language*`)`
 
-Returns `#t` if the language of *element*, as specified by the value of a `lang` or `xml:lang` attribute (the latter is not well-formed MicroXML but is supported for backward compatibility) matches *language*; returns `#f` otherwise. If *element* has no such attribute, the language of the nearest ancestor of *element* that has such an attribute is used. If there is no such attribute at all, then `sxml-language?` returns `#f`.
+Returns `#t` if the language of *element*, as specified by the value of a `lang` or `xml:lang` attribute
+(the latter is not well-formed MicroXML but is supported for backward compatibility)
+matches *language*; returns `#f` otherwise.
+If *element* has no such attribute, the language of the nearest ancestor of *element*
+that has such an attribute is used.
+If there is no such attribute at all, then `sxml-language?` returns `#f`.
 
-The attribute value matches *language* if, in a case-insensitive comparison, *language* exactly equals the attribute value, or if *language* exactly equals a prefix of the attribute value such that the first character following the prefix is "-".
+The attribute value matches *language* if, in a case-insensitive comparison,
+*language* exactly equals the attribute value,
+or if *language* exactly equals a prefix of the attribute value
+such that the first character following the prefix is "-".
 
 ## Element procedures
 
