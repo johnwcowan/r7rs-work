@@ -176,6 +176,10 @@ Returns the parent mapping.
 Uses *parent-mapping* to determine the parent of *element* and returns it,
 or `#f` if there is no parent.
 
+`(sxml-root `*element parent-mapping*`)`
+
+Returns the root element of *element*.
+
 `(sxml-detach-parent! `*element parent-mapping*`)`
 
 Removes the mapping from *element* to its parent from *parent-mapping*.
@@ -197,10 +201,6 @@ Returns the id mapping.
 Looks up the symbol *id* in *id-mapping* and returns the corresponding element,
 or `#f` if there is none.
 
-`(sxml-root `*element*`)`
-
-Returns the root element of *element*.
-
 ## Element procedures
 
 `(sxml-copy `*element*`)`
@@ -213,45 +213,42 @@ Returns the name of *element* as a symbol.
 
 `(sxml-set-name! `*element name*`)`
 
-Replaces the name of *element* with the symbol *name* by mutation.
-
-`(sxml-attr-list `*element*`)`
-
 Returns the attribute list of *element* as a JSO.
 
 `(sxml-set-attr-list! `*element jso*`)`
 
-Replaces the attribute list of *element* with the JSO *jso* by mutation.
-
-`(sxml-content`*element*`)`
-
 Returns the name of *element* as a list.
-
-`(sxml-set-content! `*element list*`)`
-
-Replaces the content of *element* with *list* by mutation.
 
 `(sxml-value `*element*`)`
 
 Returns the results of concatenating all string content children in *element*
 and all its descendants in depth-first left-to-right preorder.
 
-`(sxml-defaults! `*element attribute-defaults element-defaults inherited-attributes*`)`
+`(sxml-defaults `*element attribute-defaults element-defaults inherited-attributes*`)`
 
 Returns *element* with default values expanded in itself
-and all its descendants by mutation.
-The following transformations are made:
+and all its descendant.  The following transformations are made:
 
 * *attribute-defaults* is a list of 3-element sublists.  Each sublist contains an element name (a symbol), an attribute name (a symbol), and a default value (a string).  All elements with those names are checked for the presence of the corresponding attribute.  If it is missing, the attribute is added with the specified default value.
 
 * *element-defaults* is a list of 2-element sublists.  Each sublist contains an element name (a symbol) and a default value (a string).  All empty elements with any of those names have the default value installed as the only content child.
 
-* *inherited-attributes* is a list of symbols.  All elements are checked for an attribute whose name is one of the list.  If absent, then the most recent ancestor of the element that has this attribute is found (note that no parent map is required), and the attribute is added to the element being processed with the same value as in the ancestor.
+* *inherited-attributes* is a list of symbols.  All elements are checked for a corresponding attribute whose name is one of the list.  If absent, then the most recent ancestor of the element that has this attribute is found (note that no parent map is required), and the attribute is added to the element being processed with the same value as in the ancestor.
 
 `(sxml-element-position `*element parent-map*`)`
 
 Returns the position of *element* among the element children
 of the parent of *element* as an exact integer, with 1 meaning the first element child.
+Elements are compared in the sense of `eqv?`.
+If there is no parent, return 0.
+
+`(sxml-child-position `*child parent-map*`)`
+
+Returns the position of *child* among the content children
+of the parent of *element* as an exact integer, with 1 meaning the first element child.
+Elements are compared in the sense of `eqv?`;
+strings are compared in the sense of `string=?`.
+Note that if there are multiple equal strings, the first is returned.
 If there is no parent, return 0.
 
 `(sxml-element-size `*element*`)`
@@ -268,18 +265,19 @@ In particular, at least the following repairs are made:
 * If the attribute-list is missing, an empty JSO is provided.
 * If the attribute-list does not begin with an `@` element, one is provided.
 * If one of the content children or an attribute value is a number, it is converted to a string with `number->string`.
-* If one of the content children or an attribute value is a boolean, it is converted to a string with `boolean->string`.
+* If one of the content children or an attribute value is a boolean, it is converted to a string with `sxml-boolean->string`.
 * If one of the content children or an attribute value is a symbol, it is converted to a string with `symbol->string`.
 * If one of the content children is some other type of Scheme object, it is converted to a string by some implementation-defined means or else removed.
 * If an attribute value is some other type of Scheme object, it is converted to a string by some implementation-defined means or else that attribute is removed.
 * If after the above transformations are completed, two or more consecutive content children are strings, they are consolidated.
 * If any content children are elements, they are recursively normalized.
 
-`(sxml-write `*element*`)`
+`(sxml-display `*element*`)`
 
 Displays information on `(current-error-port)` about *element*.
 The precise nature of the information displayed is undefined,
-except that it should end with a newline;
+except that it should not recurse into child elements and should
+end with a newline;
 there is no guarantee that it can be re-read.
 *Element* is returned.
 
