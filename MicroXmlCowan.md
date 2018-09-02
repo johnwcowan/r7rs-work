@@ -163,7 +163,38 @@ such that the first character following the prefix is "-".
 
 ## Mapping procedures
 
-TBD.
+`(sxml-make-parent-mapping `*document*`)`
+
+Creates a parent mapping based on the SXML element *document*.
+A parent mapping is an opaque object that maps an element to its parent.
+Returns the parent mapping.
+
+`(sxml-parent `*element parent-mapping*`)`
+
+Uses *parent-mapping* to determine the parent of *element* and returns it,
+or `#f` if there is none.
+
+`(sxml-detach-parent! `*element parent-mapping*`)`
+
+Removes the mapping from *element* to its parent from *parent-mapping*.
+If *element* does not have a parent, nothing is done.  Returns an unspecified value.
+
+`(sxml-make-id-mapping `*document*`)`
+
+Creates an id mapping based on the SXML element *document*.
+An id mapping is an opaque object that maps an id (a symbol) to an element.
+The element and all its descendants are checked for the presence
+of an attribute named `id` or `xml:id`
+(the latter is not well-formed MicroXML but is allowed in SXML for backward compatibility).
+If found, an entry is created in the id mapping
+that maps the corresponding attribute value *as a symbol* to the element.
+Returns the id mapping.
+
+`(sxml-id `*id id-mapping*`)`
+
+Looks up the symbol *id* in *id-mapping* and returns the corresponding element,
+or `#f` if there is none.
+
 
 ## Element procedures
 
@@ -250,28 +281,6 @@ there is no guarantee that it can be re-read.
 `(sxml-root `*element*`)`
 
 Returns the root element of *element*.
-
-## Mapping procedures
-
-`(sxml-make-parent-mapping `*document*`)`
-
-Creates a parent mapping based on the SXML element *document*.  A parent mapping is an opaque object that maps an element to its parent.  Returns the parent mapping.
-
-`(sxml-parent `*element parent-mapping*`)`
-
-Uses *parent-mapping* to determine the parent of *element* and returns it, or `#f` if there is none.
-
-`(sxml-detach-parent! `*element parent-mapping*`)`
-
-Removes the mapping from *element* to its parent from *parent-mapping*.  If *element* does not have a parent, nothing is done.  Returns an unspecified value.
-
-`(sxml-make-id-mapping `*document*`)`
-
-Creates an id mapping based on the SXML element *document*.  An id mapping is an opaque object that maps an id (a symbol) to an element.  The element and all its descendants are checked for the presence of an attribute named `id` or `xml:id` (the latter is not well-formed MicroXML but is allowed in SXML for backward compatibility).  If found, an entry is created in the id mapping that maps the corresponding attribute value *as a symbol* to the element.  Returns the id mapping.
-
-`(sxml-id `*id id-mapping*`)`
-
-Looks up the symbol *id* in *id-mapping* and returns the corresponding element, or `#f` if there is none.
 
 ## String procedures
 
