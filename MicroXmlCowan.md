@@ -78,8 +78,10 @@ an error is signaled that satisfies `uxml-error?`.
 
 ## Events
 
-A MicroXML event is either an end-of-file object or a list representing a parsing event, in one of the following formats.
-*Stack* is a list of SXML element names currently being processed; the car of the list is the name of the current element.
+A MicroXML event is either an end-of-file object
+or a list representing a parsing event, in one of the following formats.
+*Stack* is a list of SXML element names currently being processed;
+the car of the list is the name of the current element.
 
 `($start `*stack attr-list*`)`
 
@@ -195,11 +197,14 @@ Replaces the content of *element* with *list* by mutation.
 
 `(sxml-value `*element*`)`
 
-Returns the results of concatenating all string content children in *element* and all its descendants in depth-first left-to-right preorder.
+Returns the results of concatenating all string content children in *element*
+and all its descendants in depth-first left-to-right preorder.
 
 `(sxml-defaults! `*element attribute-defaults element-defaults inherited-attributes*`)`
 
-Returns *element* with default values expanded in itself and all its descendants by mutation.  The following transformations are made:
+Returns *element* with default values expanded in itself
+and all its descendants by mutation.
+The following transformations are made:
 
 * *attribute-defaults* is a list of 3-element sublists.  Each sublist contains an element name (a symbol), an attribute name (a symbol), and a default value (a string).  All elements with those names are checked for the presence of the corresponding attribute.  If it is missing, the attribute is added with the specified default value.
 
@@ -209,7 +214,9 @@ Returns *element* with default values expanded in itself and all its descendants
 
 `(sxml-element-position `*element parent-map*`)`
 
-Returns the position of *element* among the element children of the parent of *element* as an exact integer, with 1 meaning the first element child.  If there is no parent, return 0.
+Returns the position of *element* among the element children
+of the parent of *element* as an exact integer, with 1 meaning the first element child.
+If there is no parent, return 0.
 
 `(sxml-element-size `*element*`)`
 
@@ -217,7 +224,9 @@ Return the number of content children of *element* as an exact integer.
 
 `(sxml-normalize-element! `*element*`)`
 
-Returns a normalized version (using mutation) of an SXML element that does not necessarily conform to the definition.  In particular, at least the following repairs are made:
+Returns a normalized version (using mutation) of an SXML element
+that does not necessarily conform to the definition.
+In particular, at least the following repairs are made:
 
 * If the name is a string, it is converted to a symbol with `string-symbol`.
 * If the attribute-list is missing, an empty JSO is provided.
@@ -232,7 +241,11 @@ Returns a normalized version (using mutation) of an SXML element that does not n
 
 `(sxml-write `*element*`)`
 
-Displays information on `(current-error-port)` about *element*.  The precise nature of the information displayed is undefined, except that it should end with a newline; there is no guarantee that it can be re-read.  *Element* is returned.
+Displays information on `(current-error-port)` about *element*.
+The precise nature of the information displayed is undefined,
+except that it should end with a newline;
+there is no guarantee that it can be re-read.
+*Element* is returned.
 
 `(sxml-root `*element*`)`
 
