@@ -326,47 +326,63 @@ If *boolean* is true, returns 1, otherwise returns 0.
 
 ## Axis procedures
 
-The following procedures are generator operations:  they accept a generator (of SXML elements) and return a generator (also of SXML elements).  After the `sxml-` prefix, they begin with `g`, using the convention of [SRFI 158](http://srfi.schemers.org/srfi-158/srfi-121.html) for generator operations.
+The following procedures are generator operations:
+they accept a generator of SXML elements and return another generator, also of SXML elements.
+After the `sxml-` prefix, they begin with `g`, using the convention of
+[SRFI 158](http://srfi.schemers.org/srfi-158/srfi-121.html) for generator operations.
 
 `(sxml-gparent `*parent-mapping gen*`)`
 
-Returns a generator of SXML elements which invokes SXML elements from *gen* and returns their parent elements on successive invocations.
+Returns a generator of SXML elements which invokes SXML elements from *gen*
+and returns their parent elements on successive invocations.
 
 `(sxml-gancestor `*parent-mapping gen*`)`
 
-Returns a generator of SXML elements which invokes SXML elements from *gen* and returns their ancestor elements from parent to root on successive invocations.
+Returns a generator of SXML elements which invokes SXML elements from *gen*
+and returns their ancestor elements from parent to root on successive invocations.
 
 `(sxml-gancestor-or-self `*parent-mapping gen*`)`
 
-Returns a generator of SXML elements which invokes SXML elements from *gen* and returns their element itself and then its ancestor elements from parent to root on successive invocations.
+Returns a generator of SXML elements which invokes SXML elements from *gen*
+and returns their element itself and then its ancestor elements
+from parent to root on successive invocations.
 
 `(sxml-gchild `*parent-mapping gen*`)`
 
-Returns a generator of SXML elements which invokes SXML elements from *gen* and returns their descendant elements in depth-first order from left to right on successive invocations.
+Returns a generator of SXML elements which invokes SXML elements from *gen*
+and returns their descendant elements
+in depth-first order from left to right on successive invocations.
 
 `(sxml-gdescendant `*parent-mapping gen*`)`
 
-Returns a generator of SXML elements which invokes SXML elements from *gen* and returns their child elements from left to right on successive invocations.
+Returns a generator of SXML elements which invokes SXML elements from *gen*
+and returns their child elements from left to right on successive invocations.
 
 `(sxml-gdescendant-or-self `*parent-mapping gen*`)`
 
-Returns a generator of SXML elements which invokes SXML elements from *gen* and returns their element itself and then its child elements from left to right on successive invocations.
+Returns a generator of SXML elements which invokes SXML elements from *gen*
+and returns their element itself and then its child elements from left to right on successive invocations.
 
 `(sxml-gfollowing `*parent-mapping gen*`)`
 
-Returns a generator of SXML elements which invokes SXML elements from *gen* and returns all of their following elements in document order on successive invocations.
+Returns a generator of SXML elements which invokes SXML elements from *gen*
+and returns all of their following elements in document order on successive invocations.
 
 `(sxml-gfollowing-or-self `*parent-mapping gen*`)`
 
-Returns a generator of SXML elements which invokes SXML elements from *gen* and returns the elements themselves and then all of their following elements in document order on successive invocations.
+Returns a generator of SXML elements which invokes SXML elements from *gen*
+and returns the elements themselves and then all of their following elements
+in document order on successive invocations.
 
 `(sxml-gpreceding `*parent-mapping gen*`)`
 
-Returns a generator of SXML elements which invokes SXML elements from *gen* and returns all of their preceding elements in reverse document order on successive invocations.
+Returns a generator of SXML elements which invokes SXML elements from *gen*
+and returns all of their preceding elements in reverse document order on successive invocations.
 
 `(sxml-gpreceding-or-self `*parent-mapping gen*`)`
 
-Returns a generator of SXML elements which invokes SXML elements from *gen* and returns the elements themselves and then all of their preceding elements in reverse document order on successive invocations.
+Returns a generator of SXML elements which invokes SXML elements from *gen*
+and returns the elements themselves and then all of their preceding elements in reverse document order on successive invocations.
 
 ## Paths
 
