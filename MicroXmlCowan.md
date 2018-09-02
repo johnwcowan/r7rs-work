@@ -285,15 +285,21 @@ there is no guarantee that it can be re-read.
 
 `(uxml-escape-string `*string attribute? apos? ascii?*`)`
 
-Converts *string* to contain the necessary entity references for MicroXML.  In all cases, the characters `< & >` are escaped with entity references.  If *attribute?* is true, then if *apos?* is true, `'` is escaped, but if *apos?* is false, then `"` is escaped, in both cases with an entity reference.  Finally, if *ascii?* is true, non-ASCII characters are escaped with numeric character references.  All other characters are left unchanged.  The escaped result is returned.
+Converts *string* to contain the necessary entity references for MicroXML.
+In all cases, the characters `< & >` are escaped with entity references.
+If *attribute?* is true, then if *apos?* is true, `'` is escaped, but if *apos?* is false, then `"` is escaped, in both cases with an entity reference.  Finally, if *ascii?* is true, non-ASCII characters are escaped with numeric character references.  All other characters are left unchanged.  The escaped result is returned.
 
 `(uxml-unescape-string `*string*`)`
 
-Converts *string* by translating all MicroXML escapes, both entity references and numeric character references, to single characters.  All other characters are left unchanged.  The result is returned.
+Converts *string* by translating all MicroXML escapes,
+both entity references and numeric character references, to single characters.
+All other characters are left unchanged.  The result is returned.
 
 `(uxml-normalize-space `*string*`)`
 
-Returns a string that is equal to *string*, but with all leading and trailing whitespace removed, and all other consecutive whitespace characters replaced by a single space.
+Returns a string that is equal to *string*,
+but with all leading and trailing whitespace removed,
+and all other consecutive whitespace characters replaced by a single space.
 
 ## Boolean conversions
 
@@ -301,7 +307,9 @@ These use the conventions of XPath and XML Schema.
 
 `(sxml-string->boolean `*string*`)`
 
-Converts the strings `"1"` and `"true"` to `#t`, and the strings `"0"` and `false` to `#f`.  If any other string is passed, an error is signaled that satisfies `uxml-error?`.
+Converts the strings `"1"` and `"true"` to `#t`,
+and the strings `"0"` and `false` to `#f`.
+If any other string is passed, an error is signaled that satisfies `uxml-error?`.
 
 `(sxml-boolean->string `*boolean*`)`
 
@@ -309,7 +317,8 @@ Converts `#t` to `"true"` and `#f` to `"false"`.
 
 `(sxml-number->boolean `*number*`)`
 
-If *number* returns `#t` when `zero?` is applied to it, returns `#f`; otherwise returns `#t`.
+If *number* returns `#t` when `zero?` is applied to it, returns `#f`;
+otherwise returns `#t`.
 
 `(sxml-boolean->number `*boolean*`)`
 
