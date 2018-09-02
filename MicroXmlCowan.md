@@ -78,7 +78,8 @@ an error is signaled that satisfies `uxml-error?`.
 
 ## Events
 
-A MicroXML event is either an end-of-file object or a list representing a parsing event, in one of the following formats.  *Stack* is a list of SXML element names currently being processed; the car of the list is the name of the current element.
+A MicroXML event is either an end-of-file object or a list representing a parsing event, in one of the following formats.
+*Stack* is a list of SXML element names currently being processed; the car of the list is the name of the current element.
 
 `($start `*stack attr-list*`)`
 
@@ -111,11 +112,11 @@ and whose second element's car is the symbol `@`; further elements of the list a
 
 Returns `#t` if *element* is an empty SXML element and `#f` otherwise.
 
-`(sxml-wf-element-name? `*string attribute*`)`
+`(sxml-wf-element-name? `*string*`)`
 
 Returns `#t` if *string* matches the MicroXML name production; returns `#f` otherwise.
 
-`(sxml-wf-attribute-name? `*string attribute*`)`
+`(sxml-wf-attribute-name? `*string*`)`
 
 Returns `#t` if *string* matches the MicroXML attribute name production; returns `#f` otherwise.
 
@@ -140,7 +141,9 @@ Returns `#t` if *attr-name* (a symbol) is an attribute of *element* and `#f` oth
 Returns `#t` if all idref attributes contain valid ids.
 An id is valid if it appears as a key in *id-mapping* (see `make-id-mapping`).
 *Idref-list* is a list of 2-element sublists,
-where the first element of each sublist is an element name and the second element is an attribute name.
+where the first element of each sublist is an element name
+and the second element is an attribute name.
+It specifies for each element name which of its attributes are idrefs.
 
 `(sxml-language? `*element language*`)`
 
@@ -155,6 +158,10 @@ The attribute value matches *language* if, in a case-insensitive comparison,
 *language* exactly equals the attribute value,
 or if *language* exactly equals a prefix of the attribute value
 such that the first character following the prefix is "-".
+
+## Mapping procedures
+
+TBD.
 
 ## Element procedures
 
