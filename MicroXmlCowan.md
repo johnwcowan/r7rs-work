@@ -1,22 +1,42 @@
 ## SXML
 
-MicroXML uses a simplified version of SXML as the internal representation of documents.  Each SXML element is a list whose first member is a symbol representing the element name, whose second member is a JSO mapping the attribute names (as symbols) to their values (as strings), and whose remaining members (if any) are either SXML elements or strings.  The prototype of a JSO representing an attribute list is ignored.  There is no representation of comments or processing instructions in this version of SXML, and no notion of document objects (a document is just an element that has no parent).
+MicroXML uses a simplified version of SXML as the internal representation of documents.
+Each SXML element is a list whose first member is a symbol representing the element name,
+whose second member is a JSO mapping the attribute names (as symbols) to their values (as strings),
+and whose remaining members (if any) are either SXML elements or strings.
+The prototype of a JSO representing an attribute list is ignored.
+There is no representation of comments or processing instructions in this version of SXML,
+and no notion of document objects (a document is just an element that has no parent).
 
 ## Parsing, building, and printing procedures
 
-*Options* is a list of symbols that control how MicroXML is written.  All implementations recognize `apos` to wrap attribute values in apostrophes, `end-tags` to write end-tags for empty elements, and `ascii` to escape all characters outside the ASCII range.  The symbol `pretty` causes pretty-printing in implementations that support it.  Other symbols are also allowed; their effects are implementation-defined.
+*Options* is a list of symbols that control how MicroXML is written.
+All implementations recognize `apos` to wrap attribute values in apostrophes,
+`end-tags` to write end-tags for empty elements,
+and `ascii` to escape all characters outside the ASCII range.
+The symbol `pretty` causes pretty-printing in implementations that support it.
+Other symbols are also allowed; their effects are implementation-defined.
 
 `(uxml->sxml `*port handler*`)`
 
-Reads all the characters from the textual input port *port* as a MicroXML document and returns the SXML equivalent.  The procedure *handler* is invoked when a `$error` or `$pi` event is produced.  The default handler signals an error that satisfies `uxml-error?`.  If the handler is `#f`, errors and processing instructions are ignored; this relaxed parsing mode allows some XML documents that are not well-formed MicroXML to be parsed.
+Reads all the characters from the textual input port *port*
+as a MicroXML document and returns the SXML equivalent.
+The procedure *handler* is invoked when a `$error` or `$pi` event is produced.
+The default handler signals an error that satisfies `uxml-error?`.
+If the handler is `#f`, errors and processing instructions are ignored;
+this relaxed parsing mode allows some XML documents
+that are not well-formed MicroXML to be parsed.
 
 `(sxml->uxml `*element port options*`)`
 
-Writes the SXML *element* in MicroXML format to the textual output port *port*, using the symbols in *options*.
+Writes the SXML *element* in MicroXML format to the textual output port *port*,
+using the symbols in *options*.
 
 `(make-uxml-generator `*port*`)`
 
-Returns a [SRFI 158](http://srfi.schemers.org/srfi-158/srfi-158.html) generator of event objects that represent a MicroXML document read from the textual input port *port*.  Processing continues no matter how many errors there are until all characters have been read.
+Returns a [SRFI 158](http://srfi.schemers.org/srfi-158/srfi-158.html) generator of event objects
+that represent a MicroXML document read from the textual input port *port*.
+Processing continues no matter how many errors there are until all characters have been read.
 
 `(make-sxml-generator `*element*`)`
 
@@ -24,19 +44,36 @@ Returns a generator of event objects representing the SXML *element*.
 
 `(event-generator->uxml `*gen port options*`)`
 
-Invokes the generator *gen* to obtain event objects and writes the corresponding MicroXML document to the textual output port *port*, using the symbols in *options*.  If the resulting document would not be well-formed MicroXML, an error is signaled that satisfies `uxml-error?`.
+Invokes the generator *gen* to obtain event objects
+and writes the corresponding MicroXML document to the textual output port *port*,
+using the symbols in *options*.
+If the resulting document would not be well-formed MicroXML, an error is signaled that satisfies `uxml-error?`.
 
 `(event-generator->sxml `*gen*`)`
 
-Invokes the generator *gen* to obtain event objects, constructs the corresponding SXML element, and returns it.  If the resulting object would not be structurally sound SXML, an error is signaled that satisfies `uxml-error?`.
+Invokes the generator *gen* to obtain event objects,
+constructs the corresponding SXML element, and returns it.
+If the resulting object would not be structurally sound SXML,
+an error is signaled that satisfies `uxml-error?`.
 
 `(write-uxml `*port options*`)`
 
-Returns a procedure that accepts an event object.  When invoked repeatedly, the procedure writes the corresponding MicroXML representation to the textual output port *port* using the symbols in *options*, and returns an undefined value.    If the resulting document would not be well-formed MicroXML, an error is signaled that satisfies `uxml-error?`.
+Returns a procedure that accepts an event object.
+When invoked repeatedly, the procedure writes the corresponding MicroXML representation
+to the textual output port *port* using the symbols in *options*,
+and returns an undefined value.
+If the resulting document would not be well-formed MicroXML,
+an error is signaled that satisfies `uxml-error?`.
 
 `(build-sxml)`
 
-Returns a [SRFI 158](http://srfi.schemers.org/srfi-158/srfi-158.html) accumulator that accepts an event object or an end of file object.  When invoked repeatedly, it builds the corresponding SXML representation.  If the object is an end of file object, the procedure returns the SXML element; if not, it returns an unspecified value.  If the resulting document would not be well-formed MicroXML, an error is signaled that satisfies `uxml-error?`.
+Returns a [SRFI 158](http://srfi.schemers.org/srfi-158/srfi-158.html) accumulator
+that accepts an event object or an end of file object.
+When invoked repeatedly, it builds the corresponding SXML representation.
+If the object is an end of file object, the procedure returns the SXML element;
+if not, it returns an unspecified value.
+If the resulting document would not be well-formed MicroXML,
+an error is signaled that satisfies `uxml-error?`.
 
 ## Events
 
