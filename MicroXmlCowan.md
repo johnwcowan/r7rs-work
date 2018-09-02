@@ -330,6 +330,12 @@ The following procedures are generator operations:
 they accept a generator of SXML elements and return another generator, also of SXML elements.
 After the `sxml-` prefix, they begin with `g`, using the convention of
 [SRFI 158](http://srfi.schemers.org/srfi-158/srfi-121.html) for generator operations.
+If the source generator is empty, so is the result generator.
+
+`(sxml-groot `*parent-mapping gen*`)`
+
+Returns a generator of SXML elements which invokes SXML elements from *gen*
+and returns their root elements on successive invocations.
 
 `(sxml-gparent `*parent-mapping gen*`)`
 
@@ -346,6 +352,18 @@ and returns their ancestor elements from parent to root on successive invocation
 Returns a generator of SXML elements which invokes SXML elements from *gen*
 and returns their element itself and then its ancestor elements
 from parent to root on successive invocations.
+
+`(sxml-gchild `*parent-mapping gen*`)`
+
+Returns a generator of SXML elements which invokes SXML elements from *gen*
+and returns their descendant elements
+in depth-first order from left to right on successive invocations.
+
+`(sxml-gchild `*parent-mapping gen*`)`
+
+Returns a generator of SXML elements which invokes SXML elements from *gen*
+and returns their descendant elements
+in depth-first order from left to right on successive invocations.
 
 `(sxml-gchild `*parent-mapping gen*`)`
 
@@ -386,7 +404,13 @@ and returns the elements themselves and then all of their preceding elements in 
 
 ## Paths
 
-`(sxml-path `*element parent-map item* ...`)`
+`(sxml-path `*element parent-mapping item* ...`)`
+
+Items: `/` is root, `//` is descendant, `..` is parent.
+All other symbols are the names of child elements.
+An exact integer is the number of a content child.
+A procedure is an axis procedure or a user-written
+procedure with the same signature.
 
 ## Error handling
 
@@ -398,4 +422,4 @@ Returns `#t` if *obj* belongs to the error type, and `#f` otherwise.
 
 `(uxml-error-event `*xml-error*`)`
 
-Returns an `$error` or `$pi` event (i.e. a list) encapsulated in *xml-error*.
+Returns an `$error` event (i.e. a list) encapsulated in *xml-error*.
