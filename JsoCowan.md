@@ -27,15 +27,10 @@ has the same representation as a JSO.
 
 ## Constructors
 
-`jso-null`
-
-A variable whose value is *the null JSO*, a unique free JSO with no 
-keys or values.  It is an error to mutate the null JSO in any way.
-
 `(make-jso` *prototype obj* ...`)`
 
 Returns a newly allocated JSO with the specified *prototype*.  If 
-*prototype* is the undefined object, the JSO is free.  Additional 
+*prototype* is the empty list, the JSO is free.  Additional 
 arguments are alternating keys and values of the JSO.
 
 `(alist->jso` *alist prototype*`)`
@@ -67,10 +62,6 @@ Scheme object.
 Returns `#t` if the car of *jso* is the symbol `@`, and `#f` otherwise. 
 The rest of the JSO is left unexamined.
 
-(`jso-null?` *obj*`)`
-
-Returns `#t` if *obj* is the null JSO and `#f` otherwise.
-
 `(jso-empty?` *jso*`)`
 
 Returns `#t` if the JSO has no keys, and `#f` otherwise.  The prototype 
@@ -90,17 +81,17 @@ prototype chain is left unexamined.
 Searches *jso*, including the prototype chain, for the key *key*, 
 invokes the procedure *success* on it, and returns the result.  If 
 *key* is not found, invokes the thunk *failure* and returns the result. 
-If *success* is not specified, it is the identity function; if *fail* 
+If *success* is not specified, it is the identity function; if *failure* 
 is not specified, it is a procedure that returns the undefined value.
 
-The *jso-ref/default* procedure is the same, but returns *default*
+The `jso-ref/default` procedure is the same, but returns *default*
 if the *key* is not found.
 
 `(jso-local-ref` *jso key* [ *failure* [ *success* ] ]`)`
 
 `(jso-local-ref/default` *jso key* default*`)`
 
-The same as `jso-ref` and `jso-ref/default, except that the prototype
+The same as `jso-ref` and `jso-ref/default`, except that the prototype
 chain is not searched.
 
 `(jso-size` *jso*`)`
@@ -162,20 +153,11 @@ Returns a newly allocated JSO after applying *proc* to each key and
 value in *jso*; *proc* returns the new key and value.  The prototype
 chains are shared.
 
-`(jso-full-map` *proc jso*`)`
-
-The same as `jso-map`, except that the prototype chain is also processed.
-
 `(jso-for-each` *proc jso*`)`
 
 Applies *proc* to each key and value.  The prototype chain is left 
 unexamined.  Returns an undefined value (not necessarily *the* 
 undefined value).
-
-`(jso-full-for-each` *proc jso*`)`
-
-Applies *proc* to each key and value, including those in the prototype 
-chain.  Returns an undefined value (not necessarily *the* undefined value).
 
 `(jso-fold` *proc seed jso*`)`
 
@@ -189,29 +171,21 @@ of the last invocation of *proc*.  The prototype chain is not examined.
 `(jso-filter` *pred jso*`)`
 
 Returns a JSO containing the associations of *jso* whose
-key and value satisfy *pred*.
+key and value satisfy *pred*.  The prototype chain is unexamined
+and is shared with the result.
 
 `(jso-remove` *pred jso*`)`
 
 Returns a JSO containing the associations of *jso*, except those whose
-key and value do not satisfy *pred*.
+key and value do not satisfy *pred*.  The prototype chain is unexamined
+and is shared with the result.
 
 `(jso-partition` *pred jso*`)`
 
 Returns two values, both JSOs.  The first JSO contains the
 associations of *jso* whose key and value satisfy *pred*, and
-the second JSO contains those that do not.
-
-`(jso-full-fold` *proc seed jso*`)`
-
-`(jso-full-filter` *pred jso*`)`
-
-`(jso-full-remove` *pred jso*`)`
-
-`(jso-full-partition` *pred jso*`)`
-
-The same as `jso-fold`, `jso-filter`, `jso-remove`, `jso-partition` except that 
-the prototype chain is processed.
+the second JSO contains those that do not.  The prototype chain is unexamined
+and is shared with the results.
 
 ## Mutators
 
@@ -249,30 +223,31 @@ Modifies *jso* by applying *proc* to each key and value in *jso*;
 
 `(jso-apply` *jso key argument* ...`)`
 
-Applies the result of `(jso-ref `*jso key*`)` to *jso* and the 
+Applies the result of `(jso-ref ` *jso key*`)` to *jso* and the 
 *arguments*, returning the result(s).  If the result does not exist or 
 is not a procedure, it is an error.
 
-`(jso-apply/fallback` *jso key failure argument* ...`)`
+`(jso-apply/fallback` *jso key fallback argument* ...`)`
 
-Applies the result of `(jso-ref `*jso key*`)` to *jso* and the 
-*arguments*, returning the result(s).  If the result does not exist, 
-the thunk *failure* is invoked.  If the result is not a procedure, it 
-is an error.
+Obtains the result of `(jso-ref `*jso key*`)`.  If the result is not a procedure, it 
+is an error.  If the result is a procedure, it is applied to
+to *jso* and the *arguments*, returning the result(s).
+If the result does not exist, the procedure *fallback* is applied instead.
 
 ## JSON
 
 `(json-value?` *obj*`)`
 
 Returns `#t` if *obj* is a JSON value: that is, a finite real number, a 
-string, a boolean, a proper list whose elements (if any) are JSON 
+string, a boolean, the Scheme symbol `null`,
+a proper list whose elements (if any) are JSON 
 values, or a JSO whose values are JSON values (the prototype chains are 
 left unexamined).  The procedure verifies that any JSO's keys are 
 symbols.
 
 Note that when discriminating between JSON values represented by lists,
 they should be tested in the following order:  the empty list representing
-an empty JSON array, the null JSO representing JSON `null`, any other JSO
+an empty JSON array, any JSO
 representing a JSON object, and any other list representing a non-empty
 JSON array.
 
@@ -293,35 +268,37 @@ Interprets all escape sequences in a valid JSON string and returns the
 result.  An error satisfying `json-error?` is signaled if a malformed
 escape sequence is found.
 
-`(json-write` *obj options* [[|*port* ]] ]`)`
+`(json-write` *obj [ *options* [ *port* ] ]`)`
 
 Output *obj* to *port* (which defaults to the value of 
 `(current-output-port)`) in [JSON 
 format](https://tools.ietf.org/html/rfc7159).  Exact rationals other 
 than integers are converted to inexact numbers before being output.  
-The null JSO is output as the keyword `null`.  If *obj* is not a JSON 
+The symbol `null` is output as the keyword `null`.  If *obj* is not a JSON 
 value, an error satisfying `json-error?` is signaled before any output is done.
 
-The *options* argument is a list of symbols.  The symbol `ascii` causes 
+The *options* argument is an optional list of symbols.  The symbol `ascii` causes 
 all non-ASCII characters in strings to be escaped.  The symbol `pretty` 
-may cause the JSON to be pretty-printed.  All other symbols are 
+may cause the JSON to be pretty-printed.  The meanings of all other symbols are 
 implementation-dependent.
 
-`(json-read` *prototype* [ *jso* [ *port* ] ]`)`
+`(json-read` [ *prototype* [ *port* ] ]`)`
 
 Reads the [JSON representation](https://tools.ietf.org/html/rfc7159) of 
 a JSON value from *port* (which defaults to the value of 
 `(current-input-port)`) and returns the appropriate value.  Any leading 
-whitespace is skipped.
+whitespace is skipped.  The keyword `null` is read as the symbol `null`.
 Integers are returned as exact numbers in accordance with Scheme rules; 
-all other JSON numbers are returned as inexact numbers.  The keyword 
-*null* is returned as the null JSO.  If the representation is not 
-syntactically correct JSON, an error is signaled.  If an end of file is 
+all other JSON numbers are returned as inexact numbers.
+Any JSOs returned are created with *prototype*, or as free JSOs if 
+*prototype* is the empty list or omitted.
+
+If the representation is not 
+syntactically correct JSON, an error is signaled and *port* is left in
+an undefined state.  If an end of file is 
 read from *port*, then if nothing has been read yet an end-of-file 
 object is returned; otherwise, an error is signaled.
 
-Any JSOs returned are created with *prototype*, or as free JSOs if 
-*prototype* is the undefined value or omitted.
 
 
 `(json-error?` *obj*`)`
