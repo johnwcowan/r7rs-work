@@ -18,6 +18,8 @@ Integer sets:  [IntegerSetsCowan](IntegerSetsCowan.md)
 
 Descriptive statistics:  [TallyCowan](TallyCowan.md)
 
+Ranges: [RangesCowan](RangesCowan.md)
+
 Maximal and minimal elements of lists and vectors:
 
 **Enumerations**
