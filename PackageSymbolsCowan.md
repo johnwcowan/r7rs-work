@@ -4,11 +4,11 @@ Function KEYWORDP
 
 Function MAKE-SYMBOL
 
-Function COPY-SYMBOL
+Function COPY-SYMBOL with or without properties
 
 Function GENSYM
 
-Variable *GENSYM-COUNTER*
+Variable \*GENSYM-COUNTER*
 
 Function SYMBOL-NAME
 
@@ -24,17 +24,15 @@ Function REMPROP
 
 Function EXPORT
 
-Function FIND-SYMBOL
+Function FIND-SYMBOL search accessible
 
 Function FIND-PACKAGE
 
-Function FIND-ALL-SYMBOLS
+Function FIND-ALL-SYMBOLS search all
 
 Function IMPORT
 
-Function LIST-ALL-PACKAGES
-
-Function RENAME-PACKAGE
+Function LIST-ALL-PACKAGES 
 
 Function SHADOW
 
@@ -44,8 +42,6 @@ Function DELETE-PACKAGE
 
 Function MAKE-PACKAGE
 
-Macro WITH-PACKAGE-ITERATOR
-
 Function UNEXPORT
 
 Function UNINTERN
@@ -54,7 +50,7 @@ Function UNUSE-PACKAGE
 
 Function USE-PACKAGE
 
-Macro DO-SYMBOLS, DO-EXTERNAL-SYMBOLS, DO-ALL-SYMBOLS
+Macro DO-SYMBOLS (accessible), DO-EXTERNAL-SYMBOLS, DO-ALL-SYMBOLS
 
 Function INTERN
 
@@ -68,7 +64,7 @@ Function PACKAGE-USED-BY-LIST
 
 Function PACKAGEP
 
-Variable *PACKAGE*
+Variable \*PACKAGE*
 
 Condition Type PACKAGE-ERROR
 
