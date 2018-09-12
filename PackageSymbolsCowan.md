@@ -1,0 +1,75 @@
+##Symbols
+
+Function KEYWORDP
+
+Function MAKE-SYMBOL
+
+Function COPY-SYMBOL
+
+Function GENSYM
+
+Variable *GENSYM-COUNTER*
+
+Function SYMBOL-NAME
+
+Function SYMBOL-PACKAGE
+
+Accessor SYMBOL-PLIST
+
+Accessor GET
+
+Function REMPROP
+
+##Packages
+
+Function EXPORT
+
+Function FIND-SYMBOL
+
+Function FIND-PACKAGE
+
+Function FIND-ALL-SYMBOLS
+
+Function IMPORT
+
+Function LIST-ALL-PACKAGES
+
+Function RENAME-PACKAGE
+
+Function SHADOW
+
+Function SHADOWING-IMPORT
+
+Function DELETE-PACKAGE
+
+Function MAKE-PACKAGE
+
+Macro WITH-PACKAGE-ITERATOR
+
+Function UNEXPORT
+
+Function UNINTERN
+
+Function UNUSE-PACKAGE
+
+Function USE-PACKAGE
+
+Macro DO-SYMBOLS, DO-EXTERNAL-SYMBOLS, DO-ALL-SYMBOLS
+
+Function INTERN
+
+Function PACKAGE-NAME
+
+Function PACKAGE-SHADOWING-SYMBOLS
+
+Function PACKAGE-USE-LIST
+
+Function PACKAGE-USED-BY-LIST
+
+Function PACKAGEP
+
+Variable *PACKAGE*
+
+Condition Type PACKAGE-ERROR
+
+Function PACKAGE-ERROR-PACKAGE
