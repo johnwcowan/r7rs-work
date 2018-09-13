@@ -1,71 +1,81 @@
-##Symbols
 
-Function KEYWORDP
+##symbols
 
-Function MAKE-SYMBOL
+symbol
 
-Function COPY-SYMBOL with or without properties
+package
 
-Function GENSYM
+homeless-symbol?
 
-Variable \*GENSYM-COUNTER*
+copy-symbol symbol
 
-Function SYMBOL-NAME
+gensym
 
-Function SYMBOL-PACKAGE
+gensym-counter
 
-Accessor SYMBOL-PLIST
+symbol-name
 
-Accessor GET
+symbol-package
 
-Function REMPROP
+symbol-plist
 
-##Packages
+symbol-get
 
-Function EXPORT
+symbol-set!
 
-Function FIND-SYMBOL search accessible
+symbol-remove
 
-Function FIND-PACKAGE
+##packages
 
-Function FIND-ALL-SYMBOLS search all
+symbol-export
 
-Function IMPORT
+symbol-find-all
 
-Function LIST-ALL-PACKAGES 
+symbol-import
 
-Function SHADOW
+package-list
 
-Function SHADOWING-IMPORT
+symbol-shadow
 
-Function DELETE-PACKAGE
+symbol-shadowing-import
 
-Function MAKE-PACKAGE
+package-delete
 
-Function UNEXPORT
+make-package
 
-Function UNINTERN
+symbol-unexport
 
-Function UNUSE-PACKAGE
+symbol-unintern
 
-Function USE-PACKAGE
+package-unuse
 
-Macro DO-SYMBOLS (accessible), DO-EXTERNAL-SYMBOLS, DO-ALL-SYMBOLS
+package-use
 
-Function INTERN
+package-symbols
 
-Function PACKAGE-NAME
+package-external-symbols
 
-Function PACKAGE-SHADOWING-SYMBOLS
+package-all-symbols
 
-Function PACKAGE-USE-LIST
+symbol-intern
 
-Function PACKAGE-USED-BY-LIST
+package-name
 
-Function PACKAGEP
+package-shadowing-symbols
 
-Variable \*PACKAGE*
+package-use-list
 
-Condition Type PACKAGE-ERROR
+package-used-by-list
 
-Function PACKAGE-ERROR-PACKAGE
+package?
+
+current-package
+
+package-error?
+
+package-error-package
+
+superpackage
+
+subpackages
+
