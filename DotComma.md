@@ -1,4 +1,4 @@
-Given `b` => 312, what is the value of {{{`}}}`(a .,b)`?
+Given `b` => 312, what is the value of ```(a .,b)``?
 
 Guile, Bigloo, Shoe, Dream, S7, Elk, Sizzle, Dfsch:  `(a .,b)`, treating `.,b` as a symbol.
 
