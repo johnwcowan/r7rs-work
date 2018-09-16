@@ -1,6 +1,14 @@
 ## Named Parameters
 
-In this design, keywords are disjoint from symbols, but there is no special syntax for them: for each keyword, a variable is bound to the value of that keyword.  Keywords must be compared with `keyword=?` rather than with `eq?`.
+In this design, keywords are disjoint from symbols, but there is no special syntax for them: 
+for each keyword, a variable is bound to the value of that keyword.  
+Keywords must be compared with `keyword=?` rather than with `eq?`.
+
+The problem with this design is that keywords in a library must be exported explicitly,
+and if the same keyword is used in more than one library
+then it must be imported from exactly one (or renamed) due to R6RS/R7RS import rules,
+even though `keyword=?` does not care about the name of the identifier, only the name of
+the symbol inside the keyword object.  This is a great nuisance.
 
 ## Syntax
 
