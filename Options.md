@@ -2,16 +2,16 @@ Optional
 
 Constructors
 
-just
-nothing
+some
+none
 left
 right
 
 Predicates
 
 maybe?
-just?
-nothing?
+some?
+none?
 either?
 left?
 right?
