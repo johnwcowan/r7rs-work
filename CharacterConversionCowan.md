@@ -18,7 +18,7 @@ Returns `#t` if it is possible to convert between *ces,,1,,* and *ces,,2,,* and 
 
 Returns a CES which might be the correct encoding of the bytes in *bytevector*.  If *hint* is provided, it is a possible CES which gives a possibly helpful indication of the correct CES.  For example, given a hint of "UTF-8", this procedure might return "UTF-8" if *bytevector* contains well-formed UTF-8, or "ISO-8859-1" if it does not.
 
-## String and bytevector conversion
+## String and bytevector conversions
 
 `(string->bytevector `*ces string*`)`
 
