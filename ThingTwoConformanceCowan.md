@@ -1,4 +1,4 @@
-## WG2 Scheme conformance statement
+## WG2 Scheme conformance statement (proposed)
 
 A conformant WG2 Scheme implementation MUST:
 
@@ -6,9 +6,6 @@ A conformant WG2 Scheme implementation MUST:
 
 * Support the full range of Unicode characters.
 
-* Support multiple values.
+* Support the full numeric tower with the possible exception of exact complex numbers.
 
-A conformant WG2 Scheme implementation MAY:
-
-* Support none, any, or all of the WG2 Scheme modules.
-
+* Support all R7RS-large libraries except those marked "optional".
