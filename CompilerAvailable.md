@@ -10,7 +10,7 @@ Compilers to CLR bytecode: Bigloo, Hotdog (port of Scheme48), IronScheme, Larcen
 
 Compilers to private bytecode (with JIT): Pycket (port of Racket to RPython), Racket, Guile (JIT in separate package)
 
-Compilers to private bytecode (without JIT):  Chibi, Elk, FemtoLisp, Foment, Guile (standard), Mosh, Oaklisp, Owl Lisp, Picrin, Rep, RScheme, Sagittarius, Scheme 48, STklos, Shoe(?), SXM, Vx, Unlikely, VSCM, Wraith, XLisp, Ypsilon (probably incomplete)
+Compilers to private bytecode (without JIT):  Chibi, Elk, FemtoLisp, Foment, Gauche (conjectural), Guile (standard), Mosh, Oaklisp, Owl Lisp, Picrin, Rep, RScheme, Sagittarius, Scheme 48, STklos, Shoe(?), SXM, Vx, Unlikely, VSCM, Wraith, XLisp, Ypsilon (probably incomplete)
 
 Tree-walking interpreters: Chicken, SISC, NexJ, KSi, SigScheme, TinyScheme, MiniScheme, Scheme 9, S7, SIOD, BDC, Schemik, UMB, Llava, Sizzle(?), LMU(?), dfsch, Inlab
 
