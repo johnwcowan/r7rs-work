@@ -27,10 +27,11 @@ Here are finer details:
 * `#i` and `#e` syntax are not supported.
 
 DSSSL extensions:
+
 * Complex `lambda`-lists are provided, with flags `#!optional, #!rest, #!key`.  These three are self-defining named constants when used outside `lambda`-lists.
 * Keywords are runtime objects, with procedures `keyword?, keyword->string, string->keyword`.
 * Quantities are a superset of numbers: the primitive unit is meters, written `m` (e.g. `1m` for 1 meter).  Standard derived units are `cm mm in pt pica`, and new derived units (but not new primitive units) may be added with `define-unit`.
-* Numeric literals with a decimal point, an exponent, or a unit are inexact; all others are exact.
+* Numeric literals with a decimal point, an exponent, or a unit are inexact; all others are exact. 
 * The procedures `exact?, inexact?, =, <, >, <=, >=, zero?, positive?, negative?, odd?, even?, max, min, +, -, *, /, abs atan` (with two arguments), `sqrt` apply to quantities as well as numbers.
 * `quantity->number` strips the unit from a quantity.
 * `format-number` converts a number to a string containing ordinary numbers, numbers with leading zeros, letters, or Roman numerals.  `format-number-list` applies to a
@@ -38,4 +39,4 @@ DSSSL extensions:
 * Language objects specify collation and case conversion; procedures are `language?, current-language, with-language`.
 * Non-Scheme procedures can be accessed with `external-procedure`, which returns a corresponding Scheme procedure, which should be pure functional.
 * Date and time procedures are provided: `time` returns the current time since the 1970 Epoch as an integer; `time->string, time<?, time>?, time<=?, time>=` generate and compare ISO 8601 timestamp strings.
-* `error` signals an error; it has one argument, a string.
+* `error` signals an error; it has one argument, a string. 
