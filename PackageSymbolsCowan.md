@@ -1,29 +1,35 @@
 
 ##symbols
 
-symbol
+& package-name package-name ... symbol-name -> symbol[syntax]
 
-package
+&& package-name package-name ... symbol-name -> symbol [syntax]
 
-homeless-symbol?
+package [package] package-names -> package
 
-copy-symbol symbol
+homeless-symbol? symbol -> boolean
 
-gensym
+plain-symbol? symbol -> boolean
 
-gensym-counter
+make-symbol package name -> symbol
 
-symbol-name
+symbol-name symbol -> name
 
-symbol-package
+symbol-package symbol -> package
 
-symbol-plist
+symbol-plist -> plist
 
-symbol-get
+symbol-property-ref symbol indicator -> value
 
-symbol-set!
+symbol-property-set! symbol indicator value
 
-symbol-remove
+symbol-property-remove! symbol indicator
+
+symbol-indicator? symbol indicator -> boolean
+
+symbol-indicator-add! symbol indicator
+
+symbol-indicator-remove! symbol indicator
 
 ##packages
 
