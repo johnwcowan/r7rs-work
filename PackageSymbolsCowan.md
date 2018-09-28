@@ -73,29 +73,27 @@ package-for-each-external proc package
 
 package-for-each-accessible proc package
 
-package-external-symbols
+symbol-intern! package symbol
 
-package-all-symbols
+package-name package -> package-name
 
-symbol-intern
+package-shadowing-symbols -> symbols
 
-package-name
+package-imports -> packages
 
-package-shadowing-symbols
+package-imported-by -> packages
 
-package-use-list
+package? obj -> boolean
 
-package-used-by-list
+package-error? obj -> boolean
 
-package?
+symbol-conflict? obj -> boolean
 
-current-package
+symbol-conflict-symbols symbol-conflict -> symbols
 
-package-error?
+symbol-conflict-packages symbol-conflict -> packages
 
-package-error-package
+package-parent package -> package
 
-superpackage
-
-subpackages
+package-children package -> packages
 
