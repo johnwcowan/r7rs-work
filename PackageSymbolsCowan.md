@@ -1,9 +1,9 @@
 
 ##symbols
 
-& package-name package-name ... symbol-name -> symbol[syntax]
+& package-name package-name ... name -> symbol[syntax]
 
-&& package-name package-name ... symbol-name -> symbol [syntax]
+&& package-name package-name ... name -> symbol [syntax]
 
 package [package] package-names -> package
 
@@ -31,33 +31,47 @@ symbol-indicator-add! symbol indicator
 
 symbol-indicator-remove! symbol indicator
 
+symbol-delete! symbol
+
 ##packages
 
-symbol-export
+symbol-export! package symbol
 
-symbol-find-all
+package-search [package] name -> symbol
 
-symbol-import
+package-search-all [package] name -> symbols
 
-package-list
+symbol-import! package symbol
 
-symbol-shadow
+package-search name -> symbols
 
-symbol-shadowing-import
+symbol-shadow! package name
 
-package-delete
+symbol-shadowing-import! package symbol
 
-make-package
+package-delete! package
 
-symbol-unexport
+make-package [package] package-name -> package
 
-symbol-unintern
+symbol-unexport! package symbol
 
-package-unuse
+symbol-unintern! package symbol
 
-package-use
+package-import! importing-package imported-package
 
-package-symbols
+package-unimport! importing-package imported-package
+
+package-map proc package -> objects
+
+package-map-external proc package -> objects
+
+package-map-accessible proc package -> objects
+
+package-for-each proc package
+
+package-for-each-external proc package
+
+package-for-each-accessible proc package
 
 package-external-symbols
 
