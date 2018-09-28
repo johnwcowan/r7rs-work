@@ -17,7 +17,9 @@ symbol-name symbol -> name
 
 symbol-package symbol -> package
 
-symbol-plist -> plist
+symbol-plist symbol -> plist
+
+symbol-plist-set! symbol plist
 
 symbol-property-ref symbol indicator -> value
 
@@ -35,9 +37,11 @@ symbol-delete! symbol
 
 ##packages
 
+package package-names -> package
+
 symbol-export! package symbol
 
-package-search [package] name -> symbol
+package-search [package] name -> symbol status-symbol
 
 package-search-all [package] name -> symbols
 
@@ -89,6 +93,8 @@ package-error? obj -> boolean
 
 symbol-conflict? obj -> boolean
 
+symbol-conflict-action symbol-conflict -> symbol
+
 symbol-conflict-symbols symbol-conflict -> symbols
 
 symbol-conflict-packages symbol-conflict -> packages
@@ -96,4 +102,10 @@ symbol-conflict-packages symbol-conflict -> packages
 package-parent package -> package
 
 package-children package -> packages
+
+package-descendants package -> packages
+
+symbol->fancy symbol -> symbol
+
+fancy->symbol symbol -> symbol
 
