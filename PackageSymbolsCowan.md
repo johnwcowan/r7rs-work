@@ -5,13 +5,11 @@
 
 && package-name package-name ... name -> symbol [syntax]
 
-package [package] package-names -> package
+make-symbol name -> symbol
 
 homeless-symbol? symbol -> boolean
 
 plain-symbol? symbol -> boolean
-
-make-symbol package name -> symbol
 
 symbol-name symbol -> name
 
@@ -33,37 +31,33 @@ symbol-indicator-add! symbol indicator
 
 symbol-indicator-remove! symbol indicator
 
+symbol->fancy symbol -> symbol
+
+fancy->symbol symbol -> symbol
+
 symbol-delete! symbol
 
 ##packages
 
-package package-names -> package
-
-symbol-export! package symbol
-
-package-search [package] name -> symbol status-symbol
-
-package-search-all [package] name -> symbols
-
-symbol-import! package symbol
-
-package-search name -> symbols
-
-symbol-shadow! package name
-
-symbol-shadowing-import! package symbol
-
-package-delete! package
-
 make-package [package] package-name -> package
 
-symbol-unexport! package symbol
+package? obj -> boolean
 
-symbol-unintern! package symbol
+package [package] package-names -> package
 
-package-import! importing-package imported-package
+package-name package -> package-name
 
-package-unimport! importing-package imported-package
+package-shadowing-symbols -> symbols
+
+package-imports -> packages
+
+package-imported-by -> packages
+
+package-parent package -> package
+
+package-children [package] -> packages
+
+package-descendants [package] -> packages
 
 package-map proc package -> objects
 
@@ -77,17 +71,33 @@ package-for-each-external proc package
 
 package-for-each-accessible proc package
 
-symbol-intern! package symbol
+package-search [package] name -> symbol status-symbol
 
-package-name package -> package-name
+package-search-all [package] name -> symbols
 
-package-shadowing-symbols -> symbols
+##package system
 
-package-imports -> packages
+symbol-intern! package name
 
-package-imported-by -> packages
+symbol-import! package symbol
 
-package? obj -> boolean
+symbol-shadowing-import! package symbol
+
+symbol-export! package symbol
+
+symbol-shadow! package name
+
+package-import! importing-package imported-package
+
+package-unimport! importing-package imported-package
+
+symbol-unexport! package symbol
+
+symbol-unintern! package symbol
+
+package-delete! package
+
+##exceptions
 
 package-error? obj -> boolean
 
@@ -98,14 +108,4 @@ symbol-conflict-action symbol-conflict -> symbol
 symbol-conflict-symbols symbol-conflict -> symbols
 
 symbol-conflict-packages symbol-conflict -> packages
-
-package-parent package -> package
-
-package-children package -> packages
-
-package-descendants package -> packages
-
-symbol->fancy symbol -> symbol
-
-fancy->symbol symbol -> symbol
 
