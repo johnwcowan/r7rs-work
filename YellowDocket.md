@@ -22,7 +22,7 @@ Named parameters:  [NamedParametersCowan](NamedParametersCowan.md) or [SRFI 89](
 
 `and-let*`: [SRFI 2](http://srfi.schemers.org/srfi-2/srfi-2.html)
 
-Generalized `set!`: [SRFI 17](http://srfi.schemers.org/srfi-17/srfi-17.html), possibly plus [wiki:Srfi17ExtensionsCowan]
+Generalized `set!`: [SRFI 17](http://srfi.schemers.org/srfi-17/srfi-17.html), possibly plus [Srfi17ExtensionsCowan](Srfi17ExtensionsCowan.md)
 
 `receive`: [SRFI 8](http://srfi.schemers.org/srfi-8/srfi-8.html)
 
@@ -52,5 +52,9 @@ Syntax-rules extensions: [SRFI 149](http://srfi.schemers.org/srfi-149/srfi-149.h
 
 Assumptions: [SRFI 145](http://srfi.schemers.org/srfi-145/srfi-145.html)
 
-Setter-based macros: [Srfi17ExtensionsCowan](Srfi17ExtensionsCowan.md)
+`let` extensions: [SRFI 5](http://srfi.schemers.org/srfi-5/srfi-5.html)
+
+Eager syntax rules: [SRFI 148](http://srfi.schemers.org/srfi-148/srfi-148.html)
+
+Syntax-rules extensions: [SRFI 149](http://srfi.schemers.org/srfi-149/srfi-149.html)
 
