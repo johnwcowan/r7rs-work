@@ -18,5 +18,7 @@ Random utilities: [RandomUtilitiesMore](RandomUtilitiesMore.md)
 
 Record binders: [RecordBindersArcfide](RecordBindersArcfide.md)
 
+Alexandria: [Alexandria](Alexandria.md)
+
 
 
