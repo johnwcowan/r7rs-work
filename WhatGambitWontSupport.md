@@ -1,1 +1,3 @@
 The Gambit R6RS/R7RS maintainer has told me that because Gambit will use a preprocessor to handle both R6RS and R7RS libraries, there will be no support for `cond-expand`, `include`, or `include-ci` embedded in Scheme code: they will only be supported as library declarations and as top-level expressions in programs (and presumably at the REPL).  This will be an explicitly documented derogation from R7RS-small.
+
+This effort has now been abandoned.
