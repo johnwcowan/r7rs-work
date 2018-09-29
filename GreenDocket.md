@@ -55,4 +55,3 @@ Mutexes, condition variables: [SRFI 18](http://srfi.schemers.org/srfi-18/srfi-18
 Port type detector: see ticket #177
 
 Applicable record instances: [R6RS formal comment](http://www.r6rs.org/formal-comments/comment-6.txt)
-
