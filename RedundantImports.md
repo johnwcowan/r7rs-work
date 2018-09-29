@@ -20,6 +20,7 @@ Importing two or more different libraries that export the same identifier with t
 For R6RS, change `define-library` to `library`, `(scheme base)` to `(rnrs base)`, and `(scheme write)` to `(rnrs io simple)`.  To test different bindings, add new definitions of `x` and `y` to `(local x)` and `(local y)` respectively.
 
 |**system**|**version**|**mode**|**same binding**|**different binding**|**different binding in REPL**|
+|----------|-----------|--------|----------------|---------------------|-----------------------------|
 |Chibi| 0.7 | r7rs | okay | bug? | bug? |
 |Chicken| 4.9.0.1 | r7rs | okay | warned | okay |
 |Foment| 0.4 (debug) | r7rs | bug? | bug? | bug? |
