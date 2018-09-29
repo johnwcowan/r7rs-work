@@ -17,7 +17,7 @@ if it depends in some way on the current continuation, such as raising an except
 Parallel promises are not intended to be used for concurrency, so there are no facilities for mutual exclusion.
 A computation in a parallel promise might use `set!` to modify a shared variable, in which case concurrent
 assignment to the variable can be visible in other parallel promises or threads. Furthermore, guarantees
-about the visibility of effects and ordering are determined by the operating system and hardware — which rarely support,
+about the visibility of effects and ordering are determined by the operating system and hardware, which rarely support,
 for example, any guarantee of sequential consistency.
 At the same time, operations that seem obviously safe may have a complex enough implementation internally
 that they cannot run in parallel on a particular implementation.
