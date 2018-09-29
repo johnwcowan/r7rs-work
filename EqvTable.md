@@ -3,6 +3,7 @@ This table contains some facts about how `eqv?` works in R5RS, R6RS, and R7RS dr
 `eqv?` always returns false when two objects have different types, so the rows of this table indicate what it does when both arguments are of the stated type.  Note that "unspecified" means either `#t` or `#f`, but no other value.
 
 |Type|R5RS|R6RS|R7RS draft|Proposal|
+|----|----|----|----------|--------|
 |Booleans|True iff both `#t` or both `#f`|True iff both `#t` or both `#f` (via `boolean=?`)|True iff both `#t` or both `#f`|True iff both `#t` or both `#f` (via `boolean=?`)|
 |Symbols|True iff names are spelled the same|True iff names are spelled the same (via `symbol=?`)|True iff names are spelled the same|True iff names are spelled the same (via `symbol=?`)|
 |Characters|True iff `char=?` is true|True iff `char=?` is true|True iff `char=?` is true|True iff `char=?` is true|
