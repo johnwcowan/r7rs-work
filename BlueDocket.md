@@ -35,7 +35,7 @@ Memoization: [Memoize](Memoize.md) (not a proposal yet), [Racket](http://planet.
 
 Message digests (CRC, MD5, SHA1, SHA2):
 
-Assertions: [R6RS](http://www.r6rs.org/final/html/(r6rs/r6rs-Z-H-14.html#node_idx_750), R6RS with optional message and irritants.
+Assertions: [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_750), R6RS with optional message and irritants.
 
 Predicate generic functions: [GenericsChibi](http://synthcode.com/scheme/chibi/lib/chibi/generic.html) (needs extension for subtyping)
 
@@ -58,4 +58,6 @@ Unique types: [SRFI 137](http://srfi.schemers.org/srfi-137/srfi-137.html)
 Unifiable boxes: [SRFI 161](http://srfi.schemers.org/srfi-161/srfi-161.html)
 
 Channels: [PigeonHolesChicken](http://wiki.call-cc.org/eggref/5/pigeon-hole)
+
+Immutable tuples: [TuplesCowan](TuplesCowan.md)
 
