@@ -56,3 +56,6 @@ Command-line arguments: [SRFI 37](http://srfi.schemers.org/srfi-37/srfi-37.html)
 Unique types: [SRFI 137](http://srfi.schemers.org/srfi-137/srfi-137.html)
 
 Unifiable boxes: [SRFI 161](http://srfi.schemers.org/srfi-161/srfi-161.html)
+
+Channels: [PigeonHolesChicken](http://wiki.call-cc.org/eggref/5/pigeon-hole)
+
