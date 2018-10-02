@@ -2,7 +2,7 @@
 
 Random numbers: [SRFI 27](http://srfi.schemers.org/srfi-27/srfi-27.html), plus [AdvancedRandomGauche](AdvancedRandomGauche.md) or [RandomnessCommonLisp](RandomnessCommonLisp.md)
 
-Prime numbers:  [PrimesGauche](PrimesGauche.md).
+Prime numbers:  [PrimesGauche](PrimesGauche.html).
 
 Natural number predicates (from WG1):  `exact-positive-integer?` and `exact-non-negative-integer?`.
 
