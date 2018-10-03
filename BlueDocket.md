@@ -61,3 +61,9 @@ Channels: [PigeonHolesChicken](http://wiki.call-cc.org/eggref/5/pigeon-hole)
 
 Immutable tuples: [TuplesCowan](TuplesCowan.md)
 
+First-class dynamic extents: [SRFI 154](http://srfi.schemers.org/srfi-154/srfi-154.html)
+
+Promises: [SRFI 155](http://srfi.schemers.org/srfi-155/srfi-155.html)
+
+
+
