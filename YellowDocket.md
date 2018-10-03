@@ -58,3 +58,4 @@ Eager syntax rules: [SRFI 148](http://srfi.schemers.org/srfi-148/srfi-148.html)
 
 Syntax-rules extensions: [SRFI 149](http://srfi.schemers.org/srfi-149/srfi-149.html)
 
+Syntax combiners for binary functions: [SRFI 156](https://srfi.schemers.org/srfi-156/srfi-156.html)
