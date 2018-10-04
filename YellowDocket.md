@@ -4,7 +4,7 @@ Low-level macros:  [MinimalSyntaxCaseCowan](MinimalSyntaxCaseCowan.md), [explici
 
 More syntax-rules extensions: [SRFI 149](http://srfi.schemers.org/srfi-149/srfi-149.html)
 
-Macro uses in syntax definitions: [SRFI 147](http://srfi.schemers.org/srfi-147/srfi-147.html)
+Custom macro transformers: [SRFI 147](http://srfi.schemers.org/srfi-147/srfi-147.html) [not portable]
 
 Syntax parameters: [SRFI 139](http://srfi.schemers.org/srfi-139/srfi-139.html)
 
@@ -22,7 +22,7 @@ Named parameters:  [NamedParametersCowan](NamedParametersCowan.md) or [SRFI 89](
 
 `and-let*`: [SRFI 2](http://srfi.schemers.org/srfi-2/srfi-2.html)
 
-Generalized `set!`: [SRFI 17](http://srfi.schemers.org/srfi-17/srfi-17.html), possibly plus [wiki:Srfi17ExtensionsCowan]
+Generalized `set!`: [SRFI 17](http://srfi.schemers.org/srfi-17/srfi-17.html), possibly plus [Srfi17ExtensionsCowan](Srfi17ExtensionsCowan.md)
 
 `receive`: [SRFI 8](http://srfi.schemers.org/srfi-8/srfi-8.html)
 
@@ -30,7 +30,7 @@ Generalized `set!`: [SRFI 17](http://srfi.schemers.org/srfi-17/srfi-17.html), po
 
 `Cut/cute`:  [SRFI 26](http://srfi.schemers.org/srfi-26/srfi-26.html)
 
-Loops: [SRFI 42](http://srfi.schemers.org/srfi-42/srfi-42) or [Riastradh's foof-loop](http://mumble.net/~campbell/scheme/foof-loop.txt) or [Chibi loop](http://synthcode.com/scheme/chibi/lib/chibi/loop.html)
+Loops: [SRFI 42](http://srfi.schemers.org/srfi-42/srfi-42) or [Riastradh's foof-loop](http://mumble.net/~campbell/scheme/foof-loop.txt) or [Chibi loop](http://synthcode.com/scheme/chibi/lib/chibi/loop.html), summarized at [EagerComprehensions](EagerComprehensions.md)
 
 Generic accessors/mutators: [SRFI 123](http://srfi.schemers.org/srfi-123/srfi-123.html)
 
@@ -52,3 +52,10 @@ Syntax-rules extensions: [SRFI 149](http://srfi.schemers.org/srfi-149/srfi-149.h
 
 Assumptions: [SRFI 145](http://srfi.schemers.org/srfi-145/srfi-145.html)
 
+`let` extensions: [SRFI 5](http://srfi.schemers.org/srfi-5/srfi-5.html)
+
+Eager syntax rules: [SRFI 148](http://srfi.schemers.org/srfi-148/srfi-148.html)
+
+Syntax-rules extensions: [SRFI 149](http://srfi.schemers.org/srfi-149/srfi-149.html)
+
+Syntax combiners for binary functions: [SRFI 156](https://srfi.schemers.org/srfi-156/srfi-156.html)

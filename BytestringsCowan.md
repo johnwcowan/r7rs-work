@@ -33,6 +33,20 @@ hexadecimal digits.
 Converts a string containing pairs of hexadecimal digits
 into a bytevector.
 
+`(bytestring->string `*bytevector*`)`
+
+Convert the numbers in the bytevector to characters in the string according to their Unicode codepoints.
+
+`(list->bytestring `*list*`)`
+
+Convert a list, which must contain suitable arguments for `bytestring`, into a bytevector.
+
+`(bytestring->list `*list*`)`
+
+Convert a bytestring into a list containing suitable arguments for `bytestring`.  The implementation
+will compress consecutive printable ASCII codepoints into a string, but will not compress other values
+into a bytevector; they will be returned as integers.
+
 ##Selection
 
 `(bytestring-pad `*bytevector len [char-or-u8 start end]*`)`

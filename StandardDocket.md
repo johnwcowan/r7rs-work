@@ -12,3 +12,13 @@ Convenience package(s) for commonly desired sets of bindings:
 * (scheme r7rs-small) - all bindings in the small language
 * (scheme r7rs-red) - the Red Edition's bindings
 
+List set extensions: [LsetExtensionsCowan](LsetExtensionsCowan.md)
+
+Random utilities: [RandomUtilitiesMore](RandomUtilitiesMore.md)
+
+Record binders: [RecordBindersArcfide](RecordBindersArcfide.md)
+
+Alexandria: [Alexandria](Alexandria.md)
+
+
+

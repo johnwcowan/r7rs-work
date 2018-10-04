@@ -9,7 +9,7 @@ Strings: [SRFI 13](http://srfi.schemers.org/srfi-13/srfi-13.html) (comprehensive
 [SRFI 130](http://srfi.schemers.org/srfi-130/srfi-130.html) (cursor-based),
 [SRFI 152](http://srfi.schemers.org/srfi-152/srfi-152.html) (basic)
 
-Ordered sets and bags:  [SRFI 153](http://srfi.schemers.org/srfi-153/srfi-153.html)
+Ordered sets and bags:  [SRFI 153](http://srfi.schemers.org/srfi-153/srfi-153.html)  *INCOMPLETE*
 
 Mappings: [SRFI 146](http://srfi.schemers.org/srfi-146/srfi-146.html)
 

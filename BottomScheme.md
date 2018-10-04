@@ -28,7 +28,7 @@ Only `cond` without `=>`, `and`, `or`, `let`, `letrec`, `begin`, and named `let`
 
 5.5 Record-type definitions
 
-Full support for `define-record-type`.
+SRFI 137, but returning a list of five procedures rather than returning five values.
 
 6.1 Equivalence predicates
 
