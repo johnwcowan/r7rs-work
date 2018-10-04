@@ -5,7 +5,7 @@
 <h3 class="subheading">Generating primes</h3>
 
 <dl>
-<dt><a name="index-primes"></a><code>primes</code></dt>
+<dt><a name="index-primes"></a><code>(primes)</code></dt>
 <dd><p>Returns a fresh SRFI 127 lazy sequence of primes.  It is useful when
 you need primes for a short period of time &mdash; if you don&rsquo;t keep
 a reference to the returned sequence, it will be garbage
@@ -21,7 +21,7 @@ references in order to allow the sequence to be garbage collected.)
 each sequence returned by <code>primes</code> is computed individually,
 duplicating computation.  
 </p>
-<p>The rule of thumb is: if you use primes repeatedly throughout
+<p>The rule of thumb is: If you use primes repeatedly throughout
 the program, invoke <code>primes</code> and store its value in
 a global variable, and you&rsquo;ll save computation.
 If you need primes just once, invoke <code>primes</code>
@@ -37,10 +37,10 @@ and you&rsquo;ll save space.
 <h3 class="subheading">Testing primality</h3>
 
 <dl>
-<dt><a name="index-small_002dprime_003f"></a><code>small-prime?</code><i> n</i></dt>
+<dt><a name="index-small_002dprime_003f"></a><code>(small-prime?</code><i> n</i><code>)</code></dt>
 <dd><p>For positive integers 
 less than <code>small-prime-bound</code>, this procedure
-determines if <var>n</i> is prime or not, quickly and deterministically.
+determines if <var>n</var> is prime or not, quickly and deterministically.
 If <var>n</var> is greater than or equal to this bound, this procedure returns <code>#f</code>.
 </p>
 <p>This can be used to quickly filter out known primes; it never returns
@@ -51,14 +51,14 @@ but it may return <code>#t</code> on some composite numbers.
 </p></dd></dl>
 
 <dl>
-<dt><a name="index-_002asmall_002dprime_002dbound_002a"></a><code>small-prime-bound</code> [Variable]</dt>
+<dt><a name="index-_002asmall_002dprime_002dbound_002a"></a><code>small-prime-bound</code></dt>
 <dd><p>For all positive integers below this value
 <code>small-prime?</code> can determine whether it is a prime or not.
 </p></dd></dl>
 
 
 <dl>
-<dt><a name="index-miller_002drabin_002dprime_003f"></a><code>miller-rabin-prime?</code><i> n [[|num-tests ]]</i></dt>
+<dt><a name="index-miller_002drabin_002dprime_003f"></a><code>(miller-rabin-prime?</code><i> n [ num-tests ]<code>)</code></i></dt>
 <dd><p>Check if an exact integer <var>n</var> is a prime number, using
 the probabilistic <a href="https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test">Miller-Rabin algorithm</a>, where <var>n</var> must be greater than 1.
 If this procedure returns <code>#f</code>,
@@ -79,7 +79,7 @@ is at most <code>(expt 4 (- num-tests))</code>.
 </p></dd></dl>
 
 <dl>
-<dt><a name="index-bpsw_002dprime_003f"></a><code>bpsw-prime?</code><i> n</i></dt>
+<dt><a name="index-bpsw_002dprime_003f"></a><code>(bpsw-prime?</code><i> n</i><code>)</code></dt>
 <dd><p>Check if an exact integer <var>n</var> is a prime number, using
 (<a href="http://www.trnicely.net/misc/bpsw.html">the Baillie-PSW primality test</a>).
 It is deterministic,
@@ -96,7 +96,7 @@ so it is handy when you want a definitive answer below the above range.
 <h3 class="subheading">Factorization</h3>
 
 <dl>
-<dt><a name="index-naive_002dfactorize"></a><code>naive-factorize</code><i> n [[|divisor-limit ]]</i></dt>
+<dt><a name="index-naive_002dfactorize"></a><code>(naive-factorize</code><i> n [ divisor-limit ]<code>)</code></i></dt>
 <dd><p>Factorize a positive integer <var>n</var> by trying to divide it into
 all primes up to <code>(sqrt n)</code>.  Returns a list of prime factors,
 smallest first.
@@ -135,7 +135,7 @@ things faster.
 </p></dd></dl>
 
 <dl>
-<dt><a name="index-mc_002dfactorize"></a><code>mc-factorize</code><i> n</i></dt>
+<dt><a name="index-mc_002dfactorize"></a><code>(mc-factorize</code><i> n</i><code>)</code></dt>
 <dd><p>Factorize a positive integer <var>n</var> using the algorithm
 described in 
 R. P. Brent, <a href="http://maths-people.anu.edu.au/~brent/pub/pub051.html">
@@ -156,13 +156,13 @@ the limit, the procedure may loop forever.
 <h3 class="subheading">Miscellaneous</h3>
 
 <dl>
-<dt><a name="index-jacobi"></a><code>jacobi</code><i> a n</i></dt>
+<dt><a name="index-jacobi"></a><code>(jacobi</code><i> a n</i><code>)</code></dt>
 <dd><p>Calculates the 
 <a href="http://en.wikipedia.org/wiki/Jacobi_symbol">Jacobi symbol</a> <code>(<var>a</var>/<var>n</var>)</code>.
 </p></dd></dl>
 
 <dl>
-<dt><a name="index-totient"></a><code>totient</code><i> n</i></dt>
+<dt><a name="index-totient"></a><code>(totient</code><i> n</i><code>)</code></dt>
 <dd><p><a href="https://en.wikipedia.org/wiki/Euler%27s_totient_function">
 Euler&rsquo;s totient function</a> of the nonnegative integer <var>n</var>.
 </p>
