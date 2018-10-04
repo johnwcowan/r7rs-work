@@ -39,7 +39,7 @@ Assertions: [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx
 
 Predicate generic functions: [GenericsChibi](http://synthcode.com/scheme/chibi/lib/chibi/generic.html) (needs extension for subtyping)
 
-Maybe/Either: [Options](Options.md)
+Maybe/Either: [MaybeEither](MaybeEither.md)
 
 Monad/Monoid:
 
