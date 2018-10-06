@@ -20,7 +20,7 @@ The numbers have 24-bit, 24-bit, 53-bit, and arbitrary precision respectively: K
 
 No inexact numbers: SigScheme, Dream, Oaklisp, Owl Lisp
 
-Report syntax errors or treat input as identifiers:  Bigloo, Scheme48/scsh, TinyScheme, Dream, RScheme, BDC, XLisp, Rep, Schemik, Elk, Sizzle, FemtoLisp
+Report syntax errors or treat input as identifiers:  Bigloo, Scheme48/scsh, TinyScheme, Dream, RScheme, BDC, XLisp, Rep, Schemik, Elk, Sizzle, FemtoLisp, Emacs Lisp
 
 Inputs are treated as as special lexical syntax, not as numbers: Llava
 
