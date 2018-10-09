@@ -17,8 +17,6 @@ symbol-package symbol -> package
 
 symbol-plist symbol -> plist
 
-symbol-plist-set! symbol plist
-
 symbol-property-ref symbol indicator -> value
 
 symbol-property-set! symbol indicator value
@@ -47,6 +45,8 @@ package [package] package-names -> package
 
 package-name package -> package-name
 
+package-path package -> package-names
+
 package-shadowing-symbols -> symbols
 
 package-imports -> packages
@@ -71,7 +71,7 @@ package-for-each-external proc package
 
 package-for-each-accessible proc package
 
-package-search [package] name -> symbol status-symbol
+package-search package name -> symbol status-symbol
 
 package-search-all [package] name -> symbols
 
