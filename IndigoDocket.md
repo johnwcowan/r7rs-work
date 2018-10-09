@@ -19,3 +19,5 @@ Edit buffers: [BuffersCowan](BuffersCowan.md)
 
 Immutable cycles: [CyclesMedernach](CyclesMedernach.md)
 
+Packages and rich symbols: [PackageSymbolsCowan](PackageSymbolsCowan.md)
+
