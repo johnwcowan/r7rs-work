@@ -43,8 +43,6 @@ Maybe/Either: [MaybeEither](MaybeEither.md)
 
 Monad/Monoid:
 
-Packages and rich symbols: [PackageSymbolsCowan](PackageSymbolsCowan.md)
-
 String normalization [StringNormalization](StringNormalization.md)
 
 Unique types: [UniqueTypesCowan](UniqueTypesCowan.md)
