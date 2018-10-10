@@ -39,7 +39,11 @@ Pure delay/force: [PureDelayedGloria](PureDelayedGloria.md)
 
 Finalizers: [FinalizersCowan](FinalizersCowan.md)
 
-Delimited continuations:
+Delimited continuations: [Racket](https://docs.racket-lang.org/reference/cont.html),
+[Guile](https://www.gnu.org/software/guile/manual/html_node/Prompt-Primitives.html),
+[Scheme48/Kali](https://github.com/tonyg/kali-scheme/blob/master/scheme/misc/shift-reset.scm),
+[Gauche](https://practical-scheme.net/gauche/man/gauche-refe/Partial-continuations.html),
+[Chicken](http://wiki.call-cc.org/eggref/4/F-operator)
 
 Continuation marks:  [SRFI 157](http://srfi.schemers.org/srfi-157/srfi-157.html)
 
