@@ -3,7 +3,7 @@
 `(bytestring `*arg* ...`)`
 
 Converts *args* into a sequence of small integers and
-concatenates them as a bytevector.
+returns them as a bytevector as follows:
 
 If *arg* is an integer in the range 0-255, it is added
 to the result.
@@ -12,14 +12,14 @@ If *arg* is a printable ASCII character (that is, its
 codepoint is in the range 32-126 inclusive), it is
 converted to its codepoint and added to the result.
 If the codepoint is not in this range, an error
-satisfying `codepoint-error?` is signaled.
+satisfying `bytestring-error?` is signaled.
 
 If *arg* is a bytevector, its elements are added to the result.
 
 If *arg* is a string of printable ASCII characters, it is
 converted to a sequence of codepoints which are added to the result.
 If any codepoint is not in the range 32-126 inclusive, an error
-satisfying `codepoint-error?` is signaled.
+satisfying `bytestring-error?` is signaled.
 
 ##Conversion
 
@@ -32,10 +32,6 @@ hexadecimal digits.
 
 Converts a string containing pairs of hexadecimal digits
 into a bytevector.
-
-`(bytestring->string `*bytevector*`)`
-
-Convert the numbers in the bytevector to characters in the string according to their Unicode codepoints.
 
 `(list->bytestring `*list*`)`
 
