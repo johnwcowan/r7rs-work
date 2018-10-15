@@ -34,6 +34,8 @@ Enumerations: [EnumsCowan](EnumsCowan.md)
 
 Enumeration sets and maps: [EnumContainersCowan](EnumContainersCowan.md)
 
+**Other**
+
 Combinations: [CombinationsCowan](CombinationsCowan.md)
 
 Number to string with Unicode: [NumberStringUnicode](NumberStringUnicode.md)
