@@ -1,6 +1,6 @@
 **Numeric types and operations**
 
-Random numbers: [SRFI 27](http://srfi.schemers.org/srfi-27/srfi-27.html), plus [AdvancedRandomGauche](AdvancedRandomGauche.md) or [RandomnessCommonLisp](RandomnessCommonLisp.md)
+Random numbers: [SRFI 27](http://srfi.schemers.org/srfi-27/srfi-27.html), plus [AdvancedRandomGauche](AdvancedRandomGauche.html) or [RandomnessCommonLisp](RandomnessCommonLisp.md)
 
 Prime numbers:  [PrimesGauche](PrimesGauche.html).
 
