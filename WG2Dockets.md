@@ -24,6 +24,9 @@ This is a list of voting dockets for WG2 work items (packages):
 [BlueDocket](BlueDocket.md)::
 > Proposals for the Blue Edition (further extensions) of R7RS-large.
 
+[AquaDocket](AquaDocket.md)::
+> Proposals for the Aqua Edition (further extensions) of R7RS-large.
+
 [IndigoDocket](IndigoDocket.md)::
 > Proposals for the Indigo Edition (extensions of doubtful merit) of R7RS-large.
 
