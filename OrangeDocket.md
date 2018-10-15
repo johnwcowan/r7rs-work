@@ -24,7 +24,7 @@ Descriptive statistics:  [TallyCowan](TallyCowan.md)
 
 Ranges: [RangesCowan](RangesCowan.md)
 
-Bitvectors: [BitvectorsCowan](BitvectorsCowan.md)
+BitVectors: [BitVectorsCowan](BitVectorsCowan.md)
 
 Bytestrings: [BytestringsCowan](BytestringsCowan.md)
 
