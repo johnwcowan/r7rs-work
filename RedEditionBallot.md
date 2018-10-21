@@ -1,1 +1,1 @@
-See [wiki:"RedEdition"].
+See [RedEdition](RedEdition.md).
