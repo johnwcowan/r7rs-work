@@ -129,6 +129,6 @@ read `(library `<library name>`)`.
 
 27\. The claim in the definition of `current-second` that the TAI-UTC offset as of January 1, 1970 was ten seconds is factually
 incorrect per [the USNO's list of offsets](http://maia.usno.navy.mil/ser7/tai-utc.dat).  The correct value for that date
-is 4.2131700 seconds.
+is 8.000082 seconds.
 
 
