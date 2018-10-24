@@ -14,6 +14,8 @@ Bignum encoding: [BignumEncodingCowan](BignumEncodingCowan.md)
 
 Combinator sublibrary: [SRFI 162](http://srfi.schemers.org/srfi-162/srfi-162.html)
 
+Logistic functions: [LogisticRiastradh](LogisticRiastradh.md)
+
 **Numeric and semi-numeric data structures**
 
 C-style structs:  [ByteStructuresTaylanub](https://github.com/TaylanUB/scheme-bytestructures).
