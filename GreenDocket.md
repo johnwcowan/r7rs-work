@@ -48,6 +48,7 @@ Delimited continuations: [Racket](https://docs.racket-lang.org/reference/cont.ht
 Continuation marks:  [SRFI 157](http://srfi.schemers.org/srfi-157/srfi-157.html)
 
 Extended exact numbers: [SRFI 73](http://srfi.schemers.org/srfi-73/srfi-73.html)
+or [ExtendedRationalsCowan](ExtendedRationalsCowan.md)
 
 Adjustable strings: [SRFI 118](http://srfi.schemers.org/srfi-118/srfi-118.html) (basic)
 or [SRFI 140](http://srfi.schemers.org/srfi-140/srfi-140.html) (mutable/immutable)
@@ -59,3 +60,10 @@ Mutexes, condition variables: [SRFI 18](http://srfi.schemers.org/srfi-18/srfi-18
 Port type detector: see ticket #177
 
 Applicable record instances: [R6RS formal comment](http://www.r6rs.org/formal-comments/comment-6.txt)
+
+Internationalization of strings: [GettextCowan](GettextCowan.md)
+
+Standard condition predicates [StandardConditionPredicates](StandardConditionPredicates.md)
+
+Chronometers: [Chronometer](Chronometer.md)
+
