@@ -12,7 +12,7 @@ This is a list of voting dockets for WG2 work items (packages):
 [OrangeDocket](OrangeDocket.md)::
 > Proposals for the Orange Edition (numbers) of R7RS-large.
 
-[AmberDocket](MustardDocket.md)::
+[AmberDocket](AmberDocket.md)::
 > Proposal for the Amber Edition (syntax) of R7RS-large.
 
 [YellowDocket](YellowDocket.md)::
