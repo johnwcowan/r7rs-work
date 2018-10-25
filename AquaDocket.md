@@ -27,7 +27,10 @@ Unicode string normalization: [StringNormalizationCowan](StringNormalizationCowa
 
 Binary heap: [BinaryHeapsCowan](BinaryHeapsCowan.md)
 
-Date and time arithmetic: [TimeAdvancedCowan](TimeAdvancedCowan.md) plus [TimePeriodsCowan](TimePeriodsCowan.md), [SRFI 19](http://srfi.schemers.org/srfi-19/srfi-19.html)
+Date and time arithmetic: [TimeAdvancedCowan](TimeAdvancedCowan.md) plus [TimePeriodsCowan](TimePeriodsCowan.md),
+[SRFI 19](http://srfi.schemers.org/srfi-19/srfi-19.html)
 
 Date-time parser: [Hato date parser](https://code.google.com/p/hato/source/browse/hato-date.scm), [SRFI 19](http://srfi.schemers.org/srfi-19/srfi-19.html)
+
+Regular expressions over s-expressions:  [SerexPalmer](http://inamidst.com/lisp/serex)
 
