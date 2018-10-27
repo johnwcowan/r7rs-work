@@ -1,8 +1,5 @@
 Ranges
 
-Constructors
-Ranges
-
 A numeric range has an inclusive lower bound (default 0), an exclusive upper bound,
 and a step value (default 1), all of which can be exact or inexact real numbers.
 
@@ -11,6 +8,8 @@ comparator, and an indexer function that maps the lower bound and an integer
 into a value of the range.
 
 An indefinite range has just bounds and a comparator and can't be enumerated.
+
+Constructors
 
 numeric-range  
 general-range  
