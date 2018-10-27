@@ -4,7 +4,7 @@ Random numbers: [SRFI 27](http://srfi.schemers.org/srfi-27/srfi-27.html), plus [
 
 Prime numbers:  [PrimesGauche](PrimesGauche.html).
 
-Natural number predicates (from WG1):  `exact-positive-integer?` and `exact-non-negative-integer?`.
+Natural number predicates (from WG1): `exact-positive-integer?` and `exact-non-negative-integer?`.
 
 Float and NaN dissector API (sign, quiet/signaling status, and integer tag): [FloatCLMedernach](FloatCLMedernach.md)
 
