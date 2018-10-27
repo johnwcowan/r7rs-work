@@ -1,5 +1,3 @@
-**THIS IS NOT A PROPOSAL.  It's just a dumping ground for some stuff I don't want to lose track of.  There will be a proper proposal later.**
-
 ## Enumeration sets
 
 Based on bitvectors indexed by the enum's ordinal.  Procedures:
