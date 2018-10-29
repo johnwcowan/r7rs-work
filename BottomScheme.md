@@ -94,7 +94,7 @@ Only `error`.
 
 6.13 Input and output
 
-Only `read-char` (no arguments), `eof-object`, `eof-object?`, `write-char` (no arguments), `display` (mostly for debugging).
+Only `read-char` (no arguments), `eof-object`, `eof-object?`, `write-char` (one argument), `display` (mostly for debugging).
 
 ## Implementation
 
