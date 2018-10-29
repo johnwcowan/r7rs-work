@@ -68,3 +68,10 @@ Note that when converting between bitvectors and integers the order of bits is r
 because bitvectors are numbered in a big-endian way (the first bit is 0) whereas the bits
 of integers are numbered in a little-endian way (the least significant bit is 0).  This
 may seem strange, but provides consistent results.
+
+### Output
+
+`(write-bitvector `*bv* [ *port* ]`)`
+
+Writes a representation of *bv* to *port* (the current output port by default) in Common
+Lisp format: that is, `#*` followed by a sequence of 0s and 1s.
