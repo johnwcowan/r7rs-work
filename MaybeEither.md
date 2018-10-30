@@ -10,18 +10,18 @@ Defaulted accessor: maybe-ref/default either-ref/default
 
 Bind: maybe-bind either-bind
 
-Filter: maybe-filter either-filter
+Filter: maybe-filter
 
-Remove: maybe-remove either-remove
+Remove: maybe-remove
 
 Contains: maybe-contains? either-contains?
 
-Delete: maybe-delete either-delete
+Delete: maybe-delete
 
 Converters: maybe->either either->maybe maybe->list list->maybe either->list list->either
 
 Fold and unfold: maybe-fold either-fold maybe-unfold either-unfold
 
-Map: maybe-map either-map maybe-for-each either-for-eac
+Map: maybe-map either-map maybe-for-each either-for-each
 
 Misc: either-raise either-swap
