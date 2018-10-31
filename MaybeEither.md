@@ -6,13 +6,13 @@ Equality: maybe=? either=?
 
 Accessor: maybe-ref either-ref (with success and failure continuations)
 
+Length: maybe-length either-length
+
 Defaulted accessor: maybe-ref/default either-ref/default
 
 Bind: maybe-bind either-bind
 
-Filter: maybe-filter
-
-Remove: maybe-remove
+Sequence: maybe-count maybe-filter maybe-remove
 
 Contains: maybe-contains? either-contains?
 
