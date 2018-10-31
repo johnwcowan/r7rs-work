@@ -22,8 +22,10 @@ Returns a predicate that returns `#t` if its argument satisfies *pred* or is a c
 object such that one of its sub-objects satisfies *pred*.  Otherwise the predicate
 returns `#f`.
 
-`(compound-accessor `*pred`)`
+`(compound-accessor `*pred*`)`
 
-Returns a procedure that accepts a single argument and returns as follows:
+Returns a procedure that accepts a single argument and behaves as follows:
 If its argument is a compound object, the first sub-object that satisfies
-*pred* is returned.  Otherwise, the argument itself is returned.
+*pred* is returned, or `#f` if there is no such sub-object.
+Otherwise, the argument itself is returned if it
+satisfies *pred*; failing that, `#f` is returned.
