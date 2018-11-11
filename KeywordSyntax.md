@@ -1,4 +1,5 @@
-Keywords look like `:foo`, `foo:`, or `#:foo`, depending on the Scheme implementation:
+Keywords are self-evaluating identifiers (except in Racket, see below)
+that look like `:foo`, `foo:`, or `#:foo`, depending on the Scheme implementation:
 
 * Gauche (and Common Lisp) support `:foo`.
 
@@ -8,16 +9,18 @@ Keywords look like `:foo`, `foo:`, or `#:foo`, depending on the Scheme implement
 
 * S7 supports both `foo:` and `:foo` and treats them as distinct (in the sense of `eqv?`).
 
-* Racket supports `#:foo`.
+* Racket supports `#:foo` in function calls, but it is not an expression (though `'#:foo` is an expression).
 
 * Kawa supports `#:foo` always, and also allows `foo:` depending on a command-line switch.
 
 * Chicken, Guile supports `#:foo` always, and also allows either `foo:` or `:foo` depending on the setting of a parameter or a startup option.
 
-* MIT, Scheme48/scsh, SISC, Chez, SCM, Ikarus, Larceny, Mosh, Scheme 9, SSCM, SXM, VSCM, Chibi don't support any of them.
+* MIT, Scheme48/scsh, SISC, Chez, SCM, Ikarus, Larceny, Mosh, Scheme 9, SSCM, SXM, VSCM, Chibi don't support any of them, but of course `'foo:` and `:foo` are valid quoted symbols.
 
-If we adopt the :foo style, Gauche, Bigloo, S7, STklos will work out of the box, and Chicken and Guile will support it with an option.
+If we adopt the `:foo` style, Gauche, Bigloo, S7, STklos will work out of the box,
+and Chicken and Guile will support it with an option.
 
-If we adopt the foo: style, Gambit, Chicken, STklos, Bigloo, S7 will work out of the box, and Guile, Kawa will support it with an option.
+If we adopt the `foo:` style, Gambit, Chicken, STklos, Bigloo, S7 will work out of the box,
+and Guile, Kawa will support it with an option.
 
-If we adopt the #:foo style, Racket, Chicken, Bigloo, Guile, S7, Kawa will work out of the box.
+If we adopt the `#:foo` style, Chicken, Bigloo, Guile, S7, Kawa and to some extent Racket will work out of the box.
