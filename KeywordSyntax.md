@@ -17,10 +17,10 @@ that look like `:foo`, `foo:`, or `#:foo`, depending on the Scheme implementatio
 
 * MIT, Scheme48/scsh, SISC, Chez, SCM, Ikarus, Larceny, Mosh, Scheme 9, SSCM, SXM, VSCM, Chibi don't support any of them, but of course `'foo:` and `:foo` are valid quoted symbols.
 
-If we adopt the :foo style, Gauche, Bigloo, S7, STklos will work out of the box,
+If we adopt the `:foo` style, Gauche, Bigloo, S7, STklos will work out of the box,
 and Chicken and Guile will support it with an option.
 
-If we adopt the foo: style, Gambit, Chicken, STklos, Bigloo, S7 will work out of the box,
+If we adopt the `foo:` style, Gambit, Chicken, STklos, Bigloo, S7 will work out of the box,
 and Guile, Kawa will support it with an option.
 
-If we adopt the #:foo style, Chicken, Bigloo, Guile, S7, Kawa and to some extent Racket will work out of the box.
+If we adopt the `#:foo` style, Chicken, Bigloo, Guile, S7, Kawa and to some extent Racket will work out of the box.
