@@ -1,5 +1,3 @@
-# INCOMPLETE, DO NOT REVIEW
-
 ## Abstract
 
 A context is a container for zero or more ordinary Scheme objects
