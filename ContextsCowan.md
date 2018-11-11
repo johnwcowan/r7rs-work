@@ -88,6 +88,17 @@ Monadic procedures are also known as Kleisli arrows.
 Unwraps the objects from *cobj*, applies *proc* to each of them, rewraps them
 in the context, and returns the result.
 
+`(idiom-sequence `*c list*`)`
+
+Takes a list whose elements are objects in the context, unwraps them,
+puts them in a list, and wraps the list in the context.
+
+Since lists are idioms, this effectively swaps the order in which
+two idioms are applied, but the outer idiom must be "traversable",
+a notion not defined in this SRFI.  Implementations may, however,
+extend the type of the second argument.  For example, if a vector
+is supported, the result will be a vector in the context.
+
 `(idiom-pure `*c obj*`)`
 
 Wraps *obj* in the context and returns the result.
