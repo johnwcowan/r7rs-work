@@ -36,5 +36,5 @@ Regular expressions over s-expressions:  [SerexPalmer](http://inamidst.com/lisp/
 
 Procedural record types: [R6RS](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-7.html#node_sec_6.3)
 [SRFI 99](http://srfi.schemers.org/srfi/srfi-99.html),
-AnonymousRecordsCowan,
+[AnonymousRecordsCowan](AnonymousRecordsCowan.md),
 [RidiculouslySimpleRecordsCowan](RecordsCowan.md)
