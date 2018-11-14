@@ -42,7 +42,9 @@ Numeric vectors:
 [SRFI 74](http://srfi.schemers.org/srfi-74/srfi-74.html), 
 [SRFI 160](http://srfi.schemers.org/srfi-160/srfi-160.html).
 
-Multidimensional arrays: [SRFI 122](http://srfi.schemers.org/srfi-122/srfi-122.html) .
+Multidimensional arrays:
+[SRFI 122](http://srfi.schemers.org/srfi-122/srfi-122.html),
+[SRFI 164](http://srfi.schemers.org/srfi-164/srfi-164.html)
 
 **Formatting**
 
