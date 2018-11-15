@@ -21,3 +21,5 @@ Immutable cycles: [CyclesMedernach](CyclesMedernach.md)
 
 Packages and rich symbols: [PackageSymbolsCowan](PackageSymbolsCowan.md)
 
+Doubly linked lists: [DoublyLinkedListsCowan](DoublyLinkedListsCowan.md)
+
