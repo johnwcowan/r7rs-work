@@ -22,6 +22,6 @@ Converters: maybe->either either->maybe maybe->list list->maybe either->list lis
 
 Fold and unfold: maybe-fold either-fold maybe-unfold either-unfold
 
-Map: maybe-map either-map maybe-for-each either-for-each
+Map: maybe-map either-map
 
 Misc: either-raise either-swap
