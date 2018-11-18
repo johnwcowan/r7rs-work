@@ -108,10 +108,9 @@ Wraps *obj* in the context and returns the result.
 Applies *cproc* to the values of the *cobjs*,
 and returns the results wrapped in the context.
 
-`(monad-bind `*c mproc cobj* ...`)`
+`(monad-bind `*c cobj mproc1 mproc2* ...`)`
 
-Unwraps the *cobjs* and applies *mproc* to their values,
-and returns the results wrapped in the context.
+TODO
 
 `(monad-join `*c cobj*`)`
 
