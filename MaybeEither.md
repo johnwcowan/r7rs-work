@@ -10,7 +10,7 @@ Length: maybe-length either-length
 
 Defaulted accessor: maybe-ref/default either-ref/default
 
-Bind: maybe-bind either-bind
+Bind and join: maybe-bind either-bind maybe-join either-join
 
 Sequence: maybe-count maybe-filter maybe-remove
 
