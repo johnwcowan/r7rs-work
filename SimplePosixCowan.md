@@ -5,7 +5,12 @@ headers, 1191 interfaces, and 51 data types from POSIX.1-2008.  What is proposed
 directly on the Posix bindings for Lua, which are modern and thorough
 (28 headers, 159 interfaces, and 11 data types) without being insanely comprehensive.
 
-Headers and functions:
+All the headers:  ctype, dirent, errno, fcntl, fnmatch, glob, grp, libgen,
+poll, pwd, sched, signal, stdio, stdlib, sys/msg, sys/resource, sys/socket,
+sys/stat, sys/statvfs, sys/time, sys/times, sys/utsname, sys/wait, syslog,
+termio, time, unistd, utime.
+
+## Detailed functions by header
 
 ```
 
@@ -175,7 +180,7 @@ posix-unistd: write (fd, buf)
 posix-utime: utime (path[, mtime=now[, atime=now]])
 ```
 
-Headers and record types:
+## List of record types:
 ```
 
 posix-grp: PosixGroup
