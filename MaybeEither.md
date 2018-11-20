@@ -9,8 +9,10 @@ optional value; Either represents the concept of a value which is
 either correct (Right) or an error (Left).
 
 Note that the terms Maybe, Just, Nothing, Either, Right, and Left
-are capitalized in this SRFI so as not to be confused from their
-ordinary use as English words.
+are capitalized in this SRFI so as not to be confused with their
+ordinary use as English words.  Thus "returns Nothing" means
+"returns the unique Nothing object"; "returns nothing" could be
+interpreted as "returns no values".
 
 ## Rationale
 
@@ -20,7 +22,9 @@ the procedure is able to return any value on success, there is no
 way to distinguish between a successful return of `#f` and failure.
 What is more, it is easy for the programmer to write code in which
 success is assumed and the special case of `#f` is not handled
-correctly, perhaps causing a dynamic type error.
+correctly; thus a procedure which returns a number of `#f`, like
+`string->number`, may be assumed to always return a number,
+thus causing a dynamic type error when it does not.
 
 By returning a Maybe instead, a procedure can unambiguously distinguish
 between success, which returns a Just object, and failure, which
@@ -30,11 +34,12 @@ procedures that are Maybe-aware; a number wrapped in a Just is not
 a number and has to be unwrapped to be used as a number.
 
 Either is closely related to Maybe, and Right is closely related to Just.
-However, a Left container is capable of containing an object which indicates
+However, a Left object is a container capable of containing an object which indicates
 *why* a procedure returning an Either failed, whereas Nothing indicates
 only a failure.  This use of Left and Right is merely conventional, but the
 Either-accepting procedures in this SRFI treat Left and Right asymmetrically;
-specifically, the `either-raise` procedure unwraps a Right, but raises the
+specifically, a Left is considered empty by the join, bind, and sequence
+procedures, and the `either-raise` procedure unwraps a Right but raises the
 payload of a Left.  It is also possible to use Left and Right simply as two
 distinguishable types of container, or to interchange the roles of Left and
 Right with `either-swap`.
@@ -42,25 +47,22 @@ Right with `either-swap`.
 ## Specification
 
 We speak of unwrapping a container when we extract its payload, and wrapping
-a value in a container when we create the container with the value as its'
+a value in a container when we create the container with the value as its
 payload.  These containers are immutable.  Note that Nothing is not a container.
 
-The following terms are used for the arguments:
+The following names are used for the arguments:
 
-*obj*: Any Scheme object.
+*obj, default*: Any Scheme object.
 
 *maybe*: A Maybe object.
 
 *either*: An Either object.
 
-*failure*: A procedure of no arguments to be tail-called.
+*proc, failure, success*: A procedure
 
-*success*: A procedure of one argument to be tail-called.
+*pred*: A predicate that accepts a single argument.
 
-*default*: Any Scheme object.
-
-*pred*: A predicate procedure that accepts a single argument
-and returns a true or false value.
+*equal*: An equivalence predicate that accepts two arguments.
 
 *proc*: A procedure that accepts a single argument and returns
 a single value.  In this SRFI, the procedure neither accepts nor
@@ -72,8 +74,7 @@ in a container and returns a value that is wrapped in a container.
 *list*: A Scheme list.
 
 *producer*: A procedure that accepts no arguments and returns
-no values or one value.  If it returns more than one, the other
-values are ignored.
+any number of values.
 
 ### Constructors
 
@@ -113,16 +114,16 @@ and `#f` otherwise.
 Returns `#t` if *obj* is an Either (that is, either a Right or a Left)
 and `#f` otherwise.
 
-`(maybe= `*pred maybe1 maybe2*`)`
+`(maybe= `*equal maybe1 maybe2*`)`
 
 Returns `#t` if *maybe1* and *maybe2* are both Nothing, or if they
-are both Justs and their payloads are equal in the sense of *pred*,
+are both Justs and their payloads are the same in the sense of *equal*,
 and `#f` otherwise.
 
-`(either= `*pred either1 either2*`)`
+`(either= `*equal either1 either2*`)`
 
 Returns `#t` if *either1* and *either2* are both Lefts or both Rights
-and their payloads are equal in the sense of *pred*,
+and their payloads are equal in the sense of *equal*,
 and `#f` otherwise.
 
 ### Accessors
@@ -133,6 +134,9 @@ If *maybe* is a Just, invokes the procedure *success*
 on its payload and returns the result.  Otherwise, it
 invokes the procedure *failure* on no arguments and
 returns the result.
+The default value of *failure* is a procedure that
+signals an error; the default value of *success*
+is the identity procedure.
 
 `(either-ref `*either* [*failure* [*success*] ]`)`
 
@@ -140,7 +144,11 @@ If *either* is a Right, invokes the procedure *success*
 on its payload and returns the result.  Otherwise, it
 invokes the procedure *failure* on 
 the payload of the Left and returns the result.
-This is the only direct way to extract the payload
+The default value of *failure* is a procedure that
+signals an error; the default value of *success*
+is the identity procedure.
+
+Note that this is the only direct way to extract the payload
 of a Left.
 
 `(maybe-ref/default `*maybe default*`)`
@@ -158,7 +166,9 @@ returns *default*.
 `(maybe-join `*maybe*`)`
 
 Monadic join.  If *maybe* is a Just whose payload is a Maybe,
-returns that Maybe; otherwise return *maybe*.
+returns that Maybe; otherwise return *maybe*.  Thus
+`(maybe-join (just (just `*x*`))` returns *x* abd
+`(maybe-join (just (nothing))` returns Nothing.
 
 `(either-join `*either*`)`
 
@@ -168,10 +178,12 @@ returns that Either; otherwise return *either*.
 `(maybe-bind `*maybe mproc1 mproc2* ...`)`  
 `(either-bind `*either mproc1 mproc2* ...`)`  
 
-Monadic bind.  If *maybe* is Nothing / a Left, it is returned at once.
+Monadic bind.  If *maybe* is Nothing / a Left, it is returned at once
+without invoking any more *mprocs*.
 If it is a Just/Right, its payload is applied to *mproc1*, which returns
 a Maybe/Either.
-This algorithm is repeated with the result of each *mproc*
+
+The algorithm above is repeated with the result of each *mproc*
 instead of *maybe/either* until the *mprocs* are exhausted,
 and the final result is then returned.
 
@@ -185,17 +197,17 @@ as a sequence of length 0 or 1.
 
 Return 1 if *maybe/either* is a Just/Right, and 0 otherwise.
 
-`(maybe-contains? `*pred maybe obj*`)`  
-`(either-contains? `*pred either obj*`)`
+`(maybe-contains? `*equal maybe obj*`)`  
+`(either-contains? `*equal either obj*`)`
 
 If *maybe/either* is a Just/Right and its payload
-is the same as *obj* in the sense of *pred*,
+is the same as *obj* in the sense of *equal*,
 return `#t`; otherwise, return `#f`.
 
-`(maybe-delete `*pred maybe obj*`)`
+`(maybe-delete `*equal maybe obj*`)`
 
 If *maybe* is a Just and its payload is the same as *obj*
-in the sense of *pred*, returns Nothing; otherwise returns *maybe*.
+in the sense of *equal*, returns Nothing; otherwise returns *maybe*.
 
 `(maybe-filter `*pred maybe*`)`  
 `(maybe-remove `*pred maybe*`)`
@@ -209,31 +221,32 @@ return *maybe*; otherwise, return Nothing.
 `(maybe->either `*maybe*`)`
 
 If *maybe* is a Just, returns a Right with the same payload
-in the sense of `eqv?`; otherwise returns a Left of Nothing.
+in the sense of `eqv?`; otherwise returns a Left
+whose payload is Nothing.
 
 `(either->maybe `*either*`)`
 
-If *either* is a Right, returns a Just with the same payload; otherwise
+If *either* is a Right, returns a Just with the same payload
 in the sense of `eqv?`; otherwise returns Nothing.
 
-`(maybe->scheme `*maybe*`)`
+`(maybe->lisp `*maybe*`)`
 
 If *maybe* is a Just, returns its payload; otherwise returns `#f`.
-This converts a Maybe to the usual Scheme protocol of returning a
+This converts a Maybe to the usual Lisp and Scheme protocol of returning a
 true object for success or `#f` for failure.
 
-`(scheme->maybe `*obj*`)`
+`(lisp->maybe `*obj*`)`
 
 If *obj* is #f, return Nothing; otherwise, return a Just whose
 payload is *obj*.
-This converts the usual Scheme protocol of returning
+This converts the usual Lisp and Scheme protocol of returning
 a true object for success or `#f` for failure to a Maybe.
 
 `(list->maybe `*list*`)`  
 `(list->either `*list*`)`
 
 If *list* is the empty list, return Nothing / a Left of Nothing;
-otherwise, return a Just / Right containing the first element
+otherwise, return a Just / Right whose payload is the first element
 of *list*.
 
 `(maybe->list `*maybe*`)`  
@@ -242,14 +255,15 @@ of *list*.
 If *maybe/either* is a Right/Just, return a list whose only
 element is the payload; otherwise return the empty list.
 
-`(maybe-values) `*maybe*`)`
+`(maybe->values) `*maybe*`)`
 
 If *maybe* is a Just, returns its payload; otherwise returns no values.
 
 `(values->maybe `*producer*`)`
 
 Invokes *producer* with no arguments.
-If one or more values is returned, returns the first value wrapped in a Just;
+If one or more values is returned, returns the first value wrapped in a Just
+and any remaining values are discarded;
 if no values are returned, returns Nothing.
 
 ### Map, fold and unfold
@@ -270,9 +284,9 @@ payload and *nil* and the result returned; otherwise, *nil* is returned.
 `(maybe-unfold `*stop? mapper successor maybe*`)`  
 `(either-unfold `*stop? mapper successor either*`)`
 
-If *stop?* returns true on *seed*, a Nothing / a Left of Nothing is returned;
-otherwise, *mapper* is applied to the payload of *maybe/either* and the
-result is wrapped in a Right/Just and returned.
+If *stop?* returns true on *maybe/either*, a Nothing / a Left of Nothing is returned;
+otherwise, *mapper* is applied to the payload of *maybe/either*,
+wrapped in a Just/Right, and returned.
 The *successor* argument is not used and may be anything;
 it is required in order to preserve the standard protocol for Scheme unfold procedures.
 
@@ -287,3 +301,79 @@ and vice versa.
 
 If *either* is a Right, its payload is returned; otherwise, the payload is raised
 as an exception.
+
+### Trivalent logic
+
+These macros and procedures provide trivalent
+logic in the style of SQL, with
+Nothing playing the role of NULL.  For the purposes of this section,
+an object counts as true if it is neither `#f` nor Nothing.
+
+The difference between the `tri-and` macro and the `tri-conjunction`
+procedure (and likewise for `tri-or` and `tri-disjunction`
+and for `tri-merge` and `tri-merger`)
+is that the macros provide "Lispy" semantics, evaluating
+only just enough of their arguments, whereas the procedures take all
+of their arguments into account and so provide true SQL semantics.
+For example, `(tri-and #f (nothing))` will
+return `#f`, because its second argument is never evaluated,
+but `(tri-conjunction #f (nothing))` will return Nothing.
+
+`(tri-not `*obj*`)`
+
+Returns `#t` if *obj* is false, `#f` if *obj* is true, and Nothing
+if *obj* is Nothing.
+
+`(tri-and `<expr> ...`)` [syntax]
+
+The <expr>s are evaluated from left to right.
+If any value is false or Nothing, it is returned immediately,
+and the remaining <expr>s are not evaluated.
+If all values are true, the last such value is returned.
+If there are no <expr>s, `#t` is returned.
+
+`(tri-or `<expr> ...`)` [syntax]
+
+The <expr>s are evaluated from left to right.
+If any value is true or Nothing, it is returned immediately,
+and the remaining <expr>s are not evaluated.
+If all values are false or
+there are no <expr>s, `#f` is returned.
+
+`(tri-merge `<expr> ...`)` [syntax]
+
+The <expr>s are evaluated from left to right.
+If any value is true or false, it is returned immediately,
+and the remaining <expr>s are not evaluated.
+If all values are Nothing or
+there are no <expr>s, Nothing is returned.
+
+`(tri-conjunction `*obj* ...`)`
+
+If all *objs* are true, `#t` is returned.
+If any *obj* is false or Nothing, then
+false or Nothing is returned, respectively.
+If there are no arguments, `#t` is returned.
+
+`(tri-disjunction `*obj* ...`)`
+
+If all *objs* are false, `#f` is returned.
+If any *obj* is true or Nothing, then
+`#t` or Nothing is returned, respectively.
+If there are no arguments, `#f` is returned.
+
+`(tri-merger `*obj* ...`)`
+
+If all *objs* are true or false, the first *obj* is returned.
+If any *obj* is Nothing, then
+Nothing is returned.
+If there are no arguments, Nothing is returned.
+
+## Acknowledgements
+
+The Maybe and Either types and their procedures are based on Scala's Option
+and Either types, though the name "Maybe"
+(which I think is catchier than "Option) comes from Haskell.
+The trivalent logic is based on Chicken's `sql-null` egg.
+
+
