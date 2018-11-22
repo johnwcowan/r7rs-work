@@ -1,6 +1,7 @@
 ## Abstract
 
-This SRFI defines two unique container types known as Maybe and Either,
+This SRFI defines two unique immutable container types
+known as Maybe and Either,
 both of which contain only a single object known as their payload.
 A Maybe object is either a Just object or the unique object Nothing
 (which has no payload); an Either object is either
@@ -22,7 +23,7 @@ the procedure is able to return any value on success, there is no
 way to distinguish between a successful return of `#f` and failure.
 What is more, it is easy for the programmer to write code in which
 success is assumed and the special case of `#f` is not handled
-correctly; thus a procedure which returns a number of `#f`, like
+correctly; thus a procedure which returns a number or `#f`, like
 `string->number`, may be assumed to always return a number,
 thus causing a dynamic type error when it does not.
 
@@ -167,7 +168,7 @@ returns *default*.
 
 Monadic join.  If *maybe* is a Just whose payload is a Maybe,
 returns that Maybe; otherwise return *maybe*.  Thus
-`(maybe-join (just (just `*x*`))` returns *x* abd
+`(maybe-join (just (just `*x*`))` returns *x* and
 `(maybe-join (just (nothing))` returns Nothing.
 
 `(either-join `*either*`)`
@@ -352,19 +353,20 @@ there are no <expr>s, Nothing is returned.
 
 If all *objs* are true, `#t` is returned.
 If any *obj* is false or Nothing, then
-false or Nothing is returned, respectively.
+the first such *obj* is returned.
 If there are no arguments, `#t` is returned.
 
 `(tri-disjunction `*obj* ...`)`
 
 If all *objs* are false, `#f` is returned.
 If any *obj* is true or Nothing, then
-`#t` or Nothing is returned, respectively.
+the first such *obj* is returned.
 If there are no arguments, `#f` is returned.
 
 `(tri-merger `*obj* ...`)`
 
-If any *objs* are true or false, the first such *obj* is returned.
+If any *objs* are true or false,
+then the first such *obj* is returned.
 If all *objs* are Nothing, then
 Nothing is returned.
 If there are no arguments, Nothing is returned.
@@ -372,8 +374,8 @@ If there are no arguments, Nothing is returned.
 ## Acknowledgements
 
 The Maybe and Either types and their procedures are based on Scala's Option
-and Either types, though the name "Maybe"
-(which I think is catchier than "Option) comes from Haskell.
+and Either types, though the name "Maybe" comes from Haskell.
+(I think "Maybe" is catchier than "Option", which ultimately comes from ML.)
 The trivalent logic is based on Chicken's `sql-null` egg.
 
 
