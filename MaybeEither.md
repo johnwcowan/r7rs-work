@@ -364,8 +364,8 @@ If there are no arguments, `#f` is returned.
 
 `(tri-merger `*obj* ...`)`
 
-If all *objs* are true or false, the first *obj* is returned.
-If any *obj* is Nothing, then
+If any *objs* are true or false, the first such *obj* is returned.
+If all *objs* are Nothing, then
 Nothing is returned.
 If there are no arguments, Nothing is returned.
 
