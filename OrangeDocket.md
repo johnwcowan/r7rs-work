@@ -27,7 +27,7 @@ Integer sets:  [IntegerSetsCowan](IntegerSetsCowan.md)
 
 Descriptive statistics:  [TallyCowan](TallyCowan.md)
 
-Ranges: [RangesCowan](RangesCowan.md)
+Ranges:  [RangesCowan](RangesCowan.md)
 
 BitVectors: [BitVectorsCowan](BitVectorsCowan.md)
 
