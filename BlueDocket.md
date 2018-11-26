@@ -1,4 +1,4 @@
-﻿Portable but advanced things.
+Portable but advanced things.
 For other dockets, see [WG2Dockets](WG2Dockets.md)
 
 Memoization: [Memoize](Memoize.md) (not a proposal yet), [Racket](http://planet.racket-lang.org/display.ss?package=memoize.plt&owner=dherman), [Haskell](http://hackage.haskell.org/package/memoize-0.1/docs/Data-Function-Memoize.html)
