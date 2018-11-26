@@ -1,6 +1,8 @@
 Portable but advanced things.
 For other dockets, see [WG2Dockets](WG2Dockets.md)
 
+Compound objects: [CompoundObjectsCowan](CompoundObjectsCowan.md)
+
 Memoization: [Memoize](Memoize.md) (not a proposal yet), [Racket](http://planet.racket-lang.org/display.ss?package=memoize.plt&owner=dherman), [Haskell](http://hackage.haskell.org/package/memoize-0.1/docs/Data-Function-Memoize.html)
 
 Message digests (CRC, MD5, SHA1, SHA2):
@@ -25,7 +27,8 @@ Unique types: [SRFI 137](http://srfi.schemers.org/srfi-137/srfi-137.html)
 
 Unifiable boxes: [SRFI 161](http://srfi.schemers.org/srfi-161/srfi-161.html)
 
-Channels: [PigeonHolesChicken](http://wiki.call-cc.org/eggref/5/pigeon-hole)
+Channels: [PigeonHolesChicken](http://wiki.call-cc.org/eggref/5/pigeon-hole),
+[GochanChicken](http://wiki.call-cc.org/eggref/5/chicken-gochan)
 
 Immutable tuples: [TuplesCowan](TuplesCowan.md)
 
