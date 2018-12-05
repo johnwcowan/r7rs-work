@@ -2,7 +2,7 @@
 
 This SRFI defines two unique immutable container types
 known as Maybe and Either,
-both of which contain only a single object known as their payload.
+both of which can contain only a single object known as their payload.
 A Maybe object is either a Just object or the unique object Nothing
 (which has no payload); an Either object is either
 a Right object or a Left object.  Maybe represents the concept of an
@@ -23,8 +23,8 @@ the procedure is able to return any value on success, there is no
 way to distinguish between a successful return of `#f` and failure.
 What is more, it is easy for the programmer to write code in which
 success is assumed and the special case of `#f` is not handled
-correctly; thus a procedure which returns a number or `#f`, like
-`string->number`, may be assumed to always return a number,
+correctly; thus when using a procedure which returns a number or `#f`, like
+`string->number`, th programm may assume it will always return a number,
 thus causing a dynamic type error when it does not.
 
 By returning a Maybe instead, a procedure can unambiguously distinguish
@@ -35,13 +35,14 @@ procedures that are Maybe-aware; a number wrapped in a Just is not
 a number and has to be unwrapped to be used as a number.
 
 Either is closely related to Maybe, and Right is closely related to Just.
-However, a Left object is a container capable of containing an object which indicates
+However, a Left object is a container for an object which indicates
 *why* a procedure returning an Either failed, whereas Nothing indicates
 only a failure.  This use of Left and Right is merely conventional, but the
 Either-accepting procedures in this SRFI treat Left and Right asymmetrically;
 specifically, a Left is considered empty by the join, bind, and sequence
 procedures, and the `either-raise` procedure unwraps a Right but raises the
-payload of a Left.  It is also possible to use Left and Right simply as two
+payload of a Left as an exception.
+It is also possible to use Left and Right simply as two
 distinguishable types of container, or to interchange the roles of Left and
 Right with `either-swap`.
 
@@ -49,7 +50,7 @@ Right with `either-swap`.
 
 We speak of unwrapping a container when we extract its payload, and wrapping
 a value in a container when we create the container with the value as its
-payload.  These containers are immutable.  Note that Nothing is not a container.
+payload.
 
 The following names are used for the arguments:
 
@@ -59,7 +60,7 @@ The following names are used for the arguments:
 
 *either*: An Either object.
 
-*proc, failure, success*: A procedure
+*proc, failure, success*: A procedure.
 
 *pred*: A predicate that accepts a single argument.
 
@@ -246,7 +247,7 @@ a true object for success or `#f` for failure to a Maybe.
 `(list->maybe `*list*`)`  
 `(list->either `*list*`)`
 
-If *list* is the empty list, return Nothing / a Left of Nothing;
+If *list* is the empty list, return Nothing / a Left whose payload is Nothing;
 otherwise, return a Just / Right whose payload is the first element
 of *list*.
 
@@ -260,12 +261,24 @@ element is the payload; otherwise return the empty list.
 
 If *maybe* is a Just, returns its payload; otherwise returns no values.
 
+`(maybe->two-values) `*maybe*`)`
+
+If *maybe* is a Just, returns two values, its payload and `#t`;
+otherwise returns two values, both `#f`.  (This protocol is
+more often used in Common Lisp, where additional values are
+automatically discarded if the continuation expects only one.)
+
 `(values->maybe `*producer*`)`
 
-Invokes *producer* with no arguments.
-If one or more values is returned, returns the first value wrapped in a Just
-and any remaining values are discarded;
-if no values are returned, returns Nothing.
+This procedure is the inverse of both `maybe->values` and
+`maybe->two-values`.
+It invokes *producer* with no arguments.
+If no values are returned, Nothing is returned.
+If one value is returned, the value is wrapped in a Just and returned.
+If two values are returned and the second value is true,
+the first value is wrapped in a Just and returned;
+but if the second value is false, Nothing is returned.
+It is an error if *producer* returns more than two values.
 
 ### Map, fold and unfold
 
@@ -313,9 +326,9 @@ an object counts as true if it is neither `#f` nor Nothing.
 The difference between the `tri-and` macro and the `tri-conjunction`
 procedure (and likewise for `tri-or` and `tri-disjunction`
 and for `tri-merge` and `tri-merger`)
-is that the macros provide "Lispy" semantics, evaluating
+is that the macros provide Lisp-style semantics, evaluating
 only just enough of their arguments, whereas the procedures take all
-of their arguments into account and so provide true SQL semantics.
+of their arguments into account and so provide SQL-style semantics.
 For example, `(tri-and #f (nothing))` will
 return `#f`, because its second argument is never evaluated,
 but `(tri-conjunction #f (nothing))` will return Nothing.
