@@ -8,6 +8,9 @@ comparator, and an indexer function that maps the lower bound and an integer
 into a value of the range.
 
 An indefinite range has just bounds and a comparator and can't be enumerated.
+However, it is possible to specify for each bound whether it is inclusive or
+exclusive; for other range types, the lower bound is inclusive and the upper
+bound exclusive, as usual in SchemeZZZZXXX.
 
 Constructors
 
@@ -15,7 +18,7 @@ numeric-range
 general-range  
 indefinite-range
 
-Predicates
+Predicates (all range types)
 
 range?  
 indefinite-range?  
@@ -23,7 +26,7 @@ range-contains?
 range-empty?  
 range=?
 
-Accessors
+Accessors (all range types)
 
 range-start  
 range-end  
@@ -34,7 +37,7 @@ range-ref
 range-next  
 range-previous 
 
-Iteration
+Iteration (definite ranges only)
 
 range-split-at  
 range-take  
@@ -53,7 +56,7 @@ range-filter
 range-remove  
 range-partition
 
-Searching
+Searching (definite ranges only)
 
 range-index  
 range-index-right  
@@ -64,12 +67,12 @@ range-take-while-right
 range-drop-while  
 range-drop-while-right
 
-Conversion
+Conversion (definite ranges only)
 
 range->list  
 range->generator
 
-Interval relations
+Interval relations (all range types)
 
 range-congruent?  
 range-encloses?  
