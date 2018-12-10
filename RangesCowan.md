@@ -10,7 +10,7 @@ into a value of the range.
 An indefinite range has just bounds and a comparator and can't be enumerated.
 However, it is possible to specify for each bound whether it is inclusive or
 exclusive; for other range types, the lower bound is inclusive and the upper
-bound exclusive, as usual in SchemeZZZZXXX.
+bound exclusive, as usual in Scheme.
 
 Constructors
 
