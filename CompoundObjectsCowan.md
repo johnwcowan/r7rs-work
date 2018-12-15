@@ -1,5 +1,6 @@
 Compound objects are a generalization of SRFI 35 and R6RS compound conditions.
-They encapsulate a sequence of subobjects.  These procedures attempt to treat
+They encapsulate an immutable sequence of subobjects, which can be
+any object except another compound object.  These procedures treat
 non-compound objects as if they were compound objects with one subobject.
 
 `(make-compound-object ` *obj* ...`)`
@@ -15,12 +16,12 @@ Returns `#t` if *obj* is a compound object, and `#f` otherwise.
 `(compound-object-subobjects `*obj*`)`
 
 If *obj* is a compound object, returns a list of its subobjects; it is an error to
-mutate this list.  Otherwise, it returns *obj*.
+mutate this list.  Otherwise, it returns a list containing only *obj*.
 
 `(compound-predicate `*pred*`)`
 
 Returns a predicate that accepts one argument *obj* and behaves as follows:
-It returns `#t` if *obj* is a compound
+If *obj* is a compound
 object such that one of its subobjects satisfies *pred*, the predicate
 returns `#t`, otherwise `#f`.
 Id *obj* is not a compound object, the predicate applies *pred* to *obj* and
