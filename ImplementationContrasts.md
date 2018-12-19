@@ -81,6 +81,7 @@ Not all these pages have information on all these Schemes.
 * [RoundInf](RoundInf.md)
 * [SelfQuotingVectors](SelfQuotingVectors.md)
 * [SetUndefinedVariable](SetUndefinedVariable.md)
+* [SchemeOnWindows](SchemeOnWindows.md)
 * [ShortEquality](ShortEquality.md)
 * [SquareBrackets](SquareBrackets.md)
 * [StandaloneExecutables](StandaloneExecutables.md)
