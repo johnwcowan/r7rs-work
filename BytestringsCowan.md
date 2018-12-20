@@ -45,15 +45,15 @@ into a bytevector; they will be returned as integers.
 
 ##Selection
 
-`(bytestring-pad `*bytevector len [char-or-u8 start end]*`)`
+`(bytestring-pad `*bytevector len char-or-u8*`)`
 
-`(bytestring-pad-right `*bytevector len [char-or-u8 start end]*`)`
+`(bytestring-pad-right `*bytevector len char-or-u8*`)`
 
-`(bytestring-trim `*bytevector [pred start end]*`)`
+`(bytestring-trim `*bytevector pred*`)`
 
-`(bytestring-trim-right `*bytevector [pred start end]*`)`
+`(bytestring-trim-right `*bytevector pred*`)`
 
-`(bytestring-trim-both `*bytevector [pred start end]*`)`
+`(bytestring-trim-both `*bytevector pred*`)`
 
 ##Replacement
 
@@ -88,37 +88,34 @@ had 32 added to them.
 
 ##Prefixes and suffixes
 
-`(bytestring-prefix-length `*bytevector1 bytevector2 [start1 end1 start2 end2]*`)`
+`(bytestring-prefix-length `*bytevector1 bytevector2*`)`
 
-`(bytestring-prefix-length `*bytevector1 bytevector2 [start1 end1 start2 end2]*`)`
+`(bytestring-prefix-length `*bytevector1 bytevector2*`)`
 
-`(bytestring-suffix-length `*bytevector1 bytevector2 [start1 end1 start2 end2]*`)`
+`(bytestring-suffix-length `*bytevector1 bytevector2*`)`
 
-`(bytestring-prefix? `*bytevector1 bytevector2 [start1 end1 start2 end2]*`)`
+`(bytestring-prefix? `*bytevector1 bytevector2*`)`
 
-`(bytestring-suffix? `*bytevector1 bytevector2 [start1 end1 start2 end2]*`)`
+`(bytestring-suffix? `*bytevector1 bytevector2*`)`
   
 ##Searching
 
-`(bytestring-contains `*bytevector1 bytevector2 [start1 end1 start2 end2]*`)`
+`(bytestring-break `*bytevector pred*`)`
 
-`(bytestring-contains-right `*bytevector1 bytevector2 [start1 end1 start2 end2]*`)`
-
-`(bytestring-break `*bytevector pred [start end]*`)`
-
-`(bytestring-span `*bytevector pred [start end]*`)`
+`(bytestring-span `*bytevector pred*`)`
 
 ##Joining and splitting
 
-`(bytestring-join `*bytevector-list [delimiter grammar]*`)`
+`(bytestring-join `*bytevector-list delimiter*`)`
 
-`(bytestring-split `*bytevector delimiter [grammar limit start end]*`)`
+`(bytestring-split `*bytevector delimiter*`)`
 
 ##Exception
 
 `(bytestring-error? `*obj*`)`
 
-Returns `#t` if *obj* is an object signaled by `bytestring` in the
+Returns `#t` if *obj* is an object signaled by `bytestring`,
+`list->bytestring`, or `write-bytestring` in the
 circumstances described above.
 
 ##Output
