@@ -96,6 +96,11 @@ Monadic pure.  Returns *obj* wrapped in a Right.
 
 Returns *obj* wrapped in a Left.
 
+`(either-swap `*either*`)`
+
+If *either* is a Left, return a Right with the same payload (in the sense of `eqv?`),
+and vice versa.
+
 ### Predicates
 
 `(just? `*obj*`)`  
@@ -146,9 +151,8 @@ If *either* is a Right, invokes the procedure *success*
 on its payload and returns the result.  Otherwise, it
 invokes the procedure *failure* on 
 the payload of the Left and returns the result.
-The default value of *failure* is a procedure that
-signals an error; the default value of *success*
-is the identity procedure.
+The default value of *failure* is the procedure `raise`;
+the default value of *success* is the identity procedure.
 
 Note that this is the only direct way to extract the payload
 of a Left.
@@ -298,18 +302,6 @@ otherwise, *mapper* is applied to the payload of *maybe/either*,
 wrapped in a Just/Right, and returned.
 The *successor* argument is not used and may be anything;
 it is required in order to preserve the standard protocol for Scheme unfold procedures.
-
-### Miscellaneous
-
-`(either-swap `*either*`)`
-
-If *either* is a Left, return a Right with the same payload in the sense of `eqv?`,
-and vice versa.
-
-`(either-raise `*either*`)`
-
-If *either* is a Right, its payload is returned; otherwise, the payload is raised
-as an exception.
 
 ### Trivalent logic
 
