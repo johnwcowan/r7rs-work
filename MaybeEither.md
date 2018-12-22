@@ -168,21 +168,21 @@ returns *default*.
 `(maybe-join `*maybe*`)`
 
 Monadic join.  If *maybe* is a Just whose payload is a Maybe,
-returns that Maybe; otherwise return *maybe*.  Thus
-`(maybe-join (just (just `*x*`))` returns *x* and
+returns that payload; otherwise returns *maybe*.  Thus
+`(maybe-join (just (just `*x*`))` returns `(just `*x*`)` and
 `(maybe-join (just (nothing))` returns Nothing.
 
 `(either-join `*either*`)`
 
 Monadic join.  If *either* is a Right whose payload is an Either,
-returns that Either; otherwise return *either*.
+returns that payload; otherwise return *either*.
 
 `(maybe-bind `*maybe mproc1 mproc2* ...`)`  
 `(either-bind `*either mproc1 mproc2* ...`)`  
 
 Monadic bind.  If *maybe* is Nothing / a Left, it is returned at once
 without invoking any more *mprocs*.
-If it is a Just/Right, its payload is applied to *mproc1*, which returns
+If it is a Just/Right, *mproc1* is applied to its payload, returning
 a Maybe/Either.
 
 The algorithm above is repeated with the result of each *mproc*
@@ -206,17 +206,12 @@ If *maybe/either* is a Just/Right and its payload
 is the same as *obj* in the sense of *equal*,
 return `#t`; otherwise, return `#f`.
 
-`(maybe-delete `*equal maybe obj*`)`
-
-If *maybe* is a Just and its payload is the same as *obj*
-in the sense of *equal*, returns Nothing; otherwise returns *maybe*.
-
 `(maybe-filter `*pred maybe*`)`  
 `(maybe-remove `*pred maybe*`)`
 
 If *maybe* is a Just and its payload
 satisfies / does not satisfy *pred*,
-return *maybe*; otherwise, return Nothing.
+return *maybe*; otherwise, returns Nothing.
 
 ### Conversion
 
