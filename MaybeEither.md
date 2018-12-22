@@ -40,11 +40,11 @@ However, a Left object is a container for an object which indicates
 only a failure.  This use of Left and Right is merely conventional, but the
 Either-accepting procedures in this SRFI treat Left and Right asymmetrically;
 specifically, a Left is considered empty by the join, bind, and sequence
-procedures, and the `either-raise` procedure unwraps a Right but raises the
-payload of a Left as an exception.
+procedures, and the `either-ref` procedure by default unwraps a Right
+but raises the payload of a Left as an exception.
 It is also possible to use Left and Right simply as two
 distinguishable types of container, or to interchange the roles of Left and
-Right with `either-swap`.
+Right with the special constructor `either-swap`.
 
 ## Specification
 
@@ -76,7 +76,7 @@ in a container and returns a value that is wrapped in a container.
 *list*: A Scheme list.
 
 *producer*: A procedure that accepts no arguments and returns
-any number of values.
+zero, one, or two values.
 
 ### Constructors
 
