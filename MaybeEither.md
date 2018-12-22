@@ -24,7 +24,7 @@ way to distinguish between a successful return of `#f` and failure.
 What is more, it is easy for the programmer to write code in which
 success is assumed and the special case of `#f` is not handled
 correctly; thus when using a procedure which returns a number or `#f`, like
-`string->number`, th programm may assume it will always return a number,
+`string->number`, the programmer may assume it will always return a number,
 thus causing a dynamic type error when it does not.
 
 By returning a Maybe instead, a procedure can unambiguously distinguish
