@@ -66,6 +66,14 @@ This transfer of control by the scheduler does not cause any
 It is only when a future itself transfers control to a continuation
 that `dynamic-wind` before and after thunks are called.
 
+## Future-specific variables
+
+Each future (but not the main program) is associated with a number of
+*future-specific variables*.  These are named by a symbol and associated
+with a single value, which can be written and read by the associated
+future.  It is not possible to read or write a future-specific variable
+from outside the future.
+
 ## Procedures
 
 `(current-future)`
@@ -80,7 +88,7 @@ SRFI are inapplicable to the primordial object.
 Returns `#t` if *obj* is a future object (including the primordial
 object), otherwise returns `#f`.
 
-`(future `*proc args* ...`)`
+`(future `*proc arg* ...`)`
 
 Creates a new future, initializes it, starts it, and returns the
 corresponding future object. The execution consists of applying
@@ -136,7 +144,7 @@ raised as if by `raise`.
 Behaves the same as `await`, with the following difference:
 If *future* is still runnable
 when the value of `(current-jiffy)`
-is greater than or equal to its value when `await-for!` was
+is greater than or equal to its value when `await-for` was
 invoked plus *jiffy-count*, then *future* is terminated
 and an error satisfying `timeout-exception?` is signaled.
 
@@ -151,16 +159,16 @@ and an error satisfying `timeout-exception?` is signaled.
 
 `(future-ref `*symbol*`)`
 
-Returns the value of the thread-local variable named *symbol*.
-It is an error to attempt to get the value of a thread-local
+Returns the value of the future-specific variable named *symbol*.
+It is an error to attempt to get the value of a future-specific
 variable that has not been set by `future-set!`.  The main
-program does not have thread-local variables.
+program does not have future-specific variables.
 
 `(future-set! `*symbol value*`)`
 
-Sets the value of the thread-local variable named *symbol* to *value*
+Sets the value of the future-specific variable named *symbol* to *value*
 and returns an unspecified value.  The main
-program does not have thread-local variables.
+program does not have future-specific variables.
 
 `(future-abandon! `*future*`)`
 
