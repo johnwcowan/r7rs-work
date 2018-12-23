@@ -2,7 +2,7 @@
 
 File I/O: [FilesAdvancedCowan](FilesAdvancedCowan.md) plus [SettingsListsCowan](SettingsListsCowan.md) and maybe [LetSettingsKendal](LetSettingsKendal.md)
 
-Threads: [SRFI 18](http://srfi.schemers.org/srfi-18/srfi-18.html) or [ThreadsCowan](ThreadsCowan.md) (simplified)
+Threads: [SRFI 18](http://srfi.schemers.org/srfi-18/srfi-18.html) or [FuturesCowan](FuturesCowan.md) (simplified)
 
 Real-time threads: [SRFI 21](http://srfi.schemers.org/srfi-21/srfi-21.html)
 
