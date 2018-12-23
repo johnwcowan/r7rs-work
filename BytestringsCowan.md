@@ -113,6 +113,11 @@ had 32 added to them.
 
 `(bytestring-split `*bytevector delimiter*`)`
 
+##Output
+`(write-bytestring `*port arg* ...`)`
+
+Outputs each *arg* to *port* using the same interpretations as `bytestring`, but does not create any bytevectors.
+
 ##Exception
 
 `(bytestring-error? `*obj*`)`
@@ -120,8 +125,3 @@ had 32 added to them.
 Returns `#t` if *obj* is an object signaled by `bytestring`,
 `list->bytestring`, or `write-bytestring` in the
 circumstances described above.
-
-##Output
-`(write-bytestring `*port arg* ...`)`
-
-Outputs each *arg* to *port* using the same interpretations as `bytestring`, but does not create any bytevectors.
