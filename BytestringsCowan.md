@@ -71,6 +71,9 @@ into a bytevector; they will be returned as integers.
 
 `bytestring>=? ` *bytevector1 bytevector2*`)`
 
+Comparisons are lexicographical: shorter bytevectors
+compare before longer ones, all elements being equal.
+
 `bytestring-ci=? ` *bytevector1 bytevector2*`)`
 
 `bytestring-ci<? ` *bytevector1 bytevector2*`)`
