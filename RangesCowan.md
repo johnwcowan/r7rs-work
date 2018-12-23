@@ -1,91 +1,143 @@
 Ranges
 
-A numeric range has an inclusive lower bound (default 0), an exclusive upper bound,
-and a step value (default 1), all of which can be exact or inexact real numbers.
+Ranges come in two types, definite and indefinite.  Definite ranges are
+collections that can be enumerated but are represented algorithmically
+rather than by a per-element data structure.  Indefinite ranges are just defined
+portions of an ordered domain.
 
-A general range has bounds of any type, a numeric step value (default 1), a
-comparator, and an indexer function that maps the lower bound and an integer
+A definite range is specified by a lower bound, which can be of any type,
+a length (number of elements), a
+comparator, and an indexer function that maps the lower bound and a
+non-negative exact integer less than the length
 into a value of the range.
+
+A numeric range is a variety of definite range specified by 
+an inclusive lower bound (default 0), an exclusive upper bound,
+and a step value (default 1), all of which can be exact or inexact real numbers.
+Its comparator is the natural comparator on real numbers, and its indexer is
+`(lambda (bound n) (+ bound (* n step)))`.
 
 An indefinite range has just bounds and a comparator and can't be enumerated.
 However, it is possible to specify for each bound whether it is inclusive or
-exclusive; for other range types, the lower bound is inclusive and the upper
-bound exclusive, as usual in Scheme.
+exclusive.
 
-Constructors
+## Terminology
 
-numeric-range  
-general-range  
-indefinite-range
+In arguments, *range* means any range, *drange* means any definite range.
 
-Predicates (all range types)
+## Constructors
 
-range?  
-indefinite-range?  
-range-contains?  
-range-empty?  
-range=?
+definite-range constructor lower-bound length indexer
 
-Accessors (all range types)
+numeric-range [start] end [step]
 
-range-start  
-range-end  
-range-step  
-range-element-comparator  
-range-indexer  
-range-ref  
-range-next  
-range-previous 
+closed-indefinite-range comparator start end
 
-Iteration (definite ranges only)
+open-indefinite-range comparator start end
 
-range-split-at  
-range-take  
-range-take-right  
-range-drop  
-range-drop-right  
-range-reverse  
-range-count  
-range-any  
-range-every  
-range-map  
-range-for-each  
-range-fold  
-range-fold-right  
-range-filter  
-range-remove  
-range-partition
+open-closed-indefinite-range comparator start end
 
-Searching (definite ranges only)
+closed-open-indefinite-range comparator start end
 
-range-index  
-range-index-right  
-range-skip  
-range-skip-right  
-range-take-while  
-range-take-while-right  
-range-drop-while  
-range-drop-while-right
+## Predicates
 
-Conversion (definite ranges only)
+range? obj
 
-range->list  
-range->generator
+definite-range? range
 
-Interval relations (all range types)
+range-contains? range value
 
-range-congruent?  
-range-encloses?  
-range-encloses-strictly?  
-range-prefix?  
-range-suffix?  
-range-overlaps?  
-range-overlaps-strictly?  
-range-overlaps-start?  
-range-overlaps-end?  
-range-precedes?  
-range-precedes-strictly?  
-range-precedes-immediately?  
-range-follows?  
-range-follows-strictly?  
-range-follow-immediately?
+range-empty? range
+
+## Accessors
+
+range-start range
+
+range-end range
+
+range-element-comparator range
+
+range-indexer drange
+
+range-ref drange index
+
+## Iteration
+
+range-split-at drange index
+
+range-take drange count
+
+range-take-right drange count
+
+range-drop drange count
+
+range-drop-right drange count
+ 
+range-reverse drange
+
+range-count pred drange
+
+range-any pred drange
+
+range-every pred drange
+
+range-map->list proc drange
+
+range-for-each proc drange
+
+range-fold drange kons nil
+
+range-fold-right drange kons nil
+
+## Searching
+
+range-index pred drange
+
+range-index-right pred drange
+
+range-take-while pred drange
+
+range-take-while-right pred drange
+
+range-drop-while pred drange
+
+range-drop-while-right pred drange
+
+## Conversion
+
+range->list drange
+
+range->generator drange
+
+## Interval relations
+
+range-congruent? range1 range2
+
+range-encloses? range1 range2
+
+range-encloses-strictly? range1 range2
+
+range-prefix? range1 range2
+
+range-suffix? range1 range2
+
+range-overlaps? range1 range2
+
+range-overlaps-strictly? range1 range2
+
+range-overlaps-start? range1 range2
+
+range-overlaps-end? range1 range2
+
+range-precedes? range1 range2
+
+range-precedes-strictly? range1 range2
+
+range-precedes-immediately? range1 range2
+
+range-follows? range1 range2
+
+range-follows-strictly? range1 range2
+
+range-follow-immediately? range1 range2
+
