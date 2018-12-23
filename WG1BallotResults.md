@@ -9,3 +9,4 @@ Here are the ballots:
 * [Seventh Ballot](WG1Ballot7.md) ([Results](WG1Ballot7Results.md))
 * [Eighth Ballot](WG1Ballot8.md) ([Results](WG1Ballot8Results.md))
 * [Ninth Ballot](WG1Ballot9.md) ([Results](WG1Ballot9Results.md))
+* [Tenth Ballot](WG1Ballot1o.md) ([Results](WG1Ballot10Results.md))
