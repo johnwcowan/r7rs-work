@@ -1,12 +1,15 @@
 ﻿Green docket for non-portable things.   For other dockets, see [WG2Dockets](WG2Dockets.md).
 
-File I/O: [FilesAdvancedCowan](FilesAdvancedCowan.md) plus [SettingsListsCowan](SettingsListsCowan.md) and maybe [LetSettingsKendal](LetSettingsKendal.md)
+File I/O: [FilesAdvancedCowan](FilesAdvancedCowan.md) plus [SettingsListsCowan](SettingsListsCowan.md)
+and maybe [LetSettingsKendal](LetSettingsKendal.md)
 
-Threads: [SRFI 18](http://srfi.schemers.org/srfi-18/srfi-18.html) or [FuturesCowan](FuturesCowan.md) (simplified)
+Threads: [SRFI 18](http://srfi.schemers.org/srfi-18/srfi-18.html)
+or [FuturesCowan](FuturesCowan.md) (simplified)
 
 Real-time threads: [SRFI 21](http://srfi.schemers.org/srfi-21/srfi-21.html)
 
-Sockets: [SRFI 106](http://srfi.schemers.org/srfi-106/srfi-106.html) or [NetworkPortsCowan](NetworkPortsCowan.md) with [NetworkEndpointsCowan](NetworkEndpointsCowan.md)
+Sockets: [SRFI 106](http://srfi.schemers.org/srfi-106/srfi-106.html)
+or [NetworkPortsCowan](NetworkPortsCowan.md) with [NetworkEndpointsCowan](NetworkEndpointsCowan.md)
 
 Datagram channels (UDP sockets): [DatagramChannelsCowan](DatagramChannelsCowan.md)
 
