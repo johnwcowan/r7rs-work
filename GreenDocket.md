@@ -20,8 +20,6 @@ Access to the REPL: [ReplCowan](ReplCowan.md)
 
 Library declarations: [LibraryDeclarationsCowan](LibraryDeclarationsCowan.md)
 
-Symbols: [SymbolsCowan](SymbolsCowan.md)
-
 Interfaces: [InterfacesCowan](InterfacesCowan.md)
 
 Process ports: [ProcessPortsCowan](ProcessPortsCowan.md)
@@ -30,8 +28,6 @@ File system directories (reading):
 [SCSH directory stream interface](http://www.scsh.net/docu/html/man-Z-H-4.html#node_sec_3.3),
 [DirectoriesCowan](DirectoriesCowan.md),
 `directory-files` to return a list of all files in the dir (in WG1 vote order)
-
-Port operations: [PortOperationsCowan](PortOperationsCowan.md)
 
 System commands: [SystemCommandCowan](SystemCommandCowan.md)
 
