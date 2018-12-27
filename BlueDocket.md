@@ -19,16 +19,19 @@ String normalization [StringNormalization](StringNormalization.md)
 
 Unique types: [UniqueTypesCowan](UniqueTypesCowan.md)
 
-Testing: [SRFI 64](http://srfi.schemers.org/srfi-64/srfi-64.html) or [ChibiChickenTest](http://wiki.call-cc.org/eggref/5/test) or [SRFI 78](http://srfi.schemers.org/srfi-78/srfi-78.html)
+Testing: [SRFI 64](http://srfi.schemers.org/srfi-64/srfi-64.html)
+or [ChibiChickenTest](http://wiki.call-cc.org/eggref/5/test)
+or [SRFI 78](http://srfi.schemers.org/srfi-78/srfi-78.html)
 
-Command-line arguments: [SRFI 37](http://srfi.schemers.org/srfi-37/srfi-37.html) or [ArgsChicken](http://wiki.call-cc.org/eggref/4/args)
+Command-line arguments: [SRFI 37](http://srfi.schemers.org/srfi-37/srfi-37.html)
+or [ArgsChicken](http://wiki.call-cc.org/eggref/4/args)
 
 Unique types: [SRFI 137](http://srfi.schemers.org/srfi-137/srfi-137.html)
 
 Unifiable boxes: [SRFI 161](http://srfi.schemers.org/srfi-161/srfi-161.html)
 
 Channels: [PigeonHolesChicken](http://wiki.call-cc.org/eggref/5/pigeon-hole),
-[GochanChicken](http://wiki.call-cc.org/eggref/5/chicken-gochan)
+[GochanChicken](http://wiki.call-cc.org/eggref/5/gochan)
 
 Immutable tuples: [TuplesCowan](TuplesCowan.md)
 
