@@ -17,9 +17,10 @@ Safety
 Return exact results on exact arguments whenever possible (e.g. `(sqrt 4)`)
 
 Full Unicode support:
-* all Unicode characters as characters
-* all Unicode characters except perhaps U+0000 in strings
-* all allowed Unicode characters in identifiers
+
+  * all Unicode characters as characters
+  * all Unicode characters except perhaps U+0000 in strings
+  * all allowed Unicode characters in identifiers
 
 Unicode identifiers
 
@@ -29,18 +30,18 @@ Signal an error on all [ItIsAnError](ItIsAnError.md) situations
 
 Provide all R7RS-small libraries:
 
-* case-lambda
-* cxr
-* eval
-* file
-* inexact
-* lazy
-* load
-* process-context
-* read
-* repl
-* time
-* write
+  * case-lambda
+  * cxr
+  * eval
+  * file
+  * inexact
+  * lazy
+  * load
+  * process-context
+  * read
+  * repl
+  * time
+  * write
 
 Raise exceptions on all errors
 
