@@ -18,20 +18,33 @@ Returns `#t` if *obj* is a compound object, and `#f` otherwise.
 If *obj* is a compound object, returns a list of its subobjects; it is an error to
 mutate this list.  Otherwise, it returns a list containing only *obj*.
 
+`(compound-object-filter `*pred obj*`)`
+
+If *obj* is a compound object, returns a list of its subobjects that satisfy
+*pred*; it is an error to mutate this list.
+
+If *obj* is not a compound object, it returns a list of *obj* if *obj* satisfies *pred*,
+or the empty list if *obj* does not satisfy *pred*.
+
 `(compound-predicate `*pred*`)`
 
 Returns a predicate that accepts one argument *obj* and behaves as follows:
+
 If *obj* is a compound
 object such that one of its subobjects satisfies *pred*, the predicate
 returns `#t`, otherwise `#f`.
-Id *obj* is not a compound object, the predicate applies *pred* to *obj* and
-returns what *pred* returns.
+
+If *obj* is not a compound object, the predicate applies *pred* to *obj* and
+returns `#t` if *pred* returns true or `#f` if *pred* returns false.
 
 `(compound-accessor `*pred accessor default*`)`
 
 Returns a procedure that accepts one argument *obj* and behaves as follows:
+
 If *obj* is a compound object, *accessor* is applied to
-the first subobject that satisfies *pred*, or *default* if there is no such subobject.
+the first subobject that satisfies *pred*; if there is no such subobject,
+returns *default*.
+
 If *obj* is not a compound object, then if the object satisfies *pred*,
 it applies *accessor* to *obj* and returns what it returns,
 but if *obj* does not satisfy *pred*, *default* is returned.
