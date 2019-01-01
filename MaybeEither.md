@@ -230,19 +230,6 @@ whose payload is Nothing.
 If *either* is a Right, returns a Just with the same payload
 in the sense of `eqv?`; otherwise returns Nothing.
 
-`(maybe->lisp `*maybe*`)`
-
-If *maybe* is a Just, returns its payload; otherwise returns `#f`.
-This converts a Maybe to the usual Lisp and Scheme protocol of returning a
-true object for success or `#f` for failure.
-
-`(lisp->maybe `*obj*`)`
-
-If *obj* is #f, return Nothing; otherwise, return a Just whose
-payload is *obj*.
-This converts the usual Lisp and Scheme protocol of returning
-a true object for success or `#f` for failure to a Maybe.
-
 `(list->maybe `*list*`)`  
 `(list->either `*list*`)`
 
@@ -255,6 +242,19 @@ of *list*.
 
 If *maybe/either* is a Right/Just, return a list whose only
 element is the payload; otherwise return the empty list.
+
+`(maybe->lisp `*maybe*`)`
+
+If *maybe* is a Just, returns its payload; otherwise returns `#f`.
+This converts a Maybe to the usual Lisp and Scheme protocol of returning a
+true object for success or `#f` for failure.
+
+`(lisp->maybe `*obj*`)`
+
+If *obj* is #f, return Nothing; otherwise, return a Just whose
+payload is *obj*.
+This converts the usual Lisp and Scheme protocol of returning
+a true object for success or `#f` for failure to a Maybe.
 
 `(maybe->values) `*maybe*`)`
 
@@ -276,7 +276,32 @@ If no values are returned, Nothing is returned.
 If one value is returned, the value is wrapped in a Just and returned.
 If two values are returned and the second value is true,
 the first value is wrapped in a Just and returned;
-but if the second value is false, Nothing is returned.
+but if the second value is false, Nothing
+is returned.
+It is an error if *producer* returns more than two values.
+
+`(either->values) `*maybe*`)`
+
+If *either* is a Right, returns its payload; otherwise returns no values.
+
+`(either->two-values) `*either*`)`
+
+If *either* is a Right, returns two values, its payload and `#t`;
+otherwise returns two values, its payload and `#f`.  (This protocol is
+more often used in Common Lisp, where additional values are
+automatically discarded if the continuation expects only one.)
+
+`(values->either `*producer*`)`
+
+This procedure is the inverse of both `either->values` and
+`either->two-values`.
+It invokes *producer* with no arguments.
+If no values are returned, Left of Nothing is returned.
+If one value is returned, the value is wrapped in a Right and returned.
+If two values are returned and the second value is true,
+the first value is wrapped in a Right and returned;
+but if the second value is false, the first value is
+wrapped in a Left and returned.
 It is an error if *producer* returns more than two values.
 
 ### Map, fold and unfold
