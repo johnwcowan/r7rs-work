@@ -7,17 +7,20 @@ Constructors: eset, enum-type->eset, list->set
 
 Predicates: eset?, eset-contains?, eset-empty?, eset-disjoint?
 
-Updaters: eset-adjoin, eset-adjoin!, eset-replace, eset-replace!, eset-delete, eset-delete!, eset-delete-all, eset-delete-all!
+Updaters: eset-adjoin, eset-adjoin!, eset-replace, eset-replace!,
+  eset-delete, eset-delete!, eset-delete-all, eset-delete-all!
 
 The whole eset: eset-size, eset-find, eset-count, eset-any?, eset-every?
 
-Mapping and folding: eset-map->list, eset-for-each, eset-fold, eset-filter, eset-filter!, eset-remove, eset-remove!
+Mapping and folding: eset-map->list, eset-for-each, eset-fold,
+  eset-filter, eset-filter!, eset-remove, eset-remove!
 
 Copying and conversion: eset-copy, eset->list, list->set!
 
 Subsets: eset=?, eset<?, eset>?, eset<=?, eset>=?
 
-Set theory operations: eset-union, eset-intersection, eset-difference, eset-xor, eset-union!, eset-intersection!, eset-difference!, eset-xor!
+Set theory operations: eset-union, eset-intersection, eset-difference,
+  eset-xor, eset-union!, eset-intersection!, eset-difference!, eset-xor!
 
 ```
 
