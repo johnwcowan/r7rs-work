@@ -3,21 +3,21 @@
 Based on bitvectors indexed by the enum's ordinal.  Procedures:
 
 ```
-Predicates: set?, set-contains?, set-empty?, set-disjoint?
+Constructors: eset, enum-type->eset, list->set
 
-Accessors: set-member, set-element-comparator
+Predicates: eset?, eset-contains?, eset-empty?, eset-disjoint?
 
-Updaters: set-adjoin, set-adjoin!, set-replace, set-replace!, set-delete, set-delete!, set-delete-all, set-delete-all!, set-search!
+Updaters: eset-adjoin, eset-adjoin!, eset-replace, eset-replace!, eset-delete, eset-delete!, eset-delete-all, eset-delete-all!
 
-The whole set: set-size, set-find, set-count, set-any?, set-every?
+The whole eset: eset-size, eset-find, eset-count, eset-any?, eset-every?
 
-Mapping and folding: set-map, set-for-each, set-fold, set-filter, set-filter!, set-remove, set-remove!, set-partition, set-partition!
+Mapping and folding: eset-map->list, eset-for-each, eset-fold, eset-filter, eset-filter!, eset-remove, eset-remove!
 
-Copying and conversion: set-copy, set->list, list->set, list->set!
+Copying and conversion: eset-copy, eset->list, list->set!
 
-Subsets: set=?, set<?, set>?, set<=?, set>=?
+Subsets: eset=?, eset<?, eset>?, eset<=?, eset>=?
 
-Set theory operations: set-union, set-intersection, set-difference, set-xor, set-union!, set-intersection!, set-difference!, set-xor!
+Set theory operations: eset-union, eset-intersection, eset-difference, eset-xor, eset-union!, eset-intersection!, eset-difference!, eset-xor!
 
 ```
 
@@ -28,45 +28,44 @@ Based on vectors indexed by the enum's ordinal.  Procedures:
 ```
 Constructors
 
-enum-type->enum-map                        enum-map-unfold
+alist->emap
 
 Predicates
 
-enum-map?          enum-map-contains?      enum-map=?
+emap?          emap-contains?      emap=?
 
 Accessors
 
-enum-map-ref       enum-map-ref/default
+emap-ref       emap-ref/default
 
 Mutators
 
-enum-map-set!      enum-map-set-entries!
-enum-map-delete!   enum-map-delete-keys!
-enum-map-push!     enum-map-pop!
-enum-map-search!   enum-map-clear!
+emap-set!      emap-set-entries!
+emap-delete!   emap-delete-keys!
+emap-clear!
 
 The whole enum map
 
-enum-map-size 
-enum-map-keys      enum-map-values         enum-map-entries
-enum-map-find      enum-map-count
-enum-map-any       enum-map-every
-enum-map-map       enum-map-map-values
-enum-map-for-each  enum-map-map!
-enum-map-collect   enum-map-fold
-enum-map-filter!   enum-map-remove!
+emap-size
+emap-keys      emap-values         emap-entries
+emap-find      emap-count
+emap-any       emap-every
+emap-map       emap-map-values
+emap-for-each  emap-map!
+emap-collect   emap-fold
+emap-filter!   emap-remove!
 
 Copying and conversion
 
-enum-map-copy
-enum-map->alist
+emap-copy
+emap->alist
 
 Enum maps as functions
 
-enum-map-accessor  enum-map-accessor/default
-enum-map-union     enum-map-intersection
-enum-map-difference enum-map-xor
+emap-accessor  emap-accessor/default
+emap-union     emap-intersection
+emap-difference emap-xor
 
 Comparators
-enum-map-comparator make-enum-map-comparator
+emap-comparator make-emap-comparator
 ```
