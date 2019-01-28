@@ -12,6 +12,7 @@ The following implementations support all or part of R7RS-small:
 |[Kawa](https://www.gnu.org/software/kawa/index.html)||
 |[Larceny](http://larcenists.org/)||
 |[MIT](https://www.gnu.org/software/mit-scheme)||
+|[LispKit](https://github.com/objecthub/swift-lispkit)|(no mutable pairs)|
 |[Mosh](http://mosh.monaos.org/files/doc/text/About-txt.html)|(partial)|
 |[Picrin](https://github.com/picrin-scheme/picrin)||
 |[Racket](http://racket-lang.org/)|[unofficial](https://github.com/lexi-lambda/racket-r7rs)|
