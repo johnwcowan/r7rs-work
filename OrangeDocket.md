@@ -5,8 +5,6 @@ plus [AdvancedRandomGauche](AdvancedRandomGauche.html)
 or [RandomnessCommonLisp](RandomnessCommonLisp.md)
 or [RandomnessElf](https://regmedia.co.uk/2018/10/01/roig_paper.pdf)
 
-Prime numbers:  [PrimesGauche](PrimesGauche.html).
-
 Natural number predicates (from WG1): `exact-positive-integer?` and `exact-non-negative-integer?`.
 
 Float and NaN dissector API (sign, quiet/signaling status, and integer tag): [FloatCLMedernach](FloatCLMedernach.md)
