@@ -1,7 +1,7 @@
 **Numeric types and operations**
 
 Random numbers: [SRFI 27](http://srfi.schemers.org/srfi-27/srfi-27.html),
-plus [AdvancedRandomGauche](AdvancedRandomGauche.html)
+plus [AdvancedRandomGauche](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/AdvancedRandomGauche.html)
 or [RandomnessCommonLisp](RandomnessCommonLisp.md)
 or [RandomnessElf](https://regmedia.co.uk/2018/10/01/roig_paper.pdf)
 
@@ -21,7 +21,7 @@ Logistic functions: [LogisticRiastradh](LogisticRiastradh.md)
 
 C-style structs:  [ByteStructuresTaylanub](https://github.com/TaylanUB/scheme-bytestructures).
 
-Integer sets:  [IntegerSetsCowan](IntegerSetsCowan.md)
+Integer sets:  [IntegerSetsCowan](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/IntegerSetsCowan.html)
 
 Descriptive statistics:  [TallyCowan](TallyCowan.md)
 
@@ -39,7 +39,7 @@ Enumeration sets and maps: [EnumContainersCowan](EnumContainersCowan.md)
 
 **Other**
 
-Combinations: [CombinationsGauche](CombinationsGauche.html)
+Combinations: [CombinationsGauche](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/CombinationsGauche.html)
 
 Number to string with Unicode: [NumberStringUnicode](NumberStringUnicode.md)
 
