@@ -8,7 +8,8 @@ practical needs of mainstream software development.
 The report on the small language was finalized on July 6, 2013.
 It is available [in PDF format](https://bitbucket.org/cowan/r7rs/src/draft-10/rnrs/r7rs.pdf)
 and as [LaTeX source code](https://bitbucket.org/cowan/r7rs/src/draft-10/spec).
-There are [errata](R7RSSmallErrata.md).
+There are [errata](R7RSSmallErrata.md).  A complete archive of the
+working documents for the small language is available [here](https://small.r7rs.org/).
 
 A concise definition of the first partial edition of R7RS-large, known as 
 the [Red Edition](RedEdition.md), was made available in 2016.
