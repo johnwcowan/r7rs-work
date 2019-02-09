@@ -131,4 +131,9 @@ read `(library `<library name>`)`.
 incorrect per [the USNO's list of offsets](http://maia.usno.navy.mil/ser7/tai-utc.dat).  The correct value for that date
 is 8.000082 seconds.
 
-
+28\. The definition of `char-numeric?` refers to a nonexistent Unicode property Numeric_Digit.
+The intention was to refer to characters whose Numeric_Type property is either Digit or Decimal,
+which is defined by Unicode as those which have a non-empty value in field 7 of the UnicodeData.txt file.
+The simplest fix is to change the relevant paragraph of Section 6.6 from "Numeric_Digit" to
+"Numeric_Type=Digit or Numeric_Type=Decimal".  (Note: R6RS uses the term "Numeric", which also is
+not a Unicode property.)
