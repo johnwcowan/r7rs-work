@@ -9,9 +9,9 @@ Compilers to JVM bytecode: Bigloo, Hotdog (port of Scheme48), JScheme, Kawa
 
 Compilers to CLR bytecode: Bigloo, Hotdog (port of Scheme48), IronScheme, Larceny (older version), Luna
 
-Compilers to private bytecode (with JIT): Pycket (port of Racket to RPython), Racket, Guile (JIT in separate package)
+Compilers to private bytecode (with JIT): Pycket (port of Racket to RPython), Racket, Guile 3.x
 
-Compilers to private bytecode (without JIT):  Chibi, Elk, FemtoLisp, Foment, Gauche (conjectural), Guile (standard),
+Compilers to private bytecode (without JIT):  Chibi, Elk, FemtoLisp, Foment, Gauche (conjectural), Guile 2.x,
 Mosh, Oaklisp, Owl Lisp, Picrin, Rep, RScheme, Sagittarius, Scheme 48, STklos, Shoe(?), SXM, Vx, Unlikely, VSCM,
 Wraith, XLisp, Ypsilon (probably incomplete), Scheme 9 (version 20181023 or later)
 
