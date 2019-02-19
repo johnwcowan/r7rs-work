@@ -1,4 +1,4 @@
-This is an early draft of proposals for the Tangerine Edition of R7RS-large.
+This is the final draft of proposals for the Tangerine Edition of R7RS-large.
 This edition consists of proposals excluded from the Red Edition, and ready substantially
 before the rest of the Orange Edition, hence its color name.
 For other dockets, see [WG2Dockets](WG2Dockets.md).
