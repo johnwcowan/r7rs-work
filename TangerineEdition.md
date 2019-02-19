@@ -45,5 +45,5 @@ as `(scheme show)`.
 
 The Tangerine Edition requires all implementations to provide unbounded
 exact integers, unbounded exact rationals, inexact reals, and exact and inexact
-complex numbers.
+complex numbers.  This is the same numeric tower that R6RS requires.
 
