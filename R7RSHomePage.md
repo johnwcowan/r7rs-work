@@ -13,8 +13,13 @@ working documents for the small language is available [here](https://small.r7rs.
 
 A concise definition of the first partial edition of R7RS-large, known as 
 the [Red Edition](RedEdition.md), was made available in 2016.
-It is a frozen copy of the Red Edition ballot plus the names of the libraries,
-which were passed by unanimous consent.  A single physical document is in preparation.
+It is a frozen copy of the Red Edition ballot plus the names of the libraries.
+A single physical document is in preparation.
+
+Similarly, the second partial edition of R7RS-large, known as the [Tangerine Edition](TangerineEdition.md),
+was made available in 2019.  It points to the SRFIs (and in one case an R6RS library)
+and the numeric tower that the Tangerine Edition requires implementations to
+provide.  One Red Edition library was updated in a fully downward compatible way.
 
 For R7RS-small implementations, see [ImplementationSupport](ImplementationSupport.md).
 [Larceny](http://larcenists.org) includes all the SRFIs of the Red Edition, though they
