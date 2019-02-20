@@ -16,9 +16,9 @@ Mosh has a bug whereby numbers that are `=` are always `eqv?` even if they diffe
 
 ## The imaginary part of an inexact real number
 
-The value of `(imag-part 2.0)` is exact 0:  Racket, MIT, Gambit, plain Chicken, Guile, Kawa, Chez, Vicare, Larceny, Ypsilon, Mosh, IronScheme, STklos, RScheme (but see below), Sizzle, Spark.
+The value of `(imag-part 2.0)` is exact 0:  Racket, MIT, Gambit, plain Chicken, Guile, Kawa, Chez, Vicare, Larceny, Ypsilon, Mosh, IronScheme, STklos, RScheme (but see below), Sizzle, Spark, Chibi.
 
-The value of `(imag-part 2.0)` is inexact 0.0:  Gauche, Chicken with the numbers egg, Scheme48/scsh, SISC, Chibi, SCM, KSi, S7, UMB, SXM.
+The value of `(imag-part 2.0)` is inexact 0.0:  Gauche, Chicken with the numbers egg, Scheme48/scsh, SISC, SCM, KSi, S7, UMB, SXM.
 
 No `imag-part` procedure:  Bigloo, NexJ, Shoe, TinyScheme, Scheme 9, BDC, XLisp, Rep, Schemik, Elk, VX, Llava, FemtoLisp, Dfsch, Inlab.
 
