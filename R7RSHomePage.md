@@ -21,6 +21,9 @@ was made available in 2019.  It points to the SRFIs (and in one case an R6RS lib
 and the numeric tower that the Tangerine Edition requires implementations to
 provide.  One Red Edition library was updated in a fully downward compatible way.
 
+The plans for future partial editions can be found at [WG2Dockets](WG2Dockets.md);
+they are all named by colors in roughly spectral order.
+
 For R7RS-small implementations, see [ImplementationSupport](ImplementationSupport.md).
 [Larceny](http://larcenists.org) includes all the SRFIs of the Red Edition, though they
 are not yet available under their standardized names.  [Chibi](http://synthcode.com/wiki/chibi-scheme)
