@@ -34,6 +34,16 @@ Fake support: plain Chicken, RScheme
 
 No support: Shoe, TinyScheme, BDC, XLisp, Sizzle, Bigloo, Scheme 9, Elk, Rep, Owl Lisp
 
+## Results of (imag-part 3.0+0) and (imag-part 3.0)
+
+All R6RS systems behave the same way, returning 0.0 in the first case and 0 in the second.
+
+Chicken 4 with the numbers egg, Chicken 5, and Scheme 48 return 0.0 in both cases.
+
+Gambit, MIT, Chibi, and STklos return 0 in both cases.
+
+All other systems lack support for either exact or inexact complex numbers or both.
+
 ## See also
 
 See also [NumericTower](NumericTower.md).
