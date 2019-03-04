@@ -103,7 +103,7 @@ It is an error if there is no such enum.
 Return the value of the enum which belongs to *enum-type* and whose ordinal is *exact-integer*.
 It is an error if there is no such enum.
 
-## Enumeration types
+### Enumeration types
 
 `(enum-type-size `*enum-type*`)`
 
@@ -142,6 +142,20 @@ Returns `#f` if there is no such enum.
 Returns the enum that belongs to the same enum-type as *enum* and has an ordinal one less than *enum*.
 Returns `#f` if there is no such enum.
 
+### Enum predicates
+
+`(enum-type? `*obj*`)`
+
+Returns `#t` if *obj* is an enum type, and `#f` otherwise.
+
+`(enum? `*obj*`)`
+
+Returns `#t` if *obj* is an enum, and `#f` otherwise.
+
+`(enum-type-contains? `*enum-type enum*`)`
+
+Returns `#t` if *enum* belongs to *enum-type*, and `#f` otherwise.
+
 `(enum=? `*enum* ...`)`
 
 Returns `#t` if all the arguments are the same enum, and `#f` otherwise.
@@ -165,4 +179,132 @@ It is an error unless all of the arguments belong to the same enum type.
 
 Returns a [SRFI 128](http://srfi.schemers.org/srfi-128/srfi-128.html) comparator suitable for comparing enums that belong to *enum-type*.  The comparator contains both an ordering predicate and a hash function, and orders enums based on their ordinal values.
 
+### Enum set constructors
+
+`(enum-type->enum-set `*enum-type*`)`
+
+Returns an enum set containing all the enums that belong to *enum-type*.
+
+`(enum-set `*enum* ...`)`
+
+Returns an enum-set containing the *enums*.  It is an error unless
+all of them belong to the same enum type.
+
+`(list->enum-set `*list*`)`
+
+Returns an enum-set containing the members of *list*.  It is an error
+unless all the members are enums belonging to the same enum type.
+
+`(enum-set-project `*enum-type enum-set*`)`
+
+Returns an enum set containing the enums belonging to `enum-type` that
+have the same names as the members of *enum-set*.
+
+### Enum set predicates
+
+`(enum-set? `*obj*`)`
+
+Returns `#t` if *obj* is an enum set and `#f` otherwise.
+
+`(enum-set-contains? `*enum-set enum*`)`
+
+Returns `#t` if *enum* is a member of *enum-set*.  It is
+an error if *enum* does not belong to the same enum type
+as the members of *enum-set*.
+
+`(enum-set=? `*enum-set-1 enum-set-2*`)`
+
+Returns `#t` if *enum-set-1* and *enum-set-2* have
+the same members.  It is an error if the members of the
+enum sets do not belong to the same type.
+
+### Enum set mutators
+
+`(enum-set-adjoin! `*enum-set enum* ...`)`
+
+Returns an enum-set that contains the members of
+*enum-set* and the *enums*.  It is an error if
+the members of the result do not all belong to the same
+enum type.  The value of *enum-set* may or may not be
+altered in the process.
+
+`(enum-set-delete! `*enum-set enum* ...`)`
+
+Returns an enum-set that contains the members of
+*enum-set* excluding the *enums*.  It is an error if
+the members of the result do not all belong to the same
+enum type.  The value of *enum-set* may or may not be
+altered in the process.
+
+`(enum-set-delete-all! `*enum-set list* ...`)`
+
+Returns an enum-set that contains the members of
+*enum-set* excluding the members of *list*.  It is an error if
+the members of the result do not all belong to the same
+enum type.  The value of *enum-set* may or may not be
+altered in the process.
+
+### Enum set mapping and folding
+
+`(enum-set-size `*enum-set*`)`
+
+Returns the number of elements in *enum-set*.
+
+`(enum-set->list `*enum-set*`)`
+
+Returns a list containing the members of *enum-set*.
+
+`(enum-set-collect `*proc enum-set*`)`
+
+Invokes *proc* on each member of *enum-set* in increasing
+ordinal order.  The results are made into a list and returned.
+
+`(enum-set-for-each `*proc enum-set*`)`
+
+Invokes *proc* on each member of *enum-set* in increasing
+ordinal order and discards the rest.  The result is
+an unspecified value.
+
+`(enum-set-fold `*proc nil enum-set*`)`
+
+The current state is initialized to *nil*, and *proc*
+is invoked on the current state and each element
+of *enum-set* in increasing ordinal order, setting the
+current state to the result.  The algorithm is repeated
+until all the elements of *enum-set* have been processed.
+Then the current state is returned.
+
+### Enum set logical operations
+!
+`(enum-set-union `*enum-set-1 enum-set-2*`)`
+
+Returns an enum-set containing all the elements of either
+*enum-set-1* or *enum-set-2*.  It is an error if all
+the elements of the result do not belong to the same
+enum type.  The contents of *enum-set-1* may be
+destroyed in the process.
+
+`(enum-set-intersection! `*enum-set-1 enum-set-2*`)`
+
+Returns an enum-set containing all the elements that
+appear in both *enum-set-1* and *enum-set-2*.  It is an error if all
+the elements of the result do not belong to the same
+enum type.  The contents of *enum-set-1* may be
+destroyed in the process.
+
+`(enum-set-difference! `*enum-set-1 enum-set-2*`)`
+
+Returns an enum-set containing the elements of
+*enum-set-1* but not *enum-set-2*.  It is an error if all
+the elements of the result do not belong to the same
+enum type.  The contents of *enum-set-1* may be
+destroyed in the process.
+
+`(enum-set-xor! `*enum-set-1 enum-set-2*`)`
+
+Returns an enum-set containing all the elements of either
+*enum-set-1* or *enum-set-2* but not both.  It is an error if all
+the elements of the result do not belong to the same
+enum type.  The contents of *enum-set-1* may be
+destroyed in the process.
 
