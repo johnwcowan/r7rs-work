@@ -1,4 +1,4 @@
-Ranges
+# Ranges
 
 Ranges come in two types, definite and indefinite.  Definite ranges are
 collections that can be enumerated but are represented algorithmically
@@ -30,7 +30,7 @@ In arguments, *range* means any range, *drange* means any definite range.
 
 Returns a definite range with the given parameters (see above).
 
-`(numeric-range `*start end [step]`)`
+`(numeric-range `*start end* [*step*]`)`
 
 Returns a numeric range with the given parameters (see above).
 If the step argument is omitted, it is 1.
@@ -201,7 +201,7 @@ satisfy *pred* until the last one that does not.
 
 Returns a list containing the elements of *drange* in order.
 
-`(range->generator d`*range*`)`
+`(range->generator `*drange*`)`
 
 Returns a SRFI 158 generator that generates the elements of *drange*.
 
