@@ -11,27 +11,34 @@ to the result.
 If *arg* is a printable ASCII character (that is, its
 codepoint is in the range 32-126 inclusive), it is
 converted to its codepoint and added to the result.
-If the codepoint is not in this range, an error
-satisfying `bytestring-error?` is signaled.
 
 If *arg* is a bytevector, its elements are added to the result.
 
 If *arg* is a string of printable ASCII characters, it is
 converted to a sequence of codepoints which are added to the result.
-If any codepoint is not in the range 32-126 inclusive, an error
-satisfying `bytestring-error?` is signaled.
+
+Otherwise, an error satisfying `bytestring-error?` is signaled.
 
 ##Conversion
 
 `(bytevector->hex-string `*bytestring*`)`
 
-Converts a bytevector into a string containing pairs of
-hexadecimal digits.
-
 `(hex-string->bytevector `*string*`)`
 
-Converts a string containing pairs of hexadecimal digits
-into a bytevector.
+Converts between a bytevector and a string containing pairs of
+hexadecimal digits.
+
+`(bytevector->base64 `*bytevector* [*digits*]`)`
+
+`(base64->bytevector `*string* [*digits*]`)`
+
+Converts between a bytevector and its base-64 encoding as a string.
+The 64 digits are represented by the characters 0-9, A-Z, a-z, and
+the symbols + and /.  However, there are different variants of
+base-64 encoding which use different representations of the 62nd
+and 63rd digit.  If the optional argument *digits* (a two-character
+string) is provided, those two characters will be used as the
+62nd and 63rd digit instead.
 
 `(list->bytestring `*list*`)`
 
@@ -103,15 +110,28 @@ had 32 added to them.
   
 ##Searching
 
+`(bytestring-index `*bytevector pred* [*start* [*end*]]`)
+`
+`(bytestring-index `*bytevector pred* [*start* [*end*]]`)`
+
+Search *bytevector* from *start* to *end* / from *end*
+to *start* for the first byte that satisfies *pred*, and
+return the index into *bytevector* containing that byte.
+
 `(bytestring-break `*bytevector pred*`)`
 
 `(bytestring-span `*bytevector pred*`)`
 
+Return two values, a bytevector containing the maximal
+sequence of characters (searching from the beginning
+to the end that do not satisfy / do satisfy *pred*,
+and another bytevector containing the remaining characters.
+
 ##Joining and splitting
 
-`(bytestring-join `*bytevector-list delimiter*`)`
+`(bytestring-join `*bytevector-list delimiter grammar*`)`
 
-`(bytestring-split `*bytevector delimiter*`)`
+`(bytestring-split `*bytevector delimiter grammar*`)`
 
 ##Output
 `(write-bytestring `*port arg* ...`)`
