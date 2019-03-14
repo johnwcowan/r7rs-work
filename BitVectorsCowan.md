@@ -1,1 +1,1 @@
-See the most recent version of [SRFI 160](http://srfi.schemers.org/srfi-160/srfi-160.html).
+See [the 7th draft of SRFI 160](https://htmlpreview.github.io/?https://raw.githubusercontent.com/scheme-requests-for-implementation/srfi-160/fdaad69c4a96bd6ec601dcc7a7ce64598f7c2f16/srfi-160.html)
