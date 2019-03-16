@@ -26,8 +26,7 @@ If a chapter is not mentioned here, all its functions are included in CL-R.
   *  Packages are immutable except for interning new symbols.
   *  Classes are immutable.
   *  The class of an instance is immutable.
-  *  TBD
-
+ 
 ## Variables
 
 All CL variables are part of CL-R except:
@@ -52,7 +51,7 @@ All of the functions of Chapter 5, Data and Control, are in CL-R, except:
 
 FDEFINITION, FBOUNDP, FMAKUNBOUND, which involve reflection on symbol values.
 
-GET-SETF-EXPANSION, which performs reflection on a SETF-expander.
+GET-SETF-EXPANSION, which performs reflection on the name of a SETF-expander.
 
 ## 7 Objects
 
@@ -71,13 +70,11 @@ The compiler accepts methods for the generic functions INITIALIZE-INSTANCE,
 SHARED-INITIALIZE, SLOT-MISSING, SLOT-UNBOUND, NO-APPLICABLE-METHOD,
 and NO-NEXT-METHOD but does not allow them to be explicitly called.
 
-MAKE-LOAD-FORM and MAKE-LOAD-FORM-SAVING-SLOTS are TBD.
-
 ## 10 Symbols
 
 All of the functions of Chapter 10, Symbols, are in CL-R, except:
 
-GENTEMP and SET, which are deprecated.
+SET, which reflects on a symbol value.
 
 SYMBOL-FUNCTION, SYMBOL-VALUE, BOUNDP, MAKUNBOUND, which involve
 reflection on symbol values.
@@ -99,26 +96,12 @@ All of the functions of Chapter 12, Numbers, are in CL-R, except:
 UPGRADED-COMPLEX-PART-TYPE, which is only useful at compile time given that
 type names are constants at run time.
 
-## 14 Conses
-
-All of the functions of Chapter 14, Conses, are in CL-R, except:
-
-SUBST-IF-NOT, NSUBST-IF-NOT, MEMBER-IF-NOT, ASSOC-IF-NOT, and
-RASSOC-IF-NOT, which are deprecated.
-
 ## 14 Arrays
 
 All of the functions of Chapter 14, Arrays, are in CL-R, except:
 
 UPGRADED-ARRAY-ELEMENT-TYPE, which is only useful at compile time given that
 type names are constants at run time.
-
-## 17 Sequences
-
-All of the functions of Chapter 17, Sequences, are in CL-R, except:
-
-COUNT-IF-NOT, FIND-IF-NOT, POSITION-IF-NOT, SUBSTITUTE-IF-NOT,
-NSUBSTITUTE-IF-NOT, REMOVE-IF-NOT, and DELETE-IF-NOT, which are deprecated.
 
 ## 24 System Construction
 
