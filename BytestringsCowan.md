@@ -134,8 +134,8 @@ of *bytevector2*, and `#f` otherwise.
   
 ##Searching
 
-`(bytestring-index `*bytevector pred* [*start* [*end*]]`)
-`
+`(bytestring-index `*bytevector pred* [*start* [*end*]]`)`
+
 `(bytestring-index `*bytevector pred* [*start* [*end*]]`)`
 
 Search *bytevector* from *start* to *end* / from *end*
