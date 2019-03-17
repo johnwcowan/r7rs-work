@@ -87,7 +87,7 @@ FIND-PACKAGE and PACKAGE-NAME, which allow packages to be referred to by name.
 
 INTERN, which allows symbols to be added to packages and is used by READ.
 
-MAKE-PACKAGE is TBD.
+MAKE-PACKAGE, so that dynamic packages can be added for interning into.
 
 ## 12 Numbers
 
