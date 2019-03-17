@@ -18,6 +18,17 @@ Returns `#t` if *obj* is a compound object, and `#f` otherwise.
 If *obj* is a compound object, returns a list of its subobjects; it is an error to
 mutate this list.  Otherwise, it returns a list containing only *obj*.
 
+`(compound-object-length `*obj*`)`
+
+If *obj* is a compound object, returns the number of its subobjects as an exact
+integer.  Otherwise, it returns 1.
+
+`(compound-object-ref `*obj k*`)`
+
+If *obj* is a compound object, returns the *k*th subobject.  Otherwise,
+*obj* is returned.  In either case, it is an error if *k* is less than
+zero or greater than or equal to the length of *obj*.
+
 `(compound-object-filter `*pred obj*`)`
 
 If *obj* is a compound object, returns a list of its subobjects that satisfy
@@ -31,18 +42,19 @@ or the empty list if *obj* does not satisfy *pred*.
 Returns a predicate that accepts one argument *obj* and behaves as follows:
 
 If *obj* is a compound
-object such that one of its subobjects satisfies *pred*, the predicate
+object such that at least one of its subobjects satisfies *pred*, the predicate
 returns `#t`, otherwise `#f`.
 
 If *obj* is not a compound object, the predicate applies *pred* to *obj* and
-returns `#t` if *pred* returns true or `#f` if *pred* returns false.
+returns what *pred* returns, or `#f` if *pred* returns false.
 
 `(compound-accessor `*pred accessor default*`)`
 
 Returns a procedure that accepts one argument *obj* and behaves as follows:
 
 If *obj* is a compound object, *accessor* is applied to
-the first subobject that satisfies *pred*; if there is no such subobject,
+the first subobject that satisfies *pred* and the result is returned;
+if there is no such subobject,
 returns *default*.
 
 If *obj* is not a compound object, then if the object satisfies *pred*,
