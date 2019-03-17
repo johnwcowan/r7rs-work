@@ -69,6 +69,16 @@ definite) or is within the bounds of *range* (if *range* is indefinite).
 
 Returns true if *range* is empty.
 
+`(range-start-inclusive? `*range*`)`
+
+Returns `#t` if *range* includes its start (always, in the case of definite ranges)
+and `#f` otherwise.
+
+`(range-end-inclusive? `*range*`)`
+
+Returns `#t` if *range* includes its end (never, in the case of definite ranges)
+and `#f` otherwise.
+
 ## Accessors
 
 `(range-start `*range*`)`
@@ -123,22 +133,21 @@ of *drange*.
 Returns a definite range which contains all except the last count elements of
 drange.
 
-`(range-reverse `*drange*`)`
-
-Returns a definite range which contains all the elements of *drange*, but in
-reverse order.
-
 `(range-count pred `*drange*`)`
 
 Returns the number of elements of *drange* which satisfy *pred*.
 
 `(range-any pred `*drange*`)`
 
-Returns true if any of the elements of *drange* satisfy *pred*.
+Returns true if any of the elements of *drange* satisfy *pred*,
+specifically the last value returned by *pred*, or `#t` if
+*pred* was never invoked.  Otherwise, `#f` is returned.
 
 `(range-every `*pred drange*`)`
 
-Returns true if all the elements of *drange* satisfy *pred*.
+Returns true if all the elements of *drange* satisfy *pred*,
+specifically the last value returned by *pred*, or `#t` if
+*pred* was never invoked.  Otherwise, `#f` is returned.
 
 `(range-map->list `*proc drange*`)`
 
@@ -150,6 +159,13 @@ is unspecified.
 
 Applies *proc* to each element of *drange* in order.
 Returns an unspecified result.
+
+`(range-filter->list `*pred drange*`)`
+
+`(range-remove->list `*pred drange*`)`
+
+Returns a list containing the elements of *drange* that
+satisfy / do not satisfy *pred*.
 
 `(range-fold `*drange proc nil*`)`
 
@@ -164,6 +180,7 @@ Invokes proc on each member of *drange* in reverse order, passing the result of
 the previous invocation as a second argument. For the last invocation,
 *nil* is used as the second argument. Returns the result of the last
 invocation, or *nil* if there was no invocation.
+
 
 ## Searching
 
