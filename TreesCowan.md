@@ -33,7 +33,8 @@ and their atoms are the same in the sense of *same?*, and `#f` otherwise.
 ## Tree walkers
 
 The following procedures walk the nodes of a tree in any of a variety of orders,
-applying a procedure to each node.
+applying a procedure to each node.  The procedure accepts three arguments: the
+node itself, its depth, and its local position.
 
 `(tree-walk-preorder `*proc tree*`)`
 
@@ -44,12 +45,13 @@ recursively walked.  Returns an unspecified value.
 `(tree-walk-postorder `*proc tree*`)`
 
 Accesses the nodes of *tree* in depth-first preorder and applies
-*proc* to each in turn.  That is, all the children of each node are walked and then the
-node itself is walked.  Returns an unspecified value.
+*proc* to each in turn.  That is, all the children of each node are
+recursively walked and then the node itself is walked.
+Returns an unspecified value.
 
-`(tree-walk-breadthfirst `*proc tree*`)`
+`(tree-walk-breadth-first `*proc tree*`)`
 
-Accesses the nodes of *tree* in depth-first preorder and applies
+Accesses the nodes of *tree* in breadth-first preorder and applies
 *proc* to each in turn. That is, *proc* is invoked on *tree*,
 then on all children of *tree*
 in left-to-right order, then on all grandchildren of *tree*
@@ -72,20 +74,18 @@ so hash tables with `eqv?` as the equality function are suitable.
 
 Returns an inversion of *tree*, not necessarily newly allocated.
 
-`(tree-parent `*subtree inversion*`)`
+`(tree-parent `*inversion subtree*`)`
 
 Uses *inversion* to return the parent subtree of *subtree*, or
 `#f` if subtree is the root.
 
-`(tree-depth `*subtree inversion*`)`
+`(tree-depth `*inversion subtree*`)`
 
-Uses *inversion* to return the depth of *subtree*, or
-`#f` if subtree is the root.
+Uses *inversion* to return the depth of *subtree*.
 
-`(tree-local-position `*subtree inversion*`)`
+`(tree-local-position `*inversion subtree*`)`
 
-Uses *inversion* to return the local position of *subtree*, or
-`#f` if subtree is the root.
+Uses *inversion* to return the local position of *subtree*.
 
 `(tree-contains? `*inversion node*`)`
 
@@ -96,7 +96,7 @@ and `#f` otherwise.
 `(tree-c-commands? `*inversion commanding commanded*`)`
 
 If the subtree *commanding* c-commands the subtree *commanded* in
-he tree represented by *inversion* , returns `#t`; 
+the tree represented by *inversion* , returns `#t`; 
 otherwise returns `#f`.  
 It is an error if either *ancestor* or *descendant* is not a subtree of
 he tree represented by *inversion*.
@@ -107,7 +107,7 @@ however, a node without siblings c-commands everything that its parent node c-co
 `(tree-path `*inversion subtree*`)`
 
 Returns a list of nodes containing *subtree* and 
-all the ancestors of *subtree* ending with *tree*.  
+all the ancestors of *subtree* ending with the root.  
 Returns `#f` if *subtree* is not a descendant of *tree*.
 
 ## Tree operations
@@ -118,7 +118,8 @@ Return a copy of *tree*.  Atoms are shared, but tree structure is not.
 
 `(tree-map `*proc tree*`)`
 
-Returns a copy of *tree*, except that each descendant atom has been passed through *proc*.  Tree structure is not shared.'
+Returns a copy of *tree*, except that each descendant atom has been passed through *proc*.
+Tree structure is not shared.
 
 `(tree-flatten ` *tree*`)`
 
@@ -187,81 +188,91 @@ or if *newnode* is already a non-atomic descendant of *tree*.
 
 ## Axis procedures
 
-The following procedures are generator operations:
-they accept a generator of subtrees and return another generator, also of subtrees.
-After the `tree-` prefix, they begin with `g`, using the convention of
-[SRFI 158](http://srfi.schemers.org/srfi-158/srfi-121.html) for generator operations.
-If the source generator is empty, so is the result generator.
+## Axis procedures
 
-`(sxml-groot `*parent-mapping gen*`)`
+The following procedures are generator operations: they accept a generator
+of subtrees of *tree* and return another generator, also of subtrees
+of *tree*.  After the `tree-` prefix, they begin with `g`, using the
+convention of [SRFI 158](http://srfi.schemers.org/srfi-158/srfi-121.html)
+for generator operations.  If the source generator is empty, so is the
+result generator.
 
-Returns a generator of SXML elements which invokes SXML elements from *gen*
-and returns their root elements on successive invocations.
+`(tree-groot `*tree inversion gen*`)`
 
-`(sxml-gparent `*parent-mapping gen*`)`
+Returns a generator of subtrees of *tree* which invokes subtrees of *tree*
+from *gen* and returns their root elements on successive invocations.
 
-Returns a generator of SXML elements which invokes SXML elements from *gen*
-and returns their parent elements on successive invocations.
+`(tree-gparent `*tree inversion gen*`)`
 
-`(sxml-gancestor `*parent-mapping gen*`)`
+Returns a generator of subtrees of *tree* which invokes subtrees of *tree*
+from *gen* and returns their parent elements on successive invocations.
 
-Returns a generator of SXML elements which invokes SXML elements from *gen*
-and returns their ancestor elements from parent to root on successive invocations.
+`(tree-gancestor `*tree inversion gen*`)`
 
-`(sxml-gancestor-or-self `*parent-mapping gen*`)`
+Returns a generator of subtrees of *tree* which invokes subtrees of
+*tree* from *gen* and returns their ancestor elements from parent to
+root on successive invocations.
 
-Returns a generator of SXML elements which invokes SXML elements from *gen*
-and returns their element itself and then its ancestor elements
+`(tree-gancestor-or-self `*tree inversion gen*`)`
+
+Returns a generator of subtrees of *tree* which invokes subtrees of *tree*
+from *gen* and returns their element itself and then its ancestor elements
 from parent to root on successive invocations.
 
-`(sxml-gchild `*parent-mapping gen*`)`
+`(tree-gchild `*tree inversion gen*`)`
 
-Returns a generator of SXML elements which invokes SXML elements from *gen*
-and returns their descendant elements
-in depth-first order from left to right on successive invocations.
+Returns a generator of subtrees of *tree* which invokes subtrees of
+*tree* from *gen* and returns their descendant elements in depth-first
+order from left to right on successive invocations.
 
-`(sxml-gchild `*parent-mapping gen*`)`
+`(tree-gchild `*tree inversion gen*`)`
 
-Returns a generator of SXML elements which invokes SXML elements from *gen*
-and returns their descendant elements
-in depth-first order from left to right on successive invocations.
+Returns a generator of subtrees of *tree* which invokes subtrees of
+*tree* from *gen* and returns their descendant elements in depth-first
+order from left to right on successive invocations.
 
-`(sxml-gchild `*parent-mapping gen*`)`
+`(tree-gchild `*tree inversion gen*`)`
 
-Returns a generator of SXML elements which invokes SXML elements from *gen*
-and returns their descendant elements
-in depth-first order from left to right on successive invocations.
+Returns a generator of subtrees of *tree* which invokes subtrees of
+*tree* from *gen* and returns their descendant elements in depth-first
+order from left to right on successive invocations.
 
-`(sxml-gdescendant `*parent-mapping gen*`)`
+`(tree-gdescendant `*tree inversion gen*`)`
 
-Returns a generator of SXML elements which invokes SXML elements from *gen*
-and returns their child elements from left to right on successive invocations.
+Returns a generator of subtrees of *tree* which invokes subtrees of
+*tree* from *gen* and returns their child elements from left to right
+on successive invocations.
 
-`(sxml-gdescendant-or-self `*parent-mapping gen*`)`
+`(tree-gdescendant-or-self `*tree inversion gen*`)`
 
-Returns a generator of SXML elements which invokes SXML elements from *gen*
-and returns their element itself and then its child elements from left to right on successive invocations.
+Returns a generator of subtrees of *tree* which invokes subtrees of *tree*
+from *gen* and returns their element itself and then its child elements
+from left to right on successive invocations.
 
-`(sxml-gfollowing `*parent-mapping gen*`)`
+`(tree-gfollowing `*tree inversion gen*`)`
 
-Returns a generator of SXML elements which invokes SXML elements from *gen*
-and returns all of their following elements in document order on successive invocations.
+Returns a generator of subtrees of *tree* which invokes subtrees of *tree*
+from *gen* and returns all of their following elements in document order
+on successive invocations.
 
-`(sxml-gfollowing-or-self `*parent-mapping gen*`)`
+`(tree-gfollowing-or-self `*tree inversion gen*`)`
 
-Returns a generator of SXML elements which invokes SXML elements from *gen*
-and returns the elements themselves and then all of their following elements
-in document order on successive invocations.
+Returns a generator of subtrees of *tree* which invokes subtrees of
+*tree* from *gen* and returns the elements themselves and then all of
+their following elements in document order on successive invocations.
 
-`(sxml-gpreceding `*parent-mapping gen*`)`
+`(tree-gpreceding `*tree inversion gen*`)`
 
-Returns a generator of SXML elements which invokes SXML elements from *gen*
-and returns all of their preceding elements in reverse document order on successive invocations.
+Returns a generator of subtrees of *tree* which invokes subtrees of *tree*
+from *gen* and returns all of their preceding elements in reverse document
+order on successive invocations.
 
-`(sxml-gpreceding-or-self `*parent-mapping gen*`)`
+`(tree-gpreceding-or-self `*tree inversion gen*`)`
 
-Returns a generator of SXML elements which invokes SXML elements from *gen*
-and returns the elements themselves and then all of their preceding elements in reverse document order on successive invocations.
+Returns a generator of subtrees of *tree* which invokes subtrees of *tree*
+from *gen* and returns the elements themselves and then all of their
+preceding elements in reverse document order on successive invocations.
+
 
 ## Output
 
