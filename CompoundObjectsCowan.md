@@ -37,7 +37,7 @@ If *obj* is a compound object, returns a list of its subobjects that satisfy
 If *obj* is not a compound object, it returns a list of *obj* if *obj* satisfies *pred*,
 or the empty list if *obj* does not satisfy *pred*.
 
-`(compound-predicate `*pred*`)`
+`(make-compound-predicate `*pred*`)`
 
 Returns a predicate that accepts one argument *obj* and behaves as follows:
 
@@ -48,7 +48,7 @@ returns `#t`, otherwise `#f`.
 If *obj* is not a compound object, the predicate applies *pred* to *obj* and
 returns what *pred* returns, or `#f` if *pred* returns false.
 
-`(compound-accessor `*pred accessor default*`)`
+`(make-compound-accessor `*pred accessor default*`)`
 
 Returns a procedure that accepts one argument *obj* and behaves as follows:
 
