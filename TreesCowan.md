@@ -97,7 +97,7 @@ and `#f` otherwise.
 
 If the subtree *commanding* c-commands the subtree *commanded* in
 the tree represented by *inversion* , returns `#t`; 
-otherwise returns `#f`.  
+otherwise returns `#f`.
 It is an error if either *ancestor* or *descendant* is not a subtree of
 he tree represented by *inversion*.
 
