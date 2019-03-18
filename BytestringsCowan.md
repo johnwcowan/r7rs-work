@@ -136,11 +136,13 @@ of *bytevector2*, and `#f` otherwise.
 
 `(bytestring-index `*bytevector pred* [*start* [*end*]]`)`
 
-`(bytestring-index `*bytevector pred* [*start* [*end*]]`)`
+`(bytestring-index-right `*bytevector pred* [*start* [*end*]]`)`
 
 Search *bytevector* from *start* to *end* / from *end*
 to *start* for the first byte that satisfies *pred*, and
 return the index into *bytevector* containing that byte.
+In either direction, *start* is inclusive* and *end*
+is exclusive.
 
 `(bytestring-break `*bytevector pred*`)`
 
@@ -172,6 +174,7 @@ The *grammar* argument has the same default and meaning as in `bytestring-join`,
 except that `infix` and `strict-infix` mean the same thing.
 
 ##Output
+
 `(write-bytestring `*port arg* ...`)`
 
 Outputs each *arg* to *port* using the same interpretations as `bytestring`,
