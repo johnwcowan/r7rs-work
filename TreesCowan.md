@@ -25,6 +25,11 @@ Returns `#t` if *obj* is a tree, and `#f` otherwise.
 
 Returns `#t` if *obj* is an atom, and `#f` otherwise.
 
+`(tree=? `*same? tree1 tree2*`)`
+
+Returns `#t` if *tree1* and *tree2* are isomorphic 
+and their atoms are the same in the sense of *same?*, and `#f` otherwise.
+
 ## Tree walkers
 
 The following procedures walk the nodes of a tree in any of a variety of orders,
@@ -65,7 +70,7 @@ so hash tables with `eqv?` as the equality function are suitable.
 
 `(invert-tree `*tree*`)`
 
-Returns an inversion of *tree*, not necessarily freshly allocated.
+Returns an inversion of *tree*, not necessarily newly allocated.
 
 `(tree-parent `*subtree inversion*`)`
 
@@ -99,11 +104,6 @@ he tree represented by *inversion*.
 A node in a tree c-commands its sibling node(s) and all of its siblings' descendants; 
 however, a node without siblings c-commands everything that its parent node c-commands.
 
-`(tree=? `*same? tree1 tree2*`)`
-
-Returns `#t` if *tree1* and *tree2* are isomorphic 
-and their atoms are the same in the sense of *same?*, and `#f` otherwise.
-
 `(tree-path `*inversion subtree*`)`
 
 Returns a list of nodes containing *subtree* and 
@@ -123,6 +123,10 @@ Returns a copy of *tree*, except that each descendant atom has been passed throu
 `(tree-flatten ` *tree*`)`
 
 Returns a list of the atoms in *tree* in depth-first preorder.
+
+`(tree->generator `*tree*`)`
+
+Returns a generator of the subtrees of *tree* in depth-first preorder.
 
 ## Node examination
 
@@ -181,9 +185,87 @@ Returns a tree where *subtree* has been replaced by *newnode* in the new tree.
 It is an error if *subtree* is not a descendant of *tree* 
 or if *newnode* is already a non-atomic descendant of *tree*.
 
+## Axis procedures
+
+The following procedures are generator operations:
+they accept a generator of subtrees and return another generator, also of subtrees.
+After the `tree-` prefix, they begin with `g`, using the convention of
+[SRFI 158](http://srfi.schemers.org/srfi-158/srfi-121.html) for generator operations.
+If the source generator is empty, so is the result generator.
+
+`(sxml-groot `*parent-mapping gen*`)`
+
+Returns a generator of SXML elements which invokes SXML elements from *gen*
+and returns their root elements on successive invocations.
+
+`(sxml-gparent `*parent-mapping gen*`)`
+
+Returns a generator of SXML elements which invokes SXML elements from *gen*
+and returns their parent elements on successive invocations.
+
+`(sxml-gancestor `*parent-mapping gen*`)`
+
+Returns a generator of SXML elements which invokes SXML elements from *gen*
+and returns their ancestor elements from parent to root on successive invocations.
+
+`(sxml-gancestor-or-self `*parent-mapping gen*`)`
+
+Returns a generator of SXML elements which invokes SXML elements from *gen*
+and returns their element itself and then its ancestor elements
+from parent to root on successive invocations.
+
+`(sxml-gchild `*parent-mapping gen*`)`
+
+Returns a generator of SXML elements which invokes SXML elements from *gen*
+and returns their descendant elements
+in depth-first order from left to right on successive invocations.
+
+`(sxml-gchild `*parent-mapping gen*`)`
+
+Returns a generator of SXML elements which invokes SXML elements from *gen*
+and returns their descendant elements
+in depth-first order from left to right on successive invocations.
+
+`(sxml-gchild `*parent-mapping gen*`)`
+
+Returns a generator of SXML elements which invokes SXML elements from *gen*
+and returns their descendant elements
+in depth-first order from left to right on successive invocations.
+
+`(sxml-gdescendant `*parent-mapping gen*`)`
+
+Returns a generator of SXML elements which invokes SXML elements from *gen*
+and returns their child elements from left to right on successive invocations.
+
+`(sxml-gdescendant-or-self `*parent-mapping gen*`)`
+
+Returns a generator of SXML elements which invokes SXML elements from *gen*
+and returns their element itself and then its child elements from left to right on successive invocations.
+
+`(sxml-gfollowing `*parent-mapping gen*`)`
+
+Returns a generator of SXML elements which invokes SXML elements from *gen*
+and returns all of their following elements in document order on successive invocations.
+
+`(sxml-gfollowing-or-self `*parent-mapping gen*`)`
+
+Returns a generator of SXML elements which invokes SXML elements from *gen*
+and returns the elements themselves and then all of their following elements
+in document order on successive invocations.
+
+`(sxml-gpreceding `*parent-mapping gen*`)`
+
+Returns a generator of SXML elements which invokes SXML elements from *gen*
+and returns all of their preceding elements in reverse document order on successive invocations.
+
+`(sxml-gpreceding-or-self `*parent-mapping gen*`)`
+
+Returns a generator of SXML elements which invokes SXML elements from *gen*
+and returns the elements themselves and then all of their preceding elements in reverse document order on successive invocations.
+
 ## Output
 
-`(tree-display-atoms `*tree* []]( *port*)`)`
+`(tree-display-atoms `*tree* [ *port*) ]`)`
 
 Walks through the atoms of *tree* in breadth-first order 
 and displays them (as if using `display`) on *port*, 
