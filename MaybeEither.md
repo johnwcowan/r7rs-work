@@ -1,8 +1,8 @@
 ## Abstract
 
-This SRFI defines two unique immutable container types
+This SRFI defines two dijoint immutable container types
 known as Maybe and Either,
-both of which can contain only a single object known as their payload.
+both of which can contain at most one object known as their payload.
 A Maybe object is either a Just object or the unique object Nothing
 (which has no payload); an Either object is either
 a Right object or a Left object.  Maybe represents the concept of an
@@ -60,7 +60,9 @@ The following names are used for the arguments:
 
 *either*: An Either object.
 
-*proc, failure, success*: A procedure.
+*failure*: A procedure that accepts zero arguments.
+
+*success*: A procedure that accepts one argument.
 
 *pred*: A predicate that accepts a single argument.
 
@@ -71,7 +73,7 @@ a single value.  In this SRFI, the procedure neither accepts nor
 returns a value in a container.
 
 *mproc*: A procedure that accepts a single argument not wrapped
-in a container and returns a value that is wrapped in a container.
+in a container and returns a single value that is wrapped in a container.
 
 *list*: A Scheme list.
 
