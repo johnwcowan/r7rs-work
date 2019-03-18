@@ -7,7 +7,7 @@ Constructors: make-tuple, tuple, list->tuple, vector->tuple, vector-as-tuple.
 Updater:  tuple-set, tuple-swap, tuple-fill; all return the new tuple.
 
 Accessor: tuple-vector returns the underlying vector, which must not be mutated,
-and is invalidated by the next tuple update operatoin.
+and is invalidated by the next tuple update operation.
 
 Convenience procedures passed to the vector: tuple-length, tuple-ref, tuple->list
 
