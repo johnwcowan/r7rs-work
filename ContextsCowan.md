@@ -7,12 +7,18 @@ most obviously lists and vectors. A Maybe (SRFI ???) is also a container holding
 zero or one values, and an Either (from the same SRFI) is also treated as a
 container which holds a value if it is a Right but no value if it is a Left.
 
-This SRFI provides procedures which operate on containers generically.  In order
-to know how to perform these operations, a context instance object must be passed
-which holds up to six basic procedures in terms of which all the others are defined.
-All procedures accept a context instance as the first argument, and
-except as noted,
-all procedures return a context.
+This SRFI provides procedures which operate on containers generically.
+This is a different kind of polymorphism from that provided by object-oriented
+systems or generic functions in other Lisps.
+Instead of using type discrimination on procedure arguments to determine how
+generic operations are to be performed,
+a *context instance object* must be passed to the generic procedure
+as its first argument.
+This object bundles up to six basic procedures in terms of which all
+other procedures on contexts are defined.
+Context instance objects are analogous to SRFI 128 comparators, which bundle up to
+four procedures that are used to compare two objects of the same type, in terms of
+which all other comparisons are defined.
 
 There are three classes of context types dealt with by this SRFI, known as functors,
 idioms, and monads.  Every monad is an idiom and every idiom is a functor.
@@ -24,15 +30,18 @@ The final section gives context instance objects for various standard Scheme typ
 ("Idiom" is a synonym for "applicative functor".
 It is less clear but shorter, an important consideration in a monomorphic language.)
 
-Objects in a context can be unwrapped, to produce the same objects out of the context;
-objecta out of a context can be wrapped to produce the same objects in the context.
+Objects in a context can be unwrapped to produce the same objects
+(in the sense of `eqv?`) 2out of the context;
+objects out of a context can be wrapped to produce the same objects in the context.
 How this is done, or if it can be done at all, depends on the context instance.
+
+Except as noted, all procedures return a context.
 
 ## Constructor
 
 `(make-context `*plist*`)`
 
-Returns a context instance containing the basic procedures that must be supported.
+Returns a context instance object containing the basic procedures that must be supported.
 The *plist* is a list alternating between names and procedure objects.
 As such, it may conveniently be constructed with a backquote.
 
@@ -42,13 +51,13 @@ Any unspecified procedures will be given default implementations based ona
 provided procedures whenever this is possible.  The exact defaulting rules
 are TBD.
 
-A context instance is a functor instance when the `map` procedure is either
+A context instance object is a functor instance object when the `map` procedure is either
 provided or defaulted.
 
-A context instance is an idiom instance when the`sequence`, `pure`, and
+A context instance object is an idiom instance object when the`sequence`, `pure`, and
 `apply` procedures are either provided or defaulted.
 
-A context instance is a monad instance when all six procedures are either provided
+A context instance object is a monad instance object when all six procedures are either provided
 or defaulted.
 
 ## Accessors
@@ -62,7 +71,7 @@ context-bind-procedure
 context-join-procedure
 ```
 
-All take a context instance as the only argument and return the provided or defaulted
+All take a context instance object as the only argument and return the provided or defaulted
 procedure stored in the context instance, or `#f` if the procedure is not provided
 and cannot be defaulted.
 
@@ -70,7 +79,7 @@ and cannot be defaulted.
 
 Names of arguments:
 
-*c* is a context instance.
+*c* is a context instance object.
 
 *cobj* is an object in a context, whereas *obj* is an object out of a context.
 Note that whether an object is in or out of a context depends on *c*.
@@ -114,8 +123,9 @@ TODO
 
 `(monad-join `*c cobj*`)`
 
-The values in *cobj* are themselves context objects.  The values in
-these cobjs are wrapped in the context and returned.
+The values wrapped in *cobj* are themselves objects in the context *c*.  The values in
+these cobjs are wrapped in the context *c* and returned, thus stripping off one
+layer of context.
 
 `(functor-as `*c mobj obj*`)`
 
@@ -144,7 +154,7 @@ the pairs wrapped in the context.
 
 `(functor-product `*c *cobj* *proc*`)`
 
-Unwraps the values in *cobj*, applies *proc* to them, and
+Unwraps the values of *cobj*, applies *proc* to them, and
 returns pairs consed from the value and the result of application
 wrapped in the context.
 
@@ -167,7 +177,7 @@ wrapped.
 
 `(monad-if `*c *mobj* *mproc1* *mproc2*`)`
 
-Takes a boolean wrapped in the context and unwraps it.  If it
+Takes a boolean wrapped in the context *c* and unwraps it.  If it
 is true, *mproc1* (which must not require arguments) is invoked
 and its result is returned; otherwise, *mproc2* (which also must
 not require arguments) is invoked and its result is returned.
