@@ -77,7 +77,7 @@ These are Scheme procedures that correspond to basic syntax.  They are derived f
 
 Invokes *thunks* in order, and returns what the last thunk returns, or an unspecified value if there are no thunks.
 
-`(if-procedure `*value then-thunk* [[|*else-thunk* ]]`)`
+`(if-procedure `*value then-thunk* [*else-thunk*]`)`
 
 If *value* is true, invokes *then-thunk* and returns what it returns.  Otherwise, invokes *else-thunk* and returns what it returns, or if *else-thunk* is not specified, returns an unspecified value.
 
@@ -89,7 +89,7 @@ If *value* is true, returns an unspecified value.  Otherwise, invokes *else-thun
 
 If *value* is true, invokes *then-proc* on it and returns what *then-proc* returns.  Otherwise, invokes *else-thunk* and returns what it returns.
 
-`(case-procedure `*value thunk-alist* [[|*else-thunk* ]]`)`
+`(case-procedure `*value thunk-alist* [*else-thunk* ]`)`
 
 Searches *thunk-alist* for *value* (as if by `assv`).  If there is no such entry in *thunk-alist*, invokes *else-thunk* and returns what it returns, or returns an unspecified value if *else-thunk* is not provided.  If there is a matching entry in *thunk-alist*, its cdr is invoked as a thunk, and `case-procedure` returns what the thunk returns.
 
