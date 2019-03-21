@@ -4,7 +4,8 @@ A *tally* is a [SRFI 158](http://srfi.schemers.org/srfi-158/srfi-158.html) accum
 whose purpose is to keep running descriptive statistics on *observations*, each represented by a real number,
 that are injected into it.
 It can compute a variety of simple statistics such as the arithmetic mean, the variance, and the standard deviation.
-It does not record the observations themselves, and therefore cannot compute the median or the mode.
+It does not record the observations themselves, and therefore cannot compute the media, the mode,
+or even the standard deviation.
 
 A *histogram* is a different kind of accumulator which maintains a number of *bins* decided in advance,
 and counts how many observations fall into each bin.  It can return bin counts and indicate the current median and modal bins.
@@ -25,8 +26,8 @@ It is explicitly permitted to add more observations after specifying an eof obje
 Returns a newly allocated histogram with no observations.
 It will have sufficient bins to count observations from *low* (inclusive) to *high* (exclusive)
 with the specified *width*.  Observations that fall on a bin boundary are always placed in the higher bin.
-There are two additional bins for observations lower than *low* and higher than *high*.
-The calling conventions are the same as for tallies.
+There are two additional bins for observations less than *low* and greater than
+or equal to *high*.  The calling conventions are the same as for tallies.
 
 ## Generators
 
@@ -36,7 +37,7 @@ Injects the values returned by *generator* into *tally* and updates all descript
 
 `(generator->histogram! `*histogram* *generator*`)`
 
-Injects the values returned by *generator* into *histogram* and updates the appropriate bin.
+Injects the values returned by *generator* into *histogram* and updates the appropriate bins.
 
 ## Basic statistics
 
@@ -70,7 +71,8 @@ This is the quotient of the sum and the count, or `+nan.0` if the count is zero.
 `(tally-geometric-mean `*state*`)`
 
 Returns the geometric mean of all observations injected so far.
-This is the *n*th root of the product, where *n* is the count of observations.
+This is the *n*th root of the product, where *n* is the count of observations,
+or `+nan.0` if the count is zero.
 
 `(tally-harmonic-mean `*state*`)`
 
@@ -87,51 +89,10 @@ If no observations have been injected, returns `-inf.0`.
 Returns the minimum observation injected so far.
 If no observations have been injected, returns `+inf.0`.
 
-## Range and variance
-
 `(tally-range `*state*`)`
 
 Returns the difference between the maximum and the minimum.
 If no observations have been injected, returns `+nan.0`.
-
-`(tally-sample-variance `*state*`)`
-
-Returns the sample variance of the observations injected so far.
-If no observations have been injected, returns `+nan.0`.
-
-`(tally-population-variance `*state*`)`
-
-Returns the population variance of the observations injected so far.  
-If no observations have been injected, returns `+nan.0`.
-
-`(tally-sample-standard-deviation `*state*`)`
-
-Returns the sample standard deviation of the observations injected so far.
-If no observations have been injected, returns `+nan.0`.
-
-`(tally-population-standard-deviation `*state*`)`
-
-Returns the population standard deviation of the observations injected so far.
-If no observations have been injected, returns `+nan.0`.
-
-## Covariance and correlation
-
-`(tally-sample-covariance `*state1* *state2*`)`
-
-Returns the sample covariance of the pairs of observations injected into the tallies
-whose states are *state1* and *state2* so far.
-If no observations have been injected, returns `+nan.0`.
-
-`(tally-population-covariance `*state1* *state2*`)`
-
-Returns the population covariance of the pairs of observations injected into the tallies
-whose states are *state1* and *state2* so far.
-If no observations have been injected, returns `+nan.0`.
-
-`(tally-correlation `*state1* *state2*`)`
-
-Returns the correlation between the pairs of observations injected into the tallies
-whose states are *state1* and *state2* so far.
 
 ## Histogram values
 
@@ -167,7 +128,7 @@ Return the number of observations greater than or equal to the *high* parameter 
 
 `(histogram-modal-bins `*histogram-state*`)`
 
-Return a list of the indexes to the bins that contain the maximum number of observations.
+Return a list of the indexes to the bins that contain the largest number of observations.
 The underflow and overflow bins are excluded. 
 
 Note that the modal *bin* does not necessarily contain the modal *value*;
