@@ -2,7 +2,7 @@
 
 Many procedures in many libraries accept arguments from a finite set (usually a fairly small one),
 or subsets of a finite set to describe one or more modes of operation.
-Offering a default policy for dealing with such values fosters portable and readable code,
+Offering a mechanism for dealing with such values fosters portable and readable code,
 much as records do for compound values, or multiple values for procedures computing several values.
 
 In Lisp-family languages, it is traditional to use symbols and lists of symbols for this purpose.
@@ -19,7 +19,7 @@ These are objects of a type disjoint from all others that are grouped into *enum
 (called *enum classes* in Java).  In Java, each enumeration type is allowed to declare
 the number and types of values associated with each object, but in this SRFI an enumeration
 object has exactly one value; this is useful when translating from C to record the numeric value,
-but probably has other uses as well.  The universes of R6RS correspond to enum types, but they are not reified.
+but has other uses as well.  The universes of R6RS correspond to enum types, but they are not reified.
 
 In this SRFI, each enum has four properties:  the enum type to which it belongs, its name (a symbol),
 its ordinal (an exact integer), and its value (any object).
@@ -36,7 +36,7 @@ in a future SRFI.  Meanwhile, general-purpose hash tables from
 
 ## Specification
 
-### Enum set constructor
+### Enum type constructor
 
 `(make-enum-type `*list*`)`
 
@@ -197,8 +197,9 @@ unless all the members are enums belonging to the same enum type.
 
 `(enum-set-project `*enum-type enum-set*`)`
 
-Returns an enum set containing the enums belonging to `enum-type` that
-have the same names as the members of *enum-set*.
+Returns an enum set containing the enums belonging to *enum-type* that
+have the same names as the members of *enum-set*, whose enum type
+typically is not the same as *enum-type*.
 
 ### Enum set predicates
 
@@ -244,7 +245,7 @@ the members of the result do not all belong to the same
 enum type.  The value of *enum-set* may or may not be
 altered in the process.
 
-### Enum set mapping and folding
+### Enum set operations
 
 `(enum-set-size `*enum-set*`)`
 
