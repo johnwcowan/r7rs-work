@@ -13,7 +13,7 @@ Predicate generic functions: [GenericsChibi](http://synthcode.com/scheme/chibi/l
 
 Maybe/Either: [MaybeEither](MaybeEither.md)
 
-Monad/Monoid:
+Monad etc.:  [ContextsCowan](ContextsCowan.md)
 
 String normalization [StringNormalization](StringNormalization.md)
 
