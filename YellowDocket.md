@@ -12,7 +12,7 @@ Named parameters:  [NamedParametersCowan](NamedParametersCowan.md) or [SRFI 89](
 
 Conditions: [ConditionsCowan](ConditionsCowan.md)
 
-Restarts:  [RestartsRiastradh](http://mumble.net/~campbell/proposals/restart.text)
+Restarts:  [RestartsCowan](RestartsCowan.md)
 
 Multiple values passed through => in `cond`: see #90
 
