@@ -4,7 +4,8 @@ This SRFI describes *futures* as the basic unit of Scheme concurrency (as
 opposed to parallelism, for which see [ParallelPromisesCowan](ParallelPromisesCowan.md)).
 
 Futures are analogous to [SRFI 18](http://srfi.schemers.org/srfi-18/srfi-18.html) threads,
-and can easily be built on top of them.  However, are more modern in style and hopefully
+and can easily be built on top of them, in which case SRFi 18 threads are the same
+objects as this SRFI's futures.  However, are more modern in style and hopefully
 easier to use.  Each future is represented to other futures, including itself, by a
 unique *future object*, a member of a disjoint type.
 
@@ -32,16 +33,17 @@ between runnable and blocked, and from any state to terminated:
       +-----> TERMINATED <----+
 ```
 
-## Fairness
+## Default fairness
 
 In various situations the scheduler must select one future to run or to unblock
 from a set of blocked futures . The constraints on the selection process determine the scheduler's
 *fairness*. Typically the selection depends on the order in which futures become
 runnable or blocked and on some *priority* attached to them.
 
-Because we do not wish to preclude extensions to this SRFI that require specific fairness
-constraints, there are no fairness constraints imposed. Implementations should document
-whatever fairness constraints they provide.
+Because we do not wish to preclude extensions to this SRFI (see below)
+that require specific fairness
+constraints, there are no fairness constraints imposed.
+Implementations should document whatever fairness constraints they provide.
 
 ## Memory coherency
 
@@ -186,5 +188,121 @@ main program to call this procedure.
 
 `(timeout-exception? `*obj*`)`
 
-Returns `#t` if *obj* is an object raised when a thread times out,
+Returns `#t` if *obj* is an object raised when a future times out,
 and `#f` otherwise.
+
+## Prioritized futures 
+
+Prioritized futures are a feature of this SRFI that specific
+Scheme implementations may or may not provide.  Unlike the general
+explanation of fairness above, this feature provides specific concept of fairness.
+It's built on top of
+[SRFI 21](http://srfi.schemers.org/srfi-21/srfi-21.html),
+which is a superset of SRFI 18.
+
+The fairness specified by this feature requires
+a notion of time ordering, i.e.
+"event A occurred before event B".
+For the purpose of establishing time ordering,
+the system may use a clock with a discrete,
+possibly variable, resolution (a *tick*).
+Events occuring in a given tick
+can be considered to be simultaneous
+(i.e. if event A occurred before event B in real time,
+then the system can claim that
+event A occured before event B
+or, if the events fall within the same tick,
+that they occured at the same time).
+
+Each future has three priorities which affect fairness;
+the *base priority*, the *boosted priority*,
+and the *effective priority*.
+
+The base priority is the value contained in the base priority field
+(which is set with the `future-base-priority-set!` procedure).
+A future's boosted flag field contains a boolean
+that affects its boosted priority.
+When the boosted flag field is false, the boosted priority is equal
+to the base priority, otherwise the boosted priority is equal
+to the base priority plus the value contained
+in the future's priority boost field.
+(which is set with the `future-priority-boost-set!` procedure).
+
+The boosted flag field is set to false
+when a future is created, when its quantum expires,
+and when `future-yield!` is called.
+The boosted flag field is set to true when a future blocks.
+By carefully choosing the base priority and priority boost
+it is possible to set up an interactive future
+so that it has good I/O response time without
+being a CPU hog when it performs long computations.
+
+The effective priority of a future F
+is equal to the maximum of F's boosted priority
+and the effective priority of all the futures
+that are blocked by F.
+This *priority inheritance* avoids
+priority inversion problems that would prevent
+a blocked high-priority future blocked
+at the entry of a critical section to progress
+because a low priority future
+inside the critical section is preempted
+for an arbitrary long time by a medium priority future.
+
+A future expires its quantum
+(which is set with the `future-set-quantum!` procedure)
+when an amount of time
+equal to its quantum has elapsed
+since it entered the running state and did not block,
+terminate or call `future-yield!`.
+At that point the future exits the running state
+to allow other futures to run.
+A future's quantum is thus an indication
+of the rate of progress of the future
+relative to the other futures of the same priority.
+Moreover, the resolution of the timer
+measuring the running time
+may cause a certain deviation from the quantum,
+so a future's quantum
+should only be viewed as an approximation of the time it can run
+before yielding to another future.
+
+Futures blocked on a given mutex or condition variable
+will unblock in an order which is consistent
+with decreasing priority and increasing blocking time
+(i.e. the highest priority future unblocks first,
+and among equal priority future the one that blocked
+first unblocks first).
+
+## Prioritized-future procedures
+
+`(future-base-priority `*future*`)` 
+
+Returns a real number which corresponds to the base priority of *future*.
+
+`(future-base-priority-set! `*future priority*`)`
+
+Changes the base priority of *future* to *priority*. 
+It is an error if the priority is not a real number. 
+Returns an unspecified value.
+
+`(future-priority-boost `*future*`)`
+
+Returns a real number which corresponds to the priority boost of *future*.
+
+`(future-priority-boost-set! `*future priority-boost*`)`
+
+Changes the priority boost of *future* to *priority-boost*.
+It is an error if *priority-boost* is not a non-negative real number.
+Returns an unspecified value.
+
+`(future-quantum `*future*`)`
+
+Returns a real number which corresponds to the quantum of *future*.
+
+`(future-quantum-set! `*future quantum*`)`
+
+Changes the quantum of *future* to *quantum*.
+It is an error if *quantum* is not a non-negative real number.
+A value of zero selects the smallest quantum supported by the implementation.
+Returns an unspecified value.
