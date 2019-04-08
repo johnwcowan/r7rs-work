@@ -3,86 +3,40 @@
 WG2 voted to provide a Posix package, but rejected a "full Posix" package that would provide all 81
 headers, 1191 interfaces, and 51 data types from POSIX.1-2008.  What is proposed here is based
 directly on the Posix bindings for Lua, which are modern and thorough
-(28 headers, 159 interfaces, and 11 data types) without being insanely comprehensive.
+without being insanely comprehensive.  They have been reduced to those
+available directly or indirectly in `scsh`.
+Interfaces for networking, ptys, resource limits,
+message queues, and time (plus various lesser-used interfaces) have been removed as well.
+(28 headers, 159 interfaces, and 11 data types).
 
-All the headers:  ctype, dirent, errno, fcntl, fnmatch, glob, grp, libgen,
-poll, pwd, sched, signal, stdio, stdlib, sys/msg, sys/resource, sys/socket,
-sys/stat, sys/statvfs, sys/time, sys/times, sys/utsname, sys/wait, syslog,
-termio, time, unistd, utime.
+All the headers:  dirent, errno, fcntl, glob, grp, libgen,
+poll, pwd, signal, stdio, stdlib, sys/msg, sys/resource, sys/socket,
+sys/stat, sys/time, sys/times, sys/utsname, sys/wait,
+termio, unistd, utime.
 
 ## Detailed functions by header
 
 ```
 
-posix-ctype: isgraph (character)
-posix-ctype: isprint (character)
-posix-dirent: dir (\[path="."])
-posix-dirent: files (\[path="."])
-posix-errno: errno (\[n=current errno])
-posix-errno: set_errno (n)
+posix-dirent: opendir (\[path="."])
+posix-dirent: readdir
+posix-dirent: closedir
 posix-fcntl: fcntl (fd, cmd\[, arg=0])
 posix-fcntl: open (path, oflags\[, mode=511])
-posix-fcntl: posix_fadvise (fd, offset, len, advice)
-posix-fcntl: flock [???]
-posix-fnmatch: fnmatch (pat, name\[, flags=0])
 posix-glob: glob (\[pat="\*"], flags)
-posix-grp: endgrent ()
-posix-grp: getgrent ()
 posix-grp: getgrgid (gid)
 posix-grp: getgrnam (name)
-posix-grp: setgrent ()
-posix-libgen: basename (path)
-posix-libgen: dirname (path)
 posix-poll: poll (fds[, timeout=-1])
-posix-poll: rpoll (fd[, timeout=-1])
-posix-pwd: endpwent ()
-posix-pwd: getpwent ()
 posix-pwd: getpwnam (name)
 posix-pwd: getpwuid (uid)
-posix-pwd: setpwent ()
-posix-sched: sched_getscheduler ([pid=0])
-posix-sched: sched_setscheduler ([pid=0[, policy=`SCHED_OTHER`[, priority=0]]])
 posix-signal: kill (pid, opt)
 posix-signal: killpg (pgrp[, sig=`SIGTERM`])
-posix-signal: raise (sig)
-posix-signal: signal (signum[, handler=SIG_DFL[, flags]])
 posix-stdio: ctermid ()
-posix-stdio: fdopen (fd, mode)
+??? posix-stdio: fdopen (fd, mode)
 posix-stdio: fileno (file)
 posix-stdio: rename (oldpath, newpath)
 posix-stdlib: abort ()
-posix-stdlib: getenv ([name])
-posix-stdlib: grantpt (fd)
-posix-stdlib: mkdtemp (templ)
-posix-stdlib: mkstemp (templ)
-posix-stdlib: openpt (oflags)
-posix-stdlib: ptsname (fd)
 posix-stdlib: realpath (path)
-posix-stdlib: setenv (name\[, value[, overwrite]])
-posix-stdlib: unlockpt (fd)
-posix-sys-msg: msgctl (id, cmd)
-posix-sys-msg: msgget (key\[, flags=0])
-posix-sys-msg: msgrcv (id, size, type\[, flags=0])
-posix-sys-msg: msgsnd (id, type, message\[, flags=0])
-posix-sys-resource: getrlimit (resource)
-posix-sys-resource: setrlimit (resource\[, softlimit[, hardlimit]])
-posix-sys-socket: accept (fd)
-posix-sys-socket: bind (fd, addr)
-posix-sys-socket: connect (fd, addr)
-posix-sys-socket: getaddrinfo (host, service\[, hints])
-posix-sys-socket: getpeername (sockfd)
-posix-sys-socket: getsockname (sockfd)
-posix-sys-socket: getsockopt (fd, level, name)
-posix-sys-socket: listen (fd, backlog)
-posix-sys-socket: recv (fd, count)
-posix-sys-socket: recvfrom (fd, count)
-posix-sys-socket: send (fd, buffer)
-posix-sys-socket: sendto (fd, buffer, destination)
-posix-sys-socket: setsockopt (fd, level, name, value1\[, value2])
-posix-sys-socket: shutdown (fd, how)
-posix-sys-socket: socket (domain, type, options)
-posix-sys-socket: socketpair (domain, socktype, options)
-posix-sys-socket: sockaddr
 posix-sys-stat: S_ISBLK (mode)
 posix-sys-stat: S_ISCHR (mode)
 posix-sys-stat: S_ISDIR (mode)
@@ -97,17 +51,9 @@ posix-sys-stat: mkdir (path\[, mode=511])
 posix-sys-stat: mkfifo (path\[, mode=511])
 posix-sys-stat: stat (path)
 posix-sys-stat: umask (\[mode])
-posix-sys-statvfs: statvfs (path)
-posix-sys-time: gettimeofday ()
 posix-sys-times: times ()
 posix-sys-utsname: uname ()
-posix-sys-utsname: utsname
 posix-sys-wait: wait (\[pid=-1\[, options]])
-posix-syslog: LOG_MASK (priority)
-posix-syslog: closelog ()
-posix-syslog: openlog (ident\[, option\[, facility=`LOG_USER`]])
-posix-syslog: setlogmask (mask)
-posix-syslog: syslog (priority, message)
 posix-termio: tcdrain (fd)
 posix-termio: tcflow (fd, action)
 posix-termio: tcflush (fd, action)
@@ -116,27 +62,15 @@ posix-termio: tcsendbreak (fd, duration)
 posix-termio: tcsetattr (fd, actions, a)
 posix-termio: ccs
 posix-termio: termios
-posix-time: clock_getres (clk)
-posix-time: clock_gettime (clk)
-posix-time: gmtime (t)
-posix-time: localtime (t)
-posix-time: mktime (broken)
-posix-time: nanosleep (requested)
-posix-time: strftime (format, tm)
-posix-time: strptime (s, format)
-posix-time: time ()
-posix-unistd: _exit (status)
 posix-unistd: access (path[, mode="f"])
 posix-unistd: alarm (seconds)
 posix-unistd: chdir (path)
 posix-unistd: chown (path, uid, gid)
 posix-unistd: close (fd)
-posix-unistd: crypt (trypass, salt)
 posix-unistd: dup (fd)
 posix-unistd: dup2 (fd, newfd)
 posix-unistd: exec (path, argt)
 posix-unistd: execp (path, argt)
-posix-unistd: fdatasync (fd)
 posix-unistd: fork ()
 posix-unistd: fsync (fd)
 posix-unistd: ftruncate (fd, length)
@@ -146,7 +80,6 @@ posix-unistd: geteuid ()
 posix-unistd: getgid ()
 posix-unistd: getgroups ()
 posix-unistd: gethostid ()
-posix-unistd: getopt (arg, opts[, opterr=0[, optind=1]])
 posix-unistd: getpgrp ()
 posix-unistd: getpid ()
 posix-unistd: getppid ()
@@ -154,10 +87,8 @@ posix-unistd: getuid ()
 posix-unistd: isatty (fd)
 posix-unistd: lchown (path, uid, gid)
 posix-unistd: link (target, link[, soft=false])
-posix-unistd: linkat (targetdir, target, linkdir, link, flags)
 posix-unistd: lseek (fd, offset, whence)
 posix-unistd: nice (inc)
-posix-unistd: pathconf (path, key)
 posix-unistd: pipe ()
 posix-unistd: read (fd, count)
 posix-unistd: readlink (path)
@@ -168,9 +99,7 @@ posix-unistd; setgid (uid)
 posix-unistd; setegid (uid)
 posix-unistd; setpgid (pid, pgid)
 posix-unistd; setsid ()
-posix-unistd: sleep (seconds)
 posix-unistd: sync ()
-posix-unistd: sysconf (key)
 posix-unistd: tcgetpgrp (fd)
 posix-unistd: tcsetpgrp (fd, pgid)
 posix-unistd: truncate (path, length)
@@ -184,13 +113,9 @@ posix-utime: utime (path[, mtime=now[, atime=now]])
 ```
 
 posix-grp: PosixGroup
+posix-poll: PosixPoll
 posix-pwd: PosixPasswd
-posix-sys-msg: PosixMsqid
-posix-sys-resource: PosixRlimit
-posix-sys-socket: PosixAddrInfo
 posix-sys-stat: PosixStat
-posix-sys-statvfs: PosixStatvfs
-posix-sys-time: PosixTimeval
 posix-sys-times: PosixTms
 posix-time: PosixTimespec
 posix-time: PosixTm
