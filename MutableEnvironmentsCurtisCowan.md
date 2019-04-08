@@ -1,87 +1,63 @@
-This proposal provides mutable environments for R7RS-large.  It's based on [this proposal by Pavel Curtis](http://groups.csail.mit.edu/mac/ftpdir/scheme-mail/HTML/rrrs-1988/msg00139.html), but he is not responsible for the use I have made of it.
+This proposal provides mutable environments for R7RS-large.
+It was originally based on
+[this proposal by Pavel Curtis](http://groups.csail.mit.edu/mac/ftpdir/scheme-mail/HTML/rrrs-1988/msg00139.html),
+but I have changed it to follow MIT Scheme, which provides a tree of environments.
 
 ## Introduction
 
 The small language provides four procedures that return global environment specifiers for use by `eval`.  They are:
 
-* `environment`, which returns an immutable environment specifier when passed on zero or more import-specs which contains the bindings made available by those import specs
+* `environment`, which returns an environment specifier when passed on zero or more import-specs which contains the bindings made available by those import specs
 
-* `scheme-report-environment`, which when passed the argument `5` returns a specifier for a copy of the R5RS environment, which may or may not be mutable
+* `scheme-report-environment`, which when passed the argument `5` returns a specifier for a copy of the R5RS environment
 
-* `null-environment`, which when passed the argument `5` returns a specifier for a copy of the R5RS environment containing syntax keywords only, which may or may not be mutable
+* `null-environment`, which when passed the argument `5` returns a specifier for a copy of the R5RS environment containing syntax keywords only
 
 * `interaction-environment`, which returns a mutable environment specifier containing implementation-defined bindings, including at least those exported by the base library
 
+MIT Scheme does not have any of these: see the Implementation section for how they might be implemented on that system.
+
 ## Procedures
 
-The following procedures allow an application to generate, examine, and mutate environment specifiers which can be used like those obtained from the R7RS-small procedures above.
+The following procedures allow an application to generate, examine, and mutate environment
+specifiers which can be used like those obtained from the R7RS-small procedures above.
+Every environment specifier except the ones from the above procedure has a parent, such that
+if the environment does not have a binding, all its ancestors are searched for that binding.
 
-## Constructor
+(Incorporate here from the MIT [top-level environments](https://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Top_002dlevel-Environments.html#Top_002dlevel-Environments)
+the `extend-top-level-environment` and `extend-root-top-level-environment` procedures with the names `make-environment` and `empty-environment` respectively.)
 
-`(make-environment `*environment* ...`)`
+(Incorporate here all the MIT [environment operations](https://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Environment-Operations.html#Environment-Operations).)
 
-Returns a newly allocated mutable environment specifier that has imported into it the bindings of the *environments*.
-
-## Predicates
-
-`(environment? `*obj*`)`
-
-Returns `#t` if *obj* is an environment specifier, and `#f` otherwise.
-
-`(mutable-environment? `*obj*`)`
-
-Returns `#t` if *obj* is a mutable environment specifier, and `#f` otherwise.
-
-`(environment-bound? `*environment symbol*`)`
-
-Returns `#t` if *symbol* is bound in the environment specified by *environment*, and `#f` otherwise.
-
-`(environment-syntax-keyword? `*environment symbol*`)`
-
-Returns `#t` if *symbol* is bound as a syntax keyword in the environment specified by *environment*, and `#f` otherwise.
-
-`(environment-assigned? `*environment symbol*`)`
-
-Returns `#t` if *symbol* is bound as a variable and is assigned a value in the environment specified by *environment*, and `#f` otherwise.
-
-## Accessors
-
-`(environment-ref `*environment symbol*`)`
-
-If *symbol* is bound as a variable that has been assigned a value in the environment specified by *environment*, returns the value bound to it.  If *symbol* is bound as a syntax keyword, returns an implementation-defined object which specifies whatever is bound to it such that it can be passed to `environment-set!`.  If *symbol* is not bound or not assigned, returns `#f`.
-
-`(environment-imports `*environment*`)`
-
-Returns a list of environments that have been imported into *environment*.  It is an error to mutate this list.
-
-## Mutators
-
-`(environment-bind `*mutable-environment symbol syntax-keyword?*`)`
-
-Binds *symbol* in *mutable-environment* as a syntax keyword or variable.  The value is unassigned.
-
-`(environment-import! `*mutable-environment environment* ...`)`
-
-Modifies *mutable-environment* to import *environments*.  It is an error if any symbol is imported from more than one environment, either specified or already imported into *mutable-environment*.  Any symbols bound in *mutable-environment* shadow symbols in the imported environments.
-
-`(environment-unimport! `*mutable-environment environment* ...`)`
-
-Modifies *mutable-environment* to not import *environments*.  Unimporting an environment that is not imported has no effect.
-
-`(environment-set! `*mutable-environment symbol value*`)`
-
-In *mutable-environment *, assigns *symbol* (which must be bound as a variable or syntax keyword) to *value*.  It is an error if *symbol* is bound to a syntax keyword but *value* is not derived from a call on `environment-ref` passing an already existing syntax keyword.  Returns an unspecified value.
-
-`(environment-remove! `*mutable-environment symbol*`)`
-
-In the mutable environment specified by *environment*, removes any binding for *symbol* created by `environment-set!`, revealing any imported binding.  If there is no such binding, it does nothing.  Returns an unspecified value.
+(Incorporate here from the MIT [top-level environments](https://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Top_002dlevel-Environments.html#Top_002dlevel-Environments)
+the `unbind-variable` procedure with the name `environment-unbind!`.)
 
 `(environment-freeze! `*environment*`)`
 
-Causes *environment* to become an immutable environment.
+Freezes an environment, making it an error to add, remove, or change its bindings,
+and returns an unspecified result.
 
-## The whole environment
+The freeze status of the top-level environments is as follows:
 
-`(environment-for-each `*environment proc*`)`
+  *  All environments created with `make-environment` or `empty-environment` are initially unfrozen
+  
+  *  The result of calling `interaction-environment` is always unfrozen, and attempts to freeze it are ignored.
 
-Invokes *proc* on each identifier bound in the environment specified by *environment* whose value is not imported.  *Proc* is passed the identifier and the value (or an unspecified value if the identifier is bound as a syntax keyword or unassigned).  Note that imported identifiers when the environment was created are not passed to *proc* unless their bindings or values have been changed.
+  *  The results of calling `environment`are always frozen.
+
+  *  The results of calling `null-environment` and `scheme-report-environment` are implementation-specified.
+
+## Implementation
+
+The R7RS-small procedures are not defined in MIT Scheme, but may be defined as follows:
+
+The `interaction-environment` procedure just returns the variable `user-initial-environment`.
+
+The `null-environment` and `scheme-report-environment` procedures return distinct environments
+constructed with `make-root-top-level-environment`.  The `link-variables` procedure
+is then used to copy all R5RS bindings into the environment to be returned using
+`scheme-report-environment`; only the R5RS syntax keyword bindings are copied
+into the environment returned by `null-environment`.
+
+The `environment-freeze!` procedure does nothing, as MIT Scheme does not implement frozen environments.
+
