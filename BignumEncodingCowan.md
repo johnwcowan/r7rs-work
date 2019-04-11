@@ -1,1 +1,1 @@
-See [BionaryIoCowan](BinaryIoCowan.md).
+See [BinaryIoCowan](BinaryIoCowan.md).
