@@ -1,6 +1,6 @@
 ﻿For other dockets see [WG2Dockets](WG2Dockets.md).
 
-Matching:  [MatchingWise](MatchingWise.md)
+Matching:  [(chibi match)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/match/0.7.3/index.html)
 
 Combinators:  [CombinatorsCowan](CombinatorsCowan.md)
 
