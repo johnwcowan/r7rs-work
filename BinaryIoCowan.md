@@ -8,15 +8,19 @@ the full list.
 
 `(read-@ ` [*port*]`)`
 
-Reads the appropriate number of bytes from *port* in native byte order and returns a number of the appropriate type (exact integer or inexact real or complex number).
+Reads the appropriate number of bytes from *port* in native byte order
+and returns a number of the appropriate type
+(exact integer or inexact real or complex number).
 
 `(read-@le ` [*port*]`)`
 
-Reads the appropriate number of bytes from *port* in little-endian byte order and returns a number of the appropriate type (exact integer or inexact real or complex number).
+Reads the appropriate number of bytes from *port* in little-endian byte order
+and returns a number of the appropriate type (exact integer or inexact real or complex number).
 
 `(read-@be ` [*port*]`)`
 
-Reads the appropriate number of bytes from *port* in big-endian ("network") byte order and returns a number of the appropriate type (exact integer or inexact real or complex number).
+Reads the appropriate number of bytes from *port* in big-endian ("network") byte order
+and returns a number of the appropriate type (exact integer or inexact real or complex number).
 
 `(write-@ `*number* [*port*]`)`
 
@@ -32,11 +36,25 @@ Writes *number* to *port* in the appropriate format using big-endian ("network")
 
 `(read-ber-integer ` [*port*]`)`
 
-Reads a [BER](https://en.wikipedia.org/wiki/X.690#BER_encoding)-encoded integer of arbitrary size from *port* and returns it as an exact integer.
+Reads a [BER](https://en.wikipedia.org/wiki/X.690#BER_encoding)-encoded integer of arbitrary size
+from *port* and returns it as an exact integer.
 
 `(write-ber-integer ` *exact-integer* [*port*]`)`
 
 Writes *exact-integer* using [BER](https://en.wikipedia.org/wiki/X.690#BER_encoding) encoding to *port*.
+
+`ber-integer-size` _int_
+
+Return the number of bytes required to encode _int_ in BER format.
+
+`bytevector-ber-integer-ref` _bytevector k_
+
+Reads and returns an exact integer starting at offset _k_ in _bytevector_.
+
+`bytevector-ber-integer-set!` _bytevector k int_
+
+Writes the exact integer _int_ to _bytevector_ in BER format starting at offset _k_
+It is an error if _int_ is not a positive integer.
 
 `(read-utf8-string ` *k* [*port*]`)`
 
@@ -55,6 +73,8 @@ and write the bytes to *port*.
 Read bytes from *port* until a byte equal to *byte* is read. 
 Return two values: all the other bytes as a bytevector,
 and *byte*.
+
+
 
 ## Implementation
 
