@@ -6,8 +6,7 @@ Combinators:  [CombinatorsCowan](CombinatorsCowan.md)
 
 Lambda*: [BeyondCurryingHemann](BeyondCurryingHemann.md)
 
-Named parameters:  [NamedParametersCowan](NamedParametersCowan.md) 
-or [SRFI 89](http://srfi.schemers.org/srfi-89/srfi-89.html)  
+Named parameters:  [SRFI 89](http://srfi.schemers.org/srfi-89/srfi-89.html)  
 or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/0.7.3/index.html)
 
 Conditions: [ConditionsCowan](ConditionsCowan.md)
