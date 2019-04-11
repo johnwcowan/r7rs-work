@@ -1,3 +1,21 @@
+## Bignums
+
+Since Schemes may support unlimited size bignums it is useful to support the binary encoding
+of such values.
+
+A BER (Basic Encoding Rules from X.690) compressed integer is an unsigned integer in base 128,
+most significant digit first, where the high bit is set on all but the final (least significant)
+byte. Thus any size integer can be encoded, but the encoding is efficient and small integers
+don't take up any more space than they would in normal char/short/int encodings.
+This is commonly used to encode an unlimited length field, and can form the basis
+for other variable length encodings.
+
+Examples of integers converted to BER byte sequences:
+
+            3 => #x03
+          555 => #x84 #x2B
+    123456789 => #xBA #xEF #x9A #x15
+
 ## Input and output
 
 The default value of *port* is the current input or output port, as appropriate.
@@ -36,12 +54,13 @@ Writes *number* to *port* in the appropriate format using big-endian ("network")
 
 `(read-ber-integer ` [*port*]`)`
 
-Reads a [BER](https://en.wikipedia.org/wiki/X.690#BER_encoding)-encoded integer of arbitrary size
+Reads a BER-encoded integer of arbitrary size
 from *port* and returns it as an exact integer.
 
 `(write-ber-integer ` *exact-integer* [*port*]`)`
 
-Writes *exact-integer* using [BER](https://en.wikipedia.org/wiki/X.690#BER_encoding) encoding to *port*.
+Writes *exact-integer* using BER encoding to *port*.
+It is an error if *exact-integer* is negative.
 
 `ber-integer-size` _int_
 
@@ -51,10 +70,10 @@ Return the number of bytes required to encode _int_ in BER format.
 
 Reads and returns an exact integer starting at offset _k_ in _bytevector_.
 
-`bytevector-ber-integer-set!` _bytevector k int_
+`bytevector-ber-integer-set!` _bytevector k exact-integer_
 
-Writes the exact integer _int_ to _bytevector_ in BER format starting at offset _k_
-It is an error if _int_ is not a positive integer.
+Writes the exact integer _exact-integer_ to _bytevector_ in BER format starting at offset _k_
+It is an error if _exact-integer_ is negative.
 
 `(read-utf8-string ` *k* [*port*]`)`
 
