@@ -25,7 +25,7 @@ Float and NaN dissector API (sign, quiet/signaling status, and integer tag): [Fl
 
 R6RS versions of `real?`, `rational?`, `integer?`: these are false if the imaginary part is an inexact zero; the issue here is what to name them to avoid confusion
 
-Bignum encoding: [BignumEncodingCowan](BignumEncodingCowan.md)
+Binary numeric I/O: [BinaryIoCowan](BinaryIoCowan.md)
 
 Combinator sublibrary: [SRFI 162](http://srfi.schemers.org/srfi-162/srfi-162.html)
 
@@ -201,8 +201,6 @@ Chronometers: [Chronometer](Chronometer.md)
 Port operations: [PortOperationsCowan](PortOperationsCowan.md)
 
 Time types: [SRFI 19](http://srfi.schemers.org/srfi-19/srfi-19.html) and/or [TimeAdvancedCowan](TimeAdvancedCowan.md) with [TimePeriodsCowan](TimePeriodsCowan.md)
-
-Binary I/O: [BinaryIoCowan](BinaryIoCowan.md)
 
 Character conversion: [CharacterConversionCowan](CharacterConversionCowan.md)
 
