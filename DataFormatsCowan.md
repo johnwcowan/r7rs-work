@@ -105,34 +105,3 @@ using *delim* (a character) to delimit fields.  When invoked on an
 end-of-file object, no action is taken.  In either case, an unspecified value
 is returned.
 
-## Auxiliary routines
-
-The following routines are provided to ease the interoperation
-of generators with ports.
-
-`(reader->generator `*proc arg* ...`)`
-
-Returns a [SRFI 158](http://srfi.schemers.org/srfi-158/srfi-158.html) generator
-which when invoked calls *proc* on the *args*, and returns whatever *proc*
-returns.  For example, invoking the generator  returned by
-`(reader->generator read-string 10)` will read a string of 10 characters
-from the current input port and return it.  If 10 characters are not
-available, a string containing as many as are available is returned;
-if none are available, an end of file object is returned.
-
-`(writer->accumulator `*proc arg* ...`)`
-
-Returns a [SRFI 158](http://srfi.schemers.org/srfi-158/srfi-158.html) accumulator
-which when invoked with one argument calls *proc* on the that argument followed by
-the *args*, and returns whatever *proc* returns.  For example, invoking the
-accumulator returned by
-`(writer->accumulator write-string port 0 10)` with a string argument
-will cause the first 10 characters of the string to be written to the port.
-When such an accumulator is invoked on an end-of-file object, no action is taken.
-
-`(accumulate-generated-values `*accumulator generator*`)`
-
-Invokes *generator* repeatedly and passes the value as an argument
-to *accumulator*.  If *generator* returns an end of file object,
-it is also passed to *accumulator*, and `accumulate-generated-values`
-returns whatever *accumulator* returned.
