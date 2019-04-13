@@ -41,7 +41,8 @@ Descriptive statistics:  [TallyCowan](TallyCowan.md)
 
 Ranges:  [RangesCowan](RangesCowan.md)
 
-BitVectors: [BitVectorsCowan](BitVectorsCowan.md)
+Bit and boolean vectors: [Bvectors.html]
+(https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/Bvectors.html)
 
 Bytestrings: [BytestringsCowan](BytestringsCowan.md)
 
