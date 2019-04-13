@@ -9,6 +9,10 @@ objects as this SRFI's futures.  However, are more modern in style and hopefully
 easier to use.  Each future is represented to other futures, including itself, by a
 unique *future object*, a member of a disjoint type.
 
+## FIXME
+
+Monadic `bind` and `and-then` needed.
+
 ## Future states
 
 * A *running* future is one that is currently executing. There can be more than one future running in parallel on a multiprocessor machine.
