@@ -208,7 +208,9 @@ Parallel promises: [ParallelPromisesCowan](ParallelPromisesCowan.md)
 
 Pathname objects: [PathnamesPython](PathnamesPython.md)
 
-URI objects: [UrisGauche](http://practical-scheme.net/gauche/man/gauche-refe/URI-parsing-and-construction.html#URI-parsing-and-construction)
+URI objects: [UrisGauche](http://practical-scheme.net/gauche/man/gauche-refe/URI-parsing-and-construction.html#URI-parsing-and-construction)  
+or Chicken [uri-generic](http://wiki.call-cc.org/eggref/5/uri-generic) +  
+[uri-common](http://wiki.call-cc.org/eggref/5/uri-common).
 
 Unicode character database: [UcdCowan](UcdCowan.md), [AdvancedUcdCowan](AdvancedUcdCowan.md)
 
