@@ -268,7 +268,7 @@ Unifiable boxes: [SRFI 161](http://srfi.schemers.org/srfi-161/srfi-161.html)
 Channels: [PigeonHolesChicken](http://wiki.call-cc.org/eggref/5/pigeon-hole),
 [GochanChicken](http://wiki.call-cc.org/eggref/5/gochan)
 
-Immutable tuples: [TuplesCowan](TuplesCowan.md)
+Immutable vectors: [FectorsPrice](https://github.com/ijp/fectors)
 
 First-class dynamic extents: [SRFI 154](http://srfi.schemers.org/srfi-154/srfi-154.html)
 
