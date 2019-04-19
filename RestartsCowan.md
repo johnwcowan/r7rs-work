@@ -99,7 +99,7 @@ return, `restart` does not return either.
 
 Returns the current list of ambient restarters created by
 `make-restarter` and established by `with-restarter`.
-It is an error to mutate this list
+It is an error to mutate this list.
 *Ambient-restarters* is normally a SRFI 39 / R7RS
 parameter, but directly modifying it with
 `parameterize` should be avoided.
@@ -120,6 +120,7 @@ may be a single restarter, a list of restarters, or a
 [SRFI FIXME](http://srfi.schemers.org/srfi-FIXME/srfi-FIXME.html)
 compound object.  If no such restarter is found in *restarters*,
 the value of `(ambient-restarters)` is searched instead.
+Failing that as well, `#f` is returned.
 
 `(collect-restarters `*restarters*`)`
 
@@ -143,8 +144,8 @@ Then the remaining strings in the description of the chosen
 restarter are made available to the user, and the user is
 allowed to specify a value corresponding to each string.
 
-The interactor then calls `restarrt` on the restarter and
-the user's values.
+The interactor then calls `restart` on the restarter and
+the user's values and returns whatever `restart` returns.
 
 `(restart-interactively `*restarters*`)` -> *values* (may not return)
 
