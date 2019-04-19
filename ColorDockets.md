@@ -10,7 +10,7 @@ See [RedEdition](RedEdition.md).
 Already voted on.
 See [TangerineEdition](TangerineEdition.md).
 
-# Orange Docket
+# Orange Docket (numerics)
 
 **Numeric types and operations**
 
@@ -19,15 +19,13 @@ plus [AdvancedRandomGauche](https://htmlpreview.github.io/?https://bitbucket.org
 or [RandomnessCommonLisp](RandomnessCommonLisp.md)
 or [RandomnessElf](https://regmedia.co.uk/2018/10/01/roig_paper.pdf)
 
-Natural number predicates (from WG1): `exact-positive-integer?` and `exact-non-negative-integer?`.
-
 Float and NaN dissector API (sign, quiet/signaling status, and integer tag): [FloatCLMedernach](FloatCLMedernach.md)
 
 R6RS versions of `real?`, `rational?`, `integer?`: these are false if the imaginary part is an inexact zero; the issue here is what to name them to avoid confusion
 
 Binary numeric I/O: [BinaryIoCowan](BinaryIoCowan.md)
 
-Combinator sublibrary: [SRFI 162](http://srfi.schemers.org/srfi-162/srfi-162.html)
+Comparator sublibrary: [SRFI 162](http://srfi.schemers.org/srfi-162/srfi-162.html)
 
 Logistic functions: [LogisticRiastradh](LogisticRiastradh.md)
 
@@ -50,7 +48,7 @@ Bytestrings: [BytestringsCowan](BytestringsCowan.md)
 
 Enumerations: [EnumsCowan](EnumsCowan.md)
 
-Enumeration sets and maps: [EnumContainersCowan](EnumContainersCowan.md)
+Enumeration maps: [EnumMapsCowan](EnumMapsCowan.md)
 
 **Other**
 
@@ -106,9 +104,7 @@ Syntax combiners for binary functions: [SRFI 156](https://srfi.schemers.org/srfi
 
 Matching:  [(chibi match)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/match/0.7.3/index.html)
 
-Combinators:  [CombinatorsCowan](CombinatorsCowan.md)
-
-Lambda*: [BeyondCurryingHemann](BeyondCurryingHemann.md)
+lambda*: [BeyondCurryingHemann](BeyondCurryingHemann.md)
 
 Named parameters:  [SRFI 89](http://srfi.schemers.org/srfi-89/srfi-89.html)  
 or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/0.7.3/index.html)
@@ -197,6 +193,8 @@ Standard condition predicates [StandardConditionPredicates](StandardConditionPre
 Chronometers: [Chronometer](Chronometer.md)
 
 # Aqua Docket (portable but complex things).
+
+Generic combinator procedures: [CombinatorsCowan](CombinatorsCowan.md)
 
 Port operations: [PortOperationsCowan](PortOperationsCowan.md)
 
