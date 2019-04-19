@@ -1,3 +1,5 @@
+Note:  This is a subset of Posix, and doesn't provide any value add.
+
 ## Directories
 
 Directories are containers for files.
