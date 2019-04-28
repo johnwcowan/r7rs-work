@@ -73,7 +73,8 @@ Returns a restarter with the specified tag, description, and invoker.
 The *tag* argument may be a symbol or `#f` if the restarter has no tag.
 
 The *description* argument is a list whose car is a string that
-by convention is a complete sentence in a natural language using
+describes the effect of invoking the restarter.
+By convention it is a complete sentence in a natural language using
 the standard punctuation conventions of that language.  It may also be
 a question or a command.  The cdr of *description* is a list of
 strings that describe the values to be passed to the invoker in
@@ -92,7 +93,7 @@ error to mutate *list-of-strings*.
 `(restart `*restarter arg* ...`)` -> *values* (may not return)
 
 Invokes the invoker procedure of *restarter* on the *args*, and
-returns however many values the invoker.  If the invoker does not
+returns however many values the invoker does.  If the invoker does not
 return, `restart` does not return either.
 
 `(ambient-restarters)`
