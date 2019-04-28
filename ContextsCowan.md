@@ -119,7 +119,13 @@ and returns the results wrapped in the context.
 
 `(monad-bind `*c cobj mproc1 mproc2* ...`)`
 
-TODO
+With three arguments, `monad-bind` takes *cobj* and unwraps it from the
+context *c* and applies it to *mproc*, which transforms it, rewraps the
+result(s) in *c*, and returns the wrapped result.
+
+With additional *mproc* arguments, the result of the first *mproc* is
+unwrapped and passed to the next *mproc*, and this is repeated until
+there are no more *mprocs*.
 
 `(monad-join `*c cobj*`)`
 
