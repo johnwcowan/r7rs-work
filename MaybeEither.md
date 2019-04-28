@@ -213,11 +213,13 @@ is the same as *obj* in the sense of *equal*,
 return `#t`; otherwise, return `#f`.
 
 `(maybe-filter `*pred maybe*`)`  
-`(maybe-remove `*pred maybe*`)`
+`(maybe-remove `*pred maybe*`)`  
+`(either-filter `*pred either*`)`  
+`(either-remove `*pred either*`)`
 
-If *maybe* is a Just and its payload
+If *maybe/either* is a Just/Right and its payload
 satisfies / does not satisfy *pred*,
-return *maybe*; otherwise, returns Nothing.
+return *maybe*; otherwise, returns Nothing / a Left of Nothing.
 
 ### Conversion
 
@@ -321,30 +323,26 @@ returns *maybe/either*.
 If *maybe/either* is a Just/Right, *cons* is invoked on its
 payload and *nil* and the result returned; otherwise, *nil* is returned.
 
-`(maybe-unfold `*stop? mapper successor maybe*`)`  
-`(either-unfold `*stop? mapper successor either*`)`
+`(maybe-unfold `*stop? mapper successor seed*`)`  
+`(either-unfold `*stop? mapper successor seed*`)`
 
-If *stop?* returns true on *maybe/either*, a Nothing / a Left of Nothing is returned;
-otherwise, *mapper* is applied to the payload of *maybe/either*,
+If *stop?* returns true on *seed*, a Nothing / a Left of Nothing is returned;
+otherwise, *mapper* is applied to *seed*,
 wrapped in a Just/Right, and returned.
 The *successor* argument is not used and may be anything;
 it is required in order to preserve the standard protocol for Scheme unfold procedures.
 
 ### Trivalent logic
 
-These macros and procedures provide trivalent
+These procedures provide trivalent
 logic in the style of SQL, with
 Nothing playing the role of NULL.  For the purposes of this section,
 an object counts as true if it is neither `#f` nor Nothing.
 
-The difference between the `tri-and` macro and the `tri-conjunction`
-procedure (and likewise for `tri-or` and `tri-disjunction`
-and for `tri-merge` and `tri-merger`)
-is that the macros provide Lisp-style semantics, evaluating
-only just enough of their arguments, whereas the procedures take all
-of their arguments into account and so provide SQL-style semantics.
-For example, `(tri-and #f (nothing))` will
-return `#f`, because its second argument is never evaluated,
+Unlike `and` and `or`, these procedures must evaluate all their
+arguments in order to provide correct SQL-style semantics.
+For example, `(and #f (nothing))` will
+return `#f` immediately without evaluating its second argument,
 but `(tri-conjunction #f (nothing))` will return Nothing.
 
 `(tri-not `*obj*`)`
@@ -352,45 +350,21 @@ but `(tri-conjunction #f (nothing))` will return Nothing.
 Returns `#t` if *obj* is false, `#f` if *obj* is true, and Nothing
 if *obj* is Nothing.
 
-`(tri-and `<expr> ...`)` [syntax]
-
-The <expr>s are evaluated from left to right.
-If any value is false or Nothing, it is returned immediately,
-and the remaining <expr>s are not evaluated.
-If all values are true, the last such value is returned.
-If there are no <expr>s, `#t` is returned.
-
-`(tri-or `<expr> ...`)` [syntax]
-
-The <expr>s are evaluated from left to right.
-If any value is true or Nothing, it is returned immediately,
-and the remaining <expr>s are not evaluated.
-If all values are false or
-there are no <expr>s, `#f` is returned.
-
-`(tri-merge `<expr> ...`)` [syntax]
-
-The <expr>s are evaluated from left to right.
-If any value is true or false, it is returned immediately,
-and the remaining <expr>s are not evaluated.
-If all values are Nothing or
-there are no <expr>s, Nothing is returned.
-
-`(tri-conjunction `*obj* ...`)`
+`(tri-and `*obj* ...`)`
 
 If all *objs* are true, `#t` is returned.
 If any *obj* is false or Nothing, then
 the first such *obj* is returned.
 If there are no arguments, `#t` is returned.
 
-`(tri-disjunction `*obj* ...`)`
+`(tri-or `*obj* ...`)`
 
 If all *objs* are false, `#f` is returned.
 If any *obj* is true or Nothing, then
 the first such *obj* is returned.
 If there are no arguments, `#f` is returned.
 
-`(tri-merger `*obj* ...`)`
+`(tri-not `*obj* ...`)`
 
 If any *objs* are true or false,
 then the first such *obj* is returned.
