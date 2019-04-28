@@ -1,6 +1,6 @@
 # Data formats
 
-Procedures for handling JSON, CSV, and delimiter-separated values (DSV).
+Procedures for handling JSON, CSV, delimiter-separated values (DSV), and INI files.
 
 Input ports default to `(current-input-port)`, output ports to
 `(current-output-port)`.
@@ -104,4 +104,36 @@ writes the corresponding external representation to `port`,
 using *delim* (a character) to delimit fields.  When invoked on an
 end-of-file object, no action is taken.  In either case, an unspecified value
 is returned.
+
+## INI files
+
+An INI file is a simple line-based configuration format.  There are many variations;
+this SRFI requires support for at least the following:
+
+  *  Comments begin with ';' and are removed from lines.
+     
+  *  Blank lines and trailing whitespace are ignored.
+  
+  *  The beginning of a section is marked by a line beginning with `[` and ending with `]`.
+     Sections do not nest.  The name of a section is the characters between the brackets.
+     
+  *  Other lines containing `=` are treated as key-value pairs within the current section or, if
+     they precede any section line, as key-value pairs belonging to an unnamed section.
+     
+  *  Otherwise unrecognizable lines are treated as keys whose value is the empty string.
+  
+`(read-ini-file `[ *port* ]`)`
+
+Read lines from *port* (default is the value of `(current-input-port)`) until end of file
+and interpret them as above.  The result is an alist mapping the section names (treated as
+symbols) to subordinate alists whose keys are symbols and whose values are strings.  The
+order of sections and keys in the file is preserved; no merging between identical section
+names or keys is performed.  The unnamed section if it exists has a key of `#f`.
+
+`(write-ini-file `*alist* [ *port* ]`)`
+
+Writes an alist in the format above to *port* (default is the value of `(current-output-port)`).
+The format is checked for validity before any writing is done.
+
+
 
