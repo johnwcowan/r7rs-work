@@ -70,7 +70,7 @@ Returns the ordinal (exact integer) associated with *enum*.
 
 Returns the value associated with *enum*.
 
-### Enum property finders
+### Enum finders
 
 `(enum-name->enum `*enum-type symbol*`)`
 
@@ -80,6 +80,8 @@ If there exists an enum belonging to *enum-type* named *symbol*, return it; othe
 
 If there exists an enum belonging to *enum-type* whose ordinal is *exact-integer*, return it;
 otherwise return `#f`.
+
+Note: There is no way to find an enum by its value, since values need not be unique.
 
 The following convenience procedures provide enum-finding followed by access to a property.
 
@@ -177,7 +179,9 @@ It is an error unless all of the arguments belong to the same enum type.
 
 `(make-enum-comparator `*enum-type*`)`
 
-Returns a [SRFI 128](http://srfi.schemers.org/srfi-128/srfi-128.html) comparator suitable for comparing enums that belong to *enum-type*.  The comparator contains both an ordering predicate and a hash function, and orders enums based on their ordinal values.
+Returns a [SRFI 128](http://srfi.schemers.org/srfi-128/srfi-128.html)
+comparator suitable for comparing enums that belong to *enum-type*.
+The comparator contains both an ordering predicate and a hash function, and orders enums based on their ordinal values.
 
 ### Enum set constructors
 
@@ -200,6 +204,10 @@ unless all the members are enums belonging to the same enum type.
 Returns an enum set containing the enums belonging to *enum-type* that
 have the same names as the members of *enum-set*, whose enum type
 typically is not the same as *enum-type*.
+
+`(enum-set-copy `*enum-set*`)`
+
+Returns a copy of *enum-set*`)`.
 
 ### Enum set predicates
 
@@ -275,9 +283,16 @@ current state to the result.  The algorithm is repeated
 until all the elements of *enum-set* have been processed.
 Then the current state is returned.
 
+`(enum-set-project `*enum-set-1 enum-set-2*`)`
+
+Returns an enum-set containing the elements of *enum-set-1*
+that have the same name as an element of *enum-set-2*.
+It is permitted for the *enum-sets* to belong to different
+enum types.
+
 ### Enum set logical operations
-!
-`(enum-set-union `*enum-set-1 enum-set-2*`)`
+
+`(enum-set-union! `*enum-set-1 enum-set-2*`)`
 
 Returns an enum-set containing all the elements of either
 *enum-set-1* or *enum-set-2*.  It is an error if all
