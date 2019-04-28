@@ -1,6 +1,6 @@
 ## Abstract
 
-This SRFI defines two dijoint immutable container types
+This SRFI defines two disjoint immutable container types
 known as Maybe and Either,
 both of which can contain at most one object known as their payload.
 A Maybe object is either a Just object or the unique object Nothing
