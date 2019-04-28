@@ -17,9 +17,13 @@ The bins are of equal width.
 
 Returns a newly allocated tally with no observations.
 When the tally is invoked with a real number as an argument, the number is injected as an observation.
-When the tally is invoked with an eof object, an opaque *state* is returned.  It is an error to modify this object.
+When the tally is invoked with an end of file object, an opaque state object is returned.
+It is an error to modify this object.
+It is explicitly permitted to add more observations after injecting an end of file object.
+The state objects returned by the injection of multiple end of file objects
+may or may not be the same (in the sense of `eqv?`).
+
 The various procedures below are provided for extracting statistics from the state.
-It is explicitly permitted to add more observations after specifying an eof object.
 
 `(make-histogram ` *low high width*`)`
 
@@ -33,11 +37,11 @@ or equal to *high*.  The calling conventions are the same as for tallies.
 
 `(generator->tally! `*tally* *generator*`)`
 
-Injects the values returned by *generator* into *tally* and updates all descriptive statistics.
+Injects the values returned by *generator* into *tally*.
 
 `(generator->histogram! `*histogram* *generator*`)`
 
-Injects the values returned by *generator* into *histogram* and updates the appropriate bins.
+Injects the values returned by *generator* into *histogram*.
 
 ## Basic statistics
 
