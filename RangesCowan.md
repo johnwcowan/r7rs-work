@@ -54,11 +54,11 @@ is *start* and exclusive upper bound is *end*.
 
 `(range? `*obj*`)`
 
-Returns true if *obj* is a range.
+Returns `#t` if *obj* is a range and `#f` otherwise.
 
 `(definite-range? `*range*`)`
 
-Returns true if *range* is a definite range.
+Returns `#t` if *range* is a definite range and `#f` otherwise.
 
 `(range-contains? `*range value*`)`
 
@@ -109,7 +109,7 @@ or equal to the length of *drange*.
 
 `(range-split-at `*drange index*`)`
 
-Returns two values which are dranges.  The first value
+Returns two values which are definite ranges.  The first value
 contains all elements of *drange* from the zeroth element
 to the indexth element exclusive.  The second value contains
 all elements of *drange* from the indexth element inclusive
@@ -117,20 +117,20 @@ to the last element.
 
 `(range-take `*drange count*`)`
 
-Returns a definite range which contains the first count elements of *drange*.
+Returns a definite range which contains the first *count* elements of *drange*.
 
 `(range-take-right `*drange count*`)`
 
-Returns a definite range which contains the last count elements of *drange*.
+Returns a definite range which contains the last *count* elements of *drange*.
 
 `(range-drop drange `*count*`)`
 
-Returns a definite range which contains all except the first count elements
+Returns a definite range which contains all except the first *count* elements
 of *drange*.
 
 `(range-drop-right `*drange count*`)`
 
-Returns a definite range which contains all except the last count elements of
+Returns a definite range which contains all except the last *count* elements of
 drange.
 
 `(range-count pred `*drange*`)`
@@ -139,20 +139,20 @@ Returns the number of elements of *drange* which satisfy *pred*.
 
 `(range-any pred `*drange*`)`
 
-Returns true if any of the elements of *drange* satisfy *pred*,
-specifically the last value returned by *pred*, or `#t` if
+Returns true if any of the elements of *drange* satisfy *pred*.
+Specifically it returns the last value returned by *pred* or `#t` if
 *pred* was never invoked.  Otherwise, `#f` is returned.
 
 `(range-every `*pred drange*`)`
 
 Returns true if all the elements of *drange* satisfy *pred*,
-specifically the last value returned by *pred*, or `#t` if
+specifically it returns the last value returned by *pred* or `#t` if
 *pred* was never invoked.  Otherwise, `#f` is returned.
 
 `(range-map->list `*proc drange*`)`
 
 Returns a list of the results of applying *proc* to each element
-of *drange*.  The order in which *proc* is applied to the elements
+of *drange* in order.  However, the order in which *proc* is applied to the elements
 is unspecified.
 
 `(range-for-each `*proc drange*`)`
@@ -177,7 +177,7 @@ invocation, or *nil* if there was no invocation.
 `(range-fold-right `*drange proc nil*`)`
 
 Invokes proc on each member of *drange* in reverse order, passing the result of
-the previous invocation as a second argument. For the last invocation,
+the previous invocation as a second argument. For the first invocation,
 *nil* is used as the second argument. Returns the result of the last
 invocation, or *nil* if there was no invocation.
 
@@ -220,12 +220,14 @@ Returns a list containing the elements of *drange* in order.
 
 `(range->generator `*drange*`)`
 
-Returns a SRFI 158 generator that generates the elements of *drange*.
+Returns a SRFI 158 generator that generates the elements of *drange* in order.
 
 ## Interval relations
 
-Let sA be the start property of range A, and eA be the value of the end property of range A;
-and likewise for range B.
+Let sA be the lower bound (start) of range A,
+and eA be the value of the upper bound (end) of range A;
+and likewise for range B.  For indefinite ranges, the inclusive/exclusive
+nature of the bounds is respected.
 
 `(range-congruent? `*rangea rangeb*`)`
 
