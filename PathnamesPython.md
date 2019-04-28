@@ -3,8 +3,7 @@
 A path object is a list of strings which can be created from a Posix or Windows pathname and can be manipulated conveniently
 and converted back into a pathname.  Every path object has a *drive* (the first element), a *root*
 (the second element), and a possibly empty sequence of *components* (the remaining elements),
-all of which are strings.  The *anchor* of a pathname is the drive concatenated with the root.
-The *filename* is the last component
+all of which are strings.  The *filename* is the last component
 
 ## Parsing
 
@@ -24,7 +23,7 @@ to the slash-separated substrings of *string*.  The drive and root are set accor
 (parse-posix-path "//foo/bar") => ("" "//" "foo" "bar")
 ```
 
-Except for the case of two initial slashes, consecutive slashes and backslashes are collapsed,
+Except for the case of two initial slashes, consecutive slashes are collapsed,
 and components consisting of a single period are removed.  However, components consisting of
 two periods are not removed, as this would produce the wrong result in the presence of symbolic links.
 
@@ -36,7 +35,7 @@ The drive and root are set according to the following examples:
 
 ```
 ;; Absolute path
-(parse-windows-path "C:\\Windows) => ("C:" "/" "Windows")
+(parse-windows-path "C:\\Windows) => ("c:" "/" "Windows")
 
 ;; UNC path
 (parse-windows-path "\\\\host\\share\\dir\\file") => ("//host/share" "/" "dir" "file")
@@ -59,12 +58,13 @@ regardless of whether that is the current drive.
 All backslashes are converted to slashes,
 consecutive slashes are collapsed
 except for two initial slashes,
+drives ending in a colon are downcased,
 and components consisting of a single period are removed.
 However, components consisting of two periods are not removed,
 as this would produce the wrong result in the presence of symbolic links.
 
 If any of the characters of *string* are illegal in Windows pathnames,
-namely `< > " : | ? *`, an error is signaled.
+namely `< > " : | ? *`, an error satisfying `path-error?` is signaled.
 
 ## Conversion
 
@@ -80,8 +80,18 @@ Returns a string pathname based on the contents of *path* using backslash as the
 `(path->file-uri `*path*`)`
 
 Returns a file URI corresponding to *path*.  If *path* is not absolute, an error is signaled.
+Note that in a UNC pathname, the UNC host corresponds to the URI host, so such file URIs
+begin with two slashes rather than three.
 
 ## Path operations
+
+`(path-reserved? `*path*`)`
+
+Returns `#t` if any part of *path* contains a character invalid in a Windows path
+(see `parse-windows-path`), or contains a component
+`CON, PRN, AUX, NUL, COM`*d*, or `LPT`*d*, where d is a digit,
+or any of these followed by a period and any other characters.
+The comparison is case-independent.  In all other cases, returns `#f`.
 
 `(path-parent `*path*`)`
 
@@ -95,10 +105,11 @@ Returns the filename (last component) of *path*, or the empty string if there ar
 
 If a single *path* argument is given, `path-join` returns a path object representing the results of appending
 the components of the *path* elements to *basepath* in order.  However,
-if the *path* argument has a non-empty drive, the drive, root, and components of *path* are discarded.
-If the drive is empty, but the root is non-empty, the root and components of *path* are discarded.
+if the *path* argument has a non-empty drive, *path* is returned.
+If the drive of *path* is empty, but the root is non-empty, *path* is appended to the drive of *basepath*.
 
-If two *path* arguments are given, `path-join` returns what `(path-join (path-join `*basepath* *path1*`)` *path* ...`)` returns.
+If two or more *path* arguments are given, `path-join` returns
+what `(path-join (path-join `*basepath* *path1*`)` *path* ...`)` returns.
 
 `(path-match `*path glob ci?*`)`
 
@@ -117,15 +128,19 @@ If it is not possible to do so without introducing double-period components, `#f
 `(path-with-filename `*path filename*`)`
 
 Returns a path object based on *path* with the filename (replaced by *filename* (a string).
-If the path does not contain a filename, an error is signaled.
+If the path does not contain a filename, an error satisfying `path-error?` is signaled.
 
 `(path-with-suffix `*path suffix*`)`
 
 Returns a path object based on *path* with the suffix of the filename (everything to the
-right of the final period replaced by *suffix*.  If there is no suffix, a period followed
+right of the final period replaced by *suffix*.  If there is no period, a period followed
 by *suffix* is appended to the filename.
 
 `(path-normalize `*path*`)`
 
 Returns a path object which is the same as *path*, except that if any component other than the first is the string 
 `".."`, then that component and the preceding component are removed from the returned path object.
+
+`(path-error? `*obj*`)`
+
+Returns `#t` if *obj* is an object raised by the procedures above and `#f` otherwise.
