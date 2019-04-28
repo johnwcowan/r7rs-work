@@ -4,8 +4,8 @@ This SRFI describes *futures* as the basic unit of Scheme concurrency (as
 opposed to parallelism, for which see [ParallelPromisesCowan](ParallelPromisesCowan.md)).
 
 Futures are analogous to [SRFI 18](http://srfi.schemers.org/srfi-18/srfi-18.html) threads,
-and can easily be built on top of them, in which case SRFi 18 threads are the same
-objects as this SRFI's futures.  However, are more modern in style and hopefully
+and can easily be built on top of them, in which case SRFI 18 threads are the same
+objects as this SRFI's futures.  However, futures are more modern in style and hopefully
 easier to use.  Each future is represented to other futures, including itself, by a
 unique *future object*, a member of a disjoint type.
 
@@ -136,7 +136,7 @@ Returns an unspecified value.
 
 `(await `*future*`)`
 
-The current future, or the main program if there is no current futures,
+The current future, or the main program if there is no current future,
 blocks until the future represented by *future* terminates (normally or not).
 It is an error to pass the primordial object.
 or until the timeout is reached if *timeout* is supplied.
@@ -194,6 +194,20 @@ main program to call this procedure.
 
 Returns `#t` if *obj* is an object raised when a future times out,
 and `#f` otherwise.
+
+`(future-bind `*obj future1 future2* ...`)`
+
+Returns a future that behaves as follows: it passes *obj* as an argment
+to *future1* and waits for its completion, then passes a result to
+*future2* and waits for its completion, and so on until there are no
+more *futures*.  When waited for, it returns the result of the last
+*future*.
+
+`(future-and-then `*obj future1 future2* ...`)`
+
+The same as `future-bind` except that the futures other than the
+first don't require an argument, so the results are discarded.
+This is useful for sequencing side effects.
 
 ## Prioritized futures 
 
