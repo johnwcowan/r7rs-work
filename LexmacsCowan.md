@@ -1,6 +1,6 @@
 ## Lexical macros
 
-The idea here is to provide ways to serialize and deserialize Scheme values containing arbitrary objects
+This SRFI provides ways to serialize and deserialize Scheme values containing arbitrary objects
 that don't have any standard representation as S-expressions, specifically lists whose car is a reserved
 symbol.  For example, a URI object whose
 content is "http://example.com/foo.html" could be represented externally as
