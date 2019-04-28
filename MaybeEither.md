@@ -364,7 +364,7 @@ If any *obj* is true or Nothing, then
 the first such *obj* is returned.
 If there are no arguments, `#f` is returned.
 
-`(tri-not `*obj* ...`)`
+`(tri-merge `*obj* ...`)`
 
 If any *objs* are true or false,
 then the first such *obj* is returned.
