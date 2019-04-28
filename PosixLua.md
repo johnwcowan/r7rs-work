@@ -1,10 +1,6 @@
-## Interfaces
+This is what Lua provides in its Posix API.
 
-WG2 voted to provide a Posix package, but rejected a "full Posix" package that would provide all 1191 interfaces
-from POSIX.1-2008.  What is proposed here is based directly on the Posix bindings for Lua, which are modern
-and thorough without being insanely comprehensive.
-
-Headers and functions:
+## Headers and functions:
 
 ```
 
@@ -175,7 +171,7 @@ posix-unistd: write (fd, buf)
 posix-utime: utime (path[, mtime=now[, atime=now]])
 ```
 
-Headers and record types:
+## Headers and record types:
 ```
 
 posix-grp: PosixGroup
