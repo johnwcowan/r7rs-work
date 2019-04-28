@@ -5,7 +5,7 @@
 Converts *args* into a sequence of small integers and
 returns them as a bytevector as follows:
 
-If *arg* is an integer in the range 0-255, it is added
+If *arg* is an exact integer in the range 0-255 inclusive, it is added
 to the result.
 
 If *arg* is a printable ASCII character (that is, its
@@ -47,7 +47,7 @@ Convert a list, which must contain suitable arguments for `bytestring`, into a b
 `(bytestring->list `*bytevector*`)`
 
 Convert a bytevector into a list containing suitable arguments for `bytestring`.
-If `bytestring` is applied to the list, the resulting bytevector will be the same
+If `bytestring` is applied to the elements of the list, the resulting bytevector will be the same
 (in the sense of `bytevector=?`) as *bytevector*, but the exact contents of
 the list are not specified by this SRFI.
 
@@ -59,7 +59,7 @@ the list are not specified by this SRFI.
 
 Returns a bytevector with the contents of *bytevector* plus sufficient additional bytes
 at the beginning/end containing *char-or-u8* (which can be either an
-ASCII character or an integer in the range 0-255) such that the
+ASCII character or an exact integer in the range 0-255) such that the
 length of the result is at least *len*.
 
 `(bytestring-trim `*bytevector pred*`)`
@@ -161,15 +161,18 @@ Pastes the bytevectors in *bytevector-list*  together using the *delimiter* byte
 The *grammar* argument is a symbol that determines how the delimiter is used, and defaults to `infix`.
 It is an error for grammar to be any symbol other than these four:
 
-  * `infix` means an infix or separator grammar: insert the delimiter between list elements. An empty list will produce an empty string.
-  * `strict-infix` means the same as 'infix if the list is non-empty, but will signal an error satisfying `bytestring-error?` if given an empty list.
+  * `infix` means an infix or separator grammar: insert the delimiter between list elements.
+    An empty list will produce an empty bytevector.
+  * `strict-infix` means the same as `infix` if the list is non-empty,
+     but will signal an error satisfying `bytestring-error?` if given an empty list.
   *  `suffix` means a suffix or terminator grammar: insert the delimiter after every list element.
   *  `prefix` means a prefix grammar: insert the delimiter before every list element.
 
 `(bytestring-split `*bytevector delimiter* [*grammar*]`)`
 
 Divides the elements of *bytevector* and returns a list of bytevectors using the
-*delimiter* byte.  Delimiter bytes are not included in the result bytevectors.
+*delimiter* (an ASCII character or exact integer in the range 0-255 inclusive).
+Delimiter bytes are not included in the result bytevectors.
 The *grammar* argument has the same default and meaning as in `bytestring-join`,
 except that `infix` and `strict-infix` mean the same thing.
 
