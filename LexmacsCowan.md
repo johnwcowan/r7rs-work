@@ -1,55 +1,78 @@
 ## Lexical macros
 
-This SRFI provides ways to serialize and deserialize Scheme values containing arbitrary objects
-that don't have any standard representation as S-expressions, specifically lists whose car is a reserved
-symbol.  For example, a URI object whose
-content is "http://example.com/foo.html" could be represented externally as
-`(.uri "http://example.com/foo.html")`.  By convention, these special symbols
-begin with periods.
+This SRFI provides ways to help serialize and deserialize
+Scheme values containing arbitrary objects
+that don't have any standard representation as S-expressions
+by replacing them with lists whose cars are
+symbols understood by the procedures below.
+The process of replacing such objects by lists is
+called *externalization*; the inverse is called *internalization*.
+Once a data structure
+has been externalized, it may be safely output with `write` and read back in with `read`.
+There is no requirement that externalizing
+and internalizing are exact converses; in particular, externalizing may discard
+certain information.
+
+By convention, the symbols used in externalized forms begin with period, to minimize
+conflicts with existing names.
+For example, a SRFI 113 set containing the first five positive exact integers might be
+externalized as `(.set 1 2 3 4 5)`.  Internalizing this might create a set
+using the SRFI 128 default comparator rather than any more specific comparator that the
+original set had used.  This SRFI does not define any specific internalizers or
+externalizers.
 
 ## Procedures
 
 `(make-lexenv)`
 
-Creates a newly allocated empty lexical environment.
+Creates a newly allocated empty lexical macro environment.
 
-`(add-to-lexenv! `*lexenv symbol expander predicate unexpander*`)`
+`(add-to-lexenv! `*lexenv symbol internalizer predicate externalizer*`)`
 
-Adds a new entry to *lexenv*, which says that during expansion lists
-whose cars are *symbol* are passed to *expander* to convert them
+Adds a new entry to *lexenv*, which says that during internalization, lists
+whose cars are *symbol* are passed to *internalizer* to convert them
 to internal format,
-and during unexpansion objects which satisfy *predicate* are passed
-to *unexpander* to convert them to external format.
+and during externalization, objects which satisfy *predicate* are passed
+to *externalizer* to convert them to external format.  The intention
+is that objects produced by *internalizer* satisfy *predicate* and that
+objects produced by *externalizer* are lists whose car is *symbol*, but
+this is not enforced.
 
-`(lexmacs-expand `*object* *lexenv*`)`
+You can specify *symbol* and *internalizer* as `#f` if you want one-way
+externalization, or specify *predicate* and *externalizer* as `#f` if
+you want one-way internalization.
+
+`(lexmacs-internalize `*object* *lexenv*`)`
 
 Recursively expands *object*, looking for lists whose cars are defined in *lexenv*
-and replacing the lists with their internal representations.  Returns a copy
+and replacing the lists with their internalized representations.  Returns a copy
 of *object* with all possible expansions; the copy may share structure with *object*.
-Sublists are expanded before their parents are; non-lists are unchanged.
+Sublists are internalized before their parents are; non-lists are unchanged.
 
-`(lexmacs-unexpand `*object* *lexenv*`)`
+`(lexmacs-externalize `*object* *lexenv*`)`
 
-Recursively unexpands *object*, looking for objects that satisfy
-predicates defined in *lexenv* and replacing them with their external
+Recursively externalizes *object*, examining it and its sub-objects
+(only lists and vectors are examined)
+for objects that satisfy a predicate defined in *lexenv*
+and replacing them with their externalized
 representations.  Returns a copy of *object* with all such objects
-unexpanded; the copy may share structure with *object*.
+externalized; the copy may share structure with *object*.
 
 `(lexmacs-read `*lexenv* [ *port* ]`)`
 
 Reads an external representation from *port*, whose default is
 the value of `(current-input-port)` as if with `read`,
-expands it against `lexenv`, and returns it.
+internalizes it against `lexenv`, and returns it.
 
 `(lexmacs-write `*lexenv obj* [ *port* ]`)`
 
-Unexpands *obj* against *lexenv* and writes it as if with `write`
+Externalizes *obj* against *lexenv* and writes it as if with `write`
 to *port*, whose default value is `(current-output-port)`.
 
 `(lexmacs-eval `*obj lexenv env*`)`
 
-Expands *obj* against *lexenv* and passes the result, along with
-*env* (an R7RS-small environment specifier) to `eval` and returns
+Internalizes *obj* against *lexenv* and passes the result, along with
+*env* (an R7RS-small environment specifier) to `eval`, returning
 the result.
 
 
