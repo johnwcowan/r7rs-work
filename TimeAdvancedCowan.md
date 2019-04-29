@@ -7,40 +7,63 @@ See also [TimePeriodsCowan](TimePeriodsCowan.md) and [IsoDatesCowan](IsoDatesCow
 
 ## Issues
 
+None at present.
 
 ## Instants
 
-For the purposes of this proposal, an *instant* is a number representing
-a particular second (or fraction of a second)
+For the purposes of this proposal, an *instant* is an exact
+or inexact rational number representing
+a particular second or fraction of a second
 of the TAI scale, such that 0 represents midnight on January 1, 1970 TAI
 (equivalent to approximately 8 seconds before midnight Universal Time)
 and the value 1 represents one TAI second later.
 The current instant can be obtained more or less accurately
-by invoking `current-second`.
+by invoking the R7RS procedure `current-second`.
 
+## Instant procedures
+
+These procedures convert between a TAI instant and a *timespec*,
+which is a pair whose car is the number of whole seconds and the cdr is
+the number of nanoseconds on the Posix time scale, which counts the number
+of seconds *excluding leap seconds* since midnight on January 1, 1970
+Universal Time.
+
+In this SRFI, the Posix time of a leap second is always the same as
+the Posix time of the following second, but the results of calling
+the Posix procedure `clock_gettime()` do not necessary agree.
+
+`(tai->posix `*instant*`)`
+
+Converts an instant to the corresponding Posix timespec.
+
+`(posix->tai `*timespec*`)`
+
+Converts a Posix timespec to the corresponding instant.
 
 ## Chronologies
 
 A *chronology* is an immutable member of a disjoint type that describes a particular
 combination of time zone, calendar, and time scale.
-The time scale shows how seconds are mapped to minutes; the time zone indicates how minutes
-and hours in the zone are mapped to time zone 0; the calendar shows how days are mapped to months and
+The time scale shows how seconds are mapped to minutes;
+the time zone indicates how minutes
+and hours in the zone are mapped to the UTC time zone;
+the calendar shows how days are mapped to months and
 years.  An hour is always 60 minutes and a day is always 24 hours.
 
 This SRFI requires support for numeric time zones expressed as an exact number of hours
-between -24 and 24 inclusive that is a multiple of 1/60, and recommends that the
+between -24 and 24 inclusive that is a multiple of 1/60 representing the number
+of hours after UTC, and recommends that the
 IANA historical time zone names (which are strings) be supported as well.  It requires
-support for the Gregorian (ISO) and Julian calendars.  The three required time scales are
-TAI (which has exactly 60 seconds per minute including leap seconds),
-UTC (which either 60 or 61 seconds per minute depending on whether a leap second is added),
-and Posix (which has exactly 60 seconds per minute but ignores leap seconds).
+support for the Gregorian (ISO) and Julian calendars.  The only required time scale id
+Posix, which has exactly 60 seconds per minute but ignores leap seconds.  The only
+required calendar is the Gregorian calendar.
 
 ## Chronology procedures
 
 `(default-chronology)`
 
 A chronology used by default.
-Its value should normally represent the user's current time zone,
+Its value should normally represent local civil time: the user's current time zone,
 the Gregorian calendar, and the UTC time scale.
 
 `(make-chronology `*timezone calendar scale*`)`
@@ -71,8 +94,8 @@ whose meanings and possible values are determined by the chronology.
 ## Date object procedures
 
 `(make-ymd-date `[ *chronology* ] *year month day hour minute second*`)`  
-`(make-ywd-date `[ *chronology* ] *year week day hour minute second*`)`  
-`(make-yd-date `[ *chronology* ] *year day hour minute second*`)`
+`(make-ywd-date `[ *chronology* ] *year week day-of-week hour minute second*`)`  
+`(make-yd-date `[ *chronology* ] *year day-of-year hour minute second*`)`
 
 Returns a date object based on a year, month, and day; a year, an ISO
 week number, and a day of the week; or a year and a day within the year.
@@ -93,15 +116,6 @@ Returns `#t` if *obj* is a date object, and `#f` otherwise.
 
 Returns a newly allocated alist containing the fields of *date* (see below).
 
-`(date-ref `*date*` `*fieldname*`)`
-
-Returns the value of the field named *fieldname* (a symbol)
-within *date*.
-
-`(date-instant `*date*`)`
-
-Returns the instant corresponding to *date*.
-
 `(date-update `*date*` `*fieldname*` `*value*`)`
 
 Returns a date object based on *date*, but with the field named *fieldname* updated to *value*.
@@ -116,7 +130,6 @@ or earlier if *increment* is negative.
 An error that satisfies`date-error?` is signaled if *fieldname* is unknown.
 
 For example, `(date-increment `*date*` 'day-of-month 7)` adds seven days to *date*.
-Note that adding 60 seconds is not always the same as adding 1 minute.
 
 `(date-chronology `*date*`)`
 
@@ -147,10 +160,15 @@ This may cause other fields to change their values as well.
 
 ## Date fields
 
-These fields are specified for the Gregorian, and Julian chronologies.
+These fields are specified for the Gregorian chronology, but
+may be used for other chronologies as well.
 Implementation-specific chronologies may support other fields as well.
-All ranges are inclusive at both ends.
-Unless otherwise noted, field values are exact integers.
+Unless otherwise noted, all ranges are inclusive at both ends, and all
+field values are exact integers that have been rounded down if necessary.
+
+`instant`: The instant.
+
+`timespec`: The Posix timespec.
 
 `year`: The year.  Note that 1 BCE is represented as 0 and 2 BCE as -1.
 
@@ -163,7 +181,7 @@ midnight and 1 AM.
 
 `minute`:  The minute of the hour between 0 and 59.
 
-`second`: The second of the minute between 0 and 60.  This number
+`second`: The second of the minute between 0 and 60 exclusive.  This number
 may be exact or inexact.
 
 `week`: The ISO week number.  Week 1 of a year is the week
@@ -183,17 +201,17 @@ or `#f` if not.  This field discriminates between 2:00 A.M. daylight time and 2:
 on the day when daylight saving time ends in the U.S.
 (and the corresponding periods for other daylight saving time regimes).
 
-`julian-day`: The difference in days between this date and noon Universal Time, January 1, 4173 B.C.E. Julian
-(which is November 24, 4714 B.C.E. Gregorian).  This number may be exact or inexact.
+`julian-day`: The wjhole number of days between this date and noon Universal Time, January 1, 4173 B.C.E. Julian
+(which is November 24, 4714 B.C.E. Gregorian).
 
-`modified-julian-day`: The Julian day minus 2400000.5.
-This number may be exact or inexact.
+`modified-julian-day`: The whole number of days between this date and midnight Universal Time, November 17, 1858
+Gregorian.  This number may be exact or inexact.
 
 `local-time-offset`: The local time zone offset (standard or daylight saving, as the case may be)
 in hours ahead of UTC.  This is an exact number which is a multiple of 1/60.
 
 
-`second-of-day`: The second of the day, in the range 0 to 86400.
+`second-of-day`: The second of the day, in the range 0 to 86400 exclusive.
 
 ## Comparators
 
@@ -207,6 +225,10 @@ A comparator suitable for ordering date objects by their underlying instants.
 
 Returns `#t` if *obj* is an object signaled by an error as specified above, and `#f` otherwise.
 
+## Conversion to ISO 8601 date strings
+
+TBD
+
 ## Implementation notes
 
 The sample implementation provides only an approximation of the mapping between TAI
@@ -216,11 +238,18 @@ the relationship is complex, but since 1971 the two scales have been kept
 within 0.9 seconds of each other by inserting leap seconds as needed.
 
 For the messy area, the implementation pretends that there were leap seconds
-at the end of December 31 (that is, at 23:59:60 UTC time) in the following
+at the end of December 31 (that is, at 23:59:60 proleptic UTC time) in the following
 years:  1959, 1961, 1963, 1964, 1965, 1966, 1967, 1968, 1970, and 1971.
-This has the following desirable effects: the TAI-UTC offset is 0 in 1958,
-is 8 (which is within a few milliseconds of the truth) when the Unix
+This has the following desirable effects: the TAI-UTC offset is 0 in 1958
+(true by definition),
+is 8 (which is within a few milliseconds of the true value) when the Unix
 epoch begins, and is 10 at the start of 1972 when the leap second regime
 begins.  Not having a leap second in 1969 ensures that there is none
-just before the Unix epoch.
+just before the Unix epoch.  The implementation also pretends,
+*faute de mieux*, that there will be no more leap seconds in the future.
+
+To update the leap second tables, download the file
+[http://maia.usno.navy.mil/ser7/tai-utc.dat](http://maia.usno.navy.mil/ser7/tai-utc.dat}
+and run the script `update-leapsec`, which is written in portable Scheme.
+
 
