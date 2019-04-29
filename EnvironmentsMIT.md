@@ -103,7 +103,65 @@ can be bound in the environment), and `#f` otherwise.
 
 ## Accessors
 
-`(environment-parent `*env*`)
+`(environment-parent `*env*`)`
+
+Returns the parent environment of *env*; it is an error if
+*env* has no parent (see `environment-has-parent?`).
+
+`(environment-bound-names `*env*`)`
+
+Returns a list of all the names bound in *env*, excluding those
+bound only in the ancestors of *env*.  It is an error to mutate
+this list.
+
+`(environment-bindings `*env*`)`
+
+Returns a list of the bindings in *env*, *env*, excluding those
+bound only in the ancestors of *env*.  However, if the environment
+treats all symbols as bound, it need not return every possible
+synbol.  It is an error to mutate this list.
+
+Each element of the list is itself a list, whose first element
+is the bound symbol and whose second element, if there is one,
+is the assigned value.
+
+`(environment-reference-type `*env symbol*`)`
+
+Returns a symbol, one of `unbound`, `unassigned`, `macro`, or `normal`
+representing the status of *symbol* in *env* and its ancestors.
+The difference between `macro` and `normal` is that the former means that
+*symbol* is a syntactic keyword, whereas *normal* means it represents a variable.
+
+`(environment-lookup `*env symbol*`)`
+
+Returns the assigned value of `symbol` in *env* or its ancestors.  It is an
+error if *symbol* is not a normal symbol in the sense of `environment-reference-type`.
+
+`(environment-lookup-macro `*env symbol*`)`
+
+Returns the assigned value of `symbol` in *env* or its ancestors.  It is an error
+if *symbol* is not a syntactic keyword.  The assigned value is a syntax transformer
+whose implementation is system-dependent.
+
+`(environment-assign! `*env symbol value*`)`
+
+Assigns *value* to *symbol* in *env*, making *symbol* a normal symbol in the
+sense of `environment-reference-type`.  It is an error if *symbol* is not
+assignable in *env*.
+
+`(environment-define `*env symbol value*`)`
+
+Defines *symbol* as *value* in *env*, making *symbol* a normal symbol in the
+sense of `environment-reference-type`.  It is an error if *symbol* is not
+definable in *env*.
+
+`(environment-define-macro `*env symbol value*`)`
+
+Defines *symbol* as *value* in *env*, making *symbol* a syntactic keyword.
+No check is made to see if *value* is really a syntax transformer.
+It is an error if *symbol* is not definable in *env*.
+
+
 
 
 
