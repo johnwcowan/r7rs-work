@@ -172,6 +172,10 @@ Defines *symbol* as *value* in *env*, making *symbol* a syntactic keyword.
 No check is made to see if *value* is really a syntax transformer.
 It is an error if *symbol* is not definable in *env*.
 
+`(environment-unbind `*env symbol*`)`
+
+Causes *symbol* to be unbound in *env*.
+
 ## Implementation
 
 This SRFI is inherently not portable.  MIT Scheme provides a nearly complete
@@ -179,4 +183,30 @@ implementation of it, with the following exceptions:
 
   *  MIT Scheme does not have libraries in the sense of R6RS or R7RS, so
      the `environment` procedure is not supported.
+     
+  *  Immutable environments are not supported, so `environment-freeze!` can be
+     implemented as a procedure that does nothing.
+     
+  *  The `make-environment` procedure is called `make-top-level-environment`.
+  
+  *  The `environment-unbind` procedure is called `unbind-variable`, although it
+     can unbind any name, not just a variable.
+     
+  *  The `interaction-procedure` environment can be simplemented as a procedure that
+     returns the value of the variable `user-initial-environment`.
+     
+  *  The `scheme-report-environment` and `null-environment` procedures can be
+     implemented as follows:
+     
+     1. Check the *version* argument and make sure its value is 5; raise an exception otherwise.
+     
+     2. Create a fresh environment with the `make-root-top-level-environment` procedure.
+     
+     3. Populate the new environment with the appropriate R5RS bindings
+        using the `link-variables` procedure, which accepts four arguments:
+        the source environment, which is always `user-interaction-environment`, the bound
+        symbol, the new environment, and the symbol to be bound (always the same
+        as the second argument in this use).
+        
+     4. Return the new environment.
 	 
