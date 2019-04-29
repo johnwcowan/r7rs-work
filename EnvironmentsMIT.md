@@ -143,6 +143,17 @@ Returns the assigned value of `symbol` in *env* or its ancestors.  It is an erro
 if *symbol* is not a syntactic keyword.  The assigned value is a syntax transformer
 whose implementation is system-dependent.
 
+## Mutators
+
+It is an error to invoke any of the following procedures on an immutable environment.
+They all return an unspecified value.
+
+`(environment-freeze! `*env*`)`
+
+Makes *env* an immutable environment; does nothing if *env* is already immutable.
+It is an error to add or remove bindings or to change assigned values in an
+environment after it has been frozen.
+
 `(environment-assign! `*env symbol value*`)`
 
 Assigns *value* to *symbol* in *env*, making *symbol* a normal symbol in the
@@ -161,9 +172,11 @@ Defines *symbol* as *value* in *env*, making *symbol* a syntactic keyword.
 No check is made to see if *value* is really a syntax transformer.
 It is an error if *symbol* is not definable in *env*.
 
+## Implementation
 
+This SRFI is inherently not portable.  MIT Scheme provides a nearly complete
+implementation of it, with the following exceptions:
 
-
-
-
-
+  *  MIT Scheme does not have libraries in the sense of R6RS or R7RS, so
+     the `environment` procedure is not supported.
+	 
