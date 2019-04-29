@@ -14,12 +14,13 @@ between environments that makes them a forest of trees.
 
 ## Constructors
 
-`(interaction-environment)`
+`(interaction-environment)`   [R5RS, R6RS, R7RS]
 
 Returns a unique fully mutable environment containing an implementation-specified
-set of bindings.  The intention is that this environment is the one used to
-evaluate expressions entered to the system REPL.  This procedure is required by
-R[567]RS.
+set of bindings.  On R6RS systems, at least the `(rnrs base`) bindings must be
+included; on R7RS systems, at least the `(scheme base)` bindings must be included.
+The intention is that this environment is the one used to
+evaluate expressions entered to the system REPL.
 
 `(scheme-report-environment `*version*`)`  [R5RS, R6RS, R7RS]
 
@@ -66,9 +67,9 @@ and `#f` on all other standard Scheme objects.  However, if the
 implementation reifies local lexical environments, which this SRFI
 does not require, `environment?` may return `#t` on them as well.
 
-`(environment-has-parent? `*environment*`)`
+`(environment-has-parent? `*env*`)`
 
-Returns `#t` if the environment has a parent environment and
+Returns `#t` if *env* has a parent environment and
 `#f` if it does not.  It is unspecified whether the interaction
 environment, as well as environments returned by
 `scheme-report-environment` and `null-environment`, have parents or not.
@@ -76,11 +77,11 @@ Environments returned by `environment` do not have parents.
 
 `(environment-bound? `*environment symbol*`)`
 
-Returns `#t` if *symbol* is bound in *environment*, and `#f` otherwise.
+Returns `#t` if *symbol* is bound in *env*, and `#f` otherwise.
 
 `(environment-assigned? `*environment symbol*`)`
 
-Returns `#t` if *symbol* is not only bound in an environment but
+Returns `#t` if *symbol* is not only bound in *env* but
 assigned to a value, and `#f` otherwise.
 
 Such unassigned symbols may arise from the
@@ -89,16 +90,20 @@ observable.  In addition, a Scheme implementation may treat all
 possible symbols as bound, but not necessarily assigned, in the
 interaction environment.
 
-`(environment-assignable? `*environment symbol*`)`
+`(environment-assignable? `*env symbol*`)`
 
-Returns `#t` if *symbol* is assignable in *environment*
+Returns `#t` if *symbol* is assignable in *env*
 (it is bound and can be modified) and `#f` otherwise.
 
-`(environment-definable? `*environment symbol*`)`
+`(environment-definable? `*env symbol*`)`
 
-Returns `#t` if *symbol* is definable in *environment*
+Returns `#t` if *symbol* is definable in *env*
 (it is either bound and can be assigned, or is unbound and
 can be bound in the environment), and `#f` otherwise.
+
+## Accessors
+
+`(environment-parent `*env*`)
 
 
 
