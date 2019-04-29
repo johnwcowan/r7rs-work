@@ -58,59 +58,7 @@ in left-to-right order, then on all grandchildren of *tree*
 in left-to-right order, and so on.
 Returns an unspecified value.
 
-## Tree inversion
-
-The *inversion* of a tree is an opaque object that maps each
-subtree of a tree to three values:
-
-  *  its parent, except for the root which is mapped to `#f`
-  *  its depth as an exact integer (the root has depth 0)
-  *  its local position as an exact integer
-  
-Lookups in the inversion have an amortized cost of O(1),
-so hash tables with `eqv?` as the equality function are suitable.
-
-`(invert-tree `*tree*`)`
-
-Returns an inversion of *tree*, not necessarily newly allocated.
-
-`(tree-parent `*inversion subtree*`)`
-
-Uses *inversion* to return the parent subtree of *subtree*, or
-`#f` if subtree is the root.
-
-`(tree-depth `*inversion subtree*`)`
-
-Uses *inversion* to return the depth of *subtree*.
-
-`(tree-local-position `*inversion subtree*`)`
-
-Uses *inversion* to return the local position of *subtree*.
-
-`(tree-contains? `*inversion node*`)`
-
-Returns `#t` if *subtree* is a subtree of
-he tree represented by *inversion*,
-and `#f` otherwise.
-
-`(tree-c-commands? `*inversion commanding commanded*`)`
-
-If the subtree *commanding* c-commands the subtree *commanded* in
-the tree represented by *inversion* , returns `#t`; 
-otherwise returns `#f`.
-It is an error if either *ancestor* or *descendant* is not a subtree of
-he tree represented by *inversion*.
-
-A node in a tree c-commands its sibling node(s) and all of its siblings' descendants; 
-however, a node without siblings c-commands everything that its parent node c-commands.
-
-`(tree-path `*inversion subtree*`)`
-
-Returns a list of nodes containing *subtree* and 
-all the ancestors of *subtree* ending with the root.  
-Returns `#f` if *subtree* is not a descendant of *tree*.
-
-## Tree operations
+3## Tree operations
 
 `(tree-copy `*tree*`)`
 
@@ -120,14 +68,6 @@ Return a copy of *tree*.  Atoms are shared, but tree structure is not.
 
 Returns a copy of *tree*, except that each descendant atom has been passed through *proc*.
 Tree structure is not shared.
-
-`(tree-flatten ` *tree*`)`
-
-Returns a list of the atoms in *tree* in depth-first preorder.
-
-`(tree->generator `*tree*`)`
-
-Returns a generator of the subtrees of *tree* in depth-first preorder.
 
 ## Node examination
 
@@ -153,20 +93,74 @@ If so, returns `#t`, otherwise returns `#f`.
 Examines the nodes of *tree* to determine if all of them satisfy *pred*.
 If so, returns `#t`, otherwise returns `#f`.
 
+## Tree inversion
+
+The *inversion* of a tree is an opaque object that maps each
+subtree of a tree to three values:
+
+  *  its parent, except for the root tree which is mapped to `#f`
+  *  its depth as an exact integer (the root tree has depth 0)
+  *  its local position as an exact integer
+  
+Lookups in the inversion have an amortized cost of O(1),
+so hash tables with `eqv?` as the equality function are suitable.
+
+`(invert-tree `*tree*`)`
+
+Returns an inversion of *tree*, not necessarily newly allocated.
+
+`(tree-parent `*inversion subtree*`)`
+
+Uses *inversion* to return the parent subtree of *subtree*, or
+`#f` if subtree is the root tree.
+
+`(tree-depth `*inversion subtree*`)`
+
+Uses *inversion* to return the depth of *subtree*.
+
+`(tree-local-position `*inversion subtree*`)`
+
+Uses *inversion* to return the local position of *subtree*.
+
+`(tree-contains? `*inversion node*`)`
+
+Returns `#t` if *subtree* is a subtree of
+he tree represented by *inversion*,
+and `#f` otherwise.
+
+`(tree-c-commands? `*inversion commanding commanded*`)`
+
+If the subtree *commanding* c-commands the subtree *commanded* in
+the tree represented by *inversion* , returns `#t`; 
+otherwise returns `#f`.
+It is an error if either *commanded* or *commanded* is not a subtree of
+he tree represented by *inversion*.
+
+A subtree c-commands its sibling subtrees and all their descendants; 
+however, a subtree without sibling subtrees c-commands everything
+that its parent subtree c-commands.
+
+`(tree-path `*inversion subtree*`)`
+
+Returns a list of nodes containing *subtree* and 
+all the ancestors of *subtree* ending with the root.  
+Returns `#f` if *subtree* is not a descendant of *tree*.
+
 ## Tree rewriting
 
 These procedures do not mutate the tree they work on, 
 but return a new tree isomorphic to the old tree and with the same elements, 
 except as specified below.  The new tree may share storage with the old.
+They accept an inversion of the tree as an argument rather than the tree itself.
 
-`(tree-add `*tree inversion subtree newnode*`)`
+`(tree-add `*inversion subtree newnode*`)`
 
 Returns a tree where *subtree* has an additional child, *newnode*,  
 which is placed to the right of all existing children.  
 It is an error if *subtree* is not a descendant of *tree* 
 or if *newnode* is a non-atomic descendant of *tree*.
 
-`(tree-insert `*tree inversion subtree index newnode*`)`
+`(tree-insert `*inversion subtree index newnode*`)`
 
 Returns a tree where *subtree* has an additional child, *newnode*,  
 which is placed immediately to the left of the child 
@@ -175,104 +169,16 @@ It is an error if *subtree* is not a descendant of *tree*,
 if *newnode* is a non-atomic descendant of *tree*, 
 or if *index* is greater than or equal to the number of child nodes of *subtree*.
 
-`(tree-prune `*tree inversion subtree*`)`
+`(tree-prune `*inversion subtree*`)`
 
 Returns a tree where *subtree* and all its descendants are not part of the new tree.  
 It is an error if *subtree* is not a descendant of *tree*.
 
-`(tree-replace `*tree inversion subtree newnode*`)`
+`(tree-replace `*inversion subtree newnode*`)`
 
 Returns a tree where *subtree* has been replaced by *newnode* in the new tree.  
 It is an error if *subtree* is not a descendant of *tree* 
 or if *newnode* is already a non-atomic descendant of *tree*.
-
-## Axis procedures
-
-## Axis procedures
-
-The following procedures are generator operations: they accept a generator
-of subtrees of *tree* and return another generator, also of subtrees
-of *tree*.  After the `tree-` prefix, they begin with `g`, using the
-convention of [SRFI 158](http://srfi.schemers.org/srfi-158/srfi-121.html)
-for generator operations.  If the source generator is empty, so is the
-result generator.
-
-`(tree-groot `*tree inversion gen*`)`
-
-Returns a generator of subtrees of *tree* which invokes subtrees of *tree*
-from *gen* and returns their root elements on successive invocations.
-
-`(tree-gparent `*tree inversion gen*`)`
-
-Returns a generator of subtrees of *tree* which invokes subtrees of *tree*
-from *gen* and returns their parent elements on successive invocations.
-
-`(tree-gancestor `*tree inversion gen*`)`
-
-Returns a generator of subtrees of *tree* which invokes subtrees of
-*tree* from *gen* and returns their ancestor elements from parent to
-root on successive invocations.
-
-`(tree-gancestor-or-self `*tree inversion gen*`)`
-
-Returns a generator of subtrees of *tree* which invokes subtrees of *tree*
-from *gen* and returns their element itself and then its ancestor elements
-from parent to root on successive invocations.
-
-`(tree-gchild `*tree inversion gen*`)`
-
-Returns a generator of subtrees of *tree* which invokes subtrees of
-*tree* from *gen* and returns their descendant elements in depth-first
-order from left to right on successive invocations.
-
-`(tree-gchild `*tree inversion gen*`)`
-
-Returns a generator of subtrees of *tree* which invokes subtrees of
-*tree* from *gen* and returns their descendant elements in depth-first
-order from left to right on successive invocations.
-
-`(tree-gchild `*tree inversion gen*`)`
-
-Returns a generator of subtrees of *tree* which invokes subtrees of
-*tree* from *gen* and returns their descendant elements in depth-first
-order from left to right on successive invocations.
-
-`(tree-gdescendant `*tree inversion gen*`)`
-
-Returns a generator of subtrees of *tree* which invokes subtrees of
-*tree* from *gen* and returns their child elements from left to right
-on successive invocations.
-
-`(tree-gdescendant-or-self `*tree inversion gen*`)`
-
-Returns a generator of subtrees of *tree* which invokes subtrees of *tree*
-from *gen* and returns their element itself and then its child elements
-from left to right on successive invocations.
-
-`(tree-gfollowing `*tree inversion gen*`)`
-
-Returns a generator of subtrees of *tree* which invokes subtrees of *tree*
-from *gen* and returns all of their following elements in document order
-on successive invocations.
-
-`(tree-gfollowing-or-self `*tree inversion gen*`)`
-
-Returns a generator of subtrees of *tree* which invokes subtrees of
-*tree* from *gen* and returns the elements themselves and then all of
-their following elements in document order on successive invocations.
-
-`(tree-gpreceding `*tree inversion gen*`)`
-
-Returns a generator of subtrees of *tree* which invokes subtrees of *tree*
-from *gen* and returns all of their preceding elements in reverse document
-order on successive invocations.
-
-`(tree-gpreceding-or-self `*tree inversion gen*`)`
-
-Returns a generator of subtrees of *tree* which invokes subtrees of *tree*
-from *gen* and returns the elements themselves and then all of their
-preceding elements in reverse document order on successive invocations.
-
 
 ## Output
 
