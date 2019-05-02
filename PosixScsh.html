@@ -26,10 +26,10 @@ Olin Shivers (original author), John Cowan (editor and shepherd)
 The host environment is the set of resources, such as the filesystem,
 network and processes, that are managed by the operating system within
 which a Scheme program is executing. This SRFI specifies how the host
-environment can be accessed from within a Scheme program.
-It does so by leveraging widespread support for P<small>OSIX</small>,
-the Portable Operating System Interface.  Not all the functions of this
-SRFI are available on all operating systems.
+environment can be accessed from within a Scheme program.  It does so by
+leveraging widespread support for P<small>OSIX</small>, the Portable
+Operating System Interface standardized by the IEEE.  Not all the
+functions of this SRFI are available on all operating systems.
 </p>
 
 <h1>Issues</h1>
@@ -47,13 +47,12 @@ mainstream software development.  Consequently, none of the standards
 provide more than a limited set of operations.  Individual implementations
 often provide much more, but in incompatible ways.</p>
 
-<p>This SRFI provides maximally portable access to the services of the
-operating system on which typical Scheme implementations run.  It does so
-using the Portable Operating System Interface, called P<small>OSIX</small>,
-which is standardized by the IEEE.  Almost all operating systems today
-support all or part of P<small>OSIX</small>, so the use of this SRFI
-is mostly portable, but implementations are definitely not portable.
-However, an implementation of this SRFI can be layered over many existing
+<p>This SRFI uses P<small>OSIX</small> to provide maximally portable
+access to the services of the operating system on which typical Scheme
+implementations run.  Almost all operating systems today support all
+or part of P<small>OSIX</small>, so the use of this SRFI is mostly
+portable, but implementations are definitely not portable.  However,
+an implementation of this SRFI can be layered over many existing
 implementation-specific interfaces, or directly over a C FFI.  It is
 even possible to implement it in part on top of the JVM or CLR virtual
 machines.
