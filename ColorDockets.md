@@ -21,8 +21,6 @@ or [RandomnessElf](https://regmedia.co.uk/2018/10/01/roig_paper.pdf)
 
 Float and NaN dissector API (sign, quiet/signaling status, and integer tag): [FloatCLMedernach](FloatCLMedernach.md)
 
-R6RS versions of `real?`, `rational?`, `integer?`: these are false if the imaginary part is an inexact zero; the issue here is what to name them to avoid confusion
-
 Binary numeric I/O: [BinaryIoCowan](BinaryIoCowan.md)
 
 Comparator sublibrary: [SRFI 162](http://srfi.schemers.org/srfi-162/srfi-162.html)
@@ -35,13 +33,14 @@ C-style structs:  [ByteStructuresTaylanub](https://github.com/TaylanUB/scheme-by
 
 Integer sets:  [IntegerSetsCowan](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/IntegerSetsCowan.html)
 
-Descriptive statistics:  [TallyCowan](TallyCowan.md)
-
 Ranges:  [RangesCowan](RangesCowan.md)
 
 Bit and boolean vectors: [Bvectors](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/Bvectors.html)
 
 Bytestrings: [BytestringsCowan](BytestringsCowan.md)
+
+Multidimensional arrays: [SRFI 122](http://srfi.schemers.org/srfi-122/srfi-122.html)  
+or [SRFI 164](http://srfi.schemers.org/srfi-164/srfi-164.html)
 
 **Enumerations**
 
@@ -51,24 +50,33 @@ Enumeration maps: [EnumMapsCowan](EnumMapsCowan.md)
 
 **Other**
 
-Combinations: [CombinationsGauche](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/CombinationsGauche.html)
-
 Number to string with Unicode: [NumberStringUnicode](NumberStringUnicode.md)
+
+Compound objects: [CompoundObjectsCowan](CompoundObjectsCowan.md)
+
+Strings: trying again
 
 # Amber Docket (syntax)
 
-Low-level macros:
-[explicit renaming](https://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Explicit-Renaming.html),
-[implicit renaming](https://wiki.call-cc.org/explicit-renaming-macros#implicit-renaming-macros),
-[syntactic closures](https://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Syntactic-Closures.html),
-[R6RS syntax-case](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html),
-[SRFI 72](http://srfi.schemers.org/srfi-72/srfi-72.html).
+**Non-portable**
+
+Macros A: [syntactic closures](https://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Syntactic-Closures.html),  
+[R6RS syntax-case](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html)
+
+Macros B: [explicit renaming](https://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Explicit-Renaming.html),  
+[implicit renaming](https://wiki.call-cc.org/explicit-renaming-macros#implicit-renaming-macros)
 
 More syntax-rules extensions: [SRFI 149](http://srfi.schemers.org/srfi-149/srfi-149.html)
 
 Custom macro transformers: [SRFI 147](http://srfi.schemers.org/srfi-147/srfi-147.html) [not portable]
 
 Syntax parameters: [SRFI 139](http://srfi.schemers.org/srfi-139/srfi-139.html)
+
+Custom macro transformers: [SRFI 147](http://srfi.schemers.org/srfi-147/srfi-147.html)
+
+Syntax-rules extensions: [SRFI 149](http://srfi.schemers.org/srfi-149/srfi-149.html)
+
+**Portable**
 
 `cond` guards: [SRFI 61](http://srfi.schemers.org/srfi-61/srfi-61.html)
 
@@ -86,31 +94,22 @@ Loops: [SRFI 42](http://srfi.schemers.org/srfi-42/srfi-42) or [Riastradh's foof-
 
 Generic accessors/mutators: [SRFI 123](http://srfi.schemers.org/srfi-123/srfi-123.html)
 
-Custom macro transformers: [SRFI 147](http://srfi.schemers.org/srfi-147/srfi-147.html)
-
-Syntax-rules extensions: [SRFI 149](http://srfi.schemers.org/srfi-149/srfi-149.html)
-
 Assumptions: [SRFI 145](http://srfi.schemers.org/srfi-145/srfi-145.html)
 
 `let` extensions: [SRFI 5](http://srfi.schemers.org/srfi-5/srfi-5.html)
 
 Eager syntax rules: [SRFI 148](http://srfi.schemers.org/srfi-148/srfi-148.html)
 
-Syntax-rules extensions: [SRFI 149](http://srfi.schemers.org/srfi-149/srfi-149.html)
-
 Syntax combiners for binary functions: [SRFI 156](https://srfi.schemers.org/srfi-156/srfi-156.html)
-# Yellow Docket (syntax)
 
-Matching:  [(chibi match)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/match/0.7.3/index.html)
+# Yellow Docket (syntax and early requirements)
+
+**Syntax**
 
 lambda*: [BeyondCurryingHemann](BeyondCurryingHemann.md)
 
 Named parameters:  [SRFI 89](http://srfi.schemers.org/srfi-89/srfi-89.html)  
 or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/0.7.3/index.html)
-
-Conditions: [ConditionsCowan](ConditionsCowan.md)
-
-Restarts:  [RestartsCowan](RestartsCowan.md)
 
 Multiple values passed through => in `cond`: see #90
 
@@ -119,19 +118,32 @@ or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/
 
 `Record-let`: #45
 
-`if` with arbitrarily many arguments: [David Kendal's rationale](http://dpk.io/r7rs/naryif-20130406)
+`if*` with arbitrarily many arguments: [David Kendal's rationale](http://dpk.io/r7rs/naryif-20130406)
 
 Lexical macros: [LexmacsCowan](LexmacsCowan.md)
 
+**Early requirements**
+
+Matching:  [(chibi match)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/match/0.7.3/index.html)
+
+Variable-length linear strings:
+
+Predicate generic functions: [GenericsChibi](http://synthcode.com/scheme/chibi/lib/chibi/generic.html) (needs extension for subtyping)
+
+Maybe/Either: [MaybeEither](MaybeEither.md)
+
+Restarts:  [RestartsCowan](RestartsCowan.md)
+
 # Green Docket (non-portable)
+
+Conditions: [ConditionsCowan](ConditionsCowan.md)
 
 File I/O: [FilesAdvancedCowan](FilesAdvancedCowan.md) plus [SettingsListsCowan](SettingsListsCowan.md)
 and maybe [LetSettingsKendal](LetSettingsKendal.md)
 
-Threads: [SRFI 18](http://srfi.schemers.org/srfi-18/srfi-18.html)
-or [FuturesCowan](FuturesCowan.md) (simplified)
-
-Real-time threads: [SRFI 21](http://srfi.schemers.org/srfi-21/srfi-21.html)
+Threads: [SRFI 18](http://srfi.schemers.org/srfi-18/srfi-18.html) plus optional  
+[SRFI 21](http://srfi.schemers.org/srfi-21/srfi-21.html)  
+or [FuturesCowan](FuturesCowan.md) (simplified with monad)
 
 Sockets: [SRFI 106](http://srfi.schemers.org/srfi-106/srfi-106.html)
 or [NetworkPortsCowan](NetworkPortsCowan.md) with [NetworkEndpointsCowan](NetworkEndpointsCowan.md)
@@ -140,9 +152,9 @@ Datagram channels (UDP sockets): [DatagramChannelsCowan](DatagramChannelsCowan.m
 
 Timers: [SRFI 120](http://srfi.schemers.org/srfi-120/srfi-120.html)
 
-Mutable environments: [MutableEnvironmentsCurtisCowan](MutableEnvironmentsCurtisCowan.md)
+Mutable environments: [EnvironmentsMIT](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/EnvironmentsMIT.html)
 
-Simple POSIX: [SimplePosixCowan](SimplePosixCowan.md)
+Simple POSIX: [PosixScsh](SimplePosixCowan.md)
 
 Access to the REPL: [ReplCowan](ReplCowan.md)
 
@@ -160,8 +172,6 @@ File system directories (reading):
 System commands: [SystemCommandCowan](SystemCommandCowan.md)
 
 Pure delay/force: [PureDelayedGloria](PureDelayedGloria.md)
-
-Finalizers: [FinalizersCowan](FinalizersCowan.md)
 
 Delimited continuations: [Racket](https://docs.racket-lang.org/reference/cont.html),
 [Guile](https://www.gnu.org/software/guile/manual/html_node/Prompt-Primitives.html),
@@ -187,17 +197,20 @@ Applicable record instances: [R6RS formal comment](http://www.r6rs.org/formal-co
 
 Internationalization of strings: [GettextCowan](GettextCowan.md)
 
-Standard condition predicates [StandardConditionPredicates](StandardConditionPredicates.md)
-
 Chronometers: [Chronometer](Chronometer.md)
 
 # Aqua Docket (portable but complex things).
+
+Finalizers: [FinalizersCowan](FinalizersCowan.md)
+
+Combinations: [CombinationsGauche](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/CombinationsGauche.html)
 
 Generic combinator procedures: [CombinatorsCowan](CombinatorsCowan.md)
 
 Port operations: [PortOperationsCowan](PortOperationsCowan.md)
 
 Time types: [SRFI 19](http://srfi.schemers.org/srfi-19/srfi-19.html) and/or [TimeAdvancedCowan](TimeAdvancedCowan.md) with [TimePeriodsCowan](TimePeriodsCowan.md)
+Combinations: [CombinationsGauche](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/CombinationsGauche.html)
 
 Character conversion: [CharacterConversionCowan](CharacterConversionCowan.md)
 
@@ -231,11 +244,10 @@ Regular expressions over s-expressions:  [SerexPalmer](http://inamidst.com/lisp/
 Procedural record types: [R6RS](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-7.html#node_sec_6.3)
 [SRFI 99](http://srfi.schemers.org/srfi/srfi-99.html),
 [AnonymousRecordsCowan](AnonymousRecordsCowan.md),
-[RidiculouslySimpleRecordsCowan](RecordsCowan.md)
+[RidiculouslySimpleRecordsCowan](RecordsCowan.md),  
+[UniqueTypesCowan](UniqueTypesCowan.md)
 
 # Blue Docket (portable but advanced things).
-
-Compound objects: [CompoundObjectsCowan](CompoundObjectsCowan.md)
 
 Memoization: [Memoize](Memoize.md) (not a proposal yet), [Racket](http://planet.racket-lang.org/display.ss?package=memoize.plt&owner=dherman), [Haskell](http://hackage.haskell.org/package/memoize-0.1/docs/Data-Function-Memoize.html)
 
@@ -243,15 +255,9 @@ Message digests (CRC, MD5, SHA1, SHA2):
 
 Assertions: [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_750), R6RS with optional message and irritants.
 
-Predicate generic functions: [GenericsChibi](http://synthcode.com/scheme/chibi/lib/chibi/generic.html) (needs extension for subtyping)
-
-Maybe/Either: [MaybeEither](MaybeEither.md)
-
 Monad etc.:  [ContextsCowan](ContextsCowan.md)
 
 String normalization [StringNormalization](StringNormalization.md)
-
-Unique types: [UniqueTypesCowan](UniqueTypesCowan.md)
 
 Testing: [SRFI 64](http://srfi.schemers.org/srfi-64/srfi-64.html)
 or [ChibiChickenTest](http://wiki.call-cc.org/eggref/5/test)
@@ -259,8 +265,6 @@ or [SRFI 78](http://srfi.schemers.org/srfi-78/srfi-78.html)
 
 Command-line arguments: [SRFI 37](http://srfi.schemers.org/srfi-37/srfi-37.html)
 or [ArgsChicken](http://wiki.call-cc.org/eggref/4/args)
-
-Unique types: [SRFI 137](http://srfi.schemers.org/srfi-137/srfi-137.html)
 
 Unifiable boxes: [SRFI 161](http://srfi.schemers.org/srfi-161/srfi-161.html)
 
@@ -272,8 +276,6 @@ Immutable vectors: [FectorsPrice](https://github.com/ijp/fectors)
 First-class dynamic extents: [SRFI 154](http://srfi.schemers.org/srfi-154/srfi-154.html)
 
 Promises: [SRFI 155](http://srfi.schemers.org/srfi-155/srfi-155.html)
-
-
 
 # Indigo Docket (stuff of dubious utility)
 
@@ -301,5 +303,11 @@ Doubly linked lists: [DoublyLinkedListsCowan](DoublyLinkedListsCowan.md)
 
 Prime number library: [PrimesGauche](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/PrimesGauche.html)
 
+Descriptive statistics:  [TallyCowan](TallyCowan.md)
+
 μXml: [MicroXMLCowan](MicroXmlCowan.md)
+
+JSO: [JsoCowan](JsoCowan.md)
+
+
 
