@@ -118,7 +118,7 @@ or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/
 
 `Record-let`: #45
 
-`if*` with arbitrarily many arguments: [David Kendal's rationale](http://dpk.io/r7rs/naryif-20130406)
+`if*` with arbitrarily many arguments: [Daphne Preston-Kendal's rationale](http://dpk.io/r7rs/naryif-20130406)
 
 Lexical macros: [LexmacsCowan](LexmacsCowan.md)
 
@@ -154,7 +154,7 @@ Timers: [SRFI 120](http://srfi.schemers.org/srfi-120/srfi-120.html)
 
 Mutable environments: [EnvironmentsMIT](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/EnvironmentsMIT.html)
 
-Simple POSIX: [PosixScsh](SimplePosixCowan.md)
+Host environment: [SRFI 170](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/srfi-170.html)
 
 Access to the REPL: [ReplCowan](ReplCowan.md)
 
@@ -187,8 +187,6 @@ or [ExtendedRationalsCowan](ExtendedRationalsCowan.md)
 Adjustable strings: [SRFI 118](http://srfi.schemers.org/srfi-118/srfi-118.html) (basic)
 or [SRFI 140](http://srfi.schemers.org/srfi-140/srfi-140.html) (mutable/immutable)
 
-Mutable environments for `eval`:  [MutableEnvironmentsCurtisCowan](MutableEnvironmentsCurtisCowan.md)
-
 Mutexes, condition variables: [SRFI 18](http://srfi.schemers.org/srfi-18/srfi-18.html)
 
 Port type detector: see ticket #177
@@ -210,7 +208,6 @@ Generic combinator procedures: [CombinatorsCowan](CombinatorsCowan.md)
 Port operations: [PortOperationsCowan](PortOperationsCowan.md)
 
 Time types: [SRFI 19](http://srfi.schemers.org/srfi-19/srfi-19.html) and/or [TimeAdvancedCowan](TimeAdvancedCowan.md) with [TimePeriodsCowan](TimePeriodsCowan.md)
-Combinations: [CombinationsGauche](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/CombinationsGauche.html)
 
 Character conversion: [CharacterConversionCowan](CharacterConversionCowan.md)
 
