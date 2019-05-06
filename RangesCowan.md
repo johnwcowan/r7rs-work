@@ -1,54 +1,35 @@
 # Ranges
 
-Ranges come in two types, definite and indefinite.  Definite ranges are
+Ranges are
 collections that can be enumerated but are represented algorithmically
-rather than by a per-element data structure.  Indefinite ranges are just defined
-portions of an ordered domain.
+rather than by a per-element data structure.
 
-A definite range is specified by a lower bound, which can be of any type,
+A range is specified by a lower bound, which can be of any type,
 a length (number of elements), a
 comparator, and an indexer function that maps the lower bound and a
 non-negative exact integer less than the length
 into a value of the range.
 
-A numeric range is a variety of definite range specified by 
+A numeric range is a special case of a range specified by 
 an inclusive lower bound (default 0), an exclusive upper bound,
 and a step value (default 1), all of which can be exact or inexact real numbers.
 Its comparator is the natural comparator on real numbers, and its indexer is
 `(lambda (bound n) (+ bound (* n step)))`.
 
-An indefinite range has just bounds and a comparator and can't be enumerated.
-It is possible to specify the inclusive or exclusive nature of the bounds.
-
 ## Terminology
 
-In arguments, *range* means any range, *drange* means any definite range.
+In arguments, *range* means any range.
 
 ## Constructors
 
 `(definite-range `*comparator lower-bound length indexer*`)`
 
-Returns a definite range with the given parameters (see above).
+Returns a range with the given parameters (see above).
 
 `(numeric-range `*start end* [*step*]`)`
 
 Returns a numeric range with the given parameters (see above).
 If the step argument is omitted, it is 1.
-
-`(indefinite-range `*comparator start end*`)`
-
-Returns an indefinite range whose inclusive lower bound
-is *start* and exclusive upper bound is *end*.
-
-`(closed-indefinite-range `*comparator start end*`)`
-
-Returns an indefinite range whose inclusive lower bound
-is *start* and inclusive upper bound is *end*.
-
-`(open-indefinite-range `*comparator start end*`)`
-
-Returns an indefinite range whose exclusive lower bound
-is *start* and exclusive upper bound is *end*.
 
 ## Predicates
 
@@ -56,28 +37,13 @@ is *start* and exclusive upper bound is *end*.
 
 Returns `#t` if *obj* is a range and `#f` otherwise.
 
-`(definite-range? `*range*`)`
-
-Returns `#t` if *range* is a definite range and `#f` otherwise.
-
 `(range-contains? `*range value*`)`
 
-Returns true if value is an element of *range* (if *range* is
-definite) or is within the bounds of *range* (if *range* is indefinite).
+Returns true if value is an element of *range*.
 
 `(range-empty? `*range*`)`
 
 Returns true if *range* is empty.
-
-`(range-start-inclusive? `*range*`)`
-
-Returns `#t` if *range* includes its start (always, in the case of definite ranges)
-and `#f` otherwise.
-
-`(range-end-inclusive? `*range*`)`
-
-Returns `#t` if *range* includes its end (never, in the case of definite ranges)
-and `#f` otherwise.
 
 ## Accessors
 
@@ -91,142 +57,146 @@ Returns the upper and lower bounds of *range*.
 
 Returns the comparator of *range*.
 
-`(range-length `*drange*`)`
+`(range-length `*range*`)`
 
-Returns the length (number of elements) of *drange*.
+Returns the length (number of elements) of *range*.
 
-`(range-indexer `*drange*`)`
+`(range-indexer `*range*`)`
 
-Returns the indexer of *drange*.
+Returns the indexer of *range*.
 
-`(range-ref `*drange index*`)`
+`(range-ref `*range index*`)`
 
-Returns the indexth element of *drange*.  It is an
+Returns the indexth element of *range*.  It is an
 error if index is less than 0 or greater than 
-or equal to the length of *drange*.
+or equal to the length of *range*.
 
 ## Iteration
 
-`(range-split-at `*drange index*`)`
+`(range-split-at `*range index*`)`
 
-Returns two values which are definite ranges.  The first value
-contains all elements of *drange* from the zeroth element
+Returns two values which are ranges.  The first value
+contains all elements of *range* from the zeroth element
 to the indexth element exclusive.  The second value contains
-all elements of *drange* from the indexth element inclusive
+all elements of *range* from the indexth element inclusive
 to the last element.
 
-`(range-take `*drange count*`)`
+`(range-take `*range count*`)`
 
-Returns a definite range which contains the first *count* elements of *drange*.
+Returns a range which contains the first *count* elements of *range*.
 
-`(range-take-right `*drange count*`)`
+`(range-take-right `*range count*`)`
 
-Returns a definite range which contains the last *count* elements of *drange*.
+Returns a range which contains the last *count* elements of *range*.
 
-`(range-drop drange `*count*`)`
+`(range-drop range `*count*`)`
 
-Returns a definite range which contains all except the first *count* elements
-of *drange*.
+Returns a range which contains all except the first *count* elements
+of *range*.
 
-`(range-drop-right `*drange count*`)`
+`(range-drop-right `*range count*`)`
 
-Returns a definite range which contains all except the last *count* elements of
-drange.
+Returns a range which contains all except the last *count* elements of
+range.
 
-`(range-count pred `*drange*`)`
+`(range-count pred `*range*`)`
 
-Returns the number of elements of *drange* which satisfy *pred*.
+Returns the number of elements of *range* which satisfy *pred*.
 
-`(range-any pred `*drange*`)`
+`(range-any pred `*range*`)`
 
-Returns true if any of the elements of *drange* satisfy *pred*.
+Returns true if any of the elements of *range* satisfy *pred*.
 Specifically it returns the last value returned by *pred* or `#t` if
 *pred* was never invoked.  Otherwise, `#f` is returned.
 
-`(range-every `*pred drange*`)`
+`(range-every `*pred range*`)`
 
-Returns true if all the elements of *drange* satisfy *pred*,
+Returns true if all the elements of *range* satisfy *pred*,
 specifically it returns the last value returned by *pred* or `#t` if
 *pred* was never invoked.  Otherwise, `#f` is returned.
 
-`(range-map->list `*proc drange*`)`
+`(range-map->list `*proc range*`)`
 
 Returns a list of the results of applying *proc* to each element
-of *drange* in order.  However, the order in which *proc* is applied to the elements
+of *range* in order.  However, the order in which *proc* is applied to the elements
 is unspecified.
 
-`(range-for-each `*proc drange*`)`
+`(range-for-each `*proc range*`)`
 
-Applies *proc* to each element of *drange* in order.
+Applies *proc* to each element of *range* in order.
 Returns an unspecified result.
 
-`(range-filter->list `*pred drange*`)`
+`(range-filter->list `*pred range*`)`
 
-`(range-remove->list `*pred drange*`)`
+`(range-remove->list `*pred range*`)`
 
-Returns a list containing the elements of *drange* that
+Returns a list containing the elements of *range* that
 satisfy / do not satisfy *pred*.
 
-`(range-fold `*drange proc nil*`)`
+`(range-fold `*range proc nil*`)`
 
-Invokes *proc* on each member of *drange* in order, passing the result of
+Invokes *proc* on each member of *range* in order, passing the result of
 the previous invocation as a second argument. For the first invocation,
 *nil* is used as the second argument. Returns the result of the last
 invocation, or *nil* if there was no invocation.
 
-`(range-fold-right `*drange proc nil*`)`
+`(range-fold-right `*range proc nil*`)`
 
-Invokes proc on each member of *drange* in reverse order, passing the result of
+Invokes proc on each member of *range* in reverse order, passing the result of
 the previous invocation as a second argument. For the first invocation,
 *nil* is used as the second argument. Returns the result of the last
 invocation, or *nil* if there was no invocation.
+
+`(range-reverse `*range*`)`
+
+Returns a range which contains the same elements as *range*, but in reverse order.
 
 
 ## Searching
 
-`(range-index `*pred drange*`)`
+`(range-index `*pred range*`)`
 
-Returns the index of the first element of *drange* that satisfies *pred*.
+Returns the index of the first element of *range* that satisfies *pred*.
 
-`(range-index-right `*pred drange*`)`
+`(range-index-right `*pred range*`)`
 
-Returns the index of the last element of *drange* that satisfies *pred*.
+Returns the index of the last element of *range* that satisfies *pred*.
 
-`(range-take-while `*pred drange*`)`
+`(range-take-while `*pred range*`)`
 
-Returns a definite range containing the elements of *drange* that
+Returns a range containing the elements of *range* that
 satisfy *pred* up to the first one that does not.
 
-`(range-take-while-right `*pred drange*`)`
+`(range-take-while-right `*pred range*`)`
 
-Returns a definite range containing the elements of *drange* from the
+Returns a range containing the elements of *range* from the
 last one that satisfies *pred* up to the end.
 
-`(range-drop-while pred `*drange*`)`
+`(range-drop-while pred `*range*`)`
 
-Returns a definite range that omits elements of *drange* that satisfy
+Returns a range that omits elements of *range* that satisfy
 *pred* until the first one that does not.
 
-`(range-drop-while-right `*pred drange*`)`
+`(range-drop-while-right `*pred range*`)`
 
-Returns a definite range the omits the last elements of *drange* that
+Returns a range the omits the last elements of *range* that
 satisfy *pred* until the last one that does not.
 
 ## Conversion
 
-`(range->list `*drange*`)`
+`(range->list `*range*`)`
 
-Returns a list containing the elements of *drange* in order.
+Returns a list containing the elements of *range* in order.
 
-`(range->generator `*drange*`)`
+`(range->generator `*range*`)`
 
-Returns a SRFI 158 generator that generates the elements of *drange* in order.
+Returns a SRFI 158 generator that generates the elements of *range* in order.
 
 ## Interval relations
 
 Let sA be the lower bound (start) of range A,
 and eA be the value of the upper bound (end) of range A;
-and likewise for range B.  For indefinite ranges, the inclusive/exclusive
+and likewise for range B.  For inranges, the inclusive/exclusive
 nature of the bounds is respected.
 
 `(range-congruent? `*rangea rangeb*`)`
