@@ -9,10 +9,6 @@ objects as this SRFI's futures.  However, futures are more modern in style and h
 easier to use.  Each future is represented to other futures, including itself, by a
 unique *future object*, a member of a disjoint type.
 
-## FIXME
-
-Monadic `bind` and `and-then` needed.
-
 ## Future states
 
 * A *running* future is one that is currently executing. There can be more than one future running in parallel on a multiprocessor machine.
@@ -61,7 +57,7 @@ Concurrent reads and writes to ports are allowed.
 It is the responsibility of the implementation to serialize accesses
 to a given port using the appropriate synchronization primitives.
 
-## Interactions with `dynamic-wind`
+## Interactions with dynamic-wind
 
 When the scheduler stops the execution of a running future F1
 (whether because it blocked, expired its quantum, was terminated, etc)
@@ -72,6 +68,14 @@ This transfer of control by the scheduler does not cause any
 It is only when a future itself transfers control to a continuation
 that `dynamic-wind` before and after thunks are called.
 
+## Promises as futures
+
+Many of these procedures accept promises created with the R[567]RS syntax
+`delay` or the R7RS procedure `make-promise` as the equivalent
+of futures.  Unlike futures, promises are not started when created; they are
+evaluated when awaited for.  The `make-promises` procedure is the monadic
+pure procedure.
+
 ## Future-specific variables
 
 Each future (but not the main program) is associated with a number of
@@ -80,12 +84,18 @@ with a single value, which can be written and read by the associated
 future.  It is not possible to read or write a future-specific variable
 from outside the future.
 
+## Blocking I/O
+
+When a thread, including the main program, invokes a blocking I/O operation,
+the implementation must ensure that only the calling thread is blocked and
+that all other threads continue to run.
+
 ## Procedures
 
 `(current-future)`
 
 Returns the future object which represents the currently running future.  When called
-from the main program (not in any future), a special object called the *primordial
+from the main program (not in any future), a unique object called the *primordial
 object* is returned instead.  Unless otherwise noted, the procedures of this
 SRFI are inapplicable to the primordial object.
 
@@ -102,8 +112,7 @@ the *args* to *proc*, with a continuation that causes
 the result of *proc* to be stored inside the future object
 along with an indication of normal termination, abandon
 any communication resources the future has acquired, and terminate.
-It is an error if *proc* returns other than one value.
-The dynamic-wind stack of the invocation of *proc* is initially empty.
+It is an error if *proc* returns more or less than one value.
 
 The new future inherits its dynamic environment from the currently
 running future, or from the main program if there is no currently
@@ -138,12 +147,16 @@ Returns an unspecified value.
 
 The current future, or the main program if there is no current future,
 blocks until the future represented by *future* terminates (normally or not).
-It is an error to pass the primordial object.
 or until the timeout is reached if *timeout* is supplied.
 
 If *future* terminated normally, its stored value is returned as the value of
 `await`.  If *future* terminated abnormally, the stored condition object is
 raised as if by `raise`.
+
+If *future* is a promise, the promise is forced with `force` and the result
+returned as a normal termination.  It is an error to call *await* on the
+primordial object.
+
 
 `(await-for `*thread jiffy-count*`)`
 
@@ -180,6 +193,7 @@ program does not have future-specific variables.
 
 Instructs *future* to abandon execution.  Note that this only happens
 if *future* is cooperating by calling `future-abandoned?` periodically.
+If *future* is a promise, `future-abandon!` has no effect.
 It is an error if *future* is the primordial object.
 
 `(future-abandoned?)`
@@ -197,23 +211,24 @@ and `#f` otherwise.
 
 `(future-bind `*obj future1 future2* ...`)`
 
-Returns a future that behaves as follows: it passes *obj* as an argment
-to *future1* and waits for its completion, then passes a result to
+Returns a future that behaves as follows: it passes *obj* as an argument
+to *future1* and awaits its completion, then passes the result to
 *future2* and waits for its completion, and so on until there are no
-more *futures*.  When waited for, it returns the result of the last
-*future*.
+more *futures*.  When awaited, it returns the result of the last
+*future*.  This is monadic bind, and is useful for pipelining.
 
 `(future-and-then `*obj future1 future2* ...`)`
 
 The same as `future-bind` except that the futures other than the
 first don't require an argument, so the results are discarded.
-This is useful for sequencing side effects.
+This is useful for sequencing side effects.  This is monadic
+sequence, and is useful for sequencing.
 
 ## Prioritized futures 
 
 Prioritized futures are a feature of this SRFI that specific
 Scheme implementations may or may not provide.  Unlike the general
-explanation of fairness above, this feature provides specific concept of fairness.
+explanation of fairness above, this feature provides a specific concept of fairness.
 It's built on top of
 [SRFI 21](http://srfi.schemers.org/srfi-21/srfi-21.html),
 which is a superset of SRFI 18.
@@ -293,6 +308,9 @@ and among equal priority future the one that blocked
 first unblocks first).
 
 ## Prioritized-future procedures
+
+These procedures may be called on the primordial object.
+They have no effect when called on promises.
 
 `(future-base-priority `*future*`)` 
 
