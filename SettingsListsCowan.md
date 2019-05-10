@@ -60,6 +60,12 @@ The following keys are defined by this proposal:
 
 > Specifies what action to take if a character cannot be encoded as bytes or a sequence of bytes cannot be decoded as a character in the specified encoding of a textual port.  The value `ignore` means that the untranslatable byte or character is ignored.  The value `raise` means that an error is signalled.  The value `replace` means that an untranslatable byte is translated to `#\xFFFD;` if that character is available and can appear in strings in the implementation, or `#\?` if not, and an untranslatable character is translated to the byte encoding of `#xFFFD;` if there is one, or of `#\?` if not.  The default value is implementation-dependent.
 
+`posix-permissions`::
+
+> Specifies the permissions with which the file is created as an exact integer.
+
+Issue: Should flag variables be defined for convenience?
+
 Implementations MAY support other keys, SHOULD warn if they detect keys or values they do not understand or implement, and MAY signal an error in such cases.
 
 Settings lists are also used by other proposals:  [NetworkPortsCowan](NetworkPortsCowan.md), [DirectoryPortsCowan](DirectoryPortsCowan.md), [ProcessPortsCowan](ProcessPortsCowan.md).
@@ -72,15 +78,6 @@ It's efficient to do both I/O and character conversion en bloc when possible, bu
 not be converted.
 
 Of course, when the character encoding is an 8-bit one, the implementation doesn't need to jump through these hoops.
-
-## Possible additions
-
-* Readtables
-* Port input and output timeouts
-* Output width in columns
-* Posix permissions
-* pty (for process ports)
-* backlog (for network server ports)
 
 ## Settings lists in other contexts
 
