@@ -113,6 +113,8 @@ or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/
 
 Multiple values passed through => in `cond`: see #90
 
+Property lists to bindings: [LetSettingsKendal](LetSettingsKendal.md)
+
 Optional arguments (other than by `case-lambda`): [OptionalsRiastradh](http://mumble.net/~campbell/proposals/optional.text)  
 or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/0.7.3/index.html)
 
@@ -139,7 +141,6 @@ Restarts:  [RestartsCowan](RestartsCowan.md)
 Conditions: [ConditionsCowan](ConditionsCowan.md)
 
 File I/O: [FilesAdvancedCowan](FilesAdvancedCowan.md) plus [SettingsListsCowan](SettingsListsCowan.md)
-and maybe [LetSettingsKendal](LetSettingsKendal.md)
 
 Threads: [SRFI 18](http://srfi.schemers.org/srfi-18/srfi-18.html) plus optional  
 [SRFI 21](http://srfi.schemers.org/srfi-21/srfi-21.html)  
