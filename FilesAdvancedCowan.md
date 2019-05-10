@@ -1,4 +1,5 @@
-This SRFI defines library providing R6RS-equivalent file I/O operations in an upward compatible way,
+This SRFI defines a library that can be imported in place of `(scheme file)`.
+It providing R6RS-equivalent file I/O operations in an upward compatible way
 with the following exceptions:
 
 * no custom ports
@@ -19,7 +20,7 @@ The procedures `file-exists?` and `delete-file` are the same as in the `(scheme 
 
 `(port-position `*port*`)`
 
-Returns the current position of *port*.  For a binary port, returns the index of the position at which the next byte would be read from or written to the port as an non-negative exact integer. For a textual port, returns a value of some implementation-dependent type representing the port’s position; this value may be useful only as the *position* argument to `set-port-position!`, if the latter is supported on the port.
+Returns the current position of *port*.  For a binary port, returns the index of the position at which the next byte would be read from or written to the port as an non-negative exact integer. For a textual port, returns a value of some implementation-dependent type representing the portï¿½s position; this value may be useful only as the *position* argument to `set-port-position!`, if the latter is supported on the port.
 
 `(can-get-port-position? `*port*`)`
 
