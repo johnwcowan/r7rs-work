@@ -68,20 +68,30 @@ namely `< > " : | ? *`, an error satisfying `path-error?` is signaled.
 
 ## Conversion
 
-`(posix-path->pathname `*path*`)`
+`(path->posix-pathname `*path* [*drive-mapper*]`)`
 
-Returns a Posix pathname based on the contents of *path* using slash as the separator.
-If *path* is an absolute Windows path, the result is implementation-dependent.
+Returns a Posix-style pathname based on the contents of *path* using slash as the separator.
+If the last character of the drive is a colon,
+the drive is passed through *drive-mapper*, a procedure
+which accepts a string and returns a string.
+Whatever is returned will be prepended to the path.
 
-`(windows-path->pathname `*path*`)`
+If *drive-mapper* is omitted, the behavior is implementation-dependent.
+For example, it might map `c:"`to `/cygdrive/c"`on Cygwin,
+or to `/mnt/c"`on Windows Subsystem for Linux,
+return its argument unchanged on Windows,
+or simply return the empty string or raise an error.
 
-Returns a string pathname based on the contents of *path* using backslash as the separator.
+`(path->windows-pathname `*path*`)`
+
+Returns a Windows-style string pathname based on the contents of *path* using backslash as the separator.
+If the drive begins with two slashes, they are converted to backslashes.
 
 `(path->file-uri `*path*`)`
 
 Returns a file URI corresponding to *path*.  If *path* is not absolute, an error is signaled.
 Note that in a UNC pathname, the UNC host corresponds to the URI host, so such file URIs
-begin with two slashes rather than three.
+contain two slashes rather than three after "file:"
 
 ## Path operations
 
