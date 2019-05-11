@@ -20,7 +20,13 @@ The procedures `file-exists?` and `delete-file` are the same as in the `(scheme 
 
 `(port-position `*port*`)`
 
-Returns the current position of *port*.  For a binary port, returns the index of the position at which the next byte would be read from or written to the port as an non-negative exact integer. For a textual port, returns a value of some implementation-dependent type representing the port�s position; this value may be useful only as the *position* argument to `set-port-position!`, if the latter is supported on the port.
+Returns the current position of *port*.
+For a binary port, returns the index of the position at which the next byte
+would be read from or written to the port as an non-negative exact integer.
+For a textual port, returns a value of some implementation-dependent type
+representing the port's position;
+this value may be useful only as the *position* argument to
+`set-port-position!`, if the latter is supported on the port.
 
 `(can-get-port-position? `*port*`)`
 
@@ -283,6 +289,11 @@ the implementation doesn't need to jump through these hoops.
 
 ## Settings lists macro
 
-See [LetSettingsKendal](LetSettingsKendal.md) for a proposal
-to help users write their own procedures accepting settings lists.
+`(let-settings *let-bindings settings-list  . `*body*`)`
 
+Expand to a `let` using *let-bindings* to bind *body*.
+Before *body* is executed, any variables whose names
+appear in *settings-list* are bound to the values that
+follow them.
+
+Issue: can this be done with syntax-rules alone?
