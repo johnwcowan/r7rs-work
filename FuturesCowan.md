@@ -50,7 +50,7 @@ Implementations should document whatever fairness constraints they provide.
 Read and write operations on the store (such as reading and writing a variable,
 an element of a vector or a string) are not required to be atomic.
 It is an error for a future to write a location in the store
-while some other thread reads or writes that same location.
+while some other future reads or writes that same location.
 It is the responsibility of the application to avoid write/read and write/write races.
 
 Concurrent reads and writes to ports are allowed.
@@ -68,17 +68,21 @@ This transfer of control by the scheduler does not cause any
 It is only when a future itself transfers control to a continuation
 that `dynamic-wind` before and after thunks are called.
 
+It is an error for one future to call a continuation created by another future
+if `dynamic-wind` is involved.
+
 ## Promises as futures
 
-Many of these procedures accept promises created with the R[567]RS syntax
+Unless otherwise specified, the procedures of this SRFI
+accept promises created with the R[567]RS syntax
 `delay` or the R7RS procedure `make-promise` as the equivalent
 of futures.  Unlike futures, promises are not started when created; they are
-evaluated when awaited for.  The `make-promises` procedure is the monadic
-pure procedure.
+evaluated when waited for.  The `make-promises` procedure is the monadic
+pure procedure for futures.
 
 ## Future-specific variables
 
-Each future (but not the main program) is associated with a number of
+Each future (but not the main program or a promise) is associated with a number of
 *future-specific variables*.  These are named by a symbol and associated
 with a single value, which can be written and read by the associated
 future.  It is not possible to read or write a future-specific variable
@@ -86,9 +90,31 @@ from outside the future.
 
 ## Blocking I/O
 
-When a thread, including the main program, invokes a blocking I/O operation,
-the implementation must ensure that only the calling thread is blocked and
-that all other threads continue to run.
+When a future invokes a blocking I/O operation,
+the implementation must ensure that only that specific future is blocked and
+that all other futures continue to run.
+
+When the main program invokes a blocking I/O operation
+and at least one future is executing,
+the implementation must ensure that only the main program is blocked and
+that all futures continue to run.
+
+An implementation may depart from this requirement but must document its exact limitations.
+
+## Restrictions compared to SRFI 18.
+
+Futures do not have names.
+
+There is no analogue of `thread-terminate!` or of the non-standard procedures
+`thread-suspend!` and `thread-resume!`, because they are not only deadlock-prone
+but may result in objects being exposed in an inconsistent state, allowing
+arbitrary behavior.
+
+The "specific" field is not available; it is preempted in implementations of this
+SRFI on top of SRFI 18.
+
+Time objects are not exposed, though all of their functionality that is relevant
+to this SRFI is provided by other means
 
 ## Procedures
 
@@ -99,10 +125,12 @@ from the main program (not in any future), a unique object called the *primordia
 object* is returned instead.  Unless otherwise noted, the procedures of this
 SRFI are inapplicable to the primordial object.
 
+The value is the same whether or not `current-future` is being invoked from within a promise.
+
 `(future? `*obj*`)`
 
 Returns `#t` if *obj* is a future object (including the primordial
-object), otherwise returns `#f`.
+object) or a promise, otherwise returns `#f`.
 
 `(future `*proc arg* ...`)`
 
@@ -121,55 +149,54 @@ future is a procedure which causes the argument of the handler
 to be stored inside the future object
 along with an indication of abnormal termination, abandon
 any communication resources the future has acquired, and terminate.
+
 The `dynamic-wind` stack of the new future is empty.
 
-`(yield!)`
+`(future-yield!)`
 
 The current future, or the main program if there is no current future,
 exits the running state as if its quantum had expired.
 Returns an unspecified value.
 
-`(sleep-for! `*jiffy-count*`)`
+`(future-sleep-for! `*jiffy-count*`)`
 
 The current future, or the main program if there is no current future,
 blocks until the value of `(current-jiffy)`
-is greater than or equal to its value when `thread-sleep-for!` was
-invoked plus *jiffy-count*.
+is greater than or equal to *jiffy-count* plus the value of `(current-jiffy)`
+when `future-sleep-for!` was invoked.  Returns an unspecified value.
+
+`(future-sleep-until! `*jiffy*`)`
+
+The current future , or the main program if there is no current future,
+blocks until the value of `(current-jiffy)` is greater than or equal to *jiffy*.
 Returns an unspecified value.
 
-`(sleep-until! `*jiffy*`)`
-
-The current future blocks until the value of `(current-jiffy)` is
-is greater than or equal to *jiffy*.
-Returns an unspecified value.
-
-`(await `*future*`)`
+`(future-wait `*future*`)`
 
 The current future, or the main program if there is no current future,
 blocks until the future represented by *future* terminates (normally or not).
 or until the timeout is reached if *timeout* is supplied.
 
 If *future* terminated normally, its stored value is returned as the value of
-`await`.  If *future* terminated abnormally, the stored condition object is
+`future-wait`.  If *future* terminated abnormally, the stored condition object is
 raised as if by `raise`.
 
 If *future* is a promise, the promise is forced with `force` and the result
-returned as a normal termination.  It is an error to call *await* on the
+returned as a normal termination.  It is an error to call `future-wait` on the
 primordial object.
 
+`(future-wait-for `*future jiffy-count*`)`
 
-`(await-for `*thread jiffy-count*`)`
-
-Behaves the same as `await`, with the following difference:
+Behaves the same as `future-wait`, with the following difference:
 If *future* is still runnable
 when the value of `(current-jiffy)`
-is greater than or equal to its value when `await-for` was
+is greater than or equal to its value when `wait-for` was
 invoked plus *jiffy-count*, then *future* is terminated
 and an error satisfying `timeout-exception?` is signaled.
 
-`(await-until `*thread jiffy*`)`
+`(future-wait-until `*future jiffy*`)`
 
-Behaves the same as `await`, with the following difference:
+Behaves the same as `future-wait`, with the following difference:
 If *future* is still runnable
 when the value of `(current-jiffy)`
 is greater than or equal to *jiffy*,
@@ -204,25 +231,47 @@ the current future should take steps to abandon its execution either by
 returning normally or by raising a condition.  It is an error for the
 main program to call this procedure.
 
-`(timeout-exception? `*obj*`)`
+`(future-quantum `*future*`)`
 
-Returns `#t` if *obj* is an object raised when a future times out,
-and `#f` otherwise.
+Returns a real number which corresponds to the quantum of *future*
+in jiffies.  If the value returned is zero, the future cannot report its quantum.
+
+`(future-quantum-set! `*future quantum*`)`
+
+Changes the quantum of *future* to *quantum*.
+It is an error if *quantum* is not a non-negative real number.
+A value of zero selects the smallest quantum supported by the implementation.
+Returns an unspecified value.
+
+If *future* cannot set its quantum, this procedure has no effect, since the correctness
+of a future does not depend on the length of its quantum.
+
+`(future-map `*proc future*`)`
+
+Returns a future that behaves as follows: when waited for, it first waits
+for *future*, then invokes *proc* on its result and returns whatever *proc* returns.
+If *future* raises an exception, `future-map` passes it through
+without invoking *proc*.
 
 `(future-bind `*obj future1 future2* ...`)`
 
-Returns a future that behaves as follows: it passes *obj* as an argument
+Returns a future *f* that behaves as follows: it passes *obj* as an argument
 to *future1* and awaits its completion, then passes the result to
 *future2* and waits for its completion, and so on until there are no
-more *futures*.  When awaited, it returns the result of the last
+more *futures*.  When waited for, *f* returns the result of the last
 *future*.  This is monadic bind, and is useful for pipelining.
 
 `(future-and-then `*obj future1 future2* ...`)`
 
-The same as `future-bind` except that the futures other than the
-first don't require an argument, so the results are discarded.
+The same as `future-bind` except that the *futures* other than the
+first don't require an argument and the results of all *futures* are discarded.
 This is useful for sequencing side effects.  This is monadic
 sequence, and is useful for sequencing.
+
+`(future-timeout-exception? `*obj*`)`
+
+Returns `#t` if *obj* is an object raised when a future times out,
+and `#f` otherwise.
 
 ## Prioritized futures 
 
@@ -332,13 +381,63 @@ Changes the priority boost of *future* to *priority-boost*.
 It is an error if *priority-boost* is not a non-negative real number.
 Returns an unspecified value.
 
-`(future-quantum `*future*`)`
+## Implementation
 
-Returns a real number which corresponds to the quantum of *future*.
+This is a high-level description of how to implement this SRFI on top of SRFI 18 or SRFI 21:
 
-`(future-quantum-set! `*future quantum*`)`
+The `current-future` procedure is just `current-thread`.
 
-Changes the quantum of *future* to *quantum*.
-It is an error if *quantum* is not a non-negative real number.
-A value of zero selects the smallest quantum supported by the implementation.
-Returns an unspecified value.
+The `future?` procedure returns `#t` if either `promise?` or `thread?` return `#t`.
+
+The `future` procedure constructs a procedure that applies `proc` to `args`,
+uses `make-thread` to instantiate a thread that invokes that procedure,
+initializes the thread's "specific" field as explained below,
+starts the thread, and returns it.
+
+The `future-yield!` procedure is just `thread-yield!`.
+
+The `future-sleep-for!` procedure is just `thread-sleep!`.
+
+The `future-sleep-until!` procedure constructs a SRFI 18 time object
+from its *jiffy* argument and calls `thread-sleep!`.
+
+The `future-wait` procedure calls `thread-join!` with a timeout of `#f`.
+
+The `future-wait-for` procedure is just `thread-join!`
+
+The `future-wait-until` procedure constructs a SRFI 18 time object
+from its *jiffy* argument and calls `thread-join!`
+
+The `future-ref!`, `future-set!`, `future-abandon`, and `future-abandoned?`
+procedures make use of the "specific" field of the underlying thread.
+This is initialized by `future` to an object with two slots (a pair will do).
+
+The first slot is the abandon flag which is initially `#f`
+and which `future-abandoned?` checks.
+Any thread may set this flag to `#t`, so that the thread will abandon execution
+when it next calls `future-abandoned?`.  This is normally done by raising an
+exception.  No mutual exclusion is needed, since the flag only undergoes a
+one-way transition from `#f` to `#t` and it does not matter which thread does this
+or how many times it is done.
+All that is required is that the action of mutating the slot is atomic.
+
+The second slot contains a lookup table
+(such as an alist or hash table) that maps the symbols naming future-specific variables
+into their current values.  Because only the current thread has access to this table,
+no locking is required.
+
+Unfortunately, because the primordial thread's "specific" field is not initialized,
+these mechanisms are not available to it.
+
+The `future-quantum` and `future-quantum-set!` procedures are just `thread-quantum`
+and `thread-quantum-set!` from SRFI 21.  They are made mandatory in this SRFI
+because the trivial fallbacks of returning 0 (an impossible quantum value)
+and doing nothing, respectively, can be implemented in
+systems that don't support SRFI 21.  In any case, they have
+nothing to do with prioritized threads.
+
+The `future-timeout-exception?` procedure is just `join-timeout-exception?`.
+
+The implementations of `future-map`, `future-bind` and `future-and-then`
+should be obvious from their descriptions.
+
