@@ -65,8 +65,16 @@ As such, it may conveniently be constructed with a backquote.
 The six recognized symbols are `map`, `sequence`, `pure`, `apply`, `bind`,
 and `join`, corresponding to the similarly named Scheme procedures defined below.
 Any unspecified procedures will be given default implementations based on the
-provided procedures whenever this is possible.  The exact defaulting rules
-are TBD.
+provided procedures whenever this is possible.  The defaulting rules
+are roughly specified here:
+
+  *  `(monad-join c)` is `(monad-bind c id)`, where `id` is the identity function.
+
+  *  `(monad-bind mobj f)` is `(monad-join (functor-map f mobj))`.
+
+  *  `(functor-map f mobj)` is `(idiom-apply (idiom-pure f) x)`.
+  
+  * TBD apply in terms of sequence and vice versa
 
 A context instance object is a functor instance object when the `map` procedure is either
 provided or defaulted.
@@ -79,11 +87,11 @@ or defaulted.
 
 ## Accessors
 
-`(context-map-procedure `*c*`)`
-`(context-sequence-procedure  `*c*`)`
-`(context-pure-procedure `*c*`)`
-`(context-apply-procedure `*c*`)`
-`(context-bind-procedure `*c*`)`
+`(context-map-procedure `*c*`)`  
+`(context-sequence-procedure  `*c*`)`  
+`(context-pure-procedure `*c*`)`  
+`(context-apply-procedure `*c*`)`  
+`(context-bind-procedure `*c*`)`  
 `(context-join-procedure`*c*`)`
 
 All take a context instance object *c* as the only argument and return the provided or defaulted
