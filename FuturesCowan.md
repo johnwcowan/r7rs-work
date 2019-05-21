@@ -5,7 +5,9 @@ opposed to parallelism, for which see [ParallelPromisesCowan](ParallelPromisesCo
 
 Futures are analogous to [SRFI 18](http://srfi.schemers.org/srfi-18/srfi-18.html) threads,
 and can easily be built on top of them, in which case SRFI 18 threads are the same
-objects as this SRFI's futures.  However, futures are more modern in style and hopefully
+objects as this SRFI's futures.  However, it is also possible to have multiple futures
+sharing the same thread in a thread pool.  Comopared to threads,
+futures are more modern in style and hopefully
 easier to use.  Each future is represented to other futures, including itself, by a
 unique *future object*, a member of a disjoint type.
 
@@ -182,8 +184,10 @@ If *future* terminated normally, its stored value is returned as the value of
 raised as if by `raise`.
 
 If *future* is a promise, the promise is forced with `force` and the result
-returned as a normal termination.  It is an error to call `future-wait` on the
-primordial object.
+returned as a normal termination.
+
+It is an error to call `future-wait` on the primordial object or to call
+it more than once on the same object.
 
 `(future-wait-for `*future jiffy-count*`)`
 
@@ -383,7 +387,8 @@ Returns an unspecified value.
 
 ## Implementation
 
-This is a high-level description of how to implement this SRFI on top of SRFI 18 or SRFI 21:
+This is a high-level description of how to implement this SRFI on top of SRFI 18 or SRFI 21
+such that futures and threads correspond one to one:
 
 The `current-future` procedure is just `current-thread`.
 
