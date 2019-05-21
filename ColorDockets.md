@@ -192,8 +192,6 @@ Mutexes, condition variables: [SRFI 18](http://srfi.schemers.org/srfi-18/srfi-18
 
 Port type detector: see ticket #177
 
-Applicable record instances: [R6RS formal comment](http://www.r6rs.org/formal-comments/comment-6.txt)
-
 Internationalization of strings: [GettextCowan](GettextCowan.md)
 
 Chronometers: [Chronometer](Chronometer.md)
@@ -246,6 +244,8 @@ Procedural record types: [R6RS](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib
 [UniqueTypesCowan](UniqueTypesCowan.md)
 
 # Blue Docket (portable but advanced things).
+
+Applicable record instances: [R6RS formal comment](http://www.r6rs.org/formal-comments/comment-6.txt)
 
 Memoization: [Memoize](Memoize.md) (not a proposal yet), [Racket](http://planet.racket-lang.org/display.ss?package=memoize.plt&owner=dherman), [Haskell](http://hackage.haskell.org/package/memoize-0.1/docs/Data-Function-Memoize.html)
 
