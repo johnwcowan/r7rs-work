@@ -89,7 +89,7 @@ Returns a range which contains the first *count* elements of *range*.
 
 Returns a range which contains the last *count* elements of *range*.
 
-`(range-drop range `*count*`)`
+`(range-drop `*range count*`)`
 
 Returns a range which contains all except the first *count* elements
 of *range*.
@@ -99,11 +99,11 @@ of *range*.
 Returns a range which contains all except the last *count* elements of
 range.
 
-`(range-count pred `*range*`)`
+`(range-count `*pred range*`)`
 
 Returns the number of elements of *range* which satisfy *pred*.
 
-`(range-any pred `*range*`)`
+`(range-any `*pred range*`)`
 
 Returns true if any of the elements of *range* satisfy *pred*.
 Specifically it returns the last value returned by *pred* or `#t` if
