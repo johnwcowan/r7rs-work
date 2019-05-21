@@ -22,7 +22,7 @@ In arguments, *range* means any range.
 
 ## Constructors
 
-`(definite-range `*comparator lower-bound length indexer*`)`
+`(range `*comparator lower-bound length indexer*`)`
 
 Returns a range with the given parameters (see above).
 
@@ -196,8 +196,7 @@ Returns a SRFI 158 generator that generates the elements of *range* in order.
 
 Let sA be the lower bound (start) of range A,
 and eA be the value of the upper bound (end) of range A;
-and likewise for range B.  For inranges, the inclusive/exclusive
-nature of the bounds is respected.
+and likewise for range B.
 
 `(range-congruent? `*rangea rangeb*`)`
 
