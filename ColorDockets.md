@@ -46,7 +46,7 @@ or [SRFI 164](http://srfi.schemers.org/srfi-164/srfi-164.html)
 
 Enumerations: [EnumsCowan](EnumsCowan.md)
 
-Enumeration maps: [EnumMapsCowan](EnumMapsCowan.md)
+Enumeration maps: [EnumMappingsCowan](EnumMappingsCowan.md)
 
 **Other**
 
