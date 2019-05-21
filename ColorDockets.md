@@ -307,5 +307,5 @@ Descriptive statistics:  [TallyCowan](TallyCowan.md)
 
 JSO: [JsoCowan](JsoCowan.md)
 
-
+Intervals: [IntervalsCowan](IntervalsCowan.md)
 
