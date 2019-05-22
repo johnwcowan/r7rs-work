@@ -54,7 +54,7 @@ Number to string with Unicode: [NumberStringUnicode](NumberStringUnicode.md)
 
 Compound objects: [CompoundObjectsCowan](CompoundObjectsCowan.md)
 
-Strings: trying again
+Variable-length linear strings: [LinearStringExtensions](http://htmlpreview.github.io?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/LinearStringExtensions.html)
 
 # Amber Docket (syntax)
 
@@ -127,8 +127,6 @@ Lexical macros: [LexmacsCowan](LexmacsCowan.md)
 **Early requirements**
 
 Matching:  [(chibi match)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/match/0.7.3/index.html)
-
-Variable-length linear strings:
 
 Predicate generic functions: [GenericsChibi](http://synthcode.com/scheme/chibi/lib/chibi/generic.html) (needs extension for subtyping)
 
