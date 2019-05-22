@@ -16,8 +16,8 @@
   em.non-terminal { }
   em.non-termina-def { }
   code.literal { font-style: normal; }
-  code.literal:before { content: "“" }
-  code.literal:after { content: "”" }
+  code.literal:before { content: "â€œ" }
+  code.literal:after { content: "â€" }
 </style>
   </head>
 
@@ -33,24 +33,24 @@ Simple adjustable-size strings
 
 <h1>Abstract</h1>
 <p>
-Scheme specifies mutable fixed-length strings.
+Scheme specifies mutable fixed-size strings.
 <a href="http://srfi.schemers.org/srfi-118/srfi-118.html">SRFI 118</a>
 adds two procedures <code>string-append!</code> and
 <code>string-replace!</code> which allow the size of the string to change.
-This SRFI provides two linear-update versions of the procedures:
+This SRFI provides two linear-update versions of these procedures:
 that is, the implementation may change the string size or return a
 new string instead.
  
 </p><h1>Rationale</h1>
 <p>
-Historically Scheme has only supported fixed-length strings.
+Historically Scheme has only supported fixed-size strings.
 Schemes that support SRFI 118 or
 <a href="http://srfi.schemers.org/srfi-140/srfi-140.html">SRFI 140</a>
 provide fixed-size immutable strings and variable-size
 mutable strings, as the usefulness of standard Scheme's fixed-size mutable strings is
 extremely minimal: The main use is for a buffer to which one incrementally
 adds more data.  So why not fold that functionality into the string API?
-I.e. why can't you add just data to the end of a string?
+That is, why can't you add just data to the end of a string?
 </p><p>
 The difficulty is that only a few Scheme implementations provide such
 strings, and therefore variable-size strings are inherently not portable.
@@ -62,34 +62,39 @@ more efficient.
 
 </p><h1>Specification</h1>
 <p>
-We add 2 new functions.  The most frequently used is likely to be
+We add two new functions.  The most frequently used is likely to be
 <code>string-linear-append!</code>, while <code>string-linear-replace!</code>
-handles the general case of in-place replacement of a substring
+handles the general case of replacement of a substring
 with another string of possibly different size.</p>
 
 </p><pre>(<b>string-linear-append!</b> <var>string</var> <var>value</var> ...)
 </pre>
 <blockquote>
 <p>
-The <var>string</var> must be a string.
-The <code>string-linear-append!</code> procedure returns a string
-which extends <var>string</var> by
+This procedure returns a string which extends <var>string</var> by
 appending each <var>value</var> (in order) to the end of <var>string</var>.
 The result can either be <var>string</var> itself or a newly allocated string.
+In either case, any references to <var>string</var>
+other than the result of this procedure
+must be treated as "dead" and never referred to again.
+This must be so, since you can't rely on the value passed to a
+linear-update procedure after that procedure has been called. It might
+be unchanged; it might be altered.
+</p><p>
 A <var>value</var> can be a character or a string.
 </p><p>
 The following example shows how to process a string using
 <code>string-for-each</code> and incrementally <q>building</q> a result string
-using <code>string-append!</code>:</p>
+using <code>string-linear-append!</code>:</p>
 <pre>(define (translate-space-to-newline str)
   (let ((result (make-string 0)))
     (string-for-each
      (lambda (ch)
        (cond ((char=? ch #\Space)
-              (string-append! result #\Newline))
+              (string-linear-append! result #\Newline))
              ((char=? ch #\Return)) ; Ignore
              (else
-              (string-append! result ch))))
+              (string-linear-append! result ch))))
      str)
     result))
 </pre>
@@ -112,7 +117,7 @@ even amortised (i.e. average) constant time.
 It is more portable, and you can expect decent performance in most
 implementations.  Using <code>string-linear-append!</code> may be slightly
 more efficient on some implementations, due to lower overhead,
-but that depends on the strategy used by <code>string-append!</code>
+but that depends on the strategy used by <code>string-linear-append!</code>
 when the allocated buffer is too small.
 The <code>string-linear-append!</code> function is most useful when
 using (reading) a string is interleaved with growing it,
@@ -128,6 +133,12 @@ except that the characters between
 with the characters of the string
 <var>src</var> between <var>src-start</var> and <var>src-end</var>.
 The result can either be <var>string</var> itself or a newly allocated string.
+In either case, any references to <var>string</var>
+other than the result of this procedure
+must be treated as "dead" and never referred to again.
+This must be so, since you can't rely on the value passed to a
+linear-update procedure after that procedure has been called. It might
+be unchanged; it might be altered.
 </p><p>
 The number of characters from <var>src</var> may be different than the
 number replaced in <var>dst</var>, so the result may be larger or smaller
@@ -146,9 +157,9 @@ When <var>value</var> is a string then
 <code>(string-linear-replace! <var>dst</var> (string-length <var>dst</var>) (string-length <var>dst</var>) <var>value</var>)</code>.
 <p>
 <em>Note:</em>
-<a href="http://srfi.schemers.org/srfi-13/srfi-13.html">Srfi-13</a>
+<a href="http://srfi.schemers.org/srfi-13/srfi-13.html">SRFI 13</a>
 and its successors have
-a nondestructive version, <code>string-replace</code>, which
+a non-destructive version, <code>string-replace</code>, which
 takes the arguments in the following order:
 
 <pre>
@@ -165,21 +176,26 @@ implementations.
 is (not yet) in the repository of this SRFI.  It should not be
 used on systems that provide native variable-size strings.
 </p><p>
-The implementation is trivial, assuming there is some indirection
+A native implementation is trivial, assuming there is some indirection
 between the string object header and the actual stored characters.
+(This is not true in all implementations, Chicken for example.)
 Whenever the character buffer is full, it needs to be replaced with
 a bigger buffer.  If the size of the new buffer is a
 fixed multiple of the size of the old buffer then
- <code>string-append!</code> has amortized constant execution time.
+ <code>string-linear-append!</code> has amortized constant execution time.
 (The multiple 1.5 <a href="http://stackoverflow.com/questions/1100311/what-is-the-ideal-growth-rate-for-a-dynamically-allocated-array">seems a good choice</a>.)
 </p><p>
 If you have cheap Smalltalk-style <code>becomes:</code> (which is admittedly
 unlikely these days) then you can use that when you need to grow a string
 beyond its allocated size.
+Alternatively, a minor garbage collection can be invoked, which is
+what Chicken does when it must expand the bytes used to represent a UTF-8
+string as a result of replacing a 1, 2, or 3-byte character with a
+2, 3, or 4-byte character.
 
 </p><h1>Copyright</h1>
 <p>
-Copyright (C) Per Bothner 2015</p>
+Copyright (C) Per Bothner 2015, John Cowan 2019</p>
 <p>
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
@@ -201,7 +217,7 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
 <hr>
 <address>Author: <a href="mailto:cowan@ccil.org">John Cowan</a></address>
-    <address>Editor: <a href="mailto:srfi-editors at srfi dot schemers dot org">Arthur Gleckler</a></address>
+    <address>Editor: <a href="mailto:srfi-editors at srfi dot schemers dot org">Arthur A. Gleckler</a></address>
 
 
 </body></html>
