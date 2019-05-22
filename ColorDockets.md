@@ -54,7 +54,7 @@ Number to string with Unicode: [NumberStringUnicode](NumberStringUnicode.md)
 
 Compound objects: [CompoundObjectsCowan](CompoundObjectsCowan.md)
 
-Variable-length linear strings: [LinearStringExtensions](http://htmlpreview.github.io?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/LinearStringExtensions.html)
+Linear adjustable-size strings: [LinearStringExtensions](http://htmlpreview.github.io?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/LinearStringExtensions.html)
 
 # Amber Docket (syntax)
 
