@@ -198,6 +198,8 @@ Chronometers: [Chronometer](Chronometer.md)
 
 # Aqua Docket (portable but complex things).
 
+Relations: [RelationsCowan](RelationsCowan.md)
+
 Finalizers: [FinalizersCowan](FinalizersCowan.md)
 
 Combinations: [CombinationsGauche](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/CombinationsGauche.html)
