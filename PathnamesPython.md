@@ -3,7 +3,7 @@
 A path object is a list of strings which can be created from a Posix or Windows pathname and can be manipulated conveniently
 and converted back into a pathname.  Every path object has a *drive* (the first element), a *root*
 (the second element), and a possibly empty sequence of *components* (the remaining elements),
-all of which are strings.  The *filename* is the last component
+all of which are strings.  The *filename* is the last component.
 
 ## Parsing
 
@@ -71,21 +71,20 @@ namely `< > " : | ? *`, an error satisfying `path-error?` is signaled.
 `(path->posix-pathname `*path* [*drive-mapper*]`)`
 
 Returns a Posix-style pathname based on the contents of *path* using slash as the separator.
-If the last character of the drive is a colon,
-the drive is passed through *drive-mapper*, a procedure
+If the drive is not empty, it is passed through *drive-mapper*, a procedure
 which accepts a string and returns a string.
 Whatever is returned will be prepended to the path.
 
 If *drive-mapper* is omitted, the behavior is implementation-dependent.
-For example, it might map `c:"`to `/cygdrive/c"`on Cygwin,
-or to `/mnt/c"`on Windows Subsystem for Linux,
+For example, it might map `"c:"` to `"/cygdrive/c"` on Cygwin,
+or to `"/mnt/c"` on Windows Subsystem for Linux,
 return its argument unchanged on Windows,
-or simply return the empty string or raise an error.
+or simply return the empty string, or raise an error.
 
 `(path->windows-pathname `*path*`)`
 
 Returns a Windows-style string pathname based on the contents of *path* using backslash as the separator.
-If the drive begins with two slashes, they are converted to backslashes.
+Slashes in the drive and root are converted to backslashes.
 
 `(path->file-uri `*path*`)`
 
@@ -93,15 +92,44 @@ Returns a file URI corresponding to *path*.  If *path* is not absolute, an error
 Note that in a UNC pathname, the UNC host corresponds to the URI host, so such file URIs
 contain two slashes rather than three after "file:"
 
-## Path operations
+## Predicates
 
 `(path-reserved? `*path*`)`
 
 Returns `#t` if any part of *path* contains a character invalid in a Windows path
 (see `parse-windows-path`), or contains a component
 `CON, PRN, AUX, NUL, COM`*d*, or `LPT`*d*, where d is a digit,
-or any of these followed by a period and any other characters.
+or any of these followed by a period and any other characters,
+or ends in a period.
 The comparison is case-independent.  In all other cases, returns `#f`.
+
+`(path-absolute-posix? `*path*`)`
+
+Returns `#t` if the root is not empty, and `#f` otherwise.
+
+`(path-absolute-windows? `*path*`)`
+
+Returns `#t` if the drive and root are not both empty, and `#f` otherwise.
+
+`(path-portable? `*path*`)`
+
+Returns `#t` if *path* represents a maximally portable path, and `#f` otherwise.
+Specifically, a maximally portable path is one in which:
+
+  *  the drive and root are both empty strings
+  
+  * each component contains only lower-case letters,
+    digits, and hyphens except as noted below
+	
+  * each component contains 1 to 8 characters except as noted below
+	
+  * the filename, unlike the other components, can contain a single period,
+    in which case there need to be 1 to 8 characters before it and 1 to 3 characters after it.
+	
+The concept of a maximally portable path is based loosely on the Common
+Lisp logical pathnames, but is even more restrictive.
+   
+## Path operations
 
 `(path-parent `*path*`)`
 
@@ -109,7 +137,7 @@ Returns a path representing the parent directory of *path*, or *path* itself if 
 
 `(path-filename `*path*`)`
 
-Returns the filename (last component) of *path*, or the empty string if there are no components.
+Returns the filename of *path*, or the empty string if there are no components.
 
 `(path-join `*basepath path* ...`)`
 
@@ -124,7 +152,8 @@ what `(path-join (path-join `*basepath* *path1*`)` *path* ...`)` returns.
 `(path-match `*path glob ci?*`)`
 
 Returns `#t` if *path* matches the glob pattern in *glob* (a path object).
-Glob paths may contain the wildcards `*`, `?`, and `[...]` where `...` represents a set of characters to match.
+Glob components (but not the drive or root) may contain the wildcards `*`, `?`, and `[...]`,
+where `...` represents a set of characters to match.
 If *glob* is relative, the path can be either relative or absolute, and matching is done from the right.
 If *glob* is absolute, the path must be absolute, and the whole path must match.
 If *ci?* is true, matching is done case-insensitively;
@@ -135,6 +164,14 @@ if it is false or missing, matching is done case-sensitively.
 Returns a version of *path1* that is relative to *path2*.
 If it is not possible to do so without introducing double-period components, `#f` is returned.
 
+`(path-suffix `*path suffix*`)`
+
+Returns a the suffix of the filename (everything to the
+right of the final period) as a string.  If there is no period, an empty string
+is returned.  Note that this function does not discriminate between filenames
+without a period and filenames ending in a period; the latter should be avoided
+anyway, as they are not distinct on Windows.
+
 `(path-with-filename `*path filename*`)`
 
 Returns a path object based on *path* with the filename (replaced by *filename* (a string).
@@ -143,8 +180,14 @@ If the path does not contain a filename, an error satisfying `path-error?` is si
 `(path-with-suffix `*path suffix*`)`
 
 Returns a path object based on *path* with the suffix of the filename (everything to the
-right of the final period replaced by *suffix*.  If there is no period, a period followed
+right of the final period) replaced by *suffix*.  If there is no period, a period followed
 by *suffix* is appended to the filename.
+
+`(path-without-suffix `*path suffix*`)`
+
+Returns a path object based on *path* with the suffix of the filename (everything to the
+right of the final period), plus the period itself, removed.
+If there is no period, the result is equal to *path*.
 
 `(path-normalize `*path*`)`
 
