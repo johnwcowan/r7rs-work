@@ -335,9 +335,10 @@ it is required in order to preserve the standard protocol for Scheme unfold proc
 ### Trivalent logic
 
 These procedures provide trivalent
-logic in the style of SQL, with
-Nothing playing the role of NULL.  For the purposes of this section,
-an object counts as true if it is neither `#f` nor Nothing.
+logic in the style of SQL on Maybe objects.  For the purposes of this section,
+an object counts as false if it is Just `#f`,
+true if it is Just anything else.
+It is an error if any argument is not a Maybe.
 
 Unlike `and` and `or`, these procedures must evaluate all their
 arguments in order to provide correct SQL-style semantics.
