@@ -58,7 +58,7 @@ in left-to-right order, then on all grandchildren of *tree*
 in left-to-right order, and so on.
 Returns an unspecified value.
 
-3## Tree operations
+## Tree operations
 
 `(tree-copy `*tree*`)`
 
