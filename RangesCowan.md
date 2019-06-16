@@ -192,6 +192,14 @@ Returns a list containing the elements of *range* in order.
 
 Returns a SRFI 158 generator that generates the elements of *range* in order.
 
+`(range-consolidate `*range-list*`)`
+
+Consolidates a list of ranges into as few ranges as possible.
+It is an error if any of the ranges have different comparators.
+Consecutive and overlapping ranges are merged, and all the resulting
+ranges are sorted into increasing order in the sense of the
+shared comparator.
+
 ## Interval relations
 
 Let sA be the lower bound (start) of range A,
