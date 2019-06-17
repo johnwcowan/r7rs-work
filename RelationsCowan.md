@@ -14,11 +14,7 @@ Do we want relations with computed rather than explicitly stored bodies?  If so,
 
 ## Editorial
 
-Difference, semidifference (?), group and ungroup, summarize, tclose, quota for relations.
-
-Remove, project, extend, rename for tuples?  Maybe not since they are not opaque.
-
-Wrap and unwrap for both tuples and relations.
+Difference, group and ungroup, summarize, tclose, quota for relations.
 
 The usual aggregates plus ALL and ANY.
 
@@ -38,11 +34,34 @@ but their representation in a relation is not necessarily an alist.
 
 (tuple? obj)
 
-Returns #t if obj is a tuple and #f otherwise.
+Returns #t if obj is a tuple according to the above rules and #f otherwise.
+
+(tuple-degree tuple)
+
+Returns the number of attribute-value pairs in tuple as an exact integer.
 
 (tuple-ref tuple name)
 
 Returns the value associated with the attribute name in tuple.
+
+(tuple-project tuple namelist)
+
+Returns a smaller tuple with only the elements whose names appear in namelist.
+
+(tuple-remove tuple namelist)
+
+Returns a smaller tuple with all elements except those whose names appear in namelist.
+
+(tuple-extend tuple name proc)
+
+Passes tuple to proc and adds a new element with the specified name and the value
+returned by proc.
+
+(tuple-rename tuple alist)
+
+Alist is an alist mapping attribute names in relation to new attribute names.
+Returns a tuple in which all attributes whose names appear as keys in alist
+are replaced by attributes whose names appear as the corresponding values.
 
 ## Headings
 
@@ -55,7 +74,9 @@ A relation has a heading that designates attribute names and their corresponding
 and a set of tuples that have the same attribute names as those in the heading.
 Relations are immutable and opaque.
 
-These procedures also accept relvars in place of relations.
+All procedures also accept relvars in place of relations.
+
+### Constants
 
 relation-dee
 
@@ -101,19 +122,20 @@ Returns the body of relation in the form of a list of tuples.
 
 ### Relational algebraic operations
 
+For all these operations, any duplicate tuples that would otherwise exist
+in the result are quietly removed.
+
 (relation-project relation list)
 
 Returns a relation with only the attribute names given in list.
-Duplicate tuples are removed.
 
 (relation-remove relation list)
 
 Returns a relation with all the attribute names that do not appear in list.
-Duplicate tuples are removed.
 
 (relation-rename relation alist)
 
-List is an alist mapping attribute names in relation to new attribute names.
+Alist is an alist mapping attribute names in relation to new attribute names.
 This procedure returns a relation in which all attribute names appearing
 as the keys in alist
 have been replaced with attribute names appearing as the corresponding values.
@@ -168,7 +190,8 @@ This is not the set-theoretically correct answer in the case of intersection.
 (relation-union relation1 relation2)
 
 Returns a relation with the same heading as relation1 and relation2 and
-all the unique tuples from both relations.
+all the tuples from both relations.  If relation1 and relation2
+have different headings, an error satisfying relation-error? is signaled.
 
 (relation-union-all relation-list)
 
@@ -176,17 +199,39 @@ Returns the union of all relations in relation-list.
 Note that union is associative and commutative.
 Unioning a single relation returns it; unioning no relations is an error.
 
+(relation-difference relation1 relation2)
+
+Returns a relation with the same heading as relation1 and relation2 and
+all the tuples in relation1 but not relation2.  If relation1 and relation2
+have different headings, an error satisfying relation-error? is signaled.
+
 ### Set predicates
+
+Note that the following three predicates do not obey the trichotomy law.
 
 (relation=? relation1 relation2)
 
+Returns #t if relation1 and relation2 contain the same tuples and #f otherwise.
+
 (relation<? relation1 relation2)
+
+Returns #t if relation1's tuples are a proper subset of relation2's tuples
+and #f otherwise.
 
 (relation>? relation1 relation2
 
-(relation<=? relation1 relation2)
+Returns #t if relation1's tuples are a proper subset of relation2's tuples
+and #f otherwise.
+
+relation<=? relation1 relation2)
+
+Returns #t if relation1's tuples are a subset of relation2's tuples
+and #f otherwise.
 
 (relation>=? relation1 relation2
+
+Returns #t if relation1's tuples are a subset of relation2's tuples
+and #f otherwise.
 
 ## Relvars
 
