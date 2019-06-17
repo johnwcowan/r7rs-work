@@ -101,7 +101,7 @@ return, `restart` does not return either.
 Returns the current list of ambient restarters created by
 `make-restarter` and established by `with-restarter`.
 It is an error to mutate this list.
-*Ambient-restarters* is normally a SRFI 39 / R7RS
+`Ambient-restarters` is normally a SRFI 39 / R7RS
 parameter, but directly modifying it with
 `parameterize` should be avoided.
 
