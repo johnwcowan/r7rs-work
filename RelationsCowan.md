@@ -14,21 +14,23 @@ Do we want relations with computed rather than explicitly stored bodies?  If so,
 
 ## Editorial
 
-Difference, group and ungroup, summarize, tclose, quota for relations.
+Group and ungroup, summarize (or image?), tclose, quota for relations.
 
-The usual aggregates plus ALL and ANY.
+relation-all?, relation-any?
 
-Count, fold, unfold, copy/materialize for sure: what other collection APIs.
+Count, fold, unfold, copy/materialize, for-each, partition (?)
 
 Maybe types.
+
+Constraints: domains, keys, foreign keys.
 
 Read and write relvars from external systems.
 
 ## Tuples
 
-A tuple is an alist mapping symbolic attribute names to values.
-No types are associated with them.
-The order of elements of the alist has no meaning.  It is an error to mutate a tuple.
+A tuple is a mapping from symbolic attribute names to arbitrary values.
+[Need to figure out best representation.]
+The order of the attributes has no meaning.  It is an error to mutate a tuple.
 Duplicate attribute names are not allowed.  Tuples also exist as parts of relations,
 but their representation in a relation is not necessarily an alist.
 
@@ -73,8 +75,6 @@ Duplicate attribute names are not allowed.
 A relation has a heading that designates attribute names and their corresponding type names
 and a set of tuples that have the same attribute names as those in the heading.
 Relations are immutable and opaque.
-
-All procedures also accept relvars in place of relations.
 
 ### Constants
 
@@ -233,82 +233,36 @@ and #f otherwise.
 Returns #t if relation1's tuples are a subset of relation2's tuples
 and #f otherwise.
 
-## Relvars
+## Constraints
 
-A relvar is a mutable object that holds a heading, which is fixed, the body of a relation,
-which can be replaced by a different body, a set of relation keys, and
-a set of foreign keys.  It is an error unless all keys and foreign keys have disjoint names.
-
-As noted above, all procedures that accept relations also accept relvars.
-
-(relvar? obj)
-
-Returns #t if obj is a relvar and #f otherwise.
-
-(make-relvar relation)
-
-Return a newly allocated relvar whose heading and body are the heading and body of relation.
-Thre are no keys or foreign keys.
-
-(relvar-ref relvar)
-
-Returns the relation stored in relvar.
-
-(relvar-set! relvar relation)
-
-Check that relvar and relation have the same heading.  If not, signal an error satisfying
-rel-error?.  If so, replace the body of relvar with the body of relation.
+[explain them]
 
 ## Key operations
 
-(relvar-add-key! relvar key list)
+(relation-valid? relation alist)
 
-Adds a new candidate key named key to relvar (or supersedes one that is there)
-consisting of the attribute names in list.
+Alist is a mapping from names to SRFI 128 comparators.
+Uses the type-valid procedure associated with an attribute
+name to check the values associated with the named attribute
+[blah blah explain better]
 
-(relvar-add-foreign-key! relvar key list other-relvar other-key)
+(relation-has-key? relation keylist)
 
-Adds a new foreign key named key to relvar (or supersedes one that is there)
-consisting of the attribute names in list, and links it to the key named
-other-key in other-relvar (which can be the same as relvar).
+Returns #t if the names in keylist constitute a key of relation,
+and #f otherwise.
 
-(relvar-keys relvar)
+(relation-has-foreign-key? relation1 keylist1 relation2 keylist2)
 
-Return a list of the names of the keys of relvar.  It is an error to mutate this list.
+Returns #t if the names in keylist1 constitute a key of relation1, the
+names in keylist2 constitute a key of relation2, and the join of
+relation1 and relation2, after appropriate renaming so that their
+key attributes have the same names, has the same cardinality as relation1.
 
-(relvar-foreign-keys relvar)
-
-Return a list of the names of the foreign keys of relvar.  It is an error to mutate this list.
-
-(relvar-key relvar key)
-
-Return a list of attribute names that constitute the key named key.
-
-(relvar-key-other-relvar relvar key)
-
-Returns the relvar linked to the foreign key named key.
-
-(relvar-key-other-key relvar key)
-
-Returns the key linked to the foreign key named key.
-
-(relvar-delete-key! relvar key)
-
-Deletes the key or foreign key named key from relvar.
-
-(relvar-foreign-key relvar key)
-
-Return a list of attribute names that constitute the foreign key named key.
-
-### Dee functions to investigate
+(### Dee functions to investigate
 
 Probably not needed.
 
-def dictToTuple(heading, d):  
 def validateHeading(heading):  
-def constraintFromCandidateKeyFactory(r, Hk=None, scope={}):  
-def constraintFromForeignKeyFactory(r1, (r2, map), scope={}):  
-def constraintFromLambdaFactory(r, f, scope={}):  
 def relationFromCondition(f):  
 def relationFromExtension(f):  
 
