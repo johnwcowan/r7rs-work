@@ -1,60 +1,72 @@
-## Time durations and intervals
+## Time durations
 
-A *duration* is an immutable object of a disjoint type and representing a period of time according a particular chronology.  In the ISO, Gregorian, and Julian chronologies, it is the sum of
-some number of years, months, weeks, days, hours, minutes, and seconds.
-
-A *time interval* is an immutable object belonging to a distinct type and representing the elapsed time between two instants of time.  See [TimeAdvancedCowan](TimeAdvancedCowan.md) for the definition of instants and date objects.
+A *duration* is an immutable object of a disjoint type representing a period of time,
+the sum of some number of years, months, weeks, days, hours, minutes, seconds, and nanoseconds.
+Note that a duration cannot always be translated directly to a number of seconds, because months are
+not all the same length.
 
 ## Duration procedures
 
-`(make-duration `[[|*chronology* ]]` `*alist*`)`
+`(make-duration `*years months days hours minutes seconds nanoseconds*`)`
 
-Returns a duration based on *chronology*, defaulting to the value of `(current-chronology)`.  *Alist* is an alist mapping duration field names understood by that chronology to their values.  In the ISO, Gregorian, and Julian calendars, the field names are
-`years`, `months`, `weeks`, `days`, `hours`, `minutes`, and `seconds`.
-The values of each field must be exact integers.
+`(make-week-duration `*weeks days hours minutes seconds nanoseconds*`)`
+
+Returns a duration.  The values of each field must be exact integers.
 
 `(duration? `*obj*`)`
 
 Returns `#t` if *obj* is a duration, and `#f` otherwise.
 
+`(duration-years `*duration*`)`  
+`(duration-months `*duration*`)`  
+`(duration-weeks `*duration*`)`  
+`(duration-days `*duration*`)`  
+`(duration-hours `*duration*`)`  
+`(duration-minutes `*duration*`)`  
+`(duration-seconds `*duration*`)`  
+`(duration-nanoseconds `*duration*`)`
+
+Extract the individual value of each field of *duration*.
+The returned values don't
+necessarily correspond with the original values
+from which the duration was constructed;
+in particular, a duration of 28 months is treated
+as if it had been specified as 2 years 4 months.
+Note that durations created with `make-duration` report 0 weeks,
+whereas durations created with `make-week-duration` report 0 months and 0 years.
+
+`(duration-total-months `*duration*`)`
+
+Reports the total number of months in *duration*, counting each year as 12 months.
+
+`(duration-total-seconds `*duration*`)`
+
+Reports the number of seconds, exclusive of any months or years, in *duration*,
+counting each week as 7 days, each day as 24 hours, each hour as 60 minutes,
+and each minute as 60 seconds.
+
 `(duration->alist `*duration*`)`
 
-Returns a newly allocated alist mapping field names existing in *duration* into their values.  Fields mapped to `#f` don't appear in the alist.
+Returns a newly allocated alist mapping the symbols
+`years`, `months`, etc. into their values.
 
-`(duration-field `*fieldname*` `*duration*`)`
+`(duration->iso `*duration*`)`
 
-Returns the value associated with *fieldname*.  For example, `(duration-field 'weeks d)` returns the number of weeks in duration *d*.  If the duration was not constructed with a
-particular unit, `#f` is returned instead.  No conversion is done: a 7-day interval is not considered equivalent to a 1-week interval, for example.
+Returns an ISO 8601 string representing *duration*.
 
+`(iso->duration `*string*`)`
 
-## Time interval procedures
+Returns a duration corresponding to an ISO string that represents a duration.
+As long as all strings that can be produced by *iso->duration*
+are accepted, this procedure does not have to be a general ISO
+duration parser.
 
-An interval represents the time between two or more instants, possibly repeated more than once.  Intervals belong to an immutable disjoint type.
+`(date-add `*date duration*`)`
 
-`(make-interval `*date-or-duration-1*` `*date-or-duration-2*` ` [[|*repetition* ]] `)`
+Adds *duration* to *date* to produce another date.  Components of the duration are added
+in the order specified above: first years, then months, etc.
 
-Returns an interval which:
+`(date-subtract `*date1 date2*`)`
 
-* if both arguments are dates, extends from the first argument to the second;
-
-* if *date-or-duration-1* is a date and *date-or-duration-2* is a duration, extends from the first argument for the duration specified by the second argument;
-
-* if *date-or-duration-1* is a duration and *date-or-duration-2* is a date, extends for the duration of the first argument until the date specified by the second argument.
-
-An error is signaled if both arguments are durations, or if the arguments do not share the same chronology, or the dates do not have enough fields to specify an instant.
-
-The *repetition* argument specifies how many times the interval is repeated, 1 by default.  If the argument is `#t`, the interval is repeated indefinitely.
-
-`(interval? `*obj*`)`
-
-Returns `#t` if *obj* is an interval and `#f` otherwise.
-
-`(interval-start `*interval*`)`
-
-`(interval-stop `*interval*`)`
-
-`(interval-duration `*interval*`)`
-
-`(interval-repetition `*interval*`)`
-
-Returns the start date, stop date, duration, or repetition count of *interval*.  Depending on how the interval was constructed, at least one of these will have to be calculated.
+Subtracts *date1* from *date2* to produce a duration, which will always have
+0 years and 0 months.
