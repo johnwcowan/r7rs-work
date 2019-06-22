@@ -1,17 +1,24 @@
-## Date and time arithmetic
+## Date and time operations
 
 This is a WG2 proposal for date and time operations.
 It's possible to implement parts of SRFI 19 on top of it,
-but it provides much more flexibility.
+but it is both simpler to use and more flexible.
 All the objects discussed here (with the technical
 exception of timespecs) are immutable.
-See also [TimePeriodsCowan](TimePeriodsCowan.md).
 This SRFI supports only the
 [proleptic Gregorian calendar](https://en.wikipedia.org/wiki/Proleptic_Gregorian_calendar).
 
 ## Issues
 
-None at present.
+VERY BIG ISSUE:  This library needs to make up its mind about leap seconds.
+Instances, which respect leap seconds,
+lost full nanosecond precision in less than two weeks after the Epoch
+and lost microsecond precision in 2002,
+assuming a 64-bit float representation of inexact numbers.
+Timespecs, which don't respect leap seconds, are precise indefinitely,
+and on a system whose fixnums are 53 bits or more
+are good for a billion years before overflowing into a bignum.
+So they really aren't interchangeable.
 
 ## Timespecs and instants
 
@@ -42,9 +49,14 @@ the Posix procedure `clock_gettime()` do not necessarily agree.
 
 Converts an instant to the corresponding Posix timespec.
 
-`(posix->tai `*timespec*`)`
+`(posix->tai `*timespec leapsec*`)`
 
 Converts a Posix timespec to the corresponding instant.
+The *timespec* can refer ambiguously
+to a leap second (23:59:60) or to the second just before it
+(23:59:59).  If that is the case and *leapsec* is true,
+the returned value will refer to the leap second.  Otherwise,
+it will refer to the second before it.
 
 `(timespec->iso `*instant*`)`
 
@@ -85,16 +97,19 @@ The fold for any unaffected time is always 0.  The idea behind the name is that
 the local time scale is folded up, as it were, replicating the same local times.
 
 The current timezone can be obtained from the SRFI 170 procedure
-`default-timezone`.
+`default-timezone`.   Note that there is no concept in this SRFI of
+a date without a timezone; some timezone must be supplied whenever a
+date object is created.
 
 ## Localization
 
 This SRFI does not deal with localization beyond the matter of time zones.
-It does not know the names of the months or days of the week in any language,
+It does not know the names of the months or of the days of the week in any language,
 or the names and starting dates of Japanese eras,
 or whether local clocks are 12-hour or 24-hour,
 or how to spell "AM" and "PM",
-or anything about non-Gregorian calendars.
+or anything about non-Gregorian calendars,
+including those proposed for other celestial bodies.
 Sufficient to the day is the evil thereof.
 
 Note that names like "EST" are actually not timezone names but names of offsets,
@@ -110,21 +125,27 @@ Date objects have multiple numeric-valued fields that can be extracted listed in
 
 ## Date object procedures
 
-`(make-date ` *timezone year month day hour minute second nanosecond fold*`)`  
-`(make-ywd-date ` *timezone weak-year week day-of-week hour minute second nanosecond fold*`)`  
-`(make-yd-date `*timezone year day-of-year hour minute second nanosecond fold*`)`
+`(make-date `*alist*`)`  
 
-Returns a date object based on a timezone and one of three ways
-of representing the date: a year, a month, and a day of month;
-a year (where days before week 1 belong to the previous year),
-a week of the year, and a day of the week;
-or a year and the day of year.
-In all cases hours, minutes, seconds, nanoseconds,
-and the fold value are required as well.
+Returns a date object based on the values fields in the alist,
+which maps symbols (called fields) to specific values.
+The fields `timezone`, `hours`, `minutes`, `seconds`, `nanoseconds`,
+and `fold` (see below under "Date Fields" are required, and so are
+one of the following combinations:
+`year`, `month`, and `day-of-month`;
+or `week-year`, `week`, and `day-of-week`;
+or `year` and `day`.
 
-`(timespec->date `*timezone timespec*`)`
+`(instant->date `*timezone instant*`)`
+
+Returns a date object in *timezone* that is equivalent to
+*instant*. 
+
+`(timespec->date `*timezone timespec leapsec*`)`
 
 Returns a date object referring to *timespec* modified by *timezone*.
+The *timezone* and *leapsec* arguments are passed to `posix->tai` to
+obtain an instant, which is 
 
 `(date? `*obj*`)`
 
@@ -151,25 +172,16 @@ measured in the units specified by *fieldname*,
 or earlier if *increment* is negative.
 For example, `(date-adjust `*date*` 'day-of-month 7)` adds seven days to *date*.
 
-`(date-field-maximum `*date*` `*fieldname*`)`
-
-`(date-field-minimum `*date*` `*fieldname*`)`
-
-Returns the maximum or minimum legal value of the field named *fieldname*
-in the chronology associated with *date*. 
-This value is not necessarily the same for all date objects in a particular chronology;
-for example, 28 is the maximum value of `day-of-month` if `month` has the value 2 (February)
-and `year` is not a leap year.  Returns `#f` if the value cannot be determined
-(there is no maximum or minimum year in the Gregorian or Julian calendars, for example).
-
 `(date-round `*date*` `*fieldname*`)`
 
 `(date-ceiling `*date*` `*fieldname*`)`
 
 `(date-floor `*date*` `*fieldname*`)`
 
-Returns a date object which is the same as *date*, but adjusted to the nearest integral value of *fieldname*
-using the `round`, `ceiling`, or `floor` conventions.  (There is no `date-truncate` procedure because
+Returns a date object which is the same as *date*,
+but adjusted to the nearest integral value of *fieldname*
+using the `round`, `ceiling`, or `floor` conventions.
+(There is no `date-truncate` procedure because
 truncation is the same as flooring when only positive numbers are involved.)
 This may cause other fields to change their values as well.
 
@@ -210,10 +222,25 @@ following year.
 
 `day-of-week`: The day of the date's week, where Monday is 1 and Sunday is 7.
 
-`week-year`: The year, except that the days before week 1 begins belong to the
-previous year.
+`week-of-month`: The ordinal of this day of the week within its month.
+For example, July 16, 1969 was the third Wednesday of its month. This
+value has nothing to do with ISO weeks.
+
+`weeks-in-month`: The number of times the date's day of the week appears
+in its month.  For example, there were five Wednesdays in June 1969.
+This is *not* the number of rows required to display a calendar of the month.
+
+`days-in-month`: The number of days in the date's month.
+
+`week-year`: The year, except that any days before ISO week 1 begins belong to the
+previous year, and any days after the last ISO week ends belong to the following
+year.
+
+`weeks-in-year`: The number of ISO weeks in this date's week-year.
 
 `day-of-year`: The day of the year, in the range 1-365 in non-leap years and 1-366 in leap years.
+
+`days-in-year`: The number of days in this date's year.
 
 `fold`:  The date fold associated with this date (see above).
 
@@ -221,15 +248,100 @@ previous year.
 (which is November 24, 4714 B.C.E. Gregorian).
 
 `modified-julian-day`: The whole number of days between this date and midnight Universal Time, November 17, 1858
-Gregorian.  This number may be exact or inexact.
+Gregorian.
 
-`second-of-day`: The second of the day, in the range 0 to 86400 exclusive.
+`seconds-in-minute`: the number of seconds in the date's minute.
+
+`second-of-day`: The second of the date's day.
+
+`seconds-in-day`: The total number of seconds in the date's day.
+
+## Time durations
+
+A *duration* is an immutable object of a disjoint type representing a period of time,
+the sum of some number of years, months, weeks, days, hours, minutes, seconds, and nanoseconds.
+Note that a duration cannot always be translated directly to a number of seconds, because months are
+not all the same length.
+
+## Duration procedures
+
+`(make-duration `*years months days hours minutes seconds nanoseconds*`)`
+
+`(make-week-duration `*weeks days hours minutes seconds nanoseconds*`)`
+
+Returns a duration.  The values of each field must be exact integers.
+
+`(duration? `*obj*`)`
+
+Returns `#t` if *obj* is a duration, and `#f` otherwise.
+
+`(duration-years `*duration*`)`  
+`(duration-months `*duration*`)`  
+`(duration-weeks `*duration*`)`  
+`(duration-days `*duration*`)`  
+`(duration-hours `*duration*`)`  
+`(duration-minutes `*duration*`)`  
+`(duration-seconds `*duration*`)`  
+`(duration-nanoseconds `*duration*`)`
+
+Extract the individual value of each field of *duration*.
+The returned values don't
+necessarily correspond with the original values
+from which the duration was constructed;
+in particular, a duration of 28 months is treated
+as if it had been specified as 2 years 4 months.
+Note that durations created with `make-duration` report 0 weeks,
+whereas durations created with `make-week-duration` report 0 months and 0 years.
+
+`(duration-total-months `*duration*`)`
+
+Reports the total number of months in *duration*, counting each year as 12 months.
+
+`(duration-total-minutes `*duration*`)`
+
+Returns the total number of minutes, exclusive of any months or years, in *duration*.
+
+`(duration-total-seconds `*duration*`)`
+
+Reports the number of seconds, exclusive of any months or years, in *duration*,
+counting each week as 7 days, each day as 24 hours, each hour as 60 minutes,
+and each minute as 60 or 61 seconds.
+
+`(duration->alist `*duration*`)`
+
+Returns a newly allocated alist mapping the symbols
+`years`, `months`, etc. into their values.
+
+`(duration->iso `*duration*`)`
+
+Returns an ISO 8601 string representing *duration*.
+
+`(iso->duration `*string*`)`
+
+Returns a duration corresponding to an ISO 8601 string that represents a duration.
+As long as all strings that can be produced by *iso->duration*
+are accepted, this procedure does not have to be a general ISO 8601
+duration parser.
+
+`(date-add `*date duration*`)`
+
+Adds *duration* to *date* to produce another date.  Components of the duration are added
+in the order specified above: first years, then months, etc.
+
+`(date-subtract `*date1 date2*`)`
+
+Subtracts *date1* from *date2* to produce a duration, which will always have
+0 years and 0 months.
 
 ## Comparators
 
 `date-comparator`
 
 A comparator suitable for ordering date objects by their underlying instants.
+
+`duration-comparator`
+
+A comparator suitable for ordering duration objects by their underlying instants.
 
 ## Implementation notes
 
@@ -239,19 +351,19 @@ on January 1, 1958 and at all times before that.  From 1958 through 1971,
 the relationship is complex, but since 1971 the two scales have been kept
 within 0.9 seconds of each other by inserting leap seconds as needed.
 
-For the messy area, the implementation pretends that there were leap seconds
+For the messy period, the implementation pretends that there were leap seconds
 at the end of December 31 (that is, at 23:59:60 proleptic UTC time) in the following
 years:  1959, 1961, 1963, 1964, 1965, 1966, 1967, 1968, 1970, and 1971.
 This has the following desirable effects: the TAI-UTC offset is 0 in 1958
-(true by definition),
+(true by definition), at the Epoch it is
 is 8 (which is within a few milliseconds of the true value) when the Unix
-epoch begins, and is 10 at the start of 1972 when the leap second regime
+epoch begins, and is 10 at the start of 1972 when UTC and its leap second regime
 begins.  Not having a leap second in 1969 ensures that there is none
 just before the Unix epoch.  The implementation also pretends,
 *faute de mieux*, that there will be no more leap seconds in the future.
 
 To update the leap second tables, download the file
-[http://maia.usno.navy.mil/ser7/tai-utc.dat](http://maia.usno.navy.mil/ser7/tai-utc.dat}
+[http://maia.usno.navy.mil/ser7/tai-utc.dat](http://maia.usno.navy.mil/ser7/tai-utc.dat)
 and run the script `update-leapsec`, which is written in portable Scheme.
 
 
