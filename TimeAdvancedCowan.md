@@ -134,7 +134,8 @@ and `fold` (see below under "Date Fields" are required, and so are
 one of the following combinations:
 `year`, `month`, and `day-of-month`;
 or `week-year`, `week`, and `day-of-week`;
-or `year` and `day`.
+or `year` and `day-of-year`.
+Any other fields present are ignored.
 
 `(instant->date `*timezone instant*`)`
 
@@ -144,8 +145,9 @@ Returns a date object in *timezone* that is equivalent to
 `(timespec->date `*timezone timespec leapsec*`)`
 
 Returns a date object referring to *timespec* modified by *timezone*.
-The *timezone* and *leapsec* arguments are passed to `posix->tai` to
-obtain an instant, which is 
+The *timezone* and *leapsec* arguments converted as if by `posix->tai` to
+obtain an instant, which is then converted to a date object as if
+by `instant->date`.
 
 `(date? `*obj*`)`
 
@@ -158,6 +160,8 @@ Returns a newly allocated alist containing the fields of *date* (see below).
 `(date-ref `*date fieldname*`)`
 
 Retrieves the value of the field named by the symbol *fieldname* from *date*.
+This may be more efficient than generating an alist, but may also be
+less efficient if several different fields are required.
 
 `(date-update `*date*` `*fieldname*` `*value*`)`
 
@@ -178,13 +182,12 @@ For example, `(date-adjust `*date*` 'day-of-month 7)` adds seven days to *date*.
 
 `(date-floor `*date*` `*fieldname*`)`
 
+`(date-truncate `*date* *fieldname*`)`
+
 Returns a date object which is the same as *date*,
 but adjusted to the nearest integral value of *fieldname*
-using the `round`, `ceiling`, or `floor` conventions.
-(There is no `date-truncate` procedure because
-truncation is the same as flooring when only positive numbers are involved.)
+using the `round`, `ceiling`, `floor`, or `truncate` conventions.
 This may cause other fields to change their values as well.
-
 
 ## Date fields
 
