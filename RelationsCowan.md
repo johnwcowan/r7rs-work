@@ -14,17 +14,15 @@ Do we want relations with computed rather than explicitly stored bodies?  If so,
 
 ## Editorial
 
-Group and ungroup, summarize (or image?), tclose, quota for relations.
-
 relation-all?, relation-any?
 
 Count, fold, unfold, copy/materialize, for-each, partition (?)
 
-Maybe types.
+Maybe types?
 
 Constraints: domains, keys, foreign keys.
 
-Read and write relvars from external systems.
+Read and write relations from external systems.
 
 ## Tuples
 
@@ -32,7 +30,8 @@ A tuple is a mapping from symbolic attribute names to arbitrary values.
 [Need to figure out best representation.]
 The order of the attributes has no meaning.  It is an error to mutate a tuple.
 Duplicate attribute names are not allowed.  Tuples also exist as parts of relations,
-but their representation in a relation is not necessarily an alist.
+but their representation in a relation is not necessarily the same as that
+of a "freestanding" tuple.
 
 (tuple? obj)
 
@@ -144,21 +143,15 @@ The names of any other attributes are left unchanged.
 (relation-restrict relation pred)
 
 Returns a relation with the same attributes as relation and a subset of the
-tuples, those that satisfy pred.  The object passed to pred represents a tuple:
-it may be an alist or a lightweight opaque object that can be passed
-to tuple-ref.  In the latter case, it is only valid for the dynamic extent
-of pred.
+tuples, those that satisfy pred.  The object passed to pred represents a tuple;
+it is an error to access this tuple outside the dynamic extent of pred.
 
 (relation-extend relation proc list)
 
 Returns a relation with the same attributes as relation plus additional
-attributes whose names appear in list.  Each tuple is passed individually
-in no particular order to proc
-which returns a list of the corresponding values of the named attributes.
-The object passed to pred represents a tuple:
-it may be an alist or a lightweight opaque object that can be passed
-to tuple-ref.  In the latter case, it is only valid for the dynamic extent
-of proc.
+attributes whose names appear in list.  Each object passed to pred represents a tuple;
+it is an error to access this tuple outside the dynamic extent of pred.
+The result of pred is a tuple mapping the new attribute names to their values.
 
 (relation-join relation1 relation2)
 
@@ -179,6 +172,7 @@ Joins relation1 and relation2 and removes all attributes unique to relation2.
 (relation-antijoin relation1 relation2)
 
 Joins relation1 and relation2 and removes all overlapping attributes.
+Also known as compose.
 
 (relation-join-all relation-list)
 
@@ -204,6 +198,35 @@ Unioning a single relation returns it; unioning no relations is an error.
 Returns a relation with the same heading as relation1 and relation2 and
 all the tuples in relation1 but not relation2.  If relation1 and relation2
 have different headings, an error satisfying relation-error? is signaled.
+
+(relation-semidifference relation1 relation2)
+
+TBD
+
+(relation-map proc relation)
+
+Accepts a relation and returns a relation with the same heading, where
+each tuple of the input has been passed to relation-map and the result
+placed in the output relation.  The object passed to pred represents a tuple;
+it is an error to access this tuple outside the dynamic extent of pred.
+
+(relation-group relation list name)
+
+TBD
+
+(relation-ungroup relation name)
+
+(relation-summarize ...)
+
+TBD
+
+(relation-tclose ...)
+
+TBD
+
+(relation-quota ...)
+
+TBD
 
 ### Set predicates
 
