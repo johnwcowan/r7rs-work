@@ -4,7 +4,8 @@ As an alternative to creating custom Scheme ports, this SRFI provides for
 clean interfaces between the world of ports and the more flexible world of
 [SRFI 158](http://srfi.schemers.org/srfi-158/srfi-158.html) generators and accumulators.
 In what follows, *operation* is a procedure that accepts (perhaps optionally) a port as
-one of its arguments.
+one of its arguments.  A few convenience functions on string ports that were omitted
+from R7RS-small are also provided.
 
 `(input-port->generator `*operation obj* ...`)`
 
@@ -49,3 +50,49 @@ it returns to *accumulator*.  If the value was an end-of-file
 object, `accumulate-generated-values` returns whatever the
 accumulator returned.  Otherwise, the process is repeated.
 
+`(call-with-input-string `*string proc*`)`
+
+Opens a string input port on *string* as if by
+R7RS-small `open-input-string`. The port is then
+passed to *proc*,
+and its results are returned
+with the port closed.
+
+`(call-with-output-string `*proc*`)`
+
+Opens a string output port as if by
+R7RS-small `open-output-string`. The port is then
+passed to *proc*,
+and its results are discarded.
+A string is extracted from the port, which is returned
+with the port closed.
+
+`(with-input-from-string `*string thunk*`)`
+
+Opens a string input port on *string* as if by
+R7RS-small `open-input-string`. The port is then
+bound to the parameter `current-input-port`,
+*thunk* is invoked,
+and its results are returned
+with the port closed and `current-input-port` restored.
+
+`(with-output-to-string `*thunk*`)`
+
+Opens a string output port on *string* as if by
+R7RS-small `open-output-string`. The port is then
+bound to the parameter `current-output-port`,
+*thunk* is invoked,
+and its results are discarded.
+A string is extracted from the port, which is returned
+with the port closed and `current-output-port` restored.
+
+`(call-with-input-bytevector `*bytevector proc*`)`
+
+`(call-with-output-bytevector `*proc*`)`
+
+`(with-input-from-bytevector `*bytevector thunk*`)`
+
+`(with-output-to-bytevector `*thunk*`)`
+
+The same as the corresponding string port procedures,
+except that a bytevector is read or written.
