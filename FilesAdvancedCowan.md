@@ -22,15 +22,15 @@ way, but accept an additional *settings* argument as documented below.  If this
 argument is omitted, they are semantically identical to their `(scheme file)` counterparts.
 The meaning of the *settings* argument is explained below.
 
-`(call-with-input-file `*string* [*settings*] *proc*`)`
-`(call-with-output-file `*string* [*settings*] *proc*`)`
-`(with-input-from-file `*string* [*settings*] *thunk*`)`
-`(with-output-to-file `*string* [*settings*] *thunk*`)`
-`(open-input-file `*string* [*settings*]`)`
-`(open-binary-input-file `*string* [*settings*]`)`
-`(open-output-file `*string* [*settings*]`)`
-`(open-binary-output-file `*string* [*settings*]`)`
-`(open-output-file `*string* [*settings*]`)`
+`(call-with-input-file `*string* [*settings*] *proc*`)`  
+`(call-with-output-file `*string* [*settings*] *proc*`)`  
+`(with-input-from-file `*string* [*settings*] *thunk*`)`  
+`(with-output-to-file `*string* [*settings*] *thunk*`)`  
+`(open-input-file `*string* [*settings*]`)`  
+`(open-binary-input-file `*string* [*settings*]`)`  
+`(open-output-file `*string* [*settings*]`)`  
+`(open-binary-output-file `*string* [*settings*]`)`  
+`(open-output-file `*string* [*settings*]`)`  
 `(open-binary-output-file `*string* [*settings*]`)`
 
 ## Settings lists
