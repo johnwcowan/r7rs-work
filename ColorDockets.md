@@ -56,6 +56,8 @@ Compound objects: [CompoundObjectsCowan](CompoundObjectsCowan.md)
 
 Linear adjustable-size strings: [LinearStringExtensions](http://htmlpreview.github.io?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/LinearStringExtensions.html)
 
+Yet more generator extensions: [MoreGenerators](MoreGenerators.md)
+
 # Amber Docket (syntax)
 
 **Non-portable**
