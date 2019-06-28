@@ -4,9 +4,12 @@ This SRFI describes *futures* as the basic unit of Scheme concurrency (as
 opposed to parallelism, for which see [ParallelPromisesCowan](ParallelPromisesCowan.md)).
 
 Futures are analogous to [SRFI 18](http://srfi.schemers.org/srfi-18/srfi-18.html) threads,
-and can easily be built on top of them, in which case SRFI 18 threads are the same
-objects as this SRFI's futures.  However, it is also possible to have multiple futures
-sharing the same thread in a thread pool.  Comopared to threads,
+and can easily be built either using SRFI 18 threads directly.
+However, it is also possible to have multiple futures
+sharing the same thread in a thread pool, and this choice
+depends on how heavyweight SRFI 18 threads are
+on a particular implementation.
+Compared to threads,
 futures are more modern in style and hopefully
 easier to use.  Each future is represented to other futures, including itself, by a
 unique *future object*, a member of a disjoint type.
@@ -34,6 +37,7 @@ between runnable and blocked, and from any state to terminated:
      \            v            /
       +-----> TERMINATED <----+
 ```
+
 
 ## Default fairness
 
@@ -103,7 +107,27 @@ that all futures continue to run.
 
 An implementation may depart from this requirement but must document its exact limitations.
 
-## Restrictions compared to SRFI 18.
+## The quantum of a future
+
+A future expires its quantum
+when an amount of time
+equal to its quantum has elapsed
+since it entered the running state,
+provided that it did not block,
+terminate or call `future-yield!`.
+At that point the future exits the running state
+to allow other futures to run.
+A future's quantum is thus an indication
+of the rate of progress of the future
+relative to the other futures of the same priority.
+Moreover, the resolution of the timer
+measuring the running time
+may cause a certain deviation from the quantum,
+so a future's quantum
+should only be viewed as an approximation of the time it can run
+before yielding to another future.
+
+## Restrictions compared to SRFI 18
 
 Futures do not have names.
 
@@ -245,6 +269,8 @@ in jiffies.  If the value returned is zero, the future cannot report its quantum
 Changes the quantum of *future* to *quantum*.
 It is an error if *quantum* is not a non-negative real number.
 A value of zero selects the smallest quantum supported by the implementation.
+If the implementation doesn't support changing the quantum,
+this procedure has no effect.
 Returns an unspecified value.
 
 If *future* cannot set its quantum, this procedure has no effect, since the correctness
@@ -296,9 +322,9 @@ Events occuring in a given tick
 can be considered to be simultaneous
 (i.e. if event A occurred before event B in real time,
 then the system can claim that
-event A occured before event B
+event A occurred before event B
 or, if the events fall within the same tick,
-that they occured at the same time).
+that they occurred at the same time).
 
 Each future has three priorities which affect fairness;
 the *base priority*, the *boosted priority*,
@@ -334,24 +360,6 @@ at the entry of a critical section to progress
 because a low priority future
 inside the critical section is preempted
 for an arbitrary long time by a medium priority future.
-
-A future expires its quantum
-(which is set with the `future-set-quantum!` procedure)
-when an amount of time
-equal to its quantum has elapsed
-since it entered the running state and did not block,
-terminate or call `future-yield!`.
-At that point the future exits the running state
-to allow other futures to run.
-A future's quantum is thus an indication
-of the rate of progress of the future
-relative to the other futures of the same priority.
-Moreover, the resolution of the timer
-measuring the running time
-may cause a certain deviation from the quantum,
-so a future's quantum
-should only be viewed as an approximation of the time it can run
-before yielding to another future.
 
 Futures blocked on a given mutex or condition variable
 will unblock in an order which is consistent
@@ -431,7 +439,7 @@ The second slot contains a lookup table
 into their current values.  Because only the current thread has access to this table,
 no locking is required.
 
-Unfortunately, because the primordial thread's "specific" field is not initialized,
+Unfortunately, because the primordial future's "specific" field is not initialized,
 these mechanisms are not available to it.
 
 The `future-quantum` and `future-quantum-set!` procedures are just `thread-quantum`
