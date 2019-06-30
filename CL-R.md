@@ -117,4 +117,38 @@ DESCRIBE-OBJECT.
 
 GET-INTERNAL-RUN-TIME and GET-INTERNAL-REAL-TIME.
 
+## Understanding compile-time package functions as a conventional module system
+
+IN-PACKAGE, when used in code, specifies what the current package is.
+
+DEFPACKAGE is the only supported way of defining compile-time packages,
+with the following interpretations of the various clauses:
+
+:NICKNAMES specifies alternative prefixes that can be used on
+identifiers and other symbols in addition to the package name.
+
+:DOCUMENTATION is ignored by the compiler
+but may be used by other tools.
+
+:USE specifies the packages whose exported symbols are made visible
+in the package being defined.  However, it is an error if there are
+any identifiers appearing in more than one package.
+The remaining clauses are about resolving such conflicts.
+
+:SHADOW excludes the specified identifiers
+from being imported from any package.
+
+:IMPORT-FROM imports just the specified identifiers from
+the specified packages into the package being defined.
+
+:SHADOWING-IMPORT-FROM is like :IMPORT-FROM except that
+it also excludes identifiers with the same name
+coming from any other packages.
+
+:EXPORT specifies the identifiers to be exported
+from the package being defined.
+
+:INTERN creates symbols in the package being defined
+even if they are not otherwise mentioned in code or data.
+
 
