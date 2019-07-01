@@ -33,6 +33,13 @@ The meaning of the *settings* argument is explained below.
 `(open-output-file `*string* [*settings*]`)`  
 `(open-binary-output-file `*string* [*settings*]`)`
 
+The following procedures are from SRFI 170, and should be
+available in any implementation that supports both this SRFI
+and SRFI 170.
+
+`(fdes->textual-input-port `[*settings*] *fd*`)`  
+`(fdes->textual-output-port `[*settings*] *fd*`)`
+
 ## Settings lists
 
 In this SRFI, a *settings list*
