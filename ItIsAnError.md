@@ -1,6 +1,10 @@
 ## It is an error
 
-Here's a list of places where R7RS-small says something "is an error".  The names in brackets represent a rough-and-ready classification of these errors, and don't constitute a proposal.  The list is [domain], [mismatch], [syntax], [read], [immutable], [undefined], [non-continuable].
+Here's a list of places where R7RS-small says something "is an error".
+There are many other cases, of course, notably domain errors in procedure calls.
+
+The names in brackets represent a rough-and-ready classification of these errors, and don't constitute a proposal.
+The list of categories is [domain], [mismatch], [syntax], [read], [immutable], [undefined], [non-continuable].
 
 1.3.2 procedure domain errors [domain]
 
