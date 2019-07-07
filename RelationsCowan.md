@@ -6,9 +6,13 @@ contain opaque procedures that cannot be serialized.   Where should the relation
 between comparators and names be kept?  Does it make sense to have a single namespace
 for all named comparators?
 
+I think it makes sense to require each named attribute to be associated with just one
+type globally to the database.
+
 Similarly, when executing restrict or extend operations remotely, we cannot in general
 pass an opaque Scheme closure; we need an S-expression that can be compiled to
-the remote system's native expressions.
+the remote system's native expressions.  Restricting on the remote side is very
+important, as is projecting and joining.
 
 Do we want relations with computed rather than explicitly stored bodies?  If so, how?
 
@@ -18,11 +22,11 @@ relation-all?, relation-any?
 
 Count, fold, unfold, copy/materialize, for-each, partition (?)
 
-Maybe types?
+`Maybe` types?
 
 Constraints: domains, keys, foreign keys.
 
-Read and write relations from external systems.
+Read and write relations on external systems.
 
 ## Tuples
 
