@@ -62,11 +62,15 @@ Yet more generator extensions: [MoreGenerators](MoreGenerators.md)
 
 **Non-portable**
 
-Macros A: [syntactic closures](https://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Syntactic-Closures.html),  
-[R6RS syntax-case](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html)
+Syntax-case: [R6RS syntax-case](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html)
 
-Macros B: [explicit renaming](https://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Explicit-Renaming.html),  
-[implicit renaming](https://wiki.call-cc.org/explicit-renaming-macros#implicit-renaming-macros)
+Syntactic closures: [syntactic closures](https://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Syntactic-Closures.html)
+(implies explicit renaming as well).
+
+Explicit renaming: [explicit renaming](https://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Explicit-Renaming.html)
+  
+Implicit renaming: [implicit renaming](https://wiki.call-cc.org/explicit-renaming-macros#implicit-renaming-macros)
+(implies explicit renaming as well).
 
 More syntax-rules extensions: [SRFI 149](http://srfi.schemers.org/srfi-149/srfi-149.html)
 
