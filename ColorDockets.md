@@ -202,6 +202,11 @@ Chronometers: [Chronometer](Chronometer.md)
 
 # Aqua Docket (portable but complex things).
 
+CLI utilities: [args-fold](http://srfi.schemers.org/srfi-37/srfi-37.html),
+[ArgsChicken](http://wiki.call-cc.org/eggref/5/args)
+[application](http://synthcode.com/scheme/chibi/lib/chibi/app.html) +
+[config](http://synthcode.com/scheme/chibi/lib/chibi/config.html)
+
 Relations: [RelationsCowan](RelationsCowan.md)
 
 Finalizers: [FinalizersCowan](FinalizersCowan.md)
@@ -236,10 +241,11 @@ Unicode string normalization: [StringNormalizationCowan](StringNormalizationCowa
 
 Binary heap: [BinaryHeapsCowan](BinaryHeapsCowan.md)
 
-Date and time arithmetic: [TimeAdvancedCowan](TimeAdvancedCowan.md) plus [TimePeriodsCowan](TimePeriodsCowan.md),
+Date and time arithmetic: [TimeAdvancedCowan](TimeAdvancedCowan.md),
 [SRFI 19](http://srfi.schemers.org/srfi-19/srfi-19.html)
 
-Date-time parser: [Hato date parser](https://code.google.com/p/hato/source/browse/hato-date.scm), [SRFI 19](http://srfi.schemers.org/srfi-19/srfi-19.html)
+Date-time parser: [Hato date parser](https://code.google.com/p/hato/source/browse/hato-date.scm),
+[SRFI 19](http://srfi.schemers.org/srfi-19/srfi-19.html)
 
 Regular expressions over s-expressions:  [SerexPalmer](http://inamidst.com/lisp/serex)
 
@@ -268,7 +274,6 @@ or [ChibiChickenTest](http://wiki.call-cc.org/eggref/5/test)
 or [SRFI 78](http://srfi.schemers.org/srfi-78/srfi-78.html)
 
 Command-line arguments: [SRFI 37](http://srfi.schemers.org/srfi-37/srfi-37.html)
-or [ArgsChicken](http://wiki.call-cc.org/eggref/4/args)
 
 Unifiable boxes: [SRFI 161](http://srfi.schemers.org/srfi-161/srfi-161.html)
 
