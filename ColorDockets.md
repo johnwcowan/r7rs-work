@@ -203,7 +203,7 @@ Chronometers: [Chronometer](Chronometer.md)
 # Aqua Docket (portable but complex things).
 
 CLI utilities: [args-fold](http://srfi.schemers.org/srfi-37/srfi-37.html),
-[ArgsChicken](http://wiki.call-cc.org/eggref/5/args)
+[ArgsChicken](http://wiki.call-cc.org/eggref/5/args),
 [application](http://synthcode.com/scheme/chibi/lib/chibi/app.html) +
 [config](http://synthcode.com/scheme/chibi/lib/chibi/config.html)
 
