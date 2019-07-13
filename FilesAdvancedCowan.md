@@ -327,7 +327,9 @@ Returns `#t` if a file named *filename* exists, and `#f` otherwise.
 
 `(rename-file `*oldname newname*`)`
 
-Renames a file named *oldname* to be named *newname*.  Returns an unspecified value if it succeeds; otherwise, an error satisfying `file-error?` is raised.
+Renames a file named *oldname* to be named *newname*.
+Returns an unspecified value if it succeeds;
+otherwise, an error satisfying `file-error?` is raised.
 
 
 ## Settings lists macro
@@ -341,6 +343,11 @@ follow them.
 
 ## Implementation
 
-All procedures can be implemented on top of the R6RS
+All the procedures of this SRFI can be implemented on top of the R6RS
 with the exceptions of `pipe`, `select-ports`, and `select-port-channels`,
-which are implemented in Scsh.
+which are implemented in dcsh.  There is no portable way to express the
+`append` key in R6RS, unfortunately; however, at least
+Chez, IronScheme, and Sagittarius
+(but apparently not Guile, Larceny, Mosh, Vicare, or Ypsilon)
+support it through a non-standard flag `append`
+that can be passed to `file-options`.
