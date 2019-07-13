@@ -345,7 +345,7 @@ follow them.
 
 All the procedures of this SRFI can be implemented on top of the R6RS
 with the exceptions of `pipe`, `select-ports`, and `select-port-channels`,
-which are implemented in dcsh.  There is no portable way to express the
+which are implemented in scsh.  There is no portable way to express the
 `append` key in R6RS, unfortunately; however, at least
 Chez, IronScheme, and Sagittarius
 (but apparently not Guile, Larceny, Mosh, Vicare, or Ypsilon)
