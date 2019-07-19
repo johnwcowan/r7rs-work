@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>SRFI FIXME: Bit and boolean vector library</title>
+    <title>SRFI FIXME: Boolean vector library</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="/srfi.css" type="text/css" />
     <link href="/favicon.png" rel="icon" sizes="192x192" type="image/png" />
@@ -12,7 +12,7 @@
 
 <H1>Title</H1>
 
-Bit and boolean vector library
+Boolean vector library
 
 <H1>Author</H1>
 
@@ -21,9 +21,7 @@ John Cowan
 <H1>Abstract</H1>
 
 This SRFI describes a set of operations on 
-a homogeneous vector type known as <i>bvectors</i>.  These can be viewed either
-as bit vectors whose element values are 0 and 1, or as boolean
-vectors whose element values are <code>#f</code> and <code>#t</code>.
+homogeneous boolean vectors.
 Operations analogous to those provided on the other homogeneous
 vector types described in
 <a href="http://srfi.schemers.org/srfi-160/srfi-160.html">SRFI 160</a>
@@ -34,7 +32,7 @@ In addition,
 a compact string representation compatible with Common Lisp is specified,
 which may be supported by the <code>read</code> and <code>write</code>
 procedures and by the program parser so that programs can contain
-references to literal bvectors.
+references to literal boolean vectors.
 
 <H1>Issues</H1>
 
@@ -48,17 +46,15 @@ references to literal bvectors.
 Bit vectors were excluded from the final draft of SRFI 160 because they
 are the only type of homogeneous numeric vectors for which bitwise
 operations make sense.
-In addition, providing both disjoint bit vectors and boolean vectors
-would multiply entities beyond necessity, so this SRFI combines them.
+In addition, providing both disjoint u1vectors and boolean vectors
+would multiply entities beyond necessity, so this SRFI provides only
+the latter on the assumption that booleans are more generally useful
+than exact integers over such a small range.
+It is trivial to shim boolean vectors to accept and return integers,
+as well as to implement this SRFI on top of existing u1vectors.
+Boolean vectors are known as <i>bvectors</i> for short.
 
 <H1>Specification</H1>
-
-<p>Whenever a bvector element is passed either to one of the procedures
-defined in this SRFI or to a procedure that is passed as an argument
-to one of them, any of 0, 1, <code>#t</code>, or <code>#f</code>
-may be provided.  When an element value is returned in the same
-circumstances, the procedure is split into <code>/bit</code> and
-<code>/bool</code> versions.</p>
 
 <p>Bvectors are disjoint from all other Scheme types, except that if a
 Scheme implementation supports u1vectors as an extension to SRFI 160
@@ -74,13 +70,13 @@ they should be the same type as bvectors.</p>
     </p>
     <dl>
       <dt><i>(f arg<sub>1</sub> arg<sub>2</sub> ...) -> something</i></dt> <dd>
-        A procedure <tt><i>f</i></tt> that takes the parameters
-        <tt><i>arg<sub>1</sub> arg<sub>2</sub>
-        ...</i></tt> and returns a value of the
-        type <tt><i>something</i></tt>.
+        A procedure <code><i>f</i></code> that takes the parameters
+        <code><i>arg<sub>1</sub> arg<sub>2</sub>
+        ...</i></code> and returns a value of the
+        type <code><i>something</i></code>.
         If two values are returned, two types are specified.
-        If <tt><i>something</i></tt>
-        is <tt>unspecified</tt>, then <tt><i>f</i></tt> returns a single
+        If <code><i>something</i></code>
+        is <code>unspecified</code>, then <code><i>f</i></code> returns a single
         implementation-dependent value; this SRFI does not specify what it
         returns, and in order to write portable code, the return value
         should be ignored.
@@ -91,7 +87,7 @@ they should be the same type as bvectors.</p>
       <dt><i>vec</i></dt>
       <dd>
         A heterogeneous vector, i.e. it must
-        satisfy the predicate <tt>vector?</tt>.
+        satisfy the predicate <code>vector?</code>.
         <br />
         <br />
       </dd>
@@ -99,8 +95,8 @@ they should be the same type as bvectors.</p>
       <dt><i>bvec, to, from</i></dt>
       <dd>
         A bvector, i.e. it must
-        satisfy the predicate <tt>bvector?</tt>.
-        In <tt>bvector-copy!</tt> and <tt>reverse-bvector-copy!</tt>,
+        satisfy the predicate <code>bvector?</code>.
+        In <code>bvector-copy!</code> and <code>reverse-bvector-copy!</code>,
         <i>to</i> is the destination and <i>from</i> is the source.
         <br />
         <br />
@@ -120,7 +116,7 @@ they should be the same type as bvectors.</p>
         An exact nonnegative integer not less than <i>start</i>.
         This indicates the index directly before
         which traversal will stop &mdash; processing will occur until
-        the index of the vector is one less than <tt><i>end</i></tt>.  It is the
+        the index of the vector is one less than <code><i>end</i></code>.  It is the
         open right side of a range.
         <br />
         <br />
@@ -130,18 +126,6 @@ they should be the same type as bvectors.</p>
       <dd>
         A procedure taking one or more
         arguments, which returns (except as noted otherwise) exactly one value.
-        <br />
-        <br />
-      </dd>
-
-      <dt><i>pred?</i></dt>
-      <dd>
-        A procedure taking one or more
-        arguments that returns one value, which is treated as a
-        boolean.
-        <br />
-        In this SRFI, such a procedure accepts two arguments, an
-        index into the relevant bvector and its value.
         <br />
         <br />
       </dd>
@@ -162,20 +146,11 @@ they should be the same type as bvectors.</p>
         <br />
       </dd>
 
-      <dt><i>
-        fill, value
-      </i></dt>
-      <dd>
-        Any of 0, 1, <code>#f</code>, or <code>#t</code>.
-        <br />
-
-        <br />
-      </dd>
 
       <dt><i>[something]</i></dt>
       <dd>
         An optional argument; it needn't necessarily be applied.
-        <tt><i>Something</i></tt> needn't necessarily be one thing; for
+        <code><i>Something</i></code> needn't necessarily be one thing; for
         example, this usage of it is perfectly valid:
         <br />
         <br />
@@ -191,7 +166,7 @@ they should be the same type as bvectors.</p>
 
       <dt><i>something ...</i></dt>
       <dd>
-        Zero or more <tt><i>something</i></tt>s are
+        Zero or more <code><i>something</i></code>s are
         allowed to be arguments.
         <br />
         <br />
@@ -202,7 +177,7 @@ they should be the same type as bvectors.</p>
         ...
       </i></dt>
       <dd>
-        At least one <tt><i>something</i></tt> must be
+        At least one <code><i>something</i></code> must be
         arguments.
         <br />
         <br />
@@ -271,17 +246,13 @@ and <code>#f</code> otherwise.
 
 <p>Compares the <i>bvecs</i> for elementwise equality, using
 <i>elt=?</i> to do the comparisons.
-The only reasonable predicate is <code>eqv?</code>, but the
+The only reasonable predicate is <code>eqv?</code> (or its negation), but the
 argument is kept in order to follow the protocol for other
 such procedures.</p>
 
 <H3>Selectors</H3>
 
-<p><code>(bvector-ref/bit <i>bvec i</i>) -> value</code></p>
-
-<p>Returns the <i>i</i>th element of <i>bvec</i> as 0 or 1.</p>
-
-<p><code>(bvector-ref/bool <i>bvec i</i>) -> value</code></p>
+<p><code>(bvector-ref <i>bvec i</i>) -> boolean</code></p>
 
 <p>Returns the <i>i</i>th element of <i>bvec</i> as <code>#f</code> or <code>#t</code>.</p>
 
@@ -291,7 +262,7 @@ such procedures.</p>
 
 <H3>Iteration</H3>
 
-<p><code>(bvector-take <i>bvec n</i>) -> bvector</code>]</p>
+<p><code>(bvector-take <i>bvec n</i>) -> bvector</code></p>
 
 <p><code>(bvector-take-right <i>bvec n</i>) -> bvector</code></p>
 
@@ -311,41 +282,25 @@ elements of <i>bvec</i>.</p>
 consecutive elements of <i>bvec</i>.
 The last bvector may be shorter than <i>n</i>.</p>
 
-<p><code>(bvector-fold/bit <i>kons knil bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> object</code></p>
+<p><code>(bvector-fold <i>kons knil bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> object</code></p>
 
-<p><code>(bvector-fold/bool <i>kons knil bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> object</code></p>
+<p><code>(bvector-fold-right <i>kons knil bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> object</code></p>
 
-<p><code>(bvector-fold-right/bit <i>kons knil bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> object</code></p>
-
-<p><code>(bvector-fold-right/bool <i>kons knil bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> object</code></p>
-
-<p>Folds <i>kons</i> over the elements of <i>bvec</i> as bits/booleans
+<p>Folds <i>kons</i> over the elements of <i>bvec</i>
 in increasing/decreasing order using <i>knil</i>
 as the initial value.</p>
 
-<p><code>(bvector-map/bit <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> unspecified</code></p>
+<p><code>(bvector-map <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> unspecified</code></p>
 
-<p><code>(bvector-map/bool <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> unspecified</code></p>
+<p><code>(bvector-map! <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> unspecified</code></p>
 
-<p><code>(bvector-map!/bit <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> unspecified</code></p>
+<p><code>(bvector-for-each <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> unspecified</code></p>
 
-<p><code>(bvector-map!/bool <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> unspecified</code></p>
-
-<p><code>(bvector-for-each/bit <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> unspecified</code></p>
-
-<p><code>(bvector-for-each/bool <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> unspecified</code></p>
-
-<p>Iterate over the elements of <i>bvec</i> 
-as bits/booleans and apply <i>f</i>
+<p>Iterate over the elements of <i>bvec</i> and apply <i>f</i>
 to each, returning respectively a bvector of the results,
 an undefined value with the results placed back in <i>bvec</i>,
 and an undefined value with no change to <i>bvec</i>.</p>
 
-
-<p><code>(bvector-count <i>pred? bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> exact nonnegative integer</code></p>
-
-Call <i>pred?</i> on the nth argument of each <i>bvec</i> and
-return the number of calls that return true.</p>
 
 <H3>Prefixes and suffixes</H3>
 
@@ -356,60 +311,38 @@ return the number of calls that return true.</p>
 <p>Return the number of identical elements in the prefix/suffix 
 of the two <i>bvecs</i>.</p>
 
-<p><code>(bvector-prefix? <i>bvec1 bvec2</i> -> index</code></p>
+<p><code>(bvector-prefix? <i>bvec1 bvec2</i> -> boolean</code></p>
 
-<p><code>(bvector-suffix? <i>bvec1 bvec2</i> -> index</code></p>
+<p><code>(bvector-suffix? <i>bvec1 bvec2</i> -> boolean</code></p>
 
 Returns <code>#t</code> if bvec1 is a prefix/suffix of <i>bvec2</i>,
 and <code>#f</code> otherwise.</p>
 
-<H3>Searching</H3>
+<p><code>(bvector-true-prefix-length <i>bvec</i>) -> exact nonnegative integer</code></p>
+<p><code>(bvector-true-suffix-length <i>bvec</i>) -> exact nonnegative integer</code></p>
+<p><code>(bvector-false-prefix-length <i>bvec</i>) -> exact nonnegative integer</code></p>
+<p><code>(bvector-false-suffix-length <i>bvec</i>) -> exact nonnegative integer</code></p>
 
-<p><code>(bvector-take-while <i>pred? bvec</i> -> index</code></p>
+<p>Returns the number of <code>#t</code>/<code>#f</code> values
+at the beginning/end of <i>bvec</i>.
 
-<p><code>(bvector-take-while-right <i>pred? bvec</i> -> index</code></p>
+<p><code>(bvector-pad-true-prefix <i>bvec length</i>) -> bvec</code></p>
+<p><code>(bvector-pad-true-suffix <i>bvec length</i>) -> bvec</code></p>
+<p><code>(bvector-pad-false-prefix <i>bvec length</i>) -> bvec</code></p>
+<p><code>(bvector-pad-false-suffix <i>bvec length</i>) -> bvec</code></p>
 
-<p>Return the shortest prefix/suffix of <i>bvec</i> all of whose elements
-satisfy <i>pred?</i>.
+<p>Returns a copy of <i>bvec</i> with leading/trailing
+<code>#t</code>/<code>#f</code> elements 
+added (if necessary) so that the length of the result
+is <i>length</i>.</p>
 
-<p><code>(bvector-drop-while <i>pred? bvec</i> -> index</code></p>
+<p><code>(bvector-trim-true-prefix <i>bvec</i>) -> bvec</code></p>
+<p><code>(bvector-trim-true-suffix <i>bvec</i>) -> bvec</code></p>
+<p><code>(bvector-trim-false-prefix <i>bvec</i>) -> bvec</code></p>
+<p><code>(bvector-trim-false-suffix <i>bvec</i>) -> bvec</code></p>
 
-<p><code>(bvector-drop-while-right <i>pred? bvec</i> -> index</code></p>
-
-Drops the longest initial prefix/suffix of <i>bvec</i> such that all its
-elements satisfy <i>pred</i>.</p>
-
-<p><code>(bvector-index <i>pred? bvec</i>) -> exact nonnegative integer or #f</code></p>
-
-<p><code>(bvector-index-right <i>pred? bvec</i>) -> exact nonnegative integer or #f</code></p>
-
-<p>Return the index of the first/last element of <i>bvec</i> that
-satisfies <i>pred?</i>.
-
-<p><code>(bvector-skip <i>pred? bvec</i>) -> exact nonnegative integer or #f</code></p>
-
-<p><code>(bvector-skip-right <i>pred? bvec</i>) -> exact nonnegative integer or #f</code></p>
-
-<p>Returns the index of the first/last element of <i>bvec</i> that
-does not satisfy <i>pred?</i>.
-
-<p><code>(bvector-any <i>pred? bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> value or #f</code></p>
-
-<p>Returns the first set of elements from the <i>bvecs</i> which
-satisfy <i>pred?</i>, or <code>#f</code> if there is no such set.</p>
-
-<p><code>(bvector-every <i>pred? bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> value or #f</code></p>
-
-<p>If all sets of elements from the <i>bvecs</i> satisfy <i>pred?</i>,
-return the last set.  If none do, return <code>#f</code>.</p>
-
-<p><code>(bvector-partition <i>pred? bvec</i>) -> bvector and integer</code></p>
-
-<p>Returns a bvector of the same type as <i>bvec</i>, but with all elements
-satisfying <i>pred?</i> in the leftmost part of the vector and the other
-elements in the remaining part.  The order of elements is otherwise
-preserved.  Returns two values, the new bvector and the number of 
-elements satisfying <i>pred?</i>.</p>
+<p>Returns a copy of <i>bvec</i> with leading/trailing
+<code>#t</code>/<code>#f</code> elements removed.</p>
 
 <H3>Mutators</H3>
 
@@ -459,8 +392,9 @@ elements as the argument, in reverse order where specified.</p>
 
 <p><code>(bvector->string <i>bvec</i>) -> string</code></p>
 
-Returns a string beginning with <code>#*</code> and followed by the bits of <i>vec</i>
-represented as 0 and 1 characters.</p>
+Returns a string beginning with <code>#*</code> and followed by the values of <i>vec</i>
+represented as 0 and 1 characters, where 0 means <code>#f</code>
+and 1 means <code>#t</code>.
 
 <p><code>(string->bvector <i>string</i>) -> bvector</code></p>
 
@@ -469,24 +403,24 @@ and returns the corresponding bvector, or <code>#f</code> if the
 string is not in this format.</p>
 
 <p>
-<tt>(bvector->integer </tt><em>bvector</em> [ <em>len</em> ]<tt>)</tt><br />
+<code>(bvector->integer </code><em>bvector</em> [ <em>len</em> ]<code>)</code><br />
 </p>
 <p>
 Returns a non-negative integer whose bits, starting with the least significant bit as bit 0,
-correspond to the bit in <em>bvector</em>.
+correspond to the values in <em>bvector</em>.
 </p>
 <p>
-<tt>(integer->bvector </tt><em>integer</em><tt>)</tt><br />
+<code>(integer->bvector </code><em>integer</em><code>)</code><br />
 </p>
 <p>
-Returns a bvector whose bits correspond to the bits of <em>integer</em>,
+Returns a bvector whose values correspond to the bits of <em>integer</em>,
 starting with the least significant bit as bit 0.  It is an error if
 <em>integer</em> is negative.
 </p>
 
 <h3>Generators</h3>
 <p>
-<tt>(make-bvector-generator </tt><em>bvector</em><tt>)</tt>
+<code>(make-bvector-generator </code><em>bvector</em><code>)</code>
 </p>
 <p>
 Returns a <a href="http://srfi.schemers.org/srfi-121/srfi-121.html">SRFI 121</a>
@@ -496,39 +430,43 @@ Note that the generator is finite.
 <H2>Bitwise operations</H2>
 
 <p>
+In this section, "bit" is a synonym for "boolean", used for parallelism
+with SRFI 151.
+</p>
+<p>
 It is an error unless all <em>bvector</em>
 arguments passed to the following procedures are of the same length.
 </p>
 
 <h3 id="Basicoperations">Basic operations</h3>
 <p>
-<tt>(bvector-not </tt><em>bvec</em><tt>)</tt>
+<code>(bvector-not </code><em>bvec</em><code>)</code>
 </p>
 <p>
-Returns the bitwise complement of <em>bvec</em>; that is, all 1 bits are changed
-to 0 bits and all 0 bits to 1 bits.
+Returns the element-wise complement of <em>bvec</em>; that is, all <code>#t</code> values are changed
+to <code>#f</code> values and all <code>#f</code> values to <code>#t</code> values.
 </p>
 <p>
 The following ten procedures correspond to the useful set
 of non-trivial two-argument boolean functions. For each such function,
 the corresponding bvector operator
-maps that function across two or more bvectors in a bitwise fashion.
-The core idea of this group of functions is this bitwise "lifting"
+maps that function across two or more bvectors in a element-wise fashion.
+The core idea of this group of functions is this element-wise "lifting"
 of the set of dyadic boolean functions to bvector parameters.
 </p>
 <p>
-<tt>(bvector-and </tt><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<tt>)</tt><br />
-<tt>(bvector-ior </tt><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<tt>)</tt><br />
-<tt>(bvector-xor </tt><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<tt>)</tt><br />
-<tt>(bvector-eqv </tt><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<tt>)</tt>
+<code>(bvector-and </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code><br />
+<code>(bvector-ior </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code><br />
+<code>(bvector-xor </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code><br />
+<code>(bvector-eqv </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code>
 </p>
 <p>
 These operations are associative.
 </p>
 <p>
-The <tt>bvector-eqv</tt> procedure produces the
-complement of the <tt>bvector-xor</tt> procedure.  When applied to three
-arguments, it does <em>not</em> produce a 1 bit
+The <code>bvector-eqv</code> procedure produces the
+complement of the <code>bvector-xor</code> procedure.  When applied to three
+arguments, it does <em>not</em> produce a <code>#t</code> value
 everywhere that a, b and c all agree. That is, it does <em>not</em> produce
 </p>
 <pre>
@@ -538,58 +476,52 @@ everywhere that a, b and c all agree. That is, it does <em>not</em> produce
                                (bvector-not c)))
 </pre>
 <p>
-Rather, it produces <tt>(bvector-eqv a (bvector-eqv b c))</tt> or the equivalent
-<tt>(bvector-eqv (bvector-eqv a b) c)</tt>.
+Rather, it produces <code>(bvector-eqv a (bvector-eqv b c))</code> or the equivalent
+<code>(bvector-eqv (bvector-eqv a b) c)</code>.
 </p>
 <p>
-<tt>(bvector-nand </tt><em>bvec1 bvec2</em><tt>)</tt><br />
-<tt>(bvector-nor </tt><em>bvec1 bvec2</em><tt>)</tt><br />
-<tt>(bvector-andc1 </tt><em>bvec1 bvec2</em><tt>)</tt><br />
-<tt>(bvector-andc2 </tt><em>bvec1 bvec2</em><tt>)</tt><br />
-<tt>(bvector-orc1 </tt><em>bvec1 bvec2</em><tt>)</tt><br />
-<tt>(bvector-orc2 </tt><em>bvec1 bvec2</em><tt>)</tt>
+<code>(bvector-nand </code><em>bvec1 bvec2</em><code>)</code><br />
+<code>(bvector-nor </code><em>bvec1 bvec2</em><code>)</code><br />
+<code>(bvector-andc1 </code><em>bvec1 bvec2</em><code>)</code><br />
+<code>(bvector-andc2 </code><em>bvec1 bvec2</em><code>)</code><br />
+<code>(bvector-orc1 </code><em>bvec1 bvec2</em><code>)</code><br />
+<code>(bvector-orc2 </code><em>bvec1 bvec2</em><code>)</code>
 </p>
 <p>
 These operations are not associative.
 </p>
 <h3 id="Quasiintegeroperations">Quasi-integer operations</h3>
 <p>
-<tt>(bvector-logical-shift </tt><em>bvec count</em><tt>)</tt>
+<code>(bvector-logical-shift </code><em>bvec count</em><code>)</code>
 </p>
 <p>
 Returns the logical left shift when <em>count</em>>0; right shift when <em>count</em>&lt;0.
-Newly vacated bits are filled with 0.
+Newly vacated elements are filled with <code>#f</code>s.
 </p>
 <p>
-<tt>(bvector-count </tt><em>bvec</em><tt>)</tt>
+<code>(bvector-count </code><em>bvec</em><code>)</code>
 </p>
 <p>
-Returns the population count of 1's in <em>bvec</em>.
+Returns the population count of <code>#t</code>'s in <em>bvec</em>.
 </p>
 <p>
-<tt>(bvector-integer-length </tt><em>bvec</em><tt>)</tt>
-</p>
 <p>
-The number of bits needed to represent the numeric value of <em>bvec</em>, i.e.
-with all zero bits at the end of the vector removed.
-</p>
-<p>
-<tt>(bvector-if </tt><em>if-bvector then-bvector else-bvector</em><tt>)</tt>
+<code>(bvector-if </code><em>if-bvector then-bvector else-bvector</em><code>)</code>
 </p>
 <p>
 Merge the bvectors <em>then-bvector</em> and <em>else-bvector</em>, with the bvector <em>if-bvector</em> determining
-from which bvector to take each bit. That is, if the <em>k</em>th bit of <em>if-bvector</em>
-is 1, then the <em>k</em>th bit of the result is the <em>k</em>th bit of <em>then-bvector</em>, otherwise
+from which bvector to take each value. That is, if the <em>k</em>th value of <em>if-bvector</em>
+is <code>#t</code>, then the <em>k</em>th bit of the result is the <em>k</em>th bit of <em>then-bvector</em>, otherwise
 the <em>k</em>th bit of <em>else-bvector</em>.  
 </p>
 
 
 <p>
-<tt>(bvector-first-set-bit </tt><em>bvec</em><tt>)</tt>
+<code>(bvector-first-set-bit </code><em>bvec</em><code>)</code>
 </p>
 <p>
-Return the index of the first (smallest index) 1 bit in <em>bvec</em>.
-Return -1 if <em>bvec</em> contains no 1 bits.
+Return the index of the first (smallest index) <code>#t</code> value in <em>bvec</em>.
+Return -1 if <em>bvec</em> contains no <code>#t</code> values.
 </p>
 <h3 id="Bitfieldoperations">Bit field operations</h3>
 <p>
@@ -600,7 +532,7 @@ non-negative exact integers specifying the field: it is the <em>end-start</em> b
 running from bit <em>start</em> to bit <em>end</em>-1.
 </p>
 <p>
-<tt>(bvector-field </tt><em>bvec start end</em><tt>)</tt>
+<code>(bvector-field </code><em>bvec start end</em><code>)</code>
 </p>
 <p>
 Returns the field from <em>bvec</em>, shifted
@@ -610,7 +542,7 @@ down to the least-significant position in the result.
 
 
 <p>
-<tt>(bvector-field-any? </tt><em>bvec start end</em><tt>)</tt>
+<code>(bvector-field-any? </code><em>bvec start end</em><code>)</code>
 </p>
 <p>
 Returns true if any of the field's bits are set in <em>bvec</em>, and false otherwise.
@@ -619,7 +551,7 @@ Returns true if any of the field's bits are set in <em>bvec</em>, and false othe
 
 
 <p>
-<tt>(bvector-field-every? </tt><em>bvec start end</em><tt>)</tt>
+<code>(bvector-field-every? </code><em>bvec start end</em><code>)</code>
 </p>
 <p>
   Returns false if any of the field's bits are not set in <em>bvec</em>, and true otherwise.
@@ -627,16 +559,17 @@ Returns true if any of the field's bits are set in <em>bvec</em>, and false othe
 
 
 <p>
-<tt>(bvector-field-clear </tt><em>bvec start end</em><tt>)</tt><br />
-<tt>(bvector-field-set </tt><em>bvec start end</em><tt>)</tt>
+<code>(bvector-field-clear </code><em>bvec start end</em><code>)</code><br />
+<code>(bvector-field-set </code><em>bvec start end</em><code>)</code>
 </p>
 <p>
-Returns <em>bvec</em> with the field's bits set to all 0s/1s.
+Returns <em>bvec</em> with the field's bits set to all
+<code>#f</code>s/<code>#t</code>s.
 </p>
 
 
 <p>
-<tt>(bvector-field-replace </tt><em>dest source start end</em><tt>)</tt>
+<code>(bvector-field-replace </code><em>dest source start end</em><code>)</code>
 </p>
 <p>
 Returns <em>dest</em> with the field replaced
@@ -646,7 +579,7 @@ by the least-significant <em>end-start</em> bits in <em>source</em>.
 
 
 <p>
-<tt>(bvector-field-replace-same </tt><em>dest source start end</em><tt>)</tt>
+<code>(bvector-field-replace-same </code><em>dest source start end</em><code>)</code>
 </p>
 <p>
 Returns <em>dest</em> with its field replaced
@@ -655,7 +588,7 @@ by the corresponding field in <em>source</em>.
 
 
 <p>
-<tt>(bvector-field-rotate </tt><em>bvec count start end</em><tt>)</tt>
+<code>(bvector-field-rotate </code><em>bvec count start end</em><code>)</code>
 </p>
 <p>
 Returns <em>bvec</em> with the field cyclically permuted
@@ -665,18 +598,18 @@ by <em>count</em> bits towards high-order.
 
 
 <p>
-<tt>(bvector-field-reverse </tt><em>bvec start end</em><tt>)</tt>
+<code>(bvector-field-reverse </code><em>bvec start end</em><code>)</code>
 </p>
 <p>
 Returns <em>bvec</em> with the order of the bits in the field reversed.
 </p>
 
 <p>
-<tt>(bvector-field-flip </tt><em>bvec start end</em><tt>)</tt>
+<code>(bvector-field-flip </code><em>bvec start end</em><code>)</code>
 </p>
 <p>
 Returns <em>bvec</em> with the bits in the field flipped:
-that is, 0 becomes 1 and vice versa.  There is no SRFI 151 equivalent.
+that is, <code>#t</code> becomes <code>#f</code> and vice versa.  There is no SRFI 151 equivalent.
 </p>
 
 
@@ -712,9 +645,10 @@ and an unspecified value returned.</p>
 
 <p>The sample implementation is (not yet) in the repository of this SRFI.
 Bvectors are wrapped bytevectors; for simplicity and possibly for speed,
-they use a whole byte to represent each bit as Java and C# do.
+they use a whole byte to represent each boolean, as Java and C# do.
 At a later date, a more
-complex implementation that packs bits into bytes may be provided.
+complex implementation that packs booleans into bytes
+but still operates bytewise as much as possible <i>might</i> be provided.
 
 
 <H1>Copyright</H1>
