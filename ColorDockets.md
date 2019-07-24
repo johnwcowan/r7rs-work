@@ -19,7 +19,7 @@ plus [AdvancedRandomGauche](https://htmlpreview.github.io/?https://bitbucket.org
 or [RandomnessCommonLisp](RandomnessCommonLisp.md)
 or [RandomnessElf](https://regmedia.co.uk/2018/10/01/roig_paper.pdf)
 
-Float and NaN dissector API (sign, quiet/signaling status, and integer tag): [FloatCLMedernach](FloatCLMedernach.md)
+Float and NaN dissector API (sign, quiet/signaling status, and integer tag): [NaNMedernach](NaNMedernach.md)
 
 Binary numeric I/O: [BinaryIoCowan](BinaryIoCowan.md)
 
