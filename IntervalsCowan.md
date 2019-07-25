@@ -68,6 +68,8 @@ and eA be the value of the upper bound of interval A;
 and likewise for interval B.  The inclusive/exclusive
 nature of the bounds is respected.
 
+These procedures apply to ranges as well as intervals.
+
 `(interval-congruent? `*intervala intervalb*`)`
 
 Two intervals are congruent iff sA = sB and eA = eB.
