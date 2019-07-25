@@ -47,12 +47,6 @@ Returns true if *range* is empty.
 
 ## Accessors
 
-`(range-start `*range*`)`
-
-`(range-end `*range*`)`
-
-Returns the upper and lower bounds of *range*.
-
 `(range-element-comparator `*range*`)`
 
 Returns the comparator of *range*.
@@ -70,6 +64,15 @@ Returns the indexer of *range*.
 Returns the indexth element of *range*.  It is an
 error if index is less than 0 or greater than 
 or equal to the length of *range*.
+
+`(range-start `*range*`)`
+
+Shorthand for `(range-ref `*range* `0)`
+
+`(range-end `*range*`)`
+
+Shorthand for `(range-ref `*range* `(range-length `*range*`))`
+
 
 ## Iteration
 
@@ -200,87 +203,3 @@ Consecutive and overlapping ranges are merged, and all the resulting
 ranges are sorted into increasing order in the sense of the
 shared comparator.
 
-## Interval relations
-
-Let sA be the lower bound (start) of range A,
-and eA be the value of the upper bound (end) of range A;
-and likewise for range B.
-
-`(range-congruent? `*rangea rangeb*`)`
-
-Two ranges are congruent iff sA = sB and eA = eB.
-
-`(range-encloses? `*rangea rangeb*`)`
-
-Range A encloses range B iff they are not congruent, sA <= sB, and eA >= eB.
-This relation can be exhaustively partitioned into three sub-relations:
-
-`(range-strictly-encloses? `*rangea rangeb*`)`
-
-Range A strictly encloses range B iff sA < sB and eA > eB.
-
-`(range-encloses-with-suffix? `*rangea rangeb*`)`
-
-Range A encloses range B with a suffix iff sA = sB and eA > eB.
-
-`(range-encloses-with-prefix? `*rangea rangeb*`)`
-
-Range A encloses range B with a prefix iff sA < sB and eA = eB.
-
-`(range-fits-within? `*rangea rangeb*`)`
-
-Range A fits within range B iff they are not congruent, sA >= sB, and eA <= eB.
-This relation can be exhaustively partitioned into three sub-relations:
-
-`(range-strictly-fits-within? `*rangea rangeb*`)`
-
-Range A fits strictly within range B iff sA > sB and eA < eB.
-
-`(range-prefix? `*rangea rangeb*`)`
-
-Range A is a prefix of range B iff sA = sB and eA < eB.
-
-`(range-suffix? `*rangea rangeb*`)`
-
-Range A is a suffix of range B iff sA > sB and eA = eB.
-
-`(range-overlaps? `*rangea rangeb*`)`
-
-Range A and range B overlap iff either sA or eA (but not both) is greater than sB and less than eB.
-This relation can be exhaustively partitioned into two sub-relations:
-
-`(range-overlap-start? `*rangea rangeb*`)`
-
-If sA < sB < eA < eB, then range A overlaps the start of range B.
-
-`(range-overlap-end? `*rangea rangeb*`)`
-
-If sB < sA < eB < eA, then range A overlaps the end of range B.
-
-`(range-precedes? `*rangea rangeb*`)`
-
-Range A precedes range B iff eA <= sB.
-This relation can be exhaustively partitioned into two sub-relations:
-
-`(range-strictly-precedes? `*rangea rangeb*`)`
-
-Range A strictly precedes range B iff eA < sB.
-
-`(range-immediately-precedes? `*rangea rangeb*`)`
-
-Range A immediately precedes range B iff eA = sB.
-
-`(range-follows? `*rangea rangeb*`)`
-
-Range A follows range B iff sA >= eB.
-This relation can be exhaustively partitioned into two sub-relations:
-
-`(range-strictly-follows? `*rangea rangeb*`)`
-
-Range A strictly follows range B iff sA < eB.
-
-`(range-immediately-follows? `*rangea rangeb*`)`
-
-Range A immediately follows range B iff sA = eB.
-
-In all these procedures it is an error if the ranges don't have the same comparators.
