@@ -112,6 +112,8 @@ Syntax combiners for binary functions: [SRFI 156](https://srfi.schemers.org/srfi
 
 **Syntax**
 
+`while`, `until`, `do-times`: [SimpleIterationCL](SimpleIterationCL.md)
+
 lambda*: [BeyondCurryingHemann](BeyondCurryingHemann.md)
 
 Named parameters:  [SRFI 89](http://srfi.schemers.org/srfi-89/srfi-89.html)  
