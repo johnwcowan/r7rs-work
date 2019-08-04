@@ -1,4 +1,4 @@
-This SRFI defines a set of SRFI 121 generators and generator makers
+This SRFI defines a set of SRFI 158 generators and generator makers
 that yield random data of specific types and distributions.  It is intended to be
 implemented on top of <a href="http://srfi.schemers.org/srfi-27/srfi-27.html">SRFI 27</a>.
 
@@ -37,7 +37,7 @@ some concrete data from the generators.
 <dt><a name="index-uint32s"></a><code>(make-random-s32-generator</code><i>  [ s ]</i><code>)</code></dt>
 <dt><a name="index-int64s"></a><code>(make-random-u64-generator</code><i>  [ s ]</i><code>)</code></dt>
 <dt><a name="index-uint64s"></a><code>(make-random-s64-generator</code><i>  [ s ]</i><code>)</code></dt>
-<dd><p>Uniform integer generators that generate integers in the ranges of
+<dd><p>Return uniform integer generators that generate integers in the ranges of
 8, 16, 32, and 64-bit signed and unsigned integers.
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">(generator-&gt;list (make-random-s8-generator) 10)
@@ -127,7 +127,7 @@ mean <var>L</var>, variance <var>L</var>.
 <h3 class="subheading">Generator operations</h3>
 
 <dl>
-<dt><a name="index-samples_002dfrom"></a><code>(make-sampling-generator</code><i> generator</i> ...<code>)</code></dt>
+<dt><a name="index-samples_002dfrom"></a><code>gsampling</code><i> generator</i> ...<code>)</code></dt>
 <dd><p>Takes the <i>generators</i>
 and returns a new generator.  Every time the resulting generator is called,
 it picks one of the input generators with equal probability, then
@@ -135,7 +135,7 @@ calls it to get a value.
 </p></dd></dl>
 
 <dl>
-<dt><a name="index-weighted_002dsamples_002dfrom"></a><code>(make-weighted-sampling-generator</code> <i>obj</i> ..<code>)</code>.</dt>
+<dt><a name="index-weighted_002dsamples_002dfrom"></a><code>(gweighted-sampling)</code> <i>obj</i> ..<code>)</code>.</dt>
 <dd><p>The arguments alternate between nonnegative real numbers and generators.
 The real number determines the weight, or the relative probability
 that the generator which follows it is chosen.  The sum of the weights doesn&rsquo;t need to
