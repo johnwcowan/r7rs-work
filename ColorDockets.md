@@ -72,9 +72,7 @@ Explicit renaming: [explicit renaming](https://www.gnu.org/software/mit-scheme/d
 Implicit renaming: [implicit renaming](https://wiki.call-cc.org/explicit-renaming-macros#implicit-renaming-macros)
 (implies explicit renaming as well).
 
-More syntax-rules extensions: [SRFI 149](http://srfi.schemers.org/srfi-149/srfi-149.html)
-
-Custom macro transformers: [SRFI 147](http://srfi.schemers.org/srfi-147/srfi-147.html) [not portable]
+pCustom macro transformers: [SRFI 147](http://srfi.schemers.org/srfi-147/srfi-147.html) [not portable]
 
 Syntax parameters: [SRFI 139](http://srfi.schemers.org/srfi-139/srfi-139.html)
 
@@ -322,3 +320,16 @@ JSO: [JsoCowan](JsoCowan.md)
 
 Intervals: [IntervalsCowan](IntervalsCowan.md)
 
+# Possible Gauche stuff
+
+Topological sort
+
+Levenshtein distance
+
+filter-file
+
+filesystem
+
+ring
+
+sxml->sxml
