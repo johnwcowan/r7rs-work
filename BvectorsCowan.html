@@ -201,8 +201,12 @@ all the elements of the bvector are initialized to it.</p>
 
 <p><code>(bvector-unfold <i>f length seed ...</i>) -> bvector</code></p>
 
-<p>Creates a bvector whose length is <i>length</i> and initializes it by calling
-f, f(f), f(f(f))) ... on the <i>seed</i>.</p>
+<p>Creates a vector whose length is <i>length</i> and iterates across each index
+<i>k</i> between 0 and <i>length</i>, applying <i>f</i> at each iteration to the current
+index and current state, in that order, to receive two values: 
+the element to put in the k<i>th</i> slot of the new vector and a new state
+for the next iteration.
+On the first call to <i>f</i>, the state's value is <i>seed</i>.</p>
 
 <p><code>(bvector-unfold-right <i>f length seed ...</i>) -> bvector</code></p>
 
