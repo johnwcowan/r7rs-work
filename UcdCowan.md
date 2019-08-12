@@ -1,99 +1,111 @@
 ## Unicode Character Database
 
-The Unicode Character Database (UCD) is a set of properties defined by the Unicode Standard and applicable to characters of the Unicode repertoire.  The exact list of properties varies from version to version of the UCD, so they are not enumerated here.  Instead, each property supported by a particular implementation of this package is represented by a *property* object belonging to a unique type.  Given a property (which can be retrieved in a variety of ways) and a character, the fundamental procedure `ucd-get-property-value` returns the value of that property when applied to that character.
+The Unicode Character Database (UCD) is a set of properties defined by the Unicode Standard
+and applicable to characters of the Unicode repertoire.
+The exact list of properties varies from version to version of the UCD,
+so they are not enumerated in this SRFI.
+Instead, each property supported by a particular implementation of this package
+is represented by a library named`(srfi FIXME propname)`.
+All the libraries except `(srfi FIXME meta`) export the same procedures, so if you want
+more than one of them, import each one with a distinct prefix.
+
+(Insert exact mapping from Unicode property names to library names here:
+coerce to lower case, change underscores to hyphens, etc.)
+
+The fundamental procedure `get-value` from a given property library returns
+the value of that property when applied to that character.
 
 Implementations may implement whatever subset of the UCD properties they choose.
 
 Returned values must be treated as immutable by callers.
 
-## Version procedure
+## Meta library procedures
 
 `(ucd-version)`
 
-Returns a list of three exact integers specifying the version of the UCD that this implementation provides.  There is no mechanism for providing more than one version.  If the UCD version is 5.0.0, the value of `(ucd-version)` is `(5 0 0)`.
-
-## Properties
-
-Properties can be thought of as analogous to symbols, but with multiple names.  Every property has a canonical name as well as zero or more aliases.  Unlike symbol names, property names are case-insensitive, and in addition the presence or absence of an underscore character in a name is not meaningful.  Because there is no way to construct a new property, property objects may be compared with `eqv?`.
-
-Properties are typed in a way that reflects the type of the values for that property.  Some properties are numeric, some are string, some are boolean, and some are enumerated or catalog properties (the difference is that a catalog property typically gains new values in new UCD versions, whereas an enumerated property has a fairly closed set of values).
-
-## Property procedures
-
-`(ucd-find-property `*string*`)`
-
-Returns the property object one of whose names is *string*, or `#f` if there is no such property known to the implementation.
+Returns a list of three exact integers specifying the version of the UCD
+that this implementation provides.
+There is no mechanism for providing more than one version.
+If the UCD version is 5.0.0, the value of `(ucd-version)` is `(5 0 0)`.
 
 `(ucd-properties)`
 
-Returns a list of all properties known to the implementation.
+Returns a list of the names of all properties known to the implementation.
+This primarily exists for documentation purposes.
 
-`(ucd-property? `*obj*`)`
+## Per-property library procedures
 
-Returns `#t` if *obj* is a property, and `#f` otherwise.
+These procedures exist with the same names in each library other than the meta library.
 
-`(ucd-property-name `*prop*`)`
+`(property-name)`
 
 Returns a string which is the canonical name of *prop*.
 
-`(ucd-property-type `*prop*`)`
+`(property-type)`
 
-Returns one of the symbols `numeric`, `string`, `boolean`, `enumerated` or `catalog` to specify the type of *prop*.
+Returns one of the symbols `numeric`, `string`, `boolean`, `enumerated` or `catalog`
+to specify the type of this property
 
-`(ucd-property-aliases `*prop*`)`
+`(property-aliases)`
 
-Returns a list of strings which are the aliases (including the canonical name) of *prop*.  Names that merely differ in case or underscores from any of the others are not included.
+Returns a list of strings which are the aliases (including the canonical name) of *prop*.
+Names that merely differ in case or underscores from any of the others are not included.
 
-`(ucd-default-value `*prop*`)`
+`(default-value)`
 
 Returns the Unicode-defined default value for *prop*, or `#f` if there is none.
 
-`(ucd-property-syntax `*prop*`)`
+`(property-syntax)`
 
-Returns a string whose value is a regular expression characterizing the valid syntax of all the values of the the property, or `#f` if no syntax is available.
+Returns a string whose value is a regular expression characterizing the valid syntax
+of all the values of the the property, or `#f` if no syntax is available.
 
 ### Property predicates
 
-There is a group of predicates whose semantics is specified by the Unicode Standard that specify a set of standard characteristics that a Unicode property may have.  They have names of the form `ucd-*-property?`, where `*` may be any of `obsolete deprecated stabilized numeric string binary enumerated catalogued  miscellaneous irg mapping dictionary-index reading dictionary-like radical-stroke variant normative informative contributory provisional`.  In all cases the return value is `#t` or `#f`.
+There is a group of predicates whose semantics is specified by the Unicode Standard
+specifying standard characteristics that a Unicode property may have.
+They have names of the form `*-property?`, where `*` may be any of:
+
+```
+obsolete deprecated stabilized numeric string binary enumerated catalogued
+miscellaneous irg mapping dictionary-index reading dictionary-like radical-stroke
+variant normative informative contributory provisional
+```
+
+In all cases the return value is `#t` or `#f`.
 
 ## Enumerated property values
 
-Property values which are booleans, numbers, or strings constitute no special problem.  Enumerated and catalogued property values, however, have canonical names and aliases and are subject to the same casing and underscore rules as properties.  With the exception of Unicode character names, therefore, they are represented by a disjoint object type called *UCD-enums*, with procedures analogous to those for properties.  Property value names are not unique across properties.  Like properties, enums may be compared with `eqv?`.
+Property values which are booleans, numbers, or plain strings constitute no special problem.
+Enumerated and catalogue properties, with the exception of character name properties,
+have canonical forms and aliases and therefore
+some special procedures associated with them.
 
-UCD-enums associated with the `Character_Name` property have different name matching rules from other UCD-enums.
+## Enumerated and catalog procedure values
 
-## Enum procedures
+`(canonicalize-value `*string-or-integer*`)`
 
-`(ucd-find-enum `*property*` `*string-or-integer*`)`
+Returns the canonical name of a string or integer that serves as a property value,
+given either an alias or an alternative form differing only in case or underscores.
+Normally strings are used as both input and output to this procedure.
+However, The property named `Canonical_Combining_Class` has canonical integer property values
+with string aliases for some of them,
+so in this case either a string or an integer may appear as the argument, and
+an integer will be returned.
 
-Returns the ucd-enum object associated with *property* one of whose names is *string*, or `#f` if there is no such property known to the implementation.  The property named "Canonical_Combining_Class" has integer property values, but there are enumerated aliases for some of them, so in this case either a string or an integer may appear as the second argument.
+`(canonical-value? `*obj*`)`
 
-`(ucd-enums `*prop*`)`
-
-Returns a list of all UCD-enums associated with *property*.
-
-`(ucd-enum? `*obj*`)`
-
-Returns `#t` if *obj* is a UCD-enum, and `#f` otherwise.
-
-`(ucd-enum-name `*ucd-enum*`)`
-
-Returns a string or integer which is the canonical name of *ucd-enum*.
-
-`(ucd-enum-property `*ucd-enum*`)`
-
-Returns the property which is associated with *ucd-enum*.
-
-`(ucd-enum-aliases `*ucd-enum*`)`
-
-Returns a list of strings (with a possible integer) which are the aliases (including the canonical name) of *ucd-enum*.  Names that merely differ in case or underscores from any of the other names are not included.
+Returns `#t` if *obj* is a canonical property value, and `#f` otherwise.
 
 ## Retrieving property values
 
-`(ucd-get-property-value `*codepoint*` `*prop*`)`
+`(get-value `*codepoint*`)`
 
-Return the boolean, string, number, or enum which represents the value of *prop* at *codepoint*, which can be a character or an exact integer.
+Return the boolean, string (in canonical form if it has one), or number
+that represents the value of the property at *codepoint*, which can be
+specified with a character or an exact integer.
 
 ## Advanced UCD
 
-See [AdvancedUcdCowan](AdvancedUcdCowan.md) for blocks, standardized variants, named sequences, CJK radicals, and emoji sources.
+See [AdvancedUcdCowan](AdvancedUcdCowan.md)
+for the block, standardized variant, named sequence, CJK radical, and emoji source properties.
