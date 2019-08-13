@@ -62,21 +62,6 @@ None of the three expressions can refer to *var*.
          (let () . body)
          (loop))))))
 
-(define-syntax while
-  (syntax-rules ()
-    ((while expr . body)
-     (let loop ()
-       (when expr
-         (let () . body)
-         (loop))))))
-         
-(define-syntax until
-  (syntax-rules ()
-    ((until expr . body)
-     (let loop ()
-       (unless expr
-         (let () . body)
-         (loop))))))
 
 (define-syntax do-times
   (syntax-rules ()
