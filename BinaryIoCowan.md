@@ -16,6 +16,10 @@ Examples of integers converted to BER byte sequences:
           555 => #x84 #x2B
     123456789 => #xBA #xEF #x9A #x15
 
+## Obsolete from here down
+
+This will become a modified BER encoder plus a schema-based C struct converter.
+
 ## Input and output
 
 The default value of *port* is the current input or output port, as appropriate.
