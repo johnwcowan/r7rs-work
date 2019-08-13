@@ -21,15 +21,11 @@ or [RandomnessElf](https://regmedia.co.uk/2018/10/01/roig_paper.pdf)
 
 Float and NaN dissector API (sign, quiet/signaling status, and integer tag): [NaNMedernach](NaNMedernach.md)
 
-Binary numeric I/O: [BinaryIoCowan](BinaryIoCowan.md)
-
-Comparator sublibrary: [SRFI 162](http://srfi.schemers.org/srfi-162/srfi-162.html)
+omparator sublibrary: [SRFI 162](http://srfi.schemers.org/srfi-162/srfi-162.html)
 
 Logistic functions: [LogisticRiastradh](LogisticRiastradh.md)
 
 **Numeric and semi-numeric data structures**
-
-C-style structs:  [ByteStructuresTaylanub](https://github.com/TaylanUB/scheme-bytestructures).
 
 Integer sets:  [IntegerSetsCowan](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/IntegerSetsCowan.html)
 
@@ -72,7 +68,7 @@ Explicit renaming: [explicit renaming](https://www.gnu.org/software/mit-scheme/d
 Implicit renaming: [implicit renaming](https://wiki.call-cc.org/explicit-renaming-macros#implicit-renaming-macros)
 (implies explicit renaming as well).
 
-pCustom macro transformers: [SRFI 147](http://srfi.schemers.org/srfi-147/srfi-147.html) [not portable]
+Custom macro transformers: [SRFI 147](http://srfi.schemers.org/srfi-147/srfi-147.html) [not portable]
 
 Syntax parameters: [SRFI 139](http://srfi.schemers.org/srfi-139/srfi-139.html)
 
@@ -99,6 +95,9 @@ Loops: [SRFI 42](http://srfi.schemers.org/srfi-42/srfi-42) or [Riastradh's foof-
 Generic accessors/mutators: [SRFI 123](http://srfi.schemers.org/srfi-123/srfi-123.html)
 
 Assumptions: [SRFI 145](http://srfi.schemers.org/srfi-145/srfi-145.html)
+
+Assertions: Son of [SRFI 145](http://srfi.schemers.org/srfi-145/srfi-145.html)  
+or [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_sec_11.14)
 
 `let` extensions: [SRFI 5](http://srfi.schemers.org/srfi-5/srfi-5.html)
 
@@ -140,6 +139,8 @@ Maybe/Either: [MaybeEither](MaybeEither.md)
 
 Restarts:  [RestartsCowan](RestartsCowan.md)
 
+Timespecs:  [TimespecsCowan](TimespecsCowan.md)
+
 # Green Docket (non-portable)
 
 Conditions: [ConditionsCowan](ConditionsCowan.md)
@@ -169,11 +170,6 @@ Interfaces: [InterfacesCowan](InterfacesCowan.md)
 
 Process ports: [ProcessPortsCowan](ProcessPortsCowan.md)
 
-File system directories (reading):
-[SCSH directory stream interface](http://www.scsh.net/docu/html/man-Z-H-4.html#node_sec_3.3),
-[DirectoriesCowan](DirectoriesCowan.md),
-`directory-files` to return a list of all files in the dir (in WG1 vote order)
-
 System commands: [SystemCommandCowan](SystemCommandCowan.md)
 
 Pure delay/force: [PureDelayedGloria](PureDelayedGloria.md)
@@ -200,12 +196,21 @@ Internationalization of strings: [GettextCowan](GettextCowan.md)
 
 Chronometers: [Chronometer](Chronometer.md)
 
+Character-cell terminals: [TerminalsCowan](TerminalsCowan.md)
+
+Graphics canvas: [CanvasCowan](http://smallbasic.com/doc/?id=8&language=)
+
 # Aqua Docket (portable but complex things).
 
-CLI utilities: [args-fold](http://srfi.schemers.org/srfi-37/srfi-37.html),
-[ArgsChicken](http://wiki.call-cc.org/eggref/5/args),
-[application](http://synthcode.com/scheme/chibi/lib/chibi/app.html) +
-[config](http://synthcode.com/scheme/chibi/lib/chibi/config.html)
+Streaming regular expressions: [PragmaticParsingBaker](http://home.pipeline.com/~hbaker1/Prag-Parse.html)
+
+Binary representations: [BinaryRepsCowan](BinaryRepsCowan.md)
+
+CLI utilities: [args-fold](http://srfi.schemers.org/srfi-37/srfi-37.html),  
+[ArgsChicken](http://wiki.call-cc.org/eggref/5/args),  
+[application](http://synthcode.com/scheme/chibi/lib/chibi/app.html) +  
+[config](http://synthcode.com/scheme/chibi/lib/chibi/config.html),  
+[ArgParsePython](https://docs.python.org/3/library/argparse.html)
 
 Relations: [RelationsCowan](RelationsCowan.md)
 
