@@ -18,6 +18,9 @@ Issue 4:  Currently there is no way to create and create a pipe for a file
 descriptor other than 0, 1, or 2, because we don't know which end to
 connect to the child process.
 
+Issue 5: We need some provision for avoiding deadlock when the child's standard
+output and standard error are both newly created pipes.
+
 ## The make-process procedure
 
 `(make-process `*setup cmd . args*`)`
@@ -78,25 +81,30 @@ are closed in the child process.
 
 `stdout+stderr`
 
-The same as `stdout`, but binds `stderr` to the same port.  In particular, if a pipe
-is created, the same pipe is used for both ports.
-This corresponds to `|&` in the C shell.
+The same as `stdout`, but binds the standard output and the standard error in the child process
+to the same port.
+In particular, if a pipe is created, the same pipe is used for both ports.
+It is an error to provide either `stdout` or `stderr` if this key is present in the setup plist.
+This corresponds to `|&` in the C shell and `2>&1` in Posix shells.
 
 `buffer`  
 `char-buffer`
 
 These keys are used to define the size of the binary/character-conversion buffer
-used for any pipes that are created by this call to `make-process`.  The symbol
-`none` means there is no buffering; the symbol `line` means the pipe is line-buffered;
-the symbol `block` (which is the default) means a buffer of an implementation-defined
-size is used; an exact integer specifies the size of the buffer.
+used for any pipes that are created by this call to `make-process`. 
+
+If the symbol is `block` or the key is omitted, the pipe is buffered
+using an implementation-specified buffer size.
+If the symbol is `none`, there is no buffering.
+If the symbol is `line`, the pipe is line-buffered.
+An exact integer specifies the size of the buffer.
 See [FilesAdvancedCowan](FilesAdvancedCowan.md) for details.
 
 `path`
 
 This key has a boolean value specifying whether to search the environment variable `PATH`
-to find the command.  However, if the command string contains a slash, the path is not
-searched.
+to find the command specified by *cmd*.
+However, if *cmd* contains a slash, the path is not searched.
 
 `arg0`
 
@@ -105,17 +113,23 @@ as the *cmd* argument.
 
 `env`
 
-Specifies an alist that maps strings to strings to become the initial environment of the
+Specifies an alist that maps strings to strings, which becomes the initial environment of the
 child process.  If omitted, the child process has the same environment as the parent.
 
 `group`
 
-If the value is #f or omitted, the child process belongs to the same process group and session
-as the parent process.  If `mode` in an exact integer, it specifies the process group id
-to which the child process will belong.  If it is the symbol `new` it belongs to the same session
-but in a new process group.  If it is the symbol `new-session`, it belongs to a new session and a
-new process group;
-in Windows this implies a new console.
+If the value is `#f` or the key is omitted,
+the child process belongs to the same process group and session as the parent process.
+If `mode` in an exact integer, it specifies the process group id
+to which the child process will belong.
+If it is the symbol `new` it belongs to the same session but in a new process group.
+If it is the symbol `new-session`, it belongs to a new session and a
+new process group; in Windows this implies a new console.
+
+`wait`
+
+If the value is `#f` or the key is omitted, `make-process` returns as soon as the child
+process is created.  If the value is `#t`, `make-process` returns when the child terminates.
 
 ## Process object accessors
 
@@ -194,31 +208,41 @@ Sends the signal *signal* to the child process, which may be
 a process object or an exact integer process id.
 Returns an unspecified value.
 
-`(process-send-group-signal `*process-or-pgid-list signal*`)`
+`(process-send-group-signal `*process-or-pgid signal*`)`
 
-Sends the signal *signal* to all the processes in the list.
-The elements of the list may be process objects or process group ids.
+Sends the signal *signal* to all the processes in the process
+group specified by the exact integer process group id or the
+process object.
 
-## Forking
+## Fork and exec
 
-`(fork)`
+`(process-fork)`
 
 Forks the current process.  Returns a process object in the parent process
 and `#f` in the child object.
 
-`(fork `*thunk*`)`
+`(process-fork `*thunk*`)`
 
 Forks the current process and returns a process object in the parent process.  The child
 process immediately invokes *thunk* and exits using the value that *thunk* returns.
 
+`(process-exec `*setup cmd . args*`)`
+
+Executes *cmd* in the current process, passing *args* to it.  The only meaningful keys
+in *setup* are `path`, `arg0`, and `env`.  This procedure never returns.
+
 ## Exceptions
 
-If any of the operations required by `make-process` return an error, an error satisfying
-`process-exception?` is signaled.
+If any of the operations required by the procedures in this SRFI return an error code,
+an error satisfying `process-exception?` is signaled.
 
 `(process-exception? `*obj*`)`
 
 Returns `#t` if *obj* is a process exception and `#f` otherwise.
+
+`(process-exception-errno` *process-exception*`)`
+
+Returns a Posix error number corresponding to the exception, or `#f` if there is none.
 
 `(process-exception-message `*process-exception*`)`
 
