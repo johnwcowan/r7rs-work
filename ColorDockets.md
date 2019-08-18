@@ -168,7 +168,7 @@ Library declarations: [LibraryDeclarationsCowan](LibraryDeclarationsCowan.md)
 
 Interfaces: [InterfacesCowan](InterfacesCowan.md)
 
-Process ports: [ProcessPortsCowan](ProcessPortsCowan.md)
+Process control: [ProcessesCowan](ProcessesCowan.md)
 
 System commands: [SystemCommandCowan](SystemCommandCowan.md)
 
