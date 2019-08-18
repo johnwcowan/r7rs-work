@@ -210,3 +210,16 @@ and `#f` in the child object.
 
 Forks the current process and returns a process object in the parent process.  The child
 process immediately invokes *thunk* and exits using the value that *thunk* returns.
+
+## Exceptions
+
+If any of the operations required by `make-process` return an error, an error satisfying
+`process-exception?` is signaled.
+
+`(process-exception? `*obj*`)`
+
+Returns `#t` if *obj* is a process exception and `#f` otherwise.
+
+`(process-exception-message `*process-exception*`)`
+
+Returns a string associated with *process-exception* indicating the nature of the problem.
