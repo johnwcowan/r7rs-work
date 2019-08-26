@@ -3,20 +3,14 @@ It's based somewhat on the Python 3 subprocess module.
 
 ## Issues
 
-Issue 1: At the moment the question of assigning
+Issue 1: The question of assigning
 an external encoding, newline encoding, and encoding error convention
-for pipe ports remains open until [FilesAdvancedCowan](FilesAdvancedCowan.md)
+for textual pipe ports remains open until [FilesAdvancedCowan](FilesAdvancedCowan.md)
 is a little more settled.
-
-Issue 2: What should the default for the `path` key be?
 
 Issue 3: It's not clear whether the control-terminal procedures
 `open-control-tty`, `terminal-process-group`, and `set-terminal-process-group`
 belong in this SRFI or in a terminal SRFI.
-
-Issue 4:  Currently there is no way to create and create a pipe for a file
-descriptor other than 0, 1, or 2, because we don't know which end to
-connect to the child process.
 
 Issue 5: We need some provision for avoiding deadlock when the child's standard
 output and standard error are both newly created pipes.
@@ -29,6 +23,7 @@ Starts a child process which executes the program specified by the string *cmd*,
 passing it the string arguments *args*.
 The plist *setup* specifies how the newly created process is set up
 and connected to the parent process that creates it and possibly to other processes.
+All file descriptors not mentioned in *setup* are closed in the new process.
 It returns a process-object (see below) from which various results can be extracted.
 
 ## The setup plist
@@ -79,6 +74,10 @@ but specifies the file descriptor to be used in the child process.
 File descriptors other than 0, 1, and 2 that do not appear as keys in the setup plist
 are closed in the child process.
 
+If the argument is `binary-pipe` or `textual-pipe`, and the integer is negative, the write
+side of the pipe is connected; otherwise the read side of the pipe is connected.  In all other
+cases the sign of the integer is ignored.
+
 `stdout+stderr`
 
 The same as `stdout`, but binds the standard output and the standard error in the child process
@@ -86,6 +85,11 @@ to the same port.
 In particular, if a pipe is created, the same pipe is used for both ports.
 It is an error to provide either `stdout` or `stderr` if this key is present in the setup plist.
 This corresponds to `|&` in the C shell and `2>&1` in Posix shells.
+
+`closed-fds`
+
+The value is a list of file descriptors to be closed.  By default, all file descriptors
+not mentioned in the plist are closed.
 
 `buffer`  
 `char-buffer`
@@ -105,6 +109,7 @@ See [FilesAdvancedCowan](FilesAdvancedCowan.md) for details.
 This key has a boolean value specifying whether to search the environment variable `PATH`
 to find the command specified by *cmd*.
 However, if *cmd* contains a slash, the path is not searched.
+The default value is `#f`.
 
 `arg0`
 
@@ -161,6 +166,13 @@ Returns the read end of the pipe connected to the child's standard output/error 
 Whether it is a binary or textual port depends on how the pipe was created.
 Returns `#f` if the child's standard output/error was not specified as `binary-pipe` or `textual-pipe`.
 
+`(process-fd `*process fd*`)`
+
+Returns the appropriate end of the pipe connected to the child's file descriptor *fd*.
+Whether it is an input or an output port or a binary or textual port depends on how the pipe was created.
+Returns `#f` if the child's *fd* was not specified as  `binary-pipe` or `textual-pipe`.
+
+
 ## Process termination procedures
 
 (`process-terminated? `*process*`)`
@@ -216,6 +228,8 @@ process object.
 
 ## Fork and exec
 
+These procedures are not portable to Windows (they will raise errors) and should be avoided when possible.
+
 `(process-fork)`
 
 Forks the current process.  Returns a process object in the parent process
@@ -228,8 +242,9 @@ process immediately invokes *thunk* and exits using the value that *thunk* retur
 
 `(process-exec `*setup cmd . args*`)`
 
-Executes *cmd* in the current process, passing *args* to it.  The only meaningful keys
-in *setup* are `path`, `arg0`, and `env`.  This procedure never returns.
+Executes *cmd* in the current process, passing *args* to it.  All keys
+in *setup* except `closed-fds`, `path`, `arg0`, and `env` are ignored.
+This procedure never returns (but may throw an exception).
 
 ## Exceptions
 
