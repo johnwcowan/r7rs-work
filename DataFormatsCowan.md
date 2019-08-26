@@ -1,42 +1,10 @@
 # Data formats
 
-Procedures for handling JSON, CSV, delimiter-separated values (DSV), and INI files.
+Procedures for handling CSV, delimiter-separated values (DSV), and maybe INI files.
+JSON has been removed, as it is defined elsewhere.
 
 Input ports default to `(current-input-port)`, output ports to
 `(current-output-port)`.
-
-## JSON
-
- The external representation of JSON values is defined by
- [RFC 7159](https://tools.ietf.org/html/rfc7159).
- The internal representation of JSON values in Scheme is as follows:
-
-  *  JSON numbers are represented as Scheme numbers.  Integers may be represented as exact integers; all other numbers are represented as inexact real numbers.
-  
-  *  JSON strings are represented as Scheme strings.
-  
-  *  The JSON values `true`, `false`, and `null` are represented as `#t`, `#f`, and the symbol `null` respectively.
-  
-  *  JSON arrays are represented as Scheme vectors.
-  
-  *  JSON objects are represented as Scheme alists that map keys (strings) to values (any value).
-  
-`(read-json `[*port*]`)`
-
-Reads the external representation of a JSON value from *port* and returns the
-internal representation.
-
-`(write-json `*obj* [*port*]`)`
-
-Writes *obj* to *port* as an external representation,
-returning an unspecified value.
-If *obj* is not an internal representation, an error
-satisfying `data-format-error?` is signaled.
-
-`(check-json `*obj*`)`
-
-Returns `#t` if *obj* is an internal representation of a JSON value, and
-`#f` otherwise.
 
 ## Comma-separated values.
 
@@ -96,7 +64,7 @@ jointly treated as the delimiter, so that both spaces and tabs that are
 part of a field need to be escaped with a backslash.
 When *port* returns an end of file object, the generator does the same.
 
-`(make-csv-accumulator `[*zero-hack*] [*port*]`)`
+`(make-dsv-accumulator `*delim* [*port*]`)`
 
 Returns a [SRFI 158](http://srfi.schemers.org/srfi-158/srfi-158.html) accumulator
 which when invoked with one argument that is the internal representation of a record
@@ -105,7 +73,7 @@ using *delim* (a character) to delimit fields.  When invoked on an
 end-of-file object, no action is taken.  In either case, an unspecified value
 is returned.
 
-## INI files
+## INI files (maybe)
 
 An INI file is a simple line-based configuration format.  There are many variations;
 this SRFI requires support for at least the following:
