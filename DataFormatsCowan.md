@@ -40,7 +40,7 @@ end-of-file object, no action is taken.  In either case, an unspecified value
 is returned.
 
 If the *zero-hack* value is present, it is an error if it is not a boolean.  If
-it is present and `#t`, then any field consisting solely of digits and whose
+it is present and `#t`, then any field with the syntax of a number whose
 first character is `0` is written with `="` before it and `"` after it.  This
 will cause the leading zeros to be preserved by spreadsheet programs, which
 attempt to identify the type of a value based on the presence or absence of
@@ -48,11 +48,13 @@ quotation marks surrounding it.
 
 ## Delimiter-separated values
 
-Delimiter-separated values (DSVs) are a variant of comma-separated values.
+Delimiter-separated values (DSVs) are a variant of comma-separated values,
+and the internal representation is the same.
 However, the delimiter may be any character, and the end of a record is
-always a line breakand vice versa.  To include a double quote, a backslash,
-or the delimiter itself as part of a field, precede it with a backslash.
-To include a line break in a field, use a backslash followed by `n`.
+always a line break and vice versa.  When a backslash
+or the delimiter itself is part of a field, it is preceded with a backslash.
+A line break that is part of a field is represented using the two-character sequence `"\n"`.
+Similarly, a tab that is part of a field is represented using the two-character sequence `"\t"`.
 
 `(make-dsv-generator `*delim* [*port*]`)`
 
@@ -80,13 +82,14 @@ this SRFI requires support for at least the following:
 
   *  Comments begin with ';' and are removed from lines.
      
-  *  Blank lines and trailing whitespace are ignored.
+  *  Blank lines and leading and trailing whitespace are ignored.
   
   *  The beginning of a section is marked by a line beginning with `[` and ending with `]`.
      Sections do not nest.  The name of a section is the characters between the brackets.
      
   *  Other lines containing `=` are treated as key-value pairs within the current section or, if
      they precede any section line, as key-value pairs belonging to an unnamed section.
+     Whitespace immediately before or after the `=` is ignored.
      
   *  Otherwise unrecognizable lines are treated as keys whose value is the empty string.
   
