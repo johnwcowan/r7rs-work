@@ -185,6 +185,8 @@ they should be the same type as bvectors.</p>
 
     </dl>
 
+<p>All procedures that return bvectors, vectors, or lists newly allocate their results,
+except for those in the "Mutators" and "Bitwise mutators" sections.</p>
 
 <H2>Procedures</H2>
 
@@ -244,15 +246,12 @@ otherwise.</p>
 <p><code>(bvector-empty? <i>bvec</i>) -> boolean</code></p>
 
 Returns <code>#t</code> if <i>bvec</i> has a length of zero,
-and <code>#f</code> otherwise.
+and <code>#f</code> otherwise.</p>
 
 <p><code>(bvector= <i>elt=? bvec ...</i>) -> boolean</code></p>
 
 <p>Compares the <i>bvecs</i> for elementwise equality, using
-<i>elt=?</i> to do the comparisons.
-The only reasonable predicate is <code>eqv?</code> (or its negation), but the
-argument is kept in order to follow the protocol for other
-such procedures.</p>
+<i>elt=?</i> to do the comparisons.</p>
 
 <H3>Selectors</H3>
 
@@ -300,7 +299,7 @@ as the initial value.</p>
 
 <p><code>(bvector-for-each <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> unspecified</code></p>
 
-<p>Iterate over the elements of <i>bvec</i> and apply <i>f</i>
+<p>Iterate over the corresponding elements of the <i>bvecs</i> and apply <i>f</i>
 to each, returning respectively a bvector of the results,
 an undefined value with the results placed back in <i>bvec</i>,
 and an undefined value with no change to <i>bvec</i>.</p>
@@ -499,7 +498,9 @@ These operations are not associative.
 <code>(bvector-logical-shift </code><em>bvec count</em><code>)</code>
 </p>
 <p>
-Returns the logical left shift when <em>count</em>>0; right shift when <em>count</em>&lt;0.
+Returns a bvector equal in length to <em>bvec</em>
+containng the logical left shift when <em>count</em>>=0
+or the right shift when <em>count</em>&lt;0.
 Newly vacated elements are filled with <code>#f</code>s.
 </p>
 <p>
@@ -513,10 +514,13 @@ Returns the population count of <code>#t</code>'s in <em>bvec</em>.
 <code>(bvector-if </code><em>if-bvector then-bvector else-bvector</em><code>)</code>
 </p>
 <p>
-Merge the bvectors <em>then-bvector</em> and <em>else-bvector</em>, with the bvector <em>if-bvector</em> determining
-from which bvector to take each value. That is, if the <em>k</em>th value of <em>if-bvector</em>
-is <code>#t</code>, then the <em>k</em>th bit of the result is the <em>k</em>th bit of <em>then-bvector</em>, otherwise
-the <em>k</em>th bit of <em>else-bvector</em>.  
+Returns a bvector that
+merges the bvectors <em>then-bvector</em> and <em>else-bvector</em>,
+with the bvector <em>if-bvector</em> determining
+from which bvector to take each value.
+That is, if the <em>k</em>th value of <em>if-bvector</em> is <code>#t</code>,
+then the <em>k</em>th bit of the result is the <em>k</em>th bit of <em>then-bvector</em>,
+otherwise the <em>k</em>th bit of <em>else-bvector</em>.  
 </p>
 
 
@@ -529,7 +533,7 @@ Return -1 if <em>bvec</em> contains no <code>#t</code> values.
 </p>
 <h3 id="Bitfieldoperations">Bit field operations</h3>
 <p>
-These functions operate on a contiguous field of bits (a "byte," in
+These procedures operate on a contiguous field of bits (a "byte," in
 Common Lisp parlance) in a given bvector. The <em>start</em> and <em>end</em>
 arguments, which are not optional, are
 non-negative exact integers specifying the field: it is the <em>end-start</em> bits
@@ -539,7 +543,8 @@ running from bit <em>start</em> to bit <em>end</em>-1.
 <code>(bvector-field </code><em>bvec start end</em><code>)</code>
 </p>
 <p>
-Returns the field from <em>bvec</em>, shifted
+Returns a bvector containing
+the field from <em>bvec</em>, shifted
 down to the least-significant position in the result.
 </p>
 
@@ -567,7 +572,8 @@ Returns true if any of the field's bits are set in <em>bvec</em>, and false othe
 <code>(bvector-field-set </code><em>bvec start end</em><code>)</code>
 </p>
 <p>
-Returns <em>bvec</em> with the field's bits set to all
+Returns a bvector containing
+<em>bvec</em> with the field's bits set to all
 <code>#f</code>s/<code>#t</code>s.
 </p>
 
@@ -576,7 +582,8 @@ Returns <em>bvec</em> with the field's bits set to all
 <code>(bvector-field-replace </code><em>dest source start end</em><code>)</code>
 </p>
 <p>
-Returns <em>dest</em> with the field replaced
+Returns a bvector containing
+<em>dest</em> with the field replaced
 by the least-significant <em>end-start</em> bits in <em>source</em>.
 </p>
 
@@ -586,7 +593,8 @@ by the least-significant <em>end-start</em> bits in <em>source</em>.
 <code>(bvector-field-replace-same </code><em>dest source start end</em><code>)</code>
 </p>
 <p>
-Returns <em>dest</em> with its field replaced
+Returns a bvector containing
+<em>dest</em> with its field replaced
 by the corresponding field in <em>source</em>.
 </p>
 
