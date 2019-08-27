@@ -43,6 +43,12 @@ They are evaluated before the loop begins,
 whereas *result* is not evaluated until the end of the loop.
 None of the three expressions can refer to *var*.
 
+## Tagbody
+
+[Spec](http://clhs.lisp.se/Body/s_tagbod.htm), but `go` is unnecessary: just call the tag.
+
+[Implementation](https://mumble.net/~campbell/tmp/tagbody.scm)
+
 # Implementation
 
 ```
