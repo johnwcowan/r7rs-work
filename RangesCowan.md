@@ -1,10 +1,10 @@
 # Ranges
 
-Ranges are
+Ranges are immutable
 collections that can be enumerated but are represented algorithmically
 rather than by a per-element data structure.
 
-A range is specified by a lower bound, which can be of any type,
+A range is specified by a lower bound (which can be of any type),
 a length (number of elements), a
 comparator, and an indexer function that maps the lower bound and a
 non-negative exact integer less than the length
@@ -15,10 +15,6 @@ an inclusive lower bound (default 0), an exclusive upper bound,
 and a step value (default 1), all of which can be exact or inexact real numbers.
 Its comparator is the natural comparator on real numbers, and its indexer is
 `(lambda (bound n) (+ bound (* n step)))`.
-
-## Terminology
-
-In arguments, *range* means any range.
 
 ## Constructors
 
