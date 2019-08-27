@@ -23,8 +23,36 @@ Creates a generator that returns pairs.
 The car of each pair is an exact integer counting up by 1 from 0.
 The cdr of each pair is the result of *gen*.
 
-`(nameTBD `*constructor* *operation* ...`)`
+`(gchain-generators `*constructor* *operation* ...`)`
 
-Something to create a generator from a generator constructor plus
-a chain of generator operations.
-The leftmost argument represents the innermost operation.
+Creates a generator from a generator constructor plus
+a chain of generator operations.  The first argument is
+called with no arguments, the remaining arguments with
+one argument.
+For example, `(gchain-generators gmake gfoo gbar)` returns the same
+generator as `(gbar (gfoo (gmake)))`.
+
+Since it is typically necessary to pass additional arguments to the
+constructor and the operations, the arguments to `gchain-generator`
+will usually be lambda expressions.  For example:
+
+```
+(gchain-generators
+  (lambda () (make-iota-generator 100))
+  (lambda (g) (gfilter even? g))
+  (lambda (g) (ggroup 5 g)))
+```
+
+returns a generator that outputs the values
+`(0 2 4 6 8)`, `(10 12 14 16 18)`, ... `(90 92 94 96 98)`.
+
+Such calls can be written more compactly using the `cut` macro from
+[SRFI 26](https://srfi.schemers.org/srfi-26/srfi-26.html):
+
+```
+(gchain-generators
+  (cut make-iota-generator 100)
+  (cut gfilter even? <>)
+  (cut ggroup 5 <>))
+```
+
