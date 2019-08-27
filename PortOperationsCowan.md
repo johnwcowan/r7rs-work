@@ -3,7 +3,7 @@
 As an alternative to creating custom Scheme ports, this SRFI provides for
 clean interfaces between the world of ports and the more flexible world of
 [SRFI 158](http://srfi.schemers.org/srfi-158/srfi-158.html) generators and accumulators.
-In what follows, *operation* is a procedure that accepts (perhaps optionally) a port as
+In what follows, *operation* is a procedure with side effects, perhaps taking a port as
 one of its arguments.  A few convenience functions on string and bytevector ports that were omitted
 from R7RS-small are also provided.
 
