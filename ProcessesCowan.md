@@ -15,7 +15,21 @@ belong in this SRFI or in a terminal SRFI.
 Issue 5: We need some provision for avoiding deadlock when the child's standard
 output and standard error are both newly created pipes.
 
-## The make-process procedure
+## Constructors
+
+`(make-pipe)`
+
+Makes a pipe and returns two values, both binary ports.
+The first value is the read end of the pipe, the second value is the write end.
+The caller may use the pipe internally as a queue, pass one end to a subprocess
+and use the other to communicate with it, or pass both ends to different processes.
+In the latter two cases, the caller should close the port after passing it.
+
+`(make-textual-pipe)`
+
+The same as `make-pipe`, except that the ports are textual.  The encoding is
+implementation-dependent.  Note that whether a pipe passed to a child
+process is binary or textual in the child is determined solely by the child.
 
 `(make-process `*setup cmd . args*`)`
 
@@ -25,6 +39,8 @@ The plist *setup* specifies how the newly created process is set up
 and connected to the parent process that creates it and possibly to other processes.
 All file descriptors not mentioned in *setup* are closed in the new process.
 It returns a process-object (see below) from which various results can be extracted.
+If the process cannot be created for any reason,
+an error satisfying `process-exception?` is signaled.
 
 ## The setup plist
 
@@ -42,7 +58,7 @@ unless the implementation attributes a meaning to them.
 Specifies a port to be connected to the standard input/output/error of the
 child process.  It is an error to associate an output port with
 the key `stdin` or an input port with the keys `stdout` and `stderr`.
-The values are interpreted as follows.
+The values are interpreted as follows (any other value is an error):
 
   * If the value is a file, socket, pipe, or other port that contains a
     file descriptor, that file descriptor is duplicated onto child port 0/1/2.
@@ -57,15 +73,7 @@ The values are interpreted as follows.
   * If the value is the symbol `null`, the port in the child process is connected to
     the null device (`/dev/null` in Posix, `NUL` in Windows),
     so that an attempt to read from the port produces an immediate end of file,
-    and an attempt to write to the port fails.
-    
-  * If the value is the symbol `binary-pipe` or `textual-pipe`, a pipe is created. 
-    If the key is `stdin`,
-    the output side of the pipe is connected to the child process;
-    if the key is `stdout`,
-    the input side of the pipe is connected to the child process.
-    The other side of the pipe can be obtained in the parent process
-    from the process object returned by `make-process`.
+    and an attempt to write to the port is ignored.
     
 *exact integer*
 
@@ -74,35 +82,17 @@ but specifies the file descriptor to be used in the child process.
 File descriptors other than 0, 1, and 2 that do not appear as keys in the setup plist
 are closed in the child process.
 
-If the argument is `binary-pipe` or `textual-pipe`, and the integer is negative, the write
-side of the pipe is connected; otherwise the read side of the pipe is connected.  In all other
-cases the sign of the integer is ignored.
-
 `stdout+stderr`
 
-The same as `stdout`, but binds the standard output and the standard error in the child process
+The same as `stdout`, but binds both the standard output and the standard error in the child process
 to the same port.
-In particular, if a pipe is created, the same pipe is used for both ports.
 It is an error to provide either `stdout` or `stderr` if this key is present in the setup plist.
 This corresponds to `|&` in the C shell and `2>&1` in Posix shells.
 
-`closed-fds`
+`open-fds`
 
-The value is a list of file descriptors to be closed.  By default, all file descriptors
-not mentioned in the plist are closed.
-
-`buffer`  
-`char-buffer`
-
-These keys are used to define the size of the binary/character-conversion buffer
-used for any pipes that are created by this call to `make-process`. 
-
-If the symbol is `block` or the key is omitted, the pipe is buffered
-using an implementation-specified buffer size.
-If the symbol is `none`, there is no buffering.
-If the symbol is `line`, the pipe is line-buffered.
-An exact integer specifies the size of the buffer.
-See [FilesAdvancedCowan](FilesAdvancedCowan.md) for details.
+The value is a list of file descriptors not to be closed in the child process.
+All file descriptors not mentioned in the setup plist are closed.
 
 `path`
 
@@ -125,10 +115,10 @@ child process.  If omitted, the child process has the same environment as the pa
 
 If the value is `#f` or the key is omitted,
 the child process belongs to the same process group and session as the parent process.
-If `mode` in an exact integer, it specifies the process group id
+If the value is an exact integer, it specifies the process group id
 to which the child process will belong.
-If it is the symbol `new` it belongs to the same session but in a new process group.
-If it is the symbol `new-session`, it belongs to a new session and a
+If the value is the symbol `new` it belongs to the same session but in a new process group.
+If the value is the symbol `new-session`, it belongs to a new session and a
 new process group; in Windows this implies a new console.
 
 `wait`
@@ -136,10 +126,28 @@ new process group; in Windows this implies a new console.
 If the value is `#f` or the key is omitted, `make-process` returns as soon as the child
 process is created.  If the value is `#t`, `make-process` returns when the child terminates.
 
+## Synthetic process objects
+
+`(pid->proc `*pid*`)`
+
+Creates a synthetic process object wrapping an arbitrary process id.
+In addition, the process object accessors may return `#f` unexpectedly
+or read from a file such as `/proc/<pid>/status`.
+It is always possible to send signals to a synthetic process object.
+
+## Process object predicates
+
+`(process? `*obj*`)`  
+`(synthetic-process? `*obj*`)`
+
+Returns `#t` if *obj* is a (synthetic) process object and `#f` otherwise.
+
 ## Process object accessors
 
 The following procedures extract values from
 the process object returned by `make-process`.
+If the answer is not yet known, calling these procedure triggers an attempt to find out,
+but in no case does the caller wait for any process to complete.
 
 `(process-child-id `*process*`)`
 
@@ -152,28 +160,6 @@ Returns the process group id of the child process as an exact integer.
 `(process-child-session `*process*`)`
 
 Returns the session id of the child process as an exact integer.
-
-`(process-stdin `*process*`)`
-
-Returns the write end of the pipe connected to the child's standard input as an output port.
-Whether it is a binary or textual port depends on how the pipe was created.
-Returns `#f` if the child's standard input was not specified as `binary-pipe` or `textual-pipe`.
-
-`(process-stdout `*process*`)`  
-`(process-stderr `*process*`)`
-
-Returns the read end of the pipe connected to the child's standard output/error as an input port.
-Whether it is a binary or textual port depends on how the pipe was created.
-Returns `#f` if the child's standard output/error was not specified as `binary-pipe` or `textual-pipe`.
-
-`(process-fd `*process fd*`)`
-
-Returns the appropriate end of the pipe connected to the child's file descriptor *fd*.
-Whether it is an input or an output port or a binary or textual port depends on how the pipe was created.
-Returns `#f` if the child's *fd* was not specified as  `binary-pipe` or `textual-pipe`.
-
-
-## Process termination procedures
 
 (`process-terminated? `*process*`)`
 
@@ -195,29 +181,40 @@ Returns the signal number as an exact integer if the process has stopped on a si
 
 Returns the signal number as an exact integer if the process has terminated on a signal, or #f if not.
 
-`(process-wait `*process-or-pid*`)`
+## Process termination procedures
+
+Any attempt to wait for a process that is not a child of the calling process
+signals an error satisfying `process-exception?`.
+If the optional *stopped?* argument is present and true,
+the call will return for a stopped process as well as a terminated one.
+
+`(process-wait `*process* [*stopped?*]`)`
 
 Waits for the specified child process to terminate.  Returns the process object.
 
-`(process-wait-any)`
+`(process-wait-any [*stopped?*])`
 
-Waits for any child process to terminate.  Returns the process object.
+Waits for any child process to terminate.  Returns the process object of the child.
 
-`(process-wait-group `*process-or-pgid*`)`
+`(process-wait-group `*process [*stopped?*]`)`
 
-Waits for any of the processes in the process group
-specified by the process object or the exact integer process group id to terminate.
+Waits for any of the child processes in the process group
+specified by *process* to terminate.
 Returns the process object of the terminated process.
+
+## Sending signals to processes.
+
+These procedures may be called on any process object,
+synthetic or not.
 
 `(process-terminate `*process*`)`
 
-Sends the SIGTERM signal to the child process.
+Sends the SIGTERM signal to the process.
 Returns an unspecified value.
 
-`(process-send-signal `*process-or-pid signal*`)`
+`(process-send-signal `*process signal*`)`
 
-Sends the signal *signal* to the child process, which may be
-a process object or an exact integer process id.
+Sends the signal *signal* to the *process*.
 Returns an unspecified value.
 
 `(process-send-group-signal `*process-or-pgid signal*`)`
@@ -228,7 +225,8 @@ process object.
 
 ## Fork and exec
 
-These procedures are not portable to Windows (they will raise errors) and should be avoided when possible.
+These procedures are not portable to Windows (they will raise errors satisfying `process-exception?`)
+and should be avoided when possible.
 
 `(process-fork)`
 
@@ -242,8 +240,8 @@ process immediately invokes *thunk* and exits using the value that *thunk* retur
 
 `(process-exec `*setup cmd . args*`)`
 
-Executes *cmd* in the current process, passing *args* to it.  All keys
-in *setup* except `closed-fds`, `path`, `arg0`, and `env` are ignored.
+In the current process, replaces the currently executing program with *cmd*, passing *args* to it.
+All keys in *setup* except `closed-fds`, `path`, `arg0`, and `env` are ignored.
 This procedure never returns (but may throw an exception).
 
 ## Exceptions
