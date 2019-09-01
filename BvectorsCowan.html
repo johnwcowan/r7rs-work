@@ -186,7 +186,7 @@ Boolean vectors are known as <i>bvectors</i> for short.
 except for those in the "Mutators" and "Bitwise mutators" sections.</p>
 
 <p>Except as otherwise noted, the semantics of each procedure are those
-of the corresponding SRFI 133 or SRFI 151 procedure.<\/p>
+of the corresponding SRFI 133 or SRFI 151 procedure.</p>
 
 <p>FIXME: Notations in curly braces are implementation comments which
 will be removed before finalization.</p>
@@ -264,7 +264,7 @@ and <code>#f</code> otherwise.</p>
 
 <p><code>(bvector-length <i>bvec</i>) -> exact nonnegative integer</code></p>
 
-<p>Returns the length of <i>bvec</i></p>
+<p>Returns the length of <i>bvec</i>.</p>
 
 <H3>Iteration</H3>
 
@@ -442,8 +442,8 @@ arguments passed to the following procedures are of the same length.
 </p>
 
 <h3 id="Basicoperations">Basic operations</h3>
-<p> <code>(bvector-not </code><em>bvec</em><code>)</code> </p>
-<p> <code>(bvector-not! </code><em>bvec</em><code>)</code> </p>
+<p><code>(bvector-not </code><em>bvec</em><code>)</code><br />
+<code>(bvector-not! </code><em>bvec</em><code>)</code> </p>
 <p>
 Returns the element-wise complement of <em>bvec</em>; that is, all <code>#t</code> values are changed
 to <code>#f</code> values and all <code>#f</code> values to <code>#t</code> values.
@@ -456,7 +456,7 @@ maps that function across two or more bvectors in a element-wise fashion.
 The core idea of this group of functions is this element-wise "lifting"
 of the set of dyadic boolean functions to bvector parameters.  </p>
 <p> <code>(bvector-and </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code><br />
-<p> <code>(bvector-and! </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code><br />
+<code>(bvector-and! </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code><br />
 <code>(bvector-ior </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code><br />
 <code>(bvector-ior! </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code><br />
 <code>(bvector-xor </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code><br />
