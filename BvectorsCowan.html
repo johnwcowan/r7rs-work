@@ -56,10 +56,7 @@ Boolean vectors are known as <i>bvectors</i> for short.
 
 <H1>Specification</H1>
 
-<p>Bvectors are disjoint from all other Scheme types, except that if a
-Scheme implementation supports u1vectors as an extension to SRFI 160
-or any other kind of bit or boolean vectors,
-they should be the same type as bvectors.</p>
+<p>Bvectors are disjoint from all other Scheme types.</p>
 
 <H2>Notation</H2>
 
@@ -188,20 +185,26 @@ they should be the same type as bvectors.</p>
 <p>All procedures that return bvectors, vectors, or lists newly allocate their results,
 except for those in the "Mutators" and "Bitwise mutators" sections.</p>
 
+<p>Except as otherwise noted, the semantics of each procedure are those
+of the corresponding SRFI 133 or SRFI 151 procedure.<\/p>
+
+<p>FIXME: Notations in curly braces are implementation comments which
+will be removed before finalization.</p>
+
 <H2>Procedures</H2>
 
 <H3>Constructors</H3>
 
-<p><code>(make-bvector <i>size</i> [<i>fill</i>]) -> bvector </code></p>
+<p><code>(make-bvector <i>size</i> [<i>fill</i>]) -> bvector </code> {IW}</p>
 
 <p>Returns a bvector whose length is <i>size</i>.  If <i>fill</i> is provided,
 all the elements of the bvector are initialized to it.</p>
 
-<p><code>(bvector <i>value ...</i>) -> bvector </code></p>
+<p><code>(bvector <i>value ...</i>) -> bvector </code> {IW}</p>
 
 <p>Returns a bvector initialized with <i>values</i>.</p>
 
-<p><code>(bvector-unfold <i>f length seed ...</i>) -> bvector</code></p>
+<p><code>(bvector-unfold <i>f length seed</i>) -> bvector</code> {IW}</p>
 
 <p>Creates a vector whose length is <i>length</i> and iterates across each index
 <i>k</i> between 0 and <i>length</i>, applying <i>f</i> at each iteration to the current
@@ -210,7 +213,7 @@ the element to put in the k<i>th</i> slot of the new vector and a new state
 for the next iteration.
 On the first call to <i>f</i>, the state's value is <i>seed</i>.</p>
 
-<p><code>(bvector-unfold-right <i>f length seed ...</i>) -> bvector</code></p>
+<p><code>(bvector-unfold-right <i>f length seed</i>) -> bvector</code></p>
 
 <p>The same as <code>bvector-unfold</code>, but initializes the bvector from right to left.</p>
 
@@ -297,21 +300,24 @@ as the initial value.</p>
 
 <p><code>(bvector-map! <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> unspecified</code></p>
 
+<p><code>(bvector-map->list <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> list</code></p>
+
 <p><code>(bvector-for-each <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> unspecified</code></p>
 
 <p>Iterate over the corresponding elements of the <i>bvecs</i> and apply <i>f</i>
 to each, returning respectively a bvector of the results,
-an undefined value with the results placed back in <i>bvec</i>,
+an undefined value with the results placed back in <i>bvec1</i>,
+a list of the results,
 and an undefined value with no change to <i>bvec</i>.</p>
 
 
-<H3>Prefixes and suffixes</H3>
+<H3>Prefixes, suffixes, trimming, padding</H3>
 
-<p><code>(bvector-prefix-length <i>bvec1 bvec2</i> -> index</code></p>
+<p><code>(bvector-prefix-length <i>bool bvec1 bvec2</i> -> index</code></p>
 
-<p><code>(bvector-suffix-length <i>bvec1 bvec2</i> -> index</code></p>
+<p><code>(bvector-suffix-length <i>bool bvec1 bvec2</i> -> index</code></p>
 
-<p>Return the number of identical elements in the prefix/suffix 
+<p>Return the number of elements equal to <i>bool</i> in the prefix/suffix 
 of the two <i>bvecs</i>.</p>
 
 <p><code>(bvector-prefix? <i>bvec1 bvec2</i> -> boolean</code></p>
@@ -321,31 +327,20 @@ of the two <i>bvecs</i>.</p>
 Returns <code>#t</code> if <i>bvec1</i> is a prefix/suffix of <i>bvec2</i>,
 and <code>#f</code> otherwise.</p>
 
-<p><code>(bvector-true-prefix-length <i>bvec</i>) -> exact nonnegative integer</code></p>
-<p><code>(bvector-true-suffix-length <i>bvec</i>) -> exact nonnegative integer</code></p>
-<p><code>(bvector-false-prefix-length <i>bvec</i>) -> exact nonnegative integer</code></p>
-<p><code>(bvector-false-suffix-length <i>bvec</i>) -> exact nonnegative integer</code></p>
-
-<p>Returns the number of <code>#t</code>/<code>#f</code> values
-at the beginning/end of <i>bvec</i>.
-
-<p><code>(bvector-pad-true-prefix <i>bvec length</i>) -> bvec</code></p>
-<p><code>(bvector-pad-true-suffix <i>bvec length</i>) -> bvec</code></p>
-<p><code>(bvector-pad-false-prefix <i>bvec length</i>) -> bvec</code></p>
-<p><code>(bvector-pad-false-suffix <i>bvec length</i>) -> bvec</code></p>
+<p><code>(bvector-pad <i> bool bvec length</i>) -> bvec</code></p>
+<p><code>(bvector-pad-right <i> bool bvec length</i>) -> bvec</code></p>
 
 <p>Returns a copy of <i>bvec</i> with leading/trailing
-<code>#t</code>/<code>#f</code> elements 
+elements equal to <i>bool</i>
 added (if necessary) so that the length of the result
 is <i>length</i>.</p>
 
-<p><code>(bvector-trim-true-prefix <i>bvec</i>) -> bvec</code></p>
-<p><code>(bvector-trim-true-suffix <i>bvec</i>) -> bvec</code></p>
-<p><code>(bvector-trim-false-prefix <i>bvec</i>) -> bvec</code></p>
-<p><code>(bvector-trim-false-suffix <i>bvec</i>) -> bvec</code></p>
+<p><code>(bvector-trim <i>bvec</i>) -> bvec</code></p>
+<p><code>(bvector-trim-right <i>bvec</i>) -> bvec</code></p>
+<p><code>(bvector-trim-both <i>bvec</i>) -> bvec</code></p>
 
-<p>Returns a copy of <i>bvec</i> with leading/trailing
-<code>#t</code>/<code>#f</code> elements removed.</p>
+<p>Returns a copy of <i>bvec</i> with leading/trailing/both
+elements equal to <i>bool</i> removed.</p>
 
 <H3>Mutators</H3>
 
@@ -436,15 +431,18 @@ Note that the generator is finite.
 In this section, "bit" is a synonym for "boolean", used for parallelism
 with SRFI 151.
 </p>
+
+<p>Procedures whose names end in <code>!</code> are the same as the
+corresponding procedures without <code>!</code>, except that the first
+bvector argument is mutated and an unspecified result is returned.</p>
 <p>
 It is an error unless all <em>bvector</em>
 arguments passed to the following procedures are of the same length.
 </p>
 
 <h3 id="Basicoperations">Basic operations</h3>
-<p>
-<code>(bvector-not </code><em>bvec</em><code>)</code>
-</p>
+<p> <code>(bvector-not </code><em>bvec</em><code>)</code> </p>
+<p> <code>(bvector-not! </code><em>bvec</em><code>)</code> </p>
 <p>
 Returns the element-wise complement of <em>bvec</em>; that is, all <code>#t</code> values are changed
 to <code>#f</code> values and all <code>#f</code> values to <code>#t</code> values.
@@ -455,13 +453,15 @@ of non-trivial two-argument boolean functions. For each such function,
 the corresponding bvector operator
 maps that function across two or more bvectors in a element-wise fashion.
 The core idea of this group of functions is this element-wise "lifting"
-of the set of dyadic boolean functions to bvector parameters.
-</p>
-<p>
-<code>(bvector-and </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code><br />
+of the set of dyadic boolean functions to bvector parameters.  </p>
+<p> <code>(bvector-and </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code><br />
+<p> <code>(bvector-and! </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code><br />
 <code>(bvector-ior </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code><br />
+<code>(bvector-ior! </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code><br />
 <code>(bvector-xor </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code><br />
-<code>(bvector-eqv </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code>
+<code>(bvector-xor! </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code><br />
+<code>(bvector-eqv </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code><br />
+<code>(bvector-eqv! </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code>
 </p>
 <p>
 These operations are associative.
@@ -484,12 +484,18 @@ Rather, it produces <code>(bvector-eqv a (bvector-eqv b c))</code> or the equiva
 </p>
 <p>
 <code>(bvector-nand </code><em>bvec1 bvec2</em><code>)</code><br />
+<code>(bvector-nand </code><em>bvec1 bvec2</em><code>)</code><br />
+<code>(bvector-nor </code><em>bvec1 bvec2</em><code>)</code><br />
 <code>(bvector-nor </code><em>bvec1 bvec2</em><code>)</code><br />
 <code>(bvector-andc1 </code><em>bvec1 bvec2</em><code>)</code><br />
+<code>(bvector-andc1 </code><em>bvec1 bvec2</em><code>)</code><br />
+<code>(bvector-andc2 </code><em>bvec1 bvec2</em><code>)</code><br />
 <code>(bvector-andc2 </code><em>bvec1 bvec2</em><code>)</code><br />
 <code>(bvector-orc1 </code><em>bvec1 bvec2</em><code>)</code><br />
 <code>(bvector-orc2 </code><em>bvec1 bvec2</em><code>)</code>
+<code>(bvector-orc2 </code><em>bvec1 bvec2</em><code>)</code>
 </p>
+<p>
 <p>
 These operations are not associative.
 </p>
@@ -504,7 +510,7 @@ or the right shift when <em>count</em>&lt;0.
 Newly vacated elements are filled with <code>#f</code>s.
 </p>
 <p>
-<code>(bvector-count </code><em>bvec</em><code>)</code>
+<code>(bvector-count </code><em>bvec1 bvec2 ...</em><code>)</code>
 </p>
 <p>
 Returns the population count of <code>#t</code>'s in <em>bvec</em>.
