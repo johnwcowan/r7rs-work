@@ -9,7 +9,7 @@ Returns a NaN, using the exact integer *payload* in an implementation-defined wa
 to generate the payload bits.
 In particular, the sign bit of the NaN is set from the sign of `payload`.
 The quiet/signaling bit, however, is set from *signaling?*, which if omitted is false.
-If the implementation does not support [NaNs](NaNs.md), it is an error.
+If the implementation does not support NaNs, it is an error.
 
 `(nan-payload `*nan*`)`
 
