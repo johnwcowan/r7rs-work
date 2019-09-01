@@ -435,6 +435,7 @@ with SRFI 151.
 <p>Procedures whose names end in <code>!</code> are the same as the
 corresponding procedures without <code>!</code>, except that the first
 bvector argument is mutated and an unspecified result is returned.</p>
+
 <p>
 It is an error unless all <em>bvector</em>
 arguments passed to the following procedures are of the same length.
@@ -484,16 +485,17 @@ Rather, it produces <code>(bvector-eqv a (bvector-eqv b c))</code> or the equiva
 </p>
 <p>
 <code>(bvector-nand </code><em>bvec1 bvec2</em><code>)</code><br />
-<code>(bvector-nand </code><em>bvec1 bvec2</em><code>)</code><br />
+<code>(bvector-nand! </code><em>bvec1 bvec2</em><code>)</code><br />
 <code>(bvector-nor </code><em>bvec1 bvec2</em><code>)</code><br />
-<code>(bvector-nor </code><em>bvec1 bvec2</em><code>)</code><br />
+<code>(bvector-nor! </code><em>bvec1 bvec2</em><code>)</code><br />
 <code>(bvector-andc1 </code><em>bvec1 bvec2</em><code>)</code><br />
-<code>(bvector-andc1 </code><em>bvec1 bvec2</em><code>)</code><br />
+<code>(bvector-andc1! </code><em>bvec1 bvec2</em><code>)</code><br />
 <code>(bvector-andc2 </code><em>bvec1 bvec2</em><code>)</code><br />
-<code>(bvector-andc2 </code><em>bvec1 bvec2</em><code>)</code><br />
+<code>(bvector-andc2! </code><em>bvec1 bvec2</em><code>)</code><br />
 <code>(bvector-orc1 </code><em>bvec1 bvec2</em><code>)</code><br />
-<code>(bvector-orc2 </code><em>bvec1 bvec2</em><code>)</code>
-<code>(bvector-orc2 </code><em>bvec1 bvec2</em><code>)</code>
+<code>(bvector-orc1! </code><em>bvec1 bvec2</em><code>)</code><br />
+<code>(bvector-orc2 </code><em>bvec1 bvec2</em><code>)</code><br />
+<code>(bvector-orc2! </code><em>bvec1 bvec2</em><code>)</code>
 </p>
 <p>
 <p>
@@ -501,19 +503,20 @@ These operations are not associative.
 </p>
 <h3 id="Quasiintegeroperations">Quasi-integer operations</h3>
 <p>
-<code>(bvector-logical-shift </code><em>bvec count</em><code>)</code>
+<code>(bvector-logical-shift </code><em>bvec count</em><code>)</code><br />
+<code>(bvector-logical-shift! </code><em>bvec count</em><code>)</code>
 </p>
 <p>
 Returns a bvector equal in length to <em>bvec</em>
-containng the logical left shift when <em>count</em>>=0
-or the right shift when <em>count</em>&lt;0.
-Newly vacated elements are filled with <code>#f</code>s.
+containing the logical left shift (toward lower indices) when <em>count</em>>=0
+or the right shift (toward upper indices) when <em>count</em>&lt;0.
+Newly vacated elements are filled with <i>bool</i>.
 </p>
 <p>
-<code>(bvector-count </code><em>bvec1 bvec2 ...</em><code>)</code>
+<code>(bvector-count </code><em>bool bvec1 bvec2 ...</em><code>)</code>
 </p>
 <p>
-Returns the population count of <code>#t</code>'s in <em>bvec</em>.
+Returns the population count of <i>bool</i> in <em>bvec</em>.
 </p>
 <p>
 <p>
@@ -531,11 +534,11 @@ otherwise the <em>k</em>th bit of <em>else-bvector</em>.
 
 
 <p>
-<code>(bvector-first-set-bit </code><em>bvec</em><code>)</code>
+<code>(bvector-first-bit </code><em>bool bvec</em><code>)</code>
 </p>
 <p>
-Return the index of the first (smallest index) <code>#t</code> value in <em>bvec</em>.
-Return -1 if <em>bvec</em> contains no <code>#t</code> values.
+Return the index of the first (smallest index) <i>bool</i> value in <em>bvec</em>.
+Return -1 if <em>bvec</em> contains no <i>bool</i> values.
 </p>
 <h3 id="Bitfieldoperations">Bit field operations</h3>
 <p>
@@ -545,15 +548,6 @@ arguments, which are not optional, are
 non-negative exact integers specifying the field: it is the <em>end-start</em> bits
 running from bit <em>start</em> to bit <em>end</em>-1.
 </p>
-<p>
-<code>(bvector-field </code><em>bvec start end</em><code>)</code>
-</p>
-<p>
-Returns a bvector containing
-the field from <em>bvec</em>, shifted
-down to the least-significant position in the result.
-</p>
-
 
 
 <p>
@@ -575,7 +569,9 @@ Returns true if any of the field's bits are set in <em>bvec</em>, and false othe
 
 <p>
 <code>(bvector-field-clear </code><em>bvec start end</em><code>)</code><br />
-<code>(bvector-field-set </code><em>bvec start end</em><code>)</code>
+<code>(bvector-field-clear! </code><em>bvec start end</em><code>)</code><br />
+<code>(bvector-field-set </code><em>bvec start end</em><code>)</code><br />
+<code>(bvector-field-set! </code><em>bvec start end</em><code>)</code>
 </p>
 <p>
 Returns a bvector containing
@@ -585,18 +581,20 @@ Returns a bvector containing
 
 
 <p>
-<code>(bvector-field-replace </code><em>dest source start end</em><code>)</code>
+<code>(bvector-field-replace </code><em>dest source start end</em><code>)</code> <br />
+<code>(bvector-field-replace! </code><em>dest source start end</em><code>)</code>
 </p>
 <p>
 Returns a bvector containing
 <em>dest</em> with the field replaced
-by the least-significant <em>end-start</em> bits in <em>source</em>.
+by the first <em>end-start</em> bits in <em>source</em>.
 </p>
 
 
 
 <p>
 <code>(bvector-field-replace-same </code><em>dest source start end</em><code>)</code>
+<code>(bvector-field-replace-same! </code><em>dest source start end</em><code>)</code> <br />
 </p>
 <p>
 Returns a bvector containing
@@ -606,7 +604,8 @@ by the corresponding field in <em>source</em>.
 
 
 <p>
-<code>(bvector-field-rotate </code><em>bvec count start end</em><code>)</code>
+<code>(bvector-field-rotate </code><em>bvec count start end</em><code>)</code><br />
+<code>(bvector-field-rotate! </code><em>bvec count start end</em><code>)</code>
 </p>
 <p>
 Returns <em>bvec</em> with the field cyclically permuted
@@ -616,14 +615,16 @@ by <em>count</em> bits towards high-order.
 
 
 <p>
-<code>(bvector-field-reverse </code><em>bvec start end</em><code>)</code>
+<code>(bvector-field-reverse </code><em>bvec start end</em><code>)</code><br />
+<code>(bvector-field-reverse! </code><em>bvec start end</em><code>)</code>
 </p>
 <p>
 Returns <em>bvec</em> with the order of the bits in the field reversed.
 </p>
 
 <p>
-<code>(bvector-field-flip </code><em>bvec start end</em><code>)</code>
+<code>(bvector-field-flip </code><em>bvec start end</em><code>)</code><br />
+<code>(bvector-field-flip! </code><em>bvec start end</em><code>)</code>
 </p>
 <p>
 Returns <em>bvec</em> with the bits in the field flipped:
@@ -632,32 +633,6 @@ that is, <code>#t</code> becomes <code>#f</code> and vice versa.  There is no SR
 
 
 
-
-<h3>Bitwise mutators</h3>
-<p>The operations
-<code>bvector-not!</code>,
-<code>bvector-and!</code>,
-<code>bvector-ior!</code>,
-<code>bvector-xor!</code>,
-<code>bvector-eqv!</code>,
-<code>bvector-nand!</code>,
-<code>bvector-nor!</code>,
-<code>bvector-andc1!</code>,
-<code>bvector-andc2!</code>,
-<code>bvector-orc1!</code>,
-<code>bvector-orc2!</code>,
-<code>bvector-field-clear!</code>,
-<code>bvector-field-set!</code>,
-<code>bvector-field-replace!</code>,
-<code>bvector-field-replace-same!</code>,
-<code>bvector-field-rotate!</code>,
-<code>bvector-field-reverse!</code>,
-and
-<code>bvector-field-flip!</code>
-have the same semantics as their counterparts without
-<code>!</code>, except that instead of allocating a
-result bvector, the first bvector argument is mutated
-and an unspecified value returned.</p>
 
 <H1>Implementation</H1>
 
