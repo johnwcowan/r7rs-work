@@ -25,25 +25,38 @@ There is no way to escape the loop except using `call/cc` or the equivalent.
 It is less complex than Scheme `do`, to say nothing of various loop macros, and is
 intended to make the processing of vectors one element at a time almost as easy as
 processing lists similarly.
-Because the use of a step value (other than 1) is a comparatively rare case,
-stepping is not provided for.
 
-Syntax: `(do-times (`*var [start*] *end* *result*`) .` *body*`)`
+Syntax: `(do-times *var* `(start `*start*`)` `(end` *end*`)` [`(step `*step*`)` `(return `*expr4*`)` .` *body*`)`
 
 Semantics: Repeatedly evaluate the expressions in *body*
-for effect; their values are discarded.  
+for effect; their values are discarded.
+The values of *start*, *end*, and *step* are evaluated first.
+
+On the first iteration, *var* is bound to *start*.
+On the second iteration, *var* is incremented by *step* and so on.
+When *var* is greater than *end* (no default), *return* is evaluated and returned.
 Declarations are permitted at the beginning of *body*.
-On the first iteration, *var* is bound to *start* (default value 0);
-on the second iteration to *start* + 1, and so on.  When *var* would take
-the value of *end*, the value of *result* is returned.
 
-It is an error unless *var* is a single identifier
-and *start* and *end* evaluate to exact integers.
-They are evaluated before the loop begins,
-whereas *result* is not evaluated until the end of the loop.
-None of the three expressions can refer to *var*.
+# Do-list
 
-## Tagbody
+The `do-list` macro is based on the very similar Common Lisp `dolist` macro.
+It is an abstraction of iterating over the elements of a list.
+There is no way to escape the loop except using `call/cc` or the equivalent.
+
+It is less complex than Scheme `do`, to say nothing of various loop macros, and is
+intended to make the processing of lists one element at a time easy.
+
+Syntax: `(do-list `*var* *list*` . `*body*`)`
+
+Semantics: Repeatedly evaluate the expressions in *body*
+for effect; their values are discarded.
+The value of *list* is evaluated first.
+
+On each iteration, *var* is bound to a successive element of *list*.
+Declarations are permitted at the beginning of *body*.
+
+
+## Tagged-begin
 
 [Spec](http://clhs.lisp.se/Body/s_tagbod.htm), but `go` is unnecessary: just call the tag.
 
@@ -71,15 +84,13 @@ None of the three expressions can refer to *var*.
 
 (define-syntax do-times
   (syntax-rules ()
-      ((do-times (var end result) . body)
-       (do-times (var 0 end result) . body))
-      ((do-times (var start end result) . body)
+      ((do-times var (start st) (end en) (step st) (result re) . body)
         (begin
-          (let ((s start) (e end))
+          (let ((s st) (e en) (t st))
             (let loop ((var s))
-              (when (not (= var e))
+              (when (< var en)
                 (let () . body)
-                (loop (+ var 1)))))
+                (loop (+ var st)))))
           result))))
 ```
   
