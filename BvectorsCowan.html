@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>SRFI FIXME: Boolean vector library</title>
+    <title>SRFI 175: Boolean vector library</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="/srfi.css" type="text/css" />
     <link href="/favicon.png" rel="icon" sizes="192x192" type="image/png" />
@@ -213,202 +213,202 @@ the element to put in the k<i>th</i> slot of the new vector and a new state
 for the next iteration.
 On the first call to <i>f</i>, the state's value is <i>seed</i>.</p>
 
-<p><code>(bvector-unfold-right <i>f length seed</i>) -> bvector</code></p>
+<p><code>(bvector-unfold-right <i>f length seed</i>) -> bvector</code> {IW}</p>
 
 <p>The same as <code>bvector-unfold</code>, but initializes the bvector from right to left.</p>
 
-<p><code>(bvector-copy <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> bvector</code></p>
+<p><code>(bvector-copy <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> bvector</code> {UW}</p>
 
 <p>Makes a copy of the portion of <i>bvec</i> from <i>start</i> to <i>end</i> and returns it.</p>
 
-<p><code>(bvector-reverse-copy <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> bvector</code></p>
+<p><code>(bvector-reverse-copy <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> bvector</code> {UW}</p>
 
 <p>The same as <code>bvector-copy</code>, but in reverse order.</p>
 
-<p><code>(bvector-append <i>bvec ...</i>) -> bvector</code></p>
+<p><code>(bvector-append <i>bvec ...</i>) -> bvector</code> {UW}</p>
 
 <p>Returns a bvector containing all the elements of the <i>bvecs</i> in order.</p>
 
-<p><code> (bvector-concatenate <i>list-of-bvectors</i>) -> bvector</code></p>
+<p><code> (bvector-concatenate <i>list-of-bvectors</i>) -> bvector</code> {UW}</p>
 
 <p>The same as <code>bvector-append</code>, but takes a list of bvectors rather than
 multiple arguments.</p>
 
-<p><code>(bvector-append-subvectors [<i>bvec start end] ...</i>) -> bvector</code></p>
+<p><code>(bvector-append-subvectors [<i>bvec start end] ...</i>) -> bvector</code> {UW}</p>
 
 <p>Concatenates the result of applying <code>bvector-copy</code> to each triplet of
 <i>bvec, start, end</i> arguments, but may be implemented more efficiently.</p>
 
 <H3>Predicates</H3>
 
-<p><code>(bvector? <i>obj</i>) -> boolean</code></p>
+<p><code>(bvector? <i>obj</i>) -> boolean</code> {orig}</p>
 
 <p>Returns <code>#t</code> if <i>obj</i> is a bvector, and <code>#f</code>
 otherwise.</p>
 
-<p><code>(bvector-empty? <i>bvec</i>) -> boolean</code></p>
+<p><code>(bvector-empty? <i>bvec</i>) -> boolean</code> {U}</p>
 
 Returns <code>#t</code> if <i>bvec</i> has a length of zero,
 and <code>#f</code> otherwise.</p>
 
-<p><code>(bvector= <i>bvec ...</i>) -> boolean</code></p>
+<p><code>(bvector= <i>bvec ...</i>) -> boolean</code> {U}</p>
 
 <p>Compares the <i>bvecs</i> for elementwise equality, using
 <code>boolean=?</code> to do the comparisons.</p>
 
 <H3>Selectors</H3>
 
-<p><code>(bvector-ref <i>bvec i</i>) -> boolean</code></p>
+<p><code>(bvector-ref <i>bvec i</i>) -> boolean</code> {UB}</p>
 
 <p>Returns the <i>i</i>th element of <i>bvec</i> as <code>#f</code> or <code>#t</code>.</p>
 
-<p><code>(bvector-length <i>bvec</i>) -> exact nonnegative integer</code></p>
+<p><code>(bvector-length <i>bvec</i>) -> exact nonnegative integer</code> {U}</p>
 
 <p>Returns the length of <i>bvec</i>.</p>
 
 <H3>Iteration</H3>
 
-<p><code>(bvector-take <i>bvec n</i>) -> bvector</code></p>
+<p><code>(bvector-take <i>bvec n</i>) -> bvector</code> {UW}<br />
 
-<p><code>(bvector-take-right <i>bvec n</i>) -> bvector</code></p>
+<p><code>(bvector-take-right <i>bvec n</i>) -> bvector</code> {UW}</p>
 
 <p>Returns a bvector containing the first/last <i>n</i>
 elements of <i>bvec</i>.</p>
 
-<p><code>(bvector-drop <i>bvec n</i>) -> bvector</code></p>
+<p><code>(bvector-drop <i>bvec n</i>) -> bvector</code> {UW}<br />
 
-<p><code>(bvector-drop-right <i>bvec n</i>) -> bvector</code></p>
+<p><code>(bvector-drop-right <i>bvec n</i>) -> bvector</code> {UW}</p>
 
 <p>Returns a bvector containing all except the first/last <i>n</i>
 elements of <i>bvec</i>.</p>
 
-<p><code>(bvector-segment <i>bvec n</i>) -> list</code></p>
+<p><code>(bvector-segment <i>bvec n</i>) -> list</code> {UW}</p>
 
 <p>Returns a list of bvectors, each of which contains <i>n</i>
 consecutive elements of <i>bvec</i>.
 The last bvector may be shorter than <i>n</i>.</p>
 
-<p><code>(bvector-fold <i>kons knil bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> object</code></p>
+<p><code>(bvector-fold <i>kons knil bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> object</code> {UI}<br />
 
-<p><code>(bvector-fold-right <i>kons knil bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> object</code></p>
+<code>(bvector-fold-right <i>kons knil bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> object</code> {UI}</p>
 
 <p>Folds <i>kons</i> over the elements of <i>bvec</i>
 in increasing/decreasing order using <i>knil</i>
 as the initial value.</p>
 
-<p><code>(bvector-map <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> unspecified</code></p>
+<p><code>(bvector-map <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> bvector</code> {UBIW}<br />
 
-<p><code>(bvector-map! <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> unspecified</code></p>
+<code>(bvector-map! <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> unspecified</code> {UBIW}<br />
 
-<p><code>(bvector-map->list <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> list</code></p>
+<code>(bvector-map->list <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> list</code> {UBIW}<br />
 
-<p><code>(bvector-for-each <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> unspecified</code></p>
+<code>(bvector-for-each <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> unspecified</code> {UB}</p>
 
 <p>Iterate over the corresponding elements of the <i>bvecs</i> and apply <i>f</i>
-to each, returning respectively a bvector of the results,
+to each, returning respectively: a bvector of the results,
 an undefined value with the results placed back in <i>bvec1</i>,
 a list of the results,
-and an undefined value with no change to <i>bvec</i>.</p>
+and an undefined value with no change to <i>bvec1</i>.</p>
 
 
 <H3>Prefixes, suffixes, trimming, padding</H3>
 
-<p><code>(bvector-prefix-length <i>bool bvec1 bvec2</i> -> index</code></p>
+<p><code>(bvector-prefix-length <i>bool bvec1 bvec2</i> -> index</code> {U}<br />
 
-<p><code>(bvector-suffix-length <i>bool bvec1 bvec2</i> -> index</code></p>
+<code>(bvector-suffix-length <i>bool bvec1 bvec2</i> -> index</code> {U}</p>
 
 <p>Return the number of elements equal to <i>bool</i> in the prefix/suffix 
 of the two <i>bvecs</i>.</p>
 
-<p><code>(bvector-prefix? <i>bvec1 bvec2</i> -> boolean</code></p>
+<code>(bvector-prefix? <i>bvec1 bvec2</i> -> boolean</code> {U}<br />
 
-<p><code>(bvector-suffix? <i>bvec1 bvec2</i> -> boolean</code></p>
+<p><code>(bvector-suffix? <i>bvec1 bvec2</i> -> boolean</code> {U}</p>
 
 Returns <code>#t</code> if <i>bvec1</i> is a prefix/suffix of <i>bvec2</i>,
 and <code>#f</code> otherwise.</p>
 
-<p><code>(bvector-pad <i> bool bvec length</i>) -> bvec</code></p>
-<p><code>(bvector-pad-right <i> bool bvec length</i>) -> bvec</code></p>
+<p><code>(bvector-pad <i> bool bvec length</i>) -> bvec</code> {new}<br />
+<code>(bvector-pad-right <i> bool bvec length</i>) -> bvec</code> {new}</p>
 
 <p>Returns a copy of <i>bvec</i> with leading/trailing
 elements equal to <i>bool</i>
 added (if necessary) so that the length of the result
 is <i>length</i>.</p>
 
-<p><code>(bvector-trim <i>bvec</i>) -> bvec</code></p>
-<p><code>(bvector-trim-right <i>bvec</i>) -> bvec</code></p>
-<p><code>(bvector-trim-both <i>bvec</i>) -> bvec</code></p>
+<p><code>(bvector-trim <i>bvec</i>) -> bvec</code> {new}<br />
+<code>(bvector-trim-right <i>bvec</i>) -> bvec</code> {new}<br />
+<code>(bvector-trim-both <i>bvec</i>) -> bvec</code> {new}</p>
 
 <p>Returns a copy of <i>bvec</i> with leading/trailing/both
 elements equal to <i>bool</i> removed.</p>
 
 <H3>Mutators</H3>
 
-<p><code>(bvector-set! <i>bvec i value</i>) -> unspecified</code></p>
+<p><code>(bvector-set! <i>bvec i value</i>) -> unspecified</code> {UI}</p>
 
 <p>Sets the <i>i</i>th element of <i>bvec</i> to <i>value</i>.</p>
 
-<p><code>(bvector-swap! <i>bvec i j</i>) -> unspecified</code></p>
+<p><code>(bvector-swap! <i>bvec i j</i>) -> unspecified</code> {U}</p>
 
 <p>Interchanges the <i>i</i>th and <i>j</i>th elements of <i>bvec</i>.</p>
 
-<p><code>(bvector-fill! <i>bvec fill</i> [<i>start</i> [<i>end</i>]]) -> unspecified</code></p>
+<p><code>(bvector-fill! <i>bvec fill</i> [<i>start</i> [<i>end</i>]]) -> unspecified</code> {UI}</p>
 
 <p>Fills the portion of <i>bvec</i> from <i>start</i> to <i>end</i>
 with the value <i>fill</i>.</p>
 
-<p><code>(bvector-reverse! <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> unspecified</code></p>
+<p><code>(bvector-reverse! <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> unspecified</code> {U}</p>
 
 <p>Reverses the portion of <i>bvec</i> from <i>start</i> to <i>end</i>.</p>
 
-<p><code>(bvector-copy! <i>to at from</i> [<i>start</i> [<i>end</i>]]) -> unspecified</code></p>
+<p><code>(bvector-copy! <i>to at from</i> [<i>start</i> [<i>end</i>]]) -> unspecified</code> {U}</p>
 
 <p>Copies the portion of <i>from</i> from <i>start</i> to <i>end</i>
 onto <i>to</i>, starting at index <i>at</i>.
 
-<p><code>(bvector-reverse-copy! <i>to at from</i> [<i>start</i> [<i>end</i>]]) -> unspecified</code></p>
+<p><code>(bvector-reverse-copy! <i>to at from</i> [<i>start</i> [<i>end</i>]]) -> unspecified</code> {U}</p>
 
 <p>The same as <code>bvector-copy!</code>, but copies in reverse.</p>
 
 <H3>Conversion</H3>
 
-<p><code>(bvector->list <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> proper-list</code></p>
+<p><code>(bvector->list <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> proper-list</code> {UI}<br />
 
-<p><code>(reverse-bvector->list <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> proper-list</code></p>
+<code>(reverse-bvector->list <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> proper-list</code> {UB}<br />
 
-<p><code>(list->bvector <i>proper-list</i>) -> bvector</code></p>
+<code>(list->bvector <i>proper-list</i>) -> bvector</code> {}<br />
 
-<p><code>(reverse-list->bvector <i>proper-list</i>) -> bvector</code></p>
+<code>(reverse-list->bvector <i>proper-list</i>) -> bvector</code> {IW}<br />
 
-<p><code>(bvector->vector <i>bvec</i>) -> vector</code></p>
+<code>(bvector->vector <i>bvec</i>) -> vector</code> {U}<br />
 
-<p><code>(vector->bvector <i>vec</i>) -> bvector</code></p>
+<code>(vector->bvector <i>vec</i>) -> bvector</code> {W}</p>
 
 
 <p>Returns a list, bvector, or heterogeneous vector with the same
 elements as the argument, in reverse order where specified.</p>
 
-<p><code>(bvector->string <i>bvec</i>) -> string</code></p>
+<p><code>(bvector->string <i>bvec</i>) -> string</code> {new}</p>
 
 Returns a string beginning with <code>#*</code> and followed by the values of <i>vec</i>
 represented as 0 and 1 characters, where 0 means <code>#f</code>
 and 1 means <code>#t</code>.
 
-<p><code>(string->bvector <i>string</i>) -> bvector</code></p>
+<p><code>(string->bvector <i>string</i>) -> bvector</code> {new}</p>
 
 Parses a string in the format generated by <code>bvector->string</code>
 and returns the corresponding bvector, or <code>#f</code> if the
 string is not in this format.</p>
 
 <p>
-<code>(bvector->integer </code><em>bvector</em> [ <em>len</em> ]<code>)</code><br />
+<code>(bvector->integer </code><em>bvector</em> [ <em>len</em> ]<code>)</code> {new}<br />
 </p>
 <p>
 Returns a non-negative integer whose bits, starting with the least significant bit as bit 0,
 correspond to the values in <em>bvector</em>.
 </p>
 <p>
-<code>(integer->bvector </code><em>integer</em><code>)</code><br />
+<code>(integer->bvector </code><em>integer</em><code>)</code> {new}</p>
 </p>
 <p>
 Returns a bvector whose values correspond to the bits of <em>integer</em>,
@@ -418,8 +418,7 @@ starting with the least significant bit as bit 0.  It is an error if
 
 <h3>Generators</h3>
 <p>
-<code>(make-bvector-generator </code><em>bvector</em><code>)</code>
-</p>
+<code>(make-bvector-generator </code><em>bvector</em><code>)</code> {B}</p>
 <p>
 Returns a <a href="http://srfi.schemers.org/srfi-121/srfi-121.html">SRFI 121</a>
 generator that generates all the values of <em>bvector</em> in order.
@@ -442,8 +441,8 @@ arguments passed to the following procedures are of the same length.
 </p>
 
 <h3 id="Basicoperations">Basic operations</h3>
-<p><code>(bvector-not </code><em>bvec</em><code>)</code><br />
-<code>(bvector-not! </code><em>bvec</em><code>)</code> </p>
+<p><code>(bvector-not </code><em>bvec</em><code>)</code> {map}<br />
+<code>(bvector-not! </code><em>bvec</em><code>)</code>  {map}</p>
 <p>
 Returns the element-wise complement of <em>bvec</em>; that is, all <code>#t</code> values are changed
 to <code>#f</code> values and all <code>#f</code> values to <code>#t</code> values.
@@ -455,15 +454,14 @@ the corresponding bvector operator
 maps that function across two or more bvectors in a element-wise fashion.
 The core idea of this group of functions is this element-wise "lifting"
 of the set of dyadic boolean functions to bvector parameters.  </p>
-<p> <code>(bvector-and </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code><br />
-<code>(bvector-and! </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code><br />
-<code>(bvector-ior </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code><br />
-<code>(bvector-ior! </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code><br />
-<code>(bvector-xor </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code><br />
-<code>(bvector-xor! </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code><br />
-<code>(bvector-eqv </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code><br />
-<code>(bvector-eqv! </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code>
-</p>
+<p> <code>(bvector-and </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> {map}<br />
+<code>(bvector-and! </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> {map}<br />
+<code>(bvector-ior </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> {map}<br />
+<code>(bvector-ior! </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> {map}<br />
+<code>(bvector-xor </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> {map}<br />
+<code>(bvector-xor! </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> {map}<br />
+<code>(bvector-eqv </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> {map}<br />
+<code>(bvector-eqv! </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> {map} </p>
 <p>
 These operations are associative.
 </p>
@@ -484,28 +482,26 @@ Rather, it produces <code>(bvector-eqv a (bvector-eqv b c))</code> or the equiva
 <code>(bvector-eqv (bvector-eqv a b) c)</code>.
 </p>
 <p>
-<code>(bvector-nand </code><em>bvec1 bvec2</em><code>)</code><br />
-<code>(bvector-nand! </code><em>bvec1 bvec2</em><code>)</code><br />
-<code>(bvector-nor </code><em>bvec1 bvec2</em><code>)</code><br />
-<code>(bvector-nor! </code><em>bvec1 bvec2</em><code>)</code><br />
-<code>(bvector-andc1 </code><em>bvec1 bvec2</em><code>)</code><br />
-<code>(bvector-andc1! </code><em>bvec1 bvec2</em><code>)</code><br />
-<code>(bvector-andc2 </code><em>bvec1 bvec2</em><code>)</code><br />
-<code>(bvector-andc2! </code><em>bvec1 bvec2</em><code>)</code><br />
-<code>(bvector-orc1 </code><em>bvec1 bvec2</em><code>)</code><br />
-<code>(bvector-orc1! </code><em>bvec1 bvec2</em><code>)</code><br />
-<code>(bvector-orc2 </code><em>bvec1 bvec2</em><code>)</code><br />
-<code>(bvector-orc2! </code><em>bvec1 bvec2</em><code>)</code>
-</p>
+<code>(bvector-nand </code><em>bvec1 bvec2</em><code>)</code> {map}<br />
+<code>(bvector-nand! </code><em>bvec1 bvec2</em><code>)</code> {map}<br />
+<code>(bvector-nor </code><em>bvec1 bvec2</em><code>)</code> {map}<br />
+<code>(bvector-nor! </code><em>bvec1 bvec2</em><code>)</code> {map}<br />
+<code>(bvector-andc1 </code><em>bvec1 bvec2</em><code>)</code> {map}<br />
+<code>(bvector-andc1! </code><em>bvec1 bvec2</em><code>)</code> {map}<br />
+<code>(bvector-andc2 </code><em>bvec1 bvec2</em><code>)</code> {map}<br />
+<code>(bvector-andc2! </code><em>bvec1 bvec2</em><code>)</code> {map}<br />
+<code>(bvector-orc1 </code><em>bvec1 bvec2</em><code>)</code> {map}<br />
+<code>(bvector-orc1! </code><em>bvec1 bvec2</em><code>)</code> {map}<br />
+<code>(bvector-orc2 </code><em>bvec1 bvec2</em><code>)</code> {map}<br />
+<code>(bvector-orc2! </code><em>bvec1 bvec2</em><code>)</code> {map}</p>
 <p>
 <p>
 These operations are not associative.
 </p>
 <h3 id="Quasiintegeroperations">Quasi-integer operations</h3>
 <p>
-<code>(bvector-logical-shift </code><em>bvec count</em><code>)</code><br />
-<code>(bvector-logical-shift! </code><em>bvec count</em><code>)</code>
-</p>
+<code>(bvector-logical-shift </code><em>bvec count</em><code>)</code> {new}<br />
+<code>(bvector-logical-shift! </code><em>bvec count</em><code>)</code> {new}</p>
 <p>
 Returns a bvector equal in length to <em>bvec</em>
 containing the logical left shift (toward lower indices) when <em>count</em>>=0
@@ -513,15 +509,13 @@ or the right shift (toward upper indices) when <em>count</em>&lt;0.
 Newly vacated elements are filled with <i>bool</i>.
 </p>
 <p>
-<code>(bvector-count </code><em>bool bvec1 bvec2 ...</em><code>)</code>
-</p>
+<code>(bvector-count </code><em>bool bvec1 bvec2 ...</em><code>)</code> {fold}</p>
 <p>
 Returns the population count of <i>bool</i> in <em>bvec</em>.
 </p>
 <p>
 <p>
-<code>(bvector-if </code><em>if-bvector then-bvector else-bvector</em><code>)</code>
-</p>
+<code>(bvector-if </code><em>if-bvector then-bvector else-bvector</em><code>)</code> {map}</p>
 <p>
 Returns a bvector that
 merges the bvectors <em>then-bvector</em> and <em>else-bvector</em>,
@@ -534,8 +528,7 @@ otherwise the <em>k</em>th bit of <em>else-bvector</em>.
 
 
 <p>
-<code>(bvector-first-bit </code><em>bool bvec</em><code>)</code>
-</p>
+<code>(bvector-first-bit </code><em>bool bvec</em><code>)</code> {fold}</p>
 <p>
 Return the index of the first (smallest index) <i>bool</i> value in <em>bvec</em>.
 Return -1 if <em>bvec</em> contains no <i>bool</i> values.
@@ -551,8 +544,7 @@ running from bit <em>start</em> to bit <em>end</em>-1.
 
 
 <p>
-<code>(bvector-field-any? </code><em>bvec start end</em><code>)</code>
-</p>
+<code>(bvector-field-any? </code><em>bvec start end</em><code>)</code> {new}</p>
 <p>
 Returns true if any of the field's bits are set in <em>bvec</em>, and false otherwise.
 </p>
@@ -560,19 +552,17 @@ Returns true if any of the field's bits are set in <em>bvec</em>, and false othe
 
 
 <p>
-<code>(bvector-field-every? </code><em>bvec start end</em><code>)</code>
-</p>
+<code>(bvector-field-every? </code><em>bvec start end</em><code>)</code> {new}</p>
 <p>
   Returns false if any of the field's bits are not set in <em>bvec</em>, and true otherwise.
 </p>
 
 
 <p>
-<code>(bvector-field-clear </code><em>bvec start end</em><code>)</code><br />
-<code>(bvector-field-clear! </code><em>bvec start end</em><code>)</code><br />
-<code>(bvector-field-set </code><em>bvec start end</em><code>)</code><br />
-<code>(bvector-field-set! </code><em>bvec start end</em><code>)</code>
-</p>
+<code>(bvector-field-clear </code><em>bvec start end</em><code>)</code> {new}<br />
+<code>(bvector-field-clear! </code><em>bvec start end</em><code>)</code> {new}<br />
+<code>(bvector-field-set </code><em>bvec start end</em><code>)</code> {new}<br />
+<code>(bvector-field-set! </code><em>bvec start end</em><code>)</code> {new}</p>
 <p>
 Returns a bvector containing
 <em>bvec</em> with the field's bits set to all
@@ -581,9 +571,8 @@ Returns a bvector containing
 
 
 <p>
-<code>(bvector-field-replace </code><em>dest source start end</em><code>)</code> <br />
-<code>(bvector-field-replace! </code><em>dest source start end</em><code>)</code>
-</p>
+<code>(bvector-field-replace </code><em>dest source start end</em><code>)</code>  {new}<br />
+<code>(bvector-field-replace! </code><em>dest source start end</em><code>)</code> {new}</p>
 <p>
 Returns a bvector containing
 <em>dest</em> with the field replaced
@@ -593,9 +582,8 @@ by the first <em>end-start</em> bits in <em>source</em>.
 
 
 <p>
-<code>(bvector-field-replace-same </code><em>dest source start end</em><code>)</code>
-<code>(bvector-field-replace-same! </code><em>dest source start end</em><code>)</code> <br />
-</p>
+<code>(bvector-field-replace-same </code><em>dest source start end</em><code>)</code> {new}<br />
+<code>(bvector-field-replace-same! </code><em>dest source start end</em><code>)</code>  {new}</code> </p>
 <p>
 Returns a bvector containing
 <em>dest</em> with its field replaced
@@ -604,9 +592,8 @@ by the corresponding field in <em>source</em>.
 
 
 <p>
-<code>(bvector-field-rotate </code><em>bvec count start end</em><code>)</code><br />
-<code>(bvector-field-rotate! </code><em>bvec count start end</em><code>)</code>
-</p>
+<code>(bvector-field-rotate </code><em>bvec count start end</em><code>)</code> {new}<br />
+<code>(bvector-field-rotate! </code><em>bvec count start end</em><code>)</code>  {new}</p>
 <p>
 Returns <em>bvec</em> with the field cyclically permuted
 by <em>count</em> bits towards high-order.
@@ -615,17 +602,15 @@ by <em>count</em> bits towards high-order.
 
 
 <p>
-<code>(bvector-field-reverse </code><em>bvec start end</em><code>)</code><br />
-<code>(bvector-field-reverse! </code><em>bvec start end</em><code>)</code>
-</p>
+<code>(bvector-field-reverse </code><em>bvec start end</em><code>)</code> {new}<br />
+<code>(bvector-field-reverse! </code><em>bvec start end</em><code>)</code> {new}</p>
 <p>
 Returns <em>bvec</em> with the order of the bits in the field reversed.
 </p>
 
 <p>
-<code>(bvector-field-flip </code><em>bvec start end</em><code>)</code><br />
-<code>(bvector-field-flip! </code><em>bvec start end</em><code>)</code>
-</p>
+<code>(bvector-field-flip </code><em>bvec start end</em><code>)</code> {new}<br />
+<code>(bvector-field-flip! </code><em>bvec start end</em><code>)</code> {new}</p>
 <p>
 Returns <em>bvec</em> with the bits in the field flipped:
 that is, <code>#t</code> becomes <code>#f</code> and vice versa.  There is no SRFI 151 equivalent.
