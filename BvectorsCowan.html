@@ -622,7 +622,7 @@ that is, <code>#t</code> becomes <code>#f</code> and vice versa.  There is no SR
 <H1>Implementation</H1>
 
 <p>The sample implementation is (not yet) in the repository of this SRFI.
-Bvectors are wrapped bytevectors; for simplicity and possibly for speed,
+Bvectors are implemented as wrapped bytevectors; for simplicity and possibly for speed,
 they use a whole byte to represent each boolean, as Java and C# do.
 At a later date, a more
 complex implementation that packs booleans into bytes
