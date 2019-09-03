@@ -102,7 +102,7 @@ Boolean vectors are known as <i>bvectors</i> for short.
       <dt><i>i, j, start, at</i></dt>
       <dd>
         An exact nonnegative integer less than the length of the bvector.
-        In <i>bvector-copy!</i> and <i>reverse-bvector-copy!</i>,
+        In <code>bvector-copy!</code> and <code>reverse-bvector-copy!</code>,
         <i>at</i> refers to the destination and <i>start</i> to the source.
         <br />
         <br />
@@ -183,7 +183,7 @@ Boolean vectors are known as <i>bvectors</i> for short.
     </dl>
 
 <p>All procedures that return bvectors, vectors, or lists newly allocate their results,
-except for those in the "Mutators" and "Bitwise mutators" sections.</p>
+except those that end in <code>!</code>.</p>
 
 <p>Except as otherwise noted, the semantics of each procedure are those
 of the corresponding SRFI 133 or SRFI 151 procedure.</p>
@@ -288,9 +288,9 @@ elements of <i>bvec</i>.</p>
 consecutive elements of <i>bvec</i>.
 The last bvector may be shorter than <i>n</i>.</p>
 
-<p><code>(bvector-fold <i>kons knil bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> object</code> {UI}<br />
+<p><code>(bvector-fold <i>kons knil bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> object</code> {UB}<br />
 
-<code>(bvector-fold-right <i>kons knil bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> object</code> {UI}</p>
+<code>(bvector-fold-right <i>kons knil bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> object</code> {UB}</p>
 
 <p>Folds <i>kons</i> over the elements of <i>bvec</i>
 in increasing/decreasing order using <i>knil</i>
@@ -313,22 +313,24 @@ and an undefined value with no change to <i>bvec1</i>.</p>
 
 <H3>Prefixes, suffixes, trimming, padding</H3>
 
-<p><code>(bvector-prefix-length <i>bool bvec1 bvec2</i> -> index</code> {U}<br />
+{all new}
 
-<code>(bvector-suffix-length <i>bool bvec1 bvec2</i> -> index</code> {U}</p>
+<p><code>(bvector-prefix-length <i>bool bvec1 bvec2</i> -> index</code><br />
+
+<code>(bvector-suffix-length <i>bool bvec1 bvec2</i> -> index</code></p>
 
 <p>Return the number of elements equal to <i>bool</i> in the prefix/suffix 
 of the two <i>bvecs</i>.</p>
 
-<code>(bvector-prefix? <i>bvec1 bvec2</i> -> boolean</code> {U}<br />
+<code>(bvector-prefix? <i>bvec1 bvec2</i> -> boolean</code><br />
 
-<p><code>(bvector-suffix? <i>bvec1 bvec2</i> -> boolean</code> {U}</p>
+<p><code>(bvector-suffix? <i>bvec1 bvec2</i> -> boolean</code></p>
 
 Returns <code>#t</code> if <i>bvec1</i> is a prefix/suffix of <i>bvec2</i>,
 and <code>#f</code> otherwise.</p>
 
-<p><code>(bvector-pad <i> bool bvec length</i>) -> bvec</code> {new}<br />
-<code>(bvector-pad-right <i> bool bvec length</i>) -> bvec</code> {new}</p>
+<p><code>(bvector-pad <i> bool bvec length</i>) -> bvec</code><br />
+<code>(bvector-pad-right <i> bool bvec length</i>) -> bvec</code></p>
 
 <p>Returns a copy of <i>bvec</i> with leading/trailing
 elements equal to <i>bool</i>
@@ -390,7 +392,7 @@ elements as the argument, in reverse order where specified.</p>
 
 <p><code>(bvector->string <i>bvec</i>) -> string</code> {new}</p>
 
-Returns a string beginning with <code>#*</code> and followed by the values of <i>vec</i>
+Returns a string beginning with <code>"#*"</code> and followed by the values of <i>vec</i>
 represented as 0 and 1 characters, where 0 means <code>#f</code>
 and 1 means <code>#t</code>.
 
@@ -442,7 +444,7 @@ arguments passed to the following procedures are of the same length.
 
 <h3 id="Basicoperations">Basic operations</h3>
 <p><code>(bvector-not </code><em>bvec</em><code>)</code> {map}<br />
-<code>(bvector-not! </code><em>bvec</em><code>)</code>  {map}</p>
+<code>(bvector-not! </code><em>bvec</em><code>)</code>  {map!}</p>
 <p>
 Returns the element-wise complement of <em>bvec</em>; that is, all <code>#t</code> values are changed
 to <code>#f</code> values and all <code>#f</code> values to <code>#t</code> values.
@@ -455,13 +457,13 @@ maps that function across two or more bvectors in a element-wise fashion.
 The core idea of this group of functions is this element-wise "lifting"
 of the set of dyadic boolean functions to bvector parameters.  </p>
 <p> <code>(bvector-and </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> {map}<br />
-<code>(bvector-and! </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> {map}<br />
+<code>(bvector-and! </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> {map!}<br />
 <code>(bvector-ior </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> {map}<br />
-<code>(bvector-ior! </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> {map}<br />
+<code>(bvector-ior! </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> {map!}<br />
 <code>(bvector-xor </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> {map}<br />
-<code>(bvector-xor! </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> {map}<br />
+<code>(bvector-xor! </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> {map!}<br />
 <code>(bvector-eqv </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> {map}<br />
-<code>(bvector-eqv! </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> {map} </p>
+<code>(bvector-eqv! </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> {ma!p} </p>
 <p>
 These operations are associative.
 </p>
