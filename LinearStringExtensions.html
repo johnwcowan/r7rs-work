@@ -59,8 +59,8 @@ The difficulty is that only a few Scheme implementations provide such
 strings, and therefore variable-size strings are inherently not portable.
 This SRFI provides a useful compromise that takes advantage of
 implementation-specific variable-size strings where they exist, and simulates
-them where they do not.  Note that a native implementation probably
-copies the underlying characters, and therefore is <i>not</i> necessarily
+them where they do not.  Note that a native implementation may well
+copy the underlying characters, and therefore is <i>not</i> necessarily
 more efficient.
 
 </p><h1>Specification</h1>
@@ -191,10 +191,10 @@ fixed multiple of the size of the old buffer then
 If you have cheap Smalltalk-style <code>becomes:</code> (which is admittedly
 unlikely these days) then you can use that when you need to grow a string
 beyond its allocated size.
-Alternatively, a minor garbage collection can be invoked, which is
+Alternatively, a garbage collection can be invoked, which is
 what Chicken does when it must expand the bytes used to represent a UTF-8
-string as a result of replacing a 1, 2, or 3-byte character with a
-2, 3, or 4-byte character.
+string as a result of replacing a character with another character
+that requires more bytes.
 
 </p><h1>Copyright</h1>
 <p>
