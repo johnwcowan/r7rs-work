@@ -1,6 +1,6 @@
 # Data formats
 
-Procedures for handling CSV, delimiter-separated values (DSV), and maybe INI files.
+Procedures for handling CSV, delimiter-separated values (DSV), and INI files.
 JSON has been removed, as it is defined elsewhere.
 
 Input ports default to `(current-input-port)`, output ports to
@@ -41,8 +41,8 @@ is returned.
 
 If the *zero-hack* value is present, it is an error if it is not a boolean.  If
 it is present and `#t`, then any field with the syntax of a number whose
-first character is `0` is written with `="` before it and `"` after it.  This
-will cause the leading zeros to be preserved by spreadsheet programs, which
+first or last character is `0` is written as a quoted field preceded by `=`.  Doing this
+will cause any leading and trailing zeros to be preserved by spreadsheet programs, which
 attempt to identify the type of a value based on the presence or absence of
 quotation marks surrounding it.
 
@@ -55,6 +55,7 @@ always a line break and vice versa.  When a backslash
 or the delimiter itself is part of a field, it is preceded with a backslash.
 A line break that is part of a field is represented using the two-character sequence `"\n"`.
 Similarly, a tab that is part of a field is represented using the two-character sequence `"\t"`.
+All other backslashes are treated literally.
 
 `(make-dsv-generator `*delim* [*port*]`)`
 
@@ -63,7 +64,7 @@ which when invoked reads a record from *port* and returns it in the
 internal representation, using *delim* (a character) to delimit fields.
 If *delim* is a single space, any number of either spaces or tabs are
 jointly treated as the delimiter, so that both spaces and tabs that are
-part of a field need to be escaped with a backslash.
+to be interpreted as part of a field need to be escaped.
 When *port* returns an end of file object, the generator does the same.
 
 `(make-dsv-accumulator `*delim* [*port*]`)`
@@ -75,7 +76,7 @@ using *delim* (a character) to delimit fields.  When invoked on an
 end-of-file object, no action is taken.  In either case, an unspecified value
 is returned.
 
-## INI files (maybe)
+## INI files
 
 An INI file is a simple line-based configuration format.  There are many variations;
 this SRFI requires support for at least the following:
@@ -93,18 +94,17 @@ this SRFI requires support for at least the following:
      
   *  Otherwise unrecognizable lines are treated as keys whose value is the empty string.
   
-`(read-ini-file `[ *port* ]`)`
+`(make-ini-file-generator `*inport*`)`
 
-Read lines from *port* (default is the value of `(current-input-port)`) until end of file
-and interpret them as above.  The result is an alist mapping the section names (treated as
-symbols) to subordinate alists whose keys are symbols and whose values are strings.  The
-order of sections and keys in the file is preserved; no merging between identical section
-names or keys is performed.  The unnamed section if it exists has a key of `#f`.
+Returns a generator that reads one or more lines from *inport* and returns a list of three strings:
+the current section name, the key, and the value.  If no section names have been read, the
+section name is the empty string.  When the port returns an end of file object, it is closed and
+the generator returns an end of file object.
 
-`(write-ini-file `*alist* [ *port* ]`)`
+`(make-ini-file-accumulator `*outport*`)`
 
-Writes an alist in the format above to *port* (default is the value of `(current-output-port)`).
-The format is checked for validity before any writing is done.
-
-
-
+Returns an accumulator that writes to outport.  If the argument passed to the accumulator
+is a list of three strings, a key-value line, preceded if necessary by a section line,
+is written.  If the argument is a single string, it is prefixed by `"# "` and written out.
+In either case, the accumulator returns an unspecified value.
+If the argument is an end of file object, *outport* is closed and the end of file object returned.
