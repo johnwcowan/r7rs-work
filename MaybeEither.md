@@ -351,6 +351,12 @@ but `(tri-conjunction #f (nothing))` will return Nothing.
 Returns `#t` if *obj* is false, `#f` if *obj* is true, and Nothing
 if *obj* is Nothing.
 
+`(tri=? `*obj1 obj2* ...`)`
+
+Similar to `boolean=?`, returning `#t` if all the *objs* are true
+or if all are false.  Otherwise, if any *obj* is Nothing or any two *objs*
+have different (trivalent) truth values, returns `#f`.
+
 `(tri-and `*obj* ...`)`
 
 If all *objs* are true, `#t` is returned.
@@ -378,6 +384,6 @@ If there are no arguments, Nothing is returned.
 The Maybe and Either types and their procedures are based on Scala's Option
 and Either types, though the name "Maybe" comes from Haskell.
 (I think "Maybe" is catchier than "Option", which ultimately comes from ML.)
-The trivalent logic is based on Chicken's `sql-null` egg.
+The trivalent logic is loosely based on Chicken's `sql-null` egg.
 
 
