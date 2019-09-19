@@ -134,6 +134,8 @@ to *end* (exclusive) at the current position of *blob*.
 
 (sql-exception-message sql-exception) -> string
 
+(sql-exception-connection sql-exception) -> connection
+
 ## Meta
 
 This is not standardized over database types, so provided here.
