@@ -70,6 +70,13 @@ Applies each result of result-set to proc and returns a list of the results.
 Call proc on each result of result-set and the current state (initially knil).
 Order of arguments?
 
+(sql-column-fold proc-list column-list knil-list result-set) -> any
+
+Folds specified columns simultaneously,
+where *column-list* specifies the names of the columns of interest,
+*proc-list* is the folding procs corresponding to the chosen columns,
+and *knil-list* is the initial values of the current states of each fold.
+
 ## Blobs
 
 ISSUE: Should this be gotten rid of?  It's not strictly necessary,
