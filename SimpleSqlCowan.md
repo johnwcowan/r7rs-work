@@ -1,57 +1,61 @@
 ## Opaque object types
 
-Database, statement, result-set
+Connection, statement, result-set
 
 ## Databases
 
-(open-sql-database filename mode) -> db 
+(open-sql-connection database-type connection-string mode) -> connection 
 
-mode is symbol: read, write, create
+database-type is a symbol used to figure out which database driver to use.
+connection-string is meaningful to the driver.
+mode is an alist mapping symbols to strings or exact integers,
+also meaningful to the driver.
 
-(sql-database? obj) -> boolean
+(sql-connection? obj) -> boolean
 
-(sql-interrupt db timespec) -> undefined
+(sql-interrupt connection timespec) -> undefined
 
-Attempt to interrupt requests from any thread.
+Attempts to interrupt any requests currently in progress on connection.
+This must be called from a different thread than the requesting thread.
 
-(sql-timeout db timespec) -> undefined
+(sql-timeout connection timespec) -> undefined
 
-Set timeout in seconds and nanoseconds for each database request.
+Set timeout in seconds and nanoseconds for each request on the connection.
 Signal an error if request does not complete.
 
-(sql-in-transaction db thunk) -> what thunk returns
+(sql-in-transaction connection thunk) -> what thunk returns
 
-When proc returns, roll back unless sql-commit has been called.
+ISSUE: When proc returns, rollback or commit?
 
-(sql-commit db) -> unspecified
+(sql-commit connection) -> unspecified
 
-(sql-rollback db) -> unspecified
+(sql-rollback connection) -> unspecified
 
-(sql-in-transaction? db) -> boolean
+(sql-in-transaction? connection) -> boolean
 
-Is the database currently running a transaction?
+Is the connection currently running a transaction?
 
 ## Statements and result sets
 
-(sql-statement db code bindings) -> statement
+(sql-statement connection code bindings) -> statement
 
 It is an error to mutate either code or bindings; this enables caching
 of either compiled but unbound statements, fully bound statements, or both.
 
 (sql-statement? obj) -> boolean 
 
-(sql-exec db statement) -> implementation-dependent
+(sql-exec connection statement) -> implementation-dependent
 
 Use this procedure when statement does not return a result set.
 
-(sql-result-set db statement thunk) -> whatever thunk returns
+(sql-result-set connection statement thunk) -> whatever thunk returns
 
 Executes statement and calls thunk, passing a result-set object.
 
 (sql-read result-set) -> list
 
 Returns a list of Scheme objects representing the next available
-row of the result-set.  NULL is represented by the symbol nil.
+row of the result-set.  NULL is represented by the symbol `null`.
 
 (sql-read-all result-set) -> list of lists
 
@@ -84,13 +88,13 @@ but handling really large blobs without it will be messy.
 Ideally it should give us ports, but adding ports to a
 Scheme implementation is hard.
 
-(sql-make-blob db table column rowid length) -> blob
+(sql-make-blob connection table column rowid length) -> blob
 
 Make a blob of length bytes, all of which are 0, in the specified location.
 The current position of the blob is set to 0.
 Blobs cannot be extended.
 
-(sql-open-blob db table column rowid [old-blob]) -> blob
+(sql-open-blob connection table column rowid [old-blob]) -> blob
 
 Open the blob at the specified location.
 The current position of the blob is set to 0.
@@ -126,25 +130,28 @@ to *end* (exclusive) at the current position of *blob*.
 
 (sql-exception? obj) -> boolean
 
-(sql-exception-code sql-exception) -> exact integer
+(sql-exception-code sql-exception) -> database type-dependent object
 
 (sql-exception-message sql-exception) -> string
 
 ## Meta
 
-This is not standardized over databases, so provided here.
+This is not standardized over database types, so provided here.
 There isn't much, but what there is is generally useful.
 
-(sql-tables db) -> list of symbols
+(sql-tables connection) -> list of symbols
 
 The symbols correspond to database tables (including views)
 accessible to the current user.
 
-(sql-columns db table) -> list of symbols
+(sql-columns connection table) -> list of symbols
 
 The symbols represent column names, and appear in ordinal position.
 
 (sql-column-type db table column) -> string
 
 Returns the declared type of the specified table and column.
-The result is a string whose possible values depend on the database.
+The result is a string whose possible values depend on the database type.
+Note that in SQLite, because of its dynamic typing, it is not guaranteed
+that the Scheme type of objects stored in the column have the type specified
+by this procedure, or even that they all have the same Scheme type.
