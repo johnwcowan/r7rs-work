@@ -136,3 +136,8 @@ accessible to the current user.
 (sql-columns db table) -> list of symbols
 
 The symbols represent column names, and appear in ordinal position.
+
+(sql-column-type db table column) -> string
+
+Returns the declared type of the specified table and column.
+The result is a string whose possible values depend on the database.
