@@ -1,122 +1,138 @@
-Python APSW and Chicken sql-de-lite
-
 ## Opaque object types
 
-Database, transaction, statement, query
+Database, statement, result-set
 
 ## Databases
 
-(open-ssql-database filename mode) -> db 
+(open-sql-database filename mode) -> db 
 
 mode is symbol: read, write, create
 
-(ssql-database? obj) -> boolean
+(sql-database? obj) -> boolean
 
-(ssql-interrupt db timespec) -> undefined
+(sql-interrupt db timespec) -> undefined
 
 Attempt to interrupt requests from any thread.
 
-(ssql-timeout db timespec) -> undefined
+(sql-timeout db timespec) -> undefined
 
-Set timeout in seconds and nanoseconds for each database request; signal an error if request does not complete/
+Set timeout in seconds and nanoseconds for each database request.
+Signal an error if request does not complete.
 
-(ssql-in-transaction db proc) -> what proc returns
+(sql-in-transaction db thunk) -> what thunk returns
 
-The proc is passed transaction object.  When proc returns, roll back unless ssql-commit has been called.
+When proc returns, roll back unless sql-commit has been called.
 
-(ssql-transaction? obj) -> boolean
+(sql-commit db) -> unspecified
 
-(ssql-commit transaction) -> unspecified
+(sql-rollback db) -> unspecified
 
-(ssql-rollback transaction) -> unspecified
-
-(ssql-in-transaction? db) -> boolean
+(sql-in-transaction? db) -> boolean
 
 Is the database currently running a transaction?
 
-## Statements and queries
+## Statements and result sets
 
-(ssql-statement db code bindings) -> statement
+(sql-statement db code bindings) -> statement
 
-It is an error to mutate either code or bindings; this enables caching.
+It is an error to mutate either code or bindings; this enables caching
+of either compiled but unbound statements, fully bound statements, or both.
 
-(ssql-statement? obj) -> boolean 
+(sql-statement? obj) -> boolean 
 
-(ssql-exec db-or-trans statement) -> changes
+(sql-exec db statement) -> implementation-dependent
 
-If you specify a db, and a transaction is in effect,
-whether the statement is executed within the transaction is implementation-defined.
+Use this procedure when statement does not return a result set.
 
-(ssql-in-query db-or-trans statement proc) -> what proc returns
+(sql-result-set db statement thunk) -> whatever thunk returns
 
-Invoke proc with a query object.  Query is finalized when proc returns.
-If you specify a db, and a transaction is in effect,
-whether the query runs within the transaction is implementation-defined.
+Executes statement and calls thunk, passing a result-set object.
 
-(ssql-read query) -> list
+(sql-read result-set) -> list
 
-Returns a list of Scheme objects.  NULL is represented by the symbol nil.
+Returns a list of Scheme objects representing the next available
+row of the result-set.  NULL is represented by the symbol nil.
 
-(ssql-read-all query) -> list of lists
+(sql-read-all result-set) -> list of lists
 
-Returns all available results on this query.
+Returns all available rows in this result-set.
 
-(ssql-for-each proc query) -> unspecified
+(sql-for-each proc result-set) -> unspecified
 
-Applies each result of query to proc for its side effects.
+Applies each result of result-set to proc for its side effects.
 
-(ssql-map->list proc query) -> list
+(sql-map->list proc result-set) -> list
 
-Applies each result of query to proc and returns a list of the results.
+Applies each result of result-set to proc and returns a list of the results.
 
-(ssql-fold proc knil query) -> any
+(sql-fold proc knil result-set) -> any
 
-Call proc on each result of query and the current state (initially knil).
+Call proc on each result of result-set and the current state (initially knil).
 Order of arguments?
 
 ## Blobs
 
-(ssql-make-blob db table column rowid length) -> blob
+ISSUE: Should this be gotten rid of?  It's not strictly necessary,
+but handling really large blobs without it will be messy.
+Ideally it should give us ports, but adding ports to a
+Scheme implementation is hard.
 
-Make a blob of zero bytes in the specified location.  Blobs cannot be extended.
+(sql-make-blob db table column rowid length) -> blob
 
-(ssql-open-blob db table column rowid [old-blob]) -> blob
+Make a blob of length bytes, all of which are 0, in the specified location.
+The current position of the blob is set to 0.
+Blobs cannot be extended.
 
-Open the blob at the existing location.  If old-blob is provided, it is reused.
+(sql-open-blob db table column rowid [old-blob]) -> blob
 
-(ssql-blob? obj) -> boolean
+Open the blob at the specified location.
+The current position of the blob is set to 0.
+If old-blob is provided, it may be reused.
 
-(ssql-blob-read blob count) -> bytevector
+(sql-blob? obj) -> boolean
 
-(ssql-blob-read! to at blob count) -> unspecified
+(sql-blob-read blob count) -> bytevector
 
-(ssql-blob-read-all blob) -> bytevector
+Reads *count* bytes from the current position of *blob*
+into a newly allocated bytevector and returns it.
+Stops if the end of the blob is reached.
 
-(ssql-blob-write blob count bytevector [start end]) -> unspecified
+(sql-blob-read! to at blob count) -> unspecified
 
-(ssql-blob-position blob) -> exact integer
+Reads into bytevector *to* starting at position *at* until
+*count* bytes are read or *to* is full, whichever comes first.
 
-(ssql-blob-set-position! blob position) -> unspecified
+(sql-blob-read-all blob) -> bytevector
+
+(sql-blob-write blob count bytevector [start end]) -> unspecified
+
+Writes the bytes of *bytevector* from *start* (inclusive)
+to *end* (exclusive) at the current position of *blob*.
+
+(sql-blob-position blob) -> exact integer
+
+(sql-blob-set-position! blob position) -> unspecified
 
 ## Exceptions
 
-(make-ssql-exception code message) -> ssql-exception
+(make-sql-exception code message) -> sql-exception
 
-(ssql-exception? obj) -> boolean
+(sql-exception? obj) -> boolean
 
-(ssql-exception-code ssql-exception) -> exact integer
+(sql-exception-code sql-exception) -> exact integer
 
-(ssql-exception-message ssql-exception) -> string
+(sql-exception-message sql-exception) -> string
 
 ## Meta
 
 This is not standardized over databases, so provided here.
+There isn't much, but what there is is generally useful.
 
-(ssql-tables db) -> list
+(sql-tables db) -> list of symbols
 
-Includes views.
+The symbols correspond to database tables (including views)
+accessible to the current user.
 
-(ssql-columns db table) -> list of 5-element lists
+(sql-columns db table) -> list of symbols
 
-The columns appear in ordinal position.
-The sub-elements are column name, type (as a string), nullable?, unique?, and default value
+The symbols represent column names, and appear in ordinal position.
