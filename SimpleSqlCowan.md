@@ -4,12 +4,11 @@ Connection, statement, result-set
 
 ## Databases
 
-(open-sql-connection database-type connection-string mode) -> connection 
+(open-sql-connection alist) -> connection 
 
-database-type is a symbol used to figure out which database driver to use.
-connection-string is meaningful to the driver.
-mode is an alist mapping symbols to strings or exact integers,
-also meaningful to the driver.
+The *alist* argument maps strings to strings, and is a Schemification of
+database conection strings.  See [connectionstrings.com](https://www.connectionstrings.com)
+for documentation on the formats for many databases and drivers.
 
 (sql-connection? obj) -> boolean
 
