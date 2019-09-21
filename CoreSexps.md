@@ -17,7 +17,7 @@ Syntax of core S-expressions (everyone must support these):
     but there is no agreement on what it is.
     
   * There should be a representation for booleans,
-    but there is no agreement on what it is.
+    but there is no agreement on what they are.
   
   * Whitespace outside strings is ignored completely.
     Whitespace by itself is not a valid S-expression.
