@@ -12,6 +12,12 @@ Syntax of core S-expressions (everyone must support these):
   * Symbols: `/[$a-z][a-zA-Z0-9_-]*`.
     Symbols that distinguish between upper and lower case or between `-` and `_` may not interoperate.
     By convention, symbols beginning with `$` are meta-symbols and have special purposes.
+    
+  * There should be a representation of null (not the same as the empty list or false),
+    but there is no agreement on what it is.
+    
+  * There should be a representation for booleans,
+    but there is no agreement on what it is.
   
   * Whitespace outside strings is ignored completely.
     Whitespace by itself is not a valid S-expression.
