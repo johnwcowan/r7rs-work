@@ -1,4 +1,5 @@
-Syntax of core S-expressions (everyone must support these):
+Syntax of core S-expressions (everyone must support these) are given below.
+Regular expressions are anchored at both ends, as if they began with `^` and ended with `$`.
 
   * Lists are enclosed in parentheses, must be proper, may nest indefinitely deep.
   
@@ -12,14 +13,27 @@ Syntax of core S-expressions (everyone must support these):
   * Symbols: `/[$a-z][a-zA-Z0-9_-]*`.
     Symbols that distinguish between upper and lower case or between `-` and `_` may not interoperate.
     By convention, symbols beginning with `$` are meta-symbols and have special purposes.
+    Neither /nil/ nor /null/ matches a symbol, because the first is used for the null object (see below)
+    and the second has special properties in Common Lisp.
     
-  * There should be a representation of null (not the same as the empty list or false),
-    but there is no agreement on what it is.
+  * Null object (distinct Boolean false, and the empty list):  `/null/`.
     
-  * There should be a representation for booleans,
-    but there is no agreement on what they are.
+  * Booleans: There is no agreement on a common representation,
+    so this SRFI standardizes on `/#t/` and `/#f/`.
+    These are native in Scheme, and aren't used for anything
+    in Elisp or in the standard Common Lisp readtable
+    (to which they can be easily added).
+
+  * Mappings (including hash tables):
+    There is no standard representation in any Lisp,
+    so this SRFI standardizes on `#{` followed by
+    alternating keys and values followed by `}`,
+    under the influence of Python and JSON.
   
-  * Whitespace outside strings is ignored completely.
+  * Whitespace outside strings is ignored completely,
+    except for separating numbers and identifiers
+    from adjacent numbers and identifiers.
+    Commas are considered whitespace.
     Whitespace by itself is not a valid S-expression.
   
   * `;` except in strings introduces a comment
@@ -28,6 +42,7 @@ Syntax of core S-expressions (everyone must support these):
     
 Sources: Scheme `read`, Common Lisp `read` with default readtable,
 Python [sexpdata library](https://sexpdata.readthedocs.io/en/latest/),
-[Wikipedia s.v. "S-expression"](https://en.wikipedia.org/wiki/S-expression).
+[Wikipedia s.v. "S-expression"](https://en.wikipedia.org/wiki/S-expression),
+Python syntax, JSON syntax.
 
 Equivalent binary format: [CoreAsn1](CoreAsn1.md).
