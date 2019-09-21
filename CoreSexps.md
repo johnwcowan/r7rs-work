@@ -23,3 +23,5 @@ Syntax of core S-expressions (everyone must support these):
 Sources: Scheme `read`, Common Lisp `read` with default readtable,
 Python [sexpdata library](https://sexpdata.readthedocs.io/en/latest/),
 [Wikipedia s.v. "S-expression"](https://en.wikipedia.org/wiki/S-expression).
+
+Equivalent binary format: [CoreAsn1](CoreAsn1.md).
