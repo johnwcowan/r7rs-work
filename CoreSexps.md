@@ -45,4 +45,4 @@ Python [sexpdata library](https://sexpdata.readthedocs.io/en/latest/),
 [Wikipedia s.v. "S-expression"](https://en.wikipedia.org/wiki/S-expression),
 Python syntax, JSON syntax.
 
-Equivalent binary format: [CoreAsn1](CoreAsn1.md).
+Equivalent binary format: [CoreAsn1](https://bitbucket.org/cowan/r7rs-wg1-infra/src/default/CoreAsn1).
