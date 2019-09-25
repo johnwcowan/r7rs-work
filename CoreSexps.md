@@ -12,9 +12,8 @@ Regular expressions are anchored at both ends, as if they began with `^` and end
     
   * Symbols: `/[$a-z][a-zA-Z0-9_-]*`.
     Symbols that distinguish between upper and lower case or between `-` and `_` may not interoperate.
-    By convention, symbols beginning with `$` are meta-symbols and have special purposes.
-    Neither /nil/ nor /null/ matches a symbol, because the first is used for the null object (see below)
-    and the second has special properties in Common Lisp.
+    By convention, symbols beginning with `$` are meta-symbols and are used for special purposes.
+    The regex `/nil/` does not match a symbol because of its special properties in Common Lisp.
     
   * Null object (distinct Boolean false, and the empty list):  `/null/`.
     
@@ -26,9 +25,13 @@ Regular expressions are anchored at both ends, as if they began with `^` and end
 
   * Mappings (including hash tables):
     There is no standard representation in any Lisp,
-    so this SRFI standardizes on `#{` followed by
+    so this SRFI standardizes on `{` followed by
     alternating keys and values followed by `}`,
     under the influence of Python and JSON.
+    
+  * Bytevectors: There is no agreement on a common representation,
+    so this SRFI standardizes on `#u8(` followed by numbers in the range 0-255
+    followed by `)`.
   
   * Whitespace outside strings is ignored completely,
     except for separating numbers and identifiers
