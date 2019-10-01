@@ -32,13 +32,13 @@ instead of #u8(0 18 52 86 120)?  My inclination is to say no.
 
   * Mappings (including hash tables):
     There is no standard representation in any Lisp,
-    so this SRFI standardizes on `#date{` followed by
-    alternating keys and values followed by `}`,
+    so this SRFI standardizes on `#hash(` followed by
+    alternating keys and values followed by `)`,
     under the influence of Python and JSON.
     
   * Bytevectors: There is no agreement on a common representation,
-    so this SRFI standardizes on `#u8(` followed by numbers in the range 0-255
-    followed by `)`.
+    so this SRFI standardizes on `{` followed by pairs of hex digits
+    (optionally separated by `-`) followed by `}`.
     
   * Dates: There is no agreement on a common representation,
     so this SRFI standardizes on `#date"` followed by
@@ -54,10 +54,11 @@ instead of #u8(0 18 52 86 120)?  My inclination is to say no.
   * `;` except in strings introduces a comment
     that goes up to but not including the end of line and is discarded.
     A comment by itself is not a valid S-expression.
+  
     
 Sources: Scheme `read`, Common Lisp `read` with default readtable,
 Python [sexpdata library](https://sexpdata.readthedocs.io/en/latest/),
 [Wikipedia s.v. "S-expression"](https://en.wikipedia.org/wiki/S-expression),
-Python syntax, JSON syntax.
+Python syntax, JSON syntax, UUID syntax.
 
 Equivalent binary format: [CoreAsn1](https://bitbucket.org/cowan/r7rs-wg1-infra/src/default/CoreAsn1).
