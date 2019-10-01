@@ -1,7 +1,7 @@
 Syntax of core S-expressions (everyone must support these) are given below.
 Regular expressions are anchored at both ends, as if they began with `^` and ended with `$`.
 
-Issue: should there be a format for fixed-point exact integers such as `#i`
+Issue: should there be a format for fixed-point exact integers such as `#e`
 followed by digits and a decimal point?
 
 Issue: Should we use hex format for bytevectors, like #u8[00-12-34-56-78] (hyphens optional),
@@ -11,16 +11,15 @@ instead of #u8(0 18 52 86 120)?  My inclination is to say no.
   
   * Vectors are prefixed by `#`, enclosed in parentheses, may nest indefinitely deep.
   
-  * Integers match `/[+-]\d+/`.  Integers outside the 64-bit range may not interoperate.
+  * Integers match `/[+-]\d+/`.
   
-  * Floats match `/[+-]?\d+\.\d+([Ee][+-]?\d/`.  Floats outside the IEEE binary64 range may not interoperate.
+  * Floats match `/[+-]?\d+\.\d+([Ee][+-]?\d/`.
   
   * Strings are enclosed in double quotes and can contain the full Unicode repertoire, 
     The only escapes recognized are `\\` and `\"`.
     
-  * Symbols: `/[$a-z][a-zA-Z0-9_-]*`.
-    Symbols that distinguish between upper and lower case or between `-` and `_` may not interoperate.
-    By convention, symbols beginning with `$` are meta-symbols and are used for special purposes.
+  * Symbols either match `/[$a-z][a-zA-Z0-9_-]*` or are enclosed in vertical bars
+    and can contain the full Unicode repertoire.
     The regex `/nil/` does not match a symbol because of its special properties in Common Lisp.
     
   * Null object (distinct from Boolean false, and the empty list):  `/#null()/`.
