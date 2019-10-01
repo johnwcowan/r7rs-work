@@ -12,6 +12,8 @@ The default port is the value of `(current-output-port)`.
 
 ## Formats
 
+Issue: Add format for fixed-point decimals?
+
 General format of an object: 1 or 2 type bytes
 followed by 1-9 length bytes
 followed by the number of content bytes specified in the length.
@@ -29,6 +31,10 @@ Length bytes:
 Lists:  Type byte `E0`
 followed by length bytes
 followed by the encoded elements of the list.
+
+Vectors:  Type byte `30`
+followed by length bytes
+followed by the encoded elements of the vector.
 
 Integers:  Type byte `02` followed by length byte `00`, `01`, `02`, `04`, or `08`
 followed by 0, 1, 2, 4, or 8 content bytes
@@ -55,13 +61,18 @@ Mappings / hash tables:  Type byte `E4`
 followed by length bytes
 followed by encoded objects, alternating between keys and values.
 
-Skipping unknown types.
+Timestamps: Type byte `18`
+followed by length bytes
+followed by ASCII encoding of a ISO 8601 timestamp
+without hyphens, colons, or spaces
+
+## Skipping unknown types
 
   * If type byte is `1F`, `3F`, `5F`, `7F`, `9F`, `BF` or `DF`, skip one additional type byte.
   * Read and interpret length bytes.
   * Skip number of bytes equal to the length.
   
-Note:  If interoperability with other ASN.1 systems is important, use `30` (vector) instead of `E0` for lists,
+Note:  If interoperability with other ASN.1 systems is important, encode vectors instead of lists,
 and do not encode floats, symbols, or mappings.
 
 Equivalent textual format: [Core S-expressions](CoreSexps.md).
