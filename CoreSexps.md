@@ -1,64 +1,65 @@
-Syntax of core S-expressions (everyone must support these) are given below.
-Regular expressions are anchored at both ends, as if they began with `^` and ended with `$`.
+## Procedures
 
-Issue: should there be a format for fixed-point exact integers such as `#e`
-followed by digits and a decimal point?
+(read-textual [port])  
+(read-binary [port])  
+(write-textual obj [port])  
+(write-binary obj [port])
 
-Issue: Should we use hex format for bytevectors, like #u8[00-12-34-56-78] (hyphens optional),
-instead of #u8(0 18 52 86 120)?  My inclination is to say no.
+read-length-limit (parameter)
 
-  * Lists are enclosed in parentheses, must be proper, may nest indefinitely deep.
-  
-  * Vectors are prefixed by `#`, enclosed in parentheses, may nest indefinitely deep.
-  
-  * Integers match `/[+-]\d+/`.
-  
-  * Floats match `/[+-]?\d+\.\d+([Ee][+-]?\d/`.
-  
-  * Strings are enclosed in double quotes and can contain the full Unicode repertoire, 
-    The only escapes recognized are `\\` and `\"`.
-    
-  * Symbols either match `/[$a-z][a-zA-Z0-9_-]*` or are enclosed in vertical bars
-    and can contain the full Unicode repertoire.
-    The regex `/nil/` does not match a symbol because of its special properties in Common Lisp.
-    
-  * Null object (distinct from Boolean false, and the empty list):  `/#null()/`.
-    
-  * Booleans: There is no agreement on a common representation,
-    so this SRFI standardizes on `/#t/` and `/#f/`.
-    These are native in Scheme, and aren't used for anything
-    in Elisp or in the standard Common Lisp readtable
-    (to which they can be easily added).
+Limit on the length of list, string, and bytevector objects read.
+An error is signaled if the limit is violated.
 
-  * Mappings (including hash tables):
-    There is no standard representation in any Lisp,
-    so this SRFI standardizes on `#hash(` followed by
-    alternating keys and values followed by `)`,
-    under the influence of Python and JSON.
-    
-  * Bytevectors: There is no agreement on a common representation,
-    so this SRFI standardizes on `{` followed by pairs of hex digits
-    (optionally separated by `-`) followed by `}`.
-    
-  * Dates: There is no agreement on a common representation,
-    so this SRFI standardizes on `#date"` followed by
-    an 8601 date without hyphens, colons, or spaces
-    followed by `"`.
+read-depth-limit (parameter)
+
+Limit on the depth of list structures read.
+
+read-conversion (parameter)
+
+Procedure that accepts a type code (integer or string) and a value
+(number, string, bytevector, or list); returns the appropriate Scheme object, or #f if none
+(in which case read fails).
+
+write-conversion (parameter)
+
+Procedure that accepts a Scheme object and returns two values, a type
+code (as integer) and a number, string, bytevector, or list to serialize.
+Returns `#f #f` if no known serialization (in which case write fails).
+
+## Basic syntax
+
+  * Integers: optional sign followed by sequence of digits
   
-  * Whitespace outside strings is ignored completely,
-    except for separating numbers and identifiers
-    from adjacent numbers and identifiers.
-    Commas are considered whitespace.
-    Whitespace by itself is not a valid S-expression.
+  * Decimals: optional sign followed by digits followed by `.` followed by digits
   
-  * `;` except in strings introduces a comment
-    that goes up to but not including the end of line and is discarded.
-    A comment by itself is not a valid S-expression.
+  * Floats: decimal followed by optional exponent
+    (`E` followed by sign followed by digits)
+
+  * Strings:  Enclosed in double quotes.  The only escapes are `\"` and `\\`.
+
+  * Bytevectors:  Enclosed in curly braces.  Hex digits, with an optional hyphen
+    between every two digits.  This is related to UUID syntax.
+
+  * Lists: Enclosed in parentheses.
+
+  * Tags: Used to extend syntax when followed by one of the other basic syntaxes.  Formats:
+      * `#` by itself
+      * `#` followed by type number in hex
+      * `#` followed by a tag identifier (lower case ASCII letters and digits, begins with a letter)
+
+## Whitespace and comments
+
+Whitespace outside strings is ignored completely,
+except for separating numbers and identifiers
+from adjacent numbers and identifiers.
+Commas are considered whitespace.
+Whitespace by itself is not a valid S-expression.
   
-    
-Sources: Scheme `read`, Common Lisp `read` with default readtable,
-Python [sexpdata library](https://sexpdata.readthedocs.io/en/latest/),
-[Wikipedia s.v. "S-expression"](https://en.wikipedia.org/wiki/S-expression),
-Python syntax, JSON syntax, UUID syntax.
+`;` except in strings introduces a comment
+that goes up to but not including the end of line and is discarded.
+A comment by itself is not a valid S-expression.
+
 
 Equivalent binary format: [CoreAsn1](https://bitbucket.org/cowan/r7rs-wg1-infra/src/default/CoreAsn1).
+
+Table of formats: [Lisp Serialization Conventions](https://docs.google.com/spreadsheets/d/1V-7E5d3fLON5DrVeHkVvp9h5SRgcteOgnPl8KvWTA3M).
