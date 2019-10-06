@@ -1,28 +1,31 @@
 ## Procedures
 
-(read-textual [port])  
-(read-binary [port])  
-(write-textual obj [port])  
-(write-binary obj [port])
+`(read-textual `[*port*])  
+`(read-binary `[*port*])  
+`(write-textual `obj [*port*])  
+`(write-binary `obj [*port*])
 
-read-length-limit (parameter)
+`read-length-limit` (parameter)
 
-Limit on the length of list, string, and bytevector objects read.
+Limit on the length of list, string, bytevector, and binary objects read.
 An error is signaled if the limit is violated.
 
-read-depth-limit (parameter)
+`read-depth-limit` (parameter)
 
-Limit on the depth of list structures read.
+Limit on the depth of structures read.
+An error is signaled if the limit is violated.
 
-read-conversion (parameter)
+`read-conversion` (parameter)
 
-Procedure that accepts a type code (integer or string) and a value
+Procedure to be called when an object with unknown tag or type code is read.
+Accepts a type code (integer or string) and a value
 (number, string, bytevector, or list); returns the appropriate Scheme object, or #f if none
 (in which case read fails).
 
-write-conversion (parameter)
+`write-conversion` (parameter)
 
-Procedure that accepts a Scheme object and returns two values, a type
+Procedure to be called when an object of unknown Scheme type is to be written.
+Accepts a Scheme object and returns two values, a type
 code (as integer) and a number, string, bytevector, or list to serialize.
 Returns `#f #f` if no known serialization (in which case write fails).
 
@@ -62,4 +65,4 @@ A comment by itself is not a valid S-expression.
 
 Equivalent binary format: [CoreAsn1](https://bitbucket.org/cowan/r7rs-wg1-infra/src/default/CoreAsn1).
 
-Table of formats: [Lisp Serialization Conventions](https://docs.google.com/spreadsheets/d/1V-7E5d3fLON5DrVeHkVvp9h5SRgcteOgnPl8KvWTA3M).
+All currently proposed formats: [Lisp Serialization Conventions](https://tinyurl.com/asn1-ler).
