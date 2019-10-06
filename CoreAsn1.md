@@ -1,20 +1,12 @@
 ## Procedures
 
-`(asn1-read `[*port*]`)` -> object
-
-Read a single object from *port*, which is a byte input port, and return it.
-The default port is the value of `(current-input-port)`.
-
-`(asn1-write `*obj* [*port*]`)` -> unspecified
-
-Write *obj* to *port*, which is a byte output port.
-The default port is the value of `(current-output-port)`.
+See [CoreSexps](CoreSexps.md), which is the equivalent text format.
 
 ## Formats
 
 Issue: Add format for fixed-point decimals?
 
-General format of an object: 1 or 2 type bytes
+All objects have the same general format: 1 or 2 type bytes
 followed by 1-9 length bytes
 followed by the number of content bytes specified in the length.
 
@@ -27,6 +19,9 @@ Length bytes:
     representing a big-endian 2's-complement integer.
   * If length is less than 2^63 bytes, meta-length byte `88` followed by 8 length bytes
     representing a big-endian 2's-complement integer.
+
+Here are a few examples of how different kinds of objects are represented.
+ll the currently proposed types can be found at [the Google Sheet](http://tinyurl.com/asn1-ler).
 
 Lists:  Type byte `E0`
 followed by length bytes
@@ -68,12 +63,9 @@ without hyphens, colons, or spaces
 
 ## Skipping unknown types
 
-  * If type byte is `1F`, `3F`, `5F`, `7F`, `9F`, `BF` or `DF`, skip one additional type byte.
+  * If type byte is `1F`, `3F`, `5F`, `7F`, `9F`, `BF`, `DF`, or `FF`,skip one additional type byte.
   * Read and interpret length bytes.
   * Skip number of bytes equal to the length.
   
 Note:  If interoperability with other ASN.1 systems is important, encode vectors instead of lists,
 and do not encode floats, symbols, or mappings.
-
-Equivalent textual format: [Core S-expressions](CoreSexps.md).
-
