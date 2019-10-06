@@ -4,7 +4,6 @@ See [CoreSexps](CoreSexps.md), which is the equivalent text format.
 
 ## Formats
 
-Issue: Add format for fixed-point decimals?
 
 All objects have the same general format: 1 or 2 type bytes
 followed by 1-9 length bytes
@@ -20,8 +19,10 @@ Length bytes:
   * If length is less than 2^63 bytes, meta-length byte `88` followed by 8 length bytes
     representing a big-endian 2's-complement integer.
 
+## Examples
+
 Here are a few examples of how different kinds of objects are represented.
-ll the currently proposed types can be found at [the Google Sheet](http://tinyurl.com/asn1-ler).
+ll the currently proposed types can be found at [Lisp Serialization Conventions](http://tinyurl.com/asn1-ler).
 
 Lists:  Type byte `E0`
 followed by length bytes
