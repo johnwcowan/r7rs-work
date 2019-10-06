@@ -138,3 +138,10 @@ This is equivalent to characters with a General Category of `Nd`.
 The simplest fix is to change the relevant paragraph of Section 6.6 from "Numeric_Digit" to
 "Numeric_Type=Decimal".  (Note: R6RS uses the term "Numeric", which also is
 not a Unicode property.)
+
+29\.  In Section 6.5 (Symbols), the procedure `symbol=?` is defined to return `#t`
+if all the arguments are symbols and all have the same names in the sense of `string=`.
+The words "are all symbols and" incorrectly suggest that the value is `#f` if at least one argument
+is not a symbol.  In fact it is an error to apply `symbol=?` to non-symbols.  This is directly
+analogous to erratum 3.
+
