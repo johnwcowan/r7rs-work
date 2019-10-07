@@ -9,7 +9,7 @@ If <i>s</i> is omitted, <code>default-random-source</code> from SRFI 27 is used.
 <a name="Generators-of-primitive-data-types"></a>
 <h3 class="subheading">Generators of primitive data types</h3>
 
-<p>Those generators generate uniformly distributed data.
+<p>These generators generate uniformly distributed data.
 </p>
 <p>In the following examples, we use the <code>generator-&gt;list</code> procedure to show
 some concrete data from the generators.
@@ -86,7 +86,7 @@ lower-bound and upper-bound, both exclusive.
 </pre></td></tr></table>
 
 <p>Note that a generator from <code>make-random-real-generator</code> can generate the upper-bound, as opposed to <code>make-random-integer-generator</code>.  If you need to exclude
-the bound value, just discard it; SRFI 121 <code>gfilter</code> may come
+the bound value, just discard it; SRFI 158 <code>gfilter</code> may come
 handy.
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">(define generate-from-0-below-1

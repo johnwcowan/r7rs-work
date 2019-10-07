@@ -61,7 +61,7 @@ object such that at least one of its subobjects satisfies *pred*, the predicate
 returns what *pred* returns, otherwise `#f`.
 
 If *obj* is not a compound object, the predicate applies *pred* to *obj* and
-returns what *pred* returns, or `#f` if *pred* returns false.
+returns what *pred* returns.
 
 `(make-compound-accessor `*pred accessor default*`)`
 

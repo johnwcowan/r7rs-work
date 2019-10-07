@@ -183,7 +183,8 @@ Boolean vectors are known as <i>bvectors</i> for short.
     </dl>
 
 <p>All procedures that return bvectors, vectors, or lists newly allocate their results,
-except those that end in <code>!</code>.</p>
+except those that end in <code>!</code>.
+However, a zero-length value need not be separately allocated.</p>
 
 <p>Except as otherwise noted, the semantics of each procedure are those
 of the corresponding SRFI 133 or SRFI 151 procedure.</p>
@@ -422,10 +423,17 @@ starting with the least significant bit as bit 0.  It is an error if
 <p>
 <code>(make-bvector-generator </code><em>bvector</em><code>)</code> {B}</p>
 <p>
-Returns a <a href="http://srfi.schemers.org/srfi-121/srfi-121.html">SRFI 121</a>
+Returns a <a href="http://srfi.schemers.org/srfi-158/srfi-158.html">SRFI 158</a>
 generator that generates all the values of <em>bvector</em> in order.
 Note that the generator is finite.
 </p>
+<p>
+<code>(make-bvector-accumulator</code><em>bool-or-eof</em><code>)</code> {B}</p>
+<p>
+Returns a <a href="http://srfi.schemers.org/srfi-158/srfi-158.html">SRFI 158</a>
+accumulator that collects all the values of <em>bool-or-eof</em>.
+When the argument is an end of file object, returns a bvector containing
+all the values in order.</p>
 <H2>Bitwise operations</H2>
 
 <p>
@@ -530,7 +538,7 @@ otherwise the <em>k</em>th bit of <em>else-bvector</em>.
 
 
 <p>
-<code>(bvector-first-bit </code><em>bool bvec</em><code>)</code> {fold}</p>
+<code>(bvector-first-bit </code><em>bool bvec</em><code>)</code> {new}</p>
 <p>
 Return the index of the first (smallest index) <i>bool</i> value in <em>bvec</em>.
 Return -1 if <em>bvec</em> contains no <i>bool</i> values.
