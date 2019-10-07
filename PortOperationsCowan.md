@@ -43,6 +43,8 @@ Similarly, `(output-port->accumulator write-string (current-output-port) 0 4)`
 will return an accumulator that writes at most the first five characters of its
 string argument to the current output port.
 
+## String port operations
+
 `(call-with-input-string `*string proc*`)`
 
 Opens a string input port on *string* as if by
