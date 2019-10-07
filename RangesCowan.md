@@ -37,6 +37,13 @@ Returns `#t` if *obj* is a range and `#f` otherwise.
 
 Returns true if value is an element of *range*.
 
+`(range-includes? `*range value*`)`
+
+Returns true if value is 
+greater than or equal to the range start
+and less than the range end,
+whether or not it is an element of the range.
+
 `(range-empty? `*range*`)`
 
 Returns true if *range* is empty.
