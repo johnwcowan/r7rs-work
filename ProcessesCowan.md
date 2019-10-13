@@ -48,7 +48,7 @@ A plist is a list whose elements alternate between keys and values.
 Quasiquotation is a convenient way to construct a plist with fixed
 keys and variable values.
 The setup plist allows keys to be either symbols or exact integers.
-Here is an explanation of each key.  Keys not listed here are ignored,
+Here is an explanation of each standard key.  Keys not listed here are ignored,
 unless the implementation attributes a meaning to them.
 
 `stdin`  
@@ -75,7 +75,7 @@ The values are interpreted as follows (any other value is an error):
     so that an attempt to read from the port produces an immediate end of file,
     and an attempt to write to the port is ignored.
     
-*exact integer*
+*exact non-negative integer*
 
 The same as `stdin`, `stdout`, and `stderr`,
 but specifies the file descriptor to be used in the child process.
@@ -131,7 +131,8 @@ process is created.  If the value is `#t`, `make-process` returns when the child
 `(pid->proc `*pid*`)`
 
 Creates a synthetic process object wrapping an arbitrary process id.
-In addition, the process object accessors may return `#f` unexpectedly
+Because the process is not necessarily a child of the curren process,
+s process object accessors may return `#f` unexpectedly
 or read from a file such as `/proc/<pid>/status`.
 It is always possible to send signals to a synthetic process object.
 
@@ -175,7 +176,7 @@ Returns the exit code as an exact integer if the process has terminated normally
 
 `(process-stop-signal `*process*`)`
 
-Returns the signal number as an exact integer if the process has stopped on a signal, or #f if not.
+Returns the signal number as a symbol if the process has stopped on a signal, or #f if not.
 
 `(process-terminate-signal `*process*`)`
 
@@ -192,11 +193,11 @@ the call will return for a stopped process as well as a terminated one.
 
 Waits for the specified child process to terminate.  Returns the process object.
 
-`(process-wait-any [*stopped?*])`
+`(process-wait-any `[*stopped?*]`)`
 
 Waits for any child process to terminate.  Returns the process object of the child.
 
-`(process-wait-group `*process [*stopped?*]`)`
+`(process-wait-group `*process* [*stopped?*]`)`
 
 Waits for any of the child processes in the process group
 specified by *process* to terminate.
