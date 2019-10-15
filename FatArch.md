@@ -2,7 +2,7 @@
 
 All numeric values are stored little-endian.
 
-FAT boot sector (512 bytes):
+## FAT boot sector (512 bytes):
 
 0-2: `eb 3c 90`  
 3-10: "FAT-ARCH"  
@@ -20,7 +20,7 @@ FAT boot sector (512 bytes):
 30-509: all 0  
 510-511: `55 aa`
 
-FAT proper:
+## FAT proper:
 
 12-bit FAT entries, each corresponding to a cluster, point to the next cluster,
 or `000` for free cluster, `ff7` for bad cluster, and `fff` for no next cluster.
@@ -31,7 +31,7 @@ or `000` for free cluster, `ff7` for bad cluster, and `fff` for no next cluster.
 That allows 6912 entries, but the max clusters is 4084, so the rest are filled
 out with `ff7`.  Entry 0 is `1f8`, entry 1 is `fff`.
 
-Root directory:
+## Root directory:
 
 14 sectors * 512 bytes = 7168 bytes.
 
@@ -51,3 +51,25 @@ supported) have `e5` in position 0.
 24-25: 0 (time, ignored)  
 26-27: starting cluster, or `000` for an empty file  
 28-31: file size in bytes
+
+## API
+
+`(fat-create `*filename*`)` -> fat-object
+
+Create the file and allocate the empty in-memory boot block, root directory, and root directory.
+Write them out into the file.  The fat-object that is returned refers to these and to the file port.
+
+`(fat-create-file `*fat-object filename*`)` -> fat-file-object
+
+Update the *fat-object* by inserting a new root directory entry.  Allocate a one-block buffer.
+The fat-file-object that is returned refers to the fat-object,
+the directory entry, the buffer, and a zero index into the buffer.
+
+`(fat-write `*fat-file-object bytevector*`)` -> undefined
+
+Copy the bytes of *bytevector* into the buffer of *fat-file-object*
+at the index, and then update the index.
+If the buffer fills, write it to the fat-object's output port,
+update the FAT, reset the buffer index.
+
+`(fat-close-file ` *fat-file-object*`)`
