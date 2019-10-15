@@ -5,7 +5,7 @@ This is FAT-12 as described by informal sources and checked against
 Note that there are no subdirectories.
 All 2-byte numeric values are stored little-endian.
 
-## FAT boot sector (4096 bytes)
+## FAT boot sector (512 bytes)
 
 0-2: `eb 3c 90`  
 3-10: "FAT-ARCH"  
@@ -23,20 +23,16 @@ All 2-byte numeric values are stored little-endian.
 30-509: all 0  
 510-511: `55 aa`
 
-## File Allocation Table
+## File Allocation Table (512 * 9 = 4608 bytes)
 
 12-bit FAT entries, each corresponding to a cluster, point to the next cluster in the file,
 or `000` for free cluster, `ff7` for bad cluster, and `fff` for no more clusters.
-
-9 sectors * 512 bytes = 4608 bytes.
 
 3 FAT entries are stored in 2 bytes as follows:  `uv`, `wx`, `yz` are stored `xuv`, `yzw`.
 That allows 6912 entries, but the max clusters is 4084, so the rest are filled
 out with `ff7`.  Entry 0 is `1f8`, entry 1 is `fff`.
 
-## Root directory
-
-14 sectors * 512 bytes = 7168 bytes.
+## Root directory (512 * 14 = 7168 bytes)
 
 Each directory entry is 32 bytes, so 224 entries are available.
 File names and extensions can contain ASCII upper case letters, digits, or `_`.
