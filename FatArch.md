@@ -101,9 +101,3 @@ Write out the in-memory FAT and root directory.
 ## API for reading
 
 TBD
-
-
-`(fat-complete `*fat-object*`)`
-
-Close all open files.  Rewind the output port and write out a boot block.
-Then write out the in-memory FAT and root directory.  Deallocate the in-memory versions.
