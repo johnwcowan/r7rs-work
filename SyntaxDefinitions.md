@@ -8,7 +8,9 @@ Supported: Gambit, Bigloo, Guile, Kawa, SISC, Ypsilon, SigScheme, S7\[\*], Schem
 
 Not supported: Racket, Gauche, MIT, Chicken, Scheme48/scsh, SCM, Chez, Vicare, Larceny, Mosh, IronScheme, SXM, Sagittarius, Foment, Owl Lisp, Chibi, Sizzle[*]
 
-Supported as the only kind of macros:  
+Supported as the only kind of macros: S7, RScheme, Rep, Elk, Dfsch
+
+Supported as the only kind of low-level macros: Scheme 9 
 
 [*] S7 and Dfsch accept the `define`-style syntax `(define-macro (x y) y)` only.  The Sizzle documentation claims to do the same, but it didn't work for me.
 
@@ -25,22 +27,35 @@ Supported: Racket, Gauche, MIT, Gambit (with the `-:s` switch), Chicken, Bigloo,
 
 Not supported: (none)
 
+Supported as the only kind of hygienic macros: Bigloo 
+
 ### Syntax-case
 
 `Syntax-case` is a hybrid low/high-level macro system that is standardized in R6RS.  The test used here is `(define-syntax x (lambda (x) (syntax-case x () ((x y) (syntax y)))))`, which is exactly equivalent to the `syntax-rules` macro used above.
 
-Supported: Racket, Gambit, Guile, Kawa, SISC, Chez, Vicare, Larceny, Ypsilon, Mosh, IronScheme, SXM, Sagittarius
+Supported: Racket, Gambit, Guile, Kawa, SISC, Chez, Vicare, Larceny, Ypsilon, Mosh, IronScheme, SXM, Sagittarius, Chibi
 
-Not supported:  Gauche, MIT, Chicken, Bigloo, Scheme48/scsh, SCM, STklos, Scheme 9, Foment, Picrin, Owl Lisp, Chibi
+Not supported:  Gauche, MIT, Chicken, Bigloo, SCM, STklos, Scheme 9, Foment, Picrin, Owl Lisp
+
+Supports both `syntax-case` and another low-level hygienic macro system: Larceny (ER), Sagittarius (ER)
 
 ### Syntactic closures
 
 Syntactic closures is a low-level macro system supported by MIT, Picrin, Chibi.
 
+Supported as the only kind of low-level hygienic macros: (none)
+
 ### Explicit renaming
 
 Explicit renaming is a low-level macro system supported by MIT, Chicken, Scheme48/scsh, Sagittarius, Picrin, Chibi, Larceny (with different syntax).
 
+Supported as the only kind of low-level hygienic macros: Scheme48/scsh
+
+Supported without `syntax-case` support: MIT, Chicken, Scheme48/scsh, Picrin
+
 ### Implicit renaming
 
 Implicit renaming is a low-level macro system supported by Chicken, Picrin.
+
+Supported as the only kind of low-level hygienic macros: (none)
+
