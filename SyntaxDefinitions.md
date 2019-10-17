@@ -8,6 +8,8 @@ Supported: Gambit, Bigloo, Guile, Kawa, SISC, Ypsilon, SigScheme, S7\[\*], Schem
 
 Not supported: Racket, Gauche, MIT, Chicken, Scheme48/scsh, SCM, Chez, Vicare, Larceny, Mosh, IronScheme, SXM, Sagittarius, Foment, Owl Lisp, Chibi, Sizzle[*]
 
+Supported as the only kind of macros:  
+
 [*] S7 and Dfsch accept the `define`-style syntax `(define-macro (x y) y)` only.  The Sizzle documentation claims to do the same, but it didn't work for me.
 
 ## Define-syntax
