@@ -47,11 +47,11 @@ Supported as the only kind of low-level hygienic macros: (none)
 
 ### Explicit renaming
 
-Explicit renaming is a low-level macro system supported by MIT, Chicken, Scheme48/scsh, Sagittarius, Picrin, Chibi, Larceny (with different syntax).
+Explicit renaming is a low-level macro system supported by Gauche, MIT, Chicken, Scheme48/scsh, Sagittarius, Picrin, Chibi, Larceny (with different syntax).
 
 Supported as the only kind of low-level hygienic macros: Scheme48/scsh
 
-Supported without `syntax-case` support: MIT, Chicken, Scheme48/scsh, Picrin
+Supported without `syntax-case` support: Gauche, MIT, Chicken, Scheme48/scsh, Picrin
 
 ### Implicit renaming
 
