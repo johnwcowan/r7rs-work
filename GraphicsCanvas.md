@@ -141,13 +141,19 @@ for those beginning with `http:` and `https:` are recommended.
 `(make-turtle `*x y*`)`
 
 Creates a turtle at coordinates (*x, y*).
-The size and shape of a turtle is implementation-dependent,
+The size and shape of a turtle are implementation-dependent,
 but it must be possible or a user to determine the angle
 in which the tortoise points by looking at it.
 
 ## Shape predicates
 
-shape, individual shape predicates
+`(shape? `*obj*`)`  
+`(shape? `*obj canvas*`)`
+
+Returns `#t` if *obj* is a shape and `#f` otherwise.
+The second form asks if *obj* is a shape associated with *canvas*.
+
+There is also a predicate for each shape type: `point?`, `line?`, etc.
 
 ## Shape properties
 
@@ -166,7 +172,7 @@ Gets or sets the pen width used to draw the outline of the shape.
 The initial pen width is 1 pixel.
 
 `(pen-fill-color `*shape*`)`  
-`(set-pen-color! *shape ` color*`)`
+`(set-pen-fill-color! *shape ` color*`)`
 
 Sets the pen color used to draw the inside of the shape.
 The initial pen color is whatever the color of the canvas was
@@ -174,12 +180,12 @@ when the shape was created.
 
 ## Shape actions
 
-`(shape-show `*shape*`)`  
-`(shape-hide *shape ` color*`)`
+`(shape-show! `*shape*`)`  
+`(shape-hide! *shape ` color*`)`
 
 Shows or hides *shape*.  When *shape* is hidden.
 
-`(shape-move `*shape x y*`)`
+`(shape-move! `*shape x y*`)`
 
 Moves *shape* so that its origin point is at (*x, y*).
 The origin of a point is itself;
@@ -187,8 +193,49 @@ the origin of a line, polygon, or image is the first point drawn;
 the origin of a rectangle, ellipse, or image is the upper left point;
 the origin of a turtle is the center of the turtle image.
 
+`(shape-dispose `*shape*`)`
+
+Destroys the shape, removing it from the canvas altogether.
+
+## Turtle properties
+
+`(turtle-speed `*turtle n*`)`  
+`(set-turtle-speed `*turtle n*`)`
+
+Gets or sets the turtle's speed in spontaneous motion to *n*.
+The initial value is 0, which means the turtle moves only
+when it is told to move.
+
+`(turtle-angle `*turtle n*`)`  
+
+Gets the angle in degrees in which the turtle points.
+The initial value is 0, which means the turtle points straight up.
+
 ## Turtle actions
 
-turtle-up, turtle-down, turtle-left degrees, turtle-right degrees, turtle-speed n, turtle-move distance
+`(turtle-down! `*turtle*`)`
 
-Explain about collisions.
+Put the turtle's pen down, so that it draws a line behind itself.
+Note that this line is not itself a shape.
+
+`(turtle-up! `*turtle*`)`
+
+Put the turtle's pen up, so that it does not draw a line.
+
+`(turtle-forward! `*turtle distance*`)`  
+`(turtle-backward! `*turtle distance*`)`
+
+Moves the turtle forward/backward the given distance.
+The speed with which the turtle moves is specified by the `turtle-speed` property,
+unless that value is 0, in which case the turtle's speed is implementation-specified.
+
+`(turtle-left! `*turtle degrees*`)`  
+`(turtle-right! `*turtle degrees*`)`
+
+Turn the turtle's inherent angle by *degrees*.
+The use of degrees instead of radians is traditional,
+stemming from the original Logo turtles.
+
+## Events
+
+See the [UI event SRFI](UiEvents.md).
