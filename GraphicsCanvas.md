@@ -15,7 +15,7 @@ but they may be rounded by the canvas to values it can support
 `(connect-canvas `*alist*`)`
 
 Connect to or create a canvas in a place specified by alist.
-The standardized properties are `left`, `top`, `height`, `width`,
+The standardized properties are `left`, `top`, `width`, `height`,
 and `color`.
 
 ## Canvas predicates
@@ -48,15 +48,15 @@ relative to some arbitrary coordinate system such as the whole screen.`(canvas-l
 Get or set the y-coordinate of the origin of *canvas*
 relative to some arbitrary coordinate system such as the whole screen.
 
-`(canvas-height `*canvas*`)`  
-`(set-canvas-height! `*canvas height*`)`
-
-Get or set the height of *canvas*.
-
 `(canvas-width `*canvas*`)`  
 `(set-canvas-width! `*canvas x*`)`
 
 Get or set the width of *canvas*.
+
+`(canvas-height `*canvas*`)`  
+`(set-canvas-height! `*canvas height*`)`
+
+Get or set the height of *canvas*.
 
 `(canvas-title `*string*`)`  
 `(set-canvas-title! `*canvas title*`)`
@@ -87,10 +87,108 @@ Reveal or conceal the canvas.  If this is not possible, nothing happens.
 `(canvas-clear `*canvas*`)`
 
 Clear the canvas by hiding all visible shapes
-and repainting everythin with the canvas color.
+and repainting everything with the canvas color.
 
 `(canvas-dispose ` *canvas*`)`
 
 Disconnect from or eliminate *canvas*,
 disposing of all shapes created from it.
 
+## Text
+
+## Shape constructors
+
+Constructors make instances of the seven shapes supported by this SRFI.
+When a shape is created it is not yet visible on the canvas.
+When visible shapes overlap, those created most recently are on the top.
+
+`(make-point `*canvas x y*`)`
+
+Create a point at coordinates *x* and *y* and return it.
+
+`(make-line `*canvas x1 y1 x2 y2* ...`)`
+
+Create a line from point (*x1, y1*) to (*x2, y2*),
+and a line from there to point (*x3, y3*) and so on.
+
+`(make-polygon `*canvas x1 y1 x2 y2* ...`)`
+
+Create a line from point (*x1, y1*) to (*x2, y2*),
+and a line from there to point (*x3, y3*) and so on.
+Finally a line is drawn from the last point to the first.
+
+`(make-rectangle `*canvas left top width height*`)`
+
+Create and return a rectangle
+whose upper left corner is (*left, top*)
+and whose lower right corner is (*left + width, top + height*).
+
+`(make-ellipse `*canvas left top width height*`)`
+
+Create and return an ellipse that just fits in the bounding box
+whose upper left corner is (*left, top*)
+and whose lower right corner is (*left + width, top + height*).
+
+`(make-image `*string x y width height source*`)`
+
+Create an return an image scaled to fit within the bounding box
+whose upper left corner is (*left, top*)
+and whose lower right corner is (*left + width, top + height*).
+If *source* is a string, it is an URL.
+Support for URLs beginning `file:` is required, and
+for those beginning with `http:` and `https:` are recommended.
+
+`(make-turtle `*x y*`)`
+
+Creates a turtle at coordinates (*x, y*).
+The size and shape of a turtle is implementation-dependent,
+but it must be possible or a user to determine the angle
+in which the tortoise points by looking at it.
+
+## Shape predicates
+
+shape, individual shape predicates
+
+## Shape properties
+
+The following procedures are polymorphic in the shape argument.
+
+`(pen-color `*shape*`)`  
+`(set-pen-color! *shape ` color*`)`
+
+Gets or sets the pen color used to draw the outline of the shape.
+The initial pen color is black.
+
+`(pen-width `*shape*`)`  
+`(set-pen-width! *shape ` color*`)`
+
+Gets or sets the pen width used to draw the outline of the shape.
+The initial pen width is 1 pixel.
+
+`(pen-fill-color `*shape*`)`  
+`(set-pen-color! *shape ` color*`)`
+
+Sets the pen color used to draw the inside of the shape.
+The initial pen color is whatever the color of the canvas was
+when the shape was created.
+
+## Shape actions
+
+`(shape-show `*shape*`)`  
+`(shape-hide *shape ` color*`)`
+
+Shows or hides *shape*.  When *shape* is hidden.
+
+`(shape-move `*shape x y*`)`
+
+Moves *shape* so that its origin point is at (*x, y*).
+The origin of a point is itself;
+the origin of a line, polygon, or image is the first point drawn;
+the origin of a rectangle, ellipse, or image is the upper left point;
+the origin of a turtle is the center of the turtle image.
+
+## Turtle actions
+
+turtle-up, turtle-down, turtle-left degrees, turtle-right degrees, turtle-speed n, turtle-move distance
+
+Explain about collisions.
