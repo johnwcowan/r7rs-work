@@ -64,7 +64,7 @@ Implementations are free to consolidate consecutive mouse movement events.
 
 ## Event handling
 
-`(event-poll! `*event timeout*`)`
+`(event-poll! `*event timeout* [*alt?*]`)`
 
 Waits for the next event to become available or until *timeout* jiffies have passed;
 the implementation may round up the number of jiffies to suit its granularity.
@@ -75,4 +75,7 @@ immediately, setting element 1 to `none`; elements 2-4 are unspecified.
 The variables `term-shift`, `term-ctrl`, and `term-alt` have values that are distinct
 positive powers of two.  Element 3 of an event consists of the sum of zero or more of them.
 
-This procedure is available as part of both the terminal and canvas SRFIs.
+If *alt?* is true, then when an ESC character (`#\x1B;`) is received that is
+followed very shortly thereafter by another `char` event, only a single event
+is reported with the `alt` modifier.
+If *alt?* is false or omitted, no such special processing is done.
