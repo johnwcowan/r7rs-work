@@ -22,6 +22,10 @@ Like `import`, but also exports all identifiers that were imported.  This allows
 
 Exports all defined identifiers except for *identifiers*, if any.  Imported identifiers are not re-exported..  This allows a library to be easily extended.
 
+`(override)`
+
+If identifiers imported from this library conflict with identifiers already imported, the new definitions override the old without a warning or error.
+
 ### Optimization
 
 In the list below, *importance* represents a symbol, one of `unimportant` (no importance), `neutral` (some importance, the default), `important` (substantial importance), or `extreme` (extreme importance).  It is an error to specify anything else.  These correspond to the Common Lisp importance values 0, 1, 2, and 3 respectively.
@@ -65,6 +69,7 @@ The procedures named by the *identifiers* should be inlined by the compiler, if 
 `(notinline `*identifier* ...`)`
 
 The procedures named by the *identifiers* must not be inlined by the compiler, if there is one.
+This declaration, if provided and implemented, must be respected.
 
 `(unused `*identifier* ...`)`
 
