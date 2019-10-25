@@ -9,8 +9,9 @@ The S-expressions aren't the prettiest things in the world, but I think they are
     that character is doubled.
 
   * A Scheme symbol represents either a SQL keyword or an identifier.
-    If it contains hyphens, the individual parts are processed separately
-    and output with spaces between them.
+    If it contains hyphens, the individual parts are
+    output with spaces between them but with no further processing;
+    they are assumed to be a sequence of keywords.
     If it contains periods, the individual parts are processed separately
     and output with dots between them.
     
