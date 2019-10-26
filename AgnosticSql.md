@@ -36,7 +36,7 @@ Here are the representation convention.
     in the same way.  But operators like `UNION` are not usable, because their operands
     are whole `SELECT` statements that can't be wrapped in parentheses.
     
-  * A vector with two or more elements outputs as a space-separated string of its contents.
+  * A vector outputs as a space-separated string of its contents.
   
   * A vector whose sole element is a list is output as a comma-separated string of its contents
     without parentheses.
