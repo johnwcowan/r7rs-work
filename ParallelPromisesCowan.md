@@ -1,32 +1,39 @@
 ## Rationale
 
-*Parallel promises*, known to Racketeers as *[futures](http://docs.racket-lang.org/reference/futures.html)*, are
-analogous to ordinary Scheme promises, except that implementations are allowed to execute part or all of such a promise
-in parallel with regular execution.  An ordinary promise is not evaluated (and does not perform any side effects)
-until it is forced, whereas parallel promises may be evaluated either completely or up to an implementation-determined
-point either as soon as they are created or at any time after that.  If any evaluation is left to do when a parallel
-promise is forced, it is done
-at that time.
+*Parallel promises*, known to Racketeers as *[futures](http://docs.racket-lang.org/reference/futures.html)*,
+are analogous to ordinary Scheme promises,
+except that implementations are allowed to execute part or all of such a promise
+in parallel with regular execution.
+An ordinary promise is not evaluated (and does not perform any side effects) until it is forced,
+whereas parallel promises may be evaluated either completely or up to an implementation-determined
+point either as soon as they are created or at any time after that.
+f any evaluation is left to do when a parallel promise is forced, it is done at that time.
+They are not to be confused with the futures of [FuturesCowan](FuturesCowan.md).
 
-A parallel promise, unlike a thread, is intended to provide parallelism for potentially limited computations.
-It performs its work in parallel (assuming that support for parallelism is available) until it detects
-an attempt to perform an operation that is too complex for the system to run safely in parallel.  The list
-of such operations is necessarily implementation-dependent.  Similarly, work on a parallel promise is suspended
+A parallel promise, unlike a thread or future, is intended to provide parallelism
+for potentially limited computations.
+It performs its work in parallel (assuming that support for parallelism is available)
+until it detects an attempt to perform an operation
+that is too complex for the system to run safely in parallel.
+The list of such operations is necessarily implementation-dependent.
+Similarly, work on a parallel promise is suspended
 if it depends in some way on the current continuation, such as raising an exception.
 
-Parallel promises are not intended to be used for concurrency, so there are no facilities for mutual exclusion.
-A computation in a parallel promise might use `set!` to modify a shared variable, in which case concurrent
-assignment to the variable can be visible in other parallel promises or threads. Furthermore, guarantees
-about the visibility of effects and ordering are determined by the operating system and hardware, which rarely support,
-for example, any guarantee of sequential consistency.
-At the same time, operations that seem obviously safe may have a complex enough implementation internally
+Parallel promises are not intended to be used for concurrency,
+so there are no facilities for mutual exclusion.
+A computation in a parallel promise might use `set!` to modify a shared variable,
+in which case concurrent assignment to the variable can be visible
+in other parallel promises, threads or futures.
+Furthermore, guarantees about the visibility of effects and ordering
+are determined by the operating system and hardware,
+which rarely support, for example, any guarantee of sequential consistency.
+At the same time, operations that seem obviously safe
+may have a complex enough implementation internally
 that they cannot run in parallel on a particular implementation.
 
 ## Issues
 
-1) Use "future" instead of "parallel promise" along with the Racket names?
-
-2-3) Resolved.
+1-3) Resolved.
 
 ## Specification
 
@@ -100,14 +107,28 @@ syntax. If *obj* is already a parallel promise, it is returned.
 
 `(current-parallel-promise)`
 
-Returns the parallel promise whose execution is the current continuation. If a parallel promise itself uses `parallel-force`, parallel-promise executions can be nested, in which case the descriptor of the most immediately executing parallel promise is returned. If the current continuation is not a parallel promise execution, the result is `#f`.
+Returns the parallel promise whose execution is the current continuation.
+If a parallel promise itself uses `parallel-force`, parallel-promise executions can be nested,
+in which case the descriptor of the most immediately executing parallel promise is returned.
+If the current continuation is not a parallel promise execution, the result is `#f`.
 
 `(parallel-call `<func> <arg> ...`)` [syntax]
 
-Semantics:  Wrap <func> and each <arg> in a parallel promise.  Force the parallel promises in an unspecified order.  Then apply the value of the <func> promise to the value of the <arg> promises and return the result.
+Semantics:  Wrap <func> and each <arg> in a parallel promise.
+Force the parallel promises in an unspecified order.
+Then apply the value of the <func> promise to the value of the <arg> promises and return the result.
 
 ## Implementation
 
-Parallel implementation of this proposal is necessarily very system-dependent.  However, it is correct to implement
-`parallel-delay`, `parallel-delay-force`, `parallel-force`, `parallel-promise?`, `make-parallel-promise`, `current-parallel-promise`, and `parallel-call` as
-`delay`, `delay-force`, `force`, `promise?`, `make-promise`, `(lambda () #f)`, and `(syntax-rules parallel-call (syntax-rules () ((parallel-call func . args) (func . args))))` respectively.
+Parallel implementation of this proposal is necessarily very system-dependent.
+However, it is correct to implement
+`parallel-delay`, `parallel-delay-force`, `parallel-force`, `parallel-promise?`,
+`make-parallel-promise`, `current-parallel-promise`, and `parallel-call` as
+`delay`, `delay-force`, `force`, `promise?`,
+`make-promise`, `(lambda () #f)`, and
+```
+(define-syntax parallel-call
+  (syntax-rules ()
+    ((parallel-call func . args) (func . args))))
+```
+respectively.
