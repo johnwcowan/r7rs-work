@@ -216,11 +216,6 @@ and some values may be different if they have the same effect on the implementat
 If no settings list was used, the result is implementation-dependent.
 In any case the result will at least include the `path` property.
 
-`(make-pipe)`
-
-Returns two ports, the read and write endpoints of a Posix or Windows pipe.
-If the OS does not support pipes, an error that satisfies `file-error?` is signaled.
-
 `(select-ports `*timeout port* ...`)`
 
 Blocks until at least one of the
@@ -344,7 +339,7 @@ follow them.
 ## Implementation
 
 All the procedures of this SRFI can be implemented on top of the R6RS
-with the exceptions of `pipe`, `select-ports`, and `select-port-channels`,
+with the exceptions of `select-ports`, and `select-port-channels`,
 which are implemented in scsh.  There is no portable way to express the
 `append` key in R6RS, unfortunately; however, at least
 Chez, IronScheme, and Sagittarius
