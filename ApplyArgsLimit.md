@@ -6,7 +6,7 @@ These tests were done on a 64-bit Linux system.
 
 500000 arguments works correctly: Scheme48/scsh
 
-100000 arguments works correctly: S7
+100000 arguments works correctly: S7, Chicken 5
 
 10000 arguments works correctly: Guile, Mosh, XLisp, TinyScheme, Elk, Llava, SXM, S7
 
@@ -18,7 +18,7 @@ Hard limit is 126937 arguments: MIT
 
 Hard limit is 8192 arguments: Gambit, Vicare
 
-Hard limit is 2048 arguments: Chicken
+Hard limit is 2048 arguments: Chicken 4 
 
 Hard limit is 2026 arguments: Foment
 
