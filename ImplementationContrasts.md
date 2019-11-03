@@ -58,6 +58,7 @@ Not all these pages have information on all these Schemes.
 * [ImmediateStringsCoalesced](ImmediateStringsCoalesced.md)
 * [ImmutableStrings](ImmutableStrings.md)
 * [ImproperLists](ImproperLists.md)
+* [KeywordSyntax](KeywordSyntax.md)
 * [LetrecStar](LetrecStar.md)
 * [MaxInfNan](MaxInfNan.md)
 * [MultipleValues](MultipleValues.md)
