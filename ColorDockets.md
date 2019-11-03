@@ -113,14 +113,15 @@ Syntax combiners for binary functions: [SRFI 156](https://srfi.schemers.org/srfi
 
 lambda*: [BeyondCurryingHemann](BeyondCurryingHemann.md)
 
-Named parameters:  [SRFI 89](http://srfi.schemers.org/srfi-89/srfi-89.html)  
+Named parameters:  [SRFI 177](http://srfi.schemers.org/srfi-177/srfi-177.html), [SRFI 89](http://srfi.schemers.org/srfi-89/srfi-89.html)  
 or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/0.7.3/index.html)
 
 Multiple values passed through => in `cond`: see #90
 
 Property lists to bindings: [LetSettingsKendal](LetSettingsKendal.md)
 
-Optional arguments (other than by `case-lambda`): [OptionalsRiastradh](http://mumble.net/~campbell/proposals/optional.text)  
+Optional arguments (other than by `case-lambda`): 
+[OptionalsRiastradh](http://mumble.net/~campbell/proposals/optional.text), 
 or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/0.7.3/index.html)
 
 `Record-let`: #45
