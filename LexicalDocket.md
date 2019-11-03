@@ -10,6 +10,10 @@ PLT, Gauche, Gambit, Chicken, Bigloo, Guile, Kawa, Scheme48, STklos, RScheme pro
 A close variant of this syntax, `#vu8` for unsigned byte vectors is provided in R6RS,
 which means that IronScheme, Ikarus, Larceny/R6RS, Ypsilon, and Mosh also support it.
 
+Racket, Kawa, Chicken, Guile support keywords of the form #:foo.
+It would probably be implementation-defined whether these are self-evaluating
+(as in Chicken and Guile) or not (as in Racket and Kawa).
+
 SRFI 10 provides `#,(tag datum ...)`, which causes a procedure bound to `keyword` to be applied
 to `args` at read time.  This is similar to, but not the same as, CL `#,` syntax.
 Gauche, Chicken, Guile, SISC, STklos, RScheme support this SRFI.
