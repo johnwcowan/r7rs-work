@@ -32,34 +32,34 @@ Returns `#t` if *canvas* can be resized by the user
 ## Canvas properties
 
 `(canvas-color `*canvas*`)`  
-`(set-canvas-color! `*canvas color*`)`
+`(canvas-set-color! `*canvas color*`)`
 
 Get or set the background color of *canvas*.  
 
 `(canvas-left `*canvas*`)`  
-`(set-canvas-left! `*canvas left*`)`
+`(canvas-set-left! `*canvas left*`)`
 
 Get or set the x-coordinate of the origin of *canvas*
 relative to some arbitrary coordinate system such as the whole screen.`(canvas-left `*canvas*`)`  
 
 `(canvas-top `*canvas*`)`  
-`(set-canvas-top! `*canvas top*`)`
+`(canvas-set-top! `*canvas top*`)`
 
 Get or set the y-coordinate of the origin of *canvas*
 relative to some arbitrary coordinate system such as the whole screen.
 
 `(canvas-width `*canvas*`)`  
-`(set-canvas-width! `*canvas x*`)`
+`(canvas-set-width! `*canvas x*`)`
 
 Get or set the width of *canvas*.
 
 `(canvas-height `*canvas*`)`  
-`(set-canvas-height! `*canvas height*`)`
+`(canvas-set-height! `*canvas height*`)`
 
 Get or set the height of *canvas*.
 
 `(canvas-title `*string*`)`  
-`(set-canvas-title! `*canvas title*`)`
+`(canvas-set-title! `*canvas title*`)`
 
 Get or set the title of *canvas*.
 If *canvas* has no associated title,
@@ -160,19 +160,19 @@ There is also a predicate for each shape type: `point?`, `line?`, etc.
 The following procedures are polymorphic in the shape argument.
 
 `(pen-color `*shape*`)`  
-`(set-pen-color! *shape ` color*`)`
+`(pen-set-color! *shape ` color*`)`
 
 Gets or sets the pen color used to draw the outline of the shape.
 The initial pen color is black.
 
 `(pen-width `*shape*`)`  
-`(set-pen-width! *shape ` color*`)`
+`(pen-set-width! *shape ` color*`)`
 
 Gets or sets the pen width used to draw the outline of the shape.
 The initial pen width is 1 pixel.
 
 `(pen-fill-color `*shape*`)`  
-`(set-pen-fill-color! *shape ` color*`)`
+`(pen-set-fill-color! *shape ` color*`)`
 
 Sets the pen color used to draw the inside of the shape.
 The initial pen color is whatever the color of the canvas was
@@ -200,7 +200,7 @@ Destroys the shape, removing it from the canvas altogether.
 ## Turtle properties
 
 `(turtle-speed `*turtle n*`)`  
-`(set-turtle-speed `*turtle n*`)`
+`(turtle-set-speed `*turtle n*`)`
 
 Gets or sets the turtle's speed in spontaneous motion to *n*.
 The initial value is 0, which means the turtle moves only
