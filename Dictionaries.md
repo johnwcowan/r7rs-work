@@ -1,19 +1,3 @@
-## Proposal
-
-Constructors: make-hash-table, hash-table
-
-Predicates: hash-table?, hash-table-contains?, hash-table=?, hash-table-mutable?
-
-Accessors: hash-table-ref
-
-Mutators: hash-table-set!, hash-table-delete!
-
-The whole hash table: hash-table-size, hash-table-keys, hash-table-values, hash-table-entries
-
-Mapping and folding: hash-table-map, hash-table-for-each, hash-table-map->list, hash-table-fold
-
-Copying and conversion: hash-table-copy
-
 ## SRFI 1 alists
 
 assoc assq assv
@@ -40,9 +24,6 @@ Copying and conversion: hash-table-copy, hash-table-empty-copy, hash-table->alis
 
 Hash tables as sets: hash-table-union!, hash-table-merge! (deprecated), hash-table-intersection!, hash-table-difference!, hash-table-xor!
 
-Hash functions and reflectivity (deprecated): hash, string-hash, string-ci-hash, hash-by-identity, hash-table-equivalence-function, hash-table-hash-function
-
-
 ## SRFI 146
 
 Constructors: mapping, mapping-unfold, mapping/ordered, mapping-unfold/ordered
@@ -63,6 +44,3 @@ Submappings: mapping=?, mapping<?, mapping>?, mapping<=?, mapping>=?
 
 Set theory operations: mapping-union, mapping-intersection, mapping-difference, mapping-xor, mapping-union!, mapping-intersection!, mapping-difference!, mapping-xor!
 
-Additional procedures for mappings with ordered keys: mapping-min-key, mapping-max-key, mapping-min-value. mapping-max-value, mapping-key-predecessor, mapping-key-successor, mapping-range=, mapping-range<, mapping-range>, mapping-range<=, mapping-range>=, mapping-range=!, mapping-range<!, mapping-range>!, mapping-range<=!, mapping-range>=!, mapping-split, mapping-catenate, mapping-catenate!, mapping-map/monotone, mapping-map/monotone!, mapping-fold/reverse
-
-Comparators: comparator?, mapping-comparator, make-mapping-comparator
