@@ -82,7 +82,8 @@ char-set:upper-case = category Lu + property Other_Uppercase
 char-set:title-case = category Lt
 
 char-set:letter = char-set:lower-case + char-set:upper-case +
-char-set:title-case + category Lm + category Lo + category Nl
+                  char-set:title-case +
+                  category Lm + category Lo + category Nl
 
 char-set:digit = category Nd
 
