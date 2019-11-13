@@ -82,8 +82,8 @@ char-set:upper-case = category Lu + property Other_Uppercase
 char-set:title-case = category Lt
 
 char-set:letter = char-set:lower-case + char-set:upper-case +
-                  char-set:title-case +
-                  category Lm + category Lo + category Nl
+                  char-set:title-case + category Lm +
+                  category Lo + category Nl
 
 char-set:digit = category Nd
 
@@ -91,8 +91,10 @@ char-set:letter+digit = char-set:letter + char-set:digit
 
 char-set:graphic = char-set:printing + char-set:whitespace
 
-char-set:printing = char-set:letter+digit + char-set:punctuation + char-set:symbol +
-                    category Mn + category Mc + category Me + category No
+char-set:printing = char-set:letter+digit + char-set:punctuation +
+                    char-set:symbol +
+                    category Mn + category Mc + category Me +
+                    category No
 
 char-set:whitespace = property White_Space
 
