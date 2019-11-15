@@ -12,17 +12,15 @@ Issue 3: It's not clear whether the control-terminal procedures
 `open-control-tty`, `terminal-process-group`, and `set-terminal-process-group`
 belong in this SRFI or in a terminal SRFI.
 
-Issue 5: We need some provision for avoiding deadlock when the child's standard
-output and standard error are both newly created pipes.
-
 ## Constructors
 
 `(make-pipe)`
 
 Makes a pipe and returns two values, both binary ports.
 The first value is the read end of the pipe, the second value is the write end.
-The caller may use the pipe internally as a queue, pass one end to a subprocess
-and use the other to communicate with it, or pass both ends to different processes.
+The caller may use the pipe internally as a queue (provided it does not get full),
+pass one end to a subprocess and use the other to communicate with it,
+or pass both ends to different processes.
 In the latter two cases, the caller should close the port after passing it.
 
 `(make-textual-pipe)`
@@ -41,6 +39,12 @@ All file descriptors not mentioned in *setup* are closed in the new process.
 It returns a process-object (see below) from which various results can be extracted.
 If the process cannot be created for any reason,
 an error satisfying `process-exception?` is signaled.
+
+Note: if more than one file descriptor is connected to a pipe,
+precautions must be taken to avoid deadlock.
+If the implementation does not make use of asynchronous I/O under the covers,
+then the use of SRFI 170 `select` to decide which pipe is ready
+to be read or written is advisable.
 
 ## The setup plist
 
