@@ -96,6 +96,39 @@ disposing of all shapes created from it.
 
 ## Text
 
+`(canvas-display-text `*canvas x y text*`)`
+
+Display *text* on the canvas starting at coordinates *x* and *y*.
+Text is written on top of any shapes that occupy all or part of its display area,
+but text does not move when a shape does; it remains anchored to the canvas.
+The default font and its properties are implementation dependent.
+
+`(text-color `*canvas*`)`  
+`(set-text-color! `*canvas color*`)`
+
+Gets or sets the color of the pen used to draw the text.
+
+`(text-font `*canvas*`)`  
+`(set-text-font! `*canvas fontname*`)`
+
+Gets or sets the name of the font used to draw the text.
+The available font names are implementation dependent.
+
+`(text-size `*canvas*`)`  
+`(set-text-size! `*canvas fontsize*`)`
+
+Gets or sets the size of the font used to draw the text.
+
+`(text-bold? `*canvas*`)`  
+`(set-text-bold! `*canvas*`)`
+
+Gets or sets the bold status of the font used to draw the text.
+
+`(text-italic? `*canvas*`)`  
+`(set-text-italic! `*canvas*`)`
+
+Gets or sets the italic status of the font used to draw the text.
+
 ## Shape constructors
 
 Constructors make instances of the seven shapes supported by this SRFI.
@@ -141,9 +174,11 @@ for those beginning with `http:` and `https:` are recommended.
 `(make-turtle `*x y*`)`
 
 Creates a turtle at coordinates (*x, y*).
-The size and shape of a turtle are implementation-dependent,
-but it must be possible or a user to determine the angle
-in which the tortoise points by looking at it.
+A turtle is a shape that can and does move by itself.
+Its exact size and shape are implementation-dependent,
+but it must be possible or a user to determine the approximate
+inherent direction of a turtle by looking at it;
+it cannot be completely symmetrical.
 
 ## Shape predicates
 
@@ -200,7 +235,7 @@ Destroys the shape, removing it from the canvas altogether.
 ## Turtle properties
 
 `(turtle-speed `*turtle n*`)`  
-`(turtle-set-speed `*turtle n*`)`
+`(turtle-set-speed! `*turtle n*`)`
 
 Gets or sets the turtle's speed in spontaneous motion to *n*.
 The initial value is 0, which means the turtle moves only
@@ -216,7 +251,8 @@ The initial value is 0, which means the turtle points straight up.
 `(turtle-down! `*turtle*`)`
 
 Put the turtle's pen down, so that it draws a line behind itself.
-Note that this line is not itself a shape.
+Note that this line is not itself a shape.  It is superimposed
+on all shapes and text on the canvas.
 
 `(turtle-up! `*turtle*`)`
 
@@ -232,9 +268,17 @@ unless that value is 0, in which case the turtle's speed is implementation-speci
 `(turtle-left! `*turtle degrees*`)`  
 `(turtle-right! `*turtle degrees*`)`
 
-Turn the turtle's inherent angle by *degrees*.
+Turn the turtle's inherent direction by *degrees*.
 The use of degrees instead of radians is traditional,
 stemming from the original Logo turtles.
+
+`(turtle-mouse-link!` *turtle*`)`  
+`(turtle-mouse-unlink!` *turtle*`)`
+
+Links/unlinks the relative movement of the turtle with the relative movement of the mouse.
+However, it does not move the turtle to the position of the mouse or vice versa.
+While they are linked, mouse movements may not be received by the UI event system.
+Has no effect if this cannot be done.
 
 ## Events
 
