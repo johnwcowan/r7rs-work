@@ -27,23 +27,23 @@ and the value 1 represents one TAI second later.
 The current instant can be obtained more or less accurately
 by invoking the R7RS-small procedure `current-second`.
 
-A *timespec* is an object whose first element is the number of whole seconds and
-whose second element is the number of nanoseconds on the Posix time scale,
-which counts the number of seconds *excluding leap seconds*
-ince midnight on January 1, 1970 Universal Time.
+A *timespec* is an object defined by [SRFI 174](http://srfi.schemers.org/srfi-174/srfi-174.html)
+representing a count of whole seconds and nanoseconds, but *excluding leap seconds*.
+SRFI 174 allows a timespec to be relative to any epoch, but for the purposes of this SRFI,
+0 seconds and 0 nanoseconds always represents midnight on January 1, 1970 Universal Time.
 The current timespec can be obtained by calling the SRFI 170
 procedure `posix-time`.
-In this SRFI, the timespec during a leap second is always the same
+In this SRFI, the timespec during a leap second is always assumed to be the same
 (in the sense of `equal?`) as
-the timespec for the following second, but the results of calling
-the Posix procedure `clock_gettime()` do not necessarily agree.
+the timespec for the following second, but the results of actually calling
+`posix-time` in the vicinity of a leap second do not necessarily agree.
 
 ## Time zones
 
 Local civil time is everywhere specified using
 an offset from Universal Time.  (For a brief period this was not
 true in Saudi Arabia, but this SRFI ignores the Saudi government's
-attempt to change local civil time so that hour 0 begins at sunset.)
+attempt to change local civil time so that hour 0 began at sunset.)
 
 In each political jurisdiction the rules for changing the offset vary,
 both the annual cycle of standard vs. daylight saving time (if in effect)
@@ -54,10 +54,10 @@ which are Universal Time minus local time in seconds, and strongly recommends
 support for named time zones as defined by the
 [IANA time zone database](https://www.iana.org/time-zones); these are strings.
 
-When local time moves backwards (typically some time in the autumn,
+When local time jumps backwards (typically some time in the autumn,
 or else for political reasons at any time),
 the same local time can represent two different Universal Time values.
-Such an event is called a *time fold* and is 0 for the earlier time
+Such a situation is called a *time fold* and is represented as 0 for the earlier time
 and 1 for the later time.  For example, the fold is 0 at 2:00 A.M. daylight time
 and 1 at 2:00 A.M. standard time one hour later
 on the day when daylight saving time ends in the U.S.
@@ -66,14 +66,15 @@ the local time scale is folded up, as it were, replicating the same local times.
 
 The current timezone can be obtained from the `TZ` environment variable.
 Note that there is no concept in this SRFI of
-a date without a timezone; some timezone must be supplied whenever a
+a date or time without a timezone; some timezone must be supplied whenever a
 date object is created.
 
 ## Localization
 
 This SRFI does not deal with localization beyond the matter of time zones.
 It does not know the names of the months or of the days of the week in any language,
-or the names and starting dates of Japanese eras,
+or the proper ordering of day, month, and year,
+or the names and starting dates of the Japanese eras,
 or whether local clocks are 12-hour or 24-hour,
 or how to spell "AM" and "PM",
 or anything about non-Gregorian calendars,
@@ -213,7 +214,7 @@ of the following day and minute 0 of hour 24 of the preceding day.
 
 `day-of-week`: The day of the date's week, where Monday is 1 and Sunday is 7.
 
-`days-in-month`: The number of days in the date's month, between 28 and 31.
+`days-in-month`: The number of days in the date's month, between 1 and 31.
 
 `day-of-year`: The day of the year, between 1 and 365 in non-leap years and 1 and 366 in leap years.
 
