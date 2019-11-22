@@ -2,6 +2,8 @@ This is a docket for lexical-syntax proposals.
 SRFIs 30, 38, 62 are incorporated into R7RS.
 For other dockets, see [WG2Dockets](WG2Dockets.md).
 
+Raw strings have been mentioned, but no SRFI yet.
+
 This is a list of the SRFIs in final state that extend the R7RS lexical syntax.
 
 SRFI 4 provides lexical syntax for homogeneous numerical vectors
