@@ -1,9 +1,9 @@
 ## Abstract
 
-A dictionary interface (''dictint'') is an object of a disjoint type that allows
+A dictionary interface (*dictint*) is an object of a disjoint type that allows
 a procedure to manipulate an object that maps keys to values
 without having to know exactly how the object is implemented.
-Such an object is called a dictionary (''dict'') in this SRFI,
+Such an object is called a dictionary (*dict*) in this SRFI,
 and there is one dictint for each type of dict.
 
 This SRFI provides
