@@ -302,13 +302,33 @@ hash-table-dictint
 
 A dictint object that allows SRFI 125 hash tables to be treated as dicts.
 Mutations directly mutate the hash table.
+This object is only available if the implentation provides SRFI 125.
 
 mapping-dict
 
 A dictint object that allows SRFI 146 mappings to be treated as dicts.
 Mutations return new mappings that share storage with the underlying mapping.
+This object is only available if the implementation provides SRFI 146 mappings.
 
 hashmap-dict
 
 A dictint that allows SRFI 146 hashmaps to be treated as dicts.
-Mutations return new mappings that share storage with the underlying mapping.
+Mutations return new hashmaps that share storage with the underlying hashmaps.
+This object is only available if the implementation provides SRFI 146 hashmaps.
+
+## The default dict
+
+default-dict
+
+The default dictint object.  The procedures available through this object
+decide which ordinary dictint to use based on the type of the dict.
+In particular,
+a dict that is a list is examined to see whether it is an alist (its
+car is a pair) or a property list (its car is a symbol).  Exactly which
+other dictint objects are available to it depends on which of the above
+dictint objects are supported.
+
+(register-dict! dictint)
+
+Register dictint so that invocations of the default dictint will make use of it
+when it finds an object which returns true to its dict? procedure.
