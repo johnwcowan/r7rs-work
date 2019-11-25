@@ -235,3 +235,80 @@ that do /do not satisfy pred.
 
 Returns an alist whose keys and values are the keys and values of dict.
 
+## Possible additional procedures
+
+These functions will take O(n²) time when applied to O(n) dicts.
+Issue: should we have them?
+
+Subset functions:  dict=? dict<? dict>? dict<=? dict>=?
+
+Set theory operations: dict-union, dict-intersection, dict-difference, dict-xor
+
+## Dictionary interface constructors
+
+All the following procedures return dictints that provide
+all the dict procedures of this SRFI.
+
+(make-basic-dictint dict? dict-contains? dict-ref dict-set
+                    dict-delete dict-size dict-for-each dict-copy)
+
+Returns a dictint object that provides access to the eight procedures
+shown above and through them to the other procedures of this SRFI.
+However, the native procedures of the type of dictionary which this
+dictint provides may be more efficient than the synthesized procedures
+that using this constructor will provide.
+
+(make-dictint dictint dict)
+
+Returns a dictint object that provides access to all the procedures
+provided in dict, which maps the names of the procedures of this SRFI
+to suitable type-specific procedures.  The eight procedures listed
+in the description of make-basic-dictint are required: the others
+are optional.
+
+(make-alist-dictint pred)
+
+Returns a dictint object that allows alists to be treated as dict,
+searching them using pred.
+Mutations are pushed onto the front of the alist.
+
+## Standard dictionary interface objects
+
+eq-alist-dictint
+
+A dictint object that allows alists to be treated as dicts,
+using eq? to search them.
+Mutations are pushed onto the front of the alist.
+
+eqv-alist-dictint
+
+A dictint object that allows alists to be treated as dicts,
+using eqv? to search them.
+Mutations are pushed onto the front of the alist.
+
+equal-alist-dictint
+
+A dictint object that allows alists to be treated as dicts,
+using equal? to search them.
+Mutations are pushed onto the front of the alist.
+
+plist-dictint
+
+A dictint object that allows property lists (lists with alternating keys and values,
+and where all the values are symbols) to be treated as dicts.
+Mutations directly mutate the list.
+
+hash-table-dictint
+
+A dictint object that allows SRFI 125 hash tables to be treated as dicts.
+Mutations directly mutate the hash table.
+
+mapping-dict
+
+A dictint object that allows SRFI 146 mappings to be treated as dicts.
+Mutations return new mappings that share storage with the underlying mapping.
+
+hashmap-dict
+
+A dictint that allows SRFI 146 hashmaps to be treated as dicts.
+Mutations return new mappings that share storage with the underlying mapping.
