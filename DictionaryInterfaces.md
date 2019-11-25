@@ -174,3 +174,64 @@ except for the association with key key.
 In all cases, two values are returned:
 the dict and obj.
 
+(dict-count pred dictint dict)
+
+Passes each association of dict as two arguments to pred
+and returns an exact integer that counts the number of times
+that pred returned true.
+
+(dict-any? pred dictint dict)
+
+Passes each association of dict as two arguments to pred
+and returns true when one of the calls to pred returns true.
+If all calls return false, dict-any? returns false.
+
+(dict-every? pred dictint dict)
+
+Passes each association of dict as two arguments to pred
+and returns #f when any of the calls to pred return false.
+If all calls return true, dict-every? returns true.
+
+(dict-keys dictint dict)
+
+Returns a list of the keys of dict.
+
+(dict-values dictint dict)
+
+Returns a list of the values of dict.  The results returned
+by dict-keys and dict-values are ordered consistently.
+
+(dict-entries dictint dict)
+
+Returns two values, the result of calling dict-keys and the
+result of calling dict-values.
+
+(dict-map proc dictint dict)
+
+Returns a dict containing the keys of dict and the values that result
+from invoking proc on the keys and corresponding values of dict.
+
+(dict-fold proc nil dictint dict)
+
+Invokes proc on each association of dict with three arguments:
+the key of the association, the value of the association,
+and an accumulated result of the previous invocation. 
+For the first invocation, nil is used as the third argument.
+Returns the result of the last invocation,
+or nil if there was no invocation.
+
+(dict-map->list proc dictint dict)
+
+Returns a list of values that result from invoking proc
+on the keys and corresponding values of dict.
+
+(dict-filter pred dictint dict)  
+(dict-remove pred dictint dict)
+
+Returns a similar dict that contains just the associations of dict
+that do /do not satisfy pred.
+
+(dict->alist dictint dict)
+
+Returns an alist whose keys and values are the keys and values of dict.
+
