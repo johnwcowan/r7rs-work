@@ -19,6 +19,12 @@ a type-specific constructor.
 Finally, there are some precomposed dictints, a default dictint,
 and a way to register new dictints as part of the default system.
 
+## Mutability
+
+All mutation procedures in this SRFI are in effect linear-update:
+they return a dict which might either be newly allocated
+or the same dict that was passed to the procedure.
+
 ## Basic dict procedures
 
 The following procedures are fundamental to all dicts
@@ -104,9 +110,67 @@ then dict is returned unchanged.
 Extracts the value associated to key in dict, and returns two values, dict and the value.
 If key is not contained in dict, failure is invoked on no arguments.
 The procedure then returns two values, a dict that contains all the associations of dict
-and in addition a new association mapping key to the result of invoking failure, 
+and in addition a new association that maps key to the result of invoking failure, 
 and the result of invoking failure.
 
+(dict-update dictint dict key updater [failure [success] ])
 
+Semantically equivalent to, but may be more efficient than, the following code:
 
+  (dict-set dictint dict key (updater (dict-ref dictint dict key failure success)))
+
+The obvious semantics hold when success (and failure) are omitted (see dict-ref).
+
+(dict-update/default dictint dict key updater default)
+
+Semantically equivalent to, but may be more efficient than, the following code:
+
+  (dict-set dictint dict key (updater (dict-ref/default dictint dict key default)))
+
+(dict-pop dictint dict [failure])
+
+Chooses an arbitrary association from dict and returns three values:
+a dict that contains all associations of dict except the chosen one,
+and the key and the value of the chosen association. 
+If dict contains no associations and failure is supplied,
+then the thunk failure is invoked and its values returned.
+Otherwise, it is an error.
+
+(dict-search dictint dict key failure success)
+
+The dict dict is searched for an association with key key.
+If it is not found, then the failure procedure is tail-called
+with two continuation arguments, insert and ignore,
+and is expected to tail-call one of them.
+
+If an association with key key is found, then the success procedure is tail-called
+with the matching key of dict, the associated value,
+and two continuations, update and remove, and is expected to tail-call one of them.
+
+It is an error if the continuation arguments are invoked,
+but not in tail position in the failure and success procedures.
+It is also an error if the failure and success procedures
+return to their implicit continuation without invoking
+one of their continuation arguments.
+
+The effects of the continuations are as follows
+(where obj is any Scheme object):
+
+Invoking (insert value obj) returns a dict that
+contains all the associations of dict,
+and in addition a new association that maps key to value.
+
+Invoking (ignore obj) has no effects.
+
+Invoking (update new-key new-value obj) returns a dict that
+contains all the associations of dict,
+except for the association with key key,
+which is replaced by a new association that maps new-key to new-value.
+
+Invoking (remove obj) returns a dict that
+contains all the associations of dict,
+except for the association with key key.
+
+In all cases, two values are returned:
+the dict and obj.
 
