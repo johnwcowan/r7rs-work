@@ -12,9 +12,10 @@ but they may be rounded by the canvas to values it can support
 
 ## Canvas constructor
 
-`(connect-canvas `*alist*`)`
+`(connect-canvas `*where*`)`
 
-Connect to or create a canvas in a place specified by alist.
+Connect to or create a canvas in a place
+specified by the implementation-dependent object *where*.
 The standardized properties are `left`, `top`, `width`, `height`,
 and `color`.
 
@@ -94,41 +95,6 @@ and repainting everything with the canvas color.
 Disconnect from or eliminate *canvas*,
 disposing of all shapes created from it.
 
-## Text
-
-`(canvas-display-text `*canvas x y text*`)`
-
-Display *text* on the canvas starting at coordinates *x* and *y*.
-Text is written on top of any shapes that occupy all or part of its display area,
-but text does not move when a shape does; it remains anchored to the canvas.
-The default font and its properties are implementation dependent.
-
-`(text-color `*canvas*`)`  
-`(set-text-color! `*canvas color*`)`
-
-Gets or sets the color of the pen used to draw the text.
-
-`(text-font `*canvas*`)`  
-`(set-text-font! `*canvas fontname*`)`
-
-Gets or sets the name of the font used to draw the text.
-The available font names are implementation dependent.
-
-`(text-size `*canvas*`)`  
-`(set-text-size! `*canvas fontsize*`)`
-
-Gets or sets the size of the font used to draw the text.
-
-`(text-bold? `*canvas*`)`  
-`(set-text-bold! `*canvas*`)`
-
-Gets or sets the bold status of the font used to draw the text.
-
-`(text-italic? `*canvas*`)`  
-`(set-text-italic! `*canvas*`)`
-
-Gets or sets the italic status of the font used to draw the text.
-
 ## Shape constructors
 
 Constructors make instances of the seven shapes supported by this SRFI.
@@ -174,8 +140,8 @@ for those beginning with `http:` and `https:` are recommended.
 `(make-turtle `*x y*`)`
 
 Creates a turtle at coordinates (*x, y*).
-A turtle is a shape that can and does move by itself.
-Its exact size and shape are implementation-dependent,
+A turtle is a shape that can and sometimes does move by itself.
+Its exact appearance is implementation-dependent,
 but it must be possible or a user to determine the approximate
 inherent direction of a turtle by looking at it;
 it cannot be completely symmetrical.
@@ -194,31 +160,64 @@ There is also a predicate for each shape type: `point?`, `line?`, etc.
 
 The following procedures are polymorphic in the shape argument.
 
-`(pen-color `*shape*`)`  
-`(pen-set-color! *shape ` color*`)`
+`(shape-pen-color `*shape*`)`  
+`(shape-pen-set-color! *shape ` color*`)`
 
-Gets or sets the pen color used to draw the outline of the shape.
+Gets or sets the pen color used to draw the outline of the shape
+as well as any text displayed on the shape
+and the line behind a moving turtle when its pen is down.
 The initial pen color is black.
 
-`(pen-width `*shape*`)`  
-`(pen-set-width! *shape ` color*`)`
+`(shape-pen-width `*shape*`)`  
+`(shape-pen-set-width! *shape ` color*`)`
 
-Gets or sets the pen width used to draw the outline of the shape.
+Gets or sets the pen width used to draw the outline of the shape
+and the line behind a moving turtle when its pen is down.
 The initial pen width is 1 pixel.
 
-`(pen-fill-color `*shape*`)`  
-`(pen-set-fill-color! *shape ` color*`)`
+`(shape-fill-color `*shape*`)`  
+`(shape-fill-set-color! *shape ` color*`)`
 
-Sets the pen color used to draw the inside of the shape.
-The initial pen color is whatever the color of the canvas was
+Sets the color used to draw the inside of the shape.
+The initial fill color is whatever the color of the canvas was
 when the shape was created.
+
+`(shape-halign `*shape*`)`  
+`(shape-set-halign! `*shape*`)`
+
+Gets or sets the horizontal alignment of text on the shape.
+Possible values are `left`, `centered` (the default), and `right`.
+
+`(shape-valign `*shape*`)`  
+`(shape-set-valign! `*shape*`)`
+
+Gets or sets the vertical alignmen of text on the shape.
+Possible values are `top`, `centered` (the default), and `bottom`.
+
+`(shape-font `*shape*`)`  
+`(shape-set-font! `*shape fontname*`)`
+
+Gets or sets the name of the font used to draw text on *shape*.
+The available font names are implementation dependent.
+
+`(shape-fontsize `*shape*`)`  
+`(shape-set-fontsize! `*shape fontsize*`)`
+
+Gets or sets the size of the font used to draw text on *shape*.
+
+`(shape-bold? `*shape*`)`  
+`(shape-set-bold! `*shape boolean*`)`  
+`(shape-italic? `*shape*`)`  
+`shape-(set-italic! `*shape boolean*`)`
+
+Gets or sets the bold/italic apperance of the font used to draw text on *shape*.
 
 ## Shape actions
 
 `(shape-show! `*shape*`)`  
 `(shape-hide! *shape ` color*`)`
 
-Shows or hides *shape*.  When *shape* is hidden.
+Shows or hides *shape*.
 
 `(shape-move! `*shape x y*`)`
 
@@ -228,7 +227,26 @@ the origin of a line, polygon, or image is the first point drawn;
 the origin of a rectangle, ellipse, or image is the upper left point;
 the origin of a turtle is the center of the turtle image.
 
-`(shape-dispose `*shape*`)`
+`(shape-expose!`*shape*`)`  
+`(shape-bury! `*shape*`)`
+
+Please *shape* on the top/bottom of the stack of overlapping shapes.
+
+`(shape-display-text! `*shape text*`)`
+
+Draw *text* (a string) on *shape*, centered by default.
+The default font for drawing text and its appearance properties are implementation dependent.
+Not all shapes can be drawn on.
+
+`(shape-mouse-link!` *turtle*`)`  
+`(shape-mouse-unlink!` *turtle*`)`
+
+Causes *shape* to move in the same direction and distance that the mouse moves.
+However, it does not move the shape to the position of the mouse or vice versa.
+While a shape is linked, mouse movements may or may not not be received by the UI event system.
+The number of shapes that can be linked with the mouse may be limited by the implementation.
+
+`(shape-dispose! `*shape*`)`
 
 Destroys the shape, removing it from the canvas altogether.
 
@@ -241,18 +259,21 @@ Gets or sets the turtle's speed in spontaneous motion to *n*.
 The initial value is 0, which means the turtle moves only
 when it is told to move.
 
-`(turtle-angle `*turtle n*`)`  
+`(turtle-direction `*turtle n*`)`  
 
-Gets the angle in degrees in which the turtle points.
-The initial value is 0, which means the turtle points straight up.
+Gets the inherent direction of the turtle as an angle in degrees.
+The initial value is 0, which means the turtle points
+in the negative y-direction of the canvas (normally straight up).
 
 ## Turtle actions
 
 `(turtle-down! `*turtle*`)`
 
-Put the turtle's pen down, so that it draws a line behind itself.
-Note that this line is not itself a shape.  It is superimposed
-on all shapes and text on the canvas.
+Put the turtle's pen down,
+so that it draws a line behind itself as it moves.
+Note that this line is not itself a shape.
+It is superimposed on all shapes on the canvas.
+The initial state of a turtle's pen is down.
 
 `(turtle-up! `*turtle*`)`
 
@@ -261,7 +282,7 @@ Put the turtle's pen up, so that it does not draw a line.
 `(turtle-forward! `*turtle distance*`)`  
 `(turtle-backward! `*turtle distance*`)`
 
-Moves the turtle forward/backward the given distance.
+Moves the turtle forward/backward the given distance in its inherent direction.
 The speed with which the turtle moves is specified by the `turtle-speed` property,
 unless that value is 0, in which case the turtle's speed is implementation-specified.
 
@@ -271,14 +292,6 @@ unless that value is 0, in which case the turtle's speed is implementation-speci
 Turn the turtle's inherent direction by *degrees*.
 The use of degrees instead of radians is traditional,
 stemming from the original Logo turtles.
-
-`(turtle-mouse-link!` *turtle*`)`  
-`(turtle-mouse-unlink!` *turtle*`)`
-
-Links/unlinks the relative movement of the turtle with the relative movement of the mouse.
-However, it does not move the turtle to the position of the mouse or vice versa.
-While they are linked, mouse movements may not be received by the UI event system.
-Has no effect if this cannot be done.
 
 ## Events
 
