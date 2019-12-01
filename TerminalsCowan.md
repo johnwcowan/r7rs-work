@@ -115,9 +115,9 @@ For legacy reasons, it is an error to set the location at the last row
 and last column.
 
 `(term-cursor-row `*t*`)`  
-`(term-set-cursor-row! `*t n*`)`  
+`(term-cursor-set-row! `*t n*`)`  
 `(term-cursor-column `*t*`)`  
-`(term-set-cursor-column! `*t n*`)`
+`(term-cursor-set-column! `*t n*`)`
 
 Gets or sets the row/column at which the terminal's *cursor*
 (a visual indication of some sort) is currently placed.
@@ -150,8 +150,8 @@ which is named by a string.  It is an error to set a font that is
 not either monowidth or (if it supports Asian wide characters)
 duowidth.
 
-`(term-font-size `*t*`)`  
-`(term-set-font-size! `*t n*`)`
+`(term-fontsize `*t*`)`  
+`(term-set-fontsize! `*t n*`)`
 
 Attempts to set or get the terminal's font size in points.
 The initial value is implementation-defined and may depend on the terminal.
