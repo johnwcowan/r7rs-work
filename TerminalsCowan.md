@@ -13,6 +13,10 @@ notifying an application when the size of a terminal it is using changes.
 
 1\. Bidirectional behavior.
 
+2\. Should bold and italic be terminal properties (as now) or character properties?
+
+3\. Should a shape be put on the top of the Z-order when it is created (as now) or when it is displayed?
+
 ## The model
 
 ### Terminals
@@ -79,11 +83,23 @@ The *ambig* argument is not often needed, but is sometimes useful.
 If it is true, the Unicode characters with ambiguous Asian width (see above)
 are treated as wide (fullwidth); if false or omitted, as narrow (halfwidth).
 
+## Terminal predicates
+
+`(term? `*obj*`)`
+
+Returns `#t` if *obj* is a terminal object and `#f` otherwise.
+
+`(term-user-resizable? `*t*`)`
+
+Returns `#t` if *t* can be resized by the user (as opposed to the program) and `#f` otherwise.
+
 ## Grid properties
 
-`(term-get `*t row column*`)`
+`(term-get `*t row column*`)`  
+`(term-get-fgcolor `*t row column*`)`  
+`(term-get-bgcolor `*t row column*`)`
 
-Returns three values, *string*, *fgcolor*, and *bgcolor*, corresponding
+Returns the string/fgcolor/bgcolor corresponding
 to the contents of the location in *t* at *row* and *column*.
 
 `(term-set! `*t row column string fgcolor bgcolor*`)`
@@ -105,16 +121,17 @@ and last column.
 
 Gets or sets the row/column at which the terminal's *cursor*
 (a visual indication of some sort) is currently placed.
+The cursor may change position as a result of other terminal operations.
 
 ## Terminal properties
 
-The following procedures get or the state of the external terminal rather than the grid.
+The following procedures get or set the state of the external terminal rather than the grid.
 They may or may not do anything, depending on the external terminal.
 If a property is not retrievable, `#f` is returned.
 They may take effect without waiting for a `term-sync` to be performed.
 
 `(term-title `*t*`)`  
-`(term-set!-title `*t string*`)`
+`(term-set-title! `*t string*`)`
 
 Attempts to get or set the terminal title (typically displayed above the grid) to *string*.
 
@@ -129,7 +146,7 @@ Attempts to get or set the width/height of both the external terminal and the gr
 `(term-set-font! `*t fontname*`)`
 
 Attempts to get or set the terminal's font,
-which is a string.  It is an error to set a font that is
+which is named by a string.  It is an error to set a font that is
 not either monowidth or (if it supports Asian wide characters)
 duowidth.
 
@@ -144,7 +161,7 @@ The initial value is implementation-defined and may depend on the terminal.
 `(term-italic? `*t*`)`  
 `(term-set-italic?! `*t name italic? bold?*`)`
 
-Attempts to get or set those characteristics of the specific font to be used.
+Attempts to get or set the appearance of the specific font to be used.
 For legacy reasons, the value of *bold?* may affect the fgcolor rather than the font.
 
 ## Reading and writing
