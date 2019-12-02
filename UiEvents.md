@@ -2,16 +2,19 @@
 
 A text terminal or graphics canvas
 may be able to send *events* to the application.  Each event represents
-something happening on a keyboard, mouse, or equivalent device.
+something happening on a keyboard, mouse, or similar device.
 For the purposes of this SRFI,
-an event is represented an *event object*, an object with various
-properties.  It is an error to try to retrieve a property from an event
-that is not appropriate to the type of event.  Event objects cannot be mutated
-by the user, only by the event dispatcher.
+an event is represented an *event object*, an object with various properties.
+It is an error to try to retrieve a property from an event
+that is not appropriate to the type of event.
+Event objects cannot be mutated by the user, only by the event dispatcher.
 
-## Event constructor `(make-uievent)`
+## UI event constructor 
 
-Returns an event object for `event-poll!` to fill in.
+`(make-uievent)`
+
+Returns an event object for `uievent-poll!` to fill in.
+The intiial even type is `none`.
 
 ## Event properties
 
@@ -42,6 +45,7 @@ The following symbols are standardized:
 `insert`, `delete`, `home`, `end`, `page-up`, `page-down`,
 and `f1` through `f12`.
 Implementations may return other symbols.
+
 It is an error if the event type is not `key`.
 
 `(uievent-x `*ev*`)`
@@ -52,6 +56,8 @@ on which the mouse is positioned.
 For `resize` events, returns the number of columns or horizontal pixels
 in the new size of the terminal or canvas.
 The size of the UI has already been adjusted.
+
+It is an error if the event type is not one of the above.
      
 `(uievent-y `*ev*`)`
 
@@ -61,43 +67,48 @@ For the mouse events, returns the row (terminal) or y-coordinate (for canvases)
 For a `resize` event, returns the number of rows or vertical pixels in the new size of the terminal.
 The size of the UI has already been adjusted.
     
+It is an error if the event type is not one of the above.
+
 `(uievent-turtle `*ev*`)`
 
 Returns the turtle object that has collided with
 the edge of the canvas or another turtle or passive shape.
 The speed of this turtle has been set to 0.
-     
-Element 3's meaning also depends on the value of element 1.
 
-`(uievent-FIXME `*ev*`)`
+It is an error if the event type is not `collision`.
+
+`(uievent-collidee `*ev*`)`
 
 Returns the canvas or shape object representing the
 canvas border or shape border with which a turtle has collided.
 Note that when two turtles collide, two events are reported in arbitrary order.
 
+It is an error if the event type is not `collision`.
+
 `(uievent-modifiers `*ev*`)`
 
 Returns an exact integer representing the current state of the Shift, Ctrl, and Alt/Option keys.
-For `char` events, the Shift key has already been absorbed into the Unicode character.
-Note that a key combination like Ctrl+C will be reported as the character `#\x3`.
-In these cases the Shift and/or Ctrl keys may or may not be reported.
+The variables `term-shift`, `term-ctrl`, and `term-alt` have values that are distinct
+positive powers of two, and this procedure returns the sum of zero or more of them.
 
-Implementations are free to consolidate consecutive mouse movement events.
+For `char` events, the Shift key has already been absorbed into the Unicode character.
+The same is true of the Ctrl key in some cases: Ctrl+C will be reported as the character `#\x3`.
+In these cases the Shift and/or Ctrl keys may or may not be reported.
 
 ## Event handling
 
-`(event-poll! `*event timeout* [*alt?*]`)`
+`(uievent-poll! `*event timeout* [*alt?*]`)`
 
 Waits for the next event to become available or until *timeout* jiffies have passed;
 the implementation may round up the number of jiffies to suit its granularity.
 The resulting event is written into the first five elements of the vector *event*.
 If the value of *timeout* is 0 and no event is available, `event-poll!` returns
-immediately, setting element 1 to `none`; elements 2-4 are unspecified.
-
-The variables `term-shift`, `term-ctrl`, and `term-alt` have values that are distinct
-positive powers of two.  Element 3 of an event consists of the sum of zero or more of them.
+immediately, setting the event type to `none`
 
 If *alt?* is true, then when an ESC character (`#\x1B;`) is received that is
-followed very shortly thereafter by another `char` event, only a single event
-is reported with the `alt` modifier.
+followed very shortly thereafter by a `char` or `key` event, only the second event
+is reported with the `term-alt` modifier.
 If *alt?* is false or omitted, no such special processing is done.
+
+Implementations may consolidate consecutive `mouse-move` events.
+
