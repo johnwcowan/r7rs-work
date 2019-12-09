@@ -114,6 +114,7 @@ as the *cmd* argument.
 
 Specifies an alist that maps strings to strings, which becomes the initial environment of the
 child process.  If omitted, the child process has the same environment as the parent.
+If the same key appears more than once in the alist, the first value is used, just as with `assoc`.
 
 `group`
 
