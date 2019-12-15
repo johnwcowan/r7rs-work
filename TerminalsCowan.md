@@ -1,7 +1,7 @@
 ## Introduction
 
 Terminals used to be physical devices but now most of them are emulators, blah blah.
-For the purposes of this application, a terminal might be a physical terminal,
+For the purposes of this SRFI, a terminal might be a physical terminal,
 an X textual window, a Windows console, or even an HTML multi-line field.
 
 Physical terminals had 1-4 fixed sizes
@@ -11,11 +11,7 @@ notifying an application when the size of a terminal it is using changes.
 
 ## Issues
 
-1\. Bidirectional behavior.
-
-2\. Should bold and italic be terminal properties (as now) or character properties?
-
-3\. Should a shape be put on the top of the Z-order when it is created (as now) or when it is displayed?
+1\. Bidirectional behavior.  This probably needs to be done below the application-visible level.
 
 ## The model
 
@@ -42,14 +38,21 @@ The upper left corner is row 0, column 0, as is normally the case in Scheme.
 
 The characters present in a single location constitute a single
 Unicode default grapheme cluster.  In addition, the string may contain
-any number of ANSI escape sequences and control sequences.  (FIXME: add links.)
+any number of ANSI and Unicode control characters,
+ANSI escape sequences and control sequences.  (FIXME: add links.)
 
 ### Color representations
 
 Colors are represented by exact non-negative integers in the form `#xRRGGBB`,
 where `RR` is a 256-bit redness value, `GG` is a 256-bit greenness value, and
 `BB` is a 256-bit blueness value.  However, terminals are free to round these
-colors to as few as 8 or even 2 colors if that's all they can support.
+colors to as few as 8 if that's all they can support.
+
+In fact, if the terminal lacks color support altogether but supports reverse video
+(reversed foreground and background colors), it's possible to fit it into the color model.
+For example, if normal characters are white-on-black and reverse video characters are
+black-on-white, the two colors can be set independently:  black-on-black would be
+rendered as a space, white-on-white as a solid block character like U+2588 FULL BLOCK.
 
 ### Asian width
 
@@ -61,15 +64,9 @@ locations respectively.  Ambiguous characters are treated
 as narrow or wide depending on the *ambiguous* argument to `term-init`,
 but as narrow by default.
 
-### Events
-
-Terminals can report events according to FIXME [the UI event SRFI](UiEvents.md).
-Calling `event-poll!` will report events for terminals, possibly intermixed with
-other events.
-
 ## Terminal constructor
 
-`(term-connect `*which bgcolor* [*ambig*]`)`
+`(term-initialize `*which bgcolor* [*ambig*]`)`
 
 Initializes a terminal and returns an implementation-dependent terminal
 object.
@@ -108,8 +105,9 @@ Sets the location of *t* at *row* and *column* to the specified string
 and colors.  It is an error if *string* does not conform to the rules
 for what can appear at a single location.  If *string* contains a wide
 character, the location in the same row and the following column is
-automatically set to an empty string and the same colors as this location.'
-Returns an unspecified value.
+automatically set to an empty string and the same colors as this location.
+It is an error, however, if a wide character is placed in the last column
+of a row.  Returns an unspecified value.
 
 For legacy reasons, it is an error to set the location at the last row
 and last column.
@@ -121,7 +119,7 @@ and last column.
 
 Gets or sets the row/column at which the terminal's *cursor*
 (a visual indication of some sort) is currently placed.
-The cursor may change position as a result of other terminal operations.
+The cursor may change position as a result of calling `term-sync!`.
 
 ## Terminal properties
 
@@ -147,7 +145,7 @@ Attempts to get or set the width/height of both the external terminal and the gr
 
 Attempts to get or set the terminal's font,
 which is named by a string.  It is an error to set a font that is
-not either monowidth or (if it supports Asian wide characters)
+neither monowidth nor (if it supports Asian wide characters)
 duowidth.
 
 `(term-fontsize `*t*`)`  
@@ -164,9 +162,9 @@ The initial value is implementation-defined and may depend on the terminal.
 Attempts to get or set the appearance of the specific font to be used.
 For legacy reasons, the value of *bold?* may affect the fgcolor rather than the font.
 
-## Reading and writing
+## High-level routines
 
-`(term-read `*t start-row start-column end-row end-column* [ *rect?* [ *full?* ] ]`)`
+`(term-read `*t start-row start-column end-row end-column* [*rect?*]`)`
 
 The strings in the locations starting at *start-row* and *start-column* and
 extending to *end-row* and *end-column* inclusive are concatenated and returned.
@@ -175,31 +173,27 @@ Color information is ignored.
 If *rect?* is false or absent, the contents of 
 the Z-shaped area
 that begins at *start-row* and *start-column*
-and extends to the end of *start-row*, followed
+and extends to the last of *start-row*, followed
 by all the rows between *start-row* and *end-row*
 exclusive, followed by *end-row* from column 0 to
-*end-column*, are returned.
-But if *rect?* is true, only the contents of the rectangle
-defined by the four corners is returned.
-Trailing spaces are trimmed 
-In either case, newline characters are inserted at the ends
-of each row.
+*end-column*, are returned.  Trailing spaces are not returned.
 
-If *full?* is true, consecutive trailing spaces on each row
-that extends to the last column are returned;
-if it is false or absent, they are suppressed.
-If *rect?* is true, the value of *full?* is always treated as true.
+But if *rect?* is true, the exact contents of the rectangle
+defined by the four corners is returned, including trailing
+spaces.
+In either case, a newline character is inserted at the end
+of each row.
 
 `(term-write! `*t row column string fgcolor bgcolor*`)`
 
 In effect, performs repeated `term-set!` operations starting at
-*row* and *column* and advancing to consecutive following
-(FIXME: bidi) columns.
+*row* and *column* and advancing to consecutive following columns.
 Each location holds as many characters of *string* as it can (see above).
 If a newline character is written,
 the current column is set to 0 and the current row is incremented.
 If the escape sequence ESC M is written,
 the current column is set to 0 and the current row is decremented.
+It is an error to attempt to put the current row outside the terminal area.
 
 ## Actions
 
@@ -232,3 +226,8 @@ and take it into account when implementing the current sync.
 The terminal is shut down, and further operations on the
 object are an error.  This may or may not have any external effect.
 
+### Events
+
+Terminals can report events according to FIXME [the UI event SRFI](UiEvents.md).
+Calling `uievent-poll` will report events for terminals, possibly intermixed with
+other events.
