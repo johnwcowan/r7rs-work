@@ -38,16 +38,17 @@ The upper left corner is row 0, column 0, as is normally the case in Scheme.
 
 The characters present in a single location constitute a single
 Unicode default grapheme cluster.  In addition, the string may contain
-any number of ANSI or Unicode control characters,
-ANSI escape sequences, and control sequences.  (FIXME: add links.)
+any number of ANSI escape sequences and control sequences.  (FIXME: add links.)
 
 ### Color representations
 
 Colors are represented by exact non-negative integers in the form `#xRRGGBB`,
 where `RR` is a 256-bit redness value, `GG` is a 256-bit greenness value, and
 `BB` is a 256-bit blueness value.  However, terminals are free to round these
-colors to as few as 8 colors if that's all they can support.  Even monochrome
-terminals with reverse video support can in effect provide 2 colors.
+colors to as few as 8 colors if that's all they can support.
+Indeed, a monochrome terminal with reverse video can in effect
+support 2 colors.
+
 
 ### Asian width
 
@@ -103,9 +104,9 @@ character, the location in the same row and the following column is
 automatically set to an empty string and the same colors as this location.'
 Returns an unspecified value.
 
-For legacy reasons, it is an error to set the location at the last row
-and last column.  It is also an error to attempt to set a wide character
-into the last column of any row.
+It is an error to set the last column of any row to a wide character.
+For legacy reasons, it is also an error to set the location at the last row
+and last column.
 
 `(term-cursor-row `*t*`)`  
 `(term-cursor-set-row! `*t n*`)`  
@@ -159,24 +160,25 @@ For legacy reasons, the value of *bold?* may affect the fgcolor rather than the 
 
 ## Reading and writing
 
-`(term-read `*t start-row start-column end-row end-column* [ *rect?* [ *full?* ] ]`)`
+`(term-read `*t start-row start-column end-row end-column* [ *rect?* ]`)`
 
 The strings in the locations starting at *start-row* and *start-column* and
 extending to *end-row* and *end-column* inclusive are concatenated and returned.
 Color information is ignored.
-
-If *rect?* is false or absent, the characters returned are the contents of 
+If *rect?* is false or absent, the contents of 
 the Z-shaped area
 that begins at *start-row* and *start-column*
 and extends to the end of *start-row*, followed
 by all the rows between *start-row* and *end-row*
 exclusive, followed by *end-row* from column 0 to
-*end-column*.  Trailing spaces are omitted, and a newline
-is inserted at the end of each row.
+*end-column*, are returned.
+Trailing spaces are removed,
+and newlines are inserted at the end of each row.
 
-But if *rect?* is true, the exact contents of the rectangle
-defined by the four corners is returned, although newlines
-are still inserted.
+
+But if *rect?* is true, only the contents of the rectangle
+defined by the four corners is returned
+with newlines at the end of the portion of each row.
 
 `(term-write! `*t row column string fgcolor bgcolor*`)`
 
@@ -216,14 +218,15 @@ and take it into account when implementing the current sync.
 
 `(term-dispose! `*t*`)`
 
-The terminal is shut down, and further operations on the
-object are an error.  This may or may not have any external effect.
-It is an error to get or set any property of a grid element
-or the terminal as a whole, or to take any action,
-after the terminal has been disposed of.
+The terminal is shut down.
+This may or may not have any external effect.
+It is an error to attempt
+to get or set properties, or to take actions, on either
+the characters or the terminal as a whole.
 
 ### Events
 
 Terminals can report events according to FIXME [the UI event SRFI](UiEvents.md).
 Calling `uievent-poll` will report events for terminals, possibly intermixed with
 other events.
+
