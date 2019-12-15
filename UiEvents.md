@@ -13,15 +13,15 @@ Event objects cannot be mutated by the user, only by the event dispatcher.
 
 `(make-uievent)`
 
-Returns an event object for `uievent-poll!` to fill in.
-The intiial even type is `none`.
+Returns an event object for `uievent-poll` to fill in.
+The intiial event type is `none`.
 
 ## Event properties
 
 `(uievent-source `*ev*`)`
 
 Returns the terminal or canvas object (or possibly another type of object)
-that is reporting this event.
+that is reporting this event.  It is an error if the event type is `none`.
 
 `(uievent-type `*ev*`)`
 
@@ -34,7 +34,7 @@ Terminals never report `collision` events.
 Returns the character input using the keyboard or equivalent.
 This is a Unicode character, not a keyboard key, and so the effects of keyboard
 drivers, compose sequences, and input method editors have already been taken
-into account.  It is an error if the event source is not `char`.
+into account.  It is an error if the event type is not `char`.
      
 `(uievent-key `*ev*`)`
 
@@ -64,7 +64,8 @@ It is an error if the event type is not one of the above.
 For the mouse events, returns the row (terminal) or y-coordinate (for canvases)
     on which the mouse is positioned.
     
-For a `resize` event, returns the number of rows or vertical pixels in the new size of the terminal.
+For a `resize` event, returns the number of rows or vertical pixels
+in the new size of the terminal or canvas.
 The size of the UI has already been adjusted.
     
 It is an error if the event type is not one of the above.
@@ -97,18 +98,18 @@ In these cases the Shift and/or Ctrl keys may or may not be reported.
 
 ## Event handling
 
-`(uievent-poll! `*event timeout* [*alt?*]`)`
+`(uievent-poll `*event timeout* [*esc?*]`)`
 
 Waits for the next event to become available or until *timeout* jiffies have passed;
 the implementation may round up the number of jiffies to suit its granularity.
-The resulting event is written into the first five elements of the vector *event*.
-If the value of *timeout* is 0 and no event is available, `event-poll!` returns
-immediately, setting the event type to `none`
+The resulting event is written into *event*.
+If the value of *timeout* is 0 and no event is available, `uievent-poll` returns
+immediately, setting the event type to `timeout`
 
-If *alt?* is true, then when an ESC character (`#\x1B;`) is received that is
+If *esc?* is true, then when an ESC character (`#\x1B;`) is received that is
 followed very shortly thereafter by a `char` or `key` event, only the second event
 is reported with the `term-alt` modifier.
-If *alt?* is false or omitted, no such special processing is done.
+If *esc?* is false or omitted, no such special processing of ESC is done.
 
 Implementations may consolidate consecutive `mouse-move` events.
 
