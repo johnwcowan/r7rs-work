@@ -41,7 +41,7 @@ of associations represented as pairs.
 The following procedures provide basic operations on dictionaries.
 All other dictionary operations can be implemented on top of them.
 
-(dictionary? obj)
+`(dictionary? `obj`)`
 
 Answers #t if obj is a dictionary
 that answers #t to some registered predicate.
@@ -58,11 +58,11 @@ Dictionaries are similar if they satisfy the same predicate and
 have the same equality predicate as well as the same ordering predicate,
 hash function, or both.
 
-(dict-size dictionary)
+`(dict-size `dictionary`)`
 
 Returns an exact integer representing the number of associations in dictionary.
 
-(dict-search dictionary key failure success)
+`(dict-search `dictionary key failure success`)`
 
 This procedure is a workhorse for dictionary lookup, insert, and delete.
 The dictionary dictionary is searched for an association with key key.
@@ -83,25 +83,25 @@ one of their continuation arguments.
 The effects of the continuations are as follows
 (where obj is any Scheme object):
 
-Invoking (insert value obj) returns a dictionary that
+Invoking `(`insert value obj`)` returns a dictionary that
 contains all the associations of dictionary,
 and in addition a new association that maps key to value.
 
-Invoking (ignore obj) has no effects.
+Invoking `(`ignore obj`)` has no effects.
 
 Invoking (update new-key new-value obj) returns a dictionary that
 contains all the associations of dictionary,
 except for the association with key key,
 which is replaced by a new association that maps new-key to new-value.
 
-Invoking (remove obj) returns a dictionary that
+Invoking `(`remove ob`j)` returns a dictionary that
 contains all the associations of dictionary,
 except for the association with key key.
 
 In all cases, two values are returned:
 the dictionary and obj.
 
-(dict-for-each proc dictionary)
+`(dict-for-each `proc dictionary`)`
 
 Invokes proc on each key of the dictionary and its corresponding value in that order.
 This procedure is used for doing operations on the whole dictionary.
@@ -114,24 +114,24 @@ and provide many useful further abilities.
 
 ## Predicates
 
-(dict-empty? dictionary)
+`(dict-empty? `dictionary`)`
 
-Returns #t if dictionary contains no associations and #f if it does contain associations.
+Returns `#t` if dictionary contains no associations and `#f` if it does contain associations.
 
-(dict-contains? dictionary key)
+`(dict-contains? `dictionary key`)`
 
-Returns #t if one of the keys of dictionary is key, and #f otherwise.
+Returns `#t` if one of the keys of dictionary is key, and `#f` otherwise.
 
 ## Lookup
 
-(dict-ref dictionary key [failure [success] ])
+`(dict-ref `dictionary key [failure [success] ]`)`
 
 If key is a key of dictionary, then invokes success on the corresponding value
 and returns the result.
 If key is not a key of dictionary, then invokes the thunk failure and
 returns the result.
 
-(dict-ref/default dictionary key default)
+`(dict-ref/default `dictionary key default`)`
 
 If key is a key of dictionary, then returns the corresponding value.
 If key is not a key of dictionary, then returns default.
@@ -144,29 +144,29 @@ or the same dictionary that was passed to the procedure.
 Any previously existing references to the dictionary are not valid
 and should not be used.
 
-(dict-set dictionary obj ...)
+`(dict-set `dictionary obj ...`)`
 
 Returns a dictionary that contains all the associations of dictionary
 plus those specified by objs, which alternate between keys and values.
 If a key to be added already exists in dictionary, the new value prevails.
 
-(dict-adjoin dictionary obj ...)
+`(dict-adjoin `dictionary obj ...`)`
 
 Returns a dictionary that contains all the associations of dictionary
 plus those spsecified by objs, which alternate between keys and values.
 If a key to be added already exists in dictionary, the old value prevails.
 
-(dict-delete dictionary key ...)
+`(dict-delete `dictionary key ...`)`
 
 Returns a dictionary that contains all the associations of dictionary except those
 whose keys are keys.
 
-(dict-delete-all dictionary keylist)
+`(dict-delete-all `dictionary keylist`)`
 
 Returns a dictionary with all the associations of dictionary except those whose
 keys are listed in keylist.
 
-(dict-replace dictionary key value)
+`(dict-replace `dictionary key value`)`
 
 Returns a dictionary that uses the same dictint and other properties of dictionary
 and contains all the associations of dictionary except as follows:
@@ -175,7 +175,7 @@ then the association for that key is omitted and replaced by the association
 defined by the pair key and value. If there is no such key in dictionary,
 then dictionary is returned unchanged.
 
-(dict-intern dictinct dictionary key failure)
+`(dict-intern `dictinct dictionary key failure`)`
 
 Extracts the value associated to key in dictionary, and returns two values, dictionary and the value.
 If key is not contained in dictionary, failure is invoked on no arguments.
@@ -183,21 +183,21 @@ The procedure then returns two values, a dictionary that contains all the associ
 and in addition a new association that maps key to the result of invoking failure, 
 and the result of invoking failure.
 
-(dict-update dictionary key updater [failure [success] ])
+`(dict-update `dictionary key updater [failure [success] ]`)`
 
 Semantically equivalent to, but may be more efficient than, the following code:
 
-&nbsp;&nbsp;&nbsp;&nbsp;(dict-set dictionary key (updater (dictionary-ref dictint dictionary key failure success)))
+&nbsp;&nbsp;&nbsp;&nbsp;`(dict-set `dictionary key `(`updater `(dictionary-ref `dictionary key failure success`)))`
 
-The obvious semantics hold when success (and failure) are omitted (see dictionary-ref).
+The obvious semantics hold when success (and failure) are omitted (see `dictionary-ref`).
 
-(dict-update/default dictionary key updater default)
+`(dict-update/default `dictionary key updater default`)`
 
 Semantically equivalent to, but may be more efficient than, the following code:
 
-&nbsp;&nbsp;&nbsp;&nbsp;(dict-set dictionary key (updater (dictionary-ref/default dictint dictionary key default)))
+&nbsp;&nbsp;&nbsp;&nbsp;`(dict-set `dictionary key (updater `(dictionary-ref/default `dictionary key default`)))`
 
-(dict-pop dictionary [failure])
+`(dict-pop `dictionary [failure]`)`
 
 Chooses an arbitrary association from dictionary and returns three values:
 a dictionary that contains all associations of dictionary except the chosen one,
@@ -208,44 +208,44 @@ Otherwise, it is an error.
 
 ## The whole dictionary
 
-(dict-count pred dictionary)
+`(dict-count `pred dictionary`)`
 
 Passes each association of dictionary as two arguments to pred
 and returns an exact integer that counts the number of times
 that pred returned true.
 
-(dict-any? pred dictionary)
+`(dict-any? `pred dictionary`)`
 
 Passes each association of dictionary as two arguments to pred
 and returns true when one of the calls to pred returns true.
 If all calls return false, dictionary-any? returns false.
 
-(dict-every? pred dictionary)
+`(dict-every? `pred dictionary`)`
 
 Passes each association of dictionary as two arguments to pred
 and returns #f when any of the calls to pred return false.
 If all calls return true, dictionary-every? returns true.
 
-(dict-keys dictionary)
+`(dict-keys `dictionary`)`
 
 Returns a list of the keys of dictionary.
 
-(dict-values dictionary)
+`(dict-values `dictionary`)`
 
 Returns a list of the values of dictionary.  The results returned
 by dictionary-keys and dictionary-values are ordered consistently.
 
-(dict-entries dictionary)
+`(dict-entries `dictionary`)`
 
 Returns two values, the result of calling dictionary-keys and the
 result of calling dictionary-values.
 
-(dict-map proc dictionary)
+`(dict-map `proc dictionary`)`
 
 Returns a dictionary containing the keys of dictionary and the values that result
 from invoking proc on the keys and corresponding values of dictionary.
 
-(dict-fold proc nil dictionary)
+`(dict-fold `proc nil dictionary`)`
 
 Invokes proc on each association of dictionary with three arguments:
 the key of the association, the value of the association,
@@ -254,18 +254,18 @@ For the first invocation, nil is used as the third argument.
 Returns the result of the last invocation,
 or nil if there was no invocation.
 
-(dict-map->list proc dictionary)
+`(dict-map->list `proc dictionary`)`
 
 Returns a list of values that result from invoking proc
 on the keys and corresponding values of dictionary.
 
-(dict-filter pred dictionary)  
-(dict-remove pred dictionary)
+`(dict-filter `pred dictionary`)` 
+`(dict-remove `pred dictionary`)`
 
 Returns a similar dictionary that contains just the associations of dictionary
 that do /do not satisfy pred.
 
-(dict->alist dictionary)
+`(dict->alist `dictionary`)`
 
 Returns an alist whose keys and values are the keys and values of dictionary.
 
@@ -275,7 +275,7 @@ The following procedures register new dictionary types.
 It is an error to register a dictionary type whose
 instances return `#t` to any predicate already registered.
 
-(simple-register-dictionary! pred make-similar-dict dict-size dict-search dict-for-each)
+`(simple-register-dictionary! `pred make-similar-dict dict-size dict-search dict-for-each)
 
 Registers *pred* as a predicate and associates the four basic procedures
 shown above and through them to the other procedures of this SRFI.
@@ -283,7 +283,7 @@ However, the native procedures of the type of dictionary which
 satisfy pred may be more efficient than the synthesized procedures
 that using this registration procedure will provide.
 
-(register-dictionary! pred dictionary)
+`(register-dictionary! `pred dictionary`)`
 
 Registers pred and provides procedures that allow more efficient
 manipulation of dictionaries that satisfy pred.
