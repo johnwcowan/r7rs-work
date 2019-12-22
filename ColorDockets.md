@@ -31,7 +31,7 @@ Integer sets:  [IntegerSetsCowan](https://htmlpreview.github.io/?https://bitbuck
 
 Ranges:  [RangesCowan](RangesCowan.md)
 
-Bit and boolean vectors: [Bvectors](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/Bvectors.html)
+Bit and boolean vectors: [BvectorsCowan](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/BvectorsCowan.html)
 
 Bytestrings: [BytestringsCowan](BytestringsCowan.md)
 
