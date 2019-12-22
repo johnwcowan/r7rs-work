@@ -11,7 +11,8 @@ which are then added to the result in sequence.
 
 `(compound-object ` *obj* ...`)`
 
-The same as `make-compound-object`, except that it accepts multiple arguments instead of a list.
+The same as `make-compound-object`,
+except that it accepts multiple arguments instead of a list.
 
 `(compound-object? `*obj*`)`
 
@@ -19,8 +20,8 @@ Returns `#t` if *obj* is a compound object, and `#f` otherwise.
 
 `(compound-object-subobjects `*obj*`)`
 
-If *obj* is a compound object, returns a list of its subobjects; it is an error to
-mutate this list.  Otherwise, it returns a list containing only *obj*.
+If *obj* is a compound object, returns a list of its subobjects
+Otherwise, it returns a list containing only *obj*.
 
 `(compound-object-length `*obj*`)`
 
@@ -36,11 +37,11 @@ zero or greater than or equal to the length of *obj*.
 `(compound-object-map `*mapper obj*`)`
 
 If *obj* is a compound object, returns a newly allocated compound object
-whose subobject result from invoking *mapper* on each subobject of *obj*.
+whose subobjects result from invoking *mapper* on each subobject of *obj*.
 Although the subobjects of the result are in the same order as the subobjects of *obj*,
-the order in which *mapper* is applied is unspecified.
+the order in which *mapper* is applied to them is unspecified.
 
-If *obj* is not a compound object, it returns a compound object containing
+If *obj* is not a compound object, it returns 
 the result of applying *mapper* to *obj*.
 
 `(compound-object-filter `*pred obj*`)`
@@ -49,7 +50,8 @@ If *obj* is a compound object, returns a newly allocated compound object
 that contains the subobjects of *obj* that satisfy
 *pred*; it is an error to mutate this list.
 
-If *obj* is not a compound object, it returns a compound object containing just *obj* if *obj* satisfies *pred*,
+If *obj* is not a compound object, it returns
+*obj* if *obj* satisfies *pred*,
 or an empty compound object if *obj* does not satisfy *pred*.
 
 `(make-compound-predicate `*pred*`)`
@@ -58,7 +60,7 @@ Returns a predicate that accepts one argument *obj* and behaves as follows:
 
 If *obj* is a compound
 object such that at least one of its subobjects satisfies *pred*, the predicate
-returns what *pred* returns, otherwise `#f`.
+returns what *pred* returns when applied to the first such subobject; otherwise `#f`.
 
 If *obj* is not a compound object, the predicate applies *pred* to *obj* and
 returns what *pred* returns.
