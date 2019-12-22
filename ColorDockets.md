@@ -21,7 +21,7 @@ or [RandomnessElf](https://regmedia.co.uk/2018/10/01/roig_paper.pdf)
 
 Float and NaN dissector API (sign, quiet/signaling status, and integer tag): [NaNMedernach](NaNMedernach.md)
 
-omparator sublibrary: [SRFI 162](http://srfi.schemers.org/srfi-162/srfi-162.html)
+Comparator sublibrary: [SRFI 162](http://srfi.schemers.org/srfi-162/srfi-162.html)
 
 Logistic functions: [LogisticRiastradh](LogisticRiastradh.md)
 
