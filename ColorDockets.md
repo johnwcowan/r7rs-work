@@ -199,7 +199,7 @@ Chronometers: [Chronometer](Chronometer.md)
 
 Character-cell terminals: [TerminalsCowan](TerminalsCowan.md)
 
-Graphics canvas: [CanvasCowan](http://smallbasic.com/doc/?id=8&language=)
+Graphics canvas: [GraphicsCanvas](GraphicsCanvas.md)
 
 # Aqua Docket (portable but complex things).
 
