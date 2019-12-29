@@ -3,8 +3,8 @@
 As an alternative to creating custom Scheme ports, this SRFI provides for
 clean interfaces between the world of ports and the more flexible world of
 [SRFI 158](http://srfi.schemers.org/srfi-158/srfi-158.html) generators and accumulators.
-In what follows, *operation* is a procedure with side effects that takes a port as
-its last argument; if it is a write operation, it takes th 
+In what follows, *operation* is a procedure with side effects that takes
+either a port (for input) or an object to write and a port (for output).
 
 `(input-operation->generator `*operation* [ *port* ]`)`
 
