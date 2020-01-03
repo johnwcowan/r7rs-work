@@ -1,9 +1,68 @@
 ## Introduction
 
+Arrays are the simplest and oldest data structures in programming languages.
+They go back to Fortran I, which was released in 1957 and provided
+simple one- and two-dimensional arrays of integer or floating-point values
+as its only data structures.
+Arrays have been supplemented by many other data structures
+and have grown in complexity since then,
+but the core ideas are the same.
+
+Arrays as defined in the SRFI are generalizations
+of ordinary Scheme vectors in two different ways.
+Whereas a vector is indexed by a single exact integer,
+arrays are indexed by multiple exact integers, one for
+each dimension of the array.
+Thus a one-dimensional array, like a vector, is indexed
+by a single number,
+and a two-dimensional array (a matrix) is indexed by
+two numbers representing the row and column.
+The number of dimensions available is unlimited.
+
+In addition, whereas the smallest index of a Scheme vector
+is always 0, the smallest index of each dimension of an array
+can be any exact integer.  For example, a matrix may have 100
+rows numbered from 0 to 99 and 11 columns numbered from -5 to +5.
+
+It is possible to simulate arrays with vectors of vectors
+(of vectors ...), but at considerable cost in efficiency.
+By intention, the SRFI describes many array operations that can
+be made especially efficient in both space and time.
+
+The SRFI does not support *degenerate arrays*.  These come in two kinds.
+An array with zero dimensions contains by convention a single element,
+whereas an array where the lower bound of any dimension is greater than
+or equal to the upper bound contains no elements at all.
+
+The term *lexicographic order* represents a particular order of
+traversing the elements of an array in which the first dimension
+varies most slowly and the last dimension varies most quickly.
+This is also known as *row-major order*, because if a matrix
+is stored in memory with the elements of the first row first,
+followed by the elements of the other rows in order,
+then lexicographic order is equivalent to the order in memory.
+For example, lexicographic order over a 2 x 3 matrix with both lower bounds 0
+is as follows:  (0,0), (0,1), (0,2), (1,0), (1,1), (1, 2).
+
+By the same token, *column-major order* varies the first dimension
+most quickly and the last dimension most slowly.
+Most programming languages use row-major order, with the
+significant exceptions of Fortran (for historical reasons)
+and languages oriented towards mathematical and scientific work
+such as Matlab, Octave, S-Plus, R, Julia, and Scilab
+(for compatibility with Fortran routines used in their implementations
+or written by users).
+
+This guide is partly a tutorial introduction to the SRFI,
+but also contains some less-technical reference material
+that may be more accessible to programmers who are not mathematicians.
+It is intended to be correct but definitely not complete.
+In case of discrepancies between this guide and the SRFI, the SRFI prevails.
+
 ## Specialized and generalized arrays
 
 The SRFI provides two varieties of arrays, specialized and generalized,
-but attempts to hide the differences between them as much as possible.
+but attempts to hide the differences between them as much as is practical.
 A specialized array corresponds to arrays in other programming languages:
 it is mutable and maintains a *storage object* which holds the values of the array.
 A storage object is one-dimensional, and maps an exact integer from 0 (inclusive)
@@ -19,7 +78,7 @@ retrievals provide the value of the latest mutation.
 
 More than one specialized array may in certain circumstances
 share the same storage object.  In this case, a mutation performed on an
-element of one array is typically (but not invariably) visible in all other
+element of one array is typically (but not always) visible in all other
 arrays that share its storage object.
 
 Generalized arrays do not have storage objects maintained by the implementation.
@@ -40,20 +99,23 @@ setter procedure, in which case it is considered mutable.
 Because of the ability to do arbitrary mutations, it
 must be backed by mutable storage of some sort,
 though it need not be as stereotyped as a storage object.
-By convention, such an array should normally provide
-the same guarantees as a specialized array.  
+
+It is an error if a mutable generalized array does not provide
+the same guarantees as a specialized array.
+It is also an error if the setter mutates any other elements of the array
+than the one specified by its caller.
 
 ## Intervals, storage classes, and array constructors
 
 In order to construct an array,
-the lower and upper bounds of all its dimensions must be known.
+the lower and upper bounds of all its dimensions must be provided.
 In the SRFI, these are represented using an immutable object
 called a (multi-dimensional) *interval*,
 which can be constructed using the following procedure:
 
 `(make-interval `*lower-bounds upper-bounds*`)`
 
-Returns a multidimensional interval
+Returns an interval
 whose lower bounds are specified by the vector *lower-bounds*
 and whose corresponding upper bounds are specified by the vector *upper-bounds*.
 For example, the interval for a two-dimensional array whose first dimension
@@ -215,13 +277,42 @@ If all calls return true, the value of the last call is returned by `array-any`.
 
 `(array-map `*proc array1 array2* ...`)`
 
+Returns an immutable generalized array
+whose elements are the result of applying *proc*
+to all the *arrays*, which must all have equivalent intervals.
+Rather than doing the mapping all at once,
+as `map` and `vector-map` do, elements are mapped
+as they are retrieved.
+
+`(array-outer-product `*proc array1 array2*`)`
+
+Returns an immutable generalized array
+whose values are the result of applying
+*proc* to each element of *array1* and each element of
+*array2*.  The interval of the new array is the
+interval of *array1* concatenated with *array2*.
+Like `array-map`, `array-outer-product` computes
+elements lazily as they are retrieved.
+
+For example, if *proc* is `+` and the *arrays*
+are both matrices, then the sum of the (1,2) element
+of *array1* and the (3,5) element of *array2*
+is placed in the (1,2,3,5) element of the result.
+For another example, if *proc* is `*` and both
+*array1* and *array2* contain 10 elements indexed
+from 1 to 10 and containing values from 1 to 10,
+then `outer-product` will return a multiplication table.
+
 `(array-for-each `*proc array1 array2* ...`)`
+
+Invokes `proc` for its side effects on the elements of
+*arrays* in lexicographic order and returns an unspecified value.
 
 `(array-fold `*kons knil array*`)`  
 `(array-fold-right `*kons knil array*`)`
 
-`(array-outer-product `*proc array1 array2*`)`
-
+Performs a [SRFI 1](http://srfi.schemers.org/srfi-1/srfi-1.html)
+`fold` or `right-fold` on the elements of *array* taken in lexicographic order.
 
 ## Mutators
 
