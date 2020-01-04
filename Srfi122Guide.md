@@ -162,7 +162,7 @@ for being within *interval* in the sense of `interval-contains-multi-index`.
 If it is false, operations are not checked.  If *safe* is omitted, the value
 is implementation-dependent.
 
-`(make-array `*intervall getter* [ *setter* ]`)`
+`(make-array `*interval getter* [ *setter* ]`)`
 
 Returns a generalized array whose dimensions are specified by *interval*.
 The *getter* procedure accepts array indices as multiple arguments
@@ -230,11 +230,25 @@ arrays, although they are provided by the implementation rather than the user.
 
 ## Affine transformations
 
+An array transformation is a procedure that takes an array and returns another array
+with a different interval but the same array elements (though some of them may not be
+visible in the new array).  The arrays share a storage object, so any mutation of one
+array is also a mutation of the other.
+
+The SRFI provides a set of affine transformations, meaning that the value
+of each upper and lower bound in the new array is equal to the sum of a subset
+of the upper and lower bounds of the old array, plus a constant value.
+Because the composition of two affine transformations is itself affine,
+extracting or mutating element values is just as efficient on an array with
+no transformations applied as an array with five or fifty transformations applied.
+
 `(array-extract `*array interval*`)`
 
-`(array-tile `*array intvector*`)`
+Restricting the domain of an array: If the domain of $B$, $D_B$, is a subset of the domain of $A$, then $T_{BA}(\vec i)=\vec i$ is a one-to-one affine mapping. We define array-extract to define this common operation; it's like looking at a rectangular sub-part of a spreadsheet.
 
 `(array-translate `*array translation*`)`
+
+Translating the domain of an array: If $\vec d$ is a vector of integers, then $T_{BA}(\vec i)=\vec i-\vec d$ is a one-to-one affine map of $D_B=\{\vec i+\vec d\mid \vec i\in D_A\}$ onto $D_A$. We call $D_B$ the translate of $D_A$, and we define array-translate to provide this operation.
 
 The `translation?` predicate can be used to
 verify that *translation* represents
@@ -243,18 +257,44 @@ a meaningful translation of array indices
 
 `(array-permute `*array permutation*`)`
 
+Permuting the coordinates of an array: If $\pi$ permutes the coordinates of a multi-index $\vec i$, and $\pi^{-1}$ is the inverse of $\pi$, then $T_{BA}(\vec i)=\pi (\vec i)$ is a one-to-one affine map from $D_B=\{\pi^{-1}(\vec i)\mid \vec i\in D_A\}$ onto $D_A$. We provide array-permute for this operation. The only nonidentity permutation of a two-dimensional spreadsheet turns rows into columns and vice versa.
+
 The `permutation?` predicate can be used to
-verify that *translation* represents
-a meaningful translation of array indices
+verify that *permutation* represents
+a meaningful permutation of array indices
 (that is, if each element is a distinct exact integer
 in the range 0 (inclusive)
 to the length of *permutation* (exclusive)).
 
 `(array-curry `*array dimension*`)`
 
+Currying an array: Let's denote the cross product of two intervals $\text{Int1 and $\text{Int2 by $\text{Int}1\times\text{Int}2$; if $\vec j=(j_0,\ldots,j_{r-1})\in \text{Int}1$ and $\vec i=(i_0,\ldots,i_{s-1})\in \text{Int}2$, then $\vec j\times\vec i$, which we define to be $(j_0,\ldots,j_{r-1},i_0,\ldots,i_{s-1})$, is in $\text{Int}1\times\text{Int}2$. If $D_A=\text{Int}1\times\text{Int}2$ and $\vec j\in\text{Int}1$, then $T_{BA}(\vec i)=\vec j\times\vec i$ is a one-to-one affine mapping from $D_B=\text{Int}2$ into $D_A$. For each vector $\vec j$ we can compute a new array in this way; we provide array-curry for this operation, which returns an array whose domain is $\text{Int}1$ and whose elements are themselves arrays, each of which is defined on $\text{Int}2$. Currying a two-dimensional array would be like organizing a spreadsheet into a one-dimensional array of rows of the spreadsheet.
+
+`(array-tile `*array intvector*`)`
+
+Assume that A is an array and S is a vector of positive, exact integers. The routine array-tile returns a new immutable array $T$, each entry of which is a subarray of A whose domain has sidelengths given (mostly) by the entries of S. These subarrays completely "tile" A, in the sense that every entry in A is an entry of precisely one entry of the result $T$.
+
+More formally, if S is the vector $(s_0,\ldots,s_{d-1})$, and the domain of A is the interval $l_0,u_0)\times\cdots\times l_{d-1},u_{d-1})$, then $T$ is an immutable array with all lower bounds zero and upper bounds given by $$ \operatorname{ceiling}((u_0-l_0)/s_0),\ldots,\operatorname{ceiling}((u_{d-1}-l_{d-1})/s_{d-1}). $$ The $i_0,\ldots,i_{d-1}$ entry of $T$ is (array-extract A D_i) with the interval D_i given by $$ l_0+i_0 * s_0,\min(l_0+(i_0+1)s_0,u_0))\times\cdots\timesl_{d-1}+i_{d-1} * s_{d-1},\min(l_{d-1}+(i_{d-1}+1)s_{d-1},u_{d-1})). $$ (The "minimum" operators are necessary if $u_j-l_j$ is not divisible by $s_j$.) Thus, each entry of $T$ will be a specialized, mutable, or immutable array, depending on the type of the input array A.
+
+It is an error if the arguments of array-tile do not satisfy these conditions.
+
+Note: The routines array-tile and array-curry both decompose an array into subarrays, but in different ways. For example, if A is defined as (make-array (make-interval '#(0 0) '#(10 10)) list), then (array-tile A '#(1 10)) returns an array with domain (make-interval '#(0 0) '#(10 1)), each element of which is an array with domain (make-interval '#(0 0) '#(1 10)) (i.e., a two-dimensional array whose elements are two-dimensional arrays), while (array-curry A 1) returns an array with domain (make-interval '#(0) '#(10)), each element of which has domain (make-interval '#(0) '#(10)) (i.e., a one-dimensional array whose elements are one-dimensional arrays).
+
 `(array-reverse `*array flip?*`)`
 
+Traversing some indices in a multi-index in reverse order: Consider an array $A$ with domain $D_A=l_0,u_0)\times\cdots\timesl_{d-1},u_{d-1})$. Fix $D_B=D_A$ and assume we're given a vector of booleans $F$ ($F$ for "flip?"). Then define $T_{BA}:D_B\to D_A$ by $i_j\to i_j$ if $F_j$ is #f and $i_j\to u_j+l_j-1-i_j$ if $F_j$ is #t.In other words, we reverse the ordering of the $j$th coordinate of $\vec i$ if and only if $F_j$ is true. $T_{BA}$ is an affine mapping from $D_B\to D_A$, which defines a new array $B$, and we can provide array-reverse for this operation. Applying array-reverse to a two-dimensional spreadsheet might reverse the order of the rows or columns (or both).
+
 `(array-sample `*array scales*`)`
+
+Uniformly sampling an array: Assume that $A$ is an array with domain $0,u_1)\times\cdots\times0,u_{d-1})$ (i.e., an interval all of whose lower bounds are zero). We'll also assume the existence of vector $S$ of scale factors, which are positive exact integers. Let $D_B$ be a new interval with $j$th lower bound equal to zero and $j$th upper bound equal to $\operatorname{ceiling}(u_j/S_j)$ and let $T_{BA}(\vec i)j=i_j\times S_j$, i.e., the $j$th coordinate is scaled by $S_j$. ($D_B$ contains precisely those multi-indices that $T_{BA}$ maps into $D_A$.) Then $T_{BA}$ is an affine one-to-one mapping, and we provide interval-scale and array-sample for these operations.
+
+`(specialized-array-share `*array interval interval-mapping*`)`
+
+Constructs a new specialized-array that shares the body of the specialized-array array. Returns an object that is behaviorally equivalent to a specialized array with the following fields:
+
+new-domain->old-domain must be an affine one-to-one mapping from new-domain to (array-domain array).
+
+Note: It is assumed that affine structure of the composition of new-domain->old-domain and (array-indexer array will be used to simplify:
 
 ## The whole array
 
