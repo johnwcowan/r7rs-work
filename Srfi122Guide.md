@@ -236,28 +236,36 @@ visible in the new array).  The arrays share a storage object, so any mutation o
 array is also a mutation of the other.
 
 The SRFI provides a set of affine transformations, meaning that the value
-of each upper and lower bound in the new array is equal to the sum of a subset
-of the upper and lower bounds of the old array, plus a constant value.
+of each upper bound in the new array is equal to the sum of a subset
+of the upper bounds of the old array plus a constant value,
+and likewise for the lower bounds.
 Because the composition of two affine transformations is itself affine,
 extracting or mutating element values is just as efficient on an array with
 no transformations applied as an array with five or fifty transformations applied.
 
 `(array-extract `*array interval*`)`
 
-Restricting the domain of an array: If the domain of $B$, $D_B$, is a subset of the domain of $A$, then $T_{BA}(\vec i)=\vec i$ is a one-to-one affine mapping. We define array-extract to define this common operation; it's like looking at a rectangular sub-part of a spreadsheet.
+Returns an array that is a rectangular subset of *array*
+whose bounds are specified by *interval*, like
+a rectangular sub-part of a spreadsheet.
+It is an error unless *interval* is a subset of the interval of *array*.
 
 `(array-translate `*array translation*`)`
 
-Translating the domain of an array: If $\vec d$ is a vector of integers, then $T_{BA}(\vec i)=\vec i-\vec d$ is a one-to-one affine map of $D_B=\{\vec i+\vec d\mid \vec i\in D_A\}$ onto $D_A$. We call $D_B$ the translate of $D_A$, and we define array-translate to provide this operation.
+Returns an array with the same number of elements as *array*, but with the
+bounds of each dimension shifted upward or downward.  The amount of shift
+for each dimension is given by the corresponding element of *translation*,
+a vector of exact integers.
 
 The `translation?` predicate can be used to
 verify that *translation* represents
 a meaningful translation of array indices
-(that is, if every element is an exact integer).
+(that is, if it is a vector where every element is an exact integer).
 
 `(array-permute `*array permutation*`)`
 
-Permuting the coordinates of an array: If $\pi$ permutes the coordinates of a multi-index $\vec i$, and $\pi^{-1}$ is the inverse of $\pi$, then $T_{BA}(\vec i)=\pi (\vec i)$ is a one-to-one affine map from $D_B=\{\pi^{-1}(\vec i)\mid \vec i\in D_A\}$ onto $D_A$. We provide array-permute for this operation. The only nonidentity permutation of a two-dimensional spreadsheet turns rows into columns and vice versa.
+Returns an array which has the same dimensions, bounds, and elements as *array*,
+but with the dimensions in a different order specified by *permutation*.
 
 The `permutation?` predicate can be used to
 verify that *permutation* represents
@@ -282,7 +290,10 @@ Note: The routines array-tile and array-curry both decompose an array into subar
 
 `(array-reverse `*array flip?*`)`
 
-Traversing some indices in a multi-index in reverse order: Consider an array $A$ with domain $D_A=l_0,u_0)\times\cdots\timesl_{d-1},u_{d-1})$. Fix $D_B=D_A$ and assume we're given a vector of booleans $F$ ($F$ for "flip?"). Then define $T_{BA}:D_B\to D_A$ by $i_j\to i_j$ if $F_j$ is #f and $i_j\to u_j+l_j-1-i_j$ if $F_j$ is #t.In other words, we reverse the ordering of the $j$th coordinate of $\vec i$ if and only if $F_j$ is true. $T_{BA}$ is an affine mapping from $D_B\to D_A$, which defines a new array $B$, and we can provide array-reverse for this operation. Applying array-reverse to a two-dimensional spreadsheet might reverse the order of the rows or columns (or both).
+Returns an array with the same dimensions, bounds, and elements as *array*,
+except that a subset of the dimensions are reversed.  The `flip?` argument
+is an array of booleans: a dimension is reversed if the corresponding boolean
+is true, and unreversed otherwise.
 
 `(array-sample `*array scales*`)`
 
