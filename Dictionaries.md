@@ -56,18 +56,6 @@ to invoke it on that dictionary or dictionary type.
 Answers `#t` if *obj* is a dictionary
 that answers `#t` to some registered predicate.
 
-`(make-similar-dict `*dict*`)`
-
-There is not and cannot be a single constructor for all dictionaries,
-since the necessary setup is different for each type of constructor.
-Therefore, a dictionary must be created using a type-specific constructor.
-
-However, `make-similar-dict` is a constructor that given a dictionary returns a
-*similar* dictionary with no associations.
-Dictionaries are similar if they satisfy the same predicate and
-have the same equality predicate as well as the same ordering predicate,
-hash function, or both.
-
 `(dict-size `*dictionary*`)`
 
 Returns an exact integer representing the number of associations in *dictionary*.
@@ -113,6 +101,16 @@ Invoking `(`*remove obj*`)` returns a dictionary that
 contains all the associations of *dictionary*,
 except for the association with key key.
 
+`(dict-map `*proc dictionary*`)`
+
+Returns a dictionary which maps the keys of *dictionary* to the values that result
+from invoking *proc* on the corresponding keys and values of dictionary.
+
+`(dict-filter `*pred dictionary*`)`  
+
+Returns a dictionary similar to *dictionary* that contains just the associations of *dictionary*
+that satisfy *pred* when it is invoked on the key and value of the association.
+
 `(dict-for-each `*proc dictionary*`)`
 
 Invokes *proc* on each key of *dictionary* and its corresponding value in that order.
@@ -137,7 +135,7 @@ and `#f` otherwise.
 
 ## Lookup
 
-`(dict-ref dictionary `key [*failure* [*success*] ]`)`
+`(dict-ref 	`*dictionary key* [*failure* [*success*] ]`)`
 
 If *key* is the same as
 some key of *dictionary*, then invokes *success* on the corresponding value
@@ -145,10 +143,10 @@ and returns its result.
 If *key* is not a key of *dictionary*, then invokes the thunk *failure* and
 returns its result.
 
-`(dict-ref/default `dictionary key default`)`
+`(dict-ref/default `*dictionary key default`)`
 
-If key is a key of dictionary, then returns the corresponding value.
-If key is not a key of dictionary, then returns default.
+If *key* is the same as some key of *dictionary*, then returns the corresponding value.
+If not, then returns *default*.
 
 ## Mutation
 
@@ -203,17 +201,18 @@ and the result of invoking *failure*.
 
 `(dict-update `*dictionary key updater* [*failure* [*success*] ]`)`
 
-Semantically equivalent to, but may be more efficient than, the following code:
-
-`(dict-set `*dictionary key* `(`*updater* `(dictionary-ref `*dictionary key failure success*`)))`
-
-The obvious semantics hold when success (and failure) are omitted (see `dictionary-ref`).
+Retrieves the value of *key* as if by `dict-ref`,
+invokes *updater* on it, and sets the value of *key* to be
+the result of calling *updater* as if by `dict-set`,
+but may do so more efficiently.  Returns the updated dictionary.
 
 `(dict-update/default `*dictionary key updater default*`)`
 
-Semantically equivalent to, but may be more efficient than, the following code:
+Retrieves the value of *key* as if by `dict-ref/default`,
+invokes *updater* on it, and sets the value of *key* to be
+the result of calling *updater* as if by `dict-set`,
+but may do so more efficiently.  Returns the updated dictionary.
 
-`(dict-set `*dictionary key* `(`*updater* `(dictionary-ref/default `*dictionary key default*`)))`
 
 `(dict-pop `*dictionary* [*failure*]`)`
 
@@ -236,13 +235,13 @@ that *pred* returned true.
 
 Passes each association of *dictionary* as two arguments to *pred*
 and returns true when one of the calls to *pred* returns true.
-If all calls return false, `dictionary-any?` returns false.
+If all calls return false, `dict-any?` returns false.
 
 `(dict-every? `*pred dictionary*`)`
 
 Passes each association of *dictionary* as two arguments to *pred*
 and returns `#f` when any of the calls to *pred* return false.
-If all calls return true, `dictionary-every?` returns true.
+If all calls return true, `dict-every?` returns true.
 
 `(dict-keys `*dictionary*`)`
 
@@ -252,17 +251,12 @@ The order may change when new elements are added to *dictionary*.
 `(dict-values `*dictionary*`)`
 
 Returns a list of the values of *dictionary*.  The results returned
-by `dictionary-keys` and `dictionary-values` are ordered consistently.
+by `dict-keys` and `dict-values` are ordered consistently.
 
 `(dict-entries `*dictionary*`)`
 
-Returns two values, the result of calling `dictionary-keys` and the
-result of calling `dictionary-values` on *dictionary*.
-
-`(dict-map `*proc dictionary*`)`
-
-Returns a dictionary containing the keys of dictionary and the values that result
-from invoking proc on the keys and corresponding values of dictionary.
+Returns two values, the result of calling `dict-keys` and the
+result of calling `dict-values` on *dictionary*.
 
 `(dict-fold `*proc knil dictionary*`)`
 
@@ -278,11 +272,10 @@ or *knil* if there was no invocation.
 Returns a list of values that result from invoking *proc*
 on the keys and corresponding values of *dictionary*.
 
-`(dict-filter `pred dictionary`)`  
-`(dict-remove `pred dictionary`)`
+`(dict-remove `*dictionary pred*`)`
 
-Returns a similar dictionary that contains just the associations of *dictionary*
-that do / do not satisfy *pred*.
+Returns a dictionary that contains all the associations of *dictionary*
+except those that satisfy *pred* when called on the key and value.
 
 `(dict->alist `*dictionary*`)`
 
@@ -296,13 +289,14 @@ instances return `#t` to any predicate already registered.
 
 `(register-dictionary! `*pred dictionary*`)`
 
-Registers *pred* and provides procedures that may allow more efficient
+Registers *pred* and provides procedures that allow
 manipulation of dictionaries that satisfy *pred*.
 The *dictionary* argument
 maps the names of the procedures of this SRFI
 to suitable type-specific procedures.  The procedures
-`make-similar-dict`, `dict-size`, and `dict-search` are required:
-the others are optional.
+`dict-size`, `dict-search`, `dict-map`, `dict-filter`, and `dict-for-each` are required.
+The others are optional, but are typically more efficient than the versions provided by
+the implementation of this SRFI.
 
 To break the recursion whereby a new type is registered using a
 dictionary of an existing type, dictionaries can always be registered
