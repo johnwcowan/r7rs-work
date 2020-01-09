@@ -53,6 +53,10 @@ such as Matlab, Octave, S-Plus, R, Julia, and Scilab
 (for compatibility with Fortran routines used in their implementations
 or written by users).
 
+When this guide refers to a 3 x 4 array (or similar),
+that is shorthand for a 2-dimensional array with 3 rows and 4 columns,
+with both lower bounds equal to 0.
+
 This guide is partly a tutorial introduction to the SRFI,
 but also contains some less-technical reference material
 that may be more accessible to programmers who are not mathematicians.
@@ -283,32 +287,39 @@ to the length of *permutation* (exclusive)).
 
 `(array-curry `*array dimension*`)`
 
-Returns an array of arrays.  The outer array has the first *dimension* dimensions of *array*, whereas each of the inner arrays has the remaining dimensions of *array*.  Thus currying a three-dimensional array with *dimension* 2 gives a two-dimensional array made up of one-dimensional arrays with identical structure.
+Returns an array of arrays.
+The outer array has the first *dimension* dimensions of *array*,
+whereas each of the inner arrays has the remaining dimensions of *array*.
+Thus currying a three-dimensional array specifying *dimension* as 2
+gives a two-dimensional array made up of one-dimensional arrays with identical structure.
 
 `(array-tile `*array upper-bounds*`)`
 
-Returns an array of arrays.  The dimensions of the outer array are the first *n* dimensions of
-*array*, where *n* is the number of dimensions of *array* minus the length of *upper-bounds*,
-a vector of exact integers.  Each inner array's upper bounds are specified when possible by
-*upper-bounds*, and the lower bounds are uniformly 0.
+Returns an array of arrays.
+Both the outer array and the inner arrays have the same number of dimensions as *array*,
+but the elements are distributed in the inner arrays in such a way that the upper bound
+of each dimension is less than or equal to the corresponding element of *upper-bounds*.
+All the lower bounds of the inner arrays are 0.
 
-The inner arrays contain a portion of *array*
-(as if by *array-extract*) so that each
-element of *array* is in exactly one of the inner arrays,
-which is why the procedure is called `array-tile`.
-Because the dimensions of *array* need not be
-a multiple of the dimensions of the inner arrays,
-inner arrays near the maximal edge of *array*
-may be smaller than called for.
+For example, a 5 x 3 array tiled using an *upper-bounds* array of `#(2 1)` will
+produce a 3 x 3 outer array containing six 2 x 1 arrays and three 1 x 1 arrays.
+The nine inner arrays will tile the plane
+represented by the original array, with each element in exactly one inner array.
+The first two rows will be in 2 x 1 arrays, as well the next two;
+the last row will contain 1 x 1 arrays.
 
-For example, a 3 x 3 x 3 array tiled with upper bounds `#(2 1)`
-results in 
-
-More formally, if S is the vector $(s_0,\ldots,s_{d-1})$, and the domain of A is the interval $l_0,u_0)\times\cdots\times l_{d-1},u_{d-1})$, then $T$ is an immutable array with all lower bounds zero and upper bounds given by $$ \operatorname{ceiling}((u_0-l_0)/s_0),\ldots,\operatorname{ceiling}((u_{d-1}-l_{d-1})/s_{d-1}). $$ The $i_0,\ldots,i_{d-1}$ entry of $T$ is (array-extract A D_i) with the interval D_i given by $$ l_0+i_0 * s_0,\min(l_0+(i_0+1)s_0,u_0))\times\cdots\timesl_{d-1}+i_{d-1} * s_{d-1},\min(l_{d-1}+(i_{d-1}+1)s_{d-1},u_{d-1})). $$ (The "minimum" operators are necessary if $u_j-l_j$ is not divisible by $s_j$.) Thus, each entry of $T$ will be a specialized, mutable, or immutable array, depending on the type of the input array A.
+It is an error unless
+the *upper-bounds* argument has the same length as the number of dimensions of *array*.
 
 It is an error if the arguments of array-tile do not satisfy these conditions.
 
-Note: The routines array-tile and array-curry both decompose an array into subarrays, but in different ways. For example, if A is defined as (make-array (make-interval '#(0 0) '#(10 10)) list), then (array-tile A '#(1 10)) returns an array with domain (make-interval '#(0 0) '#(10 1)), each element of which is an array with domain (make-interval '#(0 0) '#(1 10)) (i.e., a two-dimensional array whose elements are two-dimensional arrays), while (array-curry A 1) returns an array with domain (make-interval '#(0) '#(10)), each element of which has domain (make-interval '#(0) '#(10)) (i.e., a one-dimensional array whose elements are one-dimensional arrays).
+Note: The routines `array-tile` and `array-curr`y both decompose an array into subarrays,
+but in different ways.
+For example, if `A` is a 10 x 10 array,
+then `(array-tile A '#(1 10))` returns an 10 x 1 array
+each element of which is a 1 x 10 array,
+whereas `(array-curry A 1)` returns a 1-dimensional array of size 10
+each element of which is likewise a 1-dimensional array of size 10.
 
 `(array-reverse `*array flip?*`)`
 
