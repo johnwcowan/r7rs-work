@@ -330,15 +330,33 @@ is true, and unreversed otherwise.
 
 `(array-sample `*array scales*`)`
 
-Uniformly sampling an array: Assume that $A$ is an array with domain $0,u_1)\times\cdots\times0,u_{d-1})$ (i.e., an interval all of whose lower bounds are zero). We'll also assume the existence of vector $S$ of scale factors, which are positive exact integers. Let $D_B$ be a new interval with $j$th lower bound equal to zero and $j$th upper bound equal to $\operatorname{ceiling}(u_j/S_j)$ and let $T_{BA}(\vec i)j=i_j\times S_j$, i.e., the $j$th coordinate is scaled by $S_j$. ($D_B$ contains precisely those multi-indices that $T_{BA}$ maps into $D_A$.) Then $T_{BA}$ is an affine one-to-one mapping, and we provide interval-scale and array-sample for these operations.
+Returns an array which contains only every *k*th element along each of its
+*n* dimensions, where *k* is equal to the *n*th element of *scales*.
+It is an error unless *scales* is a vector of size *n* containing
+positive exact integers.
+
+For example, a 6 x 6 array scaled using `#(2 3)`
+will be a 3 x 2 array that provides the first, third, and fifth rows
+and the first and fourth columns of the original array.
 
 `(specialized-array-share `*array interval interval-mapping*`)`
 
-Constructs a new specialized-array that shares the body of the specialized-array array. Returns an object that is behaviorally equivalent to a specialized array with the following fields:
+Constructs a new specialized array that shares the body of the specialized array *array*.
+It is an error to apply this procedure to a generalized array.
+Returns a specialized array whose elements are retrieved
+as if by the following algorithm:
+Pass the indices of the desired element to the procedure *interval-mapping*,
+which accepts them and returns the same number of values
+as the number of dimensions in *array*.
+Then use the returned values to specify the element of *array* to be retrieved.
 
-new-domain->old-domain must be an affine one-to-one mapping from new-domain to (array-domain array).
+It is an error if *interval-mapping* is not affine and one-to-one,
+which means that it is possible to precompute the possible results
+of the transformation when the new array is created.
 
-Note: It is assumed that affine structure of the composition of new-domain->old-domain and (array-indexer array will be used to simplify:
+For example, the interval mapping specified by `(lambda (i) (values i i))`
+will transform a square matrix into a 1-dimensional array accessing the diagonal
+elements.
 
 ## The whole array
 
@@ -365,7 +383,7 @@ Returns an immutable generalized array
 whose elements are the result of applying *proc*
 to all the *arrays*, which must all have equivalent intervals.
 Rather than doing the mapping all at once,
-as `map` and `vector-map` do, elements are mapped
+as `map` and `vector-map` do, elements are mapped only
 as they are retrieved.
 
 `(array-outer-product `*proc array1 array2*`)`
