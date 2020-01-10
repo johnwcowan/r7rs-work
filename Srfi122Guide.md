@@ -8,21 +8,32 @@ Arrays have been supplemented by many other data structures
 and have grown in complexity since then,
 but the core ideas are the same.
 
+This guide is partly a tutorial introduction to the SRFI,
+but also contains some less-technical reference material
+that may be more accessible to programmers who are not mathematicians.
+It is intended to be correct but definitely not complete.
+In case of discrepancies between this guide and the SRFI, the SRFI prevails.
+
 Arrays as defined in the SRFI are generalizations
 of ordinary Scheme vectors in two different ways.
 Whereas a vector is indexed by a single exact integer,
 arrays are indexed by multiple exact integers, one for
 each dimension of the array.
-Thus a one-dimensional array, like a vector, is indexed
+Thus a 1-dimensional array, like a vector, is indexed
 by a single number,
-and a two-dimensional array (a matrix) is indexed by
+and a 2-dimensional array (a matrix) is indexed by
 two numbers representing the row and column.
-The number of dimensions available is unlimited.
+
+To avoid confusion, this guide uses the term "vector"
+to refer only to Scheme vectors, never to 1-dimensional arrays.
+The number of dimensions available is unlimited, although
+the reference implementation is most efficient when handling
+arrays with 4 dimensions or less.
 
 In addition, whereas the smallest index of a Scheme vector
 is always 0, the smallest index of each dimension of an array
 can be any exact integer.  For example, a matrix may have 100
-rows numbered from 0 to 99 and 11 columns numbered from -5 to +5.
+rows numbered from 1 to 100 and 11 columns numbered from -5 to +5.
 
 It is possible to simulate arrays with vectors of vectors
 (of vectors ...), but at considerable cost in efficiency.
@@ -33,6 +44,10 @@ The SRFI does not support *degenerate arrays*.  These come in two kinds.
 An array with zero dimensions contains by convention a single element,
 whereas an array where the lower bound of any dimension is greater than
 or equal to the upper bound contains no elements at all.
+
+When this guide refers to a 3 x 4 array (or similar),
+that is shorthand for a 2-dimensional array with 3 rows and 4 columns,
+with both lower bounds equal to 0.
 
 The term *lexicographic order* represents a particular order of
 traversing the elements of an array in which the first dimension
@@ -50,24 +65,14 @@ Most programming languages use row-major order, with the
 significant exceptions of Fortran (for historical reasons)
 and languages oriented towards mathematical and scientific work
 such as Matlab, Octave, S-Plus, R, Julia, and Scilab
-(for compatibility with Fortran routines used in their implementations
-or written by users).
-
-When this guide refers to a 3 x 4 array (or similar),
-that is shorthand for a 2-dimensional array with 3 rows and 4 columns,
-with both lower bounds equal to 0.
-
-This guide is partly a tutorial introduction to the SRFI,
-but also contains some less-technical reference material
-that may be more accessible to programmers who are not mathematicians.
-It is intended to be correct but definitely not complete.
-In case of discrepancies between this guide and the SRFI, the SRFI prevails.
+(for compatibility with Fortran).
 
 ## Specialized and generalized arrays
 
 The SRFI provides two (or three) kinds of arrays, specialized and generalized,
 where generalized arrays can be immutable or mutable,
 but it attempts to hide the differences between them as much as is practical.
+
 A specialized array corresponds to arrays in other programming languages:
 it is mutable and maintains a *storage object* which holds the values of the array.
 A storage object is one-dimensional, and maps an exact integer from 0 (inclusive)
@@ -235,14 +240,14 @@ Changes the value of array specified by the *indexes* to *newvalue*.
 Note that specialized arrays have getters and setters just like generalized
 arrays, although they are provided by the implementation rather than the user.
 
-## Affine transformations
+## Array transformations
 
 An array transformation is a procedure that takes an array and returns another array
 with a different interval but the same array elements (though some of them may not be
-visible in the new array).  The arrays share a storage object, so any mutation of one
+visible in the new array).  Any mutation of one
 array is also a mutation of the other.
 
-The SRFI provides a set of affine transformations, meaning that the value
+The SRFI provides a set of *affine* transformations, meaning that the value
 of each upper bound in the new array is equal to the sum of a subset
 of the upper bounds of the old array plus a constant value,
 and likewise for the lower bounds.
@@ -352,7 +357,8 @@ Then use the returned values to specify the element of *array* to be retrieved.
 
 It is an error if *interval-mapping* is not affine and one-to-one,
 which means that it is possible to precompute the possible results
-of the transformation when the new array is created.
+of the transformation when the new array is created; after that,
+*interval-mapping* is not invoked.
 
 For example, the interval mapping specified by `(lambda (i) (values i i))`
 will transform a square matrix into a 1-dimensional array accessing the diagonal
