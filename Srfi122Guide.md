@@ -11,7 +11,9 @@ but the core ideas are the same.
 This guide is partly a tutorial introduction to the SRFI,
 but also contains some less-technical reference material
 that may be more accessible to programmers who are not mathematicians.
-It is intended to be correct but definitely not complete.
+It is intended to be correct but definitely not complete;
+in particular, only a few of the procedures on intervals
+and the reflective procedures on arrays are even mentioned in passing.
 In case of discrepancies between this guide and the SRFI, the SRFI prevails.
 
 Arrays as defined in the SRFI are generalizations
@@ -94,7 +96,7 @@ arrays that share its storage object.
 
 Generalized arrays do not have storage objects maintained by the implementation.
 Instead they are constructed using a getter procedure
-that retrieves the value of a specified array element.
+that computes and returns the value of a specified array element.
 This procedure may or may not return the same value over time in the way
 that specialized arrays do.
 
@@ -171,14 +173,15 @@ using as its backing store an object of the class specified by *storage-class*
 
 If the *safe?* argument is true, operations on the returned array will be checked
 for being within *interval* in the sense of `interval-contains-multi-index`.
-If it is false, operations are not checked.  If *safe* is omitted, the value
-is implementation-dependent.
+If it is false, operations are not checked.  If *safe* is omitted, a program-wide
+value may have been set by `specialized-array-default-safe?`, but if not, the
+safety is implementation-defined.
 
 `(make-array `*interval getter* [ *setter* ]`)`
 
 Returns a generalized array whose dimensions are specified by *interval*.
 The *getter* procedure accepts array indices as multiple arguments
-and returns the value of an array element specified by those indices
+and computes and returns the value of an array element specified by those indices
 
 The *setter* procedure accepts a new value
 followed by array indices as multiple arguments
@@ -242,8 +245,8 @@ arrays, although they are provided by the implementation rather than the user.
 
 ## Array transformations
 
-An array transformation is a procedure that takes an array and returns another array
-with a different interval but the same array elements (though some of them may not be
+An array transformation is a procedure that takes an array and returns another array,
+perhaps with a different interval but the same array elements (though some of them may not be
 visible in the new array).  Any mutation of one
 array is also a mutation of the other.
 
@@ -293,30 +296,34 @@ to the length of *permutation* (exclusive)).
 `(array-curry `*array dimension*`)`
 
 Returns an array of arrays.
-The outer array has the first *dimension* dimensions of *array*,
-whereas each of the inner arrays has the remaining dimensions of *array*.
-Thus currying a three-dimensional array specifying *dimension* as 2
+Each of the inner arrays has the last *dimension* dimensions of *array*,
+whereas the outer array has the earlier dimensions of *array*.
+Thus currying a three-dimensional array specifying *dimension* as 1
 gives a two-dimensional array made up of one-dimensional arrays with identical structure.
 
-`(array-tile `*array upper-bounds*`)`
+`(array-tile `*array tile-sizes*`)`
 
 Returns an array of arrays.
-Both the outer array and the inner arrays have the same number of dimensions as *array*,
-but the elements are distributed in the inner arrays in such a way that the upper bound
-of each dimension is less than or equal to the corresponding element of *upper-bounds*.
-All the lower bounds of the inner arrays are 0.
+Both the outer array and the inner arrays (the tiles)
+have the same number of dimensions as *array*,
+but the elements are distributed in the tiles in such a way that the difference
+between the upper and the lower bound
+of each dimension is equal to the corresponding element of the vector *tile-sizes*
+(except near the upper bounds of the original array, where there aren't enough elements).
 
-For example, a 5 x 3 array tiled using an *upper-bounds* array of `#(2 1)` will
+The bounds of the inner arrays preserve the original indices of each element in *array*.
+The outer array has all lower bounds 0 and has the necessary upper bounds to represent
+the total number of tiles required for each dimension.
+
+For example, a 5 x 3 array tiled using an *tile-sizes* array of `#(2 1)` will
 produce a 3 x 3 outer array containing six 2 x 1 arrays and three 1 x 1 arrays.
 The nine inner arrays will tile the plane
 represented by the original array, with each element in exactly one inner array.
-The first two rows will be in 2 x 1 arrays, as well the next two;
-the last row will contain 1 x 1 arrays.
+The first two rows will contain three 2 x 1 arrays;
+the last row will contain three 1 x 1 arrays.
 
 It is an error unless
-the *upper-bounds* argument has the same length as the number of dimensions of *array*.
-
-It is an error if the arguments of array-tile do not satisfy these conditions.
+the *tile-siezes* argument has the same length as the number of dimensions of *array*.
 
 Note: The routines `array-tile` and `array-curr`y both decompose an array into subarrays,
 but in different ways.
@@ -330,7 +337,7 @@ each element of which is likewise a 1-dimensional array of size 10.
 
 Returns an array with the same dimensions, bounds, and elements as *array*,
 except that a subset of the dimensions are reversed.  The `flip?` argument
-is an array of booleans: a dimension is reversed if the corresponding boolean
+is a vector of booleans: a dimension is reversed if the corresponding boolean
 is true, and unreversed otherwise.
 
 `(array-sample `*array scales*`)`
@@ -372,14 +379,15 @@ and apply the predicate to each corresponding element of the arrays:
 `(array-any `*pred array1 array2* ...`)`
 
 Invokes *pred* on the corresponding elements of the *arrays* in lexicographic order.
-As soon as a call to *pred* returns true, its value is returned by `array-any`.
+As soon as a call to *pred* returns a true value, that value is returned by `array-any`.
 If all calls return false, `array-any` returns false.
 
 `(array-every `*pred array1 array2* ...`)`
 
 Invokes *pred* on the corresponding elements of the *arrays* in lexicographic order.
 As soon as a call to *pred* returns false, `array-any` returns false.
-If all calls return true, the value of the last call is returned by `array-any`.
+If all calls return a true value, the value of the last call is returned by `array-any`.
+If no calls were made, `#t` is returned.
 
 ## Mapping and folding
 
@@ -389,8 +397,8 @@ Returns an immutable generalized array
 whose elements are the result of applying *proc*
 to all the *arrays*, which must all have equivalent intervals.
 Rather than doing the mapping all at once,
-as `map` and `vector-map` do, elements are mapped only
-as they are retrieved.
+as `map` and `vector-map` do, elements are mapped
+each time they are retrieved.
 
 `(array-outer-product `*proc array1 array2*`)`
 
@@ -400,7 +408,7 @@ whose values are the result of applying
 *array2*.  The interval of the new array is the
 interval of *array1* concatenated with *array2*.
 Like `array-map`, `array-outer-product` computes
-elements lazily as they are retrieved.
+elements each time they are retrieved.
 
 For example, if *proc* is `+` and the *arrays*
 are both matrices, then the sum of the (1,2) element
@@ -456,7 +464,7 @@ in lexicographic order.
 The arguments *storage-class* and *safe?* have the same meaning
 as in `make-specialized-array`.  Returns the newly created array.
 
-`(array-list `*array*`)`
+`(array->list `*array*`)`
 
 Returns a list containing the elements of *array* in lexicographic order.
 
