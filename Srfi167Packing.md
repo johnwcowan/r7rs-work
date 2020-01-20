@@ -11,7 +11,8 @@ the encoded sequence; the second accepts a single bytevector argument
 and returns the decoded sequence as a list.
 
 The following types can be encoded: integers from -2^63 to 2^63-1,
-double precision floats, strings, symbols, booleans, and subsuequences.
+double precision floats, strings, symbols, booleans, and subsequences
+whose members are any of these types.
 In addition there is a representation for a null object which is not
 the same (in the sense of `eq?`) as any other encodable object.
 (Floats and subsequences are currently not implemented.)
@@ -36,14 +37,14 @@ Here is a table of type bytes:
 #xFF (reserved)
 ```
 
-The codes `#x08 #x1D #xFF` are permanently reserved.
+The codes `#x08`, `#x1D`, and `#xFF` are permanently reserved.
 Other codes not listed in the above table are reserved for future use.
 
-The encoding for the null object, `0`, `#f`, and `#t` have no data bytes.
+The encodings for the null object, `0`, `#f`, and `#t` have no data bytes.
 
-The data bytes of an encoded byvectors are the bytes of the bytevector
-after they have undergone byte stuffing.  The byte stuffing algorithm
-converts any existing `#x00~ byte to the two-byte sequence `#x00 `#xFF`,
+The data bytes of an encoded byvector are the bytes of the bytevector
+after they have undergone *byte stuffing*.  The byte stuffing algorithm
+converts any existing `#x00` byte to the two-byte sequence `#x00 #xFF`,
 and appends an `#x00` byte to the end of the bytevector.
 Because `#xFF` is not a type code, such an `#x00` byte
 cannot be mistaken for the terminating byte.
