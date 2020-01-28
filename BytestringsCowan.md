@@ -40,13 +40,14 @@ string) is provided, those two characters will be used as the
 
 `(list->bytestring `*list*`)`
 
-Convert a list, which must contain suitable arguments for `bytestring`, into a bytevector.
+Convert a list into a bytevector.
+It is an error if its elements are not suitable arguments for `bytestring`.
 
 `(bytestring->list `*bytevector*`)`
 
 Convert a bytevector into a list containing suitable arguments for `bytestring`.
-If `bytestring` is applied to the elements of the list, the resulting bytevector will be the same
-(in the sense of `bytevector=?`) as *bytevector*, but the exact contents of
+If `bytestring` is applied to the elements of the list, the resulting bytevector will be byte for byte the same
+as *bytevector*, but the exact contents of
 the list are not specified by this SRFI.
 
 ## Selection
@@ -112,7 +113,7 @@ had 32 added to them.
 Search *bytevector* from *start* to *end* / from *end*
 to *start* for the first byte that satisfies *pred*, and
 return the index into *bytevector* containing that byte.
-In either direction, *start* is inclusive* and *end*
+In either direction, *start* is inclusive and *end*
 is exclusive.
 
 `(bytestring-break `*bytevector pred*`)`  
