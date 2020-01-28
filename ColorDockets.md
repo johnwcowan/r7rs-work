@@ -221,8 +221,6 @@ Combinations: [CombinationsGauche](https://htmlpreview.github.io/?https://bitbuc
 
 Generic combinator procedures: [CombinatorsCowan](CombinatorsCowan.md)
 
-Port operations: [PortOperationsCowan](PortOperationsCowan.md)
-
 Time types: [SRFI 19](http://srfi.schemers.org/srfi-19/srfi-19.html) and/or [TimeAdvancedCowan](TimeAdvancedCowan.md) with [TimePeriodsCowan](TimePeriodsCowan.md)
 
 Character conversion: [CharacterConversionCowan](CharacterConversionCowan.md)
