@@ -1,37 +1,41 @@
 ## Conditions
 
-This is a WG2 proposal for condition objects.  A condition object encapsulates information about an
-exceptional situation.  Typically the rest of the system is notified about a condition using the `raise` and `raise-continuable` procedures and their relatives.  Conditions are logically independent of the exception system, however:  conditions may be used for any purpose, and any object may be passed to the exception system.
+A condition object encapsulates information about an exceptional situation.
+Typically the rest of the system is notified about a condition
+using the `raise` and `raise-continuable` procedures and their relatives.
+Conditions are logically independent of the exception system, however:
+conditions may be used for any purpose, and any object may be passed to the exception system.
 
-The design of this condition system attempts to assume as little as possible about any existing implementation-specific condition system.  In particular, there is no specified relationship between conditions and records, as there is in R6RS, nor is there any notion of subtyping required by the system.  There are condition types for convenience in dispatching, but they are just symbols and in general entail nothing about what information is encapsulated, as different implementations will provide different kinds of information when creating an implementation-specified condition.
+The design of this condition system attempts to assume as little as possible
+about any existing implementation-specific condition system.
+In particular, there is no specified relationship between conditions and records,
+as there is in R6RS, nor is there any notion of subtyping required by the system.
+There are condition types for convenience in dispatching,
+but they are just symbols and in general entail nothing about what information is encapsulated,
+as different implementations will provide different kinds of information
+when creating an implementation-specified condition.
 
-Within the above constraints, I have attempted to make the names as compatible as possible with [the R6RS condition system](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-8.html#node_sec_7.2) and its predecessors [SRFI 35](http://srfi.schemers.org/srfi-35/srfi-35.html) and [SRFI 36](http://srfi.schemers.org/srfi-36/srfi-36.html), and with [SRFI 12](http://srfi.schemers.org/srfi-12/srfi-12.html).
+A *native condition object* is a Scheme object that any underlying native condition system
+can create.
 
-A condition is said to be "belong to type *sym*" if (a) it was created by a call to `make-condition` that was passed the symbol `sym` as one of its condition types, or (b) it belongs to an implementation-defined set (possibly empty) of conditions of type *sym*.  This allows implementation-dependent condition objects to participate in this condition system.
-
-## Constructors
-
-`(make-condition `*symlist* ( *sym* *obj* ) ...`)`
-
-Returns a newly allocated condition which belongs to the types whose names are given in `symlist`.  The remainder of the arguments are alternating property names (which are symbols) and values (which can be any object) that specify the information encapsulated by this condition.  It is an error if the value associated with the property name `message` (if it exists) is not a string; it is also an error if the value associated with the property name `irritants` (if it exists) is not a list.
-
-`(alist->condition `*symlist alist*`)`
-
-Returns a newly allocated condition which belongs to the types whose names are given in `symlist`.  Its properties and their values are specified by *alist*.
+However, it is designed to interoperate smoothly with condition objects that are
+[compound objects](CompoundObjectsCowan.md) in such a way that the API defined in this
+SRFI will behave correctly when applied to compound objects.  For that reason, there are
+no constructors for conditions as such; construct a compound object instead.
 
 ## Predicates
 
 `(condition? `*obj*`)`
 
-Returns `#t` if *obj* is a condition of any type, and `#f` otherwise.
+Returns `#t` if *obj* is a compound object or a native condition object
+created by the native condition system, and `#f` otherwise.
 
-`(condition-of-type? `*obj* *symlist*`)`
+`(condition-of-type? `*obj* *sym*`)`
 
-Returns `#t` if *obj* is a condition belonging to any of the types specified by *symlist*, and `#f` otherwise.
+If *obj* is a compound object, returns `#t` if `((make-compound-type-properties `*sym*`) `*obj*`)`
+would return true, and `#f` otherwise.
 
-`(<type>-error? `*obj*`)`
-
-Returns `#t` if *obj* is a condition belonging to type `<type>` from the list below, and `#f` otherwise.
+If *obj* is a native condition object, returns an implementation-specified boolean.
 
 ## Accessors
 
@@ -39,54 +43,49 @@ Returns `#t` if *obj* is a condition belonging to type `<type>` from the list be
 
 Returns the list of types to which *condition* belongs.  It is an error to attempt to mutate this list.
 
-`(condition-properties `*condition*`)`
+If *obj* is a condition object, returns a list of the cars of the type subobjects of *obj*.
 
-Returns the list of property names associated with this condition.  It is an error to attempt to mutate this list.
+If *obj* is a native condition object, returns an implementation-specified list of symbols.
 
-`(condition-ref `*condition sym* \[ *default* ] `)`
+`(condition-properties `*condition sym*`)`
 
-Returns the property value associated with the property named *sym* of *condition*.  If it has no such property, returns *default*.  If *default* is not specified, returns `#f`.
+Returns an alist of the properties of *condition* that are associated with the type *sym*.
+It is an error to attempt to mutate this alist.
 
-`(condition-predicate `*symlist*`)`
+If *obj* is a condition object, returns what `((make-compound-type-properties `*sym*`) `*obj*`)` returns.
 
-Returns a predicate which will return `#t` if applied to a condition belonging to any of the types specified in *symlist*, and `#f` otherwise.
-
-`(condition-accessor `*sym* \[ *default* ]`)`
-
-Returns an accessor which will return the value of *sym* if applied to a condition object and *default* otherwise.  If *default* is not specified, the accessor will return `#f`.
-
-Returns the value of the property named `<property-name>` (from the standard list of property names below) of *condition*, or *default* if it has no such property, or `#f` if no default is specified.
-
-`(condition->alist `*condition*`)`
-
-Return the properties and values of *condition* in the form of an alist.
+If *obj* is a native condition object, returns an implementation-specific alist.
 
 
-## Specific predicates
+## R7RS-small interoperation
 
 `(error-object? `*obj*`)`
 
-Returns `#t` if *obj* is a condition belonging to type `simple`, and `#f` otherwise.  Such conditions are normally created only by user code.  *Part of the small language, but shown here for completeness.*
-
 `(file-error? `*obj*`)`
-
-Returns `#t` if *obj* is a condition belonging to type `file`, and `#f` otherwise.  Such conditions may be created by the implementation if there is an error related to file operations; in particular, the inability to open a file for input.  *Part of the small language, but shown here for completeness.*
 
 `(read-error? `*obj*`)`
 
-Returns `#t` if *obj* is a condition belonging to type `read`, and `#f` otherwise.  Such conditions may be created by the implementation if there is an error related to `read`, such as a lexical syntax error in the input.  *Part of the small language, but shown here for completeness.*
+These R7RS-small predicates are extended to return `#t` on a compound object
+that would return true to `(condition-properties `*obj sym*`)`,
+where *sym* is `simple`, `file`, or `read` respectively.
 
-`(syntax-error? `*obj*`)`
+`(error-message `*error*`)`
 
-Returns `#t` if *obj* is a condition belonging to type `syntax`, and `#f` otherwise.  Such conditions may be created by the implementation if program code is syntactically ill-formed.  When such a condition is raised, it may or may not be possible for the exception system to catch it.  *Part of the small language, but shown here for completeness.*
+`(error-irritants `*error*`)`
 
-`(implementation-restriction? `*obj*`)`
-
-Returns `#t` if *obj* is a condition belonging to type `implementation-restriction`, and `#f` otherwise.  Such conditions may be created by the implementation if one of its restrictions is exceeded, such as consuming too much memory or trying to compute an exact number too large to represent.
+If *error* is a compound object,
+these R7RS-small procedures are extended to return the value associated with
+the key `message` / `irritants` of the first type subobject whose car is `simple`,
+or the empty list / string if there is no such key.
 
 ## Standard condition types
 
-The following condition types are standardized.  Conditions of each type may be created by the implementation in the specified situations as well as any analogous situations.  The only constraint is that the implementation must not raise a condition of a specified type unless that type of external situation is in fact present.  The list is intended to be comprehensive but not complete: it draws on R6RS, Java, and other sources.
+The following condition types are standardized.
+Conditions of each type may be created by the implementation in the specified situations
+as well as any analogous situations.
+The only constraint is that the implementation must not raise a condition of a specified type
+unless that type of external situation is in fact present.
+The list is intended to be comprehensive but not complete: it draws on R6RS, Java, and other sources.
 
 |Type|Explanation|
 |---|---|
@@ -142,9 +141,9 @@ The following condition types are standardized.  Conditions of each type may be 
 |`value`|wrong value|
 |`version-skew`|mismatched versions of code|
 
-## Standard property names
+## Standard keys
 
-|Property|Explanation|
+|Key|Explanation|
 |---|---|
 |`message`|human-readable description string|
 |`irritants`|list of problematic arguments|
