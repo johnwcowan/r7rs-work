@@ -1,7 +1,14 @@
-Compound objects are a generalization of SRFI 35 and R6RS compound conditions.
+Compound objects are a generalization of SRFI 35 and R6RS compound conditions,
+and are suitable for use in creating and handling conditions.
 They encapsulate an immutable sequence of subobjects, which can be
 any object except another compound object.  These procedures treat
 non-compound objects as if they were compound objects with one subobject.
+
+By convention, a subjobject of the form `(a)` or `(a (b . value1) (c . value2) ...)`
+determines the compound object's overall type and any associated key-value properties.
+A compound object may contain more than one such subobject.
+
+## Procedures
 
 `(make-compound-object ` *list*`)`
 
@@ -17,6 +24,11 @@ except that it accepts multiple arguments instead of a list.
 `(compound-object? `*obj*`)`
 
 Returns `#t` if *obj* is a compound object, and `#f` otherwise.
+
+`(compound-type-object? `*obj*`)`
+
+Returns `#t` if *obj* is a pair whose car is a symbol
+and whose cdr is an alist with keys that are symbols.
 
 `(compound-object-subobjects `*obj*`)`
 
@@ -77,3 +89,14 @@ returns *default*.
 If *obj* is not a compound object, then if the object satisfies *pred*,
 it applies *accessor* to *obj* and returns what it returns,
 but if *obj* does not satisfy *pred*, *default* is returned.
+
+`(make-compound-type-properties `*sym*`)`
+
+Returns a procedure that accepts one argument *obj* and behaves as follows:
+
+If *obj* is a compound object, then if it contains a subobject
+satisfying `compound-type-object?` whose car is *sym*, then it
+returns the cdr of the first such type object; otherwise it returns `#f`.
+
+If *obj* is not a compound object, then if it satisfies `compound-type-object?`
+and its car is *sym*, then it returns the cdr of *obj*; otherwise it returns `#f`.
