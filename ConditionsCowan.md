@@ -15,13 +15,13 @@ but they are just symbols and in general entail nothing about what information i
 as different implementations will provide different kinds of information
 when creating an implementation-specified condition.
 
-A *native condition object* is a Scheme object that any underlying native condition system
-can create.
-
 However, it is designed to interoperate smoothly with condition objects that are
 [compound objects](CompoundObjectsCowan.md) in such a way that the API defined in this
 SRFI will behave correctly when applied to compound objects.  For that reason, there are
 no constructors for conditions as such; construct a compound object instead.
+
+A *native condition object* is a Scheme object that any underlying native condition system
+can create.
 
 ## Predicates
 
@@ -43,7 +43,7 @@ If *obj* is a native condition object, returns an implementation-specified boole
 
 Returns the list of types to which *condition* belongs.  It is an error to attempt to mutate this list.
 
-If *obj* is a condition object, returns a list of the cars of the type subobjects of *obj*.
+If *obj* is a compound object, returns a list of the cars of the type subobjects of *obj*.
 
 If *obj* is a native condition object, returns an implementation-specified list of symbols.
 
@@ -52,7 +52,7 @@ If *obj* is a native condition object, returns an implementation-specified list 
 Returns an alist of the properties of *condition* that are associated with the type *sym*.
 It is an error to attempt to mutate this alist.
 
-If *obj* is a condition object, returns what `((make-compound-type-properties `*sym*`) `*obj*`)` returns.
+If *obj* is a compound object, returns what `(make-compound-type-properties `*sym obj*`)` returns.
 
 If *obj* is a native condition object, returns an implementation-specific alist.
 
