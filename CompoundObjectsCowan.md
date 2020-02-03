@@ -10,65 +10,62 @@ A compound object may contain more than one such subobject.
 
 ## Procedures
 
-`(make-compound-object ` *list*`)`
+`(make-compound ` *list*`)`
 
 Create a compound object containing the objects in *list* in the specified order.
 If any object is itself a compound object, it is flattened into its subobjects,
 which are then added to the result in sequence.
 
-`(compound-object ` *obj* ...`)`
+`(compound ` *obj* ...`)`
 
-The same as `make-compound-object`,
+The same as `make-compound`,
 except that it accepts multiple arguments instead of a list.
 
-`(compound-object? `*obj*`)`
+`(compound? `*obj*`)`
 
 Returns `#t` if *obj* is a compound object, and `#f` otherwise.
 
-`(compound-type-object? `*obj*`)`
+`(compound-type? `*obj*`)`
 
 Returns `#t` if *obj* is a pair whose car is a symbol
 and whose cdr is an alist with keys that are symbols.
 
-`(compound-object-subobjects `*obj*`)`
+`(compound-subobjects `*obj*`)`
 
 If *obj* is a compound object, returns a list of its subobjects
 Otherwise, it returns a list containing only *obj*.
 
-`(compound-object-length `*obj*`)`
+`(compound-length `*obj*`)`
 
 If *obj* is a compound object, returns the number of its subobjects as an exact
 integer.  Otherwise, it returns 1.
 
-`(compound-object-ref `*obj k*`)`
+`(compound-ref `*obj k*`)`
 
 If *obj* is a compound object, returns the *k*th subobject.  Otherwise,
 *obj* is returned.  In either case, it is an error if *k* is less than
 zero or greater than or equal to the length of *obj*.
 
-`(compound-object-map `*mapper obj*`)`
+`(compound-map `*mapper obj*`)`
 
 If *obj* is a compound object, returns a newly allocated compound object
 whose subobjects result from invoking *mapper* on each subobject of *obj*.
 Although the subobjects of the result are in the same order as the subobjects of *obj*,
 the order in which *mapper* is applied to them is unspecified.
 
-If *obj* is not a compound object, it returns 
-the result of applying *mapper* to *obj*.
+If *obj* is not a compound object, it returns a newly allocated compound object
+whose only subobject is the result of applying *mapper* to *obj*.
 
-`(compound-object-filter `*pred obj*`)`
+`(compound-filter `*pred obj*`)`
 
 If *obj* is a compound object, returns a newly allocated compound object
-that contains the subobjects of *obj* that satisfy
-*pred*; it is an error to mutate this list.
+that contains the subobjects of *obj* that satisfy *pred*.
 
-If *obj* is not a compound object, it returns
-*obj* if *obj* satisfies *pred*,
+If *obj* is not a compound object, it returns a newly allocated compound object
+whose only subobject is *obj* if *obj* satisfies *pred*,
 or an empty compound object if *obj* does not satisfy *pred*.
 
-`(make-compound-predicate `*pred*`)`
-
-Returns a predicate that accepts one argument *obj* and behaves as follows:
+`(compound-predicate `*pred obj*`)`
 
 If *obj* is a compound
 object such that at least one of its subobjects satisfies *pred*, the predicate
@@ -77,22 +74,17 @@ returns what *pred* returns when applied to the first such subobject; otherwise 
 If *obj* is not a compound object, the predicate applies *pred* to *obj* and
 returns what *pred* returns.
 
-`(make-compound-accessor `*pred accessor default*`)`
-
-Returns a procedure that accepts one argument *obj* and behaves as follows:
+`(compound-accessor `*pred accessor obj default*`)`
 
 If *obj* is a compound object, *accessor* is applied to
 the first subobject that satisfies *pred* and the result is returned;
-if there is no such subobject,
-returns *default*.
+if there is no such subobject, returns *default*.
 
 If *obj* is not a compound object, then if the object satisfies *pred*,
 it applies *accessor* to *obj* and returns what it returns,
 but if *obj* does not satisfy *pred*, *default* is returned.
 
-`(make-compound-type-properties `*sym*`)`
-
-Returns a procedure that accepts one argument *obj* and behaves as follows:
+`(compound-type-properties `*sym obj*`)`
 
 If *obj* is a compound object, then if it contains a subobject
 satisfying `compound-type-object?` whose car is *sym*, then it
