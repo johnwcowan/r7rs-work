@@ -1,3 +1,7 @@
+# Port operations
+
+This SRFI contains a variety of operations on ports.  All of them can be implemented portably.
+
 ## Ports, generators, and accumulators
 
 As an alternative to creating custom Scheme ports, this SRFI provides for
@@ -54,3 +58,119 @@ string argument to the current output port, then
 is appropriate, because both `write-string` and `write-bytevector` with
 a start argument or both start and end arguments do not fit the
 contract for *operation*.
+
+## String and bytevector port operations
+
+These are analogous to the R7RS-small operations on file ports.
+They can be implemented on top of `call-with-port`.
+
+`(call-with-input-string `*string proc*`)`
+
+Opens a string input port on *string* as if by
+R7RS-small `open-input-string`. The port is then
+passed to *proc*,
+and its results are returned
+with the port closed.
+
+`(call-with-output-string `*proc*`)`
+
+Opens a string output port as if by
+R7RS-small `open-output-string`. The port is then
+passed to *proc*,
+and its results are discarded.
+A string is extracted from the port, which is returned
+with the port closed.
+
+`(with-input-from-string `*string thunk*`)`
+
+Opens a string input port on *string* as if by
+R7RS-small `open-input-string`. The port is then
+bound to the parameter `current-input-port`,
+*thunk* is invoked,
+and its results are returned
+with the port closed and `current-input-port` restored.
+
+`(with-output-to-string `*thunk*`)`
+
+Opens a string output port on *string* as if by
+R7RS-small `open-output-string`. The port is then
+bound to the parameter `current-output-port`,
+*thunk* is invoked,
+and its results are discarded.
+A string is extracted from the port, which is returned
+with the port closed and `current-output-port` restored.
+
+`(call-with-input-bytevector `*bytevector proc*`)`
+
+`(call-with-output-bytevector `*proc*`)`
+
+`(with-input-from-bytevector `*bytevector thunk*`)`
+
+`(with-output-to-bytevector `*thunk*`)`
+
+The same as the corresponding string port procedures,
+except that a bytevector is read or written.
+
+## Convenience I/O operations
+
+`(binary-port-eof? `*port*`)`
+
+Returns `#t` if the next attempt to read a byte from *port*
+would return an eof-object, and `#f` otherwise.
+The default port is the value of `(current-input-port)`.
+It is an error to call this procedure
+if the `peek-u8` procedure is not supported by *port*
+
+`(textual-port-eof? `*port*`)`
+
+Returns `#t` if the next attempt to read a character from *port*
+would return an eof-object, and `#f` otherwise.
+The default port is the value of `(current-input-port)`.
+It is an error to call this procedure
+if the `peek-char` procedure is not supported by *port*
+
+`(read-lines ` [*input-port*]`)`
+
+Read all remaining characters in *input-port* (as if by `read-line`),
+and return a list of strings representing the lines.
+The default port is the value of `(current-input-port)`.
+
+`(read-all-bytes ` [*port*]`)`
+
+Returns a bytevector consisting of all the bytes
+that can be read from *port* before an eof-object is returned,
+or an eof-object if there are none.
+The default port is the value of `(current-input-port)`.
+
+`(read-all-chars ` [*port*]`)`
+
+Returns a string consisting of all the characters (as if by `read-char`)
+that can be read from *port* before an eof-object is returned,
+or an eof-object if there are none.
+The default port is the value of `(current-input-port)`.
+
+`(read-all ` [*port*]`)`
+
+Returns a list consisting of all the Scheme objects
+that can be read from *port* (as if by `read`)
+before an eof-object is returned, or an eof-object if there are none.
+The default port is the value of `(current-input-port)`.
+
+`(write-line `*string* [*port*]`)`
+
+Write *string* to *port* (as if by `write-string`),
+then write a newline to *port* (as if by `newline`).
+
+`(print `*obj* ...`)`
+
+Write each *obj* to the port (as if by `display`)
+that is the value of `(current-output-port)`
+separated by single spaces and followed by a newline.
+
+`(debug-print `*obj* ...`)`
+
+Write each *obj* to the port (as if by `display`)
+that is the value of `(current-error-port)`
+separated by single spaces and followed by a newline.
+
+
