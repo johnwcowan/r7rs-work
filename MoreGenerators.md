@@ -56,20 +56,4 @@ Such calls can be written more compactly using the `cut` macro from
   (cut ggroup 5 <>))
 ```
 
-`(input-operatiom->generator `*op port*`)`
-
-Returns a generator that applies *port* to *op* every time it is invoked.
-When *op* returns an end of file object, *port* is closed
-and the generator returns the end of file object.
-Operations like `read-string` that can be called with additional arguments
-can be invoked using the `cut` macro, as above.
-
-`(output-operatiom->accumulator `*op port*`)`
-
-Returns an accumulator that applies its argument *port* to *op* every time it is invoked.
-When the argument is an end of file object, *port* is closed.
-Operations like `write-string` that can be called with additional arguments
-can be invoked using the `cut` macro, as above.
-
-
 
