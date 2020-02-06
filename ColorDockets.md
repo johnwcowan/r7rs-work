@@ -105,7 +105,7 @@ Eager syntax rules: [SRFI 148](http://srfi.schemers.org/srfi-148/srfi-148.html)
 
 Syntax combiners for binary functions: [SRFI 156](https://srfi.schemers.org/srfi-156/srfi-156.html)
 
-# Yellow Docket (syntax and early requirements)
+# Yellow Docket (syntax)
 
 **Syntax**
 
@@ -130,7 +130,7 @@ or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/
 
 Lexical macros: [LexmacsCowan](LexmacsCowan.md)
 
-**Early requirements**
+# Lime Docket (portable including early requirements)
 
 Matching:  [(chibi match)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/match/0.7.3/index.html)
 
@@ -142,11 +142,13 @@ Restarts:  [RestartsCowan](RestartsCowan.md)
 
 Timespecs:  [TimespecsCowan](TimespecsCowan.md)
 
-# Green Docket (non-portable)
-
 Conditions: [ConditionsCowan](ConditionsCowan.md)
 
-File I/O: [FilesAdvancedCowan](FilesAdvancedCowan.md) plus [SettingsListsCowan](SettingsListsCowan.md)
+Port operations: [PortOperationsCowan](PortOperationsCowan.md)
+
+# Green Docket (non-portable)
+
+Advanced I/O: [FilesAdvancedCowan](FilesAdvancedCowan.md) plus [SettingsListsCowan](SettingsListsCowan.md)
 
 Threads: [SRFI 18](http://srfi.schemers.org/srfi-18/srfi-18.html) plus optional  
 [SRFI 21](http://srfi.schemers.org/srfi-21/srfi-21.html)  
