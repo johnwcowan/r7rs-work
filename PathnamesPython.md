@@ -19,10 +19,9 @@ to the slash-separated substrings of *string*.  The drive and root are set accor
 ;; Relative path
 (parse-posix-path "foo") => ("" "" "foo")
 
-;; Implementation-defined path
-(parse-posix-path "//foo/bar") => ("" "//" "foo" "bar")
+;; Implementation-defined path (used by Cygwin for UNC paths)
+(parse-posix-path "//foo/bar/baz") => ("//foo/bar" "/" "baz")
 ```
-
 Except for the case of two initial slashes, consecutive slashes are collapsed,
 and components consisting of a single period are removed.  However, components consisting of
 two periods are not removed, as this would produce the wrong result in the presence of symbolic links.
@@ -41,7 +40,7 @@ The drive and root are set according to the following examples:
 (parse-windows-path "\\\\host\\share\\dir\\file") => ("//host/share" "/" "dir" "file")
 
 ;; Current-drive-relative path
-(make-windows-path "\\Windows\\System32\stop.exe") => "" "/" "Windows" "System32" "stop.exe")
+(make-windows-path "\\Windows\\System32\stop.exe") => ("" "/" "Windows" "System32" "stop.exe")
 
 ;; Relative path
 (parse-windows-path "foo") => ("" "" "foo")
@@ -116,6 +115,8 @@ Returns `#t` if the drive and root are not both empty, and `#f` otherwise.
 Returns `#t` if *path* represents a maximally portable path, and `#f` otherwise.
 Specifically, a maximally portable path is one in which:
 
+  * `path-reserved?` returns `#f`
+
   *  the drive and root are both empty strings
   
   * each component contains only lower-case letters,
@@ -126,10 +127,10 @@ Specifically, a maximally portable path is one in which:
   * the filename, unlike the other components, can contain a single period,
     in which case there need to be 1 to 8 characters before it and 1 to 3 characters after it.
 	
-The concept of a maximally portable path is based loosely on the Common
+The concept of a maximally portable path is based loosely on Common
 Lisp logical pathnames, but is even more restrictive.
    
-## Path operations
+## Accessors
 
 `(path-parent `*path*`)`
 
@@ -138,16 +139,6 @@ Returns a path representing the parent directory of *path*, or *path* itself if 
 `(path-filename `*path*`)`
 
 Returns the filename of *path*, or the empty string if there are no components.
-
-`(path-join `*basepath path* ...`)`
-
-If a single *path* argument is given, `path-join` returns a path object representing the results of appending
-the components of the *path* elements to *basepath* in order.  However,
-if the *path* argument has a non-empty drive, *path* is returned.
-If the drive of *path* is empty, but the root is non-empty, *path* is appended to the drive of *basepath*.
-
-If two or more *path* arguments are given, `path-join` returns
-what `(path-join (path-join `*basepath* *path1*`)` *path* ...`)` returns.
 
 `(path-match `*path glob ci?*`)`
 
@@ -172,11 +163,6 @@ is returned.  Note that this function does not discriminate between filenames
 without a period and filenames ending in a period; the latter should be avoided
 anyway, as they are not distinct on Windows.
 
-`(path-with-filename `*path filename*`)`
-
-Returns a path object based on *path* with the filename (replaced by *filename* (a string).
-If the path does not contain a filename, an error satisfying `path-error?` is signaled.
-
 `(path-with-suffix `*path suffix*`)`
 
 Returns a path object based on *path* with the suffix of the filename (everything to the
@@ -189,10 +175,37 @@ Returns a path object based on *path* with the suffix of the filename (everythin
 right of the final period), plus the period itself, removed.
 If there is no period, the result is equal to *path*.
 
+## Path merging
+
+`(path-join `*basepath path* ...`)`
+
+If a single *path* argument is given, `path-join` returns a path object
+representing the results of appending
+the components of the *path* elements to *basepath* in order.  However,
+if the *path* argument has a non-empty drive, *path* is returned.
+If the drive of *path* is empty, but the root is non-empty,
+*path* is appended to the drive of *basepath*.
+
+If two or more *path* arguments are given, `path-join` returns
+what `(path-join (path-join `*basepath* *path1*`)` *path* ...`)` returns.
+
+`current-basepath`
+
+A SRFI 39 or R7RS parameter used to store a current basepath for use with `path-join`.
+Using this parameter provides the equivalent of a per-thread current directory.
+
+`(path-with-filename `*path filename*`)`
+
+Returns a path object based on *path* with the filename (replaced by *filename* (a string).
+If the path does not contain a filename, an error satisfying `path-error?` is signaled.
+
 `(path-normalize `*path*`)`
 
-Returns a path object which is the same as *path*, except that if any component other than the first is the string 
+Returns a path object which is the same as *path*,
+except that if any component other than the first is the string 
 `".."`, then that component and the preceding component are removed from the returned path object.
+
+## Error handling
 
 `(path-error? `*obj*`)`
 
