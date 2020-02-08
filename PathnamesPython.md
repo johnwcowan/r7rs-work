@@ -85,6 +85,12 @@ or simply return the empty string, or raise an error.
 Returns a Windows-style string pathname based on the contents of *path* using backslash as the separator.
 Slashes in the drive and root are converted to backslashes.
 
+`(pathname `*path*`)`
+
+Invokes `posix-pathname` or `windows-pathname` on *path*, depending on the operating system on
+which the implementation is running.  Examining the value of `(features)`
+provides that information in a portable way.
+
 `(path->file-uri `*path*`)`
 
 Returns a file URI corresponding to *path*.  If *path* is not absolute, an error is signaled.
