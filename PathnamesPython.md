@@ -7,26 +7,26 @@ all of which are strings.  The *filename* is the last component.
 
 ## Parsing
 
-`(parse-posix-path `*string*`)`
+`(parse-posix-pathname `*string*`)`
 
 Parses *string* as a Posix pathname and returns a corresponding path object, setting the components
 to the slash-separated substrings of *string*.  The drive and root are set according to the following examples:
 
 ```
 ;; Absolute path
-(parse-posix-path "/etc/passwd) => ("" "/" "etc" "passwd"
+(parse-posix-pathname "/etc/passwd) => ("" "/" "etc" "passwd"
 
 ;; Relative path
-(parse-posix-path "foo") => ("" "" "foo")
+(parse-posix-pathname "foo") => ("" "" "foo")
 
 ;; Implementation-defined path (used by Cygwin for UNC paths)
-(parse-posix-path "//foo/bar/baz") => ("//foo/bar" "/" "baz")
+(parse-posix-pathname "//foo/bar/baz") => ("//foo/bar" "/" "baz")
 ```
 Except for the case of two initial slashes, consecutive slashes are collapsed,
 and components consisting of a single period are removed.  However, components consisting of
 two periods are not removed, as this would produce the wrong result in the presence of symbolic links.
 
-`(parse-windows-path `*string*`)`
+`(parse-windows-pathname `*string*`)`
 
 Parses *string* as a Windows pathname and returns a corresponding path object,
 setting the components to the slash-separated or backslash-separated substrings of *string*.
@@ -34,19 +34,19 @@ The drive and root are set according to the following examples:
 
 ```
 ;; Absolute path
-(parse-windows-path "C:\\Windows) => ("c:" "/" "Windows")
+(parse-windows-pathname "C:\\Windows) => ("c:" "/" "Windows")
 
 ;; UNC path
-(parse-windows-path "\\\\host\\share\\dir\\file") => ("//host/share" "/" "dir" "file")
+(parse-windows-pathname "\\\\host\\share\\dir\\file") => ("//host/share" "/" "dir" "file")
 
 ;; Current-drive-relative path
-(make-windows-path "\\Windows\\System32\stop.exe") => ("" "/" "Windows" "System32" "stop.exe")
+(make-windows-pathname "\\Windows\\System32\stop.exe") => ("" "/" "Windows" "System32" "stop.exe")
 
 ;; Relative path
-(parse-windows-path "foo") => ("" "" "foo")
+(parse-windows-pathname "foo") => ("" "" "foo")
 
 ;; Relative-to-drive path
-(parse-windows-path "C:foo")) => ("C:" "" "foo")
+(parse-windows-pathname "C:foo")) => ("C:" "" "foo")
 ```
 
 The last format is meaningful because Windows maintains a separate current directory
@@ -67,7 +67,7 @@ namely `< > " : | ? *`, an error satisfying `path-error?` is signaled.
 
 ## Conversion
 
-`(path->posix-pathname `*path* [*drive-mapper*]`)`
+`(posix-pathname `*path* [*drive-mapper*]`)`
 
 Returns a Posix-style pathname based on the contents of *path* using slash as the separator.
 If the drive is not empty, it is passed through *drive-mapper*, a procedure
@@ -80,7 +80,7 @@ or to `"/mnt/c"` on Windows Subsystem for Linux,
 return its argument unchanged on Windows,
 or simply return the empty string, or raise an error.
 
-`(path->windows-pathname `*path*`)`
+`(windows-pathname `*path*`)`
 
 Returns a Windows-style string pathname based on the contents of *path* using backslash as the separator.
 Slashes in the drive and root are converted to backslashes.
