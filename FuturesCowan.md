@@ -14,6 +14,12 @@ futures are more modern in style and hopefully
 easier to use.  Each future is represented to other futures, including itself, by a
 unique *future object*, a member of a disjoint type.
 
+## Issues
+
+Some structured way to create a future-holder, execute a lambda passing the holder,
+allow futures to be created in the holder, and then when the lambda terminates, all
+the futures in the holder are waited for.
+
 ## Future states
 
 * A *running* future is one that is currently executing. There can be more than one future running in parallel on a multiprocessor machine.
