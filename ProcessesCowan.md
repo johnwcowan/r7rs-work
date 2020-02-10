@@ -3,14 +3,13 @@ It's based somewhat on the Python 3 subprocess module.
 
 ## Issues
 
-Issue 1: The question of assigning
-an external encoding, newline encoding, and encoding error convention
-for textual pipe ports remains open until [FilesAdvancedCowan](FilesAdvancedCowan.md)
-is a little more settled.
-
 Issue 3: It's not clear whether the control-terminal procedures
 `open-control-tty`, `terminal-process-group`, and `set-terminal-process-group`
 belong in this SRFI or in a terminal SRFI.
+
+Issue 4: some kind of structured process-runner that allows processes to be
+created, a body or lambda to be executed, and then waits for the processes to terminate.
+This is cleaner than randomly calling `make-process` and `process-wait`.
 
 ## Constructors
 
@@ -25,8 +24,13 @@ In the latter two cases, the caller should close the port after passing it.
 
 `(make-textual-pipe)`
 
-The same as `make-pipe`, except that the ports are textual.  The encoding is
-implementation-dependent.  Note that whether a pipe passed to a child
+The same as `make-pipe`, except that the ports are textual.
+The encoding is implementation-dependent.
+If a specific encoding is required, use `make-pipe` and then
+the operations of [Advanced I/O](FilesAdvancedCowan.md)
+to convert the binary ports to textual ports.
+
+Note that whether a pipe passed to a child
 process is binary or textual in the child is determined solely by the child.
 
 `(make-process `*setup cmd . args*`)`
@@ -43,17 +47,13 @@ an error satisfying `process-exception?` is signaled.
 Note: if more than one file descriptor is connected to a pipe,
 precautions must be taken to avoid deadlock.
 If the implementation does not make use of asynchronous I/O under the covers,
-then the use of SRFI 170 `select` to decide which pipe is ready
+then the use of `select` to decide which pipe is ready
 to be read or written is advisable.
 
-## The setup plist
+## The setup dictionary
 
-A plist is a list whose elements alternate between keys and values.
-Quasiquotation is a convenient way to construct a plist with fixed
-keys and variable values.
-The setup plist allows keys to be either symbols or exact integers.
-Here is an explanation of each standard key.  Keys not listed here are ignored,
-unless the implementation attributes a meaning to them.
+This dictionary (whose implementation is not yet defined)
+maps either symbols or exact integers to Scheme values.
 
 `stdin`  
 `stdout`  
@@ -136,8 +136,8 @@ process is created.  If the value is `#t`, `make-process` returns when the child
 `(pid->proc `*pid*`)`
 
 Creates a synthetic process object wrapping an arbitrary process id.
-Because the process is not necessarily a child of the curren process,
-s process object accessors may return `#f` unexpectedly
+Because the process is not necessarily a child of the current process,
+process object accessors may return `#f` unexpectedly
 or read from a file such as `/proc/<pid>/status`.
 It is always possible to send signals to a synthetic process object.
 
@@ -150,10 +150,9 @@ Returns `#t` if *obj* is a (synthetic) process object and `#f` otherwise.
 
 ## Process object accessors
 
-The following procedures extract values from
-the process object returned by `make-process`.
-If the answer is not yet known, calling these procedure triggers an attempt to find out,
-but in no case does the caller wait for any process to complete.
+The following procedures extract values from a process object.
+If the answer is not yet known, these procedures return `#f`
+rather than waiting for the process to complete.
 
 `(process-child-id `*process*`)`
 
