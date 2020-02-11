@@ -241,9 +241,7 @@ Environment: [SRFI 112](http://srfi.schemers.org/srfi-112/srfi-112.html) with [M
 
 Trees: [TreesCowan](TreesCowan.md)
 
-JSON, CSV, DSV: [DataFormatsCowan](DataFormatsCowan.md)
-
-INI files: [IniFiles](IniFiles.md)
+INI, CSV, DSV: [DataFormatsCowan](DataFormatsCowan.md), [IniFiles](IniFiles.md)
 
 JavaScript Objects: [JsoCowan](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/JsoCowan.html)
 
@@ -343,3 +341,34 @@ filesystem
 ring
 
 sxml->sxml
+
+# Unclassified
+
+[AgnosticSql](AgnosticSql.md)
+
+[CoreAsn1](CoreAsn1.md)
+
+[CoreSexps](CoreSexps.md)
+
+[Dictionaries](Dictionaries.md)
+
+[LSetExtensions](LSetExtensions.md)
+
+[MultipleLanguages](MultipleLanguages.md)
+
+[RandomUtilitiesMore](RandomUtilitiesMore.md)
+
+[SimpleSqlCowan](SimpleSqlCowan.md)
+
+[StringInterpolateCowan](StringInterpolateCowan.md)
+
+[StructuresCowan](StructuresCowan.md)
+
+[SubstituteCowan](SubstituteCowan.md)
+
+[SyslogCowan](SyslogCowan.md)
+
+[Tagbody](Tagbody.md)
+
+[TuplesCowan](TuplesCowan.md)
+
