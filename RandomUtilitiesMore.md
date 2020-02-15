@@ -12,20 +12,4 @@ u8vector/blob (same here - `u8vector<->string` and file) tree structures like WT
 
 ## Custom ports
 
-Scheme brings an ports/IO API with open-file, call-with-input-file , open-tcp-client etc. where the Scheme environment exports this functionality to the program this is great. it can include char encoding for instance. and object serialization of course.
-
-I've gotten into uses like HTTPS and GZIP and HTTP and really any protocol out there.
-
-My firm conclusion is that the absolutely finest, and possibly only really reliable way to implement these in Scheme (apart from as block procedures that take or deliver an u8vector/blob) is that they need to export *Scheme ports*.
-
-e.g., `(open-ssl-channel (open-tcp-client args))` => *ssl-channel-port*.
-
-The only major detail to be added to this is that there's a certain need of mixing binary and character data, as is done in HTTP for instance.
-
-I got into this need for "application layer" port implementations  that have specific exports more or less at per-IO primitive level, from trying to implement an SSL channel atop bidirectional u8vector port.
-
-That failed miserably as the SSL logics code would not be up to date about whether there was EOF or not etc.
-
-This might be too implementation specific for any standard to touch it, i'm very well aware of this.
-
-Though, ability to abstract protocols and IO is at the core of delivering practical things, which is the subject of the larger language as I got it.
+See R6RS or SRFI 181.
