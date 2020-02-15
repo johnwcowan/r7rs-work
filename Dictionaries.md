@@ -3,34 +3,37 @@
 The procedures of this SRFI allow
 the manipulation of an object that maps keys to values
 without the caller needing to know exactly how the object is implemented.
-Such an object is called a dictionary in this SRFI.
+Such an object is called a *dictionary* in this SRFI.
 
 ## Rationale
 
-Until recently there were only two standard mechanisms for managing
-key-value pairs: alists and hash tables, and hash tables do not have
-a standard interface.  Now, however, the number of such objects is
-growing.  We have SRFI 125 and SRFI 126 as well as R6RS hash tables,
-persistent ordered and hashed mappings from SRFI 146,
+Until recently there was only one fully standard mechanism for managing
+key-value pairs: alists.  Most Schemes also support hash tables, but
+until R6RS there was no standard interface to them, and many
+implementations do not provide that interface.
+
+Now, however, the number of such objects is
+growing.  In addition to hash tables, there are
+persistent ordered and hashed mappings from SRFI 146
 and ordered key-value stores (often on a disk or a remote machine)
 from SRFI 167.
 
-It's inconvenient for users if other SRFIs or libraries have to
-insist on accepting only one kind of dictionary.
-By using the procedures of this SRFI, a procedure can take a dictionary
-as an argument and manipulate it without knowing its type.
+It's inconvenient for users if SRFIs or other libraries have to
+insist on accepting only a specific type of dictionary.
+This SRFI exposes
+a number of accessors, mutators, and other procedures that can be
+called on any dictionary, provided that its type has been registered
+with an implementation of this SRFI.
+By using these procedures, a procedure can take a dictionary
+as an argument and make use of it without knowing its exact type.
 
 ## Specification
 
 In order for the system to know that an object is a dictionary,
 a predicate must be defined that recognizes that type of dictionary.
 Then the predicate must be registered along with procedures that know
-how to manipulate the dictionary.
-This SRFI exposes
-a number of accessors, mutators, and other procedures for dictionaries
-that can be called on any dictionary with a registered predicate,
-and directly or indirectly invokes the procedures associated with that
-predicate.
+how to manipulate the dictionary.  At least the five basic dictionary procedures
+(see below) must be registered, but more may be provided at registration time.
 
 We call a specific key-value pair an *association*.  This is
 why an alist, or association list, is called that; it is a list
@@ -40,21 +43,35 @@ When a key argument is said to be the same as some key of the dictionary,
 it means that they are the same in the sense of the dictionary's equality predicate.
 It is assumed that no dictionary contains two keys that are the same in this sense.
 
+Dictionaries are said in this SRFI to be *similar* if they are of the same
+type and have the same [SRFI 128](http://srfi.schemers.org/srfi-128/srfi-128.html)
+comparator.
+
+The basic procedure `dict-search` and the procedures in the mutation section
+are linear-update in the sense of SRFI 1.
+They return a dictionary which might either be newly allocated
+or the same dictionary that was passed to the procedure.
+Any previously existing references to the dictionary are no longer valid
+and should not be used.
+
+
+## Dictionary predicate
+
+`(dictionary? `*obj*`)`
+
+Returns `#t` if *obj* answers `#t` to some registered predicate,
+and `#f` otherwise.
+
 ## Basic dictionary procedures
 
-The following procedures provide basic operations on dictionaries.
-All other dictionary operations can be implemented on top of them,
+The procedures of this section provide basic operations on dictionaries.
+All other procedures in this SRFI can be implemented on top of them,
 so every dictionary type must implement them.
 
 This does not mean that calling one of these procedures always succeeds
 independently of the dictionary type.  It is still possible for a dictionary
 operation to fail by signaling an error, or for it simply to be an error
 to invoke it on that dictionary or dictionary type.
-
-`(dictionary? `*obj*`)`
-
-Answers `#t` if *obj* is a dictionary
-that answers `#t` to some registered predicate.
 
 `(dict-size `*dictionary*`)`
 
@@ -64,7 +81,8 @@ Returns an exact integer representing the number of associations in *dictionary*
 
 This procedure is a workhorse for dictionary lookup, insert, and delete.
 The dictionary *dictionary* is searched
-for an association whose key is the same as *key*.
+for an association whose key is the same as *key*
+in the sense of *dictionary*'s comparator.
 If one is not found, then the *failure* procedure is tail-called
 with two continuation arguments, *insert* and *ignore*,
 and is expected to tail-call one of them.
@@ -72,7 +90,7 @@ and is expected to tail-call one of them.
 However, if such an association is found,
 then the *success* procedure is tail-called
 with the matching key of *dictionary*, the associated value,
-and two continuations, *update* and *remove*,
+and two continuation arguments, *update* and *remove*,
 and is expected to tail-call one of them.
 
 It is an error if the continuation arguments are invoked other than
@@ -103,8 +121,9 @@ except for the association with key key.
 
 `(dict-map `*proc dictionary*`)`
 
-Returns a dictionary which maps the keys of *dictionary* to the values that result
-from invoking *proc* on the corresponding keys and values of dictionary.
+Returns a dictionary similar to *dictionary* that maps each key of *dictionary*
+to the value that results
+from invoking *proc* on the corresponding key and value of *dictionary*.
 
 `(dict-filter `*pred dictionary*`)`  
 
@@ -116,11 +135,6 @@ that satisfy *pred* when it is invoked on the key and value of the association.
 Invokes *proc* on each key of *dictionary* and its corresponding value in that order.
 This procedure is used for doing operations on the whole dictionary.
 Returns an unspecified value.
-
-## Convenience dictionary procedures
-
-These procedures can be built on top of the basic procedures
-and provide many useful further abilities.  
 
 ## Predicates
 
@@ -149,12 +163,6 @@ If *key* is the same as some key of *dictionary*, then returns the corresponding
 If not, then returns *default*.
 
 ## Mutation
-
-All these procedures as well as `dict-search` are in effect linear-update:
-they return a dictionary which might either be newly allocated
-or the same dictionary that was passed to the procedure.
-Any previously existing references to the dictionary are not valid
-and should not be used.
 
 `(dict-set `*dictionary obj* ...`)`
 
@@ -293,9 +301,9 @@ Registers *pred* and provides procedures that allow
 manipulation of dictionaries that satisfy *pred*.
 The *dictionary* argument
 maps the names of the procedures of this SRFI
-to suitable type-specific procedures.  The procedures
+to suitable type-specific procedures.  Entries in *dictionary* for
 `dict-size`, `dict-search`, `dict-map`, `dict-filter`, and `dict-for-each` are required.
-The others are optional, but are typically more efficient than the versions provided by
+The others are optional, but if provided may be more efficient than the versions provided by
 the implementation of this SRFI.
 
 To break the recursion whereby a new type is registered using a
