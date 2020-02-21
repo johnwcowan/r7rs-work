@@ -10,6 +10,10 @@ returns proc that unpacks a bytevector into an object.
 
 # Schema
 
+(fill size)
+
+returns nothing, just skips bytes
+
 (array size descriptor)
 
 returns vector
