@@ -70,8 +70,6 @@ Custom macro transformers: [SRFI 147](http://srfi.schemers.org/srfi-147/srfi-147
 
 Syntax parameters: [SRFI 139](http://srfi.schemers.org/srfi-139/srfi-139.html)
 
-Custom macro transformers: [SRFI 147](http://srfi.schemers.org/srfi-147/srfi-147.html)
-
 Syntax-rules extensions: [SRFI 149](http://srfi.schemers.org/srfi-149/srfi-149.html)
 
 **Portable**
@@ -158,7 +156,7 @@ Maybe/Either: [MaybeEither](MaybeEither.md)
 
 Restarts:  [RestartsCowan](RestartsCowan.md)
 
-Timespecs:  [TimespecsCowan](TimespecsCowan.md)
+Timespecs:  [SRFI 174](http://srfi.schemers.org/srfi-174/srfi-174.html)
 
 Conditions: [ConditionsCowan](ConditionsCowan.md)
 
