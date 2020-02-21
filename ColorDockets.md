@@ -1,4 +1,4 @@
-For other dockets see [WG2Dockets](WG2Dockets.md).
+rFor other dockets see [WG2Dockets](WG2Dockets.md).
 
 # Red Docket (data structures)
 
@@ -31,20 +31,16 @@ Integer sets:  [IntegerSetsCowan](https://htmlpreview.github.io/?https://bitbuck
 
 Ranges:  [RangesCowan](RangesCowan.md)
 
-Bit and boolean vectors: [BvectorsCowan](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/BvectorsCowan.html)
+Bit and boolean vectors: [SRFI 178](http://srfi.schemers.org/srfi-178/srfi-178.html)
 
 Bytestrings: [BytestringsCowan](BytestringsCowan.md)
 
 Multidimensional arrays: [SRFI 122](http://srfi.schemers.org/srfi-122/srfi-122.html) 
 or [SRFI 164](http://srfi.schemers.org/srfi-164/srfi-164.html)
 
-**Enumerations**
+**Other**
 
 Enumerations: [EnumsCowan](EnumsCowan.md)
-
-Enumeration maps: [EnumMappingsCowan](EnumMappingsCowan.md)
-
-**Other**
 
 Number to string with Unicode: [NumberStringUnicode](NumberStringUnicode.md)
 
@@ -129,11 +125,20 @@ or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/
 
 `Record-let`: [#45](https://small.r7rs.org/ticket/45/)
 
+`let-list`, `let-vector`: [RandomUtilsMore](RandomUtilsMore.md)
+
 `if*` with arbitrarily many arguments: [Daphne Preston-Kendal's rationale](http://dpk.io/r7rs/naryif-20130406)
 
 Lexical macros: [LexmacsCowan](LexmacsCowan.md)
 
-# Lime Docket (portable including early requirements)
+# Lime Docket (portable)
+
+Strings: [SRFI 152](https://srfi.schemers.org/srfi-152/srfi-1525.html) (index-based),
+[SRFI 130](https://srfi.schemers.org/srfi-130/srfi-130.html) (cursor-based)
+
+Enumeration maps: [EnumMappingsCowan](EnumMappingsCowan.md)
+
+ASCII character library: [SRFI 175](https://srfi.schemers.org/srfi-175/srfi-175.html)
 
 S-expressions for SQL: [AgnosticSql](AgnosticSql.md)
 
@@ -192,9 +197,9 @@ Interfaces: [InterfacesCowan](InterfacesCowan.md)
 
 Process control: [ProcessesCowan](ProcessesCowan.md)
 
-System commands: [SystemCommandCowan](SystemCommandCowan.md)
-
 Pure delay/force: [PureDelayedGloria](PureDelayedGloria.md)
+
+# Olive Docket (non-portable)
 
 Delimited continuations: [Racket](https://docs.racket-lang.org/reference/cont.html),
 [Guile](https://www.gnu.org/software/guile/manual/html_node/Prompt-Primitives.html),
@@ -223,8 +228,6 @@ Character-cell terminals: [TerminalsCowan](TerminalsCowan.md)
 Graphics canvas: [GraphicsCanvas](GraphicsCanvas.md)
 
 Multiple-language support: [MultipleLanguages](MultipleLanguages.md)
-
-Miscellaneous from Mikael More: [RandomUtilitiesMore](RandomUtilitiesMore.md)
 
 Simple SQL database interface: [SimpleSqlCowan](SimpleSqlCowan.md)
 
