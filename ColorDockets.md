@@ -131,6 +131,8 @@ Lexical macros: [LexmacsCowan](LexmacsCowan.md)
 
 # Lime Docket (portable)
 
+List mutation: [ListSurgeryCowan](ListSurgeryCowan.md)
+
 Strings: [SRFI 152](https://srfi.schemers.org/srfi-152/srfi-1525.html) (index-based),
 [SRFI 130](https://srfi.schemers.org/srfi-130/srfi-130.html) (cursor-based)
 
