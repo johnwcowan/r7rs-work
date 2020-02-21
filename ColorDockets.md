@@ -1,4 +1,4 @@
-rFor other dockets see [WG2Dockets](WG2Dockets.md).
+For other dockets see [WG2Dockets](WG2Dockets.md).
 
 # Red Docket (data structures)
 
