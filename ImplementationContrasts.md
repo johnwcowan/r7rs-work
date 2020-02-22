@@ -76,6 +76,7 @@ Not all these pages have information on all these Schemes.
 * [QuoteDelimiter](QuoteDelimiter.md)
 * [ReadLine](ReadLine.md)
 * [ReadMutable](ReadMutable.md)
+* [Readtables](Readtables.md)
 * [RedefiningKeywords](RedefiningKeywords.md)
 * [RedefiningSyntax](RedefiningSyntax.md)
 * [RedundantImports](RedundantImports.md)
