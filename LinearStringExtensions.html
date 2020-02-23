@@ -135,8 +135,8 @@ except that the characters between
 <var>dst-start</var> and <var>dst-end</var> have been replaced
 with the characters of the string
 <var>src</var> between <var>src-start</var> and <var>src-end</var>.
-The result can either be <var>string</var> itself or a newly allocated string.
-In either case, any references to <var>string</var>
+The result can either be <var>dst</var> itself or a newly allocated string.
+In either case, any references to <var>dst</var>
 other than the result of this procedure
 must be treated as "dead" and never referred to again.
 This must be so, since you can't rely on the value passed to a
@@ -175,11 +175,41 @@ implementations.
 </blockquote>
 
 <h1>Implementation</h1>
-<p>A portable implementation that always returns a new string
-is (not yet) in the repository of this SRFI.  It should not be
+<p>Here is a portable implementation that always returns a new string.
+It should not be
 used on systems that provide native variable-size strings.
-</p><p>
-A native implementation is trivial, assuming there is some indirection
+It depends on having
+<a href="http://srfi.schemers.org/srfi-13/srfi-13.html">SRFI 13</a>,
+<a href="http://srfi.schemers.org/srfi-130/srfi-130.html">SRFI 130</a>,
+or <a href="http://srfi.schemers.org/srfi-152/srfi-152.html">SRFI 152</a>.
+Alternatively, implementers can copy the definition of <code>string-replace</code>
+out of any of the sample implementations of those SRFIs.
+</p>
+<pre>
+(define (string-linear-append! . strings)
+  (apply string-append strings))
+  
+(define string-linear-replace!
+  (case-lambda
+    ((dst dst-start dst-end src)
+     (string-replace dst src dst-start dst-end 0 (string-length src)))
+    ((dst dst-start dst-end src src-start)
+     (string-replace dst src dst-start dst-end src-start (string-length src)))
+    ((dst dst-start dst-end src src-start src-end)
+     (string-replace dst src dst-start dst-end src-start src-end))))
+</pre>
+
+<p>If SRFI 118 or SRFI 140 is available, the implementation is even more trivial:
+</p>
+
+<pre>
+(define string-linear-append! string-append!)
+
+(define string-linear-replace! string-replace!)
+</pre>
+
+<p>
+A native implementation is easy, assuming there is some indirection
 between the string object header and the actual stored characters.
 (This is not true in all implementations, Chicken for example.)
 Whenever the character buffer is full, it needs to be replaced with
