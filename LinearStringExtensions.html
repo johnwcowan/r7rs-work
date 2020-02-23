@@ -186,8 +186,7 @@ Alternatively, implementers can copy the definition of <code>string-replace</cod
 out of any of the sample implementations of those SRFIs.
 </p>
 <pre>
-(define (string-linear-append! . strings)
-  (apply string-append strings))
+(define string-linear-append! string-append)
   
 (define string-linear-replace!
   (case-lambda
