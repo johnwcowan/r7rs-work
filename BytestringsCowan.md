@@ -41,12 +41,14 @@ string) is provided, those two characters will be used as the
 `(list->bytestring `*list*`)`
 
 Convert a list into a bytevector.
-It is an error if its elements are not suitable arguments for `bytestring`.
+If the elements of the are not suitable arguments for `bytestring`,
+an error satisfying `bytestring-error?` is signaled.
 
 `(bytestring->list `*bytevector*`)`
 
 Convert a bytevector into a list containing suitable arguments for `bytestring`.
-If `bytestring` is applied to the elements of the list, the resulting bytevector will be byte for byte the same
+If `list->bytestring` is applied to the list,
+the resulting bytevector will be byte for byte the same
 as *bytevector*, but the exact contents of
 the list are not specified by this SRFI.
 
