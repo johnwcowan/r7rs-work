@@ -3,7 +3,7 @@
 Many procedures in many libraries accept arguments from a finite set (usually a fairly small one),
 or subsets of a finite set to describe one or more modes of operation.
 Offering a mechanism for dealing with such values fosters portable and readable code,
-much as records do for compound values, or multiple values for procedures computing several values.
+much as records do for compound values, or multiple values for procedures computing several results.
 
 In Lisp-family languages, it is traditional to use symbols and lists of symbols for this purpose.
 Symbols have at least two disadvantages:
@@ -87,22 +87,22 @@ The following convenience procedures provide enum-finding followed by access to 
 
 `(enum-name->ordinal `*enum-set symbol*`)`
 
-Return the ordinal of the enum which belongs to *enum-type* and whose name is *symbol*.
+Return the ordinal of the enum belonging to *enum-type* whose name is *symbol*.
 It is an error if there is no such enum.
 
 `(enum-name->value`*enum-set symbol*`)`
 
-Return the value of the enum which belongs to *enum-type* and whose name is *symbol*.
+Return the value of the enum belonging to *enum-type* whose name is *symbol*.
 It is an error if there is no such enum.
 
 `(enum-ordinal->name `*enum-set exact-integer*`)`
 
-Return the name of the enum which belongs to *enum-type* and whose ordinal is *exact-integer*.
+Return the name of the enum belonging to *enum-type* whose ordinal is *exact-integer*.
 It is an error if there is no such enum.
 
 `(enum-ordinal->value `*enum-set exact-integer*`)`
 
-Return the value of the enum which belongs to *enum-type* and whose ordinal is *exact-integer*.
+Return the value of the enum belonging to *enum-type*  whose ordinal is *exact-integer*.
 It is an error if there is no such enum.
 
 ### Enumeration types
@@ -229,29 +229,30 @@ enum sets do not belong to the same type.
 
 ### Enum set mutators
 
+These procedures are linear-update:
+that is, they may or may not modify their *enum-set* argument,
+and any existing references to it are invalidated.
+
 `(enum-set-adjoin! `*enum-set enum* ...`)`
 
 Returns an enum-set that contains the members of
 *enum-set* and the *enums*.  It is an error if
 the members of the result do not all belong to the same
-enum type.  The value of *enum-set* may or may not be
-altered in the process.
+enum type.
 
 `(enum-set-delete! `*enum-set enum* ...`)`
 
 Returns an enum-set that contains the members of
 *enum-set* excluding the *enums*.  It is an error if
 the members of the result do not all belong to the same
-enum type.  The value of *enum-set* may or may not be
-altered in the process.
+enum type.
 
 `(enum-set-delete-all! `*enum-set list* ...`)`
 
 Returns an enum-set that contains the members of
 *enum-set* excluding the members of *list*.  It is an error if
 the members of the result do not all belong to the same
-enum type.  The value of *enum-set* may or may not be
-altered in the process.
+enum type.
 
 ### Enum set operations
 
