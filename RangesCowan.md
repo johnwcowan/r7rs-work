@@ -74,7 +74,7 @@ Shorthand for `(range-ref `*range* `0)`
 
 `(range-end `*range*`)`
 
-Shorthand for `(range-ref `*range* `(range-length `*range*`))`
+Shorthand for `(range-ref `*range* `(- (range-length `*range*`) 1))`
 
 
 ## Iteration
@@ -84,7 +84,7 @@ Shorthand for `(range-ref `*range* `(range-length `*range*`))`
 Returns two values which are ranges.  The first value
 contains all elements of *range* from the zeroth element
 to the indexth element exclusive.  The second value contains
-all elements of *range* from the indexth element inclusive
+all elements of *range* from the *index*th element inclusive
 to the last element.
 
 `(range-take `*range count*`)`
@@ -198,11 +198,4 @@ Returns a list containing the elements of *range* in order.
 
 Returns a SRFI 158 generator that generates the elements of *range* in order.
 
-`(range-consolidate `*range-list*`)`
-
-Consolidates a list of ranges into as few ranges as possible.
-It is an error if any of the ranges have different comparators.
-Consecutive and overlapping ranges are merged, and all the resulting
-ranges are sorted into increasing order in the sense of the
-shared comparator.
 
