@@ -78,7 +78,7 @@ returns what *pred* returns.
 
 If *obj* is a compound object, *accessor* is applied to
 the first subobject that satisfies *pred* and the result is returned;
-if there is no such subobject, returns *default*.
+if there is no such subobject, *default* is returned.
 
 If *obj* is not a compound object, then if the object satisfies *pred*,
 it applies *accessor* to *obj* and returns what it returns,
@@ -87,8 +87,8 @@ but if *obj* does not satisfy *pred*, *default* is returned.
 `(compound-type-properties `*sym obj*`)`
 
 If *obj* is a compound object, then if it contains a subobject
-satisfying `compound-type-object?` whose car is *sym*, then it
+satisfying `compound-type?` whose car is *sym*, then it
 returns the cdr of the first such type object; otherwise it returns `#f`.
 
-If *obj* is not a compound object, then if it satisfies `compound-type-object?`
+If *obj* is not a compound object, then if it satisfies `compound-type?`
 and its car is *sym*, then it returns the cdr of *obj*; otherwise it returns `#f`.
