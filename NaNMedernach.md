@@ -11,6 +11,7 @@ value of *payload* is used to set the low-order 52 bits.
 It is an error if *payload* is zero.
 In particular, the sign bit of the NaN is set from the sign of `payload`.
 The quiet/signaling bit, however, is set from *signaling?*, which if omitted is false.
+
 If the implementation's inexact real numbers have a different format, the arguments are
 used in an implementation-dependent way.
 If the implementation does not support NaNs, it is an error.
