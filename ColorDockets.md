@@ -271,7 +271,9 @@ Environment: [SRFI 112](http://srfi.schemers.org/srfi-112/srfi-112.html) with [M
 
 Trees: [TreesCowan](TreesCowan.md)
 
-INI, CSV, DSV: [DataFormatsCowan](DataFormatsCowan.md), [IniFiles](IniFiles.md)
+CSV, DSV: [DataFormatsCowan](DataFormatsCowan.md)
+
+INI files: [IniFilesCowan](IniFilesCowan.md)
 
 Unicode string normalization: [StringNormalizationCowan](StringNormalizationCowan.md)
 
