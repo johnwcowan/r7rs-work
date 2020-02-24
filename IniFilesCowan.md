@@ -11,10 +11,11 @@ this SRFI requires support for at least the following:
      Sections do not nest.  The name of a section is the characters between the brackets.
      
   *  Other lines containing `=` are treated as key-value pairs within the current section or, if
-     they precede any section line, as key-value pairs belonging to an unnamed section.
+     they precede any section line, as key-value pairs belonging to a section
+     whose name is the empty string.
      Whitespace immediately before or after the `=` is ignored.
      
-  *  Otherwise unrecognizable lines are treated as keys whose value is the empty string.
+  *  Any other lines are treated as keys whose value is the empty string.
   
 `(make-ini-file-generator `*inport*`)`
 
@@ -27,6 +28,6 @@ the generator returns an end of file object.
 
 Returns an accumulator that writes to outport.  If the argument passed to the accumulator
 is a list of three strings, a key-value line, preceded if necessary by a section line,
-is written.  If the argument is a single string, it is prefixed by `"# "` and written out.
+is written.  If the argument is a single string, it is prefixed by `"; "` and written out.
 In either case, the accumulator returns an unspecified value.
 If the argument is an end of file object, *outport* is closed and the end of file object returned.
