@@ -76,7 +76,11 @@ Syntax-rules extensions: [SRFI 149](http://srfi.schemers.org/srfi-149/srfi-149.h
 
 `cond` guards: [SRFI 61](http://srfi.schemers.org/srfi-61/srfi-61.html)
 
-Generalized `set!`: [SRFI 17](http://srfi.schemers.org/srfi-17/srfi-17.html), possibly plus [Srfi17ExtensionsCowan](Srfi17ExtensionsCowan.md)
+Generalized `set!`: [SRFI 17](http://srfi.schemers.org/srfi-17/srfi-17.html) or
+[`identifier-syntax`](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_796)
+
+
+Modify macros: [Srfi17ExtensionsCowan](Srfi17ExtensionsCowan.md)
 
 `receive`: [SRFI 8](http://srfi.schemers.org/srfi-8/srfi-8.html)
 
