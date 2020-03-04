@@ -4,7 +4,7 @@ This SRFI describes *futures* as the basic unit of Scheme concurrency (as
 opposed to parallelism, for which see [ParallelPromisesCowan](ParallelPromisesCowan.md)).
 
 Futures are analogous to [SRFI 18](http://srfi.schemers.org/srfi-18/srfi-18.html) threads,
-and can easily be built either using SRFI 18 threads directly.
+and can easily be built using SRFI 18 threads directly.
 However, it is also possible to have multiple futures
 sharing the same thread in a thread pool, and this choice
 depends on how heavyweight SRFI 18 threads are
@@ -22,7 +22,8 @@ the futures in the holder are waited for.
 
 ## Future states
 
-* A *running* future is one that is currently executing. There can be more than one future running in parallel on a multiprocessor machine.
+* A *running* future is one that is currently executing.
+  There can be more than one future running in parallel on a multiprocessor machine.
 
 * A *runnable* future is one that is ready to execute or running.
 
@@ -30,7 +31,8 @@ the futures in the holder are waited for.
 
 * A *new* future is one that has not yet become runnable.
 
-* A *terminated* future is one that can no longer become runnable (but *deadlocked* futures are not considered terminated).
+* A *terminated* future is one that can no longer become runnable
+  (but *deadlocked* futures are not considered terminated).
 
 The only valid transitions between future states are from new to runnable,
 between runnable and blocked, and from any state to terminated:
@@ -445,7 +447,7 @@ The second slot contains a lookup table
 into their current values.  Because only the current thread has access to this table,
 no locking is required.
 
-Unfortunately, because the primordial future's "specific" field is not initialized,
+Unfortunately, because the primordial future's "specific" field is not reliably initialized,
 these mechanisms are not available to it.
 
 The `future-quantum` and `future-quantum-set!` procedures are just `thread-quantum`
