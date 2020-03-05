@@ -311,96 +311,6 @@ sequence, and is useful for sequencing.
 Returns `#t` if *obj* is an object raised when a future times out,
 and `#f` otherwise.
 
-## Prioritized futures 
-
-Prioritized futures are a feature of this SRFI that specific
-Scheme implementations may or may not provide.  Unlike the general
-explanation of fairness above, this feature provides a specific concept of fairness.
-It's built on top of
-[SRFI 21](http://srfi.schemers.org/srfi-21/srfi-21.html),
-which is a superset of SRFI 18.
-
-The fairness specified by this feature requires
-a notion of time ordering, i.e.
-"event A occurred before event B".
-For the purpose of establishing time ordering,
-the system may use a clock with a discrete,
-possibly variable, resolution (a *tick*).
-Events occuring in a given tick
-can be considered to be simultaneous
-(i.e. if event A occurred before event B in real time,
-then the system can claim that
-event A occurred before event B
-or, if the events fall within the same tick,
-that they occurred at the same time).
-
-Each future has three priorities which affect fairness;
-the *base priority*, the *boosted priority*,
-and the *effective priority*.
-
-The base priority is the value contained in the base priority field
-(which is set with the `future-base-priority-set!` procedure).
-A future's boosted flag field contains a boolean
-that affects its boosted priority.
-When the boosted flag field is false, the boosted priority is equal
-to the base priority, otherwise the boosted priority is equal
-to the base priority plus the value contained
-in the future's priority boost field.
-(which is set with the `future-priority-boost-set!` procedure).
-
-The boosted flag field is set to false
-when a future is created, when its quantum expires,
-and when `future-yield!` is called.
-The boosted flag field is set to true when a future blocks.
-By carefully choosing the base priority and priority boost
-it is possible to set up an interactive future
-so that it has good I/O response time without
-being a CPU hog when it performs long computations.
-
-The effective priority of a future F
-is equal to the maximum of F's boosted priority
-and the effective priority of all the futures
-that are blocked by F.
-This *priority inheritance* avoids
-priority inversion problems that would prevent
-a blocked high-priority future blocked
-at the entry of a critical section to progress
-because a low priority future
-inside the critical section is preempted
-for an arbitrary long time by a medium priority future.
-
-Futures blocked on a given mutex or condition variable
-will unblock in an order which is consistent
-with decreasing priority and increasing blocking time
-(i.e. the highest priority future unblocks first,
-and among equal priority future the one that blocked
-first unblocks first).
-
-## Prioritized-future procedures
-
-These procedures may be called on the primordial object.
-They have no effect when called on promises.
-
-`(future-base-priority `*future*`)` 
-
-Returns a real number which corresponds to the base priority of *future*.
-
-`(future-base-priority-set! `*future priority*`)`
-
-Changes the base priority of *future* to *priority*. 
-It is an error if the priority is not a real number. 
-Returns an unspecified value.
-
-`(future-priority-boost `*future*`)`
-
-Returns a real number which corresponds to the priority boost of *future*.
-
-`(future-priority-boost-set! `*future priority-boost*`)`
-
-Changes the priority boost of *future* to *priority-boost*.
-It is an error if *priority-boost* is not a non-negative real number.
-Returns an unspecified value.
-
 ## Implementation
 
 This is a high-level description of how to implement this SRFI on top of SRFI 18 or SRFI 21
@@ -449,13 +359,6 @@ no locking is required.
 
 Unfortunately, because the primordial future's "specific" field is not reliably initialized,
 these mechanisms are not available to it.
-
-The `future-quantum` and `future-quantum-set!` procedures are just `thread-quantum`
-and `thread-quantum-set!` from SRFI 21.  They are made mandatory in this SRFI
-because the trivial fallbacks of returning 0 (an impossible quantum value)
-and doing nothing, respectively, can be implemented in
-systems that don't support SRFI 21.  In any case, they have
-nothing to do with prioritized threads.
 
 The `future-timeout-exception?` procedure is just `join-timeout-exception?`.
 
