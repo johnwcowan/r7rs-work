@@ -166,7 +166,7 @@ The value is the same whether or not `current-future` is being invoked from with
 Returns `#t` if *obj* is a future object (including the primordial
 object) or a promise, otherwise returns `#f`.
 
-`(future `*proc arg* ...`)`
+`(make-future `*proc arg* ...`)`
 
 Creates a new future, initializes it, starts it, and returns the
 corresponding future object. The execution consists of applying
@@ -185,6 +185,11 @@ along with an indication of abnormal termination, abandon
 any communication resources the future has acquired, and terminate.
 
 The `dynamic-wind` stack of the new future is empty.
+
+`(future `*expr*`)`  [syntax]
+
+Equivalent to `(make-future (lambda () `*expr*`))`, but can be optimized
+by a compiler.
 
 `(future-yield!)`
 
