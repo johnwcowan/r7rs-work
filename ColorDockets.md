@@ -178,9 +178,8 @@ Levenshtein distance: [LevenshteinDistanceGauche](https://practical-scheme.net/g
 
 Advanced I/O: [FilesAdvancedCowan](FilesAdvancedCowan.md)
 
-Threads: [SRFI 18](http://srfi.schemers.org/srfi-18/srfi-18.html) plus optional
-[SRFI 21](http://srfi.schemers.org/srfi-21/srfi-21.html)
-or [FuturesCowan](FuturesCowan.md) (simplified with monad)
+Threads: [SRFI 18](http://srfi.schemers.org/srfi-18/srfi-18.html)
+or [FuturesCowan](FuturesCowan.md) (just futures, thread-local variables, monad support)
 
 Sockets: [SRFI 106](http://srfi.schemers.org/srfi-106/srfi-106.html) or
 [NetworkPortsCowan](NetworkPortsCowan.md) with [NetworkEndpointsCowan](NetworkEndpointsCowan.md)
