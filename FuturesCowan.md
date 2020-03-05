@@ -267,23 +267,6 @@ the current future should take steps to abandon its execution either by
 returning normally or by raising a condition.  It is an error for the
 main program to call this procedure.
 
-`(future-quantum `*future*`)`
-
-Returns a real number which corresponds to the quantum of *future*
-in jiffies.  If the value returned is zero, the future cannot report its quantum.
-
-`(future-quantum-set! `*future quantum*`)`
-
-Changes the quantum of *future* to *quantum*.
-It is an error if *quantum* is not a non-negative real number.
-A value of zero selects the smallest quantum supported by the implementation.
-If the implementation doesn't support changing the quantum,
-this procedure has no effect.
-Returns an unspecified value.
-
-If *future* cannot set its quantum, this procedure has no effect, since the correctness
-of a future does not depend on the length of its quantum.
-
 `(future-map `*proc future*`)`
 
 Returns a future that behaves as follows: when waited for, it first waits
