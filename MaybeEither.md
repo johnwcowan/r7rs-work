@@ -68,11 +68,11 @@ The following names are used for the arguments:
 
 *either*: An Either object.
 
-*failure*: A procedure that accepts zero arguments.
+*failure*: A procedure that accepts zero arguments (unless specified otherwise).
 
 *success*: A procedure that accepts one argument.
 
-*pred*: A predicate that accepts a single argument.
+*pred*: A predicate that accepts one argument.
 
 *equal*: An equivalence predicate that accepts two arguments.
 
