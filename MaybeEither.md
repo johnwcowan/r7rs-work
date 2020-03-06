@@ -350,40 +350,40 @@ It is an error if any argument is not a Maybe.
 
 Unlike `and` and `or`, these procedures must evaluate all their
 arguments in order to provide correct SQL-style semantics.
-For example, `(and (just #f) (nothing))` will
+For example, `(and #f (nothing))` will
 return `#f` immediately without evaluating its second argument,
 but `(tri-and (just #f) (nothing))` will return Nothing.
 
-`(tri-not `*obj*`)`
+`(tri-not `*maybe*`)`
 
-Returns Just `#t` if *obj* is false, Just `#f` if *obj* is true, and Nothing
-if *obj* is Nothing.
+Returns Just `#t` if *maybe* is false, Just `#f` if *maybe* is true, and Nothing
+if *maybe* is Nothing.
 
-`(tri=? `*obj1 obj2* ...`)`
+`(tri=? `*maybe1 maybe2* ...`)`
 
-Similar to `boolean=?`, returning Just `#t` if all the *objs* are true
-or if all are false.  Otherwise, if any *obj* is Nothing or any two *objs*
+Similar to `boolean=?`, returning Just `#t` if all the *maybes* are true
+or if all are false.  Otherwise, if any *maybe* is Nothing or any two *maybes*
 have different (trivalent) truth values, returns Just `#f`.
 
-`(tri-and `*obj* ...`)`
+`(tri-and `*maybe* ...`)`
 
-If all *objs* are true, Just `#t` is returned.
-If any *obj* is false or Nothing, then
-the first such *obj* is returned.
+If all *maybes* are true, Just `#t` is returned.
+If any *maybe* is false or Nothing, then
+the first such *maybe* is returned.
 If there are no arguments, Just `#t` is returned.
 
-`(tri-or `*obj* ...`)`
+`(tri-or `*maybe* ...`)`
 
-If all *objs* are false, Just `#f` is returned.
-If any *obj* is true or Nothing, then
-the first such *obj* is returned.
+If all *maybes* are false, Just `#f` is returned.
+If any *maybe* is true or Nothing, then
+the first such *maybe* is returned.
 If there are no arguments, Just `#f` is returned.
 
-`(tri-merge `*obj* ...`)`
+`(tri-merge `*maybe* ...`)`
 
-If any *objs* are true or false,
-then the first such *obj* is returned.
-If all *objs* are Nothing, then
+If any *maybes* are true or false,
+then the first such *maybe* is returned.
+If all *maybes* are Nothing, then
 Nothing is returned.
 If there are no arguments, Nothing is returned.
 
