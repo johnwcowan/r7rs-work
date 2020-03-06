@@ -1,3 +1,9 @@
+## Title
+
+## Authors
+
+John Cowan (SRFI), Wolfgang Corcoran-Mathe (sample implementation)
+
 ## Abstract
 
 This SRFI defines two disjoint immutable container types
@@ -342,34 +348,34 @@ It is an error if any argument is not a Maybe.
 
 Unlike `and` and `or`, these procedures must evaluate all their
 arguments in order to provide correct SQL-style semantics.
-For example, `(and #f (nothing))` will
+For example, `(and (just #f) (nothing))` will
 return `#f` immediately without evaluating its second argument,
-but `(tri-conjunction #f (nothing))` will return Nothing.
+but `(tri-and (just #f) (nothing))` will return Nothing.
 
 `(tri-not `*obj*`)`
 
-Returns `#t` if *obj* is false, `#f` if *obj* is true, and Nothing
+Returns Just `#t` if *obj* is false, Just `#f` if *obj* is true, and Nothing
 if *obj* is Nothing.
 
 `(tri=? `*obj1 obj2* ...`)`
 
-Similar to `boolean=?`, returning `#t` if all the *objs* are true
+Similar to `boolean=?`, returning Just `#t` if all the *objs* are true
 or if all are false.  Otherwise, if any *obj* is Nothing or any two *objs*
-have different (trivalent) truth values, returns `#f`.
+have different (trivalent) truth values, returns Just `#f`.
 
 `(tri-and `*obj* ...`)`
 
-If all *objs* are true, `#t` is returned.
+If all *objs* are true, Just `#t` is returned.
 If any *obj* is false or Nothing, then
 the first such *obj* is returned.
-If there are no arguments, `#t` is returned.
+If there are no arguments, Just `#t` is returned.
 
 `(tri-or `*obj* ...`)`
 
-If all *objs* are false, `#f` is returned.
+If all *objs* are false, Just `#f` is returned.
 If any *obj* is true or Nothing, then
 the first such *obj* is returned.
-If there are no arguments, `#f` is returned.
+If there are no arguments, Just `#f` is returned.
 
 `(tri-merge `*obj* ...`)`
 
