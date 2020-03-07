@@ -165,12 +165,20 @@ then write a newline to *port* (as if by `newline`).
 
 Write each *obj* to the port (as if by `display`)
 that is the value of `(current-output-port)`
-separated by single spaces and followed by a newline.
+followed by a newline.
 
 `(debug-print `*obj* ...`)`
 
-Write each *obj* to the port (as if by `display`)
+Write each *obj* to the port
 that is the value of `(current-error-port)`
 separated by single spaces and followed by a newline.
+If *obj* is a boolean, character, empty list, symbol, string, or
+exact integer, it must be printed as if by `display`.
+In all other cases, a more terse representation may be used:
+for example, printing pairs as `(...)` and vectors as `#(...)`.
+
+Implementations should attempt to produce the output as quickly
+as possible, flushing any buffers and (if useful) shutting
+down thread scheduling and using ordinary blocking I/O.
 
 
