@@ -135,6 +135,27 @@ so a future's quantum
 should only be viewed as an approximation of the time it can run
 before yielding to another future.
 
+## Futures and parameters
+
+The following requirement is copied from R7RS-small,
+and applies to any implementation that supports both R7RS-small and this SRFI:
+
+> If an implementation supports multiple threads of execution,
+> then `parameterize` must not change the associated
+> values of any parameters in any thread other than the current thread
+> and threads created inside its body.
+
+However, if a provision is made for *mutating* as opposed to binding a
+parameter, then the mutation may be visible only in the current thread
+(as in Racket) or in all threads (as in Gambit).  Because of this
+inconsistency, no means of mutation is specified in R7RS-small.
+
+The traditional means is to pass a single argument to the procedure.
+This argument is then passed through the parameter's *converter*
+procedure and stored in the parameter as its current value.
+Implementations may provide mutation in this way, or in some other way,
+or not at all.
+
 ## Restrictions compared to SRFI 18
 
 Futures do not have names.
@@ -144,10 +165,13 @@ There is no analogue of `thread-terminate!` or of the non-standard procedures
 but may result in objects being exposed in an inconsistent state, allowing
 arbitrary behavior.
 
-The "specific" field is not available; it is preempted in implementations of this
+The "specific" field is not visible; it is preempted in implementations of this
 SRFI on top of SRFI 18.
 
-Time objects are not exposed, though all of their functionality that is relevant
+Mutexes and condition variables are not visible, in order to make it possible
+to provide inter-thread communication by a different means in a future SRFI.
+
+Time objects are also not visible, though all of their functionality that is relevant
 to this SRFI is provided by other means
 
 ## Procedures
