@@ -119,7 +119,7 @@ Returns `#t` if the next attempt to read a byte from *port*
 would return an eof-object, and `#f` otherwise.
 The default port is the value of `(current-input-port)`.
 It is an error to call this procedure
-if the `peek-u8` procedure is not supported by *port*
+if the `peek-u8` procedure is not supported by *port*.
 
 `(textual-port-eof? `*port*`)`
 
@@ -127,7 +127,7 @@ Returns `#t` if the next attempt to read a character from *port*
 would return an eof-object, and `#f` otherwise.
 The default port is the value of `(current-input-port)`.
 It is an error to call this procedure
-if the `peek-char` procedure is not supported by *port*
+if the `peek-char` procedure is not supported by *port*.
 
 `(read-lines ` [*input-port*]`)`
 
