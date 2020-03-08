@@ -4,7 +4,7 @@ This SRFI describes *futures* as the basic unit of Scheme concurrency (as
 opposed to parallelism, for which see [ParallelPromisesCowan](ParallelPromisesCowan.md)).
 
 Futures are analogous to [SRFI 18](http://srfi.schemers.org/srfi-18/srfi-18.html) threads,
-and can easily be built either using SRFI 18 threads directly.
+and can easily be built using SRFI 18 threads directly.
 However, it is also possible to have multiple futures
 sharing the same thread in a thread pool, and this choice
 depends on how heavyweight SRFI 18 threads are
@@ -22,7 +22,8 @@ the futures in the holder are waited for.
 
 ## Future states
 
-* A *running* future is one that is currently executing. There can be more than one future running in parallel on a multiprocessor machine.
+* A *running* future is one that is currently executing.
+  There can be more than one future running in parallel on a multiprocessor machine.
 
 * A *runnable* future is one that is ready to execute or running.
 
@@ -30,7 +31,8 @@ the futures in the holder are waited for.
 
 * A *new* future is one that has not yet become runnable.
 
-* A *terminated* future is one that can no longer become runnable (but *deadlocked* futures are not considered terminated).
+* A *terminated* future is one that can no longer become runnable
+  (but *deadlocked* futures are not considered terminated).
 
 The only valid transitions between future states are from new to runnable,
 between runnable and blocked, and from any state to terminated:
@@ -164,7 +166,7 @@ The value is the same whether or not `current-future` is being invoked from with
 Returns `#t` if *obj* is a future object (including the primordial
 object) or a promise, otherwise returns `#f`.
 
-`(future `*proc arg* ...`)`
+`(make-future `*proc arg* ...`)`
 
 Creates a new future, initializes it, starts it, and returns the
 corresponding future object. The execution consists of applying
@@ -183,6 +185,11 @@ along with an indication of abnormal termination, abandon
 any communication resources the future has acquired, and terminate.
 
 The `dynamic-wind` stack of the new future is empty.
+
+`(future `*expr*`)`  [syntax]
+
+Equivalent to `(make-future (lambda () `*expr*`))`, but can be optimized
+by a compiler.
 
 `(future-yield!)`
 
@@ -265,23 +272,6 @@ the current future should take steps to abandon its execution either by
 returning normally or by raising a condition.  It is an error for the
 main program to call this procedure.
 
-`(future-quantum `*future*`)`
-
-Returns a real number which corresponds to the quantum of *future*
-in jiffies.  If the value returned is zero, the future cannot report its quantum.
-
-`(future-quantum-set! `*future quantum*`)`
-
-Changes the quantum of *future* to *quantum*.
-It is an error if *quantum* is not a non-negative real number.
-A value of zero selects the smallest quantum supported by the implementation.
-If the implementation doesn't support changing the quantum,
-this procedure has no effect.
-Returns an unspecified value.
-
-If *future* cannot set its quantum, this procedure has no effect, since the correctness
-of a future does not depend on the length of its quantum.
-
 `(future-map `*proc future*`)`
 
 Returns a future that behaves as follows: when waited for, it first waits
@@ -308,96 +298,6 @@ sequence, and is useful for sequencing.
 
 Returns `#t` if *obj* is an object raised when a future times out,
 and `#f` otherwise.
-
-## Prioritized futures 
-
-Prioritized futures are a feature of this SRFI that specific
-Scheme implementations may or may not provide.  Unlike the general
-explanation of fairness above, this feature provides a specific concept of fairness.
-It's built on top of
-[SRFI 21](http://srfi.schemers.org/srfi-21/srfi-21.html),
-which is a superset of SRFI 18.
-
-The fairness specified by this feature requires
-a notion of time ordering, i.e.
-"event A occurred before event B".
-For the purpose of establishing time ordering,
-the system may use a clock with a discrete,
-possibly variable, resolution (a *tick*).
-Events occuring in a given tick
-can be considered to be simultaneous
-(i.e. if event A occurred before event B in real time,
-then the system can claim that
-event A occurred before event B
-or, if the events fall within the same tick,
-that they occurred at the same time).
-
-Each future has three priorities which affect fairness;
-the *base priority*, the *boosted priority*,
-and the *effective priority*.
-
-The base priority is the value contained in the base priority field
-(which is set with the `future-base-priority-set!` procedure).
-A future's boosted flag field contains a boolean
-that affects its boosted priority.
-When the boosted flag field is false, the boosted priority is equal
-to the base priority, otherwise the boosted priority is equal
-to the base priority plus the value contained
-in the future's priority boost field.
-(which is set with the `future-priority-boost-set!` procedure).
-
-The boosted flag field is set to false
-when a future is created, when its quantum expires,
-and when `future-yield!` is called.
-The boosted flag field is set to true when a future blocks.
-By carefully choosing the base priority and priority boost
-it is possible to set up an interactive future
-so that it has good I/O response time without
-being a CPU hog when it performs long computations.
-
-The effective priority of a future F
-is equal to the maximum of F's boosted priority
-and the effective priority of all the futures
-that are blocked by F.
-This *priority inheritance* avoids
-priority inversion problems that would prevent
-a blocked high-priority future blocked
-at the entry of a critical section to progress
-because a low priority future
-inside the critical section is preempted
-for an arbitrary long time by a medium priority future.
-
-Futures blocked on a given mutex or condition variable
-will unblock in an order which is consistent
-with decreasing priority and increasing blocking time
-(i.e. the highest priority future unblocks first,
-and among equal priority future the one that blocked
-first unblocks first).
-
-## Prioritized-future procedures
-
-These procedures may be called on the primordial object.
-They have no effect when called on promises.
-
-`(future-base-priority `*future*`)` 
-
-Returns a real number which corresponds to the base priority of *future*.
-
-`(future-base-priority-set! `*future priority*`)`
-
-Changes the base priority of *future* to *priority*. 
-It is an error if the priority is not a real number. 
-Returns an unspecified value.
-
-`(future-priority-boost `*future*`)`
-
-Returns a real number which corresponds to the priority boost of *future*.
-
-`(future-priority-boost-set! `*future priority-boost*`)`
-
-Changes the priority boost of *future* to *priority-boost*.
-It is an error if *priority-boost* is not a non-negative real number.
-Returns an unspecified value.
 
 ## Implementation
 
@@ -445,15 +345,8 @@ The second slot contains a lookup table
 into their current values.  Because only the current thread has access to this table,
 no locking is required.
 
-Unfortunately, because the primordial future's "specific" field is not initialized,
+Unfortunately, because the primordial future's "specific" field is not reliably initialized,
 these mechanisms are not available to it.
-
-The `future-quantum` and `future-quantum-set!` procedures are just `thread-quantum`
-and `thread-quantum-set!` from SRFI 21.  They are made mandatory in this SRFI
-because the trivial fallbacks of returning 0 (an impossible quantum value)
-and doing nothing, respectively, can be implemented in
-systems that don't support SRFI 21.  In any case, they have
-nothing to do with prioritized threads.
 
 The `future-timeout-exception?` procedure is just `join-timeout-exception?`.
 

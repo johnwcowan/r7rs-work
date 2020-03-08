@@ -12,7 +12,8 @@ and is invalidated by the next tuple update operation.
 
 Convenience procedures passed to the vector: tuple-length, tuple-ref, tuple->list
 
-For other operations, use tuple-vector and [SRFI 133](http://srfi.schemers.org/srfi-133/srfi-133.html),
-but not the mutators.
+For other operations, use tuple-as-vector and
+[SRFI 133](http://srfi.schemers.org/srfi-133/srfi-133.html),
+but not the mutators, with caution.
 
 Implementation:  A tuple is a record with: storage, storage-class, index, value, parent.

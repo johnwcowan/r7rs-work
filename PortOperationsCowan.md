@@ -119,7 +119,7 @@ Returns `#t` if the next attempt to read a byte from *port*
 would return an eof-object, and `#f` otherwise.
 The default port is the value of `(current-input-port)`.
 It is an error to call this procedure
-if the `peek-u8` procedure is not supported by *port*
+if the `peek-u8` procedure is not supported by *port*.
 
 `(textual-port-eof? `*port*`)`
 
@@ -127,7 +127,7 @@ Returns `#t` if the next attempt to read a character from *port*
 would return an eof-object, and `#f` otherwise.
 The default port is the value of `(current-input-port)`.
 It is an error to call this procedure
-if the `peek-char` procedure is not supported by *port*
+if the `peek-char` procedure is not supported by *port*.
 
 `(read-lines ` [*input-port*]`)`
 
@@ -165,12 +165,20 @@ then write a newline to *port* (as if by `newline`).
 
 Write each *obj* to the port (as if by `display`)
 that is the value of `(current-output-port)`
-separated by single spaces and followed by a newline.
+followed by a newline.
 
 `(debug-print `*obj* ...`)`
 
-Write each *obj* to the port (as if by `display`)
+Write each *obj* to the port
 that is the value of `(current-error-port)`
 separated by single spaces and followed by a newline.
+If *obj* is a boolean, character, empty list, symbol, string, or
+exact integer, it must be printed as if by `display`.
+In all other cases, a more terse representation may be used:
+for example, printing pairs as `(...)` and vectors as `#(...)`.
+
+Implementations should attempt to produce the output as quickly
+as possible, flushing any buffers and (if useful) shutting
+down thread scheduling and using ordinary blocking I/O.
 
 

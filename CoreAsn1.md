@@ -1,3 +1,7 @@
+## Issues
+
+Consider CER instead.
+
 ## Procedures
 
 See [CoreSexps](CoreSexps.md), which is the equivalent text format.
@@ -35,6 +39,7 @@ followed by the encoded elements of the vector.
 Integers:  Type byte `02` followed by length byte `00`, `01`, `02`, `04`, or `08`
 followed by 0, 1, 2, 4, or 8 content bytes
 representing a big-endian 2's-complement integer.
+If bigger than that, use longer length bytes.
 
 Floats:  Type byte `DB` followed by length byte `08`
 followed by 8 content bytes

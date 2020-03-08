@@ -1,3 +1,11 @@
+## Title
+
+Optional container types
+
+## Authors
+
+John Cowan (SRFI), Wolfgang Corcoran-Mathe (sample implementation)
+
 ## Abstract
 
 This SRFI defines two disjoint immutable container types
@@ -60,11 +68,11 @@ The following names are used for the arguments:
 
 *either*: An Either object.
 
-*failure*: A procedure that accepts zero arguments.
+*failure*: A procedure that accepts zero arguments (unless specified otherwise).
 
 *success*: A procedure that accepts one argument.
 
-*pred*: A predicate that accepts a single argument.
+*pred*: A predicate that accepts one argument.
 
 *equal*: An equivalence predicate that accepts two arguments.
 
@@ -344,38 +352,38 @@ Unlike `and` and `or`, these procedures must evaluate all their
 arguments in order to provide correct SQL-style semantics.
 For example, `(and #f (nothing))` will
 return `#f` immediately without evaluating its second argument,
-but `(tri-conjunction #f (nothing))` will return Nothing.
+but `(tri-and (just #f) (nothing))` will return Nothing.
 
-`(tri-not `*obj*`)`
+`(tri-not `*maybe*`)`
 
-Returns `#t` if *obj* is false, `#f` if *obj* is true, and Nothing
-if *obj* is Nothing.
+Returns Just `#t` if *maybe* is false, Just `#f` if *maybe* is true, and Nothing
+if *maybe* is Nothing.
 
-`(tri=? `*obj1 obj2* ...`)`
+`(tri=? `*maybe1 maybe2* ...`)`
 
-Similar to `boolean=?`, returning `#t` if all the *objs* are true
-or if all are false.  Otherwise, if any *obj* is Nothing or any two *objs*
-have different (trivalent) truth values, returns `#f`.
+Similar to `boolean=?`, returning Just `#t` if all the *maybes* are true
+or if all are false.  Otherwise, if any *maybe* is Nothing or any two *maybes*
+have different (trivalent) truth values, returns Just `#f`.
 
-`(tri-and `*obj* ...`)`
+`(tri-and `*maybe* ...`)`
 
-If all *objs* are true, `#t` is returned.
-If any *obj* is false or Nothing, then
-the first such *obj* is returned.
-If there are no arguments, `#t` is returned.
+If all *maybes* are true, Just `#t` is returned.
+If any *maybe* is false or Nothing, then
+the first such *maybe* is returned.
+If there are no arguments, Just `#t` is returned.
 
-`(tri-or `*obj* ...`)`
+`(tri-or `*maybe* ...`)`
 
-If all *objs* are false, `#f` is returned.
-If any *obj* is true or Nothing, then
-the first such *obj* is returned.
-If there are no arguments, `#f` is returned.
+If all *maybes* are false, Just `#f` is returned.
+If any *maybe* is true or Nothing, then
+the first such *maybe* is returned.
+If there are no arguments, Just `#f` is returned.
 
-`(tri-merge `*obj* ...`)`
+`(tri-merge `*maybe* ...`)`
 
-If any *objs* are true or false,
-then the first such *obj* is returned.
-If all *objs* are Nothing, then
+If any *maybes* are true or false,
+then the first such *maybe* is returned.
+If all *maybes* are Nothing, then
 Nothing is returned.
 If there are no arguments, Nothing is returned.
 

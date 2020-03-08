@@ -16,8 +16,7 @@ See [TangerineEdition](TangerineEdition.md).
 
 Random numbers: [SRFI 27](http://srfi.schemers.org/srfi-27/srfi-27.html),
 plus [AdvancedRandomGauche](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/AdvancedRandomGauche.html)
-or [RandomnessCommonLisp](RandomnessCommonLisp.md)
-or [RandomnessElf](https://regmedia.co.uk/2018/10/01/roig_paper.pdf)
+
 
 Float and NaN dissector API (sign, quiet/signaling status, and integer tag): [NaNMedernach](NaNMedernach.md)
 
@@ -46,7 +45,7 @@ Number to string with Unicode: [NumberStringUnicode](NumberStringUnicode.md)
 
 Compound objects: [CompoundObjectsCowan](CompoundObjectsCowan.md)
 
-Linear adjustable-size strings: [LinearStringExtensions](http://htmlpreview.github.io?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/LinearStringExtensions.html)
+Linear adjustable-size strings: [SRFI 185](http://srfi.schemers.org/srfi-185/srfi-185.html)
 
 Yet more generator extensions: [MoreGenerators](MoreGenerators.md)
 
@@ -76,7 +75,10 @@ Syntax-rules extensions: [SRFI 149](http://srfi.schemers.org/srfi-149/srfi-149.h
 
 `cond` guards: [SRFI 61](http://srfi.schemers.org/srfi-61/srfi-61.html)
 
-Generalized `set!`: [SRFI 17](http://srfi.schemers.org/srfi-17/srfi-17.html), possibly plus [Srfi17ExtensionsCowan](Srfi17ExtensionsCowan.md)
+Generalized `set!`: [SRFI 17](http://srfi.schemers.org/srfi-17/srfi-17.html) or
+[`identifier-syntax`](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_796)
+
+Modify macros: [Srfi17ExtensionsCowan](Srfi17ExtensionsCowan.md)
 
 `receive`: [SRFI 8](http://srfi.schemers.org/srfi-8/srfi-8.html)
 
@@ -123,7 +125,7 @@ or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/
 
 `Record-let`: [#45](https://small.r7rs.org/ticket/45/)
 
-`let-list`, `let-vector`: [RandomUtilsMore](RandomUtilsMore.md)
+`let-list`, `let-vector`: [MacrosAlexandria](MacrosAlexandria.md)
 
 `if*` with arbitrarily many arguments: [Daphne Preston-Kendal's rationale](http://dpk.io/r7rs/naryif-20130406)
 
@@ -174,9 +176,8 @@ Levenshtein distance: [LevenshteinDistanceGauche](https://practical-scheme.net/g
 
 Advanced I/O: [FilesAdvancedCowan](FilesAdvancedCowan.md)
 
-Threads: [SRFI 18](http://srfi.schemers.org/srfi-18/srfi-18.html) plus optional
-[SRFI 21](http://srfi.schemers.org/srfi-21/srfi-21.html)
-or [FuturesCowan](FuturesCowan.md) (simplified with monad)
+Threads: [SRFI 18](http://srfi.schemers.org/srfi-18/srfi-18.html)
+or [FuturesCowan](FuturesCowan.md) (just futures, thread-local variables, monad support)
 
 Sockets: [SRFI 106](http://srfi.schemers.org/srfi-106/srfi-106.html) or
 [NetworkPortsCowan](NetworkPortsCowan.md) with [NetworkEndpointsCowan](NetworkEndpointsCowan.md)
@@ -271,7 +272,9 @@ Environment: [SRFI 112](http://srfi.schemers.org/srfi-112/srfi-112.html) with [M
 
 Trees: [TreesCowan](TreesCowan.md)
 
-INI, CSV, DSV: [DataFormatsCowan](DataFormatsCowan.md), [IniFiles](IniFiles.md)
+CSV, DSV: [DataFormatsCowan](DataFormatsCowan.md)
+
+INI files: [IniFilesCowan](IniFilesCowan.md)
 
 Unicode string normalization: [StringNormalizationCowan](StringNormalizationCowan.md)
 
