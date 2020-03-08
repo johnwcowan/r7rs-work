@@ -16,8 +16,7 @@ See [TangerineEdition](TangerineEdition.md).
 
 Random numbers: [SRFI 27](http://srfi.schemers.org/srfi-27/srfi-27.html),
 plus [AdvancedRandomGauche](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/AdvancedRandomGauche.html)
-or [RandomnessCommonLisp](RandomnessCommonLisp.md)
-or [RandomnessElf](https://regmedia.co.uk/2018/10/01/roig_paper.pdf)
+
 
 Float and NaN dissector API (sign, quiet/signaling status, and integer tag): [NaNMedernach](NaNMedernach.md)
 
@@ -46,7 +45,7 @@ Number to string with Unicode: [NumberStringUnicode](NumberStringUnicode.md)
 
 Compound objects: [CompoundObjectsCowan](CompoundObjectsCowan.md)
 
-Linear adjustable-size strings: [LinearStringExtensions](http://htmlpreview.github.io?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/LinearStringExtensions.html)
+Linear adjustable-size strings: [SRFI 185](http://srfi.schemers.org/srfi-185/srfi-185.html)
 
 Yet more generator extensions: [MoreGenerators](MoreGenerators.md)
 
@@ -78,7 +77,6 @@ Syntax-rules extensions: [SRFI 149](http://srfi.schemers.org/srfi-149/srfi-149.h
 
 Generalized `set!`: [SRFI 17](http://srfi.schemers.org/srfi-17/srfi-17.html) or
 [`identifier-syntax`](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_796)
-
 
 Modify macros: [Srfi17ExtensionsCowan](Srfi17ExtensionsCowan.md)
 
@@ -127,7 +125,7 @@ or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/
 
 `Record-let`: [#45](https://small.r7rs.org/ticket/45/)
 
-`let-list`, `let-vector`: [RandomUtilsMore](RandomUtilsMore.md)
+`let-list`, `let-vector`: [MacrosAlexandria](MacrosAlexandria.md)
 
 `if*` with arbitrarily many arguments: [Daphne Preston-Kendal's rationale](http://dpk.io/r7rs/naryif-20130406)
 
