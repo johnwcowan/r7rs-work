@@ -172,6 +172,11 @@ Topological sort: [TopologicalSortGauche](https://practical-scheme.net/gauche/ma
 
 Levenshtein distance: [LevenshteinDistanceGauche](https://practical-scheme.net/gauche/man/gauche-refe/Levenshtein-edit-distance.html#Levenshtein-edit-distance)
 
+Sorted dictionaries: [SortedDictionaries](SortedDictionaries.md)
+
+Bimaps: [Bimaps](Bimaps.md)
+
+
 # Green Docket (non-portable)
 
 Advanced I/O: [FilesAdvancedCowan](FilesAdvancedCowan.md)
