@@ -5,7 +5,7 @@ string of SQL.  Because of the conversion process, no parameter markers are requ
 The S-expressions aren't the prettiest things in the world, but I think they are reasonably legible.
 The user, or the code that creates the S-expressions, still has to know SQL, of course.
 
-Here are the representation convention.
+Here are the representation conventions:
 
   * A Scheme number, boolean, or bytevector is converted to a SQL number, boolean, or bit literal.
   
