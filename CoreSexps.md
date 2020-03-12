@@ -1,5 +1,19 @@
 ## Procedures
 
+`(make-core-object `*code tag value*`)`
+
+Returns a Core object, where *code* is an exact integer representing a code,
+*tag* is a symbol representing a tag, and *value* is a
+number, string, bytevector, or list.  These are used to represent ASN.1
+objects whose code/tag is not understood by the implementation.
+
+`(core-object? `*obj*`)`
+
+`(core-object-code `*core-obj*`)`
+`(core-object-value `*core-obj*`)`
+
+Accessors for Core objects.
+
 `(read-textual `[*port*])  
 `(read-binary `[*port*])  
 `(write-textual `obj [*port*])  
@@ -18,16 +32,15 @@ An error is signaled if the limit is violated.
 `read-conversion` (parameter)
 
 Procedure to be called when an object with unknown tag or type code is read.
-Accepts a type code (integer or string) and a value
-(number, string, bytevector, or list); returns the appropriate Scheme object, or #f if none
-(in which case read fails).
+Accepts a Core object and returns the appropriate Scheme object, or `#f` if none
+(in which case the read operation fails).
 
 `write-conversion` (parameter)
 
 Procedure to be called when an object of unknown Scheme type is to be written.
-Accepts a Scheme object and returns two values, a type
-code (as integer) and a number, string, bytevector, or list to serialize.
-Returns `#f #f` if no known serialization (in which case write fails).
+Accepts a Scheme object and returns a Core object with an integer code or string
+tag and a number, string, bytevector, or list to serialize.
+Returns `#f` if no known serialization (in which case the write operation fails).
 
 ## Basic syntax
 
@@ -58,7 +71,7 @@ from adjacent numbers and identifiers.
 Commas are considered whitespace.
 Whitespace by itself is not a valid S-expression.
   
-`;` except in strings introduces a comment
+`;` (except in strings) introduces a comment
 that goes up to but not including the end of line and is discarded.
 A comment by itself is not a valid S-expression.
 
