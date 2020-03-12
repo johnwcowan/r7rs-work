@@ -179,6 +179,9 @@ Bimaps: [Bimaps](Bimaps.md)
 
 # Green Docket (non-portable)
 
+Procedure arity inspection: [SRFI 102](http://srfi.schemers.org/srfi-102/srfi-102.html) plus
+[Dybvig's counterproposal](https://srfi-email.schemers.org/srfi-102/msg/2771967).
+
 Advanced I/O: [FilesAdvancedCowan](FilesAdvancedCowan.md)
 
 Threads: [SRFI 18](http://srfi.schemers.org/srfi-18/srfi-18.html)
