@@ -3,6 +3,7 @@ This is a simple API for making basic HTTP requests.
 ## Issues
 
 Are the request and reply objects [dictionaries](Dictionaries.md) or records?
+Dictionaries are easier to construct and have a smaller API surface.
 
 ## Specification
 
