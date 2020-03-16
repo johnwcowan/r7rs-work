@@ -11,33 +11,43 @@ Are the request and reply objects [dictionaries](Dictionaries.md) or records?
 `(http-request `*request*`)` => reply
 
 Accepts an HTTP request object and either returns an HTTP reply object
-or raises one of the HTTP errors.
+or raises a condition satisfying `http-error?`.
 
-`(http-error-payload `*obj*`)`
+`(http-error? `*obj*`)`
 
-Returns the payload (either a request object or a reply object, depending on the type of HTTP error;
-it is an error if *obj* is not an HTTP error.
+Returns `#t` if *obj* is a condition raised when
+something has gone wrong in an `http-request` call,
+and `#f` otherwise.
 
 `(http-connect-error? `*obj*`)`
 
-Returns `#t` if `http-request` failed to connect to the HTTP server,
+Returns `#t` if *obj* is a condition raised when
+`http-request` failed to connect to the HTTP server,
 and `#f` otherwise.  Payload is the request object.
 
 `(http-timeout-error? `*obj*`)`
 
-Returns `#t` if `http-request` timed out either connecting to,
+Returns `#t` if *obj* is a condition raised when
+ `http-request` timed out either connecting to,
 sending to, or receiving from the HTTP server,
 and `#f` otherwise.  Payload is the request object.
 
 `(http-response-error? `*obj*`)`
 
-Returns `#t` if `http-request` returned a result whose status code
+Returns `#t` if *obj* is a condition raised when
+ `http-request` returned a result whose status code
 is 300 or greater.  Payload is the response object.
 
 `(http-redirect-error? `*obj*`)`
 
-Returns `#t` if repeated HTTP requests involve either a redirection loop
+Returns `#t` if *obj* is a condition raised when
+ repeated HTTP requests involve either a redirection loop
 or too many redirections.  Payload is the response object.
+
+`(http-error-payload `*http-error*`)`
+
+Returns the payload associated with an HTTP error.
+This can be either a request object or a reply object, depending on the type of HTTP error.
 
 ### Request objects
 
@@ -49,12 +59,12 @@ The name of the symbol is uppercased before transmitting it.
 
 *url*:  A string representing the URL to be sent to the server.
 
-*headers*:  A dictionary containing headers to be sent.
+*headers*:  A [dictionary](Dictionaries.md) containing headers to be sent.
 Keys are lower-case symbols without a trailing colon.
 
-*cookie-jar*:  A dictionary containing cookies to possibly be sent.
+*cookie-jar*:  A A [dictionary](Dictionaries.md) containing cookies to possibly be sent.
 Keys are lists of the form `(`*domain path name*`)`;
-values are strings.
+values are strings.  If omitted or `#f`, treated as an empty dictionary.
 
 *content*:  A [SRFI 158](http://srfi.schemers.org/srfi-158/srfi-158.html)
 accumulator to which zero or more bytevectors can be passed which
@@ -67,8 +77,7 @@ This allows the caller to reuse the bytevector.
 
 ### Reply objects
 
-A response object may contain the following elements;
-the implement
+A response object may contain the following elements:
 
 *request*:  The request object to which this is a response.
 
@@ -82,6 +91,7 @@ with a space character separating them.
 
 *cookie-jar*:  A cookie-jar (see above).  Cookies are inserted
 or replaced according to the cookie protocol.
+If omitted or `#f`, cookies are not processed.
 
 *previous*:  Another request object, showing that this request
 is the result of a redirection.
