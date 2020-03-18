@@ -221,6 +221,8 @@ The current future, or the main program if there is no current future,
 exits the running state as if its quantum had expired.
 Returns an unspecified value.
 
+### Sleeping
+
 `(future-sleep-for! `*jiffy-count*`)`
 
 The current future, or the main program if there is no current future,
@@ -233,6 +235,8 @@ when `future-sleep-for!` was invoked.  Returns an unspecified value.
 The current future , or the main program if there is no current future,
 blocks until the value of `(current-jiffy)` is greater than or equal to *jiffy*.
 Returns an unspecified value.
+
+### Waiting
 
 `(future-wait `*future*`)`
 
@@ -268,6 +272,8 @@ is greater than or equal to *jiffy*,
 then *future* is terminated
 and an error satisfying `timeout-exception?` is signaled.
 
+### Future-specific variables
+
 `(future-ref `*symbol*`)`
 
 Returns the value of the future-specific variable named *symbol*.
@@ -280,6 +286,8 @@ program does not have future-specific variables.
 Sets the value of the future-specific variable named *symbol* to *value*
 and returns an unspecified value.  The main
 program does not have future-specific variables.
+
+### Abandonment
 
 `(future-abandon! `*future*`)`
 
@@ -295,6 +303,8 @@ If so, the procedure returns `#t`, otherwise `#f`.  If `#t` is returned,
 the current future should take steps to abandon its execution either by
 returning normally or by raising a condition.  It is an error for the
 main program to call this procedure.
+
+## Monadic procedures
 
 `(future-map `*proc future*`)`
 
@@ -317,6 +327,27 @@ The same as `future-bind` except that the *futures* other than the
 first don't require an argument and the results of all *futures* are discarded.
 This is useful for sequencing side effects.  This is monadic
 sequence, and is useful for sequencing.
+
+### Future groups
+
+`(in-future-group `*proc* [ *future-group*] `)`
+
+Creates an opaque object called a *future group*, a collection of futures.
+The future group is passed to *proc*, which accepts one argument and returns one value.
+When *proc* returns, `in-future-group` waits for
+any futures that have been added to the future group to terminate,
+and then returns whatever *proc* returns.
+
+If any future terminates with an exception,
+all other futures are still waited for and then the exception is reraised.
+If more than one future terminates with an exception,
+it is unspecified which exception is reraised.
+
+`(future-group-add! `*future-group future*`)`
+
+Adds *future* to *future-group*.  Returns an unspecified value.
+
+### Exceptions
 
 `(future-timeout-exception? `*obj*`)`
 
@@ -375,5 +406,6 @@ these mechanisms are not available to it.
 The `future-timeout-exception?` procedure is just `join-timeout-exception?`.
 
 The implementations of `future-map`, `future-bind` and `future-and-then`
-should be obvious from their descriptions.
+should be obvious from their descriptions.  A future group can be a wrapper
+around a list so that new futures can be added at any time.
 
