@@ -112,7 +112,6 @@ The list is intended to be comprehensive but not complete: it draws on R6RS, Jav
 |`improper-list`|improper lists not supported|
 |`input`|input error|
 |`invalid-position`|invalid file position|
-|`lexical`|lexical syntax error|
 |`low-level-error`|problem with the implementation|
 |`match`|unsatisfied pattern match|
 |`memory`|out of memory|
@@ -131,7 +130,6 @@ The list is intended to be comprehensive but not complete: it draws on R6RS, Jav
 |`security`|security violation|
 |`simple`|error created by `error`|
 |`state`|invalid state event|
-|`syntax`|Scheme syntax error|
 |`termination`|thread termination|
 |`timeout`|operation timed out|
 |`type`|wrong type|
