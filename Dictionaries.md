@@ -1,9 +1,9 @@
 ## Abstract
 
-The procedures of this SRFI allow
-the manipulation of an object that maps keys to values
-without the caller needing to know exactly how the object is implemented.
-Such an object is called a *dictionary* in this SRFI.
+The procedures of this SRFI allow callers to
+manipulate an object that maps keys to values
+without the caller needing to know exactly what the type
+of the object is.  Such an object is called a *dictionary* in this SRFI.
 
 ## Rationale
 
@@ -26,6 +26,9 @@ called on any dictionary, provided that its type has been registered
 with an implementation of this SRFI.
 By using these procedures, a procedure can take a dictionary
 as an argument and make use of it without knowing its exact type.
+
+Note that dictionaries must still be constructed using type-specific
+constructors, as the required and optional arguments differ in each case.
 
 ## Specification
 
@@ -52,90 +55,12 @@ or the same dictionary that was passed to the procedure.
 Any previously existing references to the dictionary are no longer valid
 and should not be used.
 
-
-## Dictionary predicate
+## Predicates
 
 `(dictionary? `*obj*`)`
 
 Returns `#t` if *obj* answers `#t` to some registered predicate,
 and `#f` otherwise.
-
-## Basic dictionary procedures
-
-The procedures of this section provide basic operations on dictionaries.
-All other procedures in this SRFI can be implemented on top of them,
-so every dictionary type must implement them.
-
-This does not mean that calling one of these procedures always succeeds
-independently of the dictionary type.  It is still possible for a dictionary
-operation to fail by signaling an error, or for it simply to be an error
-to invoke it on that dictionary or dictionary type.
-
-`(dict-size `*dictionary*`)`
-
-Returns an exact integer representing the number of associations in *dictionary*.
-
-`(dict-search `*dictionary key failure success*`)`
-
-This procedure is a workhorse for dictionary lookup, insert, and delete.
-The dictionary *dictionary* is searched
-for an association whose key is the same as *key*
-in the sense of *dictionary*'s comparator.
-If one is not found, then the *failure* procedure is tail-called
-with two continuation arguments, *insert* and *ignore*,
-and is expected to tail-call one of them.
-
-However, if such an association is found,
-then the *success* procedure is tail-called
-with the matching key of *dictionary*, the associated value,
-and two continuation arguments, *update* and *remove*,
-and is expected to tail-call one of them.
-
-It is an error if the continuation arguments are invoked other than
-in tail position in the *failure* and *success* procedures.
-It is also an error if the *failure* and *success* procedures
-return to their implicit continuation without invoking
-one of their continuation arguments.
-
-The behaviors of the continuations are as follows
-(where *obj* is any Scheme object):
-
- *  Invoking `(`*insert value obj*`)` returns a dictionary that
-    contains all the associations of *dictionary*,
-    and in addition a new association that maps *key* to *value*.
-
- *  Invoking `(`*ignore obj*`)` has no effects and returns *dictionary*
-    unchanged.
-
- *  Invoking `(`*update new-key new-value obj*`)` returns a dictionary that
-    contains all the associations of *dictionary*,
-    except for the association whose key is the same as *key*,
-    which is replaced by a new association that maps *new-key* to *new-value*.
-
- *  Invoking `(`*remove obj*`)` returns a dictionary that
-    contains all the associations of *dictionary*,
-    except for the association with key key.
-
-In all cases, *obj* is returned as a second value.
-
-`(dict-map `*proc dictionary*`)`
-
-Returns a dictionary similar to *dictionary* that maps each key of *dictionary*
-to the value that results
-from invoking *proc* on the corresponding key and value of *dictionary*.
-
-`(dict-filter `*pred dictionary*`)`  
-
-Returns a dictionary similar to *dictionary* that contains just the associations of *dictionary*
-that satisfy *pred* when it is invoked on the key and value of the association.
-
-`(dict-for-each `*proc dictionary*`)`
-
-Invokes *proc* on each key of *dictionary* and its corresponding value in that order.
-This procedure is used for doing operations on the whole dictionary.
-Returns an unspecified value.
-
-## Predicates
 
 `(dict-empty? `*dictionary*`)`
 
@@ -237,8 +162,71 @@ If dictionary contains no associations and *failure* is supplied,
 then the thunk *failure* is invoked and its values returned.
 Otherwise, it is an error.
 
+`(dict-search `*dictionary key failure success*`)`
+
+This procedure is a workhorse for dictionary lookup, insert, and delete.
+The dictionary *dictionary* is searched
+for an association whose key is the same as *key*
+in the sense of *dictionary*'s comparator.
+If one is not found, then the *failure* procedure is tail-called
+with two continuation arguments, *insert* and *ignore*,
+and is expected to tail-call one of them.
+
+However, if such an association is found,
+then the *success* procedure is tail-called
+with the matching key of *dictionary*, the associated value,
+and two continuation arguments, *update* and *remove*,
+and is expected to tail-call one of them.
+
+It is an error if the continuation arguments are invoked other than
+in tail position in the *failure* and *success* procedures.
+It is also an error if the *failure* and *success* procedures
+return to their implicit continuation without invoking
+one of their continuation arguments.
+
+The behaviors of the continuations are as follows
+(where *obj* is any Scheme object):
+
+ *  Invoking `(`*insert value obj*`)` returns a dictionary that
+    contains all the associations of *dictionary*,
+    and in addition a new association that maps *key* to *value*.
+
+ *  Invoking `(`*ignore obj*`)` has no effects and returns *dictionary*
+    unchanged.
+
+ *  Invoking `(`*update new-key new-value obj*`)` returns a dictionary that
+    contains all the associations of *dictionary*,
+    except for the association whose key is the same as *key*,
+    which is replaced by a new association that maps *new-key* to *new-value*.
+
+ *  Invoking `(`*remove obj*`)` returns a dictionary that
+    contains all the associations of *dictionary*,
+    except for the association with key key.
+
+In all cases, *obj* is returned as a second value.
+
 ## The whole dictionary
 
+`(dict-size `*dictionary*`)`
+
+Returns an exact integer representing the number of associations in *dictionary*.
+
+`(dict-map `*proc dictionary*`)`
+
+Returns a dictionary similar to *dictionary* that maps each key of *dictionary*
+to the value that results
+from invoking *proc* on the corresponding key and value of *dictionary*.
+
+`(dict-filter `*pred dictionary*`)`  
+
+Returns a dictionary similar to *dictionary* that contains just the associations of *dictionary*
+that satisfy *pred* when it is invoked on the key and value of the association.
+
+`(dict-for-each `*proc dictionary*`)`
+
+Invokes *proc* on each key of *dictionary* and its corresponding value in that order.
+This procedure is used for doing operations on the whole dictionary.
+Returns an unspecified value.
 `(dict-count `*pred dictionary*`)`
 
 Passes each association of dictionary as two arguments to *pred*
@@ -310,10 +298,10 @@ The number of arguments must be even.
 A *procname* argument is a symbol which is the same as one
 of the procedures defined in this SRFI other than
 `register-dictionary!` itself, and a *proc* argument
-is the procedure implementing it for this type.
+is the specific procedure implementing it for this type.
 
-Arguments for teh `dictionary?`, `dict-size`, `dict-search`,
-`dict-map`, `dict-filter`, and `dict-for-each` procedures are required.
+Arguments for the six procedures `dictionary?`, `dict-size`,
+`dict-search`, `dict-map`, `dict-filter`, and `dict-for-each` are required.
 The others are optional, but if provided may be more efficient
 than the versions automatically provided by the implementation of this SRFI.
 
