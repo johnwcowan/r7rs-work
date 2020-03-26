@@ -7,13 +7,13 @@ Such an object is called a *dictionary* in this SRFI.
 
 ## Rationale
 
-Until recently there was only one fully standard mechanism for managing
+Until recently there was only one universally available mechanism for managing
 key-value pairs: alists.  Most Schemes also support hash tables, but
 until R6RS there was no standard interface to them, and many
 implementations do not provide that interface.
 
-Now, however, the number of such objects is
-growing.  In addition to hash tables, there are
+Now, however, the number of such mechanisms is
+growing.  In addition to both R6RS and R7RS hash tables, there are
 persistent ordered and hashed mappings from SRFI 146
 and ordered key-value stores (often on a disk or a remote machine)
 from SRFI 167.
@@ -47,8 +47,6 @@ Dictionaries are said in this SRFI to be *similar* if they are of the same
 type and have the same [SRFI 128](http://srfi.schemers.org/srfi-128/srfi-128.html)
 comparator.
 
-The basic procedure `dict-search` and the procedures in the mutation section
-are linear-update in the sense of SRFI 1.
 They return a dictionary which might either be newly allocated
 or the same dictionary that was passed to the procedure.
 Any previously existing references to the dictionary are no longer valid
@@ -100,24 +98,25 @@ return to their implicit continuation without invoking
 one of their continuation arguments.
 
 The behaviors of the continuations are as follows
-(where *obj* is any Scheme object, which in all cases
-is returned as a second value):
+(where *obj* is any Scheme object):
 
-Invoking `(`*insert value obj*`)` returns a dictionary that
-contains all the associations of *dictionary*,
-and in addition a new association that maps *key* to *value*.
+ *  Invoking `(`*insert value obj*`)` returns a dictionary that
+    contains all the associations of *dictionary*,
+    and in addition a new association that maps *key* to *value*.
 
-Invoking `(`*ignore obj*`)` has no effects and returns *dictionary*
-unchanged.
+ *  Invoking `(`*ignore obj*`)` has no effects and returns *dictionary*
+    unchanged.
 
-Invoking `(`*update new-key new-value obj*`)` returns a dictionary that
-contains all the associations of *dictionary*,
-except for the association whose key is the same as *key*,
-which is replaced by a new association that maps *new-key* to *new-value*.
+ *  Invoking `(`*update new-key new-value obj*`)` returns a dictionary that
+    contains all the associations of *dictionary*,
+    except for the association whose key is the same as *key*,
+    which is replaced by a new association that maps *new-key* to *new-value*.
 
-Invoking `(`*remove obj*`)` returns a dictionary that
-contains all the associations of *dictionary*,
-except for the association with key key.
+ *  Invoking `(`*remove obj*`)` returns a dictionary that
+    contains all the associations of *dictionary*,
+    except for the association with key key.
+
+In all cases, *obj* is returned as a second value.
 
 `(dict-map `*proc dictionary*`)`
 
@@ -157,12 +156,18 @@ and returns its result.
 If *key* is not a key of *dictionary*, then invokes the thunk *failure* and
 returns its result.
 
-`(dict-ref/default `*dictionary key default`)`
+`(dict-ref/default `*dictionary key default*`)`
 
 If *key* is the same as some key of *dictionary*, then returns the corresponding value.
 If not, then returns *default*.
 
 ## Mutation
+
+All these procedures are linear-update: that is, they may return a new
+dictionary object (which may or may not share storage with the *dictionary*
+argument), or the same dictionary object, mutated.  In either case,
+it is an error to access the dictionary through any other reference to it,
+as that reference may have been invalidated.
 
 `(dict-set `*dictionary obj* ...`)`
 
@@ -221,12 +226,13 @@ invokes *updater* on it, and sets the value of *key* to be
 the result of calling *updater* as if by `dict-set`,
 but may do so more efficiently.  Returns the updated dictionary.
 
-
 `(dict-pop `*dictionary* [*failure*]`)`
 
-Chooses an arbitrary association from *dictionary* and returns three values:
+Chooses an  association from *dictionary* and returns three values:
 a dictionary that contains all associations of *dictionary* except the chosen one,
-and the key and the value of the chosen association. 
+and the key and the value of the chosen association.
+If the dictionary is ordered, the first association is chosen;
+otherwise the chosen association is arbitrary.
 If dictionary contains no associations and *failure* is supplied,
 then the thunk *failure* is invoked and its values returned.
 Otherwise, it is an error.
@@ -295,20 +301,21 @@ The following procedure registers new dictionary types.
 It is an error to register a dictionary type whose
 instances return `#t` to any predicate already registered.
 
-`(register-dictionary! `*pred dictionary*`)`
+`(register-dictionary! `*procname proc* ...`)`
 
-Registers *pred* and provides procedures that allow
-manipulation of dictionaries that satisfy *pred*.
-The *dictionary* argument
-maps the names of the procedures of this SRFI
-to suitable type-specific procedures.  Entries in *dictionary* for
-`dict-size`, `dict-search`, `dict-map`, `dict-filter`, and `dict-for-each` are required.
-The others are optional, but if provided may be more efficient than the versions provided by
-the implementation of this SRFI.
+Registers a new dictionary type, providing procedures that allow
+manipulation of dictionaries of that type.
+The number of arguments must be even.
 
-To break the recursion whereby a new type is registered using a
-dictionary of an existing type, dictionaries can always be registered
-using an alist or property list, as explained in the next section).
+A *procname* argument is a symbol which is the same as one
+of the procedures defined in this SRFI other than
+`register-dictionary!` itself, and a *proc* argument
+is the procedure implementing it for this type.
+
+Arguments for teh `dictionary?`, `dict-size`, `dict-search`,
+`dict-map`, `dict-filter`, and `dict-for-each` procedures are required.
+The others are optional, but if provided may be more efficient
+than the versions automatically provided by the implementation of this SRFI.
 
 ## Lists as dictionaries
 
@@ -326,6 +333,9 @@ The equality predicate of this kind of dictionary is `eq?`.
 If the list is empty, or its car is a pair, then the list is assumed
 to be an alist.  New values are added to the beginning of an alist
 non-destructively, but it is an error to attempt deletion.
+If an association has been updated, then both the new and the old
+association may be processed by the whole-dictionary procedures.
 The equality predicate of this type of dictionary is `equal?`.
 
-In all other cases, lists are not treated as dictionaries.
+In all other cases, lists are not treated as dictionaries
+unless an appropriate dictionary type has been registered.
