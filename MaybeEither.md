@@ -387,6 +387,10 @@ If all *maybes* are Nothing, then
 Nothing is returned.
 If there are no arguments, Nothing is returned.
 
+## Implementation
+
+[Sample implementation](http://www.chiselapp.com/user/Zipheir/repository/maybe-either) for R7RS.
+
 ## Acknowledgements
 
 The Maybe and Either types and their procedures are based on Scala's Option
