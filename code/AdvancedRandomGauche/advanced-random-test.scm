@@ -192,29 +192,40 @@
               (/ (* (expt L k) (exp (- L)))
                  (fact k)))
             
-            ;;TODO test for large L > 35
-            (define L 2)
-            (generator-every
-              (lambda (k)
-                (define expect (expected-fraction L k))
-                (define actual (/ (generator-count 
-                                    (lambda (i) (= i k))
-                                    (gtake (make-poisson-generator L) 10000))
-                                  10000.0))
-                (test-assert (> actual (* 0.9 expect)))
-                (test-assert (< actual (* 1.1 expect))))
-              (make-iota-generator 4))
+            (let ((L 2))
+             (generator-every
+               (lambda (k)
+                 (define expect (expected-fraction L k))
+                 (define actual (/ (generator-count 
+                                     (lambda (i) (= i k))
+                                     (gtake (make-poisson-generator L) 10000))
+                                   10000.0))
+                 (test-assert (> actual (* 0.9 expect)))
+                 (test-assert (< actual (* 1.1 expect))))
+               (make-iota-generator 4))
 
-            (generator-every
-              (lambda (k)
-                (define expect (expected-fraction L k))
-                (define actual (/ (generator-count 
-                                    (lambda (i) (= i k))
-                                    (gtake (make-poisson-generator default-random-source L) 10000))
-                                  10000.0))
-                (test-assert (> actual (* 0.9 expect)))
-                (test-assert (< actual (* 1.1 expect))))
-              (make-iota-generator 4)))
+             (generator-every
+               (lambda (k)
+                 (define expect (expected-fraction L k))
+                 (define actual (/ (generator-count 
+                                     (lambda (i) (= i k))
+                                     (gtake (make-poisson-generator default-random-source L) 10000))
+                                   10000.0))
+                 (test-assert (> actual (* 0.9 expect)))
+                 (test-assert (< actual (* 1.1 expect))))
+               (make-iota-generator 4)))
+            
+            (let ((L 40))
+             (generator-every
+               (lambda (k)
+                 (define expect (expected-fraction L k))
+                 (define actual (/ (generator-count 
+                                     (lambda (i) (= i k))
+                                     (gtake (make-poisson-generator L) 10000))
+                                   10000.0))
+                 (test-assert (> actual (* 0.7 expect)))
+                 (test-assert (< actual (* 1.3 expect))))
+               (make-iota-generator 3))))
 
 (test-group "Test normal"
             (define frac-at-1dev 0.34134)
