@@ -95,15 +95,17 @@
            (lambda () 
              (generator->string char-gen (int-gen)))))))
 
-    ;;TODO FIX random-srouce-make-reals returns function, 
-    ;;that generates (0, 1), in turn which means this returns bounds exclusive, but should be inclusive
     (define make-random-real-generator
       (case-lambda
         ((low-bound up-bound)
          (make-random-real-generator default-random-source low-bound up-bound))
         ((rand-src low-bound up-bound)
-         (let ((rand-real-proc (random-source-make-reals rand-src))
-               (range (- up-bound low-bound)))
+         (let* ((rand-int-proc (random-source-make-integers rand-src))
+                (steps (expt 2 32))
+                (rand-real-proc (lambda ()
+                                  (/ (inexact (rand-int-proc steps))
+                                     (- steps 1))))
+                (range (- up-bound low-bound)))
           (lambda ()
             (+ low-bound (* (rand-real-proc) range)))))))
 
