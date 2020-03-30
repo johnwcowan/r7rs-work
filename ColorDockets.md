@@ -71,6 +71,8 @@ Syntax parameters: [SRFI 139](http://srfi.schemers.org/srfi-139/srfi-139.html)
 
 Syntax-rules extensions: [SRFI 149](http://srfi.schemers.org/srfi-149/srfi-149.html)
 
+`let-syntax` with splicing: [SRFI 188](http://srfi.schemers.org/srfi-188/srfi-188.html)
+
 **Portable**
 
 `cond` guards: [SRFI 61](http://srfi.schemers.org/srfi-61/srfi-61.html)
