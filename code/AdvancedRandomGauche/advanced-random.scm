@@ -113,7 +113,7 @@
     ;; Non-uniform distributions
     ;;
     
-    ;; TODO import from somewhere instead?
+    ;; TODO import from somewhere?
     (define PI 3.1415926535897932)
     
     (define make-normal-generator
@@ -188,87 +188,52 @@
         (define (loop)
           (let* ((u (rand-real-proc))
                  (x (/ (- alpha (log (/ (- 1.0 u) u))) beta))
-                 (n (floor (+ x 0.5))))
+                 (n (exact (floor (+ x 0.5)))))
             (if (< n 0)
                 (loop)
                 (let* ((v (rand-real-proc))
                        (y (- alpha (* beta x)))
                        (t (+ 1.0 (exp y)))
                        (lhs (+ y (log (/ v (* t t)))))
-                       (rhs (+ k (* n (log L)) (- (lgamma (+ n 1))))))
+                       (rhs (+ k (* n (log L)) (- (log-of-fact n)))))
                   (if (<= lhs rhs)
                       n
                       (loop))))))
         loop))
     
     ;private
-    (define (gamma x)
-      (cond ((<= x 0.0)
-             (cond ((zero? x) +inf.0) ;; Gamma(+0)
-                   ((integer? x) +nan.0)
-                   (else (/ (gamma (+ x 1)) x)))) ; slow. just for the completeness.
-            ((< x 0.001)
-             ;; for small x, Gamma(x) = x + g*x^2 + O(x^3) where g is Euler's
-             ;; gamma constant.
-             (/ (* x (+ 1.0 (* 0.577215664901532860606512090 x)))))
-            ((< x 12)
-             ;; we map the input into (1,2) and use polynomial approximation
-             (let ((y (+ (- x (floor x)) 1))
-                   (P '#(-1.71618513886549492533811e+0
-                          +2.47656508055759199108314e+1
-                          -3.79804256470945635097577e+2
-                          +6.29331155312818442661052e+2
-                          +8.66966202790413211295064e+2
-                          -3.14512729688483675254357e+4
-                          -3.61444134186911729807069e+4
-                          +6.64561438202405440627855e+4))
-                   (Q '#(-3.08402300119738975254353e+1
-                          +3.15350626979604161529144e+2
-                          -1.01515636749021914166146e+3
-                          -3.10777167157231109440444e+3
-                          +2.25381184209801510330112e+4
-                          +4.75584627752788110767815e+3
-                          -1.34659959864969306392456e+5
-                          -1.15132259675553483497211e+5)))
-               (do ((i 0 (+ i 1))
-                    (z (- y 1))
-                    (numer 0.0 (* (+ numer (vector-ref P i)) z))
-                    (denom 1.0 (+ (* denom z) (vector-ref Q i))))
-                   ((= i 8)
-                    (let ((res (+ (/ numer denom) 1)))
-                          ;; remap the result to the original range
-                          ;; using Gamma(z+1) = z*Gamma(z)
-                          (cond ((< x 1) (/ res x))
-                                ((> x 2) (do ((i (- (floor x) 1) (- i 1))
-                                              (y y (+ y 1))
-                                              (res res (* y res)))
-                                             ((= i 0) res)))
-                                (else res)))))))
-            (else (exp (lgamma x)))))
+    ;log(n!) table for n 1 to 256. Vector, where nth index corresponds to log((n+1)!)
+    ;Computed on first invocation of `log-of-fact` 
+    (define log-fact-table #f)
     
     ;private
-    (define (lgamma x)
-      (cond ((<= x 0.0)
-             (if (or (zero? x) (integer? x))
-                 +inf.0
-                 (log (abs (gamma x))))) ; not accurate, just for completeness
-            ((< x 12.0) (log (abs (gamma x))))
-            (else
-             (let ((C '#(0.08333333333333333
-                         -0.002777777777777778
-                         7.936507936507937e-4
-                         -5.952380952380953e-4
-                         8.417508417508417e-4
-                         -0.0019175269175269176                     
-                         0.00641025641025641
-                         -0.029550653594771242))
-                    (z (/ (* x x))))
-               (do ((i   7 (- i 1))
-                     (sum 0 (+ (* sum z) (vector-ref C i))))
-                 ((< i 0)
-                  (+ (* (- x 0.5) (log x))
-                     (- 0.9189385332046728 x) ; 1/2*log(2*pi)
-                     (/ sum x))))))))
+    ;computes log-fact-table
+    ;log(n!) = log((n-1)!) + log(n)
+    (define (make-log-fact-table!)
+       (define table (make-vector 256))
+       (vector-set! table 0 0)
+       (do ((i 1 (+ i 1)))
+           ((> i 255) #t)
+           (vector-set! table i (+ (vector-ref table (- i 1))
+                                   (log (+ i 1)))))
+       (set! log-fact-table table))
+    
+    ;private
+    ;returns log(n!)
+    ;adapted from https://www.johndcook.com/blog/2010/08/16/how-to-compute-log-factorial/
+    (define (log-of-fact n)
+      (when (not log-fact-table)
+        (make-log-fact-table!))
+      (cond 
+        ((<= n 1) 0)
+        ((<= n 256) (vector-ref log-fact-table (- n 1)))
+        (else (let ((x (+ n 1)))
+               (+ (* (- x 0.5)
+                     (log x))
+                  (- x)
+                  (* 0.5
+                     (log (* 2 PI)))
+                  (/ 1.0 (* x 12.0)))))))
    
     
     (define (gsampling . args)
@@ -340,7 +305,7 @@
       (let ((weight-sum (apply + (map car weight+generators-lst)))
             (rand-real-proc (random-source-make-reals s)))
            
-           ;randomly pick generator. If it's exhausted remove it, and pick again
+           ;randomly pick generator. If it's exhausted remove it, and pick again.
            ;returns value (or eof, if all generators are exhausted) 
            (define (pick)
              (let* ((roll (* (rand-real-proc) weight-sum))

@@ -4,7 +4,6 @@
   (scheme cxr)
   (scheme inexact)
   (scheme list)
-  (scheme write)
   (srfi 27)
   (srfi 158)
   (srfi 64))
@@ -189,47 +188,26 @@
                 ((<= k 1) 1)
                 (else (* k (fact (- k 1))))))
             (define (expected-fraction L k)
-              (/ (* (expt L k) (exp (- L)))
+              (/ (* (exact (expt L k)) (exact (exp (- L))))
                  (fact k)))
             
-            (let ((L 2))
+            (define (test-poisson L poisson-gen test-points)
              (generator-every
                (lambda (k)
                  (define expect (expected-fraction L k))
                  (define actual (/ (generator-count 
                                      (lambda (i) (= i k))
-                                     (gtake (make-poisson-generator L) 10000))
-                                   10000.0))
-                 (test-assert (> actual (* 0.9 expect)))
-                 (test-assert (< actual (* 1.1 expect))))
-               (make-iota-generator 4))
-
-             (generator-every
-               (lambda (k)
-                 (define expect (expected-fraction L k))
-                 (define actual (/ (generator-count 
-                                     (lambda (i) (= i k))
-                                     (gtake (make-poisson-generator default-random-source L) 10000))
-                                   10000.0))
-                 (test-assert (> actual (* 0.9 expect)))
-                 (test-assert (< actual (* 1.1 expect))))
-               (make-iota-generator 4)))
- 
-;TODO
-;            (let ((L 40))
-;             (generator-every
-;               (lambda (k)
-;                 (define expect (expected-fraction L k))
-;                 (define actual (/ (generator-count 
-;                                     (lambda (i) (= i k))
-;                                     (gtake (make-poisson-generator L) 10000))
-;                                   10000.0))
-;                 (test-assert (> actual (* 0.7 expect)))
-;                 (test-assert (< actual (* 1.3 expect))))
-;               (make-iota-generator 3)))
+                                     (gtake poisson-gen 10000))
+                                   10000))
+                 (define ratio (inexact (/ actual expect)))
+                 (test-assert (> ratio 0.9))
+                 (test-assert (< ratio 1.1)))
+               (list->generator test-points)))
             
-            
-            )
+            (test-poisson 2 (make-poisson-generator 2) '(1 2 3))
+            (test-poisson 2 (make-poisson-generator default-random-source 2) '(1 2 3))
+            (test-poisson 40 (make-poisson-generator 40) '(30 40 50))
+            (test-poisson 280 (make-poisson-generator 280) '(260 280 300)))
 
 (test-group "Test normal"
             (define frac-at-1dev 0.34134)
@@ -288,10 +266,11 @@
               (define actual (/ (generator-count
                                   (lambda (n)
                                     (= n x))
-                                  (gtake gen 10000))
-                                10000.0))
-              (test-assert (> actual (* 0.9 expected)))
-              (test-assert (< actual (* 1.1 expected))))
+                                  (gtake gen 100000))
+                                100000))
+              (define ratio (/ actual expected))
+              (test-assert (> ratio 0.9))
+              (test-assert (< ratio 1.1)))
             
             (define (test-geom gen p)
               (test-geom-at-point gen p 1)
