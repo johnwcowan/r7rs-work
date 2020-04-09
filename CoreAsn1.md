@@ -3,9 +3,9 @@
 This specifies a variant of ASN.1 Basic Encoding Rules that understands Lisp-like datatypes
 by standardized some local type codes.
 It also arranges for there to be just one encoding for each datum represented, although
-the rules don't conform to either Canonical Encoding Rules or Distinguished Encoding Rules.
-The encoding specified here attempts to maintain a balance between ease of reading
-and ease of writing.
+the rules for doing so don't conform to either Canonical Encoding Rules or Distinguished Encoding Rules.
+The encoding specified here attempts to maintain a balance between ease and efficiency of both reading
+and writing.
 
 ## Procedures
 
@@ -15,24 +15,29 @@ See [CoreSexps](CoreSexps.md), which is the equivalent text format.
 
 Depending on its type, an object is represented as either a sequence
 of bytes or a sequence of subobjects.
+
 All byte objects have the same general format:
+
   * 1 or 2 type bytes
   * 1-9 length bytes
   * the number of content bytes specified in the length.
 
 All objects with subobjects also have the same general format:
+
   * 1 or 2 type bytes
   * an `80` pseudo-length byte
   * the encoded subobjects
   * an end of content (EOC) marker (two consecutive <code>00</code> bytes)
 
-Length bytes:
-  * If length is less than 2^7 bytes, length byte `00` through `7F`.
-  * If length is less than 2^15 bytes, meta-length byte `82` 2 length bytes
+Length bytes format:
+
+  * If length is indeterminate, pseudo-length byte is `80`.
+  * If length is less than 2^7 bytes, length byte is `00` through `7F`.
+  * If length is less than 2^15 bytes, meta-length byte is `82`, then 2 length bytes
     representing a big-endian 2's-complement integer.
-  * If length is less than 2^31 bytes, meta-length byte `84` 4 length bytes
+  * If length is less than 2^31 bytes, meta-length byte is `84`, then 4 length bytes
     representing a big-endian 2's-complement integer.
-  * If length is less than 2^63 bytes, meta-length byte `88` 8 length bytes
+  * If length is less than 2^63 bytes, meta-length byte is `88`, then 8 length bytes
     representing a big-endian 2's-complement integer.
   * Larger objects are not representable.
 
@@ -90,7 +95,8 @@ without hyphens, colons, or spaces.
 
 ## Skipping unknown types
 
-  * If first type byte is `1F`, `3F`, `5F`, `7F`, `9F`, `BF`, `DF`, or `FF`,skip one additional type byte.
+  * If first type byte is `1F`, `3F`, `5F`, `7F`, `9F`, `BF`, `DF`, or `FF`,
+    skip one additional type byte.
   * Read and interpret length bytes.
   * If length byte is not `80`, skip number of bytes equal to the length.
   * If length byte is `80`, skip subobjects until the EOC marker has been read.
