@@ -3,8 +3,10 @@
 This specifies a variant of ASN.1 Basic Encoding Rules that understands Lisp-like datatypes
 by standardized some local type codes.
 It also arranges for there to be just one encoding for each datum represented, although
-the rules for doing so don't conform to either Canonical Encoding Rules or Distinguished Encoding Rules.
-The encoding specified here attempts to maintain a balance between ease and efficiency of both reading
+the rules for doing so don't conform to either Canonical Encoding Rules
+or Distinguished Encoding Rules.
+The encoding specified here attempts to maintain a balance
+between ease and efficiency of both reading
 and writing.
 
 ## Procedures
@@ -44,7 +46,6 @@ Length bytes format:
 ## Examples
 
 Here are a few examples of how different kinds of objects are represented.
-All the currently proposed types can be found at [Lisp Serialization Conventions](http://tinyurl.com/asn1-ler).
 
 Lists:  Type byte `E0`,
 pseudo-length byte `80`,
@@ -101,5 +102,10 @@ without hyphens, colons, or spaces.
   * If length byte is not `80`, skip number of bytes equal to the length.
   * If length byte is `80`, skip subobjects until the EOC marker has been read.
   
-Note:  If interoperability with other ASN.1 systems is important, encode vectors instead of lists,
-and do not encode floats, symbols, or mappings.
+Note:  If interoperability with other ASN.1 systems is important, encode only
+the types marked "X.690" in the Origin column of the
+[Lisp Serialization Conventions](https://tinyurl.com/asn1-ler) spreadsheet.
+
+Equivalent textual format: [CoreSexp](https://bitbucket.org/cowan/r7rs-wg1-infra/src/default/CoreSexp.md).
+
+All currently proposed formats: [Lisp Serialization Conventions](https://tinyurl.com/asn1-ler).
