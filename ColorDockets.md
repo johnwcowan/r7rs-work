@@ -183,10 +183,14 @@ Bimaps: [Bimaps](Bimaps.md)
 
 # Green Docket (non-portable)
 
-Procedure arity inspection: [SRFI 102](http://srfi.schemers.org/srfi-102/srfi-102.html) plus
-[Dybvig's counterproposal](https://srfi-email.schemers.org/srfi-102/msg/2771967).
+Procedure arity inspection: [SRFI 191](http://srfi.schemers.org/srfi-191/srfi-191.html).
 
-Advanced I/O: [FilesAdvancedCowan](FilesAdvancedCowan.md)
+Custom I/O ports: [SRFI 181](http://srfi.schemers.org/srfi-181/srfi-181.html).
+
+Transcoded ports: [SRFI 186](http://srfi.schemers.org/srfi-186/srfi-186.html).
+
+Port positioning: [SRFI 192](http://srfi.schemers.org/srfi-192/srfi-192.html).
+
 
 Threads: [SRFI 18](http://srfi.schemers.org/srfi-18/srfi-18.html)
 or [FuturesCowan](FuturesCowan.md) (just futures, thread-local variables, monad support)
@@ -354,8 +358,6 @@ More multiple values: [MultipleValuesCowan](MultipleValuesCowan.md)
 [MiscAlexandria](MiscAlexandria.md)
 
 R6RS compatibility: whole libraries or cherry-picked procedures
-
-Custom I/O ports: [R6RS](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html)
 
 Macro expander(s) available at run time:
 
