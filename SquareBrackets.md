@@ -1,4 +1,4 @@
-I tested the usual suite of Schemes with `'[b c](a)` to see how they reacted to the square brackets.  R6RS requires the result to be `(a b c)`.
+I tested the usual suite of Schemes with `'[a b c]` to see how they reacted to the square brackets.  R6RS requires the result to be `(a b c)`.
 
 Evaluates to `(a b c)`: Racket, Gauche, Gambit, Chicken, Bigloo, Guile, SISC, Chez, Vicare, Larceny, Ypsilon, Mosh, IronScheme, Scheme 9, STklos, KSi, Schemik, Elk, Oaklisp, SXM, Sizzle, Spark, Sagittarius
 
