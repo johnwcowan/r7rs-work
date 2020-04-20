@@ -52,7 +52,7 @@ as a namespace UUID.
 
 `(uuid-version `*uuid*`)`
 
-Return the version (variant) of *uuid* as an exact integer from 0 to 7 inclusive.
+Return the version of *uuid* as an exact integer from 0 to 7 inclusive.
 Normally 0 is returned only for the nil UUID.
 
 ## Conversion
