@@ -67,16 +67,16 @@ RFC 4122 variant, the result is unspecified.
 `(uuid->string `*uuid*`)`
 
 Returns a newly allocated string representing *uuid* in the canonical format
-`xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`, where each `x` is an
-uppercase hex digit.
+`xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`, where each `x` is a hex digit.
+The hex digits A-F may be either upper or lower case.
 
 To generate a corresponding URN, prepend "urn:uuid:" to the result.
 
 `(string->uuid `*string*`)`
 
 Returns the UUID that results from parsing *string*.  In
-addition to canonical format, hyphens can be omitted and
-lowercase hex digits used.  Any other string returns `#f`.
+addition to canonical format, hyphens can be omitted.
+Any other string returns `#f`.
 
 `(uuid->bytevector `*uuid*`)`
 Returns a newly allocated bytevector representation of *uuid*.
