@@ -1,5 +1,11 @@
 [RFC 4122](https://tools.ietf.org/html/rfc4122) UUIDs are represented by a disjoint type.
 
+## Predicates
+
+`(uuid? `*obj*`)`
+
+Return `#t` if *obj* is a UUID, and `#f` otherwise.
+
 ## Constructors
 
 Note:  UUIDs of versions 1 and 2 leak information about the creating machine's MAC address
@@ -53,16 +59,18 @@ as a namespace UUID.
 `(uuid-version `*uuid*`)`
 
 Return the version of *uuid* as an exact integer from 0 to 7 inclusive.
-Normally 0 is returned only for the nil UUID.
+Normally 0 is returned only for the nil UUID.  If the UUID is not an
+RFC 4122 variant, the result is unspecified.
 
 ## Conversion
 
 `(uuid->string `*uuid*`)`
 
-Returns a string representing *uuid* in the canonical format
+Returns a newly allocated string representing *uuid* in the canonical format
 `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`, where each `x` is an
 uppercase hex digit.
-It is an error to mutate this string.
+
+To generate a corresponding URN, prepend "urn:uuid:" to the result.
 
 `(string->uuid `*string*`)`
 
@@ -71,11 +79,15 @@ addition to canonical format, hyphens can be omitted and
 lowercase hex digits used.  Any other string returns `#f`.
 
 `(uuid->bytevector `*uuid*`)`
-Returns a bytevector representation of *uuid*.
+Returns a newly allocated bytevector representation of *uuid*.
 The length of the result is always 16 bytes.
-It is an error to mutate this bytevector.
 
 `(bytevector->uuid `*bytevector*`)`
 
 Returns the UUID specified by *bytevector*.
 It is an error if *bytevector* is not 16 bytes long.
+
+## Implementation
+
+See [Gōran Weinholt's library](https://github.com/weinholt/uuid) as a basis.
+
