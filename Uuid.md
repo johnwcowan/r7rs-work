@@ -5,6 +5,7 @@
 Note:  UUIDs of versions 1 and 2 leak information about the creating machine's MAC address
 and so have bad privacy implications.  UUIDs of version 3 use the broken MD5 hash scheme.
 Therefore, this SRFI does not provide methods of creating them.
+Use version 4 instead of versions 1 or 2, and version 5 instead of version 3.
 
 `(make-random-uuid)`
 
