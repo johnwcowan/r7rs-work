@@ -87,6 +87,13 @@ The length of the result is always 16 bytes.
 Returns the UUID specified by *bytevector*.
 It is an error if *bytevector* is not 16 bytes long.
 
+## Comparator
+
+`uuid-comparator`
+
+A [SRFI 128](http://srfi.schemers.org/srfi-128/srfi-128.html) comparator
+for UUIDs.  It must support both ordering and hashing.
+
 ## Implementation
 
 See [Gōran Weinholt's library](https://github.com/weinholt/uuid) as a basis.
