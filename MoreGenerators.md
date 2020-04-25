@@ -23,6 +23,19 @@ Creates a generator that returns pairs.
 The car of each pair is an exact integer counting up by 1 from 0.
 The cdr of each pair is the result of *gen*.
 
+`(gpeek `*gen*`)`
+
+Returns a procedure *p* that behaves like a generator but with more capabilities.
+If called with no arguments, it invokes the underlying generator *gen*.
+However, if called with the argument `peek`, it retrieves the next value
+from *gen* and returns it, but also saves it in such a way that the
+next call on *p* will return it, analogously to `peek-char` and `peek-u8`.
+If called with two arguments, `poke` and an object *obj*,
+it will save *obj* so that the next call on *p* will return it.
+
+It is an error to peek from and then poke *p* or vice versa without an
+intervening no-argument call.
+
 `(gchain-generators `*constructor* *operation* ...`)`
 
 Creates a generator from a generator constructor plus

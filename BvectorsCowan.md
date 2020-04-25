@@ -1,3 +1,1 @@
-View [Bvectors](http://htmlpreview.github.io?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/BvectorsCowan.html)
-
-Edit [Bvectors](BvectorsCowan.html)
+See [SRFI 178](http://srfi.schemers.org/srfi-178/srfi-178.html).

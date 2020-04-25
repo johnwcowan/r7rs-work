@@ -28,6 +28,10 @@ If identifiers imported from this library conflict with identifiers already impo
 
 ### Optimization
 
+`(functional)`
+
+Indicates that the procedures exported by this library and the transitive closure of the procedures they call are pure and functional.
+
 In the list below, *importance* represents a symbol, one of `unimportant` (no importance), `neutral` (some importance, the default), `important` (substantial importance), or `extreme` (extreme importance).  It is an error to specify anything else.  These correspond to the Common Lisp importance values 0, 1, 2, and 3 respectively.
 
 If no identifiers are named, then the library declaration applies to all identifiers defined in the library.  Implementations may (but should not) ignore the named identifiers and treat the declaration as applying to all identifiers.

@@ -71,6 +71,8 @@ Syntax parameters: [SRFI 139](http://srfi.schemers.org/srfi-139/srfi-139.html)
 
 Syntax-rules extensions: [SRFI 149](http://srfi.schemers.org/srfi-149/srfi-149.html)
 
+`let-syntax` with splicing: [SRFI 188](http://srfi.schemers.org/srfi-188/srfi-188.html)
+
 **Portable**
 
 `cond` guards: [SRFI 61](http://srfi.schemers.org/srfi-61/srfi-61.html)
@@ -98,7 +100,9 @@ Syntax combiners for binary functions: [SRFI 156](https://srfi.schemers.org/srfi
 
 **Syntax**
 
-`and-let*`: [SRFI 2](http://srfi.schemers.org/srfi-2/srfi-2.html)
+`and-let*`: [SRFI 2 using define-macro](http://srfi.schemers.org/srfi-2/srfi-2.html),
+[using explicit renaming](https://code.call-cc.org/cgi-bin/gitweb.cgi?p=chicken-core.git;a=blob;f=chicken-syntax.scm;h=e3c2feb47c1437d44aefa0d879e04dc28a0cbc61;hb=HEAD),
+[using syntax-case](http://git.savannah.gnu.org/cgit/guile.git/tree/module/ice-9/and-let-star.scm).
 
 Loops: [SRFI 42](http://srfi.schemers.org/srfi-42/srfi-42) or [Riastradh's foof-loop](http://mumble.net/~campbell/scheme/foof-loop.txt) or [Chibi loop](http://synthcode.com/scheme/chibi/lib/chibi/loop.html), summarized at [EagerComprehensions](EagerComprehensions.md)
 
@@ -134,6 +138,8 @@ Lexical macros: [LexmacsCowan](LexmacsCowan.md)
 # Lime Docket (portable)
 
 List mutation: [ListSurgeryCowan](ListSurgeryCowan.md)
+
+UUIDs: [Uuid](Uuid.md)
 
 Strings: [SRFI 152](https://srfi.schemers.org/srfi-152/srfi-1525.html) (index-based),
 [SRFI 130](https://srfi.schemers.org/srfi-130/srfi-130.html) (cursor-based)
@@ -179,10 +185,14 @@ Bimaps: [Bimaps](Bimaps.md)
 
 # Green Docket (non-portable)
 
-Procedure arity inspection: [SRFI 102](http://srfi.schemers.org/srfi-102/srfi-102.html) plus
-[Dybvig's counterproposal](https://srfi-email.schemers.org/srfi-102/msg/2771967).
+Procedure arity inspection: [SRFI 191](http://srfi.schemers.org/srfi-191/srfi-191.html).
 
-Advanced I/O: [FilesAdvancedCowan](FilesAdvancedCowan.md)
+Custom I/O ports: [SRFI 181](http://srfi.schemers.org/srfi-181/srfi-181.html).
+
+Transcoded ports: [SRFI 186](http://srfi.schemers.org/srfi-186/srfi-186.html).
+
+Port positioning: [SRFI 192](http://srfi.schemers.org/srfi-192/srfi-192.html).
+
 
 Threads: [SRFI 18](http://srfi.schemers.org/srfi-18/srfi-18.html)
 or [FuturesCowan](FuturesCowan.md) (just futures, thread-local variables, monad support)
@@ -350,8 +360,6 @@ More multiple values: [MultipleValuesCowan](MultipleValuesCowan.md)
 [MiscAlexandria](MiscAlexandria.md)
 
 R6RS compatibility: whole libraries or cherry-picked procedures
-
-Custom I/O ports: [R6RS](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html)
 
 Macro expander(s) available at run time:
 

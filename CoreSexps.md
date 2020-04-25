@@ -4,7 +4,7 @@
 
 Returns a Core object, where *code* is an exact integer representing a code,
 *tag* is a symbol representing a tag, and *value* is a
-number, string, bytevector, or list.  These are used to represent ASN.1
+number, string, bytevector, or list.  These are used to represent
 objects whose code/tag is not understood by the implementation.
 
 `(core-object? `*obj*`)`
@@ -58,10 +58,11 @@ Returns `#f` if no known serialization (in which case the write operation fails)
 
   * Lists: Enclosed in parentheses.
 
-  * Tags: Used to extend syntax when followed by one of the other basic syntaxes.  Formats:
+  * Tags: Used to extend syntax.  Formats:
       * `#` by itself
       * `#` followed by type number in hex
-      * `#` followed by a tag identifier (lower case ASCII letters and digits, begins with a letter)
+      * `#` followed by a tag identifier (lower case ASCII letters and digits,
+        begins with a letter)
 
 ## Whitespace and comments
 
@@ -76,6 +77,6 @@ that goes up to but not including the end of line and is discarded.
 A comment by itself is not a valid S-expression.
 
 
-Equivalent binary format: [CoreAsn1](https://bitbucket.org/cowan/r7rs-wg1-infra/src/default/CoreAsn1).
+Equivalent binary format: [CoreAsn1](https://bitbucket.org/cowan/r7rs-wg1-infra/src/default/CoreAsn1.md).
 
 All currently proposed formats: [Lisp Serialization Conventions](https://tinyurl.com/asn1-ler).
