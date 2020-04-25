@@ -141,6 +141,30 @@ process object accessors may return `#f` unexpectedly
 or read from a file such as `/proc/<pid>/status`.
 It is always possible to send signals to a synthetic process object.
 
+## Path search
+
+`(path-search `*filename [dirpath]*`)`
+
+The string *dirpath*
+(whose default is the value of the environment variable `PATH`)
+is split by a directory separator character
+into a sequence of directory names.
+Each directory name has a path separator character
+appended to it followed by *filename* to form a sequence of pathnames.
+The first such pathname that names an existing file
+(whether it is executable or not) is returned by `path-search`;
+if there are no such pathnames, `#f` is returned.
+(The pathname may be modified in a system-dependent way,
+as by adding an `.exe` suffix.)
+
+On Posix systems, the directory separator character is `:`
+and the path separator character is `/`.
+On Windows, the directory separator character is `:`
+and the path separator character is `\`.
+
+Note that the above behavior is not necessarily exactly the same
+as the behavior of the `path` key applied to `make-process`.
+
 ## Process object predicates
 
 `(process? `*obj*`)`  

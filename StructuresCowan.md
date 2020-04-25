@@ -1,50 +1,63 @@
+## Syntax
+
+(struct-packer schema)
+
+Returns proc that packs an object (see Schema for allowed object types) into a bytevector.
+Schema is an s-expression.
+
+(struct-unpacker schema)
+
+Returns proc that unpacks a bytevector into an object.
+Schema is an s-expression.
+
+
 ## Procedures
 
 (make-struct-packer schema)
 
-returns proc that packs an object (see Schema for allowed object types) into a bytevector
+Returns proc that packs an object (see Schema for allowed object types) into a bytevector.
 
-(make-struct-unpacker schema)
+(struct-unpacker schema)
 
-returns proc that unpacks a bytevector into an object.
+Returns proc that unpacks a bytevector into an object.
 
 # Schema
 
 (fill size)
 
-returns nothing, just skips bytes
+Returns nothing, just skips bytes
 
 (array size descriptor)
 
-returns vector
+Returns vector
 
 (struct (name descriptor) ...)
 
-returns alist or other dictionary
+Returns alist or other dictionary
 
 (union (name descriptor) ...)
 
-returns alist or other dictionary
+Returns alist or other dictionary
 
 u8-c128{le,be,}
 
-returns number
+Returns number
 
 (u8-c128{le,be,} length)
 
-returns SRFI 160 vector
+Returns SRFI 160 vector
 
 (string size {ascii,latin-1,utf-8,utf-16,utf-16be,utf-16le}
 
-returns string or special condition object
+Returns string or special condition object
 
 replace
 
-replace an invalid character
+Replace an invalid character
 
 wrap
 
-wrap a bytevector into a condition object if string contains invalid characters.
+Wrap a bytevector into a condition object if string contains invalid characters.
 
 ## Issues
 
