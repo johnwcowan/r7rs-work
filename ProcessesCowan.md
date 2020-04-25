@@ -114,7 +114,12 @@ as the *cmd* argument.
 
 Specifies an alist that maps strings to strings, which becomes the initial environment of the
 child process.  If omitted, the child process has the same environment as the parent.
-If the same key appears more than once in the alist, the first value is used, just as with `assoc`.
+If the same key appears more than once in the alist, the first value is used,
+just as with `assoc`.
+
+`working-directory`
+
+Specifies the working directory of the newly created process as a string.
 
 `group`
 
@@ -190,25 +195,20 @@ Returns the process group id of the child process as an exact integer.
 
 Returns the session id of the child process as an exact integer.
 
-(`process-terminated? `*process*`)`
-
-Returns `#t` if the process has terminated either normally or on a signal, and `#f` otherwise.
-
-`(process-stopped? `*process*`)`
-
-Returns `#t` if the process has stopped on a signal, and `#f` otherwise.
-
 `(process-exit-code `*process*`)`
 
-Returns the exit code as an exact integer if the process has terminated normally, or #f if not.
+Returns the exit code as an exact integer if the process has terminated normally,
+or `#f` if not.
 
 `(process-stop-signal `*process*`)`
 
-Returns the signal number as a symbol if the process has stopped on a signal, or #f if not.
+Returns the signal number as a symbol if the process has stopped on a signal,
+or `#f` if not.
 
 `(process-terminate-signal `*process*`)`
 
-Returns the signal number as an exact integer if the process has terminated on a signal, or #f if not.
+Returns the signal number as an exact integer if the process has terminated on a signal,
+or `#f` if not.
 
 ## Process termination procedures
 
@@ -254,24 +254,29 @@ process object.
 
 ## Fork and exec
 
-These procedures are not portable to Windows (they will raise errors satisfying `process-exception?`)
-and should be avoided when possible.
+These procedures are not portable to Windows (they will raise errors satisfying
+`process-exception?`) and should be avoided when notnecessary.
+However, they add a great deal of power and flexibility to the creation of process graphs.
+If the *narrow?* argument is false or absent, all threads present in the parent process
+are also present in the child.  If it is true, only the calling thread is present in the
+child process.
 
-`(process-fork)`
+`(process-fork `[*narrow?*]`)`
 
 Forks the current process.  Returns a process object in the parent process
 and `#f` in the child object.
 
-`(process-fork `*thunk*`)`
+`(process-fork `*thunk* [*narrow?*]`)`
 
 Forks the current process and returns a process object in the parent process.  The child
 process immediately invokes *thunk* and exits using the value that *thunk* returns.
 
 `(process-exec `*setup cmd . args*`)`
 
-In the current process, replaces the currently executing program with *cmd*, passing *args* to it.
-All keys in *setup* except `closed-fds`, `path`, `arg0`, and `env` are ignored.
-This procedure never returns (but may throw an exception).
+In the current process, replaces the currently executing program with *cmd*,
+passing *args* to it.  All threads except the current thread are terminated.
+All keys in *setup* except `closed-fds`, `path`, `arg0`, `env`, and `working-directory`
+are ignored.  This procedure never returns (but may throw an exception).
 
 ## Exceptions
 
