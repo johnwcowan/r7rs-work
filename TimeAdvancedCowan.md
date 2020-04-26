@@ -271,8 +271,7 @@ begins.  Not having a leap second in 1969 ensures that there is none
 just before the Unix epoch.  The implementation also pretends,
 *faute de mieux*, that there will be no more leap seconds in the future.
 
-To update the leap second tables, download the file
-[http://maia.usno.navy.mil/ser7/tai-utc.dat](http://maia.usno.navy.mil/ser7/tai-utc.dat)
-and run the script `update-leapsec`, which is written in portable Scheme.
+To update the leap second tables, download the file from
+[USNO](http://web.archive.org/web/20191022082231/http://maia.usno.navy.mil/ser7/tai-utc.dat).
 
 

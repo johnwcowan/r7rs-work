@@ -1,5 +1,5 @@
 Very preliminary version of a high-level process management library.
-It's based somewhat on the Python 3 subprocess module.
+It's based to some degree on the Python 3 subprocess module.
 
 ## Issues
 
@@ -7,15 +7,11 @@ Issue 3: It's not clear whether the control-terminal procedures
 `open-control-tty`, `terminal-process-group`, and `set-terminal-process-group`
 belong in this SRFI or in a terminal SRFI.
 
-Issue 4: some kind of structured process-runner that allows processes to be
-created, a body or lambda to be executed, and then waits for the processes to terminate.
-This is cleaner than randomly calling `make-process` and `process-wait`.
-
 ## Constructors
 
 `(make-pipe)`
 
-Makes a pipe and returns two values, both binary ports.
+Makes a Posix pipe and returns two values, both binary ports.
 The first value is the read end of the pipe, the second value is the write end.
 The caller may use the pipe internally as a queue (provided it does not get full),
 pass one end to a subprocess and use the other to communicate with it,
@@ -49,6 +45,17 @@ precautions must be taken to avoid deadlock.
 If the implementation does not make use of asynchronous I/O under the covers,
 then the use of `select` to decide which pipe is ready
 to be read or written is advisable.
+
+`(with-process-runner `*proc*`)`
+
+Creates a process-runner, an opaque object with which newly created processes
+can be registered.  The procedure *proc* is invoked on the process runner.
+When *proc* returns, `with-process-runner` waits for all registered processes
+to terminate and then returns a list of the processes in arbitrary order.
+
+A process is registered by specifying a `runner` key in the setup dictionary
+whose value is the process-runner.  Unless the `group` key specifies otherwise,
+all registered processes run in the same newly created process group.
 
 ## The setup dictionary
 
@@ -88,9 +95,10 @@ are closed in the child process.
 
 `stdout+stderr`
 
-The same as `stdout`, but binds both the standard output and the standard error in the child process
-to the same port.
-It is an error to provide either `stdout` or `stderr` if this key is present in the setup plist.
+The same as `stdout`, but binds both the standard output and the standard error
+in the child process to the same port.
+It is an error to provide either `stdout` or `stderr`
+if this key is present in the setup plist.
 This corresponds to `|&` in the C shell and `2>&1` in Posix shells.
 
 `open-fds`
@@ -114,7 +122,12 @@ as the *cmd* argument.
 
 Specifies an alist that maps strings to strings, which becomes the initial environment of the
 child process.  If omitted, the child process has the same environment as the parent.
-If the same key appears more than once in the alist, the first value is used, just as with `assoc`.
+If the same key appears more than once in the alist, the first value is used,
+just as with `assoc`.
+
+`working-directory`
+
+Specifies the working directory of the newly created process as a string.
 
 `group`
 
@@ -130,6 +143,10 @@ new process group; in Windows this implies a new console.
 
 If the value is `#f` or the key is omitted, `make-process` returns as soon as the child
 process is created.  If the value is `#t`, `make-process` returns when the child terminates.
+
+`runner`
+
+Specifies a process-runner object that controls the execution of this process.
 
 ## Synthetic process objects
 
@@ -190,25 +207,20 @@ Returns the process group id of the child process as an exact integer.
 
 Returns the session id of the child process as an exact integer.
 
-(`process-terminated? `*process*`)`
-
-Returns `#t` if the process has terminated either normally or on a signal, and `#f` otherwise.
-
-`(process-stopped? `*process*`)`
-
-Returns `#t` if the process has stopped on a signal, and `#f` otherwise.
-
 `(process-exit-code `*process*`)`
 
-Returns the exit code as an exact integer if the process has terminated normally, or #f if not.
+Returns the exit code as an exact integer if the process has terminated normally,
+or `#f` if not.
 
 `(process-stop-signal `*process*`)`
 
-Returns the signal number as a symbol if the process has stopped on a signal, or #f if not.
+Returns the signal number as a symbol if the process has stopped on a signal,
+or `#f` if not.
 
 `(process-terminate-signal `*process*`)`
 
-Returns the signal number as an exact integer if the process has terminated on a signal, or #f if not.
+Returns the signal number as an exact integer if the process has terminated on a signal,
+or `#f` if not.
 
 ## Process termination procedures
 
@@ -254,24 +266,29 @@ process object.
 
 ## Fork and exec
 
-These procedures are not portable to Windows (they will raise errors satisfying `process-exception?`)
-and should be avoided when possible.
+These procedures are not portable to Windows (they will raise errors satisfying
+`process-exception?`) and should be avoided when notnecessary.
+However, they add a great deal of power and flexibility to the creation of process graphs.
+If the *narrow?* argument is false or absent, all threads present in the parent process
+are also present in the child.  If it is true, only the calling thread is present in the
+child process.
 
-`(process-fork)`
+`(process-fork `[*narrow?*]`)`
 
 Forks the current process.  Returns a process object in the parent process
 and `#f` in the child object.
 
-`(process-fork `*thunk*`)`
+`(process-fork `*thunk* [*narrow?*]`)`
 
 Forks the current process and returns a process object in the parent process.  The child
 process immediately invokes *thunk* and exits using the value that *thunk* returns.
 
 `(process-exec `*setup cmd . args*`)`
 
-In the current process, replaces the currently executing program with *cmd*, passing *args* to it.
-All keys in *setup* except `closed-fds`, `path`, `arg0`, and `env` are ignored.
-This procedure never returns (but may throw an exception).
+In the current process, replaces the currently executing program with *cmd*,
+passing *args* to it.  All threads except the current thread are terminated.
+All keys in *setup* except `closed-fds`, `path`, `arg0`, `env`, and `working-directory`
+are ignored.  This procedure never returns (but may throw an exception).
 
 ## Exceptions
 
