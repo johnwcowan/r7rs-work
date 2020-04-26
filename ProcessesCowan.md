@@ -1,5 +1,5 @@
 Very preliminary version of a high-level process management library.
-It's based somewhat on the Python 3 subprocess module.
+It's based to some degree on the Python 3 subprocess module.
 
 ## Issues
 
@@ -7,15 +7,11 @@ Issue 3: It's not clear whether the control-terminal procedures
 `open-control-tty`, `terminal-process-group`, and `set-terminal-process-group`
 belong in this SRFI or in a terminal SRFI.
 
-Issue 4: some kind of structured process-runner that allows processes to be
-created, a body or lambda to be executed, and then waits for the processes to terminate.
-This is cleaner than randomly calling `make-process` and `process-wait`.
-
 ## Constructors
 
 `(make-pipe)`
 
-Makes a pipe and returns two values, both binary ports.
+Makes a Posix pipe and returns two values, both binary ports.
 The first value is the read end of the pipe, the second value is the write end.
 The caller may use the pipe internally as a queue (provided it does not get full),
 pass one end to a subprocess and use the other to communicate with it,
@@ -49,6 +45,17 @@ precautions must be taken to avoid deadlock.
 If the implementation does not make use of asynchronous I/O under the covers,
 then the use of `select` to decide which pipe is ready
 to be read or written is advisable.
+
+`(with-process-runner `*proc*`)`
+
+Creates a process-runner, an opaque object with which newly created processes
+can be registered.  The procedure *proc* is invoked on the process runner.
+When *proc* returns, `with-process-runner` waits for all registered processes
+to terminate and then returns a list of the processes in arbitrary order.
+
+A process is registered by specifying a `runner` key in the setup dictionary
+whose value is the process-runner.  Unless the `group` key specifies otherwise,
+all registered processes run in the same newly created process group.
 
 ## The setup dictionary
 
@@ -88,9 +95,10 @@ are closed in the child process.
 
 `stdout+stderr`
 
-The same as `stdout`, but binds both the standard output and the standard error in the child process
-to the same port.
-It is an error to provide either `stdout` or `stderr` if this key is present in the setup plist.
+The same as `stdout`, but binds both the standard output and the standard error
+in the child process to the same port.
+It is an error to provide either `stdout` or `stderr`
+if this key is present in the setup plist.
 This corresponds to `|&` in the C shell and `2>&1` in Posix shells.
 
 `open-fds`
@@ -135,6 +143,10 @@ new process group; in Windows this implies a new console.
 
 If the value is `#f` or the key is omitted, `make-process` returns as soon as the child
 process is created.  If the value is `#t`, `make-process` returns when the child terminates.
+
+`runner`
+
+Specifies a process-runner object that controls the execution of this process.
 
 ## Synthetic process objects
 
