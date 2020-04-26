@@ -4,9 +4,19 @@
   (scheme cxr)
   (scheme inexact)
   (scheme list)
-  (srfi 27)
-  (srfi 158)
-  (srfi 64))
+  (srfi 27))
+
+(cond-expand
+  ((library (srfi 158)) (import (srfi 158)))
+  ((library (srfi 121)) (import (srfi 121))))
+
+(cond-expand
+  ((library (srfi 64))
+   (import (srfi 64))
+   (begin
+     (define (test-exit) #t)))
+  ((library (chibi test))
+   (import (chibi test))))
 
 (define (assert-number-generator gen from to)
   (define range (- to from))
@@ -337,3 +347,5 @@
               (test-assert (< actual (* 1.1 expected)))))
 
 (test-end "Advanced random")
+
+(test-exit)
