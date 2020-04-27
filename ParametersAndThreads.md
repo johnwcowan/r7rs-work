@@ -1,6 +1,6 @@
 This page documents what happens to [SRFI 39](http://srfi.schemers.org/srfi-39/srfi-39.html)
 parameters that have been mutated from their original values (as opposed to bound by
-`parameterize` when a new thread is spawned.  SRFI 39 documents three known behaviors:
+`parameterize`) when a new thread is spawned.  SRFI 39 documents three known behaviors:
 
 (a) Create a new parameter corresponding to the old one and reinitialize it.
 Scheme 48.
@@ -34,7 +34,7 @@ Test code:
 (define p (make-parameter 5))
 (p 17)
 (define (thunk)
-  (display (p)) ; (a) displays 5, (b) (c) display 17
+  (display (p)) ; (a) displays 5, (b) and (c) display 17
   (newline)
   (p 24)
   (display (p)) ; should display 24
