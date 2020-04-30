@@ -125,9 +125,13 @@ child process.  If omitted, the child process has the same environment as the pa
 If the same key appears more than once in the alist, the first value is used,
 just as with `assoc`.
 
-`working-directory`
+`current-directory`
 
-Specifies the working directory of the newly created process as a string.
+Specifies the current (working) directory of the newly created process as a string.
+
+`umask`
+
+Specifies the Posix umask of the newly created process as an exact integer.
 
 `group`
 
@@ -195,32 +199,39 @@ The following procedures extract values from a process object.
 If the answer is not yet known, these procedures return `#f`
 rather than waiting for the process to complete.
 
-`(process-child-id `*process*`)`
+These should all work correctly on children of the calling process.
+They can be performed on other processes
+by groveling in the `/proc` file system;
+if that is unavailable (as on MacOS), `#f` can always be returned.
 
-Returns the process id of the child process as an exact integer.
+`(process-id `*process*`)`
 
-`(process-child-group `*process*`)`
+Returns the process id of the process as an exact integer.
 
-Returns the process group id of the child process as an exact integer.
+`(process-group `*process*`)`
 
-`(process-child-session `*process*`)`
+Returns the process group id of the process as an exact integer.
 
-Returns the session id of the child process as an exact integer.
+`(process-session `*process*`)`
+
+Returns the session id of the process as an exact integer.
 
 `(process-exit-code `*process*`)`
 
-Returns the exit code as an exact integer if the process has terminated normally,
-or `#f` if not.
+Returns the exit code as an exact integer if the process
+has terminated normally, or `#f` if not.
 
 `(process-stop-signal `*process*`)`
 
 Returns the signal number as a symbol if the process has stopped on a signal,
-or `#f` if not.
+or `#f` if not.  The exact set of symbols is implementation-dependent, but
+they are upper-case and begin with `SIG`.
 
 `(process-terminate-signal `*process*`)`
 
-Returns the signal number as an exact integer if the process has terminated on a signal,
-or `#f` if not.
+Returns the signal number as a symbol if the process has terminated on a signal,
+or `#f` if not.  The exact set of symbols is implementation-dependent, but
+they are upper-case and begin with `SIG`.
 
 ## Process termination procedures
 
@@ -267,7 +278,7 @@ process object.
 ## Fork and exec
 
 These procedures are not portable to Windows (they will raise errors satisfying
-`process-exception?`) and should be avoided when notnecessary.
+`process-exception?`) and should be avoided when not necessary.
 However, they add a great deal of power and flexibility to the creation of process graphs.
 If the *narrow?* argument is false or absent, all threads present in the parent process
 are also present in the child.  If it is true, only the calling thread is present in the
@@ -287,8 +298,8 @@ process immediately invokes *thunk* and exits using the value that *thunk* retur
 
 In the current process, replaces the currently executing program with *cmd*,
 passing *args* to it.  All threads except the current thread are terminated.
-All keys in *setup* except `closed-fds`, `path`, `arg0`, `env`, and `working-directory`
-are ignored.  This procedure never returns (but may throw an exception).
+All keys in *setup* except `open-fds`, `path`, `arg0`, `env`, `current-directory`
+and `umask` are ignored.  This procedure never returns (but may throw an exception).
 
 ## Exceptions
 
