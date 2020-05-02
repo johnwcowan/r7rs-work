@@ -64,7 +64,7 @@ Returns the indexer of *range*.
 
 `(range-ref `*range index*`)`
 
-Returns the indexth element of *range*.  It is an
+Returns the *index*th element of *range*.  It is an
 error if index is less than 0 or greater than 
 or equal to the length of *range*.
 
@@ -83,7 +83,7 @@ Shorthand for `(range-ref `*range* `(- (range-length `*range*`) 1))`
 
 Returns two values which are ranges.  The first value
 contains all elements of *range* from the zeroth element
-to the indexth element exclusive.  The second value contains
+to the *index*th element exclusive.  The second value contains
 all elements of *range* from the *index*th element inclusive
 to the last element.
 
@@ -112,8 +112,8 @@ Returns the number of elements of *range* which satisfy *pred*.
 `(range-any `*pred range*`)`
 
 Returns true if any of the elements of *range* satisfy *pred*.
-Specifically it returns the last value returned by *pred* or `#t` if
-*pred* was never invoked.  Otherwise, `#f` is returned.
+Specifically it returns the last value returned by *pred*.
+Otherwise, `#f` is returned.
 
 `(range-every `*pred range*`)`
 
