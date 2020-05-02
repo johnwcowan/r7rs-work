@@ -1,15 +1,19 @@
 ## Rationale
 
-Many procedures in many libraries accept arguments from a finite set (usually a fairly small one),
+Many procedures in many libraries accept arguments from a finite set
+(usually a fairly small one),
 or subsets of a finite set to describe one or more modes of operation.
 Offering a mechanism for dealing with such values fosters portable and readable code,
-much as records do for compound values, or multiple values for procedures computing several results.
+much as records do for compound values, or multiple values
+for procedures computing several results.
 
-In Lisp-family languages, it is traditional to use symbols and lists of symbols for this purpose.
+In Lisp-family languages, it is traditional to use symbols and lists of symbols
+for this purpose.
 Symbols have at least two disadvantages:
 they are not "type-safe", in the sense that a single symbol may be used in more than one
 logically independent universe of flags; and in Scheme symbols do not have associated values.
-In C-family languages, enumerations have names and numeric values, by default consecutive values,
+In C-family languages, enumerations have names and numeric values,
+by default consecutive values,
 but often powers of two or something externally dictated.
 However, the name is not accessible at runtime, and enumeration types
 are not really disjoint from integer types (in C++ they are statically distinct).
@@ -18,16 +22,17 @@ This SRFI instead provides something related to the *enums* of Java version 5 an
 These are objects of a type disjoint from all others that are grouped into *enumeration types*
 (called *enum classes* in Java).  In Java, each enumeration type is allowed to declare
 the number and types of values associated with each object, but in this SRFI an enumeration
-object has exactly one value; this is useful when translating from C to record the numeric value,
-but has other uses as well.  The universes of R6RS correspond to enum types, but they are not reified.
+object has exactly one value; this is useful when translating from C
+to record the numeric value, but has other uses as well.
+The universes of R6RS correspond to enum types, but they are not reified.
 
-In this SRFI, each enum has four properties:  the enum type to which it belongs, its name (a symbol),
-its ordinal (an exact integer), and its value (any object).
+In this SRFI, each enum has four properties:  the enum type to which it belongs,
+its name (a symbol), its ordinal (an exact integer), and its value (any object).
 An enum type provides access to all the enums that belong to it by name or ordinal.
 
-*Enumeration sets* are used to represent multiple enums that belong to the same type.  They provide
-a subset of the operations provided by [SRFI 113](http://srfi.schemers.org/srfi-113/srfi-113.html)
-general sets.
+*Enumeration sets* are used to represent multiple enums that belong to the same type.
+They provide a subset of the operations provided by
+[SRFI 113](http://srfi.schemers.org/srfi-113/srfi-113.html) general sets.
 
 Specialized mappings from enums to arbitrary values will be described
 in a future SRFI.  Meanwhile, general-purpose hash tables from
@@ -35,6 +40,38 @@ in a future SRFI.  Meanwhile, general-purpose hash tables from
 [SRFI 146](http://srfi.schemers.org/srfi-146/srfi-146.html) mappings can be used instead.
 
 ## Specification
+
+### Predicates
+
+`(enum-type? `*obj*`)`
+
+Returns `#t` if *obj* is an enum type, and `#f` otherwise.
+
+`(enum? `*obj*`)`
+
+Returns `#t` if *obj* is an enum, and `#f` otherwise.
+
+`(enum-type-contains? `*enum-type enum*`)`
+
+Returns `#t` if *enum* belongs to *enum-type*, and `#f` otherwise.
+
+`(enum=? `*enum* ...`)`
+
+Returns `#t` if all the arguments are the same enum, and `#f` otherwise.
+It is an error to apply `enum=?` to enums belonging to different enum types.
+
+`(enum<? `*enum* ...`)`
+
+`(enum>? `*enum* ...`)`
+
+`(enum<=? `*enum* ...`)`
+
+`(enum>=? `*enum* ...`)`
+
+These predicates return `#t` if their arguments are enums whose ordinals are in
+increasing, decreasing, non-decreasing, and non-increasing order respectively,
+and `#f` otherwise.
+It is an error unless all of the arguments belong to the same enum type.
 
 ### Enum type constructor
 
@@ -74,7 +111,8 @@ Returns the value associated with *enum*.
 
 `(enum-name->enum `*enum-type symbol*`)`
 
-If there exists an enum belonging to *enum-type* named *symbol*, return it; otherwise return `#f`.
+If there exists an enum belonging to *enum-type* named *symbol*, return it;
+otherwise return `#f`.
 
 `(enum-ordinal->enum `*enum-type exact-integer*`)`
 
@@ -126,54 +164,27 @@ Returns a list of the enums belonging to *enum-type* ordered by increasing ordin
 
 `(enum-type-names `*enum-type*`)`
 
-Returns a list of the names of the enums belonging to *enum-type* ordered by increasing ordinal.
+Returns a list of the names of the enums belonging to *enum-type*
+ordered by increasing ordinal.
 
 `(enum-type-values `*enum-type*`)`
 
-Returns a list of the values of the enums belonging to *enum-type* ordered by increasing ordinal.
+Returns a list of the values of the enums belonging to *enum-type*
+ordered by increasing ordinal.
 
 ### Enum objects
 
 `(enum-next `*enum*`)`
 
-Returns the enum that belongs to the same enum-type as *enum* and has an ordinal one greater than *enum*.
+Returns the enum that belongs to the same enum-type as *enum*
+and has an ordinal one greater than *enum*.
 Returns `#f` if there is no such enum.
 
 `(enum-prev `*enum*`)`
 
-Returns the enum that belongs to the same enum-type as *enum* and has an ordinal one less than *enum*.
+Returns the enum that belongs to the same enum-type as *enum*
+and has an ordinal one less than *enum*.
 Returns `#f` if there is no such enum.
-
-### Enum predicates
-
-`(enum-type? `*obj*`)`
-
-Returns `#t` if *obj* is an enum type, and `#f` otherwise.
-
-`(enum? `*obj*`)`
-
-Returns `#t` if *obj* is an enum, and `#f` otherwise.
-
-`(enum-type-contains? `*enum-type enum*`)`
-
-Returns `#t` if *enum* belongs to *enum-type*, and `#f` otherwise.
-
-`(enum=? `*enum* ...`)`
-
-Returns `#t` if all the arguments are the same enum, and `#f` otherwise.
-It is an error to apply `enum=?` to enums belonging to different enum types.
-
-`(enum<? `*enum* ...`)`
-
-`(enum>? `*enum* ...`)`
-
-`(enum<=? `*enum* ...`)`
-
-`(enum>=? `*enum* ...`)`
-
-These predicates return `#t` if their arguments are enums whose ordinals are in
-increasing, decreasing, non-decreasing, and non-increasing order respectively, and `#f` otherwise.
-It is an error unless all of the arguments belong to the same enum type.
 
 ### Comparators
 
@@ -181,7 +192,8 @@ It is an error unless all of the arguments belong to the same enum type.
 
 Returns a [SRFI 128](http://srfi.schemers.org/srfi-128/srfi-128.html)
 comparator suitable for comparing enums that belong to *enum-type*.
-The comparator contains both an ordering predicate and a hash function, and orders enums based on their ordinal values.
+The comparator contains both an ordering predicate and a hash function,
+and orders enums based on their ordinal values.
 
 ### Enum set constructors
 
