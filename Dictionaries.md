@@ -244,28 +244,37 @@ Returns an exact integer representing the number of associations in *dictionary*
 
 Invokes *proc* on each key of *dictionary* and its corresponding value in that order.
 This procedure is used for doing operations on the whole dictionary.
+If the dictionary type is inherently ordered, associations are processed in the
+inherent order; otherwise in an arbitrary order.
 Returns an unspecified value.
+
 `(dict-count `*pred dictionary*`)`
 
 Passes each association of dictionary as two arguments to *pred*
 and returns an exact integer that counts the number of times
 that *pred* returned true.
 
-`(dict-any? `*pred dictionary*`)`
+`(dict-any `*pred dictionary*`)`
 
 Passes each association of *dictionary* as two arguments to *pred*
-and returns true when one of the calls to *pred* returns true.
-If all calls return false, `dict-any?` returns false.
+and returns the value of the first call to *pred* that returns true.
+If the dictionary type is inherently ordered, associations are processed in the
+inherent order; otherwise in an arbitrary order.
+If all calls return false, `dict-any` returns false.
 
-`(dict-every? `*pred dictionary*`)`
+`(dict-every `*pred dictionary*`)`
 
 Passes each association of *dictionary* as two arguments to *pred*
-and returns `#f` when any of the calls to *pred* return false.
-If all calls return true, `dict-every?` returns true.
+and returns `#f` after the first call to *pred* that returns false.
+If the dictionary type is inherently ordered, associations are processed in the
+inherent order; otherwise in an arbitrary order.
+If all calls return true, `dict-any` returns the value of the last call.
 
 `(dict-keys `*dictionary*`)`
 
-Returns a list of the keys of *dictionary* in an arbitrary but consistent order.
+Returns a list of the keys of *dictionary*.
+If the dictionary type is inherently ordered, associations are processed in the
+inherent order; otherwise in an arbitrary order.
 The order may change when new elements are added to *dictionary*.
 
 `(dict-values `*dictionary*`)`
@@ -315,23 +324,23 @@ is the specific procedure implementing it for this type.
 
 Arguments for the six procedures `dictionary?`, `dict-size`,
 `dict-search!`, `dict-map!`, `dict-filter!`, and `dict-for-each` are required.
-The others are optional, but if provided may be more efficient
+The others are optional, but if provided can be more efficient
 than the versions automatically provided by the implementation of this SRFI.
 
 ## Lists as dictionaries
 
 The exact set of pre-registered dictionaries depends on their
-availability in a given implementation.  However, lists are  
+availability in a given implementation.  However, lists are
 supported as dictionaries using the specification in this section.
 If two keys are the same (in the sense of the specified equality predicate),
 then all but the first are treated as if they did not exist.
 
 If the car of a list is a symbol, then the list is assumed to be a property
-list, alternating keys (which must be symbols) with values.
+list, alternating symbol keys with values.
 Mutation operations actually mutate the property list whenever possible.
-The equality predicate of this kind of dictionary is `eq?`.
+The equality predicate of this type of dictionary is `eq?`.
 
-If the list is empty, or its car is a pair, then the list is assumed
+If a list is empty, or its car is a pair, then the list is assumed
 to be an alist.  New values are added to the beginning of an alist
 non-destructively, but it is an error to attempt deletion.
 If an association has been updated, then both the new and the old
