@@ -48,30 +48,31 @@ zero or greater than or equal to the length of *obj*.
 
 `(compound-map `*mapper obj*`)`
 
-If *obj* is a compound object, returns a newly allocated compound object
+If *obj* is a compound object, returns a compound object
 whose subobjects result from invoking *mapper* on each subobject of *obj*.
 Although the subobjects of the result are in the same order as the subobjects of *obj*,
 the order in which *mapper* is applied to them is unspecified.
 
-If *obj* is not a compound object, it returns a newly allocated compound object
+If *obj* is not a compound object, returns a compound object
 whose only subobject is the result of applying *mapper* to *obj*.
 
 `(compound-filter `*pred obj*`)`
 
-If *obj* is a compound object, returns a newly allocated compound object
+If *obj* is a compound object, returns a compound object
 that contains the subobjects of *obj* that satisfy *pred*.
 
-If *obj* is not a compound object, it returns a newly allocated compound object
+If *obj* is not a compound object, it returns a compound object
 whose only subobject is *obj* if *obj* satisfies *pred*,
 or an empty compound object if *obj* does not satisfy *pred*.
 
 `(compound-predicate `*pred obj*`)`
 
 If *obj* is a compound
-object such that at least one of its subobjects satisfies *pred*, the predicate
-returns what *pred* returns when applied to the first such subobject; otherwise `#f`.
+object such that at least one of its subobjects satisfies *pred*,
+returns what *pred* returns when applied to the first such subobject;
+otherwise returns `#f`.
 
-If *obj* is not a compound object, the predicate applies *pred* to *obj* and
+If *obj* is not a compound object, applies *pred* to *obj* and
 returns what *pred* returns.
 
 `(compound-accessor `*pred accessor obj default*`)`
@@ -90,5 +91,5 @@ If *obj* is a compound object, then if it contains a subobject
 satisfying `compound-type?` whose car is *sym*, then it
 returns the cdr of the first such type object; otherwise it returns `#f`.
 
-If *obj* is not a compound object, then if it satisfies `compound-type?`
+If *obj* is not a compound object, then if it satisfies `compound?`
 and its car is *sym*, then it returns the cdr of *obj*; otherwise it returns `#f`.
