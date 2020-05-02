@@ -8,13 +8,13 @@ returns them as a bytevector as follows:
   * If *arg* is an exact integer in the range 0-255 inclusive, it is added
     to the result.
 
-  * If *arg* is a printable ASCII character (that is, its
-    codepoint is in the range 32-126 inclusive), it is
+  * If *arg* is an ASCII character (that is, its
+    codepoint is in the range 0-127 inclusive), it is
     converted to its codepoint and added to the result.
 
   * If *arg* is a bytevector, its elements are added to the result.
 
-  * If *arg* is a string of printable ASCII characters, it is
+  * If *arg* is a string of ASCII characters, it is
     converted to a sequence of codepoints which are added to the result.
 
 Otherwise, an error satisfying `bytestring-error?` is signaled.
@@ -116,7 +116,7 @@ Search *bytevector* from *start* to *end* / from *end*
 to *start* for the first byte that satisfies *pred*, and
 return the index into *bytevector* containing that byte.
 In either direction, *start* is inclusive and *end*
-is exclusive.
+is exclusive.  If there are no such bytes, returns `#f`.
 
 `(bytestring-break `*bytevector pred*`)`  
 `(bytestring-span `*bytevector pred*`)`
@@ -153,7 +153,8 @@ except that `infix` and `strict-infix` mean the same thing.
 
 `(write-bytestring `*port arg* ...`)`
 
-Outputs each *arg* to *port* using the same interpretations as `bytestring`,
+Outputs each *arg* to the binary output port *port*
+using the same interpretations as `bytestring`,
 but does not create any bytevectors.
 
 ## Exception
