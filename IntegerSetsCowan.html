@@ -43,6 +43,19 @@ The elements of an integer set are exact integers.  The procedures for creating 
 Returns an iset containing the consecutive integers from <em>low</em> to <em>high</em>,
 inclusive.
 
+<p><code>(iset-copy </code><em>iset</em><code>)</code></p>
+
+Returns an iset containing the members of <em>iset</em>.
+
+<p><code>(list->iset </code><em>list</em><code>)</code></p>
+
+Returns an iset elements of <em>list</em>.
+It is an error if any element of <em>list</em> is not an exact integer.
+
+<p><code>(iset->list </code><em>low high</em><code>)</code></p>
+
+Returns a list containing the members of <em>iset</em>.
+
 <p><code>(iset-min </code><em>iset</em><code>)</code></p><p><code>(iset-max </code><em>iset</em><code>)</code></p><p>
 
 Returns the smallest or largest integer in <i>iset</i>, or <code>#f</code> if there is none.
@@ -77,5 +90,6 @@ Linear update procedures that return two values: the smallest or largest integer
 
 <h3>Temporary: Procedures not in Chicken iset</h3>
 
-<code>iset&lt;, iset>, iset-disjoint?, iset-count, iset-remove!</code>
+<code>iset&lt;, iset>, iset-disjoint?, iset-count, iset-remove!
+iset-copy, list->iset, iset->list</code>
 
