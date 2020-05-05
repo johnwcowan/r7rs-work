@@ -33,7 +33,12 @@ and whose cdr is an alist with keys that are symbols.
 `(compound-subobjects `*obj*`)`
 
 If *obj* is a compound object, returns a list of its subobjects
-Otherwise, it returns a list containing only *obj*.
+Otherwise, returns a list containing only *obj*.
+
+`(compound-values `*obj*`)`
+
+If *obj* is a compound object, returns its subobjects as multiple values.
+Otherwise, returns *obj*.
 
 `(compound-length `*obj*`)`
 
