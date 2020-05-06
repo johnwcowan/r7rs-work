@@ -3,7 +3,8 @@
 `(write-log `*message* *dictionary*`)`
 
 Write *message* to the syslog using entries in *dictionary* to format it.
-*Message* is a string containing any Unicode characters except the ASCII controls.
+*Message* is a string containing any Unicode characters except the ASCII control
+characters.
 
 
 `(open-log ` *transport dictionary*`)`
@@ -12,7 +13,7 @@ Initializes the logging system; if not called, the first call to `write-log` imp
 
 *Transport* specifies the log transport to be used, with `#t` meaning the system default.
 Other possibilities are `udp`, `tcp`, `tls`.
-The key `windows-event-system` might be possibility,
+(The key `windows-event-system` might be possibility,
 though it is designed for C++ and hairy beyond belief).
 or `#t` if the implementation default is fine.
 In addition, `err` causes the output to be sent to the
@@ -36,14 +37,15 @@ and needs to go into a log only special people can read),
 and `default` (= syslog local7). ASCII only, no controls, no spaces.
 
 `message-type`: any symbol representing the general type of this message.
-ASCII only, no controls, no spaces.
+ASCII only, no control characters, no spaces.
 
-`severity`: the closed set
+`severity`: the closed set of symbols
 `emergency`, `alert`, `critical`, `error`, `warning`, `notice`, `info`, `debug`.
-Default is `info`.
+The default is `info`.
+
 The reason it's closed is that it represents decreasing priority of importance,
 and if the caller uses some other symbol we won't know how to prioritize the message.
-So if the value is unknown, change it to error.
+So if the value is unknown, change it to `error`.
 
 ## Wire protocol
 
@@ -66,7 +68,7 @@ Here are the fields of the packet, separated by a single space:
   * Reserved field, value is "-"
   * Message in UTF-8
 
-The priority field is a decimal number expressed in ASCII like `<nnn>`,
+The priority field is a decimal number expressed in ASCII, like `<nnn>`,
 where `nnn` is 1-3 ASCII digits without leading 0s.
 Note that the angle brackets are literal.
 These represent the `severity` as a numeric value 0 to 7
