@@ -311,21 +311,25 @@ The following procedure registers new dictionary types.
 It is an error to register a dictionary type whose
 instances return `#t` to any predicate already registered.
 
-`(register-dictionary! `*procname proc* ...`)`
+`(register-dictionary! `*plist*`)`
 
 Registers a new dictionary type, providing procedures that allow
 manipulation of dictionaries of that type.
-The number of arguments must be even.
+The *plist* is a list that alternates *procnames* with corresponding *procs*;
+it may be conveniently constructed with a backquote.
 
 A *procname* argument is a symbol which is the same as one
-of the procedures defined in this SRFI other than
-`register-dictionary!` itself, and a *proc* argument
+of the procedures defined in this SRFI (other than
+`register-dictionary!` itself), and a *proc* argument
 is the specific procedure implementing it for this type.
 
 Arguments for the six procedures `dictionary?`, `dict-size`,
 `dict-search!`, `dict-map!`, `dict-filter!`, and `dict-for-each` are required.
 The others are optional, but if provided can be more efficient
 than the versions automatically provided by the implementation of this SRFI.
+However, the automatically provided procedures are designed to be more efficient
+than using the exposed procedures of the SRFI directly, because they do not
+require dynamic dispatch on the type of the dictionary.
 
 ## Lists as dictionaries
 
