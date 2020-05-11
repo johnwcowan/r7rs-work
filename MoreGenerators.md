@@ -26,15 +26,15 @@ The cdr of each pair is the result of *gen*.
 `(gpeek `*gen*`)`
 
 Returns a procedure *p* that behaves like a generator but with more capabilities.
-If called with no arguments, it invokes the underlying generator *gen*.
+If called with zero arguments, it invokes the underlying generator *gen*.
 However, if called with the argument `peek`, it retrieves the next value
 from *gen* and returns it, but also saves it in such a way that the
-next call on *p* will return it, analogously to `peek-char` and `peek-u8`.
+next zero-argument call on *p* will return it, analogously to `peek-char` and `peek-u8`.
 If called with two arguments, `poke` and an object *obj*,
-it will save *obj* so that the next call on *p* will return it.
+it will save *obj* so that the next zero-argument call on *p* will return it.
 
 It is an error to peek from and then poke *p* or vice versa without an
-intervening no-argument call.
+intervening zero-argument call.
 
 `(gchain-generators `*constructor* *operation* ...`)`
 
@@ -69,4 +69,11 @@ Such calls can be written more compactly using the `cut` macro from
   (cut ggroup 5 <>))
 ```
 
+`(stream->generator `*stream*`)`
+
+Returns a generator that steps through the elements of a SRFI 41 stream.
+
+`(generator->stream `*generator*`)`
+
+Returns a SRFI 41 stream containing the values of a generator.
 
