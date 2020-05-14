@@ -177,9 +177,8 @@ satisfy *pred* up to the first one that does not.
 
 `(range-take-while-right `*pred range*`)`
 
-Returns a range containing the elements of *range* that
-satisfy *pred* up to the first one that does not,
-considered from the end to the beginning.
+Returns a range containing the railing elements of *range* that
+satisfy *pred*.
 
 `(range-drop-while pred `*range*`)`
 
