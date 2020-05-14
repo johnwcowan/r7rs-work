@@ -43,10 +43,8 @@ Except as noted, all procedures return a context.
 
 Names of arguments:
 
-*c* is a context instance object.
-
 *cobj* is an object in a context, whereas *obj* is an object out of a context.
-Note that whether an object is in or out of a context depends on *c*.
+Note that whether an object is in or out of a context depends on the context.
 
 *proc* is a pure procedure, accepting an *obj* (or more than one as noted)
 and returning an *obj*.
@@ -96,18 +94,17 @@ or defaulted.
 `(context-bind-procedure `*c*`)`  
 `(context-join-procedure`*c*`)`
 
-All take a context instance object *c* as the only argument and return the provided or defaulted
 procedure stored in the context instance, or `#f` if the procedure is not provided
 and cannot be defaulted.
 
 ## Context procedures
 
-`(functor-map `*c proc cobj*`)`
+`(functor-map `proc cobj*`)`
 
 Unwraps the objects from *cobj*, applies *proc* to each of them, rewraps them
 in the context, and returns the result.
 
-`(idiom-sequence `*c list*`)`
+`(idiom-sequence `list*`)`
 
 Takes a list whose elements are objects in the context, unwraps them,
 puts them in a list, and wraps the list in the context.
@@ -118,32 +115,32 @@ a notion not defined in this SRFI.  Implementations may, however,
 extend the type of the second argument.  For example, if a vector
 is supported, the result will be a vector in the context.
 
-`(idiom-pure `*c obj*`)`
+`(idiom-pure `obj*`)`
 
 Wraps *obj* in the context and returns the result.
 
-`(idiom-apply `*c cproc cobj* ...`)`
+`(idiom-apply `cproc cobj* ...`)`
 
 Applies *cproc* to the values of the *cobjs*,
 and returns the results wrapped in the context.
 
-`(monad-bind `*c cobj mproc1 mproc2* ...`)`
+`(monad-bind `cobj mproc1 mproc2* ...`)`
 
 With three arguments, `monad-bind` takes *cobj* and unwraps it from the
-context *c* and applies it to *mproc*, which transforms it
+context and applies it to *mproc*, which transforms it
 and returns the results wrapped in the context.
 
 With additional *mproc* arguments, the result of the first *mproc* is
 unwrapped and passed to the next *mproc*, and this is repeated until
 there are no more *mprocs*.
 
-`(monad-join `*c cobj*`)`
+`(monad-join `cobj*`)`
 
-The values wrapped in *cobj* are themselves objects in the context *c*.  The values in
-these cobjs are wrapped in the context *c* and returned, thus stripping off one
+The values wrapped in *cobj* are themselves objects in the context.  The values in
+these cobjs are wrapped in the context and returned, thus stripping off one
 layer of context.
 
-`(functor-as `*c cobj obj*`)`
+`(functor-as `cobj obj*`)`
 
 Unwraps *cobj*, throws the result away, wraps *obj* and returns it.
 
@@ -153,53 +150,53 @@ Returns an idiom instance representing the composition of *c1* and *c2*
 in that order.  Because monads do not compose, any definitions of
 `join` and `bind` are suppressed.
 
-`(monad-and-then `*c mproc cobj*`)`
+`(monad-and-then `mproc cobj*`)`
 
 Unwraps *cobj* and applies *mproc* to it, then discards the result and
 returns *cobj*.
 
-`(functor-cons-left `*c cobj obj*`)`
+`(functor-cons-left `cobj obj*`)`
 
 Conses *obj* with each of the unwrapped *cobj* values, and returns
 the pairs wrapped in the context.
 
-`(functor-cons-right `*c cobj obj*`)`
+`(functor-cons-right `cobj obj*`)`
 
 Conses each of the unwrapped *cobj* values with *obj*, and returns
 the pairs wrapped in the context.
 
-`(functor-product `*c *proc cobj*`)`
+`(functor-product `*proc cobj*`)`
 
 Unwraps the values of *cobj*, applies *proc* to them individually, and
 returns pairs consed from the value and the result of application
 wrapped in the context.
 
-`(monad-product `*c cobj1 cobj2*`)`
+`(monad-product `cobj1 cobj2*`)`
 
 Conses each value of *cobj1* with each value of *cobj2* and
 returns the pairs wrapped in the context.
 
-`(idiom-product-left `*c mproc cobj1 cobj2*`)`
+`(idiom-product-left `mproc cobj1 cobj2*`)`
 
 Unwraps the values of the *cobjs*; then passes the values of
 *cobj1* to *mproc*, and returns the result, which is already
 wrapped.
 
-`(idiom-product-right `*c mproc cobj1 cobj2*`)`
+`(idiom-product-right `mproc cobj1 cobj2*`)`
 
 Unwraps the values of the *cobjs*; then passes the values of
 *cobj2* to *mproc*, and returns the result, which is already
 wrapped.
 
-`(monad-if `*c *mobj* *mproc1* *mproc2*`)`
+`(monad-if `*mobj* *mproc1* *mproc2*`)`
 
-Takes a boolean wrapped in the context *c* and unwraps it.  If it
+Takes a boolean wrapped in the context and unwraps it.  If it
 is true, *mproc1* (which must not require arguments) is invoked
 and its result is returned; otherwise, *mproc2* (which also must
 not require arguments) is invoked and its result is returned.
 In either case, the result is already wrapped.
 
-`(functor-lift `*c proc*`)`
+`(functor-lift `proc*`)`
 
 Returns a procedure that unwraps its
 argument, calls *proc*, and returns the wrapped result.

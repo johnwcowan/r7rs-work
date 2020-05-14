@@ -27,4 +27,4 @@
     gsampling
     gweighted-sampling)
   
-  (include "advanced-random.scm"))
+  (include "advanced-random-impl.scm"))
