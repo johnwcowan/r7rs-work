@@ -41,7 +41,7 @@ Returns true if value is an element of *range*.
 
 Returns true if value is 
 greater than or equal to the range start
-and less than the range end,
+and less than or equal to the range end,
 whether or not it is an element of the range.
 
 `(range-empty? `*range*`)`
@@ -162,11 +162,13 @@ Returns a range which contains the same elements as *range*, but in reverse orde
 
 `(range-index `*pred range*`)`
 
-Returns the index of the first element of *range* that satisfies *pred*.
+Returns the index of the first element of *range* that satisfies *pred*,
+or `#f` if there is none.
 
 `(range-index-right `*pred range*`)`
 
-Returns the index of the last element of *range* that satisfies *pred*.
+Returns the index of the last element of *range* that satisfies *pred*,
+or `#f` if there is none.
 
 `(range-take-while `*pred range*`)`
 
@@ -175,8 +177,9 @@ satisfy *pred* up to the first one that does not.
 
 `(range-take-while-right `*pred range*`)`
 
-Returns a range containing the elements of *range* from the
-last one that satisfies *pred* up to the end.
+Returns a range containing the elements of *range* that
+satisfy *pred* up to the first one that does not,
+considered from the end to the beginning.
 
 `(range-drop-while pred `*range*`)`
 

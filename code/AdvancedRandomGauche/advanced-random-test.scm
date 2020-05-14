@@ -341,4 +341,3 @@
 
 (test-end "Advanced random")
 
-(test-exit)
