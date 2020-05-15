@@ -1,9 +1,15 @@
 (define-library (ranges)
   (import (scheme base)
           (scheme case-lambda)
-          (srfi 1)
-          (srfi 128)
-          (srfi 145))
+          (srfi 128))
+
+  (cond-expand
+    ((library (srfi 145))
+     (import (srfi 145)))
+    (else
+      (begin
+        (define (assume b) #t))))
+
   (export range numeric-range
           range? range-contains? range-includes? range-empty?
           range-element-comparator range-length range-indexer range-ref

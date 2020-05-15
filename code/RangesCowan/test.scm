@@ -49,7 +49,8 @@
                (display expected)
                (display " but got ")
                (display expr)
-               (newline)))))))))
+               (newline))))))
+      (define (check-report) #t))))
 
 (cond-expand
   ((library (srfi 158))
@@ -329,12 +330,12 @@
      => #t)))
 
 (define (check-all)
-  (check-constructors)
   (check-conversion)
+  (check-constructors)
   (check-predicates)
   (check-accessors)
   (check-iteration)
-  (check-searching))
-;  (check-report))
+  (check-searching)
+  (check-report))
 
 (check-all)
