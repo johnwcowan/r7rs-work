@@ -174,11 +174,11 @@
    (lambda (return)
      (range-fold r (lambda (x _) (or (pred x) (return #f))) #t))))
 
-;; Could also implement this and `range->list' as range folds, rather
-;; than list unfolds.
 (define (range-map->list proc r)
   (assume (procedure? proc))
-  (list-tabulate (range-length r) (lambda (i) (proc (range-ref r i)))))
+  (range-fold-right r
+                    (lambda (elem xs) (cons (proc elem) xs))
+                    '()))
 
 (define (range-for-each proc r)
   (assume (procedure? proc))
@@ -281,7 +281,8 @@
 ;;; Conversion
 
 (define (range->list r)
-  (list-tabulate (range-length r) (lambda (i) (range-ref r i))))
+  (assume (range? r))
+  (range-fold-right r cons '()))
 
 (define (range->generator r)
   (assume (range? r))
