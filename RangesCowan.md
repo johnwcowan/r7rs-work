@@ -139,14 +139,14 @@ Returns an unspecified result.
 Returns a list containing the elements of *range* that
 satisfy / do not satisfy *pred*.
 
-`(range-fold `*range proc nil*`)`
+`(range-fold `*proc nil range*`)`
 
 Invokes *proc* on each member of *range* in order, passing the result of
 the previous invocation as a second argument. For the first invocation,
 *nil* is used as the second argument. Returns the result of the last
 invocation, or *nil* if there was no invocation.
 
-`(range-fold-right `*range proc nil*`)`
+`(range-fold-right `*proc nil range*`)`
 
 Invokes proc on each member of *range* in reverse order, passing the result of
 the previous invocation as a second argument. For the first invocation,
