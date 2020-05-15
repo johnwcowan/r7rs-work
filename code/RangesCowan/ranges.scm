@@ -190,7 +190,7 @@
            (proc (range-ref r i))
            (lp (+ i 1)))))))
 
-(define (range-fold r proc nil)
+(define (range-fold proc nil r)
   (assume (range? r))
   (assume (procedure? proc))
   (let ((len (range-length r)))
@@ -199,7 +199,7 @@
           acc
           (lp (+ i 1) (proc (range-ref r i) acc))))))
 
-(define (range-fold-right r proc nil)
+(define (range-fold-right proc nil r)
   (assume (range? r))
   (assume (procedure? proc))
   (let ((len (range-length r)))
