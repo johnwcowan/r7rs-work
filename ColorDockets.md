@@ -12,11 +12,10 @@ See [TangerineEdition](TangerineEdition.md).
 
 # Orange Docket (numerics)
 
-**Numeric types and operations**
+## Numeric types and operations
 
 Random numbers: [SRFI 27](http://srfi.schemers.org/srfi-27/srfi-27.html),
 plus [AdvancedRandomGauche](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/AdvancedRandomGauche.html)
-
 
 Float and NaN dissector API (sign, quiet/signaling status, and integer tag): [NaNMedernach](NaNMedernach.md)
 
@@ -24,7 +23,7 @@ Comparator sublibrary: [SRFI 162](http://srfi.schemers.org/srfi-162/srfi-162.htm
 
 Logistic functions: [LogisticRiastradh](LogisticRiastradh.md)
 
-**Numeric and semi-numeric data structures**
+## Numeric and semi-numeric data structures
 
 Integer sets:  [IntegerSetsCowan](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/IntegerSetsCowan.html)
 
@@ -37,7 +36,7 @@ Bytestrings: [BytestringsCowan](BytestringsCowan.md)
 Multidimensional arrays: [SRFI 122](http://srfi.schemers.org/srfi-122/srfi-122.html) 
 or [SRFI 164](http://srfi.schemers.org/srfi-164/srfi-164.html)
 
-**Other**
+## Other
 
 Enumerations: [EnumsCowan](EnumsCowan.md)
 
@@ -53,7 +52,7 @@ Generic dictionary operations: [Dictionaries](Dictionaries.md)
 
 # Amber Docket (syntax)
 
-**Non-portable**
+## Non-portable
 
 Syntax-case: [R6RS syntax-case](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html)
 
@@ -73,7 +72,7 @@ Syntax-rules extensions: [SRFI 149](http://srfi.schemers.org/srfi-149/srfi-149.h
 
 `let-syntax` with splicing: [SRFI 188](http://srfi.schemers.org/srfi-188/srfi-188.html)
 
-**Portable**
+## Portable
 
 `cond` guards: [SRFI 61](http://srfi.schemers.org/srfi-61/srfi-61.html)
 
@@ -98,7 +97,7 @@ Syntax combiners for binary functions: [SRFI 156](https://srfi.schemers.org/srfi
 
 # Yellow Docket (syntax)
 
-**Syntax**
+## Syntax
 
 `and-let*`: [SRFI 2 using define-macro](http://srfi.schemers.org/srfi-2/srfi-2.html),
 [using explicit renaming](https://code.call-cc.org/cgi-bin/gitweb.cgi?p=chicken-core.git;a=blob;f=chicken-syntax.scm;h=e3c2feb47c1437d44aefa0d879e04dc28a0cbc61;hb=HEAD),
@@ -132,6 +131,8 @@ or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/
 `let-list`, `let-vector`: [MacrosAlexandria](MacrosAlexandria.md)
 
 `if*` with arbitrarily many arguments: [Daphne Preston-Kendal's rationale](http://dpk.io/r7rs/naryif-20130406)
+
+## Lexical macros
 
 Lexical macros: [LexmacsCowan](LexmacsCowan.md)
 

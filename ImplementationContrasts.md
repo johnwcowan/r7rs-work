@@ -122,7 +122,8 @@ Not all these pages have information on all these Schemes.
 * [HashQuote](HashQuote.md)
 * [HygienicInclusion](HygienicInclusion.md)
 * [ImmediateStringsCoalesced](ImmediateStringsCoalesced.md)
-* [ImmutableStrings](ImmutableStrings.md)
+* [ImmutableStrings](ImmutableStrings.md)'
+* [ImmutableLiterals](ImmutableLiterals.md)
 * [ImproperLists](ImproperLists.md)
 * [KeywordSyntax](KeywordSyntax.md)
 * [LetrecStar](LetrecStar.md)
