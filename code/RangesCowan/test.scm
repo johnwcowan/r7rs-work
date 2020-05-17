@@ -231,25 +231,25 @@
                    (remove pred (range->list test-num-range)))
      => #t))
 
-  ;; (range-fold r (lambda (b) (+ 1 b)) 0) = (range-length r)
-  (check (= (range-fold test-num-range (lambda (_ b) (+ b 1)) 0)
+  ;; (range-fold (lambda (b) (+ 1 b)) 0 r) = (range-length r)
+  (check (= (range-fold (lambda (_ b) (+ b 1)) 0 test-num-range)
             (range-length test-num-range))
    => #t)
 
-  ;; (range-fold r proc nil) = (fold proc nil (range->list r))
+  ;; (range-fold proc nil r) = (fold proc nil (range->list r))
   (let ((proc +) (nil 0))  ; sum over range
-    (check (equal? (range-fold test-num-range proc nil)
+    (check (equal? (range-fold proc nil test-num-range)
                    (fold proc nil (range->list test-num-range)))
      => #t))
 
-  ;; (range-fold-right r (lambda (b) (+ 1 b)) 0) = (range-length r)
-  (check (= (range-fold-right test-num-range (lambda (_ b) (+ b 1)) 0)
+  ;; (range-fold-right (lambda (b) (+ 1 b)) 0 r) = (range-length r)
+  (check (= (range-fold-right (lambda (_ b) (+ b 1)) 0 test-num-range)
             (range-length test-num-range))
    => #t)
 
   ;; (range-fold-right r proc nil) = (fold-right proc nil (range->list r))
   (let ((proc +) (nil 0))  ; sum over range
-    (check (equal? (range-fold-right test-num-range proc nil)
+    (check (equal? (range-fold-right proc nil test-num-range)
                    (fold-right proc nil (range->list test-num-range)))
      => #t))
 
