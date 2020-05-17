@@ -160,25 +160,25 @@
 
 (define (range-count pred r)
   (assume (procedure? pred))
-  (range-fold r (lambda (x c) (if (pred x) (+ c 1) c)) 0))
+  (range-fold (lambda (x c) (if (pred x) (+ c 1) c)) 0 r))
 
 (define (range-any pred r)
   (assume (procedure? pred))
   (assume (range? r))
-  (range-fold r (lambda (x last) (or (pred x) last)) #f))
+  (range-fold (lambda (x last) (or (pred x) last)) #f r))
 
 (define (range-every pred r)
   (assume (procedure? pred))
   (assume (range? r))
   (call-with-current-continuation
    (lambda (return)
-     (range-fold r (lambda (x _) (or (pred x) (return #f))) #t))))
+     (range-fold (lambda (x _) (or (pred x) (return #f))) #t r))))
 
 (define (range-map->list proc r)
   (assume (procedure? proc))
-  (range-fold-right r
-                    (lambda (elem xs) (cons (proc elem) xs))
-                    '()))
+  (range-fold-right (lambda (elem xs) (cons (proc elem) xs))
+                    '()
+                    r))
 
 (define (range-for-each proc r)
   (assume (procedure? proc))
@@ -211,18 +211,18 @@
 (define (range-filter->list pred r)
   (assume (procedure? pred))
   (assume (range? r))
-  (range-fold-right r
-                    (lambda (x xs)
+  (range-fold-right (lambda (x xs)
                       (if (pred x) (cons x xs) xs))
-                    '()))
+                    '()
+                    r))
 
 (define (range-remove->list pred r)
   (assume (procedure? pred))
   (assume (range? r))
-  (range-fold-right r
-                    (lambda (x xs)
+  (range-fold-right (lambda (x xs)
                       (if (pred x) xs (cons x xs)))
-                    '()))
+                    '()
+                    r))
 
 (define (range-reverse r)
   (assume (range? r))
@@ -282,7 +282,7 @@
 
 (define (range->list r)
   (assume (range? r))
-  (range-fold-right r cons '()))
+  (range-fold-right cons '() r))
 
 (define (range->generator r)
   (assume (range? r))
