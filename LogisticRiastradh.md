@@ -19,7 +19,8 @@ including the aforementioned plots.
 You should use the name error-bound for the largest relative error,
 and ulp-of-one for the distance from 1 to the next larger floating-point number in magnitude.
 
-[MIT code](http://git.savannah.gnu.org/cgit/mit-scheme.git/tree/src/runtime/arith.scm#n1974)
-[MIT test code](http://git.savannah.gnu.org/cgit/mit-scheme.git/tree/tests/runtime/test-arith.scm#n193)
+[MIT code](http://git.savannah.gnu.org/cgit/mit-scheme.git/tree/src/runtime/arith.scm#n1974)  
+[MIT test code](http://git.savannah.gnu.org/cgit/mit-scheme.git/tree/tests/runtime/test-arith.scm#n193)  
+[MIT texi docs](https://git.savannah.gnu.org/cgit/mit-scheme.git/plain/doc/ref-manual/numbers.texi)
 
 [Wikipedia](https://en.wikipedia.org/wiki/Logistic_function)
