@@ -56,14 +56,8 @@ Generic dictionary operations: [Dictionaries](Dictionaries.md)
 
 Syntax-case: [R6RS syntax-case](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html)
 
-Syntactic closures: [syntactic closures](https://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Syntactic-Closures.html)
-(implies explicit renaming as well).
-
 Explicit renaming: [explicit renaming](https://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Explicit-Renaming.html)
   
-Implicit renaming: [implicit renaming](https://wiki.call-cc.org/explicit-renaming-macros#implicit-renaming-macros)
-(implies explicit renaming as well).
-
 Custom macro transformers: [SRFI 147](http://srfi.schemers.org/srfi-147/srfi-147.html) [not portable]
 
 Syntax parameters: [SRFI 139](http://srfi.schemers.org/srfi-139/srfi-139.html)
