@@ -146,8 +146,11 @@ It is an error for grammar to be any symbol other than these four:
 Divides the elements of *bytevector* and returns a list of bytevectors using the
 *delimiter* (an ASCII character or exact integer in the range 0-255 inclusive).
 Delimiter bytes are not included in the result bytevectors.
+
 The *grammar* argument has the same default and meaning as in `bytestring-join`,
 except that `infix` and `strict-infix` mean the same thing.
+That is, if *grammar* is `prefix` or `suffix`, then ignore any delimiter
+in the first or last position respectively.
 
 ## Output
 
