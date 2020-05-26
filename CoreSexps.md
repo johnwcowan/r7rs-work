@@ -9,10 +9,11 @@ objects whose code/tag is not understood by the implementation.
 
 `(core-object? `*obj*`)`
 
-`(core-object-code `*core-obj*`)`
+`(core-object-code `*core-obj*`)`  
+`(core-object-tag `*core-obj*`)`  
 `(core-object-value `*core-obj*`)`
 
-Accessors for Core objects.
+Accessors for Core objects.  If the code or tag is unknown, return `#f`.
 
 `(read-textual `[*port*])  
 `(read-binary `[*port*])  
