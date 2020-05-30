@@ -10,8 +10,7 @@ This SRFI supports only the
 
 ## Issues
 
-None at this time.  Leap seconds are fully supported,
-and all support for ISO weeks has been flushed.
+None at this time.  Leap seconds are fully supported.
 
 ## Instants and timespecs
 
@@ -159,7 +158,8 @@ less efficient if several different fields are required.
 
 `(date-update `*date*` `*fieldname*` `*value*`)`
 
-Returns a date object based on *date*, but with the field named *fieldname* updated to *value*.
+Returns a date object based on *date*,
+but with the field named *fieldname* updated to *value*.
 An error that satisfies `date-error?` is signaled if the field is unknown
 or the value is out of range.
 
@@ -168,7 +168,8 @@ or the value is out of range.
 Returns a date object which is later than *date* by *increment*
 measured in the units specified by *fieldname*,
 or earlier if *increment* is negative.
-For example, `(date-adjust `*date*` 'day-of-month 7)` adds seven days to *date*.
+For example, `(date-adjust `*date*` 'day-of-month 7)`
+adds seven days to *date*.
 
 `(date-round `*date*` `*fieldname*`)`
 
@@ -216,7 +217,8 @@ of the following day and minute 0 of hour 24 of the preceding day.
 
 `days-in-month`: The number of days in the date's month, between 1 and 31.
 
-`day-of-year`: The day of the year, between 1 and 365 in non-leap years and 1 and 366 in leap years.
+`day-of-year`: The day of the year, between 1 and 365 in non-leap years
+and 1 and 366 in leap years.
 
 `days-in-year`: The number of days in this date's year.
 
@@ -225,6 +227,11 @@ of the following day and minute 0 of hour 24 of the preceding day.
 
 `modified-julian-day`: The whole number of days between this date and midnight Universal Time, November 17, 1858
 Gregorian.  Leap seconds are ignored.
+
+`week-number`: The number of the week in this date's year, between 1 and either 52 or 53.
+
+`week-year`: The number of the period which begins in week 1 and ends in week 52 or 53.
+It is the same as `year` except possibly for a few days in January.
 
 `seconds-in-minute`: the number of seconds in the date's minute.
 
@@ -271,7 +278,11 @@ begins.  Not having a leap second in 1969 ensures that there is none
 just before the Unix epoch.  The implementation also pretends,
 *faute de mieux*, that there will be no more leap seconds in the future.
 
-To update the leap second tables, download the file from
-[USNO](http://web.archive.org/web/20191022082231/http://maia.usno.navy.mil/ser7/tai-utc.dat).
-
-
+To update the leap second tables, download
+[leap-seconds.list](https://raw.githubusercontent.com/eggert/tz/master/leap-seconds.list)
+from Paul Eggert's version of such a table, which is maintained.
+For leap second data before 1972, see
+[the old USNO file](http://web.archive.org/web/20191022082231/http://maia.usno.navy.mil/ser7/tai-utc.dat)
+`tai-utc.txt`.
+This file is *not* being updated, and should be used only if the
+implementation wants to make exact conversions for the 1961-72 period.
