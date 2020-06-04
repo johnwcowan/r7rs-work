@@ -59,11 +59,12 @@ Returns `#f` if no known serialization (in which case the write operation fails)
 
   * Lists: Enclosed in parentheses.
 
-  * Tags: Used to extend syntax.  Formats:
-      * `#` by itself
-      * `#` followed by type number in hex
-      * `#` followed by a tag identifier (lower case ASCII letters and digits,
-        begins with a letter)
+  * Tags: Used to extend syntax.  All tags begin with `#` followed by:
+      * nothing (vector)
+      * type number in hex (data follows)
+      * a single letter (no data follows)
+      * tag identifier (lower case ASCII letters and digits,
+        begins with a letter; data follows)
 
 ## Whitespace and comments
 
