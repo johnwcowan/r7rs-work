@@ -2,9 +2,13 @@
 
 `(make-core-object `*code tag value*`)`
 
-Returns a Core object, where *code* is an exact integer representing a code,
-*tag* is a symbol representing a tag, and *value* is a
-number, string, bytevector, or list.  These are used to represent
+Returns a Core object, where *code* is an exact integer representing a code
+(or `#f` if the code is not known),
+*tag* is a symbol representing a tag
+(or `#f` if the tag is not known),
+and *value* is a number, string, bytevector, list,
+or `#f` if the code/tag is stand-alone.
+These are used to represent
 objects whose code/tag is not understood by the implementation.
 
 `(core-object? `*obj*`)`
@@ -20,28 +24,27 @@ Accessors for Core objects.  If the code or tag is unknown, return `#f`.
 `(write-textual `obj [*port*])  
 `(write-binary `obj [*port*])
 
-`read-length-limit` (parameter)
+`conversion-failure` (object)
 
-Limit on the length of list, string, bytevector, and binary objects read.
-An error is signaled if the limit is violated.
+A unique object used to report conversion failures.
 
-`read-depth-limit` (parameter)
+`(conversion-failure? `*obj*`)`
 
-Limit on the depth of structures read.
-An error is signaled if the limit is violated.
-
-`read-conversion` (parameter)
+`core-read-conversion` (parameter)
 
 Procedure to be called when an object with unknown tag or type code is read.
-Accepts a Core object and returns the appropriate Scheme object, or `#f` if none
-(in which case the read operation fails).
+Accepts a Core object and returns the appropriate Scheme object,
+or `conversion-failure` if none (in which case the read operation fails).
 
-`write-conversion` (parameter)
+`core-write-conversion` (parameter)
 
-Procedure to be called when an object of unknown Scheme type is to be written.
+Procedure to be called when an object that does not belong to any Scheme type
+known to the implementation is to be written.
 Accepts a Scheme object and returns a Core object with an integer code or string
-tag and a number, string, bytevector, or list to serialize.
-Returns `#f` if no known serialization (in which case the write operation fails).
+tag and a number, string, bytevector, or list to serialize,
+or `#f` if the code/tag is standalone.
+Returns `conversion-failure` if there is no known serialization
+(in which case the write operation fails).
 
 ## Basic syntax
 
