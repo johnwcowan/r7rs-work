@@ -1,5 +1,10 @@
 For other dockets see [WG2Dockets](WG2Dockets.md).
 
+See also [PreSrfisInProgress](PreSrfisInProgress.md),
+an up-to-date list of implementations in progress for the SRFIs
+and pre-SRFIs listed below.
+To sign up for one, contact [John Cowan](mailto:cowan@ccil.org).
+
 # Red Docket (data structures)
 
 Already voted on.
