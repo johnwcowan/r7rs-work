@@ -210,6 +210,8 @@ all of them belong to the same enum type.
 
 Returns an enum-set containing the members of *list*.  It is an error
 unless all the members are enums belonging to the same enum type.
+It is also an error if *list* is empty, since the relevant enum type
+cannot be determined.
 
 `(enum-set-project `*enum-type enum-set*`)`
 
@@ -290,18 +292,12 @@ an unspecified value.
 `(enum-set-fold `*proc nil enum-set*`)`
 
 The current state is initialized to *nil*, and *proc*
-is invoked on the current state and each element
-of *enum-set* in increasing ordinal order, setting the
+is invoked on each element
+of *enum-set* in increasing ordinal order
+and the current state, setting the
 current state to the result.  The algorithm is repeated
 until all the elements of *enum-set* have been processed.
 Then the current state is returned.
-
-`(enum-set-project `*enum-set-1 enum-set-2*`)`
-
-Returns an enum-set containing the elements of *enum-set-1*
-that have the same name as an element of *enum-set-2*.
-It is permitted for the *enum-sets* to belong to different
-enum types.
 
 ### Enum set logical operations
 
@@ -310,7 +306,7 @@ enum types.
 Returns an enum-set containing all the elements of either
 *enum-set-1* or *enum-set-2*.  It is an error if all
 the elements of the result do not belong to the same
-enum type.  The contents of *enum-set-1* may be
+enum type.  The contents of either or both enum-sets may be
 destroyed in the process.
 
 `(enum-set-intersection! `*enum-set-1 enum-set-2*`)`
@@ -318,7 +314,7 @@ destroyed in the process.
 Returns an enum-set containing all the elements that
 appear in both *enum-set-1* and *enum-set-2*.  It is an error if all
 the elements of the result do not belong to the same
-enum type.  The contents of *enum-set-1* may be
+enum type.  The contents of either or both enum-sets may be
 destroyed in the process.
 
 `(enum-set-difference! `*enum-set-1 enum-set-2*`)`
@@ -326,7 +322,7 @@ destroyed in the process.
 Returns an enum-set containing the elements of
 *enum-set-1* but not *enum-set-2*.  It is an error if all
 the elements of the result do not belong to the same
-enum type.  The contents of *enum-set-1* may be
+enum type.  The contents of either or both enum-sets may be
 destroyed in the process.
 
 `(enum-set-xor! `*enum-set-1 enum-set-2*`)`
@@ -334,6 +330,6 @@ destroyed in the process.
 Returns an enum-set containing all the elements of either
 *enum-set-1* or *enum-set-2* but not both.  It is an error if all
 the elements of the result do not belong to the same
-enum type.  The contents of *enum-set-1* may be
+enum type.  The contents of either or both enum-sets may be
 destroyed in the process.
 
