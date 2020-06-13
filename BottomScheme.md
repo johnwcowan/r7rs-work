@@ -1,6 +1,11 @@
 **This is not an R7RS page; it's just John Cowan's notes on an idea that used to live on a scrap of paper.**
 
-Bottom Scheme is a tiny subset of R7RS-small.  It is not really a Scheme at all, because it omits assignment, macros, modules, proper tail calls except in named `let`, multiple values, `call/cc`, `dynamic-wind`, mutable pairs and strings, I/O (except for `read-char` and `write-char`), and essentially all non-primitive procedures.
+Bottom Scheme is a tiny subset of R7RS-small.
+It is not really a Scheme at all, because it omits
+assignment, macros, modules, proper tail calls except self-calls and named `let`,
+multiple values, `call/cc`, `dynamic-wind`, mutable pairs and strings,
+I/O (except for `read-char` and `write-char`),
+and essentially all non-primitive procedures.
 
 ## Specification
 
@@ -32,7 +37,8 @@ SRFI 137, but returning a list of five procedures rather than returning five val
 
 6.1 Equivalence predicates
 
-Only `eqv?` (for which `eq?` is a synonym).  Programmers are encouraged to provide their own definition of `equal?`.
+Only `eqv?` (for which `eq?` is a synonym).
+Programmers are encouraged to provide their own definition of `equal?`.
 
 6.2.1 Numerical types
 
@@ -44,17 +50,28 @@ The only exact numbers are integers within a fixed range.
 
 6.2.4 Implementation extensions
 
-Inexact real numbers are IEEE doubles; inexact complex numbers are pairs of IEEE doubles in the rectangular representation.
+Inexact real numbers are IEEE doubles;
+inexact complex numbers are pairs of IEEE doubles in the rectangular representation.
 
 6.2.5 Syntax of numerical constants
 
-`/` is not supported, because all exact numbers are integers.  Base and exactness prefixes are not supported.  The notations `-0.0`, `+inf.0`, `-inf.0`, and `+nan.0` are supported.
+`/` is not supported, because all exact numbers are integers.
+Base and exactness prefixes are not supported.  The notations `-0.0`, `+inf.0`, `-inf.0`, and `+nan.0` are supported.
 
 6.2.6 Numerical operations
 
-Predicates:  `number?`, `real?`, `exact?`, `inexact?`.  Arithmetic:  `+`, `-`, `*`, `/` with two arguments only; `/` always returns an inexact value.  Transcendental functions:  `exp`, `log` (one argument), `sin`, `cos`, `tan`, `asin`, `acos`, `atan` (one argument), `sqrt`, `expt` always return complex numbers.  Complex: `make-rectangular`, `real-part`, `imag-part`.  Conversion: `exact`, `inexact`.
+Predicates:  `number?`, `real?`, `exact?`, `inexact?`.
 
-As an enhancement to R7RS-small, the non-generic arithmetic functions `fx+`, `fx-`, `fx*`, `fl+`, `fl-`, `fl*`, `fl/`, `cx+`, `cx-`, `cx*`, `cx/` are provided.
+Arithmetic:  `+`, `-`, `*`, `/` with two arguments only; `/` always returns an inexact value.
+
+Transcendental functions:  `exp`, `log` (one argument),
+`sin`, `cos`, `tan`, `asin`, `acos`, `atan` (one argument),
+`sqrt`, `expt` always return complex numbers.
+
+Complex: `make-rectangular`, `real-part`, `imag-part`.  Conversion: `exact`, `inexact`.
+
+As an enhancement to R7RS-small, the non-generic arithmetic functions
+`fx+`, `fx-`, `fx*`, `fl+`, `fl-`, `fl*`, `fl/`, `cx+`, `cx-`, `cx*`, `cx/` are provided.
 
 6.3 Booleans
 
@@ -74,15 +91,20 @@ Not supported; use single-character strings instead.
 
 6.7 Strings
 
-Full support for string literals.  Strings are immutable.  All Unicode characters are supported except U+0000 (NUL).  Only `string?`, `string-length`, `string=?`, `string<?`, `string>?`, `substring`, `list->string`.
+Full support for string literals.  Strings are immutable.
+All Unicode characters are supported except U+0000 (NUL).
+Only `string?`, `string-length`, `string=?`, `string<?`, `string>?`, `substring`, `list->string`.
 
 6.8 Vectors
 
-Full support for vector literals.  Only `vector?`, `make-vector` (one argument), `vector-length`, `vector-ref`, `vector-set!`.
+Full support for vector literals.
+Only `vector?`, `make-vector` (one argument), `vector-length`, `vector-ref`, `vector-set!`.
 
 6.9 Bytevectors
 
-Full support for bytevector literals.  Only `bytevector?`, `make-bytevector` (one argument), `bytevector-length`, `bytevector-u8-ref`, `bytevector-u8-set!`.
+Full support for bytevector literals.
+Only `bytevector?`, `make-bytevector` (one argument), `bytevector-length`,
+`bytevector-u8-ref`, `bytevector-u8-set!`.
 
 6.10 Control features
 
@@ -94,13 +116,22 @@ Only `error`.
 
 6.13 Input and output
 
-Only `read-char` (no arguments), `eof-object`, `eof-object?`, `write-char` (one argument), `display` (mostly for debugging).
+Only `read-char` (no arguments), `eof-object`, `eof-object?`, `write-char` (one argument),
+`display` (mostly for debugging).
 
 ## Implementation
 
 These notes assume a 64-bit system.
 
-With the basic object 64 bits in size, NaN-boxing is a plausible technique.  In this scheme, IEEE doubles are represented as immediates, and all other objects are stuffed into the signaling NaN space (high-order bit is 0, next 11 bits are 1, next bit is 1).  This limits them to 52 bits in size, which is enough to hold 64-bit pointers in current architectures, since they are only 47 bits in size (excluding the kernel area).  Because a pointer to a 64-bit value always has the low-order three bits zero, they can be used for the following tagging scheme:
+With the basic object 64 bits in size, NaN-boxing is a plausible technique.
+In this scheme, IEEE doubles are represented as immediates,
+and all other objects are stuffed
+into the NaN space by setting the top 12 bits to 1.
+This limits them to 52 bits in size,
+which is enough to hold 64-bit pointers in current architectures,
+since they are only 47 bits in size (excluding the kernel area).
+Because a pointer to a 64-bit value always has the low-order three bits zero,
+they can be used for the following tagging scheme:
 
 * 000 - 48-bit fixnum
 * 001 - pointer to compnum
@@ -111,19 +142,7 @@ With the basic object 64 bits in size, NaN-boxing is a plausible technique.  In 
 * 110 - pointer to string (padded to multiple of 64 bits, preceded by a 48-bit fixnum length)
 * 111 - pointer to procedure, symbol, or record (first word points to a type object)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+In order to make pointers more efficient,
+we can flip the top 12 bits before storing them.
+That way all pointers and fixnums will Just Work,
+and doubles will simply need to be flipped back.
