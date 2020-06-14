@@ -68,6 +68,26 @@ Such calls can be written more compactly using the `cut` macro from
   (cut gfilter even? <>)
   (cut ggroup 5 <>))
 ```
+`(gchoice `*choice-gen source-gen* ...`)`
+
+Returns a generator *g* that behaves as follows:
+
+When *g* is invoked, it first invokes *choice-gen* to return an index value *i*.
+It is an error if *i* is not an exact integer between 0 (inclusive)
+and the number of *source-gens* (exclusive).
+Then the *i*th *source-gen* is invoked and its value returned by *g*.
+However, if either *choice-gen* or the chosen *source-gen* is exhausted,
+*g* returns an end of file object.
+
+Here are a few examples of suitable values of *choice-gen*:
+
+The procedure `make-categorical-generator`
+from [SRFI 194](http:/srfi.schemers.org/srfi-194/srfi-194.html)
+will perform weighted sampling of the *source-gens*.
+
+Composing `make-iota-generator` and `make-circular-generator`
+from [SRFI 158](http://srfi.schemers.org/srfi-158/srfi-158.html)
+performs round-robin selection of the *source-gens*.
 
 `(stream->generator `*stream*`)`
 
