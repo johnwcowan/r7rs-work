@@ -2,16 +2,15 @@ This is a simple API for making basic HTTP requests.
 
 ## Issues
 
-Are the request and reply objects [dictionaries](Dictionaries.md) or records?
-Dictionaries are easier to construct and have a smaller API surface.
+None at this time.
 
 ## Specification
 
 ### Procedures
 
-`(http-request `*request*`)` => reply
+`(http-request `*request*`)` => response
 
-Accepts an HTTP request object and either returns an HTTP reply object
+Accepts an HTTP request object and either returns an HTTP response object
 or raises a condition satisfying `http-error?`.
 
 `(http-error? `*obj*`)`
@@ -48,22 +47,27 @@ or too many redirections.  Payload is the response object.
 `(http-error-payload `*http-error*`)`
 
 Returns the payload associated with an HTTP error.
-This can be either a request object or a reply object, depending on the type of HTTP error.
+This can be either a request object or a response object, depending on the type of HTTP error.
 
 ### Request objects
 
-A request object contains the following elements
-(it is an error to omit *verb* or *url*):
+A request object is an alist containing the following keys
+as symbols.  It is an error to omit *verb* or *url*; the other keys
+are optional.  Keys not specified by this SRFI are ignored.
 
 *verb*:  A symbol representing the HTTP method to transmit.
 The name of the symbol is uppercased before transmitting it.
 
 *url*:  A string representing the URL to be sent to the server.
 
-*headers*:  A [dictionary](Dictionaries.md) containing headers to be sent.
+*headers*:  An alist containing headers to be sent.
 Keys are lower-case symbols without a trailing colon.
 
-*cookie-jar*:  A A [dictionary](Dictionaries.md) containing cookies to possibly be sent.
+*raw-headers*: A string represting the characters of the header section.
+It is an error to specify both this and *headers*.
+
+*cookie-jar*:  A [dictionary](DictionariesCowan.md)
+containing cookies to possibly be sent.
 Keys are lists of the form `(`*domain path name*`)`;
 values are strings.  If omitted or `#f`, treated as an empty dictionary.
 
@@ -76,9 +80,9 @@ The implementation must process all of the bytevector's contents
 before returning from the accumulator procedure.
 This allows the caller to reuse the bytevector.
 
-### Reply objects
+### Response objects
 
-A response object may contain the following elements:
+A response object may contain the following keys:
 
 *request*:  The request object to which this is a response.
 
@@ -89,6 +93,9 @@ A response object may contain the following elements:
 *headers*:  The headers of the response.
 Multiple headers are coalesced in the order they appear in the response,
 with a space character separating them.
+
+*raw-headers*: A string represting the characters of the header section
+of the response.
 
 *cookie-jar*:  A cookie-jar (see above).  Cookies are inserted
 or replaced according to the cookie protocol.
