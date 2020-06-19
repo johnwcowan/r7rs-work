@@ -78,7 +78,7 @@ The speed of this turtle has been set to 0.
 
 It is an error if the event type is not `collision`.
 
-`(uievent-collidee `*ev*`)`
+`(uievent-target `*ev*`)`
 
 Returns the canvas or shape object representing the
 canvas border or shape border with which a turtle has collided.
