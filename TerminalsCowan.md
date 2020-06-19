@@ -1,6 +1,5 @@
 ## Introduction
 
-Terminals used to be physical devices but now most of them are emulators, blah blah.
 For the purposes of this application, a terminal might be a physical terminal,
 an X textual window, a Windows console, or even an HTML multi-line field.
 
@@ -38,7 +37,8 @@ The upper left corner is row 0, column 0, as is normally the case in Scheme.
 
 The characters present in a single location constitute a single
 Unicode default grapheme cluster.  In addition, the string may contain
-any number of ANSI escape sequences and control sequences.  (FIXME: add links.)
+any number of [ANSI escape sequences and control sequences](https://en.wikipedia.org/wiki/ANSI_escape_code)
+that change state.
 
 ### Color representations
 
