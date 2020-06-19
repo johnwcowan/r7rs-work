@@ -20,7 +20,7 @@ See [TangerineEdition](TangerineEdition.md).
 ## Numeric types and operations
 
 Random numbers: [SRFI 27](http://srfi.schemers.org/srfi-27/srfi-27.html),
-plus [AdvancedRandomGauche](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/AdvancedRandomGauche.html)
+plus [SRFI 194]((http://srfi.schemers.org/srfi-194/srfi-194.html)
 
 Float and NaN dissector API (sign, quiet/signaling status, and integer tag): [NaNMedernach](NaNMedernach.md)
 
@@ -32,7 +32,7 @@ Logistic functions: [LogisticRiastradh](LogisticRiastradh.md)
 
 Integer sets:  [IntegerSetsCowan](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/IntegerSetsCowan.html)
 
-Ranges:  [RangesCowan](RangesCowan.md)
+Ranges:  [SRFI 196](http://srfi.schemers.org/srfi-196/srfi-196.html)
 
 Bit and boolean vectors: [SRFI 178](http://srfi.schemers.org/srfi-178/srfi-178.html)
 
@@ -59,11 +59,13 @@ Generic dictionary operations: [Dictionaries](Dictionaries.md)
 
 ## Non-portable
 
+Identifier syntax: R6RS
+
 Syntax-case: [R6RS syntax-case](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html)
 
 Explicit renaming: [explicit renaming](https://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Explicit-Renaming.html)
   
-Custom macro transformers: [SRFI 147](http://srfi.schemers.org/srfi-147/srfi-147.html) [not portable]
+Custom macro transformers: [SRFI 147](http://srfi.schemers.org/srfi-147/srfi-147.html)
 
 Syntax parameters: [SRFI 139](http://srfi.schemers.org/srfi-139/srfi-139.html)
 
@@ -71,12 +73,12 @@ Syntax-rules extensions: [SRFI 149](http://srfi.schemers.org/srfi-149/srfi-149.h
 
 `let-syntax` with splicing: [SRFI 188](http://srfi.schemers.org/srfi-188/srfi-188.html)
 
+Generalized `set!`: [SRFI 17](http://srfi.schemers.org/srfi-17/srfi-17.html) or
+[`identifier-syntax`](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_796)
+
 ## Portable
 
 `cond` guards: [SRFI 61](http://srfi.schemers.org/srfi-61/srfi-61.html)
-
-Generalized `set!`: [SRFI 17](http://srfi.schemers.org/srfi-17/srfi-17.html) or
-[`identifier-syntax`](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_796)
 
 Modify macros: [Srfi17ExtensionsCowan](Srfi17ExtensionsCowan.md)
 
@@ -97,6 +99,8 @@ Syntax combiners for binary functions: [SRFI 156](https://srfi.schemers.org/srfi
 # Yellow Docket (syntax)
 
 ## Syntax
+
+Nested `define`:
 
 `and-let*`: [SRFI 2 using define-macro](http://srfi.schemers.org/srfi-2/srfi-2.html),
 [using explicit renaming](https://code.call-cc.org/cgi-bin/gitweb.cgi?p=chicken-core.git;a=blob;f=chicken-syntax.scm;h=e3c2feb47c1437d44aefa0d879e04dc28a0cbc61;hb=HEAD),
@@ -148,8 +152,6 @@ Enumeration maps: [EnumMappingsCowan](EnumMappingsCowan.md)
 
 ASCII character library: [SRFI 175](https://srfi.schemers.org/srfi-175/srfi-175.html)
 
-S-expressions for SQL: [AgnosticSql](AgnosticSql.md)
-
 Core I/O: [CoreAsn1](CoreAsn1.md), [CoreSexps](CoreSexps.md),
 [Lisp Serialization Conventions](https://docs.google.com/spreadsheets/d/1V-7E5d3fLON5DrVeHkVvp9h5SRgcteOgnPl8KvWTA3M/edit#gid=0)
 
@@ -192,7 +194,6 @@ Custom I/O ports: [SRFI 181](http://srfi.schemers.org/srfi-181/srfi-181.html).
 Transcoded ports: [SRFI 186](http://srfi.schemers.org/srfi-186/srfi-186.html).
 
 Port positioning: [SRFI 192](http://srfi.schemers.org/srfi-192/srfi-192.html).
-
 
 Threads: [SRFI 18](http://srfi.schemers.org/srfi-18/srfi-18.html)
 or [FuturesCowan](FuturesCowan.md) (just futures, thread-local variables, monad support)
@@ -352,6 +353,8 @@ Writing filters: [FileFilterGauche](https://practical-scheme.net/gauche/man/gauc
 SXML serializer: [SxmlSerializerGauche](https://practical-scheme.net/gauche/man/gauche-refe/Serializing-XML-and-HTML-from-SXML.html#Serializing-XML-and-HTML-from-SXML)
 
 # Indigo Docket (stuff of dubious utility)
+
+S-expressions for SQL: [AgnosticSql](AgnosticSql.md)
 
 Substitute/transform: [SubstituteCowan](SubstituteCowan.md)
 
