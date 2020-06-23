@@ -195,11 +195,6 @@ If the drive of *path* is empty, but the root is non-empty,
 If two or more *path* arguments are given, `path-join` returns
 what `(path-join (path-join `*basepath* *path1*`)` *path* ...`)` returns.
 
-`current-basepath`
-
-A SRFI 39 or R7RS parameter used to store a current basepath for use with `path-join`.
-Using this parameter provides the equivalent of a per-thread current directory.
-
 `(path-with-filename `*path filename*`)`
 
 Returns a path object based on *path* with the filename (replaced by *filename* (a string).
