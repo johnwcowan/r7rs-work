@@ -2,9 +2,9 @@
 
 A text terminal or graphics canvas
 may be able to send *events* to the application.  Each event represents
-something happening on a keyboard, mouse, or similar device.
+something happening on the canvas itself or a keyboard, mouse, or similar device.
 For the purposes of this SRFI,
-an event is represented an *event object*, an object with various properties.
+an event is represented by an *event object*, an object with various properties.
 It is an error to try to retrieve a property from an event
 that is not appropriate to the type of event.
 Event objects cannot be mutated by the user, only by the event dispatcher.
@@ -14,7 +14,7 @@ Event objects cannot be mutated by the user, only by the event dispatcher.
 `(make-uievent)`
 
 Returns an event object for `uievent-poll` to fill in.
-The intiial event type is `none`.
+The initial event type is `none`.
 
 ## Event properties
 
@@ -57,6 +57,8 @@ For `resize` events, returns the number of columns or horizontal pixels
 in the new size of the terminal or canvas.
 The size of the UI has already been adjusted.
 
+For `collision` events, returns the x-coordinate of the collision point.
+
 It is an error if the event type is not one of the above.
      
 `(uievent-y `*ev*`)`
@@ -68,6 +70,8 @@ For a `resize` event, returns the number of rows or vertical pixels
 in the new size of the terminal or canvas.
 The size of the UI has already been adjusted.
     
+For `collision` events, returns the x-coordinate of the collision point.
+
 It is an error if the event type is not one of the above.
 
 `(uievent-turtle `*ev*`)`
@@ -94,7 +98,7 @@ positive powers of two, and this procedure returns the sum of zero or more of th
 
 For `char` events, the Shift key has already been absorbed into the Unicode character.
 The same is true of the Ctrl key in some cases: Ctrl+C will be reported as the character `#\x3`.
-In these cases the Shift and/or Ctrl keys may or may not be reported.
+In these cases the Shift and/or Ctrl keys may or may not be reported here.
 
 ## Event handling
 
@@ -104,11 +108,11 @@ Waits for the next event to become available or until *timeout* jiffies have pas
 the implementation may round up the number of jiffies to suit its granularity.
 The resulting event is written into *event*.
 If the value of *timeout* is 0 and no event is available, `uievent-poll` returns
-immediately, setting the event type to `timeout`
+immediately, setting the event type of *event* to `timeout`
 
 If *esc?* is true, then when an ESC character (`#\x1B;`) is received that is
 followed very shortly thereafter by a `char` or `key` event, only the second event
-is reported with the `term-alt` modifier.
+is reported with the `term-alt` modifier set.
 If *esc?* is false or omitted, no such special processing of ESC is done.
 
 Implementations may consolidate consecutive `mouse-move` events.
