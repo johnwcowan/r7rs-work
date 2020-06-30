@@ -37,7 +37,9 @@ The upper left corner is row 0, column 0, as is normally the case in Scheme.
 
 The characters present in a single location constitute a single
 Unicode default grapheme cluster.  In addition, the string may contain
-any number of [ANSI escape sequences and control sequences](https://en.wikipedia.org/wiki/ANSI_escape_code)
+any number of 
+[Unicode control characters(https://en.wikipedia.org/wiki/Unicode_control_characters) and/or
+[ANSI escape sequences and control sequences](https://en.wikipedia.org/wiki/ANSI_escape_code)
 that change state.
 
 ### Color representations
@@ -47,7 +49,7 @@ where `RR` is a 256-bit redness value, `GG` is a 256-bit greenness value, and
 `BB` is a 256-bit blueness value.  However, terminals are free to round these
 colors to as few as 8 colors if that's all they can support.
 Indeed, a monochrome terminal with reverse video can in effect
-support 2 colors.
+support 2 colors, although the foreground and background colors are locked together.
 
 
 ### Asian width
@@ -105,8 +107,8 @@ automatically set to an empty string and the same colors as this location.'
 Returns an unspecified value.
 
 It is an error to set the last column of any row to a wide character.
-For legacy reasons, it is also an error to set the location at the last row
-and last column.
+For legacy reasons, it is also an error to set the location in the last column
+of the last row.
 
 `(term-cursor-row `*t*`)`  
 `(term-cursor-set-row! `*t n*`)`  
@@ -174,7 +176,6 @@ exclusive, followed by *end-row* from column 0 to
 *end-column*, are returned.
 Trailing spaces are removed,
 and newlines are inserted at the end of each row.
-
 
 But if *rect?* is true, only the contents of the rectangle
 defined by the four corners is returned
