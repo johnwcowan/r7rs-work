@@ -20,7 +20,7 @@ See [TangerineEdition](TangerineEdition.md).
 ## Numeric types and operations
 
 Random numbers: [SRFI 27](http://srfi.schemers.org/srfi-27/srfi-27.html),
-plus [SRFI 194]((http://srfi.schemers.org/srfi-194/srfi-194.html)
+plus [SRFI 194](http://srfi.schemers.org/srfi-194/srfi-194.html)
 
 Float and NaN dissector API (sign, quiet/signaling status, and integer tag): [NaNMedernach](NaNMedernach.md)
 
@@ -64,7 +64,9 @@ Identifier syntax: R6RS
 Syntax-case: [R6RS syntax-case](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html)
 
 Explicit renaming: [explicit renaming](https://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Explicit-Renaming.html)
-  
+
+Simple identifier syntax: [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_796)
+
 Custom macro transformers: [SRFI 147](http://srfi.schemers.org/srfi-147/srfi-147.html)
 
 Syntax parameters: [SRFI 139](http://srfi.schemers.org/srfi-139/srfi-139.html)
@@ -77,6 +79,12 @@ Generalized `set!`: [SRFI 17](http://srfi.schemers.org/srfi-17/srfi-17.html) or
 [`identifier-syntax`](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_796)
 
 ## Portable
+
+`and-let*`: [SRFI 2 using define-macro or syntax-rules](http://srfi.schemers.org/srfi-2/srfi-2.html),
+[using explicit renaming](https://code.call-cc.org/cgi-bin/gitweb.cgi?p=chicken-core.git;a=blob;f=chicken-syntax.scm;h=e3c2feb47c1437d44aefa0d879e04dc28a0cbc61;hb=HEAD),
+[using syntax-case](http://git.savannah.gnu.org/cgit/guile.git/tree/module/ice-9/and-let-star.scm),
+HEAD),
+[SRFI 202](https://srfi.schemers.org/srfi-202/srfi-202.html)
 
 `cond` guards: [SRFI 61](http://srfi.schemers.org/srfi-61/srfi-61.html)
 
@@ -95,6 +103,8 @@ Generic accessors/mutators: [SRFI 123](http://srfi.schemers.org/srfi-123/srfi-12
 Eager syntax rules: [SRFI 148](http://srfi.schemers.org/srfi-148/srfi-148.html)
 
 Syntax combiners for binary functions: [SRFI 156](https://srfi.schemers.org/srfi-156/srfi-156.html)
+
+Core syntactic extensions: [SRFI 201](https://srfi.schemers.org/srfi-201/srfi-201.html)
 
 # Yellow Docket (syntax)
 
@@ -207,7 +217,7 @@ Timers: [SRFI 120](http://srfi.schemers.org/srfi-120/srfi-120.html)
 
 Mutable environments: [EnvironmentsMIT](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/EnvironmentsMIT.html)
 
-Host environment: [SRFI 170](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/srfi-170.html)
+Posix environment: [SRFI 170](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/srfi-170.html)
 
 Access to the REPL: [ReplCowan](ReplCowan.md)
 
