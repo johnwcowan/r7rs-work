@@ -18,7 +18,7 @@ though it is designed for C++ and hairy beyond belief).
 or `#t` if the implementation default is fine.
 In addition, `err` causes the output to be sent to the
 port that is the value of `(current-error-port)`,
-but in a slightly different format.
+but in a slightly different format (see below).
 
 *Dictionary* contains key-value pairs; the pairs passed to `open-log` provide defaults
 for those not passed to `write-log`.
@@ -62,8 +62,8 @@ Here are the fields of the packet, separated by a single space:
   * ISO 8601 timestamp
   * Sending host, max 48 ASCII characters:  fully qualified domain name,
     hostname, IP address, or "-" if completely unknown.
-  * Application, max 48 ASCII characters; "-" if not known at all
-  * Pid, max 128 ASCII digits or anything else, or "-" if not known at all
+  * Application name, max 48 ASCII characters; "-" if not known at all
+  * Process id, max 128 ASCII digits or anything else, or "-" if not known at all
   * Message type: max 32 ASCII characters
   * Reserved field, value is "-"
   * Message in UTF-8
@@ -76,10 +76,10 @@ where 0 is `emergency`,
 plus the following values for `application-type`:
 
   * 1*8 for client
-  * 3*8 for server,
-  * 4*8 for auth,
-  * 10*8 for auth-priv,
-  * and 23*8 for default.
+  * 3*8 for server
+  * 4*8 for auth
+  * 10*8 for auth-priv
+  * 23*8 for default
   
 However, when writing to the `err` transport, the priority value is replaced
 by the severity as a capitalized string and the application type as a
