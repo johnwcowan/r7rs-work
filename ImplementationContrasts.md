@@ -95,6 +95,7 @@ Not all these pages have information on all these Schemes.
 * [CallCc](CallCc.md)
 * [CaseInsensitivity](CaseInsensitivity.md)
 * [CharEq](CharEq.md)
+* [CommaCommands](CommaCommands.md)
 * [CommaInIdentifiers](CommaInIdentifiers.md)
 * [CompilerAvailable](CompilerAvailable.md)
 * [ComplexLog](ComplexLog.md)
