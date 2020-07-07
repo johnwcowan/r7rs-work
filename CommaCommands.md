@@ -7,3 +7,5 @@ Racket, Rep, Scheme 9, Scheme 48, STklos.
 Command is a control character: MIT.
 
 Command prefixed by @: Chibi (with -R option).
+
+[Detailed command lists](https://github.com/schemedoc/usage/tree/master/comma-commands)
