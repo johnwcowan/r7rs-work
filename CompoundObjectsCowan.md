@@ -58,8 +58,21 @@ whose subobjects result from invoking *mapper* on each subobject of *obj*.
 Although the subobjects of the result are in the same order as the subobjects of *obj*,
 the order in which *mapper* is applied to them is unspecified.
 
+If any subobject is itself a compound object, it is flattened into its subobjects,
+which are then added to the result in sequence.
+
 If *obj* is not a compound object, returns a compound object
 whose only subobject is the result of applying *mapper* to *obj*.
+
+`(compound-map->list `*mapper obj*`)`
+
+If *obj* is a compound object, returns a list
+whose elements result from invoking *mapper* on each subobject of *obj*.
+Although the elemnts of the result are in the same order as the subobjects of *obj*,
+the order in which *mapper* is applied to them is unspecified.
+
+If *obj* is not a compound object, returns a list
+whose only element is the result of applying *mapper* to *obj*.
 
 `(compound-filter `*pred obj*`)`
 
@@ -80,7 +93,7 @@ otherwise returns `#f`.
 If *obj* is not a compound object, applies *pred* to *obj* and
 returns what *pred* returns.
 
-`(compound-accessor `*pred accessor obj default*`)`
+`(compound-access `*pred accessor obj default*`)`
 
 If *obj* is a compound object, *accessor* is applied to
 the first subobject that satisfies *pred* and the result is returned;
@@ -96,5 +109,5 @@ If *obj* is a compound object, then if it contains a subobject
 satisfying `compound-type?` whose car is *sym*, then it
 returns the cdr of the first such type object; otherwise it returns `#f`.
 
-If *obj* is not a compound object, then if it satisfies `compound?`
+If *obj* is not a compound object, then if it satisfies `compound-type?`
 and its car is *sym*, then it returns the cdr of *obj*; otherwise it returns `#f`.
