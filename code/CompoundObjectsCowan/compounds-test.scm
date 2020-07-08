@@ -64,6 +64,14 @@
                   1))
               (list 2)))
 
+(test-group "compound-map"
+            (define c (compound 1 2 3))
+            (test-equal 
+              (compound-map->list
+                  (lambda (e) (+ 1 e)) 
+                  c)
+              (list 2 3 4)))
+
 (test-group "compound-filter"
             (define c (compound 1 2 3))
             (test-equal
@@ -88,25 +96,25 @@
 (test-group "compound-predicate"
             (define c (compound 1 2 3))
             (test-equal 
-              (compound-accessor (lambda (e) (not (= e 2)))
+              (compound-access (lambda (e) (not (= e 2)))
                                  number->string
                                  c
                                  "0")
               "1")
             (test-equal 
-              (compound-accessor (lambda (e) #f)
+              (compound-access (lambda (e) #f)
                                  number->string
                                  c
                                  "0")
               "0")
             (test-equal 
-              (compound-accessor (lambda (e) (= e 2))
+              (compound-access (lambda (e) (= e 2))
                                  number->string
                                  2
                                  "0")
               "2")
             (test-equal 
-              (compound-accessor (lambda (e) (= e 2))
+              (compound-access (lambda (e) (= e 2))
                                  number->string
                                  1
                                  "0")

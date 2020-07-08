@@ -12,9 +12,10 @@
     compound-length
     compound-ref
     compound-map
+    compound-map->list
     compound-filter
     compound-predicate
-    compound-accessor
+    compound-access
     compound-type-properties)
   
   (include "compounds-impl.scm"))

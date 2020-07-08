@@ -5,7 +5,7 @@
 
 (define (compound-subobjects obj)
   (if (compound? obj)
-    (vector->list (raw-object-subobjects obj))
+    (raw-object-subobjects obj)
     (list obj)))
 
 (define (make-compound subobjs)
@@ -30,7 +30,7 @@
   (let loop ((in in) 
              (out '()))
     (if (null? in)
-      (list->vector (reverse out))
+      (reverse out)
       (loop (cdr in)
             (if (compound? (car in))
                 (append (reverse (compound-subobjects (car in))) out)
@@ -44,18 +44,17 @@
 
 (define (compound-length obj)
   (if (compound? obj)
-      (vector-length (raw-object-subobjects obj))
+      (length (raw-object-subobjects obj))
       1))
 
 (define (compound-ref obj k)
-  (define subobjs
-    (if (compound? obj)
-        (raw-object-subobjects obj)
-        (vector obj)))
-  (vector-ref subobjs k))
+  (list-ref (compound-subobjects obj) k))
 
 (define (compound-map mapper obj)
-  (make-compound (map mapper (compound-subobjects obj))))
+  (make-compound (compound-map->list mapper obj)))
+
+(define (compound-map->list mapper obj)
+  (map mapper (compound-subobjects obj)))
 
 (define (filter pred list)
   (let loop ((list list) (result '()))
@@ -68,7 +67,7 @@
        (loop (cdr list) result)))))
 
 (define (compound-filter pred obj)
-  (raw-compound-object (list->vector (filter pred (compound-subobjects obj)))))
+  (raw-compound-object (filter pred (compound-subobjects obj))))
 
 (define (compound-predicate pred obj)
   (let loop ((in (compound-subobjects obj)))
@@ -80,7 +79,7 @@
      (else
        (loop (cdr in))))))
 
-(define (compound-accessor pred accessor obj default)
+(define (compound-access pred accessor obj default)
   (let loop ((in (compound-subobjects obj)))
    (cond
      ((null? in)
@@ -95,6 +94,6 @@
     (and (compound-type? subobj)
          (equal? sym (car subobj))))
   (cond
-    ((compound? obj) (compound-accessor pred cdr obj #f))
+    ((compound? obj) (compound-access pred cdr obj #f))
     ((pred obj) (cdr obj))
     (else #f)))
