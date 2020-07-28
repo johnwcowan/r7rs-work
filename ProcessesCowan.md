@@ -154,13 +154,17 @@ Specifies a process-runner object that controls the execution of this process.
 
 ## Synthetic process objects
 
-`(pid->proc `*pid*`)`
+`(pid->process `*pid*`)`
 
 Creates a synthetic process object wrapping an arbitrary process id.
 Because the process is not necessarily a child of the current process,
 process object accessors may return `#f` unexpectedly
 or read from a file such as `/proc/<pid>/status`.
 It is always possible to send signals to a synthetic process object.
+
+`(current-process)`
+
+Creates a synthetic process wrapping the process id of the current process.
 
 ## Path search
 
