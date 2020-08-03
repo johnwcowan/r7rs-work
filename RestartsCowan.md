@@ -138,15 +138,18 @@ A SRFI 39 / R7RS parameter whose value is an interactor
 procedure.  The contract of such a procedure is as follows:
 
 It accepts one argument, a list of restarters.
-TThe tags and the car of the
+The tags and the car of the
 descriptions of the restarters are made available to the user.
-The user is then allowed to choose one of the restarters.  
+The user is then allowed to choose one of the tags.  
 Then the remaining strings in the description of the chosen
 restarter are made available to the user, and the user is
 allowed to specify a value corresponding to each string.
 
 The interactor then calls `restart` on the restarter and
 the user's values and returns whatever `restart` returns.
+
+The sample interactor outputs the tags and description strings
+with `display` and reads the values using `read`.
 
 `(restart-interactively `*restarters*`)` -> *values* (may not return)
 
@@ -192,7 +195,7 @@ behaviour protocols.  These tags are simply symbols.
   that the old one is completely replaced, rather than just using the
   input value temporarily and possibly accidentally reusing the old
   value and signaling another error.
-
+  
 ## Additional recommendations
 
 It is highly recommended that Scheme systems integrate restarters into
