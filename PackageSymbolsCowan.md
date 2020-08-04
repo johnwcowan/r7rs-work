@@ -1,7 +1,7 @@
 
-##symbols
+## Symbols
 
-& package-name package-name ... name -> symbol[syntax]
+& package-name package-name ... name -> symbol [syntax]
 
 && package-name package-name ... name -> symbol [syntax]
 
@@ -35,7 +35,7 @@ fancy->symbol symbol -> symbol
 
 symbol-delete! symbol
 
-##packages
+## Packages
 
 make-package [package] package-name -> package
 
@@ -75,7 +75,7 @@ package-search package name -> symbol status-symbol
 
 package-search-all [package] name -> symbols
 
-##package system
+## Package system
 
 symbol-intern! package name
 
@@ -97,7 +97,7 @@ symbol-unintern! package symbol
 
 package-delete! package
 
-##exceptions
+## Exceptions
 
 package-error? obj -> boolean
 
