@@ -194,6 +194,8 @@ Sorted dictionaries: [SortedDictionaries](SortedDictionaries.md)
 
 Bimaps: [Bimaps](Bimaps.md)
 
+Language tag searching: [BCP 47](https://tools.ietf.org/html/bcp47).  Procedures take a tag and a dictionary of tagged objects, and return either an alist (ordered choice) or a single key-value pair.
+
 
 # Green Docket (non-portable)
 
