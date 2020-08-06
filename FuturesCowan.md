@@ -14,12 +14,6 @@ futures are more modern in style and hopefully
 easier to use.  Each future is represented to other futures, including itself, by a
 unique *future object*, a member of a disjoint type.
 
-## Issues
-
-Some structured way to create a future-holder, execute a lambda passing the holder,
-allow futures to be created in the holder, and then when the lambda terminates, all
-the futures in the holder are waited for.
-
 ## Future states
 
 * A *running* future is one that is currently executing.
@@ -190,7 +184,19 @@ The value is the same whether or not `current-future` is being invoked from with
 Returns `#t` if *obj* is a future object (including the primordial
 object) or a promise, otherwise returns `#f`.
 
-`(make-future `*proc arg* ...`)`
+`(with-future-runner `*proc*`)`
+
+Creates a future runner, an opaque object
+with which newly created futures can be registered.
+The procedure *proc* is invoked on the future runner.
+When *proc* returns, `with-future-runner` waits
+for all registered futures to terminate
+and then returns a list of the futures in arbitrary order.
+
+A future is registered by passing a future-runner as the
+first argument to `make-future`.
+
+`(make-future `[*runner*] *proc arg* ...`)`
 
 Creates a new future, initializes it, starts it, and returns the
 corresponding future object. The execution consists of applying
@@ -209,6 +215,9 @@ along with an indication of abnormal termination, abandon
 any communication resources the future has acquired, and terminate.
 
 The `dynamic-wind` stack of the new future is empty.
+
+If the first argument is a future runner,
+the new future is registered with it.
 
 `(future `*expr*`)`  [syntax]
 
