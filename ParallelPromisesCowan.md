@@ -37,54 +37,66 @@ that they cannot run in parallel on a particular implementation.
 
 ## Specification
 
-`(parallel-delay `<expression>`)` [syntax]
+`(parallel-delay `expression`)` [syntax]
 
 Semantics: The `parallel-delay` construct is used together with
 the procedure `parallel-force` to implement potentially parallel evaluation
-`(parallel-delay `<expression>`)` returns an object called a
+`(parallel-delay `*expression*`)` returns an object called a
 *parallel promise* which at some point in the future can be asked (by
-the `parallel-force` procedure) to complete the evaluation of <expression>, and deliver
-the resulting value. The effect of <expression> returning
+the `parallel-force` procedure) to complete the evaluation of *expression*, and deliver
+the resulting value. The effect of *expression* returning
 multiple values is unspecified.  (Racket `future` is a procedure taking a thunk)
 
-`(parallel-delay-force `<expression>`)`  [syntax]
+`(parallel-delay-force `expression`)`  [syntax]
 
-Semantics: The expression `(parallel-delay-force `<expression>`)` is
-conceptually similar to `(parallel-delay (parallel-force `<expression>`))`, with
+Semantics: The expression `(parallel-delay-force `*expression*`)` is
+conceptually similar to `(parallel-delay (parallel-force `*expression*`))`, with
 the difference that forcing the result of `parallel-delay-force` will
-in effect result in a tail call to `(parallel-force `<expression>`)`, while
-forcing the result of `(parallel-delay (parallel-force `<expression>`))` might
+in effect result in a tail call to `(parallel-force `*expression*`)`, while
+forcing the result of `(parallel-delay (parallel-force `*expression*`))` might
 not. Thus iterative lazy algorithms that might result in a
 long series of chains of `delay` and `force` can be rewritten
 using `delay-force` to prevent consuming unbounded space
 during evaluation.
 
-`(parallel-force `*parpromise*`)`
+`(parallel-force `*promise*`)`
 
 The `parallel-force` procedure forces the value of a parallel promise created
-by `parallel-delay`, `parallel-delay-force`, or `make-parallel-promise`. If no value has
-been computed for the promise, then a value is computed
+by `delay`, `delay-force`, `make-promise`,
+`parallel-delay`, `parallel-delay-force`, or  `make-parallel-promise`.
+If no value has been computed for the promise
+(which is always the case for an ordinary promise), 
+then a value is computed
 and returned. The value of the promise must be cached
 (or *memoized*) so that if it is forced a second time, the
 previously computed value is returned. Consequently, a
 delayed expression is evaluated using the parameter values
 and exception handler of the call to `parallel-force` which first requested
-its value. If *parpromise* is not a parallel promise, it may be
+its value. If *promise* is not a ordinary or parallel promise, it may be
 returned unchanged.  (Racket `touch`)
 
 Various extensions to the semantics of `parallel-delay`, `parallel-force` and
 `parallel-delay-force` may be supported:
 
-* Calling `parallel-force` on an object that is not a parallel promise may simply return the object.
+* Calling `parallel-force` on an object that is not a promise
+  may simply return the object.
 
-* It may be the case that there is no means by which a parallel promise can be operationally distinguished from its forced value. That is, expressions like the following may evaluate to either `#t` or to `#f`, depending on the implementation:
+* It may be the case that there is no means by which a parallel promise
+  can be operationally distinguished from its forced value.
+  That is, expressions like the following may evaluate to either
+  `#t` or to `#f`, depending on the implementation:
 
 ```
 (eqv? (parallel-delay 1) 1) => unspecified
 (pair? (parallel-delay (cons 1 2))) => unspecified
 ```
 
-* Implementations may implement *implicit forcing*, where the value of a parallel promise is forced by procedures that operate only on arguments of a certain type, like `cdr` and `*`. However, procedures that operate uniformly on their arguments, like `list`, must not force them.
+* Implementations may implement *implicit forcing*,
+  where the value of a parallel promise is forced by procedures
+  that operate only on arguments of a certain type,
+  like `cdr` and `*`.
+  However, procedures that operate uniformly on their arguments,
+  like `list`, must not force them.
 
 ```
 (+ (parallel-delay (* 3 7)) 13) => unspecified
@@ -112,11 +124,12 @@ If a parallel promise itself uses `parallel-force`, parallel-promise executions 
 in which case the descriptor of the most immediately executing parallel promise is returned.
 If the current continuation is not a parallel promise execution, the result is `#f`.
 
-`(parallel-call `<func> <arg> ...`)` [syntax]
+`(parallel-call `*func arg* ...`)` [syntax]
 
-Semantics:  Wrap <func> and each <arg> in a parallel promise.
+Semantics:  Wrap *func* and each *arg* in a parallel promise.
 Force the parallel promises in an unspecified order.
-Then apply the value of the <func> promise to the value of the <arg> promises and return the result.
+Then apply the value of the *func* promise
+to the value of the *arg* promises and return the result.
 
 ## Implementation
 
