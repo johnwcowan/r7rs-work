@@ -6,9 +6,8 @@
       (fllog (fl+ 1. x))))
 
 (define fl-log-of-2 (fllog 2.))
-(define flulp-of-one fl-epsilon)
-(define fl-error-bound (fl/ flulp-of-one 2.))
-(define fllog-error-bound (fllog fl-error-bound))
+(define error-bound (fl/ fl-epsilon 2.))
+(define fllog-error-bound (fllog error-bound))
 
 (define logit-boundary-lo	;logistic(-1)
   (fl/ (flexp -1.) (fl+ 1. (flexp -1.))))
