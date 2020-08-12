@@ -120,8 +120,10 @@ Loops: [SRFI 42](http://srfi.schemers.org/srfi-42/srfi-42) or [Riastradh's foof-
 
 Assumptions: [SRFI 145](http://srfi.schemers.org/srfi-145/srfi-145.html)
 
-Assertions: Son of [SRFI 145](http://srfi.schemers.org/srfi-145/srfi-145.html)
+Assertions: [AssertionsWarnings](https://github.com/johnwcowan/r7rs-work/blob/master/AssertionsWarnings.md)
 or [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_sec_11.14)
+
+Warnings: [AssertionsWarnings](https://github.com/johnwcowan/r7rs-work/blob/master/AssertionsWarnings.md)
 
 `while`, `until`, `do-times`: [SimpleIterationCL](SimpleIterationCL.md)
 
@@ -335,7 +337,7 @@ Applicable record instances: [R6RS formal comment](http://www.r6rs.org/formal-co
 
 Memoization: [Memoize](Memoize.md) (not a proposal yet), [Racket](http://planet.racket-lang.org/display.ss?package=memoize.plt&owner=dherman), [Haskell](http://hackage.haskell.org/package/memoize-0.1/docs/Data-Function-Memoize.html)
 
-Message digests (CRC, MD5, SHA1, SHA2):
+MD5 message digests:
 
 Assertions: [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_750), R6RS with optional message and irritants.
 
