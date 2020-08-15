@@ -6,9 +6,10 @@ researchers, and users of embedded languages; and a large language focused on th
 practical needs of mainstream software development.
 
 The report on the small language was finalized on July 6, 2013.
-It is available [in PDF format](https://bitbucket.org/cowan/r7rs/src/draft-10/rnrs/r7rs.pdf)
-and as [LaTeX source code](https://bitbucket.org/cowan/r7rs/src/draft-10/spec).
-There are [errata](R7RSSmallErrata.md).  A complete archive of the
+It is available [in PDF format](https://github.com/johnwcowan/r7rs-spec/blob/errata/spec/r7rs.pdf)
+and as [LaTeX source code](https://github.com/johnwcowan/r7rs-spec/tree/errata/spec).
+There are [errata](R7RSSmallErrata.md); the above version leads to a version
+with all the errata applied.  A complete archive of the
 working documents for the small language is available [here](https://small.r7rs.org/).
 
 A concise definition of the first partial edition of R7RS-large, known as 
@@ -19,7 +20,7 @@ A single physical document is in preparation.
 Similarly, the second partial edition of R7RS-large, known as the [Tangerine Edition](TangerineEdition.md),
 was made available in 2019.  It points to the SRFIs (and in one case an R6RS library)
 and the numeric tower that the Tangerine Edition requires implementations to
-provide.  One Red Edition library was updated in a fully downward compatible way.
+provide.  One Red Edition library was updated in a fully backward compatible way.
 
 The plans for future partial editions can be found at [WG2Dockets](WG2Dockets.md);
 they are all named by colors in roughly spectral order.
