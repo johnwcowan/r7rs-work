@@ -85,7 +85,7 @@ the car of the list is the name of the current element.
 
 `($start `*stack attr-list*`)`
 
-Represents a start-tag.  *Attr-list* is a [JSO](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/JsoCowan.html) representing the attributes.
+Represents a start-tag.  *Attr-list* is a [JSO](https://htmlpreview.github.io/?https://github.com/johnwcowan/r7rs-work/master/JsoCowan.html) representing the attributes.
 
 `($end `*stack*`)`
 

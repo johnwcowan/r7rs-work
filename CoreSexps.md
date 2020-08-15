@@ -82,6 +82,6 @@ that goes up to but not including the end of line and is discarded.
 A comment by itself is not a valid S-expression.
 
 
-Equivalent binary format: [CoreAsn1](https://bitbucket.org/cowan/r7rs-wg1-infra/src/default/CoreAsn1.md).
+Equivalent binary format: [CoreAsn1](CoreAsn1.md).
 
 All currently proposed formats: [Lisp Serialization Conventions](https://tinyurl.com/asn1-ler).

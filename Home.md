@@ -1,6 +1,6 @@
 # Welcome to the Scheme Working Groups
 
-**The [final R7RS-small report](http://www.bitbucket.org/cowan/r7rs/src/draft-10/rnrs/r7rs.pdf) has been endorsed by a unanimous vote of the Scheme Language Steering Committee.  A formal announcement was made at [Scheme 2013](http://webyrd.net/scheme-2013).  The [TeX source code for the report](http://www.bitbucket.org/cowan/r7rs/src/draft-10/spec) has been released by the editors.**
+**The [final R7RS-small report](http://github.com/johnwcowan/blob/draft-10/draft-10/rnrs/r7rs.pdf) has been endorsed by a unanimous vote of the Scheme Language Steering Committee.  A formal announcement was made at [Scheme 2013](http://webyrd.net/scheme-2013).  The [TeX source code for the report](http://github.com/johnwcowan/blob/draft-10/draft-10/spec) has been released by the editors.**
 
 For a list of Scheme implementations supporting R7RS-small see [ImplementationSupport](ImplementationSupport.md).
 

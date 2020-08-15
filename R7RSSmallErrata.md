@@ -1,4 +1,4 @@
-Errata from the [final draft of R7RS](https://bitbucket.org/cowan/r7rs/src/draft-10/rnrs/r7rs.pdf).  This list is unofficial.
+Errata from the [final draft of R7RS](https://github.com/johnwcowan/r7rs-spec/blob/draft10/rnrs/r7rs.pdf).  This list is unofficial.
 
 1\.  In Section 3.1 (Variables, syntactic keywords, and regions), the claim in paragraph 2 that all variable binding
 constructs can be explained in terms of `lambda` does not apply to top-level bindings.

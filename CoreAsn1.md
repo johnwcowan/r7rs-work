@@ -106,6 +106,6 @@ Note:  If interoperability with other ASN.1 systems is important, encode only
 the types marked "X.690" in the Origin column of the
 [Lisp Serialization Conventions](https://tinyurl.com/asn1-ler) spreadsheet.
 
-Equivalent textual format: [CoreSexp](https://bitbucket.org/cowan/r7rs-wg1-infra/src/default/CoreSexp.md).
+Equivalent textual format: [CoreSexp](CoreSexp.md).
 
 All currently proposed formats: [Lisp Serialization Conventions](https://tinyurl.com/asn1-ler).

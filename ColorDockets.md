@@ -30,7 +30,7 @@ Logistic functions: [LogisticRiastradh](LogisticRiastradh.md)
 
 ## Numeric and semi-numeric data structures
 
-Integer sets:  [IntegerSetsCowan](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/IntegerSetsCowan.html)
+Integer sets:  [IntegerSetsCowan](https://htmlpreview.github.io/?https://github.com/johnwcowan/r7rs-work/blob/master/IntegerSetsCowan.html)
 
 Ranges:  [SRFI 196](http://srfi.schemers.org/srfi-196/srfi-196.html)
 
@@ -219,9 +219,9 @@ Datagram channels (UDP sockets): [DatagramChannelsCowan](DatagramChannelsCowan.m
 
 Timers: [SRFI 120](http://srfi.schemers.org/srfi-120/srfi-120.html)
 
-Mutable environments: [EnvironmentsMIT](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/EnvironmentsMIT.html)
+Mutable environments: [EnvironmentsMIT](https://htmlpreview.github.io/?https://github.com/johnwcowan/r7rs-work/blob/master/EnvironmentsMIT.html)
 
-Posix environment: [SRFI 170](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/srfi-170.html)
+Posix environment: [SRFI 170](https://htmlpreview.github.io/?https://github.com/johnwcowan/r7rs-work/blob/master/srfi-170.html)
 
 Access to the REPL: [ReplCowan](ReplCowan.md)
 
@@ -283,7 +283,7 @@ Relations: [RelationsCowan](RelationsCowan.md)
 
 Finalizers: [FinalizersCowan](FinalizersCowan.md)
 
-Combinations: [CombinationsGauche](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/CombinationsGauche.html)
+Combinations: [CombinationsGauche](https://htmlpreview.github.io/?https://github.com/johnwcowan/r7rs-work/blob/master/CombinationsGauche.html)
 
 Generic combinator procedures: [CombinatorsCowan](CombinatorsCowan.md)
 
@@ -390,7 +390,7 @@ Packages and rich symbols: [PackageSymbolsCowan](PackageSymbolsCowan.md)
 
 Doubly linked lists: [DoublyLinkedListsCowan](DoublyLinkedListsCowan.md)
 
-Prime number library: [PrimesGauche](https://htmlpreview.github.io/?https://bitbucket.org/cowan/r7rs-wg1-infra/raw/default/PrimesGauche.html)
+Prime number library: [PrimesGauche](https://htmlpreview.github.io/?https://github.com/johnwcowan/r7rs-work/blob/master/PrimesGauche.html)
 
 Descriptive statistics:  [TallyCowan](TallyCowan.md)
 

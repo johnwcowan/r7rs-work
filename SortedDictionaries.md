@@ -77,6 +77,6 @@ This procedure would swap the forward and backward lists in the sd.
 
 Such a data type could be easily implemented on top of SRFI 125.
 It could also be implemented over an abstract dictionary type:
-see [Dictionaries](https://bitbucket.org/cowan/r7rs-wg1-infra/src/default/Dictionaries.md)
+see [Dictionaries](Dictionaries.md)
 for a pre-SRFI.  Note that sd's are mutable, even if the underlying dictionary is
 linear-update.
