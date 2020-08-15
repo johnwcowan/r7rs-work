@@ -15,7 +15,8 @@ working documents for the small language is available [here](https://small.r7rs.
 A concise definition of the first partial edition of R7RS-large, known as 
 the [Red Edition](RedEdition.md), was made available in 2016.
 It is a frozen copy of the Red Edition ballot plus the names of the libraries.
-A single physical document is in preparation.
+A [draft version](https://gitlab.com/vmanis/r7rs-large/-/blob/master/reports/red.pdf)
+of all the SRFIs merged together with some editing is also available.
 
 Similarly, the second partial edition of R7RS-large, known as the [Tangerine Edition](TangerineEdition.md),
 was made available in 2019.  It points to the SRFIs (and in one case an R6RS library)
