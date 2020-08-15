@@ -25,6 +25,9 @@ provide.  One Red Edition library was updated in a fully backward compatible way
 The plans for future partial editions can be found at [WG2Dockets](WG2Dockets.md);
 they are all named by colors in roughly spectral order.
 
+Pre-SRFIs by John Cowan can be found on this site at
+[r7rs-work](https://github.com/johnwcowan/r7rs-work).
+
 For R7RS-small implementations, see [ImplementationSupport](ImplementationSupport.md).
 [Larceny](http://larcenists.org) includes all the SRFIs of the Red Edition, though they
 are not yet available under their standardized names.  [Chibi](http://synthcode.com/wiki/chibi-scheme)
