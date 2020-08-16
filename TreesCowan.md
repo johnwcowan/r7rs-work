@@ -1,4 +1,11 @@
 # Trees
+
+## Authors
+
+John Cowan (specification), Idiomdrottning (implementation)
+
+## Specification
+
 Trees, like lists, are an application of Scheme pairs.
 An *atom* is any Scheme object that is not a pair.
 A *tree* is a non-empty list whose elements are either trees or atoms.
