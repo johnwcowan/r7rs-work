@@ -44,7 +44,7 @@ recursively walked.  Returns an unspecified value.
 
 `(tree-walk-postorder `*proc tree*`)`
 
-Accesses the nodes of *tree* in depth-first preorder and applies
+Accesses the nodes of *tree* in depth-first postorder and applies
 *proc* to each in turn.  That is, all the children of each node are
 recursively walked and then the node itself is walked.
 Returns an unspecified value.
@@ -151,34 +151,45 @@ Returns `#f` if *subtree* is not a descendant of *tree*.
 These procedures do not mutate the tree they work on, 
 but return a new tree isomorphic to the old tree and with the same elements, 
 except as specified below.  The new tree may share storage with the old.
-They accept an inversion of the tree as an argument rather than the tree itself.
+They accept an inversion of the tree as an argument rather than the tree itself;
+the term "the tree" in the definitions refers to the original tree
+from which the inversion was made.
 
 `(tree-add `*inversion subtree newnode*`)`
 
 Returns a tree where *subtree* has an additional child, *newnode*,  
 which is placed to the right of all existing children.  
-It is an error if *subtree* is not a descendant of *tree* 
-or if *newnode* is a non-atomic descendant of *tree*.
+It is an error if *subtree* is not a descendant of the tree,
+or if *newnode* is a non-atomic descendant of the tree.
 
 `(tree-insert `*inversion subtree index newnode*`)`
 
 Returns a tree where *subtree* has an additional child, *newnode*,  
 which is placed immediately to the left of the child 
 whose local position in *subtree* is *index* (an exact integer).  
-It is an error if *subtree* is not a descendant of *tree*, 
-if *newnode* is a non-atomic descendant of *tree*, 
+It is an error if *subtree* is not a descendant of the tree, 
+if *newnode* is a non-atomic descendant of the tree, 
 or if *index* is greater than or equal to the number of child nodes of *subtree*.
 
 `(tree-prune `*inversion subtree*`)`
 
 Returns a tree where *subtree* and all its descendants are not part of the new tree.  
-It is an error if *subtree* is not a descendant of *tree*.
+It is an error if *subtree* is not a descendant of the tree.
 
 `(tree-replace `*inversion subtree newnode*`)`
 
 Returns a tree where *subtree* has been replaced by *newnode* in the new tree.  
-It is an error if *subtree* is not a descendant of *tree* 
-or if *newnode* is already a non-atomic descendant of *tree*.
+It is an error if *subtree* is not a descendant of the tree 
+or if *newnode* is already a non-atomic descendant of the tree.
+
+`(tree-move `*inversion subtree newparent*`)`
+
+Returns a tree where *subtree* has been removed from its place
+and made the last child of *newparent*.
+It is an error if *subtree* and *newparent* are not descendants of the tree.
+This procedure is in effect a composition of `tree-add` and `tree-prune`,
+but may be implemented more efficiently because it only has to reconstruct
+the tree once, not twice.
 
 ## Output
 
