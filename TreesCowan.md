@@ -122,7 +122,7 @@ Uses *inversion* to return the depth of *subtree*.
 
 Uses *inversion* to return the local position of *subtree*.
 
-`(tree-contains? `*inversion node*`)`
+`(tree-contains? `*inversion subtree*`)`
 
 Returns `#t` if *subtree* is a subtree of
 he tree represented by *inversion*,
