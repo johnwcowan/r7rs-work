@@ -30,5 +30,5 @@ and Chicken will support it with an option.
 If we adopt the `foo:` style, Gambit, Chicken, STklos, Bigloo, S7 will work out of the box,
 and Guile, Kawa will support it with an option.
 
-If we adopt the `#:foo` style, Chicken, Bigloo, Guile, S7, and to some extent Racket and Kawa
+If we adopt the `#:foo` style, Chicken, Guile, S7, and to some extent Racket and Kawa
 will work out of the box.
