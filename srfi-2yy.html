@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>SRFI 2YY: Enumerations and Enumeration Sets</title>
+    <link href="/favicon.png" rel="icon" sizes="192x192" type="image/png">
+    <link rel="stylesheet" href="https://srfi.schemers.org/srfi.css" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1"></head>
+  <body>
+    <h1><a href="https://srfi.schemers.org/"><img class="srfi-logo" 
+src="https://srfi.schemers.org/srfi-logo.svg" alt="SRFI logo" /></a>2YY:
+Enumerations and Enum Sets</h1>
+
+<p>by John Cowan (text), Wolfgang Corcoran-Mathe (implementation)</p>
+
+<h2>Status</h2>
+
+
+<h2>Abstract</h2>
+
+Enums are objects that serve to form sets of distinct classes
+that specify different modes of operation for a procedure.
+Their use fosters portable and readable code.
+
+<h2>Issues</h2>
+
+None at present.
+
+<h2 id="rationale">Rationale</h2>
+
+<p>Many procedures in many libraries accept arguments from a finite set 
+(usually a fairly small one), or subsets of a finite set to describe one or 
+more modes of operation. Offering a mechanism for dealing with such values 
+fosters portable and readable code, much as records do for compound values, or 
+multiple values for procedures computing several results.</p>
+<p>In Lisp-family languages, it is traditional to use symbols and lists of 
+symbols for this purpose. Symbols have at least two disadvantages: they are not 
+“type-safe”, in the sense that a single symbol may be used in more than one 
+logically independent universe of flags; and in Scheme symbols do not have 
+associated values. In C-family languages, enumerations have names and numeric 
+values, by default consecutive values, but often powers of two or something 
+externally dictated. However, the name is not accessible at runtime, and 
+enumeration types are not really disjoint from integer types (in C++ they are 
+statically distinct).</p>
+<p>This SRFI instead provides something related to the <em>enums</em> of Java 
+version 5 and later. These are objects of a type disjoint from all others that 
+are grouped into <em>enumeration types</em> (called <em>enum classes</em> in 
+Java). In Java, each enumeration type is allowed to declare the number and 
+types of values associated with each object, but in this SRFI an enumeration 
+object has exactly one value; this is useful when translating from C to record 
+the numeric value, but has other uses as well. The universes of R6RS correspond 
+to enum types, but they are not reified.</p>
+<p>In this SRFI, each enum has four properties: the enum type to which it 
+belongs, its name (a symbol), its ordinal (an exact integer), and its value 
+(any object). An enum type provides access to all the enums that belong to it 
+by name or ordinal.</p>
+<p><em>Enumeration sets</em> are used to represent multiple enums that belong 
+to the same type. They provide a subset of the operations provided by <a 
+href="http://srfi.schemers.org/srfi-113/srfi-113.html">SRFI 113</a> general 
+sets.</p>
+<p>Specialized mappings from enums to arbitrary values will be described in a 
+future SRFI. Meanwhile either general-purpose hash tables from <a 
+href="http://srfi.schemers.org/srfi-125/srfi-125.html">SRFI 125</a> or 
+elsewhere, or <a href="http://srfi.schemers.org/srfi-146/srfi-146.html">SRFI 
+146</a> mappings can be used instead.</p>
+
+<h2 id="specification">Specification</h2>
+
+<h3 id="predicates">Predicates</h3>
+<p><code>(enum-type?</code>&nbsp;<em>obj</em><code>)</code></p>
+<p>Returns <code>#t</code> if <em>obj</em> is an enum type, and <code>#f</code> 
+otherwise.</p>
+<p><code>(enum?</code>&nbsp;<em>obj</em><code>)</code></p>
+<p>Returns <code>#t</code> if <em>obj</em> is an enum, and <code>#f</code> 
+otherwise.</p>
+<p><code>(enum-type-contains?</code>&nbsp;<em>enum-type 
+enum</em><code>)</code></p>
+<p>Returns <code>#t</code> if <em>enum</em> belongs to <em>enum-type</em>, and 
+<code>#f</code> otherwise.</p>
+<p><code>(enum=?</code>&nbsp;<em>enum</em> …<code>)</code></p>
+<p>Returns <code>#t</code> if all the arguments are the same enum, and 
+<code>#f</code> otherwise. It is an error to apply <code>enum=?</code> to enums 
+belonging to different enum types.</p>
+<p><code>(enum&lt;?</code>&nbsp;<em>enum</em> …<code>)</code></p>
+<p><code>(enum&gt;?</code>&nbsp;<em>enum</em> …<code>)</code></p>
+<p><code>(enum&lt;=?</code>&nbsp;<em>enum</em> …<code>)</code></p>
+<p><code>(enum&gt;=?</code>&nbsp;<em>enum</em> …<code>)</code></p>
+<p>These predicates return <code>#t</code> if their arguments are enums whose 
+ordinals are in increasing, decreasing, non-decreasing, and non-increasing 
+order respectively, and <code>#f</code> otherwise. It is an error unless all of 
+the arguments belong to the same enum type.</p>
+<h3 id="enum-type-constructor">Enum type constructor</h3>
+<p><code>(make-enum-type</code>&nbsp;<em>list</em><code>)</code></p>
+<p>Returns a newly allocated enum type containing a fixed set of newly 
+allocated enums. Both enums and enum types are immutable, and it is not 
+possible to create an enum except as part of creating an enum type.</p>
+<p>The elements of <em>list</em> are either symbols or two-element lists, where 
+each list has a symbol as the first element and any value as the second 
+element. Each list element causes a single enum to be generated, whose name is 
+specified by the symbol. It is an error unless all the symbols are distinct 
+within an enum type. The position of the element in <em>list</em> is the 
+ordinal of the corresponding enum, so ordinals within an enum type are also 
+distinct. If a value is given, it becomes the value of the enum; otherwise the 
+enum’s value is the same as the ordinal.</p>
+<h3 id="enum-accessors">Enum accessors</h3>
+<p><code>(enum-type</code>&nbsp;<em>enum</em><code>)</code></p>
+<p>Returns the enum type to which <em>enum</em> belongs.</p>
+<p><code>(enum-name</code>&nbsp;<em>enum</em><code>)</code></p>
+<p>Returns the name (symbol) associated with <em>enum</em>.</p>
+<p><code>(enum-ordinal</code>&nbsp;<em>enum</em><code>)</code></p>
+<p>Returns the ordinal (exact integer) associated with <em>enum</em>.</p>
+<p><code>(enum-value</code>&nbsp;<em>enum</em><code>)</code></p>
+<p>Returns the value associated with <em>enum</em>.</p>
+<h3 id="enum-finders">Enum finders</h3>
+<p><code>(enum-name-&gt;enum</code>&nbsp;<em>enum-type 
+symbol</em><code>)</code></p>
+<p>If there exists an enum belonging to <em>enum-type</em> named 
+<em>symbol</em>, return it; otherwise return <code>#f</code>.</p>
+<p><code>(enum-ordinal-&gt;enum</code>&nbsp;<em>enum-type 
+exact-integer</em><code>)</code></p>
+<p>If there exists an enum belonging to <em>enum-type</em> whose ordinal is 
+<em>exact-integer</em>, return it; otherwise return <code>#f</code>.</p>
+<p>Note: There is no way to find an enum by its value, since values need not be 
+unique.</p>
+<p>The following convenience procedures provide enum-finding followed by access 
+to a property.</p>
+<p><code>(enum-name-&gt;ordinal</code>&nbsp;<em>enum-set 
+symbol</em><code>)</code></p>
+<p>Return the ordinal of the enum belonging to <em>enum-type</em> whose name is 
+<em>symbol</em>. It is an error if there is no such enum.</p>
+<p><code>(enum-name-&gt;value</code>&nbsp;<em>enum-set 
+symbol</em><code>)</code></p>
+<p>Return the value of the enum belonging to <em>enum-type</em> whose name is 
+<em>symbol</em>. It is an error if there is no such enum.</p>
+<p><code>(enum-ordinal-&gt;name</code>&nbsp;<em>enum-set 
+exact-integer</em><code>)</code></p>
+<p>Return the name of the enum belonging to <em>enum-type</em> whose ordinal is 
+<em>exact-integer</em>. It is an error if there is no such enum.</p>
+<p><code>(enum-ordinal-&gt;value</code>&nbsp;<em>enum-set 
+exact-integer</em><code>)</code></p>
+<p>Return the value of the enum belonging to <em>enum-type</em> whose ordinal 
+is <em>exact-integer</em>. It is an error if there is no such enum.</p>
+<h3 id="enumeration-types">Enumeration types</h3>
+<p><code>(enum-type-size</code>&nbsp;<em>enum-type</em><code>)</code></p>
+<p>Returns an exact integer equal to the number of enums in 
+<em>enum-type</em>.</p>
+<p><code>(enum-min</code>&nbsp;<em>enum-type</em><code>)</code></p>
+<p>Returns the enum belonging to <em>enum-type</em> whose ordinal is 0.</p>
+<p><code>(enum-max</code>&nbsp;<em>enum-type</em><code>)</code></p>
+<p>Returns the enum belonging to <em>enum-type</em> whose ordinal is equal to 
+the number of enums in the enum type minus 1.</p>
+<p><code>(enum-type-enums</code>&nbsp;<em>enum-type</em><code>)</code></p>
+<p>Returns a list of the enums belonging to <em>enum-type</em> ordered by 
+increasing ordinal.</p>
+<p><code>(enum-type-names</code>&nbsp;<em>enum-type</em><code>)</code></p>
+<p>Returns a list of the names of the enums belonging to <em>enum-type</em> 
+ordered by increasing ordinal.</p>
+<p><code>(enum-type-values</code>&nbsp;<em>enum-type</em><code>)</code></p>
+<p>Returns a list of the values of the enums belonging to <em>enum-type</em> 
+ordered by increasing ordinal.</p>
+<h3 id="enum-objects">Enum objects</h3>
+<p><code>(enum-next</code>&nbsp;<em>enum</em><code>)</code></p>
+<p>Returns the enum that belongs to the same enum-type as <em>enum</em> and has 
+an ordinal one greater than <em>enum</em>. Returns <code>#f</code> if there is 
+no such enum.</p>
+<p><code>(enum-prev</code>&nbsp;<em>enum</em><code>)</code></p>
+<p>Returns the enum that belongs to the same enum-type as <em>enum</em> and has 
+an ordinal one less than <em>enum</em>. Returns <code>#f</code> if there is no 
+such enum.</p>
+<h3 id="comparators">Comparators</h3>
+<p><code>(make-enum-comparator</code>&nbsp;<em>enum-type</em><code>)</code></p>
+<p>Returns a <a href="http://srfi.schemers.org/srfi-128/srfi-128.html">SRFI 
+128</a> comparator suitable for comparing enums that belong to 
+<em>enum-type</em>. The comparator contains both an ordering predicate and a 
+hash function, and orders enums based on their ordinal values.</p>
+<h3 id="enum-set-constructors">Enum set constructors</h3>
+<p><code>(enum-type-&gt;enum-set</code>&nbsp;<em>enum-type</em><code>)</code></p
+>
+<p>Returns an enum set containing all the enums that belong to 
+<em>enum-type</em>.</p>
+<p><code>(enum-set</code>&nbsp;<em>enum</em> …<code>)</code></p>
+<p>Returns an enum-set containing the <em>enums</em>. It is an error unless all 
+of them belong to the same enum type.</p>
+<p><code>(list-&gt;enum-set</code>&nbsp;<em>list</em><code>)</code></p>
+<p>Returns an enum-set containing the members of <em>list</em>. It is an error 
+unless all the members are enums belonging to the same enum type. It is also an 
+error if <em>list</em> is empty, since the relevant enum type cannot be 
+determined.</p>
+<p><code>(enum-set-project</code>&nbsp;<em>enum-type 
+enum-set</em><code>)</code></p>
+<p>Returns an enum set containing the enums belonging to <em>enum-type</em> 
+that have the same names as the members of <em>enum-set</em>, whose enum type 
+typically is not the same as <em>enum-type</em>.</p>
+<p><code>(enum-set-copy</code>&nbsp;<em>enum-set</em><code>)</code></p>
+<p>Returns a copy of <em>enum-set</em><code>)</code>.</p>
+<h3 id="enum-set-predicates">Enum set predicates</h3>
+<p><code>(enum-set?</code>&nbsp;<em>obj</em><code>)</code></p>
+<p>Returns <code>#t</code> if <em>obj</em> is an enum set and <code>#f</code> 
+otherwise.</p>
+<p><code>(enum-set-contains?</code>&nbsp;<em>enum-set 
+enum</em><code>)</code></p>
+<p>Returns <code>#t</code> if <em>enum</em> is a member of <em>enum-set</em>. 
+It is an error if <em>enum</em> does not belong to the same enum type as the 
+members of <em>enum-set</em>.</p>
+<p><code>(enum-set=?</code>&nbsp;<em>enum-set-1 
+enum-set-2</em><code>)</code></p>
+<p>Returns <code>#t</code> if <em>enum-set-1</em> and <em>enum-set-2</em> have 
+the same members. It is an error if the members of the enum sets do not belong 
+to the same type.</p>
+<h3 id="enum-set-mutators">Enum set mutators</h3>
+<p>These procedures are linear-update: that is, they may or may not modify 
+their <em>enum-set</em> argument, and any existing references to it are 
+invalidated.</p>
+<p><code>(enum-set-adjoin!</code>&nbsp;<em>enum-set enum</em> 
+…<code>)</code></p>
+<p>Returns an enum-set that contains the members of <em>enum-set</em> and the 
+<em>enums</em>. It is an error if the members of the result do not all belong 
+to the same enum type.</p>
+<p><code>(enum-set-delete!</code>&nbsp;<em>enum-set enum</em> 
+…<code>)</code></p>
+<p>Returns an enum-set that contains the members of <em>enum-set</em> excluding 
+the <em>enums</em>. It is an error if the members of the result do not all 
+belong to the same enum type.</p>
+<p><code>(enum-set-delete-all!</code>&nbsp;<em>enum-set list</em> 
+…<code>)</code></p>
+<p>Returns an enum-set that contains the members of <em>enum-set</em> excluding 
+the members of <em>list</em>. It is an error if the members of the result do 
+not all belong to the same enum type.</p>
+<h3 id="enum-set-operations">Enum set operations</h3>
+<p><code>(enum-set-size</code>&nbsp;<em>enum-set</em><code>)</code></p>
+<p>Returns the number of elements in <em>enum-set</em>.</p>
+<p><code>(enum-set-&gt;list</code>&nbsp;<em>enum-set</em><code>)</code></p>
+<p>Returns a list containing the members of <em>enum-set</em>.</p>
+<p><code>(enum-set-collect</code>&nbsp;<em>proc enum-set</em><code>)</code></p>
+<p>Invokes <em>proc</em> on each member of <em>enum-set</em> in increasing 
+ordinal order. The results are made into a list and returned.</p>
+<p><code>(enum-set-for-each</code>&nbsp;<em>proc enum-set</em><code>)</code></p>
+<p>Invokes <em>proc</em> on each member of <em>enum-set</em> in increasing 
+ordinal order and discards the rest. The result is an unspecified value.</p>
+<p><code>(enum-set-fold</code>&nbsp;<em>proc nil enum-set</em><code>)</code></p>
+<p>The current state is initialized to <em>nil</em>, and <em>proc</em> is 
+invoked on each element of <em>enum-set</em> in increasing ordinal order and 
+the current state, setting the current state to the result. The algorithm is 
+repeated until all the elements of <em>enum-set</em> have been processed. Then 
+the current state is returned.</p>
+<h3 id="enum-set-logical-operations">Enum set logical operations</h3>
+<p><code>(enum-set-union!</code>&nbsp;<em>enum-set-1 
+enum-set-2</em><code>)</code></p>
+<p>Returns an enum-set containing all the elements of either 
+<em>enum-set-1</em> or <em>enum-set-2</em>. It is an error if all the elements 
+of the result do not belong to the same enum type. The contents of either or 
+both enum-sets may be destroyed in the process.</p>
+<p><code>(enum-set-intersection!</code>&nbsp;<em>enum-set-1 
+enum-set-2</em><code>)</code></p>
+<p>Returns an enum-set containing all the elements that appear in both 
+<em>enum-set-1</em> and <em>enum-set-2</em>. It is an error if all the elements 
+of the result do not belong to the same enum type. The contents of either or 
+both enum-sets may be destroyed in the process.</p>
+<p><code>(enum-set-difference!</code>&nbsp;<em>enum-set-1 
+enum-set-2</em><code>)</code></p>
+<p>Returns an enum-set containing the elements of <em>enum-set-1</em> but not 
+<em>enum-set-2</em>. It is an error if all the elements of the result do not 
+belong to the same enum type. The contents of either or both enum-sets may be 
+destroyed in the process.</p>
+<p><code>(enum-set-xor!</code>&nbsp;<em>enum-set-1 
+enum-set-2</em><code>)</code></p>
+<p>Returns an enum-set containing all the elements of either 
+<em>enum-set-1</em> or <em>enum-set-2</em> but not both. It is an error if all 
+the elements of the result do not belong to the same enum type. The contents of 
+either or both enum-sets may be destroyed in the process.</p>
+
+
+<h2>Implementation</h2>
+
+The implementation of this SRFI is in its repository.
+
+<h2>Acknowledgements</h2>
+
+The Java <code>Enum</code> class
+and the R6RS <code>(rnrs enums)</code> library
+provide the main inspirations for this SRFI;
+acknowledgement is due to their authors.
+Thanks also to the participants on the SRFI mailing list.
+
+<h2>Copyright</h2>
+<p>Copyright &copy; John Cowan, Wolfgang Corcoran-Mathe (2020).</p>
+
+<p>
+  Permission is hereby granted, free of charge, to any person
+  obtaining a copy of this software and associated documentation files
+  (the "Software"), to deal in the Software without restriction,
+  including without limitation the rights to use, copy, modify, merge,
+  publish, distribute, sublicense, and/or sell copies of the Software,
+  and to permit persons to whom the Software is furnished to do so,
+  subject to the following conditions:</p>
+
+<p>
+  The above copyright notice and this permission notice (including the
+  next paragraph) shall be included in all copies or substantial
+  portions of the Software.</p>
+<p>
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+  NONINFRINGEMENT.  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+  BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+  ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  SOFTWARE.</p>
+
+  <hr>
+  <address>Editor: <a 
+href="mailto:srfi-editors+at+srfi+dot+schemers+dot+org">Arthur A. 
+Gleckler</a></address></body></html>
