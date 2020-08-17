@@ -9,9 +9,11 @@ John Cowan (specification), Idiomdrottning (implementation)
 Trees, like lists, are an application of Scheme pairs.
 An *atom* is any Scheme object that is not a pair.
 A *tree* is a non-empty list whose elements are either trees or atoms.
-Trees cannot be circular; parts of them cannot share
-storage with other parts (though separate trees can share
-storage with each other).
+Trees cannot be circular; a pair can appear in a tree only once
+(though separate trees can share storage with each other).
+Additioally, a tree cannot be an improper or circular list,
+and neither can any of its subtrees.
+
 The atoms and subtrees of a tree are called its *nodes*.
 The words *root, parent, child, ancestor, descendant, sibling, depth*
 are used with the usual meanings.
@@ -26,7 +28,7 @@ as it may confuse list-oriented procedures that treat it as a list.
 
 `(tree? `*obj*`)`
 
-Returns `#t` if *obj* is a tree, and `#f` otherwise.
+Returns `#t` if *obj* is a tree, and `#f` otherwise. 
 
 `(atom? `*obj*`)`
 
@@ -41,7 +43,8 @@ and their atoms are the same in the sense of *same?*, and `#f` otherwise.
 
 The following procedures walk the nodes of a tree in any of a variety of orders,
 applying a procedure to each node.  The procedure accepts three arguments: the
-node itself, its depth, and its local position.
+node itself, its depth, and its local position.  It is up to the procedure to
+filter out atoms or subtrees if it chooses to do so.
 
 `(tree-walk-preorder `*proc tree*`)`
 
@@ -74,7 +77,7 @@ Return a copy of *tree*.  Atoms are shared, but tree structure is not.
 `(tree-map `*proc tree*`)`
 
 Returns a copy of *tree*, except that each descendant atom has been passed through *proc*.
-Tree structure is not shared.
+Tree structure is not shared between *tree* and the result.
 
 ## Node examination
 
@@ -109,8 +112,11 @@ subtree of a tree to three values:
   *  its depth as an exact integer (the root tree has depth 0)
   *  its local position as an exact integer
   
-Lookups in the inversion have an amortized cost of O(1),
+Lookups in the inversion must have an amortized cost of O(1),
 so hash tables with `eqv?` as the equality function are suitable.
+
+The term "the tree" in the procedure definitions in this section
+and the next refers to the original tree from which the inversion was made.
 
 `(invert-tree `*tree*`)`
 
@@ -119,29 +125,31 @@ Returns an inversion of *tree*, not necessarily newly allocated.
 `(tree-parent `*inversion subtree*`)`
 
 Uses *inversion* to return the parent subtree of *subtree*, or
-`#f` if subtree is the root tree.
+`#f` if subtree is the root of the tree.
 
 `(tree-depth `*inversion subtree*`)`
 
-Uses *inversion* to return the depth of *subtree*.
+Uses *inversion* to return the depth of *subtree*;
+the root of the tree has a depth of 0,
+its children have a depth of 1, and so on.
 
 `(tree-local-position `*inversion subtree*`)`
 
 Uses *inversion* to return the local position of *subtree*.
+Returns `#f` if *subtree* is the root of the tree.
 
 `(tree-contains? `*inversion subtree*`)`
 
 Returns `#t` if *subtree* is a subtree of
-he tree represented by *inversion*,
-and `#f` otherwise.
+the tree, and `#f` otherwise.
 
 `(tree-c-commands? `*inversion commanding commanded*`)`
 
 If the subtree *commanding* c-commands the subtree *commanded* in
 the tree represented by *inversion* , returns `#t`; 
 otherwise returns `#f`.
-It is an error if either *commanded* or *commanded* is not a subtree of
-he tree represented by *inversion*.
+It is an error if either *commanding* or *commanded* is not a subtree of
+the tree.
 
 A subtree c-commands its sibling subtrees and all their descendants; 
 however, a subtree without sibling subtrees c-commands everything
@@ -156,11 +164,10 @@ Returns `#f` if *subtree* is not a descendant of *tree*.
 ## Tree rewriting
 
 These procedures do not mutate the tree they work on, 
-but return a new tree isomorphic to the old tree and with the same elements, 
+but return a new tree isomorphic to the old tree and with the same atoms, 
 except as specified below.  The new tree may share storage with the old.
-They accept an inversion of the tree as an argument rather than the tree itself;
-the term "the tree" in the definitions refers to the original tree
-from which the inversion was made.
+They accept an inversion of the tree as an argument rather than the tree itself.
+
 
 `(tree-add `*inversion subtree newnode*`)`
 
@@ -200,8 +207,10 @@ the tree once, not twice.
 
 ## Output
 
-`(tree-display-atoms `*tree* [ *port*) ]`)`
+`(tree-display-atoms `*tree* *separator* [ *port*) ]`)`
 
 Walks through the atoms of *tree* in breadth-first order 
 and displays them (as if using `display`) on *port*, 
 which defaults to the value of `(current-output-port)`.
+The string *separator* is displayed between each consecutive
+pair of atoms.
