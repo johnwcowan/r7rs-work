@@ -72,3 +72,5 @@ flagged by the use of "p" rather than "e" in exponential notation:
 
 To be accepted by `string->number` and produced by `number->string`
 when the radix argument is set  to 16; also to be accepted by `read` and the lexical syntax.
+
+SRFI 207 defines `#u8"..."` for string-notated bytevectors.
