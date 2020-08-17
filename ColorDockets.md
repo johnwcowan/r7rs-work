@@ -112,10 +112,6 @@ Core syntactic extensions: [SRFI 201](https://srfi.schemers.org/srfi-201/srfi-20
 
 Nested `define`:
 
-`and-let*`: [SRFI 2 using define-macro](http://srfi.schemers.org/srfi-2/srfi-2.html),
-[using explicit renaming](https://code.call-cc.org/cgi-bin/gitweb.cgi?p=chicken-core.git;a=blob;f=chicken-syntax.scm;h=e3c2feb47c1437d44aefa0d879e04dc28a0cbc61;hb=HEAD),
-[using syntax-case](http://git.savannah.gnu.org/cgit/guile.git/tree/module/ice-9/and-let-star.scm).
-
 Loops: [SRFI 42](http://srfi.schemers.org/srfi-42/srfi-42) or [Riastradh's foof-loop](http://mumble.net/~campbell/scheme/foof-loop.txt) or [Chibi loop](http://synthcode.com/scheme/chibi/lib/chibi/loop.html), summarized at [EagerComprehensions](EagerComprehensions.md)
 
 Assumptions: [SRFI 145](http://srfi.schemers.org/srfi-145/srfi-145.html)
