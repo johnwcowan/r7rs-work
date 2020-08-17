@@ -6,6 +6,7 @@ The following implementations support all or part of R7RS-small:
 |[Chicken](https://www.call-cc.org/)||
 |[Cyclone](http://justinethier.github.io/cyclone/)||
 |[Foment](https://github.com/leftmike/foment)||
+|[Gambit](http://gambitscheme.org)||
 |[Gauche](http://practical-scheme.net/gauche/)||
 |[Guile](https://www.gnu.org/software/guile/)|(not yet released)|
 |[Husk](https://github.com/justinethier/husk-scheme)||
@@ -19,3 +20,4 @@ The following implementations support all or part of R7RS-small:
 |[Racket](http://racket-lang.org/)|[unofficial](https://github.com/lexi-lambda/racket-r7rs)|
 |[Rapid](https://gitlab.com/nieper/rapid-scheme)||
 |[Sagittarius](https://bitbucket.org/ktakashi/sagittarius-scheme/wiki/Home)||
+|[STklos](https://stklos.net)||
