@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<!-- saved from url=(0048)https://srfi.schemers.org/srfi-207/srfi-207.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>SRFI 207: String-notated bytevectors</title>
+    <link href="https://srfi.schemers.org/favicon.png" rel="icon" sizes="192x192" type="image/png">
+    <link rel="stylesheet" href="./srfi-207_files/srfi.css" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1"></head>
+  <body>
+    <h1><a href="https://srfi.schemers.org/"><img class="srfi-logo" src="./srfi-207_files/srfi-logo.svg" alt="SRFI logo"></a>207: String-notated bytevectors</h1>
+
+<p>by Daphne Preston-Kendal (external notation),
+John Cowan (procedure design),
+Wolfgang Corcoran-Mathe (implementation)</p></p>
+
+<h2 id="status">Status</h2>
+
+<p>This SRFI is currently in <em>draft</em> status.  Here is <a href="https://srfi.schemers.org/srfi-process.html">an explanation</a> of each status that a SRFI can hold.  To provide input on this SRFI, please send email to <code><a href="mailto:srfi+minus+207+at+srfi+dotschemers+dot+org">srfi-207@<span class="antispam">nospam</span>srfi.schemers.org</a></code>.  To subscribe to the list, follow <a href="https://srfi.schemers.org/srfi-list-subscribe.html">these instructions</a>.  You can access previous messages via the mailing list <a href="https://srfi-email.schemers.org/srfi-207">archive</a>.</p>
+<ul>
+  <li>Received: 2020-08-15</li>
+  <li>60-day deadline: 2020-10-14</li>
+  <li>Draft #1 published: 2020-08-15</li>
+  <li>Draft #2 published: 2020-08-17</li>
+</ul>
+
+<h2 id="abstract">Abstract</h2>
+
+<p>To ease the human reading and writing of Scheme code involving strings encoded as bytevectors in ASCII-related encodings, a notation for bytevectors is proposed which allows printable ASCII characters to be used literally without being converted to their corresponding integer forms.
+  In addition, this SRFI provides a set of procedures for manipulating bytevectors
+  as if they were strings as far as possible.</p>
+
+
+</p><h2 id="issues">Issues</h2>
+
+None at present.
+
+</p><h2 id="rationale">Rationale</h2>
+
+<p>It is common when specifying binary formats or protocols
+to have fixed-length character sequences embedded in them.
+These may include things like signature bytes and
+short commands that are represented in ASCII
+an ASCII-related character encoding (e.g. UTF-8 or ISO 8859), rather than
+a binary code because legibility is more important than compactness.</p>
+
+<p>When bytevectors contain string data in this form it is much more tractable for human programmers to deal with them in the form <code>#u8"recursion"</code> than in the form <code>#u8(114 101 99 117 114 115 105 111 110)</code>; this is true for strings in many languages which use the Latin script, even when small numbers of non-ASCII characters are used (<code>#u8"r\xE9;cursivit\xE9;"</code>).</p>
+
+<p>In addition, this SRFI provides bytevectors with additional
+procedures that closely resemble those provided for strings.
+For example, bytevectors can be padded or trimmed, compared
+case-sensitively or case-insensitively, searched, joined, and split.</p>
+
+<p>Of course all the bytevector procedures provided
+by <a href="http://srfi.schemers.org/srfi-160/srfi-160.html">SRFI 160</a>
+are applicable as well: copying, appending, take and drop by index
+or by element content, folding and unfolding, mapping, indexing,
+and modifying.</p>
+
+<p>In this specification it is assumed that bytevectors are as defined in R7RS-small 6.9. Implementations may also consider them equivalent to R6RS bytevectors (R6RS 4.3.4) or SRFI 4 <code>u8vectors</code>s, depending which kind of homogeneous vectors of unsigned 8-bit integers an implementation supports.
+
+</p><h2 id="specification">Specification</h2>
+
+<p>To avoid confusion with the names used in other SRFIs,
+the names of these procedures use the word <em>bytestring</em>
+instead of <em>bytevector</em>.
+However, these names refer to exactly the same type.
+
+<h3 id="notation">External notation</h3>
+<p>The basic form of a string-notated bytevector is:
+
+</p><blockquote><code>#u8"</code>&nbsp;<var>content</var> <code>"</code></blockquote>
+
+<p>To avoid character encoding issues within string-notated bytevectors, only printable ASCII characters (that is, Unicode codepoints in the range from U+0020 to U+007E inclusive) are allowed to be used within the <var>content</var> of a string-notated bytevector. All other characters must be expressed through mnemonic or inline hex escapes, and <code>"</code> and <code>\</code> must also be escaped as in normal Scheme strings.
+
+</p><p>Within the <var>content</var> of a string-notated bytevector:
+
+</p><ul>
+  <li>the sequence <code>\"</code> represents the integer 34;
+  </li><li>the sequence <code>\\</code> represents the integer 92;
+  </li><li>the following mnemonic sequences represent the corresponding integers:
+    <table>
+      <tbody><tr><th>Seq.            </th><th>Integer
+      </th></tr><tr><td><code>\a</code> </td><td>7
+      </td></tr><tr><td><code>\b</code> </td><td>8
+      </td></tr><tr><td><code>\t</code> </td><td>9
+      </td></tr><tr><td><code>\n</code> </td><td>10
+      </td></tr><tr><td><code>\r</code> </td><td>13
+    </td></tr></tbody></table>
+  </li><li>the sequence <code>\x</code> followed by one or two hexadecimal digits followed by <code>;</code> represents the integer specified;
+  </li><li>any other printable ASCII character represents the character number of that character in the ASCII/Unicode code chart; and
+  </li><li>it is an error to use any other character or sequence beginning with <code>\</code> within a string-notated bytevector.
+</li></ul>
+
+<p>When the Scheme reader encounters a string-notated bytevector, it produces a datum as if that bytevector had been written out in full. That is, <code>#u8"A"</code> is exactly equivalent to <code>#u8(65)</code>.
+
+</p><p>A Scheme implementation which supports string-notated bytevectors may not by default use this notation when any of the <code>write</code> family of procedures is called upon a bytevector or upon another datum containing a bytevector. A future SRFI is expected to add a configurable version of the <code>write</code> procedure which may enable the use of this notation in this context.
+
+<h3>Formal syntax</h3>
+
+<p>The formal syntax of Scheme (defined in R7RS-small 7.1) is amended as follows.
+
+</p><ul>
+<li><p>In the definition of ⟨token⟩, after ‘| ⟨string⟩’, insert ‘| ⟨string-notated bytevector⟩’.
+</p></li><li><p>After the definition of ⟨byte⟩ is inserted:
+   </p><blockquote>
+    <p>⟨string-notated bytevector⟩ → <code>#u8"</code> ⟨string-notated bytevector element⟩* <code>"</code><br>
+    ⟨string-notated bytevector element⟩ → ⟨any printable ASCII character other than <code>"</code> or <code>\</code>⟩<br>
+    <span style="margin-left:1em">| ⟨mnemonic escape⟩ | <code>\"</code> | <code>\\</code></span><br>
+    <span style="margin-left:1em">| <code>\</code>⟨intraline whitespace⟩*⟨line ending⟩⟨intraline whitespace⟩*</span><br>
+    <span style="margin-left:1em">| ⟨inline hex escape⟩</span>
+   </p></blockquote>
+</li></ul>
+
+<h3 id="constructor">Constructor</h2>
+<p><code>(bytestring</code>&nbsp;<em>arg</em> …<code>)</code></p>
+<p>Convert <em>args</em> into a sequence of small integers and returns them as
+a bytevector as follows:</p>
+<ul>
+<li><p>If <em>arg</em> is an exact integer in the range 0-255 inclusive, it is
+added to the result.</p></li>
+<li><p>If <em>arg</em> is an ASCII character (that is, its codepoint is in the
+range 0-127 inclusive), it is converted to its codepoint and added to the
+result.</p></li>
+<li><p>If <em>arg</em> is a bytevector, its elements are added to the
+result.</p></li>
+<li><p>If <em>arg</em> is a string of ASCII characters, it is converted to a
+sequence of codepoints which are added to the result.</p></li>
+</ul>
+<p>Otherwise, an error satisfying <code>bytestring-error?</code> is
+signaled.</p>
+<h3 id="conversion">Conversion</h2>
+<p><code>(bytevector-&gt;string</code>&nbsp;<em>bytestring</em> [ <em>v</em> ]<code>)</code
+></p>
+<p>Convert a bytevector to the corresponding string in the external format
+described in this SRFI.  If the <em>v</em> argument is present and true,
+a <code>#\v</code> is prefixed to the string for compatibility with R6RS.</p>
+<code>(string-&gt;bytevector</code>&nbsp;<em>string</em><code>)</code></p>
+<p>Convert a string in the external format
+described in this SRFI to the corresponding bytevector.
+If the first character is a <code>#\v</code>,
+it is ignored.</p>
+<p><code>(bytevector-&gt;hex-string</code>&nbsp;<em>bytestring</em><code>)</code
+><br />
+<code>(hex-string-&gt;bytevector</code>&nbsp;<em>string</em><code>)</code></p>
+<p>Convert between a bytevector and a string containing pairs of hexadecimal
+digits.</p>
+<p><code>(bytevector-&gt;base64</code>&nbsp;<em>bytevector</em>
+[<em>digits</em>]<code>)</code><br />
+<code>(base64-&gt;bytevector</code>&nbsp;<em>string</em>
+[<em>digits</em>]<code>)</code></p>
+<p>Convert between a bytevector and its base-64 encoding as a string. The 64
+digits are represented by the characters 0-9, A-Z, a-z, and the symbols + and
+/. However, there are different variants of base-64 encoding which use
+different representations of the 62nd and 63rd digit. If the optional argument
+<em>digits</em> (a two-character string) is provided, those two characters will
+be used as the 62nd and 63rd digit instead.</p>
+<p><code>(list-&gt;bytestring</code>&nbsp;<em>list</em><code>)</code></p>
+<p>Convert a list into a bytevector. If the elements of the list are not suitable
+arguments for <code>bytestring</code>, an error satisfying
+<code>bytestring-error?</code> is signaled.</p>
+<p><code>(list-&gt;bytestring!</code>&nbsp;<em>bytevector at list</em><code>)</code></p>
+<p>Generate a sequence of bytes from <em>list</em> and write them
+into <em>bytevector</em> starting at index <em>at</em>.
+If the elements of the list are not suitable
+arguments for <code>bytestring</code>, an error satisfying
+<code>bytestring-error?</code> is signaled.</p>
+<p><code>(bytestring-&gt;list</code>&nbsp;<em>bytevector</em> [ <em>start</em> [ <em>end</em> ] ]<code>)</code></p>
+<p>Convert all or part of a bytevector into a list
+containing suitable arguments for
+<code>bytestring</code>. If <code>list-&gt;bytestring</code> is applied to the
+list, the resulting bytevector will be byte for byte the same as
+<em>bytevector</em>, but the exact contents of the list are not specified by
+this SRFI.</p>
+<h3 id="selection">Selection</h2>
+<p><code>(bytestring-pad</code>&nbsp;<em>bytevector len
+char-or-u8</em><code>)</code><br />
+<code>(bytestring-pad-right</code>&nbsp;<em>bytevector len
+char-or-u8</em><code>)</code></p>
+<p>Returns a bytevector with the contents of <em>bytevector</em> plus
+sufficient additional bytes at the beginning/end containing <em>char-or-u8</em>
+(which can be either an ASCII character or an exact integer in the range 0-255)
+such that the length of the result is at least <em>len</em>.</p>
+<p><code>(bytestring-trim</code>&nbsp;<em>bytevector pred</em><code>)</code><br
+/>
+<code>(bytestring-trim-right</code>&nbsp;<em>bytevector
+pred</em><code>)</code><br />
+<code>(bytestring-trim-both</code>&nbsp;<em>bytevector
+pred</em><code>)</code></p>
+<p>Returns a bytevector with the contents of <em>bytevector</em>, except that
+consecutive bytes at the beginning / the end / both the beginning and the end
+that satisfy <em>pred</em> are not included.</p>
+<h3 id="replacement">Replacement</h2>
+<p><code>(bytestring-replace</code>&nbsp;<em>bytevector1 bytevector2 start1
+end1 [start2 end2]</em><code>)</code></p>
+<p>Returns a bytevector with the contents of <em>bytevector1</em>, except that
+the bytes indexed by <em>start1</em> and <em>end1</em> are not included but are
+replaced by the bytes of <em>bytevector2</em> indexed by <em>start</em> and
+<em>end</em>.</p>
+<h3 id="comparison">Comparison</h2>
+<p><code>bytestring=?</code> <em>bytevector1 bytevector2</em><code>)</code></p>
+<p>Returns <code>#t</code> if <em>bytevector1</em> and <em>bytevector2</em> are
+the same length and contain the same bytes in the same order; returns
+<code>#f</code> otherwise.</p>
+<p><code>bytestring&lt;?</code> <em>bytevector1
+bytevector2</em><code>)</code><br />
+<code>bytestring&gt;?</code> <em>bytevector1 bytevector2</em><code>)</code><br
+/>
+<code>bytestring&lt;=?</code> <em>bytevector1 bytevector2</em><code>)</code><br
+/>
+<code>bytestring&gt;=?</code> <em>bytevector1 bytevector2</em><code>)</code></p>
+<p>Returns <code>#t</code> if <em>bytevector1</em> is less than / greater than
+/ less than or equal to / greater than or equal to <em>bytevector2</em>.
+Comparisons are lexicographical: shorter bytevectors compare before longer
+ones, all elements being equal.</p>
+<p><code>bytestring-ci=?</code> <em>bytevector1
+bytevector2</em><code>)</code><br />
+<code>bytestring-ci&lt;?</code> <em>bytevector1
+bytevector2</em><code>)</code><br />
+<code>bytestring-ci&gt;?</code> <em>bytevector1
+bytevector2</em><code>)</code><br />
+<code>bytestring-ci&lt;=?</code> <em>bytevector1
+bytevector2</em><code>)</code><br />
+<code>bytestring-ci&gt;=?</code> <em>bytevector1
+bytevector2</em><code>)</code></p>
+<p>The same as the corresponding procedures without <code>-ci</code>, except
+that the comparison is done as if any elements in either <em>bytevector</em>
+that are in the range 65-90 have had 32 added to them.</p>
+<h3 id="searching">Searching</h2>
+<p><code>(bytestring-index</code>&nbsp;<em>bytevector pred</em> [<em>start</em>
+[<em>end</em>]]<code>)</code><br />
+<code>(bytestring-index-right</code>&nbsp;<em>bytevector pred</em>
+[<em>start</em> [<em>end</em>]]<code>)</code></p>
+<p>Search <em>bytevector</em> from <em>start</em> to <em>end</em> / from
+<em>end</em> to <em>start</em> for the first byte that satisfies <em>pred</em>,
+and return the index into <em>bytevector</em> containing that byte. In either
+direction, <em>start</em> is inclusive and <em>end</em> is exclusive. If there
+are no such bytes, returns <code>#f</code>.</p>
+<p><code>(bytestring-break</code>&nbsp;<em>bytevector
+pred</em><code>)</code><br />
+<code>(bytestring-span</code>&nbsp;<em>bytevector pred</em><code>)</code></p>
+<p>Return two values, a bytevector containing the maximal sequence of
+characters (searching from the beginning to the end that do not satisfy / do
+satisfy <em>pred</em>, and another bytevector containing the remaining
+characters.</p>
+<h3 id="joining-and-splitting">Joining and splitting</h2>
+<p><code>(bytestring-join</code>&nbsp;<em>bytevector-list delimiter</em>
+[<em>grammar</em>]<code>)</code></p>
+<p>Pastes the bytevectors in <em>bytevector-list</em> together using the
+<em>delimiter</em> bytevector. The <em>grammar</em> argument is a symbol that
+determines how the delimiter is used, and defaults to <code>infix</code>. It is
+an error for grammar to be any symbol other than these four:</p>
+<ul>
+<li><code>infix</code> means an infix or separator grammar: insert the
+delimiter between list elements. An empty list will produce an empty
+bytevector.</li>
+<li><code>strict-infix</code> means the same as <code>infix</code> if the list
+is non-empty, but will signal an error satisfying
+<code>bytestring-error?</code> if given an empty list.</li>
+<li><code>suffix</code> means a suffix or terminator grammar: insert the
+delimiter after every list element.</li>
+<li><code>prefix</code> means a prefix grammar: insert the delimiter before
+every list element.</li>
+</ul>
+<p><code>(bytestring-split</code>&nbsp;<em>bytevector delimiter</em>
+[<em>grammar</em>]<code>)</code></p>
+<p>Divides the elements of <em>bytevector</em> and returns a list of
+bytevectors using the <em>delimiter</em> (an ASCII character or exact integer
+in the range 0-255 inclusive). Delimiter bytes are not included in the result
+bytevectors.</p>
+<p>The <em>grammar</em> argument is used to control how <em>bytevector</em> is
+divided. It has the same default and meaning as in
+<code>bytestring-join</code>, except that <code>infix</code> and
+<code>strict-infix</code> mean the same thing. That is, if <em>grammar</em> is
+<code>prefix</code> or <code>suffix</code>, then ignore any delimiter in the
+first or last position of <em>bytevector</em> respectively.</p>
+<h3 id="output">Output</h2>
+<p><code>(write-bytestring</code>&nbsp;<em>port arg</em> …<code>)</code></p>
+<p>Outputs each <em>arg</em> to the binary output port <em>port</em> using the
+same interpretations as <code>bytestring</code>, but does not create any
+bytevectors.</p>
+<h3 id="exception">Exception</h2>
+<p><code>(bytestring-error?</code>&nbsp;<em>obj</em><code>)</code></p>
+<p>Returns <code>#t</code> if <em>obj</em> is an object signaled by
+<code>bytestring</code>, <code>list-&gt;bytestring</code>,
+<code>bytestring-join</code>, <code>bytestring-split</code> or
+<code>write-bytestring</code> in the circumstances described above.</p>
+
+<h2>Implementation</h2>
+
+The implementation of the procedures
+of this SRFI are (not yet) found in its repository.
+
+<h2 id="acknowledgements">Acknowledgements</h2>
+
+<p>This SRFI is inspired by the notation and procedures used in Python since version 2.6 for <code>bytes</code> objects, which are fundamentally similar in purpose to Scheme bytevectors, especially in R7RS.
+In addition, many of the procedures are closely analogous
+to those of <a href="http://srfi-152/srfi-152.html">SRFI 152</a>.
+Thanks is also due to the participants in the SRFI mailing list.
+
+</p><p>Lassi Kortela corrected an embarrassing technical error. Marc Nieper-Wißkirchen explained why the <code>write</code> procedure ought not to be allowed to use this notation by default.
+
+</p><h2 id="copyright">Copyright</h2>
+<p>Copyright © Daphne Preston-Kendal, John Cowan, Wolfgang Corcoran-Mathe (2020).</p>
+
+<p>
+  Permission is hereby granted, free of charge, to any person
+  obtaining a copy of this software and associated documentation files
+  (the "Software"), to deal in the Software without restriction,
+  including without limitation the rights to use, copy, modify, merge,
+  publish, distribute, sublicense, and/or sell copies of the Software,
+  and to permit persons to whom the Software is furnished to do so,
+  subject to the following conditions:</p>
+
+<p>
+  The above copyright notice and this permission notice (including the
+  next paragraph) shall be included in all copies or substantial
+  portions of the Software.</p>
+<p>
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+  NONINFRINGEMENT.  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+  BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+  ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  SOFTWARE.</p>
+
+  <hr>
+  <address>Editor: <a href="mailto:srfi-editors+at+srfi+dot+schemers+dot+org">Arthur A. Gleckler</a></address></body></html>
