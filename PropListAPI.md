@@ -73,4 +73,8 @@ When pred is satisfied, key and value are removed.
 
 Calls proc on each key and value, returns unspecified value.
 
+(plist->alist plist)
+
+(alist->plist alist)
+
 

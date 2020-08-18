@@ -12,9 +12,11 @@ This SRFI supports only the
 
 None at this time.  Leap seconds are fully supported.
 
+Should durations return?  I have stripped out all references to them for now.
+
 ## Instants and timespecs
 
-Scheme uses two formats for absolute timestamps, which
+Scheme uses two internal formats for absolute timestamps, which
 in this SRFI are called *instants* and *timespecs*.
 
 An *instant* is an exact
@@ -247,11 +249,6 @@ It is the same as `year` except possibly for a few days in January.
 
 A comparator suitable for ordering date objects by their underlying instants.
 
-`duration-comparator`
-
-A comparator suitable for ordering duration objects by their length, using
-mixed-base arithmetic.  It does not assume that 1 day = 24 hours, for example.
-
 ## Exceptions
 
 `(date-error? `*obj*`)`
@@ -261,20 +258,22 @@ Returns `#t` if *obj* was signaled by one of the above procedures, or
 
 ## Implementation notes
 
-The sample implementation provides only an approximation of the mapping between TAI
+The sample implementation provides
+only an approximation of the mapping between TAI
 and UTC.  The two time scales are assumed to be synchronized at 00:00:00
 on January 1, 1958 and at all times before that.  From 1958 through 1971,
 the relationship is complex, but since 1971 the two scales have been kept
 within 0.9 seconds of each other by inserting leap seconds as needed.
 
 For the messy period, the implementation pretends that there were leap seconds
-at the end of December 31 (that is, at 23:59:60 proleptic UTC time) in the following
-years:  1959, 1961, 1963, 1964, 1965, 1966, 1967, 1968, 1970, and 1971.
+at the end of December 31 (that is, at 23:59:60 proleptic UTC time)
+in the following years:
+1959, 1961, 1963, 1964, 1965, 1966, 1967, 1968, 1970, and 1971.
 This has the following desirable effects: the TAI-UTC offset is 0 in 1958
 (true by definition), at the Epoch it is 8
 (which is within a few milliseconds of the true value),
 and it is 10 at the start of 1972 when UTC and its leap second regime
-begins.  Not having a leap second in 1969 ensures that there is none
+begin.  Not having a leap second in 1969 ensures that there is none
 just before the Unix epoch.  The implementation also pretends,
 *faute de mieux*, that there will be no more leap seconds in the future.
 
