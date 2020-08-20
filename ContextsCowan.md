@@ -99,12 +99,12 @@ and cannot be defaulted.
 
 ## Context procedures
 
-`(functor-map `proc cobj*`)`
+`(functor-map `*proc cobj*`)`
 
 Unwraps the objects from *cobj*, applies *proc* to each of them, rewraps them
 in the context, and returns the result.
 
-`(idiom-sequence `list*`)`
+`(idiom-sequence `*list*`)`
 
 Takes a list whose elements are objects in the context, unwraps them,
 puts them in a list, and wraps the list in the context.
@@ -115,16 +115,16 @@ a notion not defined in this SRFI.  Implementations may, however,
 extend the type of the second argument.  For example, if a vector
 is supported, the result will be a vector in the context.
 
-`(idiom-pure `obj*`)`
+`(idiom-pure `*obj*`)`
 
 Wraps *obj* in the context and returns the result.
 
-`(idiom-apply `cproc cobj* ...`)`
+`(idiom-apply `*cproc cobj* ...`)`
 
 Applies *cproc* to the values of the *cobjs*,
 and returns the results wrapped in the context.
 
-`(monad-bind `cobj mproc1 mproc2* ...`)`
+`(monad-bind `*cobj mproc1 mproc2* ...`)`
 
 With three arguments, `monad-bind` takes *cobj* and unwraps it from the
 context and applies it to *mproc*, which transforms it
@@ -134,13 +134,13 @@ With additional *mproc* arguments, the result of the first *mproc* is
 unwrapped and passed to the next *mproc*, and this is repeated until
 there are no more *mprocs*.
 
-`(monad-join `cobj*`)`
+`(monad-join `*cobj*`)`
 
 The values wrapped in *cobj* are themselves objects in the context.  The values in
 these cobjs are wrapped in the context and returned, thus stripping off one
 layer of context.
 
-`(functor-as `cobj obj*`)`
+`(functor-as `*cobj obj*`)`
 
 Unwraps *cobj*, throws the result away, wraps *obj* and returns it.
 
@@ -150,17 +150,17 @@ Returns an idiom instance representing the composition of *c1* and *c2*
 in that order.  Because monads do not compose, any definitions of
 `join` and `bind` are suppressed.
 
-`(monad-and-then `mproc cobj*`)`
+`(monad-and-then `*mproc cobj*`)`
 
 Unwraps *cobj* and applies *mproc* to it, then discards the result and
 returns *cobj*.
 
-`(functor-cons-left `cobj obj*`)`
+`(functor-cons-left `*cobj obj*`)`
 
 Conses *obj* with each of the unwrapped *cobj* values, and returns
 the pairs wrapped in the context.
 
-`(functor-cons-right `cobj obj*`)`
+`(functor-cons-right `*cobj obj*`)`
 
 Conses each of the unwrapped *cobj* values with *obj*, and returns
 the pairs wrapped in the context.
@@ -171,18 +171,18 @@ Unwraps the values of *cobj*, applies *proc* to them individually, and
 returns pairs consed from the value and the result of application
 wrapped in the context.
 
-`(monad-product `cobj1 cobj2*`)`
+`(monad-product `*cobj1 cobj2*`)`
 
 Conses each value of *cobj1* with each value of *cobj2* and
 returns the pairs wrapped in the context.
 
-`(idiom-product-left `mproc cobj1 cobj2*`)`
+`(idiom-product-left `*mproc cobj1 cobj2*`)`
 
 Unwraps the values of the *cobjs*; then passes the values of
 *cobj1* to *mproc*, and returns the result, which is already
 wrapped.
 
-`(idiom-product-right `mproc cobj1 cobj2*`)`
+`(idiom-product-right `*mproc cobj1 cobj2*`)`
 
 Unwraps the values of the *cobjs*; then passes the values of
 *cobj2* to *mproc*, and returns the result, which is already
@@ -196,7 +196,7 @@ and its result is returned; otherwise, *mproc2* (which also must
 not require arguments) is invoked and its result is returned.
 In either case, the result is already wrapped.
 
-`(functor-lift `proc*`)`
+`(functor-lift `*proc*`)`
 
 Returns a procedure that unwraps its
 argument, calls *proc*, and returns the wrapped result.
