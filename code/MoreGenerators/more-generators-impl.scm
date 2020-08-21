@@ -94,7 +94,8 @@
       ((or (not (integer? i)) 
            (< i 0) 
            (>= i l)) 
-       (error (string-append "choice-gen didn't return an integer in range 0 to " (number->string (- l 1)))))
+       (error (string-append "choice-gen didn't return an integer in range 0 to " 
+                             (number->string (- l 1)))))
       (else 
         (let ((gen (vector-ref source-gens-v i)))
          (if (not gen)
