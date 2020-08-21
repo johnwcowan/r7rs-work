@@ -3,7 +3,6 @@
   
   (import 
     (scheme base)
-    (scheme write)
     (scheme case-lambda)
     (srfi 1) ;; lists
     (srfi 41) ;; streams
