@@ -29,12 +29,15 @@ Returns a procedure *p* that behaves like a generator but with more capabilities
 If called with zero arguments, it invokes the underlying generator *gen*.
 However, if called with the argument `peek`, it retrieves the next value
 from *gen* and returns it, but also saves it in such a way that the
-next zero-argument call on *p* will return it, analogously to `peek-char` and `peek-u8`.
+next zero-argument call on *p* will return it,
+analogously to `peek-char` and `peek-u8`.
 If called with two arguments, `poke` and an object *obj*,
 it will save *obj* so that the next zero-argument call on *p* will return it.
 
-It is an error to peek from and then poke *p* or vice versa without an
-intervening zero-argument call.
+ * Calling *peek* after *peek* will return the same value both times.
+ * Calling *poke* after *poke* will make the newer poke overwrite the older poke.
+ * Calling *peek* after *poke* will return the latest poke.
+ * Calling *poke* after *peek* will overwrite the latest peek with the poke.
 
 `(gchain-generators `*constructor* *operation* ...`)`
 
@@ -76,7 +79,11 @@ When *g* is invoked, it first invokes *choice-gen* to return an index value *i*.
 It is an error if *i* is not an exact integer between 0 (inclusive)
 and the number of *source-gens* (exclusive).
 Then the *i*th *source-gen* is invoked and its value returned by *g*.
-However, if either *choice-gen* or the chosen *source-gen* is exhausted,
+
+If *choice-gen* is exhausted, *g* returns an end of file object.
+If the chosen *source-gen* is exhausted, *g* remembers that fact
+and invokes *choice-gen* until it returns the index of a *source-gen*
+that has not been exhausted.  When all *source-gens* are exhausted,
 *g* returns an end of file object.
 
 Here are a few examples of suitable values of *choice-gen*:
