@@ -13,4 +13,8 @@ Chicken also provides:
 * get-properties, which searches for multiple properties simultaneously
 * (setter symbol-plist), which replaces the whole property list
 
-Kawa's underlying implementation provides property lists for its Elisp implementation, but they aren't directly exposed to Scheme except through the Java FFI.
+Kawa's underlying implementation provides property lists for its Elisp implementation,
+but they aren't directly exposed to Scheme except through the Java FFI.
+
+For a pre-SRFI for disembodied plists, see
+[PropertyListAPI](http://htmlpreview.github.io?https://github.com/johnwcowan/r7rs-work/blob/master/PropertyListAPI.html).
