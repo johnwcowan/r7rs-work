@@ -4,7 +4,8 @@ This is an analysis of the R5RS provision that the full numeric tower may be sub
 
 There are therefore 16 possible numeric towers.  9 of them are known to have implementations, as shown below.  I write `+` if a feature is present and `-` if it is absent, and give a general description of the resulting tower and some Scheme implementations that provide it.
 
-|`exactness-preserving`|`ratios`|`inexact`|`complex`|Description|Implementations
+|`exactness-preserving`|`ratios`|`inexact`|`complex`|Description|Implementations|
+|----------|------|-------|-------|-----------|---------------|
 |-|-|-|-|Bounded exact integers only|!SigScheme†, MiniScheme†|
 |-|-|+|-|Fixnums and flonums|Plain Chicken 4, Shoe†, TinyScheme†, RScheme, JScheme†, SIOD, BDC†, XLisp†, Schemik†, VX, SXM†, Inlab, Llava, Sixx, Picrin†, Sizzle, Dfsch†, Stalin (also Elisp†, C†)|
 |-|+|+|+|Limited-range exact and inexact numbers|S7, Wraith|
