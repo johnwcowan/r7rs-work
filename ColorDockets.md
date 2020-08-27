@@ -34,12 +34,16 @@ Integer sets:  [IntegerSetsCowan](https://htmlpreview.github.io/?https://github.
 
 Ranges:  [SRFI 196](http://srfi.schemers.org/srfi-196/srfi-196.html)
 
-Bit and boolean vectors: [SRFI 178](http://srfi.schemers.org/srfi-178/srfi-178.html)
+Homogeneous vectors: [SRFI 160](https://srfi.schemers.org/srfi-160/srfi-160.html)
+
+Bitvectors: [SRFI 178](http://srfi.schemers.org/srfi-178/srfi-178.html)
 
 Bytestrings: [BytestringsCowan](BytestringsCowan.md)
 
 Multidimensional arrays: [SRFI 122](http://srfi.schemers.org/srfi-122/srfi-122.html) 
 or [SRFI 164](http://srfi.schemers.org/srfi-164/srfi-164.html)
+
+ASCII character library: [SRFI 175](https://srfi.schemers.org/srfi-175/srfi-175.html)
 
 ## Other
 
@@ -77,6 +81,8 @@ Syntax-rules extensions: [SRFI 149](http://srfi.schemers.org/srfi-149/srfi-149.h
 
 Generalized `set!`: [SRFI 17](http://srfi.schemers.org/srfi-17/srfi-17.html) or
 [`identifier-syntax`](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_796)
+
+Splicing `let(rec)-syntax`: [SRFI 188](https://srfi.schemers.org/srfi-188/srfi-188.html)
 
 ## Portable
 
@@ -149,11 +155,20 @@ Lexical macros: [LexmacsCowan](LexmacsCowan.md)
 
 # Lime Docket (portable)
 
+Unifiable boxes: [SRFI 1611111](https://srfi.schemers.org/srfi-161/srfi-161.html)
+
+Formatting: [SRFI 166](https://srfi.schemers.org/srfi-166/srfi-166.html) (combinators),
+[SRFI 48](https://srfi.schemers.org/srfi-48/srfi-48.html) (format strings).
+
+JSON: [SRFI 180)(https://srfi.schemers.org/srfi-180/srfi-180.html)
+
+Hooks: [SRFI 173](https://srfi.schemers.org/srfi-173/srfi-173.html)
+
 List mutation: [ListSurgeryCowan](ListSurgeryCowan.md)
 
 UUIDs: [Uuid](Uuid.md)
 
-Strings: [SRFI 152](https://srfi.schemers.org/srfi-152/srfi-1525.html) (index-based),
+Strings: [SRFI 152](https://srfi.schemers.org/srfi-152/srfi-152.html) (index-based),
 [SRFI 130](https://srfi.schemers.org/srfi-130/srfi-130.html) (cursor-based)
 
 Enumeration maps: [EnumMappingsCowan](EnumMappingsCowan.md)
@@ -168,11 +183,13 @@ String interpolation: [StringInterpolateCowan](StringInterpolateCowan.md)
 C-style structures: [ByteStructuresTaylanUB](https://github.com/TaylanUB/scheme-bytestructures),
 [StructuresCowan](StructuresCowan.md)
 
-Matching:  [(chibi match)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/match/0.7.3/index.html)
+Matching:  [SRFI 204](https://srfi.schemers.org/srfi-204/srfi-204.html)
 
 Predicate generic functions: [GenericsChibi](http://synthcode.com/scheme/chibi/lib/chibi/generic.html) (needs extension for subtyping)
 
-Maybe/Either: [MaybeEither](MaybeEither.md)
+Maybe/Either: [SRFI 189](https://srfi.schemers.org/srfi-189/srfi-189.html)
+
+Environment monad: [SRFI 165](https://srfi.schemers.org/srfi-165/srfi-165.html)
 
 Restarts:  [RestartsCowan](RestartsCowan.md)
 
@@ -197,11 +214,9 @@ Language tag searching: [BCP 47](https://tools.ietf.org/html/bcp47).  Procedures
 
 # Green Docket (non-portable)
 
-Procedure arity inspection: [SRFI 191](http://srfi.schemers.org/srfi-191/srfi-191.html).
+Continuation marks: [SRFI 157](https://srfi.schemers.org/srfi-157/srfi-157.html)
 
-Custom I/O ports: [SRFI 181](http://srfi.schemers.org/srfi-181/srfi-181.html).
-
-Transcoded ports: [SRFI 186](http://srfi.schemers.org/srfi-186/srfi-186.html).
+Custom I/O ports and transcoded ports: [SRFI 181](http://srfi.schemers.org/srfi-181/srfi-181.html).
 
 Port positioning: [SRFI 192](http://srfi.schemers.org/srfi-192/srfi-192.html).
 
@@ -218,6 +233,8 @@ Timers: [SRFI 120](http://srfi.schemers.org/srfi-120/srfi-120.html)
 Mutable environments: [EnvironmentsMIT](https://htmlpreview.github.io/?https://github.com/johnwcowan/r7rs-work/blob/master/EnvironmentsMIT.html)
 
 Posix environment: [SRFI 170](https://htmlpreview.github.io/?https://github.com/johnwcowan/r7rs-work/blob/master/srfi-170.html)
+
+Coroutine generator syntax: [SRFI 190](https://srfi.schemers.org/srfi-190/srfi-190.html)
 
 Access to the REPL: [ReplCowan](ReplCowan.md)
 
