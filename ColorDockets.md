@@ -22,7 +22,7 @@ See [TangerineEdition](TangerineEdition.md).
 Random numbers: [SRFI 27](http://srfi.schemers.org/srfi-27/srfi-27.html),
 plus [SRFI 194](http://srfi.schemers.org/srfi-194/srfi-194.html)
 
-Float and NaN dissector API (sign, quiet/signaling status, and integer tag): [NaNMedernach](NaNMedernach.md)
+NaN procedures: [SRFI 208](http://srfi.schemers.org/srfi-208/srfi-208.html)
 
 Comparator sublibrary: [SRFI 162](http://srfi.schemers.org/srfi-162/srfi-162.html)
 
@@ -47,7 +47,7 @@ ASCII character library: [SRFI 175](https://srfi.schemers.org/srfi-175/srfi-175.
 
 ## Other
 
-Enumerations: [EnumsCowan](EnumsCowan.md)
+Enumerations: [SRFI 209](http://srfi.schemers.org/srfi-209/srfi-209.html)
 
 Number to string with Unicode: [NumberStringUnicode](NumberStringUnicode.md)
 
