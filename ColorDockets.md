@@ -155,12 +155,12 @@ Lexical macros: [LexmacsCowan](LexmacsCowan.md)
 
 # Lime Docket (portable)
 
-Unifiable boxes: [SRFI 1611111](https://srfi.schemers.org/srfi-161/srfi-161.html)
+Unifiable boxes: [SRFI 161](https://srfi.schemers.org/srfi-161/srfi-161.html)
 
 Formatting: [SRFI 166](https://srfi.schemers.org/srfi-166/srfi-166.html) (combinators),
 [SRFI 48](https://srfi.schemers.org/srfi-48/srfi-48.html) (format strings).
 
-JSON: [SRFI 180)(https://srfi.schemers.org/srfi-180/srfi-180.html)
+JSON: [SRFI 180](https://srfi.schemers.org/srfi-180/srfi-180.html)
 
 Hooks: [SRFI 173](https://srfi.schemers.org/srfi-173/srfi-173.html)
 
