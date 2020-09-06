@@ -22,7 +22,7 @@
 ;; THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 (define-library (rlists)
-    (export rquote rpair?  rcons rcar rcdr rcaar rcadr
+    (export rquote rpair? rcons rcar rcdr rcaar rcadr
             rcddr rcdar rcaaar rcaadr rcaddr rcadar rcdaar
             rcdadr rcdddr rcddar rcaaaar rcaaadr rcaaddr rcaadar
             rcadaar rcadadr rcadddr rcaddar rcdaaar rcdaadr
@@ -33,9 +33,14 @@
 
   (import (scheme base))
   (import (scheme case-lambda))
-  ;(rnrs lists)
   (import (srfi 1))
-  (import (srfi 125))
-  (import (srfi 151))
+
+  (cond-expand
+    ((library (srfi 125)) (import (srfi 125)))
+    ((library (srfi 69)) (import (srfi 69))))
+ 
+  (cond-expand
+    ((library (srfi 151)) (import (srfi 151)))
+    ((library (chicken bitwise)) (import (chicken bitwise))))
   
   (include "rlists-impl.scm"))

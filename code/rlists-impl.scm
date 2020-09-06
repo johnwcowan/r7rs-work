@@ -1,5 +1,5 @@
 (define-record-type kons
-  ;(make-kons size tree rest)
+  (make-kons size tree rest)
   kons?
   (size kons-size)
   (tree kons-tree)
@@ -180,7 +180,7 @@
 ;; [RaPair X Y] -> X Y
 (define rcar+cdr 
   (lambda (p)
-    (assert (kons? p))
+  ;(assert (kons? p))
     (if (node? (kons-tree p))
         (let ((s* (half (kons-size p))))
           (values (tree-val (kons-tree p))
@@ -418,7 +418,7 @@
          (else x)))
       (cond
        ((not (or (pair? x) (vector? x))) x)
-       ((hash-table-ref h x #f))
+       ((hash-table-ref/default h x #f))
        (else
         (let ((v (f x)))
           (hash-table-set! h x v)
