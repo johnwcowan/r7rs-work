@@ -17,3 +17,6 @@ For other operations, use tuple-as-vector and
 but not the mutators, with caution.
 
 Implementation:  A tuple is a record with: storage, storage-class, index, value, parent.
+
+Note: Allow homogeneous tuples to be non-disjoint with
+[SRFI 196](http://srfi.schemers.org/srfi-196/srfi-196.html) ranges.

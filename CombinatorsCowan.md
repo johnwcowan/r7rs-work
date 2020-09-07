@@ -13,14 +13,6 @@ Returns the *objs* as its values, ignoring *args*.
 
 Returns `#t` when `(`*proc obj*`)` returns `#f`, and `#f` otherwise.
 
-`((compose `*proc* ... `)` *arg* ...`)`
-
-Passes the *args* to the first *proc*, which returns any number of values.  These are then passed to the next *proc*, and so on until the final *proc* is reached.  If there are no *procs*, returns its arguments as values.
-
-`((simple-compose `*proc* ...`)` *arg*`)`
-
-Passes *arg* to the first *proc*, which returns one value.  This is then passed to the next *proc*, and so on until the final *proc* is reached.  If there are no *procs*, returns its argument.
-
 `((swap `*proc*`)` *obj₁ obj₂*`)`
 
 Invokes `(`*proc obj₂ obj₁*`)`.
@@ -43,11 +35,11 @@ Returns `#t` if the *args* satisfy all the *predicates*, and `#f` otherwise.
 
 `((disjoin `*predicate* ...`)` *arg* ...`)`
 
-Returns `#t` if the *args* satisfy any of the *predicate*s.
+Returns `#t` if the *args* satisfy any of the *predicates*.
 
 `((each-of `*proc* ... `)` *arg* ...`)`
 
-Applies each of the *proc*s in turn to *args*, discarding the results and returning an unspecified value.
+Applies each of the *procs* in turn to *args*, discarding the results and returning an unspecified value.
 
 `((all-of? `*predicate*`)`
 
@@ -79,7 +71,7 @@ Invokes *thunks* in order, and returns what the last thunk returns, or an unspec
 
 `(if-procedure `*value then-thunk* [*else-thunk*]`)`
 
-If *value* is true, invokes *then-thunk* and returns what it returns.  Otherwise, invokes *else-thunk* and returns what it returns, or if *else-thunk* is not specified, returns an unspecified value.
+If *value* is true, invokes *then-thunk* and returns what it returns.  Otherwise, invokes *else-thunk* and returns what it returns.  If *else-thunk* is not specified, returns an unspecified value.
 
 `(if-not-procedure `*value else-thunk*`)`
 
@@ -91,7 +83,7 @@ If *value* is true, invokes *then-proc* on it and returns what *then-proc* retur
 
 `(case-procedure `*value thunk-alist* [*else-thunk* ]`)`
 
-Searches *thunk-alist* for *value* (as if by `assv`).  If there is no such entry in *thunk-alist*, invokes *else-thunk* and returns what it returns, or returns an unspecified value if *else-thunk* is not provided.  If there is a matching entry in *thunk-alist*, its cdr is invoked as a thunk, and `case-procedure` returns what the thunk returns.
+Searches *thunk-alist* for *value* (as if by `assv`).  If there is a matching entry in *thunk-alist*, its cdr is invoked as a thunk, and `case-procedure` returns what the thunk returns.  If there is no such entry in *thunk-alist*, invokes *else-thunk* and returns what it returns, or returns an unspecified value if *else-thunk* is not provided.
 
 `(and-procedure `*thunk* ...`)`
 
@@ -107,7 +99,11 @@ Invokes *thunk* repeatedly.  Does not return.
 
 `(while-procedure `*thunk*`)`
 
-Invokes *thunk* repeatedly until it returns `#f`.  Returns an unspecified value.
+Invokes *thunk* repeatedly until it returns false.  Returns false.
+
+`(until-procedure `*thunk*`)`
+
+Invokes *thunk* repeatedly until it returns true.  Returns the last value.
 
 
 ## Other procedures
@@ -119,6 +115,10 @@ Ignores its arguments and always returns `#t`.
 `(never `*obj* ...`)`
 
 Ignores its arguments and always returns `#f`.
+
+`(boolean *obj*`)`
+
+If *obj* is true, returns `#t`; otherwise returns `#f`.
 
 `(identity `*obj*`)`
 
