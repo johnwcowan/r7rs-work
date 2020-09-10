@@ -32,3 +32,49 @@ and Guile, Kawa will support it with an option.
 
 If we adopt the `#:foo` style, Chicken, Guile, S7, and to some extent Racket and Kawa
 will work out of the box.
+
+## Tokens consisting only of colons
+
+How is the datum `:` (one colon) read?
+
+* As a **keyword** with the name `""` in Common Lisp, Gauche,
+  Sagittarius, STklos.
+
+* As a **symbol** with the name `":"` (one colon) in s7, Bigloo,
+  Chicken, Gambit, s7.
+
+How is the datum `::` (two colons) read?
+
+* As a **keyword** with the name `""` in Common Lisp.
+
+* As a **keyword** with the name `":"` (one colon) in Chicken, Gambit,
+  Gauche, s7, Sagittarius, STklos.
+
+* As a **symbol** with the name `"::"` (two colons) in Bigloo.
+
+How is the datum `:::` (three colons) read?
+
+* As a **keyword** with the name `"::"` (two colons) in Chicken,
+  Gambit, Gauche, s7, Sagittarius, STklos.
+
+* As a **symbol** with the name `":::"` (three colons) in Bigloo.
+
+* Causes a syntax error in Common Lisp.
+
+## Keywords and vertical bar notation
+
+TODO
+
+## Are keywords symbols?
+
+Keyword objects are symbols in the `"KEYWORD"` package in Common Lisp.
+**symbol-name** drops the `:` or `::` prefix.
+
+Keyword objects are symbols such that **symbol->string** keeps the `:`
+prefix in Gauche.
+
+Keyword objects are symbols such that **symbol->string** keeps the `:`
+prefix **or suffix**, remembering which one you used, in s7.
+
+Keyword objects are not symbols in Bigloo, Chicken, Gambit,
+Sagittarius, STklos.
