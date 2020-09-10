@@ -10,10 +10,10 @@ that look like `:foo`, `foo:`, or `#:foo`, depending on the Scheme implementatio
 *  S7 supports both `foo:` and `:foo` and treats them as distinct (in the sense of `eqv?`).
 
 *  Chicken always supports `#:foo` always and `foo:` by default, but can be
-   switched to use `:foo` instead of `foo:` 
+   switched to use `:foo` instead of `foo:`
    by setting a parameter or a startup option.
    All formats are the same in the sense of `eqv?`.
-   
+
 *  Guile supports `#:foo`.
 
 *  MIT, Scheme48/scsh, SISC, Chez, SCM, Ikarus, Larceny, Mosh, Scheme 9, SCM, SXM, VSCM, Chibi
