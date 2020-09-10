@@ -1,7 +1,7 @@
 Keywords are self-evaluating identifiers (except in Racket, see below)
 that look like `:foo`, `foo:`, or `#:foo`, depending on the Scheme implementation:
 
-*  Gauche (and Common Lisp) support `:foo`.
+*  Gauche, Sagittarius (and Common Lisp) support `:foo`.
 
 *  Gambit (and DSSSL, SRFI 88) support `foo:`.
 
