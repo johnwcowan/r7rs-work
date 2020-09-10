@@ -1,7 +1,7 @@
 Keywords are self-evaluating identifiers (except in Racket, see below)
 that look like `:foo`, `foo:`, or `#:foo`, depending on the Scheme implementation:
 
-*  Gauche, Sagittarius (and Common Lisp) support `:foo`.
+*  Gauche, Sagittarius (and the Common Lisp standard) support `:foo`.
 
 *  Gambit (and DSSSL, SRFI 88) support `foo:`.
 
@@ -37,20 +37,23 @@ will work out of the box.
 
 How is the datum `:` (one colon) read?
 
-* As a **keyword** with the name `""` in Common Lisp, Gauche,
-  Sagittarius, STklos.
+* As a **keyword** with the name `""` in Gauche, Sagittarius, STklos,
+  and the Common Lisp implementations CLISP and SBCL.
 
 * As a **symbol** with the name `":"` (one colon) in s7, Bigloo,
   Chicken, Gambit, s7.
 
 How is the datum `::` (two colons) read?
 
-* As a **keyword** with the name `""` in Common Lisp.
+* As a **keyword** with the name `""` in the Common Lisp
+  implementations CLISP and SBCL.
 
 * As a **keyword** with the name `":"` (one colon) in Chicken, Gambit,
   Gauche, s7, Sagittarius, STklos.
 
 * As a **symbol** with the name `"::"` (two colons) in Bigloo.
+
+* Undefined behavior in the Common Lisp standard.
 
 How is the datum `:::` (three colons) read?
 
@@ -59,7 +62,10 @@ How is the datum `:::` (three colons) read?
 
 * As a **symbol** with the name `":::"` (three colons) in Bigloo.
 
-* Causes a syntax error in Common Lisp.
+* Causes a syntax error in the Common Lisp implementations CLISP and
+  SBCL.
+
+* Undefined behavior in the Common Lisp standard.
 
 ## Keywords and vertical bar notation
 
