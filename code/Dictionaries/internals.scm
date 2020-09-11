@@ -1,127 +1,104 @@
-;;; Internal procedure definitions (all take a vec argument first)
+;;;; Internal procedure definitions (all take a vec argument first)
 
-(define (idictionary? obj)
+;;; Sample call of an internal procedure from another internal procedure:
+;;; (dcall dref/default vec dictionary key default)
+
+;;; Notes on definitions:
+;;; Vec argument is not used except to pass to dcalls
+;;; External procedures with a rest argument use a list argument here
+;;; External procedures with optional arguments are not optional here
+ 
+(define-syntax dcall
+  (syntax-rules ()
+    ((dcall dproc vec dictionary arg ...)
+     ((vector-ref vec dindex) vec dictionary arg ...))))
+
+(define (idictionary? vec obj)
   (error "dictionary? method not defined"))
 
-(define (idict-empty? dictionary)
+(define (idict-empty? vec dictionary)
+  (= 0 (dcall dsize vec dictionary)))
+
+(define (idict-contains? vec dictionary key)
+  (dcall dref vec dictionary key
+         (lambda () #f) (lambda (x) #t)))
+
+(define (idict-ref vec dictionary key failure success)
   #f)
 
-(define (idict-contains? dictionary key)
+(define (idict-ref/default vec dictionary key default)
   #f)
 
-(define idict-ref
-  (case-lambda
-    ((vec dictionary key)
-     (idict-ref* vec dictionary key error values))
-    ((vec dictionary key failure)
-     (idict-ref* vec dictionary key failure values))
-    ((vec dictionary key failure success)
-     (idict-ref* vec dictionary key failure success))))
-
-(define (idict-ref* dictionary key failure success)
+(define (idict-set! vec dictionary . objs)
   #f)
 
-(define idict-ref
-  (case-lambda
-    ((vec dictionary key)
-     (idict-ref* vec dictionary key error values))
-    ((vec dictionary key failure)
-     (idict-ref* vec dictionary key failure values))
-    ((vec dictionary key failure success)
-     (idict-ref* vec dictionary key failure success))))
-
-(define (idict-ref* vec dictionary key failure success)
+(define (idict-adjoin! vec dictionary . objs)
   #f)
 
-(define (idict-ref/default dictionary key default)
+(define (idict-delete! vec dictionary . keys)
   #f)
 
-(define (idict-set! dictionary . objs)
+(define (idict-delete-all! vec dictionary keylist)
   #f)
 
-(define (idict-adjoin! dictionary . objs)
+(define (idict-replace! vec dictionary key value)
   #f)
 
-(define (idict-delete! dictionary . keys)
+(define (idict-intern! vec dictionary key failure)
   #f)
 
-(define (idict-delete-all! dictionary keylist)
+(define (idict-update! vec dictionary key updater failure success)
   #f)
 
-(define (idict-replace! dictionary key value)
+(define (idict-update/default! vec dictionary key updater default)
   #f)
 
-(define (idict-intern! dictionary key failure)
+(define (idict-pop! vec dictionary failure)
   #f)
 
-(define idict-update!
-  (case-lambda
-    ((vec dictionary key updater)
-     (idict-update!* vec dictionary key updater error values))
-    ((vec dictionary key updater failure)
-     (idict-update!* vec dictionary key updater failure values))
-    ((vec dictionary key updater failure success)
-     (idict-update!* vec dictionary key updater failure success))))
-
-(define (idict-update!* vec dictionary key updater failure success)
-  #f)
-
-(define (idict-update/default! dictionary key updater default)
-  #f)
-
-(define idict-pop!
-  (case-lambda
-    ((vec dictionary)
-     (idict-pop!* vec dictionary error))
-    ((vec dictionary failure)
-     (idict-pop!* vec dictionary failure))))
-
-(define (idict-pop!* vec dictionary failure)
-  #f)
-
-(define (idict-map! proc dictionary)
+(define (idict-map! proc vec dictionary)
   (error "dict-map method not defined"))
 
-(define (idict-filter! pred dictionary)  
+(define (idict-filter! pred vec dictionary)  
   (error "dict-filter! method not defined"))
 
-(define (idict-remove! dictionary pred)
+(define (idict-remove! vec pred dictionary)
   #f)
 
-(define (idict-search! dictionary key failure success)
+(define (idict-search! vec dictionary key failure success)
   (error "dict-search! method not defined"))
 
-(define (idict-size dictionary)
+(define (idict-size vec dictionary)
   (error "dict-size method not defined"))
 
-(define (idict-for-each proc dictionary)
+(define (idict-for-each proc vec dictionary)
   (error "dict-for-each method not defined"))
 
-(define (idict-count pred dictionary)
+(define (idict-count pred vec dictionary)
   #f)
 
-(define (idict-any pred dictionary)
+(define (idict-any pred vec dictionary)
   #f)
 
-(define (idict-every pred dictionary)
+(define (idict-every pred vec dictionary)
   #f)
 
-(define (idict-keys dictionary)
+(define (idict-keys vec dictionary)
   #f)
 
-(define (idict-values dictionary)
+(define (idict-values vec dictionary)
   #f)
 
-(define (idict-entries dictionary)
+(define (idict-entries vec dictionary)
   #f)
 
-(define (idict-fold proc knil dictionary)
+(define (idict-fold proc knil vec dictionary)
   #f)
 
-(define (idict-map->list proc dictionary)
+(define (idict-map->list proc vec dictionary)
   #f)
 
-(define (idict->alist dictionary)
+(define (idict->alist vec dictionary)
   #f)
 
 (define model-vec #(

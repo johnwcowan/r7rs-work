@@ -185,7 +185,7 @@ from invoking *proc* on the corresponding key and value of *dictionary*.
 Returns a dictionary similar to *dictionary* that contains just the associations of *dictionary*
 that satisfy *pred* when it is invoked on the key and value of the association.
 
-`(dict-remove! `*dictionary pred*`)`
+`(dict-remove! `*pred dictionary*`)`
 
 Returns a dictionary that contains all the associations of *dictionary*
 except those that satisfy *pred* when called on the key and value.

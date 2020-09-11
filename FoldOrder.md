@@ -65,3 +65,12 @@ This procedure uses new-before-old order: the current option is the
 first argument passed to *proc* and the remaining arguments are the
 multiple seeds.  and it returns the same number of new seeds as its
 values.
+
+
+## Right folds
+
+All the `*-fold-right` functions have the same order
+as the corresponding `*-fold` (i.e. left fold)
+functions.  In SRFI 41 there is no `stream-fold-right` in the API, but it's
+provided as an example, where the order is the opposite of `stream-fold`,
+that is, new before old, where the old value is the costate.

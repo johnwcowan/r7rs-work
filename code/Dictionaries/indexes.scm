@@ -1,4 +1,6 @@
 ;;;; Indexes into dictionary vectors
+;;; Add more at the end for new dictionary methods
+;;; Add an entry to model-vec as well
 
 (define d? 0)
 (define dempty? 1)
@@ -28,17 +30,13 @@
 (define dentries 25)
 (define dfold 26)
 (define dmap->list 27)
-(define ddict->alist 28)
+(define d->alist 28)
 
-;;; To call an internal procedure from another internal procedure:
+
+;;; Sample of a call to an internal procedure from another internal procedure:
 ;;; (dcall dref/default vec dict key default)
 
-(define-syntax dcall
-  (syntax-rules ()
-    ((dcall dindex vec arg ...)
-     ((vector-ref vec dindex) arg ...))))
-
-;;; maps names to indexes
+;;; Maps names to indexes
 
 (define dname-map 
   `(dictionary? . ,d?)
