@@ -112,6 +112,8 @@ Syntax combiners for binary functions: [SRFI 156](https://srfi.schemers.org/srfi
 
 Core syntactic extensions: [SRFI 201](https://srfi.schemers.org/srfi-201/srfi-201.html)
 
+Multiple values: [SRFI 210](https://srfi.schemers.org/srfi-210/srfi-210.html)
+
 # Yellow Docket (syntax)
 
 ## Syntax
@@ -384,8 +386,6 @@ SXML serializer: [SxmlSerializerGauche](https://practical-scheme.net/gauche/man/
 S-expressions for SQL: [AgnosticSql](AgnosticSql.md)
 
 Substitute/transform: [SubstituteCowan](SubstituteCowan.md)
-
-More multiple values: [MultipleValuesCowan](MultipleValuesCowan.md)
 
 [MiscAlexandria](MiscAlexandria.md)
 
