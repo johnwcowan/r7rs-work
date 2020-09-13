@@ -13,13 +13,13 @@ There is no requirement that externalizing
 and internalizing are exact converses; in particular, externalizing may discard
 certain information.
 
-By convention, the symbols used in externalized forms begin with period, to minimize
+By convention, the symbols used in externalized forms begin with slash, to minimize
 conflicts with existing names.
 For example, a SRFI 113 set containing the first five positive exact integers might be
-externalized as `(.set 1 2 3 4 5)`.  Internalizing this might create a set
+externalized as `(/set 1 2 3 4 5)`.  Internalizing this might create a set
 using the SRFI 128 default comparator rather than any more specific comparator that the
 original set had used.  This SRFI does not define any specific internalizers or
-externalizers.
+externalizers.  (Maybe it should.)
 
 ## Procedures
 
