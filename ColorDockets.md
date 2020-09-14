@@ -38,7 +38,7 @@ Homogeneous vectors: [SRFI 160](https://srfi.schemers.org/srfi-160/srfi-160.html
 
 Bitvectors: [SRFI 178](http://srfi.schemers.org/srfi-178/srfi-178.html)
 
-Bytestrings: [BytestringsCowan](BytestringsCowan.md)
+Bytestrings: [SRFI 207](http://srfi.schemers.org/srfi-207/srfi-207.html)
 
 Multidimensional arrays: [SRFI 122](http://srfi.schemers.org/srfi-122/srfi-122.html) 
 or [SRFI 164](http://srfi.schemers.org/srfi-164/srfi-164.html)
@@ -150,6 +150,8 @@ or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/
 `let-list`, `let-vector`: [MacrosAlexandria](MacrosAlexandria.md)
 
 `if*` with arbitrarily many arguments: [Daphne Preston-Kendal's rationale](http://dpk.io/r7rs/naryif-20130406)
+
+Binding auxiliary syntax: [SRFI 206](https://srfi.schemers.org/srfi-206/srfi-206.html)
 
 ## Lexical macros
 
