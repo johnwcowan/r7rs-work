@@ -67,12 +67,6 @@ Foment, Picrin, Owl Lisp
 Supports both `syntax-case` and another low-level hygienic macro system:
 Larceny (ER), Sagittarius (ER)
 
-### Syntactic closures
-
-Syntactic closures is a low-level macro system supported by MIT, Picrin, Chibi.
-
-Supported as the only kind of low-level hygienic macros: (none)
-
 ### Explicit renaming
 
 Explicit renaming is a low-level macro system supported by
@@ -86,6 +80,12 @@ Supported without `syntax-case` support: Gauche, MIT, Chicken, Scheme48/scsh, Pi
 ### Implicit renaming
 
 Implicit renaming is a low-level macro system supported by Chicken, Picrin.
+
+Supported as the only kind of low-level hygienic macros: (none)
+
+### Syntactic closures
+
+Syntactic closures is a low-level macro system supported by MIT, Picrin, Chibi.
 
 Supported as the only kind of low-level hygienic macros: (none)
 
