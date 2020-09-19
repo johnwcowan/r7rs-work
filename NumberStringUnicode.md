@@ -1,6 +1,6 @@
 ## Abstract
 
-These procedures allow the creation and processing of numerals
+These procedures allow the creation and interpretation of numerals
 using any set of Unicode digits that support positional notation.
 
 ## Rationale
@@ -23,8 +23,8 @@ there is very little support for using them in numbers.
 The `digit-value` procedure allows converting
 a single character between `#\0` and `#\9` to its
 equivalent in another digit set by specifying the 0 digit: 
-thus `(digit-value #\5 #\०) => #\५`
-(and the same is true of `(digit-value #\5 #\x966)`).
+thus `(digit-value #\5 #\०) => #\५`, which is Devanagari digit 5.
+(The 0 digit can be specified as `#\x966` instead.)
 This SRFI allows numbers of arbitrary types
 to be converted to use any digit set.
 
