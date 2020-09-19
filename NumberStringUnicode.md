@@ -9,8 +9,10 @@ Although the positional decimal numeral system most widely used to write numbers
 is often called the
 [Hindu-Arabic numeral system](https://en.wikipedia.org/wiki/Hindu%E2%80%93Arabic_numeral_system),
 the form of the digits 0-9 that evolved in Europe and are now used worldwide
-is not their only possible representation.  In particular, it is not usually
-used with either the various Indic scripts or the Arabic script.  The digits that are
+is not their only possible representation.
+In particular, it is not usually
+used with either the various Indic scripts or the Arabic script.
+The digits that are
 used instead are functionally identical, but their shape is different,
 and each one has a different set of digit characters in Unicode.
 For example, the number 12345 is written as ١٢٣٤٥ in Eastern Arabic digits
@@ -61,6 +63,6 @@ and numeric value equal to 0.
 Examples:
 
 ```
-(number->numeral 3.1415৩ #\x9E6) => "৩.১৪১৫"    ; BENGALI DIGIT ZERO
+(number->numeral 3.1415 #\x9E6) => "৩.১৪১৫"    ; BENGALI DIGIT ZERO
 (numeral->number "๓๕๕/๑๑๓" #\xE50) => 355/113   ; THAI DIGIT ZERO
 ```
