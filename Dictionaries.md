@@ -351,3 +351,28 @@ The equality predicate of this type of dictionary is `equal?`.
 
 In all other cases, lists are not treated as dictionaries
 unless an appropriate dictionary type has been registered.
+
+## Implementation
+
+The sample implementation of this SRFI can be found in its repository.
+The following list of dependencies is designed to ease registering
+new dictionary types that may not have complete dictionary APIs:
+
+ * `dict-contains?` depends on `dict-ref`
+ * `dict-ref/default` depends on `dict-ref`
+ * `dict-adjoin` depends on `dict-set!`
+ * `dict-delete!` depends on `dict-delete-all!`
+ * `dict-update/default` depends on `dict-update`
+ * `dict-pop` depends on `dict-delete!` and `dict-empty?`
+ * `dict-remove!` depends on `dict-filter!`
+ * `dict-count` depends on `dict-fold`
+ * `dict-keys` depends on `dict-fold`
+ * `dict-values` depends on `dict-fold`
+ * `dict-entries` depends on `dict-fold`
+ * `dict-map->list` depends on `dict-fold`
+ * `dict->alist` depends on `dict-map->list`
+
+For example, the first dependency means that if an implementation
+being registered has something corresponding to `dict-ref` it need not
+also supply `dict-contains?`, because its default implementation
+uses `dict-ref`.  This might not be true in other implementations.
