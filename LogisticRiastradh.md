@@ -13,7 +13,7 @@ and of its condition number, and for the complex functions, a plot of the branch
 
 [Wikipedia](https://en.wikipedia.org/wiki/Logistic_function)
 
-`(logistic *x*`)`  
+`(logistic `*x*`)`  
 `(logit *x*`)`
 
 Logistic and logit functions.
@@ -128,7 +128,7 @@ If *list* contains both `-inf` and `+inf`, or if
 floating-point exceptions other than invalid-operation.
 
 
-`(log1mexp *x*`)`
+`(log1mexp `*x*`)`
 `(log1pexp *x*`)`
 
 Equivalent to:
