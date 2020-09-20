@@ -14,7 +14,7 @@ and of its condition number, and for the complex functions, a plot of the branch
 [Wikipedia](https://en.wikipedia.org/wiki/Logistic_function)
 
 `(logistic `*x*`)`  
-`(logit *x*`)`
+`(logit `*x*`)`
 
 Logistic and logit functions.
 Equivalent to:
@@ -128,8 +128,8 @@ If *list* contains both `-inf` and `+inf`, or if
 floating-point exceptions other than invalid-operation.
 
 
-`(log1mexp `*x*`)`
-`(log1pexp *x*`)`
+`(log1mexp `*x*`)`  
+`(log1pexp `*x*`)`
 
 Equivalent to:
 ```
@@ -201,7 +201,7 @@ x f'(x)/f(x) = (+/- x exp(x))/((1 +/- e^x) log(1 +/- e^x)),
 
 
 `(log-logistic `*x*`)`  
-`(logit-exp *x*`)`
+`(logit-exp` *x*`)`
 
 Equivalent to:
 ```
