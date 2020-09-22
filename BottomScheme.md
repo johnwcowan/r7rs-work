@@ -6,6 +6,9 @@ assignment, macros, modules, proper tail calls except self-calls and named `let`
 multiple values, `call/cc`, `dynamic-wind`, mutable pairs and strings,
 I/O (except for `read-char` and `write-char`),
 and essentially all non-primitive procedures.
+What it is, is the stupidest thing you could possibly call Scheme.
+Even a *really stupid* compiler could translate it into C
+(or GW Basic, for that matter).
 
 ## Specification
 
@@ -26,6 +29,7 @@ Parens, apostrophe, quoted strings, `#t` and `#f`, and number, vector, and bytev
 4.1 Primitive expression types
 
 Variables, constants, procedure calls, `lambda` without improper formals, `if`.
+Procedures are only self-tail-recursive.
 
 4.2 Derived expression types
 
