@@ -79,7 +79,8 @@ Only `#t` and `#f` notations, `not`, `boolean?`.
 
 6.4 Pairs and lists
 
-Pairs are immutable.  Only `pair?`, `cons`, `car`, `cdr`, `null?`
+Pairs are immutable.  Only `pair?`, `cons`, `car`, `cdr`, `null?`'
+The empty list is provided.
 
 6.5 Symbols
 
@@ -135,7 +136,7 @@ they can be used for the following tagging scheme:
 
 * 000 - 48-bit fixnum
 * 001 - pointer to compnum
-* 010 - immediate `#t`, `#f`, end of file object, and undefined-value pseudo-object
+* 010 - immediate `#t`, `#f`, empty list, end of file object, and undefined-value pseudo-object
 * 011 - pointer to vector (the -1 element is a 48-bit fixnum length)
 * 100 - pointer to Scheme pair (direct dereference gets the cdr)
 * 101 - pointer to bytevector (padded to multiple of 64 bits, preceded by a 48-bit fixnum length)
@@ -146,3 +147,4 @@ In order to make pointers more efficient,
 we can flip the top 12 bits before storing them.
 That way all pointers and fixnums will Just Work,
 and doubles will simply need to be flipped back.
+
