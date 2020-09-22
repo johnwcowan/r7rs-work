@@ -31,6 +31,10 @@ Variables, constants, procedure calls, `lambda` without improper formals, `if`.
 
 Only `cond` without `=>`, `and`, `or`, `let`, `letrec`, `begin`, and named `let` (with the restriction that the bound procedure can only be invoked in tail positions within the lexical scope of the `let`).
 
+5.3 Variable definitions
+
+Only `define`, either at top level or internally.
+
 5.5 Record-type definitions
 
 SRFI 137, but returning a list of five procedures rather than returning five values.
