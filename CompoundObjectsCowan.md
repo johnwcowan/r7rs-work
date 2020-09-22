@@ -8,6 +8,10 @@ By convention, a subjobject of the form `(a)` or `(a (b . value1) (c . value2) .
 determines the compound object's overall type and any associated key-value properties.
 A compound object may contain more than one such subobject.
 
+## Rationale (FIXME)
+
+Compound conditions form a type disjoint from the base types described in report section on “Base types”. A simple condition describes a single aspect of an exceptional situation. A compound condition represents multiple aspects of an exceptional situation as a list of simple conditions, its components. Most of the operations described in this section treat a simple condition identically to a compound condition with itself as its own sole component. For a subtype t of &condition, a condition of type t is either a record of type t or a compound condition containing a component of type t.
+
 ## Procedures
 
 `(make-compound ` *list*`)`
