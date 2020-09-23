@@ -1,4 +1,7 @@
-This implementation of `rationalize` is taken from the IEEE Scheme standard, which is not freely available.  The code is by Alan Bawden, and the theory is from Hardy and Wright's *Introduction to the Theory of Numbers*, 5th edition (1979), Theorem 171 (Ch. X, p. 140).
+This implementation of `rationalize` is taken from the IEEE Scheme standard,
+which is not freely available.
+The code is by Alan Bawden,
+and the theory is from Hardy and Wright's *Introduction to the Theory of Numbers*, 5th edition (1979).
 
 ```
 (define (rationalize x e)
