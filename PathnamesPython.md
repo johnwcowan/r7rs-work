@@ -1,6 +1,9 @@
+This pathname library is vaguely based on Python's.
+
 ## Path objects
 
-A path object is a list of strings which can be created from a Posix or Windows pathname and can be manipulated conveniently
+A path object is a list of strings which can be created from a Posix or Windows pathname
+and can be manipulated conveniently
 and converted back into a pathname.  Every path object has a *drive* (the first element), a *root*
 (the second element), and a possibly empty sequence of *components* (the remaining elements),
 all of which are strings.  The *filename* is the last component.
@@ -10,7 +13,8 @@ all of which are strings.  The *filename* is the last component.
 `(parse-posix-pathname `*string*`)`
 
 Parses *string* as a Posix pathname and returns a corresponding path object, setting the components
-to the slash-separated substrings of *string*.  The drive and root are set according to the following examples:
+to the slash-separated substrings of *string*.
+The drive and root are set according to the following normative examples:
 
 ```
 ;; Absolute path
@@ -30,7 +34,7 @@ two periods are not removed, as this would produce the wrong result in the prese
 
 Parses *string* as a Windows pathname and returns a corresponding path object,
 setting the components to the slash-separated or backslash-separated substrings of *string*.
-The drive and root are set according to the following examples:
+The drive and root are set according to the following normative examples:
 
 ```
 ;; Absolute path
@@ -164,22 +168,22 @@ If it is not possible to do so without introducing double-period components, `#f
 `(path-suffix `*path suffix*`)`
 
 Returns a the suffix of the filename (everything to the
-right of the final period) as a string.  If there is no period, an empty string
-is returned.  Note that this function does not discriminate between filenames
-without a period and filenames ending in a period; the latter should be avoided
-anyway, as they are not distinct on Windows.
+right of the last period) as a string.  If there is no period, returns `#f`.
+An initial period is not treated as a suffix delimiter.
 
 `(path-with-suffix `*path suffix*`)`
 
-Returns a path object based on *path* with the suffix of the filename (everything to the
-right of the final period) replaced by *suffix*.  If there is no period, a period followed
-by *suffix* is appended to the filename.
+Returns a path object based on *path* with the suffix of the filename
+(everything to the right of the last period) replaced by *suffix*.
+If there is no period or the only period is initial,
+a period followed by *suffix* is appended to the filename.
 
 `(path-without-suffix `*path suffix*`)`
 
-Returns a path object based on *path* with the suffix of the filename (everything to the
-right of the final period), plus the period itself, removed.
-If there is no period, the result is equal to *path*.
+Returns a path object based on *path* with the suffix of the filename
+(everything to the right of the last period), plus the period itself, removed.
+If there is no period or the only period is initial,
+the result is equal to *path*.
 
 ## Path merging
 
