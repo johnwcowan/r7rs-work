@@ -167,4 +167,4 @@ Not all these pages have information on all these Schemes.
 * [WhatLoadReturns](WhatLoadReturns.md)
 * [Zero](Zero.md)
 
-> [More implementation contrasts](http://web.mit.edu/~axch/www/scheme/choices.html).
+> [More implementation contrasts](http://web.archive.org/web/20181113064011/http://web.mit.edu/~axch/www/scheme/choices.html).
