@@ -1,16 +1,26 @@
 Compound objects are a generalization of SRFI 35 and R6RS compound conditions,
-and are suitable for use in creating and handling conditions.
+and are suitable for use in creating and handling conditions among other purposes.
 They encapsulate an immutable sequence of subobjects, which can be
-any object except another compound object.  These procedures treat
-non-compound objects as if they were compound objects with one subobject.
+any object except another compound object.  
 
-By convention, a subjobject of the form `(a)` or `(a (b . value1) (c . value2) ...)`
-determines the compound object's overall type and any associated key-value properties.
-A compound object may contain more than one such subobject.
+## Rationale
 
-## Rationale (FIXME)
+Compound objects belong to a disjoint type.  Consequently, they can
+be used to represent multiple otherwise unrelated aspects of a value
+or situation.  Because they are sequences, they can be used to
+represent priorities of interpretation from higher to lower.  Most
+of the operations described
+in this section treat a simple condition identically to a compound
+condition with itself as its own sole component. 
 
-Compound conditions form a type disjoint from the base types described in report section on “Base types”. A simple condition describes a single aspect of an exceptional situation. A compound condition represents multiple aspects of an exceptional situation as a list of simple conditions, its components. Most of the operations described in this section treat a simple condition identically to a compound condition with itself as its own sole component. For a subtype t of &condition, a condition of type t is either a record of type t or a compound condition containing a component of type t.
+## Specification
+
+By convention, a subobject that is a list whose car is a symbol and whose
+cdr is an alist whose keys are symbols is known as a type subobject.
+It specifies the compound object's overall type and any associated key-value properties.
+A compound object may contain more than one such subobject,
+but only the first one is treated specially.
+If there is no such subobject, the compound object has no particular type.
 
 ## Procedures
 
@@ -29,10 +39,11 @@ except that it accepts multiple arguments instead of a list.
 
 Returns `#t` if *obj* is a compound object, and `#f` otherwise.
 
-`(compound-type? `*obj*`)`
+`(compound-type `*obj*`)`
 
-Returns `#t` if *obj* is a pair whose car is a symbol
-and whose cdr is an alist with keys that are symbols.
+If *obj* is a compound object containing a
+type subobject, returns the car of that subobject.  Otherwise, returns `#f`,
+indicating a typeless compound object.
 
 `(compound-subobjects `*obj*`)`
 
