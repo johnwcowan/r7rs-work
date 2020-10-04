@@ -60,8 +60,7 @@ the encoded elements of the vector,
 an EOC marker.
 
 Integers:  Type byte `02`,
-length bytes representing a length (0, 1, 2, 4, 8, or a multiple of 8,
-whichever is shortest without losing accuracy),
+1-9 length bytes,
 content bytes representing a big-endian 2's-complement integer.
 
 Floats:  Type byte `DB`,
@@ -69,12 +68,12 @@ length byte `08`,
 8 content bytes representing a big-endian IEEE binary64 float.
 
 Strings:  Type byte `OC`,
-length bytes representing the length of the string in bytes
+1-9 length bytes representing the length of the string in bytes
 when encoded as UTF-8,
 corresponding content bytes.
 
 Symbols:  Type byte `DD`,
-length bytes representing the length of the string in bytes
+1-9 length bytes representing the length of the string in bytes
 when encoded as UTF-8,
 corresponding content bytes.
 
@@ -92,7 +91,7 @@ alternating between keys and values,
 an EOC marker.
 
 Timestamps: Type byte `18`,
-length bytes,
+1-9 length bytes,
 ASCII encoding of a ISO 8601 timestamp
 without hyphens, colons, or spaces.
 
@@ -104,10 +103,12 @@ without hyphens, colons, or spaces.
   * If length byte is not `80`, skip number of bytes equal to the length.
   * If length byte is `80`, skip subobjects until the EOC marker has been read.
   
-Note:  If interoperability with other ASN.1 systems is important, encode only
-the types marked "X.690" in the Origin column of the
-[Lisp Serialization Conventions](https://tinyurl.com/asn1-ler) spreadsheet.
 
 Equivalent textual format: [CoreSexp](CoreSexp.md).
 
-All currently proposed formats: [Lisp Serialization Conventions](https://tinyurl.com/asn1-ler).
+All currently proposed formats (Google Spreadsheet):
+[Lisp Serialization Conventions](https://tinyurl.com/asn1-ler).
+
+Note:  If interoperability with other ASN.1 systems is important, encode only
+the types marked "X.690" in the Origin column of the spreadsheet.
+
