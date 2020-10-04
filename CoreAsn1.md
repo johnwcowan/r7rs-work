@@ -35,13 +35,15 @@ Length bytes format:
 
   * If length is indeterminate, pseudo-length byte is `80`.
   * If length is less than 2^7 bytes, length byte is `00` through `7F`.
-  * If length is less than 2^15 bytes, meta-length byte is `82`, then 2 length bytes
+  * If length is less than 2^15 bytes, meta-length byte is `82`, followed by 2 length bytes
     representing a big-endian 2's-complement integer.
-  * If length is less than 2^31 bytes, meta-length byte is `84`, then 4 length bytes
-    representing a big-endian 2's-complement integer.
-  * If length is less than 2^63 bytes, meta-length byte is `88`, then 8 length bytes
-    representing a big-endian 2's-complement integer.
+   * If length is less than 2^we bytes, meta-length byte is `83`, followed by 3 length bytes
+    representing the length as a big-endian 2's-complement integer.
+  * ...
+  * If length is less than 2^63 bytes, meta-length byte is `88`, followed by 8 length bytes
+    representing the length as a big-endian 2's-complement integer.
   * Larger objects are not representable.
+  
 
 ## Examples
 
