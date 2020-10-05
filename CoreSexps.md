@@ -1,59 +1,67 @@
+## Introduction
+
+This specifies a variant of both S-expressions and
+ASN.1 Basic Encoding Rules that express Lisp-like datatypes
+It also arranges for there to be just one encoding for each datum represented, although
+the textual rules don't quite correspond to any Lisp syntax,
+and the binary rules don't conform to either ASN.1 Canonical Encoding Rules
+or ASN.1 Distinguished Encoding Rules.
+The encoding specified here attempts to maintain a balance
+between ease and efficiency of both reading
+and writing.
+
+## Issues
+
+Should textual bytevectors use hexdigits (easier to read), base64 (shorter),
+or either format at the writer's discretion (marked how?).
+
 ## Procedures
 
-`(make-core-object `*code tag value*`)`
+`(core-read-textual `*proc* [*port*])  
+`(core-read-binary `*proc* [*port*])
 
-Returns a Core object, where *code* is an exact integer representing a code
-(or `#f` if the code is not known),
-*tag* is a symbol representing a tag
-(or `#f` if the tag is not known),
-and *value* is a number, string, bytevector, list,
-or `#f` if the code/tag is stand-alone.
-These are used to represent
-objects whose code/tag is not understood by the implementation.
+Reads a Core textual or binary value from *port*, by default `(current-input-port)`.
+If the external representation of an object is read whose type is unknown,
+*proc* is called with three arguments:
 
-`(core-object? `*obj*`)`
+ * a symbol representing a tag
+   or `#f if there is none
+ * a number representing a corresponding number,
+   or `#f if there is none
+ * a number, string, symbol, bytevector, list,
+   or `#f` if the code/tag is stand-alone
+   
+The value returned by *proc* is substituted
+ in the result for the unknown representation.
 
-`(core-object-code `*core-obj*`)`  
-`(core-object-tag `*core-obj*`)`  
-`(core-object-value `*core-obj*`)`
+`(core-write-textual `*proc* [*port*])  
+`(core-write-binary `*proc* [*port*])
 
-Accessors for Core objects.  If the code or tag is unknown, return `#f`.
+Writes a Core textual or binary value to *port*, by default `(current-output-port)`.
+If an object is to be written whose representation is unknown,
+*proc* is called with the object, and returns three values:
 
-`(read-textual `[*port*])  
-`(read-binary `[*port*])  
-`(write-textual `obj [*port*])  
-`(write-binary `obj [*port*])
+ * a symbol representing a tag
+   or `#f if there is none
+ * a number representing a corresponding number,
+   or `#f if there is none
+ * a number, string, symbol, bytevector, list,
+   or `#f` if the code/tag is stand-alone
+   
+The values returned by *proc* are used to format
+the representation of the object.
 
-`conversion-failure` (object)
-
-A unique object used to report conversion failures.
-
-`(conversion-failure? `*obj*`)`
-
-`core-read-conversion` (parameter)
-
-Procedure to be called when an object with unknown tag or type code is read.
-Accepts a Core object and returns the appropriate Scheme object,
-or `conversion-failure` if none (in which case the read operation fails).
-
-`core-write-conversion` (parameter)
-
-Procedure to be called when an object that does not belong to any Scheme type
-known to the implementation is to be written.
-Accepts a Scheme object and returns a Core object with an integer code or string
-tag and a number, string, bytevector, or list to serialize,
-or `#f` if the code/tag is standalone.
-Returns `conversion-failure` if there is no known serialization
-(in which case the write operation fails).
-
-## Basic syntax
+## Basic textual syntax
 
   * Integers: optional sign followed by sequence of digits
   
-  * Decimals: optional sign followed by digits followed by `.` followed by digits
-  
-  * Floats: decimal followed by optional exponent
-    (`E` followed by sign followed by digits)
+  * Floats: optional sign followed by sequence of digits with optional decimal point
+    followed by optional exponent (`E` followed by sign followed by digits).
+    Either the decimal point or the exponent can be omitted but not both.
+    
+  * Symbols: lower-case letter
+    optionally followed by sequence of lower-case letters and digits.
+    Alternatively, any characters surrounded by vertical bars.  The only escapes are `\\` and `\|`
 
   * Strings:  Enclosed in double quotes.  The only escapes are `\"` and `\\`.
 
@@ -81,7 +89,99 @@ Whitespace by itself is not a valid S-expression.
 that goes up to but not including the end of line and is discarded.
 A comment by itself is not a valid S-expression.
 
+## ASN.1 formats
 
-Equivalent binary format: [CoreAsn1](CoreAsn1.md).
+Depending on its type, an object is represented as either a sequence
+of bytes or a sequence of subobjects.
 
-All currently proposed formats: [Lisp Serialization Conventions](https://tinyurl.com/asn1-ler).
+All byte objects have the same general format:
+
+  * 1 or 2 type bytes
+  * 1-9 length bytes
+  * the number of content bytes specified in the length.
+
+All objects with subobjects also have the same general format:
+
+  * 1 or 2 type bytes
+  * an `80` pseudo-length byte
+  * the encoded subobjects
+  * an end of content (EOC) marker (two consecutive <code>00</code> bytes)
+
+Length bytes format:
+
+  * If length is indeterminate, pseudo-length byte is `80`.
+  * If length is less than 2^7 bytes, length byte is `00` through `7F`.
+  * If length is less than 2^15 bytes, meta-length byte is `82`, followed by 2 length bytes
+    representing a big-endian 2's-complement integer.
+   * If length is less than 2^we bytes, meta-length byte is `83`, followed by 3 length bytes
+    representing the length as a big-endian 2's-complement integer.
+  * ...
+  * If length is less than 2^63 bytes, meta-length byte is `88`, followed by 8 length bytes
+    representing the length as a big-endian 2's-complement integer.
+  * Larger objects are not representable.
+  
+## ASN.1 examples
+
+Here are a few examples of how different kinds of objects are represented.
+
+Lists:  Type byte `E0`,
+pseudo-length byte `80`,
+the encoded elements of the list,
+an EOC marker.
+
+Vectors:  Type byte `30`,
+length bytes,
+the encoded elements of the vector,
+an EOC marker.
+
+Integers:  Type byte `02`,
+1-9 length bytes,
+content bytes representing a big-endian 2's-complement integer.
+
+Floats:  Type byte `DB`,
+length byte `08`,
+8 content bytes representing a big-endian IEEE binary64 float.
+
+Strings:  Type byte `OC`,
+1-9 length bytes representing the length of the string in bytes
+when encoded as UTF-8,
+corresponding content bytes.
+
+Symbols:  Type byte `DD`,
+1-9 length bytes representing the length of the string in bytes
+when encoded as UTF-8,
+corresponding content bytes.
+
+Nulls:  Type byte `05`,
+length byte `00`.
+
+Booleans:  Type byte `01`,
+length byte `01`,
+1 content byte which is `00` for false and `FF` for true.
+
+Mappings / hash tables:  Type byte `E4`,
+pseudo-length byte `80`,
+the encoded elements of the list
+alternating between keys and values,
+an EOC marker.
+
+Timestamps: Type byte `18`,
+1-9 length bytes,
+ASCII encoding of a ISO 8601 timestamp
+without hyphens, colons, or spaces.
+
+## Skipping unknown ASN.1 types
+
+  * If first type byte is `1F`, `3F`, `5F`, `7F`, `9F`, `BF`, `DF`, or `FF`,
+    skip one additional type byte.
+  * Read and interpret length bytes.
+  * If length byte is not `80`, skip number of bytes equal to the length.
+  * If length byte is `80`, skip subobjects until the EOC marker has been read.
+  
+## Detailed formats
+
+All currently proposed formats (Google Spreadsheet):
+[Lisp Serialization Conventions](https://tinyurl.com/asn1-ler).
+
+Note:  If interoperability with other ASN.1 systems is important, encode only
+the types marked "X.690" in the Origin column of the spreadsheet.
