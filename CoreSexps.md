@@ -1,14 +1,14 @@
 ## Introduction
 
 This specifies a variant of both S-expressions and
-ASN.1 Basic Encoding Rules that express Lisp-like datatypes
+ASN.1 Basic Encoding Rules that express Lisp-like datatypes.
 It also arranges for there to be just one encoding for each datum represented, although
 the textual rules don't quite correspond to any Lisp syntax,
 and the binary rules don't conform to either ASN.1 Canonical Encoding Rules
 or ASN.1 Distinguished Encoding Rules.
-The encoding specified here attempts to maintain a balance
-between ease and efficiency of both reading
-and writing.
+The encodings specified here attempt to provide extensibility
+and maintain a balance between ease and efficiency
+of both reading and writing.
 
 ## Issues
 
@@ -59,8 +59,8 @@ the representation of the object.
     followed by optional exponent (`E` followed by sign followed by digits).
     Either the decimal point or the exponent can be omitted but not both.
     
-  * Symbols: lower-case letter
-    optionally followed by sequence of lower-case letters and digits.
+  * Symbols: lower-case ASCII letter
+    optionally followed by sequence of lower-case ASCII letters and ASCII digits.
     Alternatively, any characters surrounded by vertical bars.  The only escapes are `\\` and `\|`
 
   * Strings:  Enclosed in double quotes.  The only escapes are `\"` and `\\`.
@@ -166,7 +166,7 @@ alternating between keys and values,
 an EOC marker.
 
 Timestamps: Type byte `18`,
-1-9 length bytes,
+1 length byte,
 ASCII encoding of a ISO 8601 timestamp
 without hyphens, colons, or spaces.
 
