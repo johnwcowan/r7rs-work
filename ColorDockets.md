@@ -354,13 +354,13 @@ Applicable record instances: [R6RS formal comment](http://www.r6rs.org/formal-co
 
 Memoization: [Memoize](Memoize.md) (not a proposal yet), [Racket](http://planet.racket-lang.org/display.ss?package=memoize.plt&owner=dherman), [Haskell](http://hackage.haskell.org/package/memoize-0.1/docs/Data-Function-Memoize.html)
 
-MD5 message digests:
+Message digests: [MessageDigests](MessageDigests.md)
 
 Assertions: [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_750), R6RS with optional message and irritants.
 
-Monad etc.:  [ContextsCowan](ContextsCowan.md)
+Monads, applicative functors, and functors:  [ContextsCowan](ContextsCowan.md)
 
-String normalization [StringNormalization](StringNormalization.md)
+String normalization: [StringNormalization](StringNormalization.md)
 
 Testing: [SRFI 64](http://srfi.schemers.org/srfi-64/srfi-64.html)
 or [ChibiChickenTest](http://wiki.call-cc.org/eggref/5/test)
