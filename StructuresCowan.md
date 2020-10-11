@@ -4,8 +4,6 @@ This library is used to convert between a bytevector (which is byte-for-byte
 equivalent to a C object) and a Scheme object.  Conversion is done using a
 *schema*, which is an S-expression that specifies the mapping.
 
-
-
 ## Procedures
 
 `(make-struct-packer `*schema*`)`
@@ -15,7 +13,7 @@ Returns a procedure that packs an object
 into a bytevector.
 Schema is a Scheme value.
 
-Raises an error statisfying `*pack-schema-error?`
+Raises an error statisfying `pack-schema-error?`
 if *schema* is uninterpretable.
 
 The returned procedure
@@ -31,7 +29,7 @@ Returns a procedure that unpacks a bytevector
 into an object.
 Schema is a Scheme value.
 
-Raises an error statisfying `*pack-schema-error?`
+Raises an error statisfying `pack-schema-error?`
 if *schema* is uninterpretable.
 
 The returned procedure
@@ -54,7 +52,7 @@ Returns a procedure that packs an object
 into a bytevector.
 Schema is a constant S-expression.
 
-Raises an error statisfying `*pack-schema-error?`
+Raises an error statisfying `pack-schema-error?`
 if *schema* is uninterpretable.
 
 The returned procedure
@@ -69,7 +67,7 @@ Returns a procedure that unpacks a bytevector
 into an object.
 Schema is a constant S-expression.
 
-Raises an error statisfying `*pack-schema-error?`
+Raises an error statisfying `pack-schema-error?`
 if *schema* is uninterpretable.
 
 The returned procedure
