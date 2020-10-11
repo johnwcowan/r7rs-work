@@ -1,17 +1,56 @@
-## Specification
+## Abstract
 
 This library is used to convert between a bytevector (which is byte-for-byte
 equivalent to a C object) and a Scheme object.  Conversion is done using a
 *schema*, which is an S-expression that specifies the mapping.
 
+## Issues
+
+ 1. How do we specify which union tag to use when packing?
+    
+
 ## Procedures
 
 `(make-struct-packer `*schema*`)`
 
-Returns a procedure that packs an object
+Returns a procedure that takes an object
+(see [Schema](#Schema) for permitted objects)
+0an optional bytevector, and an optional offset,
+and packs the object into a newly allocated bytevector,
+which is returned.
+
+Raises an error statisfying `pack-schema-error?`
+if *schema* is uninterpretable.
+
+The returned procedure
+raises an error satisfying `pack-error?`
+if the object being packed
+or any of its components
+do not match the schema or its components.
+
+`(make-struct-packer! `*schema*`)`
+
+Returns a procedure that takes an object
+(see [Schema](#Schema) for permitted object types)
+a bytevector, and an optional offset (default is 0),
+and packs the object into the bytevector
+starting at the offset, returning the number of bytes packed.
+
+Raises an error statisfying `pack-schema-error?`
+if *schema* is uninterpretable.
+
+The returned procedure
+raises an error satisfying `pack-error?`
+if the object being packed
+or any of its components
+do not match the schema or its components.
+
+`(make-struct-writer `*schema*`)`
+
+Returns a procedure that takes an object
 (see [Schema](#Schema) for allowed object types)
-into a bytevector.
-Schema is a Scheme value.
+and a binary output port,
+and packs the object onto the port.
 
 Raises an error statisfying `pack-schema-error?`
 if *schema* is uninterpretable.
@@ -24,17 +63,34 @@ do not match the schema or its components.
 
 `(make-struct-unpacker `*schema*`)`
 
-Returns a procedure that unpacks a bytevector
-(see [Schema](#Schema) for allowed object types)
-into an object.
-Schema is a Scheme value.
+Returns a procedure that takes a bytevector
+and an optional offset (default is 0),
+and unpacks the bytevector
+starting at the offset.
+The returned value is the object.
 
 Raises an error statisfying `pack-schema-error?`
 if *schema* is uninterpretable.
 
 The returned procedure
 raises an error satisfying `pack-error?`
-if the bytevector being unpacked.
+if the object being packed
+or any of its components
+do not match the schema or its components.
+
+`(make-struct-reader `*schema*`)`
+
+Returns a procedure that takes a binary input port,
+reads the appropriate number of bytes,
+and unpacks them into an object, which is returned.
+
+Raises an error statisfying `pack-schema-error?`
+if *schema* is uninterpretable.
+
+The returned procedure
+raises an error satisfying `pack-error?`
+if the object being packed
+or any of its components
 do not match the schema or its components.
 
 `(packing-error? `*obj*`)`  
@@ -46,34 +102,16 @@ or `#f` otherwise.
 ## Syntax
 
 `(struct-packer ` <schema>`)`
-
-Returns a procedure that packs an object
-(see [Schema](#Schema) for allowed object types)
-into a bytevector.
-Schema is a constant S-expression.
-
-Raises an error statisfying `pack-schema-error?`
-if *schema* is uninterpretable.
-
-The returned procedure
-raises an error satisfying `pack-error?`
-if the object being unpacked or any of its components
-do not match the schema or its components.
-
+`(struct-packer! ` <schema>`)`
+`(struct-writer ` <schema>`)`
 `(struct-unpacker ` <schema>`)`
+`(struct-reader ` <schema>`)`
 
-Returns a procedure that unpacks a bytevector
-(see [Schema](#Schema) for allowed object types)
-into an object.
-Schema is a constant S-expression.
-
-Raises an error statisfying `pack-schema-error?`
-if *schema* is uninterpretable.
-
-The returned procedure
-raises an error satisfying `pack-error?`
-if the bytevector being unpacked.
-does not match the schema or its components.
+These macros are equivalent to the corresponding procedures
+beginning with `make-`, except that the schemas must be constants.
+They are provided so that
+an implementation can compile a constant schema into appropriate code.
+However, they may also expand directly into procedures. 
 
 ## Schema
 
@@ -121,8 +159,12 @@ vector of appropriate type, range, and endianism.
 
 *Packing*: Matches a string of specified size in bytes.
 *Unpacking*: Matches a string of specified size in bytes,
-or a wrapped-bytevector if the bytes cannot be decoded
+or a bytevector if the bytes cannot be decoded into a string
 using the *encoding* argument, a symbol.
+
+The following encodings are standard:
+`ascii`, `latin-1`, `utf-8`, `utf-16`, `utf-16le`, utf-16be`.
+Other encodings may be provided by the implementation.
 
 `(struct `*name schema name schema* ...`)`
 
@@ -134,5 +176,5 @@ and a C structure.
 Matches an alist which maps union tags to associated objects
 and a C union.
 
-**Issue**: How do we specify which union tag to use when packing?
+
 
