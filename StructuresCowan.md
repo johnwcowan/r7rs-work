@@ -118,10 +118,12 @@ However, they may also expand directly into procedures.
 This is a recursive definition of a schema.
 Schemas can be created by quotation or quasiquotation.
 
-`(constant `*bytevector*`)`
+`(constant `*bytevector-or-string*`)`
 
 Matches nothing on the Scheme object side
-with the bytes of *bytevector* on the bytevector side.
+with the bytes of *bytevector-or-string* on the bytevector side.
+If a string is provided, it must be ASCII-only
+and is equivalent to the corresponding bytevector.
 
 `(fill `*size*`)`
 
