@@ -6,7 +6,7 @@ equivalent to a C object) and a Scheme object.  Conversion is done using a
 
 ## Issues
 
- 1. How do we specify which union tag to use when packing?
+ 1. How do we represent C unions in the schema?
     
 
 ## Procedures
@@ -101,10 +101,10 @@ or `#f` otherwise.
 
 ## Syntax
 
-`(struct-packer ` <schema>`)`
-`(struct-packer! ` <schema>`)`
-`(struct-writer ` <schema>`)`
-`(struct-unpacker ` <schema>`)`
+`(struct-packer ` <schema>`)`  
+`(struct-packer! ` <schema>`)`  
+`(struct-writer ` <schema>`)`  
+`(struct-unpacker ` <schema>`)`  
 `(struct-reader ` <schema>`)`
 
 These macros are equivalent to the corresponding procedures
@@ -132,16 +132,16 @@ and *size* arbitrary bytes on the bytevector side.
 
 ```
 u8 s8
-u16 u16-be u16-le
-u16 u16-be u16-le
-u32 u32-be u32-le
-u32 u32-be u32-le
-u64 u64-be u64-le
-u64 u64-be u64-le
-f32 f32-be f32-le
-f64 f64-be f64-le
-c64 c64-be c64-le
-c128 c128-be c128-le
+u16 u16be u16le
+u16 u16be u16le
+u32 u32be u32le
+u32 u32be u32le
+u64 u64be u64le
+u64 u64be u64le
+f32 f32be f32le
+f64 f64be f64le
+c64 c64be c64le
+c128 c128be c128le
 ```
 
 Matches a single number of appropriate type, range, and endianism.
@@ -150,12 +150,19 @@ Matches a single number of appropriate type, range, and endianism.
 
 Matches a Scheme vector and a C array.
 
-`(u8 `*length*`)`
-`...`
-`(c128-le `*length*`)`
+`(u8 `*length*`)`  
+`...`  
+`(c128le `*length*`)`
 
-Matches a [SRFI 160](http://srfi.schemers.org/srfi-160/srfi-160.html)
+Matches a [SRFI 4](http://srfi.schemers.org/srfi-4/srfi-4.html)
+or [SRFI 160](http://srfi.schemers.org/srfi-160/srfi-160.html)
 vector of appropriate type, range, and endianism.
+If a particular homogeneous vector type is not available,
+matches a heterogeneous vector instead.
+
+`(struct `*schema schema* ...`)`
+
+Matches a heterogeneous list to a C `struct`.
 
 `(string `*size encoding*`)`
 
@@ -167,16 +174,4 @@ using the *encoding* argument, a symbol.
 The following encodings are standard:
 `ascii`, `latin-1`, `utf-8`, `utf-16`, `utf-16le`, utf-16be`.
 Other encodings may be provided by the implementation.
-
-`(struct `*name schema name schema* ...`)`
-
-Matches an alist which maps structure tags to associated objects
-and a C structure.
-
-`(union `*name schema name schema* ...`)`
-
-Matches an alist which maps union tags to associated objects
-and a C union.
-
-
 
