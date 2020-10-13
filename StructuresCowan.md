@@ -101,14 +101,15 @@ or `#f` otherwise.
 
 ## Syntax
 
-`(struct-packer ` <schema>`)`  
-`(struct-packer! ` <schema>`)`  
-`(struct-writer ` <schema>`)`  
-`(struct-unpacker ` <schema>`)`  
-`(struct-reader ` <schema>`)`
+`(struct-packer ` *schema*`)`  
+`(struct-packer! ` *schema*`)`  
+`(struct-writer ` *schema*`)`  
+`(struct-unpacker ` *schema*`)`  
+`(struct-reader ` *schema*`)`
 
 These macros are equivalent to the corresponding procedures
-beginning with `make-`, except that the schemas must be constants.
+beginning with `make-`, except that the schemas must be literals
+or quasiquoted literals.
 They are provided so that
 an implementation can compile a constant schema into appropriate code.
 However, they may also expand directly into procedures. 
@@ -130,21 +131,9 @@ and is equivalent to the corresponding bytevector.
 Matches nothing on the Scheme object side
 and *size* arbitrary bytes on the bytevector side.
 
-```
-u8 s8
-u16 u16be u16le
-u16 u16be u16le
-u32 u32be u32le
-u32 u32be u32le
-u64 u64be u64le
-u64 u64be u64le
-f32 f32be f32le
-f64 f64be f64le
-c64 c64be c64le
-c128 c128be c128le
-```
+`u8 s8 u16 s16 u32 s32 u64 s64 f32 f64 c64 c128`
 
-Matches a single number of appropriate type, range, and endianism.
+Matches a single number of appropriate type, range, and precision.
 
 `(array `*length schema*`)`
 
@@ -152,17 +141,13 @@ Matches a Scheme vector and a C array.
 
 `(u8 `*length*`)`  
 `...`  
-`(c128le `*length*`)`
+`(c128\ `*length*`)`
 
 Matches a [SRFI 4](http://srfi.schemers.org/srfi-4/srfi-4.html)
 or [SRFI 160](http://srfi.schemers.org/srfi-160/srfi-160.html)
-vector of appropriate type, range, and endianism.
+vector of appropriate type, range, and precision.
 If a particular homogeneous vector type is not available,
 matches a heterogeneous vector instead.
-
-`(struct `*schema schema* ...`)`
-
-Matches a heterogeneous list to a C `struct`.
 
 `(string `*size encoding*`)`
 
@@ -174,4 +159,15 @@ using the *encoding* argument, a symbol.
 The following encodings are standard:
 `ascii`, `latin-1`, `utf-8`, `utf-16`, `utf-16le`, utf-16be`.
 Other encodings may be provided by the implementation.
+
+`(struct `*schema schema* ...`)`
+
+Matches a heterogeneous list to a C `struct`.'
+
+`(label `*symbol schema*`)`
+
+Matches whatever *schema* matches, but provides a label
+which can be used for purposes outside the scope of this SRFI.
+
+
 
