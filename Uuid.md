@@ -69,13 +69,14 @@ RFC 4122 variant, the result is unspecified.
 Returns a newly allocated string representing *uuid* in the canonical format
 `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`, where each `x` is a hex digit.
 The hex digits A-F may be either upper or lower case.
+This is the recommended method of interchanging UUIDs between systems.
 
 To generate a corresponding URN, prepend "urn:uuid:" to the result.
 
 `(string->uuid `*string*`)`
 
-Returns the UUID that results from parsing *string*.  In
-addition to canonical format, hyphens can be omitted.
+Returns the UUID that results from parsing *string*.
+
 Any other string returns `#f`.
 
 `(uuid->bytevector `*uuid*`)`
@@ -86,6 +87,18 @@ The length of the result is always 16 bytes.
 
 Returns the UUID specified by *bytevector*.
 It is an error if *bytevector* is not 16 bytes long.
+
+`(uuid->integer `*uuid*`)
+
+Returns UUID as an exact integer between 0 and 2^128^-1.
+The exact mapping is implementation-dependent, but is
+guaranteed to be one-to-one on all implementations.
+For this reason, integers should not be used when
+interchanging UUIDs between systems.
+
+`(integer->uuid `*integer*`)`
+
+Undoes the mapping performed by `uuid->integer`.
 
 ## Comparator
 
