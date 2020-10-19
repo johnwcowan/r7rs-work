@@ -9,6 +9,10 @@ is also a context holding
 zero or one values, and an Either (from the same SRFI) is also treated as a
 context which holds a value if it is a Right but no value if it is a Left.
 
+This SRFI contains no references to category theory.
+
+## Rationale
+
 This SRFI provides procedures which operate on containers generically.
 This is a different kind of polymorphism from that provided by object-oriented
 systems or generic functions in other Lisps.
