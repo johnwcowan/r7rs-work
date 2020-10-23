@@ -51,7 +51,7 @@ This can be either a request object or a response object, depending on the type 
 
 ### Request objects
 
-A request object is an alist containing the following keys
+A request object is a dictionary containing the following keys
 as symbols.  It is an error to omit *verb* or *url*; the other keys
 are optional.  Keys not specified by this SRFI are ignored.
 
@@ -60,18 +60,17 @@ The name of the symbol is uppercased before transmitting it.
 
 *url*:  A string representing the URL to be sent to the server.
 
-*headers*:  An alist containing headers to be sent.
+*headers*:  A dictionary containing headers to be sent.
 Keys are lower-case symbols without a trailing colon.
 
 *raw-headers*: A string represting the characters of the header section.
 It is an error to specify both this and *headers*.
 
-*cookie-jar*:  A [dictionary](DictionariesCowan.md)
-containing cookies to possibly be sent.
+*cookie-jar*:  A dictionary containing cookies to possibly be sent.
 Keys are lists of the form `(`*domain path name*`)`;
 values are strings.  If omitted or `#f`, treated as an empty dictionary.
 
-*content*:  A [SRFI 158](http://srfi.schemers.org/srfi-158/srfi-158.html)
+*accumulator*:  A [SRFI 158](http://srfi.schemers.org/srfi-158/srfi-158.html)
 accumulator to which zero or more bytevectors can be passed which
 form the body of the request.
 Passing an end-of-file object indicates the end of the request body.
@@ -82,7 +81,7 @@ This allows the caller to reuse the bytevector.
 
 ### Response objects
 
-A response object may contain the following keys:
+A response object is a dictionary that may contain the following keys:
 
 *request*:  The request object to which this is a response.
 
@@ -104,7 +103,7 @@ If omitted or `#f`, cookies are not processed.
 *previous*:  Another request object, showing that this request
 is the result of a redirection.
 
-*content*:  A SRFI 158 generator.  Invoking it returns a bytevector
+*generator*:  A SRFI 158 generator.  Invoking it returns a bytevector
 containing bytes from the response body,
 or an end of file object if no bytes are available.
 
