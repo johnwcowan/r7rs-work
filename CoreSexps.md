@@ -25,9 +25,9 @@ If the external representation of an object is read whose type is unknown,
 *proc* is called with three arguments:
 
  * a symbol representing a tag
-   or `#f if there is none
+   or `#f` if there is none
  * a number representing a corresponding number,
-   or `#f if there is none
+   or `#f` if there is none
  * a number, string, symbol, bytevector, list,
    or `#f` if the code/tag is stand-alone
    
@@ -42,9 +42,9 @@ If an object is to be written whose representation is unknown,
 *proc* is called with the object, and returns three values:
 
  * a symbol representing a tag
-   or `#f if there is none
+   or `#f` if there is none
  * a number representing a corresponding number,
-   or `#f if there is none
+   or `#f` if there is none
  * a number, string, symbol, bytevector, list,
    or `#f` if the code/tag is stand-alone
    
@@ -70,22 +70,24 @@ the representation of the object.
 
   * Lists: Enclosed in parentheses.
 
-  * Tags: Used to extend syntax.  All tags begin with `#` followed by:
-      * nothing (vector)
-      * type number in hex (data follows)
-      * a single letter (no data follows)
-      * tag identifier (lower case ASCII letters and digits,
-        begins with a letter; data follows)
+  * Tags: Used to extend syntax.
+    Consists of `#` followed by:
+      * nothing (datum follows)
+      * `X` followed by type number in upper-case hex (datum follows)
+      * a single lower-case ASCII letter (no datum follows)
+      * ASCII lower-case letter followed by
+        zero or more lower-case ASCII letters or digits (datum follows)
 
 ## Whitespace and comments
 
 Whitespace outside strings is ignored completely,
-except for separating numbers and identifiers
-from adjacent numbers and identifiers.
-Commas are considered whitespace.
+except for separating
+from adjacent tokens when ambiguity would result.
+For example, `#f 32 (1.0 2.0) is not the same as
+`#f32 (1.0 2.0)`.
 Whitespace by itself is not a valid S-expression.
   
-`;` (except in strings) introduces a comment
+`;` (except in strings and symbols) introduces a comment
 that goes up to but not including the end of line and is discarded.
 A comment by itself is not a valid S-expression.
 
