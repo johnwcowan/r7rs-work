@@ -1,8 +1,8 @@
 ## Abstract
 
-This SRFI specifies Arentheis, a general and extensible method of
+This SRFI specifies Twinjo, a general and extensible method of
 serializing Scheme data in a way that other languages
-can straightforwardly handle.  Arentheis provides a textual format
+can straightforwardly handle.  Twinjo provides a textual format
 that is a variant of Lisp S-expressions and a binary format that is a
 subset of ASN.1 Basic Encoding Rules.
 
@@ -11,7 +11,7 @@ the textual rules don't quite correspond to any Lisp syntax,
 and the binary rules don't conform to either of the usual subsets
 ASN.1 Canonical Encoding Rules (CER)
 or ASN.1 Distinguished Encoding Rules (DER)
-Arentheis provides effectively unlimited extensibility
+Twinjo provides effectively unlimited extensibility
 and attempts to maintain a balance between ease and efficiency
 for both reading and writing.
 
@@ -22,10 +22,10 @@ or either format at the writer's discretion (marked how?).
 
 ## Procedures
 
-`(arentheis-read-textual `*proc* [*port*])  
-`(arentheis-read-binary `*proc* [*port*])
+`(twinjo-read-textual `*proc* [*port*])  
+`(twinjo-read-binary `*proc* [*port*])
 
-Reads an Arentheis textual or binary value from *port*, by default `(current-input-port)`.
+Reads an Twinjo textual or binary value from *port*, by default `(current-input-port)`.
 If the external representation of an object is read whose type is unknown,
 *proc* is called with three arguments:
 
@@ -39,10 +39,10 @@ If the external representation of an object is read whose type is unknown,
 The value returned by *proc* is substituted
  in the result for the unknown representation.
 
-`(arentheis-write-textual `*proc* [*port*])  
-`(arentheis-write-binary `*proc* [*port*])
+`(twinjo-write-textual `*proc* [*port*])  
+`(twinjo-write-binary `*proc* [*port*])
 
-Writes an Arentheis textual or binary value to *port*,
+Writes an Twinjo textual or binary value to *port*,
 by default to `(current-output-port)`.
 If an object is to be written whose representation is unknown,
 *proc* is called with the object, and returns three values:
@@ -189,7 +189,7 @@ without hyphens, colons, or spaces.
 ## Specific type representations
 
 All currently proposed formats (Google Spreadsheet):
-[Arentheis data type serializations](https://tinyurl.com/asn1-ler).
+[Twinjo data type serializations](https://tinyurl.com/asn1-ler).
 
 Note:  If binary interoperability with other ASN.1 systems is important, encode only
 the types marked "X.690" in the Origin column of the spreadsheet.
