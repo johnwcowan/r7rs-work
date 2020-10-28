@@ -1,14 +1,19 @@
-## Introduction
+## Abstract
 
-This specifies a variant of both S-expressions and
-ASN.1 Basic Encoding Rules that express Lisp-like datatypes.
+This SRFI specifies Arentheis, a general and extensible method of
+serializing Scheme data in a way that other languages
+can straightforwardly handle.  Arentheis provides a textual format
+that is a variant of Lisp S-expressions and a binary format that is a
+subset of ASN.1 Basic Encoding Rules.
+
 It also arranges for there to be just one encoding for each datum represented, although
 the textual rules don't quite correspond to any Lisp syntax,
-and the binary rules don't conform to either ASN.1 Canonical Encoding Rules
-or ASN.1 Distinguished Encoding Rules.
-The encodings specified here attempt to provide extensibility
-and maintain a balance between ease and efficiency
-of both reading and writing.
+and the binary rules don't conform to either of the usual subsets
+ASN.1 Canonical Encoding Rules (CER)
+or ASN.1 Distinguished Encoding Rules (DER)
+Arentheis provides effectively unlimited extensibility
+and attempts to maintain a balance between ease and efficiency
+for both reading and writing.
 
 ## Issues
 
@@ -17,34 +22,35 @@ or either format at the writer's discretion (marked how?).
 
 ## Procedures
 
-`(core-read-textual `*proc* [*port*])  
-`(core-read-binary `*proc* [*port*])
+`(arentheis-read-textual `*proc* [*port*])  
+`(arentheis-read-binary `*proc* [*port*])
 
-Reads a Core textual or binary value from *port*, by default `(current-input-port)`.
+Reads an Arentheis textual or binary value from *port*, by default `(current-input-port)`.
 If the external representation of an object is read whose type is unknown,
 *proc* is called with three arguments:
 
  * a symbol representing a tag
-   or `#f if there is none
+   or `#f` if there is none
  * a number representing a corresponding number,
-   or `#f if there is none
+   or `#f` if there is none
  * a number, string, symbol, bytevector, list,
    or `#f` if the code/tag is stand-alone
    
 The value returned by *proc* is substituted
  in the result for the unknown representation.
 
-`(core-write-textual `*proc* [*port*])  
-`(core-write-binary `*proc* [*port*])
+`(arentheis-write-textual `*proc* [*port*])  
+`(arentheis-write-binary `*proc* [*port*])
 
-Writes a Core textual or binary value to *port*, by default `(current-output-port)`.
+Writes an Arentheis textual or binary value to *port*,
+by default to `(current-output-port)`.
 If an object is to be written whose representation is unknown,
 *proc* is called with the object, and returns three values:
 
  * a symbol representing a tag
-   or `#f if there is none
+   or `#f` if there is none
  * a number representing a corresponding number,
-   or `#f if there is none
+   or `#f` if there is none
  * a number, string, symbol, bytevector, list,
    or `#f` if the code/tag is stand-alone
    
@@ -70,26 +76,28 @@ the representation of the object.
 
   * Lists: Enclosed in parentheses.
 
-  * Tags: Used to extend syntax.  All tags begin with `#` followed by:
-      * nothing (vector)
-      * type number in hex (data follows)
-      * a single letter (no data follows)
-      * tag identifier (lower case ASCII letters and digits,
-        begins with a letter; data follows)
+  * Tags: Used to extend syntax.
+    Consists of `#` followed by:
+      * nothing (datum follows)
+      * `X` followed by type number in upper-case hex (datum follows)
+      * a single lower-case ASCII letter (no datum follows)
+      * ASCII lower-case letter followed by
+        zero or more lower-case ASCII letters or digits (datum follows)
 
 ## Whitespace and comments
 
 Whitespace outside strings is ignored completely,
-except for separating numbers and identifiers
-from adjacent numbers and identifiers.
-Commas are considered whitespace.
+except for separating
+from adjacent tokens when ambiguity would result.
+For example, `#f 32 (1.0 2.0) is not the same as
+`#f32 (1.0 2.0)`.
 Whitespace by itself is not a valid S-expression.
   
-`;` (except in strings) introduces a comment
+`;` (except in strings and symbols) introduces a comment
 that goes up to but not including the end of line and is discarded.
 A comment by itself is not a valid S-expression.
 
-## ASN.1 formats
+## Binary syntax
 
 Depending on its type, an object is represented as either a sequence
 of bytes or a sequence of subobjects.
@@ -113,14 +121,14 @@ Length bytes format:
   * If length is less than 2^7 bytes, length byte is `00` through `7F`.
   * If length is less than 2^15 bytes, meta-length byte is `82`, followed by 2 length bytes
     representing a big-endian 2's-complement integer.
-   * If length is less than 2^we bytes, meta-length byte is `83`, followed by 3 length bytes
+   * If length is less than 2^23 bytes, meta-length byte is `83`, followed by 3 length bytes
     representing the length as a big-endian 2's-complement integer.
   * ...
   * If length is less than 2^63 bytes, meta-length byte is `88`, followed by 8 length bytes
     representing the length as a big-endian 2's-complement integer.
   * Larger objects are not representable.
   
-## ASN.1 examples
+## Binary examples
 
 Here are a few examples of how different kinds of objects are represented.
 
@@ -170,7 +178,7 @@ Timestamps: Type byte `18`,
 ASCII encoding of a ISO 8601 timestamp
 without hyphens, colons, or spaces.
 
-## Skipping unknown ASN.1 types
+## Skipping unknown binary types
 
   * If first type byte is `1F`, `3F`, `5F`, `7F`, `9F`, `BF`, `DF`, or `FF`,
     skip one additional type byte.
@@ -178,10 +186,10 @@ without hyphens, colons, or spaces.
   * If length byte is not `80`, skip number of bytes equal to the length.
   * If length byte is `80`, skip subobjects until the EOC marker has been read.
   
-## Detailed formats
+## Specific type representations
 
 All currently proposed formats (Google Spreadsheet):
-[Lisp Serialization Conventions](https://tinyurl.com/asn1-ler).
+[Arentheis data type serializations](https://tinyurl.com/asn1-ler).
 
-Note:  If interoperability with other ASN.1 systems is important, encode only
+Note:  If binary interoperability with other ASN.1 systems is important, encode only
 the types marked "X.690" in the Origin column of the spreadsheet.

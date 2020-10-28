@@ -17,18 +17,12 @@ See [TangerineEdition](TangerineEdition.md).
 
 # Orange Docket (numerics)
 
-## Numeric types and operations
+## Numeric types, operations, and data structures
 
 Random numbers: [SRFI 27](http://srfi.schemers.org/srfi-27/srfi-27.html),
 plus [SRFI 194](http://srfi.schemers.org/srfi-194/srfi-194.html)
 
-NaN procedures: [SRFI 208](http://srfi.schemers.org/srfi-208/srfi-208.html)
-
 Comparator sublibrary: [SRFI 162](http://srfi.schemers.org/srfi-162/srfi-162.html)
-
-Logistic functions: [LogisticRiastradh](LogisticRiastradh.md)
-
-## Numeric and semi-numeric data structures
 
 Integer sets:  [IntegerSetsCowan](https://htmlpreview.github.io/?https://github.com/johnwcowan/r7rs-work/blob/master/IntegerSetsCowan.html)
 
@@ -56,6 +50,8 @@ Compound objects: [CompoundObjectsCowan](CompoundObjectsCowan.md)
 Linear adjustable-size strings: [SRFI 185](http://srfi.schemers.org/srfi-185/srfi-185.html)
 
 Yet more generator extensions: [MoreGenerators](MoreGenerators.md)
+
+Coroutine generators: [SRFI 190](http://srfi.schemers.org/srfi-190/srfi-190.html)
 
 Generic dictionary operations: [Dictionaries](Dictionaries.md)
 
@@ -114,6 +110,12 @@ Core syntactic extensions: [SRFI 201](https://srfi.schemers.org/srfi-201/srfi-20
 
 Multiple values: [SRFI 210](https://srfi.schemers.org/srfi-210/srfi-210.html)
 
+Identifier aliasing: [SRFI 212](https://srfi.schemers.org/srfi-212/srfi-212.html)
+
+Identifier properties: [SRFI 213](https://srfi.schemers.org/srfi-213/srfi-213.html)
+
+
+
 # Yellow Docket (syntax)
 
 ## Syntax
@@ -159,6 +161,8 @@ Lexical macros: [LexmacsCowan](LexmacsCowan.md)
 
 # Lime Docket (portable)
 
+Flexvectors: [SRFI 214](https://srfi.schemers.org/srfi-214/srfi-214.html)
+
 Unifiable boxes: [SRFI 161](https://srfi.schemers.org/srfi-161/srfi-161.html)
 
 Formatting: [SRFI 166](https://srfi.schemers.org/srfi-166/srfi-166.html) (combinators),
@@ -179,7 +183,7 @@ Enumeration maps: [EnumMappingsCowan](EnumMappingsCowan.md)
 
 ASCII character library: [SRFI 175](https://srfi.schemers.org/srfi-175/srfi-175.html)
 
-Core I/O: [CoreAsn1](CoreAsn1.md), [CoreSexps](CoreSexps.md),
+Core I/O: [CoreSexps](CoreSexps.md) + 
 [Lisp Serialization Conventions](https://docs.google.com/spreadsheets/d/1V-7E5d3fLON5DrVeHkVvp9h5SRgcteOgnPl8KvWTA3M/edit#gid=0)
 
 String interpolation: [StringInterpolateCowan](StringInterpolateCowan.md)
