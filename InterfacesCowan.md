@@ -66,22 +66,21 @@ simply causes the interfaces `(a)` and `(b)` to mention both `foo` and `bar`.
 
 `(implement-interface `*interface-name* ...`)`
 
-If any of the identifiers mentioned directly or indirectly
-in the named interfaces are neither defined by the library
-nor imported into the library, or are not exported
-by the library,
-an expand-time error is signaled.
+If any of the identifiers mentioned
+directly or indirectly are not exported
+by the library, an expand-time error is signaled.
 Otherwise, no action is taken.
 
 It is not an error for an identifier
 to be mentioned directly or indirectly in more than
 one of the named interfaces.
 
-(require-interface `*interface-name* ...`)`
+`(require-interface `*interface-name* ...`)`
 
-If the identifiers mentioned in the named interfaces
-are used by the library's code but neither defined by the library
-nor imported into it, an expand-time error is signaled.
+If the identifiers mentioned
+directly or indirectly in the named interfaces
+are not imported into it,
+an expand-time error is signaled.
 Otherwise, no action is taken.
 
 It is not an error for an identifier
