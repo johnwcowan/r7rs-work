@@ -2,7 +2,11 @@ This is a simple API for making basic HTTP requests.
 
 ## Issues
 
-None at this time.
+1. Should request objects be dictionaries
+or records?  The API surface gets bigger
+with records, and they are harder to debug,
+but they are less easy to damage
+with an ill-considered `set-cdr!`.
 
 ## Specification
 
