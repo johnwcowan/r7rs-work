@@ -8,6 +8,13 @@ with records, and they are harder to debug,
 but they are less easy to damage
 with an ill-considered `set-cdr!`.
 
+1. Should we use ports instead of accumulators
+and generators?  Ports are more convenient,
+but they require custom-port support, as in
+[SRFI 181](https://srfi.schemers.org/srfi-181/srfi-181.html)
+as well as socket support, as in
+[SRFI 106](https://srfi.schemers.org/srfi-106/srfi-106.html).
+
 ## Specification
 
 ### Procedures
@@ -39,7 +46,7 @@ and `#f` otherwise.  Payload is the request object.
 `(http-response-error? `*obj*`)`
 
 Returns `#t` if *obj* is a condition raised when
- `http-request` returned a result whose status code
+`http-request` returned a result whose status code
 is 300 or greater.  Payload is the response object.
 
 `(http-redirect-error? `*obj*`)`
@@ -51,13 +58,15 @@ or too many redirections.  Payload is the response object.
 `(http-error-payload `*http-error*`)`
 
 Returns the payload associated with an HTTP error.
-This can be either a request object or a response object, depending on the type of HTTP error.
+This can be either a request object or a response object,
+depending on the type of HTTP error.
 
 ### Request objects
 
 A request object is a dictionary containing the following keys
 as symbols.  It is an error to omit *verb* or *url*; the other keys
-are optional.  Keys not specified by this SRFI are ignored.
+are optional.
+Keys not specified by this SRFI have implementation-dependent meaning.
 
 *verb*:  A symbol representing the HTTP method to transmit.
 The name of the symbol is uppercased before transmitting it.
@@ -85,7 +94,9 @@ This allows the caller to reuse the bytevector.
 
 ### Response objects
 
-A response object is a dictionary that may contain the following keys:
+A response object is a dictionary that may contain
+the keys below.
+Keys not specified by this SRFI have implementation-dependent meaning.
 
 *request*:  The request object to which this is a response.
 
