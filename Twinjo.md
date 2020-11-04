@@ -66,7 +66,7 @@ Alternatively, *proc* can signal an error satisfying `twinjo-error?`.
 `(twinjo-error `*message irritant ...*`)`
 
 Constructs and raises an exception that satisfies `twinjo-error?`
-and allows access to *message* and *irritants*.
+and allows access to *message* (a string) and *irritants*.
 
 `(twinjo-error? `*obj*`)`
 
@@ -77,7 +77,7 @@ Returns `#t` if *obj* is a condition object created by
 
 Returns the message associated with *twinjo-error*.
 
-`(twinjo-message *twinjo-error*`)
+`(twinjo-irritants *twinjo-error*`)
 
 Returns the list of irritants associated with *twinjo-error*.
 
