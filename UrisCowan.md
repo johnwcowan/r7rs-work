@@ -216,3 +216,10 @@ and decoded data as the second value.  If the
 media type begins with `text`, the decoded data
 is a string according to the specified encoding;
 otherwise, it is a bytevector.
+
+## Acknowledgements
+
+This is mostly based on
+[Gauche's `rfc.uri` library](http://practical-scheme.net/gauche/man/gauche-refe/URI-parsing-and-construction.html#URI-parsing-and-construction),
+with some input from the Chicken [uri-generic](http://wiki.call-cc.org/eggref/5/uri-generic) and
+[uri-common](http://wiki.call-cc.org/eggref/5/uri-common) eggs.
