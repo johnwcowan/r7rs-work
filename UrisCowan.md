@@ -10,10 +10,7 @@ into an object that is easier to interpret and manipulate.
  1. Should the accessor functions attempt to do sufficient parsing
     to get a value if the value is `#f`?'
   
- 2. Should `parse-specific!` do `parse-authority!` too?
-    In principle, some authorities might not take the usual
-    username-password-host-port form, but it seems unlikely
-    that happens in the Real World.
+ 2. (closed)
    
  3. Should Punycode decoding
     (see [RFC 3492](https://www.rfc-editor.org/rfc/rfc3492.txt))
@@ -100,7 +97,9 @@ if passed to any of the procedures of this SRFI.
  These parsers decompose certain components into
  their sub-components, mutating the
  *uri-object* to reflect the results of parsing.
-   
+ If parsing fails, *uri-object* is unchanged,
+ and an error satisfying `uri-error?` is signaled.
+
 `(uri-parse-whole! `*uri-object*)`
 
 If the `whole` component of *uri-object* is `#f`,
@@ -108,6 +107,7 @@ does nothing.
 Otherwise, the component is parsed into
 `scheme`, `specific`, and `fragment` components, and
 *uri-object* is mutated to contain them.
+All descendant components of these are set to `#f`.
 
 In addition, %-escapes are decoded as follows
 (no decoding is done in the `whole` component):
@@ -136,7 +136,8 @@ In addition, %-escapes are decoded as follows
 If the `specific` component of *uri-object* is `#f`,
 does nothing.
 Otherwise, the component is parsed into
-`authority`, `path`, `path-list`, and `query` components, and
+`authority`, `userinfo`, `username`, `password`, `host`, `port`,
+`path`, `path-list`, and `query` components, and
 *uri-object* is mutated to contain them.
 
 The `path-list` component is set to a list of strings.
@@ -160,19 +161,12 @@ In addition, %-escapes are decoded as follows:
    This must be done before parsing the
    path into separate `path-list` components.
    
- * Any others are left unchanged.
-
-`(uri-parse-authority! `*uri-object*`)`
-
-If the `authority` component of *uri-object* is `#f`,
-does nothing.
-Otherwise, the component is parsed into
-`userinfo`, `username`, `password`, `host`, and `port` components,
-and *uri-object* is mutated to contain them.
-Returns an unspecified value.
-
-In addition, %-escapes are decoded as follows:
-
+ * In the `authority` part, all except those
+   representing colon and at-sign are decoded
+   to the corresponding ASCII character.
+   This must be done before parsing into
+   the `userinfo`, `host`, and `port` components.
+   
  * In the `userinfo` part, all except those
    representing colon are decoded
    to the corresponding ASCII character.
@@ -183,6 +177,8 @@ In addition, %-escapes are decoded as follows:
    components, all are decoded
    to the corresponding ASCII character.
    
+ * Any others are left unchanged.
+
 `(uri-parse-query! `*uri-object* [*plus*]`)`
 
 The `query` component is parsed into name-value
@@ -190,9 +186,6 @@ pairs delimited by `;` or `&`, and these are
 then parsed into names and values separated by `=`.
 These are then used to construct an alist,
 and the `query-alist` components is mutated to contain it.
-If the `query`
-component does not follow this pattern or is `#f`,
-the `query-alist` component is mutated to `#f`.
 
 Returns an unspecified value.
 
@@ -276,6 +269,15 @@ to the rules of [RFC 2397](https://tools.ietf.org/html/rfc2397).
 If the media type begins with `text`, the decoded data
 is a string according to the specified encoding;
 otherwise, it is a bytevector.
+
+If the parse fails, an error satisfying `uri-error?` is signaled.
+
+## Exceptions
+
+`(uri-parse-error `*obj*`)`
+
+Returns `#t` if *obj* is an object raised by any of the
+parsing procedures, and `#f` otherwise.
 
 ## Acknowledgements
 
