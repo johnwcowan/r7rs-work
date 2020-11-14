@@ -12,9 +12,7 @@ into an object that is easier to interpret and manipulate.
   
  2. (closed)
    
- 3. Should Punycode decoding
-    (see [RFC 3492](https://www.rfc-editor.org/rfc/rfc3492.txt))
-    be done in `parse-authority!`?
+ 3. (closed)
 
 # Specification
 
