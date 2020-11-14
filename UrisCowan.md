@@ -1,8 +1,8 @@
 # Abstract
 
-URIs are a fundamental datatype for any sort of Internet work.
+URI references are a fundamental datatype for any sort of Internet work.
 They are defined in detail by [RFC 3986](https://tools.ietf.org/html/rfc3986).
-This SRFI explains how to convert a URI in the form of a string
+This SRFI explains how to convert a URI reference in the form of a string
 into an object that is easier to interpret and manipulate.
 
 # Issues
@@ -21,27 +21,33 @@ into an object that is easier to interpret and manipulate.
 
 # Specification
 
+Terminological note: this SRFI refers to the objects passed or
+returned in these procedures as URI objects for conciseness.
+However, they can hold either a URI or a relative reference,
+which are jointly known in RFC 3986 as a URI reference.
+The predicates use standard terminology.
+
 A URI object has up to 14 components arranged into the following tree:
 
 ```
-uri-+-scheme
-    |
-    +-specific--+--authority-+--userinfo--+
-    |           |            |            +--username
-    |           |            |            +--password
-    |           |            +--host
-    |           |            +--port
-    |           +--path---+
-    |           |         +--path-list
-    |           +--query--+
-    |                     +--query-alist
-    +--fragment
+whole-+-scheme
+      |
+      +-specific--+--authority-+--userinfo--+
+      |           |            |            +--username
+      |           |            |            +--password
+      |           |            +--host
+      |           |            +--port
+      |           +--path---+
+      |           |         +--path-list
+      |           +--query--+
+      |                     +--query-alist
+      +--fragment
 ```
 This means that if `specific` is not present, then none of
 `authority`, `path`, and `query` can be present.
-But the converse is not true.  Consequently, a URI is
+But the reverse is not true.  Consequently, a URI object is
 parsed lazily when the programmer has determined that
-a component is present rather than all at once.
+a component should be present rather than all at once.
 
 If a component is present, its value is a string
 (except as noted below);
@@ -53,37 +59,39 @@ if it is absent, its value is `#f`.
 
 Returns `#t` if *obj* is a URI object, and `#f` otherwise.
 
+`(uri? `*uri-object*`)`
+
+Returns `#t` if *uri-object* is a URI
+as defined in [RFC 3986, Section ](https://tools.ietf.org/html/rfc3986#section-4.3
+
 `(uri-absolute? `*uri-object*`)`
 
 Returns `#t` if *uri-object* represents an absolute URI
 as defined in [RFC 3986, Section 4.3](https://tools.ietf.org/html/rfc3986#section-4.3)
-This implies that it has at
-least a scheme and an authority and definitely does not
-have a fragment.
+This implies that it represents a URI that has no `fragment` component.
 
-`(uri-relative? `*uri-object*`)`
+`(uri-relative-reference? `*uri-object*`)`
 
 Returns `#t` if *uri-object* represents a relative reference
 as defined in [RFC 3986, Section 4.2](https://tools.ietf.org/html/rfc3986#section-4.2).
 
 ## Constructors
 
-`(make-uri `*arg* ...`)`
+`(make-uri-object `*arg* ...`)`
 
 Returns a newly allocated URI object whose components are
 initialized by the *args*, which are an alternation of
 component names represented as symbols and component
-values represented as strings.  All unspecified components
-are initialized to `#f`.
+values represented as strings (except as noted below).
+All unspecified components are initialized to `#f`.
 
-In order to create a URI object from a string, specify
-the `uri` component only.
+In order to create a URI object from a URI-reference string,
+specify the `whole` component only.
 
 It is an error if both a component and any of its ancestral
-or descendent components
-are passed as arguments.
+or descendent components are passed as arguments.
 For example, if `userinfo` is specified, then none of
-`username`, `password`, `authority`, `specific`, and `uri` can also be specified.
+`username`, `password`, `authority`, `specific`, and `whole` can also be specified.
 URIs that violate these rules will produce unpredictable results
 if passed to any of the procedures of this SRFI.
 
@@ -91,18 +99,18 @@ if passed to any of the procedures of this SRFI.
  
  These parsers decompose certain components into
  their sub-components, mutating the
- *uri-object*.
+ *uri-object* to reflect the results of parsing.
    
-`(uri-parse! `*uri-object*)`
+`(uri-parse-whole! `*uri-object*)`
 
-If the `uri` component of *uri-object* is `#f`,
+If the `whole` component of *uri-object* is `#f`,
 does nothing.
 Otherwise, the component is parsed into
 `scheme`, `specific`, and `fragment` components, and
 *uri-object* is mutated to contain them.
 
 In addition, %-escapes are decoded as follows
-(no decoding is done in the `uri` component):
+(no decoding is done in the `whole` component):
 
  * Any that contain lower-case hex digits are
    normalized to upper case.
@@ -159,8 +167,8 @@ In addition, %-escapes are decoded as follows:
 If the `authority` component of *uri-object* is `#f`,
 does nothing.
 Otherwise, the component is parsed into
-`userinfo`, `username, `password`, `host`, and `port` components, and
-*uri-object* is mutated to contain them.
+`userinfo`, `username`, `password`, `host`, and `port` components,
+and *uri-object* is mutated to contain them.
 Returns an unspecified value.
 
 In addition, %-escapes are decoded as follows:
@@ -171,27 +179,25 @@ In addition, %-escapes are decoded as follows:
    This must be done before parsing into
    the `username` and `password` components.
    
- * In the `host` part, all except those
-   representing colon are decoded
+ * In the `username`, `password`, `host`, and `part`
+   components, all are decoded
    to the corresponding ASCII character.
    
- * In the `port` part, all are decoded
-   to the corresponding ASCII character.
-   
- * Any others are left unchanged.
-
 `(uri-parse-query! `*uri-object* [*plus*]`)`
 
 The `query` component is parsed into name-value
 pairs delimited by `;` or `&`, and these are
 then parsed into names and values separated by `=`.
+These are then used to construct an alist,
+and the `query-alist` components is mutated to contain it.
 If the `query`
 component does not follow this pattern or is `#f`,
-the `query-alist` component is set to `#f`.
+the `query-alist` component is mutated to `#f`.
+
 Returns an unspecified value.
 
 By no means are all query strings in this format,
-so `uri-parse-query` should only be called
+so `uri-parse-query!` should only be called
 if the caller knows what query strings look like
 in a particular application.
 
@@ -204,49 +210,48 @@ in values are normalized to spaces.
 
 `(uri->string `*uri-object*`)`
 
-Returns the `uri` component of *uri-object*.
-Note that this will be `#f` unless *uri-object*
-was created with `(make-uri 'uri some-string)`
-or with `(parse-uri some-string)`.
+Returns the `whole` component of *uri-object*,
+but if this is `#f`, assembles a string
+from the other components and returns that.
 
-`(uri-scheme `*url-object*`)`  
-`(uri-specific `*url-object*`)`  
-`(uri-authority `*url-object*`)`  
-`(uri-userinfo `*url-object*`)`  
-`(uri-username `*url-object*`)`  
-`(uri-password `*url-object*`)`  
-`(uri-host `*url-object*`)`  
-`(uri-port `*url-object*`)`  
-`(uri-path `*url-object*`)`  
-`(uri-path-list `*url-object*`)`  
-`(uri-query `*url-object*`)`  
-`(uri-query-list `*url-object*`)`  
-`(uri-fragment `*url-object*`)`
+`(uri-scheme `*uri-object*`)`  
+`(uri-specific `*uri-object*`)`  
+`(uri-authority `*uri-object*`)`  
+`(uri-userinfo `*uri-object*`)`  
+`(uri-username `*uri-object*`)`  
+`(uri-password `*uri-object*`)`  
+`(uri-host `*uri-object*`)`  
+`(uri-port `*uri-object*`)`  
+`(uri-path `*uri-object*`)`  
+`(uri-path-list `*uri-object*`)`  
+`(uri-query `*uri-object*`)`  
+`(uri-query-list `*uri-object*`)`  
+`(uri-fragment `*uri-object*`)`
 
 Extracts the specified component from *uri-object*
 as a string if present, and as `#f` if not present.
 
 ## Updaters
 
-`(uri-scheme-set `*url-object string*`)`  
-`(uri-specific-set `*url-object string*`)`  
-`(uri-authority-set `*url-object string*`)`  
-`(uri-userinfo-set `*url-object string*`)`  
-`(uri-username-set `*url-object string*`)`  
-`(uri-password-set `*url-object string*`)`  
-`(uri-host-set `*url-object string*`)`  
-`(uri-port-set `*url-object string*`)`  
-`(uri-path-set `*url-object string*`)`  
-`(uri-path-list-set `*url-object list*`)`  
-`(uri-query-set `*url-object string*`)`  
-`(uri-query-list-set `*url-object alist*`)`  
-`(uri-fragment-set `*url-object*`)`
+`(uri-set-scheme `*uri-object string*`)`  
+`(uri-set-specific `*uri-object string*`)`  
+`(uri-set-authority `*uri-object string*`)`  
+`(uri-set-userinfo `*uri-object string*`)`  
+`(uri-set-username `*uri-object string*`)`  
+`(uri-set-password `*uri-object string*`)`  
+`(uri-set-host `*uri-object string*`)`  
+`(uri-set-portet `*uri-object string*`)`  
+`(uri-set-pathet `*uri-object string*`)`  
+`(uri-set-path-list `*uri-object list*`)`  
+`(uri-set-query `*uri-object string*`)`  
+`(uri-set-query-alist `*uri-object alist*`)`  
+`(uri-set-fragment `*uri-object*`)`
 
 
 These procedures return a new URI in which all components
-are equal to *uri-object*, except that the specified component
-is set to *new-value* and all descendant components are
-set to `#f`.
+are equal to the corresponding components of *uri-object*,
+except that the specified component is set to *new-value*
+and all descendant components are set to `#f`.
 
 ## URI resolution
 
@@ -255,8 +260,8 @@ set to `#f`.
 Merges `uri-object` with `base-uri-object`
 according to the rules for URI resolution
 in [RFC 3986, Section 5.2](https://tools.ietf.org/html/rfc3986#section-5.2)
- and returns a newly allocated URI.
-The members of `path-list` containing `.` or `..`
+and returns a newly allocated URI.
+Members of `path-list` containing `.` or `..`
 are normalized.
 
 ## Data URIs
