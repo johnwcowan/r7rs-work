@@ -145,3 +145,6 @@ The words "are all symbols and" incorrectly suggest that the value is `#f` if at
 is not a symbol.  In fact it is an error to apply `symbol=?` to non-symbols.  This is directly
 analogous to erratum 3.
 
+30\.  Notes that the categories Lu, Ll, ... Co that are valid in identifiers
+apply only to *non-ASCII* characters; the valid ASCII characters are given explicitly.
+
