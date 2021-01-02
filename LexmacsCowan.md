@@ -21,6 +21,12 @@ using the SRFI 128 default comparator rather than any more specific comparator t
 original set had used.  This SRFI does not define any specific internalizers or
 externalizers.  (Maybe it should.)
 
+## Issues
+
+1) We can externalize a list of sets, but we cannot externalize a vector or set of sets,
+because `lexmacs-externalize` doesn't know how to traverse vectors or sets.  This probably
+must be solved by a `foldable` typeclass.
+
 ## Procedures
 
 `(make-lexenv)`
@@ -38,9 +44,9 @@ is that objects produced by *internalizer* satisfy *predicate* and that
 objects produced by *externalizer* are lists whose car is *symbol*, but
 this is not enforced.
 
-You can specify *symbol* and *internalizer* as `#f` if you want one-way
-externalization, or specify *predicate* and *externalizer* as `#f` if
-you want one-way internalization.
+Specifying *symbol* and *internalizer* as `#f` provides one-way
+externalization, and specifying *predicate* and *externalizer* as `#f` provides
+one-way internalization.
 
 `(lexmacs-internalize `*object* *lexenv*`)`
 
@@ -71,9 +77,8 @@ to *port*, whose default value is `(current-output-port)`.
 
 `(lexmacs-eval `*obj lexenv env*`)`
 
-Internalizes *obj* against *lexenv* and passes the result, along with
-*env* (an R7RS-small environment specifier) to `eval`, returning
-the result.
+Internalizes *obj* against *lexenv* and passes the result along with
+*env* to `eval`, returning the result.
 
 
 
