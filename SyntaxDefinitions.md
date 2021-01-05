@@ -46,7 +46,7 @@ which is essentially equivalent to the `define-macro` macro used above, but with
 Supported: Racket, Gauche, MIT, Gambit (with the `-:s` switch), Chicken, Bigloo,
 Scheme48/scsh, Guile, Kawa, SISC, SCM (with the `-r5 -m` switches),
 Chez, Vicare, Larceny, Ypsilon, Mosh, IronScheme, STklos, Scheme 9,
-SXM, Sagittarius, Foment, Picrin, Owl Lisp, Chibi
+SXM, Sagittarius, Foment, Picrin, Owl Lisp, Chibi, Loko
 
 Not supported: (none)
 
@@ -59,7 +59,7 @@ The test used here is `(define-syntax x (lambda (x) (syntax-case x () ((x y) (sy
 which is exactly equivalent to the `syntax-rules` macro used above.
 
 Supported: Racket, Gambit, Guile, Kawa, SISC, Chez, Vicare, Larceny, Ypsilon, Mosh,
-IronScheme, SXM, Sagittarius, Chibi
+IronScheme, SXM, Sagittarius, Chibi, Loko
 
 Not supported:  Gauche, MIT, Chicken, Bigloo, SCM, STklos, Scheme 9,
 Foment, Picrin, Owl Lisp
@@ -70,7 +70,7 @@ Larceny (ER), Sagittarius (ER), Chibi (SC)
 ### Explicit renaming
 
 Explicit renaming is a low-level macro system supported by
-Gauche, MIT, Chicken, Scheme48/scsh, Sagittarius, Picrin,
+Gauche, MIT, Chicken, Scheme48/scsh, Sagittarius, Picrin, Chibi,
 Larceny (with different syntax).
 
 Supported as the only kind of low-level hygienic macros: Scheme48/scsh
