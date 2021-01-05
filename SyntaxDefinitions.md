@@ -65,7 +65,7 @@ Not supported:  Gauche, MIT, Chicken, Bigloo, SCM, STklos, Scheme 9,
 Foment, Picrin, Owl Lisp
 
 Supports both `syntax-case` and another low-level hygienic macro system:
-Larceny (ER), Sagittarius (ER)
+Larceny (ER), Sagittarius (ER), Chibi (ER)
 
 ### Explicit renaming
 
