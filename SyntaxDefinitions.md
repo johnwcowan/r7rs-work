@@ -65,12 +65,12 @@ Not supported:  Gauche, MIT, Chicken, Bigloo, SCM, STklos, Scheme 9,
 Foment, Picrin, Owl Lisp
 
 Supports both `syntax-case` and another low-level hygienic macro system:
-Larceny (ER), Sagittarius (ER), Chibi (ER)
+Larceny (ER), Sagittarius (ER), Chibi (SC)
 
 ### Explicit renaming
 
 Explicit renaming is a low-level macro system supported by
-Gauche, MIT, Chicken, Scheme48/scsh, Sagittarius, Picrin, Chibi,
+Gauche, MIT, Chicken, Scheme48/scsh, Sagittarius, Picrin,
 Larceny (with different syntax).
 
 Supported as the only kind of low-level hygienic macros: Scheme48/scsh
@@ -89,11 +89,12 @@ Syntactic closures is a low-level macro system supported by MIT, Picrin, Chibi.
 
 Supported as the only kind of low-level hygienic macros: (none)
 
-### Identifier-syntax
+## Identifier-syntax
 
 Identifier syntax specifies an identifier which macroexpands to an expression.
 It can also specify the expansion of a `set!` expression that specifies a
 procedure call rather than a variable, such as `(set! (car x) y)`.
+The second version is equivalent to [SRFI 17](http://srfi.schemers.org/srfi-17/srfi-17.html)
 
 Supported by all implementations that support `syntax-case`, but no others.
 
