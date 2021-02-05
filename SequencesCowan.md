@@ -1,11 +1,11 @@
 (based on SRFI 1)
 
-1: ## Predicates
+### Predicates
 
 2: seq-empty?  seq -> boolean  
 3: seq=? elt= seq1 ... -> boolean
 
-4: ## Selectors
+### Selectors
 
 5: seq-ref cseq i -> value  
 6: seq-first   pair -> object  
@@ -31,7 +31,7 @@
 26: seq-last pair -> object  
 27: seq-last-pair pair -> pair
 
-28: ## Miscellaneous: length, append, concatenate, reverse, zip & count
+### Miscellaneous: length, append, concatenate, reverse, zip & count
 
 29: seq-length  seq -> integer  
 30: seq-append  seq1 ... -> seq  
@@ -50,7 +50,7 @@
 43: seq-unzip5 seq -> [seq seq seq seq seq]  
 44: seq-count pred cseq1 cseq2 -> integer
 
-45: ## Fold, unfold & map
+### Fold, unfold & map
 
 46: seq-fold kons knil cseq1 cseq2 ... -> value  
 47: seq-fold-right kons knil cseq1 cseq2 ... -> value  
@@ -65,7 +65,7 @@
 56: seq-append-map! f cseq1 cseq2 ... -> value  
 57: seq-filter-map f cseq1 cseq2 ... -> seq
 
-58: ## Filtering & partitioning
+### Filtering & partitioning
 
 59: seq-filter pred seq -> seq  
 60: seq-filter!    pred seq -> seq  
@@ -74,7 +74,7 @@
 63: seq-remove pred seq -> seq  
 64: seq-remove!    pred seq -> seq
 
-65: ## Searching
+### Searching
 
 66: seq-find pred cseq -> value  
 67: seq-take-while  pred cseq -> seq  
@@ -89,14 +89,14 @@
 76: seq-every pred cseq1 cseq2 ... -> value  
 77: seq-index pred cseq1 cseq2 ... -> integer or false
 
-78: ## Deletion
+### Deletion
 
 79: seq-delete  x seq [=] -> seq  
 80: seq-delete! x seq [=] -> seq  
 81: seq-delete-duplicates  seq [=] -> seq  
 82: seq-delete-duplicates! seq [=] -> seq
 
-83: ## Set operations on seqs
+### Set operations on seqs
 
 84: seqset<= = seq1 ... -> boolean  
 85: seqset= = seq1 seq2 ... -> boolean  
