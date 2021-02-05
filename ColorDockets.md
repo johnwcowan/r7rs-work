@@ -294,10 +294,11 @@ Streaming regular expressions: [PragmaticParsingBaker](http://home.pipeline.com/
 
 Binary representations: [BinaryRepsCowan](BinaryRepsCowan.md)
 
-CLI utilities: [args-fold](http://srfi.schemers.org/srfi-37/srfi-37.html),
+CLI utilities: [SRFI 37](http://srfi.schemers.org/srfi-37/srfi-37.html),
+[Optimism](http://wiki.call-cc.org/eggref/5/optimism)
 [ArgsChicken](http://wiki.call-cc.org/eggref/5/args),
-[application](http://synthcode.com/scheme/chibi/lib/chibi/app.html) +
-[config](http://synthcode.com/scheme/chibi/lib/chibi/config.html),
+[AppChibi](http://synthcode.com/scheme/chibi/lib/chibi/app.html) +
+[ConfigChibi](http://synthcode.com/scheme/chibi/lib/chibi/config.html),
 [ArgParsePython](https://docs.python.org/3/library/argparse.html)
 
 Relations: [RelationsCowan](RelationsCowan.md)
