@@ -86,22 +86,6 @@
 81: seq-delete-duplicates  seq [=] -> seq  
 82: seq-delete-duplicates! seq [=] -> seq
 
-### Set operations on seqs
-
-84: seqset<= = seq1 ... -> boolean  
-85: seqset= = seq1 seq2 ... -> boolean  
-86: seqset-adjoin = seq elt1 ... -> seq  
-87: seqset-union = seq1 ... -> seq  
-88: seqset-union!             = seq1 ... -> seq  
-89: seqset-intersection = seq1 seq2 ... -> seq  
-90: seqset-intersection!      = seq1 seq2 ... -> seq  
-91: seqset-difference = seq1 seq2 ... -> seq  
-92: seqset-difference!        = seq1 seq2 ... -> seq  
-93: seqset-xor = seq1 ... -> seq  
-94: seqset-xor!               = seq1 ... -> seq  
-95: seqset-diff+intersection = seq1 seq2 ... -> [seq seq]  
-96: seqset-diff+intersection! = seq1 seq2 ... -> [seq seq]
-
 ### Primitive mutator
 
 98: seq-set! seq i value => unspecified
