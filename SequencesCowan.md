@@ -7,24 +7,14 @@
 
 ### Selectors
 
-5: seq-ref cseq i -> value  
-6: seq-first   pair -> object  
-7: seq-second  pair -> object  
-8: seq-third   pair -> object  
-9: seq-fourth  pair -> object  
-10: seq-fifth   pair -> object  
-11: seq-sixth   pair -> object  
-12: seq-seventh pair -> object  
-13: seq-eighth  pair -> object  
-14: seq-ninth   pair -> object  
-15: seq-tenth   pair -> object  
+5: seq-ref seq i -> value   
 16: seq-take x i -> seq  
-17: seq-drop x i -> object  
-18: seq-take-right fseq i -> object  
-19: seq-drop-right fseq i -> seq  
-20: seq-take! x i -> seq  
-21: seq-drop! x i -> seq  
-22: seq-drop! fseq i -> seq  
+17: seq-take! x i -> object  
+18: seq-drop x i -> object  
+19: seq-drop! x i -> seq  
+20: seq-take-right fseq i -> object  
+21: seq-take-right! fseq i -> object  
+22: seq-drop-right fseq i -> seq  
 23: seq-drop-right! fseq i -> seq  
 24: split-at  x i -> [seq object]  
 25: split-at! x i -> [seq object]  
@@ -110,4 +100,9 @@
 93: seqset-xor = seq1 ... -> seq  
 94: seqset-xor!               = seq1 ... -> seq  
 95: seqset-diff+intersection = seq1 seq2 ... -> [seq seq]  
-96: seqset-diff+intersection! = seq1 seq2 ... -> [seq seq]  
+96: seqset-diff+intersection! = seq1 seq2 ... -> [seq seq]
+
+### Primitive mutator
+
+98: seq-set! seq i value => unspecified
+
