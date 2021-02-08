@@ -1,3 +1,1 @@
-To edit: [IntegerSetsCowan](IntegerSetsCowan.html)
-
-To view: [IntegerSetsCowan](http://htmlpreview.github.io/?https://github.com/johnwcowan/r7rs-work/blob/master/IntegerSetsCowan.html)
+See [SRFI 217](http://srfi.schemers.org/srfi-217/srfi-217.html).
