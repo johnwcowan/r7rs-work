@@ -2,7 +2,7 @@
 
 Network ports are a mild abstraction of TCP sockets. They are a subtype of ports.
 
-This proposal depends on [SettingsListsCowan](SettingsListsCowan.md).  Settings lists passed to procedures in this proposal MUST NOT contain the `path` key, but MAY contain the keys `host` and `port` defined below.
+This proposal depends on [SettingsListsCowan](SettingsListsCowan.md).  Settings lists passed to procedures in this proposal MUST contain either the `path` key (for local domain sockets), or the keys `host` and `port` defined below (for TCP sockets).
 
 
 ## Client Procedures
