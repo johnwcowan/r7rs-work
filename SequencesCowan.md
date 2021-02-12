@@ -18,8 +18,7 @@
 23: seq-drop-right! fseq i -> seq  
 24: split-at  x i -> [seq object]  
 25: split-at! x i -> [seq object]  
-26: seq-last pair -> object  
-27: seq-last-pair pair -> pair
+26: seq-last seq -> object  
 
 ### Miscellaneous: length, append, concatenate, reverse, zip & count
 
@@ -90,3 +89,21 @@
 
 98: seq-set! seq i value => unspecified
 
+## Instances
+
+Lists  
+Vectors  
+Strings  
+Bytevectors and other homogeneous vectors  
+Ranges  
+Texts  
+Flexvectors  
+Bitvectors  
+Random-access lists  
+Lazy sequences  
+Streams  
+Compound objects  
+Doubly linked lists  
+Bitwise integers?  
+Generators?  
+Arrays?
