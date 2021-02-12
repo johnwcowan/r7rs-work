@@ -85,9 +85,11 @@
 81: seq-delete-duplicates  seq [=] -> seq  
 82: seq-delete-duplicates! seq [=] -> seq
 
-### Primitive mutator
+### Elementwise mutators
 
-98: seq-set! seq i value => unspecified
+97: seq-set! seq i value => unspecified
+98: seq-fill! seq i value => unspecified
+98: seq-copy! seq i value => unspecified
 
 ## Instances
 
