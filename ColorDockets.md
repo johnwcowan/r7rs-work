@@ -24,7 +24,7 @@ plus [SRFI 194](http://srfi.schemers.org/srfi-194/srfi-194.html)
 
 Comparator sublibrary: [SRFI 162](http://srfi.schemers.org/srfi-162/srfi-162.html)
 
-Integer sets:  [IntegerSetsCowan](https://htmlpreview.github.io/?https://github.com/johnwcowan/r7rs-work/blob/master/IntegerSetsCowan.html)
+Integer sets:  [SRFI 217](http://srfi.schemers.org/srfi-217/srfi-217.html)
 
 Ranges:  [SRFI 196](http://srfi.schemers.org/srfi-196/srfi-196.html)
 
@@ -42,8 +42,6 @@ ASCII character library: [SRFI 175](https://srfi.schemers.org/srfi-175/srfi-175.
 ## Other
 
 Enumerations: [SRFI 209](http://srfi.schemers.org/srfi-209/srfi-209.html)
-
-Number to string with Unicode: [NumberStringUnicode](NumberStringUnicode.md)
 
 Compound objects: [CompoundObjectsCowan](CompoundObjectsCowan.md)
 
