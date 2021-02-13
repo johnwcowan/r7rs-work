@@ -68,8 +68,8 @@
 
 ### Elementwise mutators
 
-97: seq-set! seq i value -> unspecified
-98: seq-fill! seq fill [start [end]] -> unspecified
+97: seq-set! seq i value -> unspecified  
+98: seq-fill! seq fill [start [end]] -> unspecified  
 53: seq-map! f seq1 seq2 ... -> unspecified  
 
 ## Instances
