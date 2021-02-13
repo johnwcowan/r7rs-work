@@ -4,6 +4,8 @@ Network ports are a mild abstraction of TCP sockets. They are a subtype of ports
 
 This proposal depends on [SettingsListsCowan](SettingsListsCowan.md).  Settings lists passed to procedures in this proposal MUST contain either the `path` key (for local domain sockets), or the keys `host` and `port` defined below (for TCP sockets).
 
+"Returning an input and an output port" means returning two values, the first of which is an input port and the second is an output port.
+
 
 ## Client Procedures
 
@@ -11,7 +13,7 @@ The procedures in this section take a specification for a TCP socket and return 
 
 `(open-network-client `*settings-list*`)`
 
-Returns an input/output port connected to the host and port specified by *settings-list*.
+Returns an input and an output port connected to the endpoint specified by *settings-list*.
 
 ## Server Procedures
 
@@ -21,7 +23,7 @@ Returns an opaque *listener* object (which may be of any type) that will accept 
 
 `(open-network-server `*listener*`)`
 
-Waits for a client to connect to *listener*, and returns an input/output port connected to that client.  When the port is closed, this procedure may be invoked again on the same listener.
+Waits for a client to connect to *listener*, and returns an input and an output port connected to that client.  When the port is closed, this procedure may be invoked again on the same listener.
 
 `(close-network-listener `*listener*`)`
 
