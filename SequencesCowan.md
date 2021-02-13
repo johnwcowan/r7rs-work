@@ -2,25 +2,25 @@
 
 ### Predicates
 
-1: seq? obj -> boolean
+1: seq? obj -> boolean  
 2: seq-empty?  seq -> boolean  
 3: seq=? elt= seq1 ... -> boolean
 
 ### Selectors
 
-5: seq-ref seq i -> value   
+5P: seq-ref seq i -> value
+6P: seq-copy seq [start end] -> seq
 16: seq-take x i -> seq  
 18: seq-drop x i -> object  
 20: seq-take-right fseq i -> object  
 22: seq-drop-right fseq i -> seq  
-24: seq-split-at  x i -> [seq object]  
+24: seq-split-at x i -> [seq object]  
 26: seq-last seq -> object  
 
 ### Miscellaneous: length, append, concatenate, reverse, zip & count
 
-29: seq-length  seq -> integer  
-30: seq-append  seq1 ... -> seq  
-32: seq-concatenate  seq-of-seqs -> value  
+29P: seq-length  seq -> integer  
+30P: seq-append  seq1 ... -> seq  
 34: seq-reverse  seq -> seq  
 36: seq-append-reverse  rev-head tail -> seq  
 38: seq-zip cseq1 cseq2 ... -> seq  
@@ -40,13 +40,13 @@
 50: seq-unfold p f g seed [tail-gen] -> seq  
 51: seq-unfold-right p f g seed [tail] -> seq  
 52: seq-map proc cseq1 cseq2 ... -> seq  
-54: seq-for-each proc cseq1 cseq2 ... -> unspecified  
+54p: seq-for-each proc cseq1 cseq2 ... -> unspecified  
 55: seq-append-map  f cseq1 cseq2 ... -> value  
 57: seq-filter-map f cseq1 cseq2 ... -> seq
 
 ### Filtering & partitioning
 
-59: seq-filter pred seq -> seq  
+59P: seq-filter pred seq -> seq  
 61: seq-partition pred seq -> [seq seq]  
 63: seq-remove pred seq -> seq  
 
@@ -68,7 +68,7 @@
 
 ### Elementwise mutators
 
-97: seq-set! seq i value -> unspecified  
+97P: seq-set! seq i value -> unspecified  
 98: seq-fill! seq fill [start [end]] -> unspecified  
 53: seq-map! f seq1 seq2 ... -> unspecified  
 
