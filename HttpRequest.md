@@ -83,14 +83,8 @@ It is an error to specify both this and *headers*.
 Keys are lists of the form `(`*domain path name*`)`;
 values are strings.  If omitted or `#f`, treated as an empty dictionary.
 
-*accumulator*:  A [SRFI 158](http://srfi.schemers.org/srfi-158/srfi-158.html)
-accumulator to which zero or more bytevectors can be passed which
-form the body of the request.
-Passing an end-of-file object indicates the end of the request body.
-
-The implementation must process all of the bytevector's contents
-before returning from the accumulator procedure.
-This allows the caller to reuse the bytevector.
+*request-port*:  A binary input port.  Bytes read from it
+by `http-request` are sent as the body of the request.
 
 ### Response objects
 
@@ -108,7 +102,7 @@ Keys not specified by this SRFI have implementation-dependent meaning.
 Multiple headers are coalesced in the order they appear in the response,
 with a space character separating them.
 
-*raw-headers*: A string represting the characters of the header section
+*raw-headers*: A string representing the characters of the header section
 of the response.
 
 *cookie-jar*:  A cookie-jar (see above).  Cookies are inserted
@@ -118,10 +112,6 @@ If omitted or `#f`, cookies are not processed.
 *previous*:  Another request object, showing that this request
 is the result of a redirection.
 
-*generator*:  A SRFI 158 generator.  Invoking it returns a bytevector
-containing bytes from the response body,
-or an end of file object if no bytes are available.
+*response-port*:  A binary output port.  The bytes of the response
+body are written to it.
 
-It is an error for the caller to assume that the contents of the
-bytevector will remain unchanged after the generator is invoked again.
-This allows the implementation to reuse the bytevector.
