@@ -10,8 +10,6 @@ This SRFI supports only the
 
 ## Issues
 
-None at this time.  Leap seconds are fully supported.
-
 Should durations return?  I have stripped out all references to them for now.
 
 ## Instants and timespecs
@@ -30,12 +28,10 @@ by invoking the R7RS-small procedure `current-second`.
 
 A *timespec* is an object defined by [SRFI 174](http://srfi.schemers.org/srfi-174/srfi-174.html)
 representing a count of whole seconds and nanoseconds, but *excluding leap seconds*.
-SRFI 174 allows a timespec to be relative to any epoch, but for the purposes of this SRFI,
-0 seconds and 0 nanoseconds always represents midnight on January 1, 1970 Universal Time.
 The current timespec can be obtained by calling the SRFI 170
 procedure `posix-time`.
 In this SRFI, the timespec during a leap second is always assumed to be the same
-(in the sense of `equal?`) as
+(in the sense of `=` for both the seconds and the nanoseconds) as
 the timespec for the following second, but the results of actually calling
 `posix-time` in the vicinity of a leap second do not necessarily agree.
 
@@ -44,7 +40,7 @@ the timespec for the following second, but the results of actually calling
 Local civil time is everywhere specified using
 an offset from Universal Time.  (For a brief period this was not
 true in Saudi Arabia, but this SRFI ignores the Saudi government's
-attempt to change local civil time so that hour 0 began at sunset.)
+attempt to change local civil time so that hour 0 began at astronomical sunset.)
 
 In each political jurisdiction the rules for changing the offset vary,
 both the annual cycle of standard vs. daylight saving time (if in effect)
@@ -55,7 +51,7 @@ which are Universal Time minus local time in seconds, and strongly recommends
 support for named time zones as defined by the
 [IANA time zone database](https://www.iana.org/time-zones); these are strings.
 
-When local time jumps backwards (typically some time in the autumn,
+When local time jumps backwards (typically some time in the autumn in the temperate zones,
 or else for political reasons at any time),
 the same local time can represent two different Universal Time values.
 Such a situation is called a *time fold* and is represented as 0 for the earlier time
@@ -65,7 +61,7 @@ on the day when daylight saving time ends in the U.S.
 The fold for any unaffected time is always 0.  The idea behind the name is that
 the local time scale is folded up, as it were, replicating the same local times.
 
-The current timezone can be obtained from the `TZ` environment variable.
+The current timezone can generally be obtained from the `TZ` environment variable.
 Note that there is no concept in this SRFI of
 a date or time without a timezone; some timezone must be supplied whenever a
 date object is created.
@@ -90,12 +86,12 @@ this SRFI does not deal with them either.
 
 `(tai->posix `*instant*`)`
 
-Converts an instant to the corresponding Posix timespec.
+Converts an instant to the corresponding timespec.
 Because instants are inexact numbers, the correspondence is inexact.
 
 `(posix->tai `*timespec leapsec*`)`
 
-Converts a Posix timespec to the corresponding instant.
+Converts a timespec to the corresponding instant.
 Because instants are inexact numbers, the correspondence is inexact.
 
 The *timespec* can refer ambiguously
@@ -188,7 +184,7 @@ adds seven days to *date*.
 
 Returns a date object which is the same as *date*,
 but adjusted to the nearest integral value of *fieldname*
-using the `round`, `ceiling`, `floor`, or `truncate` conventions.
+using the conventions of `round`, `ceiling`, `floor`, or `truncate`.
 This may cause other fields to change their values as well.
 
 ## Date fields
@@ -285,9 +281,8 @@ just before the Posix epoch.  The implementation also pretends,
 To update the leap second tables, download
 [`leap-seconds.list`](https://www.ietf.org/timezones/data/leap-seconds.list)
 for IANA's version of such a table, which is maintained.
-For leap second data before 1972, see
-[the old USNO file `tai-utc.list`](http://web.archive.org/web/20191022082231/http://maia.usno.navy.mil/ser7/tai-utc.dat)
-`tai-utc.txt`.
+For exact leap second data before 1972, see
+[the old USNO file `tai-utc.dat`](http://web.archive.org/web/20191022082231/http://maia.usno.navy.mil/ser7/tai-utc.dat).
 This file is *not* being updated, and should be used only if the
 implementation wants to make exact conversions for the 1961-72 period.
 
