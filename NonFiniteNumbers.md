@@ -11,6 +11,7 @@ SigScheme, Scheme 9, Dream, Oaklisp, Owl Lisp are excluded because they do not h
 The following table concisely describes the other Schemes in the test suite.  "Std syntax" is "yes" if the Scheme can read the standard syntax, "print" shows what `(let* ((i (* 1.0e200 1.0e200)) (n (- i i))) (list i (- i) n))` prints, and "own syntax" is "yes" if the Scheme can reread what it prints.  The implementations are listed in roughly decreasing order of standardosity.
 
 |Scheme|std syntax|prints|own syntax|
+|------|----------|------|----------|
 |KSi|yes|`(+inf.0 -inf.0 nan.0)`|yes|
 |NexJ|yes|`(Infinity -Infinity NaN)`|no|
 |VX|yes|`(inf. -inf. -nan.)`|no|
