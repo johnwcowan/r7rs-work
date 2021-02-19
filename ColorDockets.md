@@ -1,10 +1,5 @@
 For other dockets see [WG2Dockets](WG2Dockets.md).
 
-See also [PreSrfisInProgress](PreSrfisInProgress.md),
-an up-to-date list of implementations in progress for the SRFIs
-and pre-SRFIs listed below.
-To sign up for one, contact [John Cowan](mailto:cowan@ccil.org).
-
 # Red Docket (data structures)
 
 Already voted on.
@@ -56,8 +51,6 @@ Generic dictionary operations: [Dictionaries](Dictionaries.md)
 # Amber Docket (syntax)
 
 ## Non-portable
-
-Identifier syntax: R6RS
 
 Syntax-case: [R6RS syntax-case](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html)
 
@@ -118,7 +111,7 @@ Identifier properties: [SRFI 213](https://srfi.schemers.org/srfi-213/srfi-213.ht
 
 ## Syntax
 
-Nested `define`:
+Nested `define`:  [SRFI 219](http://srfi.schemers.org/srfi-219/srfi-219.html)
 
 Loops: [SRFI 42](http://srfi.schemers.org/srfi-42/srfi-42) or [Riastradh's foof-loop](http://mumble.net/~campbell/scheme/foof-loop.txt) or [Chibi loop](http://synthcode.com/scheme/chibi/lib/chibi/loop.html), summarized at [EagerComprehensions](EagerComprehensions.md)
 
