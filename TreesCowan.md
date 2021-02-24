@@ -214,3 +214,7 @@ and displays them (as if using `display`) on *port*,
 which defaults to the value of `(current-output-port)`.
 The string *separator* is displayed between each consecutive
 pair of atoms.
+
+## Implementation
+
+[Implementation](https://idiomdrottning.org/tree.scm).  Tests needed.
