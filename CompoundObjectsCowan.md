@@ -15,22 +15,23 @@ condition with itself as its own sole component.
 
 ## Specification
 
-By convention, a subobject that is a list whose car is a symbol and whose
-cdr is an alist whose keys are symbols is known as a type subobject.
-It specifies the compound object's overall type and any associated key-value properties.
-A compound object may contain more than one such subobject,
-but only the first one is treated specially.
-If there is no such subobject, the compound object has no particular type.
+When a compound object is created, a type for it may be specified:
+this is either a symbol or `#f`, meaning that the object has no type.
+Associated key-value properties are also specified in the form of an alist.
+It is an error to mutate an alist passed to any of these procedures.
 
 ## Procedures
 
-`(make-compound ` *list*`)`
+`(make-compound ` *typesym props list*`)`
 
-Create a compound object containing the objects in *list* in the specified order.
-If any object is itself a compound object, it is flattened into its subobjects,
-which are then added to the result in sequence.
+Create a compound object whose type is *typesym*
+and whose properties are in *props*.
+It contains the objects in *list* in the specified order.
+If any object in *list* is itself a compound object,
+it is flattened into its subobjects,
+which are then added to the compound object in sequence.
 
-`(compound ` *obj* ...`)`
+`(compound ` *typesym alist obj* ...`)`
 
 The same as `make-compound`,
 except that it accepts multiple arguments instead of a list.
@@ -41,19 +42,19 @@ Returns `#t` if *obj* is a compound object, and `#f` otherwise.
 
 `(compound-type `*obj*`)`
 
-If *obj* is a compound object containing a
-type subobject, returns the car of that subobject.  Otherwise, returns `#f`,
-indicating a typeless compound object.
+If *obj* is a compound type, returns its type symbol.
+If not, returns `#f`.
+
+`(compound-properties `*obj*`)`
+
+If *obj* is a compound type, returns its properties.
+If not, returns `()`.
+
 
 `(compound-subobjects `*obj*`)`
 
-If *obj* is a compound object, returns a list of its subobjects
+If *obj* is a compound object, returns a list of its subobjects.
 Otherwise, returns a list containing only *obj*.
-
-`(compound-values `*obj*`)`
-
-If *obj* is a compound object, returns its subobjects as multiple values.
-Otherwise, returns *obj*.
 
 `(compound-length `*obj*`)`
 
@@ -62,21 +63,23 @@ integer.  Otherwise, it returns 1.
 
 `(compound-ref `*obj k*`)`
 
-If *obj* is a compound object, returns the *k*th subobject.  Otherwise,
-*obj* is returned.  In either case, it is an error if *k* is less than
-zero or greater than or equal to the length of *obj*.
+If *obj* is a compound object, returns the *k*th subobject.
+Otherwise, *obj* is returned.
+In either case, it is an error if *k* is less than
+zero or greater than or equal to `(compound-length `*obj*`)`.
 
-`(compound-map `*mapper obj*`)`
+`(compound-map `*typesym alist mapper obj*`)`
 
 If *obj* is a compound object, returns a compound object
-whose subobjects result from invoking *mapper* on each subobject of *obj*.
+of type *typesym* and with the properties in *alist*.
+The subobjects result from invoking *mapper* on each subobject of *obj*.
 Although the subobjects of the result are in the same order as the subobjects of *obj*,
 the order in which *mapper* is applied to them is unspecified.
-
-If any subobject is itself a compound object, it is flattened into its subobjects,
+If any resulting subobject is itself a compound object, it is flattened into its subobjects,
 which are then added to the result in sequence.
 
 If *obj* is not a compound object, returns a compound object
+whose typesym is `#f`, whose alist is `()`, and
 whose only subobject is the result of applying *mapper* to *obj*.
 
 `(compound-map->list `*mapper obj*`)`
@@ -89,40 +92,42 @@ the order in which *mapper* is applied to them is unspecified.
 If *obj* is not a compound object, returns a list
 whose only element is the result of applying *mapper* to *obj*.
 
-`(compound-filter `*pred obj*`)`
+`(compound-filter `*typesym alist pred obj*`)`
 
-If *obj* is a compound object, returns a compound object
-that contains the subobjects of *obj* that satisfy *pred*.
+Returns a compound object
+whose typesym is *typesym* and whose properties are in *alist*.
+It contains the subobjects of *obj* that satisfy *pred*.
 
 If *obj* is not a compound object, it returns a compound object
 whose only subobject is *obj* if *obj* satisfies *pred*,
 or an empty compound object if *obj* does not satisfy *pred*.
 
-`(compound-predicate `*pred obj*`)`
+`(compound-predicate `*pred*`)`
 
-If *obj* is a compound
-object such that at least one of its subobjects satisfies *pred*,
-returns what *pred* returns when applied to the first such subobject;
-otherwise returns `#f`.
+Returns a procedure taking a single argument *obj*
+that behaves as follows:
 
-If *obj* is not a compound object, applies *pred* to *obj* and
-returns what *pred* returns.
+If *obj* is an object that:
 
-`(compound-access `*pred accessor obj default*`)`
+ * satisfies *pred*
+ * is a compound object whose type is not `#f` 
+   and its type satisfies *pred*
+ * at least one of its subobjects satisfies *pred*
+
+then the procedure returns `#t`.
+
+Otherwise it returns `#f`.
+
+`(compound-accessor `*pred accessor default*`)`
+
+Returns a procedure taking a single argument *obj*
+that behaves as follows:
 
 If *obj* is a compound object, *accessor* is applied to
-the first subobject that satisfies *pred* and the result is returned;
+the first subobject of *obj* that satisfies *pred* and the result is returned;
 if there is no such subobject, *default* is returned.
 
 If *obj* is not a compound object, then if the object satisfies *pred*,
-it applies *accessor* to *obj* and returns what it returns,
-but if *obj* does not satisfy *pred*, *default* is returned.
+it applies *accessor* to *obj* and returns what it returns.
+If *obj* does not satisfy *pred*, *default* is returned.
 
-`(compound-type-properties `*sym obj*`)`
-
-If *obj* is a compound object, then if it contains a subobject
-satisfying `compound-type?` whose car is *sym*, then it
-returns the cdr of the first such type object; otherwise it returns `#f`.
-
-If *obj* is not a compound object, then if it satisfies `compound-type?`
-and its car is *sym*, then it returns the cdr of *obj*; otherwise it returns `#f`.
