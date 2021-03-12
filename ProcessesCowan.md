@@ -23,7 +23,7 @@ In the latter two cases, the caller should close the port after passing it.
 The same as `make-pipe`, except that the ports are textual.
 The encoding is implementation-dependent.
 If a specific encoding is required, use `make-pipe` and then
-the operations of [Advanced I/O](FilesAdvancedCowan.md)
+the operations of [SRFI 181](https://srfi.schemers.org/srfi-181/srfi-181.html)
 to convert the binary ports to textual ports.
 
 Note that whether a pipe passed to a child
@@ -73,11 +73,14 @@ The values are interpreted as follows (any other value is an error):
 
   * If the value is a file, socket, pipe, or other port that contains a
     file descriptor, that file descriptor is duplicated onto child port 0/1/2.
+    However, if the port is a buffered output port, it is flushed
+    as if by `flush-output-port` before it is duplicated, so that the port and
+    the file descriptor are synchronized.
     It is an error if the value is any other kind of port such as a string
     or bytevector port.
    
   * If the value is `#t` or the key is omitted, the port in the child process
-    is the same as the port ih the parent process.
+    is the same as the port in the parent process.
     
   * If the value is `#f`, the port in the child process is closed.
   
@@ -150,7 +153,8 @@ process is created.  If the value is `#t`, `make-process` returns when the child
 
 `runner`
 
-Specifies a process-runner object that controls the execution of this process.
+Specifies a process-runner object that controls the execution of this process,
+as explained above.
 
 ## Synthetic process objects
 
@@ -184,7 +188,7 @@ as by adding an `.exe` suffix.)
 
 On Posix systems, the directory separator character is `:`
 and the path separator character is `/`.
-On Windows, the directory separator character is `:`
+On Windows, the directory separator character is `;`
 and the path separator character is `\`.
 
 Note that the above behavior is not necessarily exactly the same
@@ -281,7 +285,7 @@ process object.
 
 ## Fork and exec
 
-These procedures are not portable to Windows (they will raise errors satisfying
+These procedures are not portable to the Win32 API (they will raise errors satisfying
 `process-exception?`) and should be avoided when not necessary.
 However, they add a great deal of power and flexibility to the creation of process graphs.
 If the *narrow?* argument is false or absent, all threads present in the parent process
@@ -291,11 +295,13 @@ child process.
 `(process-fork `[*narrow?*]`)`
 
 Forks the current process.  Returns a process object in the parent process
-and `#f` in the child object.
+and `#f` in the child object.  Both processes execute the continuation
+of the call to `process-fork`.
 
 `(process-fork `*thunk* [*narrow?*]`)`
 
-Forks the current process and returns a process object in the parent process.  The child
+Forks the current process and returns a process object in the parent process,
+which then executes the continuation of the call to `process-fork`.  The child
 process immediately invokes *thunk* and exits using the value that *thunk* returns.
 
 `(process-exec `*setup cmd . args*`)`
