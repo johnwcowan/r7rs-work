@@ -267,14 +267,14 @@ the relationship is complex, but since 1971 the two scales have been kept
 within 0.9 seconds of each other by inserting leap seconds as needed.
 
 For the messy period, the implementation pretends that there were leap seconds
-at the end of December 31 (that is, at 23:59:60 proleptic UTC time)
-in the following years:
-1959, 1961, 1963, 1964, 1965, 1966, 1967, 1968, 1970, and 1971.
+at the end of the following days (that is, at 23:59:60 proleptic UTC time):
+31 Dec 1960; 31 Dec 1961; 30 Jun 1963; 31 Dec 1964; 30 Jun 1966;
+30 Jun 1967; 30 Jun 1968; 30 Jun 1969; 30 Jun 1970.
 This has the following desirable effects: the TAI-UTC offset is 0 in 1958
 (true by definition), at the Posix epoch it is 8
 (which is within a few milliseconds of the true value),
 and it is 10 at the start of 1972 when UTC and its leap second regime
-begin.  Not having a leap second in 1969 ensures that there is none
+begin.  Not having a leap second at the end of 1969 ensures that there is none
 just before the Posix epoch.  The implementation also pretends,
 *faute de mieux*, that there will be no more leap seconds in the future.
 
@@ -282,7 +282,7 @@ To update the leap second tables, download
 [`leap-seconds.list`](https://www.ietf.org/timezones/data/leap-seconds.list)
 for IANA's version of such a table, which is maintained.
 For exact leap second data before 1972, see
-[the old USNO file `tai-utc.dat`](http://web.archive.org/web/20191022082231/http://maia.usno.navy.mil/ser7/tai-utc.dat).
+the old USNO file [`tai-utc.dat`](http://web.archive.org/web/20191022082231/http://maia.usno.navy.mil/ser7/tai-utc.dat).
 This file is *not* being updated, and should be used only if the
 implementation wants to make exact conversions for the 1961-72 period.
 
@@ -290,14 +290,13 @@ The following table describes the arbitrary 1958-71 times and offsets
 described above, using the same format as `leap-seconds.list`.
 
 ```
-1830297600   0	# 1 Jan 1958
-1893369600   1	# 1 Jan 1960
-1956528000   2	# 1 Jan 1962
-2019600000   3	# 1 Jan 1964
-2051222400   4	# 1 Jan 1965
-2082758400   5	# 1 Jan 1966
-2114294400   6	# 1 Jan 1967
-2145830400   7	# 1 Jan 1968
-2177452800   8	# 1 Jan 1969
-2208988800   9	# 1 Jan 1971
+01 Jan 1961
+01 Jan 1962
+01 Jul 1963
+01 Jan 1965
+01 Jul 1966
+01 Jul 1967
+01 Jul 1968
+01 Jul 1969
+01 Jul 1970
 ```
