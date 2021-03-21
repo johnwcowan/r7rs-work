@@ -272,6 +272,7 @@ For the messy period, the implementation pretends that there were leap seconds
 at the end of the following days (that is, at 23:59:60 proleptic UTC time):
 31 Dec 1960; 31 Dec 1961; 30 Jun 1963; 31 Dec 1964; 30 Jun 1966;
 30 Jun 1967; 30 Jun 1968; 30 Jun 1969; 30 Jun 1970.
+(Thanks to Daphne Preston-Kendall for determining an optimal leap second set.)
 This has the following desirable effects: the TAI-UTC offset is 0 in 1958
 (true by definition), at the Posix epoch it is 8
 (which is within a few milliseconds of the true value),
@@ -289,17 +290,17 @@ This file is *not* being updated, and should be used only if the
 implementation wants to make exact conversions for the 1961-72 period.
 
 The following table describes the arbitrary 1958-71 times and offsets
-described above, using the same format as `leap-seconds.list`. **TBD**
+described above, using the same format as `leap-seconds.list`.
 
 ```
-0 01 Jan 1958
-1 01 Jan 1961
-2 01 Jan 1962
-3 01 Jul 1963
-4 01 Jan 1965
-5 01 Jul 1966
-6 01 Jul 1967
-7 01 Jul 1968
-8 01 Jul 1969
-9 01 Jul 1970
+-378648000 0 01 Jan 1958
+-283953600 1 01 Jan 1961
+-252417600 2 01 Jan 1962
+-205286400 3 01 Jul 1963
+-157723200 4 01 Jan 1965
+-110592000 5 01 Jul 1966
+ -79056000 6 01 Jul 1967
+ -47433600 7 01 Jul 1968
+ -15897600 8 01 Jul 1969
+  15638400 9 01 Jul 1970
 ```
