@@ -1,6 +1,6 @@
 ## Date and time operations
 
-This is a pre-SRFI for date and time operations.
+This is a SRFI for date and time operations.
 It's possible to implement parts of SRFI 19 on top of it,
 but it is both simpler to use and more flexible.
 All the objects discussed here (with the technical
@@ -133,7 +133,7 @@ Returns a date object based on the values fields in the alist,
 which maps symbols (called fields) to specific values.
 The fields `year`, `month`, `day`, `hours`, `minutes`, `seconds`,
 and `timezone` are required.
-The fields `nanoseconds` and and `fold` are optional, and default to 0.
+The fields `nanoseconds` and `fold` are optional, and default to 0.
 An error satisfying `date-error?` is signaled if any other fields are present.
 
 `(instant->date `*timezone instant*`)`
@@ -159,14 +159,14 @@ Retrieves the value of the field named by the symbol *fieldname* from *date*.
 This may be more efficient than generating an alist, but may also be
 less efficient if several different fields are required.
 
-`(date-update `*date*` `*fieldname*` `*value*`)`
+`(date-update `*date fieldname value*`)`
 
 Returns a date object based on *date*,
 but with the field named *fieldname* updated to *value*.
 An error that satisfies `date-error?` is signaled if the field is unknown
 or the value is out of range.
 
-`(date-adjust `*date*` `*fieldname*` `*increment*`)`
+`(date-adjust `*date fieldname increment*`)`
 
 Returns a date object which is later than *date* by *increment*
 measured in the units specified by *fieldname*,
@@ -174,13 +174,13 @@ or earlier if *increment* is negative.
 For example, `(date-adjust `*date*` 'day-of-month 7)`
 adds seven days to *date*.
 
-`(date-round `*date*` `*fieldname*`)`
+`(date-round `*date fieldname*`)`
 
-`(date-ceiling `*date*` `*fieldname*`)`
+`(date-ceiling `*date fieldname*`)`
 
-`(date-floor `*date*` `*fieldname*`)`
+`(date-floor `*date fieldname*`)`
 
-`(date-truncate `*date* *fieldname*`)`
+`(date-truncate `*date fieldname*`)`
 
 Returns a date object which is the same as *date*,
 but adjusted to the nearest integral value of *fieldname*
@@ -189,12 +189,13 @@ This may cause other fields to change their values as well.
 
 ## Date fields
 
-Unless otherwise noted, all ranges are inclusive at both ends, and all
+Unless otherwise noted, all
 field values are exact integers that have been rounded down if necessary.
+All ranges are inclusive at both ends, 
 
 `instant`: The instant of this date.
 
-`timespec`: The  timespec of this date.
+`timespec`: The timespec of this date.
 
 `timezone`: The timezone with which this date was created.
 
@@ -205,18 +206,18 @@ date at the specific timezone in seconds ahead of UTC.
 
 `month`: The month, where 1 is January and 12 is December.
 
-`day`: The day of the month between 0 and 31 (or less in some months)
+`day`: The day of the month between 1 and 31 (or less in some months)
 
 `hour`: The hour of the day, where 0 represents the time between
-midnight and 1 AM and 23 represents the time between an hour before
-midnight and midnight.  Midnight itself is both minute 0 of hour 0
+midnight and 1 AM and 23 represents the time between 11 PM
+and midnight.  Midnight itself is both minute 0 of hour 0
 of the following day and minute 0 of hour 24 of the preceding day.
 
 `minute`:  The minute of the hour between 0 and 59.
 
 `second`: The second of the minute between 0 and 60.
 
-`day-of-week`: The day of the date's week, where Monday is 1 and Sunday is 7.
+`day-of-week`: The day of the week, where Monday is 1 and Sunday is 7.
 
 `days-in-month`: The number of days in the date's month, between 1 and 31.
 
@@ -231,10 +232,11 @@ and 1 and 366 in leap years.
 `modified-julian-day`: The whole number of days between this date and midnight Universal Time, November 17, 1858
 Gregorian.  Leap seconds are ignored.
 
-`week-number`: The number of the week in this date's year, between 1 and either 52 or 53.
+`iso-week-number`: The number of the week in this date's year, between 1 and either 52 or 53.
+Week 1 is the first full week where Thursday ia in January.
 
-`week-year`: The number of the period which begins in week 1 and ends in week 52 or 53.
-It is the same as `year` except possibly for a few days in January.
+`iso-week-year`: The number of the period which begins in week 1 and ends in week 52 or 53.
+It is the same as `year` except for up to six days in January and December.
 
 `seconds-in-minute`: the number of seconds in the date's minute.
 
@@ -281,22 +283,23 @@ just before the Posix epoch.  The implementation also pretends,
 To update the leap second tables, download
 [`leap-seconds.list`](https://www.ietf.org/timezones/data/leap-seconds.list)
 for IANA's version of such a table, which is maintained.
-For exact leap second data before 1972, see
-the old USNO file [`tai-utc.dat`](http://web.archive.org/web/20191022082231/http://maia.usno.navy.mil/ser7/tai-utc.dat).
+For exact leap second data before 1972, see the old USNO file
+[`tai-utc.dat`](http://web.archive.org/web/20191022082231/http://maia.usno.navy.mil/ser7/tai-utc.dat).
 This file is *not* being updated, and should be used only if the
 implementation wants to make exact conversions for the 1961-72 period.
 
 The following table describes the arbitrary 1958-71 times and offsets
-described above, using the same format as `leap-seconds.list`.
+described above, using the same format as `leap-seconds.list`. **TBD**
 
 ```
-01 Jan 1961
-01 Jan 1962
-01 Jul 1963
-01 Jan 1965
-01 Jul 1966
-01 Jul 1967
-01 Jul 1968
-01 Jul 1969
-01 Jul 1970
+0 01 Jan 1958
+1 01 Jan 1961
+2 01 Jan 1962
+3 01 Jul 1963
+4 01 Jan 1965
+5 01 Jul 1966
+6 01 Jul 1967
+7 01 Jul 1968
+8 01 Jul 1969
+9 01 Jul 1970
 ```
