@@ -3,9 +3,16 @@ It's based to some degree on the Python 3 subprocess module.
 
 ## Issues
 
-Issue 3: It's not clear whether the control-terminal procedures
-`open-control-tty`, `terminal-process-group`, and `set-terminal-process-group`
-belong in this SRFI or in a terminal SRFI.
+Issue 3: Consider these procedures:
+
+* (open-control-tty tty-name [flags])
+* (become-session-leader)
+* (tty-process-group fd/port/fname)
+* (set-tty-process-group fd/port/fname pgrp)
+* (control-tty-file-name)
+
+
+
 
 ## Constructors
 
