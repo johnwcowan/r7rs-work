@@ -361,9 +361,9 @@ within 0.9 seconds of each other by inserting leap seconds as needed.
 
 For the messy period, the implementation pretends that there were leap seconds
 at the end of the following days (that is, at 23:59:60 proleptic UTC time):
-31 Dec 1960; 31 Dec 1961; 30 Jun 1963; 31 Dec 1964; 30 Jun 1966;
+30 Jun 1959; 30 Jun 1961; 31 Dec 1963; 31 Dec 1964; 30 Jun 1966;
 30 Jun 1967; 30 Jun 1968; 30 Jun 1969; 30 Jun 1970.
-(Thanks to Daphne Preston-Kendall for determining an optimal leap second set.)
+(Thanks to Daphne Preston-Kendal for determining an optimal leap second set.)
 This has the following desirable effects: the TAI-UTC offset is 0 in 1958
 (true by definition), at the Posix epoch it is 8
 (which is within a few milliseconds of the true value),
