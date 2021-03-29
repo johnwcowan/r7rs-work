@@ -1,5 +1,8 @@
 For other dockets see [WG2Dockets](WG2Dockets.md).
 
+Figure out string mess if possible.
+Consider moving at least syntax-rules macros to Orange.
+
 # Red Docket (data structures)
 
 Already voted on.
@@ -38,11 +41,11 @@ ASCII character library: [SRFI 175](https://srfi.schemers.org/srfi-175/srfi-175.
 
 Enumerations: [SRFI 209](http://srfi.schemers.org/srfi-209/srfi-209.html)
 
-Compound objects: [CompoundObjectsCowan](CompoundObjectsCowan.md)
+Compound objects: [SRFI 222](http://srfi.schemers.org/srfi-222/srfi-222.html)
 
 Linear adjustable-size strings: [SRFI 185](http://srfi.schemers.org/srfi-185/srfi-185.html)
 
-Yet more generator extensions: [MoreGenerators](MoreGenerators.md)
+Yet more generator extensions: [SRFI 162](http://srfi.schemers.org/srfi-162/srfi-162.html)
 
 Coroutine generators: [SRFI 190](http://srfi.schemers.org/srfi-190/srfi-190.html)
 
