@@ -24,6 +24,8 @@ Comparator sublibrary: [SRFI 162](http://srfi.schemers.org/srfi-162/srfi-162.htm
 
 Integer sets:  [SRFI 217](http://srfi.schemers.org/srfi-217/srfi-217.html)
 
+Integer mappings:  [SRFI 224](http://srfi.schemers.org/srfi-224/srfi-224.html)
+
 Ranges:  [SRFI 196](http://srfi.schemers.org/srfi-196/srfi-196.html)
 
 Homogeneous vectors: [SRFI 160](https://srfi.schemers.org/srfi-160/srfi-160.html)
