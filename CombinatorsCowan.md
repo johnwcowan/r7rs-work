@@ -47,7 +47,7 @@ Applies *predicate* to each element of *list* in turn, and immediately returns `
 
 `((any-of? `*predicate*`)` *list*`)`
 
-Applies *predicate* to each element of *list* in turn, and immediately returns `#t` if *predicate* is satisfied by that element; otherwise returns `#f`.
+Applies *predicate* to each element of *list* in turn, and if *predicate* is satisfied by that element, returns the result of calling *predicate*; otherwise returns `#f`.  If *list* is empty, returns `#t`.
 
 `((on `*reducer mapper*`)` *obj* ...`)`
 
