@@ -55,7 +55,7 @@ or either format at the writer's discretion (marked how?).
 
 Whitespace outside strings is ignored completely,
 except for separating
-from adjacent tokens when ambiguity would result.
+adjacent tokens when ambiguity would result.
 For example, `#f 32 (1.0 2.0)` is not the same as
 `#f32 (1.0 2.0)`.
 Whitespace by itself is not a valid S-expression.
@@ -85,65 +85,92 @@ All objects with subobjects also have the same general format:
 Length bytes format:
 
   * If length is indeterminate, pseudo-length byte is `80`.
-  * If length is less than 2^7 bytes, length byte is `00` through `7F`.
-  * If length is less than 2^15 bytes, meta-length byte is `82`, followed by 2 length bytes
-    representing a big-endian 2's-complement integer.
-   * If length is less than 2^23 bytes, meta-length byte is `83`, followed by 3 length bytes
-    representing the length as a big-endian 2's-complement integer.
+  * If length is less than 2^7 bytes, then length byte is `00` through `7F`.
+  * If length is less than 2^16 bytes, then meta-length byte is `82`, followed by 2 length bytes
+    representing a big-endian unsigned integer.
+   * If length is less than 2^24 bytes, then meta-length byte is `83`, followed by 3 length bytes
+    representing the length as a big-endian unsigned integer.
   * ...
-  * If length is less than 2^63 bytes, meta-length byte is `88`, followed by 8 length bytes
-    representing the length as a big-endian 2's-complement integer.
+  * If length is less than 2^64 bytes, then meta-length byte is `88`, followed by 8 length bytes
+    representing the length as a unsigned 2's-complement integer.
   * Larger objects are not representable.
   
-## Binary examples
+## Examples
 
 Here are a few examples of how different kinds of objects are represented.
+For all known types, see this Google spreadsheet:
+[Twinjo data type serializations at <https://tinyurl.com/asn1-ler>](https://tinyurl.com/asn1-ler).
 
-Lists:  Type byte `E0`,
+Note:  If binary interoperability with other ASN.1 systems is important, encode only
+the types marked "X.690" in the Origin column of the spreadsheet.
+
+Lists:  Type byte `E0`,:
 pseudo-length byte `80`,
 the encoded elements of the list,
-an EOC marker.
+an EOC marker `00 00`.
+
+Text: subobjects in parentheses
 
 Vectors:  Type byte `30`,
 length bytes,
 the encoded elements of the vector,
-an EOC marker.
+an EOC marker `00 00`.
+
+Text: the empty tag `#` followed by a list.
+
+Booleans: Type byte `01`,
+length byte `01`,
+either `00` for false or `FF` for true.
+
+Text: `#t` or `#f`.
 
 Integers:  Type byte `02`,
 1-9 length bytes,
 content bytes representing a big-endian 2's-complement integer.
 
-Floats:  Type byte `DB`,
+Text: optional sign followed by sequence of decimal digits.
+
+IEEE double floats:  Type byte `DB`,
 length byte `08`,
 8 content bytes representing a big-endian IEEE binary64 float.
+
+Text: optional sign followed by sequence of decimal digits,
+with either a decimal point or an exponent.
 
 Strings:  Type byte `OC`,
 1-9 length bytes representing the length of the string in bytes
 when encoded as UTF-8,
 corresponding content bytes.
+Text: characters enclosed in double quotes, with `\\' and `\"` as escapes.
 
 Symbols:  Type byte `DD`,
 1-9 length bytes representing the length of the string in bytes
 when encoded as UTF-8,
 corresponding content bytes.
+Text: lower-case ASCII letters, or characters enclosed in vertical bars,
+with '\\` and `\|` as escapes.
 
 Nulls:  Type byte `05`,
 length byte `00`.
 
-Booleans:  Type byte `01`,
-length byte `01`,
-1 content byte which is `00` for false and `FF` for true.
+Text: `#n`.
+
+Note: This is not the same as `#f` or `()`;
+there is no natural representation in Scheme.
+
 
 Mappings / hash tables:  Type byte `E4`,
 pseudo-length byte `80`,
 the encoded elements of the list
 alternating between keys and values,
-an EOC marker.
+an EOC marker `00 00`.
 
 Timestamps: Type byte `18`,
 1 length byte,
 ASCII encoding of a ISO 8601 timestamp
 without hyphens, colons, or spaces.
+
+Text: `#date` followed by a string.
 
 ## Skipping unknown binary types
 
@@ -151,16 +178,8 @@ without hyphens, colons, or spaces.
     skip one additional type byte.
   * Read and interpret length bytes.
   * If length byte is not `80`, skip number of bytes equal to the length.
-  * If length byte is `80`, skip subobjects until the EOC marker has been read.
+  * If length byte is `80`, recursively skip subobjects until the EOC marker has been read.
   
-## Specific type representations
-
-All currently proposed formats (Google Spreadsheet):
-[Twinjo data type serializations](https://tinyurl.com/asn1-ler).
-
-Note:  If binary interoperability with other ASN.1 systems is important, encode only
-the types marked "X.690" in the Origin column of the spreadsheet.
-
 ## Procedures
 
 `(twinjo-read-text `*proc* [*port*])  
@@ -171,7 +190,7 @@ If the external representation of an object is read whose type is unknown,
 *proc* is called with three arguments:
 
  * a symbol representing a non-hex tag in Twinjo Text,
-   or `#f` otherwiser
+   or `#f` otherwise
  * a number representing a hex tag in Twinjo Text
    or Twinjo Binary,
    or #f in Twinjo Text if the tag is non-hex.
