@@ -41,11 +41,11 @@ Returns `#t` if the *args* satisfy any of the *predicates*.
 
 Applies each of the *procs* in turn to *args*, discarding the results and returning an unspecified value.
 
-`((all-of? `*predicate*`)`
+`((all-of `*predicate*`)`
 
 Applies *predicate* to each element of *list* in turn, and immediately returns `#f` if *predicate* is not satisfied by that element; otherwise returns `#t`.
 
-`((any-of? `*predicate*`)` *list*`)`
+`((any-of `*predicate*`)` *list*`)`
 
 Applies *predicate* to each element of *list* in turn, and if *predicate* is satisfied by that element, returns the result of calling *predicate*; otherwise returns `#f`.  If *list* is empty, returns `#t`.
 
