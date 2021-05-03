@@ -105,11 +105,13 @@ It is an error to mutate this list.
 parameter, but directly modifying it with
 `parameterize` should be avoided.
 
-`(with-restarter `*restarter thunk*`)`
+`(with-restarter `*restarters thunk*`)`
 
-Establishes *restarter* as an ambient restarter
-and invokes *thunk* with no arguments, after which
-*restarter* is disestablished and `with-restarter`
+Establishes *restarters*, which may be a single restarter
+or a list, as ambient restarters.  It is an error if any
+of the restarters have the same tag.
+Then `with-restarter` invokes *thunk* with no arguments, after which
+the restarters are disestablished and `with-restarter`
 returns whatever *thunk* returns.
 
 `(find-restarter `*tag restarters*`)` -> *restarter* or `#f`
@@ -118,7 +120,7 @@ Searches *restarters* for a restarter whose tag is the same
 (in the sense of `eqv?`) as *tag*, except that restarters
 whose tag is `#f` are ignored.  The *restarters* argument
 may be a single restarter, a list of restarters, or a
-[SRFI FIXME](http://srfi.schemers.org/srfi-FIXME/srfi-FIXME.html)
+[SRFI  222](http://srfi.schemers.org/srfi-222/srfi-222.html)
 compound object.  If no such restarter is found in *restarters*,
 the value of `(ambient-restarters)` is searched instead.
 Failing that as well, `#f` is returned.
@@ -200,6 +202,6 @@ behaviour protocols.  These tags are simply symbols.
 
 It is highly recommended that Scheme systems integrate restarters into
 their condition systems and debuggers.  This can be achieved by
-using SRFI FIXME compound objects to represent conditions and
+using SRFI 222 compound objects to represent conditions and
 including restarters to represent suitable recovery strategies
 among the subobjects.
