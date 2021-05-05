@@ -8,7 +8,7 @@ Twinjo Binary, a subset of ASN.1 Basic Encoding Rules.
 It makes no use of ASN.1 schemas.
 
 It also arranges for there to be just one encoding
-for each datum represented, although
+for each datum represented (with the exception of floats), although
 the Twinjo Text rules don't quite correspond to any Lisp syntax,
 and the Twinjo Binary rules don't conform to either of the usual subsets,
 ASN.1 Canonical Encoding Rules (CER)
@@ -24,17 +24,20 @@ or either format at the writer's discretion (marked how?).
 
 ## Basic Text syntax
 
-  * Integers: optional sign followed by sequence of digits, no leading 0s.
+  * Integers: optional minus sign followed by sequence of digits, no leading 0s.
   
-  * Floats: optional sign followed by sequence of digits with optional decimal point
-    followed by optional exponent (`E` followed by sign followed by digits).
-    Leading 0s and trailing 0s following the decimal point are not allowed.
+  * Floats: optional minus sign followed by sequence of digits
+    with an optional decimal point which must appear between two digits,
+    followed by optional exponent (`E` followed by optional minus sign followed by digits).
+    Leading 0s are not allowed, and neither are trailing 0s following a decimal point.
     Either the decimal point or the exponent can be omitted but not both.
     
   * Symbols: a sequence of lower-case ASCII letters, digits, and the symbols
-    `! $ & * + - . / < = > ? ^ _ ~`, except that the first character may not be a digit,
-    and if the first character is `+` or `-`, the second character may not be a digit.
-    Symbols that have at least one other character, including all of Unicode, are
+    `! $ & * + - . < = > ? ^ _ ~`, except that the first character may not be a digit,
+    and if the first character is a minus sign, the second character may not be a digit.
+    The character `/` is allowed only if it is the only character in the symbol.
+    
+    Symbols with at least one other Unicode character are
     encoded as a sequence of characters surrounded by vertical bars.
     The only escapes are `\\` and `\|`.
     
@@ -44,12 +47,12 @@ or either format at the writer's discretion (marked how?).
     * case-sensitive and prefer lower case, like Chibi Scheme
     * case-sensitive and prefer upper case, like Interlisp
     
-    
     Because of this it is necessary to have a fixed rule, namely
     that symbols are case-sensitive and symbols with upper case
-    must be in vertical bars.
+    letters must be in vertical bars.
 
-  * Strings:  Enclosed in double quotes.  The only escapes are `\"` and `\\`.
+  * Strings:  Unicode characters enclosed in double quotes.
+    The only escapes are `\"` and `\\`.
 
   * Bytevectors:  Enclosed in curly braces.  Hex digits, with an optional hyphen
     between consecutive digits.  This is related to UUID syntax.
@@ -95,7 +98,7 @@ All objects with subobjects also have the same general format:
   * 1 or 2 type bytes
   * an `80` pseudo-length byte
   * the encoded subobjects
-  * an end of content (EOC) marker (two consecutive <code>00</code> bytes)
+  * an <code>00</code> end of content (EOC) marker
 
 Length bytes format:
 
@@ -107,16 +110,16 @@ Length bytes format:
     representing the length as a big-endian unsigned integer.
   * ...
   * If length is less than 2^64 bytes, then meta-length byte is `88`, followed by 8 length bytes
-    representing the length as a unsigned 2's-complement integer.
-  * Larger objects are not representable.
+    representing the length as a big-endian unsigned 2's-complement integer.
+  * The smallest representation should be used.  Larger objects are not representable.
   
 ## Examples
 
 Here are a few examples of how different kinds of objects are represented.
-For all known types, see this Google spreadsheet:
+For all current standard types, see this Google spreadsheet:
 [Twinjo data type serializations at <https://tinyurl.com/asn1-ler>](https://tinyurl.com/asn1-ler).
 
-Note:  If binary interoperability with other ASN.1 systems is important, encode only
+Note:  If binary interoperability with other ASN.1 BER systems is important, encode only
 the types marked "X.690" in the Origin column of the spreadsheet.
 
 Lists:  Type byte `E0`,:
