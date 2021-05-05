@@ -28,13 +28,21 @@ or either format at the writer's discretion (marked how?).
   
   * Floats: optional sign followed by sequence of digits with optional decimal point
     followed by optional exponent (`E` followed by sign followed by digits).
+    Leading 0s and trailing 0s following the decimal point are not allowed.
     Either the decimal point or the exponent can be omitted but not both.
     
   * Symbols: a sequence of lower-case ASCII letters, digits, and the symbols
     `! $ & * + - . / < = > ? ^ _ ~`, except that the first character may not be a digit,
     and if the first character is `+` or `-`, the second character may not be a digit.
-    Alternatively, a sequence of any characters surrounded by vertical bars.
+    Symbols that have at least one other character, including all of Unicode, are
+    encoded as a sequence of characters surrounded by vertical bars.
     The only escapes are `\\` and `\|`.
+    
+    Lisp systems vary in the case-sensitivity of symbols:
+    * case-insensitive and prefer upper case, like Common Lisp
+    * case-insensitive and prefer lower case, like MIT Scheme
+    * case-sensitive and prefer lower case, like Chibi Scheme
+    * case-sensitivity
 
   * Strings:  Enclosed in double quotes.  The only escapes are `\"` and `\\`.
 
