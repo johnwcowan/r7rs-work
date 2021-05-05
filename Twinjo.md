@@ -42,7 +42,12 @@ or either format at the writer's discretion (marked how?).
     * case-insensitive and prefer upper case, like Common Lisp
     * case-insensitive and prefer lower case, like MIT Scheme
     * case-sensitive and prefer lower case, like Chibi Scheme
-    * case-sensitivity
+    * case-sensitive and prefer upper case, like Interlisp
+    
+    
+    Because of this it is necessary to have a fixed rule, namely
+    that symbols are case-sensitive and symbols with upper case
+    must be in vertical bars.
 
   * Strings:  Enclosed in double quotes.  The only escapes are `\"` and `\\`.
 
