@@ -30,9 +30,11 @@ or either format at the writer's discretion (marked how?).
     followed by optional exponent (`E` followed by sign followed by digits).
     Either the decimal point or the exponent can be omitted but not both.
     
-  * Symbols: lower-case ASCII letter
-    optionally followed by sequence of lower-case ASCII letters and ASCII digits.
-    Alternatively, any characters surrounded by vertical bars.  The only escapes are `\\` and `\|`
+  * Symbols: a sequence of lower-case ASCII letters, digits, and the symbols
+    `! $ % & * + - . / < = > ? ^ _ ~`, except that the first character may not be a digit,
+    and if the first character is `+` or `-`, the second character may not be a digit.
+    Alternatively, a sequence of any characters surrounded by vertical bars.
+    The only escapes are `\\` and `\|`.
 
   * Strings:  Enclosed in double quotes.  The only escapes are `\"` and `\\`.
 
