@@ -24,14 +24,14 @@ or either format at the writer's discretion (marked how?).
 
 ## Basic Text syntax
 
-  * Integers: optional sign followed by sequence of digits
+  * Integers: optional sign followed by sequence of digits, no leading 0s.
   
   * Floats: optional sign followed by sequence of digits with optional decimal point
     followed by optional exponent (`E` followed by sign followed by digits).
     Either the decimal point or the exponent can be omitted but not both.
     
   * Symbols: a sequence of lower-case ASCII letters, digits, and the symbols
-    `! $ % & * + - . / < = > ? ^ _ ~`, except that the first character may not be a digit,
+    `! $ & * + - . / < = > ? ^ _ ~`, except that the first character may not be a digit,
     and if the first character is `+` or `-`, the second character may not be a digit.
     Alternatively, a sequence of any characters surrounded by vertical bars.
     The only escapes are `\\` and `\|`.
