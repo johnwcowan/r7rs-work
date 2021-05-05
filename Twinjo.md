@@ -39,9 +39,12 @@ or either format at the writer's discretion (marked how?).
     
     Symbols with at least one other Unicode character are
     encoded as a sequence of characters surrounded by vertical bars.
-    The only escapes are `\\` and `\|`.
+    The only escapes are `\\`, `\"`, and `\|`.
     
-    Lisp systems vary in the case-sensitivity of symbols:
+    Consecutive symbols must be separated by whitespace,
+    so  `|a||b|c|`  and `|a|b|c|` are invalid.
+    
+    Note: Lisp systems vary in the case-sensitivity of symbols:
     * case-insensitive and prefer upper case, like Common Lisp
     * case-insensitive and prefer lower case, like MIT Scheme
     * case-sensitive and prefer lower case, like Chibi Scheme
@@ -52,7 +55,7 @@ or either format at the writer's discretion (marked how?).
     letters must be in vertical bars.
 
   * Strings:  Unicode characters enclosed in double quotes.
-    The only escapes are `\"` and `\\`.
+    The only escapes are `\\`, `\"`, and `\|`.
 
   * Bytevectors:  Enclosed in curly braces.  Hex digits, with an optional hyphen
     between consecutive digits.  This is related to UUID syntax.
@@ -78,7 +81,8 @@ For example, `#f 32 (1.0 2.0)` is not the same as
 `#f32 (1.0 2.0)`.
 Whitespace by itself is not a valid S-expression.
   
-`;` (except in strings and symbols) introduces a comment
+The character `;` (except in strings and symbols with vertical bars)
+introduces a comment
 that goes up to but not including the end of line and is discarded.
 A comment by itself is not a valid S-expression.
 
@@ -98,7 +102,7 @@ All objects with subobjects also have the same general format:
   * 1 or 2 type bytes
   * an `80` pseudo-length byte
   * the encoded subobjects
-  * an <code>00</code> end of content (EOC) marker
+  * an `00 00` end of content (EOC) marker
 
 Length bytes format:
 
@@ -122,17 +126,17 @@ For all current standard types, see this Google spreadsheet:
 Note:  If binary interoperability with other ASN.1 BER systems is important, encode only
 the types marked "X.690" in the Origin column of the spreadsheet.
 
-Lists:  Type byte `E0`,:
+Lists:  Type byte `E0`,
 pseudo-length byte `80`,
 the encoded elements of the list,
-an EOC marker `00 00`.
+an EOC marker.
 
 Text: subobjects in parentheses
 
 Vectors:  Type byte `30`,
 length bytes,
 the encoded elements of the vector,
-an EOC marker `00 00`.
+an EOC marker.
 
 Text: the empty tag `#` followed by a list.
 
@@ -181,7 +185,7 @@ Mappings / hash tables:  Type byte `E4`,
 pseudo-length byte `80`,
 the encoded elements of the list
 alternating between keys and values,
-an EOC marker `00 00`.
+an EOC marker.
 
 Timestamps: Type byte `18`,
 1 length byte,
