@@ -35,9 +35,8 @@ or either format at the writer's discretion (marked how?).
   * Symbols: a sequence of lower-case ASCII letters, digits, and the symbols
     `! $ & * + - . < = > ? ^ _ ~`, except that the first character may not be a digit,
     and if the first character is a minus sign, the second character may not be a digit.
-    The character `/` is allowed only if it is the only character in the symbol.
     
-    Symbols with at least one other Unicode character are
+    Symbols containing at least one other Unicode character are
     encoded as a sequence of characters surrounded by vertical bars.
     The only escapes are `\\`, `\"`, and `\|`.
     
@@ -57,7 +56,7 @@ or either format at the writer's discretion (marked how?).
   * Strings:  Unicode characters enclosed in double quotes.
     The only escapes are `\\`, `\"`, and `\|`.
 
-  * Bytevectors:  Enclosed in curly braces.  Hex digits, with an optional hyphen
+  * Bytevectors:  Hex digits enclosed in curly braces. A hyphen may be used
     between consecutive digits.  This is related to UUID syntax.
     Rationale: so that bytevectors can be prefixed with a tag without needing
     to support nested tags.
@@ -66,11 +65,10 @@ or either format at the writer's discretion (marked how?).
 
   * Tags: Used to extend syntax.
     Consists of `#` followed by:
-      * nothing (datum follows)
-      * `X` followed by type number in upper-case hex (datum follows)
+      * nothing (list follows)
+      * `X` followed by a type number in lower-case hex (arbitrary datum follows)
       * a single lower-case ASCII letter (no datum follows)
-      * ASCII lower-case letter followed by
-        zero or more lower-case ASCII letters or digits (datum follows)
+      * a symbol (arbitrary datum follows)
 
 ## Whitespace and comments
 
