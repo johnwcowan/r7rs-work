@@ -164,7 +164,9 @@ Unifiable boxes: [SRFI 161](https://srfi.schemers.org/srfi-161/srfi-161.html)
 Formatting: [SRFI 166](https://srfi.schemers.org/srfi-166/srfi-166.html) (combinators),
 [SRFI 48](https://srfi.schemers.org/srfi-48/srfi-48.html) (format strings).
 
-JSON: [SRFI 180](https://srfi.schemers.org/srfi-180/srfi-180.html)
+JSON: [SRFI 180](https://srfi.schemers.org/srfi-180/srfi-180.html),
+`(schemepunk json)` [code](https://github.com/ar-nelson/schemepunk#schemepunk-json)
+and [data](https://github.com/ar-nelson/schemepunk/blob/master/json.sld).
 
 Hooks: [SRFI 173](https://srfi.schemers.org/srfi-173/srfi-173.html)
 
@@ -189,7 +191,7 @@ C-style structures: [ByteStructuresTaylanUB](https://github.com/TaylanUB/scheme-
 
 Matching:  [SRFI 204](https://srfi.schemers.org/srfi-204/srfi-204.html)
 
-Predicate generic functions: [GenericsChibi](http://synthcode.com/scheme/chibi/lib/chibi/generic.html) (needs extension for subtyping)
+Predicate generic functions: [GenericsChibi](http://synthcode.com/scheme/chibi/lib/chibi/generic.html) (needs extension for subtyping), [FastGeneric](http://wiki.call-cc.org/eggref/5/fast-generic)
 
 Maybe/Either: [SRFI 189](https://srfi.schemers.org/srfi-189/srfi-189.html)
 
