@@ -2,14 +2,14 @@
 
 ### Predicates
 
-1: seq? obj -> boolean  
+1P: seq? obj -> boolean  
 2: seq-empty?  seq -> boolean  
 3: seq=? elt= seq1 ... -> boolean
 
 ### Selectors
 
-5P: seq-ref seq i -> value
-6P: seq-copy seq [start end] -> seq
+5P: seq-ref seq i -> value  
+6P: seq-copy seq [start end] -> seq  
 16: seq-take x i -> seq  
 18: seq-drop x i -> object  
 20: seq-take-right fseq i -> object  
@@ -24,11 +24,6 @@
 34: seq-reverse  seq -> seq  
 36: seq-append-reverse  rev-head tail -> seq  
 38: seq-zip cseq1 cseq2 ... -> seq  
-39: seq-unzip1 seq -> seq  
-40: seq-unzip2 seq -> [seq seq]  
-41: seq-unzip3 seq -> [seq seq seq]  
-42: seq-unzip4 seq -> [seq seq seq seq]  
-43: seq-unzip5 seq -> [seq seq seq seq seq]  
 44: seq-count pred cseq1 cseq2 -> integer
 
 ### Fold, unfold & map
@@ -36,11 +31,8 @@
 46: seq-fold kons knil cseq1 cseq2 ... -> value  
 47: seq-fold-right kons knil cseq1 cseq2 ... -> value  
 48: seq-reduce f ridentity seq -> value  
-49: seq-reduce-right f ridentity seq -> value  
-50: seq-unfold p f g seed [tail-gen] -> seq  
-51: seq-unfold-right p f g seed [tail] -> seq  
 52: seq-map proc cseq1 cseq2 ... -> seq  
-54p: seq-for-each proc cseq1 cseq2 ... -> unspecified  
+54P: seq-for-each proc cseq1 cseq2 ... -> unspecified  
 55: seq-append-map  f cseq1 cseq2 ... -> value  
 57: seq-filter-map f cseq1 cseq2 ... -> seq
 
