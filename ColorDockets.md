@@ -1,5 +1,8 @@
 For other dockets see [WG2Dockets](WG2Dockets.md).
 
+Figure out string mess if possible.
+Consider moving at least syntax-rules macros to Orange.
+
 # Red Docket (data structures)
 
 Already voted on.
@@ -21,6 +24,8 @@ Comparator sublibrary: [SRFI 162](http://srfi.schemers.org/srfi-162/srfi-162.htm
 
 Integer sets:  [SRFI 217](http://srfi.schemers.org/srfi-217/srfi-217.html)
 
+Integer mappings:  [SRFI 224](http://srfi.schemers.org/srfi-224/srfi-224.html)
+
 Ranges:  [SRFI 196](http://srfi.schemers.org/srfi-196/srfi-196.html)
 
 Homogeneous vectors: [SRFI 160](https://srfi.schemers.org/srfi-160/srfi-160.html)
@@ -38,11 +43,11 @@ ASCII character library: [SRFI 175](https://srfi.schemers.org/srfi-175/srfi-175.
 
 Enumerations: [SRFI 209](http://srfi.schemers.org/srfi-209/srfi-209.html)
 
-Compound objects: [CompoundObjectsCowan](CompoundObjectsCowan.md)
+Compound objects: [SRFI 222](http://srfi.schemers.org/srfi-222/srfi-222.html)
 
 Linear adjustable-size strings: [SRFI 185](http://srfi.schemers.org/srfi-185/srfi-185.html)
 
-Yet more generator extensions: [MoreGenerators](MoreGenerators.md)
+Yet more generator extensions: [SRFI 162](http://srfi.schemers.org/srfi-162/srfi-162.html)
 
 Coroutine generators: [SRFI 190](http://srfi.schemers.org/srfi-190/srfi-190.html)
 
@@ -159,7 +164,9 @@ Unifiable boxes: [SRFI 161](https://srfi.schemers.org/srfi-161/srfi-161.html)
 Formatting: [SRFI 166](https://srfi.schemers.org/srfi-166/srfi-166.html) (combinators),
 [SRFI 48](https://srfi.schemers.org/srfi-48/srfi-48.html) (format strings).
 
-JSON: [SRFI 180](https://srfi.schemers.org/srfi-180/srfi-180.html)
+JSON: [SRFI 180](https://srfi.schemers.org/srfi-180/srfi-180.html),
+`(schemepunk json)` [code](https://github.com/ar-nelson/schemepunk#schemepunk-json)
+and [data](https://github.com/ar-nelson/schemepunk/blob/master/json.sld).
 
 Hooks: [SRFI 173](https://srfi.schemers.org/srfi-173/srfi-173.html)
 
@@ -184,7 +191,7 @@ C-style structures: [ByteStructuresTaylanUB](https://github.com/TaylanUB/scheme-
 
 Matching:  [SRFI 204](https://srfi.schemers.org/srfi-204/srfi-204.html)
 
-Predicate generic functions: [GenericsChibi](http://synthcode.com/scheme/chibi/lib/chibi/generic.html) (needs extension for subtyping)
+Predicate generic functions: [GenericsChibi](http://synthcode.com/scheme/chibi/lib/chibi/generic.html) (needs extension for subtyping), [FastGeneric](http://wiki.call-cc.org/eggref/5/fast-generic)
 
 Maybe/Either: [SRFI 189](https://srfi.schemers.org/srfi-189/srfi-189.html)
 

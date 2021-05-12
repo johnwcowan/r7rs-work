@@ -1,4 +1,4 @@
-Keywords are self-evaluating identifiers (except in Racket, see below)
+Keywords are self-evaluating identifiers (except in Racket and Kawa, see below)
 that look like `:foo`, `foo:`, or `#:foo`, depending on the Scheme implementation:
 
 *  Gauche, Sagittarius (and the Common Lisp standard) support `:foo`.
@@ -16,11 +16,11 @@ that look like `:foo`, `foo:`, or `#:foo`, depending on the Scheme implementatio
 
 *  Guile supports `#:foo`.
 
-*  MIT, Scheme48/scsh, SISC, Chez, SCM, Ikarus, Larceny, Mosh, Scheme 9, SCM, SXM, VSCM, Chibi
-   don't support any of them, but of course `'foo:` and `':foo` are valid quoted symbols.
-
 *  Racket, Kawa are a special case: they support `#:foo` in function calls,
    but keywords are not expressions (though `'#:foo` is an expression).
+
+*  MIT, Scheme48/scsh, SISC, Chez, SCM, Ikarus, Larceny, Mosh, Scheme 9, SCM, SXM, VSCM, Chibi
+   don't support any of them, but of course `'foo:` and `':foo` are valid quoted symbols.
 
 Note: Chez and CL use `#:` not for keywords but for uninterned symbols.
 
@@ -40,8 +40,8 @@ How is the datum `:` (one colon) read?
 * As a **keyword** with the name `""` in Gauche, Sagittarius, STklos,
   and the Common Lisp implementations CLISP and SBCL.
 
-* As a **symbol** with the name `":"` (one colon) in s7, Bigloo,
-  Chicken, Gambit, s7.
+* As a **symbol** with the name `":"` (one colon) in Bigloo,
+  Chicken, Gambit, S7.
 
 How is the datum `::` (two colons) read?
 
@@ -49,7 +49,7 @@ How is the datum `::` (two colons) read?
   implementations CLISP and SBCL.
 
 * As a **keyword** with the name `":"` (one colon) in Chicken, Gambit,
-  Gauche, s7, Sagittarius, STklos.
+  Gauche, S7, Sagittarius, STklos.
 
 * As a **symbol** with the name `"::"` (two colons) in Bigloo.
 
@@ -58,7 +58,7 @@ How is the datum `::` (two colons) read?
 How is the datum `:::` (three colons) read?
 
 * As a **keyword** with the name `"::"` (two colons) in Chicken,
-  Gambit, Gauche, s7, Sagittarius, STklos.
+  Gambit, Gauche, S7, Sagittarius, STklos.
 
 * As a **symbol** with the name `":::"` (three colons) in Bigloo.
 
@@ -80,7 +80,7 @@ Keyword objects are symbols such that **symbol->string** keeps the `:`
 prefix in Gauche.
 
 Keyword objects are symbols such that **symbol->string** keeps the `:`
-prefix **or suffix**, remembering which one you used, in s7.
+prefix **or suffix**, remembering which one you used, in S7.
 
 Keyword objects are not symbols in Bigloo, Chicken, Gambit,
 Sagittarius, STklos.

@@ -54,10 +54,10 @@ by the user.
 
 A *restarter* is an object of a new disjoint type with three fields:
 
-  *  tag - an identifying symbol
-  *  description - a list of strings that describes the method of recovery
+  *  *tag* - an identifying symbol
+  *  *description* - a list of strings that describes the method of recovery
   and the values, if any, needed for recovery
-  *  invoker - a procedure that actually performs the recovery;
+  *  *invoker* - a procedure that actually performs the recovery;
   the number of arguments it expects is equal to the length of *description* minus 1.
   
 Restarters can be available in one of two ways.  They can be *ambient restarters*,
@@ -88,7 +88,7 @@ Returns `#t` if *obj* is a restarter and `#f` otherwise.
 `(restarter-description `*restarter*`)` -> *list-of-strings*
 
 Returns the tag / description of *restarter*. It is an
-error to mutate *list-of-strings*.
+error to mutate *list-of-strings* or any of its members.
 
 `(restart `*restarter arg* ...`)` -> *values* (may not return)
 
@@ -105,11 +105,13 @@ It is an error to mutate this list.
 parameter, but directly modifying it with
 `parameterize` should be avoided.
 
-`(with-restarter `*restarter thunk*`)`
+`(with-restarter `*restarters thunk*`)`
 
-Establishes *restarter* as an ambient restarter
-and invokes *thunk* with no arguments, after which
-*restarter* is disestablished and `with-restarter`
+Establishes *restarters*, which may be a single restarter
+or a list, as ambient restarters.  It is an error if any
+of the restarters have the same tag.
+Then `with-restarter` invokes *thunk* with no arguments, after which
+the restarters are disestablished and `with-restarter`
 returns whatever *thunk* returns.
 
 `(find-restarter `*tag restarters*`)` -> *restarter* or `#f`
@@ -118,7 +120,7 @@ Searches *restarters* for a restarter whose tag is the same
 (in the sense of `eqv?`) as *tag*, except that restarters
 whose tag is `#f` are ignored.  The *restarters* argument
 may be a single restarter, a list of restarters, or a
-[SRFI FIXME](http://srfi.schemers.org/srfi-FIXME/srfi-FIXME.html)
+[SRFI  222](http://srfi.schemers.org/srfi-222/srfi-222.html)
 compound object.  If no such restarter is found in *restarters*,
 the value of `(ambient-restarters)` is searched instead.
 Failing that as well, `#f` is returned.
@@ -163,7 +165,7 @@ behaviour protocols.  These tags are simply symbols.
 `abort`
 
   Completely aborts the computation, usually returning to some sort of
-  initial user input, like a REPL.  The invoker of an `abort` restarter
+  initial user input such as a REPL.  The invoker of an `abort` restarter
   accepts zero arguments, is typically an ambient restarter, and normally does not
   return.
 
@@ -178,15 +180,15 @@ behaviour protocols.  These tags are simply symbols.
   Simply retries a whole computation from a certain point, with no
   explicitly altered inputs.  Some implicit environmental changes are
   expected to have taken place.  The invoker of a `retry` restarter
-  accepts zero arguments, is typically not an ambient restarter, and normally
-  returns an unspecified value
+  accepts zero arguments, is typically *not* an ambient restarter, and normally
+  returns an unspecified value.
 
 `use-value`
 
   Retries a computation with a given input value substituted for some
   invalid value in the original input.  The invoker of a `use-value` restarter
-  accepts at least one argument, the new value(s) to substitute, is
-  typically not an ambient restarter, and normally returs an unspecified value.
+  accepts at least one argument, the new value(s) to substitute.  It is
+  typically *not* an ambient restarter, and normally returns an unspecified value.
 
 `store-value`
 
@@ -200,6 +202,6 @@ behaviour protocols.  These tags are simply symbols.
 
 It is highly recommended that Scheme systems integrate restarters into
 their condition systems and debuggers.  This can be achieved by
-using SRFI FIXME compound objects to represent conditions and
-including restarters to represent suitable recovery strategies
+using SRFI 222 compound objects to represent conditions, with
+restarters as members to represent suitable recovery strategies
 among the subobjects.
