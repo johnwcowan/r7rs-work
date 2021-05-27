@@ -6,7 +6,7 @@ Exact, inexact, and mixed complex number representations, where inexact and mixe
 
 Exact and inexact complex number representations only (mixed complex numbers become inexact): Racket, Chicken 4 with the numbers egg, Chicken 5, Scheme48/scsh, Kawa, Chez, Vicare, Larceny, Ypsilon, IronScheme, Spark, Wraith, Sagittarius.  (Also ABCL, Allegro CL, Clozure CL, CMUCL, ECL, GNU CL, LispWorks, SBCL, Scieneer CL.)
 
-Inexact complex number representations only: Gauche, Guile, SISC, SCM, KSi, S7, UMB, Stalin.  (Also Fortran, C/C++, Python, etc.)
+Inexact complex number representations only: Gauche, Guile, SISC, SCM, KSi, S7, UMB, Stalin, Cyclone.  (Also Fortran, C/C++, Python, etc.)
 
 Exact complex number representations only: Owl Lisp (which has no inexact numbers).
 
