@@ -175,12 +175,17 @@ John Cowan
 <li><a href="#Issues">Issues</a></li>
 <li><a href="#ProcedureIndex">Procedure Index</a></li>
 <li><a href="#Rationale">Rationale</a></li>
+  <ul>
+  <li><a href="#WhyImmutable">Why immutable strings?</a></li>
+  <li><a href="#WhyAnother">Why yet another string SRFI?</a></li>
+  <li><a href="#WhatsMissing">What's missing?</a></li>
+  </ul>
 <li><a href="#Specification">Specification</a>
   <ul>
-  <li><a href="#Concepts">Concepts</a>
+  <li><a href="#BasicConcepts">Basic Concepts</a>
     <ul>
       <li><a href="#LibraryName">Name of library</a></li>
-      <li><a href="#ConceptualModel">Conceptual model</a></li>
+      <li><a href="#Efficiency">Efficiency</a></li>
       <li><a href="#Subtypes">Subtypes</a></li>
       <li><a href="#ExternalRepresentation">External representation</a></li>
       <li><a href="#ExtendedPorts">Extended input and output ports</a></li>
@@ -218,20 +223,20 @@ John Cowan
 <h1><a name="Abstract">Abstract</a></h1>
 
 <p>
-In Scheme, strings are a mutable data type.
-Although it "is an error"
+In Scheme, strings are a mutable data type.  However, some strings, such as
+literal strings or strings returned by <code>symbol-&gt;string</code>,
+cannot be portably mutated: in this SRFI they are <i>conceptually immutable</i>.
+Specifically, it "is an error" in
 (<abbr title="Revised<sup>5</sup> Report on Scheme"><a 
   href="#R5RS">R5RS</a></abbr>
 and
  <abbr title="Revised<sup>7</sup> Report on Scheme"><a 
   href="#R7RS">R7RS</a></abbr>)
-to use <code>string-set!</code>
-on literal strings or on strings returned by <code>symbol-&gt;string</code>
-and similar functions,
-and any attempt to do so "should raise an exception"
+to attempt such a mutation; in
 (<abbr title="Revised<sup>6</sup> Report on Scheme"><a 
-  href="#R6RS">R6RS</a></abbr>),
-all other strings are mutable.
+  href="#R6RS">R6RS</a></abbr>)
+the implementation "should raise an exception"
+in such cases.
 </p>
 
 <p>
@@ -409,8 +414,11 @@ Here is a list of the procedures provided by this SRFI:
 <!--========================================================================-->
 <h1><a name="Rationale">Rationale</a></h1>
 <p>
+Note: The text of this SRFI is based upon SRFI 135, copying much
+of its structure and wording.
 </p>
-<h2>Why immutable strings?</h2>
+
+<h2 name="WhyImmutable">Why immutable strings?</h2>
 <p>
 The
 <abbr title="Revised<sup>6</sup> Report on Scheme: Rationale"><a 
@@ -474,25 +482,12 @@ listed above while offering these advantages over mutable strings:
   <li>faster concatenation of strings</li>
 </ul>
 
-<p>
-This SRFI offers all five advantages, at the expense of introducing
-a new data type (immutable strings) that can be implemented portably
-and efficiently and is easy to use correctly
-(partly because most of its error situations are detected by its
-sample implementations, and partly because its character indexes
-are the same as those used by Scheme's mutable strings).
-However, the immutability of strings and
-uniformity of character-based indexing simplify the
-specification of those operations while avoiding several
-inefficiencies associated with the mutability of Scheme's
-strings.</p>
-
 
 <p>
 See also the <a href="#Unicode">discussion of Unicode</a>.
 </p>
 
-<h2>Why yet another string SRFI?</h2>
+<h2 name="WhyAnother">Why yet another string SRFI?</h2>
 <p>Unfortunately, none of the existing string SRFIs are entirely
 satisfactory.</p>
 <ul>
@@ -519,14 +514,23 @@ that provides <code>string-*</code> counterparts to SRFI 135's
 </ul>
 
 <p>
-This SRFI is based upon SRFI 135, copying much of its structure
-and wording.
-</p>
+The immutable strings of this SRFI eliminate the disadvantages and
+provide the advantages listed in the previous section and in this section.
+Furthermore, they can be implemented portably
+and efficiently and are easy to use correctly
+(partly because most of the error situations are detected by its
+sample implementations, and partly because the character indexes
+are the same as those used by Scheme's mutable strings).
+The immutability of strings and
+uniformity of character-based indexing simplify the
+specification of those operations while avoiding several
+inefficiencies associated with the mutability of Scheme's
+strings.</p>
 
-<h2>What's missing?</h2>
+<h2 name="WhatsMissing">What's missing?</h2>
 
 <p>The <code>string-reverse</code> procedure of SRFI 13 isn't
-very useful in a Unicode world, so it's been left out.</p>
+very useful, so it's been left out.</p>
 
 <p>The mutation procedures of SRFI 13, other than those present in R7RS,
 are omitted, as in Unicode strings they can cause the underlying
@@ -538,7 +542,7 @@ length of the string to change, which is not always supported.</p>
 <h1><a name="Specification">Specification</a></h1>
 
 
-<h2>Basic concepts</h2>
+<h2 name="BasicConcepts">Basic Concepts</h2>
 
 <h3><a name="LibraryName">Name of library</a></h3>
 
@@ -559,7 +563,7 @@ can import both libraries without name conflicts.
 </p>
 
 <!--========================================================================-->
-<h3><a name="ConceptualModel">Conceptual model</a></h3>
+<h3><a name="Efficiency">Efficiency</a></h3>
 
 <p>
 Immutability makes it easier to use space-efficient
@@ -570,9 +574,9 @@ used (as with <code>string-ref</code>).
 
 <p>
 When mutation is not needed, immutable texts are likely to be
-more efficient tha strings with respect to space or time.
+more efficient than strings with respect to space or time.
 In some implementations, immutable texts may be more efficient
-tha strings with respect to both space and time.
+than strings with respect to both space and time.
 </p>
 
 
@@ -744,7 +748,7 @@ For convenience, most procedures will accept either mstrings or istrings.
 
 <p>
 A few procedures are required to execute in O(1) time:
-<code>string?</code>, <code>string?</code>,
+<code>string?</code>, <code>istring?</code>,
 <code>string-length</code>, and <code>string-ref</code>.
 </p>
 
@@ -760,12 +764,12 @@ requirement.
 
 <p>
 The other procedures specified by this SRFI should run in
-amortized linear time, not counting time spent in procedures and
+amortized linear time on istrings, not counting time spent in procedures and
 predicates that were passed as arguments.
 That is not an absolute requirement, but the sample implementations
 are designed to deliver that level of performance for most procedures
 provided none of their string arguments are strings.
-When strings are passed as arguments, the running time is unlikely
+When mstrings are passed as arguments, the running time is unlikely
 to be linear unless <code>string-ref</code> runs in constant time,
 and that is not required by any of the Scheme standards.
 </p>
@@ -1289,9 +1293,12 @@ to be limited by limits on stack size.
     produces the leftmost portion of the constructed string.
 <pre class="code-example">
 (string-unfold-right 
-  (lambda (n) (&lt; n (char->integer #\A)))
-  (lambda (n) (char-downcase (integer-&gt;char n)))
-  (lambda (n) (- n 1))
+  (lambda (n)
+    (&lt; n (char->integer #\A)))
+  (lambda (n)
+    (char-downcase (integer-&gt;char n)))
+  (lambda (n)
+    (- n 1))
   (char->integer #\Z)
   #\space
   (lambda (n) " The English alphabet: "))
@@ -1671,11 +1678,13 @@ to be limited by limits on stack size.
     Examples:
   </p>
 <pre class="code-example">
-(string-replace "The TCL programmer endured daily ridicule."
-                 "another miserable perl drone" 4 7 8 22)
+(string-replace
+  "The TCL programmer endured daily ridicule."
+   "another miserable perl drone" 4 7 8 22)
     =&gt; "The miserable perl programmer endured daily ridicule."
 
-(string-replace "It's easy to code it up in Scheme." "lots of fun" 5 9)
+(string-replace "It's easy to code it up in Scheme."
+   "lots of fun" 5 9)
     =&gt; "It's lots of fun to code it up in Scheme."
 
 (define (string-insert s i t) (string-replace s t i i))
@@ -2288,9 +2297,9 @@ Example:
                 ((#\1) c1)
                 ((#\2) (string c2))
                 ((#\-) (string #\- c1))))
-             (string-&gt;string "1222-1111-2222")
-             (string-&gt;string "Hi There!")
-             (string-&gt;string "Dear John"))
+             (string-&gt;istring "1222-1111-2222")
+             (string-&gt;istring "Hi There!")
+             (string-&gt;istring "Dear John"))
      =&gt; «Hear-here!»
 </pre>
 </dd>
@@ -2354,7 +2363,7 @@ way to loop over a substring.
 Example:
 </p>
 <pre class="code-example">
-(let ((txt (string-&gt;string "abcde"))
+(let ((txt (istring-&gt;string "abcde"))
       (v '()))
   (string-for-each-index
     (lambda (cur) (set! v (cons (char-&gt;integer (string-ref txt cur)) v)))
@@ -2553,12 +2562,12 @@ To split on a regular expression <var>re</var>,
 use SRFI 115's <code>regexp-split</code> procedure:
 </p>
 <pre class="code-example">
-(map string-&gt;string (regexp-split re (string-&gt;string txt)))
+(map string-&gt;istring (regexp-split re (string-&gt;mstring txt)))
 </pre>
 <p>
 <i>Rationale:</i>
 Although it would be more efficient to have a version of
-<code>regexp-split</code> that operates on strings directly,
+<code>regexp-split</code> that operates on istrings directly,
 the scope of this SRFI is limited to specifying operations
 on strings analogous to those specified for strings by R7RS
 and the string SRFIs.
