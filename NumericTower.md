@@ -10,7 +10,7 @@ There are therefore 16 possible numeric towers.  9 of them are known to have imp
 |-|-|+|-|Fixnums and flonums|Plain Chicken 4, Shoe†, TinyScheme†, RScheme, JScheme†, SIOD, BDC†, XLisp†, Schemik†, VX, SXM†, Inlab, Llava, Sixx, Picrin†, Sizzle, Dfsch†, Stalin (also Elisp†, C†)|
 |-|+|+|+|Limited-range exact and inexact numbers|S7, Wraith|
 |+|-|+|-|Exact integers and inexact real numbers|Bigloo, Scheme 9, Unlikely Scheme††, Elk (also ISLisp)|
-|+|-|+|+|Exact integers, inexact real numbers, and complex numbers|SCM|
+|+|-|+|+|Exact integers, inexact real numbers, and complex numbers|SCM, Cyclone|
 |+|+|-|-|Exact rational numbers only|Dream, Oaklisp
 |+|+|-|+|Exact numbers only|Owl Lisp
 |+|+|+|-|Real numbers only|Psyche, Ikarus, Rep, Dfsch (also Clojure)|
