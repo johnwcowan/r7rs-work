@@ -272,8 +272,6 @@ Mutexes, condition variables: [SRFI 18](http://srfi.schemers.org/srfi-18/srfi-18
 
 Port type detector: [#177](https://small.r7rs.org/ticket/177/)
 
-Internationalization of strings: [GettextCowan](GettextCowan.md)
-
 Chronometers: [Chronometer](Chronometer.md)
 
 Character-cell terminals: [TerminalsCowan](TerminalsCowan.md)
@@ -385,6 +383,9 @@ Writing filters: [FileFilterGauche](https://practical-scheme.net/gauche/man/gauc
 SXML serializer: [SxmlSerializerGauche](https://practical-scheme.net/gauche/man/gauche-refe/Serializing-XML-and-HTML-from-SXML.html#Serializing-XML-and-HTML-from-SXML)
 
 # Indigo Docket (stuff of dubious utility)
+
+Internationalization of strings: [GettextCowan](GettextCowan.md),
+[JavaScript Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl).
 
 S-expressions for SQL: [AgnosticSql](AgnosticSql.md)
 
