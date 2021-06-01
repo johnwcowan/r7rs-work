@@ -34,7 +34,7 @@ Bitvectors: [SRFI 178](http://srfi.schemers.org/srfi-178/srfi-178.html)
 
 Bytestrings: [SRFI 207](http://srfi.schemers.org/srfi-207/srfi-207.html)
 
-Multidimensional arrays: [SRFI 122](http://srfi.schemers.org/srfi-122/srfi-122.html) 
+Multidimensional arrays: [SRFI 179](http://srfi.schemers.org/srfi-179/srfi-179.html) 
 or [SRFI 164](http://srfi.schemers.org/srfi-164/srfi-164.html)
 
 ASCII character library: [SRFI 175](https://srfi.schemers.org/srfi-175/srfi-175.html)
