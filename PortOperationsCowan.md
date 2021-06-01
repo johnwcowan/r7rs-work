@@ -181,4 +181,9 @@ Implementations should attempt to produce the output as quickly
 as possible, flushing any buffers and (if useful) shutting
 down thread scheduling and using ordinary blocking I/O.
 
+## To be added
 
+PortOperationsCowan is a handy-looking utility library (I have already implemented it),
+although I think it needs a procedure (`read-line*`? `read-record`?)
+which is like read-line but lets you specify the line/record ending character/string.
+(I have also [already implemented this](https://gitlab.com/dpk/presrfis/blob/master/io-utils/read.scm).)
