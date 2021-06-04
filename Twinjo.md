@@ -24,7 +24,8 @@ or either format at the writer's discretion (marked how?).
 
 ## Text encoding
 
-Twinjo Text is always encoded in UTF-8.
+Twinjo Text is defined at the level of characters.
+For transmission and storage, it is always encoded in UTF-8.
 
 ## Basic Text syntax
 
