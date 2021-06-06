@@ -55,7 +55,7 @@ It is an error if the value of *proc* is not a procedure that accepts one argume
 
 `(update! (`*proc arg* ...`)` *item*`)`
 
-Applies *proc* to the values of *item* and `(`*proc arg* ...`)`.
+Applies *item* to the value of `(`*proc arg* ...`)`.
 Then evaluates `((setter `*proc*`)` *arg* ... *result*`)`, where *result* is the result.
 Returns an unspecified value.
 It is an error if the value of *proc* is not a procedure that accepts one argument.
