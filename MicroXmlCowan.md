@@ -34,7 +34,7 @@ using the symbols in *options*.
 
 `(make-uxml-generator `*port*`)`
 
-Returns a [SRFI 158](http://srfi.schemers.org/srfi-158/srfi-158.html) generator of event objects
+Returns a [SRFI 158](https://srfi.schemers.org/srfi-158/srfi-158.html) generator of event objects
 that represent a MicroXML document read from the textual input port *port*.
 Processing continues no matter how many errors there are until all characters have been read.
 
@@ -58,7 +58,7 @@ an error is signaled that satisfies `uxml-error?`.
 
 `(write-uxml `*port options*`)`
 
-Returns a [SRFI 158](http://srfi.schemers.org/srfi-158/srfi-158.html) accumulator
+Returns a [SRFI 158](https://srfi.schemers.org/srfi-158/srfi-158.html) accumulator
 that accepts an event object or an end of file object.
 When invoked repeatedly, the accumulator writes the corresponding MicroXML representation
 to the textual output port *port* using the symbols in *options*,
@@ -329,7 +329,7 @@ If *boolean* is true, returns 1, otherwise returns 0.
 The following procedures are generator operations:
 they accept a generator of SXML elements and return another generator, also of SXML elements.
 After the `sxml-` prefix, they begin with `g`, using the convention of
-[SRFI 158](http://srfi.schemers.org/srfi-158/srfi-121.html) for generator operations.
+[SRFI 158](https://srfi.schemers.org/srfi-158/srfi-121.html) for generator operations.
 If the source generator is empty, so is the result generator.
 
 `(sxml-groot `*parent-mapping gen*`)`

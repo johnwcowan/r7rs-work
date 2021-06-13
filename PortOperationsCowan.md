@@ -6,7 +6,7 @@ This SRFI contains a variety of operations on ports.  All of them can be impleme
 
 As an alternative to creating custom Scheme ports, this SRFI provides for
 clean interfaces between the world of ports and the more flexible world of
-[SRFI 158](http://srfi.schemers.org/srfi-158/srfi-158.html) generators and accumulators.
+[SRFI 158](https://srfi.schemers.org/srfi-158/srfi-158.html) generators and accumulators.
 In what follows, *operation* is a procedure with side effects that takes
 either a port (for input) or an object to write and a port (for output).
 

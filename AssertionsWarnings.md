@@ -8,7 +8,7 @@ It neither requires nor forbids any relationship
 between error, warning, and assertion objects.
 
 The difference between the `assume` macro of
-[SRFI 145](http://srfi.schemers.org/srfi-145/srfi-145.html)
+[SRFI 145](https://srfi.schemers.org/srfi-145/srfi-145.html)
 and `assert` is that it is an error
 if the *obj* of `assume` is false, and the
 implementation can take any action that seems appropriate

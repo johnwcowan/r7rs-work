@@ -6,7 +6,7 @@ This SRFI defines immutable deques. A structure is immutable when all its operat
 
 A double-ended queue, or *deque* (pronounced "deck") is a sequential data structure which allows elements to be added or removed from either end efficiently.  It is a generalization of both a queue and a stack, and can be used as either by disregarding the irrelevant procedures.
 
-This SRFI describes immutable deques, or *ideques*.  Immutable structures are sometimes called *persistent* and are closely related to *pure functional* (a.k.a. *pure*) structures. The availability of immutable data structures facilitates writing efficient programs in the pure-functional style.  Unlike the immutable lists of [SRFI 116](http://srfi.schemers.org/srfi-116/srfi-116.html), it is efficient to produce modified versions of a deque; unlike the list queues of [SRFI 117](http://srfi.schemers.org/srfi-117/srfi-117.html), it is possible to efficiently return an updated version of a deque without mutating any earlier versions of it.
+This SRFI describes immutable deques, or *ideques*.  Immutable structures are sometimes called *persistent* and are closely related to *pure functional* (a.k.a. *pure*) structures. The availability of immutable data structures facilitates writing efficient programs in the pure-functional style.  Unlike the immutable lists of [SRFI 116](https://srfi.schemers.org/srfi-116/srfi-116.html), it is efficient to produce modified versions of a deque; unlike the list queues of [SRFI 117](http://srfi.schemers.org/srfi-117/srfi-117.html), it is possible to efficiently return an updated version of a deque without mutating any earlier versions of it.
 
 ## Specification
 
@@ -178,4 +178,4 @@ Conversion between deque and list structures. FIFO order is preserved, so the fr
 
 `(ideque->generator `*ideque*`)`
 
-Converts a [SRFI 121](http://srfi.schemers.org/srfi-121/srfi-121.html) generator to and from a deque.
+Converts a [SRFI 121](https://srfi.schemers.org/srfi-121/srfi-121.html) generator to and from a deque.

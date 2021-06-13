@@ -2,7 +2,7 @@ This is a WG2 proposal to extend Scheme's exact number system with exact equival
 
 ## Proposal
 
-See [SRFI 73](http://srfi.schemers.org/srfi-73/srfi-73.html).
+See [SRFI 73](https://srfi.schemers.org/srfi-73/srfi-73.html).
 
 Exact positive infinity is regarded as an real (but not rational) number written `1/0` that represents a value greater than the numbers represented by all rational numbers.   Exact negative infinity is regarded as an exact real (but not rational) number written `-1/0` that represents a value less than the numbers represented by all rational numbers.  Forms such as `2/0` and `-3/0` are accepted on input but are not produced on output.
 

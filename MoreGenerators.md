@@ -93,7 +93,7 @@ from [SRFI 194](http:/srfi.schemers.org/srfi-194/srfi-194.html)
 will perform weighted sampling of the *source-gens*.
 
 Composing `make-iota-generator` and `make-circular-generator`
-from [SRFI 158](http://srfi.schemers.org/srfi-158/srfi-158.html)
+from [SRFI 158](https://srfi.schemers.org/srfi-158/srfi-158.html)
 performs round-robin selection of the *source-gens*.
 
 `(stream->generator `*stream*`)`

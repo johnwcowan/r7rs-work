@@ -1,6 +1,6 @@
 # Background
 
-Parameters, as per [SRFI-39](http://srfi.schemers.org/srfi-39/srfi-39.html), are certainly useful.
+Parameters, as per [SRFI-39](https://srfi.schemers.org/srfi-39/srfi-39.html), are certainly useful.
 
 1. They can be labour-savers, passing "configuration information" down through complex call stacks without needing explicit parameter passing through functions that do nothing with the parameter other than pass it to all child procedures called, until a lower layer actually uses it
 
@@ -14,7 +14,7 @@ I think that parameters should be specified as part of WG1 scheme rather than im
 
 # The Proposal
 
-We support [SRFI-39](http://srfi.schemers.org/srfi-39/srfi-39.html) parameters.
+We support [SRFI-39](https://srfi.schemers.org/srfi-39/srfi-39.html) parameters.
 
 However, in order to promote portability, we must take this opportunity to specify the behaviour of parameters in the presence of threads; even if WG1 does not specify a threading system, any implementation of WG1 parameters that does provide threads must conform with the following specification, or else libraries using parameters will not operate safely in threaded programs.
 

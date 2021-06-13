@@ -75,7 +75,7 @@ programming.  Do we want to provide an interface to random number
 generation in WG1 Scheme?
 
 * **Proposals:**
-* **srfi-27:** [SRFI-27](http://srfi.schemers.org/srfi-27/srfi-27.html)
+* **srfi-27:** [SRFI-27](https://srfi.schemers.org/srfi-27/srfi-27.html)
 * **cl:** [RandomnessCommonLisp](RandomnessCommonLisp.md)
 * **cowan:** [RandomCowan](RandomCowan.md)
 * **hsu:** [RandomnessArcfide](RandomnessArcfide.md)
@@ -169,7 +169,7 @@ objects with dynamic bindings.  Do we want to provide something
 similar?
 
 * **Proposals:**
-* **srfi-39:** [SRFI-39](http://srfi.schemers.org/srfi-39/srfi-39.html)
+* **srfi-39:** [SRFI-39](https://srfi.schemers.org/srfi-39/srfi-39.html)
 * **cowan:** [ImmutableParametersCowan](ImmutableParametersCowan.md)
 * **snellpym:** [ParametersSnellPym](ParametersSnellPym.md)
 * **Options:** cowan, snellpym, srfi-39, none, wg2, undecided
@@ -450,8 +450,8 @@ without modification.
 Users invariably want some way to conditionally select code depending
 on the implementation and/or feature set available. [CondExpandCowan](CondExpandCowan.md)
 allows conditional expansion in the style of SRFI-0 within the module language.
-[SRFI-0](http://srfi.schemers.org/srfi-0/srfi-0.html) provides
-`cond-expand`, [SRFI-103](http://srfi.schemers.org/srfi-103/srfi-103.html)
+[SRFI-0](https://srfi.schemers.org/srfi-0/srfi-0.html) provides
+`cond-expand`, [SRFI-103](https://srfi.schemers.org/srfi-103/srfi-103.html)
 provides a library naming extension, and numerous other personal hacks exist.
 
 Do we want to include something along these lines in WG1 Scheme?
@@ -557,7 +557,7 @@ aspects will be merged as needed.
 * **Proposals:**
 * **r6rs:** [R6RS Port I/O](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html#node_sec_8.2)
 * **r6rs-simple:** [R6RS Simple I/O](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html#node_sec_8.3)
-* **srfi-91:** [SRFI-91](http://srfi.schemers.org/srfi-91/srfi-91.html)
+* **srfi-91:** [SRFI-91](https://srfi.schemers.org/srfi-91/srfi-91.html)
 * **cowan:** [PortsCowan](PortsCowan.md) (subset relevant to binary I/O)
 * **Options:** r6rs, r6rs-simple, srfi-91, cowan, none, undecided
 * **Default:** none
@@ -571,7 +571,7 @@ Different normalizations?  How are encoding errors handled?
 
 * **Proposals:**
 * **r6rs:** [R6RS Port I/O](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-9.html#node_sec_8.2)
-* **srfi-91:** [SRFI-91](http://srfi.schemers.org/srfi-91/srfi-91.html)
+* **srfi-91:** [SRFI-91](https://srfi.schemers.org/srfi-91/srfi-91.html)
 * **cowan:** [PortsCowan](PortsCowan.md) (subset relevant to port encodings)
 * **Options:** r6rs, srfi-91, cowan, none, undecided
 * **Default:** none

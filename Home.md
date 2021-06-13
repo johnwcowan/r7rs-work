@@ -61,7 +61,7 @@ Click on "Attachments" below to access the first-year progress report and all dr
 * [RandomCowan](RandomCowan.md)
 * [RandomnessArcfide](RandomnessArcfide.md)
 * [RandomnessCommonLisp](RandomnessCommonLisp.md)
-* [SRFI-27](http://srfi.schemers.org/srfi-27/)
+* [SRFI-27](https://srfi.schemers.org/srfi-27/)
 * Let-syntax
 * [LetSyntaxArcfide](LetSyntaxArcfide.md)
 

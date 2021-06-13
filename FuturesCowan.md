@@ -3,7 +3,7 @@
 This SRFI describes *futures* as the basic unit of Scheme concurrency (as
 opposed to parallelism, for which see [ParallelPromisesCowan](ParallelPromisesCowan.md)).
 
-Futures are analogous to [SRFI 18](http://srfi.schemers.org/srfi-18/srfi-18.html) threads,
+Futures are analogous to [SRFI 18](https://srfi.schemers.org/srfi-18/srfi-18.html) threads,
 and can easily be built using SRFI 18 threads directly.
 However, it is also possible to have multiple futures
 sharing the same thread in a thread pool, and this choice
