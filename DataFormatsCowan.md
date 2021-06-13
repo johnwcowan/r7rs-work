@@ -2,7 +2,7 @@
 
 Procedures for handling CSV and delimiter-separated values (DSV).
 For INI file support, see [IniFilesCowan](IniFilesCowan.md).
-For JSON support, see [SRFI 180](http://srfi.schemers.org/srfi-180/srfi-180.html).
+For JSON support, see [SRFI 180](https://srfi.schemers.org/srfi-180/srfi-180.html).
 
 Input ports default to `(current-input-port)`, output ports to
 `(current-output-port)`.
@@ -30,14 +30,14 @@ the following deviations:
   
 `(make-csv-generator `[*port*]`)`
 
-Returns a [SRFI 158](http://srfi.schemers.org/srfi-158/srfi-158.html) generator
+Returns a [SRFI 158](https://srfi.schemers.org/srfi-158/srfi-158.html) generator
 which when invoked reads a record from *port* and returns it in the
 internal representation.  When *port* returns an end of file object,
 the generator closes *port* and returns the object.
 
 `(make-csv-accumulator `[*port*]`)`
 
-Returns a [SRFI 158](http://srfi.schemers.org/srfi-158/srfi-158.html) accumulator
+Returns a [SRFI 158](https://srfi.schemers.org/srfi-158/srfi-158.html) accumulator
 which when invoked with one argument that is the internal representation of a record
 writes the corresponding external representation to `port`, returning an unspecified value.
 When invoked on an end-of-file object, the generator closes *port* and returns the end of file object.

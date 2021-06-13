@@ -1,7 +1,7 @@
 ## Macros
 
 Here are a few convenience macros that make use of
-[SRFI 17](http://srfi.schemers.org/srfi-17/srfi-17.html) getters and setters.
+[SRFI 17](https://srfi.schemers.org/srfi-17/srfi-17.html) getters and setters.
 A *place* is either a variable or a procedure call whose operator has a corresponding setter.
 To set a place that is a variable, use `set!`; to set a place of the form
 `(`*proc args*`)`, call `((setter `*proc*`)` *args*`)`.

@@ -1,6 +1,6 @@
 ## Introduction
 
-A *tally* is a [SRFI 158](http://srfi.schemers.org/srfi-158/srfi-158.html) accumulator
+A *tally* is a [SRFI 158](https://srfi.schemers.org/srfi-158/srfi-158.html) accumulator
 whose purpose is to keep running descriptive statistics on *observations*, each represented by a real number,
 that are injected into it.
 It can compute a variety of simple statistics such as the arithmetic mean, the variance, and the standard deviation.

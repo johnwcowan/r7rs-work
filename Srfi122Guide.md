@@ -154,7 +154,7 @@ this class is not necessarily a Scheme vector.
 Storage classes that allow particular sets of numbers to be stored
 The character `@` is shorthand for one of `u8`, `s8`, ... `c128`,
 the twelve homogeneous-vector datatypes
-of [SRFI 160](http://srfi.schemers.org/srfi-160/srfi-160.html).
+of [SRFI 160](https://srfi.schemers.org/srfi-160/srfi-160.html).
 However, a storage object belonging to
 one of these classes is not necessarily a SRFI 160 @vector.
 
@@ -427,7 +427,7 @@ Invokes `proc` for its side effects on the elements of
 `(array-fold `*kons knil array*`)`  
 `(array-fold-right `*kons knil array*`)`
 
-Performs a [SRFI 1](http://srfi.schemers.org/srfi-1/srfi-1.html)
+Performs a [SRFI 1](https://srfi.schemers.org/srfi-1/srfi-1.html)
 `fold` or `right-fold` on the elements of *array* taken in lexicographic order.
 
 ## Mutators

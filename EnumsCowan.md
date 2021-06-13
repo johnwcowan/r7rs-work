@@ -32,12 +32,12 @@ An enum type provides access to all the enums that belong to it by name or ordin
 
 *Enumeration sets* are used to represent multiple enums that belong to the same type.
 They provide a subset of the operations provided by
-[SRFI 113](http://srfi.schemers.org/srfi-113/srfi-113.html) general sets.
+[SRFI 113](https://srfi.schemers.org/srfi-113/srfi-113.html) general sets.
 
 Specialized mappings from enums to arbitrary values will be described
 in a future SRFI.  Meanwhile, general-purpose hash tables from
-[SRFI 125](http://srfi.schemers.org/srfi-125/srfi-125.html) or elsewhere, or
-[SRFI 146](http://srfi.schemers.org/srfi-146/srfi-146.html) mappings can be used instead.
+[SRFI 125](https://srfi.schemers.org/srfi-125/srfi-125.html) or elsewhere, or
+[SRFI 146](https://srfi.schemers.org/srfi-146/srfi-146.html) mappings can be used instead.
 
 ## Specification
 
@@ -190,7 +190,7 @@ Returns `#f` if there is no such enum.
 
 `(make-enum-comparator `*enum-type*`)`
 
-Returns a [SRFI 128](http://srfi.schemers.org/srfi-128/srfi-128.html)
+Returns a [SRFI 128](https://srfi.schemers.org/srfi-128/srfi-128.html)
 comparator suitable for comparing enums that belong to *enum-type*.
 The comparator contains both an ordering predicate and a hash function,
 and orders enums based on their ordinal values.

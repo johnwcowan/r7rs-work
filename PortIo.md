@@ -25,7 +25,7 @@ encryption.  A textual port is conceptually a stream of
 characters, which is often layered on top of a binary port
 representing some specific character encoding system (CES),
 but may also be represented directly as in a
-[string port](http://srfi.schemers.org/srfi-6/srfi-6.html).
+[string port](https://srfi.schemers.org/srfi-6/srfi-6.html).
 
 There can be other types of ports corresponding to streams
 of different types of data - the Pascal language provides
@@ -50,7 +50,7 @@ or paragraph (of either natural or programming languages),
 and parsing or searching for text in a multitude of formats.
 Output textual ports have libraries for writing at the same
 levels, and various formatting approaches such as
-[templated formatting](http://srfi.schemers.org/srfi-48/srfi-48.html),
+[templated formatting](https://srfi.schemers.org/srfi-48/srfi-48.html),
 combinator formatting and logging.
 
 Binary and textual ports may be distinguished both at the

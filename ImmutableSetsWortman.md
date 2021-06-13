@@ -10,13 +10,13 @@ Immutable structures are sometimes called *persistent* and are closely related t
 
 <p>Bags are useful for counting anything from a fixed set of possibilities, e.g. the number of each type of error in a log file or the number of uses of each word in a lexicon drawn from a body of documents.  Although other data structures can serve the same purpose, using bags clearly expresses the programmer's intent and allows for optimization.</p>
 
-<p>Insofar as possible, the names in this SRFI are harmonized with the names used for <a href="http://srfi.schemers.org/srfi-113/srfi-113.html">SRFI 113</a>.  SRFI 113 sets and bags are linear-update: that is, a modification to the data structure returns a modified version and may or may not mutate the original version.  In this SRFI, the data structures are guaranteed not to be mutated.</p>
+<p>Insofar as possible, the names in this SRFI are harmonized with the names used for <a href="https://srfi.schemers.org/srfi-113/srfi-113.html">SRFI 113</a>.  SRFI 113 sets and bags are linear-update: that is, a modification to the data structure returns a modified version and may or may not mutate the original version.  In this SRFI, the data structures are guaranteed not to be mutated.</p>
 
-<p>It's possible to use the general sets of this SRFI to contain characters, but the use of the linear-update sets of <a href="http://srfi.schemers.org/srfi-14/srfi-14.html">SRFI 14</a> is recommended instead.</p>
+<p>It's possible to use the general sets of this SRFI to contain characters, but the use of the linear-update sets of <a href="https://srfi.schemers.org/srfi-14/srfi-14.html">SRFI 14</a> is recommended instead.</p>
 
-<p>Immutable sets and bags do not have a lexical syntax representation.  It's possible to use <a href="http://srfi.schemers.org/srfi-108/srfi-108.html">SRFI 108</a> quasi-literal constructors to create them in code, but this SRFI does not standardize how that is done.</p>
+<p>Immutable sets and bags do not have a lexical syntax representation.  It's possible to use <a href="https://srfi.schemers.org/srfi-108/srfi-108.html">SRFI 108</a> quasi-literal constructors to create them in code, but this SRFI does not standardize how that is done.</p>
 
-<p>The interface to immutable sets and bags depends on <a href="http://srfi.schemers.org/srfi-114/srfi-128.html">SRFI 128</a> comparators. Comparators conveniently package the equality predicate of the set with the comparison procedure needed to implement the set efficiently.</p>
+<p>The interface to immutable sets and bags depends on <a href="https://srfi.schemers.org/srfi-114/srfi-128.html">SRFI 128</a> comparators. Comparators conveniently package the equality predicate of the set with the comparison procedure needed to implement the set efficiently.</p>
 
 ## Specification
 
@@ -216,7 +216,7 @@ Returns a set containing the elements of *list* and using *comparator*. It is an
 
 `(iset->generator `*iset*`)`
 
-Converts a [SRFI 121](http://srfi.schemers.org/srfi-121/srfi-121.html) generator to and from a set.
+Converts a [SRFI 121](https://srfi.schemers.org/srfi-121/srfi-121.html) generator to and from a set.
 
 ### Set-theoretic operations
 

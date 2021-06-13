@@ -104,7 +104,7 @@ Undoes the mapping performed by `uuid->integer`.
 
 `uuid-comparator`
 
-A [SRFI 128](http://srfi.schemers.org/srfi-128/srfi-128.html) comparator
+A [SRFI 128](https://srfi.schemers.org/srfi-128/srfi-128.html) comparator
 for UUIDs.  It must support both ordering and hashing.
 
 ## Implementation
