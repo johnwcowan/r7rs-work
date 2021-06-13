@@ -10,7 +10,7 @@ The proposal is an alternative to [ParametersSnellPym](ParametersSnellPym.md), p
 
 The *dynamic environment* is the structure which allows the system to find the value to be returned by the R5RS procedures `current-input-port` and `current-output-port`. The R5RS procedures `with-input-from-file` and `with-output-to-file` extend the dynamic environment to produce a new dynamic environment which is in effect for the dynamic extent of the call to the thunk passed as their last argument. These procedures are essentially special-purpose dynamic binding operations on hidden dynamic variables (one for `current-input-port` and one for `current-output-port`). The purpose of this proposal is to generalize this dynamic binding mechanism (which exists in all R5RS-compliant systems) to allow the user to introduce new dynamic variables and dynamically bind them.
 
-General dynamic binding mechanisms exist in several implementations of Scheme under various names, including fluid variables and parameter objects. The parameter objects specified in this proposal are compatible with the semantics of some, but not all, implementations of Scheme that currently support [SRFI-39](http://srfi.schemers.org/srfi-39/srfi-39.html).
+General dynamic binding mechanisms exist in several implementations of Scheme under various names, including fluid variables and parameter objects. The parameter objects specified in this proposal are compatible with the semantics of some, but not all, implementations of Scheme that currently support [SRFI-39](https://srfi.schemers.org/srfi-39/srfi-39.html).
 
 Parameters are certainly useful:
 

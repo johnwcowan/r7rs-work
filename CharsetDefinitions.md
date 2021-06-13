@@ -3,7 +3,7 @@
 ## Introduction
 
 This page provides modern definitions of the standard
-[SRFI 14](http://srfi.schemers.org/srfi-14/srfi-14.html)
+[SRFI 14](https://srfi.schemers.org/srfi-14/srfi-14.html)
 character sets in terms of Unicode properties.
 The definitions published as part of Java 1.0, which
 means they reflect data and interpretations as of Unicode 2.0.

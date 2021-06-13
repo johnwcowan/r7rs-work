@@ -17,39 +17,39 @@ See [TangerineEdition](TangerineEdition.md).
 
 ## Numeric types, operations, and data structures
 
-Random numbers: [SRFI 27](http://srfi.schemers.org/srfi-27/srfi-27.html),
-plus [SRFI 194](http://srfi.schemers.org/srfi-194/srfi-194.html)
+Random numbers: [SRFI 27](https://srfi.schemers.org/srfi-27/srfi-27.html),
+plus [SRFI 194](https://srfi.schemers.org/srfi-194/srfi-194.html)
 
-Comparator sublibrary: [SRFI 162](http://srfi.schemers.org/srfi-162/srfi-162.html)
+Comparator sublibrary: [SRFI 162](https://srfi.schemers.org/srfi-162/srfi-162.html)
 
-Integer sets:  [SRFI 217](http://srfi.schemers.org/srfi-217/srfi-217.html)
+Integer sets:  [SRFI 217](https://srfi.schemers.org/srfi-217/srfi-217.html)
 
-Integer mappings:  [SRFI 224](http://srfi.schemers.org/srfi-224/srfi-224.html)
+Integer mappings:  [SRFI 224](https://srfi.schemers.org/srfi-224/srfi-224.html)
 
-Ranges:  [SRFI 196](http://srfi.schemers.org/srfi-196/srfi-196.html)
+Ranges:  [SRFI 196](https://srfi.schemers.org/srfi-196/srfi-196.html)
 
 Homogeneous vectors: [SRFI 160](https://srfi.schemers.org/srfi-160/srfi-160.html)
 
-Bitvectors: [SRFI 178](http://srfi.schemers.org/srfi-178/srfi-178.html)
+Bitvectors: [SRFI 178](https://srfi.schemers.org/srfi-178/srfi-178.html)
 
-Bytestrings: [SRFI 207](http://srfi.schemers.org/srfi-207/srfi-207.html)
+Bytestrings: [SRFI 207](https://srfi.schemers.org/srfi-207/srfi-207.html)
 
-Multidimensional arrays: [SRFI 179](http://srfi.schemers.org/srfi-179/srfi-179.html) 
-or [SRFI 164](http://srfi.schemers.org/srfi-164/srfi-164.html)
+Multidimensional arrays: [SRFI 179](https://srfi.schemers.org/srfi-179/srfi-179.html) 
+or [SRFI 164](https://srfi.schemers.org/srfi-164/srfi-164.html)
 
 ASCII character library: [SRFI 175](https://srfi.schemers.org/srfi-175/srfi-175.html)
 
 ## Other
 
-Enumerations: [SRFI 209](http://srfi.schemers.org/srfi-209/srfi-209.html)
+Enumerations: [SRFI 209](https://srfi.schemers.org/srfi-209/srfi-209.html)
 
-Compound objects: [SRFI 222](http://srfi.schemers.org/srfi-222/srfi-222.html)
+Compound objects: [SRFI 222](https://srfi.schemers.org/srfi-222/srfi-222.html)
 
-Linear adjustable-size strings: [SRFI 185](http://srfi.schemers.org/srfi-185/srfi-185.html)
+Linear adjustable-size strings: [SRFI 185](https://srfi.schemers.org/srfi-185/srfi-185.html)
 
-Yet more generator extensions: [SRFI 162](http://srfi.schemers.org/srfi-162/srfi-162.html)
+Yet more generator extensions: [SRFI 162](https://srfi.schemers.org/srfi-162/srfi-162.html)
 
-Coroutine generators: [SRFI 190](http://srfi.schemers.org/srfi-190/srfi-190.html)
+Coroutine generators: [SRFI 190](https://srfi.schemers.org/srfi-190/srfi-190.html)
 
 Generic dictionary operations: [Dictionaries](Dictionaries.md)
 
@@ -63,42 +63,42 @@ Explicit renaming: [explicit renaming](https://www.gnu.org/software/mit-scheme/d
 
 Simple identifier syntax: [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_796)
 
-Custom macro transformers: [SRFI 147](http://srfi.schemers.org/srfi-147/srfi-147.html)
+Custom macro transformers: [SRFI 147](https://srfi.schemers.org/srfi-147/srfi-147.html)
 
-Syntax parameters: [SRFI 139](http://srfi.schemers.org/srfi-139/srfi-139.html)
+Syntax parameters: [SRFI 139](https://srfi.schemers.org/srfi-139/srfi-139.html)
 
-Syntax-rules extensions: [SRFI 149](http://srfi.schemers.org/srfi-149/srfi-149.html)
+Syntax-rules extensions: [SRFI 149](https://srfi.schemers.org/srfi-149/srfi-149.html)
 
-`let-syntax` with splicing: [SRFI 188](http://srfi.schemers.org/srfi-188/srfi-188.html)
+`let-syntax` with splicing: [SRFI 188](https://srfi.schemers.org/srfi-188/srfi-188.html)
 
-Generalized `set!`: [SRFI 17](http://srfi.schemers.org/srfi-17/srfi-17.html) or
+Generalized `set!`: [SRFI 17](https://srfi.schemers.org/srfi-17/srfi-17.html) or
 [`identifier-syntax`](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_796)
 
 Splicing `let(rec)-syntax`: [SRFI 188](https://srfi.schemers.org/srfi-188/srfi-188.html)
 
 ## Portable
 
-`and-let*`: [SRFI 2 using define-macro or syntax-rules](http://srfi.schemers.org/srfi-2/srfi-2.html),
+`and-let*`: [SRFI 2 using define-macro or syntax-rules](https://srfi.schemers.org/srfi-2/srfi-2.html),
 [using explicit renaming](https://code.call-cc.org/cgi-bin/gitweb.cgi?p=chicken-core.git;a=blob;f=chicken-syntax.scm;h=e3c2feb47c1437d44aefa0d879e04dc28a0cbc61;hb=HEAD),
 [using syntax-case](http://git.savannah.gnu.org/cgit/guile.git/tree/module/ice-9/and-let-star.scm),
 HEAD),
 [SRFI 202](https://srfi.schemers.org/srfi-202/srfi-202.html)
 
-`cond` guards: [SRFI 61](http://srfi.schemers.org/srfi-61/srfi-61.html)
+`cond` guards: [SRFI 61](https://srfi.schemers.org/srfi-61/srfi-61.html)
 
 Modify macros: [Srfi17ExtensionsCowan](Srfi17ExtensionsCowan.md)
 
-`receive`: [SRFI 8](http://srfi.schemers.org/srfi-8/srfi-8.html)
+`receive`: [SRFI 8](https://srfi.schemers.org/srfi-8/srfi-8.html)
 
-`rec`: [SRFI 31](http://srfi.schemers.org/srfi-31/srfi-31.html)
+`rec`: [SRFI 31](https://srfi.schemers.org/srfi-31/srfi-31.html)
 
-`Cut/cute`:  [SRFI 26](http://srfi.schemers.org/srfi-26/srfi-26.html)
+`Cut/cute`:  [SRFI 26](https://srfi.schemers.org/srfi-26/srfi-26.html)
 
-Generic accessors/mutators: [SRFI 123](http://srfi.schemers.org/srfi-123/srfi-123.html)
+Generic accessors/mutators: [SRFI 123](https://srfi.schemers.org/srfi-123/srfi-123.html)
 
-`let` extensions: [SRFI 5](http://srfi.schemers.org/srfi-5/srfi-5.html)
+`let` extensions: [SRFI 5](https://srfi.schemers.org/srfi-5/srfi-5.html)
 
-Eager syntax rules: [SRFI 148](http://srfi.schemers.org/srfi-148/srfi-148.html)
+Eager syntax rules: [SRFI 148](https://srfi.schemers.org/srfi-148/srfi-148.html)
 
 Syntax combiners for binary functions: [SRFI 156](https://srfi.schemers.org/srfi-156/srfi-156.html)
 
@@ -116,11 +116,11 @@ Identifier properties: [SRFI 213](https://srfi.schemers.org/srfi-213/srfi-213.ht
 
 ## Syntax
 
-Nested `define`:  [SRFI 219](http://srfi.schemers.org/srfi-219/srfi-219.html)
+Nested `define`:  [SRFI 219](https://srfi.schemers.org/srfi-219/srfi-219.html)
 
-Loops: [SRFI 42](http://srfi.schemers.org/srfi-42/srfi-42) or [Riastradh's foof-loop](http://mumble.net/~campbell/scheme/foof-loop.txt) or [Chibi loop](http://synthcode.com/scheme/chibi/lib/chibi/loop.html), summarized at [EagerComprehensions](EagerComprehensions.md)
+Loops: [SRFI 42](https://srfi.schemers.org/srfi-42/srfi-42) or [Riastradh's foof-loop](http://mumble.net/~campbell/scheme/foof-loop.txt) or [Chibi loop](http://synthcode.com/scheme/chibi/lib/chibi/loop.html), summarized at [EagerComprehensions](EagerComprehensions.md)
 
-Assumptions: [SRFI 145](http://srfi.schemers.org/srfi-145/srfi-145.html)
+Assumptions: [SRFI 145](https://srfi.schemers.org/srfi-145/srfi-145.html)
 
 Assertions: [AssertionsWarnings](https://github.com/johnwcowan/r7rs-work/blob/master/AssertionsWarnings.md)
 or [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_sec_11.14)
@@ -131,8 +131,8 @@ Warnings: [AssertionsWarnings](https://github.com/johnwcowan/r7rs-work/blob/mast
 
 lambda*: [BeyondCurryingHemann](BeyondCurryingHemann.md)
 
-Named parameters:  [SRFI 177](http://srfi.schemers.org/srfi-177/srfi-177.html),
-[SRFI 89](http://srfi.schemers.org/srfi-89/srfi-89.html),
+Named parameters:  [SRFI 177](https://srfi.schemers.org/srfi-177/srfi-177.html),
+[SRFI 89](https://srfi.schemers.org/srfi-89/srfi-89.html),
 or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/0.7.3/index.html)
 
 Multiple values passed through => in `cond`: see [#90](https://small.r7rs.org/ticket/90/)
@@ -199,7 +199,7 @@ Environment monad: [SRFI 165](https://srfi.schemers.org/srfi-165/srfi-165.html)
 
 Restarts:  [RestartsCowan](RestartsCowan.md)
 
-Timespecs:  [SRFI 174](http://srfi.schemers.org/srfi-174/srfi-174.html)
+Timespecs:  [SRFI 174](https://srfi.schemers.org/srfi-174/srfi-174.html)
 
 Conditions: [ConditionsCowan](ConditionsCowan.md)
 
@@ -222,19 +222,19 @@ Language tag searching: [BCP 47](https://tools.ietf.org/html/bcp47).  Procedures
 
 Continuation marks: [SRFI 157](https://srfi.schemers.org/srfi-157/srfi-157.html)
 
-Custom I/O ports and transcoded ports: [SRFI 181](http://srfi.schemers.org/srfi-181/srfi-181.html).
+Custom I/O ports and transcoded ports: [SRFI 181](https://srfi.schemers.org/srfi-181/srfi-181.html).
 
-Port positioning: [SRFI 192](http://srfi.schemers.org/srfi-192/srfi-192.html).
+Port positioning: [SRFI 192](https://srfi.schemers.org/srfi-192/srfi-192.html).
 
-Threads: [SRFI 18](http://srfi.schemers.org/srfi-18/srfi-18.html)
+Threads: [SRFI 18](https://srfi.schemers.org/srfi-18/srfi-18.html)
 or [FuturesCowan](FuturesCowan.md) (just futures, thread-local variables, monad support)
 
-Sockets: [SRFI 106](http://srfi.schemers.org/srfi-106/srfi-106.html) or
+Sockets: [SRFI 106](https://srfi.schemers.org/srfi-106/srfi-106.html) or
 [NetworkPortsCowan](NetworkPortsCowan.md) with [NetworkEndpointsCowan](NetworkEndpointsCowan.md)
 
 Datagram channels (UDP sockets): [DatagramChannelsCowan](DatagramChannelsCowan.md)
 
-Timers: [SRFI 120](http://srfi.schemers.org/srfi-120/srfi-120.html)
+Timers: [SRFI 120](https://srfi.schemers.org/srfi-120/srfi-120.html)
 
 Mutable environments: [EnvironmentsMIT](https://htmlpreview.github.io/?https://github.com/johnwcowan/r7rs-work/blob/master/EnvironmentsMIT.html)
 
@@ -260,15 +260,15 @@ Delimited continuations: [Racket](https://docs.racket-lang.org/reference/cont.ht
 [Gauche](https://practical-scheme.net/gauche/man/gauche-refe/Partial-continuations.html),
 [Chicken](http://wiki.call-cc.org/eggref/4/F-operator)
 
-Continuation marks:  [SRFI 157](http://srfi.schemers.org/srfi-157/srfi-157.html)
+Continuation marks:  [SRFI 157](https://srfi.schemers.org/srfi-157/srfi-157.html)
 
-Extended exact numbers: [SRFI 73](http://srfi.schemers.org/srfi-73/srfi-73.html)
+Extended exact numbers: [SRFI 73](https://srfi.schemers.org/srfi-73/srfi-73.html)
 or [ExtendedRationalsCowan](ExtendedRationalsCowan.md)
 
-Adjustable strings: [SRFI 118](http://srfi.schemers.org/srfi-118/srfi-118.html) (basic)
-or [SRFI 140](http://srfi.schemers.org/srfi-140/srfi-140.html) (mutable/immutable)
+Adjustable strings: [SRFI 118](https://srfi.schemers.org/srfi-118/srfi-118.html) (basic)
+or [SRFI 140](https://srfi.schemers.org/srfi-140/srfi-140.html) (mutable/immutable)
 
-Mutexes, condition variables: [SRFI 18](http://srfi.schemers.org/srfi-18/srfi-18.html)
+Mutexes, condition variables: [SRFI 18](https://srfi.schemers.org/srfi-18/srfi-18.html)
 
 Port type detector: [#177](https://small.r7rs.org/ticket/177/)
 
@@ -290,7 +290,7 @@ Streaming regular expressions: [PragmaticParsingBaker](http://home.pipeline.com/
 
 Binary representations: [BinaryRepsCowan](BinaryRepsCowan.md)
 
-CLI utilities: [SRFI 37](http://srfi.schemers.org/srfi-37/srfi-37.html),
+CLI utilities: [SRFI 37](https://srfi.schemers.org/srfi-37/srfi-37.html),
 [Optimism](http://wiki.call-cc.org/eggref/5/optimism)
 [ArgsChicken](http://wiki.call-cc.org/eggref/5/args),
 [AppChibi](http://synthcode.com/scheme/chibi/lib/chibi/app.html) +
@@ -305,7 +305,7 @@ Combinations: [CombinationsGauche](https://htmlpreview.github.io/?https://github
 
 Generic combinator procedures: [CombinatorsCowan](CombinatorsCowan.md)
 
-Time types: [SRFI 19](http://srfi.schemers.org/srfi-19/srfi-19.html) and/or [TimeAdvancedCowan](TimeAdvancedCowan.md) with [TimePeriodsCowan](TimePeriodsCowan.md)
+Time types: [SRFI 19](https://srfi.schemers.org/srfi-19/srfi-19.html) and/or [TimeAdvancedCowan](TimeAdvancedCowan.md) with [TimePeriodsCowan](TimePeriodsCowan.md)
 
 Character conversion: [CharacterConversionCowan](CharacterConversionCowan.md)
 
@@ -317,7 +317,7 @@ URI objects: [UrisCowan](UrisCowan.md)
 
 Unicode character database: [UcdCowan](UcdCowan.md), [AdvancedUcdCowan](AdvancedUcdCowan.md)
 
-Environment: [SRFI 112](http://srfi.schemers.org/srfi-112/srfi-112.html) with [MiscEnvironmentSchudy](MiscEnvironmentSchudy.md)
+Environment: [SRFI 112](https://srfi.schemers.org/srfi-112/srfi-112.html) with [MiscEnvironmentSchudy](MiscEnvironmentSchudy.md)
 
 Trees: [TreesCowan](TreesCowan.md)
 
@@ -330,15 +330,15 @@ Unicode string normalization: [StringNormalizationCowan](StringNormalizationCowa
 Binary heap: [BinaryHeapsCowan](BinaryHeapsCowan.md)
 
 Date and time arithmetic: [TimeAdvancedCowan](TimeAdvancedCowan.md),
-[SRFI 19](http://srfi.schemers.org/srfi-19/srfi-19.html)
+[SRFI 19](https://srfi.schemers.org/srfi-19/srfi-19.html)
 
 Date-time parser: [Hato date parser](https://code.google.com/p/hato/source/browse/hato-date.scm),
-[SRFI 19](http://srfi.schemers.org/srfi-19/srfi-19.html)
+[SRFI 19](https://srfi.schemers.org/srfi-19/srfi-19.html)
 
 Regular expressions over s-expressions:  [SerexPalmer](http://inamidst.com/lisp/serex)
 
 Procedural record types: [R6RS](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-7.html#node_sec_6.3)
-[SRFI 99](http://srfi.schemers.org/srfi/srfi-99.html),
+[SRFI 99](https://srfi.schemers.org/srfi/srfi-99.html),
 [AnonymousRecordsCowan](AnonymousRecordsCowan.md),
 [RidiculouslySimpleRecordsCowan](RecordsCowan.md),  
 [UniqueTypesCowan](UniqueTypesCowan.md)
@@ -361,22 +361,22 @@ Monads, applicative functors, and functors:  [ContextsCowan](ContextsCowan.md)
 
 String normalization: [StringNormalization](StringNormalization.md)
 
-Testing: [SRFI 64](http://srfi.schemers.org/srfi-64/srfi-64.html)
+Testing: [SRFI 64](https://srfi.schemers.org/srfi-64/srfi-64.html)
 or [ChibiChickenTest](http://wiki.call-cc.org/eggref/5/test)
-or [SRFI 78](http://srfi.schemers.org/srfi-78/srfi-78.html)
+or [SRFI 78](https://srfi.schemers.org/srfi-78/srfi-78.html)
 
-Command-line arguments: [SRFI 37](http://srfi.schemers.org/srfi-37/srfi-37.html)
+Command-line arguments: [SRFI 37](https://srfi.schemers.org/srfi-37/srfi-37.html)
 
-Unifiable boxes: [SRFI 161](http://srfi.schemers.org/srfi-161/srfi-161.html)
+Unifiable boxes: [SRFI 161](https://srfi.schemers.org/srfi-161/srfi-161.html)
 
 Channels: [PigeonHolesChicken](http://wiki.call-cc.org/eggref/5/pigeon-hole),
 [GochanChicken](http://wiki.call-cc.org/eggref/5/gochan)
 
 Immutable vectors: [FectorsPrice](https://github.com/ijp/fectors)
 
-First-class dynamic extents: [SRFI 154](http://srfi.schemers.org/srfi-154/srfi-154.html)
+First-class dynamic extents: [SRFI 154](https://srfi.schemers.org/srfi-154/srfi-154.html)
 
-Promises: [SRFI 155](http://srfi.schemers.org/srfi-155/srfi-155.html)
+Promises: [SRFI 155](https://srfi.schemers.org/srfi-155/srfi-155.html)
 
 Writing filters: [FileFilterGauche](https://practical-scheme.net/gauche/man/gauche-refe/Filtering-file-content.html#Filtering-file-content)
 

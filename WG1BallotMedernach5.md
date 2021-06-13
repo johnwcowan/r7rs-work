@@ -451,13 +451,13 @@ circular list with the corresponding mapped results.
 ### #310 Rationalize start/end/(fill) arguments in sequence procedures
 
 When we approved [CompleteSequenceCowan](CompleteSequenceCowan.md) in ticket #64, we adopted
-[[http://srfi.schemers.org/srfi-43/srfi-43.html#vector-fill-bang|SRFI
+[[https://srfi.schemers.org/srfi-43/srfi-43.html#vector-fill-bang|SRFI
 43]] syntax and semantics for `vector-copy`, meaning that it takes
 optional *start, end, fill* arguments.  This is inconsistent with
 various other copier procedures in R7RS as inherited from R5RS, as
 well as what is provided in SRFI 43 and its relatives
-[SRFI 1](http://srfi.schemers.org/srfi-1/srfi-1.html) (for lists) and
-[SRFI 13](http://srfi.schemers.org/srfi-13/srfi-13.html) (for strings).
+[SRFI 1](https://srfi.schemers.org/srfi-1/srfi-1.html) (for lists) and
+[SRFI 13](https://srfi.schemers.org/srfi-13/srfi-13.html) (for strings).
 There are four plausible courses of action:
 
 * **Proposals:**

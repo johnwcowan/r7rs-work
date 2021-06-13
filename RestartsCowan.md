@@ -120,7 +120,7 @@ Searches *restarters* for a restarter whose tag is the same
 (in the sense of `eqv?`) as *tag*, except that restarters
 whose tag is `#f` are ignored.  The *restarters* argument
 may be a single restarter, a list of restarters, or a
-[SRFI  222](http://srfi.schemers.org/srfi-222/srfi-222.html)
+[SRFI  222](https://srfi.schemers.org/srfi-222/srfi-222.html)
 compound object.  If no such restarter is found in *restarters*,
 the value of `(ambient-restarters)` is searched instead.
 Failing that as well, `#f` is returned.

@@ -1,1 +1,1 @@
-See [SRFI 125 (hash tables)](http://srfi.schemers.org/srfi-125/srfi-125.html) and [SRFI 146 (mappings)](http://srfi.schemers.org/srfi-146/srfi-146.html)
+See [SRFI 125 (hash tables)](https://srfi.schemers.org/srfi-125/srfi-125.html) and [SRFI 146 (mappings)](http://srfi.schemers.org/srfi-146/srfi-146.html)

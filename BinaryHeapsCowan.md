@@ -2,7 +2,7 @@
 
 Binary heaps are mutable collections that can contain any Scheme object provided
 there exists a total ordering on the objects expressed by a
-[SRFI 128](http://srfi.schemers.org/srfi-128/srfi-128.html) comparator.
+[SRFI 128](https://srfi.schemers.org/srfi-128/srfi-128.html) comparator.
 They are intended to be a thin veneer over vectors.  Binary heaps are disjoint from other types of Scheme objects.
 
 ## Procedures

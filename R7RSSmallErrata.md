@@ -56,7 +56,7 @@ the fourth rule when `=>` is present.  Here is the correct version:
 
 7\. In Section 7.1.1, the lexical rule <special initial> incorrectly omits `@`.
 
-8\. Bibliographic reference ![13] should link to [SRFI 4](http://srfi.schemers.org/srfi-4/srfi-4.html).
+8\. Bibliographic reference ![13] should link to [SRFI 4](https://srfi.schemers.org/srfi-4/srfi-4.html).
 
 9\. In section 4.2.2, add "interleaving evaluations with assignments" to the definition of `letrec*`.
 Replace the meaningless example with this:

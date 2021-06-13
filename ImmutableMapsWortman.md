@@ -256,7 +256,7 @@ Returns a map containing the associations of *alist* and using *comparator*.It i
 
 `(imap->generator `*imap*`)`
 
-Converts a [SRFI 121](http://srfi.schemers.org/srfi-121/srfi-121.html) generator to and from a map.  The generator produces pairs containing
+Converts a [SRFI 121](https://srfi.schemers.org/srfi-121/srfi-121.html) generator to and from a map.  The generator produces pairs containing
 the keys in the cars and the values in the cdrs.
 
 ### Maps as functions

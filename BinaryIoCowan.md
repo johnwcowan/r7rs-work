@@ -25,7 +25,7 @@ This will become a modified BER encoder plus a schema-based C struct converter.
 The default value of *port* is the current input or output port, as appropriate.
 It is an error if the ports passed to these procedures are not binary ports.
 Procedure names  with `@` are used as an abbreviation for different numeric
-types: see [SRFI 160](http://srfi.schemers.org/srfi-160/srfi-160.html) for
+types: see [SRFI 160](https://srfi.schemers.org/srfi-160/srfi-160.html) for
 the full list.
 
 `(read-@ ` [*port*]`)`
@@ -101,7 +101,7 @@ and *byte*.
 
 ## Implementation
 
-See [SRFI 56](http://srfi.schemers.org/srfi-56/srfi-56.html) for implementation.
+See [SRFI 56](https://srfi.schemers.org/srfi-56/srfi-56.html) for implementation.
 
 
 

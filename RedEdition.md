@@ -8,7 +8,7 @@ By unanimous consent, the libraries of R7RS-small are all required in implementa
 
 * No vote
 * None
-* [SRFI 1](http://srfi.schemers.org/srfi-1/srfi-1.html) (passed as `(scheme list)`)
+* [SRFI 1](https://srfi.schemers.org/srfi-1/srfi-1.html) (passed as `(scheme list)`)
 
 2. What vector library should R7RS-large provide?
 
@@ -16,7 +16,7 @@ By unanimous consent, the libraries of R7RS-small are all required in implementa
 
 * No vote
 * None
-* [SRFI 133](http://srfi.schemers.org/srfi-133/srfi-133.html) (passed as `(scheme vector)`)
+* [SRFI 133](https://srfi.schemers.org/srfi-133/srfi-133.html) (passed as `(scheme vector)`)
 
 3. What string library should R7RS-large provide?
 
@@ -24,8 +24,8 @@ By unanimous consent, the libraries of R7RS-small are all required in implementa
 
 * No vote
 * None
-* [SRFI 13](http://srfi.schemers.org/srfi-13/srfi-13.html)
-* [SRFI 130](http://srfi.schemers.org/srfi-130/srfi-130.html)
+* [SRFI 13](https://srfi.schemers.org/srfi-13/srfi-13.html)
+* [SRFI 130](https://srfi.schemers.org/srfi-130/srfi-130.html)
 
 No final result: this will be reballoted.
 
@@ -36,7 +36,7 @@ No final result: this will be reballoted.
 * No vote
 * None
 * [R6RS](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-5.html#node_chap_4)
-* [SRFI 132](http://srfi.schemers.org/srfi-132/srfi-132.html) (passed as `(scheme sort)`)
+* [SRFI 132](https://srfi.schemers.org/srfi-132/srfi-132.html) (passed as `(scheme sort)`)
 
 ## Sets and maps
 
@@ -46,7 +46,7 @@ No final result: this will be reballoted.
 
 * No vote
 * None
-* [SRFI 113](http://srfi.schemers.org/srfi-113/srfi-113.html) (passed as `(scheme set)`)
+* [SRFI 113](https://srfi.schemers.org/srfi-113/srfi-113.html) (passed as `(scheme set)`)
 
 6. What character set library should R7RS-large provide?
 
@@ -54,7 +54,7 @@ No final result: this will be reballoted.
 
 * No vote
 * None
-* [SRFI 14](http://srfi.schemers.org/srfi-14/srfi-14.html) (passed as `(scheme charset)`)
+* [SRFI 14](https://srfi.schemers.org/srfi-14/srfi-14.html) (passed as `(scheme charset)`)
 
 7. What hash table library should R7RS-large provide?
 
@@ -62,10 +62,10 @@ No final result: this will be reballoted.
 
 * No vote
 * None
-* [SRFI 69](http://srfi.schemers.org/srfi-69/srfi-69.html)
-* [SRFI 125](http://srfi.schemers.org/srfi-125/srfi-125.html) (passed as `(scheme hash-table)`)
+* [SRFI 69](https://srfi.schemers.org/srfi-69/srfi-69.html)
+* [SRFI 125](https://srfi.schemers.org/srfi-125/srfi-125.html) (passed as `(scheme hash-table)`)
 * [R6RS](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-14.html#node_chap_13)
-* [SRFI 126](http://srfi.schemers.org/srfi-126/srfi-126.html)
+* [SRFI 126](https://srfi.schemers.org/srfi-126/srfi-126.html)
 
 ## Immutability
 
@@ -75,7 +75,7 @@ No final result: this will be reballoted.
 
 * No vote
 * None
-* [SRFI 116](http://srfi.schemers.org/srfi-116/srfi-116.html) (passed as `(scheme ilist)`)
+* [SRFI 116](https://srfi.schemers.org/srfi-116/srfi-116.html) (passed as `(scheme ilist)`)
 
 9. What random access pair/list library should R7RS-large provide?
 
@@ -89,7 +89,7 @@ No final result: this will be reballoted.
 
 * No vote
 * None
-* [SRFI 101](http://srfi.schemers.org/srfi-101/srfi-101.html) (passed as `(scheme rlist)`)
+* [SRFI 101](https://srfi.schemers.org/srfi-101/srfi-101.html) (passed as `(scheme rlist)`)
 
 10. What immutable deque library should R7RS-large provide?
 
@@ -97,7 +97,7 @@ No final result: this will be reballoted.
 
 * No vote
 * None
-* [SRFI 134](http://srfi.schemers.org/srfi-134/srfi-134.html) (passed as `(scheme ideque)`)
+* [SRFI 134](https://srfi.schemers.org/srfi-134/srfi-134.html) (passed as `(scheme ideque)`)
 
 11. What immutable text library should R7RS-large provide?
 
@@ -105,8 +105,8 @@ No final result: this will be reballoted.
 
 * No vote
 * None
-* [SRFI 135](http://srfi.schemers.org/srfi-135/srfi-135.html) (passed as `(scheme text)`)
-* [SRFI 140](http://srfi.schemers.org/srfi-140/srfi-140.html)
+* [SRFI 135](https://srfi.schemers.org/srfi-135/srfi-135.html) (passed as `(scheme text)`)
+* [SRFI 140](https://srfi.schemers.org/srfi-140/srfi-140.html)
 
 Laziness
 12. What generator library should R7RS-large provide?
@@ -115,7 +115,7 @@ Laziness
 
 * No vote
 * None
-* [SRFI 121](http://srfi.schemers.org/srfi-121/srfi-121.html) (passed as `(scheme generator)`)
+* [SRFI 121](https://srfi.schemers.org/srfi-121/srfi-121.html) (passed as `(scheme generator)`)
 
 13. What lazy sequence library should R7RS-large provide?
 
@@ -123,7 +123,7 @@ Laziness
 
 * No vote
 * None
-* [SRFI 127](http://srfi.schemers.org/srfi-127/srfi-127.html) (passed as `(scheme lseq)`)
+* [SRFI 127](https://srfi.schemers.org/srfi-127/srfi-127.html) (passed as `(scheme lseq)`)
 
 14. What stream library should R7RS-large provide?
 
@@ -131,7 +131,7 @@ Laziness
 
 * No vote
 * None
-* [SRFI 41](http://srfi.schemers.org/srfi-41/srfi-41.html) (passed as `(scheme stream)`)
+* [SRFI 41](https://srfi.schemers.org/srfi-41/srfi-41.html) (passed as `(scheme stream)`)
 
 ## Miscellaneous
 
@@ -141,7 +141,7 @@ Laziness
 
 * No vote
 * None
-* [SRFI 111](http://srfi.schemers.org/srfi-111/srfi-111.html) (passed as `(scheme box)`)
+* [SRFI 111](https://srfi.schemers.org/srfi-111/srfi-111.html) (passed as `(scheme box)`)
 
 16. What list queue library should R7RS-large provide?
 
@@ -149,7 +149,7 @@ Laziness
 
 * No vote
 * None
-* [SRFI 117](http://srfi.schemers.org/srfi-117/srfi-117.html) (passed as `(scheme list-queue)`)
+* [SRFI 117](https://srfi.schemers.org/srfi-117/srfi-117.html) (passed as `(scheme list-queue)`)
 
 17. What ephemeron library should R7RS-large provide?
 
@@ -157,7 +157,7 @@ Laziness
 
 * No vote
 * None
-* [SRFI 124](http://srfi.schemers.org/srfi-124/srfi-124.html) (passed as `(scheme ephemeron)`)
+* [SRFI 124](https://srfi.schemers.org/srfi-124/srfi-124.html) (passed as `(scheme ephemeron)`)
 
 18. What titlecase library should R7RS-large provide?
 
@@ -165,9 +165,9 @@ Laziness
 
 * No vote
 * None (passed, so no library)
-* [SRFI 129](http://srfi.schemers.org/srfi-129/srfi-129.html)
+* [SRFI 129](https://srfi.schemers.org/srfi-129/srfi-129.html)
 
 19. What comparator library should R7RS-large provide?
 
-> [SRFI 128](http://srfi.schemers.org/srfi-128/srfi-128.html) is a comparator library whose interface is used by SRFI 113 and SRFI 125.  It was not formally balloted but was voted in based on the votes for those libraries, as `(scheme comparator)`.
+> [SRFI 128](https://srfi.schemers.org/srfi-128/srfi-128.html) is a comparator library whose interface is used by SRFI 113 and SRFI 125.  It was not formally balloted but was voted in based on the votes for those libraries, as `(scheme comparator)`.
 
