@@ -23,7 +23,7 @@ as `(scheme bitwise)`.
 Fixnums:  [SRFI 143](http://srfi.schemers.org/srfi-143/srfi-143.html)
 as `(scheme fixnum)`.
 
-Flonums:  [SRFI 144](http://srfi.schemers.org/srfi-144/srfi-1443.html)
+Flonums:  [SRFI 144](http://srfi.schemers.org/srfi-144/srfi-144.html)
 as `(scheme flonum)`
 
 **Numeric and semi-numeric data structures**
