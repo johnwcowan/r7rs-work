@@ -1,10 +1,7 @@
-## Date and time operations
+## Date and duration operations
 
-This is a SRFI for date and time operations.
-It's possible to implement parts of SRFI 19 on top of it,
-but it is both simpler to use and more flexible.
-All the objects discussed here (with the technical
-exception of time objects) are immutable.
+This is a SRFI for date and duration operations.
+All the objects discussed here are immutable.
 This SRFI supports only the
 [proleptic Gregorian calendar](https://en.wikipedia.org/wiki/Proleptic_Gregorian_calendar).
 
@@ -17,34 +14,31 @@ None at this time.
 Scheme uses two internal formats for absolute timestamps, which
 in this SRFI are called *instants* and *time-objects*.
 
-An *instant* is an exact
-or inexact rational number representing
-a particular second or fraction of a second
-of the TAI scale, such that 0 represents midnight on January 1, 1970 TAI
-(equivalent to approximately 8 seconds before midnight Universal Time)
-and the value 1 represents one TAI second later.
-The current instant can be obtained more or less accurately
-by invoking the R7RS-small procedure `current-second`.
+An *instant* is an exact or inexact number representing a count of
+seconds since eight seconds before midnight January 1, 1970 in the UTC timezone.
+The current instant can be obtained by calling the R7RS procedure `current-second`.
 
-A *time-object* is an object defined by [SRFI 174 bis]
-representing a count of whole seconds and nanoseconds,
-but *excluding leap seconds*.
-
-For the purposes of this SRFI, there are two types of time objects,
-those containing a UTC time and those containing a duration.
-The current time object can be obtained by calling the SRFI 170
+A *time-object* is an object defined by
+FIXME: [SRFI 174 bis](https://github.com/pre-srfi/time-objects/blob/master/TimeObjects.md)
+that represents a count of whole seconds and nanoseconds
+plus a time type such as UTC, TAI, or duration.
+The current UTC time object can be obtained by calling the SRFI 170
 procedure `posix-time`.
+SRFI 174 bis has procedures for converting between UTC and TAI time objects
+and between either of them and instants.  Consequently, the procedures
+of this SRFI only accept UTC time objects.
 
-In this SRFI, a UTC  time object during a leap second is always assumed to be the same
+In this SRFI, a UTC time object during a leap second is always assumed to be the same
 (in the sense of `=`) for both the seconds and the nanoseconds) as
 the time object for the following second, but the results of actually calling
 `posix-time` in the vicinity of a leap second do not necessarily agree.
 
+
 ## Date objects
 
 A *date object* is an immutable member of a disjoint type
-that provides information about a specific instant
-of time with respect to a certain time zone.
+that provides information about a specific time object
+with respect to a certain time zone.
 Date objects have multiple numeric-valued fields
 that can be extracted.
 They are listed in the "Date Fields" section below.
@@ -79,7 +73,7 @@ In each political jurisdiction the rules for changing the offset vary,
 both the annual cycle of standard vs. daylight saving time (if in effect)
 and any unpredictable changes in the offset applied by political entities.
 This SRFI therefore requires a *time zone* to be supplied in order
-to convert a time object or instant to local time.  It requires support for numeric timezones,
+to convert a UTC time object to local time.  It requires support for numeric timezones,
 which are Universal Time minus local time in seconds, and strongly recommends
 support for named time zones as defined by the
 [IANA time zone database](https://www.iana.org/time-zones); these are strings.
@@ -104,11 +98,11 @@ date object is created.
 This SRFI does not deal with localization beyond the matter of time zones.
 It does not know the names of the months or of the days of the week in any language,
 or the proper ordering of day, month, and year,
-or the names and starting dates of the Japanese eras,
+or the names and starting dates of the Japanese eras or any others,
 or whether local clocks are 12-hour or 24-hour,
 or how to spell "AM" and "PM",
 or anything about non-Gregorian calendars,
-including those proposed for other celestial bodies.
+including those proposed for other celestial bodies than the Earth.
 Sufficient to the day is the evil thereof.
 
 Note that names like "EST" are actually not timezone names but names of offsets,
@@ -116,40 +110,6 @@ and are not globally unique even in a single language:
 this SRFI does not deal with them either.
 
 ## Procedures
-
-### Instance and time object procedures
-
-`(tai->posix `*instant*`)`
-
-Converts an instant to the corresponding time object.
-Because instants are inexact numbers, the correspondence is inexact.
-
-`(posix->tai `*time-object leapsec*`)`
-
-Converts a time object to the corresponding instant.
-Because instants are inexact numbers, the correspondence is inexact.
-
-The *time object* can refer ambiguously
-to a leap second (23:59:60) or to the second just before it
-(23:59:59).  If that is the case and *leapsec* is true,
-the returned value will refer to the leap second.  Otherwise,
-it will refer to the second before it.
-
-`(instant->iso `*instant*`)`  
-`(time-object->iso `*time-object*`)`
-
-Converts a time object/instant to an ISO 8601 string representing the year,
-month, day of the month, hour, minute, second, and fraction of a second.
-All such ISO 8601 strings are in the UTC timezone.
-
-`(iso->instant `*string*`)`  
-`(iso->time-object `*string*`)`
-
-Converts an ISO 8601 string of the form output by `instant->iso`
-or `time-object->iso` to an instant/time object.
-As long as this procedure can accept any string
-generated by `instant->iso` or `time-object->iso`, it does not need to be a general
-ISO 8601 parser.
 
 ### Date object procedures
 
@@ -161,12 +121,6 @@ The fields `year`, `month`, `day`, `hours`, `minute`, `second`,
 `nanosecond`, and `timezone` are required.
 The fields `nanoseconds` and `fold` are optional, and default to 0.
 An error satisfying `date-error?` is signaled if any other fields are present.
-
-`(instant->date `*timezone instant*`)`  
-
-Returns a date object in *timezone* that is equivalent to
-*instant/time-object*.  It is an error if *time-object*
-is not of type `time-utc`.
 
 `(time-object->date `*timezone time-object*`)`
 
@@ -219,8 +173,6 @@ This may cause other fields to change their values as well.
 Unless otherwise noted, all
 field values are exact integers that have been rounded down if necessary.
 All ranges are inclusive at both ends.
-
-`instant`: The instant of this date.
 
 `time-object`: The time object of this date.
 
@@ -282,7 +234,7 @@ which maps symbols (called fields) to specific values.
 A standard duration object has the
 fields `years`, `months`, `days`, `hours`, `minutes`, `seconds`,
 and `nanoseconds`; 
-a standard week object has the fields
+a week duration object has the fields
 `iso-week-years` and `iso-week-numbers`
 Missing fields are interpreted as 0.
 An error satisfying `date-error?` is signaled if any other fields are present.
@@ -290,7 +242,7 @@ An error satisfying `date-error?` is signaled if any other fields are present.
 `(duration `*earlier later*`)`
 
 Returns a duration object representing the elapsed time between
-instants *earlier* (inclusive) and *later* (exclusive).
+time objects *earlier* (inclusive) and *later* (exclusive).
 
 `(time-object->duration `*timezone time-object*`)`
 
@@ -341,11 +293,15 @@ but adjusted to the nearest integral value of *fieldname*
 using the conventions of `round`, `ceiling`, `floor`, or `truncate`.
 This may cause other fields to change their values as well.
 
+### ISO formatting
+
+TBD
+
 ### Comparators
 
 `date-comparator`
 
-A comparator suitable for ordering date objects by their underlying instants.
+A comparator suitable for ordering date objects by their underlying time objects.
 
 `duration-comparator`
 
@@ -357,49 +313,3 @@ A comparator suitable for ordering duration objects by their durations.
 
 Returns `#t` if *obj* was signaled by one of the above procedures, or
 `#f` otherwise.
-
-## Implementation notes
-
-The sample implementation provides
-only an approximation of the mapping between TAI
-and UTC.  The two time scales are assumed to be synchronized at 00:00:00
-on January 1, 1958 and at all times before that.  From 1958 through 1971,
-the relationship is complex, but since 1971 the two scales have been kept
-within 0.9 seconds of each other by inserting leap seconds as needed.
-
-For the messy period, the implementation pretends that there were leap seconds
-at the end of the following days (that is, at 23:59:60 proleptic UTC time):
-30 Jun 1959; 30 Jun 1961; 31 Dec 1963; 31 Dec 1964; 30 Jun 1966;
-30 Jun 1967; 30 Jun 1968; 30 Jun 1969; 30 Jun 1970.
-(Thanks to Daphne Preston-Kendal for determining an optimal leap second set.)
-This has the following desirable effects: the TAI-UTC offset is 0 in 1958
-(true by definition), at the Posix epoch it is 8
-(which is within a few milliseconds of the true value),
-and it is 10 at the start of 1972 when UTC and its leap second regime
-begin.  Not having a leap second at the end of 1969 ensures that there is none
-just before the Posix epoch.  The implementation also pretends,
-*faute de mieux*, that there will be no more leap seconds in the future.
-
-To update the leap second tables, download
-[`leap-seconds.list`](https://www.ietf.org/timezones/data/leap-seconds.list)
-for IANA's version of such a table, which is maintained.
-For exact leap second data before 1972, see the old USNO file
-[`tai-utc.dat`](http://web.archive.org/web/20191022082231/http://maia.usno.navy.mil/ser7/tai-utc.dat).
-This file is *not* being updated, and should be used only if the
-implementation wants to make exact conversions for the 1961-72 period.
-
-The following table describes the arbitrary 1958-71 times and offsets
-described above, using the same format as `leap-seconds.list`.
-
-```
--378648000 0 01 Jan 1958
--283953600 1 01 Jan 1961
--252417600 2 01 Jan 1962
--205286400 3 01 Jul 1963
--157723200 4 01 Jan 1965
--110592000 5 01 Jul 1966
- -79056000 6 01 Jul 1967
- -47433600 7 01 Jul 1968
- -15897600 8 01 Jul 1969
-  15638400 9 01 Jul 1970
-```
