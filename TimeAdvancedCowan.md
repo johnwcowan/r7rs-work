@@ -43,6 +43,11 @@ Date objects have multiple numeric-valued fields
 that can be extracted.
 They are listed in the "Date Fields" section below.
 
+The date objects of this SRFI are similar to
+[SRFI 19](https://srfi.schemers.org/srfi-19/srfi-19.html)
+date objects, except that a SRFI 19 date object supports
+numeric timezones only and does not support time folds correctly.
+
 ## Duration objects
 
 A *duration object* represents the amount of elapsed time
@@ -118,7 +123,7 @@ this SRFI does not deal with them either.
 Returns a date object based on the values fields in the alist,
 which maps symbols (called fields) to specific values.
 The fields `year`, `month`, `day`, `hours`, `minute`, `second`,
-`nanosecond`, and `timezone` are required.
+and `timezone` are required.
 The fields `nanoseconds` and `fold` are optional, and default to 0.
 An error satisfying `date-error?` is signaled if any other fields are present.
 
