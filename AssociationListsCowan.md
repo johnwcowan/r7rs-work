@@ -1,4 +1,4 @@
-This proposal supersedes the [association-list section of SRFI 1](http://srfi.schemers.org/srfi-1/srfi-1.html#AssociationLists), maintaining compatibility but bringing it to parity with Common Lisp.
+This proposal supersedes the [association-list section of SRFI 1](https://srfi.schemers.org/srfi-1/srfi-1.html#AssociationLists), maintaining compatibility but bringing it to parity with Common Lisp.
 
 FIXME: More will be added later.
 

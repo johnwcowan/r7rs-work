@@ -4,7 +4,7 @@ This is a SRFI for date and time operations.
 It's possible to implement parts of SRFI 19 on top of it,
 but it is both simpler to use and more flexible.
 All the objects discussed here (with the technical
-exception of timespecs) are immutable.
+exception of time objects) are immutable.
 This SRFI supports only the
 [proleptic Gregorian calendar](https://en.wikipedia.org/wiki/Proleptic_Gregorian_calendar).
 
@@ -12,10 +12,10 @@ This SRFI supports only the
 
 None at this time.
 
-## Instants and timespecs
+## Instants and time objects
 
 Scheme uses two internal formats for absolute timestamps, which
-in this SRFI are called *instants* and *timespecs*.
+in this SRFI are called *instants* and *time-objects*.
 
 An *instant* is an exact
 or inexact rational number representing
@@ -26,13 +26,18 @@ and the value 1 represents one TAI second later.
 The current instant can be obtained more or less accurately
 by invoking the R7RS-small procedure `current-second`.
 
-A *timespec* is an object defined by [SRFI 174](http://srfi.schemers.org/srfi-174/srfi-174.html)
-representing a count of whole seconds and nanoseconds, but *excluding leap seconds*.
-The current timespec can be obtained by calling the SRFI 170
+A *time-object* is an object defined by [SRFI 174 bis]
+representing a count of whole seconds and nanoseconds,
+but *excluding leap seconds*.
+
+For the purposes of this SRFI, there are two types of time objects,
+those containing a UTC time and those containing a duration.
+The current time object can be obtained by calling the SRFI 170
 procedure `posix-time`.
-In this SRFI, the timespec during a leap second is always assumed to be the same
-(in the sense of `=` for both the seconds and the nanoseconds) as
-the timespec for the following second, but the results of actually calling
+
+In this SRFI, a UTC  time object during a leap second is always assumed to be the same
+(in the sense of `=`) for both the seconds and the nanoseconds) as
+the time object for the following second, but the results of actually calling
 `posix-time` in the vicinity of a leap second do not necessarily agree.
 
 ## Date objects
@@ -47,11 +52,12 @@ They are listed in the "Date Fields" section below.
 ## Duration objects
 
 A *duration object* represents the amount of elapsed time
-between an earlier instance or timespec and a later one.
+between an earlier instance or time object and a later one
+that has been broken into smaller intervals of time.
 There are two types of duration objects: a standard duration
 object is specified as a number of years, months, days,
 hours, minutes, seconds, and nanosections; a week duration
-objects is specified as a number of ISO years and weeks,
+object is specified as a number of ISO years and weeks,
 and cannot be more finely specified.
 
 Note that certain familiar identities do not hold: while the
@@ -73,7 +79,7 @@ In each political jurisdiction the rules for changing the offset vary,
 both the annual cycle of standard vs. daylight saving time (if in effect)
 and any unpredictable changes in the offset applied by political entities.
 This SRFI therefore requires a *time zone* to be supplied in order
-to convert a timespec or instant to local time.  It requires support for numeric timezones,
+to convert a time object or instant to local time.  It requires support for numeric timezones,
 which are Universal Time minus local time in seconds, and strongly recommends
 support for named time zones as defined by the
 [IANA time zone database](https://www.iana.org/time-zones); these are strings.
@@ -111,38 +117,38 @@ this SRFI does not deal with them either.
 
 ## Procedures
 
-### Instance and timespec procedures
+### Instance and time object procedures
 
 `(tai->posix `*instant*`)`
 
-Converts an instant to the corresponding timespec.
+Converts an instant to the corresponding time object.
 Because instants are inexact numbers, the correspondence is inexact.
 
-`(posix->tai `*timespec leapsec*`)`
+`(posix->tai `*time-object leapsec*`)`
 
-Converts a timespec to the corresponding instant.
+Converts a time object to the corresponding instant.
 Because instants are inexact numbers, the correspondence is inexact.
 
-The *timespec* can refer ambiguously
+The *time object* can refer ambiguously
 to a leap second (23:59:60) or to the second just before it
 (23:59:59).  If that is the case and *leapsec* is true,
 the returned value will refer to the leap second.  Otherwise,
 it will refer to the second before it.
 
 `(instant->iso `*instant*`)`  
-`(timespec->iso `*timespec*`)`
+`(time-object->iso `*time-object*`)`
 
-Converts a timespec/instant to an ISO 8601 string representing the year,
+Converts a time object/instant to an ISO 8601 string representing the year,
 month, day of the month, hour, minute, second, and fraction of a second.
 All such ISO 8601 strings are in the UTC timezone.
 
 `(iso->instant `*string*`)`  
-`(iso->timespec `*string*`)`
+`(iso->time-object `*string*`)`
 
 Converts an ISO 8601 string of the form output by `instant->iso`
-or `timespec->iso` to an instant/timespec.
+or `time-object->iso` to an instant/time object.
 As long as this procedure can accept any string
-generated by `instant->iso` or `timespec->iso`, it does not need to be a general
+generated by `instant->iso` or `time-object->iso`, it does not need to be a general
 ISO 8601 parser.
 
 ### Date object procedures
@@ -156,14 +162,15 @@ The fields `year`, `month`, `day`, `hours`, `minute`, `second`,
 The fields `nanoseconds` and `fold` are optional, and default to 0.
 An error satisfying `date-error?` is signaled if any other fields are present.
 
-`(instant->date `*timezone instant*`)`
+`(instant->date `*timezone instant*`)`  
 
 Returns a date object in *timezone* that is equivalent to
-*instant*. 
+*instant/time-object*.  It is an error if *time-object*
+is not of type `time-utc`.
 
-`(timespec->date `*timezone timespec*`)`
+`(time-object->date `*timezone time-object*`)`
 
-Returns a date object referring to *timespec* modified by *timezone*.
+Returns a date object referring to *time-object* modified by *timezone*.
 
 `(date? `*obj*`)`
 
@@ -211,11 +218,11 @@ This may cause other fields to change their values as well.
 
 Unless otherwise noted, all
 field values are exact integers that have been rounded down if necessary.
-All ranges are inclusive at both ends, 
+All ranges are inclusive at both ends.
 
 `instant`: The instant of this date.
 
-`timespec`: The timespec of this date.
+`time-object`: The time object of this date.
 
 `timezone`: The timezone with which this date was created.
 
@@ -280,15 +287,16 @@ a standard week object has the fields
 Missing fields are interpreted as 0.
 An error satisfying `date-error?` is signaled if any other fields are present.
 
-`(instants->duration `*earlier later*`)`
+`(duration `*earlier later*`)`
 
 Returns a duration object representing the elapsed time between
 instants *earlier* (inclusive) and *later* (exclusive).
 
-`(timespecs->duration `*timezone timespec*`)`
+`(time-object->duration `*timezone time-object*`)`
 
-Returns a duration object representing the elapsed time between
-durations *earlier* (inclusive) and *later* (exclusive).
+Returns a duration object representing the elapsed time
+represented by *time-object*.
+It is an error if *time-object* is not of type `time-duration`.
 
 `(duration? `*obj*`)`
 
@@ -341,7 +349,7 @@ A comparator suitable for ordering date objects by their underlying instants.
 
 `duration-comparator`
 
-A comparator suitable for ordering duration object by their durations.
+A comparator suitable for ordering duration objects by their durations.
 
 ## Exceptions
 

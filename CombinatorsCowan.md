@@ -13,13 +13,13 @@ Returns the *objs* as its values, ignoring *args*.
 
 Returns `#t` when `(`*proc obj*`)` returns `#f`, and `#f` otherwise.
 
-`((swap `*proc*`)` *obj₁ obj₂*`)`
+`((flip `*proc*`) . ` *objs*`)`
 
-Invokes `(`*proc obj₂ obj₁*`)`.
+Invokes `(apply `*proc* `(reverse `*objs* `)`.
 
-`((flip `*proc*`)` *arg1 arg2*`)`
+`((swap `*proc*`)` *obj₁ obj₂ obj* ...`)`
 
-Returns `(`*proc arg2 arg1*`)`.
+Invokes `(`*proc obj₂ obj₁ obj* ...`)`.
 
 `((on-left `*proc*`)` *obj₁ obj₂*`)`
 
@@ -41,11 +41,11 @@ Returns `#t` if the *args* satisfy any of the *predicates*.
 
 Applies each of the *procs* in turn to *args*, discarding the results and returning an unspecified value.
 
-`((all-of `*predicate*`)`
+`((all-of) `*predicate*`)`
 
 Applies *predicate* to each element of *list* in turn, and immediately returns `#f` if *predicate* is not satisfied by that element; otherwise returns `#t`.
 
-`((any-of `*predicate*`)` *list*`)`
+`((some-of `*predicate*`)` *list*`)`
 
 Applies *predicate* to each element of *list* in turn, and if *predicate* is satisfied by that element, returns the result of calling *predicate*; otherwise returns `#f`.  If *list* is empty, returns `#t`.
 

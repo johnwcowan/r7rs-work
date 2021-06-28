@@ -2,7 +2,7 @@
 
 Eager comprehensions are a loop facility for Scheme based on list comprehensions.  Unlike Haskell's, and like Python's, they execute eagerly, in keeping with Scheme's general eager evaluation.
 
-The details are at [SRFI 42](http://srfi.schemers.org/srfi-42/srfi-42.html).  This is just an epitome except for the comprehensions and generators derived from the [Shivers loop](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.128.5560&rep=rep1&type=pdf) (PDF) and [foof-loop](http://mumble.net/~campbell/scheme/foof-loop.txt) loop macros, marked by subdivisions below.
+The details are at [SRFI 42](https://srfi.schemers.org/srfi-42/srfi-42.html).  This is just an epitome except for the comprehensions and generators derived from the [Shivers loop](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.128.5560&rep=rep1&type=pdf) (PDF) and [foof-loop](http://mumble.net/~campbell/scheme/foof-loop.txt) loop macros, marked by subdivisions below.
 
 ## Comprehensions
 
@@ -48,7 +48,7 @@ The following comprehensions are suggested by SRFI 42 but are not part of it.
 
 `bitwise-ec` evaluates an expression as a boolean repeatedly, mapping true values to 1 bits and false values to 0 bits, and returning an integer based on those bits taken in little-endian order.
 
-`stream-ec` lazily generates a [SRFI 40](http://srfi.schemers.org/srfi-40/srfi-40.html) stream, running generators only as needed.
+`stream-ec` lazily generates a [SRFI 40](https://srfi.schemers.org/srfi-40/srfi-40.html) stream, running generators only as needed.
 
 The SRFI also mentions the possibility of `begin-ec`, `|-ec`, `|-ec`, and `&&-ec` for [scsh](http://www.scsh.net/).
 
@@ -110,7 +110,7 @@ The following generators are suggested by SRFI 42 but are not part of it:
 
 `:bitwise` generates a sequence of bits obtained by appending the binary digits of specified integers.
 
-`:stream` is like `:list`, but generates results from one or more [SRFI 40](http://srfi.schemers.org/srfi-40/srfi-40.html) streams.
+`:stream` is like `:list`, but generates results from one or more [SRFI 40](https://srfi.schemers.org/srfi-40/srfi-40.html) streams.
 
 `:lines-of-file` is like `:port`, but the reader is `read-line` and the optional index variable indexes lines.
 

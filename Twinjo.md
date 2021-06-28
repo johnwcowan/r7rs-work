@@ -22,6 +22,11 @@ for both reading and writing.
 Should bytevectors in Twinjo Text use hexdigits (easier to comprehend), base64 (shorter),
 or either format at the writer's discretion (marked how?).
 
+## Text encoding
+
+Twinjo Text is defined at the level of characters.
+For transmission and storage, it is always encoded in UTF-8.
+
 ## Basic Text syntax
 
   * Integers: optional minus sign followed by sequence of digits, no leading 0s.

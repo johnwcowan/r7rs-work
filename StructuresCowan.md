@@ -143,8 +143,8 @@ Matches a Scheme vector and a C array.
 `...`  
 `(c128\ `*length*`)`
 
-Matches a [SRFI 4](http://srfi.schemers.org/srfi-4/srfi-4.html)
-or [SRFI 160](http://srfi.schemers.org/srfi-160/srfi-160.html)
+Matches a [SRFI 4](https://srfi.schemers.org/srfi-4/srfi-4.html)
+or [SRFI 160](https://srfi.schemers.org/srfi-160/srfi-160.html)
 vector of appropriate type, range, and precision.
 If a particular homogeneous vector type is not available,
 matches a heterogeneous vector instead.

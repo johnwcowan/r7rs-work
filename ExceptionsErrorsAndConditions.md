@@ -19,9 +19,9 @@ summaries of existing systems.
 ## System Summaries
 
 * [R6RS Exceptions and Conditions](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-8.html#node_chap_7)
-* [SRFI-12 Exception Handling](http://srfi.schemers.org/srfi-12/srfi-12.html) (withdrawn)
-* [SRFI-18 Threading](http://srfi.schemers.org/srfi-18/srfi-18.html) (includes exceptions)
-* [SRFI-34 Exception Handling](http://srfi.schemers.org/srfi-34/srfi-34.html) (used in Scheme48)
+* [SRFI-12 Exception Handling](https://srfi.schemers.org/srfi-12/srfi-12.html) (withdrawn)
+* [SRFI-18 Threading](https://srfi.schemers.org/srfi-18/srfi-18.html) (includes exceptions)
+* [SRFI-34 Exception Handling](https://srfi.schemers.org/srfi-34/srfi-34.html) (used in Scheme48)
 * [Chez Scheme 7 Exceptions](http://www.scheme.com/csug7/system.html#./system:h1:h0)
 * [PLT Scheme Errors and Conditions](http://download.plt-scheme.org/doc/html/reference/exns.html)
 * [MIT Scheme Error System (conditions, errors, and restarts)](http://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Error-System.html#Error-System)

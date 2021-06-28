@@ -1,1 +1,0 @@
-See [QuoteDelimiter](QuoteDelimiter.md).

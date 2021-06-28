@@ -3,7 +3,7 @@ It accepts a string, the *base-string*,
 and a mapping from strings to Scheme datums
 (objects that have an external representation).
 It provides a useful subset of the functionality of
-[SRFI 109](http://srfi.schemers.org/srfi-109/srfi-109.html)
+[SRFI 109](https://srfi.schemers.org/srfi-109/srfi-109.html)
 without requiring changes to Scheme's lexical syntax.
 
 Everything except an `$` character is copied

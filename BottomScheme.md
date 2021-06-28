@@ -41,7 +41,7 @@ Only `define`, either at top level or internally.
 
 5.5 Record-type definitions
 
-SRFI 137, but returning a list of five procedures rather than returning five values.
+TBD.
 
 6.1 Equivalence predicates
 
@@ -50,7 +50,7 @@ Programmers are encouraged to provide their own definition of `equal?`.
 
 6.2.1 Numerical types
 
-All types are supported.
+`integer?` is really `exact-integer?`.
 
 6.2.2 Exactness
 
@@ -58,8 +58,7 @@ The only exact numbers are integers within a fixed range.
 
 6.2.4 Implementation extensions
 
-Inexact real numbers are IEEE doubles;
-inexact complex numbers are pairs of IEEE doubles in the rectangular representation.
+Inexact real numbers are IEEE doubles.
 
 6.2.5 Syntax of numerical constants
 
@@ -74,12 +73,10 @@ Arithmetic:  `+`, `-`, `*`, `/` with two arguments only; `/` always returns an i
 
 Transcendental functions:  `exp`, `log` (one argument),
 `sin`, `cos`, `tan`, `asin`, `acos`, `atan` (one argument),
-`sqrt`, `expt` always return complex numbers.
-
-Complex: `make-rectangular`, `real-part`, `imag-part`.  Conversion: `exact`, `inexact`.
+`sqrt`, `expt` always return real numbers.
 
 As an enhancement to R7RS-small, the non-generic arithmetic functions
-`fx+`, `fx-`, `fx*`, `fl+`, `fl-`, `fl*`, `fl/`, `cx+`, `cx-`, `cx*`, `cx/` are provided.
+`fx+`, `fx-`, `fx*`, `fl+`, `fl-`, `fl*`, `fl/` are provided.
 
 6.3 Booleans
 
@@ -143,16 +140,18 @@ Because a pointer to a 64-bit value always has the low-order three bits zero,
 they can be used for the following tagging scheme:
 
 * 000 - 48-bit fixnum
-* 001 - pointer to compnum
-* 010 - immediate `#t`, `#f`, empty list, end of file object, and undefined-value pseudo-object
+* 001 - immediate `#t`, `#f`, empty list, end of file object, and undefined-value pseudo-object
+* 010 - pointer to procedure
 * 011 - pointer to vector (the -1 element is a 48-bit fixnum length)
 * 100 - pointer to Scheme pair (direct dereference gets the cdr)
 * 101 - pointer to bytevector (padded to multiple of 64 bits, preceded by a 48-bit fixnum length)
-* 110 - pointer to string (padded to multiple of 64 bits, preceded by a 48-bit fixnum length)
-* 111 - pointer to procedure, symbol, or record (first word points to a type object)
+* 110 - pointer to UTF-8 string (padded to multiple of 64 bits, preceded by a 48-bit fixnum length)
+* 111 - pointer to symbol (first word points to a type object)
+
+Some provision will have to be made for records (alists, perhaps).
 
 In order to make pointers more efficient,
-we can flip the top 12 bits before storing them.
+we can flip the top 12 bits of all objects before storing them.
 That way all pointers and fixnums will Just Work,
 and doubles will simply need to be flipped back.
 

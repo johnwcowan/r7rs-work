@@ -1,4 +1,4 @@
-**Note:  The author has now abandoned this library in favor of the leaner [CharacterSpansCowan](CharacterSpansCowan.md), which has evolved to [SRFI 130](http://srfi.schemers.org/srfi-130/srfi-130.html), but is leaving the original intact as a fine example of [hubris and wretched excess](https://en.wikipedia.org/wiki/House_of_Cards_(Cohan_book)).**
+**Note:  The author has now abandoned this library in favor of the leaner [CharacterSpansCowan](CharacterSpansCowan.md), which has evolved to [SRFI 130](https://srfi.schemers.org/srfi-130/srfi-130.html), but is leaving the original intact as a fine example of [hubris and wretched excess](https://en.wikipedia.org/wiki/House_of_Cards_(Cohan_book)).**
 
 ## Character span library
 
@@ -44,11 +44,11 @@ String cursors are pointers into strings or spans, and are not necessarily disjo
 
 Given a span of length *n*, there are *n*+2 possible cursors that refer to it: one for each character in the span, one for the position just before the first character, and one for the position just after the last character.  These additional positions are provided for backward and forward iteration respectively, and also because when creating a span from cursors the second cursor argument is exclusive.
 
-Most of the character span procedures in this proposal also have string equivalents.  In order to make the specification more concise, the string procedures are listed but don't have detailed explanations, except for the constructors.  Procedures with the same names and basic functions as [SRFI 13](http://srfi.schemers.org/srfi-13/srfi-13.html) procedures are marked [13](SRFI).  However, this proposal contains only a subset of SRFI 13.  In particular, the string procedures of this proposal do not accept *start* and *end* arguments, as their function is subsumed by spans, nor is SRFI 13's separation between sharable and non-sharable results supported.  In addition, the SRFI 13 low-level procedures and macros are not provided, nor are there any mutators.
+Most of the character span procedures in this proposal also have string equivalents.  In order to make the specification more concise, the string procedures are listed but don't have detailed explanations, except for the constructors.  Procedures with the same names and basic functions as [SRFI 13](https://srfi.schemers.org/srfi-13/srfi-13.html) procedures are marked [13](SRFI).  However, this proposal contains only a subset of SRFI 13.  In particular, the string procedures of this proposal do not accept *start* and *end* arguments, as their function is subsumed by spans, nor is SRFI 13's separation between sharable and non-sharable results supported.  In addition, the SRFI 13 low-level procedures and macros are not provided, nor are there any mutators.
 
 All the R7RS-small string procedures are included here, with the exception of the string mutators `string-set!`, `string-copy!`, and `string-fill!`.  They are marked [R7RS-small], and are not exported by implementations of this proposal meant for R7RS systems.  They are included only for clarity and completeness.
 
-All predicates passed to procedures defined in this proposal may be called in any order and any number of times, except as otherwise noted.  In SRFI 13, there is no such provision, and so character sets are inherently more efficient than predicates [because testing them is fast and free of side effects](http://srfi.schemers.org/srfi-13/mail-archive/msg00052.html), though how fast character sets are if they support full Unicode is implementation-dependent.
+All predicates passed to procedures defined in this proposal may be called in any order and any number of times, except as otherwise noted.  In SRFI 13, there is no such provision, and so character sets are inherently more efficient than predicates [because testing them is fast and free of side effects](https://srfi.schemers.org/srfi-13/mail-archive/msg00052.html), though how fast character sets are if they support full Unicode is implementation-dependent.
 
 ## Character span constructors
 
@@ -96,7 +96,7 @@ Returns a newly allocated string which contains the characters of *span* in orde
 
 Invokes *proc* for all exact integers between 0 (inclusive) and *len* (exclusive), and returns a newly allocated string containing the characters returned by the invocations.
 
-Compatibility note:  The argument order here agrees with the `list-tabulate` procedure of [SRFI 1](http://srfi.schemers.org/srfi-1/srfi-1.html) rather than SRFI 13's `string-tabulate` procedure.  The discrepancy was [unintentional](http://srfi.schemers.org/srfi-13/mail-archive/msg00143.html), but was [discovered too late to fix](http://srfi.schemers.org/srfi-13/mail-archive/msg00144.html).
+Compatibility note:  The argument order here agrees with the `list-tabulate` procedure of [SRFI 1](https://srfi.schemers.org/srfi-1/srfi-1.html) rather than SRFI 13's `string-tabulate` procedure.  The discrepancy was [unintentional](http://srfi.schemers.org/srfi-13/mail-archive/msg00143.html), but was [discovered too late to fix](http://srfi.schemers.org/srfi-13/mail-archive/msg00144.html).
 
 ## Predicates
 
@@ -130,7 +130,7 @@ Returns a predicate which accepts one argument.  This predicate returns `#t` if 
 
 `(in-char-set? `*char-set*`)`
 
-Returns a predicate which accepts one argument.  This predicate returns `#t` if the argument is an element of *char-set*, a [SRFI 14](http://srfi.schemers.org/srfi-14/srfi-14) character set, and `#f` otherwise.
+Returns a predicate which accepts one argument.  This predicate returns `#t` if the argument is an element of *char-set*, a [SRFI 14](https://srfi.schemers.org/srfi-14/srfi-14) character set, and `#f` otherwise.
 
 ## Selection
 
@@ -665,7 +665,7 @@ Examples:
 
 `span-comparator`
 
-This is a [SRFI 114](http://srfi.schemers.org/srfi-114/srfi-114.html) comparator for comparing strings.  Its procedures behave as if their arguments are converted to strings and then passed to the procedures of `string-comparator`.
+This is a [SRFI 114](https://srfi.schemers.org/srfi-114/srfi-114.html) comparator for comparing strings.  Its procedures behave as if their arguments are converted to strings and then passed to the procedures of `string-comparator`.
 
 ## Sample Implementation
 
