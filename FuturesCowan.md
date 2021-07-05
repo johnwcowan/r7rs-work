@@ -9,15 +9,18 @@ However, it is also possible to have multiple futures
 sharing the same thread in a thread pool, and this choice
 depends on how heavyweight SRFI 18 threads are
 on a particular implementation.
+
 Compared to threads,
 futures are more modern in style and hopefully
 easier to use.  Each future is represented to other futures, including itself, by a
 unique *future object*, a member of a disjoint type.
 
-## Future states
+It is recognized that the term *future* is already used in a variety of ways.
+
+## States of futures
 
 * A *running* future is one that is currently executing.
-  There can be more than one future running in parallel on a multiprocessor machine.
+  There can be more than one future running in parallel.
 
 * A *runnable* future is one that is ready to execute or running.
 
@@ -63,7 +66,7 @@ It is the responsibility of the application to avoid write/read and write/write 
 
 Concurrent reads and writes to ports are allowed.
 It is the responsibility of the implementation to serialize accesses
-to a given port using the appropriate synchronization primitives.
+to a given port using the appropriate synchronization primitives, if any.
 
 ## Interactions with dynamic-wind
 
@@ -93,7 +96,7 @@ pure procedure for futures.
 Each future (but not the main program or a promise) is associated with a number of
 *future-specific variables*.  These are named by a symbol and associated
 with a single value, which can be written and read by the associated
-future.  It is not possible to read or write a future-specific variable
+future.  It is an error to try to read or write a future-specific variable
 from outside the future.
 
 ## Blocking I/O
@@ -162,13 +165,15 @@ arbitrary behavior.
 The "specific" field is not visible; it is preempted in implementations of this
 SRFI on top of SRFI 18.
 
-Mutexes and condition variables are not visible, in order to make it possible
-to provide inter-thread communication by a different means in a future SRFI.
+Mutexes and condition variables are not visible.
 
-Time objects are also not visible, though all of their functionality that is relevant
-to this SRFI is provided by other means
+Time objects (unrelated to the time objects of SRFI 19)
+are also not visible, though all of their functionality that is relevant
+to this SRFI is provided by other means.
 
 ## Procedures
+
+### Constructors and initializers
 
 `(current-future)`
 
@@ -184,53 +189,43 @@ The value is the same whether or not `current-future` is being invoked from with
 Returns `#t` if *obj* is a future object (including the primordial
 object) or a promise, otherwise returns `#f`.
 
-`(with-future-runner `*proc*`)`
-
-Creates a future runner, an opaque object
-with which newly created futures can be registered.
-The procedure *proc* is invoked on the future runner.
-When *proc* returns, `with-future-runner` waits
-for all registered futures to terminate
-and then returns a list of the futures in arbitrary order.
-
-A future is registered by passing a future-runner as the
-first argument to `make-future`.
-
 `(make-future `[*runner*] *proc arg* ...`)`
 
-Creates a new future, initializes it, starts it, and returns the
-corresponding future object. The execution consists of applying
-the *args* to *proc*, with a continuation that causes
-the result of *proc* to be stored inside the future object
-along with an indication of normal termination, abandon
-any communication resources the future has acquired, and terminate.
-It is an error if *proc* returns more or less than one value.
+Creates a new future, initializes it with *proc* and *args*, and returns the
+corresponding future object.  If the *runner* argument is provided, the
+new future is registered with the specified future-runner (see below).
+
+`(future-start! `*future*`)`
+
+Executes *future* by applying
+the saved *args* to *proc*, with a continuation that causes
+the result(s) of *proc* to be stored inside the future object
+along with an indication of normal termination,
+any communication resources the future has acquired to be
+abandoned, and then terminates it.
 
 The new future inherits its dynamic environment from the currently
 running future, or from the main program if there is no currently
 running future.  However, the initial exception handler of the
 future is a procedure which causes the argument of the handler
 to be stored inside the future object
-along with an indication of abnormal termination, abandon
-any communication resources the future has acquired, and terminate.
+along with an indication of abnormal termination.  The future
+then abandons any communication resources it has acquired, and terminates.
 
 The `dynamic-wind` stack of the new future is empty.
-
-If the first argument is a future runner,
-the new future is registered with it.
 
 `(future `*expr*`)`  [syntax]
 
 Equivalent to `(make-future (lambda () `*expr*`))`, but can be optimized
 by a compiler.
 
+### Sleeping
+
 `(future-yield!)`
 
 The current future, or the main program if there is no current future,
 exits the running state as if its quantum had expired.
 Returns an unspecified value.
-
-### Sleeping
 
 `(future-sleep-for! `*jiffy-count*`)`
 
@@ -281,6 +276,24 @@ is greater than or equal to *jiffy*,
 then *future* is terminated
 and an error satisfying `timeout-exception?` is signaled.
 
+### Future-runners
+
+`(with-future-runner `*proc*`)`
+
+Creates a future-runner, an opaque object
+with which newly created futures can be registered.
+The procedure *proc* is invoked on the future-runner
+so that futures created within *proc*
+can be registered with it (see `make-future`).
+The purpose of `with-future-runner` is to keep the creation
+and destruction of futures within the lexical scope of *proc*.
+
+When *proc* returns, `with-future-runner` waits
+for all registered futures to terminate normally or abnormally,
+and then returns a list of the futures in arbitrary order.
+It is then possible to use `future-wait` on any of these
+futures to extract their results.
+
 ### Future-specific variables
 
 `(future-ref `*symbol*`)`
@@ -313,7 +326,7 @@ the current future should take steps to abandon its execution either by
 returning normally or by raising a condition.  It is an error for the
 main program to call this procedure.
 
-## Monadic procedures
+## Quasi-monadic procedures
 
 `(future-map `*proc future*`)`
 
@@ -336,25 +349,6 @@ The same as `future-bind` except that the *futures* other than the
 first don't require an argument and the results of all *futures* are discarded.
 This is useful for sequencing side effects.  This is monadic
 sequence, and is useful for sequencing.
-
-### Future groups
-
-`(in-future-group `*proc* [ *future-group*] `)`
-
-Creates an opaque object called a *future group*, a collection of futures.
-The future group is passed to *proc*, which accepts one argument and returns one value.
-When *proc* returns, `in-future-group` waits for
-any futures that have been added to the future group to terminate,
-and then returns whatever *proc* returns.
-
-If any future terminates with an exception,
-all other futures are still waited for and then the exception is reraised.
-If more than one future terminates with an exception,
-it is unspecified which exception is reraised.
-
-`(future-group-add! `*future-group future*`)`
-
-Adds *future* to *future-group*.  Returns an unspecified value.
 
 ### Exceptions
 
