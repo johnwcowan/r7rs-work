@@ -59,7 +59,6 @@ is created using the *message* and *irritants* arguments
 and then is signaled by `raise-continuable`.
 
 If `raise-continuable` returns, the warning object
-(which may have been mutated by an exception handler)
 is written in an implementation-specified format
 to the current error port, and `warn` returns to its caller.
 
