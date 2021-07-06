@@ -91,13 +91,13 @@ of futures.  Unlike futures, promises are not started when created; they are
 evaluated when waited for.  The `make-promises` procedure is the monadic
 pure procedure for futures.
 
-## Future-specific variables
+## Key-value pairs
 
 Each future (but not the main program or a promise) is associated with a number of
-*future-specific variables*.  These are named by a symbol and associated
-with a single value, which can be written and read by the associated
-future.  It is an error to try to read or write a future-specific variable
-from outside the future.
+key-value pairs, where both keys and values are of any type.
+
+It is an error to try to read or write a key-value pair
+from outside the associated future.
 
 ## Blocking I/O
 
@@ -294,20 +294,23 @@ and then returns a list of the futures in arbitrary order.
 It is then possible to use `future-wait` on any of these
 futures to extract their results.
 
-### Future-specific variables
+### Key/value pairs
 
-`(future-ref `*symbol*`)`
+`(future-ref `*future key*`)`
 
-Returns the value of the future-specific variable named *symbol*.
-It is an error to attempt to get the value of a future-specific
-variable that has not been set by `future-set!`.  The main
-program does not have future-specific variables.
+Returns the value of the key-value pair
+whose key is *key*.
+It is an error to attempt to get the value of a key-value pair
+that has not been created  by `future-set!`.  The main
+program does not have key/value pairs.
 
-`(future-set! `*symbol value*`)`
+`(future-set! `*future key value*`)`
 
-Sets the value of the future-specific variable named *symbol* to *value*
-and returns an unspecified value.  The main
-program does not have future-specific variables.
+Sets the value of the key/value pair
+whose key is *key* to *value*;
+if it does not exist, it is created.
+Returns an unspecified value.  The main
+program does not have.
 
 ### Abandonment
 
@@ -318,7 +321,7 @@ if *future* is cooperating by calling `future-abandoned?` periodically.
 If *future* is a promise, `future-abandon!` has no effect.
 It is an error if *future* is the primordial object.
 
-`(future-abandoned?)`
+`(future-abandoned? *future*)`
 
 Checks whether the current future has been instructed to abandon execution.
 If so, the procedure returns `#t`, otherwise `#f`.  If `#t` is returned,
@@ -399,7 +402,7 @@ or how many times it is done.
 All that is required is that the action of mutating the slot is atomic.
 
 The second slot contains a lookup table
-(such as an alist or hash table) that maps the symbols naming future-specific variables
+(such as an alist or hash table) that maps the keys of future-specific key/value pairs
 into their current values.  Because only the current thread has access to this table,
 no locking is required.
 
