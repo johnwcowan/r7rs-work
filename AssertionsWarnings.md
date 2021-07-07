@@ -1,3 +1,9 @@
+## Issues
+
+1) Should `satisfies` be like SRFI 145 `assume`, like its
+CL equivalent `the`, or like `assert`?
+Currently it's like `assert`.
+
 ## Specification
 
 This SRFI is a proposal for integrating assertions
@@ -23,6 +29,7 @@ should treat `assume` it were `assert` when the program is being
 compiled or executed in debug mode.  No particular method of
 specifying debug mode is recommended here.
 
+### Assertions
 
 `(assert obj `*message irritant ...*`)`  [syntax]
 
@@ -48,6 +55,8 @@ Returns the message string encapsulated in *assertion-object*`)`
 `(assertion-object-irritants `*assertion-object*`)`
 
 Returns a list of the irritant objects encapsulated in *assertion-object*`)`
+
+### Warnings
 
 `(warn obj `*message irritant ...*`)`  [syntax]
 
@@ -78,3 +87,32 @@ Returns the message string encapsulated in *warning-object*`)`
 
 Returns a list of the irritant objects encapsulated in *warning-object*`)`
 
+### Satisfactions
+
+`(satisfies? ` *predicate expr*`)`  [syntax]
+
+Similar to `assert`
+except that it returns
+the value of *expr* if applying *predicate*
+to *expr* returns a true value,
+whereas it is an error if the returned value is false.
+Thus it can be introduced into expressions
+without extra complications.
+
+As an example, take `exact-half`,
+a hypothetical function that
+returns its argument divided by 2, but only if the
+argument is even.  By rewriting
+`(exact-half n)` as `(exact-half (satisfies even? n))`,
+the error will be caught before `exact-half` is even called.
+
+By the same token, if `exact-half` contains something
+like `(let ((n (satisfies even? n))) ...)` around its body,
+it defends itself against non-even arguments.
+
+If *predicate* is not a procedure but a list of procedures,
+they are applied in left-to-right order to the *value*,
+and must succeed to move on to the next step.
+Thus if the input is completely unknown, a safer protection
+would be `(satisfies (list integer? even?) n)`,
+since it is an error if the argument of `even?` is not an integer.
