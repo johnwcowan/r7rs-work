@@ -5,13 +5,38 @@ Consider moving at least syntax-rules macros to Orange.
 
 # Red Docket (data structures)
 
-Already voted on.
-See [RedEdition](RedEdition.md).
+* Quick summary:
+  * comprehensive list library
+  * comprehensive vector library
+  * sorting
+  * sets (including character sets) and bags
+  * hashtables
+  * immutable pairs
+  * random=-access pairs
+  * immutable deque
+  * procedural generators
+  * lazy lists based on generators or promises
+  * mutable boxes
+  * ephemerons
+  * comparator type class
+* Already voted on.
+  See [RedEdition](RedEdition.md).
 
 # Tangerine Docket (numerics)
-
-Already voted on.
-See [TangerineEdition](TangerineEdition.md).
+* Quick summary:
+  * immutable mappings, hash-based and ordered
+  * regular expressions
+  * accumulators (inverse of generators)
+  * six kinds of integer division
+  * bitwise integer ops
+  * fixnum library
+  * flonum library
+  * homogeneous vectors of various types (bitvectors also provide
+    bitwise ops)
+  * combinator formatting
+  
+* Already voted on.
+  See [TangerineEdition](TangerineEdition.md).
 
 # Orange Docket (numerics)
 
