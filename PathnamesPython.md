@@ -1,5 +1,9 @@
 This pathname library is vaguely based on Python's.
 
+## Issues
+
+Should path objects be opaque, or is list-of-strings fine?
+
 ## Path objects
 
 A path object is a list of strings which can be created from a Posix or Windows pathname
