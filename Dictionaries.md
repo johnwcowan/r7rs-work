@@ -1,2 +1,1 @@
-See the latest [spec](https://github.com/pre-srfi/dictionaries/blob/master/spec.md)
-in the [pre-srfi repo](https://github.com/pre-srfi/dictionaries).
+See [SRFI 225](https://srfi.schemers.org/srfi-225/srfi-225.html).
