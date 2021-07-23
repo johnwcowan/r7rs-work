@@ -3,6 +3,20 @@ For other dockets see [WG2Dockets](WG2Dockets.md).
 Figure out string mess if possible.
 Consider moving at least syntax-rules macros to Orange.
 
+# Docket Index
+
+ * Red: data structures
+ * Tangerine: numerics
+ * 3rd: portable, SRFIs
+ * 4th: non-portable, SRFIs
+ * 5th: portable, not SRFIs
+ * 6th: portable, SRFIs
+ * 7th: portable, not SRFIs
+ * 8th: not portable, SRFIs
+ * 9th: portable, not SRFIs
+ * 10th: portable, not SRFIs
+ * Indigo: features of dubious utility
+
 # Red Docket (data structures)
 
 * Quick summary:
@@ -38,7 +52,7 @@ Consider moving at least syntax-rules macros to Orange.
 * Already voted on.
   See [TangerineEdition](TangerineEdition.md).
 
-# Orange Docket (numerics)
+# 3rd Docket (portable, SRFIs)
 
 ## Numeric types, operations, and data structures
 
@@ -70,38 +84,16 @@ Enumerations: [SRFI 209](https://srfi.schemers.org/srfi-209/srfi-209.html)
 
 Compound objects: [SRFI 222](https://srfi.schemers.org/srfi-222/srfi-222.html)
 
-Linear adjustable-size strings: [SRFI 185](https://srfi.schemers.org/srfi-185/srfi-185.html)
+Adjustable-size strings: [SRFI 185](https://srfi.schemers.org/srfi-185/srfi-185.html)
+or [SRFI 118](https://srfi.schemers.org/srfi-118/srfi-118.html)
 
 Yet more generator extensions: [SRFI 162](https://srfi.schemers.org/srfi-162/srfi-162.html)
 
 Coroutine generators: [SRFI 190](https://srfi.schemers.org/srfi-190/srfi-190.html)
 
-Generic dictionary operations: [Dictionaries](Dictionaries.md)
+Generic dictionary operations: [SRFI 225](https://srfi.schemers.org/srfi-225/srfi-225.html)
 
-# Amber Docket (syntax)
-
-## Non-portable
-
-Syntax-case: [R6RS syntax-case](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html)
-
-Explicit renaming: [explicit renaming](https://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Explicit-Renaming.html)
-
-Simple identifier syntax: [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_796)
-
-Custom macro transformers: [SRFI 147](https://srfi.schemers.org/srfi-147/srfi-147.html)
-
-Syntax parameters: [SRFI 139](https://srfi.schemers.org/srfi-139/srfi-139.html)
-
-Syntax-rules extensions: [SRFI 149](https://srfi.schemers.org/srfi-149/srfi-149.html)
-
-`let-syntax` with splicing: [SRFI 188](https://srfi.schemers.org/srfi-188/srfi-188.html)
-
-Generalized `set!`: [SRFI 17](https://srfi.schemers.org/srfi-17/srfi-17.html) or
-[`identifier-syntax`](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_796)
-
-Splicing `let(rec)-syntax`: [SRFI 188](https://srfi.schemers.org/srfi-188/srfi-188.html)
-
-## Portable
+## Syntax-rules macros
 
 `and-let*`: [SRFI 2 using define-macro or syntax-rules](https://srfi.schemers.org/srfi-2/srfi-2.html),
 [using explicit renaming](https://code.call-cc.org/cgi-bin/gitweb.cgi?p=chicken-core.git;a=blob;f=chicken-syntax.scm;h=e3c2feb47c1437d44aefa0d879e04dc28a0cbc61;hb=HEAD),
@@ -110,8 +102,6 @@ HEAD),
 [SRFI 202](https://srfi.schemers.org/srfi-202/srfi-202.html)
 
 `cond` guards: [SRFI 61](https://srfi.schemers.org/srfi-61/srfi-61.html)
-
-Modify macros: [Srfi17ExtensionsCowan](Srfi17ExtensionsCowan.md)
 
 `receive`: [SRFI 8](https://srfi.schemers.org/srfi-8/srfi-8.html)
 
@@ -131,26 +121,44 @@ Core syntactic extensions: [SRFI 201](https://srfi.schemers.org/srfi-201/srfi-20
 
 Multiple values: [SRFI 210](https://srfi.schemers.org/srfi-210/srfi-210.html)
 
+Nested `define`:  [SRFI 219](https://srfi.schemers.org/srfi-219/srfi-219.html)
+
+# 4th Docket (non-portable, SRFIs)
+
+Syntax-case: [R6RS syntax-case](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html)
+ * with or without [Racket/Gerbil syntax-case extensions](https://gitlab.com/dpk/presrfis/-/blob/master/syntax-case-extensions.md)
+
+Explicit renaming: [explicit renaming](https://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Explicit-Renaming.html)
+
+Simple identifier syntax: [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_796)
+
+Custom macro transformers: [SRFI 147](https://srfi.schemers.org/srfi-147/srfi-147.html)
+
+Syntax parameters: [SRFI 139](https://srfi.schemers.org/srfi-139/srfi-139.html)
+
+Syntax-rules extensions: [SRFI 149](https://srfi.schemers.org/srfi-149/srfi-149.html)
+
+`let-syntax` with splicing: [SRFI 188](https://srfi.schemers.org/srfi-188/srfi-188.html)
+
+Generalized `set!`: [SRFI 17](https://srfi.schemers.org/srfi-17/srfi-17.html) or
+[`identifier-syntax`](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_796)
+
+Splicing `let(rec)-syntax`: [SRFI 188](https://srfi.schemers.org/srfi-188/srfi-188.html)
+
 Identifier aliasing: [SRFI 212](https://srfi.schemers.org/srfi-212/srfi-212.html)
 
 Identifier properties: [SRFI 213](https://srfi.schemers.org/srfi-213/srfi-213.html)
 
+# 5th Docket (portable, not SRFIs)
 
-
-# Yellow Docket (syntax)
-
-## Syntax
-
-Nested `define`:  [SRFI 219](https://srfi.schemers.org/srfi-219/srfi-219.html)
+Modify macros: [Srfi17ExtensionsCowan](Srfi17ExtensionsCowan.md)
 
 Loops: [SRFI 42](https://srfi.schemers.org/srfi-42/srfi-42) or [Riastradh's foof-loop](http://mumble.net/~campbell/scheme/foof-loop.txt) or [Chibi loop](http://synthcode.com/scheme/chibi/lib/chibi/loop.html), summarized at [EagerComprehensions](EagerComprehensions.md)
 
-Assumptions: [SRFI 145](https://srfi.schemers.org/srfi-145/srfi-145.html)
-
-Assertions: [AssertionsWarnings](https://github.com/johnwcowan/r7rs-work/blob/master/AssertionsWarnings.md)
+Assumptions/Assertions/Warnings: [SRFI 145](https://srfi.schemers.org/srfi-145/srfi-145.html)
+and
+[AssertionsWarnings](https://github.com/johnwcowan/r7rs-work/blob/master/AssertionsWarnings.md)
 or [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_sec_11.14)
-
-Warnings: [AssertionsWarnings](https://github.com/johnwcowan/r7rs-work/blob/master/AssertionsWarnings.md)
 
 `while`, `until`, `do-times`: [SimpleIterationCL](SimpleIterationCL.md)
 
@@ -174,13 +182,19 @@ or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/
 
 `if*` with arbitrarily many arguments: [Daphne Preston-Kendal's rationale](http://dpk.io/r7rs/naryif-20130406)
 
-Binding auxiliary syntax: [SRFI 206](https://srfi.schemers.org/srfi-206/srfi-206.html)
-
-## Lexical macros
-
 Lexical macros: [LexmacsCowan](LexmacsCowan.md)
 
-# Lime Docket (portable)
+# 6th Docket (portable, SRFIs)
+
+Maybe/Either: [SRFI 189](https://srfi.schemers.org/srfi-189/srfi-189.html)
+
+Environment monad: [SRFI 165](https://srfi.schemers.org/srfi-165/srfi-165.html)
+
+Matching:  [SRFI 204](https://srfi.schemers.org/srfi-204/srfi-204.html)
+
+ASCII character library: [SRFI 175](https://srfi.schemers.org/srfi-175/srfi-175.html)
+
+Binding auxiliary syntax: [SRFI 206](https://srfi.schemers.org/srfi-206/srfi-206.html)
 
 Flexvectors: [SRFI 214](https://srfi.schemers.org/srfi-214/srfi-214.html)
 
@@ -195,16 +209,18 @@ and [data](https://github.com/ar-nelson/schemepunk/blob/master/json.sld).
 
 Hooks: [SRFI 173](https://srfi.schemers.org/srfi-173/srfi-173.html)
 
+# 7th Docket (portable, not SRFIs)
+
+Restarts:  [RestartsCowan](RestartsCowan.md)
+
 List mutation: [ListSurgeryCowan](ListSurgeryCowan.md)
 
 UUIDs: [Uuid](Uuid.md)
 
 Strings: [SRFI 152](https://srfi.schemers.org/srfi-152/srfi-152.html) (index-based),
-[SRFI 130](https://srfi.schemers.org/srfi-130/srfi-130.html) (cursor-based)
+[SRFI 130](https://srfi.schemers.org/srfi-130/srfi-130.html) (cursor-based), other libs
 
 Enumeration maps: [EnumMappingsCowan](EnumMappingsCowan.md)
-
-ASCII character library: [SRFI 175](https://srfi.schemers.org/srfi-175/srfi-175.html)
 
 Core I/O: [CoreSexps](CoreSexps.md) + 
 [Lisp Serialization Conventions](https://docs.google.com/spreadsheets/d/1V-7E5d3fLON5DrVeHkVvp9h5SRgcteOgnPl8KvWTA3M/edit#gid=0)
@@ -214,17 +230,10 @@ String interpolation: [StringInterpolateCowan](StringInterpolateCowan.md)
 C-style structures: [ByteStructuresTaylanUB](https://github.com/TaylanUB/scheme-bytestructures),
 [StructuresCowan](StructuresCowan.md)
 
-Matching:  [SRFI 204](https://srfi.schemers.org/srfi-204/srfi-204.html)
-
 Predicate generic functions: [GenericsChibi](http://synthcode.com/scheme/chibi/lib/chibi/generic.html) (needs extension for subtyping), [FastGeneric](http://wiki.call-cc.org/eggref/5/fast-generic)
 
-Maybe/Either: [SRFI 189](https://srfi.schemers.org/srfi-189/srfi-189.html)
-
-Environment monad: [SRFI 165](https://srfi.schemers.org/srfi-165/srfi-165.html)
-
-Restarts:  [RestartsCowan](RestartsCowan.md)
-
-Timespecs:  [SRFI 174](https://srfi.schemers.org/srfi-174/srfi-174.html)
+Timespecs:  [SRFI 174](https://srfi.schemers.org/srfi-174/srfi-174.html) or
+[SRFI 174 bis](TimeObjects.md)
 
 Conditions: [ConditionsCowan](ConditionsCowan.md)
 
@@ -243,7 +252,18 @@ Bimaps: [Bimaps](Bimaps.md)
 Language tag searching: [BCP 47](https://tools.ietf.org/html/bcp47).  Procedures take a tag and a dictionary of tagged objects, and return either an alist (ordered choice) or a single key-value pair.
 
 
-# Green Docket (non-portable)
+# 8th Docket (not portable, SRFIs)
+
+Continuation marks:  [SRFI 157](https://srfi.schemers.org/srfi-157/srfi-157.html)
+
+Extended exact numbers: [SRFI 73](https://srfi.schemers.org/srfi-73/srfi-73.html)
+or [ExtendedRationalsCowan](ExtendedRationalsCowan.md)
+
+Posix environment: [SRFI 170](https://htmlpreview.github.io/?https://github.com/johnwcowan/r7rs-work/blob/master/srfi-170.html)
+
+Coroutine generator syntax: [SRFI 190](https://srfi.schemers.org/srfi-190/srfi-190.html)
+
+Timers: [SRFI 120](https://srfi.schemers.org/srfi-120/srfi-120.html)
 
 Continuation marks: [SRFI 157](https://srfi.schemers.org/srfi-157/srfi-157.html)
 
@@ -251,21 +271,15 @@ Custom I/O ports and transcoded ports: [SRFI 181](https://srfi.schemers.org/srfi
 
 Port positioning: [SRFI 192](https://srfi.schemers.org/srfi-192/srfi-192.html).
 
-Threads: [SRFI 18](https://srfi.schemers.org/srfi-18/srfi-18.html)
-or [FuturesCowan](FuturesCowan.md) (just futures, thread-local variables, monad support)
-
 Sockets: [SRFI 106](https://srfi.schemers.org/srfi-106/srfi-106.html) or
 [NetworkPortsCowan](NetworkPortsCowan.md) with [NetworkEndpointsCowan](NetworkEndpointsCowan.md)
 
+Threads: [SRFI 18](https://srfi.schemers.org/srfi-18/srfi-18.html)
+or [FuturesCowan](FuturesCowan.md) (just futures, thread-local variables, monad support)
+
 Datagram channels (UDP sockets): [DatagramChannelsCowan](DatagramChannelsCowan.md)
 
-Timers: [SRFI 120](https://srfi.schemers.org/srfi-120/srfi-120.html)
-
 Mutable environments: [EnvironmentsMIT](https://htmlpreview.github.io/?https://github.com/johnwcowan/r7rs-work/blob/master/EnvironmentsMIT.html)
-
-Posix environment: [SRFI 170](https://htmlpreview.github.io/?https://github.com/johnwcowan/r7rs-work/blob/master/srfi-170.html)
-
-Coroutine generator syntax: [SRFI 190](https://srfi.schemers.org/srfi-190/srfi-190.html)
 
 Access to the REPL: [ReplCowan](ReplCowan.md)
 
@@ -277,23 +291,11 @@ Process control: [ProcessesCowan](ProcessesCowan.md)
 
 Pure delay/force: [PureDelayedGloria](PureDelayedGloria.md)
 
-# Olive Docket (non-portable)
-
 Delimited continuations: [Racket](https://docs.racket-lang.org/reference/cont.html),
 [Guile](https://www.gnu.org/software/guile/manual/html_node/Prompt-Primitives.html),
 [Scheme48/Kali](https://github.com/tonyg/kali-scheme/blob/master/scheme/misc/shift-reset.scm),
 [Gauche](https://practical-scheme.net/gauche/man/gauche-refe/Partial-continuations.html),
 [Chicken](http://wiki.call-cc.org/eggref/4/F-operator)
-
-Continuation marks:  [SRFI 157](https://srfi.schemers.org/srfi-157/srfi-157.html)
-
-Extended exact numbers: [SRFI 73](https://srfi.schemers.org/srfi-73/srfi-73.html)
-or [ExtendedRationalsCowan](ExtendedRationalsCowan.md)
-
-Adjustable strings: [SRFI 118](https://srfi.schemers.org/srfi-118/srfi-118.html) (basic)
-or [SRFI 140](https://srfi.schemers.org/srfi-140/srfi-140.html) (mutable/immutable)
-
-Mutexes, condition variables: [SRFI 18](https://srfi.schemers.org/srfi-18/srfi-18.html)
 
 Port type detector: [#177](https://small.r7rs.org/ticket/177/)
 
@@ -309,7 +311,7 @@ Simple SQL database interface: [SimpleSqlCowan](SimpleSqlCowan.md)
 
 Syslog interface: [SyslogCowan](SyslogCowan.md)
 
-# Aqua Docket (portable but complex things).
+# 9th Docket (portable, not SRFIs)
 
 Streaming regular expressions: [PragmaticParsingBaker](http://home.pipeline.com/~hbaker1/Prag-Parse.html)
 
@@ -320,7 +322,8 @@ CLI utilities: [SRFI 37](https://srfi.schemers.org/srfi-37/srfi-37.html),
 [ArgsChicken](http://wiki.call-cc.org/eggref/5/args),
 [AppChibi](http://synthcode.com/scheme/chibi/lib/chibi/app.html) +
 [ConfigChibi](http://synthcode.com/scheme/chibi/lib/chibi/config.html),
-[ArgParsePython](https://docs.python.org/3/library/argparse.html)
+[ArgParsePython](https://docs.python.org/3/library/argparse.html),
+other libs
 
 Relations: [RelationsCowan](RelationsCowan.md)
 
@@ -372,7 +375,7 @@ Baker-style persistent tuples: [TuplesCowan](TuplesCowan.md)
 
 Dijkstra arrays (deques) [DijkstraArrays](DijkstraArrays.md) 
 
-# Blue Docket (portable but advanced things).
+# 10th Docket (portable, not SRFIs).
 
 Applicable record instances: [R6RS formal comment](http://www.r6rs.org/formal-comments/comment-6.txt)
 
@@ -389,8 +392,6 @@ String normalization: [StringNormalization](StringNormalization.md)
 Testing: [SRFI 64](https://srfi.schemers.org/srfi-64/srfi-64.html)
 or [ChibiChickenTest](http://wiki.call-cc.org/eggref/5/test)
 or [SRFI 78](https://srfi.schemers.org/srfi-78/srfi-78.html)
-
-Command-line arguments: [SRFI 37](https://srfi.schemers.org/srfi-37/srfi-37.html)
 
 Unifiable boxes: [SRFI 161](https://srfi.schemers.org/srfi-161/srfi-161.html)
 
