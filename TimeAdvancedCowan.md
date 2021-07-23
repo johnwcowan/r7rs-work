@@ -15,18 +15,18 @@ Scheme uses two internal formats for absolute timestamps, which
 in this SRFI are called *instants* and *time-objects*.
 
 An *instant* is an exact or inexact number representing a count of
-seconds since eight seconds before midnight January 1, 1970 in the UTC timezone.
-The current instant can be obtained by calling the R7RS procedure `current-second`.
+seconds since eight seconds before midnight January 1, 1970 in the 
+proleptic Gregorian calendar.
 
-A *time-object* is an object defined by
-FIXME: [SRFI 174 bis](https://github.com/pre-srfi/time-objects/blob/master/TimeObjects.md)
+A time object belongs to a disjoint type (see
+FIXME: [SRFI 174 bis](https://github.com/pre-srfi/time-objects/blob/master/TimeObjects.md)O
 that represents a count of whole seconds and nanoseconds
 plus a time type such as UTC, TAI, or duration.
 The current UTC time object can be obtained by calling the SRFI 170
 procedure `posix-time`.
 SRFI 174 bis has procedures for converting between UTC and TAI time objects
 and between either of them and instants.  Consequently, the procedures
-of this SRFI only accept UTC time objects.
+of this SRFI only accept UTC and duration time objects.
 
 In this SRFI, a UTC time object during a leap second is always assumed to be the same
 (in the sense of `=`) for both the seconds and the nanoseconds) as
@@ -53,18 +53,23 @@ numeric timezones only and does not support time folds correctly.
 A *duration object* represents the amount of elapsed time
 between an earlier instance or time object and a later one
 that has been broken into smaller intervals of time.
-There are two types of duration objects: a standard duration
+There are two types of duration objects: an ordinary duration
 object is specified as a number of years, months, days,
-hours, minutes, seconds, and nanosections; a week duration
+hours, minutes, seconds, and nanoseconds; a week duration
 object is specified as a number of ISO years and weeks,
 and cannot be more finely specified.
+Duration objects have multiple numeric-valued fields
+that can be extracted.
+They are listed in the description of the `duration`
+procedure below.
+
 
 Note that certain familiar identities do not hold: while the
 number of minutes in a day and the number of months in a year
 are both fixed, the number of seconds in a minute is not, because
-leap seconds, and the number of days in a month is not fixed either.
+leap seconds, and the number of days in a month is of course not fixed either.
 Therefore the most compact format for a duration object is in
-months, minutes, and nanoseconds, all of which can be stored as 64-bit fixnums.
+months, minutes, and nanoseconds, all of which can be stored as 63-bit fixnums.
 
 
 ## Time zones
@@ -85,7 +90,7 @@ support for named time zones as defined by the
 
 When local time jumps backwards (typically some time in the autumn in the temperate zones,
 or else for political reasons at any time),
-the same local time can represent two different Universal Time values.
+the same local time can represent two different UTC values.
 Such a situation is called a *time fold* and is represented as 0 for the earlier time
 and 1 for the later time.  For example, the fold is 0 at 2:00 A.M. daylight time
 and 1 at 2:00 A.M. standard time one hour later
@@ -118,13 +123,20 @@ this SRFI does not deal with them either.
 
 ### Date object procedures
 
-`(date `*alist*`)`  
+`(date `*objs*`)`  
 
-Returns a date object based on the values fields in the alist,
-which maps symbols (called fields) to specific values.
-The fields `year`, `month`, `day`, `hours`, `minute`, `second`,
-and `timezone` are required.
-The fields `nanoseconds` and `fold` are optional, and default to 0.
+Returns a date object based on the *objs*,
+which alternates between symbols (called fields) and specific values.
+There are four valid possibilities for combinations of fields:
+ * The fields `year`, `month`, `day`, `hours`, `minutes`, `seconds`,
+   and `timezone` are required.
+   The fields `nanoseconds` and `fold` are optional, and default to 0.
+ * The fields `iso-week-year`, `iso-week`, `day-of-week`, `hours`,
+   `minutes`, `seconds`, and `timezone` are required.
+   The fields `nanoseconds` and `fold` are optional, and default to 0.
+ * The field `iso-local-string` is required.
+   The field `fold` is optional, and defaults to 0.
+ * The field `iso-utc-string` is required.
 An error satisfying `date-error?` is signaled if any other fields are present.
 
 `(time-object->date `*timezone time-object*`)`
@@ -181,7 +193,8 @@ All ranges are inclusive at both ends.
 
 `time-object`: The time object of this date.
 
-`timezone`: The timezone with which this date was created.
+`timezone`: The timezone with which this date was created,
+either a string or a number.
 
 `local-time-offset`: The local time zone offset in effect at this
 date at the specific timezone in seconds ahead of UTC.
@@ -190,7 +203,7 @@ date at the specific timezone in seconds ahead of UTC.
 
 `month`: The month, where 1 is January and 12 is December.
 
-`day`: The day of the month between 1 and 31 (or less in some months)
+`day`: The day of the month.
 
 `hour`: The hour of the day, where 0 represents the time between
 midnight and 1 AM and 23 represents the time between 11 PM
@@ -201,20 +214,39 @@ of the following day and minute 0 of hour 24 of the preceding day.
 
 `second`: The second of the minute between 0 and 60.
 
+`nanosecond`: the number of nanoseconds in the date's second\.
+
 `day-of-week`: The day of the week, where Monday is 1 and Sunday is 7.
 
-`days-in-month`: The number of days in the date's month, between 1 and 31.
+`days-in-month`: The number of days in the date's month: between 28 and 31.
+Date folds can change the range.
 
-`day-of-year`: The day of the year, between 1 and 365 in non-leap years
-and 1 and 366 in leap years.
+`day-of-year`: The day of the year, typically between 1 and 365 in non-leap years
+and 1 and 366 in leap years.  Date folds can change the range.
 
-`days-in-year`: The number of days in this date's year.
+`days-in-year`: The number of days in this date's year, either 365 or 366.
+Date folds can change the range.
 
 `julian-day`: The whole number of days between this date and noon Universal Time, January 1, 4173 B.C.E. Julian
 (which is November 24, 4714 B.C.E. Gregorian).  Leap seconds are ignored.
 
 `modified-julian-day`: The whole number of days between this date and midnight Universal Time, November 17, 1858
 Gregorian.  Leap seconds are ignored.
+
+`iso-local-string`: A string that conforms to the
+format for local time in the [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339)
+profile of ISO 8601.  Roughly speaking, this is of the form
+`yyyy-mm-ddThh:mm:ss.ddd±hh:mm`, where the final `±hh:mm`
+represents the signed offset from UTC in hours and minutes, rounded if necessary.
+There may be any number of subsecond digits; if they are omitted,
+so is the preceding decimal point.
+
+`iso-utc-string`: A string that conforms to the
+format for UTC time in the [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339)
+profile of ISO 8601.  Roughly speaking, this is of the form
+`yyyy-mm-ddThh:mm:ss.dddZ`.
+There may be any number of subsecond digits; if they are omitted,
+so is the preceding decimal point.
 
 `iso-week-number`: The number of the week in this date's year, between 1 and either 52 or 53.
 Week 1 is the first full week where Thursday ia in January.
@@ -234,14 +266,18 @@ It is the same as `year` except for up to six days in January and December.
 
 `(duration `*alist*`)`  
 
-Returns a duration object based on the values fields in the alist,
-which maps symbols (called fields) to specific values.
-A standard duration object has the
-fields `years`, `months`, `days`, `hours`, `minutes`, `seconds`,
-and `nanoseconds`; 
-a week duration object has the fields
-`iso-week-years` and `iso-week-numbers`
+Returns a date object based on the *objs*,
+which alternates between symbols (called fields) and specific values.
+There are four valid possibilities for combinations of fields:
+ * The fields `years`, `months`, `days`, `hours`, `minutes`, `seconds`, and `nanoseconds`
+   are all optional, but at least one must be provided.
+ * The fields `years` and `weeks` are required.
+ * The field `iso-duration-string` is required.
+  An ISO duration string begins with `P` followed by a letter Y, M, D, H, M, S, or W
+  and a number, repeated for all the fields with which the date object was created.
+
 Missing fields are interpreted as 0.
+
 An error satisfying `date-error?` is signaled if any other fields are present.
 
 `(duration `*earlier later*`)`
@@ -252,20 +288,16 @@ time objects *earlier* (inclusive) and *later* (exclusive).
 `(time-object->duration `*timezone time-object*`)`
 
 Returns a duration object representing the elapsed time
-represented by *time-object*.
+in seconds and nanoseconds represented by *time-object*.
 It is an error if *time-object* is not of type `time-duration`.
 
 `(duration? `*obj*`)`
 
 Returns `#t` if *obj* is a duration object, and `#f` otherwise.
 
-`(standard-duration? `*obj*`)
-
-Returns `#t` if *obj* is a standard duration object, and `#f` otherwise.
-
 `(week-duration? `*obj*`)
 
-Returns `#t` if *obj* is a week duration object, and `#f` otherwise.
+Returns `#t` if *obj* contains the `weeks` field, and `#f` otherwise.
 
 `(duration->alist `*duration*`)`
 
@@ -273,7 +305,9 @@ Returns a newly allocated alist containing all the fields of *duration*.
 
 `(duration-ref `*duration fieldname*`)`
 
-Retrieves the value of the field named by the symbol *fieldname* from *duration*.
+Retrieves the value of the field named by the symbol *fieldname* from *duration*,
+or `#f` if it was not present.
+(However, `iso-duration-string` is always present.)
 This may be more efficient than generating an alist, but may also be
 less efficient if several different fields are required.
 
@@ -298,10 +332,6 @@ but adjusted to the nearest integral value of *fieldname*
 using the conventions of `round`, `ceiling`, `floor`, or `truncate`.
 This may cause other fields to change their values as well.
 
-### ISO formatting
-
-TBD
-
 ### Comparators
 
 `date-comparator`
@@ -318,3 +348,9 @@ A comparator suitable for ordering duration objects by their durations.
 
 Returns `#t` if *obj* was signaled by one of the above procedures, or
 `#f` otherwise.
+
+## Lexical syntax (optional)
+
+A lexical syntax for date and duration objects may be provided by prefixing
+`#@` to either a local or a UTC string, or to a
+duration string (the syntaxes are disjoint).
