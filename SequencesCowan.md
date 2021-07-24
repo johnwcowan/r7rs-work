@@ -66,6 +66,7 @@
 
 ## Instances
 
+Dictionaries
 Lists  
 Vectors  
 Strings  
