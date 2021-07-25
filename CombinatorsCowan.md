@@ -41,13 +41,13 @@ Returns `#t` if the *args* satisfy any of the *predicates*.
 
 Applies each of the *procs* in turn to *args*, discarding the results and returning an unspecified value.
 
-`((all-of) `*predicate*`)`
+`((all-of) `*predicate*`) *list*`)`
 
-Applies *predicate* to each element of *list* in turn, and immediately returns `#f` if *predicate* is not satisfied by that element; otherwise returns `#t`.
+Applies *predicate* to each element of *list* in turn, and immediately returns `#f` if *predicate* is not satisfied by that element; otherwise returns the result of calling *predicate* for the last time.  If *list* is empty, returns `#t`.
 
 `((some-of `*predicate*`)` *list*`)`
 
-Applies *predicate* to each element of *list* in turn, and if *predicate* is satisfied by that element, returns the result of calling *predicate*; otherwise returns `#f`.  If *list* is empty, returns `#t`.
+Applies *predicate* to each element of *list* in turn, and if *predicate* is satisfied by that element, immediately returns the result of calling *predicate*; otherwise returns `#f`.  If *list* is empty, returns `#f`.
 
 `((on `*reducer mapper*`)` *obj* ...`)`
 
@@ -59,31 +59,32 @@ Applies *proc* to *args* concatenated with *objs*.
 
 `((right-section `*proc arg* ...`)` *obj* ...`)`
 
-Applies *proc* to *objs* concatenated with *args*, where *args* are in reverse order.
+Applies *proc* to *objs* concatenated with the value of `(reverse *args*).
 
 ## Syntax-like procedures
 
-These are Scheme procedures that correspond to basic syntax.  They are derived from [the If class of Samizdat](https://github.com/danfuzz/samizdat/blob/master/doc/library-guide/If.md).
+These are Scheme procedures that correspond to basic syntax.  They are derived from [the If class of Samizdat](https://github.com/danfuzz/samizdat/blob/master/doc/library-guide/If.md).  As usual in Lisps, *thunk* means a procedure that does not require arguments.
 
 `(begin-procedure `*thunk* ...`)`
 
 Invokes *thunks* in order, and returns what the last thunk returns, or an unspecified value if there are no thunks.
 
-`(if-procedure `*value then-thunk* [*else-thunk*]`)`
+`(if-procedure `*value then-thunk* *else-thunk*`)`
 
-If *value* is true, invokes *then-thunk* and returns what it returns.  Otherwise, invokes *else-thunk* and returns what it returns.  If *else-thunk* is not specified, returns an unspecified value.
+If *value* is true, invokes *then-thunk* and returns what it returns.  Otherwise, invokes *else-thunk* and returns what it returns.
 
-`(if-not-procedure `*value else-thunk*`)`
+`(when-procedure `*value thunk* ...`)`  
+`(unless-procedure `*value thunk* ...`)`
 
-If *value* is true, returns an unspecified value.  Otherwise, invokes *else-thunk* and returns what it returns.
+If *value* is false/true, immediately returns.  Otherwise, invokes each *thunk* in turn and then returns.  In all cases an unspecified value is returned.
 
 `(value-procedure `*value then-proc else-thunk*`)`
 
 If *value* is true, invokes *then-proc* on it and returns what *then-proc* returns.  Otherwise, invokes *else-thunk* and returns what it returns.
 
-`(case-procedure `*value thunk-alist* [*else-thunk* ]`)`
+`(case-procedure `*value thunk-alist* *else-thunk*`)`
 
-Searches *thunk-alist* for *value* (as if by `assv`).  If there is a matching entry in *thunk-alist*, its cdr is invoked as a thunk, and `case-procedure` returns what the thunk returns.  If there is no such entry in *thunk-alist*, invokes *else-thunk* and returns what it returns, or returns an unspecified value if *else-thunk* is not provided.
+Searches *thunk-alist* for *value* (as if by `assv`).  If there is a matching entry in *thunk-alist*, its cdr is invoked as a thunk, and `case-procedure` returns what the thunk returns.  If there is no such entry in *thunk-alist*, invokes *else-thunk* and returns what it returns.
 
 `(and-procedure `*thunk* ...`)`
 
@@ -95,7 +96,7 @@ Invokes each *thunk* in the order given, and if any of them returns true, `or-pr
 
 `(loop-procedure `*thunk*`)`
 
-Invokes *thunk* repeatedly.  Does not return.
+Invokes *thunk* repeatedly.  Does not return unless via `call/cc`.
 
 `(while-procedure `*thunk*`)`
 
@@ -122,4 +123,4 @@ If *obj* is true, returns `#t`; otherwise returns `#f`.
 
 `(identity `*obj*`)`
 
-Returns *obj*.
+Returns *obj*; normally passed to a higher-order procedure rather than being invoked directly.  Equivalent to `values` but with a clearer name.
