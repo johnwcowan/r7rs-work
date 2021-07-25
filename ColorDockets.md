@@ -198,7 +198,7 @@ and [data](https://github.com/ar-nelson/schemepunk/blob/master/json.sld).
 
 Hooks: [SRFI 173](https://srfi.schemers.org/srfi-173/srfi-173.html)
 
-# 7th Docket (portable, not SRFIs)
+# Leto Docket (portable, not SRFIs)
 
 Restarts:  [RestartsCowan](RestartsCowan.md)
 
