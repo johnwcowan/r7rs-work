@@ -16,6 +16,7 @@ The following order is not necessarily the voting order.
  * Morpheus: not portable, SRFIs
  * Selene: portable, not SRFIs
  * Pan: portable, not SRFIs
+ * Iris: non-portable, not SRFIs
  * Indigo: features of dubious utility
 
 # Red Docket (data structures)
@@ -115,9 +116,8 @@ Nested `define`:  [SRFI 219](https://srfi.schemers.org/srfi-219/srfi-219.html)
 # Kronos Docket (non-portable, SRFIs)
 
 Syntax-case: [R6RS syntax-case](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html)
- * with or without [Racket/Gerbil syntax-case extensions](https://gitlab.com/dpk/presrfis/-/blob/master/syntax-case-extensions.md)
-
-Explicit renaming: [explicit renaming](https://www.gnu.org/software/mit-scheme/documentation/mit-scheme-ref/Explicit-Renaming.html)
+ 
+Explicit renaming: [explicit renaming](https://www.gnu.org/software/mit-scheme/documentation/stable/mit-scheme-ref/Explicit-Renaming.html#Explicit-Renaming)
 
 Simple identifier syntax: [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_796)
 
@@ -345,7 +345,6 @@ Unicode character database: [UcdCowan](UcdCowan.md), [AdvancedUcdCowan](Advanced
 
 Environment: [SRFI 112](https://srfi.schemers.org/srfi-112/srfi-112.html) with [MiscEnvironmentSchudy](MiscEnvironmentSchudy.md)
 
-
 CSV, DSV: [DataFormatsCowan](DataFormatsCowan.md)
 
 INI files: [IniFilesCowan](IniFilesCowan.md)
@@ -404,6 +403,11 @@ Promises: [SRFI 155](https://srfi.schemers.org/srfi-155/srfi-155.html)
 Writing filters: [FileFilterGauche](https://practical-scheme.net/gauche/man/gauche-refe/Filtering-file-content.html#Filtering-file-content)
 
 SXML serializer: [SxmlSerializerGauche](https://practical-scheme.net/gauche/man/gauche-refe/Serializing-XML-and-HTML-from-SXML.html#Serializing-XML-and-HTML-from-SXML)
+
+# Iris Docket (non-portable, not SRFIs)
+
+* [Racket/Gerbil syntax-case extensions](https://gitlab.com/dpk/presrfis/-/blob/master/syntax-case-extensions.md)
+
 
 # Indigo Docket (stuff of dubious utility)
 
