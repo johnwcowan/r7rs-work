@@ -1,20 +1,21 @@
 For other dockets see [WG2Dockets](WG2Dockets.md).
 
 Figure out string mess if possible.
-Consider moving at least syntax-rules macros to Orange.
 
 # Docket Index
 
+The following order is not necessarily the voting order.
+
  * Red: data structures
  * Tangerine: numerics
- * 3rd: portable, SRFIs
- * 4th: non-portable, SRFIs
- * 5th: portable, not SRFIs
- * 6th: portable, SRFIs
- * 7th: portable, not SRFIs
- * 8th: not portable, SRFIs
- * 9th: portable, not SRFIs
- * 10th: portable, not SRFIs
+ * Orange: portable, SRFIs
+ * Kronos: non-portable, SRFIs
+ * Eos: portable, not SRFIs
+ * Hypnos: portable, SRFIs
+ * Leto: portable, not SRFIs
+ * Morpheus: not portable, SRFIs
+ * Selene: portable, not SRFIs
+ * Pan: portable, not SRFIs
  * Indigo: features of dubious utility
 
 # Red Docket (data structures)
@@ -52,7 +53,7 @@ Consider moving at least syntax-rules macros to Orange.
 * Already voted on.
   See [TangerineEdition](TangerineEdition.md).
 
-# 3rd Docket (portable, SRFIs)
+# Orange Docket (portable, SRFIs)
 
 ## Numeric types, operations, and data structures
 
@@ -95,12 +96,6 @@ Generic dictionary operations: [SRFI 225](https://srfi.schemers.org/srfi-225/srf
 
 ## Syntax-rules macros
 
-`and-let*`: [SRFI 2 using define-macro or syntax-rules](https://srfi.schemers.org/srfi-2/srfi-2.html),
-[using explicit renaming](https://code.call-cc.org/cgi-bin/gitweb.cgi?p=chicken-core.git;a=blob;f=chicken-syntax.scm;h=e3c2feb47c1437d44aefa0d879e04dc28a0cbc61;hb=HEAD),
-[using syntax-case](http://git.savannah.gnu.org/cgit/guile.git/tree/module/ice-9/and-let-star.scm),
-HEAD),
-[SRFI 202](https://srfi.schemers.org/srfi-202/srfi-202.html)
-
 `cond` guards: [SRFI 61](https://srfi.schemers.org/srfi-61/srfi-61.html)
 
 `receive`: [SRFI 8](https://srfi.schemers.org/srfi-8/srfi-8.html)
@@ -109,21 +104,15 @@ HEAD),
 
 `Cut/cute`:  [SRFI 26](https://srfi.schemers.org/srfi-26/srfi-26.html)
 
-Generic accessors/mutators: [SRFI 123](https://srfi.schemers.org/srfi-123/srfi-123.html)
-
 `let` extensions: [SRFI 5](https://srfi.schemers.org/srfi-5/srfi-5.html)
 
-Eager syntax rules: [SRFI 148](https://srfi.schemers.org/srfi-148/srfi-148.html)
-
 Syntax combiners for binary functions: [SRFI 156](https://srfi.schemers.org/srfi-156/srfi-156.html)
-
-Core syntactic extensions: [SRFI 201](https://srfi.schemers.org/srfi-201/srfi-201.html)
 
 Multiple values: [SRFI 210](https://srfi.schemers.org/srfi-210/srfi-210.html)
 
 Nested `define`:  [SRFI 219](https://srfi.schemers.org/srfi-219/srfi-219.html)
 
-# 4th Docket (non-portable, SRFIs)
+# Kronos Docket (non-portable, SRFIs)
 
 Syntax-case: [R6RS syntax-case](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html)
  * with or without [Racket/Gerbil syntax-case extensions](https://gitlab.com/dpk/presrfis/-/blob/master/syntax-case-extensions.md)
@@ -149,7 +138,7 @@ Identifier aliasing: [SRFI 212](https://srfi.schemers.org/srfi-212/srfi-212.html
 
 Identifier properties: [SRFI 213](https://srfi.schemers.org/srfi-213/srfi-213.html)
 
-# 5th Docket (portable, not SRFIs)
+# Eos Docket (portable, not SRFIs)
 
 Modify macros: [Srfi17ExtensionsCowan](Srfi17ExtensionsCowan.md)
 
@@ -164,9 +153,9 @@ or [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_sec_11.14)
 
 lambda*: [BeyondCurryingHemann](BeyondCurryingHemann.md)
 
-Named parameters:  [SRFI 177](https://srfi.schemers.org/srfi-177/srfi-177.html),
+Named parameters:  [SRFI 177](https://srfi.schemers.org/srfi-177/srfi-177.html) bis,
 [SRFI 89](https://srfi.schemers.org/srfi-89/srfi-89.html),
-or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/0.7.3/index.html)
+or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/0.7.3/index.html)(portable)
 
 Multiple values passed through => in `cond`: see [#90](https://small.r7rs.org/ticket/90/)
 
@@ -184,7 +173,9 @@ or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/
 
 Lexical macros: [LexmacsCowan](LexmacsCowan.md)
 
-# 6th Docket (portable, SRFIs)
+# Hypnos Docket (portable, SRFIs)
+
+Eager syntax rules: [SRFI 148](https://srfi.schemers.org/srfi-148/srfi-148.html)
 
 Maybe/Either: [SRFI 189](https://srfi.schemers.org/srfi-189/srfi-189.html)
 
@@ -193,8 +184,6 @@ Environment monad: [SRFI 165](https://srfi.schemers.org/srfi-165/srfi-165.html)
 Matching:  [SRFI 204](https://srfi.schemers.org/srfi-204/srfi-204.html)
 
 ASCII character library: [SRFI 175](https://srfi.schemers.org/srfi-175/srfi-175.html)
-
-Binding auxiliary syntax: [SRFI 206](https://srfi.schemers.org/srfi-206/srfi-206.html)
 
 Flexvectors: [SRFI 214](https://srfi.schemers.org/srfi-214/srfi-214.html)
 
@@ -251,8 +240,19 @@ Bimaps: [Bimaps](Bimaps.md)
 
 Language tag searching: [BCP 47](https://tools.ietf.org/html/bcp47).  Procedures take a tag and a dictionary of tagged objects, and return either an alist (ordered choice) or a single key-value pair.
 
+Pure delay/force: [PureDelayedGloria](PureDelayedGloria.md)
 
-# 8th Docket (not portable, SRFIs)
+
+# Morpheus Docket (not portable, SRFIs)
+
+Binding auxiliary syntax: [SRFI 206](https://srfi.schemers.org/srfi-206/srfi-206.html)
+
+Core syntactic extensions: [SRFI 201](https://srfi.schemers.org/srfi-201/srfi-201.html)
+
+`and-let*`: [SRFI 2 using define-macro](https://srfi.schemers.org/srfi-2/srfi-2.html), [using syntax-rules](http://okmij.org/ftp/Scheme/lib/myenv-chez.scm)
+[using explicit renaming](https://code.call-cc.org/cgi-bin/gitweb.cgi?p=chicken-core.git;a=blob;f=chicken-syntax.scm;h=e3c2feb47c1437d44aefa0d879e04dc28a0cbc61;hb=HEAD),
+[using syntax-case](http://git.savannah.gnu.org/cgit/guile.git/tree/module/ice-9/and-let-star.scm)), or
+[SRFI 202 using syntax-case](https://srfi.schemers.org/srfi-202/srfi-202.html)
 
 Continuation marks:  [SRFI 157](https://srfi.schemers.org/srfi-157/srfi-157.html)
 
@@ -289,8 +289,6 @@ Interfaces: [InterfacesCowan](InterfacesCowan.md)
 
 Process control: [ProcessesCowan](ProcessesCowan.md)
 
-Pure delay/force: [PureDelayedGloria](PureDelayedGloria.md)
-
 Delimited continuations: [Racket](https://docs.racket-lang.org/reference/cont.html),
 [Guile](https://www.gnu.org/software/guile/manual/html_node/Prompt-Primitives.html),
 [Scheme48/Kali](https://github.com/tonyg/kali-scheme/blob/master/scheme/misc/shift-reset.scm),
@@ -311,7 +309,7 @@ Simple SQL database interface: [SimpleSqlCowan](SimpleSqlCowan.md)
 
 Syslog interface: [SyslogCowan](SyslogCowan.md)
 
-# 9th Docket (portable, not SRFIs)
+# Selene Docket (portable, not SRFIs)
 
 Streaming regular expressions: [PragmaticParsingBaker](http://home.pipeline.com/~hbaker1/Prag-Parse.html)
 
@@ -347,7 +345,6 @@ Unicode character database: [UcdCowan](UcdCowan.md), [AdvancedUcdCowan](Advanced
 
 Environment: [SRFI 112](https://srfi.schemers.org/srfi-112/srfi-112.html) with [MiscEnvironmentSchudy](MiscEnvironmentSchudy.md)
 
-Trees: [TreesCowan](TreesCowan.md)
 
 CSV, DSV: [DataFormatsCowan](DataFormatsCowan.md)
 
@@ -375,7 +372,7 @@ Baker-style persistent tuples: [TuplesCowan](TuplesCowan.md)
 
 Dijkstra arrays (deques) [DijkstraArrays](DijkstraArrays.md) 
 
-# 10th Docket (portable, not SRFIs).
+# Pan Docket (portable, not SRFIs).
 
 Applicable record instances: [R6RS formal comment](http://www.r6rs.org/formal-comments/comment-6.txt)
 
