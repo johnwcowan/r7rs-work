@@ -7,7 +7,7 @@ This SRFI supports only the
 
 ## Issues
 
-None at this time.
+Consider changing the `-ref`, `-update`, `-adjust` `-round`, `-truncate`, `-ceiling` and `-floor` operations from single procedures to a groups of procedures, one for each field.
 
 ## Instants and time objects
 
@@ -64,12 +64,8 @@ They are listed in the description of the `duration`
 procedure below.
 
 
-Note that certain familiar identities do not hold: while the
-number of minutes in a day and the number of months in a year
-are both fixed, the number of seconds in a minute is not, because
-leap seconds, and the number of days in a month is of course not fixed either.
-Therefore the most compact format for a duration object is in
-months, minutes, and nanoseconds, all of which can be stored as 63-bit fixnums.
+Note: the most compact format for a duration object is in
+months and nanoseconds, all of which can be stored as 63-bit fixnums.
 
 
 ## Time zones
@@ -88,7 +84,7 @@ which are Universal Time minus local time in seconds, and strongly recommends
 support for named time zones as defined by the
 [IANA time zone database](https://www.iana.org/time-zones); these are strings.
 
-When local time jumps backwards (typically some time in the autumn in the temperate zones,
+When local time jumps backwards (typically some time in the autumn in the temperate zones
 or else for political reasons at any time),
 the same local time can represent two different UTC values.
 Such a situation is called a *time fold* and is represented as 0 for the earlier time
@@ -96,7 +92,7 @@ and 1 for the later time.  For example, the fold is 0 at 2:00 A.M. daylight time
 and 1 at 2:00 A.M. standard time one hour later
 on the day when daylight saving time ends in the U.S.
 The fold for any unaffected time is always 0.  The idea behind the name is that
-the local time scale is folded up, as it were, replicating the same local times.
+the UTC scale is folded up, as it were, with some parts of it representing the same local times.
 
 The current timezone can generally be obtained from the `TZ` environment variable.
 Note that there is no concept in this SRFI of
@@ -106,12 +102,14 @@ date object is created.
 ## Localization
 
 This SRFI does not deal with localization beyond the matter of time zones.
-It does not know the names of the months or of the days of the week in any language,
-or the proper ordering of day, month, and year,
-or the names and starting dates of the Japanese eras or any others,
-or whether local clocks are 12-hour or 24-hour,
-or how to spell "AM" and "PM",
-or anything about non-Gregorian calendars,
+It does not know:
+ * the names of the months or of the days of the week in any language,
+ * the proper ordering of day, month, and year,
+ * the names and starting dates of the Japanese eras or any others,
+ * whether local clocks are 12-hour or 24-hour,
+ * how to spell "AM" and "PM",
+
+It also does not know anything about non-Gregorian calendars,
 including those proposed for other celestial bodies than the Earth.
 Sufficient to the day is the evil thereof.
 
@@ -151,7 +149,7 @@ Returns `#t` if *obj* is a date object, and `#f` otherwise.
 
 Returns a newly allocated alist containing all the fields of *date* (see below).
 
-`(date-ref `*date fieldname*`)`
+`(date-ref `*date **fieldname**`)`
 
 Retrieves the value of the field named by the symbol *fieldname* from *date*.
 This may be more efficient than generating an alist, but may also be
@@ -205,16 +203,16 @@ date at the specific timezone in seconds ahead of UTC.
 
 `day`: The day of the month.
 
-`hour`: The hour of the day, where 0 represents the time between
+`hour`: The hour, where 0 represents the time between
 midnight and 1 AM and 23 represents the time between 11 PM
 and midnight.  Midnight itself is both minute 0 of hour 0
 of the following day and minute 0 of hour 24 of the preceding day.
 
-`minute`:  The minute of the hour between 0 and 59.
+`minute`:  The minute.
 
-`second`: The second of the minute between 0 and 60.
+`second`: The second.
 
-`nanosecond`: the number of nanoseconds in the date's second\.
+`nanosecond`: The nanosecond.
 
 `day-of-week`: The day of the week, where Monday is 1 and Sunday is 7.
 
@@ -230,8 +228,7 @@ Date folds can change the range.
 `julian-day`: The whole number of days between this date and noon Universal Time, January 1, 4173 B.C.E. Julian
 (which is November 24, 4714 B.C.E. Gregorian).  Leap seconds are ignored.
 
-`modified-julian-day`: The whole number of days between this date and midnight Universal Time, November 17, 1858
-Gregorian.  Leap seconds are ignored.
+`modified-julian-day`: The whole number of days between this date and midnight Universal Time, November 17, 1858 Gregorian.
 
 `iso-local-string`: A string that conforms to the
 format for local time in the [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339)
@@ -256,8 +253,6 @@ It is the same as `year` except for up to six days in January and December.
 
 `seconds-in-minute`: the number of seconds in the date's minute.
 
-`second-of-day`: The second of the date's day.
-
 `seconds-in-day`: The total number of seconds in the date's day.
 
 `time-fold`:  The time fold associated with this date (see above).
@@ -268,15 +263,14 @@ It is the same as `year` except for up to six days in January and December.
 
 Returns a date object based on the *objs*,
 which alternates between symbols (called fields) and specific values.
-There are four valid possibilities for combinations of fields:
+There are three valid possibilities for combinations of fields:
  * The fields `years`, `months`, `days`, `hours`, `minutes`, `seconds`, and `nanoseconds`
    are all optional, but at least one must be provided.
  * The fields `years` and `weeks` are required.
  * The field `iso-duration-string` is required.
   An ISO duration string begins with `P` followed by a letter Y, M, D, H, M, S, or W
   and a number, repeated for all the fields with which the date object was created.
-
-Missing fields are interpreted as 0.
+  Missing fields are interpreted as 0.
 
 An error satisfying `date-error?` is signaled if any other fields are present.
 
