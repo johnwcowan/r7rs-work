@@ -8,7 +8,7 @@ practical needs of mainstream software development.
 The report on the small language was finalized on July 6, 2013.
 It is available [in PDF format](https://github.com/johnwcowan/r7rs-spec/blob/errata/spec/r7rs.pdf)
 and as [LaTeX source code](https://github.com/johnwcowan/r7rs-spec/tree/errata/spec).
-There are [errata](R7RSSmallErrata.md); the above version leads to a version
+There are [errata](R7RSSmallErrata.md); the above link leads to a version
 with all the errata applied.  A complete archive of the
 working documents for the small language is available [here](https://small.r7rs.org/).
 
@@ -24,14 +24,20 @@ and the numeric tower that the Tangerine Edition requires implementations to
 provide.  One Red Edition library was updated in a fully backward compatible way.
 
 The plans for future partial editions can be found at [WG2Dockets](WG2Dockets.md);
-they are all named by colors in roughly spectral order.
+Orange is the next docket to be voted on in mid-2021, but the rest (named after minor Greek gods
+and goddesses) may be voted on in any order, and proposals may move between dockets.
 
-Pre-SRFIs by John Cowan can be found on this site at
-[r7rs-work](https://github.com/johnwcowan/r7rs-work).
+**Note:** Many docketed proposals are stalled for lack of an implementation; providing portable
+implementations for entries in the Eos, Leto, Selene, and Pan dockets
+(other than those marked "Implementation") would be a great help to the project.
+There is no specific order: implement whichever proposals suit you.
+Or, of course, write a [new SRFI](https://srfi.schemers.org/srfi-process.html)
+which can then be docketed.
 
 For R7RS-small implementations, see [ImplementationSupport](ImplementationSupport.md).
 [Larceny](http://larcenists.org) includes all the SRFIs of the Red Edition, though they
-are not yet available under their standardized names.  [Chibi](http://synthcode.com/wiki/chibi-scheme)
+are not yet available under their standardized names.
+[Chibi](http://synthcode.com/wiki/chibi-scheme)
 version 0.8 (Oxygen) also contains the entire Red Edition, plus a non-standard library
 `(scheme red)` that imports and exports them all.  Other implementations will hopefully follow.
 
