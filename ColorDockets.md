@@ -1,6 +1,5 @@
 For other dockets see [WG2Dockets](WG2Dockets.md).
 
-Figure out string mess if possible.
 
 # Docket Index
 
@@ -140,7 +139,7 @@ Identifier properties: [SRFI 213](https://srfi.schemers.org/srfi-213/srfi-213.ht
 
 # Eos Docket (portable, not SRFIs)
 
-Modify macros: [Srfi17ExtensionsCowan](Srfi17ExtensionsCowan.md) [Implementation](https://github.com/arvyy/r7rs-work/tree/master/Srfi17ExtensionsCowan)
+Modify macros: [Srfi17ExtensionsCowan](Srfi17ExtensionsCowan.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/Srfi17ExtensionsCowan)
 
 Loops: [SRFI 42](https://srfi.schemers.org/srfi-42/srfi-42) or [Riastradh's foof-loop](http://mumble.net/~campbell/scheme/foof-loop.txt) or [Chibi loop](http://synthcode.com/scheme/chibi/lib/chibi/loop.html), summarized at [EagerComprehensions](EagerComprehensions.md)
 
@@ -151,7 +150,7 @@ or [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_sec_11.14). 
 
 `while`, `until`, `do-times`: [SimpleIterationCL](SimpleIterationCL.md)
 
-lambda*: [BeyondCurryingHemann](BeyondCurryingHemann.md) [Implementation](https://github.com/arvyy/r7rs-work/tree/master/BeyondCurryingHemann)
+lambda*: [BeyondCurryingHemann](BeyondCurryingHemann.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/BeyondCurryingHemann)
 
 Named parameters:  [SRFI 177](https://srfi.schemers.org/srfi-177/srfi-177.html) bis,
 [SRFI 89](https://srfi.schemers.org/srfi-89/srfi-89.html),
@@ -162,14 +161,15 @@ Multiple values passed through => in `cond`: see [#90](https://small.r7rs.org/ti
 Property lists to bindings: [LetSettingsKendal](LetSettingsKendal.md)
 
 Optional arguments (other than by `case-lambda`): 
-[OptionalsRiastradh](http://mumble.net/~campbell/proposals/optional.text), 
-or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/0.7.3/index.html) [Implementation](https://github.com/arvyy/r7rs-work/tree/master/OptionalsRiastradh)
+[OptionalsRiastradh](http://mumble.net/~campbell/proposals/optional.text).
+[Implementation](https://github.com/arvyy/r7rs-work/tree/master/OptionalsRiastradh),
+or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/0.7.3/index.html). 
 
 `Record-let`: [#45](https://small.r7rs.org/ticket/45/)
 
-`let-list`, `let-vector`: [MacrosAlexandria](MacrosAlexandria.md) [Partial Implementation](https://github.com/arvyy/r7rs-work/tree/master/MacrosAlexandria)
+`let-list`, `let-vector`: [MacrosAlexandria](MacrosAlexandria.md). [Partial Implementation](https://github.com/arvyy/r7rs-work/tree/master/MacrosAlexandria)
 
-`if*` with arbitrarily many arguments: [Daphne Preston-Kendal's rationale](http://dpk.io/r7rs/naryif-20130406) [Implementation](https://github.com/arvyy/r7rs-work/tree/master/IfKendal)
+`if*` with arbitrarily many arguments: [Daphne Preston-Kendal's rationale](http://dpk.io/r7rs/naryif-20130406). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/IfKendal)
 
 Lexical macros: [LexmacsCowan](LexmacsCowan.md)
 
@@ -202,11 +202,11 @@ Hooks: [SRFI 173](https://srfi.schemers.org/srfi-173/srfi-173.html)
 
 # Leto Docket (portable, not SRFIs)
 
-Restarts:  [RestartsCowan](RestartsCowan.md) [Implementation](https://github.com/arvyy/r7rs-work/tree/master/RestartsCowan)
+Restarts:  [RestartsCowan](RestartsCowan.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/RestartsCowan)
 
 List mutation: [ListSurgeryCowan](ListSurgeryCowan.md)
 
-UUIDs: [Uuid](Uuid.md) [Implementation](https://github.com/arvyy/r7rs-work/tree/master/UUID)
+UUIDs: [Uuid](Uuid.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/UUID)
 
 Strings: [SRFI 152](https://srfi.schemers.org/srfi-152/srfi-152.html) (index-based),
 [SRFI 130](https://srfi.schemers.org/srfi-130/srfi-130.html) (cursor-based), other libs
@@ -216,7 +216,7 @@ Enumeration maps: [EnumMappingsCowan](EnumMappingsCowan.md)
 Core I/O: [CoreSexps](CoreSexps.md) + 
 [Lisp Serialization Conventions](https://docs.google.com/spreadsheets/d/1V-7E5d3fLON5DrVeHkVvp9h5SRgcteOgnPl8KvWTA3M/edit#gid=0)
 
-String interpolation: [StringInterpolateCowan](StringInterpolateCowan.md) [Implementation](https://github.com/arvyy/r7rs-work/tree/master/StringInterpolateCowan)
+String interpolation: [StringInterpolateCowan](StringInterpolateCowan.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/StringInterpolateCowan)
 
 C-style structures: [ByteStructuresTaylanUB](https://github.com/TaylanUB/scheme-bytestructures),
 [StructuresCowan](StructuresCowan.md)
@@ -232,7 +232,7 @@ Port operations: [PortOperationsCowan](PortOperationsCowan.md)
 
 Lists as sets (extension to SRFI 1): [LSetExtensions](LSetExtensions.md)
 
-Topological sort: [TopologicalSortGauche](https://practical-scheme.net/gauche/man/gauche-refe/Topological-sort.html#Topological-sort) [Implementation](https://github.com/arvyy/r7rs-work/tree/master/TopologicalSortGauche)
+Topological sort: [TopologicalSortGauche](https://practical-scheme.net/gauche/man/gauche-refe/Topological-sort.html#Topological-sort). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/TopologicalSortGauche)
 
 Levenshtein distance: [LevenshteinDistanceGauche](https://practical-scheme.net/gauche/man/gauche-refe/Levenshtein-edit-distance.html#Levenshtein-edit-distance)
 
@@ -331,7 +331,7 @@ Finalizers: [FinalizersCowan](FinalizersCowan.md)
 
 Combinations: [CombinationsGauche](https://htmlpreview.github.io/?https://github.com/johnwcowan/r7rs-work/blob/master/CombinationsGauche.html)
 
-Generic combinator procedures: [CombinatorsCowan](CombinatorsCowan.md) [Implementation](https://github.com/arvyy/r7rs-work/tree/master/CombinatorsCowan)
+Generic combinator procedures: [CombinatorsCowan](CombinatorsCowan.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/CombinatorsCowan)
 
 Time types: [SRFI 19](https://srfi.schemers.org/srfi-19/srfi-19.html) and/or [TimeAdvancedCowan](TimeAdvancedCowan.md) with [TimePeriodsCowan](TimePeriodsCowan.md)
 
@@ -339,7 +339,7 @@ Character conversion: [CharacterConversionCowan](CharacterConversionCowan.md)
 
 Parallel promises: [ParallelPromisesCowan](ParallelPromisesCowan.md)
 
-Pathname objects: [PathnamesPython](PathnamesPython.md) [Implementation](https://github.com/arvyy/r7rs-work/tree/master/PathnamesPython)
+Pathname objects: [PathnamesPython](PathnamesPython.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/PathnamesPython)
 
 URI objects: [UrisCowan](UrisCowan.md)
 
@@ -420,7 +420,7 @@ S-expressions for SQL: [AgnosticSql](AgnosticSql.md)
 
 Substitute/transform: [SubstituteCowan](SubstituteCowan.md)
 
-[MiscAlexandria](MiscAlexandria.md) [Partial Implementation](https://github.com/arvyy/r7rs-work/tree/master/MacrosAlexandria)
+[MiscAlexandria](MiscAlexandria.md). [Partial Implementation](https://github.com/arvyy/r7rs-work/tree/master/MacrosAlexandria)
 
 R6RS compatibility: whole libraries or cherry-picked procedures
 
