@@ -361,6 +361,9 @@ Date and time arithmetic: [TimeAdvancedCowan](TimeAdvancedCowan.md),
 Date-time parser: [Hato date parser](https://code.google.com/p/hato/source/browse/hato-date.scm),
 [SRFI 19](https://srfi.schemers.org/srfi-19/srfi-19.html)
 
+Date-time formatter: [TimeFormattingCowan](https://github.com/johnwcowan/r7rs-work/blob/master/TimeFormattingCowan.md),
+[SRFI 19](https://srfi.schemers.org/srfi-19/srfi-19.html)
+
 Regular expressions over s-expressions:  [SerexPalmer](http://inamidst.com/lisp/serex)
 
 Procedural record types: [R6RS](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-7.html#node_sec_6.3)
@@ -369,7 +372,7 @@ Procedural record types: [R6RS](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib
 [RidiculouslySimpleRecordsCowan](RecordsCowan.md),  
 [UniqueTypesCowan](UniqueTypesCowan.md)
 
-Baker-style persistent tuples: [TuplesCowan](TuplesCowan.md)
+Baker-style persistent tuples: [TuplesCowan](TuplesCowan.md), Immutable vectors: [FectorsPrice](https://github.com/ijp/fectors)
 
 Dijkstra arrays (deques) [DijkstraArrays](DijkstraArrays.md) 
 
@@ -395,8 +398,6 @@ Unifiable boxes: [SRFI 161](https://srfi.schemers.org/srfi-161/srfi-161.html)
 
 Channels: [PigeonHolesChicken](http://wiki.call-cc.org/eggref/5/pigeon-hole),
 [GochanChicken](http://wiki.call-cc.org/eggref/5/gochan)
-
-Immutable vectors: [FectorsPrice](https://github.com/ijp/fectors)
 
 First-class dynamic extents: [SRFI 154](https://srfi.schemers.org/srfi-154/srfi-154.html)
 
