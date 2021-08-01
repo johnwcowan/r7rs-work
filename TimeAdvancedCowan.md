@@ -19,12 +19,13 @@ seconds since eight seconds before midnight January 1, 1970 in the
 proleptic Gregorian calendar.
 
 A time object belongs to a disjoint type (see
-FIXME: [SRFI 174 bis](https://github.com/pre-srfi/time-objects/blob/master/TimeObjects.md)O
+FIXME: [TimeObjects](https://github.com/pre-srfi/time-objects/blob/master/TimeObjects.md)
 that represents a count of whole seconds and nanoseconds
 plus a time type such as UTC, TAI, or duration.
 The current UTC time object can be obtained by calling the SRFI 170
 procedure `posix-time`.
-SRFI 174 bis has procedures for converting between UTC and TAI time objects
+
+FIXME: TimeObjects has procedures for converting between UTC and TAI time objects
 and between either of them and instants.  Consequently, the procedures
 of this SRFI only accept UTC and duration time objects.
 
@@ -39,8 +40,8 @@ the time object for the following second, but the results of actually calling
 A *date object* is an immutable member of a disjoint type
 that provides information about a specific time object
 with respect to a certain time zone.
-Date objects have multiple numeric-valued fields
-that can be extracted.
+Date objects have multiple mostly numeric-valued fields
+that can be extracted from them.
 They are listed in the "Date Fields" section below.
 
 The date objects of this SRFI are similar to
@@ -53,20 +54,10 @@ numeric timezones only and does not support time folds correctly.
 A *duration object* represents the amount of elapsed time
 between an earlier instance or time object and a later one
 that has been broken into smaller intervals of time.
-There are two types of duration objects: an ordinary duration
-object is specified as a number of years, months, days,
-hours, minutes, seconds, and nanoseconds; a week duration
-object is specified as a number of ISO years and weeks,
-and cannot be more finely specified.
-Duration objects have multiple numeric-valued fields
-that can be extracted.
-They are listed in the description of the `duration`
-procedure below.
 
-
-Note: the most compact format for a duration object is in
-months and nanoseconds, all of which can be stored as 63-bit fixnums.
-
+Duration objects have multiple mostly numeric-valued fields
+that can be extracted from them.
+They are listed in the "Duration Fields" section below.
 
 ## Time zones
 
@@ -88,9 +79,9 @@ When local time jumps backwards (typically some time in the autumn in the temper
 or else for political reasons at any time),
 the same local time can represent two different UTC values.
 Such a situation is called a *time fold* and is represented as 0 for the earlier time
-and 1 for the later time.  For example, the fold is 0 at 2:00 A.M. daylight time
-and 1 at 2:00 A.M. standard time one hour later
-on the day when daylight saving time ends in the U.S.
+and 1 for the later time.  For example, on the day when daylight saving time ends in the U.S.,
+the fold is 0 at 2:00 A.M. daylight time
+and 1 at 2:00 A.M. standard time one hour later.
 The fold for any unaffected time is always 0.  The idea behind the name is that
 the UTC scale is folded up, as it were, with some parts of it representing the same local times.
 
@@ -125,25 +116,24 @@ this SRFI does not deal with them either.
 
 Returns a date object based on the *objs*,
 which alternates between symbols (called fields) and specific values.
-There are four valid possibilities for combinations of fields:
- * The fields `year`, `month`, `day`, `hours`, `minutes`, `seconds`,
+These are the valid possibilities for combinations of fields:
+ * The fields `year`, `month`, `day-of-month`, `hours`, `minutes`, `seconds`,
    and `timezone` are required.
    The fields `nanoseconds` and `fold` are optional, and default to 0.
  * The fields `iso-week-year`, `iso-week`, `day-of-week`, `hours`,
    `minutes`, `seconds`, and `timezone` are required.
    The fields `nanoseconds` and `fold` are optional, and default to 0.
- * The field `iso-local-string` is required.
+ * The field `iso-date-string` is required.
    The field `fold` is optional, and defaults to 0.
- * The field `iso-utc-string` is required.
 An error satisfying `date-error?` is signaled if any other fields are present.
-
-`(time-object->date `*timezone time-object*`)`
-
-Returns a date object referring to *time-object* modified by *timezone*.
 
 `(date? `*obj*`)`
 
 Returns `#t` if *obj* is a date object, and `#f` otherwise.
+
+`(date->utc-date *date*`)`
+
+Returns a date in the UTC time zone representing the same time as *date*.
 
 `(date->alist `*date*`)`
 
@@ -189,7 +179,7 @@ Unless otherwise noted, all
 field values are exact integers that have been rounded down if necessary.
 All ranges are inclusive at both ends.
 
-`time-object`: The time object of this date.
+`time-object`: The time object corresponding to this date.
 
 `timezone`: The timezone with which this date was created,
 either a string or a number.
@@ -262,36 +252,24 @@ It is the same as `year` except for up to six days in January and December.
 `(duration `*alist*`)`  
 
 Returns a date object based on the *objs*,
-which alternates between symbols (called fields) and specific values.
-There are three valid possibilities for combinations of fields:
- * The fields `years`, `months`, `days`, `hours`, `minutes`, `seconds`, and `nanoseconds`
+which alternate between symbols (called fields) and specific values.
+The following possibilities for combinations of fields may be used:
+ * The fields `years`, `months`, `weeks`, `days`, `hours`, `minutes`, `seconds`, and `nanoseconds`
    are all optional, but at least one must be provided.
- * The fields `years` and `weeks` are required.
- * The field `iso-duration-string` is required.
-  An ISO duration string begins with `P` followed by a letter Y, M, D, H, M, S, or W
-  and a number, repeated for all the fields with which the date object was created.
-  Missing fields are interpreted as 0.
+   Missing fields are interpreted as 0.
+ * The field `iso-duration-string` is required and no other fields are allowed.
+ * The field `time-object` is required.
 
 An error satisfying `date-error?` is signaled if any other fields are present.
 
-`(duration `*earlier later*`)`
+`(duration-difference `*earlier later*`)`
 
 Returns a duration object representing the elapsed time between
 time objects *earlier* (inclusive) and *later* (exclusive).
 
-`(time-object->duration `*timezone time-object*`)`
-
-Returns a duration object representing the elapsed time
-in seconds and nanoseconds represented by *time-object*.
-It is an error if *time-object* is not of type `time-duration`.
-
 `(duration? `*obj*`)`
 
 Returns `#t` if *obj* is a duration object, and `#f` otherwise.
-
-`(week-duration? `*obj*`)
-
-Returns `#t` if *obj* contains the `weeks` field, and `#f` otherwise.
 
 `(duration->alist `*duration*`)`
 
@@ -299,8 +277,6 @@ Returns a newly allocated alist containing all the fields of *duration*.
 
 `(duration-ref `*duration fieldname*`)`
 
-Retrieves the value of the field named by the symbol *fieldname* from *duration*,
-or `#f` if it was not present.
 (However, `iso-duration-string` is always present.)
 This may be more efficient than generating an alist, but may also be
 less efficient if several different fields are required.
@@ -310,7 +286,7 @@ less efficient if several different fields are required.
 Returns a duration object which is later than *duration* by *increment*
 measured in the units specified by *fieldname*,
 or earlier if *increment* is negative.
-For example, `(duration-adjust `*duration*` ' day-of-month 7)`
+For example, `(duration-adjust `*duration*` 'days 7)`
 adds seven days to *duration*.
 
 `(duration-round `*duration fieldname*`)`
@@ -325,6 +301,32 @@ Returns a duration object which is the same as *duration*,
 but adjusted to the nearest integral value of *fieldname*
 using the conventions of `round`, `ceiling`, `floor`, or `truncate`.
 This may cause other fields to change their values as well.
+
+### Duration fields
+
+`years`: The number of years in the duration.
+
+`months`: The number of months in the duration.
+
+`weeks`: The number of weeks in the duration.
+
+`days`: The number of days in the duration.
+
+`hours`: The number of hours in the duration.
+
+`minutes`: The number of minutes in the duration.
+
+`seconds`: The number of seconds in the duration.
+
+`nanoseconds`: The number of nanoseconds in the duration.
+
+`iso-duration-string`: A string beginning with `P` followed by a letter
+Y, M, W, D, H, M, S, or W and a number,
+repeated for all the fields with which the date object was created.
+
+`time-object`: A time object of type `duration` equal in length
+to the duration object.  It is an error if the `years` and `months`
+fields are not both 0.
 
 ### Comparators
 
