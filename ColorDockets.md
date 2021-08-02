@@ -5,18 +5,18 @@ For other dockets see [WG2Dockets](WG2Dockets.md).
 
 The following order is not necessarily the voting order.
 
- * [Red: data structures]
- * [Tangerine: numerics]
- * [Orange: portable, SRFIs]
- * [Kronos: non-portable, SRFIs]
- * [Eos: portable, not SRFIs]
- * [Hypnos: portable, SRFIs]
- * [Leto: portable, not SRFIs]
- * [Morpheus: not portable, SRFIs]
- * [Selene: portable, not SRFIs]
- * [Pan: portable, not SRFIs]
- * [Iris: non-portable, not SRFIs]
- * [Indigo: features of dubious utility]
+ * [Red: data structures](#red-docket-data-structures)
+ * [Tangerine: numerics](#tangerine-docket-numerics)
+ * [Orange: portable, SRFIs](#orange-docket-portable-srfis)
+ * [Kronos: not portable, SRFIs](#kronos-docket-not-portable-srfis)
+ * [Eos: portable, not SRFIs](#eos-docket-portable-not-srfis)
+ * [Hypnos: portable, SRFIs](#hypnos-docket-portable-not-srfis)
+ * [Leto: portable, not SRFIs](#leto-docket-portable-not-srfis)
+ * [Morpheus: not portable, SRFIs](morpheus-docket-not-portable-srfis)
+ * [Selene: portable, not SRFIs](#selene-docket-portable-not-srfis)
+ * [Pan: portable, not SRFIs](#pan-docket-portable-not-srfis)
+ * [Iris: not portable, not SRFIs](#iris-docket-not-portable-not-srfis)
+ * [Indigo: features of dubious utility](#indigo-docket-features-of-dubious-utility)
 
 # Red Docket (data structures)
 
@@ -112,7 +112,7 @@ Multiple values: [SRFI 210](https://srfi.schemers.org/srfi-210/srfi-210.html)
 
 Nested `define`:  [SRFI 219](https://srfi.schemers.org/srfi-219/srfi-219.html)
 
-# Kronos Docket (non-portable, SRFIs)
+# Kronos Docket (not portable, SRFIs)
 
 Syntax-case: [R6RS syntax-case](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html)
  
@@ -407,7 +407,7 @@ Writing filters: [FileFilterGauche](https://practical-scheme.net/gauche/man/gauc
 
 SXML serializer: [SxmlSerializerGauche](https://practical-scheme.net/gauche/man/gauche-refe/Serializing-XML-and-HTML-from-SXML.html#Serializing-XML-and-HTML-from-SXML)
 
-# Iris Docket (non-portable, not SRFIs)
+# Iris Docket (not portable, not SRFIs)
 
 * [Racket/Gerbil syntax-case extensions](https://gitlab.com/dpk/presrfis/-/blob/master/syntax-case-extensions.md)
 
