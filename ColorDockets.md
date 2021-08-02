@@ -5,18 +5,18 @@ For other dockets see [WG2Dockets](WG2Dockets.md).
 
 The following order is not necessarily the voting order.
 
- * Red: data structures
- * Tangerine: numerics
- * Orange: portable, SRFIs
- * Kronos: non-portable, SRFIs
- * Eos: portable, not SRFIs
- * Hypnos: portable, SRFIs
- * Leto: portable, not SRFIs
- * Morpheus: not portable, SRFIs
- * Selene: portable, not SRFIs
- * Pan: portable, not SRFIs
- * Iris: non-portable, not SRFIs
- * Indigo: features of dubious utility
+ * [Red: data structures]
+ * [Tangerine: numerics]
+ * [Orange: portable, SRFIs]
+ * [Kronos: non-portable, SRFIs]
+ * [Eos: portable, not SRFIs]
+ * [Hypnos: portable, SRFIs]
+ * [Leto: portable, not SRFIs]
+ * [Morpheus: not portable, SRFIs]
+ * [Selene: portable, not SRFIs]
+ * [Pan: portable, not SRFIs]
+ * [Iris: non-portable, not SRFIs]
+ * [Indigo: features of dubious utility]
 
 # Red Docket (data structures)
 
