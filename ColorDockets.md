@@ -5,18 +5,18 @@ For other dockets see [WG2Dockets](WG2Dockets.md).
 
 The following order is not necessarily the voting order.
 
- * [Red: data structures](#red-docket-data-structures)
- * [Tangerine: numerics](#tangerine-docket-numerics)
- * [Orange: portable, SRFIs](#orange-docket-portable-srfis)
- * [Kronos: not portable, SRFIs](#kronos-docket-not-portable-srfis)
- * [Eos: portable, not SRFIs](#eos-docket-portable-not-srfis)
- * [Hypnos: portable, SRFIs](#hypnos-docket-portable-srfis)
- * [Leto: portable, not SRFIs](#leto-docket-portable-not-srfis)
- * [Morpheus: not portable, SRFIs](#morpheus-docket-not-portable-srfis)
- * [Selene: portable, not SRFIs](#selene-docket-portable-not-srfis)
- * [Pan: portable, not SRFIs](#pan-docket-portable-not-srfis)
- * [Iris: not portable, not SRFIs](#iris-docket-not-portable-not-srfis)
- * [Indigo: features of dubious utility](#indigo-docket-features-of-dubious-utility)
+ * [Red: data structures](#user-content-red-docket-data-structures)
+ * [Tangerine: numerics](#user-content-tangerine-docket-numerics)
+ * [Orange: portable, SRFIs](#user-content-orange-docket-portable-srfis)
+ * [Kronos: not portable, SRFIs](#user-content-kronos-docket-not-portable-srfis)
+ * [Eos: portable, not SRFIs](#user-content-eos-docket-portable-not-srfis)
+ * [Hypnos: portable, SRFIs](#user-content-hypnos-docket-portable-srfis)
+ * [Leto: portable, not SRFIs](#luser-content-eto-docket-portable-not-srfis)
+ * [Morpheus: not portable, SRFIs](#user-content-morpheus-docket-not-portable-srfis)
+ * [Selene: portable, not SRFIs](#user-content-selene-docket-portable-not-srfis)
+ * [Pan: portable, not SRFIs](#user-content-pan-docket-portable-not-srfis)
+ * [Iris: not portable, not SRFIs](#user-content-iris-docket-not-portable-not-srfis)
+ * [Indigo: features of dubious utility](#user-content-indigo-docket-stuff-of-dubious-utility)
 
 # Red Docket (data structures)
 
@@ -85,10 +85,7 @@ Enumerations: [SRFI 209](https://srfi.schemers.org/srfi-209/srfi-209.html)
 
 Compound objects: [SRFI 222](https://srfi.schemers.org/srfi-222/srfi-222.html)
 
-Adjustable-size strings: [SRFI 185](https://srfi.schemers.org/srfi-185/srfi-185.html)
-or [SRFI 118](https://srfi.schemers.org/srfi-118/srfi-118.html)
-
-Yet more generator extensions: [SRFI x](https://srfi.schemers.org/srfi-162/srfi-162.html)
+Yet more generator extensions: [SRFI 162](https://srfi.schemers.org/srfi-162/srfi-162.html)
 
 Coroutine generators: [SRFI 190](https://srfi.schemers.org/srfi-190/srfi-190.html)
 
@@ -411,6 +408,8 @@ SXML serializer: [SxmlSerializerGauche](https://practical-scheme.net/gauche/man/
 
 * [Racket/Gerbil syntax-case extensions](https://gitlab.com/dpk/presrfis/-/blob/master/syntax-case-extensions.md)
 
+Adjustable-size strings: portable [SRFI 185](https://srfi.schemers.org/srfi-185/srfi-185.html)
+or easily retrofittable [SRFI 118](https://srfi.schemers.org/srfi-118/srfi-118.html)
 
 # Indigo Docket (stuff of dubious utility)
 
