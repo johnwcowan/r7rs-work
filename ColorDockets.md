@@ -449,5 +449,3 @@ Intervals: [IntervalsCowan](IntervalsCowan.md)
 Ring buffers: [RingBuffersGauche](https://practical-scheme.net/gauche/man/gauche-refe/Ring-buffer.html#Ring-buffer)
 
 Tagbody: [Tagbody](Tagbody.md)
-
-
