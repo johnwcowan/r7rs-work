@@ -119,8 +119,6 @@ Simple identifier syntax: [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14
 
 Syntax parameters: [SRFI 139](https://srfi.schemers.org/srfi-139/srfi-139.html)
 
-Syntax-rules extensions: [SRFI 149](https://srfi.schemers.org/srfi-149/srfi-149.html)
-
 `let-syntax` with splicing: [SRFI 188](https://srfi.schemers.org/srfi-188/srfi-188.html)
 
 Generalized `set!`: [SRFI 17](https://srfi.schemers.org/srfi-17/srfi-17.html) or
@@ -244,6 +242,8 @@ Pure delay/force: [PureDelayedGloria](PureDelayedGloria.md)
 # Morpheus Docket (not portable, SRFIs)
 
 Custom macro transformers: [SRFI 147](https://srfi.schemers.org/srfi-147/srfi-147.html)
+
+Syntax-rules extensions: [SRFI 149](https://srfi.schemers.org/srfi-149/srfi-149.html)
 
 Binding auxiliary syntax: [SRFI 206](https://srfi.schemers.org/srfi-206/srfi-206.html)
 
