@@ -117,8 +117,6 @@ Explicit renaming: [explicit renaming](https://www.gnu.org/software/mit-scheme/d
 
 Simple identifier syntax: [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_796)
 
-Custom macro transformers: [SRFI 147](https://srfi.schemers.org/srfi-147/srfi-147.html)
-
 Syntax parameters: [SRFI 139](https://srfi.schemers.org/srfi-139/srfi-139.html)
 
 Syntax-rules extensions: [SRFI 149](https://srfi.schemers.org/srfi-149/srfi-149.html)
@@ -244,6 +242,8 @@ Pure delay/force: [PureDelayedGloria](PureDelayedGloria.md)
 
 
 # Morpheus Docket (not portable, SRFIs)
+
+Custom macro transformers: [SRFI 147](https://srfi.schemers.org/srfi-147/srfi-147.html)
 
 Binding auxiliary syntax: [SRFI 206](https://srfi.schemers.org/srfi-206/srfi-206.html)
 
