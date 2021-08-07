@@ -138,8 +138,7 @@ and
 [AssertionsWarnings](https://github.com/johnwcowan/r7rs-work/blob/master/AssertionsWarnings.md)
 or [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_sec_11.14).  [Implementation](https://github.com/arvyy/r7rs-work/tree/master/AssertionsWarnings)
 
-`while`, `until`, `do-times`: [SimpleIterationCL](SimpleIterationCL.md)
-(https://github.com/arvyy/r7rs-work/tree/master/SimpleIterationCL).
+`while`, `until`, `do-times`: [SimpleIterationCL](SimpleIterationCL.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/SimpleIterationCL).
 
 lambda*: [BeyondCurryingHemann](BeyondCurryingHemann.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/BeyondCurryingHemann)
 
