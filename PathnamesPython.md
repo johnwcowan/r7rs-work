@@ -171,10 +171,12 @@ If it is not possible to do so without introducing double-period components, `#f
 
 `(path-suffix `*path suffix*`)`
 
-Returns a the suffix of the filename (everything to the
+Returns the suffix of the filename (everything to the
 right of the last period) as a string.  If there is no period
 or no components, returns `#f`.
 An initial period is not treated as a suffix delimiter.
+
+Another name for the suffix is the extension.
 
 `(path-with-suffix `*path suffix*`)`
 
