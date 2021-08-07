@@ -113,9 +113,9 @@ Nested `define`:  [SRFI 219](https://srfi.schemers.org/srfi-219/srfi-219.html)
 
 Syntax-case: [R6RS syntax-case](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html)
  
-Explicit renaming: [explicit renaming](https://www.gnu.org/software/mit-scheme/documentation/stable/mit-scheme-ref/Explicit-Renaming.html#Explicit-Renaming)
+Explicit renaming: [simple explicit renaming](https://www.gnu.org/software/mit-scheme/documentation/stable/mit-scheme-ref/Explicit-Renaming.html#Explicit-Renaming) [explicit renaming interoperable with syntax-case](https://srfi.schemers.org/srfi-211/srfi-211.html)
 
-Simple identifier syntax: [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_796)
+Identifier syntax: [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_796)
 
 Syntax parameters: [SRFI 139](https://srfi.schemers.org/srfi-139/srfi-139.html)
 
@@ -238,8 +238,9 @@ Pure delay/force: [PureDelayedGloria](PureDelayedGloria.md)
 
 # Morpheus Docket (not portable, SRFIs)
 
-Generalized `set!`: [SRFI 17](https://srfi.schemers.org/srfi-17/srfi-17.html) or two-argument
-[`identifier-syntax`](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_796)
+R4RS macro system ("syntax-case without `syntax-case`"): [R4RS](https://people.csail.mit.edu/jaffer/r4rs_12.html#SEC77); see also [SRFI 211](https://people.csail.mit.edu/jaffer/r4rs_12.html#SEC77).
+
+Setter functions: [SRFI 17](https://srfi.schemers.org/srfi-17/srfi-17.html)
 
 Custom macro transformers: [SRFI 147](https://srfi.schemers.org/srfi-147/srfi-147.html)
 
