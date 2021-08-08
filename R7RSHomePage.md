@@ -18,17 +18,19 @@ It is a frozen copy of the Red Edition ballot plus the names of the libraries.
 A [draft version](https://gitlab.com/vmanis/r7rs-large/-/blob/master/reports/red.pdf)
 of all the SRFIs merged together with some editing is also available.
 
-Similarly, the second partial edition of R7RS-large, known as the [Tangerine Edition](TangerineEdition.md),
+Similarly, the second partial edition of R7RS-large,
+known as the [Tangerine Edition](TangerineEdition.md),
 was made available in 2019.  It points to the SRFIs (and in one case an R6RS library)
 and the numeric tower that the Tangerine Edition requires implementations to
 provide.  One Red Edition library was updated in a fully backward compatible way.
 
 The plans for future partial editions can be found at [WG2Dockets](WG2Dockets.md);
-Orange is the next docket to be voted on in mid-2021, but the rest (named after minor Greek gods
-and goddesses) may be voted on in any order, and proposals may move between dockets.
+Kronos is the next docket to be voted on in 2021, but the rest
+(Orange plus those named after minor Greek gods and goddesses)
+may be voted on in any order, and proposals will move between dockets.
 
-**Note:** Many docketed proposals are stalled for lack of an implementation; providing portable
-implementations for entries in the Eos, Leto, Selene, and Pan dockets
+**Note:** Many docketed proposals are stalled for lack of an implementation;
+providing portable implementations for entries in the Eos, Leto, Selene, and Pan dockets
 (other than those marked "Implementation") would be a great help to the project.
 There is no specific order: implement whichever proposals suit you.
 Or, of course, write a [new SRFI](https://srfi.schemers.org/srfi-process.html)
