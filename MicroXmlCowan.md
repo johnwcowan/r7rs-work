@@ -2,9 +2,9 @@
 
 MicroXML uses a simplified version of SXML as the internal representation of documents.
 Each SXML element is a list whose first member is a symbol representing the element name,
-whose second member is a JSO mapping the attribute names (as symbols) to their values (as strings),
+whose second member is a [SRFI 180](https://srfi.schemers.org/srfi-180/srfi-180.html)
+JSON object mapping the attribute names (as symbols) to their values (as strings),
 and whose remaining members (if any) are either SXML elements or strings.
-The prototype of a JSO representing an attribute list is ignored.
 There is no representation of comments or processing instructions in this version of SXML,
 and no notion of document objects (a document is just an element that has no parent).
 
@@ -85,7 +85,8 @@ the car of the list is the name of the current element.
 
 `($start `*stack attr-list*`)`
 
-Represents a start-tag.  *Attr-list* is a [JSO](https://htmlpreview.github.io/?https://github.com/johnwcowan/r7rs-work/master/JsoCowan.html) representing the attributes.
+Represents a start-tag.
+*Attr-list* is a JSON object representing the attributes.
 
 `($end `*stack*`)`
 
@@ -130,7 +131,7 @@ Returns `#t` if all the characters in *string* are allowed in MicroXML character
 
 Returns `#t` if *element* is well-formed.
 The first element of *element* must be a symbol whose print name satisfies `sxml-wf-element-name?`.
-The second element of *element* must be a JSO that maps symbols
+The second element of *element* must be a JSON object that maps symbols
 whose print name satisfies `sxml-wf-attribute-name?` to strings that satisfy `sxml-wf-string?`.
 The remaining elements must be either strings that satisfy `sxml-wf-string?` or lists that satisfy `sxml-wf-element?`.
 
@@ -213,7 +214,7 @@ Returns the name of *element* as a symbol.
 
 `(sxml-set-name! `*element name*`)`
 
-Returns the attribute list of *element* as a JSO.
+Returns the attribute list of *element* as a JSON object.
 
 `(sxml-set-attr-list! `*element jso*`)`
 

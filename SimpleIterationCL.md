@@ -14,7 +14,7 @@ Declarations are permitted at the beginning of *body*.
 This algorithm is then repeated until *expr* is false/true.
 The macro then returns an unspecified value.
 
-# Do-times
+## Do-times
 
 The `do-times` macro is based on the very similar Common Lisp `dotimes` macro.
 It is an abstraction of iterating over a range of consecutive exact integers,
@@ -37,7 +37,7 @@ On the second iteration, *var* is incremented by *step* and so on.
 When *var* is greater than *end* (no default), *return* is evaluated and returned.
 Declarations are permitted at the beginning of *body*.
 
-# Do-list
+## Do-list
 
 The `do-list` macro is based on the very similar Common Lisp `dolist` macro.
 It is an abstraction of iterating over the elements of a list.
@@ -54,13 +54,6 @@ The value of *list* is evaluated first.
 
 On each iteration, *var* is bound to a successive element of *list*.
 Declarations are permitted at the beginning of *body*.
-
-
-## Tagged-begin
-
-[Spec](http://clhs.lisp.se/Body/s_tagbod.htm), but `go` is unnecessary: just call the tag.
-
-[Implementation](https://mumble.net/~campbell/tmp/tagbody.scm)
 
 # Implementation
 

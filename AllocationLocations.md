@@ -1,4 +1,4 @@
-Where can we allocate objects?
+Where can we allocate objects in SBCL?
 
   * In managed space (the stack or in the garbage-collected heap). No restrictions.
     

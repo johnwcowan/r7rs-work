@@ -1,12 +1,16 @@
 This pathname library is vaguely based on Python's.
 
+## Issues
+
+Should path objects be opaque, or is list-of-strings fine?
+
 ## Path objects
 
 A path object is a list of strings which can be created from a Posix or Windows pathname
 and can be manipulated conveniently
 and converted back into a pathname.  Every path object has a *drive* (the first element), a *root*
 (the second element), and a possibly empty sequence of *components* (the remaining elements),
-all of which are strings.  The *filename* is the last component.
+all of which are strings (possibly empty strings).  The *filename* is the last component.
 
 ## Parsing
 
@@ -44,7 +48,7 @@ The drive and root are set according to the following normative examples:
 (parse-windows-pathname "\\\\host\\share\\dir\\file") => ("//host/share" "/" "dir" "file")
 
 ;; Current-drive-relative path
-(make-windows-pathname "\\Windows\\System32\stop.exe") => ("" "/" "Windows" "System32" "stop.exe")
+(make-windows-pathname "\\Windows\\System32\\stop.exe") => ("" "/" "Windows" "System32" "stop.exe")
 
 ;; Relative path
 (parse-windows-pathname "foo") => ("" "" "foo")
@@ -160,16 +164,19 @@ If *glob* is absolute, the path must be absolute, and the whole path must match.
 If *ci?* is true, matching is done case-insensitively;
 if it is false or missing, matching is done case-sensitively.
 
-`(path-relative-to `*path1 path1*`)`
+`(path-relative-to `*path1 path2*`)`
 
 Returns a version of *path1* that is relative to *path2*.
 If it is not possible to do so without introducing double-period components, `#f` is returned.
 
 `(path-suffix `*path suffix*`)`
 
-Returns a the suffix of the filename (everything to the
-right of the last period) as a string.  If there is no period, returns `#f`.
+Returns the suffix of the filename (everything to the
+right of the last period) as a string.  If there is no period
+or no components, returns `#f`.
 An initial period is not treated as a suffix delimiter.
+
+Another name for the suffix is the extension.
 
 `(path-with-suffix `*path suffix*`)`
 
