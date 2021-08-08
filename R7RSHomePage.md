@@ -36,7 +36,7 @@ Or, of course, write a [new SRFI](https://srfi.schemers.org/srfi-process.html)
 which can then be docketed.
 
 For R7RS-small implementations, see the
-[Implementations](ImplementationSupport.html)
+[Implementations](ImplementationSupport.md)
 page.  [Larceny](http://larcenists.org) includes all the SRFIs of the Red Edition,
 though they are not yet available under their standardized names.
 [Chibi](http://synthcode.com/wiki/chibi-scheme)
