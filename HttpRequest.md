@@ -3,17 +3,14 @@ This is a simple API for making basic HTTP requests.
 ## Issues
 
 1. Should request objects be dictionaries
-or records?  The API surface gets bigger
+or immutable records?  The API surface gets bigger
 with records, and they are harder to debug,
 but they are less easy to damage
-with an ill-considered `set-cdr!`.
+with an ill-considered mutator.
 
-1. Should we use ports instead of accumulators
-and generators?  Ports are more convenient,
-but they require custom-port support, as in
-[SRFI 181](https://srfi.schemers.org/srfi-181/srfi-181.html)
-as well as socket support, as in
-[SRFI 106](https://srfi.schemers.org/srfi-106/srfi-106.html).
+1. Should we use  accumulators and generators instead of ports?
+Ports are more convenient, but they require custom-port support, as in
+[SRFI 181](https://srfi.schemers.org/srfi-181/srfi-181.html).
 
 ## Specification
 
@@ -73,22 +70,19 @@ The name of the symbol is uppercased before transmitting it.
 
 *url*:  A string representing the URL to be sent to the server.
 
-*headers*:  A dictionary containing headers to be sent.
-Keys are lower-case symbols without a trailing colon.
-
-*raw-headers*: A string represting the characters of the header section.
-It is an error to specify both this and *headers*.
-
-*cookie-jar*:  A dictionary containing cookies to possibly be sent.
-Keys are lists of the form `(`*domain path name*`)`;
-values are strings.  If omitted or `#f`, treated as an empty dictionary.
-
 *request-port*:  A binary input port.  Bytes read from it
 by `http-request` are sent as the body of the request.
 
+OR
+
+*request-generator*:  A SRFI 158 generator.
+`http-request` reads objects from it that must be either bytes
+(exact integers in the range 0-255) or bytevectors.
+They are sent as the body of the request.
+
 ### Response objects
 
-A response object is a dictionary that may contain
+A response object is a SRFI 225 dictionary that may contain
 the keys below.
 Keys not specified by this SRFI have implementation-dependent meaning.
 
@@ -98,20 +92,28 @@ Keys not specified by this SRFI have implementation-dependent meaning.
 
 *url*:  The URL of a newly created resource
 
-*headers*:  The headers of the response.
+*headers*:  The headers of the response as a SRFI 225 dictionary.
 Multiple headers are coalesced in the order they appear in the response,
 with a space character separating them.
 
-*raw-headers*: A string representing the characters of the header section
-of the response.
+*headers-dtd*: A SRFI 225 dictionary-type descriptor which specifies
+how to access *headers*.  If omitted or #f, `eqv-alist-dtd` is used.
 
 *cookie-jar*:  A cookie-jar (see above).  Cookies are inserted
 or replaced according to the cookie protocol.
 If omitted or `#f`, cookies are not processed.
 
+*cookie-jar-dtd*: A SRFI 225 dictionary-type descriptor which specifies
+how to access *headers*.
+
 *previous*:  Another request object, showing that this request
-is the result of a redirection.
+is the result of a redirection.  If omitted, there is no previous request.
 
-*response-port*:  A binary output port.  The bytes of the response
-body are written to it.
+*response-port*:  A binary output port.  `http-request` writes
+the bytes of the response body are written to it.
 
+OR
+
+*request-accumulator*:  A SRFI 158 generator.
+`http-request` writes bytes or bytevectors
+to it which represent the body of the request.
