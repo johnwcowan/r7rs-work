@@ -15,7 +15,6 @@ equivalent to a C object) and a Scheme object.  Conversion is done using a
 
 Returns a procedure that takes an object
 (see [Schema](#Schema) for permitted objects)
-0an optional bytevector, and an optional offset,
 and packs the object into a newly allocated bytevector,
 which is returned.
 
@@ -52,7 +51,7 @@ Returns a procedure that takes an object
 and a binary output port,
 and packs the object onto the port.
 
-Raises an error statisfying `pack-schema-error?`
+Raises an error satisfying `pack-schema-error?`
 if *schema* is uninterpretable.
 
 The returned procedure
@@ -108,8 +107,8 @@ or `#f` otherwise.
 `(struct-reader ` *schema*`)`
 
 These macros are equivalent to the corresponding procedures
-beginning with `make-`, except that the schemas must be literals
-or quasiquoted literals.
+beginning with `make-`, except that it is an error unless
+the schemas are literals or quasiquoted literals.
 They are provided so that
 an implementation can compile a constant schema into appropriate code.
 However, they may also expand directly into procedures. 
@@ -123,10 +122,10 @@ Schemas can be created by quotation or quasiquotation.
 
 Matches nothing on the Scheme object side
 with the bytes of *bytevector-or-string* on the bytevector side.
-If a string is provided, it must be ASCII-only
+If a string is provided, it is an error unless it is ASCII-only
 and is equivalent to the corresponding bytevector.
 
-`(fill `*size*`)`
+`(filler `*size*`)`
 
 Matches nothing on the Scheme object side
 and *size* arbitrary bytes on the bytevector side.
@@ -141,7 +140,7 @@ Matches a Scheme vector and a C array.
 
 `(u8 `*length*`)`  
 `...`  
-`(c128\ `*length*`)`
+`(c128 `*length*`)`
 
 Matches a [SRFI 4](https://srfi.schemers.org/srfi-4/srfi-4.html)
 or [SRFI 160](https://srfi.schemers.org/srfi-160/srfi-160.html)
@@ -162,7 +161,9 @@ Other encodings may be provided by the implementation.
 
 `(struct `*schema schema* ...`)`
 
-Matches a heterogeneous list to a C `struct`.'
+Matches a heterogeneous list to a C `struct`.'  Note that
+the C names of the fields are not represented here,
+though they can be carried along by `label` schemas.
 
 `(label `*symbol schema*`)`
 
