@@ -130,9 +130,11 @@ and is equivalent to the corresponding bytevector.
 Matches nothing on the Scheme object side
 and *size* arbitrary bytes on the bytevector side.
 
-`u8 s8 u16 s16 u32 s32 u64 s64 f32 f64 c64 c128`
+`u8 s8 u16 s16 u32 s32 u64 s64 f32 f64 c64 c128` (native order)  
+`      u16-be s16-be u32-be s32-be u64-be s64-be f32-be f64-be c64-be c128-be` (big-endian order)  
+`      u16-le s16-le u32-le s32-le u64-le s64-le f32-le f64-le c64-le c128-le` (little-endian order)
 
-Matches a single number of appropriate type, range, and precision.
+Matches a single number of appropriate type, range, precision, and endianness.
 
 `(array `*length schema*`)`
 
