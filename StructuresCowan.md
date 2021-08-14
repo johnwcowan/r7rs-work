@@ -6,7 +6,12 @@ equivalent to a C object) and a Scheme object.  Conversion is done using a
 
 ## Issues
 
- 1. How do we represent C unions in the schema?
+ 1. How do we represent C unions in the schema?  Use (union schema ...)
+    which raises a non-continuable exception to ask the caller what to do.
+    
+ 2. (trap obj schema) raises another non-continuable exception used to
+    carry information in obj from one field to another, primarily
+    for a field that determines the correct value of a union.
     
 
 ## Procedures
