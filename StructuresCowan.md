@@ -1,71 +1,85 @@
 ## Abstract
 
 This library is used to convert between a bytevector (which is byte-for-byte
-equivalent to a C object) and a Scheme object.  Conversion is done using a
+equivalent to a C object) and a Scheme object.  Conversion is done
+all at once using a
 *schema*, which is an S-expression that specifies the mapping.
 
 ## Issues
 
- 1. How do we represent C unions in the schema?  Use (union schema ...)
-    which raises a continuable exception to ask the caller what to do.
-    
- 2. (trap obj schema) raises another continuable exception used to
-    carry information in obj from one field to another, primarily
-    for a field that determines the correct value of a union.
+1. How do we deal with the common pattern in which an earlier
+   element contains the information that determines how a
+   union is to be interpreted when unpacking?
     
 
 ## Procedures
 
-`(make-struct-packer `*schema*`)`
+`(struct-schema? `*obj*`)` => *boolean*
 
-Returns a procedure that takes an object
+Returns `#t` if *obj* is a valid schema
+and `#f` otherwise.
+
+`(struct-schema-length *schema*`)` => *exact integer*
+
+Returns the number of bytes described by *schema*
+as an exact integer.
+
+## Packing procedures
+
+`(make-struct-packer `*schema*`)` => `(`*proc obj*`)` => *bytevector*
+
+Returns a procedure *proc* that takes *obj*
 (see [Schema](#Schema) for permitted objects)
-and packs the object into a newly allocated bytevector,
+and packs it into a newly allocated bytevector,
 which is returned.
 
-Raises an error statisfying `pack-schema-error?`
+Raises an error statisfying `struct-schema-error?`
 if *schema* is uninterpretable.
 
-The returned procedure
-raises an error satisfying `pack-error?`
+The procedure *proc*
+raises an error satisfying `struct-error?`
 if the object being packed
 or any of its components
 do not match the schema or its components.
 
-`(make-struct-packer! `*schema*`)`
+`(make-struct-packer! `*schema*`)` => `(`*proc! obj bytevector offset*`)` => *unspecified*
 
 Returns a procedure that takes an object
 (see [Schema](#Schema) for permitted object types)
 a bytevector, and an optional offset (default is 0),
 and packs the object into the bytevector
-starting at the offset, returning the number of bytes packed.
+starting at the offset.
+Returns an unspecified value.
 
-Raises an error statisfying `pack-schema-error?`
+Raises an error statisfying `struct-schema-error?`
 if *schema* is uninterpretable.
 
-The returned procedure
-raises an error satisfying `pack-error?`
+The returned procedure *proc!*
+raises an error satisfying `struct-error?`
 if the object being packed
 or any of its components
 do not match the schema or its components.
 
-`(make-struct-writer `*schema*`)`
+`(make-struct-writer `*schema*`)` => `(`*proc obj binary-output-port*`)` => *unspecified*
 
 Returns a procedure that takes an object
 (see [Schema](#Schema) for allowed object types)
 and a binary output port,
 and packs the object onto the port.
+Returns an unspecified value.
 
-Raises an error satisfying `pack-schema-error?`
+Raises an error satisfying `struct-schema-error?`
 if *schema* is uninterpretable.
 
 The returned procedure
-raises an error satisfying `pack-error?`
+raises an error satisfying `struct-error?`
 if the object being packed
 or any of its components
 do not match the schema or its components.
 
-`(make-struct-unpacker `*schema*`)`
+## Unpacking procedures
+
+`(make-struct-unpacker `*schema*`)` => `(`*proc* *bytevector [*offset*]`)` => *obj*
 
 Returns a procedure that takes a bytevector
 and an optional offset (default is 0),
@@ -73,35 +87,41 @@ and unpacks the bytevector
 starting at the offset.
 The returned value is the object.
 
-Raises an error statisfying `pack-schema-error?`
+Raises an error statisfying `struct-schema-error?`
 if *schema* is uninterpretable.
 
-The returned procedure
-raises an error satisfying `pack-error?`
+The returned procedure *proc*
+raises an error satisfying `struct-error?`
 if the object being packed
 or any of its components
 do not match the schema or its components.
 
-`(make-struct-reader `*schema*`)`
+`(make-struct-reader `*schema*`)` => `(`*port*`)` => *obj*
 
 Returns a procedure that takes a binary input port,
 reads the appropriate number of bytes,
 and unpacks them into an object, which is returned.
 
-Raises an error statisfying `pack-schema-error?`
+Raises an error statisfying `struct-schema-error?`
 if *schema* is uninterpretable.
 
 The returned procedure
-raises an error satisfying `pack-error?`
+raises an error satisfying `struct-error?`
 if the object being packed
 or any of its components
 do not match the schema or its components.
 
-`(packing-error? `*obj*`)`  
-`(pack-schema-error? `*obj*`)`
+### Exceptions
+
+`(struct-error? `*obj*`)` => *boolean*  
+`(struct-schema-error? `*obj*`)` => *boolean*
 
 Returns `#t` if *obj* is an appropriate condition object
-or `#f` otherwise.
+as described above or `#f` otherwise.
+
+`(struct-union-exception? `*list*`)` => *index*
+
+See below for the `union` schema pattern.
 
 ## Syntax
 
@@ -116,7 +136,7 @@ beginning with `make-`, except that it is an error unless
 the schemas are literals or quasiquoted literals.
 They are provided so that
 an implementation can compile a constant schema into appropriate code.
-However, they may also expand directly into procedures. 
+However, they may also expand directly into their `make-` equivalents. 
 
 ## Schema
 
@@ -172,10 +192,20 @@ Matches a heterogeneous list to a C `struct`.'  Note that
 the C names of the fields are not represented here,
 though they can be carried along by `label` schemas.
 
+`(union `*schema schema* ...`)`
+
+When packing or unpacking, a continuable exception
+satisfying `struct-union-exception?` is raised, passing
+the list of schemas to it.  The exception
+must be caught by `with-exception-handler` or the equivalent
+(not with `guard`),
+and the handler returns with an index into the list.
+The chosen schema is then substituted for the union.
+
+It is an error unless all the schemas return the same
+value to `schema-length`.
+
 `(label `*symbol schema*`)`
 
 Matches whatever *schema* matches, but provides a label
 which can be used for purposes outside the scope of this SRFI.
-
-
-
