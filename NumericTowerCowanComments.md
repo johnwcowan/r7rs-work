@@ -1,4 +1,4 @@
-## Opinions
+## John Cowan's comments
 
 See [NumericTower](https://doc.scheme.org/surveys/NumericTower/)
 for the meaning of the codes below.
