@@ -253,7 +253,7 @@ Core syntactic extensions: [SRFI 201](https://srfi.schemers.org/srfi-201/srfi-20
 [using syntax-case](http://git.savannah.gnu.org/cgit/guile.git/tree/module/ice-9/and-let-star.scm)), or
 [SRFI 202 using syntax-case](https://srfi.schemers.org/srfi-202/srfi-202.html)
 
-Continuation marks:  [SRFI 157](https://srfi.schemers.org/srfi-157/srfi-157.html)
+Continuation marks:  [SRFI 226](https://srfi.schemers.org/srfi-226/srfi-226.html) (comprehensive) or [SRFI 157](https://srfi.schemers.org/srfi-157/srfi-157.html)
 
 Extended exact numbers: [SRFI 73](https://srfi.schemers.org/srfi-73/srfi-73.html)
 or [ExtendedRationalsCowan](ExtendedRationalsCowan.md)
@@ -266,8 +266,6 @@ Timers: [SRFI 120](https://srfi.schemers.org/srfi-120/srfi-120.html)
 
 # Ares docket (not portable, SRFIs)
 
-Continuation marks: [SRFI 157](https://srfi.schemers.org/srfi-157/srfi-157.html)
-
 Custom I/O ports and transcoded ports: [SRFI 181](https://srfi.schemers.org/srfi-181/srfi-181.html).
 
 Port positioning: [SRFI 192](https://srfi.schemers.org/srfi-192/srfi-192.html).
@@ -276,7 +274,7 @@ Sockets: [SRFI 106](https://srfi.schemers.org/srfi-106/srfi-106.html) or
 [NetworkPortsCowan](NetworkPortsCowan.md) with [NetworkEndpointsCowan](NetworkEndpointsCowan.md)
 
 Threads: [SRFI 18](https://srfi.schemers.org/srfi-18/srfi-18.html)
-or [FuturesCowan](FuturesCowan.md) (just futures, thread-local variables, monad support)
+or [SRFI 226](https://srfi.schemers.org/srfi-226/srfi-226.html) (comprehensive)
 
 Datagram channels (UDP sockets): [DatagramChannelsCowan](DatagramChannelsCowan.md)
 
@@ -290,7 +288,7 @@ Interfaces: [InterfacesCowan](InterfacesCowan.md)
 
 Process control: [ProcessesCowan](ProcessesCowan.md)
 
-Delimited continuations: [Racket](https://docs.racket-lang.org/reference/cont.html),
+Delimited continuations: [SRFI 226](https://srfi.schemers.org/srfi-226/srfi-226.html) (comprehensive) or [Racket](https://docs.racket-lang.org/reference/cont.html),
 [Guile](https://www.gnu.org/software/guile/manual/html_node/Prompt-Primitives.html),
 [Scheme48/Kali](https://github.com/tonyg/kali-scheme/blob/master/scheme/misc/shift-reset.scm),
 [Gauche](https://practical-scheme.net/gauche/man/gauche-refe/Partial-continuations.html),
@@ -361,7 +359,7 @@ Date-time parser: [Hato date parser](https://code.google.com/p/hato/source/brows
 [SRFI 19](https://srfi.schemers.org/srfi-19/srfi-19.html)
 
 Date-time formatter: [TimeFormattingCowan](https://github.com/johnwcowan/r7rs-work/blob/master/TimeFormattingCowan.md),
-[SRFI 19](https://srfi.schemers.org/srfi-19/srfi-19.html)
+[SRFI 19](https://srfi.schemers.org/srfi-19/srfi-19.html), other libs
 
 Regular expressions over s-expressions:  [SerexPalmer](http://inamidst.com/lisp/serex)
 
@@ -371,7 +369,7 @@ Procedural record types: [R6RS](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib
 [RidiculouslySimpleRecordsCowan](RecordsCowan.md),  
 [UniqueTypesCowan](UniqueTypesCowan.md)
 
-Baker-style persistent tuples: [TuplesCowan](TuplesCowan.md), Immutable vectors: [FectorsPrice](https://github.com/ijp/fectors)
+Immutable vectors: [FectorsPrice](https://github.com/ijp/fectors)
 
 Dijkstra arrays (deques) [DijkstraArrays](DijkstraArrays.md) 
 
