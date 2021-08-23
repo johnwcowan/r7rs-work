@@ -13,6 +13,7 @@ The following order is not necessarily the voting order.
  * [Hypnos: portable, SRFIs](#user-content-hypnos-docket-portable-srfis)
  * [Leto: portable, not SRFIs](#luser-content-eto-docket-portable-not-srfis)
  * [Morpheus: not portable, SRFIs](#user-content-morpheus-docket-not-portable-srfis)
+ * [Ares: not portable, SRFIs](#user-content-ares-docket-not-portable-srfis)
  * [Selene: portable, not SRFIs](#user-content-selene-docket-portable-not-srfis)
  * [Pan: portable, not SRFIs](#user-content-pan-docket-portable-not-srfis)
  * [Iris: not portable, not SRFIs](#user-content-iris-docket-not-portable-not-srfis)
@@ -262,6 +263,8 @@ Posix environment: [SRFI 170](https://htmlpreview.github.io/?https://github.com/
 Coroutine generator syntax: [SRFI 190](https://srfi.schemers.org/srfi-190/srfi-190.html)
 
 Timers: [SRFI 120](https://srfi.schemers.org/srfi-120/srfi-120.html)
+
+# Ares docket (not portable, SRFIs)
 
 Continuation marks: [SRFI 157](https://srfi.schemers.org/srfi-157/srfi-157.html)
 
