@@ -119,8 +119,6 @@ Identifier syntax: [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#n
 
 Syntax parameters: [SRFI 139](https://srfi.schemers.org/srfi-139/srfi-139.html)
 
-`let-syntax` with splicing: [SRFI 188](https://srfi.schemers.org/srfi-188/srfi-188.html)
-
 Splicing `let(rec)-syntax`: [SRFI 188](https://srfi.schemers.org/srfi-188/srfi-188.html)
 
 Identifier aliasing: [SRFI 212](https://srfi.schemers.org/srfi-212/srfi-212.html)
