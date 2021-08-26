@@ -16,7 +16,7 @@ The following order is not necessarily the voting order.
  * [Ares: not portable, SRFIs](#user-content-ares-docket-not-portable-srfis)
  * [Selene: portable, not SRFIs](#user-content-selene-docket-portable-not-srfis)
  * [Pan: portable, not SRFIs](#user-content-pan-docket-portable-not-srfis)
- * [Iris: not portable, not SRFIs](#user-content-iris-docket-not-portable-not-srfis)
+ * [Boreas: portable, SRFIs](#user-content-iris-docket-not-portable-not-srfis)
  * [Indigo: features of dubious utility](#user-content-indigo-docket-stuff-of-dubious-utility)
 
 # Red Docket (data structures)
@@ -134,8 +134,10 @@ Loops: [SRFI 42](https://srfi.schemers.org/srfi-42/srfi-42) or [Riastradh's foof
 
 Assumptions/Assertions/Warnings: [SRFI 145](https://srfi.schemers.org/srfi-145/srfi-145.html)
 and
-[AssertionsWarnings](https://github.com/johnwcowan/r7rs-work/blob/master/AssertionsWarnings.md)
-or [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_sec_11.14).  [Implementation](https://github.com/arvyy/r7rs-work/tree/master/AssertionsWarnings)
+[AssertionsWarnings](https://github.com/johnwcowan/r7rs-work/blob/master/AssertionsWarnings.md)   [Implementation](https://github.com/arvyy/r7rs-work/tree/master/AssertionsWarnings).
+or [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_sec_11.14).
+[R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_750), R6RS with optional message and irritants plus R6RS warnings
+
 
 `while`, `until`, `do-times`: [SimpleIterationCL](SimpleIterationCL.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/SimpleIterationCL).
 
@@ -149,8 +151,10 @@ Multiple values passed through => in `cond`: see [#90](https://small.r7rs.org/ti
 
 Property lists to bindings: [LetSettingsKendal](LetSettingsKendal.md)
 
-Optional arguments (other than by `case-lambda`): 
-[OptionalsRiastradh](http://mumble.net/~campbell/proposals/optional.text).
+Optional arguments (other than by `case-lambda`):
+
+[SRFI 227](https://srfi.schemers.org/srfi-227/srfi-227.html)
+or [OptionalsRiastradh](http://mumble.net/~campbell/proposals/optional.text).
 [Implementation](https://github.com/arvyy/r7rs-work/tree/master/OptionalsRiastradh),
 or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/0.7.3/index.html). 
 
@@ -233,7 +237,6 @@ Language tag searching: [BCP 47](https://tools.ietf.org/html/bcp47).  Procedures
 
 Pure delay/force: [PureDelayedGloria](PureDelayedGloria.md)
 
-
 # Morpheus Docket (not portable, SRFIs)
 
 R4RS macro system ("syntax-case without `syntax-case`"): [R4RS](https://people.csail.mit.edu/jaffer/r4rs_12.html#SEC77); see also [SRFI 211](https://people.csail.mit.edu/jaffer/r4rs_12.html#SEC77).
@@ -264,17 +267,16 @@ Coroutine generator syntax: [SRFI 190](https://srfi.schemers.org/srfi-190/srfi-1
 
 Timers: [SRFI 120](https://srfi.schemers.org/srfi-120/srfi-120.html)
 
-# Ares docket (not portable, SRFIs)
-
 Custom I/O ports and transcoded ports: [SRFI 181](https://srfi.schemers.org/srfi-181/srfi-181.html).
 
 Port positioning: [SRFI 192](https://srfi.schemers.org/srfi-192/srfi-192.html).
 
-Sockets: [SRFI 106](https://srfi.schemers.org/srfi-106/srfi-106.html) or
-[NetworkPortsCowan](NetworkPortsCowan.md) with [NetworkEndpointsCowan](NetworkEndpointsCowan.md)
+Sockets: [SRFI 106](https://srfi.schemers.org/srfi-106/srfi-106.html)
 
 Threads: [SRFI 18](https://srfi.schemers.org/srfi-18/srfi-18.html)
 or [SRFI 226](https://srfi.schemers.org/srfi-226/srfi-226.html) (comprehensive)
+
+# Ares Docket (not portable, not SRFIs)
 
 Datagram channels (UDP sockets): [DatagramChannelsCowan](DatagramChannelsCowan.md)
 
@@ -352,6 +354,8 @@ Unicode string normalization: [StringNormalizationCowan](StringNormalizationCowa
 
 Binary heap: [BinaryHeapsCowan](BinaryHeapsCowan.md)
 
+# Pan Docket (portable, not SRFIs).
+
 Date and time arithmetic: [TimeAdvancedCowan](TimeAdvancedCowan.md),
 [SRFI 19](https://srfi.schemers.org/srfi-19/srfi-19.html)
 
@@ -373,15 +377,14 @@ Immutable vectors: [FectorsPrice](https://github.com/ijp/fectors)
 
 Dijkstra arrays (deques) [DijkstraArrays](DijkstraArrays.md) 
 
-# Pan Docket (portable, not SRFIs).
+Channels: [PigeonHolesChicken](http://wiki.call-cc.org/eggref/5/pigeon-hole),
+[GochanChicken](http://wiki.call-cc.org/eggref/5/gochan)
 
 Applicable record instances: [R6RS formal comment](http://www.r6rs.org/formal-comments/comment-6.txt)
 
 Memoization: [Memoize](Memoize.md) (not a proposal yet), [Racket](http://planet.racket-lang.org/display.ss?package=memoize.plt&owner=dherman), [Haskell](http://hackage.haskell.org/package/memoize-0.1/docs/Data-Function-Memoize.html)
 
 Message digests: [MessageDigests](MessageDigests.md)
-
-Assertions: [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_750), R6RS with optional message and irritants.
 
 Monads, applicative functors, and functors:  [ContextsCowan](ContextsCowan.md)
 
@@ -391,25 +394,14 @@ Testing: [SRFI 64](https://srfi.schemers.org/srfi-64/srfi-64.html)
 or [ChibiChickenTest](http://wiki.call-cc.org/eggref/5/test)
 or [SRFI 78](https://srfi.schemers.org/srfi-78/srfi-78.html)
 
-Unifiable boxes: [SRFI 161](https://srfi.schemers.org/srfi-161/srfi-161.html)
-
-Channels: [PigeonHolesChicken](http://wiki.call-cc.org/eggref/5/pigeon-hole),
-[GochanChicken](http://wiki.call-cc.org/eggref/5/gochan)
-
-First-class dynamic extents: [SRFI 154](https://srfi.schemers.org/srfi-154/srfi-154.html)
-
-Promises: [SRFI 155](https://srfi.schemers.org/srfi-155/srfi-155.html)
-
 Writing filters: [FileFilterGauche](https://practical-scheme.net/gauche/man/gauche-refe/Filtering-file-content.html#Filtering-file-content)
 
 SXML serializer: [SxmlSerializerGauche](https://practical-scheme.net/gauche/man/gauche-refe/Serializing-XML-and-HTML-from-SXML.html#Serializing-XML-and-HTML-from-SXML)
 
-# Iris Docket (not portable, not SRFIs)
-
-* [Racket/Gerbil syntax-case extensions](https://gitlab.com/dpk/presrfis/-/blob/master/syntax-case-extensions.md)
+[Racket/Gerbil syntax-case extensions](https://gitlab.com/dpk/presrfis/-/blob/master/syntax-case-extensions.md)
 
 Adjustable-size strings: portable [SRFI 185](https://srfi.schemers.org/srfi-185/srfi-185.html)
-or easily retrofittable [SRFI 118](https://srfi.schemers.org/srfi-118/srfi-118.html)
+or easily retrofittable [SRFI 118](https://srfi.schemers.org/srfi-118/srfi-118.html)]
 
 # Indigo Docket (stuff of dubious utility)
 
