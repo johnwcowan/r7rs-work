@@ -7,8 +7,8 @@ The following order is not necessarily the voting order.
 
  * [Red: data structures](#user-content-red-docket-data-structures)
  * [Tangerine: numerics](#user-content-tangerine-docket-numerics)
+ * [Yellow: macros, SRFIs](#user-content-yellow-docket-not-portable-srfis)
  * [Orange: portable, SRFIs](#user-content-orange-docket-portable-srfis)
- * [Kronos: not portable, SRFIs](#user-content-kronos-docket-not-portable-srfis)
  * [Eos: portable, not SRFIs](#user-content-eos-docket-portable-not-srfis)
  * [Hypnos: portable, SRFIs](#user-content-hypnos-docket-portable-srfis)
  * [Leto: portable, not SRFIs](#luser-content-eto-docket-portable-not-srfis)
@@ -92,6 +92,22 @@ Coroutine generators: [SRFI 190](https://srfi.schemers.org/srfi-190/srfi-190.htm
 
 Generic dictionary operations: [SRFI 225](https://srfi.schemers.org/srfi-225/srfi-225.html)
 
+# Yellow Docket (macros, SRFIs)
+
+Syntax-case: [R6RS syntax-case](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html)
+ 
+Explicit renaming: [simple explicit renaming](https://www.gnu.org/software/mit-scheme/documentation/stable/mit-scheme-ref/Explicit-Renaming.html#Explicit-Renaming) [explicit renaming interoperable with syntax-case](https://srfi.schemers.org/srfi-211/srfi-211.html)
+
+Identifier syntax: [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_796)
+
+Syntax parameters: [SRFI 139](https://srfi.schemers.org/srfi-139/srfi-139.html)
+
+Splicing `let(rec)-syntax`: [SRFI 188](https://srfi.schemers.org/srfi-188/srfi-188.html)
+
+Identifier aliasing: [SRFI 212](https://srfi.schemers.org/srfi-212/srfi-212.html)
+
+Identifier properties: [SRFI 213](https://srfi.schemers.org/srfi-213/srfi-213.html)
+
 ## Syntax-rules macros
 
 `cond` guards: [SRFI 61](https://srfi.schemers.org/srfi-61/srfi-61.html)
@@ -109,22 +125,6 @@ Syntax combiners for binary functions: [SRFI 156](https://srfi.schemers.org/srfi
 Multiple values: [SRFI 210](https://srfi.schemers.org/srfi-210/srfi-210.html)
 
 Nested `define`:  [SRFI 219](https://srfi.schemers.org/srfi-219/srfi-219.html)
-
-# Kronos Docket (not portable, SRFIs)
-
-Syntax-case: [R6RS syntax-case](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html)
- 
-Explicit renaming: [simple explicit renaming](https://www.gnu.org/software/mit-scheme/documentation/stable/mit-scheme-ref/Explicit-Renaming.html#Explicit-Renaming) [explicit renaming interoperable with syntax-case](https://srfi.schemers.org/srfi-211/srfi-211.html)
-
-Identifier syntax: [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_796)
-
-Syntax parameters: [SRFI 139](https://srfi.schemers.org/srfi-139/srfi-139.html)
-
-Splicing `let(rec)-syntax`: [SRFI 188](https://srfi.schemers.org/srfi-188/srfi-188.html)
-
-Identifier aliasing: [SRFI 212](https://srfi.schemers.org/srfi-212/srfi-212.html)
-
-Identifier properties: [SRFI 213](https://srfi.schemers.org/srfi-213/srfi-213.html)
 
 # Eos Docket (portable, not SRFIs)
 
