@@ -61,7 +61,9 @@ The following order is not necessarily the voting order.
 Random numbers: [SRFI 27](https://srfi.schemers.org/srfi-27/srfi-27.html),
 plus [SRFI 194](https://srfi.schemers.org/srfi-194/srfi-194.html)
 
-Comparator sublibrary: [SRFI 162](https://srfi.schemers.org/srfi-162/srfi-162.html)
+Comparator sublibraries: [SRFI 162](https://srfi.schemers.org/srfi-162/srfi-162.html) plus
+[SRFI 228](https://srfi.schemers.org/srfi-228/srfi-228.html)
+(integrated into `(scheme comparators)`
 
 Integer sets:  [SRFI 217](https://srfi.schemers.org/srfi-217/srfi-217.html)
 
