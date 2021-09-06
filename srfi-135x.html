@@ -186,7 +186,6 @@ John Cowan
     <ul>
       <li><a href="#LibraryName">Name of library</a></li>
       <li><a href="#Efficiency">Efficiency</a></li>
-      <li><a href="#Subtypes">Subtypes</a></li>
       <li><a href="#ExternalRepresentation">External representation</a></li>
       <li><a href="#ExtendedPorts">Extended input and output ports</a></li>
       <li><a href="#SharedStorage">Shared storage</a></li>
@@ -223,24 +222,8 @@ John Cowan
 <h1><a name="Abstract">Abstract</a></h1>
 
 <p>
-In Scheme, strings are a mutable data type.  However, some strings, such as
-literal strings or strings returned by <code>symbol-&gt;string</code>,
-cannot be portably mutated: in this SRFI they are <i>conceptually immutable</i>.
-Specifically, it "is an error" in
-(<abbr title="Revised<sup>5</sup> Report on Scheme"><a 
-  href="#R5RS">R5RS</a></abbr>
-and
- <abbr title="Revised<sup>7</sup> Report on Scheme"><a 
-  href="#R7RS">R7RS</a></abbr>)
-to attempt such a mutation; in
-(<abbr title="Revised<sup>6</sup> Report on Scheme"><a 
-  href="#R6RS">R6RS</a></abbr>)
-the implementation "should raise an exception"
-in such cases.
-</p>
-
-<p>
-Although most mutable strings are never actually mutated, the mere
+In Scheme, strings are a mutable data type.
+Even though most strings are never actually mutated, the mere
 possibility of mutation complicates specifications of libraries that
 use strings, encourages precautionary copying of strings, and precludes
 structure sharing that could otherwise be used to make procedures such
@@ -252,12 +235,12 @@ more space-efficient.
 This
 <abbr title="Scheme Request for Implementation"><a
  href="#SRFI">SRFI</a></abbr>
-specifies a new data type of immutable strings.
-Its procedures work equally well on Scheme strings (known as
-"mutable strings" in this SRFI) and immutable strings, and
+specifies a new data type of immutable strings, known as "istrings".
+Its procedures work equally well on RnRS strings (known as
+"mstrings" in this SRFI) and istrings, and
 also provide backward compatibility with the R7RS string library.
 It comes with efficient and portable sample implementations
-for immutable strings that guarantee O(1) indexing
+for istrings that guarantee O(1) indexing
 for both sequential and random access, even in systems whose
 <code>string-ref</code> procedure takes linear time.
 </p>
@@ -276,10 +259,9 @@ and <abbr title="String library (reduced)"><a href="#SRFI-152">SRFI 135</a></abb
 
 <h1><a name="Issues">Issues</a></h1>
 
-<p>1) Add <code>string-map!</code> from SRFI 13?</p>
-
-<p>2) Are <code>port->string</code>, <code>port->istring</code>,
-and <code>string->port</code> good ideas?</p>
+<p>2) There are many other R7RS-small and R7RS-large procedures that
+accept or return strings.  Which ones, if any, should be redefined
+in this SRFI to handle istrings as well?
 
 <!--========================================================================-->
 <h1><a name="ProcedureIndex">Procedure Index</a></h1>
@@ -418,7 +400,7 @@ Note: The text of this SRFI is based upon SRFI 135, copying much
 of its structure and wording.
 </p>
 
-<h2 name="WhyImmutable">Why immutable strings?</h2>
+<h2 name="WhyImmutable">Why istrings?</h2>
 <p>
 The
 <abbr title="Revised<sup>6</sup> Report on Scheme: Rationale"><a 
@@ -449,7 +431,7 @@ and several more problems were mentioned by SRFI 1
 
 <p>
 Recognizing the first three of these problems, while acknowledging
-that removing mutable strings from the language would cause
+that removing mstrings from the language would cause
 "significant compatibility problems for existing code"
 <a href="#R6RS-Rationale">[R6RS-Rationale]</a>,
 the R6RS standard banished
@@ -468,10 +450,10 @@ to make strings immutable is not viable.
 </p>
 
 <p>
-We can, however, add a new data type of immutable strings capable
-of replacing Scheme's string data type for all applications that
-do not require mutation.  Immutable strings do away with the problems
-listed above while offering these advantages over mutable strings:
+We can, however, add a new data type of istrings capable
+of replacing the RnRS string data type for all applications that
+do not require mutation.  Istrings do away with the problems
+listed above while offering these advantages over mstrings:
 </p>
 
 <ul>
@@ -480,8 +462,13 @@ listed above while offering these advantages over mutable strings:
   <li>faster random access (if strings use UTF-8 or UTF-16)</li>
   <li>fast extraction of substrings</li>
   <li>faster concatenation of strings</li>
+  <li>improved thread safety in multithreaded implementations</li>
 </ul>
 
+The last point is important because strings should not in principle
+be shared between threads, since they are mutable, without some sort
+of locking.  Because most strings are never mutated, this rule
+is easy to forget.
 
 <p>
 See also the <a href="#Unicode">discussion of Unicode</a>.
@@ -491,36 +478,36 @@ See also the <a href="#Unicode">discussion of Unicode</a>.
 <p>Unfortunately, none of the existing string SRFIs are entirely
 satisfactory.</p>
 <ul>
-<li><p>SRFI 13 supports only mutable strings.</p></li>
-<li><p>SRFI 130 likewise supports only mutable strings, and is
+<li><p>SRFI 13 supports only mstrings.</p></li>
+<li><p>SRFI 130 likewise supports only mstrings, and is
 designed to optimize random access when the internal representation
 of strings is based on UTF-8 or UTF-16 by providing a new type of
 string cursors disjoint from integer string indices.  Unfortunately,
 cursors are silently invalidated by mutation.</p></li>
 <li><p>SRFI 135 provides support for both mutable and immutable
 strings, but its procedures are named <code>text-*</code> if they
-accept only immutable strings and <code>textual-*</code> if they
+accept only istrings and <code>textual-*</code> if they
 accept both types, rather than <code>string-*</code>.  As a result,
 existing code requires extensive transformation in order to make
-use of immutable strings.</p></li>
-<li><p>SRFI 140 is similar to SRFI 135, but all its procedures
+use of istrings.</p></li>
+<li><p>SRFI 140 is similar to SRFI 135, except that all its procedures
 use <code>string-*</code> names.  Unfortunately, 
 many of the procedures are incompatible with R7RS
-and SRFI's 13, 130, and 152 because they always return immutable
+and SRFIs 13, 130, and 152 because they always return immutable
 strings.</p></li>
-<li><p>SRFI 152 supports mutable strings only.  It's a subset of SRFI 13
+<li><p>SRFI 152 supports mstrings only.  It's a subset of SRFI 13
 that provides <code>string-*</code> counterparts to SRFI 135's
 <code>text-*</code> and <code>textual-*</code> procedures.</p></ul>
 </ul>
 
 <p>
-The immutable strings of this SRFI eliminate the disadvantages and
+The istrings of this SRFI eliminate the disadvantages and
 provide the advantages listed in the previous section and in this section.
 Furthermore, they can be implemented portably
 and efficiently and are easy to use correctly
 (partly because most of the error situations are detected by its
 sample implementations, and partly because the character indexes
-are the same as those used by Scheme's mutable strings).
+are the same as those used by RnRS strings).
 The immutability of strings and
 uniformity of character-based indexing simplify the
 specification of those operations while avoiding several
@@ -541,7 +528,6 @@ length of the string to change, which is not always supported.</p>
 <!--========================================================================-->
 <h1><a name="Specification">Specification</a></h1>
 
-
 <h2 name="BasicConcepts">Basic Concepts</h2>
 
 <h3><a name="LibraryName">Name of library</a></h3>
@@ -556,7 +542,7 @@ the name of this library is <code>(srfi :135)</code>.
 <p>
 It is recommended, but not required, that this library also
 be made available under the alternative name
-<code>(srfi 135 texts)</code>.  That alternative library
+<code>(srfi 135 strings)</code>.  That alternative library
 should export exactly the same bindings as the
 <code>(srfi 135)</code> library, so libraries and programs
 can import both libraries without name conflicts.
@@ -573,10 +559,10 @@ used (as with <code>string-ref</code>).
 </p>
 
 <p>
-When mutation is not needed, immutable texts are likely to be
-more efficient than strings with respect to space or time.
-In some implementations, immutable texts may be more efficient
-than strings with respect to both space and time.
+When mutation is not needed, istrings are likely to be
+more efficient than mstrings with respect to space or time.
+In some implementations, istrings may be more efficient
+than mstrings with respect to both space and time.
 </p>
 
 
@@ -589,12 +575,12 @@ This SRFI defines three new types:
 
 <ul>
   <li>
-    <i>istring</i> is a type consisting of the immutable strings
-    introduced by this SRFI..
+    <i>istring</i> is a type consisting of the istrings
+    introduced by this SRFI.
   </li>
   <li>
-    <i>mstring</i> is a type consisting of the mutable strings
-    provided by R7RS..
+    <i>mstring</i> is a type consisting of the strings
+    provided by R7RS and earlier Scheme standards.
   </li>
   <li>
     <i>string</i> is a union type consisting of 
@@ -607,8 +593,8 @@ This SRFI defines three new types:
 
 <p>
 This SRFI does not require any particular external representation
-for immutable strings, but recommends that immutable strings have almost
-the same external representation as mutable strings, substituting Unicode's
+for istrings, but recommends that istrings have almost
+the same external representation as mstrings, substituting Unicode's
 left-pointing and right-pointing double angle quotation marks
 (« and », code points <code>#xab</code> and <code>#xbb</code>)
 for the double quotes that delimit strings,
@@ -622,20 +608,20 @@ When feasible, implementations of this SRFI should also consider:
 </p>
 <ul>
   <li>extending the <code>equal?</code> procedure to regard two
-      immutable strings <var>t1</var> and <var>t2</var> as equal
+      istrings <var>mi1</var> and <var>i2</var> as equal
       if and only if
-      <code>(string=? <var>t1</var> <var>t2</var>)</code>,
-      while regarding an immutable string as unequal to anything
-      that isn't an immutable string.</li>
+      <code>(string=? <var>i1</var> <var>i2</var>)</code>,
+      while regarding an istring as unequal to anything
+      that isn't an istring.</li>
   <li>extending the <code>display</code> procedure to accept
-      immutable strings, treating them the same as strings;</li>
+      istrings, treating them the same as strings;</li>
   <li>extending the <code>write</code> procedure to generate the
-      external syntax recommended for immutable strings;</li>
+      external syntax recommended for istrings;</li>
   <li>extending the <code>read</code> procedure to accept the
-      external syntax recommended for immutable strings;</li>
+      external syntax recommended for istrings;</li>
   <li>extending interpreters and compilers to accept quoted
       literals expressed using the external syntax recommended
-      for immutable strings; R7RS section 4.1.2 mandates this
+      for istrings; R7RS section 4.1.2 mandates this
       extension if <code>read</code> is extended to accept
       the external syntax for strings.</li>
 </ul>
@@ -768,7 +754,7 @@ amortized linear time on istrings, not counting time spent in procedures and
 predicates that were passed as arguments.
 That is not an absolute requirement, but the sample implementations
 are designed to deliver that level of performance for most procedures
-provided none of their string arguments are strings.
+provided none of their string arguments are mstrings.
 When mstrings are passed as arguments, the running time is unlikely
 to be linear unless <code>string-ref</code> runs in constant time,
 and that is not required by any of the Scheme standards.
@@ -779,8 +765,8 @@ Indeed, this SRFI was designed to make efficient string processing
 easier in systems whose <code>string-ref</code> procedure does not
 run in constant time.  For efficiency, portable code should use
 strings only for fairly short sequences of characters.
-Representations with guaranteed efficiency (such as the immutable
-strings of this SRFI) should be used for longer strings.
+Representations with guaranteed efficiency (such as the istrings
+of this SRFI) should be used for longer strings.
 </p>
 
 <p>
@@ -873,9 +859,9 @@ in other systems, long strings are inefficient with respect to time.
 </p>
 
 <p>
-The portable solution to this dilemma is to use mutable
-strings only for buffers and other relatively short sequences of
-characters, while using the immutable strings defined by this SRFI
+The portable solution to this dilemma is to use mstrings
+only for buffers and other relatively short sequences of
+characters, while using the istrings defined by this SRFI
 for long sequences of characters.
 </p>
 
@@ -890,7 +876,7 @@ their strings to use compact internal representations such as UTF-8
 or UTF-16.
 That hope is unlikely to be realized, because a lot of legacy code
 assumes <code>string-ref</code> runs in O(1) time, as recommended
-by the R6RS, and mutable strings represented in UTF-32 or similar
+by the R6RS, and mstrings represented in UTF-32 or similar
 are more efficient than vectors of characters with respect to both
 time and space.
 At present, several implementations of Scheme support Unicode while
@@ -907,9 +893,9 @@ slower would displease some users of those systems.
 The following names are used for arguments and result types:
 </p>
 <dl>
-    <dt><i>istring</i></dt><dd>An immutable string.</dd>
-    <dt><i>mstring</i></dt><dd>A mutable string.</dd>
-    <dt><i>string</i></dt><dd>An immutable or mutable string.</dd>
+    <dt><i>istring</i></dt><dd>An istring.</dd>
+    <dt><i>mstring</i></dt><dd>A mstring.</dd>
+    <dt><i>string</i></dt><dd>An immutable or mstring.</dd>
 
     <dt><i>char</i></dt><dd>A character.</dd>
 
@@ -1007,7 +993,25 @@ if all the string inputs of a procedure are mstrings, the outputs are likewise m
 otherwise, the outputs are istrings.
 Procedures with no string inputs exist in pairs that return mstrings and istrings.
 These rules ensure full backward compatibility with R7RS, SRFI 13,
-SRFI 130, and SRFI 152, since none of these specs support istrings.
+SRFI 130, and SRFI 152, since none of these specs support istrings.<p>
+
+<p>Some RnRS strings, such as
+literal strings or strings returned by <code>symbol-&gt;string</code>,
+cannot be portably mutated.  Specifically, it "is an error" in
+(<abbr title="Revised<sup>5</sup> Report on Scheme"><a 
+  href="#R5RS">R5RS</a></abbr>
+and
+ <abbr title="Revised<sup>7</sup> Report on Scheme"><a 
+  href="#R7RS">R7RS</a></abbr>)
+to attempt such a mutation; in
+(<abbr title="Revised<sup>6</sup> Report on Scheme"><a 
+  href="#R6RS">R6RS</a></abbr>)
+the implementation "should raise an exception"
+in such cases.</p>
+
+<p>Nevertheless, this SRFI must treat such strings as mstrings.
+If they were istrings, <code>(string-append "foo" (string #\s))</code>
+would return an istring, thus making it incompatible with RnRS.
 
 <!--========================================================================-->
 <h3><a name="Predicates">Predicates</a></h3>
@@ -1027,20 +1031,18 @@ SRFI 130, and SRFI 152, since none of these specs support istrings.
 </dd>
 
 <!--
-==== string?
+==== istring?
 ============================================================================-->
 <dt class="proc-def">
 <a name="string-p"></a>
-<code class="proc-def">string?</code><var> obj → boolean</var> [R7RS]
+<code class="proc-def">istring?</code><var> obj → boolean</var> [R7RS]
 </dt>
 <dd class="proc-def">
-  <p>
-    <var>obj</var> is an istring or mstring.
+    Returns true if and only if
+    <var>obj</var> is an istring.
     Must execute in O(1) time.
   <p>
-    There is no corresponding <code>mstring</code> procedure.
-    In addition, <code>istring?</code> may return either
-    <code>#t</code> or <code>#f</code> on conceptually immutable strings.
+    There is no corresponding <code>mstring?</code> procedure.
 </dd>
 
 <!--
@@ -2112,8 +2114,8 @@ This procedure is useful when constructing procedures that
 accumulate character data into lists of string buffers, and wish to
 convert the accumulated data into a single string when done.
 The optional <var>end</var> argument accommodates that use case
-when <var>final-string</var> is a mutable string, and is allowed
-(for uniformity) when <var>final-string</var> is an immutable string.
+when <var>final-string</var> is an mstring, and is allowed
+(for uniformity) when <var>final-string</var> is an istring.
 </p>
 </dd>
 
@@ -2409,35 +2411,6 @@ Example:
   </p>
 </dd>
 
-<!--
-==== string-reverse
-============================================================================-->
-<!--
-<dt class="proc-def">
-<a name="string-reverse"></a>
-<code class="proc-def">string-reverse</code><var> string [start end] → string</var>
-</dt>
-<dd class="proc-def">
-Reverses the specified substring.
-<pre class="code-example">
-(string-reverse "Able was I ere I saw elba.")
-    =&gt; «.able was I ere I saw elbA»
-(string-reverse "Who stole the spoons?" 14 20)
-    =&gt; «snoops»
-</pre>
-
-<p>
-<i>Unicode note:</i> Reversing a string simply reverses the sequence of
-code-points it contains. So a combining diacritic <var>a</var> 
-coming <i>after</i> a base character <var>b</var> in string <var>s</var> 
-would come out <i>before</i> <var>b</var> in the reversed result.
-</p>
-</dd>
--->
-
-</dl>
-
-
 <!--========================================================================-->
 <h3><a name="ReplicationSplitting">Replication &amp; splitting</a></h3>
 
@@ -2590,6 +2563,8 @@ that invoke either of them as needed.
 <p>The great bulk of the text of this SRFI is taken directly from SRFI 135,
 so special credit goes to Will Clinger.  Credit is also due to the
 participants in the mailing list.
+Special thanks also to Per Bothner, whose SRFI 140 inspired me
+to write this SRFI.
 In accordance with the traditions of string SRFIs, I have
 reproduced Will's acknowledgements below:
 <blockquote>
