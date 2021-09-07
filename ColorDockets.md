@@ -11,7 +11,7 @@ The following order is not necessarily the voting order.
  * [Orange: portable, SRFIs](#user-content-orange-docket-portable-srfis)
  * [Eos: portable, not SRFIs](#user-content-eos-docket-portable-not-srfis)
  * [Hypnos: portable, SRFIs](#user-content-hypnos-docket-portable-srfis)
- * [Leto: portable, not SRFIs](#user-content-leto-docket-portable-not-srfis)
+ * [Leto: portable, not SRFIs](#user-content-leto-docket-not-portable-not-srfis)
  * [Morpheus: not portable, SRFIs](#user-content-morpheus-docket-not-portable-srfis)
  * [Ares: not portable, SRFIs](#user-content-ares-docket-not-portable-srfis)
  * [Selene: portable, not SRFIs](#user-content-selene-docket-portable-not-srfis)
