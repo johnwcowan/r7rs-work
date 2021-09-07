@@ -11,7 +11,7 @@ The following order is not necessarily the voting order.
  * [Orange: portable, SRFIs](#user-content-orange-docket-portable-srfis)
  * [Eos: portable, not SRFIs](#user-content-eos-docket-portable-not-srfis)
  * [Hypnos: portable, SRFIs](#user-content-hypnos-docket-portable-srfis)
- * [Leto: portable, not SRFIs](#user-content-leto-docket-not-portable-not-srfis)
+ * [Leto: portable, not SRFIs](#user-content-leto-docket-portable-not-srfis)
  * [Morpheus: not portable, SRFIs](#user-content-morpheus-docket-not-portable-srfis)
  * [Ares: not portable, SRFIs](#user-content-ares-docket-not-portable-srfis)
  * [Selene: portable, not SRFIs](#user-content-selene-docket-portable-not-srfis)
@@ -207,7 +207,8 @@ Strings: [SRFI 152](https://srfi.schemers.org/srfi-152/srfi-152.html) (index-bas
 
 Enumeration maps: [EnumMappingsCowan](EnumMappingsCowan.md)
 
-Core I/O: [CoreSexps](CoreSexps.md) + 
+Twinjo I/O: [Twinjo](https://github.com/s-expressions/twinjo/blob/master/spec/Twinjo.md) + 
+[Twinjo procedures](https://github.com/s-expressions/twinjo/blob/master/spec/TwinjoLib.md) +
 [Lisp Serialization Conventions](https://docs.google.com/spreadsheets/d/1V-7E5d3fLON5DrVeHkVvp9h5SRgcteOgnPl8KvWTA3M/edit#gid=0)
 
 String interpolation: [StringInterpolateCowan](StringInterpolateCowan.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/StringInterpolateCowan)
