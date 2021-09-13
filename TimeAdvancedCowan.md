@@ -12,11 +12,13 @@ Consider changing the `-ref`, `-update`, `-adjust` `-round`, `-truncate`, `-ceil
 ## Instants and time objects
 
 Scheme uses two internal formats for absolute timestamps, which
-in this SRFI are called *instants* and *time-objects*.
+in this SRFI are called *instants* and *time objects*.
 
-An *instant* is an exact or inexact number representing a count of
-seconds since eight seconds before midnight January 1, 1970 in the 
-proleptic Gregorian calendar.
+An *instant* is an exact or inexact number representing the
+approximate number of 
+seconds since December 31, 1969 in the 
+proleptic Gregorian calendar and 23:59:52 (eight seconds before midnight)
+in UTC time.
 
 A time object belongs to a disjoint type (see
 FIXME: [TimeObjects](https://github.com/pre-srfi/time-objects/blob/master/TimeObjects.md)
@@ -25,7 +27,7 @@ plus a time type such as UTC, TAI, or duration.
 The current UTC time object can be obtained by calling the SRFI 170
 procedure `posix-time`.
 
-FIXME: TimeObjects has procedures for converting between UTC and TAI time objects
+FIXME: SRFI TimeObjects has procedures for converting between UTC and TAI time objects
 and between either of them and instants.  Consequently, the procedures
 of this SRFI only accept UTC and duration time objects.
 
@@ -119,12 +121,13 @@ which alternates between symbols (called fields) and specific values.
 These are the valid possibilities for combinations of fields:
  * The fields `year`, `month`, `day-of-month`, `hours`, `minutes`, `seconds`,
    and `timezone` are required.
-   The fields `nanoseconds` and `fold` are optional, and default to 0.
  * The fields `iso-week-year`, `iso-week`, `day-of-week`, `hours`,
    `minutes`, `seconds`, and `timezone` are required.
-   The fields `nanoseconds` and `fold` are optional, and default to 0.
  * The field `iso-date-string` is required.
-   The field `fold` is optional, and defaults to 0.
+ * The field `rfc5322-date-string` is required.
+ 
+In all cases, the fields `nanoseconds` and `fold` are allowed,
+but default to 0 if not present.
 An error satisfying `date-error?` is signaled if any other fields are present.
 
 `(date? `*obj*`)`
@@ -234,6 +237,21 @@ profile of ISO 8601.  Roughly speaking, this is of the form
 `yyyy-mm-ddThh:mm:ss.dddZ`.
 There may be any number of subsecond digits; if they are omitted,
 so is the preceding decimal point.
+
+`rfc5322-local-string`: A string that conforms to the
+format for local time in [RFC 5322](https://datatracker.ietf.org/doc/html/5322).
+Roughly speaking, this is of the form
+`WWW, dd MMM yyyy hh:mm:ss ±hh:mm`, where
+`WWW` is the three-letter English-language weekday name,
+`MMM` is the three-letter English-language month name,
+and `±hh:mm` represents the signed offset from UTC in hours and minutes, rounded if necessary.
+
+`rfc5322-utc-string`: A string that conforms to the
+format for UTC time in [RFC 5322](https://datatracker.ietf.org/doc/html/5322).
+Roughly speaking, this is of the form
+`WWW, dd MMM yyyy hh:mm:ss +00:00`, where
+`WWW` is the three-letter English-language weekday name and
+`MMM` is the three-letter English-language month name.
 
 `iso-week-number`: The number of the week in this date's year, between 1 and either 52 or 53.
 Week 1 is the first full week where Thursday ia in January.
