@@ -117,8 +117,8 @@ this SRFI does not deal with them either.
 `(date `*objs*`)`  
 
 Returns a date object based on the *objs*,
-which alternates between symbols (called fields) and specific values.
-These are the valid possibilities for combinations of fields:
+which alternates between symbols (called field namess) and specific values.
+These are the valid possibilities for combinations of field names:
  * The fields `year`, `month`, `day-of-month`, `hours`, `minutes`, `seconds`,
    and `timezone` are required.
  * The fields `iso-week-year`, `iso-week`, `day-of-week`, `hours`,
@@ -138,16 +138,6 @@ Returns `#t` if *obj* is a date object, and `#f` otherwise.
 
 Returns a date in the UTC time zone representing the same time as *date*.
 
-`(date->alist `*date*`)`
-
-Returns a newly allocated alist containing all the fields of *date* (see below).
-
-`(date-ref `*date **fieldname**`)`
-
-Retrieves the value of the field named by the symbol *fieldname* from *date*.
-This may be more efficient than generating an alist, but may also be
-less efficient if several different fields are required.
-
 `(date-update `*date fieldname value*`)`
 
 Returns a date object based on *date*,
@@ -155,7 +145,7 @@ but with the field named *fieldname* updated to *value*.
 An error that satisfies `date-error?` is signaled if the field is unknown
 or the value is out of range.
 
-`(date-adjust `*date fieldname increment*`)`
+FIXME `(date-adjust `*date fieldname increment*`)`
 
 Returns a date object which is later than *date* by *increment*
 measured in the units specified by *fieldname*,
@@ -176,54 +166,53 @@ but adjusted to the nearest integral value of *fieldname*
 using the conventions of `round`, `ceiling`, `floor`, or `truncate`.
 This may cause other fields to change their values as well.
 
-### Date fields
-
+The following procedures accept one argument, which is a date object.
 Unless otherwise noted, all
-field values are exact integers that have been rounded down if necessary.
+returned values are exact integers that have been rounded down if necessary.
 All ranges are inclusive at both ends.
 
-`time-object`: The time object corresponding to this date.
+`date-time-object`: A time object of type `utc` corresponding to this date.
 
-`timezone`: The timezone with which this date was created,
+`date-timezone`: The timezone with which this date was created,
 either a string or a number.
 
-`local-time-offset`: The local time zone offset in effect at this
+`date-local-time-offset`: The local time zone offset in effect at this
 date at the specific timezone in seconds ahead of UTC.
 
-`year`: The year.  Note that 1 BCE is represented as 0 and 2 BCE as -1.
+`date-year`: The year.  Note that 1 BCE is represented as 0 and 2 BCE as -1.
 
-`month`: The month, where 1 is January and 12 is December.
+`date-month`: The month, where 1 is January and 12 is December.
 
-`day`: The day of the month.
+`date-day`: The day of the month.
 
-`hour`: The hour, where 0 represents the time between
+`date-hour`: The hour, where 0 represents the time between
 midnight and 1 AM and 23 represents the time between 11 PM
 and midnight.  Midnight itself is both minute 0 of hour 0
 of the following day and minute 0 of hour 24 of the preceding day.
 
-`minute`:  The minute.
+`date-minute`:  The minute.
 
-`second`: The second.
+`date-second`: The second.
 
-`nanosecond`: The nanosecond.
+`date-nanosecond`: The nanosecond.
 
-`day-of-week`: The day of the week, where Monday is 1 and Sunday is 7.
+`date-day-of-week`: The day of the week, where Monday is 1 and Sunday is 7.
 
-`days-in-month`: The number of days in the date's month: between 28 and 31.
+`date-days-in-month`: The number of days in the date's month: between 28 and 31.
 Date folds can change the range.
 
-`day-of-year`: The day of the year, typically between 1 and 365 in non-leap years
+`date-day-of-year`: The day of the year, typically between 1 and 365 in non-leap years
 and 1 and 366 in leap years.  Date folds can change the range.
 
-`days-in-year`: The number of days in this date's year, either 365 or 366.
+`date-days-in-year`: The number of days in this date's year, either 365 or 366.
 Date folds can change the range.
 
-`julian-day`: The whole number of days between this date and noon Universal Time, January 1, 4173 B.C.E. Julian
+`date-julian-day`: The whole number of days between this date and noon Universal Time, January 1, 4173 B.C.E. Julian
 (which is November 24, 4714 B.C.E. Gregorian).  Leap seconds are ignored.
 
-`modified-julian-day`: The whole number of days between this date and midnight Universal Time, November 17, 1858 Gregorian.
+`date-modified-julian-day`: The whole number of days between this date and midnight Universal Time, November 17, 1858 Gregorian.
 
-`iso-local-string`: A string that conforms to the
+`date-iso-local-string`: A string that conforms to the
 format for local time in the [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339)
 profile of ISO 8601.  Roughly speaking, this is of the form
 `yyyy-mm-ddThh:mm:ss.ddd±hh:mm`, where the final `±hh:mm`
@@ -231,14 +220,14 @@ represents the signed offset from UTC in hours and minutes, rounded if necessary
 There may be any number of subsecond digits; if they are omitted,
 so is the preceding decimal point.
 
-`iso-utc-string`: A string that conforms to the
+`date-iso-utc-string`: A string that conforms to the
 format for UTC time in the [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339)
 profile of ISO 8601.  Roughly speaking, this is of the form
 `yyyy-mm-ddThh:mm:ss.dddZ`.
 There may be any number of subsecond digits; if they are omitted,
 so is the preceding decimal point.
 
-`rfc5322-local-string`: A string that conforms to the
+`date-rfc5322-local-string`: A string that conforms to the
 format for local time in [RFC 5322](https://datatracker.ietf.org/doc/html/5322).
 Roughly speaking, this is of the form
 `WWW, dd MMM yyyy hh:mm:ss ±hh:mm`, where
@@ -246,30 +235,30 @@ Roughly speaking, this is of the form
 `MMM` is the three-letter English-language month name,
 and `±hh:mm` represents the signed offset from UTC in hours and minutes, rounded if necessary.
 
-`rfc5322-utc-string`: A string that conforms to the
+`date-rfc5322-utc-string`: A string that conforms to the
 format for UTC time in [RFC 5322](https://datatracker.ietf.org/doc/html/5322).
 Roughly speaking, this is of the form
 `WWW, dd MMM yyyy hh:mm:ss +00:00`, where
 `WWW` is the three-letter English-language weekday name and
 `MMM` is the three-letter English-language month name.
 
-`iso-week-number`: The number of the week in this date's year, between 1 and either 52 or 53.
+`date-iso-week-number`: The number of the week in this date's year, between 1 and either 52 or 53.
 Week 1 is the first full week where Thursday ia in January.
 
-`iso-week-year`: The number of the period which begins in week 1 and ends in week 52 or 53.
+`date-iso-week-year`: The number of the period which begins in week 1 and ends in week 52 or 53.
 It is the same as `year` except for up to six days in January and December.
 
-`seconds-in-minute`: the number of seconds in the date's minute.
+`date-seconds-in-minute`: the number of seconds in the date's minute.
 
-`seconds-in-day`: The total number of seconds in the date's day.
+`date-seconds-in-day`: The total number of seconds in the date's day.
 
-`time-fold`:  The time fold associated with this date (see above).
+`date-time-fold`:  The time fold associated with this date (see above).
 
 ### Duration procedures
 
 `(duration `*alist*`)`  
 
-Returns a date object based on the *objs*,
+Returns a duration object based on the *objs*,
 which alternate between symbols (called fields) and specific values.
 The following possibilities for combinations of fields may be used:
  * The fields `years`, `months`, `weeks`, `days`, `hours`, `minutes`, `seconds`, and `nanoseconds`
@@ -289,17 +278,7 @@ time objects *earlier* (inclusive) and *later* (exclusive).
 
 Returns `#t` if *obj* is a duration object, and `#f` otherwise.
 
-`(duration->alist `*duration*`)`
-
-Returns a newly allocated alist containing all the fields of *duration*.
-
-`(duration-ref `*duration fieldname*`)`
-
-(However, `iso-duration-string` is always present.)
-This may be more efficient than generating an alist, but may also be
-less efficient if several different fields are required.
-
-`(duration-adjust `*duration fieldname increment*`)`
+FIXME `(duration-adjust `*duration fieldname increment*`)`
 
 Returns a duration object which is later than *duration* by *increment*
 measured in the units specified by *fieldname*,
@@ -320,27 +299,29 @@ but adjusted to the nearest integral value of *fieldname*
 using the conventions of `round`, `ceiling`, `floor`, or `truncate`.
 This may cause other fields to change their values as well.
 
-### Duration fields
+The following procedures
+accept one argument, a duration object.
+Unless otherwise noted, the result values are exact integers.
 
-`years`: The number of years in the duration.
+`duration-years`: The number of years in the duration.
 
-`months`: The number of months in the duration.
+`duration-months`: The number of months in the duration.
 
-`weeks`: The number of weeks in the duration.
+`duration-weeks`: The number of weeks in the duration.
 
-`days`: The number of days in the duration.
+`duration-days`: The number of days in the duration.
 
-`hours`: The number of hours in the duration.
+`duration-hours`: The number of hours in the duration.
 
-`minutes`: The number of minutes in the duration.
+`duration-minutes`: The number of minutes in the duration.
 
-`seconds`: The number of seconds in the duration.
+`duration-seconds`: The number of seconds in the duration.
 
-`nanoseconds`: The number of nanoseconds in the duration.
+`duration-nanoseconds`: The number of nanoseconds in the duration.
 
 `iso-duration-string`: A string beginning with `P` followed by a letter
 Y, M, W, D, H, M, S, or W and a number,
-repeated for all the fields with which the date object was created.
+repeated for all avaiable fields with which the duration object was created.
 
 `time-object`: A time object of type `duration` equal in length
 to the duration object.  It is an error if the `years` and `months`
@@ -366,5 +347,5 @@ Returns `#t` if *obj* was signaled by one of the above procedures, or
 ## Lexical syntax (optional)
 
 A lexical syntax for date and duration objects may be provided by prefixing
-`#@` to either a local or a UTC string, or to a
+`#@` to either an ISO date string or a
 duration string (the syntaxes are disjoint).
