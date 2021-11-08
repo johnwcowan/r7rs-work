@@ -7,16 +7,15 @@ The following order is not necessarily the voting order.
 
  * [Red: data structures](#user-content-red-docket-data-structures)
  * [Tangerine: numerics](#user-content-tangerine-docket-numerics)
- * [Yellow: macros, SRFIs](#user-content-yellow-docket-not-portable-srfis)
+ * [Yellow: macros, SRFIs](#user-content-yellow-docket-macros-srfis)
  * [Orange: portable, SRFIs](#user-content-orange-docket-portable-srfis)
  * [Eos: portable, not SRFIs](#user-content-eos-docket-portable-not-srfis)
  * [Hypnos: portable, SRFIs](#user-content-hypnos-docket-portable-srfis)
- * [Leto: portable, not SRFIs](#luser-content-eto-docket-portable-not-srfis)
+ * [Leto: portable, not SRFIs](#user-content-leto-docket-portable-not-srfis)
  * [Morpheus: not portable, SRFIs](#user-content-morpheus-docket-not-portable-srfis)
  * [Ares: not portable, SRFIs](#user-content-ares-docket-not-portable-srfis)
  * [Selene: portable, not SRFIs](#user-content-selene-docket-portable-not-srfis)
  * [Pan: portable, not SRFIs](#user-content-pan-docket-portable-not-srfis)
- * [Boreas: portable, SRFIs](#user-content-iris-docket-not-portable-not-srfis)
  * [Indigo: features of dubious utility](#user-content-indigo-docket-stuff-of-dubious-utility)
 
 # Red Docket (data structures)
@@ -53,6 +52,40 @@ The following order is not necessarily the voting order.
   
 * Already voted on.
   See [TangerineEdition](TangerineEdition.md).
+
+# Yellow Docket (macros, SRFIs)
+
+Syntax-case: [R6RS syntax-case](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html)
+ 
+Explicit renaming: [simple explicit renaming](https://www.gnu.org/software/mit-scheme/documentation/stable/mit-scheme-ref/Explicit-Renaming.html#Explicit-Renaming) [explicit renaming interoperable with syntax-case](https://srfi.schemers.org/srfi-211/srfi-211.html)
+
+Identifier syntax: [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_796)
+
+Syntax parameters: [SRFI 139](https://srfi.schemers.org/srfi-139/srfi-139.html)
+
+Splicing `let(rec)-syntax`: [SRFI 188](https://srfi.schemers.org/srfi-188/srfi-188.html)
+
+Identifier aliasing: [SRFI 212](https://srfi.schemers.org/srfi-212/srfi-212.html)
+
+Identifier properties: [SRFI 213](https://srfi.schemers.org/srfi-213/srfi-213.html)
+
+## Syntax-rules macros
+
+`cond` guards: [SRFI 61](https://srfi.schemers.org/srfi-61/srfi-61.html)
+
+`receive`: [SRFI 8](https://srfi.schemers.org/srfi-8/srfi-8.html)
+
+`rec`: [SRFI 31](https://srfi.schemers.org/srfi-31/srfi-31.html)
+
+`Cut/cute`:  [SRFI 26](https://srfi.schemers.org/srfi-26/srfi-26.html)
+
+`let` extensions: [SRFI 5](https://srfi.schemers.org/srfi-5/srfi-5.html)
+
+Syntax combiners for binary functions: [SRFI 156](https://srfi.schemers.org/srfi-156/srfi-156.html)
+
+Multiple values: [SRFI 210](https://srfi.schemers.org/srfi-210/srfi-210.html)
+
+Nested `define`:  [SRFI 219](https://srfi.schemers.org/srfi-219/srfi-219.html)
 
 # Orange Docket (portable, SRFIs)
 
@@ -93,40 +126,6 @@ Yet more generator extensions: [SRFI 162](https://srfi.schemers.org/srfi-162/srf
 Coroutine generators: [SRFI 190](https://srfi.schemers.org/srfi-190/srfi-190.html)
 
 Generic dictionary operations: [SRFI 225](https://srfi.schemers.org/srfi-225/srfi-225.html)
-
-# Yellow Docket (macros, SRFIs)
-
-Syntax-case: [R6RS syntax-case](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html)
- 
-Explicit renaming: [simple explicit renaming](https://www.gnu.org/software/mit-scheme/documentation/stable/mit-scheme-ref/Explicit-Renaming.html#Explicit-Renaming) [explicit renaming interoperable with syntax-case](https://srfi.schemers.org/srfi-211/srfi-211.html)
-
-Identifier syntax: [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_796)
-
-Syntax parameters: [SRFI 139](https://srfi.schemers.org/srfi-139/srfi-139.html)
-
-Splicing `let(rec)-syntax`: [SRFI 188](https://srfi.schemers.org/srfi-188/srfi-188.html)
-
-Identifier aliasing: [SRFI 212](https://srfi.schemers.org/srfi-212/srfi-212.html)
-
-Identifier properties: [SRFI 213](https://srfi.schemers.org/srfi-213/srfi-213.html)
-
-## Syntax-rules macros
-
-`cond` guards: [SRFI 61](https://srfi.schemers.org/srfi-61/srfi-61.html)
-
-`receive`: [SRFI 8](https://srfi.schemers.org/srfi-8/srfi-8.html)
-
-`rec`: [SRFI 31](https://srfi.schemers.org/srfi-31/srfi-31.html)
-
-`Cut/cute`:  [SRFI 26](https://srfi.schemers.org/srfi-26/srfi-26.html)
-
-`let` extensions: [SRFI 5](https://srfi.schemers.org/srfi-5/srfi-5.html)
-
-Syntax combiners for binary functions: [SRFI 156](https://srfi.schemers.org/srfi-156/srfi-156.html)
-
-Multiple values: [SRFI 210](https://srfi.schemers.org/srfi-210/srfi-210.html)
-
-Nested `define`:  [SRFI 219](https://srfi.schemers.org/srfi-219/srfi-219.html)
 
 # Eos Docket (portable, not SRFIs)
 
@@ -208,7 +207,8 @@ Strings: [SRFI 152](https://srfi.schemers.org/srfi-152/srfi-152.html) (index-bas
 
 Enumeration maps: [EnumMappingsCowan](EnumMappingsCowan.md)
 
-Core I/O: [CoreSexps](CoreSexps.md) + 
+Twinjo I/O: [Twinjo](https://github.com/s-expressions/twinjo/blob/master/spec/Twinjo.md) + 
+[Twinjo procedures](https://github.com/s-expressions/twinjo/blob/master/spec/TwinjoLib.md) +
 [Lisp Serialization Conventions](https://docs.google.com/spreadsheets/d/1V-7E5d3fLON5DrVeHkVvp9h5SRgcteOgnPl8KvWTA3M/edit#gid=0)
 
 String interpolation: [StringInterpolateCowan](StringInterpolateCowan.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/StringInterpolateCowan)

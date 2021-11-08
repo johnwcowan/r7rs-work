@@ -25,7 +25,8 @@ and the numeric tower that the Tangerine Edition requires implementations to
 provide.  One Red Edition library was updated in a fully backward compatible way.
 
 The plans for future partial editions can be found at [Color Dockets](ColorDockets.md);
-Kronos is the next docket to be voted on in 2021, soon to be followed by Orange.
+Yellow (formerly Kronos) is the next docket to be voted on in 2021,
+soon to be followed by Orange.
 The rest may be voted on in any order, and proposals will move between dockets.
 
 **Note:** Many docketed proposals are stalled for lack of an implementation;
