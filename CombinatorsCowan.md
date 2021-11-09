@@ -1,6 +1,6 @@
-This SRFI contains various procedures that accept and return procedures, as well as a few others, drawn from an earlier version of Chicken.  Common Lisp has a few of them too, and more come from [the Standard Prelude from *Programming Praxis*](http://programmingpraxis.com/contents/standard-prelude/).
+This SRFI contains various procedures that accept and return procedures, as well as a few others, drawn from [an earlier version of Chicken](http://wiki.call-cc.org/eggref/4/combinators).  Common Lisp has a few of them too, and more come from [the Standard Prelude from *Programming Praxis*](http://programmingpraxis.com/contents/standard-prelude/).
 
-
+TODO: merge more of the egg, add documentation
 
 
 ## Combinators
