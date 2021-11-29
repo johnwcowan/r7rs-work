@@ -534,9 +534,9 @@ length of the string to change, which is not always supported.</p>
 
 <p>
 The procedures specified by this SRFI are exported by the
-<code>(srfi 135)</code> library.
+<code>(srfi 135x)</code> library.
 In R6RS systems that do not yet support R7RS library names,
-the name of this library is <code>(srfi :135)</code>.
+the name of this library is <code>(srfi :135x)</code>.
 </p>
 
 <p>
@@ -575,7 +575,7 @@ This SRFI defines three new types:
 
 <ul>
   <li>
-    <i>istring</i> is a type consisting of the istrings
+    <i>istring</i> is a type consisting of the immutable strings
     introduced by this SRFI.
   </li>
   <li>
@@ -895,7 +895,7 @@ The following names are used for arguments and result types:
 <dl>
     <dt><i>istring</i></dt><dd>An istring.</dd>
     <dt><i>mstring</i></dt><dd>A mstring.</dd>
-    <dt><i>string</i></dt><dd>An immutable or mstring.</dd>
+    <dt><i>string</i></dt><dd>An istring or mstring.</dd>
 
     <dt><i>char</i></dt><dd>A character.</dd>
 
@@ -1009,7 +1009,7 @@ to attempt such a mutation; in
 the implementation "should raise an exception"
 in such cases.</p>
 
-<p>Nevertheless, this SRFI must treat such strings as mstrings.
+<p>Nevertheless, implementations of this SRFI must treat such strings as mstrings.
 If they were istrings, <code>(string-append "foo" (string #\s))</code>
 would return an istring, thus making it incompatible with RnRS.
 
@@ -1331,6 +1331,25 @@ to be limited by limits on stack size.
     The <code>string-&gt;mstring</code> procedure returns the corresponding mstring.
     Note that if <var>string</var> is an mstring, it is copied.
     The <code>string-&gt;istring</code> procedure returns the corresponding istring.
+</dd>
+<!--
+==== strings->strings
+============================================================================-->
+<dt class="proc-def1">
+<a name="mstrings"></a>
+<a name="istrings"></a>
+<code class="proc-def">strings</code><var>objs</var>
+</dt>
+<dt class="proc-defn">
+<code class="proc-def">istrings</code><var>objs</var>
+</dt>
+<dd class="proc-def">
+    The <code>mstrings</code> procedure
+	returns a newly allocated list of <var>objs</var>
+	    with any istrings converted to mstrings.
+    The <code>istrings</code> procedure
+        returns a newly allocated list of <var>objs</var>
+	    with any mstrings converted to istrings.
 </dd>
 
 <!--
