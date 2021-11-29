@@ -293,6 +293,7 @@ Here is a list of the procedures provided by this SRFI:
 <dd class="proc-index">
 <pre class="proc-index">
 <a href="#string2istring">string-&gt;istring</a>       <a href="#string2mstring">string-&gt;mstring</a>
+<a href="#istrings">strings</a>               <a href="#mstrings">mstrings</a>
 <a href="#string2vector">string-&gt;vector</a>        <a href="#string2list">string-&gt;list</a>
 <a href="#vector2string">vector-&gt;string</a>        <a href="#list2string">list-&gt;string</a>
 <a href="#vector2istring">vector-&gt;istring</a>       <a href="#list2istring">list-&gt;istring</a>
@@ -517,7 +518,7 @@ strings.</p>
 <h2 name="WhatsMissing">What's missing?</h2>
 
 <p>The <code>string-reverse</code> procedure of SRFI 13 isn't
-very useful, so it's been left out.</p>
+very useful, especially in a Unicode worl, so it's been left out.</p>
 
 <p>The mutation procedures of SRFI 13, other than those present in R7RS,
 are omitted, as in Unicode strings they can cause the underlying
@@ -988,7 +989,8 @@ and might even vary from call to call.
 <h2><a name="Procedures">Procedures</a></h2>
 
 
-<p>Except for <code>string-&gt;mstring</code> and <code>string-&gt;istring</code>,
+<p>Except for <code>string-&gt;mstring</code>, code>string-&gt;istring</code>,
+<code>mstrings</code>, and <code>istrings</code>,
 if all the string inputs of a procedure are mstrings, the outputs are likewise mstrings;
 otherwise, the outputs are istrings.
 Procedures with no string inputs exist in pairs that return mstrings and istrings.
