@@ -273,7 +273,7 @@ Here is a list of the procedures provided by this SRFI:
 <dd class="proc-index">
 <pre class="proc-index">
 <a href="#string-p">string?</a>               <a href="#istring-p">istring?</a>
-<a href="#string-null-p">string-null?</a> 
+<a href="#string-null-p">string-null?</a>    <a href="#no-istrings-p</a> 
 <a href="#string-every">string-every</a>          <a href="#string-any">string-any</a>
 </pre>
 </dd>
@@ -1046,6 +1046,20 @@ would return an istring, thus making it incompatible with RnRS.
   <p>
     There is no corresponding <code>mstring?</code> procedure.
 </dd>
+<!--
+==== no-istrings?
+============================================================================-->
+<dt class="proc-def">
+<a name="no-istrings-p"></a>
+<code class="proc-def">no-istrings?</code><var> objs → boolean</var> [R7RS]
+</dt>
+<dd class="proc-def">
+    Returns true if and only if
+    none of the <var>objs</var> are istrings.
+    Must execute in O(n) time.
+  <p>
+    There is no corresponding <code>mstring?</code> procedure.
+</dd>
 
 <!--
 ==== string-null?
@@ -1340,17 +1354,17 @@ to be limited by limits on stack size.
 <dt class="proc-def1">
 <a name="mstrings"></a>
 <a name="istrings"></a>
-<code class="proc-def">mstrings</code> <var>objs</var>
+<code class="proc-def">mstrings</code> <var>obj ...</var>
 </dt>
 <dt class="proc-defn">
-<code class="proc-def">istrings</code> <var>objs</var>
+<code class="proc-def">istrings</code> <var>obj ...</var>
 </dt>
 <dd class="proc-def">
     The <code>mstrings</code> procedure
-	returns a list of <var>objs</var>
+	returns a list of the <var>objs</var>
 	    with any istrings converted to mstrings.
     The <code>istrings</code> procedure
-        returns a list of <var>objs</var>
+        returns a list of th	 <var>objs</var>
 	    with any mstrings converted to istrings.
 </dd>
 
@@ -2066,7 +2080,7 @@ This indicates a useful value is returned when there is a match.
 ============================================================================-->
 <dt class="proc-def">
 <a name="string-append"></a>
-<code class="proc-def">strnng-append</code><var> string ... → string</var> [R7RS]
+<code class="proc-def">string-append</code><var> string ... → string</var> [R7RS]
 </dt>
 <dd class="proc-def">
     Returns an string whose sequence of characters is the concatenation
