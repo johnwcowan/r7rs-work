@@ -1,5 +1,7 @@
 For other dockets see [WG2Dockets](WG2Dockets.md).
 
+Free docket names: Bia Dike Gaia Nyx Orion Urania Xenos Zephyrus; Kronos used but dropped.
+
 
 # Docket Index
 
@@ -9,6 +11,7 @@ The following order is not necessarily the voting order.
  * [Tangerine: numerics](#user-content-tangerine-docket-numerics)
  * [Yellow: macros, SRFIs](#user-content-yellow-docket-macros-srfis)
  * [Orange: portable, SRFIs](#user-content-orange-docket-portable-srfis)
+ * [Urania: portable, not SRFIs, no implementation yet](#user-content-urania-docket-portable-not-srfis-no-implementation-yet)
  * [Eos: portable, not SRFIs](#user-content-eos-docket-portable-not-srfis)
  * [Hypnos: portable, SRFIs](#user-content-hypnos-docket-portable-srfis)
  * [Leto: portable, not SRFIs](#user-content-leto-docket-portable-not-srfis)
@@ -127,11 +130,13 @@ Coroutine generators: [SRFI 190](https://srfi.schemers.org/srfi-190/srfi-190.htm
 
 Generic dictionary operations: [SRFI 225](https://srfi.schemers.org/srfi-225/srfi-225.html)
 
+# Urania Docket (portable, not SRFIs, no implementation yet)
+
 # Eos Docket (portable, not SRFIs)
 
 Modify macros: [Srfi17ExtensionsCowan](Srfi17ExtensionsCowan.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/Srfi17ExtensionsCowan)
 
-Loops: [SRFI 42](https://srfi.schemers.org/srfi-42/srfi-42) or [Riastradh's foof-loop](http://mumble.net/~campbell/scheme/foof-loop.txt) or [Chibi loop](http://synthcode.com/scheme/chibi/lib/chibi/loop.html), summarized at [EagerComprehensions](EagerComprehensions.md)
+Loops: [SRFI 42](https://srfi.schemers.org/srfi-42/srfi-42) or [Riastradh's foof-loop](http://mumble.net/~campbell/scheme/foof-loop.txt) or [Chibi loop](http://synthcode.com/scheme/chibi/lib/chibi/loop.html), Implementation: all.  Summarized at [EagerComprehensions](EagerComprehensions.md)
 
 Assumptions/Assertions/Warnings: [SRFI 145](https://srfi.schemers.org/srfi-145/srfi-145.html)
 and
@@ -144,7 +149,7 @@ or [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_sec_11.14).
 
 lambda*: [BeyondCurryingHemann](BeyondCurryingHemann.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/BeyondCurryingHemann)
 
-Named parameters:  [SRFI 177](https://srfi.schemers.org/srfi-177/srfi-177.html) bis,
+Named parameters:  [SRFI 177](https://srfi.schemers.org/srfi-177/srfi-177.html) bis (dpk's),
 [SRFI 89](https://srfi.schemers.org/srfi-89/srfi-89.html),
 or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/0.7.3/index.html)(portable)
 
@@ -203,7 +208,7 @@ List mutation: [ListSurgeryCowan](ListSurgeryCowan.md)
 UUIDs: [Uuid](Uuid.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/UUID)
 
 Strings: [SRFI 152](https://srfi.schemers.org/srfi-152/srfi-152.html) (index-based),
-[SRFI 130](https://srfi.schemers.org/srfi-130/srfi-130.html) (cursor-based), other libs
+[SRFI 130](https://srfi.schemers.org/srfi-130/srfi-130.html) (cursor-based), [pre-SRFI 135x](https://htmlpreview.github.io/?https://raw.githubusercontent.com/johnwcowan/r7rs-work/master/srfi-135x.html)
 
 Enumeration maps: [EnumMappingsCowan](EnumMappingsCowan.md)
 
@@ -216,7 +221,7 @@ String interpolation: [StringInterpolateCowan](StringInterpolateCowan.md). [Impl
 C-style structures: [ByteStructuresTaylanUB](https://github.com/TaylanUB/scheme-bytestructures),
 [StructuresCowan](StructuresCowan.md)
 
-Predicate generic functions: [GenericsChibi](http://synthcode.com/scheme/chibi/lib/chibi/generic.html) (needs extension for subtyping), [FastGeneric](http://wiki.call-cc.org/eggref/5/fast-generic)
+Predicate generic functions: [GenericsChibi](http://synthcode.com/scheme/chibi/lib/chibi/generic.html) (needs extension for subtyping), [FastGeneric](http://wiki.call-cc.org/eggref/5/fast-generic) Implementations: all.
 
 Timespecs:  [SRFI 174](https://srfi.schemers.org/srfi-174/srfi-174.html) or
 [SRFI 174 bis](TimeObjects.md)
@@ -302,7 +307,7 @@ Port type detector: [#177](https://small.r7rs.org/ticket/177/)
 
 Chronometers: [Chronometer](Chronometer.md)
 
-Character-cell terminals: [TerminalsCowan](TerminalsCowan.md)
+Character-cell terminals: [TerminalsCowan](TerminalsCowan.md).  Portable with SRFI 205.
 
 Graphics canvas: [GraphicsCanvas](GraphicsCanvas.md)
 
@@ -338,7 +343,7 @@ Time types: [SRFI 19](https://srfi.schemers.org/srfi-19/srfi-19.html) and/or [Ti
 
 Character conversion: [CharacterConversionCowan](CharacterConversionCowan.md)
 
-Parallel promises: [ParallelPromisesCowan](ParallelPromisesCowan.md)
+Parallel promises: [ParallelPromisesCowan](ParallelPromisesCowan.md).  Portable implementation in pre-SRFI.
 
 Pathname objects: [PathnamesPython](PathnamesPython.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/PathnamesPython)
 
@@ -352,7 +357,7 @@ CSV, DSV: [DataFormatsCowan](DataFormatsCowan.md)
 
 INI files: [IniFilesCowan](IniFilesCowan.md) [Implementation](https://github.com/arvyy/r7rs-work/tree/master/IniFilesCowan)
 
-Unicode string normalization: [StringNormalizationCowan](StringNormalizationCowan.md)
+Unicode string normalization: [StringNormalizationCowan](StringNormalizationCowan.md).  R6RS implementations.
 
 Binary heap: [BinaryHeapsCowan](BinaryHeapsCowan.md)
 
@@ -380,7 +385,7 @@ Immutable vectors: [FectorsPrice](https://github.com/ijp/fectors)
 Dijkstra arrays (deques) [DijkstraArrays](DijkstraArrays.md) 
 
 Channels: [PigeonHolesChicken](http://wiki.call-cc.org/eggref/5/pigeon-hole),
-[GochanChicken](http://wiki.call-cc.org/eggref/5/gochan)
+[GochanChicken](http://wiki.call-cc.org/eggref/5/gochan).  Implementations: all.
 
 Applicable record instances: [R6RS formal comment](http://www.r6rs.org/formal-comments/comment-6.txt)
 
@@ -394,7 +399,7 @@ String normalization: [StringNormalization](StringNormalization.md)
 
 Testing: [SRFI 64](https://srfi.schemers.org/srfi-64/srfi-64.html)
 or [ChibiChickenTest](http://wiki.call-cc.org/eggref/5/test)
-or [SRFI 78](https://srfi.schemers.org/srfi-78/srfi-78.html)
+or [SRFI 78](https://srfi.schemers.org/srfi-78/srfi-78.html).  Implementations: all.
 
 Writing filters: [FileFilterGauche](https://practical-scheme.net/gauche/man/gauche-refe/Filtering-file-content.html#Filtering-file-content)
 
