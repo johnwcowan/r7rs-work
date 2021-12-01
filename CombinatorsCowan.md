@@ -1,9 +1,11 @@
-This proposal contains various procedures that accept and return procedures, as well as a few others, drawn from an earlier version of Chicken.  Common Lisp has a few of them too, and more come from [the Standard Prelude from *Programming Praxis*](http://programmingpraxis.com/contents/standard-prelude/).
+This SRFI contains various procedures that accept and return procedures, as well as a few others, drawn from [an earlier version of Chicken](http://wiki.call-cc.org/eggref/4/combinators).  Common Lisp has a few of them too, and more come from [the Standard Prelude from *Programming Praxis*](http://programmingpraxis.com/contents/standard-prelude/).
+
+TODO: merge more of the egg, add documentation
 
 
 ## Combinators
 
-These procedures are documented in an unusual style.  Rather than showing only how the procedures themselves are invoked, it also shows how the returned procedures would be invoked.  This is done in order to make the descriptions easier to understand.  For example, if `complement` were documented in the standard style, the description would say "Returns a procedure which, when applied to an argument, returns `#t` when *proc* would return `#f` when applied to the same argument, and `#f` otherwise", which is more convoluted and harder to understand.  However, this is merely a documentation style; it would be pointless to actually invoke these procedures in this fashion.
+These procedures are documented in the style of [SRFI 219](https://srfi.schemers.org/srfi-219/srfi-219.html).  Rather than showing only how the procedures themselves are invoked, it also shows how the returned procedures would be invoked.  This is done in order to make the descriptions easier to understand.  For example, if `complement` were documented in the standard style, the description would say "Returns a procedure which, when applied to an argument, returns `#t` when *proc* would return `#f` when applied to the same argument, and `#f` otherwise", which is more convoluted and harder to understand.  However, this is merely a documentation style; it would be pointless to actually invoke these procedures in this fashion.
 
 `((constantly `*obj* ...`)` *arg* ...`)`
 
@@ -35,13 +37,14 @@ Returns `#t` if the *args* satisfy all the *predicates*, and `#f` otherwise.
 
 `((disjoin `*predicate* ...`)` *arg* ...`)`
 
-Returns `#t` if the *args* satisfy any of the *predicates*.
+Returns `#t` if the *args* satisfy any of the *predicates*, and `#f` otherwise.
+If a predicate is satisfied, no other predicates are invoked.
 
 `((each-of `*proc* ... `)` *arg* ...`)`
 
 Applies each of the *procs* in turn to *args*, discarding the results and returning an unspecified value.
 
-`((all-of) `*predicate*`) *list*`)`
+`((all-of) `*predicate*`)` *list*`)`
 
 Applies *predicate* to each element of *list* in turn, and immediately returns `#f` if *predicate* is not satisfied by that element; otherwise returns the result of calling *predicate* for the last time.  If *list* is empty, returns `#t`.
 
@@ -59,7 +62,7 @@ Applies *proc* to *args* concatenated with *objs*.
 
 `((right-section `*proc arg* ...`)` *obj* ...`)`
 
-Applies *proc* to *objs* concatenated with the value of `(reverse *args*).
+Applies *proc* to *objs* concatenated with the value of `(reverse *args*)`.
 
 ## Syntax-like procedures
 
@@ -117,10 +120,10 @@ Ignores its arguments and always returns `#t`.
 
 Ignores its arguments and always returns `#f`.
 
-`(boolean *obj*`)`
+`(boolean `*obj*`)`
 
 If *obj* is true, returns `#t`; otherwise returns `#f`.
 
 `(identity `*obj*`)`
 
-Returns *obj*; normally passed to a higher-order procedure rather than being invoked directly.  Equivalent to `values` but with a clearer name.
+Returns *obj*; normally passed to a higher-order procedure rather than being invoked directly.  Equivalent to `values` with a single argument but with a clearer name.

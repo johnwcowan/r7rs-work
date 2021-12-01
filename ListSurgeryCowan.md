@@ -16,7 +16,7 @@
 
 (map!! f list ...)
 
-(filter! pred list)
+(filter!! pred list)
 
 (remove!! pred list)
 
