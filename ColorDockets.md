@@ -181,11 +181,11 @@ SXML serializer: [SxmlSerializerGauche](https://practical-scheme.net/gauche/man/
 
 [Racket/Gerbil syntax-case extensions](https://gitlab.com/dpk/presrfis/-/blob/master/syntax-case-extensions.md)
 
-Immutable vectors: [FectorsPrice](https://github.com/ijp/fectors)
-
 Dijkstra arrays (deques) [DijkstraArrays](DijkstraArrays.md) 
 
 # Eos Docket (portable, not SRFIs)
+
+Immutable vectors: [FectorsPrice](https://github.com/ijp/fectors)
 
 Modify macros: [Srfi17ExtensionsCowan](Srfi17ExtensionsCowan.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/Srfi17ExtensionsCowan)
 
