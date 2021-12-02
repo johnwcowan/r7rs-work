@@ -161,8 +161,6 @@ Generic combinator procedures: [CombinatorsCowan](CombinatorsCowan.md). [Impleme
 
 Time types: [SRFI 19](https://srfi.schemers.org/srfi-19/srfi-19.html) and/or [TimeAdvancedCowan](TimeAdvancedCowan.md) with [TimePeriodsCowan](TimePeriodsCowan.md)
 
-Character conversion: [CharacterConversionCowan](CharacterConversionCowan.md)
-
 URI objects: [UrisCowan](UrisCowan.md)
 
 Unicode character database: [UcdCowan](UcdCowan.md), [AdvancedUcdCowan](AdvancedUcdCowan.md)
