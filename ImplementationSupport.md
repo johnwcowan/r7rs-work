@@ -6,9 +6,9 @@ The following implementations support all or part of R7RS-small:
 |[Chicken](https://www.call-cc.org/)||
 |[Cyclone](http://justinethier.github.io/cyclone/)||
 |[Foment](https://github.com/leftmike/foment)||
-|[Gambit](http://gambitscheme.org)||
+|[Gambit](http://gambitscheme.org)|not yet released|
 |[Gauche](http://practical-scheme.net/gauche/)||
-|[Guile](https://www.gnu.org/software/guile/)|not yet released|
+|[Guile](https://www.gnu.org/software/guile/)||
 |[Husk](https://github.com/justinethier/husk-scheme)||
 |[Kawa](https://www.gnu.org/software/kawa/index.html)||
 |[Larceny](http://larcenists.org/)||
