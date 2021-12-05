@@ -1,6 +1,6 @@
 For other dockets see [WG2Dockets](WG2Dockets.md).
 
-Free docket names: Bia Dike Gaia Nyx Orion Xenos Zephyrus; Kronos used but dropped.
+Free docket names: Bia Dike Gaia Leto Nyx Orion Xenos Zephyrus; Kronos used but dropped.
 
 
 # Docket Index
@@ -14,7 +14,6 @@ The following order is not necessarily the voting order.
  * [Urania: portable, not SRFIs, no implementation yet](#user-content-urania-docket-portable-not-srfis-no-implementation-yet)
  * [Eos: portable, not SRFIs](#user-content-eos-docket-portable-not-srfis)
  * [Hypnos: portable, SRFIs](#user-content-hypnos-docket-portable-srfis)
- * [Leto: portable, not SRFIs](#user-content-leto-docket-portable-not-srfis)
  * [Morpheus: not portable, SRFIs](#user-content-morpheus-docket-not-portable-srfis)
  * [Ares: not portable, SRFIs](#user-content-ares-docket-not-portable-srfis)
  * [Selene: portable, not SRFIs](#user-content-selene-docket-portable-not-srfis)
@@ -162,8 +161,6 @@ Generic combinator procedures: [CombinatorsCowan](CombinatorsCowan.md). [Impleme
 
 Time types: [SRFI 19](https://srfi.schemers.org/srfi-19/srfi-19.html) and/or [TimeAdvancedCowan](TimeAdvancedCowan.md) with [TimePeriodsCowan](TimePeriodsCowan.md)
 
-Character conversion: [CharacterConversionCowan](CharacterConversionCowan.md)
-
 URI objects: [UrisCowan](UrisCowan.md)
 
 Unicode character database: [UcdCowan](UcdCowan.md), [AdvancedUcdCowan](AdvancedUcdCowan.md)
@@ -182,11 +179,11 @@ SXML serializer: [SxmlSerializerGauche](https://practical-scheme.net/gauche/man/
 
 [Racket/Gerbil syntax-case extensions](https://gitlab.com/dpk/presrfis/-/blob/master/syntax-case-extensions.md)
 
-Immutable vectors: [FectorsPrice](https://github.com/ijp/fectors)
-
 Dijkstra arrays (deques) [DijkstraArrays](DijkstraArrays.md) 
 
 # Eos Docket (portable, not SRFIs)
+
+Immutable vectors: [FectorsPrice](https://github.com/ijp/fectors)
 
 Modify macros: [Srfi17ExtensionsCowan](Srfi17ExtensionsCowan.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/Srfi17ExtensionsCowan)
 
@@ -254,29 +251,6 @@ JSON: [SRFI 180](https://srfi.schemers.org/srfi-180/srfi-180.html),
 and [data](https://github.com/ar-nelson/schemepunk/blob/master/json.sld).
 
 Hooks: [SRFI 173](https://srfi.schemers.org/srfi-173/srfi-173.html)
-
-# Leto Docket (portable, not SRFIs)
-
-Restarts:  [RestartsCowan](RestartsCowan.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/RestartsCowan)
-
-UUIDs: [Uuid](Uuid.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/UUID)
-
-Strings: [SRFI 152](https://srfi.schemers.org/srfi-152/srfi-152.html) (index-based),
-[SRFI 130](https://srfi.schemers.org/srfi-130/srfi-130.html) (cursor-based), [pre-SRFI 135x](https://htmlpreview.github.io/?https://raw.githubusercontent.com/johnwcowan/r7rs-work/master/srfi-135x.html)
-
-String interpolation: [StringInterpolateCowan](StringInterpolateCowan.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/StringInterpolateCowan)
-
-C-style structures: [ByteStructuresTaylanUB](https://github.com/TaylanUB/scheme-bytestructures), Implementation.
-[StructuresCowan](StructuresCowan.md), see Urania
-
-Predicate generic functions: [GenericsChibi](http://synthcode.com/scheme/chibi/lib/chibi/generic.html) (needs extension for subtyping), [FastGeneric](http://wiki.call-cc.org/eggref/5/fast-generic) Implementations: all.
-
-Timespecs:  [SRFI 174](https://srfi.schemers.org/srfi-174/srfi-174.html) or
-[SRFI 174 bis](TimeObjects.md)
-
-Conditions: [ConditionsCowan](ConditionsCowan.md)
-
-Topological sort: [TopologicalSortGauche](https://practical-scheme.net/gauche/man/gauche-refe/Topological-sort.html#Topological-sort). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/TopologicalSortGauche)
 
 # Morpheus Docket (not portable, SRFIs)
 
@@ -354,6 +328,27 @@ Simple SQL database interface: [SimpleSqlCowan](SimpleSqlCowan.md)
 Syslog interface: [SyslogCowan](SyslogCowan.md)
 
 # Selene Docket (portable, not SRFIs)
+
+Restarts:  [RestartsCowan](RestartsCowan.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/RestartsCowan)
+
+UUIDs: [Uuid](Uuid.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/UUID)
+
+Strings: [SRFI 152](https://srfi.schemers.org/srfi-152/srfi-152.html) (index-based),
+[SRFI 130](https://srfi.schemers.org/srfi-130/srfi-130.html) (cursor-based), [pre-SRFI 135x](https://htmlpreview.github.io/?https://raw.githubusercontent.com/johnwcowan/r7rs-work/master/srfi-135x.html)
+
+String interpolation: [StringInterpolateCowan](StringInterpolateCowan.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/StringInterpolateCowan)
+
+C-style structures: [ByteStructuresTaylanUB](https://github.com/TaylanUB/scheme-bytestructures), Implementation.
+[StructuresCowan](StructuresCowan.md), see Urania
+
+Predicate generic functions: [GenericsChibi](http://synthcode.com/scheme/chibi/lib/chibi/generic.html) (needs extension for subtyping), [FastGeneric](http://wiki.call-cc.org/eggref/5/fast-generic) Implementations: all.
+
+Timespecs:  [SRFI 174](https://srfi.schemers.org/srfi-174/srfi-174.html) or
+[SRFI 174 bis](TimeObjects.md)
+
+Conditions: [ConditionsCowan](ConditionsCowan.md)
+
+Topological sort: [TopologicalSortGauche](https://practical-scheme.net/gauche/man/gauche-refe/Topological-sort.html#Topological-sort). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/TopologicalSortGauche)
 
 Streaming regular expressions: [PragmaticParsingBaker](http://home.pipeline.com/~hbaker1/Prag-Parse.html)
 
