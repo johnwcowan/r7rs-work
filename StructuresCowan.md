@@ -7,10 +7,7 @@ all at once using a
 
 ## Issues
 
-1. How do we deal with the common pattern in which an earlier
-   element contains the information that determines how a
-   union is to be interpreted when unpacking?
-    
+None at present.    
 
 ## Procedures
 
@@ -85,7 +82,7 @@ Returns a procedure that takes a bytevector
 and an optional offset (default is 0),
 and unpacks the bytevector
 starting at the offset.
-The returned value is the object.
+The returned value is the unpacked object.
 
 Raises an error statisfying `struct-schema-error?`
 if *schema* is uninterpretable.
@@ -119,9 +116,11 @@ do not match the schema or its components.
 Returns `#t` if *obj* is an appropriate condition object
 as described above or `#f` otherwise.
 
-`(struct-union-exception? `*list*`)` => *index*
+`(struct-union-exception? `*obj*`)` => *boolean*  
+`(struct-union-tag `*struct-union-exception*`)` => *object*  
+`(struct-union-schemas `*struct-union-exception*`)` => *list*
 
-See below for the `union` schema pattern.
+See below for the `tagged-union` schema pattern.
 
 ## Syntax
 
@@ -132,9 +131,8 @@ See below for the `union` schema pattern.
 `(struct-reader ` *schema*`)`
 
 These macros are equivalent to the corresponding procedures
-beginning with `make-`, except that it is an error unless
-the schemas are literals or quasiquoted literals.
-They are provided so that
+beginning with `make-`, except that it is an error if
+the schemas are not literals.  They are provided so that
 an implementation can compile a constant schema into appropriate code.
 However, they may also expand directly into their `make-` equivalents. 
 
@@ -150,7 +148,7 @@ with the bytes of *bytevector-or-string* on the bytevector side.
 If a string is provided, it is an error unless it is ASCII-only
 and is equivalent to the corresponding bytevector.
 
-`(filler `*size*`)`
+`(pad `*size*`)`
 
 Matches nothing on the Scheme object side
 and *size* arbitrary bytes on the bytevector side.
@@ -186,24 +184,32 @@ The following encodings are standard:
 `ascii`, `latin-1`, `utf-8`, `utf-16`, `utf-16le`, utf-16be`.
 Other encodings may be provided by the implementation.
 
-`(struct `*schema schema* ...`)`
+`(struct `*schema* ...`)`
 
 Matches a heterogeneous list to a C `struct`.'  Note that
 the C names of the fields are not represented here,
 though they can be carried along by `label` schemas.
 
-`(union `*schema schema* ...`)`
+`(tagged-union (`*tag-schema* ...`)` *union-schema* ...`)`
 
-When packing or unpacking, a continuable exception
-satisfying `struct-union-exception?` is raised, passing
-the list of schemas to it.  The exception
+When unpacking, the *tag-schemas* are used to convert
+bytes to Scheme objects, which are assembled into a list
+known as the *tag*.  Next, a continuable exception
+satisfying `struct-union-exception?` is raised.  The exception
 must be caught by `with-exception-handler` or the equivalent
-(not with `guard`),
-and the handler returns with an index into the list.
-The chosen schema is then substituted for the union.
+(not with `guard`).
+
+The procedures `struct-union-tag` and `struct-union-schemas`
+are then used to retrieve the tag and the list of *union-schemas* respectively.
+The tag is then used to decide which of the
+*union-schemas* should be used to convert the following bytes, and the
+resulting Scheme object is appended to the tag.  The result corresponds
+to the tagged union on the Scheme side.
 
 It is an error unless all the schemas return the same
 value to `schema-length`.
+
+When packing, FIXME.
 
 `(label `*symbol schema*`)`
 
