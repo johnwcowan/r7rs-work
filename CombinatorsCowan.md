@@ -1,11 +1,13 @@
 This SRFI contains various procedures that accept and return procedures, as well as a few others, drawn from [an earlier version of Chicken](http://wiki.call-cc.org/eggref/4/combinators).  Common Lisp has a few of them too, and more come from [the Standard Prelude from *Programming Praxis*](http://programmingpraxis.com/contents/standard-prelude/).
 
-TODO: merge more of the egg, add documentation
+**TODO**: merge more of the egg, add documentation
 
 
 ## Combinators
 
 These procedures are documented in the style of [SRFI 219](https://srfi.schemers.org/srfi-219/srfi-219.html).  Rather than showing only how the procedures themselves are invoked, it also shows how the returned procedures would be invoked.  This is done in order to make the descriptions easier to understand.  For example, if `complement` were documented in the standard style, the description would say "Returns a procedure which, when applied to an argument, returns `#t` when *proc* would return `#f` when applied to the same argument, and `#f` otherwise", which is more convoluted and harder to understand.  However, this is merely a documentation style; it would be pointless to actually invoke these procedures in this fashion.
+
+TODO: reorganize this list
 
 `((constantly `*obj* ...`)` *arg* ...`)`
 
@@ -17,11 +19,11 @@ Returns `#t` when `(`*proc obj*`)` returns `#f`, and `#f` otherwise.
 
 `((flip `*proc*`) . ` *objs*`)`
 
-Invokes `(apply `*proc* `(reverse `*objs* `)`.
+Returns `(apply `*proc* `(reverse `*objs* `)`.
 
 `((swap `*proc*`)` *obj₁ obj₂ obj* ...`)`
 
-Invokes `(`*proc obj₂ obj₁ obj* ...`)`.
+Returns `(`*proc obj₂ obj₁ obj* ...`)`.
 
 `((on-left `*proc*`)` *obj₁ obj₂*`)`
 
@@ -34,6 +36,7 @@ Returns (*proc obj₂*).
 `((conjoin `*predicate* ...`)` *arg* ...`)`
 
 Returns `#t` if the *args* satisfy all the *predicates*, and `#f` otherwise.
+If a predicate is not satisfied, no more *predicates* are invoked.
 
 `((disjoin `*predicate* ...`)` *arg* ...`)`
 
@@ -62,11 +65,34 @@ Applies *proc* to *args* concatenated with *objs*.
 
 `((right-section `*proc arg* ...`)` *obj* ...`)`
 
-Applies *proc* to *objs* concatenated with the value of `(reverse *args*)`.
+Applies *proc* to *objs* concatenated with the value of `(reverse `*args*`)`.
+
+`((apply-chain `*proc* ...`)` *arg ...)`
+
+Applies the last *proc* to *args* returning zero or more values,
+then applies the previous *proc* to the values, returning more values,
+until the first proc has been invoked; its values are returned.
+For example, `(apply-chain car cdr)` returns a procedure that
+behaves like `cadr`.
+
+`apply-all`  
+`apply-each
+
+[Invokes predicates, giving up after `#f` or `#t` respectively
+is reached.]
+
+`apply-drop`
+`apply-drop-right`
+`apply-take`
+`apply-take-right
+
+[Apply *proc* to the *args* after taking/dropping *n* arguments
+from *args*.]
 
 ## Syntax-like procedures
 
-These are Scheme procedures that correspond to basic syntax.  They are derived from [the If class of Samizdat](https://github.com/danfuzz/samizdat/blob/master/doc/library-guide/If.md).  As usual in Lisps, *thunk* means a procedure that does not require arguments.
+These are Scheme procedures that correspond to basic syntax.
+As usual in Lisps, *thunk* means a procedure that does not require arguments.
 
 `(begin-procedure `*thunk* ...`)`
 
@@ -89,13 +115,24 @@ If *value* is true, invokes *then-proc* on it and returns what *then-proc* retur
 
 Searches *thunk-alist* for *value* (as if by `assv`).  If there is a matching entry in *thunk-alist*, its cdr is invoked as a thunk, and `case-procedure` returns what the thunk returns.  If there is no such entry in *thunk-alist*, invokes *else-thunk* and returns what it returns.
 
-`(and-procedure `*thunk* ...`)`
+`(lazy-and-procedure `*thunk* ...`)`  
+`(eager-and-procedure `*thunk* ...`)`
 
-Invokes each *thunk* in the order given, and returns `#f` immediately if any of them return `#f`.  Otherwise returns the value of the last thunk, or `#t` if there are none.
+Invokes each *thunk* in the order given.
+The `lazy` version returns false immediately if any of the thunks return false,
+whereas the `eager` version always invokes all the thunks.
+If the last thunk is evaluated, its value is returned.
+Returns `#t` if there are no thunks.
 
-`(or-procedure `*thunk* ...`)`
+`(lazy-or-procedure `*thunk* ...`)`  
+`(eager-or-procedure `*thunk* ...`)`
 
-Invokes each *thunk* in the order given, and if any of them returns true, `or-procedure` returns that value immediately.  Otherwise returns `#f`.
+Invokes each *thunk* in the order given.
+The `lazy` version returns the value of a thunk
+immediately if the thunk returns false,
+whereas the `eager` version always invokes all the thunks.
+If the last thunk is evaluated, its value is returned.
+Returns `#f` if there are no thunks.
 
 `(loop-procedure `*thunk*`)`
 
@@ -103,11 +140,13 @@ Invokes *thunk* repeatedly.  Does not return unless via `call/cc`.
 
 `(while-procedure `*thunk*`)`
 
-Invokes *thunk* repeatedly until it returns false.  Returns false.
+Invokes *thunk* repeatedly until it returns false.
+Returns an unspecified value.
 
 `(until-procedure `*thunk*`)`
 
-Invokes *thunk* repeatedly until it returns true.  Returns the last value.
+Invokes *thunk* repeatedly until it returns true.
+Returns an unspecified value.
 
 
 ## Other procedures
