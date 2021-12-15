@@ -234,3 +234,12 @@ XML-RPC protocol
 XMPP protocol
 
 ZIP files
+
+## Red Docket items
+
+Titlecase (SRFI 129)
+
+## Tangerine Docket items
+
+None
+
