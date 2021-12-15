@@ -1,6 +1,10 @@
-This SRFI contains various procedures that accept and return procedures, as well as a few others, drawn from [an earlier version of Chicken](http://wiki.call-cc.org/eggref/4/combinators).  Common Lisp has a few of them too, and more come from [the Standard Prelude from *Programming Praxis*](http://programmingpraxis.com/contents/standard-prelude/).
+This SRFI contains various procedures that accept and return procedures,
+as well as a few others, drawn from
+[an earlier version of Chicken](http://wiki.call-cc.org/eggref/4/combinators).
+Common Lisp has a few of them too, and more come from
+[the Standard Prelude from *Programming Praxis*](http://programmingpraxis.com/contents/standard-prelude/).
 
-**TODO**: merge more of the egg, add documentation
+**TODO**: add examples
 
 
 ## Combinators
@@ -17,7 +21,7 @@ and `#f` otherwise", which is more convoluted and harder to understand.
 However, this is merely a documentation style;
 it would be pointless to actually invoke these procedures in this fashion.
 
-TODO: reorganize the procedure list.
+**TODO**: reorganize the procedure list.
 
 `((constantly `*obj* ...`)` *arg* ...`)`
 
@@ -55,15 +59,22 @@ If a predicate is satisfied, no other predicates are invoked.
 
 `((each-of `*proc* ... `)` *arg* ...`)`
 
-Applies each of the *procs* in turn to *args*, discarding the results and returning an unspecified value.
+Applies each of the *procs* in turn to *args*,
+discarding the results and returning an unspecified value.
 
 `((all-of) `*predicate*`)` *list*`)`
 
-Applies *predicate* to each element of *list* in turn, and immediately returns `#f` if *predicate* is not satisfied by that element; otherwise returns the result of calling *predicate* for the last time.  If *list* is empty, returns `#t`.
+Applies *predicate* to each element of *list* in turn,
+and immediately returns `#f` if *predicate* is not satisfied by that element;
+otherwise returns the result of the last call to *predicate*.
+If *list* is empty, returns `#t`.
 
 `((some-of `*predicate*`)` *list*`)`
 
-Applies *predicate* to each element of *list* in turn, and if *predicate* is satisfied by that element, immediately returns the result of calling *predicate*; otherwise returns `#f`.  If *list* is empty, returns `#f`.
+Applies *predicate* to each element of *list* in turn,
+and if *predicate* is satisfied by that element,
+immediately returns the result of calling *predicate*;
+otherwise returns `#f`.  If *list* is empty, returns `#f`.
 
 `((on `*reducer mapper*`)` *obj* ...`)`
 
@@ -99,7 +110,7 @@ is reached.]
 [Apply *proc* to the *args* after taking/dropping *n* arguments
 from *args*.]
 
-`((group-by *key-proc* [=]`)` *list*`)`
+`((group-by `*key-proc* [=]`)` *list*`)`
 
 Takes the elements of *list* and applies *key-proc*
 to each of them to get their keys.  Elements that
@@ -119,24 +130,34 @@ As usual in Lisps, *thunk* means a procedure that does not require arguments.
 
 `(begin-procedure `*thunk* ...`)`
 
-Invokes *thunks* in order, and returns what the last thunk returns, or an unspecified value if there are no thunks.
+Invokes *thunks* in order, and returns what the last thunk returns,
+or an unspecified value if there are no thunks.
 
 `(if-procedure `*value then-thunk* *else-thunk*`)`
 
-If *value* is true, invokes *then-thunk* and returns what it returns.  Otherwise, invokes *else-thunk* and returns what it returns.
+If *value* is true, invokes *then-thunk* and returns what it returns.
+Otherwise, invokes *else-thunk* and returns what it returns.
 
 `(when-procedure `*value thunk* ...`)`  
 `(unless-procedure `*value thunk* ...`)`
 
-If *value* is false/true, immediately returns.  Otherwise, invokes each *thunk* in turn and then returns.  In all cases an unspecified value is returned.
+If *value* is false/true, immediately returns.
+Otherwise, invokes each *thunk* in turn and then returns.
+n all cases an unspecified value is returned.
 
 `(value-procedure `*value then-proc else-thunk*`)`
 
-If *value* is true, invokes *then-proc* on it and returns what *then-proc* returns.  Otherwise, invokes *else-thunk* and returns what it returns.
+If *value* is true, invokes *then-proc* on it
+and returns what *then-proc* returns.
+Otherwise, invokes *else-thunk* and returns what it returns.
 
 `(case-procedure `*value thunk-alist* *else-thunk*`)`
 
-Searches *thunk-alist* for *value* (as if by `assv`).  If there is a matching entry in *thunk-alist*, its cdr is invoked as a thunk, and `case-procedure` returns what the thunk returns.  If there is no such entry in *thunk-alist*, invokes *else-thunk* and returns what it returns.
+Searches *thunk-alist* for *value* (as if by `assv`).
+If there is a matching entry in *thunk-alist*,
+its cdr is invoked as a thunk, and `case-procedure` returns what the thunk returns.
+If there is no such entry in *thunk-alist*,
+invokes *else-thunk* and returns what it returns.
 
 `(lazy-and-procedure `*thunk* ...`)`  
 `(eager-and-procedure `*thunk* ...`)`
