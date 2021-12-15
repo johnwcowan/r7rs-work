@@ -14,7 +14,7 @@ Consider changing the `-ref`, `-update`, `-adjust` `-round`, `-truncate`, `-ceil
 Scheme uses two internal formats for absolute timestamps, which
 in this SRFI are called *instants* and *time objects*.
 
-An *instant* is an exact or inexact number representing the
+An *instant* is an inexact number representing the
 approximate number of 
 seconds since December 31, 1969 in the 
 proleptic Gregorian calendar and 23:59:52 (eight seconds before midnight)

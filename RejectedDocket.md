@@ -1,5 +1,7 @@
 ## WG2 Rejected Docket
 
+## The original vote
+
 This docket contains work items that were rejected by a vote. 
 It is provided to make it easy to see if a proposal has already been shot down.
 However, some of these items may return, or have already returned.
@@ -7,7 +9,7 @@ See [WG2Dockets](WG2Dockets.md) for other dockets.
 
 9p protocol
 
-Adjustable arrays
+Adjustable arrays (SRFI 214)
 
 Advice, aspect, method combination
 
@@ -35,7 +37,7 @@ CSV parser
 
 CURL interface
 
-Curses
+Curses or Termbox
 
 Data format validation
 
@@ -53,15 +55,15 @@ FastCGI
 
 Fibonacci heap
 
-Format, CL-style (done anyway)
+Format, CL-style (SRFI 48)
 
 FTP protocol
 
 Generalized equality and comparison functions (has returned as comparators)
 
-Generic collection functions (sequences, dictionaries, sets, bags)
+Generic collection functions (sequences, dictionaries, sets, bags) (SRFI 225, others possible)
 
-Generic sequence functions (done anyway)
+Generic sequence functions (may return)
 
 Globbing (trivial given regular expressions)
 
@@ -85,7 +87,7 @@ HTTP protocol
 
 IMAP protocol
 
-Integer sets (has returned)
+Integer sets (SRFI 217)
 
 Interval arithmetic
 
@@ -95,7 +97,7 @@ Java classfile parsing and constructing
 
 JPEG parsing and construction
 
-JSON parser and serializer (will return)
+JSON parser and serializer (SRFI 180)
 
 LAPACK scientific library interface
 
@@ -119,7 +121,7 @@ MPI (message-passing interface)
 
 NNTP protocol
 
-ODBC interface
+ODBC interface (may return)
 
 OpenGL
 
@@ -141,7 +143,7 @@ Postscript generation
 
 Priority queues (part of ordered sets)
 
-Probability distributions
+Probability distributions (SRFI 194)
 
 Python FFI
 
@@ -153,7 +155,7 @@ Readtables
 
 Red-black trees
 
-Regex-case
+Regex-case (may return atop SRFI 115)
 
 Relational tables (may return)
 
@@ -185,13 +187,13 @@ SSAX (will return in simpler form)
 
 String templates
 
-stty/termios
+stty/termios (SRFI 205)
 
 SXML serialization  (will return in simpler form)
 
 SXML templating  (will return in simpler form)
 
-SXPath  (will return in simpler form)
+SXPath  (may return in simpler form)
 
 Symbol property lists (may return)
 
@@ -232,3 +234,12 @@ XML-RPC protocol
 XMPP protocol
 
 ZIP files
+
+## Red Docket items
+
+Titlecase (SRFI 129)
+
+## Tangerine Docket items
+
+None
+

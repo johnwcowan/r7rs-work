@@ -171,8 +171,6 @@ CSV, DSV: [DataFormatsCowan](DataFormatsCowan.md)
 
 Binary heap: [BinaryHeapsCowan](BinaryHeapsCowan.md)
 
-Regular expressions over s-expressions:  [SerexPalmer](http://inamidst.com/lisp/serex)
-
 Writing filters: [FileFilterGauche](https://practical-scheme.net/gauche/man/gauche-refe/Filtering-file-content.html#Filtering-file-content)
 
 SXML serializer: [SxmlSerializerGauche](https://practical-scheme.net/gauche/man/gauche-refe/Serializing-XML-and-HTML-from-SXML.html#Serializing-XML-and-HTML-from-SXML)

@@ -35,7 +35,7 @@ This means that if `specific` is not present, then none of
 `authority`, `path`, and `query` can be present.
 But the reverse is not true.  Consequently, a URI object is
 parsed lazily when the programmer has determined that
-a component should be present rather than all at once.
+a component should be present rather than parsing all at once.
 
 If a component is present, its value is a string
 (except as noted below);
@@ -47,16 +47,15 @@ if it is absent, its value is `#f`.
 
 Returns `#t` if *obj* is a URI object, and `#f` otherwise.
 
-`(uri? `*uri-object*`)`
+`(uri-reference? `*uri-object*`)`
 
-Returns `#t` if *uri-object* is a URI
-as defined in [RFC 3986, Section ](https://tools.ietf.org/html/rfc3986#section-4.3
+Returns `#t` if *uri-object* is a URI reference
+as defined in [RFC 3986, Section 4.1](https://tools.ietf.org/html/rfc3986#section-4.1).
 
 `(uri-absolute? `*uri-object*`)`
 
 Returns `#t` if *uri-object* represents an absolute URI
 as defined in [RFC 3986, Section 4.3](https://tools.ietf.org/html/rfc3986#section-4.3)
-This implies that it represents a URI that has no `fragment` component.
 
 `(uri-relative-reference? `*uri-object*`)`
 
@@ -78,7 +77,7 @@ or descendent components are passed as arguments.
 For example, if `userinfo` is specified, then none of
 `username`, `password`, `authority`, `specific`, and `whole` can also be specified.
 It is also an error to have `password` without `username, `port` without `host`,
-or 
+or `query` with neither `authority` nor `host`.
 URIs that violate these rules will produce unpredictable results
 if passed to any of the procedures of this SRFI.
 
@@ -126,7 +125,7 @@ of a newly allocated URI object, which is returned.
  and an error satisfying `uri-error?` is signaled.
  The same is true if it is not possible to construct
  a well-formed component from its children, as when
- there is a `password` but no `username, a `port`
+ there is a `password` but no `username`, a `port`
  without a `host`, or a `query` without either a `path`
  or an `authority`.
 
@@ -143,7 +142,9 @@ of a newly allocated URI object, which is returned.
 `(uri-query `*uri-object*)`
 `(uri-fragment `*uri-object*)`
 
-Return the specified component of *uri-object*.
+Return the specified component of *uri-object*,
+parsing as needed.  Returns `#f` if the component
+is not present.
 
 ## Convenience functions
 
@@ -163,6 +164,7 @@ then parsed into names and values separated by `=`.
 These are then used to construct an alist
 where the names are symbols and the values are string.
 which is returned.
+It is an error to mutate this list or any of its elements.
 
 By no means are all query strings in this format,
 so `uri-parse-query` should only be called
@@ -174,28 +176,6 @@ in values are decoded to spaces.
 Any remaining escape sequences are decoded
 to the corresponding ASCII character.
 
-## Updaters
-
-`(uri-set-scheme `*uri-object string*`)`  
-`(uri-set-specific `*uri-object string*`)`  
-`(uri-set-authority `*uri-object string*`)`  
-`(uri-set-userinfo `*uri-object string*`)`  
-`(uri-set-username `*uri-object string*`)`  
-`(uri-set-password `*uri-object string*`)`  
-`(uri-set-host `*uri-object string*`)`  
-`(uri-set-portet `*uri-object string*`)`  
-`(uri-set-pathet `*uri-object string*`)`  
-`(uri-set-path-list `*uri-object list*`)`  
-`(uri-set-query `*uri-object string*`)`  
-`(uri-set-query-alist `*uri-object alist*`)`  
-`(uri-set-fragment `*uri-object*`)`
-
-
-These procedures return a new URI in which all components
-are equal to the corresponding components of *uri-object*,
-except that the specified component is set to *new-value*
-and all descendant components are set to `#f`.
-
 ## URI resolution
 
 `(uri-merge `*uri-object base-uri-object*`)`
@@ -204,8 +184,8 @@ Merges `uri-object` with `base-uri-object`
 according to the rules for URI resolution
 in [RFC 3986, Section 5.2](https://tools.ietf.org/html/rfc3986#section-5.2)
 and returns a newly allocated URI.
-Members of `path-list` containing `.` or `..`
-are normalized.
+Path components consisting of `.` or `..`
+are normalized when possible.
 
 ## Data URIs
 
