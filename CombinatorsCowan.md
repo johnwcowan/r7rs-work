@@ -5,9 +5,19 @@ This SRFI contains various procedures that accept and return procedures, as well
 
 ## Combinators
 
-These procedures are documented in the style of [SRFI 219](https://srfi.schemers.org/srfi-219/srfi-219.html).  Rather than showing only how the procedures themselves are invoked, it also shows how the returned procedures would be invoked.  This is done in order to make the descriptions easier to understand.  For example, if `complement` were documented in the standard style, the description would say "Returns a procedure which, when applied to an argument, returns `#t` when *proc* would return `#f` when applied to the same argument, and `#f` otherwise", which is more convoluted and harder to understand.  However, this is merely a documentation style; it would be pointless to actually invoke these procedures in this fashion.
+These procedures are documented in the style of
+[SRFI 219](https://srfi.schemers.org/srfi-219/srfi-219.html).
+Rather than showing only how the procedures themselves are invoked,
+it also shows how the returned procedures would be invoked.
+This is done in order to make the descriptions easier to understand.
+For example, if `complement` were documented in the standard style,
+the description would say "Returns a procedure which, when applied to an argument,
+returns `#t` when *proc* would return `#f` when applied to the same argument,
+and `#f` otherwise", which is more convoluted and harder to understand.
+However, this is merely a documentation style;
+it would be pointless to actually invoke these procedures in this fashion.
 
-TODO: reorganize this list
+TODO: reorganize the procedure list.
 
 `((constantly `*obj* ...`)` *arg* ...`)`
 
@@ -75,19 +85,32 @@ until the first proc has been invoked; its values are returned.
 For example, `(apply-chain car cdr)` returns a procedure that
 behaves like `cadr`.
 
-`apply-all`  
-`apply-each
+`((arguments-all ` *proc*`)` *args*`)`  
+`((arguments-each/ ` *proc*`)` *args*`)`
 
 [Invokes predicates, giving up after `#f` or `#t` respectively
 is reached.]
 
-`apply-drop`
-`apply-drop-right`
-`apply-take`
-`apply-take-right
+`((arguments-drop ` *proc n*`)` *arg*`)`  
+`((arguments-drop-right ` *proc n*`)` *arg*`)`  
+`((arguments-take ` *proc n*`)` *arg*`)`  
+`((arguments-take-right ` *proc n*`)` *arg*`)`
 
 [Apply *proc* to the *args* after taking/dropping *n* arguments
 from *args*.]
+
+`((group-by *key-proc* [=]`)` *list*`)`
+
+Takes the elements of *list* and applies *key-proc*
+to each of them to get their keys.  Elements that
+whose keys are the same (in the sense of =,
+which defaults to `equal?`)
+are grouped into newly allocated lists, and a list of
+these lists is returned.  Within each list, the elements
+appear in the same order as they do in *list*; in addition,
+the first elements of each list also appear in the same
+order as they do in *list*.  If *list* is the empty list,
+it is returned.
 
 ## Syntax-like procedures
 
@@ -147,7 +170,6 @@ Returns an unspecified value.
 
 Invokes *thunk* repeatedly until it returns true.
 Returns an unspecified value.
-
 
 ## Other procedures
 
