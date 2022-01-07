@@ -21,8 +21,6 @@ and `#f` otherwise", which is more convoluted and harder to understand.
 However, this is merely a documentation style;
 it would be pointless to actually invoke these procedures in this fashion.
 
-**TODO**: reorganize the procedure list.
-
 `((constantly `*obj* ...`)` *arg* ...`)`
 
 Returns the *objs* as its values, ignoring *args*.
@@ -33,11 +31,11 @@ Returns `#t` when `(`*proc obj*`)` returns `#f`, and `#f` otherwise.
 
 `((flip `*proc*`) . ` *objs*`)`
 
-Returns `(apply `*proc* `(reverse `*objs* `)`.
+Returns what `(apply `*proc* `(reverse `*objs* `)` returns.
 
-`((swap `*proc*`)` *obj₁ obj₂ obj* ...`)`
+`((swap `*proc*`)` *obj₁ obj₂`)`
 
-Returns `(`*proc obj₂ obj₁ obj* ...`)`.
+Returns `(`*proc obj₂ obj₁`)`.
 
 `((on-left `*proc*`)` *obj₁ obj₂*`)`
 
@@ -57,7 +55,7 @@ If a predicate is not satisfied, no more *predicates* are invoked.
 Returns `#t` if the *args* satisfy any of the *predicates*, and `#f` otherwise.
 If a predicate is satisfied, no other predicates are invoked.
 
-`((each-of `*proc* ... `)` *arg* ...`)`
+`((for-each-of `*proc* ... `)` *arg* ...`)`
 
 Applies each of the *procs* in turn to *args*,
 discarding the results and returning an unspecified value.
@@ -78,7 +76,8 @@ otherwise returns `#f`.  If *list* is empty, returns `#f`.
 
 `((on `*reducer mapper*`)` *obj* ...`)`
 
-Applies *mapper* to each *obj* and then applies *reducer* to the results.
+Applies *mapper* to each *obj* in any order
+and then applies *reducer* to all of the results.
 
 `((left-section `*proc arg* ...`)` *obj* ...`)`
 
@@ -96,12 +95,6 @@ until the first proc has been invoked; its values are returned.
 For example, `(apply-chain car cdr)` returns a procedure that
 behaves like `cadr`.
 
-`((arguments-all ` *proc*`)` *args*`)`  
-`((arguments-each/ ` *proc*`)` *args*`)`
-
-[Invokes predicates, giving up after `#f` or `#t` respectively
-is reached.]
-
 `((arguments-drop ` *proc n*`)` *arg*`)`  
 `((arguments-drop-right ` *proc n*`)` *arg*`)`  
 `((arguments-take ` *proc n*`)` *arg*`)`  
@@ -113,7 +106,7 @@ from *args*.]
 `((group-by `*key-proc* [=]`)` *list*`)`
 
 Takes the elements of *list* and applies *key-proc*
-to each of them to get their keys.  Elements that
+to each of them to get their keys.  Elements
 whose keys are the same (in the sense of =,
 which defaults to `equal?`)
 are grouped into newly allocated lists, and a list of
@@ -159,24 +152,38 @@ its cdr is invoked as a thunk, and `case-procedure` returns what the thunk retur
 If there is no such entry in *thunk-alist*,
 invokes *else-thunk* and returns what it returns.
 
-`(lazy-and-procedure `*thunk* ...`)`  
+`(lazy-and-procedure `*thunk* ...`)`
+
+The thunks are invoked from left
+to right, and if any thunk returns false, 
+then `#f` is returned.
+Any remaining thunks are not invoked.
+If all the thunks return true
+values, the values of the last thunk are returned. If
+there are no thunks, then `#t` is returned.
+
 `(eager-and-procedure `*thunk* ...`)`
 
-Invokes each *thunk* in the order given.
-The `lazy` version returns false immediately if any of the thunks return false,
-whereas the `eager` version always invokes all the thunks.
-If the last thunk is evaluated, its value is returned.
-Returns `#t` if there are no thunks.
+All the thunks are invoked from left
+to right.  If any thunk returns false, 
+then `#f` is returned. If all the thunks return true
+values, the value of the last thunk are returned. If
+there are no thunks, then `#t` is returned.
 
-`(lazy-or-procedure `*thunk* ...`)`  
+`(lazy-or-procedure `*thunk* ...`)`
+
+The thunks are invoked from left
+to right, and the first true value is returned.
+Any remaining thunks are not invoked.
+If all thunks return
+`#f` or if there are no thunks, then `#f` is returned.
+
 `(eager-or-procedure `*thunk* ...`)`
 
-Invokes each *thunk* in the order given.
-The `lazy` version returns the value of a thunk
-immediately if the thunk returns false,
-whereas the `eager` version always invokes all the thunks.
-If the last thunk is evaluated, its value is returned.
-Returns `#f` if there are no thunks.
+All the thunks are invoked from left
+to right, and then the first true value is returned.
+If all thunks return
+`#f` or if there are no thunks, then `#f` is returned.
 
 `(loop-procedure `*thunk*`)`
 
@@ -208,4 +215,5 @@ If *obj* is true, returns `#t`; otherwise returns `#f`.
 
 `(identity `*obj*`)`
 
-Returns *obj*; normally passed to a higher-order procedure rather than being invoked directly.  Equivalent to `values` with a single argument but with a clearer name.
+Returns *obj*; normally passed to a higher-order procedure rather than being invoked directly.
+Equivalent to `values` with a single argument but with a clearer name.
