@@ -1,11 +1,25 @@
-This SRFI contains various procedures that accept and return procedures, as well as a few others, drawn from [an earlier version of Chicken](http://wiki.call-cc.org/eggref/4/combinators).  Common Lisp has a few of them too, and more come from [the Standard Prelude from *Programming Praxis*](http://programmingpraxis.com/contents/standard-prelude/).
+This SRFI contains various procedures that accept and return procedures,
+as well as a few others, drawn from
+[an earlier version of Chicken](http://wiki.call-cc.org/eggref/4/combinators).
+Common Lisp has a few of them too, and more come from
+[the Standard Prelude from *Programming Praxis*](http://programmingpraxis.com/contents/standard-prelude/).
 
-TODO: merge more of the egg, add documentation
+**TODO**: add examples
 
 
 ## Combinators
 
-These procedures are documented in the style of [SRFI 219](https://srfi.schemers.org/srfi-219/srfi-219.html).  Rather than showing only how the procedures themselves are invoked, it also shows how the returned procedures would be invoked.  This is done in order to make the descriptions easier to understand.  For example, if `complement` were documented in the standard style, the description would say "Returns a procedure which, when applied to an argument, returns `#t` when *proc* would return `#f` when applied to the same argument, and `#f` otherwise", which is more convoluted and harder to understand.  However, this is merely a documentation style; it would be pointless to actually invoke these procedures in this fashion.
+These procedures are documented in the style of
+[SRFI 219](https://srfi.schemers.org/srfi-219/srfi-219.html).
+Rather than showing only how the procedures themselves are invoked,
+it also shows how the returned procedures would be invoked.
+This is done in order to make the descriptions easier to understand.
+For example, if `complement` were documented in the standard style,
+the description would say "Returns a procedure which, when applied to an argument,
+returns `#t` when *proc* would return `#f` when applied to the same argument,
+and `#f` otherwise", which is more convoluted and harder to understand.
+However, this is merely a documentation style;
+it would be pointless to actually invoke these procedures in this fashion.
 
 `((constantly `*obj* ...`)` *arg* ...`)`
 
@@ -17,11 +31,11 @@ Returns `#t` when `(`*proc obj*`)` returns `#f`, and `#f` otherwise.
 
 `((flip `*proc*`) . ` *objs*`)`
 
-Invokes `(apply `*proc* `(reverse `*objs* `)`.
+Returns what `(apply `*proc* `(reverse `*objs* `)` returns.
 
-`((swap `*proc*`)` *obj₁ obj₂ obj* ...`)`
+`((swap `*proc*`)` *obj₁ obj₂`)`
 
-Invokes `(`*proc obj₂ obj₁ obj* ...`)`.
+Returns `(`*proc obj₂ obj₁`)`.
 
 `((on-left `*proc*`)` *obj₁ obj₂*`)`
 
@@ -34,27 +48,36 @@ Returns (*proc obj₂*).
 `((conjoin `*predicate* ...`)` *arg* ...`)`
 
 Returns `#t` if the *args* satisfy all the *predicates*, and `#f` otherwise.
+If a predicate is not satisfied, no more *predicates* are invoked.
 
 `((disjoin `*predicate* ...`)` *arg* ...`)`
 
 Returns `#t` if the *args* satisfy any of the *predicates*, and `#f` otherwise.
 If a predicate is satisfied, no other predicates are invoked.
 
-`((each-of `*proc* ... `)` *arg* ...`)`
+`((for-each-of `*proc* ... `)` *arg* ...`)`
 
-Applies each of the *procs* in turn to *args*, discarding the results and returning an unspecified value.
+Applies each of the *procs* in turn to *args*,
+discarding the results and returning an unspecified value.
 
 `((all-of) `*predicate*`)` *list*`)`
 
-Applies *predicate* to each element of *list* in turn, and immediately returns `#f` if *predicate* is not satisfied by that element; otherwise returns the result of calling *predicate* for the last time.  If *list* is empty, returns `#t`.
+Applies *predicate* to each element of *list* in turn,
+and immediately returns `#f` if *predicate* is not satisfied by that element;
+otherwise returns the result of the last call to *predicate*.
+If *list* is empty, returns `#t`.
 
 `((some-of `*predicate*`)` *list*`)`
 
-Applies *predicate* to each element of *list* in turn, and if *predicate* is satisfied by that element, immediately returns the result of calling *predicate*; otherwise returns `#f`.  If *list* is empty, returns `#f`.
+Applies *predicate* to each element of *list* in turn,
+and if *predicate* is satisfied by that element,
+immediately returns the result of calling *predicate*;
+otherwise returns `#f`.  If *list* is empty, returns `#f`.
 
 `((on `*reducer mapper*`)` *obj* ...`)`
 
-Applies *mapper* to each *obj* and then applies *reducer* to the results.
+Applies *mapper* to each *obj* in any order
+and then applies *reducer* to all of the results.
 
 `((left-section `*proc arg* ...`)` *obj* ...`)`
 
@@ -62,40 +85,105 @@ Applies *proc* to *args* concatenated with *objs*.
 
 `((right-section `*proc arg* ...`)` *obj* ...`)`
 
-Applies *proc* to *objs* concatenated with the value of `(reverse *args*)`.
+Applies *proc* to *objs* concatenated with the value of `(reverse `*args*`)`.
+
+`((apply-chain `*proc* ...`)` *arg ...)`
+
+Applies the last *proc* to *args* returning zero or more values,
+then applies the previous *proc* to the values, returning more values,
+until the first proc has been invoked; its values are returned.
+For example, `(apply-chain car cdr)` returns a procedure that
+behaves like `cadr`.
+
+`((arguments-drop ` *proc n*`)` *arg*`)`  
+`((arguments-drop-right ` *proc n*`)` *arg*`)`  
+`((arguments-take ` *proc n*`)` *arg*`)`  
+`((arguments-take-right ` *proc n*`)` *arg*`)`
+
+[Apply *proc* to the *args* after taking/dropping *n* arguments
+from *args*.]
+
+`((group-by `*key-proc* [=]`)` *list*`)`
+
+Takes the elements of *list* and applies *key-proc*
+to each of them to get their keys.  Elements
+whose keys are the same (in the sense of =,
+which defaults to `equal?`)
+are grouped into newly allocated lists, and a list of
+these lists is returned.  Within each list, the elements
+appear in the same order as they do in *list*; in addition,
+the first elements of each list also appear in the same
+order as they do in *list*.  If *list* is the empty list,
+it is returned.
 
 ## Syntax-like procedures
 
-These are Scheme procedures that correspond to basic syntax.  They are derived from [the If class of Samizdat](https://github.com/danfuzz/samizdat/blob/master/doc/library-guide/If.md).  As usual in Lisps, *thunk* means a procedure that does not require arguments.
+These are Scheme procedures that correspond to basic syntax.
+As usual in Lisps, *thunk* means a procedure that does not require arguments.
 
 `(begin-procedure `*thunk* ...`)`
 
-Invokes *thunks* in order, and returns what the last thunk returns, or an unspecified value if there are no thunks.
+Invokes *thunks* in order, and returns what the last thunk returns,
+or an unspecified value if there are no thunks.
 
 `(if-procedure `*value then-thunk* *else-thunk*`)`
 
-If *value* is true, invokes *then-thunk* and returns what it returns.  Otherwise, invokes *else-thunk* and returns what it returns.
+If *value* is true, invokes *then-thunk* and returns what it returns.
+Otherwise, invokes *else-thunk* and returns what it returns.
 
 `(when-procedure `*value thunk* ...`)`  
 `(unless-procedure `*value thunk* ...`)`
 
-If *value* is false/true, immediately returns.  Otherwise, invokes each *thunk* in turn and then returns.  In all cases an unspecified value is returned.
+If *value* is false/true, immediately returns.
+Otherwise, invokes each *thunk* in turn and then returns.
+n all cases an unspecified value is returned.
 
 `(value-procedure `*value then-proc else-thunk*`)`
 
-If *value* is true, invokes *then-proc* on it and returns what *then-proc* returns.  Otherwise, invokes *else-thunk* and returns what it returns.
+If *value* is true, invokes *then-proc* on it
+and returns what *then-proc* returns.
+Otherwise, invokes *else-thunk* and returns what it returns.
 
 `(case-procedure `*value thunk-alist* *else-thunk*`)`
 
-Searches *thunk-alist* for *value* (as if by `assv`).  If there is a matching entry in *thunk-alist*, its cdr is invoked as a thunk, and `case-procedure` returns what the thunk returns.  If there is no such entry in *thunk-alist*, invokes *else-thunk* and returns what it returns.
+Searches *thunk-alist* for *value* (as if by `assv`).
+If there is a matching entry in *thunk-alist*,
+its cdr is invoked as a thunk, and `case-procedure` returns what the thunk returns.
+If there is no such entry in *thunk-alist*,
+invokes *else-thunk* and returns what it returns.
 
-`(and-procedure `*thunk* ...`)`
+`(lazy-and-procedure `*thunk* ...`)`
 
-Invokes each *thunk* in the order given, and returns `#f` immediately if any of them return `#f`.  Otherwise returns the value of the last thunk, or `#t` if there are none.
+The thunks are invoked from left
+to right, and if any thunk returns false, 
+then `#f` is returned.
+Any remaining thunks are not invoked.
+If all the thunks return true
+values, the values of the last thunk are returned. If
+there are no thunks, then `#t` is returned.
 
-`(or-procedure `*thunk* ...`)`
+`(eager-and-procedure `*thunk* ...`)`
 
-Invokes each *thunk* in the order given, and if any of them returns true, `or-procedure` returns that value immediately.  Otherwise returns `#f`.
+All the thunks are invoked from left
+to right.  If any thunk returns false, 
+then `#f` is returned. If all the thunks return true
+values, the value of the last thunk are returned. If
+there are no thunks, then `#t` is returned.
+
+`(lazy-or-procedure `*thunk* ...`)`
+
+The thunks are invoked from left
+to right, and the first true value is returned.
+Any remaining thunks are not invoked.
+If all thunks return
+`#f` or if there are no thunks, then `#f` is returned.
+
+`(eager-or-procedure `*thunk* ...`)`
+
+All the thunks are invoked from left
+to right, and then the first true value is returned.
+If all thunks return
+`#f` or if there are no thunks, then `#f` is returned.
 
 `(loop-procedure `*thunk*`)`
 
@@ -103,12 +191,13 @@ Invokes *thunk* repeatedly.  Does not return unless via `call/cc`.
 
 `(while-procedure `*thunk*`)`
 
-Invokes *thunk* repeatedly until it returns false.  Returns false.
+Invokes *thunk* repeatedly until it returns false.
+Returns an unspecified value.
 
 `(until-procedure `*thunk*`)`
 
-Invokes *thunk* repeatedly until it returns true.  Returns the last value.
-
+Invokes *thunk* repeatedly until it returns true.
+Returns an unspecified value.
 
 ## Other procedures
 
@@ -126,4 +215,5 @@ If *obj* is true, returns `#t`; otherwise returns `#f`.
 
 `(identity `*obj*`)`
 
-Returns *obj*; normally passed to a higher-order procedure rather than being invoked directly.  Equivalent to `values` with a single argument but with a clearer name.
+Returns *obj*; normally passed to a higher-order procedure rather than being invoked directly.
+Equivalent to `values` with a single argument but with a clearer name.
