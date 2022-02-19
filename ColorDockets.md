@@ -233,8 +233,6 @@ Maybe/Either: [SRFI 189](https://srfi.schemers.org/srfi-189/srfi-189.html)
 
 Environment monad: [SRFI 165](https://srfi.schemers.org/srfi-165/srfi-165.html)
 
-Matching:  [SRFI 204](https://srfi.schemers.org/srfi-204/srfi-204.html)
-
 ASCII character library: [SRFI 175](https://srfi.schemers.org/srfi-175/srfi-175.html)
 
 Flexvectors: [SRFI 214](https://srfi.schemers.org/srfi-214/srfi-214.html)
@@ -326,6 +324,8 @@ Simple SQL database interface: [SimpleSqlCowan](SimpleSqlCowan.md)
 Syslog interface: [SyslogCowan](SyslogCowan.md)
 
 # Selene Docket (portable, not SRFIs)
+
+Matching: SRFI 204 bis
 
 Restarts:  [RestartsCowan](RestartsCowan.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/RestartsCowan)
 
