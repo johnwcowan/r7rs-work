@@ -59,7 +59,7 @@ The following order is not necessarily the voting order.
 
 Syntax-case: [R6RS syntax-case](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html)
  
-Explicit renaming: [simple explicit renaming](https://www.gnu.org/software/mit-scheme/documentation/stable/mit-scheme-ref/Explicit-Renaming.html#Explicit-Renaming) [explicit renaming interoperable with syntax-case](https://srfi.schemers.org/srfi-211/srfi-211.html)
+Rejected: Explicit renaming: [simple explicit renaming](https://www.gnu.org/software/mit-scheme/documentation/stable/mit-scheme-ref/Explicit-Renaming.html#Explicit-Renaming) [explicit renaming interoperable with syntax-case](https://srfi.schemers.org/srfi-211/srfi-211.html)
 
 Identifier syntax: [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_796)
 
@@ -76,14 +76,14 @@ Identifier properties: [SRFI 213](https://srfi.schemers.org/srfi-213/srfi-213.ht
 `cond` guards: [SRFI 61](https://srfi.schemers.org/srfi-61/srfi-61.html)
 
 `receive`: [SRFI 8](https://srfi.schemers.org/srfi-8/srfi-8.html)
-
+fsr
 `rec`: [SRFI 31](https://srfi.schemers.org/srfi-31/srfi-31.html)
 
 `Cut/cute`:  [SRFI 26](https://srfi.schemers.org/srfi-26/srfi-26.html)
 
-`let` extensions: [SRFI 5](https://srfi.schemers.org/srfi-5/srfi-5.html)
+Rejected: `let` extensions: [SRFI 5](https://srfi.schemers.org/srfi-5/srfi-5.html)
 
-Syntax combiners for binary functions: [SRFI 156](https://srfi.schemers.org/srfi-156/srfi-156.html)
+Rejected: Syntax combiners for binary functions: [SRFI 156](https://srfi.schemers.org/srfi-156/srfi-156.html)
 
 # Hypnos Docket (portable, SRFIs)
 
