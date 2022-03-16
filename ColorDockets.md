@@ -57,6 +57,10 @@ The following order is not necessarily the voting order.
 
 # Yellow Docket (macros)
 
+Multiple values: [SRFI 210](https://srfi.schemers.org/srfi-210/srfi-210.html)
+
+Nested `define`:  [SRFI 219](https://srfi.schemers.org/srfi-219/srfi-219.html)
+
 Syntax-case: [R6RS syntax-case](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html)
  
 Rejected: Explicit renaming: [simple explicit renaming](https://www.gnu.org/software/mit-scheme/documentation/stable/mit-scheme-ref/Explicit-Renaming.html#Explicit-Renaming) [explicit renaming interoperable with syntax-case](https://srfi.schemers.org/srfi-211/srfi-211.html)
@@ -87,13 +91,7 @@ Rejected: Syntax combiners for binary functions: [SRFI 156](https://srfi.schemer
 
 # Hypnos Docket (portable, SRFIs)
 
-Multiple values: [SRFI 210](https://srfi.schemers.org/srfi-210/srfi-210.html)
-
-Nested `define`:  [SRFI 219](https://srfi.schemers.org/srfi-219/srfi-219.html)
-
 Binary search: [SRFI 223](https://srfi.schemers.org/srfi-223/srfi-223.html)
-
-Eager syntax rules: [SRFI 148](https://srfi.schemers.org/srfi-148/srfi-148.html)
 
 Maybe/Either: [SRFI 189](https://srfi.schemers.org/srfi-189/srfi-189.html)
 
