@@ -55,7 +55,7 @@ The following order is not necessarily the voting order.
 * Already voted on.
   See [TangerineEdition](TangerineEdition.md).
 
-# Yellow Docket (macros, SRFIs)
+# Yellow Docket (macros)
 
 Syntax-case: [R6RS syntax-case](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html)
  
