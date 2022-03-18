@@ -10,12 +10,12 @@ The following order is not necessarily the voting order.
  * [Red: data structures](#user-content-red-docket-data-structures)
  * [Tangerine: numerics](#user-content-tangerine-docket-numerics)
  * [Yellow: macros, SRFIs](#user-content-yellow-docket-macros-srfis)
- * [Hypnos: portable, SRFIs](#user-content-hypnos-docket-portable-srfis)
- * [Orange: portable, SRFIs](#user-content-orange-docket-portable-srfis)
- * [Urania: portable, not SRFIs, no implementations](#user-content-urania-docket-portable-not-srfis-no-implementation-yet)
- * [Eos: portable, not SRFIs](#user-content-eos-docket-portable-not-srfis)
- * [Selene: portable, not SRFIs](#user-content-selene-docket-portable-not-srfis)
- * [Pan: portable, not SRFIs](#user-content-pan-docket-portable-not-srfis)
+ * [Hypnos: SRFIs](#user-content-hypnos-docket-portable-srfis)
+ * [Orange: SRFIs](#user-content-orange-docket-portable-srfis)
+ * [Urania: not SRFIs](#user-content-urania-docket-portable-not-srfis-no-implementation-yet)
+ * [Eos: not SRFIs](#user-content-eos-docket-portable-not-srfis)
+ * [Selene: not SRFIs](#user-content-selene-docket-portable-not-srfis)
+ * [Pan: not SRFIs](#user-content-pan-docket-portable-not-srfis)
  * [Indigo: features of dubious utility](#user-content-indigo-docket-stuff-of-dubious-utility)
 
 # Red Docket (data structures)
@@ -82,7 +82,7 @@ Unifiable boxes: [SRFI 161](https://srfi.schemers.org/srfi-161/srfi-161.html)
 JSON: [SRFI 180](https://srfi.schemers.org/srfi-180/srfi-180.html),
 `(schemepunk json)` [code](https://github.com/ar-nelson/schemepunk#schemepunk-json)
 and [data](https://github.com/ar-nelson/schemepunk/blob/master/json.sld), or
-trivial (json-read stream [max-chars]) and (json-write stream obj).
+trivial `(json-read `*stream* [ *max-chars* ]`)` and `(json-write `*stream obj*`)`.
 
 # Orange Docket (portable, SRFIs)
 
