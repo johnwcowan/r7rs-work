@@ -128,6 +128,10 @@ Generic dictionary operations: [SRFI 225](https://srfi.schemers.org/srfi-225/srf
 
 Lexical macros: [LexmacsCowan](LexmacsCowan.md)
 
+Ordered sets: SRFI 153 bis
+
+Matching: SRFI 204 bis (eliminate non-portable match clauses)
+
 List mutation: [ListSurgeryCowan](ListSurgeryCowan.md)
 
 Enumeration maps: [EnumMappingsCowan](EnumMappingsCowan.md)
