@@ -1,4 +1,4 @@
-This pathname library is vaguely based on Python's.
+This pathname library is based on the portable parts of Python's [os.path](https://docs.python.org/3/library/os.path.html) library.
 
 ## Issues
 
