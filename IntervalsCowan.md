@@ -2,7 +2,7 @@
 
 An interval is analogous to a range, but it is not a collection;
 it just has bounds and a comparator and can't be enumerated.
-Unlike a interval,
+Unlike a range,
 it is possible to specify the inclusive or exclusive nature of the bounds.
 
 ## Constructors
@@ -76,16 +76,16 @@ Two intervals are congruent iff sA = sB and eA = eB.
 
 `(interval-encloses? `*intervala intervalb*`)`
 
-interval A encloses interval B iff they are not congruent, sA <= sB, and eA >= eB.
+Interval A encloses interval B iff they are not congruent, sA <= sB, and eA >= eB.
 This relation can be exhaustively partitioned into three sub-relations:
 
 `(interval-strictly-encloses? `*intervala intervalb*`)`
 
-interval A strictly encloses interval B iff sA < sB and eA > eB.
+Interval A strictly encloses interval B iff sA < sB and eA > eB.
 
 `(interval-encloses-with-suffix? `*intervala intervalb*`)`
 
-interval A encloses interval B with a suffix iff sA = sB and eA > eB.
+Interval A encloses interval B with a suffix iff sA = sB and eA > eB.
 
 `(interval-encloses-with-prefix? `*intervala intervalb*`)`
 
@@ -93,24 +93,24 @@ interval A encloses interval B with a prefix iff sA < sB and eA = eB.
 
 `(interval-fits-within? `*intervala intervalb*`)`
 
-interval A fits within interval B iff they are not congruent, sA >= sB, and eA <= eB.
+Interval A fits within interval B iff they are not congruent, sA >= sB, and eA <= eB.
 This relation can be exhaustively partitioned into three sub-relations:
 
 `(interval-strictly-fits-within? `*intervala intervalb*`)`
 
-interval A fits strictly within interval B iff sA > sB and eA < eB.
+Interval A fits strictly within interval B iff sA > sB and eA < eB.
 
 `(interval-prefix? `*intervala intervalb*`)`
 
-interval A is a prefix of interval B iff sA = sB and eA < eB.
+Interval A is a prefix of interval B iff sA = sB and eA < eB.
 
 `(interval-suffix? `*intervala intervalb*`)`
 
-interval A is a suffix of interval B iff sA > sB and eA = eB.
+Interval A is a suffix of interval B iff sA > sB and eA = eB.
 
 `(interval-overlaps? `*intervala intervalb*`)`
 
-interval A and interval B overlap iff either sA or eA (but not both) is greater than sB and less than eB.
+Interval A and interval B overlap iff either sA or eA (but not both) is greater than sB and less than eB.
 This relation can be exhaustively partitioned into two sub-relations:
 
 `(interval-overlap-start? `*intervala intervalb*`)`
@@ -128,23 +128,23 @@ This relation can be exhaustively partitioned into two sub-relations:
 
 `(interval-strictly-precedes? `*intervala intervalb*`)`
 
-interval A strictly precedes interval B iff eA < sB.
+Interval A strictly precedes interval B iff eA < sB.
 
 `(interval-immediately-precedes? `*intervala intervalb*`)`
 
-interval A immediately precedes interval B iff eA = sB.
+Interval A immediately precedes interval B iff eA = sB.
 
 `(interval-follows? `*intervala intervalb*`)`
 
-interval A follows interval B iff sA >= eB.
+Interval A follows interval B iff sA >= eB.
 This relation can be exhaustively partitioned into two sub-relations:
 
 `(interval-strictly-follows? `*intervala intervalb*`)`
 
-interval A strictly follows interval B iff sA < eB.
+Interval A strictly follows interval B iff sA < eB.
 
 `(interval-immediately-follows? `*intervala intervalb*`)`
 
-interval A immediately follows interval B iff sA = eB.
+Interval A immediately follows interval B iff sA = eB.
 
 In all these procedures it is an error if the intervals don't have the same comparators.
