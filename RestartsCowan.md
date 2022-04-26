@@ -54,7 +54,7 @@ by the user.
 
 A *restarter* is an object of a new disjoint type with three fields:
 
-  *  *tag* - an identifying symbol
+  *  *tag* - a unique object such as a symbol
   *  *description* - a list of strings that describes the method of recovery
   and the values, if any, needed for recovery
   *  *invoker* - a procedure that actually performs the recovery;
@@ -65,6 +65,10 @@ each of which is available during some dynamic extent of the program, or they ca
 be the value of some variable or part of some data structure.
 
 ### Procedures
+
+`(make-restarter-tag)`
+
+Returns a unique object suitable for use as a restarter tag.
 
 `(make-restarter `*tag description invoker*`)` -> *restarter*
 
@@ -160,7 +164,7 @@ Equivalent to `((interactor) (collect-restarters `*restarters*`))`
 ### Standard restart tags
 
 There are several tags that, by convention, hold to particular
-behaviour protocols.  These tags are simply symbols.
+behaviour protocols.  These tags are symbols.
 
 `abort`
 
