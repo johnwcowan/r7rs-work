@@ -37,7 +37,7 @@ the time object for the following second, but the results of actually calling
 `posix-time` in the vicinity of a leap second do not necessarily agree.
 
 
-## Date objects
+## Datetime objects
 
 A *date object* is an immutable member of a disjoint type
 that provides information about a specific time object
@@ -66,7 +66,7 @@ They are listed in the "Duration Fields" section below.
 Local civil time is everywhere specified using
 an offset from Universal Time.  (For a few years this was not
 true in Saudi Arabia, but this SRFI ignores the Saudi government's
-attempt to change local civil time so that hour 0 began at astronomical sunset.)
+attempt to rearrange local civil time so that hour 0 began at astronomical sunset.)
 
 In each political jurisdiction the rules for changing the offset vary,
 both the annual cycle of standard vs. daylight saving time (if in effect)
@@ -117,18 +117,29 @@ this SRFI does not deal with them either.
 `(date `*objs*`)`  
 
 Returns a date object based on the *objs*,
-which alternates between symbols (called field namess) and specific values.
+which alternate between symbols (called field names) and specific values.
+
 These are the valid possibilities for combinations of field names:
  * The fields `year`, `month`, `day-of-month`, `hours`, `minutes`, `seconds`,
-   and `timezone` are required.
+   and `timezone`.
  * The fields `iso-week-year`, `iso-week`, `day-of-week`, `hours`,
-   `minutes`, `seconds`, and `timezone` are required.
- * The field `iso-date-string` is required.
- * The field `rfc5322-date-string` is required.
+   `minutes`, `seconds`, and `timezone`.
+ * The field `iso-date-string`.
+ * The field `rfc5322-date-string`.
+
+In addition, the following possibilities are also valid, but they don't correspond to
+specific time objects:
+ * The field `year`.
+ * The fields `year` and `month`.
+ * The fields `year`, `month`, and `day-of-month`.
+ * The field `month`.
+ * The fields `month` and `day`.
+ * The fields `iso-week-year` and `iso-week`.
+ * The fields `iso-week-year`, `iso-week`, and `day-of-week`.
  
 In all cases, the fields `nanoseconds` and `fold` are allowed,
 but default to 0 if not present.
-An error satisfying `date-error?` is signaled if any other fields are present.
+
 
 `(date? `*obj*`)`
 
@@ -145,7 +156,7 @@ but with the field named *fieldname* updated to *value*.
 An error that satisfies `date-error?` is signaled if the field is unknown
 or the value is out of range.
 
-FIXME `(date-adjust `*date fieldname increment*`)`
+`(date-adjust `*date fieldname increment*`)`
 
 Returns a date object which is later than *date* by *increment*
 measured in the units specified by *fieldname*,
@@ -272,7 +283,7 @@ An error satisfying `date-error?` is signaled if any other fields are present.
 `(duration-difference `*earlier later*`)`
 
 Returns a duration object representing the elapsed time between
-time objects *earlier* (inclusive) and *later* (exclusive).
+date objects *earlier* (inclusive) and *later* (exclusive).
 
 `(duration? `*obj*`)`
 
