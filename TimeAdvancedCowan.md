@@ -5,10 +5,6 @@ All the objects discussed here are immutable.
 This SRFI supports only the
 [proleptic Gregorian calendar](https://en.wikipedia.org/wiki/Proleptic_Gregorian_calendar).
 
-## Issues
-
-Consider changing the `-ref`, `-update`, `-adjust` `-round`, `-truncate`, `-ceiling` and `-floor` operations from single procedures to a groups of procedures, one for each field.
-
 ## Instants and time objects
 
 Scheme uses two internal formats for absolute timestamps, which
@@ -37,14 +33,15 @@ the time object for the following second, but the results of actually calling
 `posix-time` in the vicinity of a leap second do not necessarily agree.
 
 
-## Datetime objects
+## Date objects
 
 A *date object* is an immutable member of a disjoint type
-that provides information about a specific time object
-with respect to a certain time zone.
+that provides information about a date, a time, or both at once;
+they are based on a local time scale.
+
 Date objects have multiple mostly numeric-valued fields
 that can be extracted from them.
-They are listed in the "Date Fields" section below.
+They are listed below.
 
 The date objects of this SRFI are similar to
 [SRFI 19](https://srfi.schemers.org/srfi-19/srfi-19.html)
@@ -59,7 +56,7 @@ that has been broken into smaller intervals of time.
 
 Duration objects have multiple mostly numeric-valued fields
 that can be extracted from them.
-They are listed in the "Duration Fields" section below.
+They are listed below.
 
 ## Time zones
 
@@ -104,7 +101,8 @@ It does not know:
 
 It also does not know anything about non-Gregorian calendars,
 including those proposed for other celestial bodies than the Earth.
-Sufficient to the day is the evil thereof.
+Sufficient to the day is the evil thereof.  However, it does provide
+a method for specifying them in date objects.
 
 Note that names like "EST" are actually not timezone names but names of offsets,
 and are not globally unique even in a single language:
@@ -112,80 +110,70 @@ this SRFI does not deal with them either.
 
 ## Procedures
 
-### Date object procedures
+### Date object constructor
 
 `(date `*objs*`)`  
 
 Returns a date object based on the *objs*,
 which alternate between symbols (called field names) and specific values.
+The complete list of field names is `calendar`, `era`, `year`, `month`,
+`day-of-month`, `iso-week-year`, `iso-week`, `day-of-week`,
+`hour`, `minute`, `second, `nanosecond`, `timezone`, and
+`time-fold'.  These are explained below in the date accessors section.
 
-These are the valid possibilities for combinations of field names:
- * The fields `year`, `month`, `day-of-month`, `hours`, `minutes`, `seconds`,
-   and `timezone`.
- * The fields `iso-week-year`, `iso-week`, `day-of-week`, `hours`,
-   `minutes`, `seconds`, and `timezone`.
+ * `calendar` is a symbol representing the calendar in use.  The only
+   required calendar is 'iso', corresponding to the Gregorian calendar
+   except that the year before the year 1 C.E. is numbered 0.
+ * `era` is an exact integer representing the era.  In the ISO calendar,
+   only era 0 exists.  In the Gregorian calendar, the B.C.E. era is numbered
+   -1 and the C.E. era is numbered 0; a negative era number indicates that
+   the era's year numbers decrease with increasing time.
+ * `iso-week` represents a numbering of complete 7-day weeks from 1 to 52 or 53, where
+   each week begins on Monday and the first week of the `iso-week-year`
+   is the week in which January 4 falls.
+ * `week` is 1 for Monday and 7 for Sunday.
+ * `iso-date-string` is a string in the format specified by ISO 8601.
+
+If one of the following groups of fields are present,
+the date object is a *complete date object*,
+and corresponds to a specific UTC time object.
+
+ * The fields `year`, `month`, `day-of-month`, `hours`, `minutes`, and `seconds`.
+ * The fields `iso-week-year`, `iso-week`, `day-of-week`, `hour`,
+   `minute`, and `second`.
  * The field `iso-date-string`.
- * The field `rfc5322-date-string`.
 
-In addition, the following possibilities are also valid, but they don't correspond to
-specific time objects:
- * The field `year`.
- * The fields `year` and `month`.
- * The fields `year`, `month`, and `day-of-month`.
- * The field `month`.
- * The fields `month` and `day`.
- * The fields `iso-week-year` and `iso-week`.
- * The fields `iso-week-year`, `iso-week`, and `day-of-week`.
- 
-In all cases, the fields `nanoseconds` and `fold` are allowed,
-but default to 0 if not present.
+These combinations specify a date object that corresponds to a particular UTC
+time object.  If the specified fields do not constitute any of these three possibilities,
+an *incomplete date object* is returned, which does not correspond to a particular
+UTC time object, but may be useful nonetheless.  For example, an incomplete date
+object representing Gregorian Easter in 2022 has a year of 2022, a month of 4, and a
+day-of-month of 17, but all other fields are `#f`.
 
+The fields `calendar`, `era`, `nanosecond`, `timezone`, and `time-fold`
+are always optional, and default to `iso`, 0, 0, `utc`, and 0.
+
+### Date object predicate
 
 `(date? `*obj*`)`
 
 Returns `#t` if *obj* is a date object, and `#f` otherwise.
 
-`(date->utc-date *date*`)`
-
-Returns a date in the UTC time zone representing the same time as *date*.
-
-`(date-update `*date fieldname value*`)`
-
-Returns a date object based on *date*,
-but with the field named *fieldname* updated to *value*.
-An error that satisfies `date-error?` is signaled if the field is unknown
-or the value is out of range.
-
-`(date-adjust `*date fieldname increment*`)`
-
-Returns a date object which is later than *date* by *increment*
-measured in the units specified by *fieldname*,
-or earlier if *increment* is negative.
-For example, `(date-adjust `*date*` 'day-of-month 7)`
-adds seven days to *date*.
-
-`(date-round `*date fieldname*`)`
-
-`(date-ceiling `*date fieldname*`)`
-
-`(date-floor `*date fieldname*`)`
-
-`(date-truncate `*date fieldname*`)`
-
-Returns a date object which is the same as *date*,
-but adjusted to the nearest integral value of *fieldname*
-using the conventions of `round`, `ceiling`, `floor`, or `truncate`.
-This may cause other fields to change their values as well.
+### Date object accessors
 
 The following procedures accept one argument, which is a date object.
 Unless otherwise noted, all
-returned values are exact integers that have been rounded down if necessary.
-All ranges are inclusive at both ends.
+returned values are exact integers that have been rounded down if necessary
+or else `#f .  All ranges are inclusive at both ends.
 
-`date-time-object`: A time object of type `utc` corresponding to this date.
+`date-calendar`: A symbol representing the calendar in which this date is
+specified.  The only required calendar is `iso`, but calendars such as
+`hebrew`, `thai-buddhist`, `indian` may also be supported.
 
-`date-timezone`: The timezone with which this date was created,
-either a string or a number.
+`date-era` is an exact integer representing the era.  In the `iso` calendar,
+only era 0 exists.  In the Gregorian calendar, the B.C.E. era is numbered
+-1 and the C.E. era is numbered 0; a negative era number indicates that
+the era's year numbers decrease with increasing time.
 
 `date-local-time-offset`: The local time zone offset in effect at this
 date at the specific timezone in seconds ahead of UTC.
@@ -207,6 +195,9 @@ of the following day and minute 0 of hour 24 of the preceding day.
 
 `date-nanosecond`: The nanosecond.
 
+`date-timezone`: The timezone with which this date was created,
+either a string or a number.
+
 `date-day-of-week`: The day of the week, where Monday is 1 and Sunday is 7.
 
 `date-days-in-month`: The number of days in the date's month: between 28 and 31.
@@ -223,14 +214,6 @@ Date folds can change the range.
 
 `date-modified-julian-day`: The whole number of days between this date and midnight Universal Time, November 17, 1858 Gregorian.
 
-`date-iso-local-string`: A string that conforms to the
-format for local time in the [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339)
-profile of ISO 8601.  Roughly speaking, this is of the form
-`yyyy-mm-ddThh:mm:ss.ddd±hh:mm`, where the final `±hh:mm`
-represents the signed offset from UTC in hours and minutes, rounded if necessary.
-There may be any number of subsecond digits; if they are omitted,
-so is the preceding decimal point.
-
 `date-iso-utc-string`: A string that conforms to the
 format for UTC time in the [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339)
 profile of ISO 8601.  Roughly speaking, this is of the form
@@ -238,40 +221,61 @@ profile of ISO 8601.  Roughly speaking, this is of the form
 There may be any number of subsecond digits; if they are omitted,
 so is the preceding decimal point.
 
-`date-rfc5322-local-string`: A string that conforms to the
-format for local time in [RFC 5322](https://datatracker.ietf.org/doc/html/5322).
-Roughly speaking, this is of the form
-`WWW, dd MMM yyyy hh:mm:ss ±hh:mm`, where
-`WWW` is the three-letter English-language weekday name,
-`MMM` is the three-letter English-language month name,
-and `±hh:mm` represents the signed offset from UTC in hours and minutes, rounded if necessary.
-
-`date-rfc5322-utc-string`: A string that conforms to the
-format for UTC time in [RFC 5322](https://datatracker.ietf.org/doc/html/5322).
-Roughly speaking, this is of the form
-`WWW, dd MMM yyyy hh:mm:ss +00:00`, where
-`WWW` is the three-letter English-language weekday name and
-`MMM` is the three-letter English-language month name.
+`date-iso-week-year`: The number of the period which begins in week 1 and ends in week 52 or 53.
+It is the same as `year` except for up to six days in January and December.
 
 `date-iso-week-number`: The number of the week in this date's year, between 1 and either 52 or 53.
 Week 1 is the first full week where Thursday ia in January.
-
-`date-iso-week-year`: The number of the period which begins in week 1 and ends in week 52 or 53.
-It is the same as `year` except for up to six days in January and December.
 
 `date-seconds-in-minute`: the number of seconds in the date's minute.
 
 `date-seconds-in-day`: The total number of seconds in the date's day.
 
-`date-time-fold`:  The time fold associated with this date (see above).
+`date-time-fold`:  The time fold associated with this date (see "Time zones" below).`
 
-### Duration procedures
+### Other date object procedures
+
+`(date->utc-date `*date*`)`
+
+`(date-in-calendar `*date calendar*`)`
+
+Returns a date object representing the same time object as *date*, but in calendar *calendar*.
+
+Returns a date object in the UTC time zone representing the same time as *date*.
+
+`(date-update `*date fieldname value*`)`
+
+Returns a date object based on *date*,
+but with the value of the field named *fieldname* replaced by to *value*.
+An error that satisfies `date-error?` is signaled if the field is unknown
+or the value is out of range.
+
+`(date-adjust `*date fieldname increment*`)`
+
+Returns a date object which is later than *date* by *increment*
+measured in the units specified by *fieldname*,
+or earlier if *increment* is negative.
+For example, `(date-adjust `*date*` 'day-of-month 7)`
+adds seven days to *date*.
+
+`(date-round `*date fieldname*`)`  
+`(date-ceiling `*date fieldname*`)`  
+`(date-floor `*date fieldname*`)`  
+`(date-truncate `*date fieldname*`)`
+
+Returns a date object which is the same as *date*,
+but adjusted to the nearest integral value of *fieldname*
+using the conventions of `round`, `ceiling`, `floor`, or `truncate`.
+This may cause other fields to change their values as well.
+
+### Duration constructor
 
 `(duration `*alist*`)`  
 
 Returns a duration object based on the *objs*,
 which alternate between symbols (called fields) and specific values.
 The following possibilities for combinations of fields may be used:
+
  * The fields `years`, `months`, `weeks`, `days`, `hours`, `minutes`, `seconds`, and `nanoseconds`
    are all optional, but at least one must be provided.
    Missing fields are interpreted as 0.
@@ -280,35 +284,7 @@ The following possibilities for combinations of fields may be used:
 
 An error satisfying `date-error?` is signaled if any other fields are present.
 
-`(duration-difference `*earlier later*`)`
-
-Returns a duration object representing the elapsed time between
-date objects *earlier* (inclusive) and *later* (exclusive).
-
-`(duration? `*obj*`)`
-
-Returns `#t` if *obj* is a duration object, and `#f` otherwise.
-
-FIXME `(duration-adjust `*duration fieldname increment*`)`
-
-Returns a duration object which is later than *duration* by *increment*
-measured in the units specified by *fieldname*,
-or earlier if *increment* is negative.
-For example, `(duration-adjust `*duration*` 'days 7)`
-adds seven days to *duration*.
-
-`(duration-round `*duration fieldname*`)`
-
-`(duration-ceiling `*duration fieldname*`)`
-
-`(duration-floor `*duration fieldname*`)`
-
-`(duration-truncate `*duration fieldname*`)`
-
-Returns a duration object which is the same as *duration*,
-but adjusted to the nearest integral value of *fieldname*
-using the conventions of `round`, `ceiling`, `floor`, or `truncate`.
-This may cause other fields to change their values as well.
+### Duration accessors
 
 The following procedures
 accept one argument, a duration object.
@@ -330,13 +306,45 @@ Unless otherwise noted, the result values are exact integers.
 
 `duration-nanoseconds`: The number of nanoseconds in the duration.
 
-`iso-duration-string`: A string beginning with `P` followed by a letter
+`duration-iso-string`: A string beginning with `P` followed by a letter
 Y, M, W, D, H, M, S, or W and a number,
 repeated for all avaiable fields with which the duration object was created.
 
-`time-object`: A time object of type `duration` equal in length
+`duration-time-object`: A time object of type `duration` equal in length
 to the duration object.  It is an error if the `years` and `months`
 fields are not both 0.
+
+### Other duration procedures
+
+`(duration-difference `*earlier later*`)`
+
+Returns a duration object representing the elapsed time between
+date objects *earlier* (inclusive) and *later* (exclusive).
+
+`(duration? `*obj*`)`
+
+Returns `#t` if *obj* is a duration object, and `#f` otherwise.
+
+`(duration-adjust `*duration fieldname increment*`)`
+
+Returns a duration object which is later than *duration* by *increment*
+measured in the units specified by *fieldname*,
+or earlier if *increment* is negative.
+For example, `(duration-adjust `*duration*` 'days 7)`
+adds seven days to *duration*.
+
+`(duration-round `*duration fieldname*`)`
+
+`(duration-ceiling `*duration fieldname*`)`
+
+`(duration-floor `*duration fieldname*`)`
+
+`(duration-truncate `*duration fieldname*`)`
+
+Returns a duration object which is the same as *duration*,
+but adjusted to the nearest integral value of *fieldname*
+using the conventions of `round`, `ceiling`, `floor`, or `truncate`.
+This may cause other fields to change their values as well.
 
 ### Comparators
 
@@ -347,6 +355,7 @@ A comparator suitable for ordering date objects by their underlying time objects
 `duration-comparator`
 
 A comparator suitable for ordering duration objects by their durations.
+Duration objects are equal iff their fields are equal.
 
 ## Exceptions
 
