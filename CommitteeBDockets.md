@@ -62,7 +62,7 @@ Nested `define`:  [SRFI 219](https://srfi.schemers.org/srfi-219/srfi-219.html)
 `cond` guards: [SRFI 61](https://srfi.schemers.org/srfi-61/srfi-61.html)
 
 `receive`: [SRFI 8](https://srfi.schemers.org/srfi-8/srfi-8.html)
-fsr
+
 `rec`: [SRFI 31](https://srfi.schemers.org/srfi-31/srfi-31.html)
 
 `Cut/cute`:  [SRFI 26](https://srfi.schemers.org/srfi-26/srfi-26.html)
@@ -109,7 +109,7 @@ Bitvectors: [SRFI 178](https://srfi.schemers.org/srfi-178/srfi-178.html)
 
 Bytestrings: [SRFI 207](https://srfi.schemers.org/srfi-207/srfi-207.html)
 
-Multidimensional arrays: [SRFI 179](https://srfi.schemers.org/srfi-179/srfi-179.html) 
+Multidimensional arrays: [SRFI 231](https://srfi.schemers.org/srfi-231/srfi-231.html) 
 or [SRFI 164](https://srfi.schemers.org/srfi-164/srfi-164.html)
 
 ASCII character library: [SRFI 175](https://srfi.schemers.org/srfi-175/srfi-175.html)
@@ -231,6 +231,12 @@ Testing: [SRFI 64](https://srfi.schemers.org/srfi-64/srfi-64.html)
 or [ChibiChickenTest](http://wiki.call-cc.org/eggref/5/test)
 or [SRFI 78](https://srfi.schemers.org/srfi-78/srfi-78.html).  Implementations: all.
 
+String interpolation: [StringInterpolateCowan](StringInterpolateCowan.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/StringInterpolateCowan)
+
+Generic combinator procedures: [CombinatorsCowan](CombinatorsCowan.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/CombinatorsCowan)
+
+Pathname objects: [PathnamesPython](PathnamesPython.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/PathnamesPython)
+
 # Selene Docket (portable, not SRFIs, no implementations)
 
 `Record-let`: [#45](https://small.r7rs.org/ticket/45/)
@@ -239,8 +245,6 @@ Property lists to bindings: [LetSettingsKendal](LetSettingsKendal.md)
 
 Strings: [SRFI 152](https://srfi.schemers.org/srfi-152/srfi-152.html) (index-based),
 [SRFI 130](https://srfi.schemers.org/srfi-130/srfi-130.html) (cursor-based), [pre-SRFI 135x](https://htmlpreview.github.io/?https://raw.githubusercontent.com/johnwcowan/r7rs-work/master/srfi-135x.html)
-
-String interpolation: [StringInterpolateCowan](StringInterpolateCowan.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/StringInterpolateCowan)
 
 C-style structures: [ByteStructuresTaylanUB](https://github.com/TaylanUB/scheme-bytestructures), Implementation.
 [StructuresCowan](StructuresCowan.md)
@@ -260,11 +264,7 @@ CLI utilities: [SRFI 37](https://srfi.schemers.org/srfi-37/srfi-37.html),
 [ArgParsePython](https://docs.python.org/3/library/argparse.html).
 Implementation: all.
 
-Generic combinator procedures: [CombinatorsCowan](CombinatorsCowan.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/CombinatorsCowan)
-
 Parallel promises: [ParallelPromisesCowan](ParallelPromisesCowan.md).  Portable implementation in pre-SRFI.
-
-Pathname objects: [PathnamesPython](PathnamesPython.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/PathnamesPython)
 
 Unicode string normalization: [StringNormalizationCowan](StringNormalizationCowan.md).  R6RS implementations.
 
