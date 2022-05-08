@@ -69,6 +69,8 @@ fsr
 
 # Hypnos Docket (portable, SRFIs)
 
+Curried procedures: [SRFI 232](https://srfi.schemers.org/srfi-232/srfi-232.html)
+
 Binary search: [SRFI 223](https://srfi.schemers.org/srfi-223/srfi-223.html)
 
 Maybe/Either: [SRFI 189](https://srfi.schemers.org/srfi-189/srfi-189.html)
@@ -144,8 +146,6 @@ Port operations: [PortOperationsCowan](PortOperationsCowan.md)
 
 Lists as sets (extension to SRFI 1): [LSetExtensions](LSetExtensions.md)
 
-[StructuresCowan](StructuresCowan.md)
-
 Levenshtein distance: [LevenshteinDistanceGauche](https://practical-scheme.net/gauche/man/gauche-refe/Levenshtein-edit-distance.html#Levenshtein-edit-distance)
 
 Sorted dictionaries: [SortedDictionaries](SortedDictionaries.md)
@@ -184,6 +184,20 @@ Immutable vectors: [FectorsPrice](https://github.com/ijp/fectors)
 
 # Eos Docket (portable, not SRFIs, implementations available)
 
+Topological sort: [TopologicalSortGauche](https://practical-scheme.net/gauche/man/gauche-refe/Topological-sort.html#Topological-sort). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/TopologicalSortGauche)
+
+Optional arguments (other than by `case-lambda`):
+
+[SRFI 227](https://srfi.schemers.org/srfi-227/srfi-227.html)
+or [OptionalsRiastradh](http://mumble.net/~campbell/proposals/optional.text).
+[Implementation](https://github.com/arvyy/r7rs-work/tree/master/OptionalsRiastradh),
+or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/0.7.3/index.html). 
+Multiple values passed through => in `cond`: see [#90](https://small.r7rs.org/ticket/90/)
+
+Named parameters:  [SRFI 177](https://srfi.schemers.org/srfi-177/srfi-177.html) bis (dpk's),
+[SRFI 89](https://srfi.schemers.org/srfi-89/srfi-89.html),
+or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/0.7.3/index.html)(portable)
+
 Generic combinator procedures: [CombinatorsCowan](CombinatorsCowan.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/CombinatorsCowan)
 
 Modify macros: [Srfi17ExtensionsCowan](Srfi17ExtensionsCowan.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/Srfi17ExtensionsCowan)
@@ -198,8 +212,6 @@ or [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_sec_11.14).
 
 `while`, `until`, `do-times`: [SimpleIterationCL](SimpleIterationCL.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/SimpleIterationCL).
 
-lambda*: [BeyondCurryingHemann](BeyondCurryingHemann.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/BeyondCurryingHemann)
-
 `let-list`, `let-vector`: [MacrosAlexandria](MacrosAlexandria.md). [Partial Implementation](https://github.com/arvyy/r7rs-work/tree/master/MacrosAlexandria)
 
 `if*` with arbitrarily many arguments: [Daphne Preston-Kendal's rationale](http://dpk.io/r7rs/naryif-20130406). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/IfKendal)
@@ -213,8 +225,11 @@ Continuation marks:  [SRFI 226](https://srfi.schemers.org/srfi-226/srfi-226.html
 
 Coroutine generator syntax: [SRFI 190](https://srfi.schemers.org/srfi-190/srfi-190.html)
 
+INI files: [IniFilesCowan](IniFilesCowan.md) [Implementation](https://github.com/arvyy/r7rs-work/tree/master/IniFilesCowan)
 
-
+Testing: [SRFI 64](https://srfi.schemers.org/srfi-64/srfi-64.html)
+or [ChibiChickenTest](http://wiki.call-cc.org/eggref/5/test)
+or [SRFI 78](https://srfi.schemers.org/srfi-78/srfi-78.html).  Implementations: all.
 
 # Selene Docket (portable, not SRFIs, no implementations)
 
@@ -222,36 +237,18 @@ Coroutine generator syntax: [SRFI 190](https://srfi.schemers.org/srfi-190/srfi-1
 
 Property lists to bindings: [LetSettingsKendal](LetSettingsKendal.md)
 
-Optional arguments (other than by `case-lambda`):
-
-[SRFI 227](https://srfi.schemers.org/srfi-227/srfi-227.html)
-or [OptionalsRiastradh](http://mumble.net/~campbell/proposals/optional.text).
-[Implementation](https://github.com/arvyy/r7rs-work/tree/master/OptionalsRiastradh),
-or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/0.7.3/index.html). 
-Multiple values passed through => in `cond`: see [#90](https://small.r7rs.org/ticket/90/)
-
-Named parameters:  [SRFI 177](https://srfi.schemers.org/srfi-177/srfi-177.html) bis (dpk's),
-[SRFI 89](https://srfi.schemers.org/srfi-89/srfi-89.html),
-or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/0.7.3/index.html)(portable)
-
-Matching: SRFI 204 bis
-
 Strings: [SRFI 152](https://srfi.schemers.org/srfi-152/srfi-152.html) (index-based),
 [SRFI 130](https://srfi.schemers.org/srfi-130/srfi-130.html) (cursor-based), [pre-SRFI 135x](https://htmlpreview.github.io/?https://raw.githubusercontent.com/johnwcowan/r7rs-work/master/srfi-135x.html)
 
 String interpolation: [StringInterpolateCowan](StringInterpolateCowan.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/StringInterpolateCowan)
 
 C-style structures: [ByteStructuresTaylanUB](https://github.com/TaylanUB/scheme-bytestructures), Implementation.
-[StructuresCowan](StructuresCowan.md), see Urania
+[StructuresCowan](StructuresCowan.md)
 
 Predicate generic functions: [GenericsChibi](http://synthcode.com/scheme/chibi/lib/chibi/generic.html) (needs extension for subtyping), [FastGeneric](http://wiki.call-cc.org/eggref/5/fast-generic) Implementations: all.
 
-Timespecs:  [SRFI 174](https://srfi.schemers.org/srfi-174/srfi-174.html) or
+Timespecs: 
 [SRFI 174 bis](TimeObjects.md)
-
-Conditions: [ConditionsCowan](ConditionsCowan.md)
-
-Topological sort: [TopologicalSortGauche](https://practical-scheme.net/gauche/man/gauche-refe/Topological-sort.html#Topological-sort). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/TopologicalSortGauche)
 
 Streaming regular expressions: [PragmaticParsingBaker](http://home.pipeline.com/~hbaker1/Prag-Parse.html)
 
@@ -269,8 +266,6 @@ Parallel promises: [ParallelPromisesCowan](ParallelPromisesCowan.md).  Portable 
 
 Pathname objects: [PathnamesPython](PathnamesPython.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/PathnamesPython)
 
-INI files: [IniFilesCowan](IniFilesCowan.md) [Implementation](https://github.com/arvyy/r7rs-work/tree/master/IniFilesCowan)
-
 Unicode string normalization: [StringNormalizationCowan](StringNormalizationCowan.md).  R6RS implementations.
 
 # Pan Docket (portable, not SRFIs, no implementations).
@@ -283,8 +278,6 @@ Date-time parser: [Hato date parser](https://code.google.com/p/hato/source/brows
 
 Date-time formatter: [TimeFormattingCowan](https://github.com/johnwcowan/r7rs-work/blob/master/TimeFormattingCowan.md),
 [SRFI 19](https://srfi.schemers.org/srfi-19/srfi-19.html), other libs
-
-Regular expressions over s-expressions:  [SerexPalmer](http://inamidst.com/lisp/serex)
 
 Procedural record types: [R6RS](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-7.html#node_sec_6.3)
 [SRFI 99](https://srfi.schemers.org/srfi/srfi-99.html),
@@ -303,10 +296,6 @@ Message digests: [MessageDigests](MessageDigests.md)
 
 Monads, applicative functors, and functors:  [ContextsCowan](ContextsCowan.md)
 
-Testing: [SRFI 64](https://srfi.schemers.org/srfi-64/srfi-64.html)
-or [ChibiChickenTest](http://wiki.call-cc.org/eggref/5/test)
-or [SRFI 78](https://srfi.schemers.org/srfi-78/srfi-78.html).  Implementations: all.
-
 Adjustable-size strings: portable [SRFI 185](https://srfi.schemers.org/srfi-185/srfi-185.html)
 or easily retrofittable [SRFI 118](https://srfi.schemers.org/srfi-118/srfi-118.html)]
 
@@ -323,7 +312,7 @@ Substitute/transform: [SubstituteCowan](SubstituteCowan.md)
 
 [MiscAlexandria](MiscAlexandria.md). [Partial Implementation](https://github.com/arvyy/r7rs-work/tree/master/MacrosAlexandria)
 
-Macro expander(s) available at run time:
+Macro expander(s) available at run time: (none)
 
 Association lists: [AssociationListsCowan](AssociationListsCowan.md)
 
