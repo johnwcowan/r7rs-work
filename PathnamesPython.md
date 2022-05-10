@@ -6,30 +6,42 @@ Should path objects be opaque, or is list-of-strings fine?
 
 ## Path objects
 
-A path object is a list of strings which can be created from a Posix or Windows pathname
-and can be manipulated conveniently
-and converted back into a pathname.  Every path object has a *drive* (the first element), a *root*
-(the second element), and a possibly empty sequence of *components* (the remaining elements),
-all of which are strings (possibly empty strings).  The *filename* is the last component.
+A path object belongs to a disjoint type that can be created from a Posix or Windows pathname
+(a string, a bytevector, or a u16vector) and can be manipulated conveniently
+and converted back into a pathname.  Every path object has a *drive* , a *root*,
+and a list of *components*, all of which are likewise strings, bytevectors, or u16vectors.
+The *filename* is the last component.
 
 ## Parsing
 
-`(parse-posix-pathname `*string*`)`
+`(parse-posix-pathname `*pathname*`)`
 
-Parses *string* as a Posix pathname and returns a corresponding path object, setting the components
-to the slash-separated substrings of *string*.
+Parses *pathname* as a Posix pathname and returns a corresponding path object,
+setting the components to the slash-separated substrings of *string*.
+A "slash" in this context is the character `#\/`, the byte `#2F`, or the
+unsigned 16-bit value `#x002F` as the case may be.
 The drive and root are set according to the following normative examples:
 
 ```
 ;; Absolute path
-(parse-posix-pathname "/etc/passwd) => ("" "/" "etc" "passwd"
+(define p (parse-posix-pathname "/etc/passwd))
+(pathname-drive p) => ""
+(pathname-root p) => "etc"
+(pathname-components p) => ("passwd")
 
-;; Relative path
-(parse-posix-pathname "foo") => ("" "" "foo")
+;; Relative path  
+(define p (parse-posix-pathname "foo"))
+(pathname-drive p) => ""
+(pathname-root p) => ""
+(pathname-componentss p) => "" ("foo")
 
 ;; Implementation-defined path (used by Cygwin for UNC paths)
-(parse-posix-pathname "//foo/bar/baz") => ("//foo/bar" "/" "baz")
+(define p (parse-posix-pathname "//foo/bar/baz")
+(pathname-drive p) => "//foo"
+(pathname-root p) => "/"
+(pathname-comopnents ("bar baz")
 ```
+
 Except for the case of two initial slashes, consecutive slashes are collapsed,
 and components consisting of a single period are removed.  However, components consisting of
 two periods are not removed, as this would produce the wrong result in the presence of symbolic links.
@@ -37,24 +49,41 @@ two periods are not removed, as this would produce the wrong result in the prese
 `(parse-windows-pathname `*string*`)`
 
 Parses *string* as a Windows pathname and returns a corresponding path object,
-setting the components to the slash-separated or backslash-separated substrings of *string*.
+setting the components to the slash-separated or backslash-separated substrings of *string*,
+where "slash" (and by the same token "backslash") has the same significance
+as in the description of `parse-posix-pathname`.
 The drive and root are set according to the following normative examples:
 
 ```
 ;; Absolute path
-(parse-windows-pathname "C:\\Windows) => ("c:" "/" "Windows")
+(define p (parse-windows-pathname "C:\\Windows)
+(pathname-drive p) => "c:"
+(pathname-root p) => "/"
+(pathname-components p) => ("Windows")
 
 ;; UNC path
-(parse-windows-pathname "\\\\host\\share\\dir\\file") => ("//host/share" "/" "dir" "file")
+(define p (parse-windows-pathname "\\\\host\\share\\dir\\file"
+(pathname-drive p) => "//host"
+(pathname-root p) => "/"
+(pathname-components p) => ("share" "dir" "file")
 
 ;; Current-drive-relative path
-(make-windows-pathname "\\Windows\\System32\\stop.exe") => ("" "/" "Windows" "System32" "stop.exe")
+(define p (make-windows-pathname "\\Windows\\System32\\stop.exe"))
+(pathname-drive p) => ""
+(pathname-root p) => "/"
+(pathname-components p) => ("Windows" "System32" "stop.exe")
 
 ;; Relative path
-(parse-windows-pathname "foo") => ("" "" "foo")
+(define p parse-windows-pathname "foo"))
+(pathname-drive p) => ""
+(pathname-root p) => ""
+(pathname-components p) => ("foo")
 
 ;; Relative-to-drive path
-(parse-windows-pathname "C:foo")) => ("C:" "" "foo")
+(define p parse-windows-pathname "C:foo"))
+(pathname-drive p) => "C:"
+(pathname-root p) => ""
+(pathname-components p) => ("foo")
 ```
 
 The last format is meaningful because Windows maintains a separate current directory
@@ -70,8 +99,10 @@ and components consisting of a single period are removed.
 However, components consisting of two periods are not removed,
 as this would produce the wrong result in the presence of symbolic links.
 
-If any of the characters of *string* are illegal in Windows pathnames,
+If any of the characters of *pathname* are illegal in Windows pathnames,
 namely `< > " : | ? *`, an error satisfying `path-error?` is signaled.
+
+**FIXED UP TO HERE**
 
 ## Conversion
 
