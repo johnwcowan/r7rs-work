@@ -102,15 +102,13 @@ as this would produce the wrong result in the presence of symbolic links.
 If any of the characters of *pathname* are illegal in Windows pathnames,
 namely `< > " : | ? *`, an error satisfying `path-error?` is signaled.
 
-**FIXED UP TO HERE**
-
 ## Conversion
 
-`(posix-pathname `*path* [*drive-mapper*]`)`
+`(posix-pathname `*pathobj* [*drive-mapper*]`)`
 
 Returns a Posix-style pathname based on the contents of *path* using slash as the separator.
 If the drive is not empty, it is passed through *drive-mapper*, a procedure
-which accepts a string and returns a string.
+which accepts a string, bytevector, or u16vector and returns an object of the same type.
 Whatever is returned will be prepended to the path.
 
 If *drive-mapper* is omitted, the behavior is implementation-dependent.
@@ -119,18 +117,12 @@ or to `"/mnt/c"` on Windows Subsystem for Linux,
 return its argument unchanged on Windows,
 or simply return the empty string, or raise an error.
 
-`(windows-pathname `*path*`)`
+`(windows-pathname `*pathobj*`)`
 
 Returns a Windows-style string pathname based on the contents of *path* using backslash as the separator.
 Slashes in the drive and root are converted to backslashes.
 
-`(pathname `*path*`)`
-
-Invokes `posix-pathname` or `windows-pathname` on *path*, depending on the operating system on
-which the implementation is running.  Examining the value of `(features)`
-provides that information in a portable way.
-
-`(path->file-uri `*path*`)`
+`(path->file-uri `*pathobj*`)`
 
 Returns a file URI corresponding to *path*.  If *path* is not absolute, an error is signaled.
 Note that in a UNC pathname, the UNC host corresponds to the URI host, so such file URIs
@@ -138,7 +130,7 @@ contain two slashes rather than three after "file:"
 
 ## Predicates
 
-`(path-reserved? `*path*`)`
+`(path-reserved? `*pathobj*`)`
 
 Returns `#t` if any part of *path* contains a character invalid in a Windows path
 (see `parse-windows-path`), or contains a component
@@ -147,17 +139,17 @@ or any of these followed by a period and any other characters,
 or ends in a period.
 The comparison is case-independent.  In all other cases, returns `#f`.
 
-`(path-absolute-posix? `*path*`)`
+`(path-absolute-posix? `*pathobj*`)`
 
 Returns `#t` if the root is not empty, and `#f` otherwise.
 
-`(path-absolute-windows? `*path*`)`
+`(path-absolute-windows? `*pathobj*`)`
 
 Returns `#t` if the drive and root are not both empty, and `#f` otherwise.
 
-`(path-portable? `*path*`)`
+`(path-portable? `*pathobj*`)`
 
-Returns `#t` if *path* represents a maximally portable path, and `#f` otherwise.
+Returns `#t` if *pathobj* represents a maximally portable path, and `#f` otherwise.
 Specifically, a maximally portable path is one in which:
 
   * `path-reserved?` returns `#f`
@@ -174,33 +166,38 @@ Specifically, a maximally portable path is one in which:
 	
 The concept of a maximally portable path is based loosely on Common
 Lisp logical pathnames, but is even more restrictive.
+
+`(pathname-hidden? `*pathobj*`)`
+
+Returns `#t` if the filename begins with a period.
    
 ## Accessors
 
-`(path-parent `*path*`)`
+`(path-parent `*pathobj*`)`
 
 Returns a path representing the parent directory of *path*, or *path* itself if it is a root directory.
 
-`(path-filename `*path*`)`
+`(path-filename `*pathobj*`)`
 
 Returns the filename of *path*, or the empty string if there are no components.
 
-`(path-match `*path glob ci?*`)`
+`(path-match `*pathobj glob ci?*`)`
 
 Returns `#t` if *path* matches the glob pattern in *glob* (a path object).
 Glob components (but not the drive or root) may contain the wildcards `*`, `?`, and `[...]`,
 where `...` represents a set of characters to match.
-If *glob* is relative, the path can be either relative or absolute, and matching is done from the right.
-If *glob* is absolute, the path must be absolute, and the whole path must match.
-If *ci?* is true, matching is done case-insensitively;
-if it is false or missing, matching is done case-sensitively.
 
-`(path-relative-to `*path1 path2*`)`
+ * If *glob* is relative, the path can be either relative or absolute, and matching is done from the right.
+ * If *glob* is absolute, the path must be absolute, and the whole path must match.
+ * If *ci?* is true, matching is done case-insensitively;
+ * If it is false or missing, matching is done case-sensitively.
+
+`(path-relative-to `*pathobj1 pathobj2*`)`
 
 Returns a version of *path1* that is relative to *path2*.
 If it is not possible to do so without introducing double-period components, `#f` is returned.
 
-`(path-suffix `*path suffix*`)`
+`(path-suffix `*pathobj*`)`
 
 Returns the suffix of the filename (everything to the
 right of the last period) as a string.  If there is no period
@@ -209,40 +206,40 @@ An initial period is not treated as a suffix delimiter.
 
 Another name for the suffix is the extension.
 
-`(path-with-suffix `*path suffix*`)`
+`(path-with-suffix `*pathobj suffix*`)`
 
 Returns a path object based on *path* with the suffix of the filename
 (everything to the right of the last period) replaced by *suffix*.
 If there is no period or the only period is initial,
 a period followed by *suffix* is appended to the filename.
 
-`(path-without-suffix `*path suffix*`)`
+`(path-without-suffix `*pathobj suffix*`)`
 
-Returns a path object based on *path* with the suffix of the filename
+Returns a path object based on *pathobj* with the suffix of the filename
 (everything to the right of the last period), plus the period itself, removed.
 If there is no period or the only period is initial,
 the result is equal to *path*.
 
 ## Path merging
 
-`(path-join `*basepath path* ...`)`
+`(path-join `*basepathobj pathobj* ...`)`
 
-If a single *path* argument is given, `path-join` returns a path object
+If a single *pathobj* argument is given, `path-join` returns a path object
 representing the results of appending
 the components of the *path* elements to *basepath* in order.  However,
 if the *path* argument has a non-empty drive, *path* is returned.
 If the drive of *path* is empty, but the root is non-empty,
-*path* is appended to the drive of *basepath*.
+*path* is appended to the drive of *basepathobj*.
 
-If two or more *path* arguments are given, `path-join` returns
-what `(path-join (path-join `*basepath* *path1*`)` *path* ...`)` returns.
+If two or more *pathobj* arguments are given, `path-join` returns
+what `(path-join (path-join `*basepathobj* *pathobj1*`)` *pathobj* ...`)` returns.
 
-`(path-with-filename `*path filename*`)`
+`(path-with-filename `*pathobj filename*`)`
 
-Returns a path object based on *path* with the filename (replaced by *filename* (a string).
+Returns a path object based on *pathobj* with the filename (replaced by *filename* (a string).
 If the path does not contain a filename, an error satisfying `path-error?` is signaled.
 
-`(path-normalize `*path*`)`
+`(path-normalize `*pathobj*`)`
 
 Returns a path object which is the same as *path*,
 except that if any component other than the first is the string 
