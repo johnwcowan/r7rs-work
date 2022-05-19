@@ -9,15 +9,13 @@ The following order is not necessarily the voting order.
 
  * [Red: data structures](#user-content-red-docket-data-structures)
  * [Tangerine: numerics](#user-content-tangerine-docket-numerics)
- * [Yellow: macros, SRFIs](#user-content-yellow-docket-macros-srfis)
  * [Hypnos: SRFIs](#user-content-hypnos-docket-portable-srfis)
+ * [Eos: not SRFIs](#user-content-eos-docket-portable-not-srfis)
  * [Orange: SRFIs](#user-content-orange-docket-portable-srfis)
  * [Urania: not SRFIs](#user-content-urania-docket-portable-not-srfis-no-implementation-yet)
- * [Eos: not SRFIs](#user-content-eos-docket-portable-not-srfis)
  * [Selene: not SRFIs](#user-content-selene-docket-portable-not-srfis)
  * [Pan: not SRFIs](#user-content-pan-docket-portable-not-srfis)
- * [Indigo: features of dubious utility](#user-content-indigo-docket-stuff-of-dubious-utility)
-
+ 
 # Red Docket (data structures)
 
 * Quick summary:
@@ -53,7 +51,11 @@ The following order is not necessarily the voting order.
 * Already voted on.
   See [TangerineEdition](TangerineEdition.md).
 
-# Yellow Docket (macros, already voted on)
+# Hypnos Docket (portable, SRFIs)
+
+Ordered sets: [SRFI 153]([SRFI 153](https://srfi.schemers.org/srfi-153/srfi-153.html)) bis
+
+Matching: [SRFI 204](https://srfi.schemers.org/srfi-204/srfi-204.html) bis (eliminate non-portable match clauses)
 
 Multiple values: [SRFI 210](https://srfi.schemers.org/srfi-210/srfi-210.html)
 
@@ -66,8 +68,6 @@ Nested `define`:  [SRFI 219](https://srfi.schemers.org/srfi-219/srfi-219.html)
 `rec`: [SRFI 31](https://srfi.schemers.org/srfi-31/srfi-31.html)
 
 `Cut/cute`:  [SRFI 26](https://srfi.schemers.org/srfi-26/srfi-26.html)
-
-# Hypnos Docket (portable, SRFIs)
 
 Curried procedures: [SRFI 232](https://srfi.schemers.org/srfi-232/srfi-232.html)
 
@@ -112,8 +112,6 @@ Bytestrings: [SRFI 207](https://srfi.schemers.org/srfi-207/srfi-207.html)
 Multidimensional arrays: [SRFI 231](https://srfi.schemers.org/srfi-231/srfi-231.html) 
 or [SRFI 164](https://srfi.schemers.org/srfi-164/srfi-164.html)
 
-ASCII character library: [SRFI 175](https://srfi.schemers.org/srfi-175/srfi-175.html)
-
 ## Other
 
 Enumerations: [SRFI 209](https://srfi.schemers.org/srfi-209/srfi-209.html)
@@ -126,77 +124,9 @@ Coroutine generators: [SRFI 190](https://srfi.schemers.org/srfi-190/srfi-190.htm
 
 Generic dictionary operations: [SRFI 225](https://srfi.schemers.org/srfi-225/srfi-225.html)
 
-# Urania Docket (portable, not SRFIs, no implementations)
-
-Lexical macros: [LexmacsCowan](LexmacsCowan.md)
-
-Ordered sets: SRFI 153 bis
-
-Matching: SRFI 204 bis (eliminate non-portable match clauses)
-
-List mutation: [ListSurgeryCowan](ListSurgeryCowan.md)
-
-Enumeration maps: [EnumMappingsCowan](EnumMappingsCowan.md)
-
-Twinjo I/O: [Twinjo](https://github.com/s-expressions/twinjo/blob/master/spec/Twinjo.md) + 
-[Twinjo procedures](https://github.com/s-expressions/twinjo/blob/master/spec/TwinjoLib.md) +
-[Lisp Serialization Conventions](https://docs.google.com/spreadsheets/d/1V-7E5d3fLON5DrVeHkVvp9h5SRgcteOgnPl8KvWTA3M/edit#gid=0)
-
-Port operations: [PortOperationsCowan](PortOperationsCowan.md)
-
-Lists as sets (extension to SRFI 1): [LSetExtensions](LSetExtensions.md)
-
-Levenshtein distance: [LevenshteinDistanceGauche](https://practical-scheme.net/gauche/man/gauche-refe/Levenshtein-edit-distance.html#Levenshtein-edit-distance)
-
-Sorted dictionaries: [SortedDictionaries](SortedDictionaries.md)
-
-Bimaps: [Bimaps](Bimaps.md)
-
-Language tag searching: [BCP 47](https://tools.ietf.org/html/bcp47).  Procedures take a tag and a dictionary of tagged objects, and return either an alist (ordered choice) or a single key-value pair.
-
-Pure delay/force: [PureDelayedGloria](PureDelayedGloria.md)
-
-Relations: [RelationsCowan](RelationsCowan.md)
-
-Combinations: [CombinationsGauche](https://htmlpreview.github.io/?https://github.com/johnwcowan/r7rs-work/blob/master/CombinationsGauche.html)
-
-Time types: [SRFI 19](https://srfi.schemers.org/srfi-19/srfi-19.html) and/or [TimeAdvancedCowan](TimeAdvancedCowan.md) with [TimePeriodsCowan](TimePeriodsCowan.md)
-
-URI objects: [UrisCowan](UrisCowan.md)
-
-Unicode character database: [UcdCowan](UcdCowan.md), [AdvancedUcdCowan](AdvancedUcdCowan.md)
-
-Environment: [SRFI 112](https://srfi.schemers.org/srfi-112/srfi-112.html) with [MiscEnvironmentSchudy](MiscEnvironmentSchudy.md)
-
-CSV, DSV: [DataFormatsCowan](DataFormatsCowan.md)
-
-Binary heap: [BinaryHeapsCowan](BinaryHeapsCowan.md)
-
-Writing filters: [FileFilterGauche](https://practical-scheme.net/gauche/man/gauche-refe/Filtering-file-content.html#Filtering-file-content)
-
-SXML serializer: [SxmlSerializerGauche](https://practical-scheme.net/gauche/man/gauche-refe/Serializing-XML-and-HTML-from-SXML.html#Serializing-XML-and-HTML-from-SXML)
-
-[Racket/Gerbil syntax-case extensions](https://gitlab.com/dpk/presrfis/-/blob/master/syntax-case-extensions.md)
-
-Dijkstra arrays (deques) [DijkstraArrays](DijkstraArrays.md)
-
-Immutable vectors: [FectorsPrice](https://github.com/ijp/fectors)
-
 # Eos Docket (portable, not SRFIs, implementations available)
 
 Topological sort: [TopologicalSortGauche](https://practical-scheme.net/gauche/man/gauche-refe/Topological-sort.html#Topological-sort). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/TopologicalSortGauche)
-
-Optional arguments (other than by `case-lambda`):
-
-[SRFI 227](https://srfi.schemers.org/srfi-227/srfi-227.html)
-or [OptionalsRiastradh](http://mumble.net/~campbell/proposals/optional.text).
-[Implementation](https://github.com/arvyy/r7rs-work/tree/master/OptionalsRiastradh),
-or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/0.7.3/index.html). 
-Multiple values passed through => in `cond`: see [#90](https://small.r7rs.org/ticket/90/)
-
-Named parameters:  [SRFI 177](https://srfi.schemers.org/srfi-177/srfi-177.html) bis (dpk's),
-[SRFI 89](https://srfi.schemers.org/srfi-89/srfi-89.html),
-or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/0.7.3/index.html)(portable)
 
 Generic combinator procedures: [CombinatorsCowan](CombinatorsCowan.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/CombinatorsCowan)
 
@@ -221,10 +151,6 @@ or [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_sec_11.14).
 [using syntax-case](http://git.savannah.gnu.org/cgit/guile.git/tree/module/ice-9/and-let-star.scm)), or
 [SRFI 202 using syntax-case](https://srfi.schemers.org/srfi-202/srfi-202.html)
 
-Continuation marks:  [SRFI 226](https://srfi.schemers.org/srfi-226/srfi-226.html) (comprehensive) or [SRFI 157](https://srfi.schemers.org/srfi-157/srfi-157.html)
-
-Coroutine generator syntax: [SRFI 190](https://srfi.schemers.org/srfi-190/srfi-190.html)
-
 INI files: [IniFilesCowan](IniFilesCowan.md) [Implementation](https://github.com/arvyy/r7rs-work/tree/master/IniFilesCowan)
 
 Testing: [SRFI 64](https://srfi.schemers.org/srfi-64/srfi-64.html)
@@ -233,9 +159,44 @@ or [SRFI 78](https://srfi.schemers.org/srfi-78/srfi-78.html).  Implementations: 
 
 String interpolation: [StringInterpolateCowan](StringInterpolateCowan.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/StringInterpolateCowan)
 
-Generic combinator procedures: [CombinatorsCowan](CombinatorsCowan.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/CombinatorsCowan)
-
 Pathname objects: [PathnamesPython](PathnamesPython.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/PathnamesPython)
+
+# Urania Docket (portable, not SRFIs, no implementations)
+
+Enumeration maps: [EnumMappingsCowan](EnumMappingsCowan.md)
+
+Twinjo I/O: [Twinjo](https://github.com/s-expressions/twinjo/blob/master/spec/Twinjo.md) + 
+[Twinjo procedures](https://github.com/s-expressions/twinjo/blob/master/spec/TwinjoLib.md) +
+[Lisp Serialization Conventions](https://docs.google.com/spreadsheets/d/1V-7E5d3fLON5DrVeHkVvp9h5SRgcteOgnPl8KvWTA3M/edit#gid=0)
+
+Port operations: [PortOperationsCowan](PortOperationsCowan.md)
+
+Levenshtein distance: [LevenshteinDistanceGauche](https://practical-scheme.net/gauche/man/gauche-refe/Levenshtein-edit-distance.html#Levenshtein-edit-distance)
+
+Sorted dictionaries: [SortedDictionaries](SortedDictionaries.md)
+
+Bimaps: [Bimaps](Bimaps.md)
+
+Language tag searching: [BCP 47](https://tools.ietf.org/html/bcp47).  Procedures take a tag and a dictionary of tagged objects, and return either an alist (ordered choice) or a single key-value pair.
+
+Relations: [RelationsCowan](RelationsCowan.md)
+
+Combinations: [CombinationsGauche](https://htmlpreview.github.io/?https://github.com/johnwcowan/r7rs-work/blob/master/CombinationsGauche.html)
+
+URI objects: [UrisCowan](UrisCowan.md)
+
+Unicode character database: [UcdCowan](UcdCowan.md), [AdvancedUcdCowan](AdvancedUcdCowan.md)
+
+Environment: [SRFI 112](https://srfi.schemers.org/srfi-112/srfi-112.html) with [MiscEnvironmentSchudy](MiscEnvironmentSchudy.md)
+
+CSV, DSV: [DataFormatsCowan](DataFormatsCowan.md)
+
+Binary heap: [BinaryHeapsCowan](BinaryHeapsCowan.md)
+
+Dijkstra arrays (deques) [DijkstraArrays](DijkstraArrays.md)
+
+Immutable vectors: [FectorsPrice](https://github.com/ijp/fectors)
+
 
 # Selene Docket (portable, not SRFIs, no implementations)
 
@@ -243,16 +204,10 @@ Pathname objects: [PathnamesPython](PathnamesPython.md). [Implementation](https:
 
 Property lists to bindings: [LetSettingsKendal](LetSettingsKendal.md)
 
-Strings: [SRFI 152](https://srfi.schemers.org/srfi-152/srfi-152.html) (index-based),
-[SRFI 130](https://srfi.schemers.org/srfi-130/srfi-130.html) (cursor-based), [pre-SRFI 135x](https://htmlpreview.github.io/?https://raw.githubusercontent.com/johnwcowan/r7rs-work/master/srfi-135x.html)
-
 C-style structures: [ByteStructuresTaylanUB](https://github.com/TaylanUB/scheme-bytestructures), Implementation.
 [StructuresCowan](StructuresCowan.md)
 
 Predicate generic functions: [GenericsChibi](http://synthcode.com/scheme/chibi/lib/chibi/generic.html) (needs extension for subtyping), [FastGeneric](http://wiki.call-cc.org/eggref/5/fast-generic) Implementations: all.
-
-Timespecs: 
-[SRFI 174 bis](TimeObjects.md)
 
 Streaming regular expressions: [PragmaticParsingBaker](http://home.pipeline.com/~hbaker1/Prag-Parse.html)
 
@@ -264,11 +219,11 @@ CLI utilities: [SRFI 37](https://srfi.schemers.org/srfi-37/srfi-37.html),
 [ArgParsePython](https://docs.python.org/3/library/argparse.html).
 Implementation: all.
 
-Parallel promises: [ParallelPromisesCowan](ParallelPromisesCowan.md).  Portable implementation in pre-SRFI.
-
-Unicode string normalization: [StringNormalizationCowan](StringNormalizationCowan.md).  R6RS implementations.
 
 # Pan Docket (portable, not SRFIs, no implementations).
+
+Timespecs: 
+[SRFI 174 bis](TimeObjects.md)
 
 Date and time arithmetic: [TimeAdvancedCowan](TimeAdvancedCowan.md),
 [SRFI 19](https://srfi.schemers.org/srfi-19/srfi-19.html)
@@ -279,16 +234,8 @@ Date-time parser: [Hato date parser](https://code.google.com/p/hato/source/brows
 Date-time formatter: [TimeFormattingCowan](https://github.com/johnwcowan/r7rs-work/blob/master/TimeFormattingCowan.md),
 [SRFI 19](https://srfi.schemers.org/srfi-19/srfi-19.html), other libs
 
-Procedural record types: [R6RS](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-7.html#node_sec_6.3)
-[SRFI 99](https://srfi.schemers.org/srfi/srfi-99.html),
-[AnonymousRecordsCowan](AnonymousRecordsCowan.md),
-[RidiculouslySimpleRecordsCowan](RecordsCowan.md),  
-[UniqueTypesCowan](UniqueTypesCowan.md)
-
 Channels: [PigeonHolesChicken](http://wiki.call-cc.org/eggref/5/pigeon-hole),
 [GochanChicken](http://wiki.call-cc.org/eggref/5/gochan).  Implementations: all.
-
-Applicable record instances: [R6RS formal comment](http://www.r6rs.org/formal-comments/comment-6.txt)
 
 Memoization: [Memoize](Memoize.md) (not a proposal yet), [Racket](http://planet.racket-lang.org/display.ss?package=memoize.plt&owner=dherman), [Haskell](http://hackage.haskell.org/package/memoize-0.1/docs/Data-Function-Memoize.html)
 
@@ -296,44 +243,9 @@ Message digests: [MessageDigests](MessageDigests.md)
 
 Monads, applicative functors, and functors:  [ContextsCowan](ContextsCowan.md)
 
-Adjustable-size strings: portable [SRFI 185](https://srfi.schemers.org/srfi-185/srfi-185.html)
-or easily retrofittable [SRFI 118](https://srfi.schemers.org/srfi-118/srfi-118.html)]
+# String library
 
-# Indigo Docket (stuff of dubious utility)
+Strings: [SRFI 152](https://srfi.schemers.org/srfi-152/srfi-152.html) (index-based),
+[SRFI 130](https://srfi.schemers.org/srfi-130/srfi-130.html) (cursor-based), [pre-SRFI 135x](https://htmlpreview.github.io/?https://raw.githubusercontent.com/johnwcowan/r7rs-work/master/srfi-135x.html)
 
-Chronometers: [Chronometer](Chronometer.md)
 
-Internationalization of strings: [GettextCowan](GettextCowan.md),
-[JavaScript Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl).
-
-S-expressions for SQL: [AgnosticSql](AgnosticSql.md)
-
-Substitute/transform: [SubstituteCowan](SubstituteCowan.md)
-
-[MiscAlexandria](MiscAlexandria.md). [Partial Implementation](https://github.com/arvyy/r7rs-work/tree/master/MacrosAlexandria)
-
-Macro expander(s) available at run time: (none)
-
-Association lists: [AssociationListsCowan](AssociationListsCowan.md)
-
-Edit buffers: [BuffersCowan](BuffersCowan.md)
-
-Immutable cycles: [CyclesMedernach](CyclesMedernach.md)
-
-Packages and rich symbols: [PackageSymbolsCowan](PackageSymbolsCowan.md)
-
-Doubly linked lists: [DoublyLinkedListsCowan](DoublyLinkedListsCowan.md)
-
-Prime number library: [PrimesGauche](https://htmlpreview.github.io/?https://github.com/johnwcowan/r7rs-work/blob/master/PrimesGauche.html)
-
-Descriptive statistics:  [TallyCowan](TallyCowan.md)
-
-μXml: [MicroXMLCowan](MicroXmlCowan.md)
-
-JavaScript objects: [JsoCowan](JsoCowan.md)
-
-Intervals: [IntervalsCowan](IntervalsCowan.md)
-
-Ring buffers: [RingBuffersGauche](https://practical-scheme.net/gauche/man/gauche-refe/Ring-buffer.html#Ring-buffer)
-
-Tagbody: [Tagbody](Tagbody.md)
