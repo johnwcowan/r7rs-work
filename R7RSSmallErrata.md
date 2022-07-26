@@ -124,8 +124,8 @@ produce exact values given exact inputs".
 
 25\. In the definition of `fold-char`, the sentence "If the argument is an uppercase letter, the result will be either a lowercase letter or the same as the argument if the lowercase letter does not exist or is not supported by the implementation" is no longer appropriate as of Unicode 8.0, when folding began to convert Cherokee lower-case letters to upper case.  Replace it with "If the result of folding is not supported by the implementation, the argument is returned".
 
-26\. In the definition of \<feature requirement> in Section 7.1.7, for <library name>
-read `(library `<library name>`)`.
+26\. In the definition of \<feature requirement> in Section 7.1.7, for \<library name>
+read `(library `\<library name>`)`.
 
 27\. The claim in the definition of `current-second` that the TAI-UTC offset as of January 1, 1970 was ten seconds is factually
 incorrect per [the USNO's list of offsets](http://maia.usno.navy.mil/ser7/tai-utc.dat).  The correct value for that date
