@@ -12,6 +12,11 @@ it is possible to specify the inclusive or exclusive nature of the bounds.
 Returns an interval whose inclusive lower bound
 is *start* and exclusive upper bound is *end*.
 
+`(inverse-terval `*comparator start end*`)`
+
+Returns an interval whose exclusive lower bound
+is *start* and inclusive upper bound is *end*.
+
 `(closed-interval `*comparator start end*`)`
 
 Returns an interval whose inclusive lower bound
@@ -21,11 +26,6 @@ is *start* and inclusive upper bound is *end*.
 
 Returns an interval whose exclusive lower bound
 is *start* and exclusive upper bound is *end*.
-
-`(range->interval `*range*`)`
-
-Returns an interval whose bounds and comparator are
-obtained from *range*.
 
 ## Predicates
 
@@ -63,12 +63,12 @@ Returns the comparator of *interval*.
 
 ## Interval relations
 
+In all these procedures it is an error if the intervals don't have the same comparators.
+
 Let sA be the lower bound of interval A,
 and eA be the value of the upper bound of interval A;
 and likewise for interval B.  The inclusive/exclusive
 nature of the bounds is respected.
-
-These procedures apply to ranges as well as intervals.
 
 `(interval-congruent? `*intervala intervalb*`)`
 
@@ -147,4 +147,26 @@ Interval A strictly follows interval B iff sA < eB.
 
 Interval A immediately follows interval B iff sA = eB.
 
-In all these procedures it is an error if the intervals don't have the same comparators.
+## Interval set operations
+
+`(interval-union `*intervala intervalb*`)`
+
+Returns an interval containing all the elements of either *intervala* or *intervalb*,
+or `#f` if no such interval exists.
+
+`(interval-union `*intervala intervalb*`)`
+
+Returns an interval containing all the elements of either *intervala* or *intervalb*,
+or `#f` if no such interval exists.
+
+`(interval-intersection `*intervala intervalb*`)`
+
+Returns an interval containing all the elements of both *intervala* and *intervalb*,
+or `#f` if no such interval exists.
+
+`(interval-difference `*intervala intervalb*`)`
+
+Returns an interval containing all the elements of *intervala* but not *intervalb*,
+or `#f` if no such interval exists.
+
+
