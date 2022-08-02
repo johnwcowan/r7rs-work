@@ -12,7 +12,7 @@ it is possible to specify the inclusive or exclusive nature of the bounds.
 Returns an interval whose inclusive lower bound
 is *start* and exclusive upper bound is *end*.
 
-`(inverse-terval `*comparator start end*`)`
+`(inverse-interval `*comparator start end*`)`
 
 Returns an interval whose exclusive lower bound
 is *start* and inclusive upper bound is *end*.
