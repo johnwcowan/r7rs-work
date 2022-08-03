@@ -51,11 +51,9 @@ The following order is not necessarily the voting order.
 * Already voted on.
   See [TangerineEdition](TangerineEdition.md).
 
-# Hypnos Docket (portable, SRFIs)
+# Hypnos Docket (SRFIs)
 
-Ordered sets: [SRFI 153]([SRFI 153](https://srfi.schemers.org/srfi-153/srfi-153.html)) bis
-
-Matching: [SRFI 204](https://srfi.schemers.org/srfi-204/srfi-204.html) bis (eliminate non-portable match clauses)
+Ordered sets: Withdrawn [SRFI 153](https://srfi.schemers.org/srfi-153/srfi-153.html)) bis, debugging
 
 Multiple values: [SRFI 210](https://srfi.schemers.org/srfi-210/srfi-210.html)
 
@@ -81,12 +79,7 @@ Flexvectors: [SRFI 214](https://srfi.schemers.org/srfi-214/srfi-214.html)
 
 Unifiable boxes: [SRFI 161](https://srfi.schemers.org/srfi-161/srfi-161.html)
 
-JSON: [SRFI 180](https://srfi.schemers.org/srfi-180/srfi-180.html),
-`(schemepunk json)` [code](https://github.com/ar-nelson/schemepunk#schemepunk-json)
-and [data](https://github.com/ar-nelson/schemepunk/blob/master/json.sld), or
-trivial `(json-read `*stream* [ *max-chars* ]`)` and `(json-write `*stream obj*`)`.
-
-# Orange Docket (portable, SRFIs)
+# Orange Docket (SRFIs)
 
 ## Numeric types, operations, and data structures
 
@@ -124,7 +117,9 @@ Coroutine generators: [SRFI 190](https://srfi.schemers.org/srfi-190/srfi-190.htm
 
 Generic dictionary operations: [SRFI 225](https://srfi.schemers.org/srfi-225/srfi-225.html)
 
-# Eos Docket (portable, not SRFIs, implementations available)
+# Eos Docket (not SRFIs, implementations available)
+
+Matching: Withdrawn [SRFI 204](https://srfi.schemers.org/srfi-204/srfi-204.html) bis (eliminate non-portable match clauses)
 
 Topological sort: [TopologicalSortGauche](https://practical-scheme.net/gauche/man/gauche-refe/Topological-sort.html#Topological-sort). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/TopologicalSortGauche)
 
@@ -161,7 +156,13 @@ String interpolation: [StringInterpolateCowan](StringInterpolateCowan.md). [Impl
 
 Pathname objects: [PathnamesPython](PathnamesPython.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/PathnamesPython)
 
-# Urania Docket (portable, not SRFIs, no implementations)
+# Urania Docket (not SRFIs, no implementations)
+
+JSON: [SRFI 180](https://srfi.schemers.org/srfi-180/srfi-180.html),
+`(schemepunk json)` [code](https://github.com/ar-nelson/schemepunk#schemepunk-json)
+and [data](https://github.com/ar-nelson/schemepunk/blob/master/json.sld), or
+trivial `(json-read `*stream* [ *max-chars* ]`)` and `(json-write `*stream obj*`)`.
+
 
 Enumeration maps: [EnumMappingsCowan](EnumMappingsCowan.md)
 
@@ -198,7 +199,7 @@ Dijkstra arrays (deques) [DijkstraArrays](DijkstraArrays.md)
 Immutable vectors: [FectorsPrice](https://github.com/ijp/fectors)
 
 
-# Selene Docket (portable, not SRFIs, no implementations)
+# Selene Docket (not SRFIs, no implementations)
 
 `Record-let`: [#45](https://small.r7rs.org/ticket/45/)
 
@@ -220,7 +221,7 @@ CLI utilities: [SRFI 37](https://srfi.schemers.org/srfi-37/srfi-37.html),
 Implementation: all.
 
 
-# Pan Docket (portable, not SRFIs, no implementations).
+# Pan Docket (not SRFIs, no implementations).
 
 Timespecs: 
 [SRFI 174 bis](TimeObjects.md)
