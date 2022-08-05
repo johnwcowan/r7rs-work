@@ -3,18 +3,21 @@
 A context is an actual or virtual container for zero or more ordinary Scheme objects
 such that the objects can be manipulated within the container without removing
 them from it.  There are many data types in Scheme that can serve as contexts,
-most obviously lists and vectors. A Maybe
+most obviously lists and vectors. A Maybe object from
 [SRFI 189](https://srfi.schemers.org/srfi-189/srfi-189.html)
 is also a context holding
-zero or one values, and an Either (from the same SRFI) is also treated as a
-context which holds a value if it is a Right but no value if it is a Left.
+either values or nothing, and an Either (from the same SRFI) is also treated as a
+context which holds values if it is a Right but holds nothing if it is a Left.  Note that
+holding no values is not the same as holding nothing.
 
 This SRFI contains no references to category theory.
 
 ## Issues
 
-How can we extend this from Haskell single-argument single-value functions
-to Scheme multiple arguments and multiple values?
+Because  it is an error if the argument of a Scheme
+procedure produces zero values or more than one value,
+it is unclear how to launch a chain of context procedures
+starting with multiple values.
 
 ## Rationale
 
@@ -76,12 +79,12 @@ The *plist* is a list alternating between symbols and procedure objects.
 As such, it may conveniently be constructed with a backquote.
 
 The six recognized symbols are `map`, `sequence`, `pure`, `apply`, `bind`,
-and `join`, corresponding to the similarly named Scheme procedures defined below.
+and `join`, roughly corresponding to the similarly named Scheme procedures defined below.
 Any unspecified procedures will be given default implementations based on the
 provided procedures whenever this is possible.  The defaulting rules
-are roughly specified here:
+are specified here:
 
-  *  `(monad-join c)` is `(monad-bind c id)`, where `id` is the identity function.
+  *  `(monad-join c)` is `(monad-bind values)`, where `values` is Scheme's identity function.
 
   *  `(monad-bind mobj f)` is `(monad-join (functor-map f mobj))`.
 
@@ -92,7 +95,7 @@ are roughly specified here:
 A context instance object is a functor instance object when the `map` procedure is either
 provided or defaulted.
 
-A context instance object is an idiom instance object when the`sequence`, `pure`, and
+A context instance object is an idiom instance object when the `sequence`, `pure`, and
 `apply` procedures are either provided or defaulted.
 
 A context instance object is a monad instance object when all six procedures are either provided
@@ -116,19 +119,19 @@ and cannot be defaulted.
 
 `(functor-map `*c proc cobj*`)`
 
-Unwraps the objects from *cobj*, applies *proc* to each of them, rewraps them
-in the context *c*, and returns the result.
+Unwraps zero or more values from *cobj*, applies *proc* to each of them, rewraps
+the results in the context *c*, and returns the result.
 
 `(idiom-sequence `*c list*`)`
 
-Takes a list whose elements are objects in the pecified context, unwraps them,
-puts them in a list, and wraps the list in the context.
+Takes a list whose elements are objects in the specified context, unwraps them,
+puts them in another list, and wraps the list in the context.
 
 Since lists are idioms, this effectively swaps the order in which
 two idioms are applied, but the outer idiom must be "traversable",
 a notion not defined in this SRFI.  Implementations may, however,
 extend the type of the second argument.  For example, if a vector
-is supported, the result will be a vector in the context.
+is supported as the second argument, the result will be a vector in the context.
 
 `(idiom-pure `*c obj*`)`
 
@@ -145,7 +148,7 @@ With three arguments, `monad-bind` takes *cobj* and unwraps it from the
 context *c* and applies it to *mproc*, which transforms it
 and returns the results wrapped in the context.
 
-With additional *mproc* arguments, the result of the first *mproc* is
+With additional *mproc* arguments, the results of the first *mproc* are
 unwrapped and passed to the next *mproc*, and this is repeated until
 there are no more *mprocs*.
 
@@ -206,10 +209,10 @@ wrapped.
 
 `(monad-if `*c mobj *mproc1 mproc2*`)`
 
-Unwraps *mobj* in the context *c*.  If the result is true
-is true, *mproc1* (which must not require arguments) is invoked
-and its result is returned; otherwise, *mproc2* (which also must
-not require arguments) is invoked and its result is returned.
+Unwraps *mobj* in the context *c*.  If the result
+is true, *mproc1* (which must accept a single argument) is invoked
+on it and its results are returned; otherwise, *mproc2* (which must
+not require arguments) is invoked and its results are returned.
 In either case, the result is already wrapped.
 
 `(functor-lift `*c proc*`)`
@@ -222,6 +225,8 @@ wrapped result.
 Other procedures TBD.
 
 ## Monad instances
+
+Lists, vectors, 
 
 ## Idiom instances
 
