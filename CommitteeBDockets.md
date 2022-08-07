@@ -12,9 +12,9 @@ The following order is not necessarily the voting order.
  * [Hypnos: SRFIs](#user-content-hypnos-docket-portable-srfis)
  * [Eos: not SRFIs](#user-content-eos-docket-portable-not-srfis)
  * [Orange: SRFIs](#user-content-orange-docket-portable-srfis)
- * [Urania: not SRFIs](#user-content-urania-docket-portable-not-srfis-no-implementation-yet)
- * [Selene: not SRFIs](#user-content-selene-docket-portable-not-srfis)
- * [Pan: not SRFIs](#user-content-pan-docket-portable-not-srfis)
+ * [Urania: not SRFIs, no implementations](#user-content-urania-docket-portable-not-srfis-no-implementation-yet)
+ * [Selene: not SRFIs, no implementations](#user-content-selene-docket-portable-not-srfis)
+ * [Pan: not SRFIs, no implementations](#user-content-pan-docket-portable-not-srfis)
  
 # Red Docket (data structures)
 
@@ -121,9 +121,11 @@ Ordered sets: Withdrawn [SRFI 153](https://srfi.schemers.org/srfi-153/srfi-153.h
 
 Matching: Withdrawn [SRFI 204](https://srfi.schemers.org/srfi-204/srfi-204.html) bis (eliminate non-portable match clauses)
 
-Topological sort: [TopologicalSortGauche](https://practical-scheme.net/gauche/man/gauche-refe/Topological-sort.html#Topological-sort). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/TopologicalSortGauche)
+Port operations: [PortOperationsCowan](PortOperationsCowan.md) [Implementation](https://gitlab.com/dpk/presrfis/-/blob/master/io-utils/port-operations.scm)
 
-Generic combinator procedures: [CombinatorsCowan](CombinatorsCowan.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/CombinatorsCowan)
+Topological sort: SRFI 234; [TopologicalSortGauche](https://practical-scheme.net/gauche/man/gauche-refe/Topological-sort.html#Topological-sort). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/TopologicalSortGauche)
+
+Generic combinator procedures: SRFI 235; [CombinatorsCowan](CombinatorsCowan.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/CombinatorsCowan)
 
 Modify macros: [Srfi17ExtensionsCowan](Srfi17ExtensionsCowan.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/Srfi17ExtensionsCowan)
 
@@ -169,8 +171,6 @@ Enumeration maps: [EnumMappingsCowan](EnumMappingsCowan.md)
 Twinjo I/O: [Twinjo](https://github.com/s-expressions/twinjo/blob/master/spec/Twinjo.md) + 
 [Twinjo procedures](https://github.com/s-expressions/twinjo/blob/master/spec/TwinjoLib.md) +
 [Lisp Serialization Conventions](https://docs.google.com/spreadsheets/d/1V-7E5d3fLON5DrVeHkVvp9h5SRgcteOgnPl8KvWTA3M/edit#gid=0)
-
-Port operations: [PortOperationsCowan](PortOperationsCowan.md)
 
 Levenshtein distance: [LevenshteinDistanceGauche](https://practical-scheme.net/gauche/man/gauche-refe/Levenshtein-edit-distance.html#Levenshtein-edit-distance)
 
