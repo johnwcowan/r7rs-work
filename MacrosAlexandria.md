@@ -24,13 +24,6 @@ Similar to `when-let`, but does bindings sequentially in the style of `let*`.
 
 Similar to `case`, but uses *pred* instead of `eqv?` to do case matching.
 
-`(case-match expr match-clause ...`)
-
-Similar to `match`, but it is an error unless *expr* evaluates to a list
- whose car is either a symbol (matches exactly that symbol)
-or a list of symbols (matches any symbol on the list).
-The cdr of the pattern matches in the normal way.
-
 `(andmap proc expr ...)`
 
 Similar to `and`, but maps values of *exprs* through *proc* before testing for truth.
