@@ -66,14 +66,6 @@ which is constructed as follows:
 * Otherwise, returns what
   `(filter symbol? (compound-subobjects `*obj*`)` returns.
 
-`(condition-properties `*condition sym*`)`
-
-If *obj* is a compound object, returns what
-`(make-compound-type-properties `*sym obj*`)` returns.
-
-If *obj* is a native condition object,
-returns an implementation-specific alist.
-
 ## R7RS-small interoperation
 
 `(error-object? `*obj*`)`
