@@ -122,7 +122,7 @@ The complete list of field names is `calendar`, `era`, `year`, `month`,
 `time-fold'.  These are explained below in the date accessors section.
 
  * `calendar` is a symbol representing the calendar in use.  The only
-   required calendar is 'iso', corresponding to the Gregorian calendar
+   required calendar is `iso`, corresponding to the Gregorian calendar
    except that the year before the year 1 C.E. is numbered 0.
  * `era` is an exact integer representing the era.  In the ISO calendar,
    only era 0 exists.  In the Gregorian calendar, the B.C.E. era is numbered
