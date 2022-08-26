@@ -1,63 +1,129 @@
- ## Locale facts
+ ## Specification
  
- * the names of the months and the days of the week in a specified language,
- * the proper ordering of day, month, and year,
- * the names and starting dates of the Japanese eras or any others,
- * whether local clocks are 12-hour or 24-hour,
- * how to spell "AM" and "PM"
- * what the decimal separator is
+ `(format-date `*port-or-boolean date combinator* ...`)`
+ 
+ Formats a date object and outputs it to *port-or-boolean*
+ based on the *combinator* objects.  If *port-or-boolean*
+ is `#t`, the port is `(current-output)`; if it is `#f`,
+ the result is a string that `format-date` returns; otherwise
+ it returns an unspecified value.  The date object may be from
+ [SRFI 19](https://srfi.schemers.org/srfi-19/srfi-19.html) or
+ from [TimeAdvancedCowan](https://github.com/johnwcowan/r7rs-work/blob/master/TimeAdvancedCowan.md).
+ 
+ If *combinator* is a number, character, or string, it is
+ output as if by `display`.  If it is a symbol, see the
+ Combinators section.  If it is a list of symbols, the
+ first symbol is from the Combinators section and the
+ remaining symbols are from the Modifiers section.
+ 
+ ### Combinators
 
-## Combinators
+Specify one of the following symbols to generate
+an output based on the date.
 
-* date [date *order-symbol year-combinator year-postfix month-combinator month-postfix day-combinator day-postfix*]
-* time [time hour-combinator hour-postfix minute-combinator minute-postfix second-combinator second-postfix nanosecond-combinator nanosecond-postfix]
+`am-pm`  
+AM or PM for 12-hour clock
 
-### Year combinators
+`century`  
+high-order digits of year
 
-* year [year]
-* Roman year [roman-year]
+`day-of-month`  
+day of the month
 
-### Month combinators
+`day-of-year`  
+day of the year
 
-* locale's abbreviated month name (Jan...Dec) [short-month]
-* locale's full month name (January...December) [long-month]
-* month, zero padded (01...12) [padded-month]
-* month, unpadded [1..12] [unpadded-month]
-* Roman month [roman-month]
+`hour-12`  
+hour on 12-hour clock
 
-### Week combinators
+`hour-24`  
+hour on 24-hour clock
 
-* ISO 8601 week number of the year with Monday as first day of week (01..53) [iso-week-of-year]
+`fold`  
+time fold (0 = unfolded, 1 = folded)
 
-### Day combinators
+`localized-date`  
+localized year, month, and day
 
-* day of month, zero padded (01...31) [padded-day-of-month]
-* day of month, blank padded ( 1...31) [unpadded-day-of-month]
-* locale's abbreviated weekday name (Sun...Sat) [short-day-of-week]
-* locale's full weekday name (Sunday...Saturday) [long-day-of-week]
-* day of week (0...6) [day-of-week]
-* day of year, zero padded [long-day-of-year] 
+`localized-datetime`  
+localized date and time
 
-### Hour combinators
+`localized-time`  
+localized hour, minute, and second
 
-* hour, zero padded, 24-hour clock (00...23) [padded-hour-24]
-* hour, zero padded, 12-hour clock (01...12) [padded-hour-12]
-* hour, unpadded, 24-hour clock ( 0...23) [unpadded-hour-24]
-* hour, unpadded, 12-hour clock ( 1...12) [unpadded-hour-12]
+`minute`  
+minute of the hour
 
-### Minute combinators
+`month`  
+numeric month
 
-* minute, zero padded (00...59) [padded-minute]
+`month-name-long`  
+localized name of month
 
-### Second combinators
+`month-name-short`  
+localized abbreviation for month
 
-* second, zero padded (00...60) [padded-second]
-* second, unpadded (0..60) [unpadded-second]
-* nanosecond, zero padded [nanoseconds]
-* seconds+fractional seconds, using locale's decimal separator (e.g. 5.2) [fractional-seconds]
-* locale's AM or PM [am-pm-indicator]
-* number of full seconds since "the epoch" (in UTC) [utc-second]
-* time zone [time-zone]
-* time zone offset [time-zone-offset]
+`nano`  
+nanosecond of the second
 
-[*] *order-symbol* can be any of `ymd`, `dmy`, `mdy`, perhaps others.
+`second`  
+numeric second
+
+`weekday-long`  
+localized abbreviation for weekday
+
+`weekday-mon`  
+weekday (0 = Monday, 6 = Sunday)
+
+`weekday-short`  
+localized name of weekday
+
+`weekday-sun`  
+weekday (0 = Sunday, 6 = Saturday)
+
+`week-iso`  
+ISO week (first week containing 4 January)
+
+`year-iso`  
+year starting on ISO week 01
+
+`year-long`  
+numeric year
+
+`year-short`  
+2 low-order digits of year
+
+`zone`  
+standard time zone name
+
+`zone-name`  
+localized named time zone
+
+`zone-offset`  
+time zone offset from UTC (minutes)
+
+### Modifiers
+
+To specify the following, create a list whose first element is a combinator
+and whose remaining elements are modifiers.
+
+*number*
+field width  
+
+`none`
+no padding  
+
+`space`
+pad with spaces  
+
+`zero`
+pad with 0s  
+
+`alt`
+localized alternative output  
+
+`lcase`
+lowercase output  
+
+`ucase`
+uppercase output  
