@@ -235,12 +235,12 @@ more space-efficient.
 This
 <abbr title="Scheme Request for Implementation"><a
  href="#SRFI">SRFI</a></abbr>
-specifies a new, immutable string type, known as "new strings" or "nstrings".
+specifies a new, immutable string type, known as "new strings".
 Its procedures work equally well on RnRS strings (known as
-"old strings" or "ostrings" in this SRFI) and nstrings, and
+"old strings" in this SRFI) and new strings, and
 also provide backward compatibility with the R7RS string library.
 It comes with efficient and portable sample implementations
-for nstrings that guarantee O(1) indexing
+for new strings that guarantee O(1) indexing
 for both sequential and random access, even in systems whose
 <code>string-ref</code> procedure takes linear time.
 </p>
@@ -259,9 +259,7 @@ and <abbr title="String library (reduced)"><a href="#SRFI-152">SRFI 135</a></abb
 
 <h1><a name="Issues">Issues</a></h1>
 
-<p>2) There are many other R7RS-small and R7RS-large procedures that
-accept or return ostrings.  Which ones, if any, should be redefined
-in this SRFI to handle nstrings as well?
+<p>None at this time.</p>
 
 <!--========================================================================-->
 <h1><a name="ProcedureIndex">Procedure Index</a></h1>
@@ -293,7 +291,7 @@ Here is a list of the procedures provided by this SRFI:
 <dd class="proc-index">
 <pre class="proc-index">
 <a href="#string2nstring">string-&gt;nstring</a>       <a href="#string2ostring">string-&gt;ostring</a>
-<a href="#nstrings">strings</a>               <a href="#ostrings">ostrings</a>
+<a href="#nstrings">nstrings</a>              <a href="#ostrings">ostrings</a>
 <a href="#string2vector">string-&gt;vector</a>        <a href="#string2list">string-&gt;list</a>
 <a href="#vector2string">vector-&gt;string</a>        <a href="#list2string">list-&gt;string</a>
 <a href="#vector2nstring">vector-&gt;nstring</a>       <a href="#list2nstring">list-&gt;nstring</a>
@@ -401,6 +399,25 @@ Note: The text of this SRFI is based upon SRFI 135, copying much
 of its structure and wording.
 </p>
 
+<h2 name="Terminology">Terminology</h2>
+<p>The terms "old string" and "new string" as used in this SRFI refer only
+to how long the type of string has been known to Scheme.
+They do not imply any positive or negative weight.
+In earlier drafts of this SRFI, the terms "mutable string" and "immutable
+string" were used, but these are unsatisfactory because some old strings,
+such as
+literal strings or strings returned by <code>symbol-&gt;string</code>,
+cannot be portably mutated.  Specifically, it "is an error" in
+(<abbr title="Revised<sup>5</sup> Report on Scheme"><a 
+  href="#R5RS">R5RS</a></abbr>
+and
+ <abbr title="Revised<sup>7</sup> Report on Scheme"><a 
+  href="#R7RS">R7RS</a></abbr>)
+to attempt such a mutation; in
+(<abbr title="Revised<sup>6</sup> Report on Scheme"><a 
+  href="#R6RS">R6RS</a></abbr>)
+the implementation "should raise an exception"
+in such cases.</p>
 <h2 name="WhyImmutable">Why immutable strings?</h2>
 <p>
 The
@@ -432,7 +449,7 @@ and several more problems were mentioned by SRFI 1
 
 <p>
 Recognizing the first three of these problems, while acknowledging
-that removing ostrings from the language would cause
+that removing old strings from the language would cause
 "significant compatibility problems for existing code"
 <a href="#R6RS-Rationale">[R6RS-Rationale]</a>,
 the R6RS standard banished
@@ -451,10 +468,10 @@ to make strings immutable is not viable.
 </p>
 
 <p>
-We can, however, add a new data type of nstrings capable
+We can, however, add a data type of new strings capable
 of replacing the RnRS string data type for all applications that
-do not require mutation.  Istrings do away with the problems
-listed above while offering these advantages over ostrings:
+do not require mutation.  New strings do away with the problems
+listed above while offering these advantages over old strings:
 </p>
 
 <ul>
@@ -466,9 +483,9 @@ listed above while offering these advantages over ostrings:
   <li>improved thread safety in multithreaded implementations</li>
 </ul>
 
-The last point is important because ostrings should not in principle
+The last point is important because old strings should not in principle
 be shared between threads, since they may be mutable, without some sort
-of locking.  Because most ostrings are never mutated, this rule
+of locking.  Because most old strings are never mutated, this rule
 is easy to forget.
 
 <p>
@@ -479,13 +496,13 @@ See also the <a href="#Unicode">discussion of Unicode</a>.
 <p>Unfortunately, none of the existing string SRFIs are entirely
 satisfactory.</p>
 <ul>
-<li><p>SRFI 13 supports only ostrings.</p></li>
-<li><p>SRFI 130 likewise supports only ostrings, and is
+<li><p>SRFI 13 supports only old strings.</p></li>
+<li><p>SRFI 130 likewise supports only old strings, and is
 designed to optimize random access when the internal representation
 of strings is based on UTF-8 or UTF-16 by providing a new type of
 string cursors disjoint from integer string indices.  Unfortunately,
 cursors are silently invalidated by mutation.</p></li>
-<li><p>SRFI 135 provides support for both ostrings and nstrings,
+<li><p>SRFI 135 provides support for both old strings and new strings,
 which it calls strings and texts respectively,
 but its procedures are named <code>text-*</code> if they
 accept only texts and <code>textual-*</code> if they
@@ -497,29 +514,49 @@ use <code>string-*</code> names.  Unfortunately,
 many of the procedures are incompatible with R7RS
 and SRFIs 13, 130, and 152 because they always return immutable
 strings.</p></li>
-<li><p>SRFI 152 supports ostrings only.  It's a subset of SRFI 13
+<li><p>SRFI 152 supports old strings only.  It's a subset of SRFI 13
 that provides <code>string-*</code> counterparts to SRFI 135's
 <code>text-*</code> and <code>textual-*</code> procedures.</p></ul>
 </ul>
 
 <p>
-The nstrings of this SRFI eliminate the disadvantages and
+The new strings of this SRFI eliminate the disadvantages and
 provide the advantages listed in the previous section and in this section.
 Furthermore, they can be implemented portably
 and efficiently and are easy to use correctly
 (partly because most of the error situations are detected by its
 sample implementations, and partly because the character indexes
-are the same as those used by ostrings).
-The immutability of nstrings and
+are the same as those used by old strings).
+The immutability of new strings and
 uniformity of character-based indexing simplify the
 specification of those operations while avoiding several
 inefficiencies associated with the mutability of
-ostrings.</p>
+old strings.</p>
+
+<p>Because of the advantages of new strings, this SRFI is
+slightly biased in favor of them.  A program that does not
+contain any new-string literals, or call any of the new-string
+constructors <code>make-nstring</code>, <code>nstring</code>,
+<code>nstring-tabulate</code>, <code>nstring-unfold</code>, or
+<code>nstring-unfold-right</code>, or call any of the converters from
+old strings, lists, vectors, or bytevectors to new strings (directly or
+indirectly) will use old strings only and is thus fully backward compatible.
+But where new strings and old strings are mixed, most procedures in this
+SRFI will return new strings, so that if there is any use of new strings
+at all, old strings will tend to end up at the edge of a program and
+new strings will be used in its core.</p>
+
+<p>
+Note that the old-string counterparts of the procedures listed in the
+previous paragraph have names ending in <code>string</code> rather than
+<code>ostring</code>.  This is to preserve backward compatibility with R7RS
+and remain compatible as far as possible with earlier SRFIs.
+</p>
 
 <h2 name="WhatsMissing">What's missing?</h2>
 
 <p>The <code>string-reverse</code> procedure of SRFI 13 isn't
-very useful, especially in a Unicode worl, so it's been left out.</p>
+very useful, especially in a Unicode world, so it's been left out.</p>
 
 <p>The mutation procedures of SRFI 13, other than those present in R7RS,
 are omitted, as in Unicode strings they can cause the underlying
@@ -561,10 +598,10 @@ used (as with <code>string-ref</code>).
 </p>
 
 <p>
-When mutation is not needed, nstrings are likely to be
-more efficient than ostrings with respect to space or time.
-In some implementations, nstrings may be more efficient
-than ostrings with respect to both space and time.
+When mutation is not needed, new strings are likely to be
+more efficient than old strings with respect to space or time.
+In some implementations, new strings may be more efficient
+than old strings with respect to both space and time.
 </p>
 
 
@@ -595,8 +632,8 @@ This SRFI defines three new types:
 
 <p>
 This SRFI does not require any particular external representation
-for nstrings, but recommends that nstrings have almost
-the same external representation as ostrings, substituting Unicode's
+for new strings, but recommends that new strings have almost
+the same external representation as old strings, substituting Unicode's
 left-pointing and right-pointing double angle quotation marks
 (« and », code points <code>#xab</code> and <code>#xbb</code>)
 for the double quotes that delimit strings,
@@ -610,20 +647,20 @@ When feasible, implementations of this SRFI should also consider:
 </p>
 <ul>
   <li>extending the <code>equal?</code> procedure to regard two
-      nstrings <var>mi1</var> and <var>i2</var> as equal
+      new strings <var>mi1</var> and <var>i2</var> as equal
       if and only if
       <code>(string=? <var>i1</var> <var>i2</var>)</code>,
-      while regarding an nstring as unequal to anything
-      that isn't an nstring.</li>
+      while regarding a new string as unequal to anything
+      that isn't a new string.</li>
   <li>extending the <code>display</code> procedure to accept
-      nstrings, treating them the same as strings;</li>
+      new strings, treating them the same as strings;</li>
   <li>extending the <code>write</code> procedure to generate the
-      external syntax recommended for nstrings;</li>
+      external syntax recommended for new strings;</li>
   <li>extending the <code>read</code> procedure to accept the
-      external syntax recommended for nstrings;</li>
+      external syntax recommended for new strings;</li>
   <li>extending interpreters and compilers to accept quoted
       literals expressed using the external syntax recommended
-      for nstrings; R7RS section 4.1.2 mandates this
+      for new strings; R7RS section 4.1.2 mandates this
       extension if <code>read</code> is extended to accept
       the external syntax for strings.</li>
 </ul>
@@ -639,7 +676,7 @@ should not rely on them.
 <h3><a name="ExtendedPorts">Extended input and output ports</a></h3>
 
 <p>
-Extending input and output ports to handle nstrings
+Extending input and output ports to handle new strings
 would be nice, but they too cannot be implemented
 portably.  Leaving them for another SRFI allows all of this
 SRFI to be implemented portably with reasonable efficiency.
@@ -650,34 +687,34 @@ SRFI to be implemented portably with reasonable efficiency.
 <h3><a name="SharedStorage">Shared storage</a></h3>
 
 <p>
-All ostrings and other mutable objects returned by the procedures
+All old strings and other mutable objects returned by the procedures
 specified within this SRFI are newly allocated and may be mutated
 with abandon.
 </p>
 
 <p>
-No externally visible ostring ever shares storage with any nstring.
-All ostrings and other mutable objects passed to the procedures
+No externally visible new string ever shares storage with any old string.
+All old strings and other mutable objects passed to the procedures
 specified within this SRFI may be mutated without affecting the
-behavior of any nstring.
+behavior of any new string.
 </p>
 
 <p>
-The immutability of nstrings allows sharing of substructure, so
+The immutability of new strings allows sharing of substructure, so
 <code>substring</code>, <code>string-append</code>, and similar
 operations can be faster and more space-efficient when
-applied to nstrings than when applied to ostrings.
+applied to new strings than when applied to old strings.
 </p>
 
 <p>
-Although distinct nstrings may share storage internally, this is
+Although distinct new strings may share storage internally, this is
 undetectable because the procedures that
 operate on them do not directly expose any of their internal
 components.
 </p>
 
 <p>
-Implementations that share storage between nstrings must satisfy
+Implementations that share storage between new strings must satisfy
 the following requirement:  There is some reasonably small fixed
 bound on the ratio of storage used by the shared representation
 divided by the storage that would be used by an unshared
@@ -690,22 +727,22 @@ For the
 <a href="#SampleImp">sample implementations</a>
 with their default configurations,
 the worst case arises with UTF-8, when a 1-character ASCII
-nstring retains up to 127 characters of an nstring that is no longer
+new string retains up to 127 characters of another new string that is no longer
 reachable, and all 127 of those retained characters lie outside
 Unicode's Basic Multilingual Plane (BMP).
 Making reasonable assumptions about the representations of
 records, vectors, bytevectors, and strings on a 64-bit machine,
-that shared nstring would occupy no more than about 16 times the
+that shared new string would occupy no more than about 16 times the
 space occupied by an unshared representation.
 If the retained characters were in the BMP, the shared 
-nstring would occupy no more than about 8 times the space occupied
+new string would occupy no more than about 8 times the space occupied
 by an unshared representation.
-If the retained characters were ASCII, the shared nstring would
+If the retained characters were ASCII, the shared new string would
 occupy no more than about 4 times the space occupied by an
 unshared representation.
 The sample implementations can be configured to reduce those
 worst-case bounds, most obviously by reducing the maximum
-number of characters that can be shared with a very short nstring.
+number of characters that can be shared with a very short new string.
 </p>
 
 
@@ -728,7 +765,7 @@ different procedures.
 </p>
       
 <p>
-For convenience, most procedures will accept either ostrings or nstrings.
+For convenience, most procedures will accept either old strings or new strings.
 </p>
 
 <!--========================================================================-->
@@ -752,12 +789,12 @@ requirement.
 
 <p>
 The other procedures specified by this SRFI should run in
-amortized linear time on nstrings, not counting time spent in procedures and
+amortized linear time on new strings, not counting time spent in procedures and
 predicates that were passed as arguments.
 That is not an absolute requirement, but the sample implementations
 are designed to deliver that level of performance for most procedures
-provided none of their string arguments are ostrings.
-When ostrings are passed as arguments, the running time is unlikely
+provided none of their string arguments are old strings.
+When old strings are passed as arguments, the running time is unlikely
 to be linear unless <code>string-ref</code> runs in constant time,
 and that is not required by any of the Scheme standards.
 </p>
@@ -767,7 +804,7 @@ Indeed, this SRFI was designed to make efficient string processing
 easier in systems whose <code>string-ref</code> procedure does not
 run in constant time.  For efficiency, portable code should use
 strings only for fairly short sequences of characters.
-Representations with guaranteed efficiency (such as the nstrings
+Representations with guaranteed efficiency (such as the new strings
 of this SRFI) should be used for longer strings.
 </p>
 
@@ -861,9 +898,9 @@ in other systems, long strings are inefficient with respect to time.
 </p>
 
 <p>
-The portable solution to this dilemma is to use ostrings
+The portable solution to this dilemma is to use old strings
 only for buffers and other relatively short sequences of
-characters, while using the nstrings defined by this SRFI
+characters, while using the new strings defined by this SRFI
 for long sequences of characters.
 </p>
 
@@ -878,7 +915,7 @@ their strings to use compact internal representations such as UTF-8
 or UTF-16.
 That hope is unlikely to be realized, because a lot of legacy code
 assumes <code>string-ref</code> runs in O(1) time, as recommended
-by the R6RS, and ostrings represented in UTF-32 or similar
+by the R6RS, and old strings represented in UTF-32 or similar
 are more efficient than vectors of characters with respect to both
 time and space.
 At present, several implementations of Scheme support Unicode while
@@ -895,8 +932,8 @@ slower would displease some users of those systems.
 The following names are used for arguments and result types:
 </p>
 <dl>
-    <dt><i>nstring</i></dt><dd>An nstring.</dd>
-    <dt><i>ostring</i></dt><dd>A ostring.</dd>
+    <dt><i>nstring</i></dt><dd>A new string.</dd>
+    <dt><i>ostring</i></dt><dd>An old string.</dd>
     <dt><i>string</i></dt><dd>An nstring or ostring.</dd>
 
     <dt><i>char</i></dt><dd>A character.</dd>
@@ -992,25 +1029,12 @@ and might even vary from call to call.
 
 <p>Except for <code>string-&gt;ostring</code>, <code>string-&gt;nstring</code>,
 <code>ostrings</code>, and <code>nstrings</code>,
-if all the string inputs of a procedure are ostrings, the outputs are likewise ostrings;
-otherwise, the outputs are nstrings.
-Procedures with no string inputs exist in pairs that return ostrings and nstrings.
+if all the string inputs of a procedure are old strings, the outputs are likewise old strings;
+otherwise, the outputs are new strings.
+Procedures with no string inputs exist in pairs that return old strings and new strings.
 These rules ensure full backward compatibility with R7RS, SRFI 13,
-SRFI 130, and SRFI 152, since none of these specs support nstrings.<p>
+SRFI 130, and SRFI 152, since none of these specs support new strings.<p>
 
-<p>Some ostrings, such as
-literal strings or strings returned by <code>symbol-&gt;string</code>,
-cannot be portably mutated.  Specifically, it "is an error" in
-(<abbr title="Revised<sup>5</sup> Report on Scheme"><a 
-  href="#R5RS">R5RS</a></abbr>
-and
- <abbr title="Revised<sup>7</sup> Report on Scheme"><a 
-  href="#R7RS">R7RS</a></abbr>)
-to attempt such a mutation; in
-(<abbr title="Revised<sup>6</sup> Report on Scheme"><a 
-  href="#R6RS">R6RS</a></abbr>)
-the implementation "should raise an exception"
-in such cases.</p>
 
 <!--========================================================================-->
 <h3><a name="Predicates">Predicates</a></h3>
@@ -1025,7 +1049,7 @@ in such cases.</p>
 </dt>
 <dd class="proc-def">
     Returns true if and only if
-    <var>obj</var> is an nstring or ostring.
+    <var>obj</var> is an new string or old string.
     Must execute in O(1) time.
 </dd>
 
@@ -1038,7 +1062,7 @@ in such cases.</p>
 </dt>
 <dd class="proc-def">
     Returns true if and only if
-    <var>obj</var> is an nstring.
+    <var>obj</var> is a new string.
     Must execute in O(1) time.
 </dd>
 <!--
@@ -1050,7 +1074,7 @@ in such cases.</p>
 </dt>
 <dd class="proc-def">
     Returns true if and only if
-    none of the <var>objs</var> are nstrings.
+    none of the <var>objs</var> are new strings.
     Must execute in O(n) time.
 </dd>
 
@@ -1119,8 +1143,8 @@ in such cases.</p>
 
 <!--========================================================================-->
 <h3><a name="Constructors">Constructors</a></h3>
-<p>These procedures come in pairs that construct ostrings
-and nstrings respectively.</p>
+<p>These procedures come in pairs that construct old strings
+and new strings respectively.</p>
 
 <dl>
 
@@ -1166,7 +1190,7 @@ and nstrings respectively.</p>
     as its argument and returns a character.
     Constructs a string of size <var>len</var> by calling <var>proc</var>
     on each value from 0 (inclusive) to <var>len</var> (exclusive)
-    to produce the corresponding element of the nstring.
+    to produce the corresponding element of the new string.
     The order in which <var>proc</var> is called on those indexes is not
     specified.
 <p>
@@ -1208,24 +1232,24 @@ which can be any object.
   in the result string, which are assembled into that string in left-to-right
   order.
   It is an error for <var>mapper</var> to return anything
-  other than a character or string (nstrings and ostrings are treated identically).</li>
+  other than a character or string (new strings and old strings are treated identically).</li>
 <li> <var>base</var> is the optional initial/leftmost portion of
     the constructed string, which defaults to the empty string.
     It is an error if <var>base</var> is anything other than a character
-    string (nstrings and ostrings are treated identically).
+    string (new strings and old strings are treated identically).
 <li> <var>make-final</var> is applied to the terminal seed value
     (on which <var>stop?</var> returns
     true) to produce the final/rightmost portion of the constructed string.
     It defaults to a procedure returning an empty string.
     It is an error for <var>make-final</var> to return anything other
-    than a character or string (nstrings and ostrings are treated identically).</li>
+    than a character or string (new strings and old strings are treated identically).</li>
 </ul>
 
 <p>
 <code>string-unfold</code> is a fairly powerful string constructor.
 You can use it to
-convert a list to an ostring, read a port into an nstring, reverse an ostring,
-copy an nstring, and so forth. Examples:
+convert a list to an old string, read a port into an new string, reverse an old string,
+copy a new string, and so forth. Examples:
 </p>
 <pre class="code-example">
 (list-&gt;string lis) = (string-unfold null? car cdr lis)
@@ -1240,7 +1264,7 @@ copy an nstring, and so forth. Examples:
                              f add1 0)
 </pre>
 <p>
-To map <var>f</var> over a list <var>lis</var>, producing an nstring:
+To map <var>f</var> over a list <var>lis</var>, producing a new string:
 <pre class="code-example">
 (string-iunfold null? (compose f car) cdr lis)
 </pre>
@@ -1295,10 +1319,10 @@ to be limited by limits on stack size.
 <code class="proc-def">nstring-unfold-right</code><var> stop? mapper successor seed [base make-final] → nstring</var>
 </dt>
 <dd class="proc-def">
-    This is a fundamental constructor for nstrings.
+    This is a fundamental constructor for new strings.
     It is the same as <code>string-unfold</code>
     except the results of <var>mapper</var> are assembled into the
-    nstring in right-to-left order,
+    new string in right-to-left order,
     <var>base</var> is the optional rightmost portion
     of the constructed string, and <var>make-final</var>
     produces the leftmost portion of the constructed string.
@@ -1337,8 +1361,8 @@ to be limited by limits on stack size.
 <code class="proc-def">string-&gt;nstring</code><var> string → nstring</var>
 </dt>
 <dd class="proc-def">
-    The <code>string-&gt;ostring</code> procedure returns the corresponding ostring.
-    Note that if <var>string</var> is an ostring, it is copied.
+    The <code>string-&gt;ostring</code> procedure returns the corresponding old string.
+    Note that if <var>string</var> is an old string, it is copied.
     The <code>string-&gt;nstring</code> procedure returns the corresponding nstring.
 </dd>
 <!--
@@ -1355,10 +1379,10 @@ to be limited by limits on stack size.
 <dd class="proc-def">
     The <code>ostrings</code> procedure
 	returns a list of the <var>objs</var>
-	    with any nstrings converted to ostrings.
+	    with any new strings converted to old strings.
     The <code>nstrings</code> procedure
         returns a list of the <var>objs</var>
-	    with any ostrings converted to nstrings.
+	    with any old strings converted to new strings.
 </dd>
 
 <!--
@@ -1518,8 +1542,8 @@ to be limited by limits on stack size.
   <var>string</var>, and the
   <code>string-ref</code> procedure returns the character at character index
   <var>idx</var>, using 0-origin indexing.
-  If <var>string</var> is an nstring, the procedures must execute in O(1) time,
-  but there is no such requirement if <var>nstring</var> is an ostring.
+  If <var>string</var> is a new string, the procedures must execute in O(1) time,
+  but there is no such requirement if <var>nstring</var> is an old string.
 </dd>
 
 <!--
@@ -1534,19 +1558,19 @@ to be limited by limits on stack size.
     beginning with index <var>start</var>
     (inclusive) and ending with index <var>end</var> (exclusive).
   <p>
-    If <var>string</var> is an ostring, then that string does not share any
+    If <var>string</var> is an old string, then that string does not share any
     storage with the result, so subsequent mutation of that string
-    will not affect the ostring returned by <code>substring</code>.
-    When the first argument is an nstring,
+    will not affect the old string returned by <code>substring</code>.
+    When the first argument is a new string,
     implementations are encouraged to return a result that shares storage with
-    that nstring,
+    that new string,
     to whatever extent sharing is possible while maintaining some
     small fixed bound on the ratio of storage used by the shared
     representation divided by the storage that would be used by
     an unshared representation.
     In particular, these procedures should just return their first
-    argument when that argument is an nstring, <var>start</var> is 0, and
-    <var>end</var> is the length of that nstring.
+    argument when that argument is a new string, <var>start</var> is 0, and
+    <var>end</var> is its length.
   </p>
 </dd>
 
@@ -1724,8 +1748,8 @@ to be limited by limits on stack size.
 
 (define (string-set s i c) (string-replace s (string c) i (+ i 1)))
 
-(string-set "Istring-ref runs in O(n) time." 19 #\1)
-    =&gt; "Istring-ref runs in O(1) time."
+(strig-set "string-ref runs in O(n) time on new strings." 18 #\1)
+    =&gt; "string-ref runs in O(1) time on new strings."
 </pre>
 </dd>
 
@@ -1803,8 +1827,8 @@ to be limited by limits on stack size.
 
   <p>
     <i>Note:</i>
-    Implementations are encouraged to use the same orderings for nstrings
-    as are used by the corresponding comparisons on ostrings, but are
+    Implementations are encouraged to use the same orderings for new strings
+    as are used by the corresponding comparisons on old strings, but are
     allowed to use different orderings.
   </p>
 
@@ -1812,7 +1836,7 @@ to be limited by limits on stack size.
     <i>Rationale:</i>
     The only portable way to ensure these comparison predicates use the
     same orderings used by the corresponding comparisons on strings is
-    to convert all nstrings to strings, which would be unacceptably
+    to convert all new strings to strings, which would be unacceptably
     inefficient.
   </p>
 </dd>
@@ -2142,8 +2166,8 @@ This procedure is useful when constructing procedures that
 accumulate character data into lists of string buffers, and wish to
 convert the accumulated data into a single string when done.
 The optional <var>end</var> argument accommodates that use case
-when <var>final-string</var> is an ostring, and is allowed
-(for uniformity) when <var>final-string</var> is an nstring.
+when <var>final-string</var> is an old string, and is allowed
+(for uniformity) when <var>final-string</var> is a new string.
 </p>
 </dd>
 
@@ -2568,7 +2592,7 @@ use SRFI 115's <code>regexp-split</code> procedure:
 <p>
 <i>Rationale:</i>
 Although it would be more efficient to have a version of
-<code>regexp-split</code> that operates on nstrings directly,
+<code>regexp-split</code> that operates on new strings directly,
 the scope of this SRFI is limited to specifying operations
 on strings analogous to those specified for strings by R7RS
 and the string SRFIs.
@@ -2584,7 +2608,7 @@ a slightly different interface.</p>
 
 <p>
 The sample implementation of this SRFI depends on SRFI 135 for
-nstrings and SRFI 152 for ostrings, plus shim procedures
+new strings and SRFI 152 for old strings, plus shim procedures
 that invoke either of them as needed.
 <!--========================================================================-->
 <h1><a name="Acknowledgements">Acknowledgements</a></h1>
