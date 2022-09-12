@@ -688,15 +688,12 @@ This SRFI defines three new types:
 <h3><a name="ExternalRepresentation">External representation</a></h2>
 
 <p>
-This SRFI does not require any particular external representation
-for new strings, but recommends that new strings have almost
-the same external representation as old strings, substituting Unicode's
+This SRFI does not require or recommend
+any particular external representation
+for new strings.  For purely exemplary purposes in this SRFI,
 left-pointing and right-pointing double angle quotation marks
 (« and », code points <code>#xab</code> and <code>#xbb</code>)
-for the double quotes that delimit strings,
-and allowing those double angle quotation marks to be escaped
-within the external representations of both strings and strings.
-That external representation is used by this SRFI's examples.
+are used in place of the double quotes that delimit strings.
 </p>
 
 <p>
@@ -716,10 +713,10 @@ When feasible, implementations of this SRFI should also consider:
   <li>extending the <code>read</code> procedure to accept the
       external syntax recommended for new strings;</li>
   <li>extending interpreters and compilers to accept quoted
-      literals expressed using the external syntax recommended
+      literals expressed using a lexical syntax recommended
       for new strings; R7RS section 4.1.2 mandates this
       extension if <code>read</code> is extended to accept
-      the external syntax for strings.</li>
+      this lexical syntax for strings.</li>
 </ul>
 
 <p>
