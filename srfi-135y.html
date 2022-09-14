@@ -289,6 +289,7 @@ Here is a list of the procedures provided by this SRFI:
 <dt class="proc-index"> Predicates</dt>
 <dd class="proc-index">
 <pre class="proc-index">
+<a href="#any-string-p">any-string?</a>
 <a href="#string-p">string?</a>               <a href="#nstring-p">nstring?</a>
 <a href="#no-nstrings-p">no-nstrings?</a>          <a href="#string-null-p">string-null?</a>
 <a href="#string-every">string-every</a>          <a href="#string-any">string-any</a>
@@ -464,6 +465,8 @@ and several more problems were mentioned by SRFI 1
   <li>Although representations based on UTF-32 provide fast referencing
       as well as fast mutation, they occupy more space than representations
       based on UTF-8 or UTF-16.</li>
+  <li>Mutable strings transmitted between threads have to be copied
+      to protect them from being corrupted by the receiving thread.
   <li>Mutations preclude sharing of substructure that could save
       space while making
       <code>substring</code> and <code>string-append</code> run faster.</li>
@@ -971,11 +974,11 @@ The following names are used for arguments and result types:
 
     <dt><i>char</i></dt><dd>A character.</dd>
 
-    <dt><i>idx</i></dt><dd>An exact non-negative integer
+    <dt><i>index</i></dt><dd>An exact non-negative integer
       specifying a valid character index into a string or string.
       The valid character indexes of a string or string <var>string</var>
-      of length <var>n</var> are the exact integers <var>idx</var> satisfying
-      0 &lt;= <var>idx</var> &lt; <var>n</var>.
+      of length <var>n</var> are the exact integers <var>index</var> satisfying
+      0 &lt;= <var>index</var> &lt; <var>n</var>.
     </dd>
 
     <dt><i>k</i></dt><dd>Argument or result is a <i>position</i>:
@@ -993,6 +996,7 @@ The following names are used for arguments and result types:
       0 &lt;= <var>start</var> &lt;= <var>end</var> 
       &lt;= <code>(string-length <var>string</var>)</code>;
       the sample implementations detect that error and raise an exception.
+      These arguments may also be cursors, but not a mixture of an index and a cursor.
     </dd>
 
     <dt><i>len, nchars</i></dt><dd>An exact
@@ -1223,6 +1227,19 @@ SRFI 130, and SRFI 152, since none of these specs support new strings.<p>
 
 <dl>
 <!--
+==== any-string?
+============================================================================-->
+<dt class="proc-def">
+<a name="any-string-p"></a>
+<code class="proc-def">any-string?</code><var> obj → boolean</var>
+</dt>
+<dd class="proc-def">
+    Returns true if and only if
+    <var>obj</var> is a new string or old string.
+    Must execute in O(1) time.
+</dd>
+
+<!--
 ==== string?
 ============================================================================-->
 <dt class="proc-def">
@@ -1231,7 +1248,7 @@ SRFI 130, and SRFI 152, since none of these specs support new strings.<p>
 </dt>
 <dd class="proc-def">
     Returns true if and only if
-    <var>obj</var> is an new string or old string.
+    <var>obj</var> is a new string or old string.
     Must execute in O(1) time.
 </dd>
 
@@ -1239,7 +1256,7 @@ SRFI 130, and SRFI 152, since none of these specs support new strings.<p>
 ==== nstring?
 ============================================================================-->
 <dt class="proc-def">
-<a name="string-p"></a>
+<a name="nstring-p"></a>
 <code class="proc-def">nstring?</code><var> obj → boolean</var>
 </dt>
 <dd class="proc-def">
@@ -1269,7 +1286,7 @@ SRFI 130, and SRFI 152, since none of these specs support new strings.<p>
 </dt>
 <dd class="proc-def">
     Is <var>string</var> an empty string?
-    Must execute in O(1) time.
+    Must execute in O(1) time on either an old or a new string.
 </dd>
 
 <!--
@@ -1430,7 +1447,7 @@ which can be any object.
 <p>
 <code>string-unfold</code> is a fairly powerful string constructor.
 You can use it to
-convert a list to an old string, read a port into an new string, reverse an old string,
+convert a list to an old string, read a port into a new string, reverse an old string,
 copy a new string, and so forth. Examples:
 </p>
 <pre class="code-example">
@@ -1709,23 +1726,38 @@ to be limited by limits on stack size.
 
 <dl>
 <!--
-==== string-length string-ref
+==== string-length
 ============================================================================-->
-<dt class="proc-def1">
+<dt class="proc-def">
 <a name="string-length"></a>
-<a name="string-ref"></a>
 <code class="proc-def">string-length</code><var> string → len</var> [R7RS]
-</dt>
-<dt class="proc-defn">
-<code class="proc-def">string-ref</code><var> string idx → char</var> [R7RS]
 </dt>
 <dd class="proc-def">
   The <code>string-length</code> procedure returns the number of characters in
-  <var>string</var>, and the
-  <code>string-ref</code> procedure returns the character at character index
-  <var>idx</var>, using 0-origin indexing.
-  If <var>string</var> is a new string, the procedures must execute in O(1) time,
-  but there is no such requirement if <var>nstring</var> is an old string.
+  <var>string</var>.
+  Must execute in O(1) time.
+<!--
+==== string-ref
+============================================================================-->
+<dt class="proc-def">
+<a name="string-ref"></a>
+<code class="proc-def">string-ref</code><var> string index → char</var> [R7RS]
+</dt>
+<dd class="proc-def">
+  The <code>string-ref</code> procedure returns the character at character index
+  or cursor
+  <var>index-or-cursor</var>, using 0-origin indexing.
+  Must execute in O(1) time on a new string.
+
+  <p>Repeated applications of <code>string-ref</code> to the same
+  old string with different indexes should run on average in time no
+  greater than O(|<i>m</i> - <i>n</i>|), where <i>m</i> is the index or
+  cursor accessed by the previous invocation and <i>n</i> is the index
+  or cursor argument of the current invocation. The previous invocation
+  for a given string may have occurred in a different thread.</p>
+
+  <p>Note: Implementations with amortized O(1) or O(log n) implementations
+  of <code>string-ref</code> satisfy this recommendation ipso facto.</p>
 </dd>
 
 <!--
@@ -2592,18 +2624,20 @@ shortest <var>string</var> argument runs out.
 <code class="proc-def">string-map-index</code><var> proc string [start end] → string</var>
 </dt>
 <dd class="proc-def">
-Calls <var>proc</var> on each valid index of the specified substring
+Calls <var>proc</var> on each valid index or cursor of the specified substring
 or substring, converts the results of those calls into strings,
 and returns the concatenation of those strings.
 It is an error for <var>proc</var> to return anything other than
 a character, string, or string.
-The dynamic order in which <var>proc</var> is called on the indexes
+The dynamic order in which <var>proc</var> is called on the indexes or cursors
 is unspecified, as is the dynamic
 order in which the coercions are performed.  If any strings returned
 by <var>proc</var> are mutated after they have been returned and before
 the call to <code>string-map-index</code> has returned, then
 <code>string-map-index</code> returns a string with unspecified contents; the
 <code>string-map-index</code> procedure itself does not mutate those strings.
+(This procedure should be named <code>string-map-index-or-cursor</code>,
+but that was considered to be too verbose.)
 </dd>
 
 <!--
@@ -2614,10 +2648,12 @@ the call to <code>string-map-index</code> has returned, then
 <code class="proc-def">string-for-each-index</code><var> proc string [start end] → unspecified</var>
 </dt>
 <dd class="proc-def">
-Calls <var>proc</var> on each valid index of the specified substring
+Calls <var>proc</var> on each valid index or cursor of the specified substring
 or substring, in increasing order, discarding the results of those calls.
 This is simply a safe and correct
 way to loop over a substring.
+(This procedure should be named <code>string-for-each-index-or-cursor</code>,
+but that was considered to be too verbose.)
 <p>
 Example:
 </p>
@@ -2683,17 +2719,14 @@ Example:
 <dd class="proc-def">
     This is an "extended substring" procedure that implements replicated
     copying of a substring.
+    Note that <var>from</var> and <var>to</var> are understood as indexes, not cursors.
 
     <p>
-    <var>string</var> is a string or string;
-    <var>start</var> and <var>end</var> are optional arguments that specify
-    a substring of <var>string</var>,
-    defaulting to 0 and the length of <var>string</var>.
     This substring is conceptually replicated both up and down the index space,
     in both the positive and negative directions.
     For example, if <var>string</var> is <code>"abcdefg"</code>,
     <var>start</var> is 3, 
-    and <var>end</var> is6,
+    and <var>end</var> is 6,
     then we have the conceptual bidirectionally-infinite string
 <pre>
     ...  d  e  f  d  e  f  d  e  f  d  e  f  d  e  f  d  e  f  d ...
