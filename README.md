@@ -8,7 +8,8 @@ please take the following steps:
    that interests you.
    
 1. The ones that are marked "SRFI nnn" or have a link "Implementation" don't need
-   to be worked on.
+   to be worked on.  Currently the Urania, Selene, and Pan dockets are the
+   relevant ones.
    
 1. If you can't choose which project you want to work on, pick the one nearer
    the top of the page, but don't be too concerned about it.  Any project is fine.
