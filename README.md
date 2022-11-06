@@ -4,7 +4,7 @@ If you are interested in implementing any of the R7RS-large projects described i
 please take the following steps:
 
 1. Not everything described here is intended as part of R7RS-large.
-   Look at [the Committee B dockets](CommitteeBDockets) and pick something
+   Look at [the Committee B dockets](CommitteeBDockets.md) and pick something
    that interests you.
    
 1. The ones that are marked "SRFI nnn" or have a link "Implementation" don't need
