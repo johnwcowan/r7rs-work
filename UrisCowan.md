@@ -109,7 +109,7 @@ of a newly allocated URI object, which is returned.
  
  If the component is `#f` but the parent component
  is not, then the parent component is parsed into all
- his child components.  If the parent component is also
+ its child components.  If the parent component is also
  `#f`, parsing is performed recursively on the ancestors.
  Any %-escapes of characters that are not reserved
  for the component are replaced by the corresponding ASCII
@@ -129,18 +129,18 @@ of a newly allocated URI object, which is returned.
  without a `host`, or a `query` without either a `path`
  or an `authority`.
 
-`(uri-whole `*uri-object*)`
-`(uri-scheme `*uri-object*)`
-`(uri-specific `*uri-object*)`
-`(uri-authority `*uri-object*)`
-`(uri-userinfo `*uri-object*)`
-`(uri-username `*uri-object*)`
-`(uri-password `*uri-object*)`
-`(uri-host `*uri-object*)`
-`(uri-port `*uri-object*)`
-`(uri-path `*uri-object*)`
-`(uri-query `*uri-object*)`
-`(uri-fragment `*uri-object*)`
+`(uri-whole `*uri-object*`)`  
+`(uri-scheme `*uri-object*`)`  
+`(uri-specific `*uri-object*`)`  
+`(uri-authority `*uri-object*`)`  
+`(uri-userinfo `*uri-object*`)`  
+`(uri-username `*uri-object*`)`  
+`(uri-password `*uri-object*`)`  
+`(uri-host `*uri-object*`)`  
+`(uri-port `*uri-object*`)`  
+`(uri-path `*uri-object*`)`  
+`(uri-query `*uri-object*`)`  
+`(uri-fragment `*uri-object*`)`
 
 Return the specified component of *uri-object*,
 parsing as needed.  Returns `#f` if the component
@@ -204,7 +204,7 @@ If the parse fails, an error satisfying `uri-error?` is signaled.
 
 ## Exceptions
 
-`(uri-parse-error? `*obj*`)`
+`(uri-error? `*obj*`)`
 
 Returns `#t` if *obj* is an object raised by any of the
 parsing procedures, and `#f` otherwise.
