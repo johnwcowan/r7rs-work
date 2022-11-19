@@ -76,27 +76,27 @@ It is an error if both a component and any of its ancestral
 or descendent components are passed as arguments.
 For example, if `userinfo` is specified, then none of
 `username`, `password`, `authority`, `specific`, and `whole` can also be specified.
-It is also an error to have `password` without `username, `port` without `host`,
+It is also an error to have `password` without `username`, `port` without `host`,
 or `query` with neither `authority` nor `host`.
 URIs that violate these rules will produce unpredictable results
 if passed to any of the procedures of this SRFI.
 
 `(string->uri-object `*string*`)`
 
-Decodes %-escapes in *string* as follows:
+Decodes `%`-escapes in *string* as follows:
 
  * Upper-case hex digits are replaced by lower-case ones.
  
- * Sequences of %-escapes representing
+ * Sequences of `%`-escapes representing
    non-ASCII characters are replaced by the corresponding
    Unicode character.
    
- * %-escapes that specify generally unreserved characters
+ * `%`-escapes that specify generally unreserved characters
    (that is, ASCII letters or digits, hyphen, period,
    underscore, or tilde) are replaced by the
    corresponding ASCII character.
    
- * All other %-escapes are left unchanged.
+ * All other `%`-escapes are left unchanged.
 
 The result is then stored in the `whole` component
 of a newly allocated URI object, which is returned.
@@ -111,7 +111,7 @@ of a newly allocated URI object, which is returned.
  is not, then the parent component is parsed into all
  its child components.  If the parent component is also
  `#f`, parsing is performed recursively on the ancestors.
- Any %-escapes of characters that are not reserved
+ Any `%`-escapes of characters that are not reserved
  for the component are replaced by the corresponding ASCII
  character.
  
