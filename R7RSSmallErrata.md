@@ -100,7 +100,7 @@ the reader is referred to UAX #29, but it should be TR #44.
 
 15\. In section 7.3, the definition of `case-lambda` should use `letrec-syntax`, not `let-syntax`.
 
-16\. In section 4.3.2 (but not in 7.1.3), change <literal> to <pattern literal> to avoid confusion.
+16\. In section 4.3.2 (but not in 7.1.3), change \<literal> to \<pattern literal> to avoid confusion.
 
 17\. (removed, already in R7RS-small)
 
