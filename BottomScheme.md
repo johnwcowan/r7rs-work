@@ -99,7 +99,7 @@ Not supported; use single-character strings instead.
 
 Full support for string literals.  Strings are immutable.
 All Unicode characters are supported except U+0000 (NUL).
-Only `string?`, `string-length`, `string=?`, `string<?`, `string>?`, `substring`, `utf8->string`, `string->utf8`.
+Only `string?`, `string-length`, `string=?`, `string<?`, `string>?`, `substring`.
 
 6.8 Vectors
 
@@ -110,7 +110,8 @@ Only `vector?`, `make-vector` (one argument), `vector-length`, `vector-ref`, `ve
 
 Full support for bytevector literals.
 Only `bytevector?`, `make-bytevector` (one argument), `bytevector-length`,
-`bytevector-u8-ref`, `bytevector-u8-set!`.
+`bytevector-u8-ref`, `bytevector-u8-set!`, `utf8->string` (one argument),
+`string->utf8` (one argument).
 
 6.10 Control features
 
