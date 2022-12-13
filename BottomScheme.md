@@ -4,7 +4,7 @@ Bottom Scheme is a tiny subset of R7RS-small.
 It is not really a Scheme at all, because it omits
 assignment, macros, modules, proper tail calls except self-calls and named `let`,
 multiple values, `call/cc`, `dynamic-wind`, mutable pairs and strings,
-I/O (except for `read-char` and `write-char`),
+I/O (except for `read-u8` and `write-u8`),
 and essentially all non-primitive procedures.
 What it is, is the stupidest thing you could possibly call Scheme.
 Even a *really stupid* compiler could translate it into C
@@ -99,7 +99,7 @@ Not supported; use single-character strings instead.
 
 Full support for string literals.  Strings are immutable.
 All Unicode characters are supported except U+0000 (NUL).
-Only `string?`, `string-length`, `string=?`, `string<?`, `string>?`, `substring`, `list->string`.
+Only `string?`, `string-length`, `string=?`, `string<?`, `string>?`, `substring`, `utf8->string`, `string->utf8`.
 
 6.8 Vectors
 
@@ -122,7 +122,7 @@ Only `error`.
 
 6.13 Input and output
 
-Only `read-char` (no arguments), `eof-object`, `eof-object?`, `write-char` (one argument),
+Only `read-u8` (no arguments), `eof-object`, `eof-object?`, `write-u8` (one argument),
 `display` (mostly for debugging).
 
 ## Implementation
