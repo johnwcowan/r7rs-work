@@ -192,9 +192,11 @@ are normalized when possible.
 `(uri-parse-data `*uri-object*`)`
 
 If the `scheme` component of *uri-object*
-is not `"data"`, returns two values, both `#f`.
-Otherwise, returns a media type as the first value
-and decoded data as the second value, according
+is not `"data"`, returns three values, all `#f`.
+Otherwise, returns a media type as the first value,
+an alist mapping strings to strings representing the
+media type parameters as the second value,
+and decoded data as the third value, according
 to the rules of [RFC 2397](https://tools.ietf.org/html/rfc2397).
 If the media type begins with `text`, the decoded data
 is a string according to the specified encoding;
