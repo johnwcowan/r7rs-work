@@ -53,6 +53,8 @@ The following order is not necessarily the voting order.
 
 # Hypnos Docket (SRFIs)
 
+Transducers: [SRFI 171](https://srfi.schemers.org/srfi-171/srfi-171.html)
+
 Multiple values: [SRFI 210](https://srfi.schemers.org/srfi-210/srfi-210.html)
 
 Nested `define`:  [SRFI 219](https://srfi.schemers.org/srfi-219/srfi-219.html)
