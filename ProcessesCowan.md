@@ -1,4 +1,4 @@
-Very preliminary version of a high-level process management library.
+A pre-SRFI for a high-level process management library.
 It's based to some degree on the Python 3 subprocess module.
 
 ## Issues
@@ -78,7 +78,7 @@ the key `stdin` or an input port with the keys `stdout` and `stderr`.
 The values are interpreted as follows (any other value is an error):
 
   * If the value is a file, socket, pipe, or other port that contains a
-    file descriptor, that file descriptor is duplicated onto child port 0/1/2.
+    file descriptor, that fFle descriptor is duplicated onto child port 0/1/2.
     However, if the port is a buffered output port, it is flushed
     as if by `flush-output-port` before it is duplicated, so that the port and
     the file descriptor are synchronized.
@@ -99,7 +99,7 @@ The values are interpreted as follows (any other value is an error):
 
 The same as `stdin`, `stdout`, and `stderr`,
 but specifies the file descriptor to be used in the child process.
-File descriptors other than 0, 1, and 2 that do not appear as keys in the setup plist
+File descriptors other than 0, 1, and 2 that do not appear as keys in the setup dictionary
 are closed in the child process.
 
 `stdout+stderr`
@@ -174,7 +174,7 @@ It is always possible to send signals to a synthetic process object.
 
 `(current-process)`
 
-Creates a synthetic process wrapping the process id of the current process.
+Creates a synthetic process object wrapping the process id of the current process.
 
 ## Path search
 
