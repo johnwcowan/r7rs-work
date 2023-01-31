@@ -39,7 +39,7 @@ process is binary or textual in the child is determined solely by the child.
 
 Starts a child process which executes the program specified by the string *cmd*,
 passing it the string arguments *args*.
-The plist *setup* specifies how the newly created process is set up
+The dictionary *setup* specifies how the newly created process is set up
 and connected to the parent process that creates it and possibly to other processes.
 All file descriptors not mentioned in *setup* are closed in the new process.
 It returns a process-object (see below) from which various results can be extracted.
@@ -57,7 +57,7 @@ to be read or written is advisable.
 Creates a process-runner, an opaque object with which newly created processes
 can be registered.  The procedure *proc* is invoked on the process runner.
 When *proc* returns, `with-process-runner` waits for all registered processes
-to terminate and then returns a list of the processes in arbitrary order.
+to terminate and then returns a list of the process objects in arbitrary order.
 
 A process is registered by specifying a `runner` key in the setup dictionary
 whose value is the process-runner.  Unless the `group` key specifies otherwise,
@@ -107,13 +107,13 @@ are closed in the child process.
 The same as `stdout`, but binds both the standard output and the standard error
 in the child process to the same port.
 It is an error to provide either `stdout` or `stderr`
-if this key is present in the setup plist.
+if this key is present in the setup dictionary.
 This corresponds to `|&` in the C shell and `2>&1` in Posix shells.
 
 `open-fds`
 
 The value is a list of file descriptors not to be closed in the child process.
-All file descriptors not mentioned in the setup plist are closed.
+All file descriptors not mentioned in the setup dictionary are closed.
 
 `path`
 
@@ -214,7 +214,7 @@ If the answer is not yet known, these procedures return `#f`
 rather than waiting for the process to complete.
 
 These should all work correctly on children of the calling process.
-They can be performed on other processes
+They can be performed on other process objects
 by groveling in the `/proc` file system;
 if that is unavailable (as on MacOS), `#f` can always be returned.
 
