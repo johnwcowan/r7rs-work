@@ -3,7 +3,7 @@ It's based to some degree on the Python 3 subprocess module.
 
 ## Issues
 
-Issue 3: Consider these procedures:
+Issue 3: Consider including these procedures:
 
 * (open-control-tty tty-name [flags])
 * (become-session-leader)
@@ -11,8 +11,7 @@ Issue 3: Consider these procedures:
 * (set-tty-process-group fd/port/fname pgrp)
 * (control-tty-file-name)
 
-
-
+Issue 4: Should the section "Fork and exec" be removed?
 
 ## Constructors
 
@@ -296,8 +295,9 @@ These procedures are not portable to the Win32 API (they will raise errors satis
 `process-exception?`) and should be avoided when not necessary.
 However, they add a great deal of power and flexibility to the creation of process graphs.
 If the *narrow?* argument is false or absent, all threads present in the parent process
-are also present in the child.  If it is true, only the calling thread is present in the
-child process.
+are also present in the child.  If it is true, only a subset of threads that include
+the calling thread is present in the child process.  Which threads exist depends on the
+mapping of Scheme threads to Posix threads.
 
 `(process-fork `[*narrow?*]`)`
 
