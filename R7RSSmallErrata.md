@@ -151,3 +151,9 @@ apply only to *non-ASCII* characters; the valid ASCII characters are given expli
 31\. In section 1.1, the sentence "Each use of a variable is associated with a lexically apparent binding of that variable" appears. However, this is only true after macroexpansion, as the binding may be hidden in a user-written macro.  Prefix the sentence with "After macros are expanded".
  
 32\. In the third paragraph of the definition of `null-environment`, the reference to `scheme-report-environment` should be to `null-environment`, and is changed accordingly.
+
+33\. In the definition of `car-internal` in the formal semantics, the &#969; parameter should be dropped.
+
+34\. In the definition of `cons` in the formal semantics, the &#969; and &#954; parameters to the function passed to `twoarg` should be swapped.
+
+35\. In the definition of `cwv` in the formal semantics, the second, innermost application of `applicate` should have an additional final argument of &#954;.
