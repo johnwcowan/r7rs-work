@@ -33,20 +33,17 @@ must be solved by a `foldable` typeclass.
 
 Creates a newly allocated empty lexical macro environment.
 
-`(add-to-lexenv! `*lexenv symbol internalizer predicate externalizer*`)`
+`(add-internalizer! `*lexenv symbol internalizer*`)`
 
 Adds a new entry to *lexenv*, which says that during internalization, lists
 whose cars are *symbol* are passed to *internalizer* to convert them
-to internal format,
-and during externalization, objects which satisfy *predicate* are passed
-to *externalizer* to convert them to external format.  The intention
-is that objects produced by *internalizer* satisfy *predicate* and that
-objects produced by *externalizer* are lists whose car is *symbol*, but
-this is not enforced.
+to internal format.
 
-Specifying *symbol* and *internalizer* as `#f` provides one-way
-externalization, and specifying *predicate* and *externalizer* as `#f` provides
-one-way internalization.
+`(add-externalizer! `*lexenv  predicate externalizer*`)`
+
+Adds a new entry to *lexenv*, which says that
+during externalization, objects which satisfy *predicate* are passed
+to *externalizer* to convert them to external format.
 
 `(lexmacs-internalize `*object* *lexenv*`)`
 
