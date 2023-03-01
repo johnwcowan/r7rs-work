@@ -160,6 +160,8 @@ String interpolation: [StringInterpolateCowan](StringInterpolateCowan.md). [Impl
 
 Pathname objects: [PathnamesPython](PathnamesPython.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/PathnamesPython)
 
+Skip lists:  No writeup yet.  [Implementation](https://mumble.net/~campbell/scheme/skip-list.scm)
+
 # Urania Docket (not SRFIs, no implementations)
 
 JSON: [SRFI 180](https://srfi.schemers.org/srfi-180/srfi-180.html),
