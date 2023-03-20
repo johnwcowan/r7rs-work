@@ -2,8 +2,7 @@ A maxvector is a vector with a current length and a maximum length.
 
 ## Constructors
 (make-maxvector vec current-length)  
-(maxvector-append vec ...)  
-(maxvector-append-subvectors [vec start end] ...)
+(maxvector-append vec ...)
 
 ## Predicates
 (maxvector? obj)  
@@ -32,3 +31,8 @@ A maxvector is a vector with a current length and a maximum length.
 (maxvector-any pred? vec1 vec2 ...)  
 (maxvector-every pred? vec1 vec2 ...)  
 (maxvector-partition pred? vec)
+
+## Mutators
+(maxvector-set-current-length! maxvec i)  
+(maxvector-push! maxvec obj)  
+(maxvector-pop! maxvec obj failure)
