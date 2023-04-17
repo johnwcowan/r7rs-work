@@ -117,6 +117,9 @@ Coroutine generators: [SRFI 190](https://srfi.schemers.org/srfi-190/srfi-190.htm
 
 Generic dictionary operations: [SRFI 225](https://srfi.schemers.org/srfi-225/srfi-225.html)
 
+Generic combinator procedures: [SRFI 235](https://srfi.schemers.org/srfi-235/srfi-235.html)
+
+
 # Eos Docket (not SRFIs, implementations available)
 
 Ordered sets: Withdrawn [SRFI 153](https://srfi.schemers.org/srfi-153/srfi-153.html) bis (debugging)
@@ -126,8 +129,6 @@ Matching: Withdrawn [SRFI 204](https://srfi.schemers.org/srfi-204/srfi-204.html)
 Port operations: [PortOperationsCowan](PortOperationsCowan.md) [Implementation](https://gitlab.com/dpk/presrfis/-/blob/master/io-utils/port-operations.scm)
 
 Topological sort: SRFI 234; [TopologicalSortGauche](https://practical-scheme.net/gauche/man/gauche-refe/Topological-sort.html#Topological-sort). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/TopologicalSortGauche)
-
-Generic combinator procedures: SRFI 235; [CombinatorsCowan](CombinatorsCowan.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/CombinatorsCowan)
 
 Modify macros: [Srfi17ExtensionsCowan](Srfi17ExtensionsCowan.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/Srfi17ExtensionsCowan)
 
@@ -228,7 +229,7 @@ Implementation: all.
 # Pan Docket (not SRFIs, no implementations).
 
 Timespecs: 
-[SRFI 174 bis](TimeObjects.md)
+[SRFI 174 bis time objects]([TimeObjects.md](https://github.com/pre-srfi/time-objects/blob/master/TimeObjects.md))
 
 Date and time arithmetic: [TimeAdvancedCowan](TimeAdvancedCowan.md),
 [SRFI 19](https://srfi.schemers.org/srfi-19/srfi-19.html)
