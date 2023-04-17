@@ -79,6 +79,9 @@ Flexvectors: [SRFI 214](https://srfi.schemers.org/srfi-214/srfi-214.html)
 
 Unifiable boxes: [SRFI 161](https://srfi.schemers.org/srfi-161/srfi-161.html)
 
+Ordered sets: Withdrawn [SRFI 153](https://srfi.schemers.org/srfi-153/srfi-153.html)
+
+
 # Orange Docket (SRFIs)
 
 ## Numeric types, operations, and data structures
@@ -119,16 +122,15 @@ Generic dictionary operations: [SRFI 225](https://srfi.schemers.org/srfi-225/srf
 
 Generic combinator procedures: [SRFI 235](https://srfi.schemers.org/srfi-235/srfi-235.html)
 
+Topological sort: [SRFI 234](https://srfi.schemers.org/srfi-234/srfi-234.html)
+
+
 
 # Eos Docket (not SRFIs, implementations available)
-
-Ordered sets: Withdrawn [SRFI 153](https://srfi.schemers.org/srfi-153/srfi-153.html) bis (debugging)
 
 Matching: Withdrawn [SRFI 204](https://srfi.schemers.org/srfi-204/srfi-204.html) bis (eliminate non-portable match clauses)
 
 Port operations: [PortOperationsCowan](PortOperationsCowan.md) [Implementation](https://gitlab.com/dpk/presrfis/-/blob/master/io-utils/port-operations.scm)
-
-Topological sort: SRFI 234; [TopologicalSortGauche](https://practical-scheme.net/gauche/man/gauche-refe/Topological-sort.html#Topological-sort). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/TopologicalSortGauche)
 
 Modify macros: [Srfi17ExtensionsCowan](Srfi17ExtensionsCowan.md). [Implementation](https://github.com/arvyy/r7rs-work/tree/master/Srfi17ExtensionsCowan)
 
