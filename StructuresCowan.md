@@ -18,16 +18,16 @@ None at present.
 Returns `#t` if *obj* is a valid schema
 and `#f` otherwise.
 
-`(struct-schema-length *schema*`)` => *exact integer*
+`(struct-schema-length `*schema*`)` => *exact integer*
 
 Returns the number of bytes described by *schema*
 as an exact integer.
 
 ## Packing procedures
 
-`(make-struct-packer `*schema*`)` => `(`*proc obj* [*taglist*]`)` => *bytevector*
+`(make-struct-packer `*schema*`)` => `(`*packer obj* [*taglist*]`)` => *bytevector*
 
-Returns a procedure *proc* that takes *obj*
+Returns a procedure *packer* that takes *obj*
 (see [Schema](#Schema) for permitted objects)
 and packs it into a newly allocated bytevector,
 which is returned.
@@ -35,15 +35,17 @@ which is returned.
 Raises an error statisfying `struct-schema-error?`
 if *schema* is uninterpretable.
 
-The procedure *proc*
+The procedure *packer*
 raises an error satisfying `struct-error?`
 if the object being packed
 or any of its components
-do not match the schema or its components.
+do not match the schema or its components,
+or if there are not enough tags in *taglist*
+to support the number of unions in *schema*.
 
-`(make-struct-packer! `*schema*`)` => `(`*proc! obj bytevector* [*offset*] [*taglist*]`)` => *unspecified*
+`(make-struct-packer! `*schema*`)` => `(`*packer! obj bytevector* [*offset*] [*taglist*]`)` => *unspecified*
 
-Returns a procedure that takes an object
+Returns a procedure *packer!* that takes an object
 (see [Schema](#Schema) for permitted object types)
 a bytevector, and an optional offset (default is 0),
 and packs the object into the bytevector
@@ -53,13 +55,15 @@ Returns an unspecified value.
 Raises an error statisfying `struct-schema-error?`
 if *schema* is uninterpretable.
 
-The returned procedure *proc!*
+The returned procedure *packer!*
 raises an error satisfying `struct-error?`
 if the object being packed
 or any of its components
-do not match the schema or its components.
+do not match the schema or its components,
+or if there are not enough tags in *taglist*
+to support the number of unions in *schema*.
 
-`(make-struct-writer `*schema*`)` => `(`*proc obj binary-output-port* [*taglist*]`)` => *unspecified*
+`(make-struct-writer `*schema*`)` => `(`*writer obj binary-output-port* [*taglist*]`)` => *unspecified*
 
 Returns a procedure that takes an object
 (see [Schema](#Schema) for allowed object types)
@@ -70,15 +74,17 @@ Returns an unspecified value.
 Raises an error satisfying `struct-schema-error?`
 if *schema* is uninterpretable.
 
-The returned procedure
+The returned procedure *writer*
 raises an error satisfying `struct-error?`
 if the object being packed
 or any of its components
-do not match the schema or its components.
+do not match the schema or its components,
+or if there are not enough tags in *taglist*
+to support the number of unions in *schema*.
 
 ## Unpacking procedures
 
-`(make-struct-unpacker `*schema*`)` => `(`*proc* *bytevector [*offset*] [*taglist*]`)` => *obj*
+`(make-struct-unpacker `*schema*`)` => `(`*unpacker bytevector [*offset*] [*taglist*]`)` => *obj*
 
 Returns a procedure that takes a bytevector
 and an optional offset (default is 0),
@@ -89,26 +95,30 @@ The returned value is the unpacked object.
 Raises an error statisfying `struct-schema-error?`
 if *schema* is uninterpretable.
 
-The returned procedure *proc*
+The returned procedure *unpacker*
 raises an error satisfying `struct-error?`
 if the object being packed
 or any of its components
-do not match the schema or its components.
+do not match the schema or its components
+or if there are not enough tags in *taglist*
+to support the number of unions in *schema*.
 
-`(make-struct-reader `*schema*`)` => `(`*port* [*taglist*]`)` => *obj*
+`(make-struct-reader `*schema*`)` => `(`*reader port* [*taglist*]`)` => *obj*
 
-Returns a procedure that takes a binary input port,
+Returns a procedure *reader* that takes a binary input port,
 reads the appropriate number of bytes,
 and unpacks them into an object, which is returned.
 
 Raises an error statisfying `struct-schema-error?`
 if *schema* is uninterpretable.
 
-The returned procedure
+The returned procedure *reader*
 raises an error satisfying `struct-error?`
 if the object being packed
 or any of its components
-do not match the schema or its components.
+do not match the schema or its components
+or if there are not enough tags in *taglist*
+to support the number of unions in *schema*.
 
 ### Exceptions
 
@@ -117,12 +127,6 @@ do not match the schema or its components.
 
 Returns `#t` if *obj* is an appropriate condition object
 as described above or `#f` otherwise.
-
-`(struct-union-exception? `*obj*`)` => *boolean*  
-`(struct-union-tag `*struct-union-exception*`)` => *object*  
-`(struct-union-schemas `*struct-union-exception*`)` => *list*
-
-See below for the `tagged-union` schema pattern.
 
 ## Syntax
 
@@ -209,8 +213,17 @@ For example, the schema
                (d f32)))))
 ```
 
+is equivalent to the following schemas
+given the three possible taglists:
+
+|taglist|schema|
+|-------|------|
+|`(a)`|`i32`|
+|`(b c)`|`(struct i32 i32)`|
+|`(b d)`|`(struct i32 f32)`|
+
 It is an error unless all the schemas return the same
-value to `schema-length`.
+value to `schema-length` and all the tags are distinct.
 
 `(label `*tag schema*`)`
 
