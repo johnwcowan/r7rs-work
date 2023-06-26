@@ -4,6 +4,8 @@ This library is used to convert between a bytevector (which is byte-for-byte
 equivalent to a C object) and a Scheme object.  Conversion is done
 all at once using a
 *schema*, which is an S-expression that specifies the mapping.
+If the schema specifies C unions, it is also necessary to specify a list
+of tags (symbols) representing which member of every union is to be used.
 
 ## Issues
 
@@ -23,7 +25,7 @@ as an exact integer.
 
 ## Packing procedures
 
-`(make-struct-packer `*schema*`)` => `(`*proc obj*`)` => *bytevector*
+`(make-struct-packer `*schema*`)` => `(`*proc obj* [*taglist*]`)` => *bytevector*
 
 Returns a procedure *proc* that takes *obj*
 (see [Schema](#Schema) for permitted objects)
@@ -39,7 +41,7 @@ if the object being packed
 or any of its components
 do not match the schema or its components.
 
-`(make-struct-packer! `*schema*`)` => `(`*proc! obj bytevector offset*`)` => *unspecified*
+`(make-struct-packer! `*schema*`)` => `(`*proc! obj bytevector* [*offset*] [*taglist*]`)` => *unspecified*
 
 Returns a procedure that takes an object
 (see [Schema](#Schema) for permitted object types)
@@ -57,7 +59,7 @@ if the object being packed
 or any of its components
 do not match the schema or its components.
 
-`(make-struct-writer `*schema*`)` => `(`*proc obj binary-output-port*`)` => *unspecified*
+`(make-struct-writer `*schema*`)` => `(`*proc obj binary-output-port* [*taglist*]`)` => *unspecified*
 
 Returns a procedure that takes an object
 (see [Schema](#Schema) for allowed object types)
@@ -76,7 +78,7 @@ do not match the schema or its components.
 
 ## Unpacking procedures
 
-`(make-struct-unpacker `*schema*`)` => `(`*proc* *bytevector [*offset*]`)` => *obj*
+`(make-struct-unpacker `*schema*`)` => `(`*proc* *bytevector [*offset*] [*taglist*]`)` => *obj*
 
 Returns a procedure that takes a bytevector
 and an optional offset (default is 0),
@@ -93,7 +95,7 @@ if the object being packed
 or any of its components
 do not match the schema or its components.
 
-`(make-struct-reader `*schema*`)` => `(`*port*`)` => *obj*
+`(make-struct-reader `*schema*`)` => `(`*port* [*taglist*]`)` => *obj*
 
 Returns a procedure that takes a binary input port,
 reads the appropriate number of bytes,
@@ -190,28 +192,27 @@ Matches a heterogeneous list to a C `struct`.'  Note that
 the C names of the fields are not represented here,
 though they can be carried along by `label` schemas.
 
-`(tagged-union (`*tag-schema* ...`)` *union-schema* ...`)`
+`(union (`*tag schema*`)` ...`)`
 
-When unpacking, the *tag-schemas* are used to convert
-bytes to Scheme objects, which are assembled into a list
-known as the *tag*.  Next, a continuable exception
-satisfying `struct-union-exception?` is raised.  The exception
-must be caught by `with-exception-handler` or the equivalent
-(not with `guard`).
+Equivalent to one of the *schemas* as specified by the *taglist*.
+The tag of the first union in depth-first order
+corresponds to the first tag in
+the list, and so on until both the tags and the unions are exhausted.
 
-The procedures `struct-union-tag` and `struct-union-schemas`
-are then used to retrieve the tag and the list of *union-schemas* respectively.
-The tag is then used to decide which of the
-*union-schemas* should be used to convert the following bytes, and the
-resulting Scheme object is appended to the tag.  The result corresponds
-to the tagged union on the Scheme side.
+For example, the schema
+```
+(union (a i32)
+       (b (struct
+            i32
+            (union
+               (c i32)
+               (d f32)))))
+```
 
 It is an error unless all the schemas return the same
 value to `schema-length`.
 
-When packing, FIXME.
+`(label `*tag schema*`)`
 
-`(label `*symbol schema*`)`
-
-Matches whatever *schema* matches, but provides a label
+Matches whatever *schema* matches, but provides a tag
 which can be used for purposes outside the scope of this SRFI.
