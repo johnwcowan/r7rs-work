@@ -4,6 +4,8 @@ This SRFI contains a variety of operations on ports.  All of them can be impleme
 
 ## Ports, generators, and accumulators
 
+See [SRFI 26](https://srfi.schemers.org/srfi-26/srfi-26.html) for the `cut` macro.
+
 As an alternative to creating custom Scheme ports, this SRFI provides for
 clean interfaces between the world of ports and the more flexible world of
 [SRFI 158](https://srfi.schemers.org/srfi-158/srfi-158.html) generators and accumulators.
@@ -29,10 +31,11 @@ from the current input port,
 
 ```
 (input-operation->generator
-  (lambda (p) (read-string 10 p)))
+  (cut read-string 10 <>))
 ```
-is required, because `read-string` (as well as `read-bytevector`) with a size limit
-does not directly satisfy the contract for *operation*.
+is required, because `read-string` with a size limit
+does not directly satisfy the contract for *operation*
+(the same is true of `read-bytevector`).
 
 `(output-operation->accumulator `*operation* [ *port* ]`)`
 
@@ -53,11 +56,12 @@ string argument to the current output port, then
 
 ```
 (output-operation->accumulator
- (lambda (str p) (write-string str p 0 4)
+ (cut write-string <> <> 0 4)
 ```
-is appropriate, because both `write-string` and `write-bytevector` with
+is appropriate, because `write-string` with
 a start argument or both start and end arguments do not fit the
-contract for *operation*.
+contract for *operation* (the same is true of
+`write-bytevector`).
 
 ## String and bytevector port operations
 
@@ -134,6 +138,11 @@ if the `peek-char` procedure is not supported by *port*.
 Read all remaining characters in *input-port* (as if by `read-line`),
 and return a list of strings representing the lines.
 The default port is the value of `(current-input-port)`.
+
+`(read-textual-record `*terminator* [*input-port*]`)`
+
+Like *read-line*, but the input is terminated by the string *terminator*.
+This procedure is unrelated to Scheme records.
 
 `(read-all-bytes ` [*port*]`)`
 
