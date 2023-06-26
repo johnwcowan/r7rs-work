@@ -122,9 +122,8 @@ Generic dictionary operations: [SRFI 225](https://srfi.schemers.org/srfi-225/srf
 
 Generic combinator procedures: [SRFI 235](https://srfi.schemers.org/srfi-235/srfi-235.html)
 
-Topological sort: [SRFI 234](https://srfi.schemers.org/srfi-234/srfi-234.html)
 
-
+INI files: [SRFI 233](https://srfi.schemers.org/srfi-233/srfi-233.html)
 
 # Eos Docket (not SRFIs, implementations available)
 
@@ -152,8 +151,6 @@ or [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_sec_11.14).
 [using explicit renaming](https://code.call-cc.org/cgi-bin/gitweb.cgi?p=chicken-core.git;a=blob;f=chicken-syntax.scm;h=e3c2feb47c1437d44aefa0d879e04dc28a0cbc61;hb=HEAD),
 [using syntax-case](http://git.savannah.gnu.org/cgit/guile.git/tree/module/ice-9/and-let-star.scm)), or
 [SRFI 202 using syntax-case](https://srfi.schemers.org/srfi-202/srfi-202.html)
-
-INI files: SRFI 233; [IniFilesCowan](IniFilesCowan.md) [Implementation](https://github.com/arvyy/r7rs-work/tree/master/IniFilesCowan)
 
 Testing: [SRFI 64](https://srfi.schemers.org/srfi-64/srfi-64.html)
 or [ChibiChickenTest](http://wiki.call-cc.org/eggref/5/test)
