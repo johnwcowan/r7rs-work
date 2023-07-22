@@ -169,6 +169,7 @@ JSON: [SRFI 180](https://srfi.schemers.org/srfi-180/srfi-180.html),
 and [data](https://github.com/ar-nelson/schemepunk/blob/master/json.sld), or
 trivial `(json-read `*stream* [ *max-chars* ]`)` and `(json-write `*stream obj*`)`.
 
+Trees: [Trees](https://github.com/pre-srfi/trees/blob/master/spec.md).  [Implementation](https://github.com/pre-srfi/trees/tree/master).
 
 Enumeration maps: [EnumMappingsCowan](EnumMappingsCowan.md)
 
