@@ -4,12 +4,14 @@ This pathname library is based on the portable parts of Python's [os.path](https
 
 Should path objects be opaque, or is list-of-strings fine?
 
+I'm assuming some way to decode dirty bytevectors and u16vectors into clean Unicode strings.  See [R7RS issue 33](https://codeberg.org/scheme/r7rs/issues/33) for a proposal.
+
 ## Path objects
 
 A path object belongs to a disjoint type that can be created from a Posix or Windows pathname
-(a string, a bytevector, or a u16vector) and can be manipulated conveniently
+(a string) and can be manipulated conveniently
 and converted back into a pathname.  Every path object has a *drive* , a *root*,
-and a list of *components*, all of which are likewise strings, bytevectors, or u16vectors.
+and a list of *components*, all of which are likewise strings.
 The *filename* is the last component.
 
 ## Parsing
@@ -108,7 +110,7 @@ namely `< > " : | ? *`, an error satisfying `path-error?` is signaled.
 
 Returns a Posix-style pathname based on the contents of *path* using slash as the separator.
 If the drive is not empty, it is passed through *drive-mapper*, a procedure
-which accepts a string, bytevector, or u16vector and returns an object of the same type.
+which accepts a string and returns an object of the same type.
 Whatever is returned will be prepended to the path.
 
 If *drive-mapper* is omitted, the behavior is implementation-dependent.
