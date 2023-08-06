@@ -63,6 +63,22 @@ a start argument or both start and end arguments do not fit the
 contract for *operation* (the same is true of
 `write-bytevector`).
 
+## Generic port operations
+
+`(with-input-port `*port thunk*`)`
+
+Binds `current-input-port` to *port*
+and invokes *thunk* with
+the same port-closing semantics as `call-with-port`.
+
+`(with-output-port `*port thunk*`)`
+
+Binds `current-output-port` to *port*
+and invokes *thunk* with
+the same port-closing semantics as `call-with-port`.
+
+
+
 ## String and bytevector port operations
 
 These are analogous to the R7RS-small operations on file ports.
@@ -144,6 +160,18 @@ The default port is the value of `(current-input-port)`.
 Like *read-line*, but the input is terminated by the string *terminator*.
 This procedure is unrelated to Scheme records.
 
+`(read-textual-record `*terminator* [*input-port*]`)`
+
+Like *read-line*, but the input is terminated by the string *terminator*,
+which is not returned.
+This procedure is unrelated to Scheme records.
+
+`(read-binary-record `*terminator* [*input-port*]`)`
+
+Like *read-textual-record*, but the input is terminated by the bytevector *terminator*,
+which is not returned.  The result is a bytevector.
+This procedure is unrelated to Scheme records.
+
 `(read-all-bytes ` [*port*]`)`
 
 Returns a bytevector consisting of all the bytes
@@ -190,9 +218,6 @@ Implementations should attempt to produce the output as quickly
 as possible, flushing any buffers and (if useful) shutting
 down thread scheduling and using ordinary blocking I/O.
 
-## To be added
+## Implementation
 
-PortOperationsCowan is a handy-looking utility library (I have already implemented it),
-although I think it needs a procedure (`read-line*`? `read-record`?)
-which is like read-line but lets you specify the line/record ending character/string.
-(I have also [already implemented this](https://gitlab.com/dpk/presrfis/blob/master/io-utils/read.scm).)
+See https://gitlab.com/dpk/presrfis/blob/master/io-utils/read.scm.
