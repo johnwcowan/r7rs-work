@@ -17,7 +17,7 @@ proleptic Gregorian calendar and 23:59:52 (eight seconds before midnight)
 in UTC time.
 
 A time object belongs to a disjoint type (see
-FIXME: [TimeObjects](https://github.com/pre-srfi/time-objects/blob/master/TimeObjects.md)
+FIXME: [TimeObjects](https://github.com/pre-srfi/time-objects/blob/master/TimeObjects.md))
 that represents a count of whole seconds and nanoseconds
 plus a time type such as UTC, TAI, or duration.
 The current UTC time object can be obtained by calling the SRFI 170
