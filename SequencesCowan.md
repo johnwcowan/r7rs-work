@@ -1,7 +1,7 @@
 (based loosely on SRFI 1)
 
-Numbers are arbitrary.  P = primitive.
-sto = sequence type object
+Numbers are arbitrary.  P = primitive.  
+sto = sequence type object  
 43 generic procedures, 8 primitives
 
 ### Predicates
