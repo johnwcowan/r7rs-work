@@ -85,7 +85,9 @@ sto = sequence type object
 
 ## Instances
 
-Dictionaries: keys, values, associations
+Dictionary keys  
+Dictionary values  
+Dictionary associations (as pairs)  
 Lists  
 Vectors  
 Strings  
