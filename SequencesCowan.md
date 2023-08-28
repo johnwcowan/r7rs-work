@@ -2,7 +2,7 @@
 
 Numbers are arbitrary.  P = primitive.
 sto = sequence type object
-41 generic procedures, 7 primitives
+43 generic procedures, 8 primitives
 
 ### Predicates
 
@@ -33,8 +33,8 @@ sto = sequence type object
 
 46: seq-fold sto kons knil cseq1 cseq2 ... -> value  
 47: seq-fold-right sto kons knil cseq1 cseq2 ... -> value  
-27: seq-foldl sto kons knil cseq1 cseq2 ... -> value
-28: seq-foldr sto kons knil cseq1 cseq2 ... -> value
+27: seq-foldl sto kons knil cseq1 cseq2 ... -> value  
+28: seq-foldr sto kons knil cseq1 cseq2 ... -> value  
 48: seq-reduce sto proc ridentity seq -> value  
 52P: seq-map sto proc cseq1 cseq2 ... -> seq  
 54P: seq-for-each sto proc cseq1 cseq2 ... -> unspecified  
@@ -60,15 +60,15 @@ sto = sequence type object
 
 ### Deletion
 
-79: seq-delete sto comparator obj seq -> seq
-82: seq-delete-neighbor-dupes sto comparator seq -> seq
-81: seq-delete-duplicates sto comparator seq -> seq  
+79: seq-delete sto comparator obj seq -> seq  
+82: seq-delete-neighbor-dupes sto comparator seq -> seq  
+81: seq-delete-duplicates sto comparator seq -> seq
 
 ### Elementwise mutators
 
 97P: seq-set! sto seq i value -> unspecified  
 98: seq-fill! sto seq fill [start [end]] -> unspecified  
-53: seq-map! f sto seq1 seq2 ... -> unspecified  
+53: seq-map! f sto seq1 seq2 ... -> unspecified
 
 ### Sequence type objects
 
@@ -91,7 +91,7 @@ Vectors
 Strings  
 Bytevectors and other homogeneous vectors  
 Ranges  
-Texts  
+~~Texts~~  
 Flexvectors  
 Bitvectors  
 Random-access lists  
@@ -100,4 +100,4 @@ Streams
 Compound objects  
 Doubly linked lists  
 Bitwise integers?  
-Arrays
+Arrays (with 1 dimension)
