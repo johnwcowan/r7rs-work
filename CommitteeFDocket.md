@@ -27,7 +27,7 @@ or [SRFI 164](https://srfi.schemers.org/srfi-164/srfi-164.html)
 
 Compound objects: [SRFI 222](https://srfi.schemers.org/srfi-222/srfi-222.html)
 
-tAssumptions/Assertions/Warnings: [SRFI 145](https://srfi.schemers.org/srfi-145/srfi-145.html)
+Assumptions/Assertions/Warnings: [SRFI 145](https://srfi.schemers.org/srfi-145/srfi-145.html)
 and
 [AssertionsWarnings](https://github.com/johnwcowan/r7rs-work/blob/master/AssertionsWarnings.md), [Implementation](https://github.com/arvyy/r7rs-work/tree/master/AssertionsWarnings).
 or [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_sec_11.14).
