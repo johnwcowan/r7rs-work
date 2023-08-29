@@ -57,8 +57,8 @@ Variable: `u16-storage-class`
 Variable: `u32-storage-class`  
 Variable: `u64-storage-class`  
 Variable: `f8-storage-class`  
-Variable: f16-storage-class`  
-Variable: f32-storage-class`  
+Variable: `f16-storage-class`  
+Variable: `f32-storage-class`  
 Variable: `f64-storage-class ` 
 Variable: `c64-storage-class`  
 Variable: `c128-storage-class`
@@ -69,7 +69,7 @@ make-specialized-array interval [ storage-class [ initial-value [ #t ] ] ]
 
 ### Predicates
 
-array? obj
+specialized-array? obj
 
 ### Accessors
 
