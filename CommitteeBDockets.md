@@ -22,7 +22,7 @@ The following order is not necessarily the voting order.
   * comprehensive list library
   * comprehensive vector library
   * sorting
-  * sets (including character sets) and bags
+  * hash sets (including character sets) and bags
   * hashtables
   * immutable pairs
   * random=-access pairs
@@ -79,7 +79,7 @@ Flexvectors: [SRFI 214](https://srfi.schemers.org/srfi-214/srfi-214.html)
 
 Unifiable boxes: [SRFI 161](https://srfi.schemers.org/srfi-161/srfi-161.html)
 
-Ordered sets: Withdrawn [SRFI 153](https://srfi.schemers.org/srfi-153/srfi-153.html)
+Sorted sets: [SRFI 153](https://srfi.schemers.org/srfi-153/srfi-153.html)
 
 
 # Orange Docket (SRFIs)
@@ -88,10 +88,6 @@ Ordered sets: Withdrawn [SRFI 153](https://srfi.schemers.org/srfi-153/srfi-153.h
 
 Random numbers: [SRFI 27](https://srfi.schemers.org/srfi-27/srfi-27.html),
 plus [SRFI 194](https://srfi.schemers.org/srfi-194/srfi-194.html)
-
-Comparator sublibraries: [SRFI 162](https://srfi.schemers.org/srfi-162/srfi-162.html) plus
-[SRFI 228](https://srfi.schemers.org/srfi-228/srfi-228.html)
-(integrated into `(scheme comparators)`
 
 Integer sets:  [SRFI 217](https://srfi.schemers.org/srfi-217/srfi-217.html)
 
@@ -103,7 +99,7 @@ Homogeneous vectors: [SRFI 160](https://srfi.schemers.org/srfi-160/srfi-160.html
 
 Bitvectors: [SRFI 178](https://srfi.schemers.org/srfi-178/srfi-178.html)
 
-Bytestrings: [SRFI 207](https://srfi.schemers.org/srfi-207/srfi-207.html)
+Bytestrings (lexical syntax: [SRFI 207](https://srfi.schemers.org/srfi-207/srfi-207.html)
 
 Multidimensional arrays: [SRFI 231](https://srfi.schemers.org/srfi-231/srfi-231.html) 
 or [SRFI 164](https://srfi.schemers.org/srfi-164/srfi-164.html)
@@ -118,10 +114,13 @@ Yet more generator extensions: [SRFI 162](https://srfi.schemers.org/srfi-162/srf
 
 Coroutine generators: [SRFI 190](https://srfi.schemers.org/srfi-190/srfi-190.html)
 
-Generic dictionary operations: [SRFI 225](https://srfi.schemers.org/srfi-225/srfi-225.html)
-
 Generic combinator procedures: [SRFI 235](https://srfi.schemers.org/srfi-235/srfi-235.html)
 
+Generic dictionary operations: [SRFI 225](https://srfi.schemers.org/srfi-225/srfi-225.html)
+
+Generic sequence operations: [SequencesCowan](SequencesCowan.md)
+
+Generic set/bag operations: [SetsCowan](SetsCowan.md)
 
 INI files: [SRFI 233](https://srfi.schemers.org/srfi-233/srfi-233.html)
 
@@ -179,9 +178,9 @@ Twinjo I/O: [Twinjo](https://github.com/s-expressions/twinjo/blob/master/spec/Tw
 
 Levenshtein distance: [LevenshteinDistanceGauche](https://practical-scheme.net/gauche/man/gauche-refe/Levenshtein-edit-distance.html#Levenshtein-edit-distance)
 
-Sorted dictionaries: [SortedDictionaries](SortedDictionaries.md)
-
 Bimaps: [Bimaps](Bimaps.md)
+
+List mutation: [ListSurgeryCowan](ListSurgeryCowan.md)
 
 Language tag searching: [BCP 47](https://tools.ietf.org/html/bcp47).  Procedures take a tag and a dictionary of tagged objects, and return either an alist (ordered choice) or a single key-value pair.
 
@@ -229,8 +228,6 @@ Implementation: all.
 # Pan Docket (not SRFIs, no implementations).
 
 Timespecs: 
-[SRFI 174 bis time objects]([TimeObjects.md](https://github.com/pre-srfi/time-objects/blob/master/TimeObjects.md))
-
 Date and time arithmetic: [TimeAdvancedCowan](TimeAdvancedCowan.md),
 [SRFI 19](https://srfi.schemers.org/srfi-19/srfi-19.html)
 
@@ -249,9 +246,9 @@ Message digests: [MessageDigests](MessageDigests.md)
 
 Monads, applicative functors, and functors:  [ContextsCowan](ContextsCowan.md)
 
+Character-cell terminals: [TerminalsCowan](TerminalsCowan.md)
+
 # String library
 
 Strings: [SRFI 152](https://srfi.schemers.org/srfi-152/srfi-152.html) (index-based),
 [SRFI 130](https://srfi.schemers.org/srfi-130/srfi-130.html) (cursor-based), [pre-SRFI 135x](https://htmlpreview.github.io/?https://raw.githubusercontent.com/johnwcowan/r7rs-work/master/srfi-135x.html)
-
-
