@@ -62,8 +62,6 @@ Delimited continuations: [SRFI 226](https://srfi.schemers.org/srfi-226/srfi-226.
 
 Multiple-language support: [MultipleLanguages](MultipleLanguages.md)
 
-Property lists to bindings: [LetSettingsKendal](LetSettingsKendal.md)
-
 Optional arguments (other than by `case-lambda`):
 
 Parallel promises: [ParallelPromisesCowan](ParallelPromisesCowan.md).  Portable implementation in pre-SRFI.
