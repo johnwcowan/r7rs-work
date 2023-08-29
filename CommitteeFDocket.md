@@ -25,6 +25,8 @@ Bytestrings (lexical syntax): [SRFI 207](https://srfi.schemers.org/srfi-207/srfi
 Multidimensional arrays (base, lexical syntax): [SRFI 179](https://srfi.schemers.org/srfi-179/srfi-179.html) 
 or [SRFI 164](https://srfi.schemers.org/srfi-164/srfi-164.html)
 
+## Other
+
 Compound objects: [SRFI 222](https://srfi.schemers.org/srfi-222/srfi-222.html)
 
 Assumptions/Assertions/Warnings: [SRFI 145](https://srfi.schemers.org/srfi-145/srfi-145.html)
@@ -61,8 +63,6 @@ Delimited continuations: [SRFI 226](https://srfi.schemers.org/srfi-226/srfi-226.
 [Chicken](http://wiki.call-cc.org/eggref/4/F-operator)
 
 Multiple-language support: [MultipleLanguages](MultipleLanguages.md)
-
-Optional arguments (other than by `case-lambda`):
 
 Parallel promises: [ParallelPromisesCowan](ParallelPromisesCowan.md).  Portable implementation in pre-SRFI.
 
