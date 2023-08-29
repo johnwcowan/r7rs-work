@@ -48,7 +48,7 @@ Continuation marks:  [SRFI 226](https://srfi.schemers.org/srfi-226/srfi-226.html
 Extended exact numbers: [SRFI 73](https://srfi.schemers.org/srfi-73/srfi-73.html)
 or [ExtendedRationalsCowan](ExtendedRationalsCowan.md)
 
-Mutable environments: [EnvironmentsMIT](https://htmlpreview.github.io/?https://github.com/johnwcowan/r7rs-work/blob/master/EnvironmentsMIT.html)
+Mutable environments: [EnvironmentsMIT](https://htmlpreview.github.io/?https://github.com/johnwcowan/r7rs-work/blob/master/EnvironmentsMIT.md)
 
 Library declarations: [LibraryDeclarationsCowan](LibraryDeclarationsCowan.md)
 
@@ -66,22 +66,12 @@ Property lists to bindings: [LetSettingsKendal](LetSettingsKendal.md)
 
 Optional arguments (other than by `case-lambda`):
 
-[SRFI 227](https://srfi.schemers.org/srfi-227/srfi-227.html)
-or [OptionalsRiastradh](http://mumble.net/~campbell/proposals/optional.text).
-[Implementation](https://github.com/arvyy/r7rs-work/tree/master/OptionalsRiastradh),
-or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/0.7.3/index.html). 
-Multiple values passed through => in `cond`: see [#90](https://small.r7rs.org/ticket/90/)
-
-Named parameters:  [SRFI 177](https://srfi.schemers.org/srfi-177/srfi-177.html) bis (dpk's),
-[SRFI 89](https://srfi.schemers.org/srfi-89/srfi-89.html),
-or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/0.7.3/index.html)(portable)
-
 Parallel promises: [ParallelPromisesCowan](ParallelPromisesCowan.md).  Portable implementation in pre-SRFI.
 
 Channels: [PigeonHolesChicken](http://wiki.call-cc.org/eggref/5/pigeon-hole),
 [GochanChicken](http://wiki.call-cc.org/eggref/5/gochan).  Implementations: all.
 
-Applicable record instances: [R6RS formal comment](http://www.r6rs.org/formal-comments/comment-6.txt)
+Tagged procedures: [SRFI 229](https://srfi.schemers.org/srfi-229/srfi-229.html)
 
 Adjustable-size strings: portable [SRFI 185](https://srfi.schemers.org/srfi-185/srfi-185.html)
 or easily retrofittable [SRFI 118](https://srfi.schemers.org/srfi-118/srfi-118.html)]
