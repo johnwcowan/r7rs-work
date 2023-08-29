@@ -1,6 +1,6 @@
 For other dockets see [WG2Dockets](WG2Dockets.md).
 
-Syntax-case: [R6RS syntax-case](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html)
+## Already in [FASCICLES](Syntax-case: [R6RS syntax-case](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html)
  
 Identifier syntax: [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_796)
 
@@ -12,9 +12,7 @@ Identifier aliasing: [SRFI 212](https://srfi.schemers.org/srfi-212/srfi-212.html
 
 Identifier properties: [SRFI 213](https://srfi.schemers.org/srfi-213/srfi-213.html)
 
-Comparators: [SRFI 162](https://srfi.schemers.org/srfi-128/srfi-128.html)[SRFI 128] plus (https://srfi.schemers.org/srfi-162/srfi-162.html) plus
-[SRFI 228](https://srfi.schemers.org/srfi-228/srfi-228.html)
-(integrated into `(scheme comparators)`
+## Lexical syntax
 
 Homogeneous vectors (base, lexical syntax): [SRFI 160](https://srfi.schemers.org/srfi-160/srfi-160.html)
 
@@ -36,8 +34,6 @@ or [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_sec_11.14).
 Guardians: Chez
 
 R4RS macro system ("syntax-case without `syntax-case`"): [R4RS](https://people.csail.mit.edu/jaffer/r4rs_12.html#SEC77); see also [SRFI 211](https://people.csail.mit.edu/jaffer/r4rs_12.html#SEC77).
-
-Custom macro transformers: [SRFI 147](https://srfi.schemers.org/srfi-147/srfi-147.html)
 
 Syntax-rules extensions: [SRFI 149](https://srfi.schemers.org/srfi-149/srfi-149.html)
 
@@ -77,11 +73,6 @@ Multiple values passed through => in `cond`: see [#90](https://small.r7rs.org/ti
 Named parameters:  [SRFI 177](https://srfi.schemers.org/srfi-177/srfi-177.html) bis (dpk's),
 [SRFI 89](https://srfi.schemers.org/srfi-89/srfi-89.html),
 or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/0.7.3/index.html)(portable)
-
-Timespecs:  [SRFI 174](https://srfi.schemers.org/srfi-174/srfi-174.html) or
-[SRFI 174 bis](TimeObjects.md)
-
-Conditions: [ConditionsCowan](ConditionsCowan.md)
 
 Parallel promises: [ParallelPromisesCowan](ParallelPromisesCowan.md).  Portable implementation in pre-SRFI.
 
