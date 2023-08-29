@@ -247,7 +247,6 @@ CLI utilities: [SRFI 37](https://srfi.schemers.org/srfi-37/srfi-37.html),
 [ArgParsePython](https://docs.python.org/3/library/argparse.html).
 Implementation: all.
 
-
 # Pan Docket (not SRFIs, no implementations).
 
 Timespecs: 
