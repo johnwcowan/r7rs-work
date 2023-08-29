@@ -20,9 +20,9 @@ Things to consider making mandatory in R7RS-large that are optional in R7RS-smal
 
 Committee-based dockets:
 
-[Committee B docket](CommitteeBDocket.md]
+[Committee B docket](CommitteeBDocket.md)
 
-[Committee E docket](CommitteeEDocket.md]
+[Committee E docket](CommitteeEDocket.md)
 
-[Committee F docket](CommitteeFDocket.md]
+[Committee F docket](CommitteeFDocket.md)
 
