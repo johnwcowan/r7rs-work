@@ -1,8 +1,8 @@
 For other dockets see [WG2Dockets](WG2Dockets.md).
 
-## Already in [FASCICLES](
+## Already in [FASCICLES](https://dpk.io/temp/FASCICLES)
 
-(Syntax-case: [R6RS syntax-case](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html)
+Syntax-case: [R6RS syntax-case](http://www.r6rs.org/final/html/r6rs-lib/r6rs-lib-Z-H-13.html)
  
 Identifier syntax: [R6RS](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-14.html#node_idx_796)
 
