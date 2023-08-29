@@ -18,7 +18,7 @@ or [SRFI 226](https://srfi.schemers.org/srfi-226/srfi-226.html) (comprehensive)
 
 Datagram channels (UDP sockets): [DatagramChannelsCowan](DatagramChannelsCowan.md)
 
-Mutable environments: [EnvironmentsMIT](https://htmlpreview.github.io/?https://github.com/johnwcowan/r7rs-work/blob/master/EnvironmentsMIT.html)
+Mutable environments: [EnvironmentsMIT](https://htmlpreview.github.io/?https://github.com/johnwcowan/r7rs-work/blob/master/EnvironmentsMIT.md)
 
 Access to the REPL: [ReplCowan](ReplCowan.md)
 
