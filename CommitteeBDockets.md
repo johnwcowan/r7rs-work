@@ -104,6 +104,11 @@ Bytestrings (lexical syntax: [SRFI 207](https://srfi.schemers.org/srfi-207/srfi-
 Multidimensional arrays: [SRFI 231](https://srfi.schemers.org/srfi-231/srfi-231.html) 
 or [SRFI 164](https://srfi.schemers.org/srfi-164/srfi-164.html)
 
+Comparators: [SRFI 162](https://srfi.schemers.org/srfi-128/srfi-128.html)[SRFI 128] plus (https://srfi.schemers.org/srfi-162/srfi-162.html) plus
+[SRFI 228](https://srfi.schemers.org/srfi-228/srfi-228.html)
+(integrated into `(scheme comparators)`
+
+
 ## Other
 
 Enumerations: [SRFI 209](https://srfi.schemers.org/srfi-209/srfi-209.html)
@@ -170,7 +175,21 @@ trivial `(json-read `*stream* [ *max-chars* ]`)` and `(json-write `*stream obj*`
 
 Trees: [Trees](https://github.com/pre-srfi/trees/blob/master/spec.md).  [Implementation](https://github.com/pre-srfi/trees/tree/master).
 
+Optional arguments (other than by `case-lambda`):
+[SRFI 227](https://srfi.schemers.org/srfi-227/srfi-227.html)
+or [OptionalsRiastradh](http://mumble.net/~campbell/proposals/optional.text).
+[Implementation](https://github.com/arvyy/r7rs-work/tree/master/OptionalsRiastradh),
+or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/0.7.3/index.html). 
+
+Multiple values passed through => in `cond`: see [#90](https://small.r7rs.org/ticket/90/)
+
+Named parameters:  [SRFI 177](https://srfi.schemers.org/srfi-177/srfi-177.html) bis (dpk's),
+[SRFI 89](https://srfi.schemers.org/srfi-89/srfi-89.html),
+or [(chibi optional)](http://snow-fort.org/s/gmail.com/alexshinn/chibi/optional/0.7.3/index.html)(portable)
+
 Enumeration maps: [EnumMappingsCowan](EnumMappingsCowan.md)
+
+Property lists to bindings: [LetSettingsKendal](LetSettingsKendal.md)
 
 Twinjo I/O: [Twinjo](https://github.com/s-expressions/twinjo/blob/master/spec/Twinjo.md) + 
 [Twinjo procedures](https://github.com/s-expressions/twinjo/blob/master/spec/TwinjoLib.md) +
@@ -201,6 +220,10 @@ Binary heap: [BinaryHeapsCowan](BinaryHeapsCowan.md)
 Dijkstra arrays (deques) [DijkstraArrays](DijkstraArrays.md)
 
 Immutable vectors: [FectorsPrice](https://github.com/ijp/fectors)
+
+Applicable record instances: [R6RS formal comment](http://www.r6rs.org/formal-comments/comment-6.txt) via tagged procedures
+
+
 
 
 # Selene Docket (not SRFIs, no implementations)
@@ -236,9 +259,6 @@ Date-time parser: [Hato date parser](https://code.google.com/p/hato/source/brows
 
 Date-time formatter: [TimeFormattingCowan](https://github.com/johnwcowan/r7rs-work/blob/master/TimeFormattingCowan.md),
 [SRFI 19](https://srfi.schemers.org/srfi-19/srfi-19.html), other libs
-
-Channels: [PigeonHolesChicken](http://wiki.call-cc.org/eggref/5/pigeon-hole),
-[GochanChicken](http://wiki.call-cc.org/eggref/5/gochan).  Implementations: all.
 
 Memoization: [Memoize](Memoize.md) (not a proposal yet), [Racket](http://planet.racket-lang.org/display.ss?package=memoize.plt&owner=dherman), [Haskell](http://hackage.haskell.org/package/memoize-0.1/docs/Data-Function-Memoize.html)
 
