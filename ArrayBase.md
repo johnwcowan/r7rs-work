@@ -18,22 +18,15 @@ It also provides some of the multidimensional facilities of
 
 ## Specification
 
-CL: 
-array-rank, array-row-major-index, array-total-size, arrayp, row-major-aref
-
-Guile: array?, typed-array?, make-array, make-typed-array, list->array, list->typed-array,
-array-ref, array-in-bounds, array-set!, array-shape, array-dimensions, array-length, array-rank,
-array->list, array-copy, array-copy!, array-copy-in-order!, array-fill!, array-equal?,
-array-map!, array-map-in-order!, array-for-each, array-index-map!
-
 ### Intervals
 
 An interval is an object specifying the upper and lower bounds of the dimensions of an array.
 
-make-interval arg1 #!optional arg2  
-interval-lower-bounds->vector interval  
-interval-upper-bounds->vector interval  
-interval-contains-multi-index? interval . multi-index
+`(make-interval `*arg1* [ *arg2* ]`)`  
+`(interval-lower-bounds->vector `*interval*`)`  
+`(interval-upper-bounds->vector `*interval*`)`  
+`(interval-volume `*interval*`)`  
+`(interval-contains-multi-index? `*interval . multi-index*`)`
 
 ### Storage classes
 
@@ -62,28 +55,36 @@ Variable: `c128-storage-class`
 
 ### Constructors
 
-make-specialized-array interval [ storage-class [ initial-value [ #t ] ] ]
+`(make-specialized-array `*interval [ storage-class [ initial-value [ `#t` ] ] ]
 
 ### Predicates
 
-specialized-array? obj
+`(specialized-array? `*obj*`)`
 
 ### Accessors
 
-array-storage-class array  
-array-domain array  
-array-ref array . multi-index
-
-### Conversion
-
-array->list list
-list*->array d nested-list [ storage-class [ mutable? [ safe? ] ] ]
-array->list* array
-list->array interval list [ storage-class [ mutable? [ #t ] ] ]
+`(array-storage-class `*array*`)`  
+`(array-domain `*array*`)`  
+`(array-dimension `*array*`)`
+`(array-ref `*array . multi-index*`)`
 
 ### Mutators
 
-array-set! array object . multi-index
+`(array-set! `*array object . multi-index*`)`
+
+### Conversion
+
+`(array->list `*list*`)`  
+`(list->array `*interval list [ storage-class [ mutable? [ `#t` ] ] ]*`)`  
+`(list*->array `*dimensions nested-list [ storage-class [ mutable? [ `#t` ] ]*`)`  
+`(array->list* `*array*`)  
+
+## Additional
+
+CL: array-row-major-index, row-major-aref
+
+Guile: array-fill!, array-equal?, array-map!, array-for-each, array-index-map!
+
 
 
 
