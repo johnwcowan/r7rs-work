@@ -22,8 +22,7 @@ Bitvectors (base, lexical syntax): [SRFI 178](https://srfi.schemers.org/srfi-178
 
 Bytestrings (lexical syntax): [SRFI 207](https://srfi.schemers.org/srfi-207/srfi-207.html)
 
-Multidimensional arrays (base, lexical syntax): [SRFI 179](https://srfi.schemers.org/srfi-179/srfi-179.html) 
-or [SRFI 164](https://srfi.schemers.org/srfi-164/srfi-164.html)
+Multidimensional arrays: (base, lexical syntax): [ArrayBase](ArrayBase.md)
 
 ## Other
 
