@@ -49,7 +49,7 @@ Variable: `u64-storage-class`
 Variable: `f8-storage-class`  
 Variable: `f16-storage-class`  
 Variable: `f32-storage-class`  
-Variable: `f64-storage-class ` 
+Variable: `f64-storage-class `  
 Variable: `c64-storage-class`  
 Variable: `c128-storage-class`
 
