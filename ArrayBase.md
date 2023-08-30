@@ -9,7 +9,7 @@ This is a base library for [SRFI 231](https://srfi.schemers.org/srfi-231/srfi-23
 This library is intended to be part of the R7RS Foundations, along with an appropriate
 lexical syntax such as [SRFI 58](https://srfi.schemers.org/srfi-58/srfi-58.html) or
 [SRFI 163](https://srfi.schemers.org/srfi-163/srfi-163.html).  SRFI 231 is too large
-to live in the Foundations, and belongs in the Batteries, so this SRFI provides a bare minimum
+to live in the Foundations and belongs in the Batteries, so this SRFI provides a bare minimum
 subset.  It is downward compatible with SRFI 231, and is analogous
 to the `(srfi 160 base)` library described in
 [SRFI 160](https://srfi.schemers.org/srfi-160/srfi-160.html).
@@ -18,11 +18,8 @@ It also provides some of the multidimensional facilities of
 
 ## Specification
 
-160 base: make-@vector, @vector, @vector?, @vector-length,
-@vector-ref, @vector-set!, @vector->list, list->@vector
-
-CL: make-array, arrayp,  aref, (setf aref), array-dimension, array-dimensions, array-element-type,
-array-in-bounds-p, array-rank, array-row-major-index, array-total-size, arrayp, row-major-aref
+CL: 
+array-rank, array-row-major-index, array-total-size, arrayp, row-major-aref
 
 Guile: array?, typed-array?, make-array, make-typed-array, list->array, list->typed-array,
 array-ref, array-in-bounds, array-set!, array-shape, array-dimensions, array-length, array-rank,
@@ -31,7 +28,7 @@ array-map!, array-map-in-order!, array-for-each, array-index-map!
 
 ### Intervals
 
-An interval is an object specifying the upper and lower bounds of the dimensions of an array
+An interval is an object specifying the upper and lower bounds of the dimensions of an array.
 
 make-interval arg1 #!optional arg2  
 interval-lower-bounds->vector interval  
@@ -74,11 +71,19 @@ specialized-array? obj
 ### Accessors
 
 array-storage-class array  
-array-indexer array  
+array-domain array  
 array-ref array . multi-index
+
+### Conversion
+
+array->list list
+list*->array d nested-list [ storage-class [ mutable? [ safe? ] ] ]
+array->list* array
+list->array interval list [ storage-class [ mutable? [ #t ] ] ]
 
 ### Mutators
 
 array-set! array object . multi-index
+
 
 
