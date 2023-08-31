@@ -49,7 +49,7 @@ Continuation marks:  [SRFI 226](https://srfi.schemers.org/srfi-226/srfi-226.html
 Extended exact numbers: [SRFI 73](https://srfi.schemers.org/srfi-73/srfi-73.html)
 or [ExtendedRationalsCowan](ExtendedRationalsCowan.md)
 
-Mutable environments: [EnvironmentsMIT](https://htmlpreview.github.io/?https://github.com/johnwcowan/r7rs-work/blob/master/EnvironmentsMIT.md)
+Mutable environments: [EnvironmentsCowan](EnvironmentsCowan.md)
 
 Library declarations: [LibraryDeclarationsCowan](LibraryDeclarationsCowan.md)
 
@@ -64,9 +64,6 @@ Delimited continuations: [SRFI 226](https://srfi.schemers.org/srfi-226/srfi-226.
 Multiple-language support: [MultipleLanguages](MultipleLanguages.md)
 
 Parallel promises: [ParallelPromisesCowan](ParallelPromisesCowan.md).  Portable implementation in pre-SRFI.
-
-Channels: [PigeonHolesChicken](http://wiki.call-cc.org/eggref/5/pigeon-hole),
-[GochanChicken](http://wiki.call-cc.org/eggref/5/gochan).  Implementations: all.
 
 Tagged procedures: [SRFI 229](https://srfi.schemers.org/srfi-229/srfi-229.html)
 
