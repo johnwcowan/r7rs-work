@@ -21,3 +21,4 @@ The following implementations support all or part of R7RS-small:
 |[Rapid](https://gitlab.com/nieper/rapid-scheme)||
 |[Sagittarius](https://bitbucket.org/ktakashi/sagittarius-scheme/wiki/Home)||
 |[STklos](https://stklos.net)||
+|[TR7](https://gitlab.com/jobol/tr7)||
