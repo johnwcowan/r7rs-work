@@ -69,3 +69,8 @@ Tagged procedures: [SRFI 229](https://srfi.schemers.org/srfi-229/srfi-229.html)
 
 Adjustable-size strings: portable [SRFI 185](https://srfi.schemers.org/srfi-185/srfi-185.html)
 or easily retrofittable [SRFI 118](https://srfi.schemers.org/srfi-118/srfi-118.html)]
+
+Channels: [PigeonHolesChicken](http://wiki.call-cc.org/eggref/5/pigeon-hole),
+[GochanChicken](http://wiki.call-cc.org/eggref/5/gochan).  Implementations: all.
+
+
