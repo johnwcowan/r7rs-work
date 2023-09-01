@@ -60,7 +60,7 @@ signed integers, unsigned integers (including bits), floats, and complex floats.
 
 Variable: `generic-storage-class`  
 Variable: `char-storage-class`  
-Variable: `s8-storage-class ` 
+Variable: `s8-storage-class `  
 Variable: `s16-storage-class`  
 Variable: `s32-storage-class`  
 Variable: `s64-storage-class`  
