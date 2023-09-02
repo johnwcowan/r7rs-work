@@ -58,7 +58,7 @@ the history of the hash table appear earlier in the ordering.  Advances
 in the implementations of hash tables, as provided by C++, Python,
 JavaScript, etc. makes the provision of this new facility practical.
 As a result, the hash tables of this SRFI do not interoperate with the
-hashs tables of SRFI 125, SRFI 126, or R6RS.
+hash tables of SRFI 125, SRFI 126, or existing R6RS implementations.
 
 <h1>Rationale</h1>
 
@@ -390,8 +390,7 @@ If <em>key</em> is not contained in <em>hash-table</em> and
 <em>failure</em> is supplied, then <em>failure</em> is invoked
 on no arguments and its result is returned.  Otherwise, it is
 an error.  Must execute in expected amortized constant time,
-not counting the time to call the procedures.  SRFI 69 does
-not support the <em>success</em> procedure.
+not counting the time to call the procedures.  
 </p>
 <p>
 <code>(hash-table-ref/default </code><em>hash-table key default</em><code>)</code>
@@ -428,7 +427,7 @@ an error if the type check procedure of the comparator of
 <code>#t</code>. Likewise, it is an error if a key is not a
 valid argument to the equality predicate of <em>hash-table</em>.
 Returns an unspecified value.  Must execute in expected amortized
-constant time per key.  SRFI 69, R6RS <code>hashtable-set!</code>
+constant time per key.  R6RS <code>hashtable-set!</code>
 and Common Lisp <code>(setf gethash)</code> do not handle multiple
 associations.
 </p>
@@ -438,8 +437,8 @@ associations.
 <p>
 Deletes any association to each <em>key</em> in <em>hash-table</em>
 and returns the number of keys that had associations.  Must execute
-in expected amortized constant time per key.  SRFI 69, R6RS
-<code>hashtable-delete!</code>, and Common Lisp <code>remhash</code>
+in expected amortized constant time per key.  R6RS
+<code>hashtable-delete!</code> and Common Lisp <code>remhash</code>
 do not handle multiple associations.
 </p>
 <p>
@@ -464,7 +463,7 @@ Semantically equivalent to, but may be more efficient than, the following code:
 </blockquote>
 <p>
 Must execute in expected amortized constant time.  Returns an
-unspecified value.  (SRFI 69 and R6RS <code>hashtable-update!</code>
+unspecified value.  (R6RS <code>hashtable-update!</code>
 do not support the <em>success</em> procedure)
 </p>
 <p>
@@ -477,6 +476,7 @@ Semantically equivalent to, but may be more efficient than, the following code:
 <p>
 <code>(hash-table-set! </code><em>hash-table key</em><code> (</code><em>updater</em> <code>(hash-table-ref/default </code><em>hash-table key default</em><code>)))</code>
 </p>
+(R6RS <code>hashtable-update!</code>)
 </blockquote>
 <p>
 Must execute in expected amortized constant time.  Returns an unspecified value.
@@ -637,8 +637,7 @@ Returns a newly allocated hash table with the same properties
 and associations as <em>hash-table</em>. If the second argument
 is present and is true, the new hash table is mutable.  Otherwise
 it is immutable provided that the implementation supports immutable
-hash tables.  SRFI 69 <code>hash-table-copy</code> does not support
-a second argument.  (R6RS <code>hashtable-copy</code>)
+hash tables.  (R6RS <code>hashtable-copy</code>)
 </p>
 <p>
 <code>(hash-table-empty-copy </code><em>hash-table</em><code>)</code>
@@ -703,9 +702,7 @@ SRFI.  It relies upon
 <p>
   Some of the language of this SRFI is copied from SRFI 69 with thanks
   to its author, Panu Kalliokoski.  However, he is not responsible for
-  what I have done with it.  Thanks to Will Clinger for providing the
-  sample implementation, and to Taylan Ulrich Bayırlı/Kammer for his
-  spirited review.
+  what I have done with it.  
 </p>
 <p>I also acknowledge the members of the SRFI ###, 125, 126, and 128 mailing lists,
   especially Takashi Kato, Alex Shinn, Shiro Kawai, and Per Bothner.
