@@ -262,6 +262,8 @@ table will return a different result when applied to that key.
 <code>hash-table-intersection!</code>,
 <code>hash-table-difference!</code>, <code>hash-table-xor!</code>
 </li></ul>
+<ul><li><a class="wiki" href="#Reflectivity">Reflectivity</a>:
+<code>hash-table-equivalence-function</code>, <code>hash-table-hash-function</code>
 
 </li></ul>
 <p></p>
@@ -372,7 +374,6 @@ value (in the sense of <em>value-comparator</em>), and
 </p>
 <p>
 Returns <code>#t</code> if the hash table is mutable.
-Implementations may or may not support immutable hash tables.
 (R6RS <code>hashtable-mutable?</code>)
 </p>
 <h3 id="Accessors">Accessors</h3>
@@ -463,8 +464,7 @@ Semantically equivalent to, but may be more efficient than, the following code:
 </blockquote>
 <p>
 Must execute in expected amortized constant time.  Returns an
-unspecified value.  (R6RS <code>hashtable-update!</code>
-do not support the <em>success</em> procedure)
+
 </p>
 <p>
 <code>(hash-table-update!/default </code><em>hash-table key updater default</em><code>)</code>
@@ -691,6 +691,21 @@ keys are also present in <em>hash-table<sub>2</sub></em>, and then
 adds the associations of <em>hash-table<sub>2</sub></em> whose keys
 are not present in <em>hash-table<sub>1</sub></em> to
 <em>hash-table<sub>1</sub></em>.  Returns <em>hash-table<sub>1</sub></em>.
+</p>
+<h3 id="Reflectivity">Reflectivity</h2>
+<code>(hash-table-equivalence-function </code><em>hash-table</em><code>)</code>
+</p>
+<p>
+Returns the equivalence procedure used to create <em>hash-table</em>.
+</p>
+<p>
+<code>(hash-table-hash-function </code><em>hash-table</em><code>)</code>
+</p>
+<p>
+Returns the hash function used to create <em>hash-table</em>.
+However, if the implementation has replaced the user-specified
+hash function with an implementation-specific alternative, the
+implementation may return <code>#f</code> instead.
 </p>
 <h1>Implementation</h1>
 
