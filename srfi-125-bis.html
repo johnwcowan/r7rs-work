@@ -285,13 +285,6 @@ This applies whether the hash function and equality predicate are passed
 as separate arguments or packaged up into a comparator.
 </p>
 <p>
-If an equality predicate rather than a comparator is provided,
-the ability to omit the <em>hash-function</em> argument is severely
-limited.  The implementation must provide hash functions appropriate
-for use with the predicates <code>eq?</code>, <code>eqv?</code>,
-<code>equal?</code>, <code>string=?</code>, and <code>string-ci=?</code>,
-and may extend this list.  But if any unknown equality predicate is
-provided without a hash function, an error should be signaled.
 The constraints on equality predicates and hash functions are given in
 <a href="https://srfi.schemers.org/srfi-128/srfi-128.html">SRFI 128</a>.
 </p>
