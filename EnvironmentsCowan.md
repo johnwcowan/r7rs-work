@@ -6,7 +6,7 @@ Note that these environments are like `(interaction-environment)`.
 
 Returns a mutable environment.
 
-`(environment-freeze! *env*`)`
+`(environment-freeze! `*env*`)`
 
 Change *env* to be an ordinary (immutable) environment.
 
