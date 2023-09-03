@@ -10,6 +10,8 @@ Syntax parameters: [SRFI 139](https://srfi.schemers.org/srfi-139/srfi-139.html)
 
 Splicing `let(rec)-syntax`: [SRFI 188](https://srfi.schemers.org/srfi-188/srfi-188.html)
 
+Guardians: [Guardians](Guardians.html)
+
 Identifier aliasing: [SRFI 212](https://srfi.schemers.org/srfi-212/srfi-212.html)
 
 Identifier properties: [SRFI 213](https://srfi.schemers.org/srfi-213/srfi-213.html)
