@@ -109,13 +109,13 @@ Returns the number of dimensions of *array*.
 
 `(array-ref `*array . multi-index*`)`
 
-Returns the value stored in the element of *array* specified by *multi-index*.
-
+Returns the value stored in the element of *array* specified by the indices of *multi-index*.
+It is an error if *multi-index does not specify an element of *array*.
 ### Mutators
 
 `(array-set! `*array object . multi-index*`)`
 
-Sets the value of *array* specified by *multi-index* to *object*.  It is an error
+Sets the value of *array* specified by the indices of *multi-index* to *object*.  It is an error
 if *object* does not belong to the storage class of *array*.  It is also an error
 if *multi-index does not specify an element of *array*.
 
@@ -133,7 +133,7 @@ row-major order.
 
 `(list*->array `*dimensions nested-list [ storage-class [ mutable? [ `#t` ] ]*`)`
 
-Returns an array with *dimensions* dimensions
+Returns an array with *dimensions* dimensions,
 created as if by `make-specialized-array` with arguments *storage-class*
 and *mutable*.  However, *nested-list* specifies not only the contents of
 the array but its upper bounds (the lower bounds are all zero).
@@ -141,12 +141,3 @@ the array but its upper bounds (the lower bounds are all zero).
 `(array->list* `*array*`)
 
 Returns a nested list containing the elements of *array*.
-
-
-## Additional
-
-CL: row-major-aref
-
-
-
-
