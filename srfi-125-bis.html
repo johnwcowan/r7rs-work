@@ -230,7 +230,8 @@ table will return a different result when applied to that key.
 <code>hash-table-mutable?</code>
 </li></ul>
 <ul><li><a class="wiki" href="#Accessors">Accessors</a>:
-<code>hash-table-ref</code>, <code>hash-table-ref/default</code>
+<code>hash-table-ref</code>, <code>hash-table-ref/default</code>,
+<code>hash-table-comparator</code>
 </li></ul>
 <ul><li><a class="wiki" href="#Mutators">Mutators</a>:
 <code>hash-table-set!</code>,
@@ -262,15 +263,16 @@ table will return a different result when applied to that key.
 <code>hash-table-intersection!</code>,
 <code>hash-table-difference!</code>, <code>hash-table-xor!</code>
 </li></ul>
-<ul><li><a class="wiki" href="#Reflectivity">Reflectivity</a>:
-<code>hash-table-equivalence-function</code>, <code>hash-table-hash-function</code>
-
-</li></ul>
 <p></p>
 
 <h3 id="Constructors">Constructors</h3>
-<p>
-<code>(make-hash-table </code><em>comparator</em> [ <em>arg</em> ... ]<code>)</code>
+<p>Note that the argument <code>k</code> is a positive integer
+representing the initial capacity of the hashtable being created (that
+is, the number of associations it can hold without having to grow).
+If not present, the initial capacity is implementation-dependent.
+</p>
+
+<p><code>(make-hash-table </code><em>comparator</em> [ <em>k</em> ]<code>)</code>
 </p>
 <p>
 Returns a newly allocated hash table whose equality predicate and
@@ -300,13 +302,12 @@ Returns a newly allocated hash table, created as if by
 <code>make-hash-table</code> using <em>comparator</em>.
 For each pair of arguments, an association is added to the
 new hash table with <em>key</em> as its key and <em>value</em>
-as its value.  If the implementation supports immutable hash
-tables, this procedure returns an immutable hash table.
+This procedure returns an immutable hash table.
 If the same key (in the sense of the equality predicate) is
 specified more than once, it is an error.
 </p>
 <p>
-<code>(hash-table-unfold </code><em>stop? mapper successor seed comparator arg</em> ... <code>)</code>
+<code>(hash-table-unfold </code><em>stop? mapper successor seed comparator</em> [ <em>k</em> ])</code>
 </p>
 <p>
 Create a new hash table as if by <code>make-hash-table</code> using
@@ -319,7 +320,7 @@ applying the procedure <em>successor</em> to <em>seed</em>, and repeat
 this algorithm.
 </p>
 <p>
-<code>(alist-&gt;hash-table </code><em>alist comparator arg</em> ...<code>)</code>
+<code>(alist-&gt;hash-table </code><em>alist comparator</em> [ <em>k</em> ]<code>)</code>
 </p>
 <p>
 <p>
@@ -399,6 +400,15 @@ Semantically equivalent to, but may be more efficient than, the following code:
 </blockquote>
 <p>
 (R6RS <code>hashtable-ref</code>; Common Lisp <code>gethash</code>)
+</p>
+<p>
+<code>hash-table-comparator </code><em>hash-table</em><code>)</code>
+</p>
+<p>
+Returns a comparator equivalent to the comparator with which
+<code>hash-table</code> was created.  R6RS
+<code>hashtable-equivalence-function</code> and
+<code>hashtable-hash-function</code>.
 </p>
 <h3 id="Mutators">Mutators</h3>
 <p>
@@ -501,7 +511,7 @@ in insertion order.
 </p>
 <p>
 Returns the number of associations in <em>hash-table</em> as an
-exact integer.  Should execute in constant time.
+exact integer.  Must execute in constant time.
 (R6RS <code>hashtable-size</code>; Common Lisp <code>hash-table-count</code>.)
 </p>
 <p>
@@ -684,21 +694,6 @@ keys are also present in <em>hash-table<sub>2</sub></em>, and then
 adds the associations of <em>hash-table<sub>2</sub></em> whose keys
 are not present in <em>hash-table<sub>1</sub></em> to
 <em>hash-table<sub>1</sub></em>.  Returns <em>hash-table<sub>1</sub></em>.
-</p>
-<h3 id="Reflectivity">Reflectivity</h2>
-<code>(hash-table-equivalence-function </code><em>hash-table</em><code>)</code>
-</p>
-<p>
-Returns the equivalence procedure used to create <em>hash-table</em>.
-</p>
-<p>
-<code>(hash-table-hash-function </code><em>hash-table</em><code>)</code>
-</p>
-<p>
-Returns the hash function used to create <em>hash-table</em>.
-However, if the implementation has replaced the user-specified
-hash function with an implementation-specific alternative, the
-implementation may return <code>#f</code> instead.
 </p>
 <h1>Implementation</h1>
 
