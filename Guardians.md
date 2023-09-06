@@ -6,7 +6,13 @@ R. Kent Dybvig (specification author) and John Cowan (shepherd)
 
 Guardians allow programs to protect objects from deallocation by the
 garbage collector and to determine when the objects would otherwise have
-been deallocated.  They allow objects to be saved from deallocation
+been deallocated.  When an object has associated non-memory resources,
+a program can register it with a guardian.  The GC will mark inaccessible
+objects but will not collect them; at the program's convenience,
+inaccessible objects are removed from the guardian and their non-memory
+resources are disposed of.
+
+Guardians allow objects to be saved from deallocation
 indefinitely so that they can be reused or so that clean-up or other
 actions can be performed using the data stored within the objects.
 Guardians avoid the problems associated with classical finalizers
