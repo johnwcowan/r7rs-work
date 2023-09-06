@@ -7,7 +7,9 @@ This is a base library for [SRFI 231](https://srfi.schemers.org/srfi-231/srfi-23
 ## Rationale ##
 
 This library is intended to be part of the R7RS Foundations, along with an appropriate
-lexical syntax such as [SRFI 58](https://srfi.schemers.org/srfi-58/srfi-58.html) or
+lexical syntax such as
+[Common Lisp](http://www.lispworks.com/documentation/lw50/CLHS/Body/02_dhl.htm),
+[SRFI 58](https://srfi.schemers.org/srfi-58/srfi-58.html), or
 [SRFI 163](https://srfi.schemers.org/srfi-163/srfi-163.html).  SRFI 231 is too large
 to live in the Foundations and belongs in the Batteries, so this SRFI provides a bare minimum
 subset.  It is downward compatible with SRFI 231, and is analogous
@@ -141,3 +143,28 @@ the array but its upper bounds (the lower bounds are all zero).
 `(array->list* `*array*`)
 
 Returns a nested list containing the elements of *array*.
+
+### Lexical syntax
+
+All the lexical syntaxes take the form of `#`*dims* followed by a prefix
+followed by a nested list.  *Dims* specifies the number of dimensions of the array.
+The reason that *dims* must be present
+is that whereas `#2A((1  2) ( 3 4) (5 6))` is a 2 x 3 2-dimensional array,
+`#1A((1 2) (3 4) (5 6))` is a 1-dimensional array with three elements, each of which
+is a list of two elements.  The prefixes look like this:
+
+In Common Lisp lexical syntax, the prefix takes the form `A`.
+The only storage class is the `general-storage-clsas`, and the
+lower bounds cannot be specified.
+
+In SRFI 58 lexical syntax, the prefix takes the form `A`*bounds*`:`*tag*. where
+*bounds* takes the form *dim*, *dim*`*`*dim*, ... repreesenting the upper bounds;
+where the lower bounds are all zero. *Tag* represents the storage class,
+and is optional, in which case the `generic-storage-class` is intended.
+
+In SRFI 163 lexical syntax, the prefix takes the form *tag*`@`*bounds*, where
+each *bound* takes the form *lower*`:`*length*, specifying the lower bound
+and the length of the dimension, or else the form *lower*, where the length
+of the dimension is implicit from the nested list.  Bounds are separated by`@`;
+if there are no bounds, the initial `@` is omitted.
+The tag for a `generic-storage-class` array is `A`.
