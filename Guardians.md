@@ -5,8 +5,8 @@ R. Kent Dybvig (specification author) and John Cowan (shepherd)
 ## Abstract
 
 Guardians allow programs to protect objects from deallocation by the
-garbage collector and to determine when the objects would otherwise have
-been deallocated.  When an object has associated non-memory resources,
+garbage collector and to determine where objects would otherwise have
+been deallocated.  When the object has associated non-memory resources,
 a program can register it with a guardian.  The GC will mark inaccessible
 objects but will not collect them; at the program's convenience,
 inaccessible objects are removed from the guardian and their non-memory
@@ -69,7 +69,7 @@ proven so.  Objects may be registered in more than onen guardian, and a guardian
 may be registered in another guardian.
 
 The word "proven" is important here: it may be that some
-objects in the accessible group are indeed inaccessible but that this
+objects in the accessible subgroup are indeed inaccessible but that this
 has not yet been proven. This proof may not be made in some cases until
 long after the object actually becomes inaccessible, typically when
 the collector is run.
@@ -119,7 +119,7 @@ and removes the object.
 
 `(unregister-guardian `*guardian*`)`
 
-Unregisters the accessible objects currently registered with the guardian,
+Unregisters all the accessible objects currently registered with the guardian,
 with one caveat.  Objects registered by other threads than the current
 thread are not necessarily removed from the guardian.  To ensure that all
 objects are unregistered in a multithreaded application, a single thread
@@ -128,7 +128,8 @@ application can arrange to define a handler that calls
 `unregister-guardian` after it calls the collector.
 
 In any case, `unregister-guardian` returns a list containing
-each object (or its representative, if specified) that it unregisters,
+the representative objects corresponding to the objects
+that it unregisters,
 with duplicates as appropriate if the same object is registered more
 than once with the guardian. Objects already resurrected but not yet
 retrieved from the guardian are not included in the list but remain
