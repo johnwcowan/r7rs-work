@@ -61,7 +61,7 @@ object</i> to be returned when the object is retrieved from the guardian.
 
 The group of registered objects associated with a guardian is
 logically subdivided into two disjoint subgroups: a subgroup referred
-to as "accessible" objects group, and one referred to "inaccessible"
+to as the *accessible* objects group, and one referred to as the *inaccessible*
 objects group. Inaccessible objects are objects that have been proven to be
 inaccessible (except through the guardian mechanism itself or through a
 weak reference), and accessible objects are objects that have not been
