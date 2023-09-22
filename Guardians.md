@@ -5,7 +5,7 @@ R. Kent Dybvig (specification author) and John Cowan (shepherd)
 ## Abstract
 
 Guardians allow programs to protect objects from deallocation by the
-garbage collector and to determine where objects would otherwise have
+garbage collector and to determine which objects would otherwise have
 been deallocated.  When the object has associated non-memory resources,
 a program can register it with a guardian.  The GC will mark inaccessible
 objects but will not collect them; at the program's convenience,
@@ -57,12 +57,12 @@ Guardians are procedures that encapsulate groups of objects registered
 for preservation. When a guardian is created, the group of registered
 objects is empty. An object is registered with a guardian by passing
 the object as an argument to the guardian, as well as a <i>representative
-object</i> to be returned when an object is retrieved from the guardian.
+object</i> to be returned when the object is retrieved from the guardian.
 
 The group of registered objects associated with a guardian is
 logically subdivided into two disjoint subgroups: a subgroup referred
-to as "accessible" objects, and one referred to "inaccessible"
-objects. Inaccessible objects are objects that have been proven to be
+to as "accessible" objects group, and one referred to "inaccessible"
+objects group. Inaccessible objects are objects that have been proven to be
 inaccessible (except through the guardian mechanism itself or through a
 weak reference), and accessible objects are objects that have not been
 proven so.  Objects may be registered in more than onen guardian, and a guardian
