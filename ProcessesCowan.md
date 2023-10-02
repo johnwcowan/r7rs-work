@@ -294,12 +294,10 @@ process object.
 These procedures are not portable to the Win32 API (they will raise errors satisfying
 `process-exception?`) and should be avoided when not necessary.
 However, they add a great deal of power and flexibility to the creation of process graphs.
-If the *narrow?* argument is false or absent, all threads present in the parent process
-are also present in the child.  If it is true, only a subset of threads that include
-the calling thread is present in the child process.  Which threads exist depends on the
-mapping of Scheme threads to Posix threads.
+It is an error to call `process-fork` if more than a single thread is running, due to
+Posix limitations.
 
-`(process-fork `[*narrow?*]`)`
+`(process-fork)`
 
 Forks the current process.  Returns a process object in the parent process
 and `#f` in the child object.  Both processes execute the continuation
