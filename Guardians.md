@@ -135,11 +135,65 @@ than once with the guardian. Objects already resurrected but not yet
 retrieved from the guardian are not included in the list but remain
 retrievable from the guardian.
 
+## Abstract Example
+
+This example shows how to manage manually allocated and deallocated resources
+automatically by wrapping them in a `handle` record type, which can also
+contain auxiliary data.  For example, a resource might be a Posix file descriptor
+and a handle might be a port.
+
+This implementation is not thread-safe.
+
+```
+(library (resources)
+  (export
+    make-handle handle? get-handle-resource
+    get-handle-auxdata set-handle-auxdata!)
+  (import
+    (scheme base)
+    (scheme guardians))
+  (begin
+    ;;; Allocate resources using handles
+
+    ;; Allocate and deallocate a resource which is not managed by Scheme
+
+    (define (allocate-resource) ...)
+    (define (free-resource resource) ...)
+
+    ;; Handle type.  Auxdata is Scheme data associated with the resource.
+
+    (define-record-type handle
+      (raw-make-handle resource auxdata)
+      handle?
+      (auxdata get-handle-auxdata set-handle-auxdata!)
+      (resource get-resource))
+
+    ;; The global guardian for all handles
+    (define handle-guardian (make-guardian))
+
+    ;; Return an initialized handle
+    (define (make-handle auxdata)
+      (let* ((resource
+               (allocate-resource))
+              (handle
+                (raw-make-handle resource auxdata)))
+        ;; Free up resources whose handles are garbage
+        ;; Alternative: (for-each free-resource (unregister-guardian resource-guardian))
+        (let loop ((r (resource-guardian)))
+           (when r
+             (free-resource r)
+             (loop (resource-guardian)))
+        ;; Protect new resource and return handle
+        ;; The resource is the representative object
+        (resource-guardian handle resource)
+        handle)))))
+```
 <h2 id="implementation">Implementation</h2>
 
 A portable implementation of guardians is not possible.  Chez Scheme
 provides guardians as explained in this SRFI; Guile provides them as well,
-but without `guardian-unregister`.
+but without `unregister-guardian`.  The loop in the Abstract Example is
+a single-threaded implementation of `unregister-guardian`.
 
 ## Acknowledgements
 
@@ -151,8 +205,8 @@ This SRFI is © 2023 John Cowan.</p>
 
 This SRFI is a derivative work of Section 13.2 of
 <i>Chez Scheme User's Guide</i> version 9, which is licensed under the
-[Apache License Version 2.0](https://www.apache.org/licenses/LICENSE-2.0)
-, © Cisco Systems, Inc. 2022.
+[Apache License Version 2.0](https://www.apache.org/licenses/LICENSE-2.0),
+© Cisco Systems, Inc. 2022.
 The SRFI as a whole is licensed as follows:
 
  Permission is hereby granted, free of charge, to any person
