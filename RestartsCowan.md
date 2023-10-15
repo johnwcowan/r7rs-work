@@ -185,6 +185,20 @@ the user's values and returns whatever `restart` returns.
 
 The sample interactor outputs the tags and description strings
 with `display` and reads the chosen tag and values using `read`.
+Here is a possible exmple of the interaction:
+
+```
+The following actions are availableL
+return-zero: Return zero.
+return-numerator: Return the numerator
+use-value: Choose a value to return
+abort: Abort the computation
+
+Which action do you choose:  use-value
+What is the value you wish to use? 32
+```
+
+In this case the restarter will return 32.
 
 `(restart-interactively `*restarters*`)` → *values* (may not return)
 
@@ -213,7 +227,7 @@ behaviour protocols.  The following variables are bound to these tags
   Simply retries a whole computation from a certain point, with no
   explicitly altered inputs.  Some implicit environmental changes are
   expected to have taken place.  The invoker of a `retry` restarter
-  accepts zero arguments, is typically *not* an ambient restarter, and normally
+  accepts zero arguments, may or may not be an ambient restarter, and normally
   returns an unspecified value.
 
 `use-value`
@@ -221,12 +235,12 @@ behaviour protocols.  The following variables are bound to these tags
   Retries a computation with a given input value substituted for some
   invalid value in the original input.  The invoker of a `use-value` restarter
   accepts at least one argument, the new value(s) to substitute.  It is
-  typically *not* an ambient restarter, and normally returns an unspecified value.
+  may or may not be an ambient restarter, and normally returns an unspecified value.
 
 `store-value`
 
-  These restarters are in every respect like `use-value` restarters
-  except that they are meant to store the input value somewhere, so
+  These restarter tag is in every respect like `use-value` restarters
+  except that it is meant to store the input value somewhere, so
   that the old one is completely replaced, rather than just using the
   input value temporarily and possibly accidentally reusing the old
   value and signaling another error.
