@@ -4,44 +4,60 @@ These are the datatypes of [ISO/IEC 11404 — General-Purpose Datatypes](https:/
 
 ## Primitive datatypes
 
- * booleans
- * states (like enums but unordered)
- * enums
- * characters
- * ordinals (positive integers)
- * dates (broken-out)
- * times (broken-out)
- * integers
- * rationals
- * scaled rationals (denominator is a power of k for some k)
- * reals (inexact numbers)
- * complex numbers (inexact numbers)
- * void (singleton object)
+ * booleans `(boolean=? and or not)`
+ * states (like enums but unordered) `(enum=?)`
+ * enums `(enum=? enum<= enum-next)`
+ * characters `(char=?)`
+ * ordinals (positive integers) `(= <= 1+)`
+ * date-and-times (broken-out) `(date=? date<=? date-difference date-round date-extend)`
+ * integers `(= <= nonnegative? negate + *)`
+ * rationals `(= negate? <= nonnegative?  + *)`
+ * scaled rationals (denominator is a power of k for some k) `(= <= negate + round * /)`
+ * reals (inexact numbers) `(= <= negate + * 1/)`
+ * complex numbers (inexact numbers)  `(= negate + * 1/ sqrt)` 
+ * void (singleton object) `(eqv?)`
+
+## Subtypes and extended types
+
+ * range (limits by upper and lower bounds)
+ * select (limits by specifying members)
+ * size (limits by maximum size/length)
+ * explicit (limits by subtyping)
+ * extended (extends by supertyping)
+
+## Generated datatypes
+
+ * choice (discriminated union) `(choice-equal? choice-tag)`
+ * pointer `(pointer=? pointer-ref)`
+ * procedure `(eqv? apply)`
+ * 
 
 ## Aggregate datatypes
 
- * records
- * classes (records with procedure fields, overridden types of fields)
- * sets
- * bags
- * sequences (lists)
- * arrays (multidimensional)
- * tables (bags of records, all of the same type)
+ * records `(equal? *-ref *-set!)`
+ * classes (records with procedure fields, overridden types of fields) `(equal? *-ref *-set!)`
+ * sets `(set-contains set<=? set=? set-difference set-union set-intersection set-empty? set)`
+ * bags `(bag-contains bag<=? bag=? bag-difference bag-union bag-intersection bag-empty? set)`
+ * sequences (lists) `(null? car cdr equal? null? append)`
+ * arrays (multidimensional) `(array= array-ref array-set!)`
+ * tables (bags of records, all of the same type) `(relation->bag bag->relation relation->tuple-list relation-empty? relation=? table relation-remove relaiton-insert relation-project/select relation->something)`
 
 ## Defined datatypes
 
- * natural numbers aka cardinals (non-negative integers)
- * modulo numbers (integers with different arithmetic)
- * bits (0 or 1)
- * bit strings (bit vectors)
- * character strings
- * octets
- * octet strings
- * private objects (blobs, opaque objects with fixed size)
- * (registered) object identifier ([OIDs](oid-info.com/#oid), u16vectors)
+ * natural numbers aka cardinals (non-negative integers) `(= <= nonnegative? + *)`
+ * characters `(char=?)`
+ * modulo numbers (integers with different arithmetic) `(= <= + * negate)`
+ * bits (0 or 1) `(= <= + *)
+ * bit strings (bit vectors)  `(null? car cdr equal? null? append)`
+ * character strings `(null? car cdr equal? null? append)`
+ * time intervale `(time-interval=? negate +)`
+ * octets `(= <=)`
+ * octet strings `(null? car cdr equal? null? append)`
+ * private objects (blobs, opaque objects with fixed size) (no operations)
+ * (registered) object identifier ([OIDs](oid-info.com/#oid), u16vectors) `(oid=? oid->integer)`
 
 ## Defined generators
 
- * stacks
- * trees
- * optionals (Maybes)
+ * stacks `(top pop push)`
+ * trees `(tree-empty? tree=? empty-tree tree-head tree-tail)`
+ * optionals (Maybes) `(maybe? . underlying-operations-list)`
