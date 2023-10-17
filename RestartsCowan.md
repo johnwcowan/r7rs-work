@@ -70,7 +70,7 @@ be the value of some variable or part of some data structure.
 
 Returns a restarter with the specified tag, description, and invoker.
 
-The *tag* argument may be a symbol or `#f` if the restarter has no tag.
+The *tag* argument is a symbol.
 
 The *description* argument is a list whose car is a string that
 describes the effect of invoking the restarter.
@@ -104,7 +104,7 @@ Examples:
 (restarter? 20) → #f
 ```
 
-`(restarter-tag `*restarter*`)` → *tag* or `#f`  
+`(restarter-tag `*restarter*`)` → *tag*  
 `(restarter-description `*restarter*`)` → *list-of-strings*
 
 Returns the tag / description of *restarter*. It is an
@@ -140,9 +140,9 @@ parameter, but directly modifying it with
 
 `(with-restarter `*restarters thunk*`)`
 
-Establishes *restarters*, which may be a single restarter
-or a list, as ambient restarters.  It is an error if any
-of the restarters have the same tag.
+Establishes *restarters*, which may be a single restarter,
+a list of restarters, or a SRFI 222 compound object, as ambient restarters.
+It is an error if any of the restarters have the same tag.
 Then `with-restarter` invokes *thunk* with no arguments, after which
 the restarters are disestablished and `with-restarter`
 returns whatever *thunk* returns.
@@ -150,8 +150,7 @@ returns whatever *thunk* returns.
 `(find-restarter `*tag restarters*`)` → *restarter* or `#f`
 
 Searches *restarters* for a restarter whose tag is the same
-(in the sense of `symbol=?`) as *tag*, except that restarters
-whose tag is `#f` are ignored.  The *restarters* argument
+(in the sense of `symbol=?`) as *tag*.  The *restarters* argument
 may be a single restarter, a list of restarters, or a
 [SRFI  222](https://srfi.schemers.org/srfi-222/srfi-222.html)
 compound object.  If no such restarter is found in *restarters*,
@@ -163,7 +162,7 @@ Failing that as well, `#f` is returned.
 The argument *restarters* has the same semantics as
 the *restarters* argument of `find-restarter`.  All the
 restarters in *restarters* and `(ambient-restarters)` are
-collected into a list, excluding those whose tag is `#f` and
+collected into a list, excluding
 those whose tag is the same (in the sense of `symbol=?`)
 as a restarter already on the list.  Returns the list.
 
@@ -185,14 +184,14 @@ the user's values and returns whatever `restart` returns.
 
 The sample interactor outputs the tags and description strings
 with `display` and reads the chosen tag and values using `read`.
-Here is a possible exmple of the interaction:
+Here is a possible example of the interaction:
 
 ```
-The following actions are availableL
+The following actions are available:
 return-zero: Return zero.
-return-numerator: Return the numerator
-use-value: Choose a value to return
-abort: Abort the computation
+return-numerator: Return the numerator.
+use-value: Choose a value to return.
+abort: Abort the computation.
 
 Which action do you choose:  use-value
 What is the value you wish to use? 32
@@ -206,8 +205,8 @@ Equivalent to `((interactor) (collect-restarters `*restarters*`))`
 
 ### Standard restart tags
 
-There are several tags that, by convention, hold to particular
-behaviour protocols.  The following variables are bound to these tags
+The following tags by convention hold to particular
+behaviour protocols:
 
 `abort`
 
