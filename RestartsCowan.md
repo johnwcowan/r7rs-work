@@ -1,6 +1,6 @@
 # Restarting conditions
 
-## Author
+## Authors
 
 Taylor Campbell and John Cowan
 
@@ -48,7 +48,16 @@ restart system was deemed unnecessary for this proposal, interactivity
 is one crucial feature that was included.
 In this SRFI, the interactivity is provided by an *interactor procedure*
 that by default is provided by the implementation, but can be overridden
-by the user.
+by the user. 
+
+One major difference between the CL and Scheme systems is
+that when a CL handler exits to its caller, the next outer handler is invoked,
+whereas when a Scheme handler exits, either the code that raised the condition
+is resumed (if `raise-continuably` was used), or another error is signaled
+(if `raise` was used), and the condition must be reraised in order to give
+the next outer handler control.  Therefore, in CL the only way for the signaler to
+regain control is through a restart, but in Scheme restarts are just one way
+of handling returns from exceptions.
 
 ## Specification
 
