@@ -6,16 +6,15 @@ Taylor Campbell and John Cowan
 
 ## Abstract
 
-When an exceptional situation is encountered by a program, it may
-signal this and pass control to a condition handler.  The signaler and
+When an exceptional situation is encountered by a program, it may create
+a *condition* object describing the situation and then
+signal the condition and pass control to a condition handler.  The signaler and
 handler are two different parts of a system, between which there is a
-barrier of abstraction.  In most systems, the signaler sends
-information in the form of an object known as a *condition* about the
-situation that it encountered.  In order to recover gracefully and
-flexibly from exceptional situations, however, the signaler must
+barrier of abstraction. In order to recover gracefully and
+flexibly from exceptional situations, however, the signaler can
 provide ways by which the handler can restart the computation, some of
 which require extra input.  Often, the decision of which method of
-recovery to choose is left up to a physical user, who may be prompted
+recovery to choose is left up to a human user, who may be prompted
 for the input needed to recover.  This SRFI proposes a simple mechanism
 called *restarters* to encapsulate the information necessary to restart
 a computation with associated interactive prompters.
@@ -50,11 +49,11 @@ In this SRFI, the interactivity is provided by an *interactor procedure*
 that by default is provided by the implementation, but can be overridden
 by the user. 
 
-One major difference between the CL and Scheme systems is
+One major difference between the CL and Scheme condition systems is
 that when a CL handler exits to its caller, the next outer handler is invoked,
 whereas when a Scheme handler exits, either the code that raised the condition
 is resumed (if `raise-continuably` was used), or another error is signaled
-(if `raise` was used), and the condition must be reraised in order to give
+(if `raise` was used); the condition must be re-raised in order to give
 the next outer handler control.  Therefore, in CL the only way for the signaler to
 regain control is through a restart, but in Scheme restarts are just one way
 of handling returns from exceptions.
@@ -65,9 +64,9 @@ A *restarter* is an object of a new disjoint type with three fields:
 
   *  *tag* - a symbol identifying this restarter
   *  *description* - a list of strings that describes the method of recovery
-  and the values, if any, needed for recovery
+     and the values, if any, needed for recovery
   *  *invoker* - a procedure that actually performs the recovery;
-  the number of arguments it expects is equal to the length of *description* minus 1.
+     the number of arguments it expects is equal to the length of *description* minus 1.
   
 Restarters can be available in one of two ways.  They can be *ambient restarters*,
 each of which is available during some dynamic extent of the program, or they can
@@ -101,6 +100,10 @@ Examples of creating restarters to help recover from division by zero:
   (make-restarter 'return-numerator
     '("Return the numerator.")
     (lambda () numerator)))
+
+(define return-value-restarter
+  (make-restarter return-value
+    '("Return a specified value" "The value to return")))
 ```
 
 `(restarter? `*obj*`)` → *boolean*
