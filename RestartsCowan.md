@@ -173,11 +173,11 @@ Failing that as well, `#f` is returned.
 `(collect-restarters `*restarters*`)`
 
 The argument *restarters* has the same semantics as
-the *restarters* argument of `find-restarter`.  All the
-restarters in *restarters* and `(ambient-restarters)` are
-collected into a list, excluding
+the *restarters* argument of `find-restarter`.  All available
+restarters are collected into a list, giving the restarters in *restarters* priority
+over the restarters in `(ambient-restarters)`, but excluding
 those whose tag is the same (in the sense of `symbol=?`)
-as a restarter already on the list.  Returns the list.
+as a higher-priority restarter already on the list.  Returns the list.
 
 `interactor`
 
