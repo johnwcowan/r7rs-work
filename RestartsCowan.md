@@ -150,10 +150,11 @@ It is an error to mutate this list.
 parameter, but directly modifying it with
 `parameterize` should be avoided.
 
-`(with-restarter `*restarters thunk*`)`
+`(with-restarters `*restarters thunk*`)`
 
 Establishes *restarters*, which may be a single restarter,
-a list of restarters, or a SRFI 222 compound object, as ambient restarters.
+a list of restarters, or a SRFI 222 compound object, as ambient restarters
+on top of the existing ambient restarters.
 It is an error if any of the restarters have the same tag.
 Then `with-restarter` invokes *thunk* with no arguments, after which
 the restarters are disestablished and `with-restarter`
