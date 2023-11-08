@@ -155,7 +155,7 @@ parameter, but directly modifying it with
 Establishes *restarters*, which may be a single restarter,
 a list of restarters, or a SRFI 222 compound object, as ambient restarters
 on top of the existing ambient restarters.
-It is an error if any of the restarters have the same tag.
+It is an error if any of the restarters specified by *restarters* have the same tag.
 Then `with-restarter` invokes *thunk* with no arguments, after which
 the restarters are disestablished and `with-restarter`
 returns whatever *thunk* returns.
