@@ -2,7 +2,9 @@
 
 ## Authors
 
-Taylor Campbell and John Cowan
+Taylor Campbell (text), John Cowan (text, shepherd),
+Wolfgang Corcoran-Mathe (revised implementation),
+Arvydas Silanskas (initial implementation)
 
 ## Abstract
 
@@ -12,8 +14,8 @@ signal the condition and pass control to a condition handler.  The signaler and
 handler are two different parts of a system, between which there is a
 barrier of abstraction. In order to recover gracefully and
 flexibly from exceptional situations, however, the signaler can
-provide ways by which the handler can restart the computation, some of
-which require extra input.  Often, the decision of which method of
+provide multiple ways by which the handler can restart the computation, some of
+which may require extra input.  Often, the decision of which method of
 recovery to choose is left up to a human user, who may be prompted
 for the input needed to recover.  This SRFI proposes a simple mechanism
 called *restarters* to encapsulate the information necessary to restart
@@ -21,7 +23,10 @@ a computation with associated interactive prompters.
 
 ## Issues
 
-None so far.
+Issue 1: There should be a macro to create ambient restarters and evaluate a body
+with them available, loosely analogous to `guard`.  It is not obvious how best to specify
+the descriptor information for these restarters so that they can be used interactively.
+
 
 ## Rationale
 
@@ -34,11 +39,11 @@ signaler.  Common Lisp, MIT Scheme, and Dylan are almost
 unique in this regard: they provide comprehensive facilities for
 restarting exceptional situations.  This proposal is considerably
 simpler than Common Lisp's or Dylan's restart systems, more in the
-spirit of Scheme, however.
+spirit of Scheme, however.  It is historically related to MIT Scheme's system.
 
 One important feature for a restart system to provide is interactivity.
-Though purely programmatic condition recovery is useful, it is well-
-acknowledged by the designers and users of Common Lisp's condition
+Though purely programmatic condition recovery is useful, it is
+well-acknowledged by the designers and users of Common Lisp's condition
 system that the ability to _interactively_ choose a method of recovery
 for a condition: this ability, built-in to the Common Lisp language, is
 one of the primary reasons for the power of Common Lisp development and
@@ -87,6 +92,8 @@ the standard punctuation conventions of that language.  It may also be
 a question or a command.  The cdr of *description* is a list of
 strings that describe the values to be passed to the invoker in
 the same natural language: they may be phrases or whole sentences.
+
+The *invoker* argument is a recovery procedure.
 
 Examples of creating restarters to help recover from division by zero:
 
@@ -174,15 +181,19 @@ Failing that as well, `#f` is returned.
 
 The argument *restarters* has the same semantics as
 the *restarters* argument of `find-restarter`.  All available
-restarters are collected into a list, giving the restarters in *restarters* priority
+restarters are collected into a list which is then returned, 
+giving the restarters in *restarters* priority
 over the restarters in `(ambient-restarters)`, but excluding
 those whose tag is the same (in the sense of `symbol=?`)
-as a higher-priority restarter already on the list.  Returns the list.
+as a higher-priority restarter already on the list.
+Note that if *restarters* is a list, earlier elements in the list
+take priority over later ones, and the same is true for subobjects
+in a compound object.
 
 `interactor`
 
 A SRFI 39 / R7RS parameter whose value is an interactor
-procedure.  The contract of such a procedure is as follows:
+procedure.  The general contract of such a procedure is as follows:
 
 It accepts one argument, a list of restarters.
 The tags and the cars of the
@@ -255,7 +266,7 @@ behaviour protocols:
   except that it is meant to store the input value somewhere, so
   that the old one is completely replaced, rather than just using the
   input value temporarily and possibly accidentally reusing the old
-  value and signaling another error.
+  value later and signaling another error.
   
 ## Additional recommendations
 
