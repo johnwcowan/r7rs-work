@@ -74,3 +74,10 @@ To be accepted by `string->number` and produced by `number->string`
 when the radix argument is set  to 16; also to be accepted by `read` and the lexical syntax.
 
 SRFI 207 defines `#u8"..."` for string-notated bytevectors.
+
+====
+
+This is a list of `#` constructions that are not yet defined anywhere:  
+
+`#$ #% #? #@ #[ #^ #_ #` #~ #{ #+ #- #. #/`
+`#g #h #j #k #l #m #n #p #q #r #w #y #z`
