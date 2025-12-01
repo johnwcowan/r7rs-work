@@ -4,8 +4,7 @@ A *tally* is a [SRFI 158](https://srfi.schemers.org/srfi-158/srfi-158.html) accu
 whose purpose is to keep running descriptive statistics on *observations*, each represented by a real number,
 that are injected into it.
 It can compute a variety of simple statistics such as the arithmetic mean, the variance, and the standard deviation.
-It does not record the observations themselves, and therefore cannot compute the media, the mode,
-or even the standard deviation.
+It does not record the observations themselves, and therefore cannot compute the median or the mode.
 
 A *histogram* is a different kind of accumulator which maintains a number of *bins* decided in advance,
 and counts how many observations fall into each bin.  It can return bin counts and indicate the current median and modal bins.
@@ -82,6 +81,12 @@ or `+nan.0` if the count is zero.
 
 Returns the harmonic mean of all observations injected so far.
 This is the count divided by the harmonic sum, or `+nan.0` if the count is zero.
+
+`(tally-standard-deviaton `*state*`)`
+
+Returns the standard deviation of all obserations invected so far.
+This is the square root of (the sum of squares divided by the count minus the mean squared), 
+or `0` if the count is zero or 1.
 
 `(tally-max `*state*`)`
 
