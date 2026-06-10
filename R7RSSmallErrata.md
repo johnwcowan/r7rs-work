@@ -11,9 +11,9 @@ and are either all `#t` or all `#f`.  The words "are all booleans and" incorrect
 
 4\. In Section 4.1.2 (Literal expressions), the examples `'#` and `#` should be `'#\a` and `#\a` respectively.
 
-5\. In section 7.1.1 (Lexical structure), the escape sequence `\|` is not shown as permitted in <string element>.
+5\. In section 7.1.1 (Lexical structure), the escape sequence `\|` is not shown as permitted in \<string element>.
 The list in Section 6.7 shows that it is equivalent to `|`.  Similarly, the escape sequences `\"` and `\\` should be allowed
-in <symbol element>.  This makes the same escape sequences valid in both strings and symbols.
+in \<symbol element>.  This makes the same escape sequences valid in both strings and symbols.
 
 6\. In Section 7.3 (Derived expression types), the syntax-rules definition of `case` is incorrect;
 the fourth syntax rule must be moved after the fifth to avoid an improper match against
@@ -54,7 +54,7 @@ the fourth rule when `=>` is present.  Here is the correct version:
           (case key clause clauses ...)))))
 ```
 
-7\. In Section 7.1.1, the lexical rule <special initial> incorrectly omits `@`.
+7\. In Section 7.1.1, the lexical rule \<special initial> incorrectly omits `@`.
 
 8\. Bibliographic reference ![13] should link to [SRFI 4](https://srfi.schemers.org/srfi-4/srfi-4.html).
 
@@ -85,7 +85,7 @@ Replace the meaningless example with this:
 
 Note that evaluating `(means '(3 (1 4)))` returns three values: 8/3, 2.28942848510666 (approximately), and 36/19.
 
-10\.  In section 7.1.5, add <bytevector> to the alternatives for the <pattern datum> rule.
+10\.  In section 7.1.5, add \<bytevector> to the alternatives for the \<pattern datum> rule.
 
 11\. Section 1.3.4 refers to "the initial environment" containing `*`, which is not true for programs.
 It should refer instead to "an environment containing the base library".
